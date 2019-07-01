@@ -1,0 +1,11 @@
+language: node_js
+node_js: "node"
+cache: yarn
+install:
+  - yarn
+script:
+  - yarn test
+  - yarn build
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
