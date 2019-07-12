@@ -21,7 +21,16 @@ class App extends React.Component<{}, { username: string; password: string }> {
   };
 
   onSubmit = () => {
-    console.log(this.state);
+    const usernamePattern = /^[a-zA-Z0-9]+$/;
+    const passwordPattern = /^[a-zA-Z0-9~!@&%#_]+$/;
+    if (!usernamePattern.test(this.state.username)) {
+      alert("Username not valid.");
+      return;
+    }
+    if (!passwordPattern.test(this.state.password)) {
+      alert("Password not valid.");
+      return;
+    }
     fetch("http://localhost:28888/v1/testUsers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
