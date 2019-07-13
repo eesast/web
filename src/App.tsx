@@ -1,34 +1,33 @@
-import { Button, Input, Icon } from "antd";
+import { Button, Icon, Input } from "antd";
 import React from "react";
 import "./App.css";
-// import logo from "./logo.svg";
 
-class App extends React.Component<{}, { username: string; password: string }> {
+class App extends React.Component<
+  {},
+  { username: string; password: string; validity: boolean }
+> {
   constructor(props: {}) {
     super(props);
-    this.state = { username: "", password: "" };
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.state = { username: "", password: "", validity: true };
   }
 
   handleUsernameChange = (e: any) => {
-    this.setState({ username: e.target.value });
+    this.setState({
+      username: e.target.value,
+      validity: e.target.validity.valid
+    });
   };
 
   handlePasswordChange = (e: any) => {
-    this.setState({ password: e.target.value });
+    this.setState({
+      password: e.target.value,
+      validity: e.target.validity.valid
+    });
   };
 
   onSubmit = () => {
-    const usernamePattern = /^[a-zA-Z0-9]+$/;
-    const passwordPattern = /^[a-zA-Z0-9~!@&%#_]+$/;
-    if (!usernamePattern.test(this.state.username)) {
-      alert("Username not valid.");
-      return;
-    }
-    if (!passwordPattern.test(this.state.password)) {
-      alert("Password not valid.");
+    if (!this.state.validity) {
+      alert("Invalid input.");
       return;
     }
     fetch("http://localhost:28888/v1/testUsers", {
@@ -45,18 +44,18 @@ class App extends React.Component<{}, { username: string; password: string }> {
     return (
       <div className="App" style={{ alignItems: "center" }}>
         <header className="App-header">
-          {/* {<img src={logo} className="App-logo" alt="logo" />} */}
-          {/* <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p> */}
           <Input
             placeholder="Username"
+            type="text"
+            pattern="^[a-zA-Z0-9]+$"
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
             style={{ width: 200, marginBottom: 10 }}
             onChange={this.handleUsernameChange}
           />
           <Input.Password
             placeholder="Password"
+            type="text"
+            pattern="^[a-zA-Z0-9~!@&%#_]+$"
             prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
             style={{ width: 200, marginBottom: 10 }}
             onChange={this.handlePasswordChange}
