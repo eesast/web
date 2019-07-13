@@ -4,30 +4,44 @@ import "./App.css";
 
 class App extends React.Component<
   {},
-  { username: string; password: string; validity: boolean }
+  {
+    username: string;
+    password: string;
+    usernameValidity: boolean;
+    passwordValidity: boolean;
+  }
 > {
   constructor(props: {}) {
     super(props);
-    this.state = { username: "", password: "", validity: true };
+    this.state = {
+      username: "",
+      password: "",
+      usernameValidity: false,
+      passwordValidity: false
+    };
   }
 
   handleUsernameChange = (e: any) => {
     this.setState({
       username: e.target.value,
-      validity: e.target.validity.valid
+      usernameValidity: e.target.validity.valid
     });
   };
 
   handlePasswordChange = (e: any) => {
     this.setState({
       password: e.target.value,
-      validity: e.target.validity.valid
+      passwordValidity: e.target.validity.valid
     });
   };
 
   onSubmit = () => {
-    if (!this.state.validity) {
-      alert("Invalid input.");
+    if (!this.state.usernameValidity) {
+      alert("Invalid username.");
+      return;
+    }
+    if (!this.state.passwordValidity) {
+      alert("Invalid password.");
       return;
     }
     fetch("http://localhost:28888/v1/testUsers", {
@@ -47,6 +61,7 @@ class App extends React.Component<
           <Input
             placeholder="Username"
             type="text"
+            required={true}
             pattern="^[a-zA-Z0-9]+$"
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
             style={{ width: 200, marginBottom: 10 }}
@@ -55,6 +70,7 @@ class App extends React.Component<
           <Input.Password
             placeholder="Password"
             type="text"
+            required={true}
             pattern="^[a-zA-Z0-9~!@&%#_]+$"
             prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
             style={{ width: 200, marginBottom: 10 }}
