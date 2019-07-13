@@ -1,5 +1,8 @@
-import { Layout, Menu, Typography } from "antd";
+import { BackTop, Layout, LocaleProvider, Menu, Typography } from "antd";
+import zhCN from "antd/lib/locale-provider/zh_CN";
 import { SelectParam } from "antd/lib/menu";
+import moment from "moment";
+import "moment/locale/zh-cn";
 import QueueAnim from "rc-queue-anim";
 import React, { useState } from "react";
 import {
@@ -19,7 +22,7 @@ import WeeklySite, { IWeeklySiteProps } from "./sites/WeeklySite";
 const { Header, Footer } = Layout;
 const { Title } = Typography;
 
-export type Site = "home" | "weekly" | "edc";
+moment.locale("zh-cn");
 
 const App = () => {
   const getRoute = ({ location }: RouteProps) => {
@@ -73,6 +76,7 @@ const App = () => {
   const onHeaderMenuSelect = (item: SelectParam) => setSite(item.key as Site);
 
   return (
+    <LocaleProvider locale={zhCN}>
     <Router>
       <Layout>
         <Header
@@ -130,7 +134,9 @@ const App = () => {
         </Header>
         <Route render={getRoute} />
       </Layout>
+        <BackTop />
     </Router>
+    </LocaleProvider>
   );
 };
 
