@@ -16,7 +16,7 @@ import EdcSite, { IEdcSiteProps } from "./sites/EdcSite";
 import HomeSite, { IHomeSiteProps } from "./sites/HomeSite";
 import WeeklySite, { IWeeklySiteProps } from "./sites/WeeklySite";
 
-const { Header } = Layout;
+const { Header, Footer } = Layout;
 const { Title } = Typography;
 
 export type Site = "home" | "weekly" | "edc";
@@ -54,6 +54,14 @@ const App = () => {
             key={location!.pathname}
           >
             <Route location={location} path="/:url" render={siteRoute} />
+            <Footer
+              style={{
+                height: constants.footerHeight,
+                textAlign: "center"
+              }}
+            >
+              © 2019 EESAST
+            </Footer>
           </div>
         </QueueAnim>
       </div>
