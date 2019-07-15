@@ -1,10 +1,18 @@
-import { BackTop, Layout, LocaleProvider, Menu, Typography } from "antd";
+import {
+  BackTop,
+  Button,
+  Layout,
+  LocaleProvider,
+  Menu,
+  Typography
+} from "antd";
 import zhCN from "antd/lib/locale-provider/zh_CN";
 import { SelectParam } from "antd/lib/menu";
 import moment from "moment";
 import "moment/locale/zh-cn";
 import QueueAnim from "rc-queue-anim";
 import React, { useState } from "react";
+import { Provider } from "react-redux";
 import {
   BrowserRouter as Router,
   Link,
@@ -16,6 +24,8 @@ import {
 } from "react-router-dom";
 import logo from "./assets/logo.png";
 import constants from "./constants";
+import LoginPage from "./pages/LoginPage";
+import store from "./redux/store";
 import EdcSite from "./sites/EdcSite";
 import HomeSite from "./sites/HomeSite";
 import NotFoundSite from "./sites/NotFoundSite";
@@ -75,78 +85,95 @@ const App = () => {
   const onHeaderMenuSelect = (item: SelectParam) => setSite(item.key as Site);
 
   return (
-    <LocaleProvider locale={zhCN}>
-      <Router>
-        <Layout>
-          <Header
-            style={{
-              backgroundColor: "#fff",
-              padding: 0,
-              display: "flex",
-              flexDirection: "row",
-                height: constants.headerHeight + 2,
-              zIndex: 99
-            }}
-          >
-            <div
+    <Provider store={store}>
+      <LocaleProvider locale={zhCN}>
+        <Router>
+          <Layout>
+            <Header
               style={{
-                height: "100%",
-                width: constants.siderWidth,
+                backgroundColor: "#fff",
+                padding: 0,
                 display: "flex",
                 flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-around"
+                height: constants.headerHeight + 2,
+                zIndex: 99
               }}
             >
-              <img
+              <div
                 style={{
-                  height: "60%",
-                  width: "auto",
-                  margin: "auto",
-                  marginRight: 0
+                  height: "100%",
+                  width: constants.siderWidth,
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-around"
                 }}
-                src={logo}
-                alt="Logo"
-              />
-              <Title style={{ margin: "auto", marginLeft: 10 }} level={3}>
-                EESAST
-              </Title>
-            </div>
-            <Menu
+              >
+                <img
+                  style={{
+                    height: "60%",
+                    width: "auto",
+                    margin: "auto",
+                    marginRight: 0
+                  }}
+                  src={logo}
+                  alt="Logo"
+                />
+                <Title style={{ margin: "auto", marginLeft: 10 }} level={3}>
+                  EESAST
+                </Title>
+              </div>
+              <Menu
                 style={{
                   flex: 1,
                   lineHeight: constants.headerHeight + "px",
                   borderBottom: 0
                 }}
-              theme="light"
-              mode="horizontal"
-              defaultSelectedKeys={["home"]}
-              selectedKeys={[site]}
-              onSelect={onHeaderMenuSelect}
-            >
-              <Menu.Item key="home">
-                <Link to="/home">首页</Link>
-              </Menu.Item>
-              <Menu.Item key="weekly">
-                <Link to="/weekly">Weekly</Link>
-              </Menu.Item>
-              <Menu.Item key="edc">
-                <Link to="/thuedc">电子设计大赛</Link>
-              </Menu.Item>
-            </Menu>
-          </Header>
-          <Route render={getRoute} />
-        </Layout>
-        <BackTop />
-      </Router>
-    </LocaleProvider>
+                theme="light"
+                mode="horizontal"
+                defaultSelectedKeys={["home"]}
+                selectedKeys={[site]}
+                onSelect={onHeaderMenuSelect}
+              >
+                <Menu.Item key="home">
+                  <Link to="/home">首页</Link>
+                </Menu.Item>
+                <Menu.Item key="weekly">
+                  <Link to="/weekly">Weekly</Link>
+                </Menu.Item>
+                <Menu.Item key="edc">
+                  <Link to="/thuedc">电子设计大赛</Link>
+                </Menu.Item>
+              </Menu>
+              <div
+                style={{
+                  height: "100%",
+                  width: constants.siderWidth,
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-around"
+                }}
+              >
+                <Link to="/login">
+                  <Button icon="user" />
+                </Link>
+              </div>
+            </Header>
+            <Route render={getRoute} />
+          </Layout>
+          <BackTop />
+        </Router>
+      </LocaleProvider>
+    </Provider>
   );
 };
 
 const routes = [
   { to: "/home", component: HomeSite },
   { to: "/weekly", component: WeeklySite },
-  { to: "/thuedc", component: EdcSite }
+  { to: "/thuedc", component: EdcSite },
+  { to: "/login", component: LoginPage }
 ];
 
 export default App;
