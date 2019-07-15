@@ -57,7 +57,8 @@ const App = () => {
               <Footer
                 style={{
                   height: constants.footerHeight,
-                  textAlign: "center"
+                  textAlign: "center",
+                  backgroundColor: constants.backgroundColor
                 }}
               >
                 © 2019 EESAST
@@ -83,7 +84,7 @@ const App = () => {
               padding: 0,
               display: "flex",
               flexDirection: "row",
-              height: constants.headerHeight + 3,
+                height: constants.headerHeight + 2,
               zIndex: 99
             }}
           >
@@ -112,7 +113,11 @@ const App = () => {
               </Title>
             </div>
             <Menu
-              style={{ lineHeight: constants.headerHeight + "px" }}
+                style={{
+                  flex: 1,
+                  lineHeight: constants.headerHeight + "px",
+                  borderBottom: 0
+                }}
               theme="light"
               mode="horizontal"
               defaultSelectedKeys={["home"]}
