@@ -10,6 +10,7 @@
     "member-access": [true, "no-public"],
     "object-literal-sort-keys": false,
     "no-submodule-imports": false,
+    "no-implicit-dependencies": false,
 
     "react-hooks-nesting": "error"
   }
