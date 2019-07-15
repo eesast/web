@@ -17,7 +17,13 @@ EESAST 网页前端
 
 - VSCode
 
-  - Prettier / TSLint
+  - Prettier
+  - TSLint
+
+- Chrome 扩展
+
+  - React DevTools
+  - Redux DevTools
 
 - Postman
 
