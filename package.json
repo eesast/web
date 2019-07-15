@@ -10,7 +10,7 @@
     "lint": "tsc --noUnusedLocals && prettier -c \"src/**/*.{ts,tsx}\" --write"
   },
   "dependencies": {
-    "antd": "3.20.1",
+    "antd": "3.20.3",
     "rc-queue-anim": "1.6.12",
     "react": "16.8.6",
     "react-dom": "16.8.6",
