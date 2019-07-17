@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getArticleFeeds } from "./articles";
 import { login } from "./users";
 
 // axios.defaults.baseURL =
@@ -9,5 +10,6 @@ axios.defaults.baseURL = "https://api.eesast.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export default {
-  login
+  login,
+  getArticleFeeds
 };

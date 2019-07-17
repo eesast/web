@@ -43,7 +43,7 @@ export interface IArticle {
   views: number;
   likers: number[];
   tags: string[];
-  createdAt?: string;
+  createdAt: string;
   createdBy?: number;
   updatedAt?: string;
   updatedBy?: number;
@@ -65,22 +65,23 @@ export interface IComment {
 
 export type ICommentState = IComment;
 
-export interface IArticleState extends IArticle {
-  visible: boolean;
-}
+export interface IArticleState extends IArticle {}
 
 export interface IWeeklyState {
   articles: {
     fetching: boolean;
+    hasMore: boolean;
+    error?: Error | null;
     items: IArticleState[];
   };
   comments: {
     fetching: boolean;
+    error?: Error | null;
     items: ICommentState[];
   };
 }
 
 export interface IAppState {
   auth: IAuthState;
-  // weekly: IWeeklyState;
+  weekly: IWeeklyState;
 }
