@@ -8,7 +8,7 @@ export interface INotFoundSiteProps {
 }
 
 const NotFoundSite: React.FC<INotFoundSiteProps> = ({ setSite }) => {
-  setSite("notfound");
+  setSite("others");
 
   return (
     <Result

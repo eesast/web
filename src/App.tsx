@@ -26,6 +26,7 @@ import logo from "./assets/logo.png";
 import constants from "./constants";
 import LoginPage from "./pages/LoginPage";
 import store from "./redux/store";
+import ApiSite from "./sites/ApiSite";
 import EdcSite from "./sites/EdcSite";
 import HomeSite from "./sites/HomeSite";
 import NotFoundSite from "./sites/NotFoundSite";
@@ -36,7 +37,7 @@ const { Title } = Typography;
 
 moment.locale("zh-cn");
 
-export type Site = "home" | "weekly" | "edc" | "notfound";
+export type Site = "home" | "weekly" | "edc" | "others";
 
 const App = () => {
   const getRoute = ({ location }: RouteProps) => {
@@ -173,6 +174,7 @@ const routes = [
   { to: "/home", component: HomeSite },
   { to: "/weekly", component: WeeklySite },
   { to: "/thuedc", component: EdcSite },
+  { to: "/api", component: ApiSite },
   { to: "/login", component: LoginPage }
 ];
 
