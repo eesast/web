@@ -9,19 +9,19 @@ import { login } from "../redux/actions/auth";
 import { IAppState } from "../redux/types/state";
 import { WithRouterPage } from "../types/WithRouterPage";
 
-interface ILoginScreenStateProps {
+interface ILoginPageStateProps {
   loggedIn: boolean;
   loggingIn: boolean;
   error?: Error | null;
 }
 
-interface ILoginScreenDispatchProps {
+interface ILoginPageDispatchProps {
   login: (username: string, password: string) => void;
 }
 
-type ILoginScreenProps = ILoginScreenStateProps & ILoginScreenDispatchProps;
+type ILoginPageProps = ILoginPageStateProps & ILoginPageDispatchProps;
 
-const LoginPage: React.FC<WithRouterPage<{}, ILoginScreenProps>> = props => {
+const LoginPage: React.FC<WithRouterPage<{}, ILoginPageProps>> = props => {
   const { login, loggingIn, loggedIn, error, history } = props;
 
   const submit = (username: string, password: string) => {
@@ -45,7 +45,7 @@ const LoginPage: React.FC<WithRouterPage<{}, ILoginScreenProps>> = props => {
   return (
     <div
       style={{
-        height: "90vh",
+        height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -70,7 +70,7 @@ const LoginPage: React.FC<WithRouterPage<{}, ILoginScreenProps>> = props => {
   );
 };
 
-function mapStateToProps(state: IAppState): ILoginScreenStateProps {
+function mapStateToProps(state: IAppState): ILoginPageStateProps {
   return {
     loggedIn: state.auth.loggedIn,
     loggingIn: state.auth.loggingIn,
@@ -78,7 +78,7 @@ function mapStateToProps(state: IAppState): ILoginScreenStateProps {
   };
 }
 
-const mapDispatchToProps: ILoginScreenDispatchProps = {
+const mapDispatchToProps: ILoginPageDispatchProps = {
   login
 };
 

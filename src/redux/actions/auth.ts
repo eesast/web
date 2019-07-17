@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { createAsyncAction } from "typesafe-actions";
 import api from "../../api";
 import { ILoginAction, IThunkResult } from "../types/actions";
@@ -12,7 +11,7 @@ export const loginAction = createAsyncAction(
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE
-)<undefined, string, AxiosError>();
+)<undefined, string, Error>();
 
 export function login(
   username: string,

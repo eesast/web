@@ -7,7 +7,7 @@ import {
 } from "../types/constants";
 import { IAuthState } from "../types/state";
 
-export default function user(
+export default function auth(
   state: IAuthState = {
     loggedIn: false,
     loggingIn: false
