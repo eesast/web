@@ -44,7 +44,7 @@ const FeedPage: React.FC<WithRouterPage<{}, IFeedPageProps>> = props => {
   }, [error]);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div>
       <InfiniteScroll
         initialLoad={false}
         pageStart={1}

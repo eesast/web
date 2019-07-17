@@ -45,14 +45,21 @@ const LoginPage: React.FC<WithRouterPage<{}, ILoginPageProps>> = props => {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "95vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: constants.backgroundColor
       }}
     >
-      <Card style={{ padding: 0, maxWidth: 300, textAlign: "center" }}>
+      <Card
+        style={{
+          padding: 0,
+          maxWidth: 300,
+          textAlign: "center",
+          marginBottom: 128
+        }}
+      >
         <img
           style={{
             width: 72,
