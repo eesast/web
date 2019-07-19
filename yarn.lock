@@ -1794,10 +1794,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@3.20.4:
-  version "3.20.4"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.20.4.tgz#cb8e770574b94ac72a3023fe24f8d01f7e1028c4"
-  integrity sha512-Wgd9KuOgYCBlV9OLe2ijewW8LWv2lP7AgVUXE4RzGTS1xYtBTUOtdaFd3t1hN6+Ya0je2h/mxVNr0pRZoBDz1g==
+antd@3.20.5:
+  version "3.20.5"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.20.5.tgz#4456a5cc216d52e7d831e2a91cc37c18b18ee242"
+  integrity sha512-8/UoaZBzEvY2uBTPSPT/ve4MosUV0VGV+yY+rbvvvGSJ8hIKR4fHxdnkqJ7LDrOiJGVpnN/69IjASZAfDltnkQ==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
