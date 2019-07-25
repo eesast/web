@@ -10,7 +10,7 @@
     "lint": "tsc --noUnusedLocals && prettier -c \"src/**/*.{ts,tsx}\" --write"
   },
   "dependencies": {
-    "antd": "3.20.6",
+    "antd": "3.20.7",
     "axios": "0.19.0",
     "jwt-decode": "2.2.0",
     "moment": "2.24.0",
