@@ -57,6 +57,10 @@ EESAST 网页前端
 
 进行测试
 
+#### `yarn lint`
+
+使用 ESLint 进行代码风格检查
+
 #### `yarn typecheck`
 
 检查类型错误

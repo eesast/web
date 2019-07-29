@@ -7,6 +7,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
+    "lint": "eslint --ext .js,.ts,.tsx src/",
     "typecheck": "tsc --noUnusedLocals",
     "prettier": "prettier -c \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --write"
   },
@@ -47,7 +48,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn typecheck && yarn prettier"
+      "pre-commit": "yarn lint && yarn typecheck && yarn prettier"
     }
   },
   "eslintConfig": {
