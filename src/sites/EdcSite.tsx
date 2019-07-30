@@ -11,7 +11,6 @@ import {
 import { Site } from "../App";
 import constants from "../constants";
 import IntroPage from "../pages/IntroPage";
-import TeamJoinPage from "../pages/TeamJoinPage";
 import { WithRouterPage } from "../types/WithRouterPage";
 import NotFoundSite from "./NotFoundSite";
 
@@ -39,7 +38,6 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
 
   const pageContents: { [K in Page]?: React.FC<any> } = {};
   pageContents.intro = IntroPage;
-  pageContents.teamJoin = TeamJoinPage;
 
   const addProps = (Component: React.FC<any>) => (
     props: RouteComponentProps<any>
