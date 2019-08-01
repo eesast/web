@@ -1,7 +1,18 @@
 import { Breadcrumb, Icon, Layout, Menu } from "antd";
-import React from "react";
+import { SelectParam } from "antd/lib/menu";
+import React, { useState } from "react";
+import {
+  Link,
+  Redirect,
+  Route,
+  RouteComponentProps,
+  Switch
+} from "react-router-dom";
 import { Site } from "../App";
 import constants from "../constants";
+import IntroPage from "../pages/IntroPage";
+import { WithRouterPage } from "../types/WithRouterPage";
+import NotFoundSite from "./NotFoundSite";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -10,60 +21,72 @@ export interface IEdcSiteProps {
   setSite: (site: Site) => void;
 }
 
-const EdcSite: React.FC<IEdcSiteProps> = ({ setSite }) => {
+type Page =
+  | "intro"
+  | "enroll"
+  | "teamJoin"
+  | "teamAdd"
+  | "teamManage"
+  | "resource";
+
+const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
+  setSite,
+  match,
+  location
+}) => {
+  const [page, setPage] = useState<Page>("intro");
+
+  const homeRoute = () => <Redirect to={`${match.url}/intro`} />;
+  const NotFoundPage = (props: RouteComponentProps<any>) => (
+    <NotFoundSite {...props} setSite={(site: Site) => {}} />
+  );
+
+  const onMenuSelect = (item: SelectParam) => setPage(item.key as Page);
+
   setSite("edc");
 
   return (
     <Layout>
-      <Sider width={constants.siderWidth}>
+      <Sider breakpoint="sm" collapsedWidth="0" width={constants.siderWidth}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          selectedKeys={[page]}
           style={{ height: "100%", borderRight: 0 }}
+          onSelect={onMenuSelect}
         >
+          <Menu.Item key="intro">
+            <Link to={`${match.url}/intro`} replace />
+            <Icon type="user" />
+            介绍
+          </Menu.Item>
+          <Menu.Item key="enroll">
+            <Link to={`${match.url}/enroll`} replace />
+            <Icon type="laptop" />
+            报名
+          </Menu.Item>
           <SubMenu
-            key="sub1"
+            key="team"
             title={
               <span>
                 <Icon type="user" />
-                subnav 1
+                队伍
               </span>
             }
           >
-            <Menu.Item key="1">option1</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
-            <Menu.Item key="3">option3</Menu.Item>
-            <Menu.Item key="4">option4</Menu.Item>
+            <Menu.Item key="teamJoin">
+              <Link to={`${match.url}/teams/join`} replace />
+              加入
+            </Menu.Item>
+            <Menu.Item key="teamManage">
+              <Link to={`${match.url}/teams/manage`} replace />
+              管理
+            </Menu.Item>
           </SubMenu>
-          <SubMenu
-            key="sub2"
-            title={
-              <span>
-                <Icon type="laptop" />
-                subnav 2
-              </span>
-            }
-          >
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="sub3"
-            title={
-              <span>
-                <Icon type="notification" />
-                subnav 3
-              </span>
-            }
-          >
-            <Menu.Item key="9">option9</Menu.Item>
-            <Menu.Item key="10">option10</Menu.Item>
-            <Menu.Item key="11">option11</Menu.Item>
-            <Menu.Item key="12">option12</Menu.Item>
-          </SubMenu>
+          <Menu.Item key="resource">
+            <Link to={`${match.url}/resources`} replace />
+            <Icon type="user" />
+            资源
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout style={{ padding: "0 24px 24px" }}>
@@ -80,7 +103,15 @@ const EdcSite: React.FC<IEdcSiteProps> = ({ setSite }) => {
             minHeight: 280
           }}
         >
-          Content
+          <Switch location={location}>
+            <Route exact={true} path={`${match.path}`} render={homeRoute} />
+            <Route
+              exact={true}
+              path={`${match.path}/intro`}
+              component={IntroPage}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
         </Content>
       </Layout>
     </Layout>

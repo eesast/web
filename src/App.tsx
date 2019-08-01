@@ -41,7 +41,8 @@ export type Site = "home" | "weekly" | "edc" | "others";
 
 const App = () => {
   const getRoute = ({ location }: RouteProps) => {
-    const matchedRoute = routes.find(item => location!.pathname === item.to);
+    const pathname = "/" + location!.pathname.split("/")[1];
+    const matchedRoute = routes.find(item => pathname === item.to);
     const Component = matchedRoute ? matchedRoute.component : NotFoundSite;
 
     const homeRoute = () => <Redirect to="/home" />;
@@ -62,7 +63,7 @@ const App = () => {
                 top: 0,
                 bottom: 0
               }}
-              key={location!.pathname}
+              key={pathname}
             >
               <Route location={location} path="/:url" render={siteRoute} />
               <Footer
