@@ -8,7 +8,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint --ext .js,.ts,.tsx src/",
-    "typecheck": "tsc --noUnusedLocals",
+    "typecheck": "tsc --noUnusedLocals --noEmit",
     "prettier": "prettier -c \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --write"
   },
   "dependencies": {
