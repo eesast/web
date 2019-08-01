@@ -1,16 +1,9 @@
 import { Divider, Typography } from "antd";
 import React from "react";
-import { Page } from "../sites/EdcSite";
 
 const { Title, Paragraph } = Typography;
 
-export interface IIntroPageProps {
-  setPage: (page: Page) => void;
-}
-
-const IntroPage: React.FC<IIntroPageProps> = ({ setPage }) => {
-  setPage("intro");
-
+const IntroPage: React.FC<{}> = () => {
   return (
     <Typography>
       <Title>第二十一届电子设计大赛</Title>

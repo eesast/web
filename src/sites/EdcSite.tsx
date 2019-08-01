@@ -21,7 +21,7 @@ export interface IEdcSiteProps {
   setSite: (site: Site) => void;
 }
 
-export type Page =
+type Page =
   | "intro"
   | "enroll"
   | "teamJoin"
@@ -36,15 +36,9 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
 }) => {
   const [page, setPage] = useState<Page>("intro");
 
-  const pageContents: { [K in Page]?: React.FC<any> } = {};
-  pageContents.intro = IntroPage;
-
-  const addProps = (Component: React.FC<any>) => (
-    props: RouteComponentProps<any>
-  ) => <Component {...props} setPage={setPage} />;
   const homeRoute = () => <Redirect to={`${match.url}/intro`} />;
   const NotFoundPage = (props: RouteComponentProps<any>) => (
-    <NotFoundSite {...props} setSite={setSite} />
+    <NotFoundSite {...props} setSite={(site: Site) => {}} />
   );
 
   const onMenuSelect = (item: SelectParam) => setPage(item.key as Page);
@@ -56,18 +50,17 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
       <Sider breakpoint="sm" collapsedWidth="0" width={constants.siderWidth}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={[page]}
-          defaultOpenKeys={[]}
+          selectedKeys={[page]}
           style={{ height: "100%", borderRight: 0 }}
           onSelect={onMenuSelect}
         >
           <Menu.Item key="intro">
-            <Link to={`${match.url}/intro`} />
+            <Link to={`${match.url}/intro`} replace />
             <Icon type="user" />
             介绍
           </Menu.Item>
           <Menu.Item key="enroll">
-            <Link to={`${match.url}/enroll`} />
+            <Link to={`${match.url}/enroll`} replace />
             <Icon type="laptop" />
             报名
           </Menu.Item>
@@ -81,16 +74,16 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
             }
           >
             <Menu.Item key="teamJoin">
-              <Link to={`${match.url}/teams/join`} />
+              <Link to={`${match.url}/teams/join`} replace />
               加入
             </Menu.Item>
             <Menu.Item key="teamManage">
-              <Link to={`${match.url}/teams/manage`} />
+              <Link to={`${match.url}/teams/manage`} replace />
               管理
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="resource">
-            <Link to={`${match.url}/resources`} />
+            <Link to={`${match.url}/resources`} replace />
             <Icon type="user" />
             资源
           </Menu.Item>
@@ -115,7 +108,7 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
             <Route
               exact={true}
               path={`${match.path}/intro`}
-              render={addProps(pageContents.intro)}
+              component={IntroPage}
             />
             <Route component={NotFoundPage} />
           </Switch>
