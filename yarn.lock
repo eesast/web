@@ -895,6 +895,14 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-typescript" "^7.3.2"
 
+"@babel/runtime-corejs2@^7.5.5":
+  version "7.5.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs2/-/runtime-corejs2-7.5.5.tgz#c3214c08ef20341af4187f1c9fbdc357fbec96b2"
+  integrity sha512-FYATQVR00NSNi7mUfpPDp7E8RYMXDuO8gaix7u/w3GekfUinKgX1AcTxs7SoiEmoEW9mbpjrwqWSW6zCmw5h8A==
+  dependencies:
+    core-js "^2.6.5"
+    regenerator-runtime "^0.13.2"
+
 "@babel/runtime@7.4.3":
   version "7.4.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.3.tgz#79888e452034223ad9609187a0ad1fe0d2ad4bdc"
@@ -1429,7 +1437,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@16.8.23":
+"@types/react@*":
   version "16.8.23"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.23.tgz#ec6be3ceed6353a20948169b6cb4c97b65b97ad2"
   integrity sha512-abkEOIeljniUN9qB5onp++g0EY38h7atnDHxwKUFz1r3VH1+yG1OKi2sNPTyObL40goBmfKFpdii2lEzwLX1cA==
@@ -1442,6 +1450,14 @@
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.6.tgz#5024957c6bcef4f02823accf5974faba2e54fada"
   integrity sha512-9LDZdhsuKSc+DjY65SjBkA958oBWcTWSVWAd2cD9XqKBjhGw1KzAkRhWRw2eIsXvaIE/TOTjjKMFVC+JA1iU4g==
   dependencies:
+    csstype "^2.2.0"
+
+"@types/react@16.8.24":
+  version "16.8.24"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.24.tgz#8d1ea1fcbfa214220da3d3c04e506f1077b0deac"
+  integrity sha512-VpFHUoD37YNY2+lr/+c7qL/tZsIU/bKuskUF3tmGUArbxIcQdb5j3zvo4cuuzu2A6UaVmVn7sJ4PgWYNFEBGzg==
+  dependencies:
+    "@types/prop-types" "*"
     csstype "^2.2.0"
 
 "@types/stack-utils@^1.0.1":
@@ -3063,7 +3079,7 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0, core-js@^2.5.1:
+core-js@^2.4.0, core-js@^2.5.1, core-js@^2.6.5:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
   integrity sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
@@ -3491,15 +3507,15 @@ deep-equal@^1.0.1:
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
   integrity sha1-9dJgKStmDghO/0zbyfCK0yR0SLU=
 
-deep-extend@0.5.1, deep-extend@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.5.1.tgz#b894a9dd90d3023fbf1c55a394fb858eb2066f1f"
-  integrity sha512-N8vBdOa+DF7zkRrDCsaOXoCs/E2fJfx9B9MrKnnSiHNh4ws7eSys6YQE4KvT1cecKmOASYQBhbKjeuDD9lT81w==
-
-deep-extend@^0.6.0:
+deep-extend@0.6.0, deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
   integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
+
+deep-extend@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.5.1.tgz#b894a9dd90d3023fbf1c55a394fb858eb2066f1f"
+  integrity sha512-N8vBdOa+DF7zkRrDCsaOXoCs/E2fJfx9B9MrKnnSiHNh4ws7eSys6YQE4KvT1cecKmOASYQBhbKjeuDD9lT81w==
 
 deep-is@~0.1.3:
   version "0.1.3"
@@ -10675,11 +10691,12 @@ swagger-client@^3.9.0:
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
 
-swagger-ui-react@3.23.0:
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.0.tgz#7b664797757dca9a78d801c5a3877598d2430ed8"
-  integrity sha512-yNaQrSKfxk0yT7DSox5wddocYWsz2H5o8KT9CA4pw1gXE1jkKSsFS7DLwhIdiAElH+BBfRguS9ypMJ5N9yJQqA==
+swagger-ui-react@3.23.3:
+  version "3.23.3"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.3.tgz#811597b93b8e6d5813dd518855905b7eec9dab30"
+  integrity sha512-CBmYYB74/WOheJu6avg3iDLT57doQRE5bVGscURZMoPSKUDQs6Ewx8vlp9b5tZnr4N16gEkbIH5Y9NtVcJpYwg==
   dependencies:
+    "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^2.0.2"
     "@kyleshockey/js-yaml" "^1.0.1"
     "@kyleshockey/object-assign-deep" "^0.4.2"
@@ -10688,12 +10705,12 @@ swagger-ui-react@3.23.0:
     classnames "^2.2.5"
     core-js "^2.5.1"
     css.escape "1.5.1"
-    deep-extend "0.5.1"
+    deep-extend "0.6.0"
     dompurify "^1.0.4"
     ieee754 "^1.1.8"
     immutable "^3.x.x"
     js-file-download "^0.4.1"
-    lodash "^4.17.11"
+    lodash "^4.17.14"
     memoizee "^0.4.12"
     prop-types "^15.5.10"
     react-debounce-input "^3.2.0"

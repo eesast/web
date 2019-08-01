@@ -24,13 +24,13 @@
     "react-router-dom": "5.0.1",
     "redux": "4.0.4",
     "redux-thunk": "2.3.0",
-    "swagger-ui-react": "3.23.0",
+    "swagger-ui-react": "3.23.3",
     "typesafe-actions": "4.4.2"
   },
   "devDependencies": {
     "@types/jwt-decode": "2.2.1",
     "@types/node": "12.6.8",
-    "@types/react": "16.8.23",
+    "@types/react": "16.8.24",
     "@types/react-dom": "16.8.5",
     "@types/react-infinite-scroller": "1.2.1",
     "@types/react-redux": "7.1.1",
