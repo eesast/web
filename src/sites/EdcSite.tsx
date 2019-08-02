@@ -35,8 +35,12 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
   location
 }) => {
   const [page, setPage] = useState<Page>("intro");
+  const [selected, setSelected] = useState<boolean>(false);
 
-  const homeRoute = () => <Redirect to={`${match.url}/intro`} />;
+  const homeRoute = () => {
+    setSelected(true);
+    return <Redirect to={`${match.url}/intro`} />;
+  };
   const NotFoundPage = (props: RouteComponentProps<any>) => (
     <NotFoundSite {...props} setSite={(site: Site) => {}} />
   );
@@ -104,12 +108,8 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
           }}
         >
           <Switch location={location}>
-            <Route exact={true} path={`${match.path}`} render={homeRoute} />
-            <Route
-              exact={true}
-              path={`${match.path}/intro`}
-              component={IntroPage}
-            />
+            <Route exact={selected} path={`${match.path}`} render={homeRoute} />
+            <Route exact path={`${match.path}/intro`} component={IntroPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </Content>
