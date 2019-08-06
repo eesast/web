@@ -2,6 +2,7 @@ import { Card, Icon } from "antd";
 import axios from "axios";
 import moment from "moment";
 import React, { useState } from "react";
+import styles from "./FeedCard.module.css";
 
 const { Meta } = Card;
 
@@ -41,14 +42,11 @@ const FeedCard: React.FC<IFeedCardProps> = props => {
 
   return (
     <Card
-      style={{ padding: 24 }}
+      className={styles.card}
       hoverable={true}
       cover={
         <img
-          style={{
-            maxHeight: "40vh",
-            objectFit: "cover"
-          }}
+          className={styles.cardImage}
           hidden={imgFailLoading}
           alt={title}
           src={axios.defaults.baseURL + image}
@@ -59,23 +57,8 @@ const FeedCard: React.FC<IFeedCardProps> = props => {
       loading={loading || imgLoading}
     >
       <Meta title={title} description={abstract} />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between"
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: "-24px",
-            marginBottom: "-36px",
-            marginTop: "36px",
-            overflowX: "hidden"
-          }}
-        >
+      <div className={styles.flexContainer}>
+        <div className={styles.leftToolbar}>
           <div>
             {moment().diff(moment(createdAt), "weeks") < 2
               ? moment(createdAt).fromNow()
@@ -83,15 +66,7 @@ const FeedCard: React.FC<IFeedCardProps> = props => {
           </div>
           <div style={{ marginLeft: "12px" }}>{tags && tags.join(" / ")}</div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginRight: "-24px",
-            marginBottom: "-36px",
-            marginTop: "36px"
-          }}
-        >
+        <div className={styles.rightToolbar}>
           <Icon style={{ marginRight: "6px" }} type="eye" />
           <div style={{ marginRight: "12px" }}>{views || 0}</div>
           <Icon style={{ marginRight: "6px" }} type="like" />

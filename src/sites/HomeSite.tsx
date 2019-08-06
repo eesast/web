@@ -1,8 +1,8 @@
-import { Breadcrumb, Layout } from "antd";
 import React from "react";
 import { Site } from "../App";
-
-const { Content } = Layout;
+import styles from "./HomeSite.module.css";
+import logo from "../assets/logo.png";
+import { Typography } from "antd";
 
 export interface IHomeSiteProps {
   setSite: (site: Site) => void;
@@ -12,23 +12,10 @@ const HomeSite: React.FC<IHomeSiteProps> = ({ setSite }) => {
   setSite("home");
 
   return (
-    <Layout style={{ padding: "48px 96px" }}>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
-      <Content
-        style={{
-          background: "#fff",
-          padding: 24,
-          margin: 0,
-          minHeight: 280
-        }}
-      >
-        Content
-      </Content>
-    </Layout>
+    <div className={styles.root}>
+      <img className={styles.logo} alt="logo" src={logo} />
+      <Typography.Title level={3}>官网建设中...</Typography.Title>
+    </div>
   );
 };
 

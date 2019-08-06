@@ -7,6 +7,7 @@ import FeedCard from "../components/FeedCard";
 import { getArticleFeeds } from "../redux/actions/weekly";
 import { IAppState, IArticle } from "../redux/types/state";
 import { WithRouterPage } from "../types/WithRouterPage";
+import styles from "./FeedPage.module.css";
 
 interface IFeedPageStateProps {
   fetching: boolean;
@@ -52,7 +53,7 @@ const FeedPage: React.FC<WithRouterPage<{}, IFeedPageProps>> = props => {
         hasMore={!fetching && hasMore}
       >
         <List
-          style={{ margin: "auto", marginTop: 48, width: "60vw" }}
+          className={styles.feedList}
           itemLayout="vertical"
           split={false}
           loading={fetching}

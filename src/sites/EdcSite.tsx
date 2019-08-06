@@ -1,5 +1,5 @@
-import { Breadcrumb, Icon, Layout, Menu } from "antd";
-import { SelectParam } from "antd/lib/menu";
+import { Icon, Layout, Menu } from "antd";
+import { MenuProps } from "antd/lib/menu";
 import React, { useState } from "react";
 import {
   Link,
@@ -9,7 +9,7 @@ import {
   Switch
 } from "react-router-dom";
 import { Site } from "../App";
-import constants from "../constants";
+import styles from "./EdcSite.module.css";
 import IntroPage from "../pages/IntroPage";
 import { WithRouterPage } from "../types/WithRouterPage";
 import NotFoundSite from "./NotFoundSite";
@@ -42,20 +42,20 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
     return <Redirect to={`${match.url}/intro`} />;
   };
   const NotFoundPage = (props: RouteComponentProps<any>) => (
-    <NotFoundSite {...props} setSite={(site: Site) => {}} />
+    <NotFoundSite {...props} setSite={setSite} />
   );
 
-  const onMenuSelect = (item: SelectParam) => setPage(item.key as Page);
+  const onMenuSelect: MenuProps["onSelect"] = item => setPage(item.key as Page);
 
   setSite("edc");
 
   return (
     <Layout>
-      <Sider breakpoint="sm" collapsedWidth="0" width={constants.siderWidth}>
+      <Sider breakpoint="sm" collapsedWidth="0">
         <Menu
+          className={styles.menu}
           mode="inline"
           selectedKeys={[page]}
-          style={{ height: "100%", borderRight: 0 }}
           onSelect={onMenuSelect}
         >
           <Menu.Item key="intro">
@@ -93,27 +93,13 @@ const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout style={{ padding: "0 24px 24px" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Content
-          style={{
-            background: "#fff",
-            padding: 24,
-            margin: 0,
-            minHeight: 280
-          }}
-        >
-          <Switch location={location}>
-            <Route exact={selected} path={`${match.path}`} render={homeRoute} />
-            <Route exact path={`${match.path}/intro`} component={IntroPage} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </Content>
-      </Layout>
+      <Content className={styles.content}>
+        <Switch location={location}>
+          <Route exact={selected} path={`${match.path}`} render={homeRoute} />
+          <Route exact path={`${match.path}/intro`} component={IntroPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Content>
     </Layout>
   );
 };
