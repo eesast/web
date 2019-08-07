@@ -116,9 +116,9 @@ const LoginForm: React.FC<ILoginFormProps> = ({ form, submit, loggingIn }) => {
         )}
       </Form.Item>
       <Form.Item>
-        <a style={{ float: "left" }} href="/register">
+        <Link style={{ float: "left" }} replace to="/register">
           注册
-        </a>
+        </Link>
         <a style={{ float: "right" }} href="/forgot">
           忘记密码
         </a>

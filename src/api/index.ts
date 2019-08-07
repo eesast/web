@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getArticleFeeds } from "./articles";
-import { login } from "./users";
+import { login, register } from "./users";
 
 // axios.defaults.baseURL =
 //   process.env.NODE_ENV === "production"
@@ -11,5 +11,6 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export default {
   login,
+  register,
   getArticleFeeds
 };

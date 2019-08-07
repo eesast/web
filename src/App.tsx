@@ -31,6 +31,7 @@ import NotFoundSite from "./sites/NotFoundSite";
 import WeeklySite from "./sites/WeeklySite";
 import styles from "./App.module.css";
 import { MenuProps } from "antd/lib/menu";
+import RegisterPage from "./pages/RegisterPage";
 
 const { Header, Footer } = Layout;
 const { Title } = Typography;
@@ -129,7 +130,8 @@ const routes = [
   { to: "/weekly", component: WeeklySite },
   { to: "/thuedc", component: EdcSite },
   { to: "/api", component: ApiSite },
-  { to: "/login", component: LoginPage }
+  { to: "/login", component: LoginPage },
+  { to: "/register", component: RegisterPage }
 ];
 
 export default App;
