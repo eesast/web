@@ -6,8 +6,9 @@ import { withRouter } from "react-router";
 import logo from "../assets/logo.png";
 import { login } from "../redux/actions/auth";
 import { IAppState } from "../redux/types/state";
-import { WithRouterPage } from "../types/WithRouterPage";
+import { WithRouterComponent } from "../types/WithRouterComponent";
 import styles from "./LoginPage.module.css";
+import { Link } from "react-router-dom";
 
 interface ILoginPageStateProps {
   loggedIn: boolean;
@@ -21,7 +22,7 @@ interface ILoginPageDispatchProps {
 
 type ILoginPageProps = ILoginPageStateProps & ILoginPageDispatchProps;
 
-const LoginPage: React.FC<WithRouterPage<{}, ILoginPageProps>> = props => {
+const LoginPage: React.FC<WithRouterComponent<{}, ILoginPageProps>> = props => {
   const { login, loggingIn, loggedIn, error, history } = props;
 
   const submit = (username: string, password: string) => {

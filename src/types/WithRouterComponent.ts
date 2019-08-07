@@ -5,4 +5,4 @@ import { RouteComponentProps } from "react-router";
  * @param T component props
  */
 
-export type WithRouterPage<P, T> = RouteComponentProps<P> & T;
+export type WithRouterComponent<P, T> = RouteComponentProps<P> & T;

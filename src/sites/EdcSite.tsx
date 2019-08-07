@@ -11,7 +11,7 @@ import {
 import { Site } from "../App";
 import styles from "./EdcSite.module.css";
 import IntroPage from "../pages/IntroPage";
-import { WithRouterPage } from "../types/WithRouterPage";
+import { WithRouterComponent } from "../types/WithRouterComponent";
 import NotFoundSite from "./NotFoundSite";
 
 const { SubMenu } = Menu;
@@ -29,7 +29,7 @@ type Page =
   | "teamManage"
   | "resource";
 
-const EdcSite: React.FC<WithRouterPage<{}, IEdcSiteProps>> = ({
+const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
   setSite,
   match,
   location
