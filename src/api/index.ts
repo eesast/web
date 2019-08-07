@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getArticleFeeds } from "./articles";
-import { login, register } from "./users";
+import { login, register, getUsername } from "./users";
+import { getTeams, newTeam } from "./teams";
 
 // axios.defaults.baseURL =
 //   process.env.NODE_ENV === "production"
@@ -12,5 +13,8 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 export default {
   login,
   register,
-  getArticleFeeds
+  getUsername,
+  getArticleFeeds,
+  getTeams,
+  newTeam
 };

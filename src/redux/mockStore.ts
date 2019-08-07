@@ -54,6 +54,23 @@ const mockStore: IAppState = {
         }
       ]
     }
+  },
+  teams: {
+    fetching: false,
+    items: [
+      {
+        id: 1,
+        contestId: 1,
+        name: "张三队",
+        description: "这是一个队伍",
+        leader: 2016011000,
+        members: [2016011000],
+        leaderUsername: "zhangsan",
+        membersUsername: ["zhangsan"],
+        inviteCode: "123abcde",
+        createdAt: new Date().toDateString()
+      }
+    ]
   }
 };
 
