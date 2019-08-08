@@ -12,10 +12,9 @@ import React, { useEffect } from "react";
 import { IAppState, ITeam } from "../redux/types/state";
 import { getTeams } from "../redux/actions/teams";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { FormComponentProps } from "antd/lib/form";
-import { Link } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 import api from "../api";
 import styles from "./EnrollPage.module.css";
 
@@ -126,7 +125,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, token }) => {
     form.validateFields(async (err, values) => {
       if (!err && values.name && values.description) {
         try {
-          const inviteCode = await api.newTeam(
+          const inviteCode = await api.createTeam(
             values.name,
             values.description,
             1,
@@ -142,19 +141,13 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, token }) => {
           if (
             error.response.data === "409 Conflict: Team name already exists"
           ) {
-            Modal.error({
-              title: "队伍名称已被注册"
-            });
+            message.error("队伍名称已被注册");
           } else if (
             error.response.data === "409 Conflict: User is already in a team"
           ) {
-            Modal.error({
-              title: "用户已加入队伍"
-            });
+            message.error("用户已加入队伍");
           } else {
-            Modal.error({
-              title: "队伍创建失败"
-            });
+            message.error("队伍创建失败");
           }
         }
       }

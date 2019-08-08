@@ -20,7 +20,7 @@ export function getTeams(self: boolean): IThunkResult<IGetTeamsAction> {
 
     try {
       const token = getState().auth.token || "";
-      const teams = await api.getTeams(self, token);
+      const teams = await api.getTeams(self, 1, token);
 
       for (const team of teams) {
         const leaderUsername = await api.getUsername(team.leader, token);

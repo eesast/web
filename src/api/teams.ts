@@ -1,14 +1,21 @@
 import axios from "axios";
 import { ITeam } from "../redux/types/state";
 
-export const getTeams = async (self: boolean, token: string) => {
-  const response = await axios.get(`/v1/teams?self=${self}&contestId=1`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+export const getTeams = async (
+  self: boolean,
+  contestId: number,
+  token: string
+) => {
+  const response = await axios.get(
+    `/v1/teams?self=${self}&contestId=${contestId}`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
   return response.data as ITeam[];
 };
 
-export const newTeam = async (
+export const createTeam = async (
   name: string,
   description: string,
   contestId: number,
