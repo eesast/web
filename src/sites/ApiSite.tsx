@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import SwaggerUI from "swagger-ui-react";
-import "./node_modules/swagger-ui-react/swagger-ui.css";
+import "swagger-ui-react/swagger-ui.css";
 import { Site } from "../App";
 
 export interface IApiSiteProps {

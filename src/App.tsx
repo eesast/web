@@ -8,7 +8,7 @@ import {
 } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import moment from "moment";
-import "./node_modules/moment/locale/zh-cn";
+import "moment/locale/zh-cn";
 import QueueAnim from "rc-queue-anim";
 import React, { useState } from "react";
 import { Provider } from "react-redux";
