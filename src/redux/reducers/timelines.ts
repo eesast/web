@@ -6,7 +6,7 @@ import {
 } from "../types/constants";
 import { ITimelineState } from "../types/state";
 
-export default function timeline(
+export default function timelines(
   state: ITimelineState = {
     fetching: false,
     items: []
