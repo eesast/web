@@ -19,11 +19,12 @@ export type ILoginAction = ActionType<typeof loginAction>;
 export type IAuthAction = ILoginAction;
 
 export type IGetArticleFeedsAction = ActionType<typeof getArticleFeedsAction>;
-export type IGetTimelineFeedsAction = ActionType<typeof getTimelineFeedsAction>;
 
 export type IWeeklyAction = IGetArticleFeedsAction;
 
-export type ITimelineAction = IGetTimelineFeedsAction;
+export type IGetTimelineFeedsAction = ActionType<typeof getTimelineFeedsAction>;
+
+export type ITimelinesAction = IGetTimelineFeedsAction;
 
 export type IGetTeamsAction = ActionType<typeof getTeamsAction>;
 
@@ -31,4 +32,8 @@ export type IGetContestIdAction = ActionType<typeof getContestIdAction>;
 
 export type ITeamsAction = IGetTeamsAction | IGetContestIdAction;
 
-export type IAppAction = IAuthAction | IWeeklyAction | ITeamsAction;
+export type IAppAction =
+  | IAuthAction
+  | IWeeklyAction
+  | ITeamsAction
+  | ITimelinesAction;
