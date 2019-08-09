@@ -9,7 +9,7 @@ import {
 import zhCN from "antd/lib/locale-provider/zh_CN";
 import { SelectParam } from "antd/lib/menu";
 import moment from "moment";
-import "moment/locale/zh-cn";
+import "./node_modules/moment/locale/zh-cn";
 import QueueAnim from "rc-queue-anim";
 import React, { useState } from "react";
 import { Provider } from "react-redux";

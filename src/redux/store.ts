@@ -8,12 +8,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import auth from "./reducers/auth";
 import weekly from "./reducers/weekly";
+import news from "./reducers/news";
 import { IAppAction } from "./types/actions";
 import { IAppState } from "./types/state";
 
 const appReducer = combineReducers<IAppState, AnyAction>({
   auth,
-  weekly
+  weekly,
+  news
 });
 
 const store = createStore<IAppState, IAppAction, {}, {}>(

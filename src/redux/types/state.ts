@@ -81,7 +81,27 @@ export interface IWeeklyState {
   };
 }
 
+export interface ITimeline {
+  id: number;
+  title: string;
+  alias: string;
+  description: string;
+  originalUri: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  link?: string;
+}
+export type ITimelineState = ITimeline;
+export interface IHomepageNewsState {
+  fetching: boolean;
+  error?: Error | null;
+  items: ITimelineState[];
+}
+
 export interface IAppState {
   auth: IAuthState;
   weekly: IWeeklyState;
+  news: IHomepageNewsState;
 }

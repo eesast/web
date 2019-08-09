@@ -54,6 +54,23 @@ const mockStore: IAppState = {
         }
       ]
     }
+  },
+  news: {
+    fetching: false,
+    items: [
+      {
+        createdAt: new Date().toDateString(),
+        createdBy: 2016000000,
+        updatedAt: new Date().toDateString(),
+        updatedBy: 2016000000,
+        alias: "group-photo",
+        description: "全家福",
+        originalUri: "https://www.google.com",
+        link: "/",
+        title: "全家福",
+        id: 1
+      }
+    ]
   }
 };
 
