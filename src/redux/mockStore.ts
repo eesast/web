@@ -57,6 +57,7 @@ const mockStore: IAppState = {
   },
   teams: {
     fetching: false,
+    contestId: 1,
     items: [
       {
         id: 1,

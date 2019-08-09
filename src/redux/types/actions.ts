@@ -3,8 +3,8 @@ import { ThunkAction } from "redux-thunk";
 import { ActionType } from "typesafe-actions";
 import { loginAction } from "../actions/auth";
 import { getArticleFeedsAction } from "../actions/weekly";
+import { getTeamsAction, getContestIdAction } from "../actions/teams";
 import { IAppState } from "./state";
-import { getTeamsAction } from "../actions/teams";
 
 export type IThunkResult<T extends AnyAction> = ThunkAction<
   void,
@@ -23,6 +23,8 @@ export type IWeeklyAction = IGetArticleFeedsAction;
 
 export type IGetTeamsAction = ActionType<typeof getTeamsAction>;
 
-export type ITeamsAction = IGetTeamsAction;
+export type IGetContestIdAction = ActionType<typeof getContestIdAction>;
+
+export type ITeamsAction = IGetTeamsAction | IGetContestIdAction;
 
 export type IAppAction = IAuthAction | IWeeklyAction | ITeamsAction;

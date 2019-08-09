@@ -10,7 +10,7 @@ import {
 } from "antd";
 import React, { useEffect } from "react";
 import { IAppState, ITeam } from "../redux/types/state";
-import { getTeams } from "../redux/actions/teams";
+import { getTeams, getContestId } from "../redux/actions/teams";
 import { connect } from "react-redux";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { FormComponentProps } from "antd/lib/form";
@@ -22,13 +22,14 @@ interface IEnrollPageStateProps {
   loggedIn: boolean;
   token?: string;
   fetching: boolean;
-  inviteCode?: string;
+  contestId?: number;
   error?: Error | null;
   teams: ITeam[];
 }
 
 interface IEnrollPageDispatchProps {
-  getTeams: (self: boolean) => void;
+  getTeams: (self: boolean, type: string, year: number) => void;
+  getContestId: (type: string, year: number) => void;
 }
 
 type IEnrollPageProps = IEnrollPageStateProps & IEnrollPageDispatchProps;
@@ -36,10 +37,18 @@ type IEnrollPageProps = IEnrollPageStateProps & IEnrollPageDispatchProps;
 const EnrollPage: React.FC<
   WithRouterComponent<{}, IEnrollPageProps>
 > = props => {
-  const { loggedIn, token, error, teams, getTeams } = props;
+  const {
+    loggedIn,
+    token,
+    error,
+    fetching,
+    contestId,
+    teams,
+    getTeams
+  } = props;
 
   useEffect(() => {
-    getTeams(true);
+    getTeams(true, "电设", 2019);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -54,7 +63,11 @@ const EnrollPage: React.FC<
       return (
         <div className={styles.root}>
           <Card className={styles.card}>
-            <WrappedEnrollForm token={token || ""} props={props} />
+            <WrappedEnrollForm
+              token={token || ""}
+              contestId={contestId}
+              props={props}
+            />
           </Card>
         </div>
       );
@@ -69,7 +82,7 @@ const EnrollPage: React.FC<
 
       return (
         <div className={styles.root}>
-          <Card className={styles.card}>
+          <Card className={styles.card} loading={fetching}>
             <Descriptions title="队伍信息" column={4}>
               <Descriptions.Item label="队名">{name}</Descriptions.Item>
               <Descriptions.Item label="邀请码">{inviteCode}</Descriptions.Item>
@@ -97,13 +110,15 @@ function mapStateToProps(state: IAppState): IEnrollPageStateProps {
     loggedIn: state.auth.loggedIn,
     token: state.auth.token,
     fetching: state.teams.fetching,
+    contestId: state.teams.contestId,
     error: state.teams.error,
     teams: state.teams.items
   };
 }
 
 const mapDispatchToProps: IEnrollPageDispatchProps = {
-  getTeams
+  getTeams,
+  getContestId
 };
 
 export default withRouter(
@@ -114,21 +129,31 @@ export default withRouter(
 );
 
 interface IEnrollFormProps extends FormComponentProps {
-  props: WithRouterComponent<{}, {}>;
+  props: WithRouterComponent<{}, IEnrollPageProps>;
   token: string;
+  contestId?: number;
 }
 
-const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, token }) => {
+const EnrollForm: React.FC<IEnrollFormProps> = ({
+  form,
+  props,
+  token,
+  contestId
+}) => {
   const { getFieldDecorator } = form;
 
   const handleSubmit = () => {
     form.validateFields(async (err, values) => {
       if (!err && values.name && values.description) {
         try {
+          if (!contestId) {
+            props.getContestId("电设", 2019);
+          }
+
           const inviteCode = await api.createTeam(
             values.name,
             values.description,
-            1,
+            contestId!,
             token
           );
           Modal.success({

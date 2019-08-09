@@ -100,6 +100,7 @@ export interface ITeam {
 
 export interface ITeamsState {
   fetching: boolean;
+  contestId?: number;
   error?: Error | null;
   items: ITeam[];
 }

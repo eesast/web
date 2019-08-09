@@ -32,3 +32,8 @@ export const createTeam = async (
   );
   return response.data.inviteCode as string;
 };
+
+export const getContestId = async (type: string, year: number) => {
+  const response = await axios.get(`/v1/contests?type=${type}&year=${year}`);
+  return response.data[0].id as number;
+};
