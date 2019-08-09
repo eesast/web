@@ -12,7 +12,7 @@ export default function timelines(
     items: []
   },
   action: ITimelinesAction
-): ITimelineState {
+): ITimelinesState {
   switch (action.type) {
     case GET_TIMELINE_FEEDS_REQUEST:
       return {
