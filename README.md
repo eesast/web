@@ -15,10 +15,22 @@ EESAST 网页前端
 
 ### 工具
 
-- VSCode
+- VSCode 扩展
 
   - Prettier
-  - TSLint
+  - ESLint
+
+    在 VSCode 设置中添加以下内容，开启 ESLint 插件对 TypeScript 的支持：
+
+    ```json
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        { "language": "typescript", "autoFix": true },
+        { "language": "typescriptreact", "autoFix": true }
+    ],
+    ```
 
 - Chrome 扩展
 
@@ -47,4 +59,12 @@ EESAST 网页前端
 
 #### `yarn lint`
 
-检查类型错误，并使用 Prettier 进行代码格式修正
+使用 ESLint 进行代码风格检查
+
+#### `yarn typecheck`
+
+检查类型错误
+
+#### `yarn prettier`
+
+使用 Prettier 进行代码格式修正

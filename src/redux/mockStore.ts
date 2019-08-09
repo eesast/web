@@ -69,6 +69,21 @@ const mockStore: IAppState = {
         link: "/",
         title: "全家福",
         id: 1
+  teams: {
+    fetching: false,
+    contestId: 1,
+    items: [
+      {
+        id: 1,
+        contestId: 1,
+        name: "张三队",
+        description: "这是一个队伍",
+        leader: 2016011000,
+        members: [2016011000],
+        leaderUsername: "zhangsan",
+        membersUsername: ["zhangsan"],
+        inviteCode: "123abcde",
+        createdAt: new Date().toDateString()
       }
     ]
   }

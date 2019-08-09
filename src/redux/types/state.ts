@@ -8,6 +8,7 @@ export interface IUser {
   id: number;
   name: string;
   username: string;
+  password?: string;
   email: string;
   phone: number;
   department: Department;
@@ -98,10 +99,32 @@ export interface IHomepageNewsState {
   fetching: boolean;
   error?: Error | null;
   items: ITimelineState[];
+export interface ITeam {
+  id: number;
+  contestId: number;
+  name: string;
+  description: string;
+  leader: number;
+  members: number[];
+  leaderUsername?: string;
+  membersUsername?: string[];
+  inviteCode?: string;
+  createdAt?: string;
+  createdBy?: number;
+  updatedAt?: string;
+  updatedBy?: number;
+}
+
+export interface ITeamsState {
+  fetching: boolean;
+  contestId?: number;
+  error?: Error | null;
+  items: ITeam[];
 }
 
 export interface IAppState {
   auth: IAuthState;
   weekly: IWeeklyState;
   news: IHomepageNewsState;
+  teams: ITeamsState;
 }

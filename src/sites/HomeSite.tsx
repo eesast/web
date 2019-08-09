@@ -6,6 +6,7 @@ import Constants from "../constants";
 const { headerHeight, footerHeight, secondaryHeaderHeight } = Constants;
 const { useState } = React;
 const { Header } = Layout;
+
 export interface IHomeSiteProps {
   setSite: (site: Site) => void;
 }

@@ -4,10 +4,11 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import logo from "../assets/logo.png";
-import constants from "../constants";
 import { login } from "../redux/actions/auth";
 import { IAppState } from "../redux/types/state";
-import { WithRouterPage } from "../types/WithRouterPage";
+import { WithRouterComponent } from "../types/WithRouterComponent";
+import styles from "./LoginPage.module.css";
+import { Link } from "react-router-dom";
 
 interface ILoginPageStateProps {
   loggedIn: boolean;
@@ -21,7 +22,7 @@ interface ILoginPageDispatchProps {
 
 type ILoginPageProps = ILoginPageStateProps & ILoginPageDispatchProps;
 
-const LoginPage: React.FC<WithRouterPage<{}, ILoginPageProps>> = props => {
+const LoginPage: React.FC<WithRouterComponent<{}, ILoginPageProps>> = props => {
   const { login, loggingIn, loggedIn, error, history } = props;
 
   const submit = (username: string, password: string) => {
@@ -43,34 +44,9 @@ const LoginPage: React.FC<WithRouterPage<{}, ILoginPageProps>> = props => {
   }, [error]);
 
   return (
-    <div
-      style={{
-        height: "95vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: constants.backgroundColor
-      }}
-    >
-      <Card
-        style={{
-          padding: 0,
-          maxWidth: 300,
-          textAlign: "center",
-          marginBottom: 128
-        }}
-      >
-        <img
-          style={{
-            width: 72,
-            height: 72,
-            margin: "auto",
-            marginBottom: 36,
-            marginTop: 24
-          }}
-          alt="Logo"
-          src={logo}
-        />
+    <div className={styles.root}>
+      <Card className={styles.card}>
+        <img className={styles.logo} alt="logo" src={logo} />
         <WrappedLoginForm submit={submit} loggingIn={loggingIn} />
       </Card>
     </div>
@@ -140,9 +116,9 @@ const LoginForm: React.FC<ILoginFormProps> = ({ form, submit, loggingIn }) => {
         )}
       </Form.Item>
       <Form.Item>
-        <a style={{ float: "left" }} href="/register">
+        <Link style={{ float: "left" }} replace to="/register">
           注册
-        </a>
+        </Link>
         <a style={{ float: "right" }} href="/forgot">
           忘记密码
         </a>

@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import FeedCard from "../components/FeedCard";
 import { getArticleFeeds } from "../redux/actions/weekly";
 import { IAppState, IArticle } from "../redux/types/state";
-import { WithRouterPage } from "../types/WithRouterPage";
+import { WithRouterComponent } from "../types/WithRouterComponent";
+import styles from "./FeedPage.module.css";
 
 interface IFeedPageStateProps {
   fetching: boolean;
@@ -21,7 +22,7 @@ interface IFeedPageDispatchProps {
 
 type IFeedPageProps = IFeedPageStateProps & IFeedPageDispatchProps;
 
-const FeedPage: React.FC<WithRouterPage<{}, IFeedPageProps>> = props => {
+const FeedPage: React.FC<WithRouterComponent<{}, IFeedPageProps>> = props => {
   const { fetching, hasMore, error, articles, getArticleFeeds } = props;
 
   const [page, setPage] = useState(0);
@@ -52,7 +53,7 @@ const FeedPage: React.FC<WithRouterPage<{}, IFeedPageProps>> = props => {
         hasMore={!fetching && hasMore}
       >
         <List
-          style={{ margin: "auto", marginTop: 48, width: "60vw" }}
+          className={styles.feedList}
           itemLayout="vertical"
           split={false}
           loading={fetching}

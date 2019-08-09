@@ -1,0 +1,10 @@
+.menu {
+  height: 100%;
+  border-right: 0;
+}
+
+.content {
+  background: white;
+  padding: 24px;
+  margin: 0;
+}

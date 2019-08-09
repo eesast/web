@@ -2,12 +2,11 @@ import {
   BackTop,
   Button,
   Layout,
-  LocaleProvider,
+  ConfigProvider,
   Menu,
   Typography
 } from "antd";
-import zhCN from "antd/lib/locale-provider/zh_CN";
-import { SelectParam } from "antd/lib/menu";
+import zhCN from "antd/es/locale/zh_CN";
 import moment from "moment";
 import "./node_modules/moment/locale/zh-cn";
 import QueueAnim from "rc-queue-anim";
@@ -23,7 +22,6 @@ import {
   Switch
 } from "react-router-dom";
 import logo from "./assets/logo.png";
-import constants from "./constants";
 import LoginPage from "./pages/LoginPage";
 import store from "./redux/store";
 import ApiSite from "./sites/ApiSite";
@@ -31,6 +29,9 @@ import EdcSite from "./sites/EdcSite";
 import HomeSite from "./sites/HomeSite";
 import NotFoundSite from "./sites/NotFoundSite";
 import WeeklySite from "./sites/WeeklySite";
+import styles from "./App.module.css";
+import { MenuProps } from "antd/lib/menu";
+import RegisterPage from "./pages/RegisterPage";
 
 const { Header, Footer } = Layout;
 const { Title } = Typography;
@@ -41,7 +42,8 @@ export type Site = "home" | "weekly" | "edc" | "others";
 
 const App = () => {
   const getRoute = ({ location }: RouteProps) => {
-    const matchedRoute = routes.find(item => location!.pathname === item.to);
+    const pathname = "/" + location!.pathname.split("/")[1];
+    const matchedRoute = routes.find(item => pathname === item.to);
     const Component = matchedRoute ? matchedRoute.component : NotFoundSite;
 
     const homeRoute = () => <Redirect to="/home" />;
@@ -62,18 +64,10 @@ const App = () => {
                 top: 0,
                 bottom: 0
               }}
-              key={location!.pathname}
+              key={pathname}
             >
               <Route location={location} path="/:url" render={siteRoute} />
-              <Footer
-                style={{
-                  height: constants.footerHeight,
-                  textAlign: "center",
-                  backgroundColor: constants.backgroundColor
-                }}
-              >
-                © 2019 EESAST
-              </Footer>
+              <Footer className={styles.footer}>© 2019 EESAST</Footer>
             </div>
           </QueueAnim>
         </Switch>
@@ -83,53 +77,23 @@ const App = () => {
 
   const [site, setSite] = useState<Site>("home");
 
-  const onHeaderMenuSelect = (item: SelectParam) => setSite(item.key as Site);
+  const onHeaderMenuSelect: MenuProps["onSelect"] = item =>
+    setSite(item.key as Site);
 
   return (
     <Provider store={store}>
-      <LocaleProvider locale={zhCN}>
+      <ConfigProvider locale={zhCN}>
         <Router>
           <Layout>
-            <Header
-              style={{
-                backgroundColor: "#fff",
-                padding: 0,
-                display: "flex",
-                flexDirection: "row",
-                height: constants.headerHeight + 2,
-                zIndex: 99
-              }}
-            >
-              <div
-                style={{
-                  height: "100%",
-                  width: constants.siderWidth,
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-around"
-                }}
-              >
-                <img
-                  style={{
-                    height: "60%",
-                    width: "auto",
-                    margin: "auto",
-                    marginRight: 0
-                  }}
-                  src={logo}
-                  alt="Logo"
-                />
+            <Header className={styles.header}>
+              <div className={styles.logoContainer}>
+                <img className={styles.logo} src={logo} alt="logo" />
                 <Title style={{ margin: "auto", marginLeft: 10 }} level={3}>
                   EESAST
                 </Title>
               </div>
               <Menu
-                style={{
-                  flex: 1,
-                  lineHeight: constants.headerHeight + "px",
-                  borderBottom: 0
-                }}
+                className={styles.menu}
                 theme="light"
                 mode="horizontal"
                 defaultSelectedKeys={["home"]}
@@ -146,16 +110,7 @@ const App = () => {
                   <Link to="/thuedc">电子设计大赛</Link>
                 </Menu.Item>
               </Menu>
-              <div
-                style={{
-                  height: "100%",
-                  width: constants.siderWidth,
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-around"
-                }}
-              >
+              <div className={styles.toolbar}>
                 <Link to="/login">
                   <Button icon="user" />
                 </Link>
@@ -165,7 +120,7 @@ const App = () => {
           </Layout>
           <BackTop />
         </Router>
-      </LocaleProvider>
+      </ConfigProvider>
     </Provider>
   );
 };
@@ -175,7 +130,8 @@ const routes = [
   { to: "/weekly", component: WeeklySite },
   { to: "/thuedc", component: EdcSite },
   { to: "/api", component: ApiSite },
-  { to: "/login", component: LoginPage }
+  { to: "/login", component: LoginPage },
+  { to: "/register", component: RegisterPage }
 ];
 
 export default App;

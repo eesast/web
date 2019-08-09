@@ -2,13 +2,13 @@ import React from "react";
 import { Route, Switch } from "react-router";
 import { Site } from "../App";
 import FeedPage from "../pages/FeedPage";
-import { WithRouterPage } from "../types/WithRouterPage";
+import { WithRouterComponent } from "../types/WithRouterComponent";
 
 export interface IWeeklySiteProps {
   setSite: (site: Site) => void;
 }
 
-const WeeklySite: React.FC<WithRouterPage<{}, IWeeklySiteProps>> = ({
+const WeeklySite: React.FC<WithRouterComponent<{}, IWeeklySiteProps>> = ({
   setSite,
   match
 }) => {
