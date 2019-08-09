@@ -94,11 +94,10 @@ export interface ITimeline {
   updatedBy: number;
   link?: string;
 }
-export type ITimelineState = ITimeline;
-export interface IHomepageNewsState {
+export interface ITimelineState {
   fetching: boolean;
   error?: Error | null;
-  items: ITimelineState[];
+  items: ITimeline[];
 }
 export interface ITeam {
   id: number;
@@ -126,6 +125,6 @@ export interface ITeamsState {
 export interface IAppState {
   auth: IAuthState;
   weekly: IWeeklyState;
-  news: IHomepageNewsState;
+  timeline: ITimelineState;
   teams: ITeamsState;
 }

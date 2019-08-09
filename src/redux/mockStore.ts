@@ -55,7 +55,7 @@ const mockStore: IAppState = {
       ]
     }
   },
-  news: {
+  timeline: {
     fetching: false,
     items: [
       {

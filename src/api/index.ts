@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getArticleFeeds } from "./articles";
-
 import { getTimelineFeeds } from "./timelines";
 import { login, register, getUsername } from "./users";
 import { getTeams, createTeam, getContestId } from "./teams";

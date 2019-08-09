@@ -1,18 +1,18 @@
-import { IHomepageNewsAction } from "../types/actions";
+import { ITimelineAction } from "../types/actions";
 import {
   GET_TIMELINE_FEEDS_REQUEST,
   GET_TIMELINE_FEEDS_SUCCESS,
   GET_TIMELINE_FEEDS_FAILURE
 } from "../types/constants";
-import { IHomepageNewsState } from "../types/state";
+import { ITimelineState } from "../types/state";
 
-export default function homepageNews(
-  state: IHomepageNewsState = {
+export default function timeline(
+  state: ITimelineState = {
     fetching: false,
     items: []
   },
-  action: IHomepageNewsAction
-): IHomepageNewsState {
+  action: ITimelineAction
+): ITimelineState {
   switch (action.type) {
     case GET_TIMELINE_FEEDS_REQUEST:
       return {
