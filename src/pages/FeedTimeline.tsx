@@ -67,9 +67,9 @@ const FeedTimeline: React.FC<ITimelineProps> = props => {
 
 function mapStateToProps(state: IAppState): ITimelinesState {
   return {
-    fetching: state.timeline.fetching,
-    error: state.timeline.error,
-    items: state.timeline.items
+    fetching: state.timelines.fetching,
+    error: state.timelines.error,
+    items: state.timelines.items
   };
 }
 
