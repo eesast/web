@@ -42,7 +42,7 @@ type ITimelineDispatchProps = {
   getTimelineFeeds: () => void;
 };
 
-type ITimelineProps = ITimelineState & ITimelineDispatchProps;
+type ITimelineProps = ITimelinesState & ITimelineDispatchProps;
 
 const FeedTimeline: React.FC<ITimelineProps> = props => {
   const { error, items, getTimelineFeeds } = props;
