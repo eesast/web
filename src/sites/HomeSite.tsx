@@ -2,8 +2,9 @@ import { Layout, Menu, Icon } from "antd";
 import React from "react";
 import { Site } from "../App";
 import FeedNews from "../pages/FeedNews";
-import Constants from "../constants";
-const { headerHeight, footerHeight, secondaryHeaderHeight } = Constants;
+import styles from "./HomeSite.module.css";
+import logo from "../assets/logo.png";
+import { Typography } from "antd";
 const { useState } = React;
 const { Header } = Layout;
 
@@ -20,12 +21,13 @@ const HomepageOptions: React.FC<IHomepageSelections> = selection => {
   switch (option) {
     case "news":
       return <FeedNews />;
-    case "branches":
-      return <Layout style={{ padding: "0" }}>branches</Layout>;
-    case "games":
-      return <Layout style={{ padding: "0" }}>games</Layout>;
     default:
-      return <Layout style={{ padding: "0" }}></Layout>;
+      return (
+        <div className={styles.root}>
+          <img className={styles.logo} alt="logo" src={logo} />
+          <Typography.Title level={3}>官网建设中...</Typography.Title>
+        </div>
+      );
   }
 };
 
@@ -39,7 +41,7 @@ const HomeSite: React.FC<IHomeSiteProps> = ({ setSite }) => {
     <Layout
       style={{
         padding: "0",
-        height: `calc(100vh - ${headerHeight}px - ${footerHeight}px )`
+        height: `calc(100vh - 128px)`
       }}
     >
       <Header
@@ -48,7 +50,7 @@ const HomeSite: React.FC<IHomeSiteProps> = ({ setSite }) => {
           padding: 0,
           display: "flex",
           flexDirection: "row",
-          height: secondaryHeaderHeight,
+          height: 50,
           zIndex: 99
         }}
       >

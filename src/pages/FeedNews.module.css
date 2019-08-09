@@ -1,0 +1,19 @@
+.timeline {
+  height: var(--mainHeight);
+  width: 100vw;
+}
+
+.image {
+  max-height: var(--mainHeight);
+  max-width: 100vw;
+  margin: calc(var(--mainHeight) / 2) auto auto auto;
+  transform: translateY(-50%);
+}
+
+.background {
+  position: absolute;
+  background-repeat: round;
+  width: 100vw;
+  height: var(--mainHeight);
+  filter: opacity(0.5) blur(10px);
+}

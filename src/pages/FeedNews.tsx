@@ -2,7 +2,6 @@ import { message, Carousel } from "antd";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getTimelineFeeds } from "../redux/actions/news";
-import Constants from "../constants";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import {
@@ -10,7 +9,9 @@ import {
   IHomepageNewsState,
   ITimelineState
 } from "../redux/types/state";
-const { headerHeight, footerHeight, secondaryHeaderHeight } = Constants;
+
+import styles from "./FeedNews.module.css";
+import "./FeedNews.css";
 
 type IHomepageNewsDispatchProps = {
   getTimelineFeeds: () => void;
@@ -18,8 +19,14 @@ type IHomepageNewsDispatchProps = {
 type INewsProps = IHomepageNewsState & IHomepageNewsDispatchProps;
 const timelinePage: React.FC<ITimelineState> = news => {
   let inner: JSX.Element[] | JSX.Element = [
-    <div id="background"></div>,
+    <div
+      className={styles.background}
+      style={{
+        backgroundImage: `url(${axios.defaults.baseURL + news.originalUri})`
+      }}
+    ></div>,
     <img
+      className={styles.image}
       src={axios.defaults.baseURL + news.originalUri}
       alt={news.description}
     />
@@ -27,50 +34,17 @@ const timelinePage: React.FC<ITimelineState> = news => {
   if (news.link)
     if (news.link[0] === "/")
       inner = (
-        <Link to={news.link} id={news.alias}>
+        <Link to={news.link} id={news.alias} className={styles.timeline}>
           {inner}
         </Link>
       );
     else
       inner = (
-        <a href={news.link} id={news.alias}>
+        <a href={news.link} id={news.alias} className={styles.timeline}>
           {inner}
         </a>
       );
-  return (
-    <div>
-      <style>
-        {`
-          :root{
-            --mainHeight:calc(100vh - ${headerHeight}px - ${footerHeight}px - ${secondaryHeaderHeight}px);
-          }
-
-          #${news.alias} {
-          height: var(--mainHeight);
-          width:100vw;    
-          }
-
-          #${news.alias} img{
-            max-height: var(--mainHeight);
-            max-width: 100vw;
-            margin: calc(var(--mainHeight) / 2) auto auto auto;
-            transform:translateY(-50%);
-          }
-
-          #${news.alias} div#background{
-            position:absolute;
-            background-repeat: round;
-            width:100vw;
-            height:var(--mainHeight);
-            background-image:url(${axios.defaults.baseURL + news.originalUri});
-            
-            filter:brightness(0.5) blur(10px);
-          }
-        `}
-      </style>
-      {inner}
-    </div>
-  );
+  return <div>{inner}</div>;
 };
 
 const FeedNews: React.FC<INewsProps> = props => {
@@ -92,23 +66,6 @@ const FeedNews: React.FC<INewsProps> = props => {
   }
   return (
     <div>
-      <style>
-        {`
-          .ant-carousel .slick-slide{
-            text-align: center;
-            height: calc(100vh - ${headerHeight}px - ${footerHeight}px - ${secondaryHeaderHeight}px);
-            overflow:  hidden;
-            lineHeight: 5em;
-            }
-          .ant-carousel .slick-dots li button {
-            height:6px;
-            width:25px;
-          }
-          .ant-carousel .slick-dots li.slick-active button {
-            width:40px;
-          }
-        `}
-      </style>
       <Carousel autoplay>{res}</Carousel>
     </div>
   );
