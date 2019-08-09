@@ -13,6 +13,7 @@ import styles from "./EdcSite.module.css";
 import IntroPage from "../pages/IntroPage";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import NotFoundSite from "./NotFoundSite";
+import EnrollPage from "../pages/EnrollPage";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -60,19 +61,19 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
         >
           <Menu.Item key="intro">
             <Link to={`${match.url}/intro`} replace />
-            <Icon type="user" />
+            <Icon type="home" />
             介绍
           </Menu.Item>
           <Menu.Item key="enroll">
             <Link to={`${match.url}/enroll`} replace />
-            <Icon type="laptop" />
+            <Icon type="form" />
             报名
           </Menu.Item>
           <SubMenu
             key="team"
             title={
               <span>
-                <Icon type="user" />
+                <Icon type="team" />
                 队伍
               </span>
             }
@@ -88,7 +89,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
           </SubMenu>
           <Menu.Item key="resource">
             <Link to={`${match.url}/resources`} replace />
-            <Icon type="user" />
+            <Icon type="database" />
             资源
           </Menu.Item>
         </Menu>
@@ -97,6 +98,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
         <Switch location={location}>
           <Route exact={selected} path={`${match.path}`} render={homeRoute} />
           <Route exact path={`${match.path}/intro`} component={IntroPage} />
+          <Route exact path={`${match.path}/enroll`} component={EnrollPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Content>
