@@ -94,11 +94,13 @@ export interface ITimeline {
   updatedBy: number;
   link?: string;
 }
-export interface ITimelineState {
+
+export interface ITimelinesState {
   fetching: boolean;
   error?: Error | null;
   items: ITimeline[];
 }
+
 export interface ITeam {
   id: number;
   contestId: number;
@@ -125,6 +127,6 @@ export interface ITeamsState {
 export interface IAppState {
   auth: IAuthState;
   weekly: IWeeklyState;
-  timeline: ITimelineState;
+  timelines: ITimelinesState;
   teams: ITeamsState;
 }
