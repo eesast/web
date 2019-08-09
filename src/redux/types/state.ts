@@ -99,6 +99,7 @@ export interface IHomepageNewsState {
   fetching: boolean;
   error?: Error | null;
   items: ITimelineState[];
+}
 export interface ITeam {
   id: number;
   contestId: number;

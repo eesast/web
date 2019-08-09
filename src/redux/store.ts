@@ -16,7 +16,7 @@ import { IAppState } from "./types/state";
 const appReducer = combineReducers<IAppState, AnyAction>({
   auth,
   weekly,
-  news
+  news,
   teams
 });
 

@@ -69,6 +69,9 @@ const mockStore: IAppState = {
         link: "/",
         title: "全家福",
         id: 1
+      }
+    ]
+  },
   teams: {
     fetching: false,
     contestId: 1,

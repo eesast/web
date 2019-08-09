@@ -15,7 +15,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 export default {
   login,
   getArticleFeeds,
-  getTimelineFeeds
+  getTimelineFeeds,
   register,
   getUsername,
   getTeams,
