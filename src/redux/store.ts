@@ -8,7 +8,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import auth from "./reducers/auth";
 import weekly from "./reducers/weekly";
-import timeline from "./reducers/timelines";
+import timelines from "./reducers/timelines";
 import teams from "./reducers/teams";
 import { IAppAction } from "./types/actions";
 import { IAppState } from "./types/state";
@@ -16,7 +16,7 @@ import { IAppState } from "./types/state";
 const appReducer = combineReducers<IAppState, AnyAction>({
   auth,
   weekly,
-  timeline,
+  timelines,
   teams
 });
 
