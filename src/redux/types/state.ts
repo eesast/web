@@ -82,6 +82,25 @@ export interface IWeeklyState {
   };
 }
 
+export interface ITimeline {
+  id: number;
+  title: string;
+  alias: string;
+  description: string;
+  originalUri: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  link?: string;
+}
+
+export interface ITimelinesState {
+  fetching: boolean;
+  error?: Error | null;
+  items: ITimeline[];
+}
+
 export interface ITeam {
   id: number;
   contestId: number;
@@ -108,5 +127,6 @@ export interface ITeamsState {
 export interface IAppState {
   auth: IAuthState;
   weekly: IWeeklyState;
+  timelines: ITimelinesState;
   teams: ITeamsState;
 }
