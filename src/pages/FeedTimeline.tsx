@@ -8,10 +8,6 @@ import { IAppState, ITimeline, ITimelineState } from "../redux/types/state";
 import styles from "./FeedTimeline.module.css";
 import "./FeedTimeline.css";
 
-type ITimelineDispatchProps = {
-  getTimelineFeeds: () => void;
-};
-type ITimelineProps = ITimelineState & ITimelineDispatchProps;
 const timelinePage: React.FC<ITimeline> = item => {
   let inner: JSX.Element[] | JSX.Element = [
     <div
@@ -42,6 +38,12 @@ const timelinePage: React.FC<ITimeline> = item => {
   return <div>{inner}</div>;
 };
 
+type ITimelineDispatchProps = {
+  getTimelineFeeds: () => void;
+};
+
+type ITimelineProps = ITimelineState & ITimelineDispatchProps;
+
 const FeedTimeline: React.FC<ITimelineProps> = props => {
   const { error, items, getTimelineFeeds } = props;
 
@@ -56,10 +58,9 @@ const FeedTimeline: React.FC<ITimelineProps> = props => {
     }
   }, [error]);
 
-  const res = items.map(item => timelinePage(item));
   return (
     <div>
-      <Carousel autoplay>{res}</Carousel>
+      <Carousel autoplay>{items.map(item => timelinePage(item))}</Carousel>
     </div>
   );
 };
