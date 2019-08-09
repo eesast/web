@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getTimelineFeeds } from "../redux/actions/timelines";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { IAppState, ITimeline, ITimelineState } from "../redux/types/state";
+import { IAppState, ITimeline, ITimelinesState } from "../redux/types/state";
 import styles from "./FeedTimeline.module.css";
 import "./FeedTimeline.css";
 
@@ -65,7 +65,7 @@ const FeedTimeline: React.FC<ITimelineProps> = props => {
   );
 };
 
-function mapStateToProps(state: IAppState): ITimelineState {
+function mapStateToProps(state: IAppState): ITimelinesState {
   return {
     fetching: state.timeline.fetching,
     error: state.timeline.error,
