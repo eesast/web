@@ -82,7 +82,31 @@ export interface IWeeklyState {
   };
 }
 
+export interface ITeam {
+  id: number;
+  contestId: number;
+  name: string;
+  description: string;
+  leader: number;
+  members: number[];
+  leaderUsername?: string;
+  membersUsername?: string[];
+  inviteCode?: string;
+  createdAt?: string;
+  createdBy?: number;
+  updatedAt?: string;
+  updatedBy?: number;
+}
+
+export interface ITeamsState {
+  fetching: boolean;
+  contestId?: number;
+  error?: Error | null;
+  items: ITeam[];
+}
+
 export interface IAppState {
   auth: IAuthState;
   weekly: IWeeklyState;
+  teams: ITeamsState;
 }

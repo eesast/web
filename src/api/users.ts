@@ -12,3 +12,10 @@ export const login = async (username: string, password: string) => {
 export const register = async (form: IUser) => {
   await axios.post("/v1/users", form);
 };
+
+export const getUsername = async (id: number, token: string) => {
+  const response = await axios.get(`/v1/users/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data.username as string;
+};
