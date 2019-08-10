@@ -32,6 +32,7 @@ import WeeklySite from "./sites/WeeklySite";
 import styles from "./App.module.css";
 import { MenuProps } from "antd/lib/menu";
 import RegisterPage from "./pages/RegisterPage";
+import ResetPage from "./pages/ResetPage";
 
 const { Header, Footer } = Layout;
 const { Title } = Typography;
@@ -131,7 +132,8 @@ const routes = [
   { to: "/thuedc", component: EdcSite },
   { to: "/api", component: ApiSite },
   { to: "/login", component: LoginPage },
-  { to: "/register", component: RegisterPage }
+  { to: "/register", component: RegisterPage },
+  { to: "/reset", component: ResetPage }
 ];
 
 export default App;
