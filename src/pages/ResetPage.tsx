@@ -55,10 +55,11 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
         email: input,
         action: "get"
       });
-      setLoading(false);
       setEmailSent(true);
     } catch {
       message.error("用户不存在");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,22 +71,19 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
       return;
     }
 
+    const decoded = jwtDecode(token) as IUser;
     try {
-      const decoded = jwtDecode(token) as IUser;
-      try {
-        setLoading(true);
-        await axios.post("/v1/users/reset", {
-          email: decoded.email,
-          password: input,
-          action: "set"
-        });
-        setLoading(false);
-        history.replace("/home");
-      } catch {
-        message.error("网络错误");
-      }
+      setLoading(true);
+      await axios.post("/v1/users/reset", {
+        email: decoded.email,
+        password: input,
+        action: "set"
+      });
+      history.replace("/home");
     } catch {
-      message.error("未知错误");
+      message.error("网络错误");
+    } finally {
+      setLoading(false);
     }
   };
 
