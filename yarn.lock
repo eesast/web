@@ -11092,10 +11092,10 @@ svgo@^1.0.0, svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swagger-client@^3.9.2:
-  version "3.9.2"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.9.2.tgz#fbfc148733f8de9d324872d8f42e0dd215cef752"
-  integrity sha512-33C183Gk0SekyXooi786Xq7CsBxGpy8JIT4BxxiRN+ajdjJYX8H7/W/y32+0MdNLzGMmSkrgCrcXadvGSthTkg==
+swagger-client@^3.9.3:
+  version "3.9.3"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.9.3.tgz#47e1a32fe45529e818da9f33b70661c93b8bb3a8"
+  integrity sha512-MkSI3oi9fBdpmihgY5Eo3XFzhnE/mryYA9siIykTd1y3xtSMXTxoQjXo3hUEUjp3vtdEW/yLMexUsq7fAjrP7Q==
   dependencies:
     "@babel/runtime-corejs2" "^7.0.0"
     "@kyleshockey/object-assign-deep" "^0.4.0"
@@ -11116,10 +11116,10 @@ swagger-client@^3.9.2:
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
 
-swagger-ui-react@3.23.4:
-  version "3.23.4"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.4.tgz#2578feabbcc60470b36cc8d4fa85366346e0e0c8"
-  integrity sha512-Utz+ssd6wgqzQG30p7RL595ofBokWFdaSb8Q2TFIMqalvmn2RmKmJluBsrq6Y9BVAjcHN+xvugM11raqWDPHYQ==
+swagger-ui-react@3.23.5:
+  version "3.23.5"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.5.tgz#43fc83d5d32b8998cfcbfcdfae33adf8521dbd46"
+  integrity sha512-rluNW1DWViCgYjJ0/vNUStIP5R9rhMGtaNNLzeDeNOvD2D4AcLQMR6f35azSEon/6aZaTxygjQAFjjk9Wsq3tQ==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^2.0.2"
@@ -11149,7 +11149,7 @@ swagger-ui-react@3.23.4:
     remarkable "^1.7.4"
     reselect "^2.5.4"
     serialize-error "^2.1.0"
-    swagger-client "^3.9.2"
+    swagger-client "^3.9.3"
     url-parse "^1.4.7"
     xml-but-prettier "^1.0.1"
     zenscroll "^4.0.2"
