@@ -34,6 +34,7 @@ import { MenuProps } from "antd/lib/menu";
 import RegisterPage from "./pages/RegisterPage";
 import ResetPage from "./pages/ResetPage";
 import ProfilePage from "./pages/ProfilePage";
+import AuthRoute from "./components/AuthRoute";
 
 const { Header, Footer } = Layout;
 const { Title } = Typography;
@@ -47,6 +48,7 @@ const App = () => {
     const pathname = "/" + location!.pathname.split("/")[1];
     const matchedRoute = routes.find(item => pathname === item.to);
     const Component = matchedRoute ? matchedRoute.component : NotFoundSite;
+    const authRequired = matchedRoute && matchedRoute.auth;
 
     const homeRoute = () => <Redirect to="/home" />;
     const siteRoute = (props: RouteComponentProps<any>) => (
@@ -68,7 +70,15 @@ const App = () => {
               }}
               key={pathname}
             >
-              <Route location={location} path="/:url" render={siteRoute} />
+              {authRequired ? (
+                <AuthRoute
+                  location={location}
+                  path="/:url"
+                  component={Component}
+                />
+              ) : (
+                <Route location={location} path="/:url" render={siteRoute} />
+              )}
               <Footer className={styles.footer}>© 2019 EESAST</Footer>
             </div>
           </QueueAnim>
@@ -113,7 +123,7 @@ const App = () => {
                 </Menu.Item>
               </Menu>
               <div className={styles.toolbar}>
-                <Link to="/login">
+                <Link to="/profile">
                   <Button icon="user" />
                 </Link>
               </div>
@@ -127,6 +137,15 @@ const App = () => {
   );
 };
 
-const routes = [{ to: "/profile", component: ProfilePage, auth: true }];
+const routes = [
+  { to: "/home", component: HomeSite, auth: false },
+  { to: "/weekly", component: WeeklySite, auth: false },
+  { to: "/thuedc", component: EdcSite, auth: false },
+  { to: "/api", component: ApiSite, auth: false },
+  { to: "/login", component: LoginPage, auth: false },
+  { to: "/profile", component: ProfilePage, auth: true },
+  { to: "/register", component: RegisterPage, auth: false },
+  { to: "/reset", component: ResetPage, auth: false }
+];
 
 export default App;
