@@ -27,8 +27,8 @@ export interface IAuthState {
   error?: Error | null;
   token?: string;
   user?: IUser & {
-    iat: number;
-    exp: number;
+    iat?: number;
+    exp?: number;
   };
 }
 

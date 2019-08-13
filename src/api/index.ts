@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getArticleFeeds } from "./articles";
 import { getTimelineFeeds } from "./timelines";
-import { login, register, getUsername } from "./users";
+import { login, register, updateUser, getUsername } from "./users";
 import { getTeams, createTeam, getContestId } from "./teams";
 
 axios.defaults.baseURL =
@@ -12,11 +12,12 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export default {
   login,
-  getArticleFeeds,
-  getTimelineFeeds,
   register,
+  updateUser,
+  getArticleFeeds,
   getUsername,
   getTeams,
   createTeam,
-  getContestId
+  getContestId,
+  getTimelineFeeds
 };

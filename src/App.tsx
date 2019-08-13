@@ -33,6 +33,7 @@ import styles from "./App.module.css";
 import { MenuProps } from "antd/lib/menu";
 import RegisterPage from "./pages/RegisterPage";
 import ResetPage from "./pages/ResetPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const { Header, Footer } = Layout;
 const { Title } = Typography;
@@ -126,14 +127,6 @@ const App = () => {
   );
 };
 
-const routes = [
-  { to: "/home", component: HomeSite },
-  { to: "/weekly", component: WeeklySite },
-  { to: "/thuedc", component: EdcSite },
-  { to: "/api", component: ApiSite },
-  { to: "/login", component: LoginPage },
-  { to: "/register", component: RegisterPage },
-  { to: "/reset", component: ResetPage }
-];
+const routes = [{ to: "/profile", component: ProfilePage, auth: true }];
 
 export default App;

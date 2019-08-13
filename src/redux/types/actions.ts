@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType } from "typesafe-actions";
-import { loginAction } from "../actions/auth";
+import { loginAction, updateUserAction } from "../actions/auth";
 import { getArticleFeedsAction } from "../actions/weekly";
 import { getTimelineFeedsAction } from "../actions/timelines";
 import { getTeamsAction, getContestIdAction } from "../actions/teams";
@@ -15,8 +15,9 @@ export type IThunkResult<T extends AnyAction> = ThunkAction<
 >;
 
 export type ILoginAction = ActionType<typeof loginAction>;
+export type IUpdateUserAction = ActionType<typeof updateUserAction>;
 
-export type IAuthAction = ILoginAction;
+export type IAuthAction = ILoginAction | IUpdateUserAction;
 
 export type IGetArticleFeedsAction = ActionType<typeof getArticleFeedsAction>;
 

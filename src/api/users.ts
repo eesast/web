@@ -13,6 +13,10 @@ export const register = async (form: IUser) => {
   await axios.post("/v1/users", form);
 };
 
+export const updateUser = async (id: number, form: Partial<IUser>) => {
+  await axios.put("/v1/users/" + id, form);
+};
+
 export const getUsername = async (id: number, token: string) => {
   const response = await axios.get(`/v1/users/${id}`, {
     headers: { Authorization: `Bearer ${token}` }
