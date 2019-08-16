@@ -14,6 +14,7 @@ import IntroPage from "../pages/IntroPage";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import NotFoundSite from "./NotFoundSite";
 import EnrollPage from "../pages/EnrollPage";
+import TeamManagePage from "../pages/TeamManagePage";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -99,6 +100,11 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
           <Route exact={selected} path={`${match.path}`} render={homeRoute} />
           <Route exact path={`${match.path}/intro`} component={IntroPage} />
           <Route exact path={`${match.path}/enroll`} component={EnrollPage} />
+          <Route
+            exact
+            path={`${match.path}/teams/manage`}
+            component={TeamManagePage}
+          />
           <Route component={NotFoundPage} />
         </Switch>
       </Content>
