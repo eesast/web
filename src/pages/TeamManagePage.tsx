@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
-import { Redirect, withRouter } from "react-router-dom";
-import { IAppState, ITeam } from "../redux/types/state";
+import { Redirect, withRouter, Link } from "react-router-dom";
+import { IAppState, ITeam, IUser } from "../redux/types/state";
 import { connect } from "react-redux";
 import { FormComponentProps } from "antd/lib/form";
 import { getTeams, getContestId } from "../redux/actions/teams";
-import { message, Card, Form, Input, Icon, Row, Button } from "antd";
+import { message, Card, Form, Input, Icon, Button, Checkbox } from "antd";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import styles from "./TeamManagePage.module.css";
 
 interface ITeamManagePageStateProps {
   loggedIn: boolean;
   teams: ITeam[];
+  user: IUser;
   token?: string;
   contestId?: number;
   error?: Error | null;
@@ -42,7 +43,15 @@ const TeamManagePage: React.FC<
 
   if (loggedIn) {
     if (!teams.length) {
-      return <Redirect to={"/thuedc/teams/join"} />;
+      return (
+        <div className={styles.root}>
+          <Button type="primary">
+            <Link replace to="/thuedc/teams/join">
+              加入队伍
+            </Link>
+          </Button>
+        </div>
+      );
     } else {
       return (
         <div className={styles.root}>
@@ -66,6 +75,7 @@ function mapStateToProps(state: IAppState): ITeamManagePageStateProps {
     loggedIn: state.auth.loggedIn,
     teams: state.teams.items,
     token: state.auth.token,
+    user: state.auth.user!,
     contestId: state.teams.contestId,
     error: state.teams.error
   };
@@ -99,11 +109,41 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
     name,
     description,
     inviteCode,
+    leader,
     leaderUsername,
+    members = [],
     membersUsername = []
   } = props.teams[0];
 
+  const isLeader = props.user.id === leader;
+
   const { getFieldDecorator } = form;
+
+  const getMemberOptions = () => {
+    let options = [];
+    for (let i = 0; i < members.length; i++) {
+      if (members[i] === leader) {
+        options.push({
+          label: membersUsername[i],
+          value: members[i],
+          disabled: true
+        });
+      } else {
+        options.push({
+          label: membersUsername[i],
+          value: members[i]
+        });
+      }
+    }
+    return options;
+  };
+
+  const handleSubmit = () => {
+    form.validateFields(async (err, values) => {
+      if (!err && values.name && values.description && values.members) {
+      }
+    });
+  };
 
   const formItemLayout = {
     labelCol: { span: 6 },
@@ -120,22 +160,25 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
           <Input
             prefix={<Icon type="team" style={{ color: "rgba(0,0,0,.25)" }} />}
             style={{ width: "30%" }}
+            disabled={!isLeader}
             autoCapitalize="off"
             autoCorrect="off"
             autoComplete="on"
           />
         )}
       </Form.Item>
-      <Row>
-        <Form.Item label="邀请码">
-          <span>{inviteCode}</span>
-        </Form.Item>
-        <Form.Item label="队长">
-          <span>{leaderUsername}</span>
-        </Form.Item>
-      </Row>
+      <Form.Item label="邀请码">
+        <span>{inviteCode}</span>
+      </Form.Item>
+      <Form.Item label="队长">
+        <span>{leaderUsername}</span>
+      </Form.Item>
       <Form.Item label="队员">
-        <span>{membersUsername!.join(", ")}</span>
+        {getFieldDecorator("members", {
+          initialValue: members
+        })(
+          <Checkbox.Group options={getMemberOptions()} disabled={!isLeader} />
+        )}
       </Form.Item>
       <Form.Item label="队伍简介">
         {getFieldDecorator("description", {
@@ -145,11 +188,17 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
           <Input.TextArea
             autosize={{ minRows: 5, maxRows: 10 }}
             autoComplete="on"
+            disabled={!isLeader}
           />
         )}
       </Form.Item>
       <Form.Item style={{ textAlign: "center" }}>
-        <Button type="primary">确认修改</Button>
+        <Button type="primary" onClick={handleSubmit} disabled={!isLeader}>
+          确认修改
+        </Button>
+        <Button type="danger" style={{ marginLeft: 8 }} disabled={!isLeader}>
+          解散队伍
+        </Button>
       </Form.Item>
     </Form>
   );
