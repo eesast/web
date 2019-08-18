@@ -4,8 +4,18 @@ import { IAppState, ITeam, IUser } from "../redux/types/state";
 import { connect } from "react-redux";
 import { FormComponentProps } from "antd/lib/form";
 import { getTeams, getContestId } from "../redux/actions/teams";
-import { message, Card, Form, Input, Icon, Button, Checkbox } from "antd";
+import {
+  message,
+  Card,
+  Form,
+  Input,
+  Icon,
+  Button,
+  Checkbox,
+  Modal
+} from "antd";
 import { WithRouterComponent } from "../types/WithRouterComponent";
+import api from "../api";
 import styles from "./TeamManagePage.module.css";
 
 interface ITeamManagePageStateProps {
@@ -106,6 +116,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
   contestId
 }) => {
   const {
+    id,
     name,
     description,
     inviteCode,
@@ -141,7 +152,64 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
   const handleSubmit = () => {
     form.validateFields(async (err, values) => {
       if (!err && values.name && values.description && values.members) {
+        try {
+          if (!contestId) {
+            props.getContestId("电设", 2019);
+          }
+
+          await api.updateTeam(
+            id,
+            values.name,
+            values.description,
+            contestId!,
+            values.members,
+            token
+          );
+          Modal.success({
+            title: "队伍信息已修改",
+            content: "请确认修改后的信息"
+          });
+          getTeams(true, "电设", 2019);
+        } catch (error) {
+          if (
+            error.response.data === "409 Conflict: Team name already exists"
+          ) {
+            message.error("队伍名称已被注册");
+          } else if (
+            error.response.data ===
+            "400 Bad Request: Captain is not a member of the team"
+          ) {
+            message.error("队长需要在队伍中");
+          } else {
+            message.error("队伍信息修改失败");
+          }
+        }
       }
+    });
+  };
+
+  const handleDelete = () => {
+    Modal.confirm({
+      title: "您确认要解散队伍吗？",
+      content: "解散后队伍将被删除，且该操作不可逆",
+      async onOk() {
+        try {
+          await api.deleteTeam(id, token);
+          Modal.success({
+            title: "队伍已解散",
+            content: "请重新加入队伍"
+          });
+          props.history.push({ pathname: "/thuedc" });
+          props.history.replace({ pathname: "/thuedc/teams/join" });
+        } catch (error) {
+          if (error.response.data === "401 Unauthorized: Permission denied") {
+            message.error("您没有权限进行该操作");
+          } else {
+            message.error("删除队伍失败");
+          }
+        }
+      },
+      onCancel() {}
     });
   };
 
@@ -196,7 +264,12 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
         <Button type="primary" onClick={handleSubmit} disabled={!isLeader}>
           确认修改
         </Button>
-        <Button type="danger" style={{ marginLeft: 8 }} disabled={!isLeader}>
+        <Button
+          type="danger"
+          style={{ marginLeft: 8 }}
+          disabled={!isLeader}
+          onClick={handleDelete}
+        >
           解散队伍
         </Button>
       </Form.Item>
