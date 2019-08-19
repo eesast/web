@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Redirect, withRouter, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { IAppState, ITeam, IUser } from "../redux/types/state";
 import { connect } from "react-redux";
 import { FormComponentProps } from "antd/lib/form";
@@ -19,7 +19,6 @@ import api from "../api";
 import styles from "./TeamManagePage.module.css";
 
 interface ITeamManagePageStateProps {
-  loggedIn: boolean;
   teams: ITeam[];
   user: IUser;
   token?: string;
@@ -38,7 +37,7 @@ type ITeamManagePageProps = ITeamManagePageDispatchProps &
 const TeamManagePage: React.FC<
   WithRouterComponent<{}, ITeamManagePageProps>
 > = props => {
-  const { loggedIn, teams, token, contestId, error, getTeams } = props;
+  const { teams, token, contestId, error, getTeams } = props;
 
   useEffect(() => {
     getTeams(true, "电设", 2019);
@@ -51,38 +50,33 @@ const TeamManagePage: React.FC<
     }
   }, [error]);
 
-  if (loggedIn) {
-    if (!teams.length) {
-      return (
-        <div className={styles.root}>
-          <Button type="primary">
-            <Link replace to="/thuedc/teams/join">
-              加入队伍
-            </Link>
-          </Button>
-        </div>
-      );
-    } else {
-      return (
-        <div className={styles.root}>
-          <Card className={styles.card}>
-            <WrappedTeamManageForm
-              token={token || ""}
-              contestId={contestId}
-              props={props}
-            />
-          </Card>
-        </div>
-      );
-    }
+  if (!teams.length) {
+    return (
+      <div className={styles.root}>
+        <Button type="primary">
+          <Link replace to="/thuedc/teams/join">
+            加入队伍
+          </Link>
+        </Button>
+      </div>
+    );
   } else {
-    return <Redirect to={"/login"} />;
+    return (
+      <div className={styles.root}>
+        <Card className={styles.card}>
+          <WrappedTeamManageForm
+            token={token || ""}
+            contestId={contestId}
+            props={props}
+          />
+        </Card>
+      </div>
+    );
   }
 };
 
 function mapStateToProps(state: IAppState): ITeamManagePageStateProps {
   return {
-    loggedIn: state.auth.loggedIn,
     teams: state.teams.items,
     token: state.auth.token,
     user: state.auth.user!,
