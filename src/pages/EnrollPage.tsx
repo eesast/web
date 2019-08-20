@@ -48,8 +48,10 @@ const EnrollPage: React.FC<
   } = props;
 
   useEffect(() => {
-    getTeams(true, "电设", 2019);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (loggedIn) {
+      getTeams(true, "电设", 2019);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, []);
 
   useEffect(() => {

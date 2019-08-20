@@ -7,8 +7,10 @@ import {
   createTeam,
   updateTeam,
   deleteTeam,
+  addTeamMember,
   getContestId
 } from "./teams";
+
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -26,6 +28,7 @@ export default {
   createTeam,
   updateTeam,
   deleteTeam,
+  addTeamMember,
   getContestId,
   getTimelineFeeds
 };
