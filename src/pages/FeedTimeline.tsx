@@ -45,10 +45,10 @@ type ITimelineDispatchProps = {
 type ITimelineProps = ITimelinesState & ITimelineDispatchProps;
 
 const FeedTimeline: React.FC<ITimelineProps> = props => {
-  const { error, items, getTimelineFeeds } = props;
+  const { error, items } = props;
 
   useEffect(() => {
-    getTimelineFeeds();
+    // getTimelineFeeds();
     // eslint-disable-next-line
   }, []);
 
