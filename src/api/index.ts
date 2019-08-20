@@ -2,7 +2,15 @@ import axios from "axios";
 import { getArticleFeeds } from "./articles";
 import { getTimelineFeeds } from "./timelines";
 import { login, register, updateUser, getUsername } from "./users";
-import { getTeams, createTeam, addTeamMember, getContestId } from "./teams";
+import {
+  getTeams,
+  createTeam,
+  updateTeam,
+  deleteTeam,
+  addTeamMember,
+  getContestId
+} from "./teams";
+
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -18,6 +26,8 @@ export default {
   getUsername,
   getTeams,
   createTeam,
+  updateTeam,
+  deleteTeam,
   addTeamMember,
   getContestId,
   getTimelineFeeds

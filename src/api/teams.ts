@@ -33,6 +33,34 @@ export const createTeam = async (
   return response.data.inviteCode as string;
 };
 
+export const updateTeam = async (
+  id: number,
+  name: string,
+  description: string,
+  contestId: number,
+  members: number[],
+  token: string
+) => {
+  await axios.put(
+    `/v1/teams/${id}`,
+    {
+      name,
+      description,
+      contestId,
+      members
+    },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
+};
+
+export const deleteTeam = async (id: number, token: string) => {
+  await axios.delete(`/v1/teams/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
+
 export const addTeamMember = async (
   teamId: number,
   id: number,

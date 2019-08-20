@@ -1,0 +1,13 @@
+.root {
+  height: calc(80vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  padding: 24px;
+  padding-bottom: 0px;
+  width: 60vw;
+  min-width: 350px;
+}
