@@ -12,7 +12,7 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import api from "../api";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { IAppState, ITeam, IUser } from "../redux/types/state";
@@ -42,12 +42,10 @@ type ITeamJoinPageProps = ITeamJoinPageStateProps & ITeamJoinPageDispatchProps;
 const TeamJoinPage: React.FC<
   WithRouterComponent<{}, ITeamJoinPageProps>
 > = props => {
-  const { loggedIn, token, fetching, user, teams, getTeams, error } = props;
+  const { token, fetching, user, teams, getTeams, error } = props;
 
   useEffect(() => {
-    if (loggedIn) {
-      getTeams(false, "电设", 2019);
-    }
+    getTeams(false, "电设", 2019);
   }, []);
 
   useEffect(() => {
@@ -72,71 +70,67 @@ const TeamJoinPage: React.FC<
     setVisible(false);
   };
 
-  if (loggedIn) {
-    return (
-      <div>
-        <List
-          className={styles.teamList}
-          itemLayout="vertical"
-          split={false}
-          loading={fetching}
-          pagination={{
-            onChange: page => {},
-            pageSize: 5
-          }}
-          dataSource={teams}
-          renderItem={(item: ITeam) => (
-            <List.Item key={item.id}>
-              <Collapse accordion expandIconPosition="right">
-                <Panel header={item.name} key={item.id}>
-                  <Descriptions title="队伍信息" column={3}>
-                    <Descriptions.Item label="队名">
-                      {item.name}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="队长">
-                      {item.leaderUsername}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="队员">
-                      {item.membersUsername!.join(", ")}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="队伍简介">
-                      {item.description}
-                    </Descriptions.Item>
-                  </Descriptions>
-                  <Row type="flex" justify="center">
-                    {/* <Col span={6}>
+  return (
+    <div>
+      <List
+        className={styles.teamList}
+        itemLayout="vertical"
+        split={false}
+        loading={fetching}
+        pagination={{
+          onChange: page => {},
+          pageSize: 5
+        }}
+        dataSource={teams}
+        renderItem={(item: ITeam) => (
+          <List.Item key={item.id}>
+            <Collapse accordion expandIconPosition="right">
+              <Panel header={item.name} key={item.id}>
+                <Descriptions title="队伍信息" column={3}>
+                  <Descriptions.Item label="队名">
+                    {item.name}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="队长">
+                    {item.leaderUsername}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="队员">
+                    {item.membersUsername!.join(", ")}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="队伍简介">
+                    {item.description}
+                  </Descriptions.Item>
+                </Descriptions>
+                <Row type="flex" justify="center">
+                  {/* <Col span={6}>
                       <Input placeholder="填写邀请码" allowClear onChange={setInput} />
                     </Col> */}
-                    <Col span={8}>
-                      <Button
-                        type="primary"
-                        onClick={() => {
-                          setTeamId(item.id);
-                          showModal();
-                        }}
-                      >
-                        加入队伍
-                      </Button>
-                    </Col>
-                  </Row>
-                </Panel>
-              </Collapse>
-            </List.Item>
-          )}
-        />
-        <WrappedTeamJoinForm
-          teamId={teamId}
-          id={user.id}
-          token={token || ""}
-          visible={visible}
-          onCancel={handleCancel}
-          onJoin={handleJoin}
-        />
-      </div>
-    );
-  } else {
-    return <Redirect to={"/login"} />;
-  }
+                  <Col span={8}>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        setTeamId(item.id);
+                        showModal();
+                      }}
+                    >
+                      加入队伍
+                    </Button>
+                  </Col>
+                </Row>
+              </Panel>
+            </Collapse>
+          </List.Item>
+        )}
+      />
+      <WrappedTeamJoinForm
+        teamId={teamId}
+        id={user.id}
+        token={token || ""}
+        visible={visible}
+        onCancel={handleCancel}
+        onJoin={handleJoin}
+      />
+    </div>
+  );
 };
 
 function mapStateToProps(state: IAppState): ITeamJoinPageStateProps {

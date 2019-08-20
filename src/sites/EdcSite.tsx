@@ -106,6 +106,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
             location={location}
             path={`${match.path}/teams/manage`}
             component={TeamManagePage}
+          />
           <AuthRoute
             location={location}
             path={`${match.path}/teams/join`}
