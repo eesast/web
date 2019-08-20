@@ -4,7 +4,11 @@ import { ActionType } from "typesafe-actions";
 import { loginAction, updateUserAction } from "../actions/auth";
 import { getArticleFeedsAction } from "../actions/weekly";
 import { getTimelineFeedsAction } from "../actions/timelines";
-import { getTeamsAction, getContestIdAction } from "../actions/teams";
+import {
+  getTeamsAction,
+  sortTeamsAction,
+  getContestIdAction
+} from "../actions/teams";
 import { IAppState } from "./state";
 
 export type IThunkResult<T extends AnyAction> = ThunkAction<
@@ -29,9 +33,14 @@ export type ITimelinesAction = IGetTimelineFeedsAction;
 
 export type IGetTeamsAction = ActionType<typeof getTeamsAction>;
 
+export type ISortTeamsAction = ActionType<typeof sortTeamsAction>;
+
 export type IGetContestIdAction = ActionType<typeof getContestIdAction>;
 
-export type ITeamsAction = IGetTeamsAction | IGetContestIdAction;
+export type ITeamsAction =
+  | IGetTeamsAction
+  | ISortTeamsAction
+  | IGetContestIdAction;
 
 export type IAppAction =
   | IAuthAction

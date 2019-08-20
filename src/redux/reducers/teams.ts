@@ -5,7 +5,10 @@ import {
   GET_TEAMS_SUCCESS,
   GET_CONTEST_ID_REQUEST,
   GET_CONTEST_ID_SUCCESS,
-  GET_CONTEST_ID_FAILURE
+  GET_CONTEST_ID_FAILURE,
+  SORT_TEAMS_REQUEST,
+  SORT_TEAMS_SUCCESS,
+  SORT_TEAMS_FAILURE
 } from "../types/constants";
 import { ITeamsState } from "../types/state";
 
@@ -37,6 +40,27 @@ export default function teams(
         fetching: false,
         error: action.payload
       };
+
+    case SORT_TEAMS_REQUEST:
+      return {
+        ...state,
+        fetching: true,
+        error: null
+      };
+    case SORT_TEAMS_SUCCESS:
+      const sortedTeams = action.payload;
+      return {
+        ...state,
+        fetching: false,
+        items: [...sortedTeams]
+      };
+    case SORT_TEAMS_FAILURE:
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload
+      };
+
     case GET_CONTEST_ID_REQUEST:
       return {
         ...state,
