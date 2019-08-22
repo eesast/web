@@ -9377,14 +9377,15 @@ rc-progress@~2.5.0:
     babel-runtime "6.x"
     prop-types "^15.5.8"
 
-rc-queue-anim@1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/rc-queue-anim/-/rc-queue-anim-1.7.0.tgz#45020ccc61e44237ab9b0ac161eb8042bf3ab3b5"
-  integrity sha512-CnsZMSk0bSbRkEbRiOkJ3bx/6zSbua1YU+SD7R23B6MDtrpLFtwsuHINLE2aFnMb+h8E5PfVMDsE8Yq2NM698g==
+rc-queue-anim@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/rc-queue-anim/-/rc-queue-anim-1.8.0.tgz#2aeabbfa7237b585d36db20f5017e3b201f4a812"
+  integrity sha512-49csE73XyOv9B1l6XBdW5iitBgwI9Lb948kmHgj08qMfUtWBSuMfplMl2q//Ae9ecrd375xDSWGLeSRXBP5/7Q==
   dependencies:
     babel-runtime "6.x"
     prop-types "^15.6.0"
     rc-tween-one "^2.5.0"
+    react-lifecycles-compat "^3.0.4"
 
 rc-rate@~2.5.0:
   version "2.5.0"
