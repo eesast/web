@@ -48,7 +48,7 @@ const HomepageOptions: React.FC<IHomepageSelections> = selection => {
 const HomeSite: React.FC<IHomeSiteProps> = ({ setSite }) => {
   setSite("home");
   const [currentSelect, setCurrentSelect] = useState<homepageOption>(
-    "timelines"
+    "branches"
   );
   const clickHandler = (e: ClickParam) => {
     setCurrentSelect(HomepageOption(e.key));
@@ -56,8 +56,7 @@ const HomeSite: React.FC<IHomeSiteProps> = ({ setSite }) => {
   return (
     <Layout
       style={{
-        padding: "0",
-        height: `calc(100vh - 128px)`
+        height: "calc(100vh - 64px)"
       }}
     >
       <Header
@@ -66,7 +65,7 @@ const HomeSite: React.FC<IHomeSiteProps> = ({ setSite }) => {
           padding: 0,
           display: "flex",
           flexDirection: "row",
-          height: 50,
+          height: 49,
           zIndex: 99
         }}
       >
