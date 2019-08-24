@@ -121,6 +121,9 @@ const App = () => {
                 <Menu.Item key="edc">
                   <Link to="/thuedc">电子设计大赛</Link>
                 </Menu.Item>
+                <Menu.Item key="info">
+                  <a href="https://info.eesast.com">Info</a>
+                </Menu.Item>
               </Menu>
               <div className={styles.toolbar}>
                 <Link to="/profile">
