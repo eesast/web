@@ -5505,7 +5505,7 @@ immer@1.10.0:
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha512-O3sR1/opvCDGLEVcvrGTMtLac8GJ5IwZC4puPrLuRj3l7ICKvkmA0vGuU9OW8mV9WIBRnaxp5GJh9IEAaNOoYg==
 
-immutable@^3.7.4, immutable@^3.7.6, immutable@^3.x.x:
+immutable@^3.7.4, immutable@^3.8.1, immutable@^3.x.x:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
   integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
@@ -9981,12 +9981,12 @@ redux-devtools-extension@2.13.8:
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz#37b982688626e5e4993ff87220c9bbb7cd2d96e1"
   integrity sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
 
-redux-immutable@3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/redux-immutable/-/redux-immutable-3.0.8.tgz#df5a5d601c88227ba38f474cf82f7d00e56f8c14"
-  integrity sha1-31pdYByIInujj0dM+C99AOVvjBQ=
+redux-immutable@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/redux-immutable/-/redux-immutable-3.1.0.tgz#cafbd686e0711261119b9c28960935dc47a49d0a"
+  integrity sha1-yvvWhuBxEmERm5wolgk13EeknQo=
   dependencies:
-    immutable "^3.7.6"
+    immutable "^3.8.1"
 
 redux-thunk@2.3.0:
   version "2.3.0"
@@ -11134,10 +11134,10 @@ swagger-client@^3.9.3:
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
 
-swagger-ui-react@3.23.5:
-  version "3.23.5"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.5.tgz#43fc83d5d32b8998cfcbfcdfae33adf8521dbd46"
-  integrity sha512-rluNW1DWViCgYjJ0/vNUStIP5R9rhMGtaNNLzeDeNOvD2D4AcLQMR6f35azSEon/6aZaTxygjQAFjjk9Wsq3tQ==
+swagger-ui-react@3.23.6:
+  version "3.23.6"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.6.tgz#97764f115dd13fd9a9780d36593441482afbda34"
+  integrity sha512-tjRpRPoccuwu9i9JJFhA+BFtf3S8O525rY8nPQ2vsFwwBOYWDYVxcrYOUgAbnPHozGEMNw7y4UJyJ52CMZa8ow==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^2.0.2"
@@ -11163,7 +11163,7 @@ swagger-ui-react@3.23.5:
     react-motion "^0.5.2"
     react-redux "^4.x.x"
     redux "^3.x.x"
-    redux-immutable "3.0.8"
+    redux-immutable "3.1.0"
     remarkable "^1.7.4"
     reselect "^2.5.4"
     serialize-error "^2.1.0"
