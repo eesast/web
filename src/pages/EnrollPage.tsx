@@ -42,14 +42,7 @@ const EnrollPage: React.FC<
 
   useEffect(() => {
     getSelfTeam("电设", 2019);
-  }, []);
-
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     getTeams(true, "电设", 2019);
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }
-  // }, []);
+  }, [getSelfTeam]);
 
   useEffect(() => {
     if (error) {

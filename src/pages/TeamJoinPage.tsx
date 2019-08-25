@@ -66,7 +66,7 @@ const TeamJoinPage: React.FC<
 
   useEffect(() => {
     getSelfTeam("电设", 2019);
-  }, []);
+  }, [getSelfTeam]);
 
   //初始化
   useEffect(() => {
@@ -81,7 +81,7 @@ const TeamJoinPage: React.FC<
     if (teams.length < pageSize) {
       setTotalTeams((pageNumber - 1) * pageSize + teams.length);
     }
-  }, [pageNumber, pageSize]);
+  }, [pageNumber, pageSize, teams, getTeams]);
 
   useEffect(() => {
     if (error) {
@@ -112,7 +112,7 @@ const TeamJoinPage: React.FC<
               >
                 <Button
                   type="primary"
-                  disabled={selfTeam && selfTeam.id != item.id ? true : false}
+                  disabled={selfTeam && selfTeam.id !== item.id ? true : false}
                   onClick={() => {
                     if (!selfTeam) {
                       setTeamId(item.id);
@@ -130,7 +130,7 @@ const TeamJoinPage: React.FC<
         </Panel>
       );
     });
-  }, [teams]);
+  }, [teams, selfTeam]);
 
   const changePage = (currentPage: number, nextPageSize?: number) => {
     setPageNumber(currentPage);
