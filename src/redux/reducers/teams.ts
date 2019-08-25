@@ -3,6 +3,9 @@ import {
   GET_TEAMS_FAILURE,
   GET_TEAMS_REQUEST,
   GET_TEAMS_SUCCESS,
+  GET_SELF_TEAM_REQUEST,
+  GET_SELF_TEAM_SUCCESS,
+  GET_SELF_TEAM_FAILURE,
   GET_CONTEST_ID_REQUEST,
   GET_CONTEST_ID_SUCCESS,
   GET_CONTEST_ID_FAILURE,
@@ -35,6 +38,26 @@ export default function teams(
         items: [...state.items, ...newTeams]
       };
     case GET_TEAMS_FAILURE:
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload
+      };
+
+    case GET_SELF_TEAM_REQUEST:
+      return {
+        ...state,
+        fetching: true,
+        error: null
+      };
+    case GET_SELF_TEAM_SUCCESS:
+      const team = action.payload;
+      return {
+        ...state,
+        fetching: false,
+        selfTeam: team
+      };
+    case GET_SELF_TEAM_FAILURE:
       return {
         ...state,
         fetching: false,

@@ -4,15 +4,27 @@ import { ITeam } from "../redux/types/state";
 export const getTeams = async (
   self: boolean,
   contestId: number,
-  token: string
+  token: string,
+  begin?: number,
+  end?: number
 ) => {
-  const response = await axios.get(
-    `/v1/teams?self=${self}&contestId=${contestId}`,
-    {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-  );
-  return response.data as ITeam[];
+  if (!begin && !end) {
+    const response = await axios.get(
+      `/v1/teams?self=${self}&contestId=${contestId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    return response.data as ITeam[];
+  } else {
+    const response = await axios.get(
+      `/v1/teams?self=${self}&contestId=${contestId}&begin=${begin}&end=${end}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    return response.data as ITeam[];
+  }
 };
 
 export const createTeam = async (

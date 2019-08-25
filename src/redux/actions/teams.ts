@@ -4,12 +4,16 @@ import {
   IGetTeamsAction,
   ISortTeamsAction,
   IGetContestIdAction,
-  IThunkResult
+  IThunkResult,
+  IGetSelfTeamAction
 } from "../types/actions";
 import {
   GET_TEAMS_FAILURE,
   GET_TEAMS_REQUEST,
   GET_TEAMS_SUCCESS,
+  GET_SELF_TEAM_REQUEST,
+  GET_SELF_TEAM_SUCCESS,
+  GET_SELF_TEAM_FAILURE,
   SORT_TEAMS_REQUEST,
   SORT_TEAMS_SUCCESS,
   SORT_TEAMS_FAILURE,
@@ -25,10 +29,13 @@ export const getTeamsAction = createAsyncAction(
   GET_TEAMS_FAILURE
 )<undefined, ITeam[], Error>();
 
+//用于获取显示用的队伍列表，原来判断自己的队伍新加了selfTeam
 export function getTeams(
   self: boolean,
   type: string,
-  year: number
+  year: number,
+  begin?: number,
+  end?: number
 ): IThunkResult<IGetTeamsAction> {
   return async (dispatch, getState) => {
     dispatch(getTeamsAction.request());
@@ -38,11 +45,18 @@ export function getTeams(
       if (!getState().teams.contestId) {
         await dispatch(getContestId(type, year));
       }
-      const teams = await api.getTeams(
-        self,
-        getState().teams.contestId!,
-        token
-      );
+      let teams: ITeam[] = [];
+      if (begin && end) {
+        teams = await api.getTeams(
+          self,
+          getState().teams.contestId!,
+          token,
+          begin,
+          end
+        );
+      } else {
+        teams = await api.getTeams(self, getState().teams.contestId!, token);
+      }
 
       for (const team of teams) {
         const leaderUsername = await api.getUsername(team.leader, token);
@@ -65,6 +79,45 @@ export function getTeams(
   };
 }
 
+export const getSelfTeamAction = createAsyncAction(
+  GET_SELF_TEAM_REQUEST,
+  GET_SELF_TEAM_SUCCESS,
+  GET_SELF_TEAM_FAILURE
+)<undefined, ITeam, Error>();
+
+export function getSelfTeam(
+  type: string,
+  year: number
+): IThunkResult<IGetSelfTeamAction> {
+  return async (dispatch, getState) => {
+    dispatch(getSelfTeamAction.request());
+
+    try {
+      const token = getState().auth.token || "";
+      if (!getState().teams.contestId) {
+        await dispatch(getContestId(type, year));
+      }
+      const team = await api.getTeams(true, getState().teams.contestId!, token);
+
+      const leaderUsername = await api.getUsername(team[0].leader, token);
+      team[0].leaderUsername = leaderUsername;
+      team[0].membersUsername = [];
+      for (const id of team[0].members) {
+        if (id === team[0].leader) {
+          team[0].membersUsername!.push(leaderUsername);
+        } else {
+          const username = await api.getUsername(id, token);
+          team[0].membersUsername!.push(username);
+        }
+      }
+
+      dispatch(getSelfTeamAction.success(team[0]));
+    } catch (e) {
+      dispatch(getSelfTeamAction.failure(e));
+    }
+  };
+}
+
 export const sortTeamsAction = createAsyncAction(
   SORT_TEAMS_REQUEST,
   SORT_TEAMS_SUCCESS,
@@ -72,7 +125,7 @@ export const sortTeamsAction = createAsyncAction(
 )<undefined, ITeam[], Error>();
 
 export function sortTeams(rule: string): IThunkResult<ISortTeamsAction> {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     dispatch(sortTeamsAction.request());
 
     try {

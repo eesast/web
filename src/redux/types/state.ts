@@ -122,6 +122,7 @@ export interface ITeamsState {
   contestId?: number;
   error?: Error | null;
   items: ITeam[];
+  selfTeam?: ITeam;
 }
 
 export interface IAppState {
