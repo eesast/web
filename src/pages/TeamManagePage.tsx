@@ -12,7 +12,8 @@ import {
   Icon,
   Button,
   Checkbox,
-  Modal
+  Modal,
+  Result
 } from "antd";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import api from "../api";
@@ -55,11 +56,18 @@ const TeamManagePage: React.FC<
   if (!selfTeam) {
     return (
       <div className={styles.root}>
-        <Button type="primary">
-          <Link replace to="/thuedc/teams/join">
-            加入队伍
-          </Link>
-        </Button>
+        <Result
+          status="warning"
+          icon={<Icon type="frown" theme="twoTone" />}
+          title="您还没有加入任何队伍"
+          extra={
+            <Button type="primary">
+              <Link replace to="/thuedc/teams/join">
+                加入队伍
+              </Link>
+            </Button>
+          }
+        />
       </div>
     );
   } else {
