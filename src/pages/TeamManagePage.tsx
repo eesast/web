@@ -197,6 +197,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       async onOk() {
         try {
           await api.deleteTeam(id, token);
+          getTeams(true, "电设", 2019);
           Modal.success({
             title: "队伍已解散",
             content: "请重新加入队伍"
@@ -208,6 +209,32 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
             message.error("您没有权限进行该操作");
           } else {
             message.error("删除队伍失败");
+          }
+        }
+      },
+      onCancel() {}
+    });
+  };
+
+  const handleQuit = () => {
+    Modal.confirm({
+      title: "您确认要退出队伍吗？",
+      content: "不在任何队伍中代表您放弃了本次比赛",
+      async onOk() {
+        try {
+          await api.quitTeam(id, props.user.id, token);
+          getTeams(true, "电设", 2019);
+          Modal.success({
+            title: "您已退出队伍",
+            content: "请重新加入队伍"
+          });
+          props.history.push({ pathname: "/thuedc" });
+          props.history.replace({ pathname: "/thuedc/teams/join" });
+        } catch (error) {
+          if (error.response.data === "401 Unauthorized: Permission denied") {
+            message.error("您没有权限进行该操作");
+          } else {
+            message.error("退出队伍失败");
           }
         }
       },
@@ -269,10 +296,9 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
         <Button
           type="danger"
           style={{ marginLeft: 8 }}
-          disabled={!isLeader}
-          onClick={handleDelete}
+          onClick={isLeader ? handleDelete : handleQuit}
         >
-          解散队伍
+          {isLeader ? "解散队伍" : "退出队伍"}
         </Button>
       </Form.Item>
     </Form>

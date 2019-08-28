@@ -7,6 +7,7 @@ import {
   createTeam,
   updateTeam,
   deleteTeam,
+  quitTeam,
   getContestId
 } from "./teams";
 
@@ -26,6 +27,7 @@ export default {
   createTeam,
   updateTeam,
   deleteTeam,
+  quitTeam,
   getContestId,
   getTimelineFeeds
 };
