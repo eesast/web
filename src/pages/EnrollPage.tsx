@@ -24,7 +24,7 @@ interface IEnrollPageStateProps {
   contestId?: number;
   error?: Error | null;
   teams: ITeam[];
-  selfTeam?: ITeam;
+  selfTeam: ITeam;
 }
 
 interface IEnrollPageDispatchProps {
@@ -42,7 +42,8 @@ const EnrollPage: React.FC<
 
   useEffect(() => {
     getSelfTeam("电设", 2019);
-  }, [getSelfTeam]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -50,7 +51,7 @@ const EnrollPage: React.FC<
     }
   }, [error]);
 
-  if (!selfTeam) {
+  if (selfTeam.id === 0) {
     return (
       <div className={styles.root}>
         <Card className={styles.card}>

@@ -9,7 +9,8 @@ import {
   Col,
   Collapse,
   Popover,
-  Pagination
+  Pagination,
+  Empty
 } from "antd";
 import React, { useEffect, useState, useMemo } from "react";
 import { connect } from "react-redux";
@@ -23,6 +24,7 @@ import {
   sortTeams,
   getContestId
 } from "../redux/actions/teams";
+import styles from "./TeamJoinPage.module.css";
 
 import { FormComponentProps } from "antd/lib/form";
 
@@ -33,7 +35,7 @@ interface ITeamJoinPageStateProps {
   contestId?: number;
   user: IUser;
   teams: ITeam[];
-  selfTeam?: ITeam;
+  selfTeam: ITeam;
   error?: Error | null;
 }
 
@@ -66,11 +68,12 @@ const TeamJoinPage: React.FC<
 
   useEffect(() => {
     getSelfTeam("电设", 2019);
-  }, [getSelfTeam]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  //初始化
   useEffect(() => {
     //message.info("try format");
+    message.info(`pageNumber${pageNumber} pageSize${pageSize}`);
     getTeams(
       false,
       "电设",
@@ -78,10 +81,8 @@ const TeamJoinPage: React.FC<
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
-    if (teams.length < pageSize) {
-      setTotalTeams((pageNumber - 1) * pageSize + teams.length);
-    }
-  }, [pageNumber, pageSize, teams, getTeams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber, pageSize]);
 
   useEffect(() => {
     if (error) {
@@ -108,13 +109,17 @@ const TeamJoinPage: React.FC<
           <Row type="flex" justify="center">
             <Col span={8}>
               <Popover
-                content={selfTeam ? "您已加入队伍" : "点击按钮现在加入队伍"}
+                content={
+                  selfTeam.id !== 0 ? "您已加入队伍" : "点击按钮现在加入队伍"
+                }
               >
                 <Button
                   type="primary"
-                  disabled={selfTeam && selfTeam.id !== item.id ? true : false}
+                  disabled={
+                    selfTeam.id !== 0 && selfTeam.id !== item.id ? true : false
+                  }
                   onClick={() => {
-                    if (!selfTeam) {
+                    if (selfTeam.id === 0) {
                       setTeamId(item.id);
                       showModal();
                     } else {
@@ -130,6 +135,7 @@ const TeamJoinPage: React.FC<
         </Panel>
       );
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teams, selfTeam]);
 
   const changePage = (currentPage: number, nextPageSize?: number) => {
@@ -138,6 +144,11 @@ const TeamJoinPage: React.FC<
     if (teams.length < pageSize) {
       setTotalTeams((pageNumber - 1) * pageSize + teams.length);
     }
+  };
+
+  const changePageSize = (current: number, nextPageSize: number) => {
+    setPageSize(nextPageSize);
+    setPageNumber(current);
   };
 
   const showModal = () => {
@@ -153,8 +164,16 @@ const TeamJoinPage: React.FC<
   };
 
   return (
-    <div>
-      <Collapse accordion>{formedShowTeams}</Collapse>
+    <div className={styles.root}>
+      <div className={styles.list}>
+        {formedShowTeams.length === 0 ? (
+          <Empty />
+        ) : (
+          <Collapse accordion expandIconPosition="right">
+            {formedShowTeams}
+          </Collapse>
+        )}
+      </div>
       <WrappedTeamJoinForm
         teamId={teamId}
         id={user.id}
@@ -163,17 +182,22 @@ const TeamJoinPage: React.FC<
         onCancel={handleCancel}
         onJoin={handleJoin}
       />
-      {/*分页*/}
-      {/* 暂未实现显示数量改变的功能 */}
-      <Pagination
-        total={totalTeams}
-        current={pageNumber}
-        //defaultPageSize={10}
-        pageSize={pageSize}
-        //showSizeChanger
-        onChange={changePage}
-        //onShowSizeChange={changePageSize}
-      />
+      <div>
+        {/*分页*/}
+        {/* 暂未实现显示数量改变的功能 */}
+        <Row type="flex" justify="center">
+          <Pagination
+            total={totalTeams}
+            current={pageNumber}
+            //defaultPageSize={10}
+            pageSize={pageSize}
+            showSizeChanger
+            onChange={changePage}
+            onShowSizeChange={changePageSize}
+            pageSizeOptions={["5", "10", "20"]}
+          />
+        </Row>
+      </div>
     </div>
   );
 };
@@ -232,7 +256,7 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
           await api.addTeamMember(teamId, id, values.inviteCode, token);
           onCancel();
           Modal.success({ title: "队伍加入成功" });
-          getTeams(false, "电设", 2019);
+          //getTeams(false, "电设", 2019);
         } catch (error) {
           if (error.response.data === "403 Forbidden: Incorrect invite code") {
             message.error("您填写的邀请码有误");

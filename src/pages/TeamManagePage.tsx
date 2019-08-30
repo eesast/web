@@ -21,7 +21,7 @@ import styles from "./TeamManagePage.module.css";
 
 interface ITeamManagePageStateProps {
   teams: ITeam[];
-  selfTeam?: ITeam;
+  selfTeam: ITeam;
   user: IUser;
   token?: string;
   contestId?: number;
@@ -53,7 +53,7 @@ const TeamManagePage: React.FC<
     }
   }, [error]);
 
-  if (!selfTeam) {
+  if (selfTeam.id === 0) {
     return (
       <div className={styles.root}>
         <Result
@@ -130,7 +130,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
     leaderUsername,
     members = [],
     membersUsername = []
-  } = props.selfTeam!;
+  } = props.selfTeam;
 
   const isLeader = props.user.id === leader;
 

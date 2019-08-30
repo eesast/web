@@ -18,7 +18,15 @@ import { ITeamsState } from "../types/state";
 export default function teams(
   state: ITeamsState = {
     fetching: false,
-    items: []
+    items: [],
+    selfTeam: {
+      id: 0,
+      contestId: 0,
+      name: "test",
+      description: "",
+      leader: 0,
+      members: [0]
+    }
   },
   action: ITeamsAction
 ): ITeamsState {
@@ -35,7 +43,8 @@ export default function teams(
       return {
         ...state,
         fetching: false,
-        items: [...state.items, ...newTeams]
+        // items: [...state.items, ...newTeams]
+        items: [...newTeams]
       };
     case GET_TEAMS_FAILURE:
       return {

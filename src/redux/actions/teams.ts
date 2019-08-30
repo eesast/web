@@ -46,7 +46,7 @@ export function getTeams(
         await dispatch(getContestId(type, year));
       }
       let teams: ITeam[] = [];
-      if (begin && end) {
+      if (begin === 0 || (begin && end!)) {
         teams = await api.getTeams(
           self,
           getState().teams.contestId!,
@@ -99,6 +99,7 @@ export function getSelfTeam(
       }
       const team = await api.getTeams(true, getState().teams.contestId!, token);
 
+      //if (team.length) {
       const leaderUsername = await api.getUsername(team[0].leader, token);
       team[0].leaderUsername = leaderUsername;
       team[0].membersUsername = [];
@@ -112,6 +113,17 @@ export function getSelfTeam(
       }
 
       dispatch(getSelfTeamAction.success(team[0]));
+      // } else {
+      //   const noSelfTeam: ITeam = {
+      //     id: 0,
+      //     contestId: 0,
+      //     name: "noTeam",
+      //     description: "noTeam",
+      //     leader: 0,
+      //     members: [0]
+      //   };
+      //   dispatch(getSelfTeamAction.success(noSelfTeam));
+      // }
     } catch (e) {
       dispatch(getSelfTeamAction.failure(e));
     }
