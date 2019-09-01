@@ -6,6 +6,10 @@ export interface IAnnouncement {
   title: string;
   content: string;
   priority: number;
+  createdAt?: string;
+  createdBy?: number;
+  updatedAt?: string;
+  updatedBy?: number;
 }
 
 export const getAnnouncements = async (

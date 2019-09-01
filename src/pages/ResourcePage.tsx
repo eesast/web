@@ -1,10 +1,13 @@
-import { message, List, Button } from "antd";
+import { message, List, Button, Collapse, Empty } from "antd";
 import React, { useState, useEffect } from "react";
+import moment from "moment";
+import styles from "./ResourcePage.module.css";
 import { IAnnouncement, getAnnouncements } from "../api/announcements";
 import { getContestId } from "../redux/actions/teams";
 import { connect } from "react-redux";
 import { IAppState } from "../redux/types/state";
-import { stat } from "fs";
+
+const { Panel } = Collapse;
 
 interface IResourcePageStateProps {
   contestId?: number;
@@ -18,7 +21,7 @@ interface IResourcePageDispatchProps {
 type IResourcePageProps = IResourcePageStateProps & IResourcePageDispatchProps;
 
 const ResourcePage: React.FC<IResourcePageProps> = props => {
-  const { contestId, error } = props;
+  const { contestId, error, getContestId } = props;
 
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -30,12 +33,19 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (!contestId) {
+      getContestId("电设", 2019);
+    }
+  }, [contestId, getContestId]);
+
   const getMoreAnnouncements = async () => {
     setLoading(true);
+
     let newAnnouncements: IAnnouncement[] = [];
     try {
       if (!contestId) {
-        props.getContestId("电设", 2019);
+        getContestId("电设", 2019);
       }
       newAnnouncements = await getAnnouncements(
         page * 5,
@@ -58,21 +68,41 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
   };
 
   useEffect(() => {
-    getMoreAnnouncements();
-    // eslint-disable-next-line
-  }, []);
+    if (contestId) {
+      getMoreAnnouncements();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contestId]);
 
   return (
-    <div>
+    <div className={styles.root}>
       <List
         loading={loading}
         itemLayout="horizontal"
-        loadMore={true}
+        locale={{
+          emptyText: (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={"暂无公告"}
+            />
+          )
+        }}
+        split={false}
         dataSource={announcements}
+        className={styles.list}
         renderItem={(item: IAnnouncement) => (
           <List.Item>
-            <List.Item.Meta title={item.title} />
-            <div>{item.content}</div>
+            <Collapse className={styles.collapse}>
+              <Panel
+                header={(item.priority > 1 ? "【重要】" : "") + item.title}
+                key="1"
+                extra={`发布时间：${moment(item.createdAt).format(
+                  "YYYY-MM-DD HH:mm:ss"
+                )}`}
+              >
+                <div>{item.content}</div>
+              </Panel>
+            </Collapse>
           </List.Item>
         )}
       />
