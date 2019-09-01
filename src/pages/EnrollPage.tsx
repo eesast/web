@@ -44,13 +44,20 @@ const EnrollPage: React.FC<
     fetching,
     contestId,
     teams,
-    getTeams
+    getTeams,
+    getContestId
   } = props;
 
   useEffect(() => {
     getTeams(true, "电设", 2019);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!contestId) {
+      getContestId("电设", 2019);
+    }
+  }, [contestId, getContestId]);
 
   useEffect(() => {
     if (error) {
@@ -147,7 +154,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({
       if (!err && values.name && values.description) {
         try {
           if (!contestId) {
-            props.getContestId("电设", 2019);
+            getContestId("电设", 2019);
           }
 
           const inviteCode = await api.createTeam(
