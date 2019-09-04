@@ -18,7 +18,11 @@ const AuthRoute: React.FC<IAuthRouteProps & RouteProps> = ({
   <Route
     {...rest}
     render={props =>
-      rest.loggedIn ? <Component {...props} /> : <Redirect to="/login" />
+      rest.loggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" push={true} />
+      )
     }
   />
 );

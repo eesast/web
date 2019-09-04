@@ -102,7 +102,11 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
         <Switch location={location}>
           <Route exact={selected} path={`${match.path}`} render={homeRoute} />
           <Route exact path={`${match.path}/intro`} component={IntroPage} />
-          <Route exact path={`${match.path}/enroll`} component={EnrollPage} />
+          <AuthRoute
+            location={location}
+            path={`${match.path}/enroll`}
+            component={EnrollPage}
+          />
           <AuthRoute
             location={location}
             path={`${match.path}/teams/manage`}
