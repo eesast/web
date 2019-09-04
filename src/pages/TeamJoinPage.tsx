@@ -1,32 +1,24 @@
 import {
   Button,
-  Descriptions,
   Form,
   Input,
   message,
   Modal,
-  Row,
-  Col,
-  Collapse,
   Popover,
-  Pagination,
-  Empty
+  Table,
+  Descriptions
 } from "antd";
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import api from "../api";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { IAppState, ITeam, IUser } from "../redux/types/state";
-import {
-  getTeams,
-  getSelfTeam,
-  sortTeams,
-  getContestId
-} from "../redux/actions/teams";
+import { getTeams, getSelfTeam, getContestId } from "../redux/actions/teams";
 import styles from "./TeamJoinPage.module.css";
 
 import { FormComponentProps } from "antd/lib/form";
+import { PaginationConfig, SortOrder } from "antd/lib/table";
 
 interface ITeamJoinPageStateProps {
   loggedIn: boolean;
@@ -48,7 +40,6 @@ interface ITeamJoinPageDispatchProps {
     end?: number
   ) => void;
   getSelfTeam: (type: string, year: number) => void;
-  sortTeams: (rule: string) => void;
   getContestId: (type: string, year: number) => void;
 }
 
@@ -57,14 +48,24 @@ type ITeamJoinPageProps = ITeamJoinPageStateProps & ITeamJoinPageDispatchProps;
 const TeamJoinPage: React.FC<
   WithRouterComponent<{}, ITeamJoinPageProps>
 > = props => {
-  const { token, user, teams, selfTeam, getTeams, getSelfTeam, error } = props;
+  const {
+    token,
 
-  const { Panel } = Collapse;
+    user,
+    teams,
+    selfTeam,
+    getTeams,
+    getSelfTeam,
+    error,
+    fetching
+  } = props;
+
   const [visible, setVisible] = useState(false);
   const [teamId, setTeamId] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalTeams, setTotalTeams] = useState(50);
+  const [activeRow, setActiveRow] = useState("");
 
   useEffect(() => {
     getSelfTeam("电设", 2019);
@@ -72,15 +73,17 @@ const TeamJoinPage: React.FC<
   }, []);
 
   useEffect(() => {
-    //message.info("try format");
-    message.info(`pageNumber${pageNumber} pageSize${pageSize}`);
-    getTeams(
-      false,
-      "电设",
-      2019,
-      (pageNumber - 1) * pageSize,
-      pageNumber * pageSize
-    );
+    const fetchData = async () => {
+      await getTeams(
+        false,
+        "电设",
+        2019,
+        (pageNumber - 1) * pageSize,
+        pageNumber * pageSize
+      );
+    };
+
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, pageSize]);
 
@@ -89,54 +92,6 @@ const TeamJoinPage: React.FC<
       message.error("队伍信息加载失败");
     }
   }, [error]);
-
-  const formedShowTeams = useMemo(() => {
-    return teams.map(item => {
-      return (
-        <Panel header={item.name} key={item.id}>
-          <Descriptions title="队伍信息" column={3}>
-            <Descriptions.Item label="队名">{item.name}</Descriptions.Item>
-            <Descriptions.Item label="队长">
-              {item.leaderUsername}
-            </Descriptions.Item>
-            <Descriptions.Item label="队员">
-              {item.membersUsername!.join(", ")}
-            </Descriptions.Item>
-            <Descriptions.Item label="队伍简介">
-              {item.description}
-            </Descriptions.Item>
-          </Descriptions>
-          <Row type="flex" justify="center">
-            <Col span={8}>
-              <Popover
-                content={
-                  selfTeam.id !== 0 ? "您已加入队伍" : "点击按钮现在加入队伍"
-                }
-              >
-                <Button
-                  type="primary"
-                  disabled={
-                    selfTeam.id !== 0 && selfTeam.id !== item.id ? true : false
-                  }
-                  onClick={() => {
-                    if (selfTeam.id === 0) {
-                      setTeamId(item.id);
-                      showModal();
-                    } else {
-                      // 考虑重定向至管理页面
-                    }
-                  }}
-                >
-                  加入队伍
-                </Button>
-              </Popover>
-            </Col>
-          </Row>
-        </Panel>
-      );
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teams, selfTeam]);
 
   const changePage = (currentPage: number, nextPageSize?: number) => {
     setPageNumber(currentPage);
@@ -163,17 +118,114 @@ const TeamJoinPage: React.FC<
     setVisible(false);
   };
 
+  // const handleChange = (pagination: PaginationConfig) => {
+  // 这是table本身用于处理分页、筛选时的回调
+  // 由于分页已经单独拿出来实现，此函数暂时无用
+  // 以后添加新功能可能会用上，暂且留为注释
+  // };
+
+  const handleClick = (record: ITeam) => {
+    if (activeRow === String(record.id)) setActiveRow("");
+    else setActiveRow(String(record.id));
+  };
+
+  const sortDir: SortOrder[] = ["descend", "ascend"];
+
+  const columns = [
+    {
+      title: "队伍名称",
+      dataIndex: "name",
+      key: "name",
+      width: "30%",
+      sorter: (a: ITeam, b: ITeam) => {
+        let nameA = a.name,
+          nameB = b.name;
+        if (nameA < nameB) return -1;
+        else if (nameA > nameB) return 1;
+        else return 0;
+      },
+      sortDirections: sortDir
+    },
+    {
+      title: "队长",
+      dataIndex: "leaderUsername",
+      key: "leaderUsername",
+      width: "30%"
+    },
+    {
+      title: "队伍成员",
+      dataIndex: "membersUsername",
+      key: "membersUsername"
+    }
+  ];
+
+  const pagination: PaginationConfig = {
+    total:
+      teams.length < pageSize
+        ? (pageNumber - 1) * pageSize + teams.length
+        : totalTeams,
+    current: pageNumber,
+    pageSize: pageSize,
+    showSizeChanger: true,
+    onChange: changePage,
+    onShowSizeChange: changePageSize,
+    pageSizeOptions: ["5", "10", "20"]
+  };
+
   return (
     <div className={styles.root}>
-      <div className={styles.list}>
-        {formedShowTeams.length === 0 ? (
-          <Empty />
-        ) : (
-          <Collapse accordion expandIconPosition="right">
-            {formedShowTeams}
-          </Collapse>
+      <Table
+        className={styles.list}
+        columns={columns}
+        dataSource={teams}
+        loading={fetching}
+        pagination={pagination}
+        rowKey={(record: ITeam) => String(record.id)}
+        expandedRowKeys={[activeRow]}
+        //onChange={handleChange}
+        expandRowByClick
+        onRowClick={handleClick}
+        expandedRowRender={(record: ITeam) => (
+          <div>
+            <Descriptions>
+              <Descriptions.Item label="队伍简介">
+                {record.description}
+              </Descriptions.Item>
+            </Descriptions>
+
+            <Popover
+              content={
+                selfTeam.id !== 0 ? (
+                  <div>
+                    您已加入队伍
+                    <br />
+                    <Link replace to="/thuedc/teams/manage">
+                      转到所属队伍
+                    </Link>
+                  </div>
+                ) : (
+                  "点击按钮现在加入队伍"
+                )
+              }
+            >
+              <Button
+                type="primary"
+                disabled={
+                  selfTeam.id !== 0 && selfTeam.id !== record.id ? true : false
+                }
+                onClick={() => {
+                  if (selfTeam.id === 0) {
+                    setTeamId(record.id);
+                    showModal();
+                  }
+                }}
+              >
+                加入队伍
+              </Button>
+            </Popover>
+          </div>
         )}
-      </div>
+      />
       <WrappedTeamJoinForm
         teamId={teamId}
         id={user.id}
@@ -182,22 +234,6 @@ const TeamJoinPage: React.FC<
         onCancel={handleCancel}
         onJoin={handleJoin}
       />
-      <div>
-        {/*分页*/}
-        {/* 暂未实现显示数量改变的功能 */}
-        <Row type="flex" justify="center">
-          <Pagination
-            total={totalTeams}
-            current={pageNumber}
-            //defaultPageSize={10}
-            pageSize={pageSize}
-            showSizeChanger
-            onChange={changePage}
-            onShowSizeChange={changePageSize}
-            pageSizeOptions={["5", "10", "20"]}
-          />
-        </Row>
-      </div>
     </div>
   );
 };
@@ -218,7 +254,6 @@ function mapStateToProps(state: IAppState): ITeamJoinPageStateProps {
 const mapDispatchToProps: ITeamJoinPageDispatchProps = {
   getTeams,
   getSelfTeam,
-  sortTeams,
   getContestId
 };
 
@@ -256,7 +291,6 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
           await api.addTeamMember(teamId, id, values.inviteCode, token);
           onCancel();
           Modal.success({ title: "队伍加入成功" });
-          //getTeams(false, "电设", 2019);
         } catch (error) {
           if (error.response.data === "403 Forbidden: Incorrect invite code") {
             message.error("您填写的邀请码有误");

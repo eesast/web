@@ -46,6 +46,12 @@ const EnrollPage: React.FC<
   }, []);
 
   useEffect(() => {
+    if (!contestId) {
+      getContestId("电设", 2019);
+    }
+  }, [contestId]);
+
+  useEffect(() => {
     if (error) {
       message.error("队伍信息加载失败");
     }
@@ -135,7 +141,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({
       if (!err && values.name && values.description) {
         try {
           if (!contestId) {
-            props.getContestId("电设", 2019);
+            getContestId("电设", 2019);
           }
 
           const inviteCode = await api.createTeam(

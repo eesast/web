@@ -7,7 +7,6 @@ import { getTimelineFeedsAction } from "../actions/timelines";
 import {
   getTeamsAction,
   getSelfTeamAction,
-  sortTeamsAction,
   getContestIdAction
 } from "../actions/teams";
 import { IAppState } from "./state";
@@ -36,14 +35,11 @@ export type IGetTeamsAction = ActionType<typeof getTeamsAction>;
 
 export type IGetSelfTeamAction = ActionType<typeof getSelfTeamAction>;
 
-export type ISortTeamsAction = ActionType<typeof sortTeamsAction>;
-
 export type IGetContestIdAction = ActionType<typeof getContestIdAction>;
 
 export type ITeamsAction =
   | IGetTeamsAction
   | IGetSelfTeamAction
-  | ISortTeamsAction
   | IGetContestIdAction;
 
 export type IAppAction =
