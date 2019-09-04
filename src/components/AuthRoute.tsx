@@ -4,7 +4,7 @@ import { Route, Redirect, RouteProps } from "react-router-dom";
 import { IAppState } from "../redux/types/state";
 
 export interface IAuthRouteStateProps {
-  loggedIn: boolean;
+  loggedIn?: boolean;
 }
 
 export interface IAuthRouteProps extends IAuthRouteStateProps {
