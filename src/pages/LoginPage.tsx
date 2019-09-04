@@ -32,7 +32,11 @@ const LoginPage: React.FC<WithRouterComponent<{}, ILoginPageProps>> = props => {
   useEffect(() => {
     if (loggedIn) {
       message.success("登录成功");
-      history.goBack();
+      if (history.length === 1) {
+        history.replace("/profile");
+      } else {
+        history.goBack();
+      }
     }
     // eslint-disable-next-line
   }, [loggedIn]);
