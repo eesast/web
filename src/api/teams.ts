@@ -61,6 +61,22 @@ export const deleteTeam = async (id: number, token: string) => {
   });
 };
 
+export const addTeamMember = async (
+  teamId: number,
+  id: number,
+  inviteCode: string,
+  token: string
+) => {
+  await axios.post(
+    `/v1/teams/${teamId}/members`,
+    {
+      id,
+      inviteCode
+    },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+};
+
 export const getContestId = async (type: string, year: number) => {
   const response = await axios.get(`/v1/contests?type=${type}&year=${year}`);
   return response.data[0].id as number;
