@@ -10,26 +10,27 @@ import {
 } from "antd";
 import React, { useEffect } from "react";
 import { IAppState, ITeam } from "../redux/types/state";
-import { getTeams, getContestId } from "../redux/actions/teams";
+import { getTeams, getContestId, getSelfTeam } from "../redux/actions/teams";
 import { connect } from "react-redux";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { FormComponentProps } from "antd/lib/form";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import api from "../api";
 import styles from "./EnrollPage.module.css";
 
 interface IEnrollPageStateProps {
-  loggedIn: boolean;
   token?: string;
   fetching: boolean;
   contestId?: number;
   error?: Error | null;
   teams: ITeam[];
+  selfTeam: ITeam;
 }
 
 interface IEnrollPageDispatchProps {
   getTeams: (self: boolean, type: string, year: number) => void;
   getContestId: (type: string, year: number) => void;
+  getSelfTeam: (type: string, year: number) => void;
 }
 
 type IEnrollPageProps = IEnrollPageStateProps & IEnrollPageDispatchProps;
@@ -37,19 +38,10 @@ type IEnrollPageProps = IEnrollPageStateProps & IEnrollPageDispatchProps;
 const EnrollPage: React.FC<
   WithRouterComponent<{}, IEnrollPageProps>
 > = props => {
-  const {
-    loggedIn,
-    token,
-    error,
-    fetching,
-    contestId,
-    teams,
-    getTeams,
-    getContestId
-  } = props;
+  const { token, error, fetching, contestId, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
-    getTeams(true, "电设", 2019);
+    getSelfTeam("电设", 2019);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,7 +49,7 @@ const EnrollPage: React.FC<
     if (!contestId) {
       getContestId("电设", 2019);
     }
-  }, [contestId, getContestId]);
+  }, [contestId]);
 
   useEffect(() => {
     if (error) {
@@ -65,66 +57,61 @@ const EnrollPage: React.FC<
     }
   }, [error]);
 
-  if (loggedIn) {
-    if (!teams.length) {
-      return (
-        <div className={styles.root}>
-          <Card className={styles.card}>
-            <WrappedEnrollForm
-              token={token || ""}
-              contestId={contestId}
-              props={props}
-            />
-          </Card>
-        </div>
-      );
-    } else {
-      const {
-        name,
-        description,
-        inviteCode,
-        leaderUsername,
-        membersUsername = []
-      } = teams[0];
-
-      return (
-        <div className={styles.root}>
-          <Card className={styles.card} loading={fetching}>
-            <Descriptions title="队伍信息" column={4}>
-              <Descriptions.Item label="队名">{name}</Descriptions.Item>
-              <Descriptions.Item label="邀请码">{inviteCode}</Descriptions.Item>
-              <Descriptions.Item label="队长">
-                {leaderUsername}
-              </Descriptions.Item>
-              <Descriptions.Item label="队员">
-                {membersUsername!.join(", ")}
-              </Descriptions.Item>
-              <Descriptions.Item label="队伍简介">
-                {description}
-              </Descriptions.Item>
-            </Descriptions>
-          </Card>
-        </div>
-      );
-    }
+  if (selfTeam.id === 0) {
+    return (
+      <div className={styles.root}>
+        <Card className={styles.card}>
+          <WrappedEnrollForm
+            token={token || ""}
+            contestId={contestId}
+            props={props}
+          />
+        </Card>
+      </div>
+    );
   } else {
-    return <Redirect to={"/login"} />;
+    const {
+      name,
+      description,
+      inviteCode,
+      leaderUsername,
+      membersUsername = []
+    } = selfTeam;
+
+    return (
+      <div className={styles.root}>
+        <Card className={styles.card} loading={fetching}>
+          <Descriptions title="队伍信息" column={4}>
+            <Descriptions.Item label="队名">{name}</Descriptions.Item>
+            <Descriptions.Item label="邀请码">{inviteCode}</Descriptions.Item>
+            <Descriptions.Item label="队长">{leaderUsername}</Descriptions.Item>
+            <Descriptions.Item label="队员">
+              {membersUsername!.join(", ")}
+            </Descriptions.Item>
+            <Descriptions.Item label="队伍简介">
+              {description}
+            </Descriptions.Item>
+          </Descriptions>
+        </Card>
+      </div>
+    );
   }
 };
 
 function mapStateToProps(state: IAppState): IEnrollPageStateProps {
   return {
-    loggedIn: state.auth.loggedIn,
     token: state.auth.token,
     fetching: state.teams.fetching,
     contestId: state.teams.contestId,
     error: state.teams.error,
-    teams: state.teams.items
+    teams: state.teams.items,
+    selfTeam: state.teams.selfTeam
   };
 }
 
 const mapDispatchToProps: IEnrollPageDispatchProps = {
   getTeams,
+  getSelfTeam,
   getContestId
 };
 
