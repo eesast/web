@@ -19,6 +19,7 @@ import styles from "./TeamJoinPage.module.css";
 
 import { FormComponentProps } from "antd/lib/form";
 import { PaginationConfig, SortOrder } from "antd/lib/table";
+import { ColumnProps } from "antd/es/table";
 
 interface ITeamJoinPageStateProps {
   loggedIn: boolean;
@@ -131,19 +132,13 @@ const TeamJoinPage: React.FC<
 
   const sortDir: SortOrder[] = ["descend", "ascend"];
 
-  const columns = [
+  const columns: ColumnProps<ITeam>[] = [
     {
       title: "队伍名称",
       dataIndex: "name",
       key: "name",
       width: "30%",
-      sorter: (a: ITeam, b: ITeam) => {
-        let nameA = a.name,
-          nameB = b.name;
-        if (nameA < nameB) return -1;
-        else if (nameA > nameB) return 1;
-        else return 0;
-      },
+      sorter: (a, b) => a.name.localeCompare(b.name),
       sortDirections: sortDir
     },
     {
