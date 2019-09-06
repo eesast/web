@@ -4,7 +4,7 @@ import { Route, Redirect, RouteProps } from "react-router-dom";
 import { IAppState } from "../redux/types/state";
 
 export interface IAuthRouteStateProps {
-  loggedIn: boolean;
+  loggedIn?: boolean;
 }
 
 export interface IAuthRouteProps extends IAuthRouteStateProps {
@@ -18,7 +18,11 @@ const AuthRoute: React.FC<IAuthRouteProps & RouteProps> = ({
   <Route
     {...rest}
     render={props =>
-      rest.loggedIn ? <Component {...props} /> : <Redirect to="/login" />
+      rest.loggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" push={true} />
+      )
     }
   />
 );

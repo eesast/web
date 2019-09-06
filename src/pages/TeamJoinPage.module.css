@@ -1,0 +1,14 @@
+.root {
+  height: calc(80vh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.list {
+  padding: 24px;
+  padding-bottom: 0px;
+  width: 85%;
+  min-width: 350px;
+}

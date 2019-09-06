@@ -3,7 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import { IAppState, ITeam, IUser } from "../redux/types/state";
 import { connect } from "react-redux";
 import { FormComponentProps } from "antd/lib/form";
-import { getTeams, getContestId } from "../redux/actions/teams";
+import { getTeams, getContestId, getSelfTeam } from "../redux/actions/teams";
 import {
   message,
   Card,
@@ -21,6 +21,7 @@ import styles from "./TeamManagePage.module.css";
 
 interface ITeamManagePageStateProps {
   teams: ITeam[];
+  selfTeam: ITeam;
   user: IUser;
   token?: string;
   contestId?: number;
@@ -29,6 +30,7 @@ interface ITeamManagePageStateProps {
 
 interface ITeamManagePageDispatchProps {
   getTeams: (self: boolean, type: string, year: number) => void;
+  getSelfTeam: (type: string, year: number) => void;
   getContestId: (type: string, year: number) => void;
 }
 
@@ -38,10 +40,10 @@ type ITeamManagePageProps = ITeamManagePageDispatchProps &
 const TeamManagePage: React.FC<
   WithRouterComponent<{}, ITeamManagePageProps>
 > = props => {
-  const { teams, token, contestId, error, getTeams } = props;
+  const { token, contestId, error, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
-    getTeams(true, "电设", 2019);
+    getSelfTeam("电设", 2019);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,7 +53,7 @@ const TeamManagePage: React.FC<
     }
   }, [error]);
 
-  if (!teams.length) {
+  if (selfTeam.id === 0) {
     return (
       <div className={styles.root}>
         <Result
@@ -89,13 +91,15 @@ function mapStateToProps(state: IAppState): ITeamManagePageStateProps {
     token: state.auth.token,
     user: state.auth.user!,
     contestId: state.teams.contestId,
-    error: state.teams.error
+    error: state.teams.error,
+    selfTeam: state.teams.selfTeam
   };
 }
 
 const mapDispatchToProps: ITeamManagePageDispatchProps = {
   getTeams,
-  getContestId
+  getContestId,
+  getSelfTeam
 };
 
 export default withRouter(
@@ -126,7 +130,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
     leaderUsername,
     members = [],
     membersUsername = []
-  } = props.teams[0];
+  } = props.selfTeam;
 
   const isLeader = props.user.id === leader;
 
