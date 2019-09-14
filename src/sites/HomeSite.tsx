@@ -6,6 +6,7 @@ import styles from "./HomeSite.module.css";
 import logo from "../assets/logo.png";
 import { Typography } from "antd";
 import { ClickParam } from "antd/lib/menu";
+import BranchesPage from "../pages/BranchesPage";
 const { useState } = React;
 const { Header } = Layout;
 
@@ -35,6 +36,8 @@ const HomepageOptions: React.FC<IHomepageSelections> = selection => {
   switch (option) {
     case "timelines":
       return <FeedTimeline />;
+    case "branches":
+      return <BranchesPage />;
     default:
       return (
         <div className={styles.root}>
