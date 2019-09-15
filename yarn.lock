@@ -11062,10 +11062,10 @@ swagger-client@^3.9.4:
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
 
-swagger-ui-react@3.23.9:
-  version "3.23.9"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.9.tgz#c37847b36e3cdb7ef9cae39317a2c1c608cd442c"
-  integrity sha512-UxIf4NGJIJ5pAcMtMXLiFDgkWxuoXrnyGZ/3Y4eDjCidg4+t9Xh4EKYpSUFg3Q8xgGVjNMoxQlA/RUnDVJChhA==
+swagger-ui-react@3.23.10:
+  version "3.23.10"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.10.tgz#0ed9ad7c67990fcaedf7bc7735db5e2c813f5799"
+  integrity sha512-s9wPz2VnuRo2baZFG1tuKn9UW8SX4QcUtTj9D+XMcXx+P8agQEYjZt3C+JmKagpfbgKQw9lxxsCIlN6CHdL+Jw==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^2.0.2"
