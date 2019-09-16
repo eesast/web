@@ -1,7 +1,6 @@
 import { Layout, Menu, Icon } from "antd";
 import React, { useState, useCallback } from "react";
 import { Site } from "../App";
-import FeedTimeline from "../pages/FeedTimeline";
 import styles from "./HomeSite.module.css";
 import logo from "../assets/logo.png";
 import { Typography } from "antd";

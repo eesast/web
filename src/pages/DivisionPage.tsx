@@ -1,20 +1,13 @@
 import { Tabs, Icon, Typography } from "antd";
 import styles from "./DivisionPage.module.css";
-import React, { useEffect } from "react";
-import { WithRouterComponent } from "../types/WithRouterComponent";
+import React from "react";
 
 const { TabPane } = Tabs;
 
-const DivisionPage: React.FC<Partial<WithRouterComponent<{}, {}>>> = ({
-  history
-}) => {
-  useEffect(() => {
-    history!.push("/home/divisions");
-  }, [history]);
-
+const DivisionPage: React.FC = () => {
   return (
     <div className={styles.root}>
-      <Tabs tabBarStyle={{ marginTop: 100 }} tabPosition="left">
+      <Tabs tabBarStyle={{ marginTop: "30vh" }} tabPosition="left">
         <TabPane
           style={{ marginTop: 12, padding: 36 }}
           tab={
@@ -138,22 +131,25 @@ const DivisionPage: React.FC<Partial<WithRouterComponent<{}, {}>>> = ({
           key="project"
         >
           <Typography.Title level={2}>项目部</Typography.Title>
-          <p>
-            <div style={{ float: "left", width: "50%" }}>
-              <img
-                src="https://api.eesast.com/static/images/division-introduction-project-1.png"
-                alt="project-1"
-                style={{ width: "90%" }}
-              />
-            </div>
-            <div style={{ float: "right", width: "50%" }}>
-              <img
-                src="https://api.eesast.com/static/images/division-introduction-project-2.png"
-                alt="project-2"
-                style={{ height: "100%" }}
-              />
-            </div>
-          </p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}
+          >
+            <img
+              src="https://api.eesast.com/static/images/division-introduction-project-1.png"
+              alt="project-1"
+              style={{ width: "40%" }}
+            />
+            <img
+              src="https://api.eesast.com/static/images/division-introduction-project-2.png"
+              alt="project-2"
+              style={{ width: "40%" }}
+            />
+          </div>
           <p style={{ fontStyle: "italic" }}>
             项目部主要负责启航计划与挑战杯的跟进工作。我们致力于引导和帮助电子系的同学们在科研、科创方面不断前进，为同学们搭建良好的科创平台。
           </p>
@@ -175,7 +171,7 @@ const DivisionPage: React.FC<Partial<WithRouterComponent<{}, {}>>> = ({
               学培部
             </span>
           }
-          key="study"
+          key="foster"
         >
           <Typography.Title level={2}>学培部</Typography.Title>
           <p style={{ fontStyle: "italic" }}>
@@ -231,28 +227,28 @@ const DivisionPage: React.FC<Partial<WithRouterComponent<{}, {}>>> = ({
           key="publicity"
         >
           <Typography.Title level={2}>宣策部</Typography.Title>
-          <div style={{ float: "left", width: "10%" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <img
               src="https://api.eesast.com/static/images/division-introduction-conference-1.png"
               alt="conference-1"
-              style={{ width: "90%" }}
+              style={{ width: "20%", marginRight: 24 }}
             />
+            <div>
+              <p style={{ fontStyle: "italic" }}>
+                宣策部负责统筹规划科协的宣传活动以及辅助大型活动的策划准备，致力于为电子系科协搭建最宽广的宣传平台。
+              </p>
+              <p>
+                每年科协都会举办大型的比赛与活动，而我们始终是科协的第一发声口。从新生free之夜时的学生组织宣传，到学期中举行的新生知识竞赛、科创爱好者云集的科创年会、再到大家所熟知的电子设计大赛和AI挑战赛，其对内对外的外联宣传工作由我们来负责，由我们来完成。通过丰富的宣传手段，我们会用最生动有趣的形式为同学们提供全面立体的活动介绍，最大程度地激发同学们投身科创的无限热情。我们代表了科协最前沿的科创视角，最尖端的信息先驱，在宣传与策划中带给同学们最真实的全方位科技体验！
+              </p>
+              <p>
+                来到宣策部，科创的大门将为你打开。从技术层面上讲，你的宣传技能将得到全面的训练，你将可以从零开始快速掌握视频的制作与剪辑、海报的构思与设计、推送的排版与编辑等常用宣传手法；不仅如此，你还可以通过与其他部门相互学习、协同工作，从而优先获得各部门的最新科创信息；通过与系内优秀前辈老师的积极沟通交流，匹配海量科创资源，获得全部科创咨询，培养良好的学术意识，作为第一发言人向系内乃至校内展现电子系科协的综合实力。
+              </p>
+              <p>
+                如果你在宣传策划的过程中体会到了科创比赛的乐趣，我们也会协同其他部门为你提供丰富的资源与广阔的平台，你也完全可以参与到其他各部门比赛、活动的组织与技术开发当中去，从而全面提高综合技术水平。
+                电子系科协宣策部，等待你的到来。
+              </p>
+            </div>
           </div>
-          <div style={{ float: "right", width: "75%" }}>
-            <p style={{ fontStyle: "italic" }}>
-              宣策部负责统筹规划科协的宣传活动以及辅助大型活动的策划准备，致力于为电子系科协搭建最宽广的宣传平台。
-            </p>
-            <p>
-              每年科协都会举办大型的比赛与活动，而我们始终是科协的第一发声口。从新生free之夜时的学生组织宣传，到学期中举行的新生知识竞赛、科创爱好者云集的科创年会、再到大家所熟知的电子设计大赛和AI挑战赛，其对内对外的外联宣传工作由我们来负责，由我们来完成。通过丰富的宣传手段，我们会用最生动有趣的形式为同学们提供全面立体的活动介绍，最大程度地激发同学们投身科创的无限热情。我们代表了科协最前沿的科创视角，最尖端的信息先驱，在宣传与策划中带给同学们最真实的全方位科技体验！
-            </p>
-            <p>
-              来到宣策部，科创的大门将为你打开。从技术层面上讲，你的宣传技能将得到全面的训练，你将可以从零开始快速掌握视频的制作与剪辑、海报的构思与设计、推送的排版与编辑等常用宣传手法；不仅如此，你还可以通过与其他部门相互学习、协同工作，从而优先获得各部门的最新科创信息；通过与系内优秀前辈老师的积极沟通交流，匹配海量科创资源，获得全部科创咨询，培养良好的学术意识，作为第一发言人向系内乃至校内展现电子系科协的综合实力。
-            </p>
-          </div>
-          <p>
-            如果你在宣传策划的过程中体会到了科创比赛的乐趣，我们也会协同其他部门为你提供丰富的资源与广阔的平台，你也完全可以参与到其他各部门比赛、活动的组织与技术开发当中去，从而全面提高综合技术水平。
-            电子系科协宣策部，等待你的到来。
-          </p>
           <div style={{ float: "left", width: "50%" }}>
             <img
               src="https://api.eesast.com/static/images/division-introduction-conference-2.png"
