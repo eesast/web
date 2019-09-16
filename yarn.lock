@@ -1308,10 +1308,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.2.tgz#c4e63af5e8823ce9cc3f0b34f7b998c2171f0c44"
   integrity sha512-dyYO+f6ihZEtNPDcWNR1fkoTDf3zAK3lAABDze3mz6POyIercH0lEUawUFXlG8xaQZmm1yEBON/4TsYv/laDYg==
 
-"@types/node@12.7.4":
-  version "12.7.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.4.tgz#64db61e0359eb5a8d99b55e05c729f130a678b04"
-  integrity sha512-W0+n1Y+gK/8G2P/piTkBBN38Qc5Q1ZSO6B5H3QmPCUewaiXOo2GCAWZ4ElZCcNhjJuBSUSLGFUJnmlCn5+nxOQ==
+"@types/node@12.7.5":
+  version "12.7.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
+  integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -1756,10 +1756,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@3.23.1:
-  version "3.23.1"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.23.1.tgz#a251b0cdc2072a91a8c157f8b31de8ad92ce5d18"
-  integrity sha512-+PHcFqApsla7bm8h9FHVuD3CloAAl4FW1J5D7m5ghCC1GWodwQFDgLjAx4lU21TSGCxVhlv1me525dKsYXHQuw==
+antd@3.23.2:
+  version "3.23.2"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.23.2.tgz#6fcbe5b22a932913a33dce0b6b76b4a60c30a403"
+  integrity sha512-S62EvyxPV0IoFR650qtCjUy2E7nY3JkxTP1t71LER09DTTK4fJGw4wWhalNCjkIHR2hPHWGfu0MSHocov3F4dw==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -3383,10 +3383,10 @@ csstype@^2.2.0:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.6.tgz#c34f8226a94bbb10c32cc0d714afdf942291fc41"
   integrity sha512-RpFbQGUE74iyPgvr46U9t1xoQBM8T4BL8SxrN66Le2xYAPSaDJJKeztV3awugusb3g3G9iL8StmkBBXhcbbXhg==
 
-customize-cra@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/customize-cra/-/customize-cra-0.5.0.tgz#75819237dde2271a35c69b81284a28dc63a92315"
-  integrity sha512-heTp7P6prYIH3rQ1yqUEGj+TUc4Hnm50744HNLVC42CCGAWZnJMlstKiJvyxYMlUDoR6Xrq2TWm45Dp8A5n+TA==
+customize-cra@0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/customize-cra/-/customize-cra-0.7.0.tgz#0116318557d365f560d5736304644da5d6124c0a"
+  integrity sha512-ayLAG7E7Odr4ZtOlhXiJO+ufny8TAbHC1EewH2YmHjct1tKkVgwqVGoFO6Ua3z8W0Vfkw512M4XWxR4ENX3qJw==
   dependencies:
     lodash.flow "^3.5.0"
 
@@ -11062,10 +11062,10 @@ swagger-client@^3.9.4:
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
 
-swagger-ui-react@3.23.8:
-  version "3.23.8"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.8.tgz#93fd3403d044f46225f245e5be726a97dc05f7d4"
-  integrity sha512-LZSQdnefp1FmOWfIpwce9oxqyrokiZVtNo8iaQz/cnxVqB3HGvNdppeV0AO96ThutVD9NljS8M7vnDkgy28TqA==
+swagger-ui-react@3.23.10:
+  version "3.23.10"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.10.tgz#0ed9ad7c67990fcaedf7bc7735db5e2c813f5799"
+  integrity sha512-s9wPz2VnuRo2baZFG1tuKn9UW8SX4QcUtTj9D+XMcXx+P8agQEYjZt3C+JmKagpfbgKQw9lxxsCIlN6CHdL+Jw==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^2.0.2"
@@ -11411,10 +11411,10 @@ typesafe-actions@4.4.2:
   resolved "https://registry.yarnpkg.com/typesafe-actions/-/typesafe-actions-4.4.2.tgz#8f817c479d12130b5ebb442032968b2a18929e1a"
   integrity sha512-QW61P4cOX8dCNmrfpcUMjvU/MF/sFTC8/PlG9215W1gKDzZUBjRGdyYSO6ZcEUNsn491S2VpryJOHSIVSDqJrg==
 
-typescript@3.6.2:
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.2.tgz#105b0f1934119dde543ac8eb71af3a91009efe54"
-  integrity sha512-lmQ4L+J6mnu3xweP8+rOrUwzmN+MRAj7TgtJtDaXE5PMyX2kCrklhg3rvOsOIfNeAWMQWO2F1GPc1kMD2vLAfw==
+typescript@3.6.3:
+  version "3.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
+  integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
 
 ua-parser-js@^0.7.18:
   version "0.7.20"

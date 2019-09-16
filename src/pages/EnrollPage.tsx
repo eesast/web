@@ -49,7 +49,7 @@ const EnrollPage: React.FC<
     if (!contestId) {
       getContestId("电设", 2019);
     }
-  }, [contestId, getContestId]);
+  }, [contestId]);
 
   useEffect(() => {
     if (error) {

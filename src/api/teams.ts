@@ -73,6 +73,12 @@ export const deleteTeam = async (id: number, token: string) => {
   });
 };
 
+export const quitTeam = async (id: number, memberId: number, token: string) => {
+  await axios.delete(`v1/teams/${id}/members/${memberId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
+
 export const addTeamMember = async (
   teamId: number,
   id: number,

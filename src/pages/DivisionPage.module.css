@@ -1,0 +1,10 @@
+.root {
+  position: relative;
+  padding: 0px 80px;
+  background-color: white;
+}
+
+img {
+  display: block;
+  margin: 24px auto;
+}

@@ -79,6 +79,7 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
         password: input,
         action: "set"
       });
+      message.success("密码重置成功");
       history.replace("/home");
     } catch {
       message.error("网络错误");
