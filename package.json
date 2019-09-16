@@ -23,7 +23,7 @@
     "react-router-dom": "5.0.1",
     "redux": "4.0.4",
     "redux-thunk": "2.3.0",
-    "swagger-ui-react": "3.23.9",
+    "swagger-ui-react": "3.23.10",
     "typesafe-actions": "4.4.2"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@types/react-redux": "7.1.2",
     "@types/react-router-dom": "4.3.5",
     "babel-plugin-import": "1.12.1",
-    "customize-cra": "0.6.1",
+    "customize-cra": "0.7.0",
     "husky": "3.0.5",
     "less": "3.10.3",
     "less-loader": "5.0.0",

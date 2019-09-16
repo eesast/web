@@ -20,3 +20,7 @@
     transform: rotate(360deg);
   }
 }
+
+.menu {
+  width: 100%;
+}
