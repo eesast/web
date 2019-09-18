@@ -186,6 +186,10 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
             "400 Bad Request: Captain is not a member of the team"
           ) {
             message.error("队长需要在队伍中");
+          } else if (
+            error.response.data === "400 Bad Request: Contest not available"
+          ) {
+            message.error("当前不在报名时间");
           } else {
             message.error("队伍信息修改失败");
           }
