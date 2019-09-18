@@ -1,10 +1,17 @@
 import { Tabs, Icon, Typography } from "antd";
 import styles from "./DivisionPage.module.css";
 import React from "react";
+import { HomeSitePage } from "../sites/HomeSite";
 
 const { TabPane } = Tabs;
 
-const DivisionPage: React.FC = () => {
+export interface IDivisionPageProps {
+  setPage: (page: HomeSitePage) => void;
+}
+
+const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
+  setPage("divisions");
+
   return (
     <div className={styles.root}>
       <Tabs tabBarStyle={{ marginTop: "30vh" }} tabPosition="left">

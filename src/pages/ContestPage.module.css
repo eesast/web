@@ -1,0 +1,9 @@
+.leftBar {
+  width: 100vw;
+  height: calc(100vh - 64px - 64px - 50px);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tag {
+  margin: 10px 0;
+}
