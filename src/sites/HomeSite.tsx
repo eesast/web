@@ -9,6 +9,7 @@ import DivisionPage from "../pages/DivisionPage";
 import { Link, Switch, Route } from "react-router-dom";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import NotFoundSite from "./NotFoundSite";
+import ContestPage from "../pages/ContestPage";
 
 const { Header, Content } = Layout;
 
@@ -16,11 +17,10 @@ export interface IHomeSiteProps {
   setSite: (site: Site) => void;
 }
 
-type HomeSiteTab = "timelines" | "divisions" | "contests";
+export type HomeSitePage = "timelines" | "divisions" | "contests";
 
 const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
-  setSite,
-  match
+  setSite
 }) => {
   setSite("home");
 
@@ -28,16 +28,12 @@ const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
     setSite
   ]);
 
-  const [currentSelected, setCurrentSelect] = useState<HomeSiteTab>(
-    match.path === "/home"
-      ? "timelines"
-      : match.path === "/home/divisions"
-      ? "divisions"
-      : "contests"
+  const [currentSelected, setCurrentSelect] = useState<HomeSitePage>(
+    "timelines"
   );
 
   const handleMenuSelect: MenuProps["onSelect"] = e => {
-    setCurrentSelect(e.key as HomeSiteTab);
+    setCurrentSelect(e.key as HomeSitePage);
   };
 
   return (
@@ -48,7 +44,7 @@ const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
           padding: 0,
           display: "flex",
           flexDirection: "row",
-          height: 49,
+          height: 48,
           zIndex: 99
         }}
       >
@@ -71,7 +67,7 @@ const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
               部门
             </Link>
           </Menu.Item>
-          <Menu.Item key="games">
+          <Menu.Item key="contests">
             <Link to="/home/contests">
               <Icon type="team" />
               比赛
@@ -91,16 +87,15 @@ const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
               </div>
             )}
           />
-          <Route exact path="/home/divisions" component={DivisionPage} />
+          <Route
+            exact
+            path="/home/divisions"
+            render={() => <DivisionPage setPage={setCurrentSelect} />}
+          />
           <Route
             exact
             path="/home/contests"
-            render={() => (
-              <div className={styles.root}>
-                <img className={styles.logo} alt="logo" src={logo} />
-                <Typography.Title level={3}>官网建设中...</Typography.Title>
-              </div>
-            )}
+            render={() => <ContestPage setPage={setCurrentSelect} />}
           />
           <Route render={NotFoundPage} />
         </Switch>

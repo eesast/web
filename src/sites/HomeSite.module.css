@@ -1,5 +1,5 @@
 .root {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 67px - 48px);
   display: flex;
   flex-direction: column;
   justify-content: center;
