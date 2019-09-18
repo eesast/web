@@ -1,0 +1,8 @@
+.root {
+  height: calc(80vh - 64px);
+  align-items: left;
+}
+
+.paragraph {
+  font-size: larger;
+}
