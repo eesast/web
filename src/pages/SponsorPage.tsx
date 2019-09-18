@@ -23,7 +23,10 @@ const SponsorPage: React.FC<{}> = () => {
       </Paragraph>
       <Paragraph className={styles.paragraph}>
         更多商汤科技最新学术进展资讯，敬请关注商汤泰坦公开课。
-        <img src="https://www.sensetime.com/images/logo.png" />
+        <img
+          src="https://www.sensetime.com/images/logo.png"
+          alt="sensetime-logo"
+        />
       </Paragraph>
     </Typography>
   );

@@ -99,7 +99,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
           </Menu.Item>
           <Menu.Item key="sponsor">
             <Link to={`${match.url}/sponsor`} replace />
-            <Icon type="user" />
+            <Icon type="heart" />
             赞助商
           </Menu.Item>
         </Menu>
