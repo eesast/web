@@ -16,25 +16,19 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
   return (
     <Tabs
       tabBarStyle={{
-        marginTop: "30vh"
+        marginTop: 48
       }}
-      defaultActiveKey="AICC"
       tabPosition="left"
     >
-      <TabPane tab="队式程序设计大赛" key="AICC">
-        <Typography
-          style={{
-            margin: "20px 10vw"
-          }}
-        >
+      <TabPane tab="队式程序设计大赛" key="teamstyle">
+        <Typography className={styles.content}>
           <Title level={2}>队式程序设计大赛</Title>
           <Title level={3}>赛事时间</Title>
           <Paragraph>
-            队式程序设计大赛在【春季学期】举行。在激烈的赛程之前，会有电子系科协举办的培训讲座，帮助选手们快速上手，参与进紧张有趣的赛程中，感受AI的编程之美。
+            队式程序设计大赛在【春季学期】举行。在激烈的赛程之前，会有电子系科协举办的培训讲座，帮助选手们快速上手，参与进紧张有趣的赛程中，感受
+            AI 的编程之美。
           </Paragraph>
-
           <Divider />
-
           <Title level={3}>赛事简介</Title>
           <Paragraph>
             “队式程序设计大赛”是由清华大学电子系科协举办的一项经典赛事，是一个组队参加的对抗性策略程序设计比赛。比赛主题往往基于某款经典电子游戏，设计出的全新规则，邀请选手组队设计出更加完善和智能的游戏策略，并用高效的程序代码实现。比赛往往以双方AI对战的形式进行，决赛时还会使用3D界面向全场播送比赛实况，对抗性和观赏性极强，为清华大学内一年一度的程序设计盛事。
@@ -44,57 +38,51 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             <img
               alt="ts16"
               src="https://api.eesast.com/static/images/ts16.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            队式十六——深蓝 (Deep Blue)
             <br />
-            队式十六——深蓝(Deep Blue)
+            <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
               alt="ts17"
               src="https://api.eesast.com/static/images/ts17.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            队式十七——Stellar Craft
             <br />
-            队式十七——Stellar craft
+            <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
               alt="ts18"
               src="https://api.eesast.com/static/images/ts18.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            队式十八——CPClash
             <br />
-            队式十八——Cpclash
+            <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
               alt="ts19"
               src="https://api.eesast.com/static/images/ts19.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            2018 年，队式十九作为 A1 组比赛合并到 THU-AI 中
             <br />
-            2018年，队式十九作为A1组比赛合并到THU-AI中
+            <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
               alt="ts20"
               src="https://api.eesast.com/static/images/ts20.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            队式二十——THU-AI 枪林弹雨组
             <br />
-            队式二十——THU-AI枪林弹雨组
+            <br />
           </Paragraph>
         </Typography>
       </TabPane>
-      <TabPane tab="电子设计大赛" key="EDC">
-        <Typography
-          style={{
-            margin: "20px 10vw ",
-            overflowY: "auto",
-            height: "calc(100vh - 218px)"
-          }}
-        >
+      <TabPane tab="电子设计大赛" key="edc">
+        <Typography className={styles.content}>
           <Title level={2}>电子设计大赛</Title>
           <Title level={3}>赛事时间</Title>
           <Paragraph>
@@ -110,47 +98,39 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             <img
               alt="edc18"
               src="https://api.eesast.com/static/images/edc18.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
-            <br />
             第十八届电子设计大赛——天赐良机
+            <br />
+            <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
               alt="edc19"
               src="https://api.eesast.com/static/images/edc19.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
-            <br />
             第十九届电子设计大赛——绿茵荣耀
+            <br />
+            <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
               alt="edc20"
               src="https://api.eesast.com/static/images/edc20.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
-            <br />
             第二十届电子设计大赛——智圆行方
+            <br />
+            <br />
           </Paragraph>
         </Typography>
       </TabPane>
-      <TabPane tab="硬件设计大赛" key="HWDC">
-        <Typography
-          style={{
-            margin: "20px 10vw ",
-            overflowY: "auto",
-            height: "calc(100vh - 218px)"
-          }}
-        >
+      <TabPane tab="硬件设计大赛" key="hdc">
+        <Typography className={styles.content}>
           <Title level={2}>硬件设计大赛</Title>
           <Title level={3}>赛事时间</Title>
           <Paragraph>
-            硬件设计大赛在每年【暑假小学期】举办，大概持续两周时间
+            硬件设计大赛在每年【暑假小学期】举办，大概持续两周时间。
           </Paragraph>
-
           <Divider />
-
           <Title level={3}>赛事简介</Title>
           <Paragraph>
             硬件设计大赛是清华大学电子系主办的一个比赛，主要面向电子系零基础的同学，赛前有若干次培训讲座，现场发放相应的模块，带领大家从零开始接触、学习单片机的基本操作，旨在激发同学们对硬件的热情。
@@ -160,150 +140,133 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             <img
               alt="hwdc2017-1"
               src="https://api.eesast.com/static/images/hwdc2017-1.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
             <img
               alt="hwdc2017-2"
               src="https://api.eesast.com/static/images/hwdc2017-2.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            <Text disabled>2017 年硬件设计大赛作品</Text>
             <br />
-            <Text disabled> 2017年硬件设计大赛作品</Text>
+            <br />
           </Paragraph>
           <Paragraph style={{ textAlign: "center" }}>
             <img
               alt="hwdc2018-1"
-              src="https://api.eesast.com/static/images/hwdc2018-1.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
+              src="https://api.eesast.com/static/images/hwdc2018-1.gif"
             />
             <img
               alt="hwdc2018-2"
               src="https://api.eesast.com/static/images/hwdc2018-2.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            <Text disabled>2018 年硬件设计大赛作品</Text>
             <br />
-            <Text disabled>2018年硬件设计大赛作品</Text>
+            <br />
           </Paragraph>
           <Paragraph style={{ textAlign: "center" }}>
             <img
               alt="hwdc2019-1"
-              src="https://api.eesast.com/static/images/hwdc2019-1.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
+              src="https://api.eesast.com/static/images/hwdc2019-1.gif"
             />
             <img
               alt="hwdc2019-2"
-              src="https://api.eesast.com/static/images/hwdc2019-2.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
+              src="https://api.eesast.com/static/images/hwdc2019-2.gif"
             />
+            <Text disabled>2019 年硬件设计大赛作品</Text>
             <br />
-            <Text disabled>2019年硬件设计大赛作品</Text>
+            <br />
           </Paragraph>
         </Typography>
       </TabPane>
-      <TabPane tab="软件设计大赛" key="SWDC">
-        <Typography
-          style={{
-            margin: "20px 10vw ",
-            overflowY: "auto",
-            height: "calc(100vh - 218px)"
-          }}
-        >
+      <TabPane tab="软件设计大赛" key="sdc">
+        <Typography className={styles.content}>
           <Title level={2}>软件设计大赛</Title>
           <Title level={3}>赛事时间</Title>
           <Paragraph>
-            软件设计大赛要求参赛者使用当今主流的技术栈，面向某个特定需求，完成一套具备一定可用性和美观性的软件程序。对于“软件”的定义十分宽泛，游戏、网站、APP都可以作为作品提交。
+            软件设计大赛在每年【寒假前后】举办。软件设计大赛要求参赛者使用当今主流的技术栈，面向某个特定需求，完成一套具备一定可用性和美观性的软件程序。对于“软件”的定义十分宽泛，游戏、网站、APP
+            都可以作为作品提交。
           </Paragraph>
-
           <Divider />
-
           <Title level={3}>参赛要求</Title>
           <Paragraph>
             <ul>
               <li>
                 参赛者以个人为单位参加比赛。每名同学也可提交不超过 2 个作品。
               </li>
-
-              <li> 参赛选手应当是清华大学在校学生。 </li>
+              <li>参赛选手应当是清华大学在校学生。</li>
               <li>
                 参赛者应当在指定时间内以指定的方式完成队伍报名和程序提交。
               </li>
             </ul>
           </Paragraph>
+          <Divider />
           <Title level={3}>作品要求</Title>
           <ul>
-            <li>美观性 提交作品需要对UI有基本的设计，具有一定的美观性。。</li>
-            <li>功能性 提交作品需要针对某一类需求，提供一种解决方案。</li>
-            <li>原创性 提交作品应当为选手的原创作品。</li>
+            <li>美观性：提交作品需要对 UI 有基本的设计，具有一定的美观性。</li>
+            <li>功能性：提交作品需要针对某一类需求，提供一种解决方案。</li>
+            <li>原创性：提交作品应当为选手的原创作品。</li>
             <li>
-              稳定性
-              提交作品需要具有一定的稳定性，尽可能的减少异常和出错的概率。
+              稳定性：提交作品需要具有一定的稳定性，尽可能的减少异常和出错的概率。
             </li>
           </ul>
           <Title level={4}>精彩回顾</Title>
           <Paragraph disabled style={{ textAlign: "center" }}>
-            2018软件设计大赛优秀作品
+            2018 软件设计大赛优秀作品
             <br />
             <img
               alt="swdc2018-1"
-              src="https://api.eesast.com/static/images/swdc2018-1.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
+              src="https://api.eesast.com/static/images/swdc2018-1.png"
             />
+            多功能计算器 CalcPro
             <br />
-            多功能计算器CalcPro
+            <br />
             <img
               alt="swdc2018-2"
               src="https://api.eesast.com/static/images/swdc2018-2.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            简易操作系统 BASIC-OS1
             <br />
-            简易操作系统BASIC-OS1
+            <br />
             <img
               alt="swdc2018-3"
               src="https://api.eesast.com/static/images/swdc2018-3.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
+            校园网管理软件 .NetCampus
             <br />
-            校园网管理软件Net-Campus
+            <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
-            2019软件设计大赛优秀作品
+            2019 软件设计大赛优秀作品
             <br />
             <img
               alt="swdc2019-1"
-              src="https://api.eesast.com/static/images/swdc2019-1.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
+              src="https://api.eesast.com/static/images/swdc2019-1.png"
             />
+            音乐节奏游戏 TuneStory
             <br />
-            音乐节奏游戏TuneStory
+            <br />
             <img
               alt="swdc2019-2"
-              src="https://api.eesast.com/static/images/swdc2019-2.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
+              src="https://api.eesast.com/static/images/swdc2019-2.png"
             />
+            三角形滤镜 LowPoly
             <br />
-            三角形滤镜LowPoly
+            <br />
             <img
               alt="swdc2019-3"
-              src="https://api.eesast.com/static/images/swdc2019-3.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
+              src="https://api.eesast.com/static/images/swdc2019-3.png"
             />
-            <br />
             在线多功能绘图
+            <br />
+            <br />
           </Paragraph>
         </Typography>
       </TabPane>
-      <TabPane tab="挑战杯" key="CC">
-        <Typography
-          style={{
-            margin: "20px 10vw ",
-            overflowY: "auto",
-            height: "calc(100vh - 218px)"
-          }}
-        >
+      <TabPane tab="挑战杯" key="cc">
+        <Typography className={styles.content}>
           <Title level={2}>挑战杯</Title>
           <Title level={3}>赛事时间</Title>
           <Paragraph>
-            11月中旬：开始报名 次年3月：进行初审 4月：进行二审和终审
+            11 月中旬：开始报名；次年 3 月：进行初审；4 月：进行二审和终审。
           </Paragraph>
           <Divider />
           <Title level={3}>赛事简介</Title>
@@ -316,80 +279,81 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               <li>
                 选题：一个好的选题能大大提升获奖几率，鼓励大家选择创新性强、实用性佳且技术难度不过于高的项目。
               </li>
-
               <li>
                 展开研究或制作：确定题目后，应在指导老师的指导下展开调查与分析，勇于尝试并精心完成题目研究或发明制作。
               </li>
               <li>
-                送审：3月会要求选手提交作品初稿并进行系内评审，一般采取现场展示答辩的形式。通过初审的作品会送到校科协参加第二轮评审。二审和终审均安排在四月。
+                送审：3
+                月会要求选手提交作品初稿并进行系内评审，一般采取现场展示答辩的形式。通过初审的作品会送到校科协参加第二轮评审。二审和终审均安排在四月。
               </li>
               <li>
-                参加科展：学校将于4月末校庆期间将参赛作品统一布展，在全校内进行展评。其间，在电子系的展区内，选手可以通过展板、作品实物和讲解来展示自己的作品。
+                参加科展：学校将于 4
+                月末校庆期间将参赛作品统一布展，在全校内进行展评。其间，在电子系的展区内，选手可以通过展板、作品实物和讲解来展示自己的作品。
               </li>
               <li>
                 参加全国赛/申请专利等：如果你的项目足够牛，就可以代表清华大学参加全国的挑战杯；或者也可以申请专利，投入商业应用。
               </li>
             </ul>
           </Paragraph>
+          <Divider />
           <Title level={3}>往年情况</Title>
-          <Title level={4}>32届挑战杯获奖情况</Title>
+          <Title level={4}>32 届挑战杯获奖情况</Title>
           <Paragraph>
-            一等奖：
-            <br />
-            超高精度的自然手势获取与识别技术研究
+            一等奖
+            <ul>
+              <li>超高精度的自然手势获取与识别技术研究</li>
+            </ul>
           </Paragraph>
           <Paragraph>
             三等奖
-            <br />
-            知了——基于SNS的校园活动信息推送系统
-            <br />
-            基于数字图像处理的机械臂自动校准技术
-            <br />
-            基于红外光通信的智能车远距离对抗平台
-            <br />
-            搭建在树莓派上基于人脸识别的自动录播系统
-            <br />
-            基于深度学习的人脸表情处理系统
+            <ul>
+              <li>知了——基于 SNS 的校园活动信息推送系统</li>
+              <li>基于数字图像处理的机械臂自动校准技术</li>
+              <li>基于红外光通信的智能车远距离对抗平台</li>
+              <li>搭建在树莓派上基于人脸识别的自动录播系统</li>
+              <li>基于深度学习的人脸表情处理系统</li>
+            </ul>
           </Paragraph>
-          <Title level={4}>34届挑战杯获奖情况</Title>
+          <Title level={4}>34 届挑战杯获奖情况</Title>
           <Paragraph>
-            一等奖：
-            <br />
-            千里眼——基于虚拟现实技术的全景视频拼接编码传输系统
+            一等奖
+            <ul>
+              <li>千里眼——基于虚拟现实技术的全景视频拼接编码传输系统</li>
+            </ul>
           </Paragraph>
           <Paragraph>
             三等奖
-            <br />
-            基于real sense智能交互平台的识别系统研究
-            <br />
-            多目标跟踪算法通用平台的设计与实现
+            <ul>
+              <li>基于 real sense 智能交互平台的识别系统研究</li>
+              <li>多目标跟踪算法通用平台的设计与实现</li>
+            </ul>
           </Paragraph>
-          <Title level={4}>35届挑战杯获奖情况</Title>
+          <Title level={4}>35 届挑战杯获奖情况</Title>
           <Paragraph>
-            三等奖：
-            <br />
-            高能效手写文字识别系统设计
+            三等奖
+            <ul>
+              <li>高能效手写文字识别系统设计</li>
+            </ul>
           </Paragraph>
-          <Title level={4}>36届挑战杯获奖情况</Title>
+          <Title level={4}>36 届挑战杯获奖情况</Title>
           <Paragraph>
-            二等奖：
-            <br />
-            基于多注意力语义表示机制的医考问答系统
-            <br />
-            社交媒体噪声文本的维度情感分析系统
-            基于sEMG信号的便携式帕金森病诊断仪
-            <br />
-            智能自主协同编队系统
+            二等奖
+            <ul>
+              <li>基于多注意力语义表示机制的医考问答系统</li>
+              <li>社交媒体噪声文本的维度情感分析系统</li>
+              <li>基于 sEMG 信号的便携式帕金森病诊断仪</li>
+              <li>智能自主协同编队系统</li>
+            </ul>
           </Paragraph>
           <Paragraph>
             三等奖
-            <br />
-            基于高精度室内定位技术的无人车导航编队系统
-            <br />
-            基于面部表情与动作的唇语识别与语音合成系统
-            <br />
-            基于上转换原理的高性能植入式光电子器件
+            <ul>
+              <li>基于高精度室内定位技术的无人车导航编队系统</li>
+              <li>基于面部表情与动作的唇语识别与语音合成系统</li>
+              <li>基于上转换原理的高性能植入式光电子器件</li>
+            </ul>
           </Paragraph>
+          <Divider />
           <Title level={3}>学长经验</Title>
           <ul>
             <li>
@@ -407,58 +371,54 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </ul>
         </Typography>
       </TabPane>
-      <TabPane tab="新生知识竞赛" key="FKC">
-        <Typography
-          style={{
-            margin: "20px 10vw ",
-            overflowY: "auto",
-            height: "calc(100vh - 218px)"
-          }}
-        >
+      <TabPane tab="新生知识竞赛" key="fkc">
+        <Typography className={styles.content}>
           <Title level={2}>新生信息知识竞赛</Title>
           <Title level={3}>赛事时间</Title>
           <Paragraph>
-            ADI杯新生信息知识竞赛在【秋季学期】举行，在新生入学后会有相关的宣传工作，通常期中考试前结束所有工作。
+            ADI
+            杯新生信息知识竞赛在【秋季学期】举行，在新生入学后会有相关的宣传工作，通常期中考试前结束所有工作。
           </Paragraph>
-
           <Divider />
-
           <Title level={3}>赛事简介</Title>
           <Paragraph>
-            清华大学ADI杯新生信息知识竞赛至今已成功举办15届。该活动是由清华大学信息学院四系科协（电子系，计算机系，自动化系，软件学院）合办的一年一届的全校活动。活动旨在向新生普及信息知识，发现人才。这项活动面向全校3000多名新生，尤其是1000多名信息学院的新同学，已在校内产生了良好而广泛的影响。
+            清华大学 ADI 杯新生信息知识竞赛至今已成功举办 15
+            届。该活动是由清华大学信息学院四系科协（电子系，计算机系，自动化系，软件学院）合办的一年一届的全校活动。活动旨在向新生普及信息知识，发现人才。这项活动面向全校
+            3000 多名新生，尤其是 1000
+            多名信息学院的新同学，已在校内产生了良好而广泛的影响。
           </Paragraph>
           <Paragraph>
-            全校初赛采取统一笔试环节，选取五到七支队伍进入决赛。电子系系内初赛及全校决赛试题以powerpoint形式，有必答题、抢答题、视频题、女生题、人气题、你说我猜题、渐进抢答题和风险题等环节，均为现场作答。
+            全校初赛采取统一笔试环节，选取五到七支队伍进入决赛。电子系系内初赛及全校决赛试题以
+            PowerPoint
+            形式，有必答题、抢答题、视频题、女生题、人气题、你说我猜题、渐进抢答题和风险题等环节，均为现场作答。
           </Paragraph>
+          <Divider />
           <Title level={3}>往年情况</Title>
           <Paragraph>
             往年奖品包括小米手环、极路由、蓝牙音箱、扫地机器人、打印机、移动硬盘等等，同时观赛亦有机会获得观众奖。
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
-            <br />
             <img
               alt="fic15"
               src="https://api.eesast.com/static/images/fic15.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
-            <br />
             第十五届决赛
             <br />
+            <br />
             <img
               alt="fic16"
               src="https://api.eesast.com/static/images/fic16.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
             />
-            <br />
             第十六届决赛
             <br />
-            <img
-              alt="fic16"
-              src="https://api.eesast.com/static/images/fic16.jpg"
-              style={{ maxWidth: "80%", margin: "0 auto" }}
-            />
             <br />
+            <img
+              alt="fic17"
+              src="https://api.eesast.com/static/images/fic17.jpg"
+            />
             第十七届决赛
+            <br />
+            <br />
           </Paragraph>
         </Typography>
       </TabPane>

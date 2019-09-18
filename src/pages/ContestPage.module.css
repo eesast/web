@@ -1,9 +1,10 @@
-.leftBar {
-  width: 100vw;
-  height: calc(100vh - 64px - 64px - 50px);
-  background-color: rgba(255, 255, 255, 0.5);
+.content {
+  height: calc(100vh - 67px - 48px - 64px);
+  padding: 48px 10vw;
+  overflow: auto;
 }
 
-.tag {
-  margin: 10px 0;
+img {
+  max-width: 70%;
+  margin: 8px auto;
 }
