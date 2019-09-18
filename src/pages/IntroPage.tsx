@@ -8,10 +8,12 @@ const IntroPage: React.FC<{}> = () => {
     <Typography className={styles.content}>
       <div>
         <Title>第二十一届电子设计大赛</Title>
-        <img
-          src="https://api.eesast.com/static/images/2019edclogo-background.png"
-          alt="edclogo"
-        />
+        <div style={{ textAlign: "center" }}>
+          <img
+            src="https://api.eesast.com/static/images/2019edclogo-background.png"
+            alt="edclogo"
+          />
+        </div>
         <Title level={2}>宗旨</Title>
         <Paragraph>
           清华大学电子设计大赛旨在提高理论联系实际能力，鼓励团结协作，培养创新精神和动手能力，强调“软硬结合”，通过解决实际问题来检验和提高同学们的综合素质。
