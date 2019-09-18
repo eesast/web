@@ -20,8 +20,7 @@ export interface IHomeSiteProps {
 export type HomeSitePage = "timelines" | "divisions" | "contests";
 
 const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
-  setSite,
-  match
+  setSite
 }) => {
   setSite("home");
 
@@ -30,11 +29,7 @@ const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
   ]);
 
   const [currentSelected, setCurrentSelect] = useState<HomeSitePage>(
-    match.path === "/home"
-      ? "timelines"
-      : match.path === "/home/divisions"
-      ? "divisions"
-      : "contests"
+    "timelines"
   );
 
   const handleMenuSelect: MenuProps["onSelect"] = e => {
