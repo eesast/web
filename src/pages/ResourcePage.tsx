@@ -100,7 +100,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
                   "YYYY-MM-DD HH:mm:ss"
                 )}`}
               >
-                <div>{item.content}</div>
+                <div dangerouslySetInnerHTML={{ __html: item.content }} />
               </Panel>
             </Collapse>
           </List.Item>
