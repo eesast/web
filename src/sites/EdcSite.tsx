@@ -17,6 +17,7 @@ import EnrollPage from "../pages/EnrollPage";
 import TeamManagePage from "../pages/TeamManagePage";
 import ResourcePage from "../pages/ResourcePage";
 import TeamJoinPage from "../pages/TeamJoinPage";
+import SponsorPage from "../pages/SponsorPage";
 import AuthRoute from "../components/AuthRoute";
 
 const { SubMenu } = Menu;
@@ -96,6 +97,11 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
             <Icon type="database" />
             资源
           </Menu.Item>
+          <Menu.Item key="sponsor">
+            <Link to={`${match.url}/sponsor`} replace />
+            <Icon type="heart" />
+            赞助商
+          </Menu.Item>
         </Menu>
       </Sider>
       <Content className={styles.content}>
@@ -122,6 +128,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
             path={`${match.path}/resources`}
             component={ResourcePage}
           />
+          <Route exact path={`${match.path}/sponsor`} component={SponsorPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Content>
