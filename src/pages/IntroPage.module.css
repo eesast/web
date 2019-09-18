@@ -4,11 +4,53 @@
   overflow: auto;
 }
 
-img {
-  max-width: 70%;
-  margin: 8px auto;
+.logos {
+  max-height: 100px;
+  min-height: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.test {
-  background-color: black;
+.logo1 {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  min-height: 50px;
+  min-width: 100px;
+  height: auto;
+  width: 10%;
+}
+
+.logo2 {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  min-height: 50px;
+  min-width: 100px;
+  height: auto;
+  width: 25%;
+}
+
+.logo3 {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  min-height: 50px;
+  min-width: 100px;
+  height: auto;
+  width: 30%;
+}
+
+.logo1 > img {
+  width: 90%;
+}
+
+.logo2 > img {
+  width: 90%;
+}
+
+.logo3 > img {
+  width: 90%;
 }
