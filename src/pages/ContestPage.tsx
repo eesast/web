@@ -66,8 +66,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="ts19"
               src="https://api.eesast.com/static/images/ts19.jpg"
             />
-            2018 年，队式十九作为 A1 组比赛合并到 THU-AI 中
             <br />
+            2018 年，队式十九作为 A1 组比赛合并到 THU-AI 中
             <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
@@ -108,8 +108,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="edc19"
               src="https://api.eesast.com/static/images/edc19.jpg"
             />
-            第十九届电子设计大赛——绿茵荣耀
             <br />
+            第十九届电子设计大赛——绿茵荣耀
             <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
