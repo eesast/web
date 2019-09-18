@@ -1,6 +1,7 @@
 .root {
-  height: calc(80vh - 64px);
-  align-items: left;
+  height: calc(100vh - 67px - 48px - 64px);
+  padding: 48px 10vw;
+  overflow: auto;
 }
 
 .paragraph {
