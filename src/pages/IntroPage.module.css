@@ -8,3 +8,7 @@ img {
   max-width: 70%;
   margin: 8px auto;
 }
+
+.test {
+  background-color: black;
+}

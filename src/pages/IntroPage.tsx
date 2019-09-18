@@ -128,10 +128,12 @@ const IntroPage: React.FC<{}> = () => {
         alt="eesast"
         src="https://api.eesast.com/static/images/eesast-logo.png"
       />
-      <img
-        alt="asta"
-        src="https://api.eesast.com/static/images/asta-logo.png"
-      />
+      <div className={styles.test}>
+        <img
+          alt="asta"
+          src="https://api.eesast.com/static/images/asta-logo.png"
+        />
+      </div>
       <img
         alt="sensetime"
         src="https://api.eesast.com/static/images/sensetime-logo.png"
