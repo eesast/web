@@ -39,8 +39,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="ts16"
               src="https://api.eesast.com/static/images/ts16.jpg"
             />
-            队式十六——深蓝 (Deep Blue)
             <br />
+            队式十六——深蓝 (Deep Blue)
             <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
@@ -48,8 +48,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="ts17"
               src="https://api.eesast.com/static/images/ts17.jpg"
             />
-            队式十七——Stellar Craft
             <br />
+            队式十七——Stellar Craft
             <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
@@ -57,8 +57,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="ts18"
               src="https://api.eesast.com/static/images/ts18.jpg"
             />
-            队式十八——CPClash
             <br />
+            队式十八——CPClash
             <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
@@ -75,8 +75,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="ts20"
               src="https://api.eesast.com/static/images/ts20.jpg"
             />
-            队式二十——THU-AI 枪林弹雨组
             <br />
+            队式二十——THU-AI 枪林弹雨组
             <br />
           </Paragraph>
         </Typography>
@@ -99,8 +99,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="edc18"
               src="https://api.eesast.com/static/images/edc18.jpg"
             />
-            第十八届电子设计大赛——天赐良机
             <br />
+            第十八届电子设计大赛——天赐良机
             <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
@@ -117,8 +117,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="edc20"
               src="https://api.eesast.com/static/images/edc20.jpg"
             />
-            第二十届电子设计大赛——智圆行方
             <br />
+            第二十届电子设计大赛——智圆行方
             <br />
           </Paragraph>
         </Typography>
@@ -145,8 +145,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="hwdc2017-2"
               src="https://api.eesast.com/static/images/hwdc2017-2.jpg"
             />
-            <Text disabled>2017 年硬件设计大赛作品</Text>
             <br />
+            <Text disabled>2017 年硬件设计大赛作品</Text>
             <br />
           </Paragraph>
           <Paragraph style={{ textAlign: "center" }}>
@@ -158,8 +158,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="hwdc2018-2"
               src="https://api.eesast.com/static/images/hwdc2018-2.jpg"
             />
-            <Text disabled>2018 年硬件设计大赛作品</Text>
             <br />
+            <Text disabled>2018 年硬件设计大赛作品</Text>
             <br />
           </Paragraph>
           <Paragraph style={{ textAlign: "center" }}>
@@ -171,8 +171,8 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="hwdc2019-2"
               src="https://api.eesast.com/static/images/hwdc2019-2.gif"
             />
-            <Text disabled>2019 年硬件设计大赛作品</Text>
             <br />
+            <Text disabled>2019 年硬件设计大赛作品</Text>
             <br />
           </Paragraph>
         </Typography>
@@ -216,22 +216,22 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="swdc2018-1"
               src="https://api.eesast.com/static/images/swdc2018-1.png"
             />
-            多功能计算器 CalcPro
             <br />
+            多功能计算器 CalcPro
             <br />
             <img
               alt="swdc2018-2"
               src="https://api.eesast.com/static/images/swdc2018-2.jpg"
             />
-            简易操作系统 BASIC-OS1
             <br />
+            简易操作系统 BASIC-OS1
             <br />
             <img
               alt="swdc2018-3"
               src="https://api.eesast.com/static/images/swdc2018-3.jpg"
             />
-            校园网管理软件 .NetCampus
             <br />
+            校园网管理软件 .NetCampus
             <br />
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
@@ -241,22 +241,22 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="swdc2019-1"
               src="https://api.eesast.com/static/images/swdc2019-1.png"
             />
-            音乐节奏游戏 TuneStory
             <br />
+            音乐节奏游戏 TuneStory
             <br />
             <img
               alt="swdc2019-2"
               src="https://api.eesast.com/static/images/swdc2019-2.png"
             />
-            三角形滤镜 LowPoly
             <br />
+            三角形滤镜 LowPoly
             <br />
             <img
               alt="swdc2019-3"
               src="https://api.eesast.com/static/images/swdc2019-3.png"
             />
-            在线多功能绘图
             <br />
+            在线多功能绘图
             <br />
           </Paragraph>
         </Typography>
@@ -402,22 +402,22 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
               alt="fic15"
               src="https://api.eesast.com/static/images/fic15.jpg"
             />
-            第十五届决赛
             <br />
+            第十五届决赛
             <br />
             <img
               alt="fic16"
               src="https://api.eesast.com/static/images/fic16.jpg"
             />
-            第十六届决赛
             <br />
+            第十六届决赛
             <br />
             <img
               alt="fic17"
               src="https://api.eesast.com/static/images/fic17.jpg"
             />
-            第十七届决赛
             <br />
+            第十七届决赛
             <br />
           </Paragraph>
         </Typography>
