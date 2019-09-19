@@ -130,6 +130,11 @@ const TeamJoinPage: React.FC<
     else setActiveRow(String(record.id));
   };
 
+  const handleExpand = (expended: boolean, record: ITeam) => {
+    if (activeRow === String(record.id)) setActiveRow("");
+    else setActiveRow(String(record.id));
+  };
+
   const sortDir: SortOrder[] = ["descend", "ascend"];
 
   const columns: ColumnProps<ITeam>[] = [
@@ -179,6 +184,7 @@ const TeamJoinPage: React.FC<
         expandedRowKeys={[activeRow]}
         //onChange={handleChange}
         expandRowByClick
+        onExpand={handleExpand}
         onRowClick={handleClick}
         expandedRowRender={(record: ITeam) => (
           <div>
