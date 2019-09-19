@@ -1,6 +1,6 @@
 import { Icon, Layout, Menu } from "antd";
 import { MenuProps } from "antd/lib/menu";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Link,
   Redirect,
@@ -31,9 +31,9 @@ type Page =
   | "intro"
   | "enroll"
   | "teamJoin"
-  | "teamAdd"
   | "teamManage"
-  | "resource";
+  | "resource"
+  | "sponsor";
 
 const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
   setSite,
@@ -54,6 +54,16 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
   const onMenuSelect: MenuProps["onSelect"] = item => setPage(item.key as Page);
 
   setSite("edc");
+
+  useEffect(() => {
+    const pathname = location!.pathname.substring(
+      location!.pathname.indexOf("/", 1)
+    );
+    const matchedRoute = routes.find(item => pathname === item.to);
+    if (matchedRoute) {
+      setPage(matchedRoute.key);
+    }
+  }, [location]);
 
   return (
     <Layout>
@@ -135,5 +145,14 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
     </Layout>
   );
 };
+
+const routes: { to: string; key: Page }[] = [
+  { to: "/intro", key: "intro" },
+  { to: "/enroll", key: "enroll" },
+  { to: "/teams/manage", key: "teamManage" },
+  { to: "/teams/join", key: "teamJoin" },
+  { to: "/resources", key: "resource" },
+  { to: "/sponsor", key: "sponsor" }
+];
 
 export default EdcSite;
