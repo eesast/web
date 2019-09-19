@@ -165,6 +165,10 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({
             error.response.data === "409 Conflict: User is already in a team"
           ) {
             message.error("用户已加入队伍");
+          } else if (
+            error.response.data === "400 Bad Request: Contest not available"
+          ) {
+            message.error("当前不在报名时间");
           } else {
             message.error("队伍创建失败");
           }

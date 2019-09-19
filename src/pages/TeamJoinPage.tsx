@@ -298,6 +298,10 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
             error.response.data === "409 Conflict: User is already in a team"
           ) {
             message.error("您已加入一支队伍");
+          } else if (
+            error.response.data === "400 Bad Request: Contest not available"
+          ) {
+            message.error("当前不在报名时间");
           } else {
             message.error("加入队伍失败，请联系管理员");
           }
