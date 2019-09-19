@@ -1,6 +1,8 @@
 import { message, List, Button, Collapse, Empty } from "antd";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import DOMPurify from "dompurify";
+import marked from "marked";
 import styles from "./ResourcePage.module.css";
 import { IAnnouncement, getAnnouncements } from "../api/announcements";
 import { getContestId } from "../redux/actions/teams";
@@ -8,6 +10,10 @@ import { connect } from "react-redux";
 import { IAppState } from "../redux/types/state";
 
 const { Panel } = Collapse;
+marked.setOptions({
+  sanitize: true,
+  sanitizer: DOMPurify.sanitize
+});
 
 interface IResourcePageStateProps {
   contestId?: number;
@@ -100,7 +106,9 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
                   "YYYY-MM-DD HH:mm:ss"
                 )}`}
               >
-                <div dangerouslySetInnerHTML={{ __html: item.content }} />
+                <div
+                  dangerouslySetInnerHTML={{ __html: marked(item.content) }}
+                />
               </Panel>
             </Collapse>
           </List.Item>
