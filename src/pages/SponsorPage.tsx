@@ -24,15 +24,25 @@ const SponsorPage: React.FC<{}> = () => {
         </Paragraph>
         <Paragraph className={styles.paragraph}>
           更多商汤科技最新学术进展资讯，敬请关注商汤泰坦公开课。
-          <img
-            src="https://api.eesast.com/static/images/sensetime-logo.png"
-            alt="sensetime-logo"
-          />
+        </Paragraph>
+        <div
+          style={{
+            display: "flex",
+            justifyItems: "space-around",
+            alignItems: "center"
+          }}
+        >
           <img
             alt="sensetime-titan"
             src="https://api.eesast.com/static/images/sensetime-titan-qrcode.png"
+            style={{ maxWidth: 700, width: "70%" }}
           />
-        </Paragraph>
+          <img
+            src="https://api.eesast.com/static/images/sensetime-logo.png"
+            alt="sensetime-logo"
+            style={{ maxWidth: 200, width: "20%" }}
+          />
+        </div>
       </Typography>
     </div>
   );
