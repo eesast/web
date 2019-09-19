@@ -45,7 +45,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
 
   const homeRoute = () => {
     setSelected(true);
-    return <Redirect to={`${match.url}/intro`} push />;
+    return <Redirect to={"/thuedc/intro"} push />;
   };
   const NotFoundPage = (props: RouteComponentProps<any>) => (
     <NotFoundSite {...props} setSite={setSite} />
