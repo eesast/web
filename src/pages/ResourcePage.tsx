@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import DOMPurify from "dompurify";
 import marked from "marked";
+import InfiniteScroll from "react-infinite-scroller";
 import styles from "./ResourcePage.module.css";
 import { IAnnouncement, getAnnouncements } from "../api/announcements";
 import { getContestId } from "../redux/actions/teams";
@@ -98,7 +99,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
         className={styles.list}
         renderItem={(item: IAnnouncement) => (
           <List.Item>
-            <Collapse className={styles.collapse}>
+            <Collapse className={styles.collapse} defaultActiveKey={["1"]}>
               <Panel
                 header={(item.priority > 1 ? "【重要】" : "") + item.title}
                 key="1"

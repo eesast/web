@@ -79,6 +79,11 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
             <Icon type="home" />
             介绍
           </Menu.Item>
+          <Menu.Item key="resource">
+            <Link to={`${match.url}/resources`} replace />
+            <Icon type="database" />
+            资源与公告
+          </Menu.Item>
           <Menu.Item key="enroll">
             <Link to={`${match.url}/enroll`} replace />
             <Icon type="form" />
@@ -102,11 +107,6 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
               管理
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="resource">
-            <Link to={`${match.url}/resources`} replace />
-            <Icon type="database" />
-            资源
-          </Menu.Item>
           <Menu.Item key="sponsor">
             <Link to={`${match.url}/sponsor`} replace />
             <Icon type="heart" />
