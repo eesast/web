@@ -155,7 +155,8 @@ const TeamJoinPage: React.FC<
     {
       title: "队伍成员",
       dataIndex: "membersUsername",
-      key: "membersUsername"
+      key: "membersUsername",
+      render: members => members.join("、")
     }
   ];
 
