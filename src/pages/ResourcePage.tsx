@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import DOMPurify from "dompurify";
 import marked from "marked";
-import InfiniteScroll from "react-infinite-scroller";
 import styles from "./ResourcePage.module.css";
 import { IAnnouncement, getAnnouncements } from "../api/announcements";
 import { getContestId } from "../redux/actions/teams";

@@ -7,7 +7,7 @@ const IntroPage: React.FC<{}> = () => {
   return (
     <Typography className={styles.content}>
       <div>
-        <Title>第二十一届电子设计大赛</Title>
+        <Title>“商汤杯”第二十一届电子设计大赛——火线救援</Title>
         <div style={{ textAlign: "center" }}>
           <img
             src="https://api.eesast.com/static/images/2019edclogo-background.png"
