@@ -51,7 +51,6 @@ const TeamJoinPage: React.FC<
 > = props => {
   const {
     token,
-
     user,
     teams,
     selfTeam,
@@ -130,7 +129,7 @@ const TeamJoinPage: React.FC<
     else setActiveRow(String(record.id));
   };
 
-  const handleExpand = (expended: boolean, record: ITeam) => {
+  const handleExpand = (expanded: boolean, record: ITeam) => {
     if (activeRow === String(record.id)) setActiveRow("");
     else setActiveRow(String(record.id));
   };
