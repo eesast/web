@@ -161,7 +161,7 @@ const RegisterForm: React.FC<
           message.success("注册成功");
           props.history.replace("/login");
         } catch {
-          message.error("注册失败");
+          message.error("用户已存在");
         }
       } else {
         message.error("请完整填写所有信息");
