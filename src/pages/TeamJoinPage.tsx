@@ -133,7 +133,7 @@ const TeamJoinPage: React.FC<
   };
 
   const handleExpand = (expanded: boolean, record: ITeam) => {
-    if (expanded) setActiveRow("");
+    if (activeRow === String(record.id)) setActiveRow("");
     else setActiveRow(String(record.id));
   };
 
@@ -217,10 +217,8 @@ const TeamJoinPage: React.FC<
               <Button
                 type="primary"
                 disabled={
-                  record.members.length === 4 ||
+                  (record.members.length === 4 && selfTeam.id === 0) ||
                   (selfTeam.id !== 0 && selfTeam.id !== record.id)
-                    ? true
-                    : false
                 }
                 onClick={() => {
                   if (selfTeam.id === 0) {
@@ -299,7 +297,9 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
         try {
           await api.addTeamMember(teamId, id, values.inviteCode, token);
           onCancel();
-          Modal.success({ title: "队伍加入成功" });
+          Modal.info({
+            title: "队伍加入成功"
+          });
         } catch (error) {
           if (error.response.data === "403 Forbidden: Incorrect invite code") {
             message.error("您填写的邀请码有误");

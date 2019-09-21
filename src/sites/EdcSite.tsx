@@ -1,13 +1,7 @@
 import { Icon, Layout, Menu } from "antd";
 import { MenuProps } from "antd/lib/menu";
 import React, { useState, useEffect } from "react";
-import {
-  Link,
-  Redirect,
-  Route,
-  RouteComponentProps,
-  Switch
-} from "react-router-dom";
+import { Link, Route, RouteComponentProps, Switch } from "react-router-dom";
 import { Site } from "../App";
 import styles from "./EdcSite.module.css";
 import IntroPage from "../pages/IntroPage";
@@ -41,12 +35,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
   location
 }) => {
   const [page, setPage] = useState<Page>("intro");
-  const [selected, setSelected] = useState<boolean>(false);
 
-  const homeRoute = () => {
-    setSelected(true);
-    return <Redirect to={"/thuedc/intro"} push />;
-  };
   const NotFoundPage = (props: RouteComponentProps<any>) => (
     <NotFoundSite {...props} setSite={setSite} />
   );
@@ -116,7 +105,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
       </Sider>
       <Content className={styles.content}>
         <Switch location={location}>
-          <Route exact={selected} path={`${match.path}`} render={homeRoute} />
+          <Route exact path={`${match.path}`} component={IntroPage} />
           <Route exact path={`${match.path}/intro`} component={IntroPage} />
           <AuthRoute
             location={location}
