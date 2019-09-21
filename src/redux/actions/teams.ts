@@ -54,22 +54,21 @@ export function getTeams(
         teams = await api.getTeams(self, getState().teams.contestId!, token);
       }
 
-      Promise.all(
-        teams.map(
-          team =>
-            new Promise(async (res: (value: ITeam) => void) => {
-              const leaderUsername = await api.getUsername(team.leader, token);
-              team.leaderUsername = leaderUsername;
-              team.membersUsername = [];
-              await Promise.all(
-                team.members.map(id => api.getUsername(id, token))
-              ).then(username => {
-                team.membersUsername = username;
-              });
-              res(team);
-            })
-        )
-      ).then(teams => dispatch(getTeamsAction.success(teams)));
+      teams = await Promise.all(
+        teams.map(async team => {
+          const leaderUsername = await api.getUsername(team.leader, token);
+          const membersUsername = await Promise.all(
+            team.members.map(id => api.getUsername(id, token))
+          );
+          return {
+            ...team,
+            membersUsername: membersUsername,
+            leaderUsername: leaderUsername
+          };
+        })
+      );
+
+      dispatch(getTeamsAction.success(teams));
     } catch (e) {
       dispatch(getTeamsAction.failure(e));
     }
@@ -97,16 +96,13 @@ export function getSelfTeam(
       const team = await api.getTeams(true, getState().teams.contestId!, token);
 
       if (team.length) {
-        const leaderUsername = await api.getUsername(team[0].leader, token);
-        team[0].leaderUsername = leaderUsername;
-        team[0].membersUsername = [];
-        await Promise.all(
-          team[0].members.map(id => api.getUsername(id, token))
-        ).then(username => {
-          team[0].membersUsername = username;
-        });
+        const selfTeam = team[0];
+        selfTeam.leaderUsername = await api.getUsername(selfTeam.leader, token);
+        selfTeam.membersUsername = await Promise.all(
+          selfTeam.members.map(id => api.getUsername(id, token))
+        );
 
-        dispatch(getSelfTeamAction.success(team[0]));
+        dispatch(getSelfTeamAction.success(selfTeam));
       } else {
         const noSelfTeam: ITeam = {
           id: 0,
