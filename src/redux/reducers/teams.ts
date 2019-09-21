@@ -53,20 +53,17 @@ export default function teams(
     case GET_SELF_TEAM_REQUEST:
       return {
         ...state,
-        fetching: true,
         error: null
       };
     case GET_SELF_TEAM_SUCCESS:
       const team = action.payload;
       return {
         ...state,
-        fetching: false,
         selfTeam: team
       };
     case GET_SELF_TEAM_FAILURE:
       return {
         ...state,
-        fetching: false,
         error: action.payload
       };
 

@@ -94,16 +94,19 @@ const TeamJoinPage: React.FC<
   }, [error]);
 
   const changePage = (currentPage: number, nextPageSize?: number) => {
-    setPageNumber(currentPage);
-    if (nextPageSize) setPageSize(nextPageSize);
     if (teams.length < pageSize) {
       setTotalTeams((pageNumber - 1) * pageSize + teams.length);
     }
+    setPageNumber(currentPage);
+    if (nextPageSize) setPageSize(nextPageSize);
   };
 
   const changePageSize = (current: number, nextPageSize: number) => {
     setPageSize(nextPageSize);
     setPageNumber(current);
+    if (teams.length < pageSize) {
+      setTotalTeams((pageNumber - 1) * pageSize + teams.length);
+    }
   };
 
   const showModal = () => {
@@ -155,7 +158,7 @@ const TeamJoinPage: React.FC<
       title: "队伍成员",
       dataIndex: "membersUsername",
       key: "membersUsername",
-      render: members => members.join("、")
+      render: (members: String[]) => members.join("、")
     }
   ];
 
@@ -204,6 +207,8 @@ const TeamJoinPage: React.FC<
                       转到所属队伍
                     </Link>
                   </div>
+                ) : record.members.length === 4 ? (
+                  "队伍成员已满"
                 ) : (
                   "点击按钮现在加入队伍"
                 )
@@ -212,7 +217,8 @@ const TeamJoinPage: React.FC<
               <Button
                 type="primary"
                 disabled={
-                  selfTeam.id !== 0 && selfTeam.id !== record.id ? true : false
+                  (record.members.length === 4 && selfTeam.id === 0) ||
+                  (selfTeam.id !== 0 && selfTeam.id !== record.id)
                 }
                 onClick={() => {
                   if (selfTeam.id === 0) {
@@ -291,7 +297,9 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
         try {
           await api.addTeamMember(teamId, id, values.inviteCode, token);
           onCancel();
-          Modal.success({ title: "队伍加入成功" });
+          Modal.info({
+            title: "队伍加入成功"
+          });
         } catch (error) {
           if (error.response.data === "403 Forbidden: Incorrect invite code") {
             message.error("您填写的邀请码有误");

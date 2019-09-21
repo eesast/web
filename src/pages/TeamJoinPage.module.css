@@ -9,6 +9,7 @@
 .list {
   padding: 24px;
   padding-bottom: 0px;
+  max-height: calc(100vh - 64px - 64px - 50px);
   width: 85%;
   min-width: 350px;
 }
