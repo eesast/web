@@ -77,7 +77,8 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
       await axios.post("/v1/users/reset", {
         email: decoded.email,
         password: input,
-        action: "set"
+        action: "set",
+        token
       });
       message.success("密码重置成功");
       history.replace("/home");
