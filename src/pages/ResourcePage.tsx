@@ -98,7 +98,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
         className={styles.list}
         renderItem={(item: IAnnouncement) => (
           <List.Item>
-            <Collapse className={styles.collapse}>
+            <Collapse className={styles.collapse} defaultActiveKey={["1"]}>
               <Panel
                 header={(item.priority > 1 ? "【重要】" : "") + item.title}
                 key="1"

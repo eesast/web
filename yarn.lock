@@ -1955,10 +1955,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@3.23.3:
-  version "3.23.3"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.23.3.tgz#26a7d767a46fdb332e6b05aaea40947bd491d1ce"
-  integrity sha512-yTWV7Wr46pmlcxWxGnZm1Km0HhK7IubDC6Uj9RNEbjK93FpGVrHMgEhNTPVmu3P9eGci32JSXUDc3/vxcbY+yA==
+antd@3.23.4:
+  version "3.23.4"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.23.4.tgz#78110e06652697abfdff979683a118d39d66c6a2"
+  integrity sha512-WmumOVZ7GSbLkiQyL54edRBDW4AVhFROlNJbd0lajonP2i2uzgC/2B1pZbnY9EE2yjv9tY7MiqlkBT7HLu75cw==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -11316,10 +11316,10 @@ swagger-client@^3.9.4:
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
 
-swagger-ui-react@3.23.10:
-  version "3.23.10"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.10.tgz#0ed9ad7c67990fcaedf7bc7735db5e2c813f5799"
-  integrity sha512-s9wPz2VnuRo2baZFG1tuKn9UW8SX4QcUtTj9D+XMcXx+P8agQEYjZt3C+JmKagpfbgKQw9lxxsCIlN6CHdL+Jw==
+swagger-ui-react@3.23.11:
+  version "3.23.11"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.23.11.tgz#96f68c467cc2a8b4ade9f0c9c158cd8c83f39eff"
+  integrity sha512-Wbh6W4eoippqVgWvyyzWGnCJZrXR6Jc/htz6zfroG7I8OHpBcrh5Hc6DybGBje+2rHi92zvyxak/C/IQ4ZK5EQ==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^2.0.2"
