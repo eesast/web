@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/dompurify": "0.0.33",
     "@types/marked": "0.6.5",
-    "antd": "3.23.3",
+    "antd": "3.23.4",
     "axios": "0.19.0",
     "jwt-decode": "2.2.0",
     "marked": "0.7.0",
