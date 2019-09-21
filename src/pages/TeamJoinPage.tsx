@@ -51,7 +51,6 @@ const TeamJoinPage: React.FC<
 > = props => {
   const {
     token,
-
     user,
     teams,
     selfTeam,
@@ -95,16 +94,19 @@ const TeamJoinPage: React.FC<
   }, [error]);
 
   const changePage = (currentPage: number, nextPageSize?: number) => {
-    setPageNumber(currentPage);
-    if (nextPageSize) setPageSize(nextPageSize);
     if (teams.length < pageSize) {
       setTotalTeams((pageNumber - 1) * pageSize + teams.length);
     }
+    setPageNumber(currentPage);
+    if (nextPageSize) setPageSize(nextPageSize);
   };
 
   const changePageSize = (current: number, nextPageSize: number) => {
     setPageSize(nextPageSize);
     setPageNumber(current);
+    if (teams.length < pageSize) {
+      setTotalTeams((pageNumber - 1) * pageSize + teams.length);
+    }
   };
 
   const showModal = () => {
@@ -130,8 +132,8 @@ const TeamJoinPage: React.FC<
     else setActiveRow(String(record.id));
   };
 
-  const handleExpand = (expended: boolean, record: ITeam) => {
-    if (activeRow === String(record.id)) setActiveRow("");
+  const handleExpand = (expanded: boolean, record: ITeam) => {
+    if (expanded) setActiveRow("");
     else setActiveRow(String(record.id));
   };
 
@@ -156,7 +158,7 @@ const TeamJoinPage: React.FC<
       title: "队伍成员",
       dataIndex: "membersUsername",
       key: "membersUsername",
-      render: members => members.join("、")
+      render: (members: String[]) => members.join("、")
     }
   ];
 
@@ -205,6 +207,8 @@ const TeamJoinPage: React.FC<
                       转到所属队伍
                     </Link>
                   </div>
+                ) : record.members.length === 4 ? (
+                  "队伍成员已满"
                 ) : (
                   "点击按钮现在加入队伍"
                 )
@@ -213,7 +217,10 @@ const TeamJoinPage: React.FC<
               <Button
                 type="primary"
                 disabled={
-                  selfTeam.id !== 0 && selfTeam.id !== record.id ? true : false
+                  record.members.length === 4 ||
+                  (selfTeam.id !== 0 && selfTeam.id !== record.id)
+                    ? true
+                    : false
                 }
                 onClick={() => {
                   if (selfTeam.id === 0) {
