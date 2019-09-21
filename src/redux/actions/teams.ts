@@ -54,20 +54,22 @@ export function getTeams(
         teams = await api.getTeams(self, getState().teams.contestId!, token);
       }
 
-      for (const team of teams) {
-        const leaderUsername = await api.getUsername(team.leader, token);
-        team.leaderUsername = leaderUsername;
-        team.membersUsername = [];
-        for (const id of team.members) {
-          if (id === team.leader) {
-            team.membersUsername!.push(leaderUsername);
-          } else {
-            const username = await api.getUsername(id, token);
-            team.membersUsername!.push(username);
-          }
-        }
-      }
-      dispatch(getTeamsAction.success(teams));
+      Promise.all(
+        teams.map(
+          team =>
+            new Promise(async (res: (value: ITeam) => void) => {
+              const leaderUsername = await api.getUsername(team.leader, token);
+              team.leaderUsername = leaderUsername;
+              team.membersUsername = [];
+              await Promise.all(
+                team.members.map(id => api.getUsername(id, token))
+              ).then(username => {
+                team.membersUsername = username;
+              });
+              res(team);
+            })
+        )
+      ).then(teams => dispatch(getTeamsAction.success(teams)));
     } catch (e) {
       dispatch(getTeamsAction.failure(e));
     }
@@ -98,14 +100,11 @@ export function getSelfTeam(
         const leaderUsername = await api.getUsername(team[0].leader, token);
         team[0].leaderUsername = leaderUsername;
         team[0].membersUsername = [];
-        for (const id of team[0].members) {
-          if (id === team[0].leader) {
-            team[0].membersUsername!.push(leaderUsername);
-          } else {
-            const username = await api.getUsername(id, token);
-            team[0].membersUsername!.push(username);
-          }
-        }
+        await Promise.all(
+          team[0].members.map(id => api.getUsername(id, token))
+        ).then(username => {
+          team[0].membersUsername = username;
+        });
 
         dispatch(getSelfTeamAction.success(team[0]));
       } else {
