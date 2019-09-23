@@ -123,6 +123,7 @@ export interface ITeamsState {
   error?: Error | null;
   items: ITeam[];
   selfTeam: ITeam;
+  totalTeams: number;
 }
 
 export interface IAppState {

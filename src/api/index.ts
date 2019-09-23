@@ -9,7 +9,8 @@ import {
   deleteTeam,
   quitTeam,
   addTeamMember,
-  getContestId
+  getContestId,
+  getTeamNum
 } from "./teams";
 
 axios.defaults.baseURL =
@@ -31,5 +32,6 @@ export default {
   quitTeam,
   addTeamMember,
   getContestId,
-  getTimelineFeeds
+  getTimelineFeeds,
+  getTeamNum
 };

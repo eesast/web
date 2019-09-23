@@ -6,6 +6,7 @@ import { getArticleFeedsAction } from "../actions/weekly";
 import { getTimelineFeedsAction } from "../actions/timelines";
 import {
   getTeamsAction,
+  getTeamNumAction,
   getSelfTeamAction,
   getContestIdAction
 } from "../actions/teams";
@@ -33,12 +34,15 @@ export type ITimelinesAction = IGetTimelineFeedsAction;
 
 export type IGetTeamsAction = ActionType<typeof getTeamsAction>;
 
+export type IGetTeamNumAction = ActionType<typeof getTeamNumAction>;
+
 export type IGetSelfTeamAction = ActionType<typeof getSelfTeamAction>;
 
 export type IGetContestIdAction = ActionType<typeof getContestIdAction>;
 
 export type ITeamsAction =
   | IGetTeamsAction
+  | IGetTeamNumAction
   | IGetSelfTeamAction
   | IGetContestIdAction;
 

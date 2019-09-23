@@ -100,7 +100,8 @@ const mockStore: IAppState = {
       membersUsername: ["zhangsan"],
       inviteCode: "123abcde",
       createdAt: new Date().toDateString()
-    }
+    },
+    totalTeams: 1
   }
 };
 

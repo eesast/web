@@ -2,6 +2,7 @@ import { createAsyncAction } from "typesafe-actions";
 import api from "../../api";
 import {
   IGetTeamsAction,
+  IGetTeamNumAction,
   IGetContestIdAction,
   IThunkResult,
   IGetSelfTeamAction
@@ -10,6 +11,9 @@ import {
   GET_TEAMS_FAILURE,
   GET_TEAMS_REQUEST,
   GET_TEAMS_SUCCESS,
+  GET_TEAM_NUM_REQUEST,
+  GET_TEAM_NUM_SUCCESS,
+  GET_TEAM_NUM_FAILURE,
   GET_SELF_TEAM_REQUEST,
   GET_SELF_TEAM_SUCCESS,
   GET_SELF_TEAM_FAILURE,
@@ -71,6 +75,32 @@ export function getTeams(
       dispatch(getTeamsAction.success(teams));
     } catch (e) {
       dispatch(getTeamsAction.failure(e));
+    }
+  };
+}
+
+export const getTeamNumAction = createAsyncAction(
+  GET_TEAM_NUM_REQUEST,
+  GET_TEAM_NUM_SUCCESS,
+  GET_TEAM_NUM_FAILURE
+)<undefined, number, Error>();
+
+export function getTeamNum(
+  type: string,
+  year: number
+): IThunkResult<IGetTeamNumAction> {
+  return async (dispatch, getState) => {
+    dispatch(getTeamNumAction.request());
+
+    try {
+      if (!getState().teams.contestId) {
+        await dispatch(getContestId(type, year));
+      }
+      const num = await api.getTeamNum(getState().teams.contestId!);
+
+      dispatch(getTeamNumAction.success(num));
+    } catch (e) {
+      dispatch(getTeamNumAction.failure(e));
     }
   };
 }
