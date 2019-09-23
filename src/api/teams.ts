@@ -99,3 +99,8 @@ export const getContestId = async (type: string, year: number) => {
   const response = await axios.get(`/v1/contests?type=${type}&year=${year}`);
   return response.data[0].id as number;
 };
+
+export const getTeamNum = async (contestId: number) => {
+  const response = await axios.get(`/v1/contests/${contestId}`);
+  return response.data.totalTeams as number;
+};

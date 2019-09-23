@@ -8,7 +8,10 @@ import {
   GET_SELF_TEAM_FAILURE,
   GET_CONTEST_ID_REQUEST,
   GET_CONTEST_ID_SUCCESS,
-  GET_CONTEST_ID_FAILURE
+  GET_CONTEST_ID_FAILURE,
+  GET_TEAM_NUM_REQUEST,
+  GET_TEAM_NUM_SUCCESS,
+  GET_TEAM_NUM_FAILURE
 } from "../types/constants";
 import { ITeamsState } from "../types/state";
 
@@ -23,7 +26,8 @@ export default function teams(
       description: "noSelfTeamUser",
       leader: 0,
       members: [0]
-    }
+    },
+    totalTeams: 50
   },
   action: ITeamsAction
 ): ITeamsState {
@@ -47,6 +51,23 @@ export default function teams(
       return {
         ...state,
         fetching: false,
+        error: action.payload
+      };
+
+    case GET_TEAM_NUM_REQUEST:
+      return {
+        ...state,
+        error: null
+      };
+    case GET_TEAM_NUM_SUCCESS:
+      const num = action.payload;
+      return {
+        ...state,
+        totalTeams: num
+      };
+    case GET_TEAM_NUM_FAILURE:
+      return {
+        ...state,
         error: action.payload
       };
 

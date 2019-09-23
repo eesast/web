@@ -14,7 +14,12 @@ import { withRouter, Link } from "react-router-dom";
 import api from "../api";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { IAppState, ITeam, IUser } from "../redux/types/state";
-import { getTeams, getSelfTeam, getContestId } from "../redux/actions/teams";
+import {
+  getTeams,
+  getSelfTeam,
+  getContestId,
+  getTeamNum
+} from "../redux/actions/teams";
 import styles from "./TeamJoinPage.module.css";
 
 import { FormComponentProps } from "antd/lib/form";
@@ -29,6 +34,7 @@ interface ITeamJoinPageStateProps {
   user: IUser;
   teams: ITeam[];
   selfTeam: ITeam;
+  totalTeams: number;
   error?: Error | null;
 }
 
@@ -40,6 +46,7 @@ interface ITeamJoinPageDispatchProps {
     begin?: number,
     end?: number
   ) => void;
+  getTeamNum: (type: string, year: number) => void;
   getSelfTeam: (type: string, year: number) => void;
   getContestId: (type: string, year: number) => void;
 }
@@ -56,6 +63,8 @@ const TeamJoinPage: React.FC<
     selfTeam,
     getTeams,
     getSelfTeam,
+    totalTeams,
+    getTeamNum,
     error,
     fetching
   } = props;
@@ -64,7 +73,6 @@ const TeamJoinPage: React.FC<
   const [teamId, setTeamId] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
-  const [totalTeams, setTotalTeams] = useState(50);
   const [activeRow, setActiveRow] = useState("");
 
   useEffect(() => {
@@ -88,15 +96,17 @@ const TeamJoinPage: React.FC<
   }, [pageNumber, pageSize]);
 
   useEffect(() => {
+    getTeamNum("电设", 2019);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (error) {
       message.error("队伍信息加载失败");
     }
   }, [error]);
 
   const changePage = (currentPage: number, nextPageSize?: number) => {
-    if (teams.length < pageSize) {
-      setTotalTeams((pageNumber - 1) * pageSize + teams.length);
-    }
     setPageNumber(currentPage);
     if (nextPageSize) setPageSize(nextPageSize);
   };
@@ -104,9 +114,6 @@ const TeamJoinPage: React.FC<
   const changePageSize = (current: number, nextPageSize: number) => {
     setPageSize(nextPageSize);
     setPageNumber(current);
-    if (teams.length < pageSize) {
-      setTotalTeams((pageNumber - 1) * pageSize + teams.length);
-    }
   };
 
   const showModal = () => {
@@ -163,16 +170,16 @@ const TeamJoinPage: React.FC<
   ];
 
   const pagination: PaginationConfig = {
-    total:
-      teams.length < pageSize
-        ? (pageNumber - 1) * pageSize + teams.length
-        : totalTeams,
+    total: totalTeams,
     current: pageNumber,
     pageSize: pageSize,
     showSizeChanger: true,
     onChange: changePage,
     onShowSizeChange: changePageSize,
-    pageSizeOptions: ["5", "10", "20"]
+    pageSizeOptions: ["5", "10", "20"],
+    showTotal: (total: number) => {
+      return `总共${total}支队伍`;
+    }
   };
 
   return (
@@ -254,12 +261,14 @@ function mapStateToProps(state: IAppState): ITeamJoinPageStateProps {
     user: state.auth.user!,
     error: state.teams.error,
     teams: state.teams.items,
-    selfTeam: state.teams.selfTeam
+    selfTeam: state.teams.selfTeam,
+    totalTeams: state.teams.totalTeams
   };
 }
 
 const mapDispatchToProps: ITeamJoinPageDispatchProps = {
   getTeams,
+  getTeamNum,
   getSelfTeam,
   getContestId
 };
