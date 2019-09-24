@@ -1,7 +1,13 @@
 import axios from "axios";
 import { getArticleFeeds } from "./articles";
 import { getTimelineFeeds } from "./timelines";
-import { login, register, updateUser, getUsername } from "./users";
+import {
+  login,
+  register,
+  updateUser,
+  getUsername,
+  getUsernames
+} from "./users";
 import {
   getTeams,
   createTeam,
@@ -25,6 +31,7 @@ export default {
   updateUser,
   getArticleFeeds,
   getUsername,
+  getUsernames,
   getTeams,
   createTeam,
   updateTeam,

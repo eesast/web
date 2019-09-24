@@ -23,3 +23,15 @@ export const getUsername = async (id: number, token: string) => {
   });
   return response.data.username as string;
 };
+
+export const getUsernames = async (ids: number[], token: string) => {
+  const response = await axios.post(`/v1/users/details`, {
+    headers: { Authorization: `Bearer ${token}` },
+    ids
+  });
+  const users = response.data as IUser[];
+  const usernames = users.map((user: IUser) => {
+    return user.name;
+  });
+  return usernames;
+};
