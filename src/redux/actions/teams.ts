@@ -60,8 +60,8 @@ export function getTeams(
 
       teams = await Promise.all(
         teams.map(async team => {
-          const leaderUsername = await api.getUsername(team.leader, token);
           const membersUsername = await api.getUsernames(team.members, token);
+          const leaderUsername = membersUsername[0];
           return {
             ...team,
             membersUsername: membersUsername,
