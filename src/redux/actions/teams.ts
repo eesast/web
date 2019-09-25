@@ -60,12 +60,12 @@ export function getTeams(
 
       teams = await Promise.all(
         teams.map(async team => {
-          const membersUsername = await api.getUsernames(team.members, token);
-          const leaderUsername = membersUsername[0];
+          const membersInfo = await api.getUserInfos(team.members, token);
+          const leaderInfo = membersInfo[0];
           return {
             ...team,
-            membersUsername: membersUsername,
-            leaderUsername: leaderUsername
+            membersInfo: membersInfo,
+            leaderInfo: leaderInfo
           };
         })
       );
@@ -125,9 +125,9 @@ export function getSelfTeam(
 
       if (team.length) {
         const selfTeam = team[0];
-        selfTeam.leaderUsername = await api.getUsername(selfTeam.leader, token);
-        selfTeam.membersUsername = await Promise.all(
-          selfTeam.members.map(id => api.getUsername(id, token))
+        selfTeam.leaderInfo = await api.getUserInfo(selfTeam.leader, token);
+        selfTeam.membersInfo = await Promise.all(
+          selfTeam.members.map(id => api.getUserInfo(id, token))
         );
 
         dispatch(getSelfTeamAction.success(selfTeam));

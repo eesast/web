@@ -108,8 +108,8 @@ export interface ITeam {
   description: string;
   leader: number;
   members: number[];
-  leaderUsername?: string;
-  membersUsername?: string[];
+  leaderInfo?: IUser;
+  membersInfo?: IUser[];
   inviteCode?: string;
   createdAt?: string;
   createdBy?: number;

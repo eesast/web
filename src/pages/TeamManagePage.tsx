@@ -127,9 +127,9 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
     description,
     inviteCode,
     leader,
-    leaderUsername,
+    leaderInfo,
     members = [],
-    membersUsername = []
+    membersInfo = []
   } = props.selfTeam;
 
   const isLeader = props.user.id === leader;
@@ -141,13 +141,13 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
     for (let i = 0; i < members.length; i++) {
       if (members[i] === leader) {
         options.push({
-          label: membersUsername[i],
+          label: membersInfo[i].username,
           value: members[i],
           disabled: true
         });
       } else {
         options.push({
-          label: membersUsername[i],
+          label: membersInfo[i].username,
           value: members[i]
         });
       }
@@ -276,7 +276,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
         <span>{inviteCode}</span>
       </Form.Item>
       <Form.Item label="队长">
-        <span>{leaderUsername}</span>
+        <span>{leaderInfo && leaderInfo.username}</span>
       </Form.Item>
       <Form.Item label="队员">
         {getFieldDecorator("members", {

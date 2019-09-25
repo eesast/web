@@ -17,21 +17,17 @@ export const updateUser = async (id: number, form: Partial<IUser>) => {
   await axios.put("/v1/users/" + id, form);
 };
 
-export const getUsername = async (id: number, token: string) => {
+export const getUserInfo = async (id: number, token: string) => {
   const response = await axios.get(`/v1/users/${id}`, {
     headers: { Authorization: `Bearer ${token}` }
   });
-  return response.data.username as string;
+  return response.data as IUser;
 };
 
-export const getUsernames = async (ids: number[], token: string) => {
+export const getUserInfos = async (ids: number[], token: string) => {
   const response = await axios.post(`/v1/users/details`, {
     headers: { Authorization: `Bearer ${token}` },
     ids
   });
-  const users = response.data as IUser[];
-  const usernames = users.map((user: IUser) => {
-    return user.username;
-  });
-  return usernames;
+  return response.data as IUser[];
 };

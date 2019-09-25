@@ -116,7 +116,17 @@ const TeamJoinPage: React.FC<
   useEffect(() => {
     if (exporting) {
       try {
-        const teamsData = teams.map(team => team.members);
+        const teamsData = teams.reduce(
+          (data: (string | number)[][], team) =>
+            data.concat(
+              team.membersInfo!.map(member => [
+                team.name,
+                member.name,
+                member.id
+              ])
+            ),
+          []
+        );
         const workBook = xlsx.utils.book_new();
         const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
 
@@ -152,7 +162,7 @@ const TeamJoinPage: React.FC<
     setVisible(false);
   };
 
-  const exportTeams = async () => {
+  const exportTeams = () => {
     setExporting(true);
     getTeams(false, "电设", 2019);
   };
@@ -186,15 +196,17 @@ const TeamJoinPage: React.FC<
     },
     {
       title: "队长",
-      dataIndex: "leaderUsername",
-      key: "leaderUsername",
+      dataIndex: "leaderInfo",
+      key: "leaderInfo",
+      render: (leader: IUser) => leader.username,
       width: "30%"
     },
     {
       title: "队伍成员",
-      dataIndex: "membersUsername",
-      key: "membersUsername",
-      render: (members: String[]) => members.join("、")
+      dataIndex: "membersInfo",
+      key: "membersInfo",
+      render: (members: IUser[]) =>
+        members.map(member => member.username).join("、")
     }
   ];
 
