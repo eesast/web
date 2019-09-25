@@ -74,8 +74,8 @@ const EnrollPage: React.FC<
       name,
       description,
       inviteCode,
-      leaderUsername,
-      membersUsername = []
+      leaderInfo,
+      membersInfo = []
     } = selfTeam;
 
     return (
@@ -84,9 +84,12 @@ const EnrollPage: React.FC<
           <Descriptions title="队伍信息" column={4}>
             <Descriptions.Item label="队名">{name}</Descriptions.Item>
             <Descriptions.Item label="邀请码">{inviteCode}</Descriptions.Item>
-            <Descriptions.Item label="队长">{leaderUsername}</Descriptions.Item>
+            <Descriptions.Item label="队长">
+              {leaderInfo && leaderInfo.username}
+            </Descriptions.Item>
             <Descriptions.Item label="队员">
-              {membersUsername!.join(", ")}
+              {membersInfo &&
+                membersInfo.map(member => member.username).join(", ")}
             </Descriptions.Item>
             <Descriptions.Item label="队伍简介">
               {description}

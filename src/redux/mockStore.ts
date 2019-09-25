@@ -83,8 +83,30 @@ const mockStore: IAppState = {
         description: "这是一个队伍",
         leader: 2016011000,
         members: [2016011000],
-        leaderUsername: "zhangsan",
-        membersUsername: ["zhangsan"],
+        leaderInfo: {
+          id: 2016011000,
+          name: "张三",
+          username: "zhangsan",
+          department: "电子系",
+          class: "无60",
+          group: "admin",
+          role: "root",
+          email: "zhangsan@mails.tsinghua.edu.cn",
+          phone: 15600000000
+        },
+        membersInfo: [
+          {
+            id: 2016011000,
+            name: "张三",
+            username: "zhangsan",
+            department: "电子系",
+            class: "无60",
+            group: "admin",
+            role: "root",
+            email: "zhangsan@mails.tsinghua.edu.cn",
+            phone: 15600000000
+          }
+        ],
         inviteCode: "123abcde",
         createdAt: new Date().toDateString()
       }
@@ -96,8 +118,30 @@ const mockStore: IAppState = {
       description: "这是一个队伍",
       leader: 2016011000,
       members: [2016011000],
-      leaderUsername: "zhangsan",
-      membersUsername: ["zhangsan"],
+      leaderInfo: {
+        id: 2016011000,
+        name: "张三",
+        username: "zhangsan",
+        department: "电子系",
+        class: "无60",
+        group: "admin",
+        role: "root",
+        email: "zhangsan@mails.tsinghua.edu.cn",
+        phone: 15600000000
+      },
+      membersInfo: [
+        {
+          id: 2016011000,
+          name: "张三",
+          username: "zhangsan",
+          department: "电子系",
+          class: "无60",
+          group: "admin",
+          role: "root",
+          email: "zhangsan@mails.tsinghua.edu.cn",
+          phone: 15600000000
+        }
+      ],
       inviteCode: "123abcde",
       createdAt: new Date().toDateString()
     },
