@@ -27,7 +27,8 @@
     "redux": "4.0.4",
     "redux-thunk": "2.3.0",
     "swagger-ui-react": "3.23.11",
-    "typesafe-actions": "4.4.2"
+    "typesafe-actions": "4.4.2",
+    "xlsx": "^0.15.1"
   },
   "devDependencies": {
     "@types/jest": "24.0.18",
