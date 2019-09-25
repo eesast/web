@@ -120,9 +120,9 @@ const TeamJoinPage: React.FC<
           (data: (string | number)[][], team) =>
             data.concat(
               team.membersInfo!.map(member => [
-                member.id,
                 team.name,
-                member.name
+                member.name,
+                member.id
               ])
             ),
           []
