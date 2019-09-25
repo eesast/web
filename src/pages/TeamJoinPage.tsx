@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
+import xlsx from "xlsx";
 import api from "../api";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { IAppState, ITeam, IUser } from "../redux/types/state";
@@ -74,6 +75,7 @@ const TeamJoinPage: React.FC<
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [activeRow, setActiveRow] = useState("");
+  const [exporting, setExporting] = useState(false);
 
   // useEffect(() => {
   //   getContestId("电设", 2019);
@@ -111,6 +113,23 @@ const TeamJoinPage: React.FC<
     }
   }, [error]);
 
+  useEffect(() => {
+    if (exporting) {
+      try {
+        const teamsData = teams.map(team => team.members);
+        const workBook = xlsx.utils.book_new();
+        const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
+
+        xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
+        xlsx.writeFile(workBook, "队伍信息.xlsx");
+      } catch (error) {
+        message.error("队伍信息导出失败");
+      }
+      setExporting(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teams]);
+
   const changePage = (currentPage: number, nextPageSize?: number) => {
     setPageNumber(currentPage);
     if (nextPageSize) setPageSize(nextPageSize);
@@ -131,6 +150,11 @@ const TeamJoinPage: React.FC<
 
   const handleJoin = () => {
     setVisible(false);
+  };
+
+  const exportTeams = async () => {
+    setExporting(true);
+    getTeams(false, "电设", 2019);
   };
 
   // const handleChange = (pagination: PaginationConfig) => {
@@ -182,9 +206,23 @@ const TeamJoinPage: React.FC<
     onChange: changePage,
     onShowSizeChange: changePageSize,
     pageSizeOptions: ["5", "10", "20"],
-    showTotal: (total: number) => {
-      return `总共${total}支队伍`;
-    }
+    showTotal: (total: number) => (
+      <div style={{ display: "inline-block" }}>
+        {`总共${total}支队伍`}
+        {(user.role === "root" || user.role === "organizer") && (
+          <Button
+            style={{ marginLeft: "20px" }}
+            onClick={exportTeams}
+            type="primary"
+            shape="round"
+            icon="download"
+            size="small"
+          >
+            导出队伍信息
+          </Button>
+        )}
+      </div>
+    )
   };
 
   return (
@@ -245,6 +283,7 @@ const TeamJoinPage: React.FC<
           </div>
         )}
       />
+
       <WrappedTeamJoinForm
         teamId={teamId}
         id={user.id}
