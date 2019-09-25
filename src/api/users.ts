@@ -31,7 +31,7 @@ export const getUsernames = async (ids: number[], token: string) => {
   });
   const users = response.data as IUser[];
   const usernames = users.map((user: IUser) => {
-    return user.name;
+    return user.username;
   });
   return usernames;
 };
