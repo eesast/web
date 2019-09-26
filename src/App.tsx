@@ -29,6 +29,7 @@ import EdcSite from "./sites/EdcSite";
 import HomeSite from "./sites/HomeSite";
 import NotFoundSite from "./sites/NotFoundSite";
 import WeeklySite from "./sites/WeeklySite";
+import MarkdownSite from "./sites/MarkdownSite";
 import styles from "./App.module.css";
 import { MenuProps } from "antd/lib/menu";
 import RegisterPage from "./pages/RegisterPage";
@@ -145,6 +146,7 @@ const routes = [
   { to: "/weekly", component: WeeklySite, auth: false },
   { to: "/thuedc", component: EdcSite, auth: false },
   { to: "/api", component: ApiSite, auth: false },
+  { to: "/md2wx", component: MarkdownSite, auth: false },
   { to: "/login", component: LoginPage, auth: false },
   { to: "/profile", component: ProfilePage, auth: true },
   { to: "/register", component: RegisterPage, auth: false },
