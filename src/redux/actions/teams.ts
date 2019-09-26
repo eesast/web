@@ -58,23 +58,15 @@ export function getTeams(
         teams = await api.getTeams(self, getState().teams.contestId!, token);
       }
 
-      const leaders = teams.map(team => {
-        return team.leader;
-      });
       const players = teams.reduce(
         (data: number[], team) => data.concat(team.members),
         []
       );
 
-      const leadersInfo = await api.getUserInfos(leaders, token);
       const playersInfo = await api.getUserInfos(players, token);
 
-      const leaderInfoPair: { [key: number]: IUser } = {};
       const playerInfoPair: { [key: number]: IUser } = {};
 
-      leadersInfo.forEach(leader => {
-        leaderInfoPair[leader.id] = leader;
-      });
       playersInfo.forEach(player => {
         playerInfoPair[player.id] = player;
       });
@@ -84,7 +76,7 @@ export function getTeams(
           const membersInfo = team.members.map(member => {
             return playerInfoPair[member];
           });
-          const leaderInfo = leaderInfoPair[team.leader];
+          const leaderInfo = playersInfo[team.leader];
           return {
             ...team,
             membersInfo: membersInfo,
