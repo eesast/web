@@ -66,6 +66,8 @@ const TeamJoinPage: React.FC<
     getSelfTeam,
     totalTeams,
     getTeamNum,
+    contestId,
+    getContestId,
     error,
     fetching
   } = props;
@@ -77,15 +79,15 @@ const TeamJoinPage: React.FC<
   const [activeRow, setActiveRow] = useState("");
   const [exporting, setExporting] = useState(false);
 
-  // useEffect(() => {
-  //   getContestId("电设", 2019);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   useEffect(() => {
-    getSelfTeam("电设", 2019);
+    if (contestId) {
+      getSelfTeam("电设", 2019);
+      getTeamNum("电设", 2019);
+    } else {
+      getContestId("电设", 2019);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [contestId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,15 +99,13 @@ const TeamJoinPage: React.FC<
         pageNumber * pageSize
       );
     };
-
-    fetchData();
+    if (contestId) {
+      fetchData();
+    } else {
+      getContestId("电设", 2019);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNumber, pageSize]);
-
-  useEffect(() => {
-    getTeamNum("电设", 2019);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [contestId, pageNumber, pageSize]);
 
   useEffect(() => {
     if (error) {
