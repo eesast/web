@@ -21,7 +21,7 @@ import {
   GET_CONTEST_ID_SUCCESS,
   GET_CONTEST_ID_FAILURE
 } from "../types/constants";
-import { ITeam } from "../types/state";
+import { ITeam, IUser } from "../types/state";
 
 export const getTeamsAction = createAsyncAction(
   GET_TEAMS_REQUEST,
@@ -58,10 +58,25 @@ export function getTeams(
         teams = await api.getTeams(self, getState().teams.contestId!, token);
       }
 
+      const players = teams.reduce(
+        (data: number[], team) => data.concat(team.members),
+        []
+      );
+
+      const playersInfo = await api.getUserInfos(players, token);
+
+      const playerInfoPair: { [key: number]: IUser } = {};
+
+      playersInfo.forEach(player => {
+        playerInfoPair[player.id] = player;
+      });
+
       teams = await Promise.all(
         teams.map(async team => {
-          const membersInfo = await api.getUserInfos(team.members, token);
-          const leaderInfo = membersInfo[0];
+          const membersInfo = team.members.map(member => {
+            return playerInfoPair[member];
+          });
+          const leaderInfo = playersInfo[team.leader];
           return {
             ...team,
             membersInfo: membersInfo,
@@ -126,9 +141,7 @@ export function getSelfTeam(
       if (team.length) {
         const selfTeam = team[0];
         selfTeam.leaderInfo = await api.getUserInfo(selfTeam.leader, token);
-        selfTeam.membersInfo = await Promise.all(
-          selfTeam.members.map(id => api.getUserInfo(id, token))
-        );
+        selfTeam.membersInfo = await api.getUserInfos(selfTeam.members, token);
 
         dispatch(getSelfTeamAction.success(selfTeam));
       } else {
