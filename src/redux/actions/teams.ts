@@ -76,7 +76,7 @@ export function getTeams(
           const membersInfo = team.members.map(member => {
             return playerInfoPair[member];
           });
-          const leaderInfo = playersInfo[team.leader];
+          const leaderInfo = playerInfoPair[team.leader];
           return {
             ...team,
             membersInfo: membersInfo,
