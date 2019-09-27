@@ -57,6 +57,7 @@ const a = 13;
     setPngConverting(true);
     await md2wx.convertSvgToPng();
     setPngConverting(false);
+    message.success("转换成功");
   };
 
   useEffect(() => {
