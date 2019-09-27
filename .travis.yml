@@ -3,7 +3,7 @@ node_js: "node"
 before_install:
   - npm i -g yarn
 install:
-  - yarn install --frozen-lockfile --no-cache
+  - yarn install --frozen-lockfile --no-cache --force
 script:
   - yarn test
   - yarn build
