@@ -882,7 +882,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2":
   version "7.6.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.2.tgz#c3d6e41b304ef10dcf13777a33e7694ec4a9a6dd"
   integrity sha512-EXxN64agfUqqIGeEjI5dL5z0Sw0ZwWo1mLTi4mQowCZ42O59b7DRpZAnTC6OqdF28wMBMFKNb/4uFGrVaigSpg==
@@ -3874,6 +3874,11 @@ dom-serializer@0:
   dependencies:
     domelementtype "^2.0.1"
     entities "^2.0.0"
+
+"dom-to-image@git+https://github.com/robertying/dom-to-image.git":
+  version "2.6.0"
+  uid "0a7880a35643accfbd21c833729725a35ff2b2cf"
+  resolved "git+https://github.com/robertying/dom-to-image.git#0a7880a35643accfbd21c833729725a35ff2b2cf"
 
 domain-browser@^1.1.1:
   version "1.2.0"
@@ -7155,11 +7160,13 @@ marked@0.7.0, marked@^0.7.0:
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
   integrity sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==
 
-md2wx@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/md2wx/-/md2wx-0.2.0.tgz#fa2bb1a1ea9c6a4c578d9e03ea54f78d5e14c368"
-  integrity sha512-y2ZjYboRJpuFQDo2Rdm6hsg4QLSYEXuPhqgr7oiTx1rumCJnvVTKR1o8PY9Kmmi6S+oTQIB7kabe8q4rGDXZRA==
+md2wx@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/md2wx/-/md2wx-2.0.2.tgz#a74231ea2d366f575e2c4d02a0b9a197675418e0"
+  integrity sha512-lucm/c5nnjlPBHqbL0o08djAMm5b1sskizLvJhbsLc7QmmZXghrvOvAEkrSijCnCwfMDZCfca+0xnVDFuSdbZQ==
   dependencies:
+    "@babel/runtime" "^7.6.2"
+    dom-to-image "git+https://github.com/robertying/dom-to-image.git"
     dompurify "^2.0.3"
     highlight.js "^9.15.10"
     katex "^0.11.1"
