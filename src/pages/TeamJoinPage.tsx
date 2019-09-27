@@ -205,8 +205,10 @@ const TeamJoinPage: React.FC<
       title: "队伍成员",
       dataIndex: "membersInfo",
       key: "membersInfo",
-      render: (members: IUser[]) =>
-        members.map(member => member.username).join("、")
+      render: (members?: IUser[]) =>
+        members
+          ? members.map((member: IUser) => member.username).join("、")
+          : ""
     }
   ];
 
