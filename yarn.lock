@@ -882,7 +882,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2":
   version "7.6.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.2.tgz#c3d6e41b304ef10dcf13777a33e7694ec4a9a6dd"
   integrity sha512-EXxN64agfUqqIGeEjI5dL5z0Sw0ZwWo1mLTi4mQowCZ42O59b7DRpZAnTC6OqdF28wMBMFKNb/4uFGrVaigSpg==
@@ -3875,6 +3875,10 @@ dom-serializer@0:
     domelementtype "^2.0.1"
     entities "^2.0.0"
 
+"dom-to-image@git+https://github.com/robertying/dom-to-image.git":
+  version "2.6.0"
+  resolved "git+https://github.com/robertying/dom-to-image.git#0a7880a35643accfbd21c833729725a35ff2b2cf"
+
 domain-browser@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
@@ -3985,9 +3989,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.247:
-  version "1.3.266"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.266.tgz#a33fb529c75f8d133e75ea7cbedb73a62f2158d2"
-  integrity sha512-UTuTZ4v8T0gLPHI7U75PXLQePWI65MTS3mckRrnLCkNljHvsutbYs+hn2Ua/RFul3Jt/L3Ht2rLP+dU/AlBfrQ==
+  version "1.3.267"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.267.tgz#7745ff9d447fd2a9802e1c6dfa518631e0cf5357"
+  integrity sha512-9Q2ixAJC+oHjWNtJV0MQ4vJMCWSowIrC6V6vcr+bwPddTDHj2ddv9xxXCzf4jT/fy6HP7maPoW0gifXkRxCttQ==
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -5167,9 +5171,9 @@ handle-thing@^2.0.0:
   integrity sha512-d4sze1JNC454Wdo2fkuyzCr6aHcbL6PGGuFAz0Li/NcOm1tCHGnWDRmJP85dh9IhQErTc2svWFEX5xHIOo//kQ==
 
 handlebars@^4.1.2:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.3.1.tgz#6febc1890851f62a8932d495cc88d29390fa850d"
-  integrity sha512-c0HoNHzDiHpBt4Kqe99N8tdLPKAnGCQ73gYMPWtAYM4PwGnf7xl8PBUHJqh9ijlzt2uQKaSRxbXRt+rZ7M2/kA==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.3.3.tgz#56dd05fe33d6bd8a7d797351c39a0cdcfd576be5"
+  integrity sha512-VupOxR91xcGojfINrzMqrvlyYbBs39sXIrWa7YdaQWeBudOlvKEGvCczMfJPgnuwHE/zyH1M6J+IUP6cgDVyxg==
   dependencies:
     neo-async "^2.6.0"
     optimist "^0.6.1"
@@ -7155,11 +7159,13 @@ marked@0.7.0, marked@^0.7.0:
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
   integrity sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==
 
-md2wx@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/md2wx/-/md2wx-0.2.0.tgz#fa2bb1a1ea9c6a4c578d9e03ea54f78d5e14c368"
-  integrity sha512-y2ZjYboRJpuFQDo2Rdm6hsg4QLSYEXuPhqgr7oiTx1rumCJnvVTKR1o8PY9Kmmi6S+oTQIB7kabe8q4rGDXZRA==
+md2wx@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/md2wx/-/md2wx-2.0.2.tgz#a74231ea2d366f575e2c4d02a0b9a197675418e0"
+  integrity sha512-lucm/c5nnjlPBHqbL0o08djAMm5b1sskizLvJhbsLc7QmmZXghrvOvAEkrSijCnCwfMDZCfca+0xnVDFuSdbZQ==
   dependencies:
+    "@babel/runtime" "^7.6.2"
+    dom-to-image "https://github.com/robertying/dom-to-image"
     dompurify "^2.0.3"
     highlight.js "^9.15.10"
     katex "^0.11.1"
@@ -9447,9 +9453,9 @@ rc-editor-mention@^1.1.13:
     rc-editor-core "~0.8.3"
 
 rc-form@^2.4.5:
-  version "2.4.8"
-  resolved "https://registry.yarnpkg.com/rc-form/-/rc-form-2.4.8.tgz#79a1f124d4fa81dff2af2992e94aa3e58cad683c"
-  integrity sha512-hlHajcYg51pFQf+B6neAbhy2ZA+8DmxnDxiOYZRAXCLhPN788ZnrtZq5/iADDWcZqjHFnXiThoZE/Fu8syciDQ==
+  version "2.4.9"
+  resolved "https://registry.yarnpkg.com/rc-form/-/rc-form-2.4.9.tgz#6884b06bbd8d6a934e5f2aa27e8730882c70840c"
+  integrity sha512-uu6wtJqSQWTFOgv1NcYJIPf7TlJHmQHbDJTBQQuQsKKap8CiW6aeAfvOZpThQuWwV/NeznP4WKeOJurIw4zzlA==
   dependencies:
     async-validator "~1.11.3"
     babel-runtime "6.x"
@@ -10599,9 +10605,9 @@ schema-utils@^1.0.0:
     ajv-keywords "^3.1.0"
 
 schema-utils@^2.0.0, schema-utils@^2.0.1, schema-utils@^2.1.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.3.0.tgz#592c836507db364139a6dea7f46563d66b688a03"
-  integrity sha512-0NWOS/em29583dLzou07qWp5xoKCnvm5NiDQ+IkI/Q8xP6rm1SMvQrmHseH0RSbBe4tM+LJ7IeZTqb/dF9dTRQ==
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.4.1.tgz#e89ade5d056dc8bcaca377574bb4a9c4e1b8be56"
+  integrity sha512-RqYLpkPZX5Oc3fw/kHHHyP56fg5Y+XBpIpV8nCg0znIALfq3OH+Ea9Hfeac9BAMwG5IICltiZ0vxFvJQONfA5w==
   dependencies:
     ajv "^6.10.2"
     ajv-keywords "^3.4.1"
@@ -11426,9 +11432,9 @@ terser-webpack-plugin@1.4.1, terser-webpack-plugin@^1.4.1:
     worker-farm "^1.7.0"
 
 terser@^4.1.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-4.3.2.tgz#ed830de484b0103652799063e605618e80f97f93"
-  integrity sha512-obxk4x19Zlzj9zY4QeXj9iPCb5W8YGn4v3pn4/fHj0Nw8+R7N02Kvwvz9VpOItCZZD8RC+vnYCDL0gP6FAJ7Xg==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-4.3.3.tgz#f626c6779cadd60a3018e072fedeceabe4769db1"
+  integrity sha512-Nzr7dpRjSzMEUS+z2UYQBtzE0LDm5k0Yy8RgLRPy85QUo1TjU5lIOBwzS5/FVAMaVyHZ3WTTU2BuQcMn8KXnNQ==
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
@@ -12432,9 +12438,9 @@ xtend@^4.0.0, xtend@~4.0.1:
   integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
 
 yallist@^3.0.0, yallist@^3.0.2, yallist@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.3.tgz#b4b049e314be545e3ce802236d6cd22cd91c3de9"
-  integrity sha512-S+Zk8DEWE6oKpV+vI3qWkaK+jSbIK86pCwe2IF/xwIpQ8jEuxpw9NyaGjmp9+BoJv5FV2piqCDcoCtStppiq2A==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.1.0.tgz#906cc2100972dc2625ae78f566a2577230a1d6f7"
+  integrity sha512-6gpP93MR+VOOehKbCPchro3wFZNSNmek8A2kbkOAZLIZAYx1KP/zAqwO0sOHi3xJEb+UBz8NaYt/17UNit1Q9w==
 
 yargs-parser@^10.1.0:
   version "10.1.0"
