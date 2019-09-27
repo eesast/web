@@ -4,7 +4,7 @@ cache: yarn
 before_install:
   - npm i -g yarn
 install:
-  - yarn
+  - yarn install --frozen-lockfile --no-cache
 script:
   - yarn test
   - yarn build
