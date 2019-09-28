@@ -1,10 +1,11 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Site } from "../App";
 import styles from "./MarkdownSite.module.css";
 import md2wx from "md2wx";
-import { Input, Switch, Button, message } from "antd";
+import { Input, Switch, Button, message, Upload } from "antd";
 import Clipboard from "clipboard";
 import "./MarkdownSite.css";
+import { UploadProps } from "antd/lib/upload";
 
 export interface IMarkdownSiteProps {
   setSite: (site: Site) => void;
@@ -69,6 +70,36 @@ const a = 13;
     return () => clipboard.destroy();
   });
 
+  const handleImageUpload: UploadProps["onChange"] = async ({ file }) => {
+    try {
+      const reader = new FileReader();
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        reader.onerror = () => {
+          reader.abort();
+          reject();
+        };
+
+        reader.onload = () => {
+          resolve(reader.result as string);
+        };
+
+        reader.readAsDataURL(file.originFileObj!);
+      });
+
+      const ref = textAreaRef.current!;
+      const newText =
+        text + `\n<img alt="${file.name}" src="${dataUrl}" />\n\n`;
+      setText(newText);
+      ref.focus();
+      ref.selectionStart = newText.length;
+      ref.selectionEnd = newText.length;
+    } catch {
+      message.error("图片上传失败");
+    }
+  };
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   return (
     <div className={styles.root}>
       <div className={styles.column}>
@@ -107,10 +138,29 @@ const a = 13;
             </Button>
           </div>
           <Input.TextArea
+            ref={textAreaRef as any}
             style={{ resize: "none", flex: 1 }}
             value={text}
             onChange={e => setText(e.target.value)}
           />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: 16,
+              justifyContent: "flex-end"
+            }}
+          >
+            <Upload
+              accept="image/*"
+              multiple
+              showUploadList={false}
+              customRequest={() => {}}
+              onChange={handleImageUpload}
+            >
+              <Button>上传图片</Button>
+            </Upload>
+          </div>
         </div>
       </div>
       <div className={styles.column}>
