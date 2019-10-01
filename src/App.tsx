@@ -102,7 +102,7 @@ const App = () => {
               <div className={styles.logoContainer}>
                 <img className={styles.logo} src={logo} alt="logo" />
                 <Title style={{ margin: "auto", marginLeft: 10 }} level={3}>
-                  EESAST
+                  EESΛST
                 </Title>
               </div>
               <Menu
