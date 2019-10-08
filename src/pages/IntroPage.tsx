@@ -10,6 +10,7 @@ const IntroPage: React.FC<{}> = () => {
         <Title>“商汤杯”第二十一届电子设计大赛——火线救援</Title>
         <div style={{ textAlign: "center" }}>
           <img
+            style={{ maxWidth: "70%", margin: "8px auto" }}
             src="https://api.eesast.com/static/images/2019edclogo-background.png"
             alt="edclogo"
           />

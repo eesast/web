@@ -35,12 +35,12 @@ const SponsorPage: React.FC<{}> = () => {
           <img
             alt="sensetime-titan"
             src="https://api.eesast.com/static/images/sensetime-titan-qrcode.png"
-            style={{ maxWidth: 700, width: "70%" }}
+            style={{ maxWidth: 700, width: "70%", margin: "8px auto" }}
           />
           <img
             src="https://api.eesast.com/static/images/sensetime-logo.png"
             alt="sensetime-logo"
-            style={{ maxWidth: 200, width: "20%" }}
+            style={{ maxWidth: 200, width: "20%", margin: "8px auto" }}
           />
         </div>
       </Typography>

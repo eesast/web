@@ -32,6 +32,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           <Typography.Title level={2}>软件部</Typography.Title>
           <div style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               src="https://api.eesast.com/static/images/division-introduction-software-group-photo.png"
               alt="division-introduction-software-group"
             />
@@ -55,6 +56,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           <div style={{ textAlign: "center" }}>
             <div style={{ float: "left", width: "50%", padding: 6 }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-software-training-1.png"
                 alt="software-training-1"
                 style={{ width: "90%" }}
@@ -62,6 +64,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
             </div>
             <div style={{ float: "right", width: "50%", padding: 6 }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-software-training-2.png"
                 alt="software-training-2"
                 style={{ width: "90%" }}
@@ -83,7 +86,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           <Typography.Title level={2}>硬件部</Typography.Title>
           <div style={{ textAlign: "center" }}>
             <img
-              className={styles.photo}
+              className={styles.img}
               src="https://api.eesast.com/static/images/division-introduction-hardware-group-photo.png"
               alt="division-introduction-hardware-group"
               style={{ width: "90%" }}
@@ -103,6 +106,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           <div style={{ textAlign: "center" }}>
             <div style={{ float: "left", width: "50%" }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-hardware-contest-1.png"
                 alt="hardware-contest-1"
                 style={{ width: "90%" }}
@@ -110,6 +114,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
             </div>
             <div style={{ float: "right", width: "50%" }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-hardware-contest-2.png"
                 alt="hardware-contest-2"
                 style={{ width: "90%" }}
@@ -125,6 +130,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           <div style={{ textAlign: "center" }}>
             <div style={{ float: "left", width: "50%" }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-edc-1.png"
                 alt="edc-1"
                 style={{ width: "90%" }}
@@ -132,6 +138,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
             </div>
             <div style={{ float: "right", width: "50%" }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-edc-2.png"
                 alt="edc-2"
                 style={{ width: "90%" }}
@@ -171,11 +178,13 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
             }}
           >
             <img
+              className={styles.img}
               src="https://api.eesast.com/static/images/division-introduction-project-1.png"
               alt="project-1"
               style={{ width: "40%" }}
             />
             <img
+              className={styles.img}
               src="https://api.eesast.com/static/images/division-introduction-project-2.png"
               alt="project-2"
               style={{ width: "40%" }}
@@ -214,6 +223,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           <div style={{ textAlign: "center" }}>
             <div style={{ float: "left", width: "50%" }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-newbie-contest-1.jpg"
                 alt="newbie-contest-1"
                 style={{ width: "90%" }}
@@ -221,6 +231,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
             </div>
             <div style={{ float: "right", width: "50%" }}>
               <img
+                className={styles.img}
                 src="https://api.eesast.com/static/images/division-introduction-newbie-contest-2.jpg"
                 alt="newbie-contest-2"
                 style={{ width: "90%" }}
@@ -267,6 +278,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           <Typography.Title level={2}>宣策部</Typography.Title>
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
+              className={styles.img}
               src="https://api.eesast.com/static/images/division-introduction-conference-1.png"
               alt="conference-1"
               style={{ width: "20%", marginRight: 24 }}
@@ -293,6 +305,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           </div>
           <div style={{ float: "left", width: "50%" }}>
             <img
+              className={styles.img}
               src="https://api.eesast.com/static/images/division-introduction-conference-2.png"
               alt="conference-2"
               style={{ width: "90%" }}
@@ -300,6 +313,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
           </div>
           <div style={{ float: "right", width: "50%" }}>
             <img
+              className={styles.img}
               src="https://api.eesast.com/static/images/division-introduction-conference-3.png"
               alt="conference-3"
               style={{ width: "90%" }}

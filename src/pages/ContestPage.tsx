@@ -36,6 +36,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           <Title level={4}>精彩回顾</Title>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="ts16"
               src="https://api.eesast.com/static/images/ts16.jpg"
             />
@@ -45,6 +46,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="ts17"
               src="https://api.eesast.com/static/images/ts17.jpg"
             />
@@ -54,6 +56,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="ts18"
               src="https://api.eesast.com/static/images/ts18.jpg"
             />
@@ -63,6 +66,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="ts19"
               src="https://api.eesast.com/static/images/ts19.jpg"
             />
@@ -72,6 +76,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="ts20"
               src="https://api.eesast.com/static/images/ts20.jpg"
             />
@@ -96,6 +101,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           <Title level={4}>精彩回顾</Title>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="edc18"
               src="https://api.eesast.com/static/images/edc18.jpg"
             />
@@ -105,6 +111,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="edc19"
               src="https://api.eesast.com/static/images/edc19.jpg"
             />
@@ -114,6 +121,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="edc20"
               src="https://api.eesast.com/static/images/edc20.jpg"
             />
@@ -138,10 +146,12 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           <Title level={4}>精彩回顾</Title>
           <Paragraph style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="hwdc2017-1"
               src="https://api.eesast.com/static/images/hwdc2017-1.jpg"
             />
             <img
+              className={styles.img}
               alt="hwdc2017-2"
               src="https://api.eesast.com/static/images/hwdc2017-2.jpg"
             />
@@ -151,10 +161,12 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="hwdc2018-1"
               src="https://api.eesast.com/static/images/hwdc2018-1.gif"
             />
             <img
+              className={styles.img}
               alt="hwdc2018-2"
               src="https://api.eesast.com/static/images/hwdc2018-2.jpg"
             />
@@ -164,10 +176,12 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="hwdc2019-1"
               src="https://api.eesast.com/static/images/hwdc2019-1.gif"
             />
             <img
+              className={styles.img}
               alt="hwdc2019-2"
               src="https://api.eesast.com/static/images/hwdc2019-2.gif"
             />
@@ -213,6 +227,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             2018 软件设计大赛优秀作品
             <br />
             <img
+              className={styles.img}
               alt="swdc2018-1"
               src="https://api.eesast.com/static/images/swdc2018-1.png"
             />
@@ -220,6 +235,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             多功能计算器 CalcPro
             <br />
             <img
+              className={styles.img}
               alt="swdc2018-2"
               src="https://api.eesast.com/static/images/swdc2018-2.jpg"
             />
@@ -227,6 +243,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             简易操作系统 BASIC-OS1
             <br />
             <img
+              className={styles.img}
               alt="swdc2018-3"
               src="https://api.eesast.com/static/images/swdc2018-3.jpg"
             />
@@ -238,6 +255,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             2019 软件设计大赛优秀作品
             <br />
             <img
+              className={styles.img}
               alt="swdc2019-1"
               src="https://api.eesast.com/static/images/swdc2019-1.png"
             />
@@ -245,6 +263,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             音乐节奏游戏 TuneStory
             <br />
             <img
+              className={styles.img}
               alt="swdc2019-2"
               src="https://api.eesast.com/static/images/swdc2019-2.png"
             />
@@ -252,6 +271,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             三角形滤镜 LowPoly
             <br />
             <img
+              className={styles.img}
               alt="swdc2019-3"
               src="https://api.eesast.com/static/images/swdc2019-3.png"
             />
@@ -399,6 +419,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
           </Paragraph>
           <Paragraph disabled style={{ textAlign: "center" }}>
             <img
+              className={styles.img}
               alt="fic15"
               src="https://api.eesast.com/static/images/fic15.jpg"
             />
@@ -406,6 +427,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             第十五届决赛
             <br />
             <img
+              className={styles.img}
               alt="fic16"
               src="https://api.eesast.com/static/images/fic16.jpg"
             />
@@ -413,6 +435,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
             第十六届决赛
             <br />
             <img
+              className={styles.img}
               alt="fic17"
               src="https://api.eesast.com/static/images/fic17.jpg"
             />

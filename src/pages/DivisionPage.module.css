@@ -4,7 +4,7 @@
   overflow: auto;
 }
 
-img {
+.img {
   margin: 24px auto;
   max-width: 70%;
 }
