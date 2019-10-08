@@ -7,22 +7,25 @@ import FeedCard from "../components/FeedCard";
 import { getArticleFeeds } from "../redux/actions/weekly";
 import { IAppState, IArticle } from "../redux/types/state";
 import { WithRouterComponent } from "../types/WithRouterComponent";
-import styles from "./FeedPage.module.css";
+import styles from "./ArticleFeedPage.module.css";
 
-interface IFeedPageStateProps {
+interface IArticleFeedPageStateProps {
   fetching: boolean;
   hasMore: boolean;
   error?: Error | null;
   articles: IArticle[];
 }
 
-interface IFeedPageDispatchProps {
+interface IArticleFeedPageDispatchProps {
   getArticleFeeds: (page: number, pageSize: number) => void;
 }
 
-type IFeedPageProps = IFeedPageStateProps & IFeedPageDispatchProps;
+type IArticleFeedPageProps = IArticleFeedPageStateProps &
+  IArticleFeedPageDispatchProps;
 
-const FeedPage: React.FC<WithRouterComponent<{}, IFeedPageProps>> = props => {
+const ArticleFeedPage: React.FC<
+  WithRouterComponent<{}, IArticleFeedPageProps>
+> = props => {
   const { fetching, hasMore, error, articles, getArticleFeeds } = props;
 
   const [page, setPage] = useState(0);
@@ -81,7 +84,7 @@ const FeedPage: React.FC<WithRouterComponent<{}, IFeedPageProps>> = props => {
   );
 };
 
-function mapStateToProps(state: IAppState): IFeedPageStateProps {
+function mapStateToProps(state: IAppState): IArticleFeedPageStateProps {
   return {
     fetching: state.weekly.articles.fetching,
     hasMore: state.weekly.articles.hasMore,
@@ -90,11 +93,11 @@ function mapStateToProps(state: IAppState): IFeedPageStateProps {
   };
 }
 
-const mapDispatchToProps: IFeedPageDispatchProps = {
+const mapDispatchToProps: IArticleFeedPageDispatchProps = {
   getArticleFeeds
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FeedPage);
+)(ArticleFeedPage);

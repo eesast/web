@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router";
 import { Site } from "../App";
-import FeedPage from "../pages/FeedPage";
+import FeedPage from "../pages/ArticleFeedPage";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 
 export interface IWeeklySiteProps {
