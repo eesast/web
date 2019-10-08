@@ -4,7 +4,6 @@ import styles from "./MarkdownSite.module.css";
 import md2wx from "md2wx";
 import { Input, Switch, Button, message, Upload } from "antd";
 import Clipboard from "clipboard";
-import "./MarkdownSite.css";
 import { UploadProps } from "antd/lib/upload";
 
 export interface IMarkdownSiteProps {
