@@ -66,10 +66,11 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
 
   return (
     <Layout>
-      <Sider breakpoint="sm" collapsedWidth="0">
+      <Sider breakpoint="sm" collapsedWidth="0" theme="light">
         <Menu
-          className={styles.menu}
+          theme="light"
           mode="inline"
+          defaultOpenKeys={["team"]}
           selectedKeys={[page]}
           onSelect={onMenuSelect}
         >

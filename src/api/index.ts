@@ -18,11 +18,10 @@ import {
   getTeamNum
 } from "./teams";
 
-// axios.defaults.baseURL =
-//   process.env.NODE_ENV === "production"
-//     ? "https://api.eesast.com"
-//     : "http://localhost:28888";
-axios.defaults.baseURL = "https://api.eesast.com";
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://api.eesast.com"
+    : "http://localhost:28888";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export default {

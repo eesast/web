@@ -20,6 +20,10 @@ code {
   background: white;
 }
 
+.ant-menu-inline {
+  height: 100%;
+}
+
 .ant-carousel .slick-dots-bottom {
   bottom: 24px;
 }

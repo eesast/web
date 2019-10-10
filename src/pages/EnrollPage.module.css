@@ -1,5 +1,6 @@
 .root {
-  height: calc(80vh - 64px);
+  height: calc(100vh - 67px - 64px);
+  overflow: auto;
   display: flex;
   justify-content: center;
   align-items: center;
