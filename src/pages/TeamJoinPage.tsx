@@ -29,7 +29,6 @@ import { ColumnProps } from "antd/es/table";
 
 interface ITeamJoinPageStateProps {
   loggedIn: boolean;
-  token?: string;
   fetching: boolean;
   contestId?: number;
   user: IUser;
@@ -58,7 +57,6 @@ const TeamJoinPage: React.FC<
   WithRouterComponent<{}, ITeamJoinPageProps>
 > = props => {
   const {
-    token,
     user,
     teams,
     selfTeam,
@@ -301,7 +299,6 @@ const TeamJoinPage: React.FC<
       <WrappedTeamJoinForm
         teamId={teamId}
         id={user.id}
-        token={token || ""}
         visible={visible}
         onCancel={handleCancel}
         onJoin={handleJoin}
@@ -315,7 +312,6 @@ function mapStateToProps(state: IAppState): ITeamJoinPageStateProps {
     loggedIn: state.auth.loggedIn,
     fetching: state.teams.fetching,
     contestId: state.teams.contestId,
-    token: state.auth.token,
     user: state.auth.user!,
     error: state.teams.error,
     teams: state.teams.items,
@@ -341,7 +337,6 @@ export default withRouter(
 interface ITeamJoinFormProps extends FormComponentProps {
   teamId: number;
   id: number;
-  token: string;
   visible: boolean;
   onCancel: () => void;
   onJoin: () => void;
@@ -351,10 +346,8 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
   teamId,
   id,
   form,
-  token,
   visible,
-  onCancel,
-  onJoin
+  onCancel
 }) => {
   const { getFieldDecorator } = form;
 
@@ -362,7 +355,7 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
     form.validateFields(async (err, values) => {
       if (!err && values.inviteCode) {
         try {
-          await api.addTeamMember(teamId, id, values.inviteCode, token);
+          await api.addTeamMember(teamId, id, values.inviteCode);
           onCancel();
           Modal.info({
             title: "队伍加入成功"

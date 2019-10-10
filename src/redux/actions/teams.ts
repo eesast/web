@@ -41,7 +41,6 @@ export function getTeams(
     dispatch(getTeamsAction.request());
 
     try {
-      const token = getState().auth.token || "";
       if (!getState().teams.contestId) {
         await dispatch(getContestId(type, year));
       }
@@ -50,12 +49,11 @@ export function getTeams(
         teams = await api.getTeams(
           self,
           getState().teams.contestId!,
-          token,
           begin,
           end
         );
       } else {
-        teams = await api.getTeams(self, getState().teams.contestId!, token);
+        teams = await api.getTeams(self, getState().teams.contestId!);
       }
 
       const players = teams.reduce(
@@ -63,7 +61,7 @@ export function getTeams(
         []
       );
 
-      const playersInfo = await api.getUserInfos(players, token);
+      const playersInfo = await api.getUserInfos(players);
 
       const playerInfoPair: { [key: number]: IUser } = {};
 
@@ -132,16 +130,15 @@ export function getSelfTeam(
     dispatch(getSelfTeamAction.request());
 
     try {
-      const token = getState().auth.token || "";
       if (!getState().teams.contestId) {
         await dispatch(getContestId(type, year));
       }
-      const team = await api.getTeams(true, getState().teams.contestId!, token);
+      const team = await api.getTeams(true, getState().teams.contestId!);
 
       if (team.length) {
         const selfTeam = team[0];
-        selfTeam.leaderInfo = await api.getUserInfo(selfTeam.leader, token);
-        selfTeam.membersInfo = await api.getUserInfos(selfTeam.members, token);
+        selfTeam.leaderInfo = await api.getUserInfo(selfTeam.leader);
+        selfTeam.membersInfo = await api.getUserInfos(selfTeam.members);
 
         dispatch(getSelfTeamAction.success(selfTeam));
       } else {

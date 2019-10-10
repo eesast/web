@@ -23,7 +23,6 @@ interface ITeamManagePageStateProps {
   teams: ITeam[];
   selfTeam: ITeam;
   user: IUser;
-  token?: string;
   contestId?: number;
   error?: Error | null;
 }
@@ -40,7 +39,7 @@ type ITeamManagePageProps = ITeamManagePageDispatchProps &
 const TeamManagePage: React.FC<
   WithRouterComponent<{}, ITeamManagePageProps>
 > = props => {
-  const { token, contestId, error, selfTeam, getSelfTeam } = props;
+  const { contestId, error, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
     getSelfTeam("电设", 2019);
@@ -74,11 +73,7 @@ const TeamManagePage: React.FC<
     return (
       <div className={styles.root}>
         <Card className={styles.card}>
-          <WrappedTeamManageForm
-            token={token || ""}
-            contestId={contestId}
-            props={props}
-          />
+          <WrappedTeamManageForm contestId={contestId} props={props} />
         </Card>
       </div>
     );
@@ -88,7 +83,6 @@ const TeamManagePage: React.FC<
 function mapStateToProps(state: IAppState): ITeamManagePageStateProps {
   return {
     teams: state.teams.items,
-    token: state.auth.token,
     user: state.auth.user!,
     contestId: state.teams.contestId,
     error: state.teams.error,
@@ -111,14 +105,12 @@ export default withRouter(
 
 interface ITeamManageFormProps extends FormComponentProps {
   props: WithRouterComponent<{}, ITeamManagePageProps>;
-  token: string;
   contestId?: number;
 }
 
 const TeamManageForm: React.FC<ITeamManageFormProps> = ({
   form,
   props,
-  token,
   contestId
 }) => {
   const {
@@ -168,8 +160,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
             values.name,
             values.description,
             contestId!,
-            values.members,
-            token
+            values.members
           );
           Modal.success({
             title: "队伍信息已修改",
@@ -204,7 +195,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       content: "解散后队伍将被删除，且该操作不可逆",
       async onOk() {
         try {
-          await api.deleteTeam(id, token);
+          await api.deleteTeam(id);
           getTeams(true, "电设", 2019);
           Modal.success({
             title: "队伍已解散",
@@ -230,7 +221,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       content: "不在任何队伍中代表您放弃了本次比赛",
       async onOk() {
         try {
-          await api.quitTeam(id, props.user.id, token);
+          await api.quitTeam(id, props.user.id);
           getTeams(true, "电设", 2019);
           Modal.success({
             title: "您已退出队伍",

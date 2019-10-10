@@ -19,7 +19,6 @@ import api from "../api";
 import styles from "./EnrollPage.module.css";
 
 interface IEnrollPageStateProps {
-  token?: string;
   fetching: boolean;
   contestId?: number;
   error?: Error | null;
@@ -38,7 +37,7 @@ type IEnrollPageProps = IEnrollPageStateProps & IEnrollPageDispatchProps;
 const EnrollPage: React.FC<
   WithRouterComponent<{}, IEnrollPageProps>
 > = props => {
-  const { token, error, fetching, contestId, selfTeam, getSelfTeam } = props;
+  const { error, fetching, contestId, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
     getSelfTeam("电设", 2019);
@@ -61,11 +60,7 @@ const EnrollPage: React.FC<
     return (
       <div className={styles.root}>
         <Card className={styles.card}>
-          <WrappedEnrollForm
-            token={token || ""}
-            contestId={contestId}
-            props={props}
-          />
+          <WrappedEnrollForm contestId={contestId} props={props} />
         </Card>
       </div>
     );
@@ -103,7 +98,6 @@ const EnrollPage: React.FC<
 
 function mapStateToProps(state: IAppState): IEnrollPageStateProps {
   return {
-    token: state.auth.token,
     fetching: state.teams.fetching,
     contestId: state.teams.contestId,
     error: state.teams.error,
@@ -127,16 +121,10 @@ export default withRouter(
 
 interface IEnrollFormProps extends FormComponentProps {
   props: WithRouterComponent<{}, IEnrollPageProps>;
-  token: string;
   contestId?: number;
 }
 
-const EnrollForm: React.FC<IEnrollFormProps> = ({
-  form,
-  props,
-  token,
-  contestId
-}) => {
+const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
   const { getFieldDecorator } = form;
 
   const handleSubmit = () => {
@@ -150,8 +138,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({
           const inviteCode = await api.createTeam(
             values.name,
             values.description,
-            contestId!,
-            token
+            contestId!
           );
           Modal.success({
             title: "队伍创建成功",

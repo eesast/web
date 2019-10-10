@@ -4,24 +4,17 @@ import { ITeam } from "../redux/types/state";
 export const getTeams = async (
   self: boolean,
   contestId: number,
-  token: string,
   begin?: number,
   end?: number
 ) => {
   if (!begin && !end) {
     const response = await axios.get(
-      `/v1/teams?self=${self}&contestId=${contestId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
+      `/v1/teams?self=${self}&contestId=${contestId}`
     );
     return response.data as ITeam[];
   } else {
     const response = await axios.get(
-      `/v1/teams?self=${self}&contestId=${contestId}&begin=${begin}&end=${end}`,
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
+      `/v1/teams?self=${self}&contestId=${contestId}&begin=${begin}&end=${end}`
     );
     return response.data as ITeam[];
   }
@@ -30,18 +23,13 @@ export const getTeams = async (
 export const createTeam = async (
   name: string,
   description: string,
-  contestId: number,
-  token: string
+  contestId: number
 ) => {
-  const response = await axios.post(
-    "/v1/teams",
-    {
-      name,
-      description,
-      contestId
-    },
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
+  const response = await axios.post("/v1/teams", {
+    name,
+    description,
+    contestId
+  });
   return response.data.inviteCode as string;
 };
 
@@ -50,49 +38,33 @@ export const updateTeam = async (
   name: string,
   description: string,
   contestId: number,
-  members: number[],
-  token: string
+  members: number[]
 ) => {
-  await axios.put(
-    `/v1/teams/${id}`,
-    {
-      name,
-      description,
-      contestId,
-      members
-    },
-    {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-  );
-};
-
-export const deleteTeam = async (id: number, token: string) => {
-  await axios.delete(`/v1/teams/${id}`, {
-    headers: { Authorization: `Bearer ${token}` }
+  await axios.put(`/v1/teams/${id}`, {
+    name,
+    description,
+    contestId,
+    members
   });
 };
 
-export const quitTeam = async (id: number, memberId: number, token: string) => {
-  await axios.delete(`v1/teams/${id}/members/${memberId}`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+export const deleteTeam = async (id: number) => {
+  await axios.delete(`/v1/teams/${id}`);
+};
+
+export const quitTeam = async (id: number, memberId: number) => {
+  await axios.delete(`v1/teams/${id}/members/${memberId}`);
 };
 
 export const addTeamMember = async (
   teamId: number,
   id: number,
-  inviteCode: string,
-  token: string
+  inviteCode: string
 ) => {
-  await axios.post(
-    `/v1/teams/${teamId}/members`,
-    {
-      id,
-      inviteCode
-    },
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
+  await axios.post(`/v1/teams/${teamId}/members`, {
+    id,
+    inviteCode
+  });
 };
 
 export const getContestId = async (type: string, year: number) => {

@@ -17,16 +17,13 @@ export const updateUser = async (id: number, form: Partial<IUser>) => {
   await axios.put("/v1/users/" + id, form);
 };
 
-export const getUserInfo = async (id: number, token: string) => {
-  const response = await axios.get(`/v1/users/${id}`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+export const getUserInfo = async (id: number) => {
+  const response = await axios.get(`/v1/users/${id}`);
   return response.data as IUser;
 };
 
-export const getUserInfos = async (ids: number[], token: string) => {
+export const getUserInfos = async (ids: number[]) => {
   const response = await axios.post(`/v1/users/details`, {
-    headers: { Authorization: `Bearer ${token}` },
     ids
   });
   return response.data as IUser[];

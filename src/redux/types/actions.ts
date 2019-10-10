@@ -3,7 +3,6 @@ import { ThunkAction } from "redux-thunk";
 import { ActionType } from "typesafe-actions";
 import { loginAction, updateUserAction } from "../actions/auth";
 import { getArticleFeedsAction } from "../actions/weekly";
-import { getTimelineFeedsAction } from "../actions/timelines";
 import {
   getTeamsAction,
   getTeamNumAction,
@@ -28,10 +27,6 @@ export type IGetArticleFeedsAction = ActionType<typeof getArticleFeedsAction>;
 
 export type IWeeklyAction = IGetArticleFeedsAction;
 
-export type IGetTimelineFeedsAction = ActionType<typeof getTimelineFeedsAction>;
-
-export type ITimelinesAction = IGetTimelineFeedsAction;
-
 export type IGetTeamsAction = ActionType<typeof getTeamsAction>;
 
 export type IGetTeamNumAction = ActionType<typeof getTeamNumAction>;
@@ -46,8 +41,4 @@ export type ITeamsAction =
   | IGetSelfTeamAction
   | IGetContestIdAction;
 
-export type IAppAction =
-  | IAuthAction
-  | IWeeklyAction
-  | ITeamsAction
-  | ITimelinesAction;
+export type IAppAction = IAuthAction | IWeeklyAction | ITeamsAction;
