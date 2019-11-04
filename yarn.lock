@@ -3893,9 +3893,10 @@ dom-serializer@0:
     domelementtype "^2.0.1"
     entities "^2.0.0"
 
-"dom-to-image@git+https://github.com/robertying/dom-to-image.git":
+"dom-to-image@https://github.com/robertying/dom-to-image":
   version "2.6.0"
-  resolved "git+https://github.com/robertying/dom-to-image.git#0a7880a35643accfbd21c833729725a35ff2b2cf"
+  uid "0a7880a35643accfbd21c833729725a35ff2b2cf"
+  resolved "https://github.com/robertying/dom-to-image#0a7880a35643accfbd21c833729725a35ff2b2cf"
 
 domain-browser@^1.1.1:
   version "1.2.0"
@@ -3926,7 +3927,7 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-dompurify@^2.0.0, dompurify@^2.0.3:
+dompurify@^2.0.3, dompurify@^2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.0.7.tgz#f8266ad38fe1602fb5b3222f31eedbf5c16c4fd5"
   integrity sha512-S3O0lk6rFJtO01ZTzMollCOGg+WAtCwS3U5E2WSDY/x/sy7q70RjEC4Dmrih5/UqzLLB9XoKJ8KqwBxaNvBu4A==
@@ -11419,10 +11420,10 @@ swagger-client@^3.9.5:
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
 
-swagger-ui-react@3.24.0:
-  version "3.24.0"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.24.0.tgz#30fd15fc2173bd885b9b06761b72b0004e473ebd"
-  integrity sha512-8vgbAxUUzvChZPVAxBQOZu8Pxdp0aTX85a3AEF6744TaLwUnzYw6oO0h9ilNvQhd7piSTeasBFfRD6Vsfw2C8A==
+swagger-ui-react@3.24.2:
+  version "3.24.2"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-3.24.2.tgz#418869b171502ade6e8752ea800719517650271c"
+  integrity sha512-d7XrBLZvUh5em69KkYJCHXZZCOpbKplzsa92JV0c91AB89XNA3QEazNj3pxi9Nzme0ujPA64yCpVD/EFmx5VbA==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^3.0.0"
@@ -11433,7 +11434,7 @@ swagger-ui-react@3.24.0:
     core-js "^2.5.1"
     css.escape "1.5.1"
     deep-extend "0.6.0"
-    dompurify "^2.0.0"
+    dompurify "^2.0.7"
     ieee754 "^1.1.13"
     immutable "^3.x.x"
     js-file-download "^0.4.1"
