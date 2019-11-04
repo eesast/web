@@ -29,7 +29,7 @@
     "redux": "4.0.4",
     "redux-thunk": "2.3.0",
     "swagger-ui-react": "3.24.2",
-    "typesafe-actions": "4.4.2",
+    "typesafe-actions": "5.1.0",
     "xlsx": "0.15.1"
   },
   "devDependencies": {
