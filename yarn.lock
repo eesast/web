@@ -1330,10 +1330,12 @@
   resolved "https://registry.yarnpkg.com/@types/clipboard/-/clipboard-2.0.1.tgz#75a74086c293d75b12bc93ff13bc7797fef05a40"
   integrity sha512-gJJX9Jjdt3bIAePQRRjYWG20dIhAgEqonguyHxXuqALxsoDsDLimihqrSg8fXgVTJ4KZCzkfglKtwsh/8dLfbA==
 
-"@types/dompurify@0.0.33":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@types/dompurify/-/dompurify-0.0.33.tgz#bec490ba5a5b4b31679fb9e5a70e4d2f405516bd"
-  integrity sha512-lUN9iC6b4txeaEef2PW7zIdhEKAp0Sw9bymOcXXZ7BaepB0nsDJYcLIrFfgpIkRSoZWBJ8IcYunB2hAXuHL1NA==
+"@types/dompurify@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/dompurify/-/dompurify-2.0.0.tgz#9616caa5bf2569aea2e4889d4f929d968c081b40"
+  integrity sha512-g/ilp+Bo6Ljy60i5LnjkGw00X7EIoFjoPGlxqZhV8TJ9fWEzXheioU1O+U/UzCzUA7pUDy/JNMytTQDJctpUHg==
+  dependencies:
+    "@types/trusted-types" "*"
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
@@ -1506,6 +1508,11 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
+
+"@types/trusted-types@*":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-1.0.4.tgz#922d092c84a776a59acb0bd6785fd82b59b9bad5"
+  integrity sha512-6jtHrHpmiXOXoJ31Cg9R+iEVwuEKPf0XHwFUI93eEPXx492/J2JHyafkleKE2EYzZprayk9FSjTyK1GDqcwDng==
 
 "@types/yargs-parser@*":
   version "13.1.0"
