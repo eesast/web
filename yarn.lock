@@ -1409,10 +1409,10 @@
   resolved "https://registry.yarnpkg.com/@types/jwt-decode/-/jwt-decode-2.2.1.tgz#afdf5c527fcfccbd4009b5fd02d1e18241f2d2f2"
   integrity sha512-aWw2YTtAdT7CskFyxEX2K21/zSDStuf/ikI3yBqmwpwJF0pS+/IX5DWv+1UFffZIbruP6cnT9/LAJV1gFwAT1A==
 
-"@types/marked@0.6.5":
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.6.5.tgz#3cf2a56ef615dad24aaf99784ef90a9eba4e29d8"
-  integrity sha512-6kBKf64aVfx93UJrcyEZ+OBM5nGv4RLsI6sR1Ar34bpgvGVRoyTgpxn4ZmtxOM5aDTAaaznYuYUH8bUX3Nk3YA==
+"@types/marked@0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.7.0.tgz#b9de675412d26515b069ad478cf43165816d1d90"
+  integrity sha512-UcrlF5NyA7DwckjJeE7xUfEB83i4a3KsS+dH7/gqWKJnTnUOW0W0eL52EhtB6+nKw9LTX/IS5nsK3wDhjZ1GAA==
 
 "@types/minimatch@*":
   version "3.0.3"
