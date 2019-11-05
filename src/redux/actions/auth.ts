@@ -33,5 +33,5 @@ export function login(
 
 export const updateUserAction = createAction(
   UPDATE_USER,
-  action => (id: number, user: IUser) => action({ id, user })
-);
+  (id: number, user: IUser) => ({ id, user })
+)();
