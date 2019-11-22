@@ -2,6 +2,9 @@ import { Carousel } from "antd";
 import React from "react";
 import styles from "./NewsPage.module.css";
 import { HomeSitePage } from "../sites/HomeSite";
+import hardwarePhoto from "../assets/Photos/hardware.jpg";
+import studyPhoto1 from "../assets/Photos/Study1.jpg";
+import studyPhoto2 from "../assets/Photos/Study2.jpg";
 
 const news = [
   {
@@ -13,6 +16,18 @@ const news = [
     title: "“商汤杯”第二十一届电子设计大赛",
     content: "本次电子设计大赛主题为“火线救援”。",
     image: "https://api.eesast.com/static/images/2019edclogo-background.png"
+  },
+  {
+    title: "新生信息知识竞赛",
+    image: studyPhoto1
+  },
+  {
+    title: "新生信息知识竞赛",
+    image: studyPhoto2
+  },
+  {
+    title: "硬件设计大赛",
+    image: hardwarePhoto
   }
 ];
 
