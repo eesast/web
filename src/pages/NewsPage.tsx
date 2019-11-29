@@ -2,9 +2,6 @@ import { Carousel } from "antd";
 import React from "react";
 import styles from "./NewsPage.module.css";
 import { HomeSitePage } from "../sites/HomeSite";
-import hardwarePhoto from "../assets/Photos/hardware.jpg";
-import studyPhoto1 from "../assets/Photos/Study1.jpg";
-import studyPhoto2 from "../assets/Photos/Study2.jpg";
 
 const news = [
   {
@@ -19,15 +16,16 @@ const news = [
   },
   {
     title: "新生信息知识竞赛",
-    image: studyPhoto1
-  },
-  {
-    title: "新生信息知识竞赛",
-    image: studyPhoto2
+    content:
+      "新生们登上信息学院的大舞台，凭借自己的知识与才智，展开一场激烈的角逐。",
+    image:
+      "https://api.eesast.com/static/images/2019informatics-knowledge-competition.jpg"
   },
   {
     title: "硬件设计大赛",
-    image: hardwarePhoto
+    content: "课赛结合，快速入门，感受硬件的魅力",
+    image:
+      "https://api.eesast.com/static/images/2019hardware-design-competition.jpg"
   }
 ];
 
