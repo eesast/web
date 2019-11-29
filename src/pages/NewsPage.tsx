@@ -13,6 +13,19 @@ const news = [
     title: "“商汤杯”第二十一届电子设计大赛",
     content: "本次电子设计大赛主题为“火线救援”。",
     image: "https://api.eesast.com/static/images/2019edclogo-background.png"
+  },
+  {
+    title: "新生信息知识竞赛",
+    content:
+      "新生们登上信息学院的大舞台，凭借自己的知识与才智，展开一场激烈的角逐。",
+    image:
+      "https://api.eesast.com/static/images/2019informatics-knowledge-competition.jpg"
+  },
+  {
+    title: "硬件设计大赛",
+    content: "课赛结合，快速入门，感受硬件的魅力",
+    image:
+      "https://api.eesast.com/static/images/2019hardware-design-competition.jpg"
   }
 ];
 
