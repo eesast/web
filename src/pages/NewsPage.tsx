@@ -19,7 +19,7 @@ const news = [
     content:
       "新生们登上信息学院的大舞台，凭借自己的知识与才智，展开一场激烈的角逐。",
     image:
-      "https://api.eesast.com/static/images/2019informatics-knowledge-competition.jpg"
+      "https://api.eesast.com/static/images/2019informatics-knowledge-competition1.jpg"
   },
   {
     title: "硬件设计大赛",
