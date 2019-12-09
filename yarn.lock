@@ -849,10 +849,17 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@7.7.4", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2":
+"@babel/runtime@7.7.4", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.4.tgz#b23a856751e4bf099262f867767889c0e3fe175b"
   integrity sha512-r24eVUUr0QqNZa+qrImUk8fn5SPhHq+IfYvIoIMg0do3GdK9sMdiLKP3GYVVaxpPKORgm8KRKaNTEhAjgIpLMw==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
+"@babel/runtime@^7.7.6":
+  version "7.7.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.6.tgz#d18c511121aff1b4f2cd1d452f1bac9601dd830f"
+  integrity sha512-BWAJxpNVa0QlE5gZdWjSxXtemZyZ9RmrmVozxt3NUXeZhVIJ5ANyqmMc0JDrivBZyxUuQvFxlvH4OWWOogGfUw==
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -3914,10 +3921,10 @@ dom-serializer@0:
     domelementtype "^2.0.1"
     entities "^2.0.0"
 
-"dom-to-image@https://github.com/robertying/dom-to-image":
+"dom-to-image@git+https://github.com/robertying/dom-to-image.git":
   version "2.6.0"
   uid "0a7880a35643accfbd21c833729725a35ff2b2cf"
-  resolved "https://github.com/robertying/dom-to-image#0a7880a35643accfbd21c833729725a35ff2b2cf"
+  resolved "git+https://github.com/robertying/dom-to-image.git#0a7880a35643accfbd21c833729725a35ff2b2cf"
 
 domain-browser@^1.1.1:
   version "1.2.0"
@@ -3948,7 +3955,7 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-dompurify@^2.0.3, dompurify@^2.0.7:
+dompurify@^2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.0.7.tgz#f8266ad38fe1602fb5b3222f31eedbf5c16c4fd5"
   integrity sha512-S3O0lk6rFJtO01ZTzMollCOGg+WAtCwS3U5E2WSDY/x/sy7q70RjEC4Dmrih5/UqzLLB9XoKJ8KqwBxaNvBu4A==
@@ -5376,7 +5383,7 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-highlight.js@^9.15.10:
+highlight.js@^9.16.2:
   version "9.16.2"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.16.2.tgz#68368d039ffe1c6211bcc07e483daf95de3e403e"
   integrity sha512-feMUrVLZvjy0oC7FVJQcSQRqbBq9kwqnYE4+Kj9ZjbHh3g+BisiPgF49NyQbVLNdrL/qqZr3Ca9yOKwgn2i/tw==
@@ -7239,15 +7246,15 @@ marked@0.7.0, marked@^0.7.0:
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
   integrity sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==
 
-md2wx@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/md2wx/-/md2wx-2.0.2.tgz#a74231ea2d366f575e2c4d02a0b9a197675418e0"
-  integrity sha512-lucm/c5nnjlPBHqbL0o08djAMm5b1sskizLvJhbsLc7QmmZXghrvOvAEkrSijCnCwfMDZCfca+0xnVDFuSdbZQ==
+md2wx@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/md2wx/-/md2wx-3.0.0.tgz#4418a09672f4077cde9d938d0c798d0f79028e5a"
+  integrity sha512-bb9097BrLMJ2sKTHLE3CEk5S0QXofYxE4lDLjhuM/QL/D/Mmmmzl2rvbW27oS9J6ztDTGGmGq20Bp+P3U+DhUQ==
   dependencies:
-    "@babel/runtime" "^7.6.2"
-    dom-to-image "https://github.com/robertying/dom-to-image"
-    dompurify "^2.0.3"
-    highlight.js "^9.15.10"
+    "@babel/runtime" "^7.7.6"
+    dom-to-image "git+https://github.com/robertying/dom-to-image.git"
+    dompurify "^2.0.7"
+    highlight.js "^9.16.2"
     katex "^0.11.1"
     marked "^0.7.0"
 
