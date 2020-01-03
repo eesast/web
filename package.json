@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/dompurify": "2.0.1",
     "@types/marked": "0.7.2",
-    "antd": "3.26.5",
+    "antd": "3.26.6",
     "axios": "0.19.0",
     "clipboard": "2.0.4",
     "jwt-decode": "2.2.0",
