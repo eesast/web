@@ -23,9 +23,10 @@ interface IArticleFeedPageDispatchProps {
 type IArticleFeedPageProps = IArticleFeedPageStateProps &
   IArticleFeedPageDispatchProps;
 
-const ArticleFeedPage: React.FC<
-  WithRouterComponent<{}, IArticleFeedPageProps>
-> = props => {
+const ArticleFeedPage: React.FC<WithRouterComponent<
+  {},
+  IArticleFeedPageProps
+>> = props => {
   const { fetching, hasMore, error, articles, getArticleFeeds } = props;
 
   const [page, setPage] = useState(0);
@@ -64,7 +65,10 @@ const ArticleFeedPage: React.FC<
           // tslint:disable-next-line: jsx-no-lambda
           renderItem={(item: IArticle) => (
             <List.Item key={item.id}>
-              <Link style={{ width: "100%" }} to={`/articles/${item.alias}`}>
+              <Link
+                style={{ width: "100%" }}
+                to={`/weekly/articles/${item.alias}`}
+              >
                 <FeedCard
                   loading={fetching}
                   image={item.image}
@@ -97,7 +101,4 @@ const mapDispatchToProps: IArticleFeedPageDispatchProps = {
   getArticleFeeds
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ArticleFeedPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleFeedPage);

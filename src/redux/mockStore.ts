@@ -20,6 +20,23 @@ const mockStore: IAppState = {
     }
   },
   weekly: {
+    currentArticle: {
+      fetching: false,
+      item: {
+        id: 0,
+        title: "No Article",
+        alias: "No_Article",
+        author: "anonymity",
+        authorId: 0,
+        abstract: "No Article",
+        image: "",
+        content: "No Article",
+        views: 0,
+        likers: [],
+        tags: [],
+        createdAt: ""
+      }
+    },
     articles: {
       fetching: false,
       hasMore: false,

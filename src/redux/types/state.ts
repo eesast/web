@@ -69,6 +69,11 @@ export type ICommentState = IComment;
 export interface IArticleState extends IArticle {}
 
 export interface IWeeklyState {
+  currentArticle: {
+    fetching: boolean;
+    error?: Error | null;
+    item: IArticleState;
+  };
   articles: {
     fetching: boolean;
     hasMore: boolean;

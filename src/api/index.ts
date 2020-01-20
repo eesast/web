@@ -1,5 +1,13 @@
 import axios from "axios";
-import { getArticleFeeds } from "./articles";
+import {
+  getArticleFeeds,
+  getArticle,
+  getArticleByAlias,
+  postArticle,
+  updateArticle,
+  likeArticle,
+  unlikeArticle
+} from "./articles";
 import {
   login,
   register,
@@ -29,6 +37,12 @@ export default {
   register,
   updateUser,
   getArticleFeeds,
+  getArticle,
+  getArticleByAlias,
+  postArticle,
+  updateArticle,
+  likeArticle,
+  unlikeArticle,
   getUserInfo,
   getUserInfos,
   getTeams,

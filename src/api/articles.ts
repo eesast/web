@@ -7,3 +7,66 @@ export const getArticleFeeds = async (begin: number, end: number) => {
   );
   return response.data as IArticle[];
 };
+
+export const getArticle = async (articleId: number) => {
+  const response = await axios.get(`/v1/articles/${articleId}`);
+  return response.data as IArticle;
+};
+
+export const getArticleByAlias = async (alias: string) => {
+  const response = await axios.get(`/v1/articles?alias=${alias}`);
+  return response.data as IArticle[];
+};
+
+export const postArticle = async (
+  title: string,
+  alias: string,
+  authorId: number,
+  content: string,
+  abstract: string,
+  image: string,
+  tags: string[]
+) => {
+  const response = await axios.post(`v1/articles`, {
+    title,
+    alias,
+    authorId,
+    content,
+    abstract,
+    image,
+    tags
+  });
+  return response.data as string;
+};
+
+export const updateArticle = async (
+  articleId: number,
+  title: string,
+  alias: string,
+  authorId: number,
+  content: string,
+  abstract: string,
+  image: string,
+  tags: string[]
+) => {
+  const response = await axios.put(`/v1/articles/${articleId}`, {
+    title,
+    alias,
+    authorId,
+    content,
+    abstract,
+    image,
+    tags
+  });
+  return response.data as string;
+};
+
+export const likeArticle = async (articleId: number) => {
+  const response = await axios.get(`/v1/articles/${articleId}/like`);
+  return response.data;
+};
+
+export const unlikeArticle = async (articleId: number) => {
+  const response = await axios.get(`/v1/articles/${articleId}/unlike`);
+  return response.data;
+};

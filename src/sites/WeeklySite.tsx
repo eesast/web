@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch } from "react-router";
 import { Site } from "../App";
 import FeedPage from "../pages/ArticleFeedPage";
 import { WithRouterComponent } from "../types/WithRouterComponent";
+import ArticlePage from "../pages/ArticlePage";
 
 export interface IWeeklySiteProps {
   setSite: (site: Site) => void;
@@ -17,8 +18,19 @@ const WeeklySite: React.FC<WithRouterComponent<{}, IWeeklySiteProps>> = ({
   return (
     <Switch>
       <Route exact={true} path={`${match.path}`} component={FeedPage} />
+      <Route
+        exact
+        path={`${match.path}/articles/:alias`}
+        component={ArticlePage}
+      />
+      <Route exact path={`${match.path}/edit`} component={ArticlePage} />
     </Switch>
   );
 };
+
+const routes = [
+  { to: "/articles/:alias", component: ArticlePage },
+  { to: "/edit", component: ArticlePage }
+];
 
 export default WeeklySite;
