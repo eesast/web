@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { IArticle, IAppState, IUser } from "../redux/types/state";
 import { useParams, withRouter } from "react-router-dom";
 import { getArticle, getArticleByAlias } from "../redux/actions/weekly";
 import { connect } from "react-redux";
+import md2wx from "md2wx";
+
+import { Button, message } from "antd";
+import api from "../api";
 
 interface IArticlePageStateProps {
   loggedIn?: boolean;
@@ -41,7 +45,21 @@ interface IArticlePageDispatchProps {
 type IArticlePageProps = IArticlePageStateProps & IArticlePageDispatchProps;
 
 const ArticlePage: React.FC<IArticlePageProps> = props => {
-  const { article, user, fetching, error, getArticle } = props;
+  const {
+    article,
+    user,
+    fetching,
+    error,
+    getArticle,
+    getArticleByAlias
+  } = props;
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    if (user) {
+      setLoggedIn(true);
+    }
+  });
 
   const { alias } = useParams();
 
@@ -53,16 +71,33 @@ const ArticlePage: React.FC<IArticlePageProps> = props => {
     if (alias) {
       fetchData();
     }
-  });
+  }, [alias]);
+
+  const html = useMemo(() => md2wx.renderHtml(article.content, true), [
+    article.content,
+    true
+  ]);
+
+  const handleLike = async () => {
+    const response = await api.likeArticle(article.id);
+  };
+
+  const handleUnlike = async () => {
+    const response = await api.unlikeArticle(article.id);
+  };
 
   return (
-    <div>
-      <h1>hello world</h1>
-      <h2>文章阅读待实现</h2>
-      <h3>请注意，现在阅读和编辑的路由都链接此页面</h3>
-      <p>当前文章为{alias}</p>
-      <h1>效果呢？</h1>
-      <p>{article.content}</p>
+    <div style={{ whiteSpace: "pre-wrap" }}>
+      <h1>{article.title}</h1>
+      <h6>{article.author + article.updatedAt}</h6>
+      <h5>{article.tags.toString()}</h5>
+      <Button onClick={handleLike} disabled={!loggedIn}>
+        LIKE
+      </Button>
+      <Button onClick={handleUnlike} disabled={!loggedIn}>
+        UNLIKE
+      </Button>
+      <div id="content" dangerouslySetInnerHTML={{ __html: html }}></div>
     </div>
   );
 };

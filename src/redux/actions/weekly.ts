@@ -77,7 +77,7 @@ export function getArticleByAlias(
 
     try {
       const article = await api.getArticleByAlias(alias);
-      dispatch(getArticleByAliasAction.success(article[0]));
+      dispatch(getArticleByAliasAction.success(article));
     } catch (e) {
       dispatch(getArticleByAliasAction.failure(e));
     }

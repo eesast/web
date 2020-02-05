@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IArticle } from "../redux/types/state";
+import api from ".";
 
 export const getArticleFeeds = async (begin: number, end: number) => {
   const response = await axios.get(
@@ -15,7 +16,9 @@ export const getArticle = async (articleId: number) => {
 
 export const getArticleByAlias = async (alias: string) => {
   const response = await axios.get(`/v1/articles?alias=${alias}`);
-  return response.data as IArticle[];
+  let article = response.data[0] as IArticle;
+  article.author = await (await api.getUserInfo(article.authorId)).username;
+  return article;
 };
 
 export const postArticle = async (
