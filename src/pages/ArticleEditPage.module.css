@@ -1,9 +1,11 @@
 .root {
-  height: calc(100vh - 83px - 48px);
+  width: 80%;
+  margin: 30px auto;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  /* align-items: center; */
+  align-content: space-around;
+  /* justify-content: space-between;  */
 }
 
 .column {

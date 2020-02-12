@@ -51,6 +51,7 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
   return (
     <div>
       <Link to={`/weekly/edit`}>发布文章</Link>
+      <Link to={`/weekly/manage`}>管理文章</Link>
       <InfiniteScroll
         initialLoad={false}
         pageStart={1}

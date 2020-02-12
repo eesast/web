@@ -21,6 +21,31 @@ export const getArticleByAlias = async (alias: string) => {
   return article;
 };
 
+export const getSelfArticles = async (
+  userId: number,
+  visible: boolean,
+  begin?: number,
+  end?: number
+) => {
+  if (!begin && !end) {
+    const response = await axios.get(
+      `/v1/articles?authorId=${userId}&invisible=${visible}`
+    );
+    return response.data as IArticle[];
+  } else {
+    const response = await axios.get(
+      `/v1/articles?authorId=${userId}&invisible=${!visible}&begin=${begin}&end=${end}`
+    );
+
+    return response.data as IArticle[];
+  }
+};
+
+export const getPostedArticles = async (userId: number) => {
+  const response = await axios.get(`/v1/articles?createdBy=${userId}`);
+  return response.data as IArticle[];
+};
+
 export const postArticle = async (
   title: string,
   alias: string,

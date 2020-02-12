@@ -3,6 +3,8 @@ import {
   getArticleFeeds,
   getArticle,
   getArticleByAlias,
+  getSelfArticles,
+  getPostedArticles,
   postArticle,
   updateArticle,
   likeArticle,
@@ -12,6 +14,7 @@ import {
   login,
   register,
   updateUser,
+  getUserId,
   getUserInfo,
   getUserInfos
 } from "./users";
@@ -25,6 +28,7 @@ import {
   getContestId,
   getTeamNum
 } from "./teams";
+import { uploadImage } from "./static";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -39,10 +43,13 @@ export default {
   getArticleFeeds,
   getArticle,
   getArticleByAlias,
+  getSelfArticles,
+  getPostedArticles,
   postArticle,
   updateArticle,
   likeArticle,
   unlikeArticle,
+  getUserId,
   getUserInfo,
   getUserInfos,
   getTeams,
@@ -52,5 +59,6 @@ export default {
   quitTeam,
   addTeamMember,
   getContestId,
-  getTeamNum
+  getTeamNum,
+  uploadImage
 };

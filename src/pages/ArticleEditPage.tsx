@@ -1,19 +1,45 @@
 import { IArticle, IAppState, IUser } from "../redux/types/state";
-import { useParams, withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import { getArticle, getArticleByAlias } from "../redux/actions/weekly";
 import { connect } from "react-redux";
 import md2wx from "md2wx";
-import React, { useState, useMemo, useEffect, useRef } from "react";
-import { Site } from "../App";
+import React, {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle
+} from "react";
 import styles from "./ArticleEditPage.module.css";
-import { Input, Switch, Button, message, Upload } from "antd";
-import Clipboard from "clipboard";
-import { UploadProps } from "antd/lib/upload";
+import {
+  Form,
+  Tooltip,
+  Row,
+  Col,
+  Icon,
+  Input,
+  Button,
+  message,
+  Modal,
+  Alert
+} from "antd";
+import { FormComponentProps } from "antd/lib/form";
 import api from "../api";
+import MdEditor from "react-markdown-editor-lite";
+import "react-markdown-editor-lite/lib/index.css";
+import Tags from "../components/Tags";
+import MultipleUpload from "../components/MultipleUpload";
+import { UploadFile } from "antd/lib/upload/interface";
+import axios from "axios";
+
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.eesast.com"
+    : "http://localhost:28888";
 
 interface IArticleEditPageStateProps {
   //   loggedIn?: boolean;
   user: IUser;
+  token: string;
   fetching: boolean;
   article: IArticle;
   error?: Error | null;
@@ -22,25 +48,6 @@ interface IArticleEditPageStateProps {
 interface IArticleEditPageDispatchProps {
   getArticle: (articleId: number) => void;
   getArticleByAlias: (alias: string) => void;
-  // postArticle: (
-  //   title: string,
-  //   alias: string,
-  //   authorId: number,
-  //   content: string,
-  //   abstract: string,
-  //   image: string,
-  //   tags: string[]
-  // ) => void;
-  // updateArticle: (
-  //   articleId: number,
-  //   title: string,
-  //   alias: string,
-  //   authorId: number,
-  //   content: string,
-  //   abstract: string,
-  //   image: string,
-  //   tags: string[]
-  // ) => void;
 }
 
 type IArticleEditPageProps = IArticleEditPageStateProps &
@@ -49,184 +56,232 @@ type IArticleEditPageProps = IArticleEditPageStateProps &
 const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
   const {
     article,
+    token,
     user,
     fetching,
     error,
     getArticle,
     getArticleByAlias
   } = props;
-  const [text, setText] = useState(`
-# This is md2wx
-
-## It supports \`$\\LaTeX$\`
-
-> with the help of [\`katex\`](https://github.com/KaTeX/KaTeX)
-
-This is \`$a^2$\`; this is \`$b^2$\`.
-
-How about this one:
-
-\`\`\`math
-\\sqrt{a^2+b^2}
-\`\`\`
-
-It can convert \`SVG\` to \`PNG\` so you can copy & paste the HTML to WeChat!
-
-## Of course there is code highlighting
-
-\`\`\`
-const a = 13;
-\`\`\`
-
----
-
-**Enjoy!**
-
----
-
-![logo](https://api.eesast.com/static/images/logo.png)
-  `);
+  const [text, setText] = useState(
+    "# EESAST Weekly Editor\n\n> Powered by EESAST\n>\n> Thanks to:\n> - [react](https://react.docschina.org/)\n> - [ant.design](https://ant.design/index-cn)\n> - [react-markdown-editor-lite](https://harrychen0506.github.io/react-markdown-editor-lite/)\n> - [md2wx](https://github.com/eesast/md2wx)\n> - ...\n\n## How to use\n\n`$\\LaTeX$` is supported\n    > with the help of [`katex`](https://github.com/KaTeX/KaTeX)\n\n```markdown\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n\n```\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n"
+  );
   const [highlight, setHighlight] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [showImgManage, setShowImgManage] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const html = useMemo(() => md2wx.renderHtml(text, highlight), [
-    text,
-    highlight
-  ]);
+  const topFormRef = useRef<ITopInfoFormProps>();
+  const buttomFormRef = useRef<IButtomInfoFormProps>();
+  const [info, setInfo] = useState(article);
 
-  const [pngConverting, setPngConverting] = useState(false);
+  const [imageFileList, setImageFileList] = useState<UploadFile[]>([]);
+  const [coverImageFile, setCoverImageFile] = useState<UploadFile[]>([]);
 
-  const handleConvert = async () => {
-    setPngConverting(true);
-    await md2wx.convertSvgToPng();
-    setPngConverting(false);
-    message.success("转换成功");
+  const history = useHistory();
+
+  const handleCoverImageChange = (fileList: UploadFile[]) => {
+    setCoverImageFile(fileList);
   };
 
-  useEffect(() => {
-    const clipboard = new Clipboard("#button", {
-      target: () => document.getElementById("content")!
-    });
-    clipboard.on("success", () => message.success("复制成功"));
-    clipboard.on("error", () => message.error("复制失败"));
-    return () => clipboard.destroy();
-  });
+  const handleFileListChange = (fileList: UploadFile[]) => {
+    setImageFileList(fileList);
+  };
 
-  const handleImageUpload: UploadProps["onChange"] = async ({ file }) => {
+  const handleFileListRemove = async (file: UploadFile) => {
     try {
-      const reader = new FileReader();
-      const dataUrl = await new Promise<string>((resolve, reject) => {
-        reader.onerror = () => {
-          reader.abort();
-          reject();
-        };
-
-        reader.onload = () => {
-          resolve(reader.result as string);
-        };
-
-        reader.readAsDataURL(file.originFileObj!);
-      });
-
-      const ref = textAreaRef.current!;
-      const newText =
-        text + `\n<img alt="${file.name}" src="${dataUrl}" />\n\n`;
-      setText(newText);
-      ref.focus();
-      ref.selectionStart = newText.length;
-      ref.selectionEnd = newText.length;
+      await axios.delete(file.response);
+      message.success("删除图片成功");
+      return true;
     } catch {
-      message.error("图片上传失败");
+      message.error("删除图片失败");
+      return false;
     }
   };
 
-  const handlePostArticle = async () => {
-    const response = await api.postArticle(
-      "test",
-      "test" + Math.random(),
-      user.id,
-      text,
-      "test",
-      "",
-      []
-    );
-    message.success("response:" + response);
+  const handleEditorChange = (para: { html: string; text: string }) => {
+    setText(para.text);
   };
 
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const handleConfirmSubmit = async () => {
+    const author: string = topFormRef.current?.form.getFieldValue("author");
+    const authorId = await api.getUserId(author);
+    if (authorId === 0) {
+      setShowModal(true);
+      return;
+    }
+    setInfo(state => ({
+      ...state,
+      title: topFormRef.current?.form.getFieldValue("title"),
+      alias: topFormRef.current?.form.getFieldValue("alias"),
+      author: author,
+      authorId: authorId,
+      content: text,
+      abstract: buttomFormRef.current?.form.getFieldValue("abstract"),
+      image: coverImageFile[0].url!
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (info.id === 0) {
+        await api.postArticle(
+          info.title,
+          info.alias,
+          info.authorId,
+          info.content,
+          info.abstract,
+          info.image,
+          info.tags
+        );
+        message.success("发布成功，请耐心等待审核");
+        history.replace(`/weekly/manage`);
+      } else {
+        await api.updateArticle(
+          info.id,
+          info.title,
+          info.alias,
+          info.authorId,
+          info.content,
+          info.abstract,
+          info.image,
+          info.tags
+        );
+        message.success("更新成功，请耐心等待审核");
+        history.replace(`/weekly/articles/${info.alias}`);
+      }
+    } catch (error) {
+      // 错误信息反馈
+    }
+  };
+
+  const handleTagsChange = (tags: string[]) => {
+    setInfo(state => ({ ...state, tags: tags }));
+  };
+
+  const handleImageUpload = async (originFile: File) => {
+    let file: UploadFile = {
+      uid: "-1" + originFile.name,
+      name: originFile.name,
+      size: originFile.size,
+      type: originFile.type,
+      originFileObj: originFile
+    };
+    const response = await api.uploadImage(file);
+    file.url = baseUrl + response;
+    file.response = response;
+    let newFileList = imageFileList;
+    newFileList.push(file);
+    setImageFileList(newFileList);
+    return file.url;
+  };
 
   return (
     <div className={styles.root}>
-      <div className={styles.column}>
-        <div
-          style={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column"
+      <div style={{ width: "90%", margin: "20px auto" }}>
+        <WrappedTopInfoForm
+          props={props}
+          tags={info.tags}
+          onTagsChange={handleTagsChange}
+          wrappedComponentRef={topFormRef}
+        />
+      </div>
+      <div>
+        <MdEditor
+          style={{ width: "100%", height: "500px" }}
+          plugins={[
+            "header",
+            "fonts",
+            "table",
+            "image",
+            "link",
+            "clear",
+            "logger",
+            "mode-toggle"
+          ]}
+          value={text}
+          renderHTML={text => md2wx.renderHtml(text, highlight)}
+          onChange={handleEditorChange}
+          onImageUpload={handleImageUpload}
+        />
+      </div>
+      <div style={{ width: "90%", margin: "20px auto" }}>
+        <WrappedButtomInfoForm
+          props={props}
+          coverImage={coverImageFile}
+          wrappedComponentRef={buttomFormRef}
+          onCoverImageChange={handleCoverImageChange}
+          onCoverImageRemove={handleFileListRemove}
+          onImgManageClick={() => {
+            setShowImgManage(true);
           }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: 16
-            }}
-          >
-            <div style={{ flex: 1 }}>
-              若粘贴到图文窗口后图片部分截断或不显示，请单独复制图片到相应位置
-            </div>
-            <Switch
-              checkedChildren="代码高亮"
-              unCheckedChildren="代码高亮"
-              checked={highlight}
-              onChange={setHighlight}
-            />
-            <Button
-              style={{ marginLeft: 8 }}
-              loading={pngConverting}
-              onClick={handleConvert}
-            >
-              转换 SVG 为 PNG
-            </Button>
-            <Button style={{ marginLeft: 8 }} id="button">
-              复制
-            </Button>
-            <Button onClick={handlePostArticle}>test</Button>
-          </div>
-          <Input.TextArea
-            ref={textAreaRef as any}
-            style={{ resize: "none", flex: 1 }}
-            value={text}
-            onChange={e => setText(e.target.value)}
-          />
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: 16,
-              justifyContent: "flex-end"
-            }}
-          >
-            <Upload
-              accept="image/*"
-              multiple
-              showUploadList={false}
-              customRequest={() => {}}
-              onChange={handleImageUpload}
-            >
-              <Button>上传图片</Button>
-            </Upload>
-          </div>
-        </div>
+          onSubmit={() => {
+            handleConfirmSubmit();
+            setShowConfirm(true);
+          }}
+        />
       </div>
-      <div className={styles.column}>
-        <div id="content" dangerouslySetInnerHTML={{ __html: html }}></div>
-      </div>
+
+      <Modal
+        title="Error"
+        visible={showModal}
+        footer={null}
+        onCancel={() => {
+          setShowModal(false);
+        }}
+      >
+        <Alert
+          message="作者用户名错误"
+          description="未找到作者，请检查作者用户名是否正确填写"
+          type="error"
+          showIcon
+        />
+      </Modal>
+      <Modal
+        title="图片管理"
+        visible={showImgManage}
+        footer={null}
+        onCancel={() => {
+          setShowImgManage(false);
+        }}
+      >
+        <MultipleUpload
+          token={token}
+          fileList={imageFileList}
+          onFileListChange={handleFileListChange}
+          onRemove={handleFileListRemove}
+        />
+      </Modal>
+      <Modal
+        title="确认提交？"
+        visible={showConfirm}
+        onCancel={() => {
+          setShowConfirm(false);
+        }}
+        onOk={handleSubmit}
+      >
+        <Alert
+          message="关于提交"
+          description={
+            <p>
+              请在发布前预览Markdown，确保文章完整可读。
+              <br />
+              请务必删除没有用到的图片
+              <br />
+              确定发布该文章吗？
+            </p>
+          }
+          type="info"
+          showIcon
+        />
+      </Modal>
     </div>
   );
 };
 
 function mapStateToProps(state: IAppState): IArticleEditPageStateProps {
   return {
+    token: state.auth.token!,
     user: state.auth.user!,
     fetching: state.weekly.currentArticle.fetching,
     article: state.weekly.currentArticle.item,
@@ -241,4 +296,187 @@ const mapDispatchToProps: IArticleEditPageDispatchProps = {
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ArticleEditPage)
+);
+
+interface ITopInfoFormProps extends FormComponentProps {
+  props: IArticleEditPageProps;
+  tags: string[];
+  onTagsChange: (tags: string[]) => void;
+}
+
+const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
+  ({ form, props, tags, onTagsChange }: ITopInfoFormProps, ref) => {
+    useImperativeHandle(ref, () => ({ form }));
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 }
+      }
+    };
+
+    return (
+      <Form
+        style={{ boxSizing: "border-box" }}
+        layout="vertical"
+        {...formItemLayout}
+      >
+        <Row gutter={32}>
+          <Col span={16}>
+            <Form.Item label="标题 Title" hasFeedback>
+              {form.getFieldDecorator("title", {
+                initialValue: props.article.title,
+                rules: [{ required: true, message: "请输入文章标题" }]
+              })(<Input placeholder="标题，例：浅论基尔霍夫定律" />)}
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              label={
+                <span>
+                  作者 Author&nbsp;
+                  <Tooltip title="这篇文章的实际作者的用户名">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+              hasFeedback
+              // 需要加入检验用户是否存在的功能
+            >
+              {form.getFieldDecorator("author", {
+                initialValue: props.article.author,
+                rules: [{ required: true, message: "请输入作者的用户名" }]
+              })(<Input />)}
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={32}>
+          <Col span={16}>
+            <Form.Item
+              label={
+                <span>
+                  别名 Alias&nbsp;
+                  <Tooltip title="这篇文章的别名，将用于文章链接">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+              hasFeedback
+            >
+              {form.getFieldDecorator("alias", {
+                initialValue: props.article.alias,
+                rules: [{ required: true, message: "请输入文章别名" }]
+              })(
+                <Input placeholder="英文标题，字母小写且用横杠连接，例：tensorflow-first-look" />
+              )}
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item label="标签">
+              {form.getFieldDecorator("tags", { initialValue: tags })(
+                <Tags value={tags} onChange={onTagsChange} />
+              )}
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+);
+
+interface IButtomInfoFormProps extends FormComponentProps {
+  props: IArticleEditPageProps;
+  coverImage: UploadFile[];
+  onCoverImageChange: (fileList: UploadFile[]) => void;
+  onCoverImageRemove: (file: UploadFile) => Promise<boolean>;
+  onImgManageClick: () => void;
+  onSubmit: () => void;
+}
+
+const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
+  (
+    {
+      form,
+      props,
+      coverImage,
+      onCoverImageChange,
+      onCoverImageRemove,
+      onImgManageClick,
+      onSubmit
+    }: IButtomInfoFormProps,
+    ref
+  ) => {
+    useImperativeHandle(ref, () => ({ form }));
+
+    const { TextArea } = Input;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 }
+      }
+    };
+
+    return (
+      <Form
+        style={{ boxSizing: "border-box" }}
+        layout="vertical"
+        {...formItemLayout}
+      >
+        <Row gutter={40}>
+          <Col span={12}>
+            <Form.Item
+              label={
+                <span>
+                  摘要 Abstract&nbsp;
+                  <Tooltip title="这篇文章的摘要，将用于主页面的展示">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+            >
+              {form.getFieldDecorator("abstract", {
+                initialValue: props.article.abstract
+              })(<TextArea autoSize={{ minRows: 4 }} placeholder="文章摘要" />)}
+            </Form.Item>
+          </Col>
+
+          <Col span={6}>
+            <Form.Item label="封面" required>
+              <MultipleUpload
+                maxUpload={1}
+                token={props.token}
+                fileList={coverImage}
+                onFileListChange={onCoverImageChange}
+                onRemove={onCoverImageRemove}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={3}>
+            <Button onClick={onImgManageClick}>图片管理</Button>
+          </Col>
+          <Col span={3}>
+            <Button type="primary" icon="upload" onClick={onSubmit}>
+              {props.article.id === 0 ? `发布文章` : `更新文章`}
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+);
+
+const WrappedTopInfoForm = Form.create<ITopInfoFormProps>()(TopInfoForm);
+
+const WrappedButtomInfoForm = Form.create<IButtomInfoFormProps>()(
+  ButtomInfoForm
 );

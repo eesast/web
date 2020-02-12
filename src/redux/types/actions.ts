@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { ActionType, Action } from "typesafe-actions";
+import { ActionType } from "typesafe-actions";
 import { loginAction, updateUserAction } from "../actions/auth";
 import {
   getArticleFeedsAction,
