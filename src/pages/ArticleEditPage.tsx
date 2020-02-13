@@ -22,7 +22,7 @@ import {
   Modal,
   Alert
 } from "antd";
-import { FormComponentProps } from "antd/lib/form";
+import { FormComponentProps, ValidationRule } from "antd/lib/form";
 import api from "../api";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
@@ -31,13 +31,7 @@ import MultipleUpload from "../components/MultipleUpload";
 import { UploadFile } from "antd/lib/upload/interface";
 import axios from "axios";
 
-const baseUrl =
-  process.env.NODE_ENV === "production"
-    ? "https://api.eesast.com"
-    : "http://localhost:28888";
-
 interface IArticleEditPageStateProps {
-  //   loggedIn?: boolean;
   user: IUser;
   token: string;
   fetching: boolean;
@@ -54,15 +48,7 @@ type IArticleEditPageProps = IArticleEditPageStateProps &
   IArticleEditPageDispatchProps;
 
 const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
-  const {
-    article,
-    token,
-    user,
-    fetching,
-    error,
-    getArticle,
-    getArticleByAlias
-  } = props;
+  const { article, token } = props;
   const [text, setText] = useState(
     "# EESAST Weekly Editor\n\n> Powered by EESAST\n>\n> Thanks to:\n> - [react](https://react.docschina.org/)\n> - [ant.design](https://ant.design/index-cn)\n> - [react-markdown-editor-lite](https://harrychen0506.github.io/react-markdown-editor-lite/)\n> - [md2wx](https://github.com/eesast/md2wx)\n> - ...\n\n## How to use\n\n`$\\LaTeX$` is supported\n    > with the help of [`katex`](https://github.com/KaTeX/KaTeX)\n\n```markdown\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n\n```\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n"
   );
@@ -125,33 +111,44 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
   const handleSubmit = async () => {
     try {
       if (info.id === 0) {
-        await api.postArticle(
-          info.title,
-          info.alias,
-          info.authorId,
-          info.content,
-          info.abstract,
-          info.image,
-          info.tags
-        );
+        await api.postArticle({
+          title: info.title.trim(),
+          alias: info.alias.trim(),
+          authorId: info.authorId,
+          content: info.content,
+          abstract: info.abstract,
+          image: info.image,
+          tags: [...info.tags, "underReview"]
+        });
         message.success("发布成功，请耐心等待审核");
         history.replace(`/weekly/manage`);
       } else {
-        await api.updateArticle(
-          info.id,
-          info.title,
-          info.alias,
-          info.authorId,
-          info.content,
-          info.abstract,
-          info.image,
-          info.tags
-        );
+        await api.updateArticle(info.id, {
+          title: info.title.trim(),
+          alias: info.alias.trim(),
+          authorId: info.authorId,
+          content: info.content,
+          abstract: info.abstract,
+          image: info.image,
+          tags: info.tags
+        });
         message.success("更新成功，请耐心等待审核");
         history.replace(`/weekly/articles/${info.alias}`);
       }
     } catch (error) {
-      // 错误信息反馈
+      if (error.response.data === "409 Conflict: Alias already exists") {
+        message.error("别名重复，请更换文章的别名");
+      } else if (
+        error.response.data === "422 UnProcessable Entity: Missing contents"
+      ) {
+        message.error("文章正文为空");
+      } else {
+        if (info.id === 0) {
+          message.error("发布失败，请与管理联系");
+        } else {
+          message.error("更新失败，请与管理联系");
+        }
+      }
     }
   };
 
@@ -168,7 +165,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
       originFileObj: originFile
     };
     const response = await api.uploadImage(file);
-    file.url = baseUrl + response;
+    file.url = axios.defaults.baseURL + response;
     file.response = response;
     let newFileList = imageFileList;
     newFileList.push(file);
@@ -205,7 +202,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
           onImageUpload={handleImageUpload}
         />
       </div>
-      <div style={{ width: "90%", margin: "20px auto" }}>
+      <div style={{ width: "100%", margin: "20px auto" }}>
         <WrappedButtomInfoForm
           props={props}
           coverImage={coverImageFile}
@@ -319,6 +316,19 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
       }
     };
 
+    const validateAlias: ValidationRule["validator"] = (
+      rule,
+      value: any,
+      callback: any
+    ) => {
+      const validateRule = /^[a-z\-]+$/; // 正则表达式，匹配英文小写字母和短横杠
+      if (value && !value.trim().match(validateRule)) {
+        callback("请修改别名，仅含小写英文字母和短横杠");
+      } else {
+        callback();
+      }
+    };
+
     return (
       <Form
         style={{ boxSizing: "border-box" }}
@@ -350,7 +360,7 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
               {form.getFieldDecorator("author", {
                 initialValue: props.article.author,
                 rules: [{ required: true, message: "请输入作者的用户名" }]
-              })(<Input />)}
+              })(<Input placeholder="作者的用户名" />)}
             </Form.Item>
           </Col>
         </Row>
@@ -370,7 +380,10 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
             >
               {form.getFieldDecorator("alias", {
                 initialValue: props.article.alias,
-                rules: [{ required: true, message: "请输入文章别名" }]
+                rules: [
+                  { required: true, message: "请输入文章别名" },
+                  { validator: validateAlias }
+                ]
               })(
                 <Input placeholder="英文标题，字母小写且用横杠连接，例：tensorflow-first-look" />
               )}
@@ -432,8 +445,8 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
         layout="vertical"
         {...formItemLayout}
       >
-        <Row gutter={40}>
-          <Col span={12}>
+        <Row gutter={40} type="flex" justify="space-between">
+          <Col span={8}>
             <Form.Item
               label={
                 <span>
@@ -450,7 +463,7 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
             </Form.Item>
           </Col>
 
-          <Col span={6}>
+          <Col span={4}>
             <Form.Item label="封面" required>
               <MultipleUpload
                 maxUpload={1}
@@ -462,9 +475,13 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
             </Form.Item>
           </Col>
           <Col span={3}>
-            <Button onClick={onImgManageClick}>图片管理</Button>
+            <Button icon="picture" onClick={onImgManageClick}>
+              图片管理
+            </Button>
           </Col>
-          <Col span={3}>
+          <Col span={6}></Col>
+
+          <Col span={3} style={{ paddingRight: "0" }}>
             <Button type="primary" icon="upload" onClick={onSubmit}>
               {props.article.id === 0 ? `发布文章` : `更新文章`}
             </Button>

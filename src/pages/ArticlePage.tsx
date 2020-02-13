@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { IArticle, IAppState, IUser } from "../redux/types/state";
-import { useParams, withRouter } from "react-router-dom";
+import { useParams, withRouter, Link } from "react-router-dom";
 import { getArticle, getArticleByAlias } from "../redux/actions/weekly";
 import { connect } from "react-redux";
 import md2wx from "md2wx";
 
-import { Button, message } from "antd";
+import { Button } from "antd";
 import api from "../api";
 
 interface IArticlePageStateProps {
@@ -45,14 +45,7 @@ interface IArticlePageDispatchProps {
 type IArticlePageProps = IArticlePageStateProps & IArticlePageDispatchProps;
 
 const ArticlePage: React.FC<IArticlePageProps> = props => {
-  const {
-    article,
-    user,
-    fetching,
-    error,
-    getArticle,
-    getArticleByAlias
-  } = props;
+  const { article, user, getArticleByAlias } = props;
 
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
@@ -79,11 +72,11 @@ const ArticlePage: React.FC<IArticlePageProps> = props => {
   ]);
 
   const handleLike = async () => {
-    const response = await api.likeArticle(article.id);
+    await api.likeArticle(article.id);
   };
 
   const handleUnlike = async () => {
-    const response = await api.unlikeArticle(article.id);
+    await api.unlikeArticle(article.id);
   };
 
   return (
@@ -97,6 +90,7 @@ const ArticlePage: React.FC<IArticlePageProps> = props => {
       <Button onClick={handleUnlike} disabled={!loggedIn}>
         UNLIKE
       </Button>
+      <Link to={`/weekly/edit`}> 编辑 </Link>
       <div id="content" dangerouslySetInnerHTML={{ __html: html }}></div>
     </div>
   );

@@ -23,18 +23,18 @@ const mockStore: IAppState = {
     currentArticle: {
       fetching: false,
       item: {
-        id: 0,
-        title: "No Article",
-        alias: "No_Article",
-        author: "anonymity",
-        authorId: 0,
-        abstract: "No Article",
-        image: "",
-        content: "No Article",
-        views: 0,
-        likers: [],
-        tags: [],
-        createdAt: ""
+        id: 1,
+        title: "Weekly 简介",
+        alias: "weekly-introduction",
+        author: "张三",
+        authorId: 2016011000,
+        abstract: "简单介绍 SAST Weekly",
+        image: "https://www.google.com",
+        content: "Hello World!",
+        views: 20,
+        likers: [2016011000],
+        tags: ["Weekly"],
+        createdAt: new Date().toDateString()
       }
     },
     articles: {

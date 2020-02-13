@@ -2,12 +2,8 @@ import { UploadFile, UploadProps } from "antd/lib/upload/interface";
 import React, { useState, useEffect } from "react";
 import { Upload, Icon, Modal, Button, message } from "antd";
 import "./MultipleUpload.css";
+import axios from "axios";
 import Clipboard from "clipboard";
-
-const baseUrl =
-  process.env.NODE_ENV === "production"
-    ? "https://api.eesast.com"
-    : "http://localhost:28888";
 
 export interface IMultipleUploadProps extends UploadProps {
   token: string;
@@ -37,7 +33,7 @@ const MultipleUpload: React.FC<IMultipleUploadProps> = props => {
     filename = filename.length > 50 ? `${filename.slice(0, 50)}...` : filename;
 
     setPreviewPictureName(filename);
-    setPreviewPictureUrl(baseUrl + file.response);
+    setPreviewPictureUrl(axios.defaults.baseURL + file.response);
     setPreviewVisible(true);
   };
 
@@ -70,7 +66,7 @@ const MultipleUpload: React.FC<IMultipleUploadProps> = props => {
   return (
     <div className="MultipleUpload">
       <Upload
-        action={baseUrl + "/static/images"}
+        action={axios.defaults.baseURL + "/static/images"}
         headers={{
           Authorization: "Bearer " + token
         }}
