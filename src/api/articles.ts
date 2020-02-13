@@ -41,52 +41,38 @@ export const getSelfArticles = async (
   }
 };
 
+export const getSelfArticleNum = async (userId: number, visible: boolean) => {
+  const response = await axios.get(
+    `/v1/articles?authorId=${userId}&invisible=${!visible}&count=true`
+  );
+  return response.data as number;
+};
+
 export const getPostedArticles = async (userId: number) => {
   const response = await axios.get(`/v1/articles?createdBy=${userId}`);
   return response.data as IArticle[];
 };
 
-export const postArticle = async (
-  title: string,
-  alias: string,
-  authorId: number,
-  content: string,
-  abstract: string,
-  image: string,
-  tags: string[]
-) => {
-  const response = await axios.post(`v1/articles`, {
-    title,
-    alias,
-    authorId,
-    content,
-    abstract,
-    image,
-    tags
+export const postArticle = async (form: Partial<IArticle>) => {
+  const response = await axios.post(`v1/articles`, form);
+  return response.data as string;
+};
+
+export const updateArticle = async (id: number, form: Partial<IArticle>) => {
+  const response = await axios.put(`/v1/articles/${id}`, form);
+  return response.data as string;
+};
+
+export const updateArticleVisibility = async (id: number, visible: boolean) => {
+  const response = await axios.put(`/v1/articles/${id}`, {
+    visible: visible
   });
   return response.data as string;
 };
 
-export const updateArticle = async (
-  articleId: number,
-  title: string,
-  alias: string,
-  authorId: number,
-  content: string,
-  abstract: string,
-  image: string,
-  tags: string[]
-) => {
-  const response = await axios.put(`/v1/articles/${articleId}`, {
-    title,
-    alias,
-    authorId,
-    content,
-    abstract,
-    image,
-    tags
-  });
-  return response.data as string;
+export const deleteArticle = async (articleId: number) => {
+  const response = await axios.delete(`/v1/articles/${articleId}`);
+  return response.statusText;
 };
 
 export const likeArticle = async (articleId: number) => {
