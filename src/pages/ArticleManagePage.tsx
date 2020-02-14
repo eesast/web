@@ -1,7 +1,7 @@
 import { IUser, IArticle, IAppState } from "../redux/types/state";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Tag,
   Divider,
@@ -10,9 +10,11 @@ import {
   Switch,
   Form,
   Icon,
-  message
+  message,
+  Modal
 } from "antd";
 import api from "../api";
+import md2wx from "md2wx";
 import { PaginationConfig } from "antd/lib/table";
 import styles from "./ArticleManagePage.module.css";
 
@@ -38,6 +40,20 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
   const [operation, setOperation] = useState(true); // 用来起到刷新页面的作用
   const [category, setCategory] = useState<"author" | "promulgator">("author");
   const [totalArticles, setTotalArticles] = useState(0);
+  const [review, setReview] = useState(false);
+  const initialUnderReviewArticle: Partial<IArticle> = {
+    id: 0,
+    title: "待审阅文章标题",
+    alias: "under-review-article",
+    author: "待审阅文章作者",
+    authorId: 0,
+    content: "# under-review-article",
+    abstract: "under-review-article"
+  };
+  const [previewArticle, setPreviewArticle] = useState<Partial<IArticle>>(
+    initialUnderReviewArticle
+  );
+  const [showPreview, setShowPreview] = useState(false);
 
   const handleDelete = async (record: IArticle) => {
     await api.deleteArticle(record.id);
@@ -55,6 +71,11 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
       message.error("文章正在审核中，无法公开");
       return;
     }
+    await api.updateArticleVisibility(record.id, true);
+    setOperation(!operation);
+  };
+
+  const handleApprove = async (record: IArticle) => {
     await api.updateArticleVisibility(record.id, true);
     setOperation(!operation);
   };
@@ -88,7 +109,18 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
       key: "action",
       render: (record: IArticle) => (
         <span>
-          <Link to={`/weekly/articles/${record.alias}`}>View</Link>
+          {review ? (
+            <a
+              onClick={() => {
+                setShowPreview(true);
+              }}
+            >
+              View
+            </a>
+          ) : (
+            <Link to={`/weekly/articles/${record.alias}`}>View</Link>
+          )}
+
           <Divider type="vertical" />
           {visible ? (
             <a
@@ -115,6 +147,16 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
           >
             Delete
           </a>
+          <Divider type="vertical" />
+          {review ? (
+            <a
+              onClick={() => {
+                handleApprove(record);
+              }}
+            >
+              Approve
+            </a>
+          ) : null}
         </span>
       )
     }
@@ -152,8 +194,13 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
       }
     };
 
-    fetchData();
-  }, [category]);
+    const fetchReviewData = async () => {
+      const response = await api.getUnderReviewArticlesNum();
+      setTotalArticles(response);
+    };
+
+    review ? fetchReviewData() : fetchData();
+  }, [category, review]);
 
   useEffect(() => {
     // 获取文章
@@ -167,44 +214,85 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
       setData(response);
     };
 
-    fetchData();
-  }, [pageNumber, pageSize, visible, operation]);
+    const fetchReviewData = async () => {
+      const response = await api.getUnderReviewArticles(
+        (pageNumber - 1) * pageSize,
+        pageNumber * pageSize
+      );
+      setData(response);
+    };
+
+    review ? fetchReviewData() : fetchData();
+  }, [pageNumber, pageSize, visible, operation, review]);
 
   const handleClick = (record: IArticle) => {
-    if (activeRow === String(record.id)) setActiveRow("");
-    else setActiveRow(String(record.id));
+    if (activeRow === String(record.id)) {
+      setActiveRow("");
+      setPreviewArticle(initialUnderReviewArticle);
+    } else {
+      setActiveRow(String(record.id));
+      setPreviewArticle(record);
+    }
   };
 
   const handleExpand = (expanded: boolean, record: IArticle) => {
-    if (activeRow === String(record.id)) setActiveRow("");
-    else setActiveRow(String(record.id));
+    if (activeRow === String(record.id)) {
+      setActiveRow("");
+      setPreviewArticle(initialUnderReviewArticle);
+    } else {
+      setActiveRow(String(record.id));
+      setPreviewArticle(record);
+    }
   };
+
+  let controlPanel = [
+    <Form.Item>控制面板</Form.Item>,
+    <Form.Item label="已公开">
+      <Switch
+        checked={visible}
+        checkedChildren={<Icon type="check" />}
+        unCheckedChildren={<Icon type="close" />}
+        onChange={() => {
+          setVisible(!visible);
+        }}
+      />
+    </Form.Item>,
+    <Form.Item label="查看发布/更新时间">
+      <Switch
+        checked={showCreatedAt}
+        onChange={() => {
+          setShowCreatedAt(!showCreatedAt);
+        }}
+        checkedChildren={"发布时间"}
+        unCheckedChildren={"更新时间"}
+      />
+    </Form.Item>
+  ];
+
+  if (user.role === "root" || user.role === "editor") {
+    controlPanel = [
+      ...controlPanel,
+      <Form.Item label="审阅">
+        <Switch
+          checked={review}
+          checkedChildren={<Icon type="check" />}
+          unCheckedChildren={<Icon type="close" />}
+          onChange={() => {
+            setReview(!review);
+          }}
+        />
+      </Form.Item>
+    ];
+  }
+
+  const html = useMemo(() => md2wx.renderHtml(previewArticle.content!, true), [
+    previewArticle.content,
+    true
+  ]);
 
   return (
     <div className={styles.root}>
-      <Form layout="inline">
-        <Form.Item>控制面板</Form.Item>
-        <Form.Item label="已公开">
-          <Switch
-            checked={visible}
-            checkedChildren={<Icon type="check" />}
-            unCheckedChildren={<Icon type="close" />}
-            onChange={() => {
-              setVisible(!visible);
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="查看发布/更新时间">
-          <Switch
-            checked={showCreatedAt}
-            onChange={() => {
-              setShowCreatedAt(!showCreatedAt);
-            }}
-            checkedChildren={"发布时间"}
-            unCheckedChildren={"更新时间"}
-          />
-        </Form.Item>
-      </Form>
+      <Form layout="inline">{controlPanel}</Form>
       <Table
         className={styles.list}
         columns={columns}
@@ -226,6 +314,18 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
           );
         }}
       />
+      <Modal
+        title={previewArticle?.title}
+        width="80%"
+        visible={showPreview}
+        footer={null}
+        onCancel={() => {
+          setShowPreview(false);
+          // setActiveRow("");
+        }}
+      >
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </Modal>
     </div>
   );
 };

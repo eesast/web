@@ -45,12 +45,24 @@ export const getSelfArticleNum = async (userId: number, visible: boolean) => {
   const response = await axios.get(
     `/v1/articles?authorId=${userId}&invisible=${!visible}&count=true`
   );
-  return response.data as number;
+  return response.data.num as number;
 };
 
 export const getPostedArticles = async (userId: number) => {
   const response = await axios.get(`/v1/articles?createdBy=${userId}`);
   return response.data as IArticle[];
+};
+
+export const getUnderReviewArticles = async (begin?: number, end?: number) => {
+  const response = await axios.get(
+    `/v1/articles?invisible=true&tag=underReview&begin=${begin}&end=${end}`
+  );
+  return response.data as IArticle[];
+};
+
+export const getUnderReviewArticlesNum = async () => {
+  const response = await axios.get(`/v1/articles?invisible=true&count=true`);
+  return response.data.num as number;
 };
 
 export const postArticle = async (form: Partial<IArticle>) => {
