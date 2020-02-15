@@ -323,7 +323,7 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
       value: any,
       callback: any
     ) => {
-      const validateRule = /^[a-z\-]+$/; // 正则表达式，匹配英文小写字母和短横杠
+      const validateRule = /^[a-z-]+$/; // 正则表达式，匹配英文小写字母和短横杠
       if (value && !value.trim().match(validateRule)) {
         callback("请修改别名，仅含小写英文字母和短横杠");
       } else {

@@ -11,7 +11,8 @@ import {
   Form,
   Icon,
   message,
-  Modal
+  Modal,
+  Button
 } from "antd";
 import api from "../api";
 import md2wx from "md2wx";
@@ -110,52 +111,54 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
       render: (record: IArticle) => (
         <span>
           {review ? (
-            <a
+            <Button
               onClick={() => {
                 setShowPreview(true);
               }}
             >
               View
-            </a>
+            </Button>
           ) : (
-            <Link to={`/weekly/articles/${record.alias}`}>View</Link>
+            <Button>
+              <Link to={`/weekly/articles/${record.alias}`}>View</Link>
+            </Button>
           )}
 
           <Divider type="vertical" />
           {visible ? (
-            <a
+            <Button
               onClick={() => {
                 handlePrivate(record);
               }}
             >
               Make Private
-            </a>
+            </Button>
           ) : (
-            <a
+            <Button
               onClick={() => {
                 handlePublic(record);
               }}
             >
               Make Public
-            </a>
+            </Button>
           )}
           <Divider type="vertical" />
-          <a
+          <Button
             onClick={() => {
               handleDelete(record);
             }}
           >
             Delete
-          </a>
+          </Button>
           <Divider type="vertical" />
           {review ? (
-            <a
+            <Button
               onClick={() => {
                 handleApprove(record);
               }}
             >
               Approve
-            </a>
+            </Button>
           ) : null}
         </span>
       )
@@ -200,7 +203,7 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
     };
 
     review ? fetchReviewData() : fetchData();
-  }, [category, review]);
+  }, [category, review, visible, user]);
 
   useEffect(() => {
     // 获取文章
@@ -223,7 +226,7 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
     };
 
     review ? fetchReviewData() : fetchData();
-  }, [pageNumber, pageSize, visible, operation, review]);
+  }, [pageNumber, pageSize, visible, user, operation, review]);
 
   const handleClick = (record: IArticle) => {
     if (activeRow === String(record.id)) {
@@ -246,7 +249,23 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
   };
 
   let controlPanel = [
-    <Form.Item>控制面板</Form.Item>,
+    <Form.Item>
+      <b>控制面板</b>
+    </Form.Item>,
+    <Form.Item label={category === "author" ? "我写的文章" : "我发布的文章"}>
+      <Switch
+        checked={category === "author"}
+        onChange={() => {
+          if (category === "author") {
+            setCategory("promulgator");
+          } else {
+            setCategory("author");
+          }
+        }}
+        checkedChildren={"点击查看发布的文章"}
+        unCheckedChildren={"点集查看我写的文章"}
+      />
+    </Form.Item>,
     <Form.Item label="已公开">
       <Switch
         checked={visible}
@@ -286,8 +305,7 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = props => {
   }
 
   const html = useMemo(() => md2wx.renderHtml(previewArticle.content!, true), [
-    previewArticle.content,
-    true
+    previewArticle.content
   ]);
 
   return (
