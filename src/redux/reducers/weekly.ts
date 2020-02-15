@@ -15,6 +15,7 @@ import { IWeeklyState } from "../types/state";
 export default function weekly(
   state: IWeeklyState = {
     currentArticle: {
+      status: undefined,
       fetching: false,
       item: {
         id: 0,
@@ -87,10 +88,12 @@ export default function weekly(
       };
     }
     case GET_ARTICLE_SUCCESS: {
-      const article = action.payload;
+      const article = action.payload.article;
+      const status = action.payload.status;
       return {
         ...state,
         currentArticle: {
+          status: status,
           item: article,
           fetching: false,
           error: null
@@ -119,10 +122,12 @@ export default function weekly(
       };
     }
     case GET_ARTICLE_BY_ALIAS_SUCCESS: {
-      const article = action.payload;
+      const article = action.payload.article;
+      const status = action.payload.status;
       return {
         ...state,
         currentArticle: {
+          status: status,
           item: article,
           fetching: false,
           error: null

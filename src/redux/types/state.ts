@@ -70,6 +70,7 @@ export interface IArticleState extends IArticle {}
 
 export interface IWeeklyState {
   currentArticle: {
+    status?: "post" | "update";
     fetching: boolean;
     error?: Error | null;
     item: IArticleState;

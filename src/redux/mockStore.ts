@@ -21,6 +21,7 @@ const mockStore: IAppState = {
   },
   weekly: {
     currentArticle: {
+      status: undefined,
       fetching: false,
       item: {
         id: 1,

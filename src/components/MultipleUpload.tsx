@@ -15,14 +15,7 @@ export interface IMultipleUploadProps extends UploadProps {
 }
 
 const MultipleUpload: React.FC<IMultipleUploadProps> = props => {
-  const {
-    token,
-    fileList,
-    maxUpload,
-    uploadPrompt,
-    onFileListChange,
-    onRemove
-  } = props;
+  const { token, fileList, maxUpload, onFileListChange, onRemove } = props;
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewPictureName, setPreviewPictureName] = useState("");

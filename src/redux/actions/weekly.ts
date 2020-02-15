@@ -48,15 +48,23 @@ export const getArticleAction = createAsyncAction(
   GET_ARTICLE_REQUEST,
   GET_ARTICLE_SUCCESS,
   GET_ARTICLE_FAILURE
-)<undefined, IArticle, Error>();
+)<undefined, { article: IArticle; status?: "post" | "update" }, Error>();
 
-export function getArticle(articleId: number): IThunkResult<IGetArticleAction> {
+export function getArticle(
+  articleId: number,
+  status?: "post" | "update"
+): IThunkResult<IGetArticleAction> {
   return async dispatch => {
     dispatch(getArticleAction.request());
 
     try {
       const article = await api.getArticle(articleId);
-      dispatch(getArticleAction.success(article));
+      dispatch(
+        getArticleAction.success({
+          article: article,
+          status: status
+        })
+      );
     } catch (e) {
       dispatch(getArticleAction.failure(e));
     }
@@ -67,17 +75,23 @@ export const getArticleByAliasAction = createAsyncAction(
   GET_ARTICLE_BY_ALIAS_REQUEST,
   GET_ARTICLE_BY_ALIAS_SUCCESS,
   GET_ARTICLE_BY_ALIAS_FAILURE
-)<undefined, IArticle, Error>();
+)<undefined, { article: IArticle; status?: "post" | "update" }, Error>();
 
 export function getArticleByAlias(
-  alias: string
+  alias: string,
+  status?: "post" | "update"
 ): IThunkResult<IGetArticleByAliasAction> {
   return async dispatch => {
     dispatch(getArticleByAliasAction.request());
 
     try {
       const article = await api.getArticleByAlias(alias);
-      dispatch(getArticleByAliasAction.success(article));
+      dispatch(
+        getArticleByAliasAction.success({
+          article: article,
+          status: status
+        })
+      );
     } catch (e) {
       dispatch(getArticleByAliasAction.failure(e));
     }

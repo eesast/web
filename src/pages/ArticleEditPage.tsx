@@ -36,12 +36,13 @@ interface IArticleEditPageStateProps {
   token: string;
   fetching: boolean;
   article: IArticle;
+  status?: "post" | "update";
   error?: Error | null;
 }
 
 interface IArticleEditPageDispatchProps {
   getArticle: (articleId: number) => void;
-  getArticleByAlias: (alias: string) => void;
+  getArticleByAlias: (alias: string, status?: "post" | "update") => void;
 }
 
 type IArticleEditPageProps = IArticleEditPageStateProps &
@@ -282,6 +283,7 @@ function mapStateToProps(state: IAppState): IArticleEditPageStateProps {
     user: state.auth.user!,
     fetching: state.weekly.currentArticle.fetching,
     article: state.weekly.currentArticle.item,
+    status: state.weekly.currentArticle.status,
     error: state.weekly.currentArticle.error
   };
 }
@@ -339,7 +341,8 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
           <Col span={16}>
             <Form.Item label="标题 Title" hasFeedback>
               {form.getFieldDecorator("title", {
-                initialValue: props.article.title,
+                initialValue:
+                  props.status === "update" ? props.article.title : "",
                 rules: [{ required: true, message: "请输入文章标题" }]
               })(<Input placeholder="标题，例：浅论基尔霍夫定律" />)}
             </Form.Item>
@@ -358,7 +361,8 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
               // 需要加入检验用户是否存在的功能
             >
               {form.getFieldDecorator("author", {
-                initialValue: props.article.author,
+                initialValue:
+                  props.status === "update" ? props.article.author : "",
                 rules: [{ required: true, message: "请输入作者的用户名" }]
               })(<Input placeholder="作者的用户名" />)}
             </Form.Item>
@@ -379,7 +383,8 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
               hasFeedback
             >
               {form.getFieldDecorator("alias", {
-                initialValue: props.article.alias,
+                initialValue:
+                  props.status === "update" ? props.article.alias : "",
                 rules: [
                   { required: true, message: "请输入文章别名" },
                   { validator: validateAlias }
@@ -458,7 +463,8 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
               }
             >
               {form.getFieldDecorator("abstract", {
-                initialValue: props.article.abstract
+                initialValue:
+                  props.status === "update" ? props.article.abstract : ""
               })(<TextArea autoSize={{ minRows: 4 }} placeholder="文章摘要" />)}
             </Form.Item>
           </Col>
