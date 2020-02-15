@@ -6,6 +6,7 @@ import { WithRouterComponent } from "../types/WithRouterComponent";
 import ArticlePage from "../pages/ArticlePage";
 import ArticleEditPage from "../pages/ArticleEditPage";
 import ArticleManagePage from "../pages/ArticleManagePage";
+import AuthRoute from "../components/AuthRoute";
 
 export interface IWeeklySiteProps {
   setSite: (site: Site) => void;
@@ -25,8 +26,12 @@ const WeeklySite: React.FC<WithRouterComponent<{}, IWeeklySiteProps>> = ({
         path={`${match.path}/articles/:alias`}
         component={ArticlePage}
       />
-      <Route exact path={`${match.path}/edit`} component={ArticleEditPage} />
-      <Route
+      <AuthRoute
+        exact
+        path={`${match.path}/edit`}
+        component={ArticleEditPage}
+      />
+      <AuthRoute
         exact
         path={`${match.path}/manage`}
         component={ArticleManagePage}
