@@ -20,6 +20,7 @@ import {
   register,
   updateUser,
   getUserId,
+  getUsername,
   getUserInfo,
   getUserInfos
 } from "./users";
@@ -60,6 +61,7 @@ export default {
   likeArticle,
   unlikeArticle,
   getUserId,
+  getUsername,
   getUserInfo,
   getUserInfos,
   getTeams,

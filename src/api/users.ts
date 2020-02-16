@@ -24,6 +24,11 @@ export const getUserId = async (username: string) => {
   else return 0;
 };
 
+export const getUsername = async (userId: number) => {
+  const response = await axios.get(`/v1/users/username/${userId}`);
+  return response.data.username as string;
+};
+
 export const getUserInfo = async (id: number) => {
   const response = await axios.get(`/v1/users/${id}`);
   return response.data as IUser;

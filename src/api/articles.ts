@@ -17,7 +17,7 @@ export const getArticle = async (articleId: number) => {
 export const getArticleByAlias = async (alias: string) => {
   const response = await axios.get(`/v1/articles?alias=${alias}`);
   let article = response.data[0] as IArticle;
-  article.author = await (await api.getUserInfo(article.authorId)).username;
+  article.author = await api.getUsername(article.authorId);
   return article;
 };
 
