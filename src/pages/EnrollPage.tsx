@@ -34,19 +34,20 @@ interface IEnrollPageDispatchProps {
 
 type IEnrollPageProps = IEnrollPageStateProps & IEnrollPageDispatchProps;
 
-const EnrollPage: React.FC<
-  WithRouterComponent<{}, IEnrollPageProps>
-> = props => {
+const EnrollPage: React.FC<WithRouterComponent<
+  {},
+  IEnrollPageProps
+>> = props => {
   const { error, fetching, contestId, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
-    getSelfTeam("电设", 2019);
+    getSelfTeam("队式", 2020);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!contestId) {
-      getContestId("电设", 2019);
+      getContestId("队式", 2020);
     }
   }, [contestId]);
 
@@ -113,10 +114,7 @@ const mapDispatchToProps: IEnrollPageDispatchProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(EnrollPage)
+  connect(mapStateToProps, mapDispatchToProps)(EnrollPage)
 );
 
 interface IEnrollFormProps extends FormComponentProps {
@@ -132,7 +130,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
       if (!err && values.name && values.description) {
         try {
           if (!contestId) {
-            getContestId("电设", 2019);
+            getContestId("队式", 2020);
           }
 
           const inviteCode = await api.createTeam(

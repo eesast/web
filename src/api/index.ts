@@ -17,6 +17,8 @@ import {
   getContestId,
   getTeamNum
 } from "./teams";
+import { startBattle, getBattleHistory } from "./battle";
+import { uploadCode } from "./static";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -38,5 +40,8 @@ export default {
   quitTeam,
   addTeamMember,
   getContestId,
-  getTeamNum
+  getTeamNum,
+  startBattle,
+  getBattleHistory,
+  uploadCode
 };
