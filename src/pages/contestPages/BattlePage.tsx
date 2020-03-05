@@ -23,10 +23,10 @@ const { Title, Text } = Typography;
 
 const BattlePage: React.FC = props => {
   // redux 数据
-  const { user, teams, selfTeam, contestId, error, fetching } = useSelector(
+  const { teams, selfTeam, contestId, error, fetching } = useSelector(
     (state: IAppState) => {
       return {
-        user: state.auth.user,
+        // user: state.auth.user,
         teams: state.teams.items,
         selfTeam: state.teams.selfTeam,
         contestId: state.teams.contestId,
@@ -141,7 +141,13 @@ const BattlePage: React.FC = props => {
     } else {
       dispatch(getContestId("队式", 2020));
     }
-  }, [contestId]);
+  }, [contestId, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      message.error("信息加载失败");
+    }
+  }, [error]);
 
   const selectChildren = teams.map((team: ITeam) => {
     if (team.id !== selfTeam.id) {
@@ -153,6 +159,7 @@ const BattlePage: React.FC = props => {
         );
       } else return <Select.Option value={team.id}>{team.name}</Select.Option>;
     }
+    return null;
   });
 
   const rankPagination: PaginationConfig = {
@@ -228,6 +235,7 @@ const BattlePage: React.FC = props => {
           pageNumber * pageSize
         )}
         pagination={rankPagination}
+        loading={fetching}
       />
       <Modal
         title="代码管理"

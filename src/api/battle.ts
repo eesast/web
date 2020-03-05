@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ITeam } from "../redux/types/state";
+// import { ITeam } from "../redux/types/state";
 
 export const getBattleHistory = async (contestId: number, teamId: number) => {};
 

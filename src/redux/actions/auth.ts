@@ -1,10 +1,6 @@
 import { createAsyncAction, createAction } from "typesafe-actions";
 import api from "../../api";
-import {
-  ILoginAction,
-  IThunkResult,
-  IVerifyTokenAction
-} from "../types/actions";
+import { ILoginAction, IThunkResult } from "../types/actions";
 import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,

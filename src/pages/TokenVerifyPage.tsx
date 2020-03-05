@@ -10,7 +10,7 @@ const TokenVerifyPage: React.FC = props => {
   useEffect(() => {
     dispatch(verifyTokenAction(token!));
     history.push("/teamstyle/intro");
-  }, []);
+  }, [dispatch, history, token]);
 
   return <div>VERIFY TOKEN PAGE</div>;
 };
