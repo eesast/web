@@ -17,6 +17,7 @@ import { IAppState, ITeam } from "../../redux/types/state";
 import { getTeams, getSelfTeam, getContestId } from "../../redux/actions/teams";
 import { ColumnProps, PaginationConfig } from "antd/lib/table";
 import api from "../../api";
+import { UploadFile, UploadChangeParam } from "antd/lib/upload/interface";
 
 const { Title, Text } = Typography;
 
@@ -38,6 +39,7 @@ const BattlePage: React.FC = props => {
   const dispatch = useDispatch();
 
   // 本页面的state
+  const [codeList, setCodeList] = useState<UploadFile[]>([]); // 已上传代码的获取尚未实现
   const [pageSize, setPageSize] = useState(5);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedTeams, setSelectedTeams] = useState<number[]>([]); // 选中作为对手的teamId，比赛限制四队，0用于表示bot
@@ -97,6 +99,21 @@ const BattlePage: React.FC = props => {
 
   const handleBattleModal = () => {
     setShowBattleModal(!showBattleModal);
+  };
+
+  // antd 文件上传列表受控上传example
+  // 可能需要改成先选择，后上传的形式
+  // 上传api尚未实现
+  const handleCodeChange = (info: UploadChangeParam<UploadFile<any>>) => {
+    let fileList = [...info.fileList];
+    fileList = fileList.slice(-2); // 最后的两个代码文件
+    fileList = fileList.map(file => {
+      if (file.response) {
+        file.url = file.response.url;
+      }
+      return file;
+    });
+    setCodeList(fileList);
   };
 
   const handleSelectedChange = (value: number[]) => {
@@ -220,7 +237,7 @@ const BattlePage: React.FC = props => {
         onCancel={handleCodeModal}
       >
         {/* 代码上传的细节尚未实现，需考虑限制两份代码，上传使用的api等 */}
-        <Upload>
+        <Upload fileList={codeList} onChange={handleCodeChange}>
           <Button>
             <Icon type="upload" theme="outlined" /> 上传代码
           </Button>
