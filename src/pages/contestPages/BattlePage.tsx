@@ -8,13 +8,15 @@ import {
   Col,
   Button,
   Modal,
-  Upload
+  Upload,
+  message
 } from "antd";
 import styles from "./BattlePage.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IAppState, ITeam } from "../../redux/types/state";
 import { getTeams, getSelfTeam, getContestId } from "../../redux/actions/teams";
 import { ColumnProps, PaginationConfig } from "antd/lib/table";
+import api from "../../api";
 
 const { Title, Text } = Typography;
 
@@ -38,7 +40,7 @@ const BattlePage: React.FC = props => {
   // 本页面的state
   const [pageSize, setPageSize] = useState(5);
   const [pageNumber, setPageNumber] = useState(1);
-  const [selectedTeams, setSelectedTeams] = useState([0, 0, 0]); // 选中作为对手的teamId，比赛限制四队，0用于表示bot
+  const [selectedTeams, setSelectedTeams] = useState<number[]>([]); // 选中作为对手的teamId，比赛限制四队，0用于表示bot
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showBattleModal, setShowBattleModal] = useState(false);
@@ -97,6 +99,20 @@ const BattlePage: React.FC = props => {
     setShowBattleModal(!showBattleModal);
   };
 
+  const handleSelectedChange = (value: number[]) => {
+    if (value.length < 3) {
+      setSelectedTeams(value);
+    } else {
+      setSelectedTeams(value.slice(0, 3));
+    }
+  };
+
+  const handleBattleStart = () => {
+    api.startBattle(contestId!, [selfTeam.id, ...selectedTeams], "", 0);
+    setShowBattleModal(false);
+    message.info(`对战已开始，请耐心等待`);
+  };
+
   useEffect(() => {
     const fetchData = () => {
       dispatch(getTeams(false, "队式", 2020));
@@ -110,9 +126,17 @@ const BattlePage: React.FC = props => {
     }
   }, [contestId]);
 
-  const selectChildren = teams.map((team: ITeam) => (
-    <Select.Option key={team.id}>{team.name}</Select.Option>
-  ));
+  const selectChildren = teams.map((team: ITeam) => {
+    if (team.id !== selfTeam.id) {
+      if (selectedTeams.length === 3 && !selectedTeams.includes(team.id)) {
+        return (
+          <Select.Option value={team.id} disabled>
+            {team.name}
+          </Select.Option>
+        );
+      } else return <Select.Option value={team.id}>{team.name}</Select.Option>;
+    }
+  });
 
   const rankPagination: PaginationConfig = {
     total: teams.length,
@@ -220,18 +244,24 @@ const BattlePage: React.FC = props => {
         footer={null}
         onCancel={handleBattleModal}
       >
-        <Select
-          mode="multiple"
-          size="large"
-          style={{ width: "100%" }}
-          value={selectedTeams}
-          onSelect={(value: number) => {
-            setSelectedTeams([...selectedTeams, value]);
-          }}
-          onDeselect={(value: number) => {}}
-        >
-          {selectChildren}
-        </Select>
+        <Row gutter={16}>
+          <Col span={20}>
+            <Select
+              mode="multiple"
+              size="large"
+              style={{ width: "100%" }}
+              value={selectedTeams}
+              onChange={handleSelectedChange}
+            >
+              {selectChildren}
+            </Select>
+          </Col>
+          <Col span={4}>
+            <Button type="primary" size="large" onClick={handleBattleStart}>
+              Start
+            </Button>
+          </Col>
+        </Row>
       </Modal>
     </div>
   );
