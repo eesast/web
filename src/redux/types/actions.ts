@@ -1,7 +1,11 @@
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType } from "typesafe-actions";
-import { loginAction, updateUserAction } from "../actions/auth";
+import {
+  loginAction,
+  updateUserAction,
+  verifyTokenAction
+} from "../actions/auth";
 import { getArticleFeedsAction } from "../actions/weekly";
 import {
   getTeamsAction,
@@ -20,8 +24,9 @@ export type IThunkResult<T extends AnyAction> = ThunkAction<
 
 export type ILoginAction = ActionType<typeof loginAction>;
 export type IUpdateUserAction = ActionType<typeof updateUserAction>;
+export type IVerifyTokenAction = ActionType<typeof verifyTokenAction>;
 
-export type IAuthAction = ILoginAction | IUpdateUserAction;
+export type IAuthAction = ILoginAction | IUpdateUserAction | IVerifyTokenAction;
 
 export type IGetArticleFeedsAction = ActionType<typeof getArticleFeedsAction>;
 

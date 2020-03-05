@@ -1,11 +1,16 @@
 import { createAsyncAction, createAction } from "typesafe-actions";
 import api from "../../api";
-import { ILoginAction, IThunkResult } from "../types/actions";
+import {
+  ILoginAction,
+  IThunkResult,
+  IVerifyTokenAction
+} from "../types/actions";
 import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  UPDATE_USER
+  UPDATE_USER,
+  VERIFY_TOKEN
 } from "../types/constants";
 import { IUser } from "../types/state";
 
@@ -34,4 +39,9 @@ export function login(
 export const updateUserAction = createAction(
   UPDATE_USER,
   (id: number, user: IUser) => ({ id, user })
+)();
+
+export const verifyTokenAction = createAction(
+  VERIFY_TOKEN,
+  (token: string) => token
 )();

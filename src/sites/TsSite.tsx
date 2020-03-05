@@ -19,6 +19,7 @@ import TeamManagePage from "../pages/TeamManagePage";
 import ResourcePage from "../pages/ResourcePage";
 import TeamJoinPage from "../pages/TeamJoinPage";
 import BattlePage from "../pages/contestPages/BattlePage";
+import TokenVerifyPage from "../pages/TokenVerifyPage";
 // import SponsorPage from "../pages/SponsorPage";
 import AuthRoute from "../components/AuthRoute";
 
@@ -162,6 +163,11 @@ const TsSite: React.FC<ITsSiteProps> = props => {
             component={ResourcePage}
           />
           {/* <Route exact path={`${match.path}/sponsor`} component={SponsorPage} /> */}
+          <Route
+            exact
+            path={`${match.path}/token/:token`}
+            component={TokenVerifyPage}
+          />
           <Route component={NotFoundPage} />
         </Switch>
       </Content>

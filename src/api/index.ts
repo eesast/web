@@ -5,7 +5,8 @@ import {
   register,
   updateUser,
   getUserInfo,
-  getUserInfos
+  getUserInfos,
+  verifyToken
 } from "./users";
 import {
   getTeams,
@@ -30,6 +31,7 @@ export default {
   login,
   register,
   updateUser,
+  verifyToken,
   getArticleFeeds,
   getUserInfo,
   getUserInfos,
