@@ -36,13 +36,14 @@ interface ITeamManagePageDispatchProps {
 type ITeamManagePageProps = ITeamManagePageDispatchProps &
   ITeamManagePageStateProps;
 
-const TeamManagePage: React.FC<
-  WithRouterComponent<{}, ITeamManagePageProps>
-> = props => {
+const TeamManagePage: React.FC<WithRouterComponent<
+  {},
+  ITeamManagePageProps
+>> = props => {
   const { contestId, error, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
-    getSelfTeam("电设", 2019);
+    getSelfTeam("队式", 2020);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -97,10 +98,7 @@ const mapDispatchToProps: ITeamManagePageDispatchProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(TeamManagePage)
+  connect(mapStateToProps, mapDispatchToProps)(TeamManagePage)
 );
 
 interface ITeamManageFormProps extends FormComponentProps {
@@ -152,7 +150,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       if (!err && values.name && values.description && values.members) {
         try {
           if (!contestId) {
-            props.getContestId("电设", 2019);
+            props.getContestId("队式", 2020);
           }
 
           await api.updateTeam(
@@ -166,7 +164,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
             title: "队伍信息已修改",
             content: "请确认修改后的信息"
           });
-          getTeams(true, "电设", 2019);
+          getTeams(true, "队式", 2020);
         } catch (error) {
           if (
             error.response.data === "409 Conflict: Team name already exists"
@@ -196,7 +194,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       async onOk() {
         try {
           await api.deleteTeam(id);
-          getTeams(true, "电设", 2019);
+          getTeams(true, "队式", 2020);
           Modal.success({
             title: "队伍已解散",
             content: "请重新加入队伍"
@@ -222,7 +220,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       async onOk() {
         try {
           await api.quitTeam(id, props.user.id);
-          getTeams(true, "电设", 2019);
+          getTeams(true, "队式", 2020);
           Modal.success({
             title: "您已退出队伍",
             content: "请重新加入队伍"

@@ -5,7 +5,8 @@ import {
   register,
   updateUser,
   getUserInfo,
-  getUserInfos
+  getUserInfos,
+  verifyToken
 } from "./users";
 import {
   getTeams,
@@ -17,6 +18,8 @@ import {
   getContestId,
   getTeamNum
 } from "./teams";
+import { startBattle, getBattleHistory } from "./battle";
+import { uploadCode } from "./static";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -28,6 +31,7 @@ export default {
   login,
   register,
   updateUser,
+  verifyToken,
   getArticleFeeds,
   getUserInfo,
   getUserInfos,
@@ -38,5 +42,8 @@ export default {
   quitTeam,
   addTeamMember,
   getContestId,
-  getTeamNum
+  getTeamNum,
+  startBattle,
+  getBattleHistory,
+  uploadCode
 };

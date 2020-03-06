@@ -28,3 +28,15 @@ export const getUserInfos = async (ids: number[]) => {
   });
   return response.data as IUser[];
 };
+
+export const verifyToken = async (token: string) => {
+  const response = await axios.post(`/v1/users/token/validate`, {
+    token: token
+  });
+  // THUAI那边直接传递登录后的token
+  return {
+    id: response.data.id,
+    username: response.data.username,
+    role: response.data.role
+  };
+};

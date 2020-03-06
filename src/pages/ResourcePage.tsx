@@ -41,7 +41,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
 
   useEffect(() => {
     if (!contestId) {
-      getContestId("电设", 2019);
+      getContestId("队式", 2020);
     }
   }, [contestId, getContestId]);
 
@@ -51,7 +51,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
     let newAnnouncements: IAnnouncement[] = [];
     try {
       if (!contestId) {
-        getContestId("电设", 2019);
+        getContestId("队式", 2020);
       }
       newAnnouncements = await getAnnouncements(
         page * 5,
@@ -130,7 +130,4 @@ const mapDispatchToProps: IResourcePageDispatchProps = {
   getContestId
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ResourcePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ResourcePage);

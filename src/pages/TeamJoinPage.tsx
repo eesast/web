@@ -53,9 +53,10 @@ interface ITeamJoinPageDispatchProps {
 
 type ITeamJoinPageProps = ITeamJoinPageStateProps & ITeamJoinPageDispatchProps;
 
-const TeamJoinPage: React.FC<
-  WithRouterComponent<{}, ITeamJoinPageProps>
-> = props => {
+const TeamJoinPage: React.FC<WithRouterComponent<
+  {},
+  ITeamJoinPageProps
+>> = props => {
   const {
     user,
     teams,
@@ -79,10 +80,10 @@ const TeamJoinPage: React.FC<
 
   useEffect(() => {
     if (contestId) {
-      getSelfTeam("电设", 2019);
-      getTeamNum("电设", 2019);
+      getSelfTeam("队式", 2020);
+      getTeamNum("队式", 2020);
     } else {
-      getContestId("电设", 2019);
+      getContestId("队式", 2020);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contestId]);
@@ -100,7 +101,7 @@ const TeamJoinPage: React.FC<
     if (contestId) {
       fetchData();
     } else {
-      getContestId("电设", 2019);
+      getContestId("队式", 2020);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contestId, pageNumber, pageSize]);
@@ -162,7 +163,7 @@ const TeamJoinPage: React.FC<
 
   const exportTeams = () => {
     setExporting(true);
-    getTeams(false, "电设", 2019);
+    getTeams(false, "队式", 2020);
   };
 
   // const handleChange = (pagination: PaginationConfig) => {
@@ -328,10 +329,7 @@ const mapDispatchToProps: ITeamJoinPageDispatchProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(TeamJoinPage)
+  connect(mapStateToProps, mapDispatchToProps)(TeamJoinPage)
 );
 
 interface ITeamJoinFormProps extends FormComponentProps {

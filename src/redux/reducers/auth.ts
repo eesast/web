@@ -4,7 +4,8 @@ import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  UPDATE_USER
+  UPDATE_USER,
+  VERIFY_TOKEN
 } from "../types/constants";
 import { IAuthState } from "../types/state";
 import axios from "axios";
@@ -53,6 +54,20 @@ export default function auth(
           id: action.payload.id
         }
       };
+
+    case VERIFY_TOKEN: {
+      const token = action.payload;
+      const decoded = jwtDecode(token) as any;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      return {
+        ...state,
+        token,
+        loggedIn: true,
+        loggingIn: false,
+        error: null,
+        user: decoded
+      };
+    }
   }
   return state;
 }

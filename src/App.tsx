@@ -26,6 +26,7 @@ import LoginPage from "./pages/LoginPage";
 import store from "./redux/store";
 import ApiSite from "./sites/ApiSite";
 import EdcSite from "./sites/EdcSite";
+import TsSite from "./sites/TsSite";
 import HomeSite from "./sites/HomeSite";
 import NotFoundSite from "./sites/NotFoundSite";
 import WeeklySite from "./sites/WeeklySite";
@@ -42,7 +43,7 @@ const { Title } = Typography;
 
 moment.locale("zh-cn");
 
-export type Site = "home" | "weekly" | "edc" | "others";
+export type Site = "home" | "weekly" | "edc" | "ts" | "others";
 
 const App = () => {
   const getRoute = ({ location }: RouteProps) => {
@@ -119,8 +120,8 @@ const App = () => {
                 <Menu.Item key="weekly">
                   <Link to="/weekly">Weekly</Link>
                 </Menu.Item>
-                <Menu.Item key="edc">
-                  <Link to="/thuedc">电子设计大赛</Link>
+                <Menu.Item key="ts">
+                  <Link to="/teamstyle">队式程序设计比赛</Link>
                 </Menu.Item>
                 <Menu.Item key="info">
                   <a href="https://info.eesast.com">Info</a>
@@ -145,6 +146,7 @@ const routes = [
   { to: "/home", component: HomeSite, auth: false },
   { to: "/weekly", component: WeeklySite, auth: false },
   { to: "/thuedc", component: EdcSite, auth: false },
+  { to: "/teamstyle", component: TsSite, auth: false },
   { to: "/api", component: ApiSite, auth: false },
   { to: "/md2wx", component: MarkdownSite, auth: false },
   { to: "/login", component: LoginPage, auth: false },
