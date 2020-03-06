@@ -282,7 +282,12 @@ const BattlePage: React.FC = props => {
             </Select>
           </Col>
           <Col span={4}>
-            <Button type="primary" size="large" onClick={handleBattleStart}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={handleBattleStart}
+              disabled
+            >
               Start
             </Button>
           </Col>
