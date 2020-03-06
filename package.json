@@ -15,7 +15,7 @@
     "@types/marked": "0.7.3",
     "antd": "3.26.11",
     "axios": "0.19.2",
-    "clipboard": "2.0.4",
+    "clipboard": "2.0.6",
     "jwt-decode": "2.2.0",
     "marked": "0.8.0",
     "md2wx": "3.0.0",
