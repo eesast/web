@@ -121,7 +121,7 @@ const App = () => {
                   <Link to="/weekly">Weekly</Link>
                 </Menu.Item>
                 <Menu.Item key="ts">
-                  <Link to="/teamstyle">队列式程序设计比赛</Link>
+                  <Link to="/teamstyle">队式程序设计比赛</Link>
                 </Menu.Item>
                 <Menu.Item key="info">
                   <a href="https://info.eesast.com">Info</a>
