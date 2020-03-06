@@ -34,9 +34,5 @@ export const verifyToken = async (token: string) => {
     token: token
   });
   // THUAI那边直接传递登录后的token
-  return {
-    id: response.data.id,
-    username: response.data.username,
-    role: response.data.role
-  };
+  return response.data;
 };

@@ -5,7 +5,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   UPDATE_USER,
-  VERIFY_TOKEN
+  VERIFY_TOKEN_REQUEST,
+  VERIFY_TOKEN_SUCCESS,
+  VERIFY_TOKEN_FAILURE
 } from "../types/constants";
 import { IAuthState } from "../types/state";
 import axios from "axios";
@@ -55,17 +57,33 @@ export default function auth(
         }
       };
 
-    case VERIFY_TOKEN: {
+    case VERIFY_TOKEN_REQUEST: {
       const token = action.payload;
-      const decoded = jwtDecode(token) as any;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       return {
         ...state,
         token,
+        loggingIn: true,
+        error: null
+      };
+    }
+    case VERIFY_TOKEN_SUCCESS: {
+      const user = action.payload;
+      return {
+        ...state,
         loggedIn: true,
         loggingIn: false,
         error: null,
-        user: decoded
+        user: user
+      };
+    }
+    case VERIFY_TOKEN_FAILURE: {
+      axios.defaults.headers.common["Authorization"] = "";
+      return {
+        ...state,
+        loggedIn: false,
+        loggingIn: false,
+        error: action.payload
       };
     }
   }

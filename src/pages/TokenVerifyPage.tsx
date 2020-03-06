@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { verifyTokenAction } from "../redux/actions/auth";
+import { verifyToken } from "../redux/actions/auth";
 
 const TokenVerifyPage: React.FC = props => {
   const history = useHistory();
   const { token } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(verifyTokenAction(token!));
+    dispatch(verifyToken(token!));
     history.push("/teamstyle/intro");
   }, [dispatch, history, token]);
 

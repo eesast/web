@@ -1,12 +1,18 @@
 import { createAsyncAction, createAction } from "typesafe-actions";
 import api from "../../api";
-import { ILoginAction, IThunkResult } from "../types/actions";
+import {
+  ILoginAction,
+  IThunkResult,
+  IVerifyTokenAction
+} from "../types/actions";
 import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   UPDATE_USER,
-  VERIFY_TOKEN
+  VERIFY_TOKEN_REQUEST,
+  VERIFY_TOKEN_SUCCESS,
+  VERIFY_TOKEN_FAILURE
 } from "../types/constants";
 import { IUser } from "../types/state";
 
@@ -37,7 +43,23 @@ export const updateUserAction = createAction(
   (id: number, user: IUser) => ({ id, user })
 )();
 
-export const verifyTokenAction = createAction(
-  VERIFY_TOKEN,
-  (token: string) => token
-)();
+export const verifyTokenAction = createAsyncAction(
+  VERIFY_TOKEN_REQUEST,
+  VERIFY_TOKEN_SUCCESS,
+  VERIFY_TOKEN_FAILURE
+)<string, IUser, Error>();
+
+export function verifyToken(token: string): IThunkResult<IVerifyTokenAction> {
+  return async dispatch => {
+    dispatch(verifyTokenAction.request(token));
+
+    try {
+      const response = await api.verifyToken(token);
+      const userId = response.id;
+      const user = await api.getUserInfo(userId);
+      dispatch(verifyTokenAction.success(user));
+    } catch (e) {
+      dispatch(verifyTokenAction.failure(e));
+    }
+  };
+}
