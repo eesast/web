@@ -52,7 +52,7 @@
     "react-app-rewired": "2.1.5",
     "react-scripts": "3.4.0",
     "redux-devtools-extension": "2.13.8",
-    "typescript": "3.8.2"
+    "typescript": "3.8.3"
   },
   "husky": {
     "hooks": {
