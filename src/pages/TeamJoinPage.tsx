@@ -374,6 +374,10 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
             error.response.data === "400 Bad Request: Contest not available"
           ) {
             message.error("当前不在报名时间");
+          } else if (
+            error.response.data === "400 Bad Request: User not in track"
+          ) {
+            message.error("您没有加入本赛道，请前往主网站加入");
           } else {
             message.error("加入队伍失败，请联系管理员");
           }

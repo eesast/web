@@ -157,6 +157,10 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
             error.response.data === "400 Bad Request: Contest not available"
           ) {
             message.error("当前不在报名时间");
+          } else if (
+            error.response.data === "400 Bad Request: User not in track"
+          ) {
+            message.error("您没有加入本赛道，请前往主网站加入");
           } else {
             message.error("队伍创建失败");
           }
