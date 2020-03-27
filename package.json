@@ -48,7 +48,7 @@
     "less": "3.11.1",
     "less-loader": "5.0.0",
     "lint-staged": "10.0.8",
-    "prettier": "1.19.1",
+    "prettier": "2.0.2",
     "react-app-rewired": "2.1.5",
     "react-scripts": "3.4.0",
     "redux-devtools-extension": "2.13.8",
