@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Site } from "../App";
 import styles from "./MarkdownSite.module.css";
-import md2wx from "md2wx";
 import { Input, Switch, Button, message, Upload } from "antd";
 import Clipboard from "clipboard";
 import { UploadProps } from "antd/lib/upload";
@@ -9,6 +8,15 @@ import { UploadProps } from "antd/lib/upload";
 export interface IMarkdownSiteProps {
   setSite: (site: Site) => void;
 }
+
+const MarkdownSite: React.FC<IMarkdownSiteProps> = ({ setSite }) => {
+  const [md2wx, setMd2wx] = useState<typeof import("md2wx")>();
+
+  useEffect(() => {
+    (async () => {
+      setMd2wx(await import("md2wx"));
+    })();
+  });
 
   useEffect(() => {
   setSite("others");
@@ -47,18 +55,20 @@ const a = 13;
   `);
   const [highlight, setHighlight] = useState(true);
 
-  const html = useMemo(() => md2wx.renderHtml(text, highlight), [
-    text,
-    highlight
-  ]);
+  const html = useMemo(
+    () => (md2wx ? md2wx.default.renderHtml(text, highlight) : ""),
+    [md2wx, text, highlight]
+  );
 
   const [pngConverting, setPngConverting] = useState(false);
 
   const handleConvert = async () => {
+    if (md2wx) {
     setPngConverting(true);
-    await md2wx.convertSvgToPng();
+      await md2wx.default.convertSvgToPng();
     setPngConverting(false);
     message.success("转换成功");
+    }
   };
 
   useEffect(() => {

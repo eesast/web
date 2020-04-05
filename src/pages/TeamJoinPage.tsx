@@ -11,7 +11,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
-import xlsx from "xlsx";
 import api from "../api";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import { IAppState, ITeam, IUser } from "../redux/types/state";
@@ -126,11 +125,14 @@ const TeamJoinPage: React.FC<WithRouterComponent<
             ),
           []
         );
+        (async () => {
+          const xlsx = await import("xlsx");
         const workBook = xlsx.utils.book_new();
         const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
 
         xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
         xlsx.writeFile(workBook, "队伍信息.xlsx");
+        })();
       } catch (error) {
         message.error("队伍信息导出失败");
       }

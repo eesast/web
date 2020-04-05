@@ -1,8 +1,8 @@
 import axios from "axios";
-import React from "react";
-import SwaggerUI from "swagger-ui-react";
+import React, { Suspense, useEffect } from "react";
 import "swagger-ui-react/swagger-ui.css";
 import { Site } from "../App";
+const SwaggerUI = React.lazy(() => import("swagger-ui-react"));
 
 export interface IApiSiteProps {
   setSite: (site: Site) => void;
@@ -10,10 +10,14 @@ export interface IApiSiteProps {
 
 const ApiSite: React.FC<IApiSiteProps> = ({ setSite }) => {
   useEffect(() => {
-  setSite("others");
+    setSite("others");
   }, [setSite]);
 
-  return <SwaggerUI url={`${axios.defaults.baseURL}/v1/swagger.yaml`} />;
+  return (
+    <Suspense fallback={null}>
+      <SwaggerUI url={`${axios.defaults.baseURL}/v1/swagger.yaml`} />
+    </Suspense>
+  );
 };
 
 export default ApiSite;
