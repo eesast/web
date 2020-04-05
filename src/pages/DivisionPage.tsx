@@ -15,7 +15,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
   return (
     <Tabs
       tabBarStyle={{
-        marginTop: 48
+        marginTop: 48,
       }}
       tabPosition="left"
     >
@@ -174,7 +174,7 @@ const DivisionPage: React.FC<IDivisionPageProps> = ({ setPage }) => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
             <img

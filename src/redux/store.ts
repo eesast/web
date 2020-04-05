@@ -2,7 +2,7 @@ import {
   AnyAction,
   applyMiddleware,
   combineReducers,
-  createStore
+  createStore,
 } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
@@ -15,7 +15,7 @@ import { IAppState } from "./types/state";
 const appReducer = combineReducers<IAppState, AnyAction>({
   auth,
   weekly,
-  teams
+  teams,
 });
 
 const store = createStore<IAppState, IAppAction, {}, {}>(

@@ -10,7 +10,7 @@ export interface IWeeklySiteProps {
 
 const WeeklySite: React.FC<WithRouterComponent<{}, IWeeklySiteProps>> = ({
   setSite,
-  match
+  match,
 }) => {
   useEffect(() => {
     setSite("weekly");

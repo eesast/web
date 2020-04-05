@@ -19,7 +19,7 @@ const MarkdownSite: React.FC<IMarkdownSiteProps> = ({ setSite }) => {
   });
 
   useEffect(() => {
-  setSite("others");
+    setSite("others");
   }, [setSite]);
 
   const [text, setText] = useState(`
@@ -64,16 +64,16 @@ const a = 13;
 
   const handleConvert = async () => {
     if (md2wx) {
-    setPngConverting(true);
+      setPngConverting(true);
       await md2wx.default.convertSvgToPng();
-    setPngConverting(false);
-    message.success("转换成功");
+      setPngConverting(false);
+      message.success("转换成功");
     }
   };
 
   useEffect(() => {
     const clipboard = new Clipboard("#button", {
-      target: () => document.getElementById("content")!
+      target: () => document.getElementById("content")!,
     });
     clipboard.on("success", () => message.success("复制成功"));
     clipboard.on("error", () => message.error("复制失败"));
@@ -117,14 +117,14 @@ const a = 13;
           style={{
             height: "100%",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
           }}
         >
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              marginBottom: 16
+              marginBottom: 16,
             }}
           >
             <div style={{ flex: 1 }}>
@@ -151,14 +151,14 @@ const a = 13;
             ref={textAreaRef as any}
             style={{ resize: "none", flex: 1 }}
             value={text}
-            onChange={e => setText(e.target.value)}
+            onChange={(e) => setText(e.target.value)}
           />
           <div
             style={{
               display: "flex",
               alignItems: "center",
               marginTop: 16,
-              justifyContent: "flex-end"
+              justifyContent: "flex-end",
             }}
           >
             <Upload
@@ -180,4 +180,4 @@ const a = 13;
   );
 };
 
-export default ApiSite;
+export default MarkdownSite;

@@ -2,7 +2,7 @@ import { IWeeklyAction } from "../types/actions";
 import {
   GET_ARTICLE_FEEDS_FAILURE,
   GET_ARTICLE_FEEDS_REQUEST,
-  GET_ARTICLE_FEEDS_SUCCESS
+  GET_ARTICLE_FEEDS_SUCCESS,
 } from "../types/constants";
 import { IWeeklyState } from "../types/state";
 
@@ -11,12 +11,12 @@ export default function weekly(
     articles: {
       fetching: false,
       hasMore: false,
-      items: []
+      items: [],
     },
     comments: {
       fetching: false,
-      items: []
-    }
+      items: [],
+    },
   },
   action: IWeeklyAction
 ): IWeeklyState {
@@ -27,8 +27,8 @@ export default function weekly(
         articles: {
           ...state.articles,
           fetching: true,
-          error: null
-        }
+          error: null,
+        },
       };
     case GET_ARTICLE_FEEDS_SUCCESS:
       const newArticles = action.payload.articles;
@@ -40,8 +40,8 @@ export default function weekly(
           ...state.articles,
           fetching: false,
           hasMore: newArticles.length === pageSize,
-          items: [...state.articles.items, ...newArticles]
-        }
+          items: [...state.articles.items, ...newArticles],
+        },
       };
     case GET_ARTICLE_FEEDS_FAILURE:
       return {
@@ -49,8 +49,8 @@ export default function weekly(
         articles: {
           ...state.articles,
           fetching: false,
-          error: action.payload
-        }
+          error: action.payload,
+        },
       };
   }
   return state;

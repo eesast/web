@@ -7,7 +7,7 @@ export const uploadCode = async (teamId: number, code: UploadFile) => {
   param.append("name", code.name);
   param.append("file", code.originFileObj!);
   const config = {
-    headers: { "Content-Type": "multipart/form-data" }
+    headers: { "Content-Type": "multipart/form-data" },
   };
   const response = await axios.post(`/static/code`, param, config);
   return response.data as string;

@@ -6,7 +6,7 @@ import {
   Modal,
   Popover,
   Table,
-  Descriptions
+  Descriptions,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -18,7 +18,7 @@ import {
   getTeams,
   getSelfTeam,
   getContestId,
-  getTeamNum
+  getTeamNum,
 } from "../redux/actions/teams";
 import styles from "./TeamJoinPage.module.css";
 
@@ -52,10 +52,9 @@ interface ITeamJoinPageDispatchProps {
 
 type ITeamJoinPageProps = ITeamJoinPageStateProps & ITeamJoinPageDispatchProps;
 
-const TeamJoinPage: React.FC<WithRouterComponent<
-  {},
-  ITeamJoinPageProps
->> = props => {
+const TeamJoinPage: React.FC<WithRouterComponent<{}, ITeamJoinPageProps>> = (
+  props
+) => {
   const {
     user,
     teams,
@@ -67,7 +66,7 @@ const TeamJoinPage: React.FC<WithRouterComponent<
     contestId,
     getContestId,
     error,
-    fetching
+    fetching,
   } = props;
 
   const [visible, setVisible] = useState(false);
@@ -117,21 +116,21 @@ const TeamJoinPage: React.FC<WithRouterComponent<
         const teamsData = teams.reduce(
           (data: (string | number)[][], team) =>
             data.concat(
-              team.membersInfo!.map(member => [
+              team.membersInfo!.map((member) => [
                 team.name,
                 member.name,
-                member.id
+                member.id,
               ])
             ),
           []
         );
         (async () => {
           const xlsx = await import("xlsx");
-        const workBook = xlsx.utils.book_new();
-        const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
+          const workBook = xlsx.utils.book_new();
+          const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
 
-        xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
-        xlsx.writeFile(workBook, "队伍信息.xlsx");
+          xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
+          xlsx.writeFile(workBook, "队伍信息.xlsx");
         })();
       } catch (error) {
         message.error("队伍信息导出失败");
@@ -193,14 +192,14 @@ const TeamJoinPage: React.FC<WithRouterComponent<
       key: "name",
       width: "30%",
       sorter: (a, b) => a.name.localeCompare(b.name),
-      sortDirections: sortDir
+      sortDirections: sortDir,
     },
     {
       title: "队长",
       dataIndex: "leaderInfo",
       key: "leaderInfo",
       render: (leader: IUser) => leader.username,
-      width: "30%"
+      width: "30%",
     },
     {
       title: "队伍成员",
@@ -209,8 +208,8 @@ const TeamJoinPage: React.FC<WithRouterComponent<
       render: (members?: IUser[]) =>
         members
           ? members.map((member: IUser) => member.username).join("、")
-          : ""
-    }
+          : "",
+    },
   ];
 
   const pagination: PaginationConfig = {
@@ -237,7 +236,7 @@ const TeamJoinPage: React.FC<WithRouterComponent<
           </Button>
         )}
       </div>
-    )
+    ),
   };
 
   return (
@@ -319,7 +318,7 @@ function mapStateToProps(state: IAppState): ITeamJoinPageStateProps {
     error: state.teams.error,
     teams: state.teams.items,
     selfTeam: state.teams.selfTeam,
-    totalTeams: state.teams.totalTeams
+    totalTeams: state.teams.totalTeams,
   };
 }
 
@@ -327,7 +326,7 @@ const mapDispatchToProps: ITeamJoinPageDispatchProps = {
   getTeams,
   getTeamNum,
   getSelfTeam,
-  getContestId
+  getContestId,
 };
 
 export default withRouter(
@@ -347,7 +346,7 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
   id,
   form,
   visible,
-  onCancel
+  onCancel,
 }) => {
   const { getFieldDecorator } = form;
 
@@ -358,7 +357,7 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
           await api.addTeamMember(teamId, id, values.inviteCode);
           onCancel();
           Modal.info({
-            title: "队伍加入成功"
+            title: "队伍加入成功",
           });
         } catch (error) {
           if (error.response.data === "403 Forbidden: Incorrect invite code") {
@@ -402,7 +401,7 @@ const TeamJoinForm: React.FC<ITeamJoinFormProps> = ({
       <Form layout="vertical">
         <Form.Item label="inviteCode">
           {getFieldDecorator("inviteCode", {
-            rules: [{ required: true, message: "请输入邀请码" }]
+            rules: [{ required: true, message: "请输入邀请码" }],
           })(<Input />)}
         </Form.Item>
       </Form>

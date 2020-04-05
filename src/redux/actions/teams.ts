@@ -5,7 +5,7 @@ import {
   IGetTeamNumAction,
   IGetContestIdAction,
   IThunkResult,
-  IGetSelfTeamAction
+  IGetSelfTeamAction,
 } from "../types/actions";
 import {
   GET_TEAMS_FAILURE,
@@ -19,7 +19,7 @@ import {
   GET_SELF_TEAM_FAILURE,
   GET_CONTEST_ID_REQUEST,
   GET_CONTEST_ID_SUCCESS,
-  GET_CONTEST_ID_FAILURE
+  GET_CONTEST_ID_FAILURE,
 } from "../types/constants";
 import { ITeam, IUser } from "../types/state";
 
@@ -65,20 +65,20 @@ export function getTeams(
 
       const playerInfoPair: { [key: number]: IUser } = {};
 
-      playersInfo.forEach(player => {
+      playersInfo.forEach((player) => {
         playerInfoPair[player.id] = player;
       });
 
       teams = await Promise.all(
-        teams.map(async team => {
-          const membersInfo = team.members.map(member => {
+        teams.map(async (team) => {
+          const membersInfo = team.members.map((member) => {
             return playerInfoPair[member];
           });
           const leaderInfo = playerInfoPair[team.leader];
           return {
             ...team,
             membersInfo: membersInfo,
-            leaderInfo: leaderInfo
+            leaderInfo: leaderInfo,
           };
         })
       );
@@ -148,7 +148,7 @@ export function getSelfTeam(
           name: "noSelfTeamUser",
           description: "noSelfTeamUser",
           leader: 0,
-          members: [0]
+          members: [0],
         };
         dispatch(getSelfTeamAction.success(noSelfTeam));
       }
@@ -168,7 +168,7 @@ export function getContestId(
   type: string,
   year: number
 ): IThunkResult<IGetContestIdAction> {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(getContestIdAction.request());
 
     try {

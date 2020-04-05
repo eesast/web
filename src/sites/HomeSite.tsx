@@ -19,19 +19,19 @@ export interface IHomeSiteProps {
 export type HomeSitePage = "news" | "divisions" | "contests";
 
 const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
-  setSite
+  setSite,
 }) => {
   useEffect(() => {
     setSite("home");
   }, [setSite]);
 
   const NotFoundPage = useCallback(() => <NotFoundSite setSite={setSite} />, [
-    setSite
+    setSite,
   ]);
 
   const [currentSelected, setCurrentSelect] = useState<HomeSitePage>("news");
 
-  const handleMenuSelect: MenuProps["onSelect"] = e => {
+  const handleMenuSelect: MenuProps["onSelect"] = (e) => {
     setCurrentSelect(e.key as HomeSitePage);
   };
 
@@ -44,7 +44,7 @@ const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
           display: "flex",
           flexDirection: "row",
           height: 48,
-          zIndex: 99
+          zIndex: 99,
         }}
       >
         <Menu

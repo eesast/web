@@ -4,7 +4,7 @@ import { IUser } from "../redux/types/state";
 export const login = async (username: string, password: string) => {
   const response = await axios.post("/v1/users/login", {
     username,
-    password
+    password,
   });
   return response.data.token as string;
 };
@@ -24,14 +24,14 @@ export const getUserInfo = async (id: number) => {
 
 export const getUserInfos = async (ids: number[]) => {
   const response = await axios.post(`/v1/users/details`, {
-    ids
+    ids,
   });
   return response.data as IUser[];
 };
 
 export const verifyToken = async (token: string) => {
   const response = await axios.post(`/v1/users/token/validate`, {
-    token: token
+    token: token,
   });
   // THUAI那边直接传递登录后的token
   return response.data;

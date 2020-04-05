@@ -4,7 +4,7 @@ import {
   Layout,
   ConfigProvider,
   Menu,
-  Typography
+  Typography,
 } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import moment from "moment";
@@ -19,7 +19,7 @@ import {
   Route,
   RouteComponentProps,
   RouteProps,
-  Switch
+  Switch,
 } from "react-router-dom";
 import logo from "./assets/logo.png";
 import LoginPage from "./pages/LoginPage";
@@ -48,7 +48,7 @@ export type Site = "home" | "weekly" | "edc" | "ts" | "others";
 const App = () => {
   const getRoute = ({ location }: RouteProps) => {
     const pathname = "/" + location!.pathname.split("/")[1];
-    const matchedRoute = routes.find(item => pathname === item.to);
+    const matchedRoute = routes.find((item) => pathname === item.to);
     const Component = matchedRoute ? matchedRoute.component : NotFoundSite;
     const authRequired = matchedRoute && matchedRoute.auth;
 
@@ -68,7 +68,7 @@ const App = () => {
                 left: 0,
                 right: 0,
                 top: 0,
-                bottom: 0
+                bottom: 0,
               }}
               key={pathname}
             >
@@ -91,7 +91,7 @@ const App = () => {
 
   const [site, setSite] = useState<Site>("home");
 
-  const onHeaderMenuSelect: MenuProps["onSelect"] = item =>
+  const onHeaderMenuSelect: MenuProps["onSelect"] = (item) =>
     setSite(item.key as Site);
 
   return (
@@ -152,7 +152,7 @@ const routes = [
   { to: "/login", component: LoginPage, auth: false },
   { to: "/profile", component: ProfilePage, auth: true },
   { to: "/register", component: RegisterPage, auth: false },
-  { to: "/reset", component: ResetPage, auth: false }
+  { to: "/reset", component: ResetPage, auth: false },
 ];
 
 export default App;

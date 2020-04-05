@@ -9,7 +9,7 @@ import {
   Button,
   Modal,
   Upload,
-  message
+  message,
 } from "antd";
 import styles from "./BattlePage.module.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,7 +21,7 @@ import { UploadFile, UploadChangeParam } from "antd/lib/upload/interface";
 
 const { Title, Text } = Typography;
 
-const BattlePage: React.FC = props => {
+const BattlePage: React.FC = (props) => {
   // redux 数据
   const { teams, selfTeam, contestId, error, fetching } = useSelector(
     (state: IAppState) => {
@@ -32,7 +32,7 @@ const BattlePage: React.FC = props => {
         contestId: state.teams.contestId,
         error: state.teams.error,
         fetching: state.teams.fetching,
-        totalTeams: state.teams.totalTeams
+        totalTeams: state.teams.totalTeams,
       };
     }
   );
@@ -52,12 +52,12 @@ const BattlePage: React.FC = props => {
     {
       title: "队伍",
       dataIndex: "name",
-      key: "teamName"
+      key: "teamName",
     },
     {
       title: "分数",
-      key: "score"
-    }
+      key: "score",
+    },
   ];
 
   // 也可以考虑滚动加载的列表展示历史记录
@@ -65,18 +65,18 @@ const BattlePage: React.FC = props => {
     {
       title: "比赛结果",
       dataIndex: "result",
-      key: "result"
+      key: "result",
     },
     {
       title: "对战成员",
       dataIndex: "teams",
-      key: "teams"
+      key: "teams",
     },
     {
       title: "回放文件",
       dataIndex: "file",
-      key: "file"
-    }
+      key: "file",
+    },
   ];
 
   const handlePageChange = (currentPage: number, nextPageSize?: number) => {
@@ -107,7 +107,7 @@ const BattlePage: React.FC = props => {
   const handleCodeChange = (info: UploadChangeParam<UploadFile<any>>) => {
     let fileList = [...info.fileList];
     fileList = fileList.slice(-2); // 最后的两个代码文件
-    fileList = fileList.map(file => {
+    fileList = fileList.map((file) => {
       if (file.response) {
         file.url = file.response.url;
       }
@@ -169,7 +169,7 @@ const BattlePage: React.FC = props => {
     showSizeChanger: true,
     onChange: handlePageChange,
     onShowSizeChange: handlePageSizeChange,
-    pageSizeOptions: ["5", "10", "20"]
+    pageSizeOptions: ["5", "10", "20"],
   };
 
   return (

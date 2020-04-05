@@ -4,7 +4,7 @@ import { IGetArticleFeedsAction, IThunkResult } from "../types/actions";
 import {
   GET_ARTICLE_FEEDS_FAILURE,
   GET_ARTICLE_FEEDS_REQUEST,
-  GET_ARTICLE_FEEDS_SUCCESS
+  GET_ARTICLE_FEEDS_SUCCESS,
 } from "../types/constants";
 import { IArticle } from "../types/state";
 
@@ -18,7 +18,7 @@ export function getArticleFeeds(
   page: number,
   pageSize: number
 ): IThunkResult<IGetArticleFeedsAction> {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(getArticleFeedsAction.request());
 
     try {

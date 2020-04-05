@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { verifyToken } from "../redux/actions/auth";
 
-const TokenVerifyPage: React.FC = props => {
+const TokenVerifyPage: React.FC = (props) => {
   const history = useHistory();
   const { token } = useParams();
   const dispatch = useDispatch();

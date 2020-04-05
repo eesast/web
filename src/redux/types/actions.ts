@@ -4,14 +4,14 @@ import { ActionType } from "typesafe-actions";
 import {
   loginAction,
   updateUserAction,
-  verifyTokenAction
+  verifyTokenAction,
 } from "../actions/auth";
 import { getArticleFeedsAction } from "../actions/weekly";
 import {
   getTeamsAction,
   getTeamNumAction,
   getSelfTeamAction,
-  getContestIdAction
+  getContestIdAction,
 } from "../actions/teams";
 import { IAppState } from "./state";
 

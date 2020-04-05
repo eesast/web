@@ -17,7 +17,7 @@ const AuthRoute: React.FC<IAuthRouteProps & RouteProps> = ({
 }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       rest.loggedIn ? (
         <Component {...props} />
       ) : (
@@ -29,11 +29,8 @@ const AuthRoute: React.FC<IAuthRouteProps & RouteProps> = ({
 
 function mapStateToProps(state: IAppState): IAuthRouteStateProps {
   return {
-    loggedIn: state.auth.loggedIn
+    loggedIn: state.auth.loggedIn,
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(AuthRoute);
+export default connect(mapStateToProps, null)(AuthRoute);

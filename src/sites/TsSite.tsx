@@ -8,7 +8,7 @@ import {
   Switch,
   Redirect,
   useRouteMatch,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 import { Site } from "../App";
 import styles from "./EdcSite.module.css";
@@ -46,10 +46,10 @@ const routes: { to: string; key: Page }[] = [
   { to: "/teams/join", key: "teamJoin" },
   { to: "/resources", key: "resource" },
   { to: "/battle", key: "battle" },
-  { to: "/sponsor", key: "sponsor" }
+  { to: "/sponsor", key: "sponsor" },
 ];
 
-const TsSite: React.FC<ITsSiteProps> = props => {
+const TsSite: React.FC<ITsSiteProps> = (props) => {
   const { setSite } = props;
   const [page, setPage] = useState<Page>("intro");
 
@@ -64,7 +64,8 @@ const TsSite: React.FC<ITsSiteProps> = props => {
     <NotFoundSite {...props} setSite={setSite} />
   );
 
-  const onMenuSelect: MenuProps["onSelect"] = item => setPage(item.key as Page);
+  const onMenuSelect: MenuProps["onSelect"] = (item) =>
+    setPage(item.key as Page);
 
   useEffect(() => {
     setSite("ts");
@@ -74,7 +75,7 @@ const TsSite: React.FC<ITsSiteProps> = props => {
     const pathname = location!.pathname.substring(
       location!.pathname.indexOf("/", 1)
     );
-    const matchedRoute = routes.find(item => pathname === item.to);
+    const matchedRoute = routes.find((item) => pathname === item.to);
     if (matchedRoute) {
       setPage(matchedRoute.key);
     }

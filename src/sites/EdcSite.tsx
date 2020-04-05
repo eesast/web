@@ -6,7 +6,7 @@ import {
   Route,
   RouteComponentProps,
   Switch,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import { Site } from "../App";
 import styles from "./EdcSite.module.css";
@@ -38,7 +38,7 @@ type Page =
 const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
   setSite,
   match,
-  location
+  location,
 }) => {
   const [page, setPage] = useState<Page>("intro");
 
@@ -50,7 +50,8 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
     <NotFoundSite {...props} setSite={setSite} />
   );
 
-  const onMenuSelect: MenuProps["onSelect"] = item => setPage(item.key as Page);
+  const onMenuSelect: MenuProps["onSelect"] = (item) =>
+    setPage(item.key as Page);
 
   useEffect(() => {
     setSite("edc");
@@ -60,7 +61,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
     const pathname = location!.pathname.substring(
       location!.pathname.indexOf("/", 1)
     );
-    const matchedRoute = routes.find(item => pathname === item.to);
+    const matchedRoute = routes.find((item) => pathname === item.to);
     if (matchedRoute) {
       setPage(matchedRoute.key);
     }
@@ -154,7 +155,7 @@ const routes: { to: string; key: Page }[] = [
   { to: "/teams/manage", key: "teamManage" },
   { to: "/teams/join", key: "teamJoin" },
   { to: "/resources", key: "resource" },
-  { to: "/sponsor", key: "sponsor" }
+  { to: "/sponsor", key: "sponsor" },
 ];
 
 export default EdcSite;

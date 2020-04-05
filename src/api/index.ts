@@ -6,7 +6,7 @@ import {
   updateUser,
   getUserInfo,
   getUserInfos,
-  verifyToken
+  verifyToken,
 } from "./users";
 import {
   getTeams,
@@ -16,7 +16,7 @@ import {
   quitTeam,
   addTeamMember,
   getContestId,
-  getTeamNum
+  getTeamNum,
 } from "./teams";
 import { startBattle, getBattleHistory } from "./battle";
 import { uploadCode } from "./static";
@@ -45,5 +45,5 @@ export default {
   getTeamNum,
   startBattle,
   getBattleHistory,
-  uploadCode
+  uploadCode,
 };

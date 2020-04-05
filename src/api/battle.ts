@@ -14,7 +14,7 @@ export const startBattle = async (
       contestId: contestId,
       teams: teams,
       ip: serverIP,
-      port: port
+      port: port,
     });
     const roomId = (room.data as string).split("/").pop();
     await axios.put(`/v1/rooms/${roomId}/status`, { status: 1 });

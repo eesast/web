@@ -3,7 +3,7 @@ import api from "../../api";
 import {
   ILoginAction,
   IThunkResult,
-  IVerifyTokenAction
+  IVerifyTokenAction,
 } from "../types/actions";
 import {
   LOGIN_FAILURE,
@@ -12,7 +12,7 @@ import {
   UPDATE_USER,
   VERIFY_TOKEN_REQUEST,
   VERIFY_TOKEN_SUCCESS,
-  VERIFY_TOKEN_FAILURE
+  VERIFY_TOKEN_FAILURE,
 } from "../types/constants";
 import { IUser } from "../types/state";
 
@@ -26,7 +26,7 @@ export function login(
   username: string,
   password: string
 ): IThunkResult<ILoginAction> {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(loginAction.request());
 
     try {
@@ -50,7 +50,7 @@ export const verifyTokenAction = createAsyncAction(
 )<string, IUser, Error>();
 
 export function verifyToken(token: string): IThunkResult<IVerifyTokenAction> {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(verifyTokenAction.request(token));
 
     try {

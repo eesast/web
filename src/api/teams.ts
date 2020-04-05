@@ -28,7 +28,7 @@ export const createTeam = async (
   const response = await axios.post("/v1/teams", {
     name,
     description,
-    contestId
+    contestId,
   });
   return response.data.inviteCode as string;
 };
@@ -44,7 +44,7 @@ export const updateTeam = async (
     name,
     description,
     contestId,
-    members
+    members,
   });
 };
 
@@ -63,7 +63,7 @@ export const addTeamMember = async (
 ) => {
   await axios.post(`/v1/teams/${teamId}/members`, {
     id,
-    inviteCode
+    inviteCode,
   });
 };
 

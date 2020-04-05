@@ -11,7 +11,7 @@ import { IUser } from "../redux/types/state";
 
 const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
   location,
-  history
+  history,
 }) => {
   const token = location.pathname.substr(
     location.pathname.lastIndexOf("/") + 1
@@ -37,11 +37,11 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
     }
   }, [token]);
 
-  const handleInput: InputProps["onChange"] = e => {
+  const handleInput: InputProps["onChange"] = (e) => {
     setInput(e.target.value);
   };
 
-  const handleResetSubmit: ButtonProps["onClick"] = async e => {
+  const handleResetSubmit: ButtonProps["onClick"] = async (e) => {
     e.preventDefault();
 
     if (!input) {
@@ -53,7 +53,7 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
       setLoading(true);
       await axios.post("/v1/users/reset", {
         email: input,
-        action: "get"
+        action: "get",
       });
       setEmailSent(true);
     } catch {
@@ -63,7 +63,7 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
     }
   };
 
-  const handleResetPassword: ButtonProps["onClick"] = async e => {
+  const handleResetPassword: ButtonProps["onClick"] = async (e) => {
     e.preventDefault();
 
     if (!input) {
@@ -78,7 +78,7 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
         email: decoded.email,
         password: input,
         action: "set",
-        token
+        token,
       });
       message.success("密码重置成功");
       history.replace("/home");
@@ -100,7 +100,7 @@ const ResetPage: React.FC<WithRouterComponent<{ token: string }, {}>> = ({
             extra={[
               <Button type="primary">
                 <Link to="/home">返回首页</Link>
-              </Button>
+              </Button>,
             ]}
           />
         ) : (

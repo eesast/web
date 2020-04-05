@@ -23,7 +23,7 @@ type IProfilePageProps = IProfilePageStateProps & IProfilePageDispatchProps;
 
 const ProfilePage: React.FC<IProfilePageProps> = ({
   user,
-  updateUserAction
+  updateUserAction,
 }) => {
   return (
     <div className={styles.root}>
@@ -37,18 +37,15 @@ const ProfilePage: React.FC<IProfilePageProps> = ({
 
 function mapStateToProps(state: IAppState): IProfilePageStateProps {
   return {
-    user: state.auth.user!
+    user: state.auth.user!,
   };
 }
 
 const mapDispatchToProps: IProfilePageDispatchProps = {
-  updateUserAction
+  updateUserAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
 
 const FormItem = Form.Item;
 const AutoCompleteOption = AutoComplete.Option;
@@ -56,24 +53,24 @@ const AutoCompleteOption = AutoComplete.Option;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 8 }
+    sm: { span: 8 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 16 }
-  }
+    sm: { span: 16 },
+  },
 };
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
       span: 24,
-      offset: 0
+      offset: 0,
     },
     sm: {
       span: 16,
-      offset: 8
-    }
-  }
+      offset: 8,
+    },
+  },
 };
 
 interface IProfileFormProps extends FormComponentProps {
@@ -81,16 +78,16 @@ interface IProfileFormProps extends FormComponentProps {
   update: typeof updateUserAction;
 }
 
-const ProfileForm: React.FC<
-  WithRouterComponent<{}, IProfileFormProps>
-> = props => {
+const ProfileForm: React.FC<WithRouterComponent<{}, IProfileFormProps>> = (
+  props
+) => {
   const { getFieldDecorator } = props.form;
   const { user, update } = props;
 
   const [confirmDirty, setConfirmDirty] = useState(false);
   const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
 
-  const handleConfirmBlur: InputProps["onBlur"] = e => {
+  const handleConfirmBlur: InputProps["onBlur"] = (e) => {
     const value = e.target.value;
     setConfirmDirty(confirmDirty || !!value);
   };
@@ -132,7 +129,7 @@ const ProfileForm: React.FC<
     callback();
   };
 
-  const handleEmailChange: AutoCompleteProps["onChange"] = value => {
+  const handleEmailChange: AutoCompleteProps["onChange"] = (value) => {
     let result: string[];
     if (!value) {
       result = [];
@@ -145,13 +142,13 @@ const ProfileForm: React.FC<
         "@126.com",
         "@outlook.com",
         "@hotmail.com",
-        "@sina.com"
-      ].map(domain => `${value}${domain}`);
+        "@sina.com",
+      ].map((domain) => `${value}${domain}`);
     }
     setAutoCompleteResult(result);
   };
 
-  const handleSubmit: FormProps["onSubmit"] = e => {
+  const handleSubmit: FormProps["onSubmit"] = (e) => {
     e.preventDefault();
     props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
@@ -165,7 +162,7 @@ const ProfileForm: React.FC<
             email: values.email,
             phone: parseFloat(values.phone),
             department: values.department,
-            class: values.class
+            class: values.class,
           });
 
           update(user.id, {
@@ -173,7 +170,7 @@ const ProfileForm: React.FC<
             email: values.email,
             phone: parseFloat(values.phone),
             department: values.department,
-            class: values.class
+            class: values.class,
           } as IUser);
 
           message.success("更新成功");
@@ -200,16 +197,16 @@ const ProfileForm: React.FC<
           rules: [
             {
               type: "email",
-              message: "请输入有效的清华电子邮箱"
+              message: "请输入有效的清华电子邮箱",
             },
             {
               required: true,
-              message: "请输入电子邮箱"
-            }
-          ]
+              message: "请输入电子邮箱",
+            },
+          ],
         })(
           <AutoComplete
-            dataSource={autoCompleteResult.map(email => (
+            dataSource={autoCompleteResult.map((email) => (
               <AutoCompleteOption key={email}>{email}</AutoCompleteOption>
             ))}
             onChange={handleEmailChange}
@@ -224,33 +221,33 @@ const ProfileForm: React.FC<
           rules: [
             { required: true, message: "请输入手机号码" },
             {
-              validator: validatePhone
-            }
-          ]
+              validator: validatePhone,
+            },
+          ],
         })(<Input />)}
       </FormItem>
       <FormItem label="密码" hasFeedback>
         {getFieldDecorator("password", {
           rules: [
             {
-              message: "请输入密码"
+              message: "请输入密码",
             },
             {
-              validator: validateToNextPassword
-            }
-          ]
+              validator: validateToNextPassword,
+            },
+          ],
         })(<Input type="password" />)}
       </FormItem>
       <FormItem label="确认密码" hasFeedback>
         {getFieldDecorator("confirm", {
           rules: [
             {
-              message: "请再次输入密码"
+              message: "请再次输入密码",
             },
             {
-              validator: compareToFirstPassword
-            }
-          ]
+              validator: compareToFirstPassword,
+            },
+          ],
         })(<Input type="password" onBlur={handleConfirmBlur} />)}
       </FormItem>
       <FormItem label="姓名">
@@ -259,13 +256,13 @@ const ProfileForm: React.FC<
       <FormItem label="院系">
         {getFieldDecorator("department", {
           initialValue: user.department,
-          rules: [{ required: true, message: "请输入院系" }]
+          rules: [{ required: true, message: "请输入院系" }],
         })(<Input placeholder="简写，如：电子系" />)}
       </FormItem>
       <FormItem label="班级">
         {getFieldDecorator("class", {
           initialValue: user.class,
-          rules: [{ required: true, message: "请输入班级" }]
+          rules: [{ required: true, message: "请输入班级" }],
         })(<Input placeholder="如：无61" />)}
       </FormItem>
       <FormItem {...tailFormItemLayout} style={{ textAlign: "center" }}>
