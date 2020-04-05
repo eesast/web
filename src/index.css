@@ -37,3 +37,10 @@ code {
 .ant-carousel .slick-dots li.slick-active button {
   width: 40px;
 }
+
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none !important;
+}
