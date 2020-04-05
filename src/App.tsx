@@ -81,7 +81,7 @@ const App = () => {
               ) : (
                 <Route location={location} path="/:url" render={siteRoute} />
               )}
-              <Footer className={styles.footer}>© 2019 EESAST</Footer>
+              <Footer className={styles.footer}>© 2020 EESAST</Footer>
             </div>
           </QueueAnim>
         </Switch>
