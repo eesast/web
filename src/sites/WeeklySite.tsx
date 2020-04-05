@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch } from "react-router";
 import { Site } from "../App";
 import FeedPage from "../pages/ArticleFeedPage";
@@ -12,7 +12,9 @@ const WeeklySite: React.FC<WithRouterComponent<{}, IWeeklySiteProps>> = ({
   setSite,
   match
 }) => {
-  setSite("weekly");
+  useEffect(() => {
+    setSite("weekly");
+  }, [setSite]);
 
   return (
     <Switch>

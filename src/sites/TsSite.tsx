@@ -66,7 +66,9 @@ const TsSite: React.FC<ITsSiteProps> = props => {
 
   const onMenuSelect: MenuProps["onSelect"] = item => setPage(item.key as Page);
 
-  setSite("ts");
+  useEffect(() => {
+    setSite("ts");
+  }, [setSite]);
 
   useEffect(() => {
     const pathname = location!.pathname.substring(

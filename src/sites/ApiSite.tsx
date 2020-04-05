@@ -9,7 +9,9 @@ export interface IApiSiteProps {
 }
 
 const ApiSite: React.FC<IApiSiteProps> = ({ setSite }) => {
+  useEffect(() => {
   setSite("others");
+  }, [setSite]);
 
   return <SwaggerUI url={`${axios.defaults.baseURL}/v1/swagger.yaml`} />;
 };

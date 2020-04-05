@@ -52,7 +52,9 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
 
   const onMenuSelect: MenuProps["onSelect"] = item => setPage(item.key as Page);
 
-  setSite("edc");
+  useEffect(() => {
+    setSite("edc");
+  }, [setSite]);
 
   useEffect(() => {
     const pathname = location!.pathname.substring(

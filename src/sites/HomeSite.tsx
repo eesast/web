@@ -1,5 +1,5 @@
 import { Layout, Menu, Icon } from "antd";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Site } from "../App";
 import styles from "./HomeSite.module.css";
 import { MenuProps } from "antd/lib/menu";
@@ -21,7 +21,9 @@ export type HomeSitePage = "news" | "divisions" | "contests";
 const HomeSite: React.FC<WithRouterComponent<{}, IHomeSiteProps>> = ({
   setSite
 }) => {
-  setSite("home");
+  useEffect(() => {
+    setSite("home");
+  }, [setSite]);
 
   const NotFoundPage = useCallback(() => <NotFoundSite setSite={setSite} />, [
     setSite

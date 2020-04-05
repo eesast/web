@@ -10,8 +10,9 @@ export interface IMarkdownSiteProps {
   setSite: (site: Site) => void;
 }
 
-const ApiSite: React.FC<IMarkdownSiteProps> = ({ setSite }) => {
+  useEffect(() => {
   setSite("others");
+  }, [setSite]);
 
   const [text, setText] = useState(`
 # This is md2wx
