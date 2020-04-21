@@ -10,14 +10,20 @@ import {
   Modal,
   Upload,
   message,
+  Tag,
+  Divider,
+  Radio,
 } from "antd";
 import styles from "./BattlePage.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IAppState, ITeam } from "../../redux/types/state";
+import { ICode } from "../../api/codes";
 import { getTeams, getSelfTeam, getContestId } from "../../redux/actions/teams";
 import { ColumnProps, PaginationConfig } from "antd/lib/table";
 import api from "../../api";
-import { UploadFile, UploadChangeParam } from "antd/lib/upload/interface";
+import { RcCustomRequestOptions } from "antd/lib/upload/interface";
+import Clipboard from "clipboard";
+import { TableRowSelection } from "antd/es/table";
 
 const { Title, Text } = Typography;
 
@@ -39,13 +45,21 @@ const BattlePage: React.FC = (props) => {
   const dispatch = useDispatch();
 
   // 本页面的state
-  const [codeList, setCodeList] = useState<UploadFile[]>([]); // 已上传代码的获取尚未实现
+  const [codeList, setCodeList] = useState<ICode[]>([]);
+  // const [uploadCodeList, setUploadCodeList] = useState<UploadFile[]>([]); // 已上传代码的获取尚未实现
   const [pageSize, setPageSize] = useState(5);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedTeams, setSelectedTeams] = useState<number[]>([]); // 选中作为对手的teamId，比赛限制四队，0用于表示bot
   const [showCodeModal, setShowCodeModal] = useState(false);
+  const [showCompileInfoModal, setShowCompileInfoModal] = useState(false);
+  const [showCodeContentModal, setShowCodeContentModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showBattleModal, setShowBattleModal] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(true); // 更改以强制重新获取数据
+  const [codeRole, setCodeRole] = useState(1); // 代码对应角色
+  const [selectedCode, setSelectedCode] = useState<ICode[]>([]); // 选择要编译的代码
+  const [showCompileInfo, setShowCompileInfo] = useState(""); // 查看的编译结果
+  const [showCodeContent, setShowCodeContent] = useState(""); // 查看的代码内容
 
   // Table列
   const rankColumns: ColumnProps<ITeam>[] = [
@@ -56,7 +70,71 @@ const BattlePage: React.FC = (props) => {
     },
     {
       title: "分数",
+      dataIndex: "score",
       key: "score",
+    },
+  ];
+
+  const codeColumns: ColumnProps<ICode>[] = [
+    {
+      title: "代码名",
+      dataIndex: "name",
+      key: "codeName",
+    },
+    {
+      title: "编译结果",
+      dataIndex: "compileInfo",
+      key: "compileInfo",
+      render: (info: string) => {
+        // 初始 compileInfo === undefined
+        if (!info) return <Tag color="cyan">Empty</Tag>;
+        return info === "compile success" ? (
+          <Tag color="green">Success</Tag>
+        ) : (
+          <Tag color="red">Failure</Tag>
+        );
+      },
+    },
+    {
+      title: "语言",
+      dataIndex: "language",
+      key: "language",
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (record: ICode) => {
+        return (
+          <span>
+            <Button
+              size="small"
+              onClick={() => {
+                handleShowCompileInfo(record.compileInfo);
+              }}
+            >
+              编译信息
+            </Button>
+            <Divider type="vertical" />
+            <Button
+              size="small"
+              onClick={() => {
+                handleShowCodeContent(record.content);
+              }}
+            >
+              代码
+            </Button>
+            <Divider type="vertical" />
+            <Button
+              size="small"
+              onClick={() => {
+                handleCodeDelete(record.id);
+              }}
+            >
+              删除
+            </Button>
+          </span>
+        );
+      },
     },
   ];
 
@@ -101,21 +179,65 @@ const BattlePage: React.FC = (props) => {
     setShowBattleModal(!showBattleModal);
   };
 
+  const handleCompileInfoModal = () => {
+    setShowCompileInfoModal(false);
+    setShowCodeModal(true);
+  };
+
+  const handleShowCompileInfo = (compileInfo: string) => {
+    if (compileInfo) setShowCompileInfo(compileInfo);
+    else setShowCompileInfo("暂无编译信息");
+    setShowCompileInfoModal(true);
+    setShowCodeModal(false);
+  };
+
+  const handleCodeContentModal = () => {
+    setShowCodeContentModal(false);
+    setShowCodeModal(true);
+  };
+
+  const handleShowCodeContent = (content: string) => {
+    if (content) setShowCodeContent(content);
+    else setShowCodeContent("暂无编译信息");
+    setShowCodeContentModal(true);
+    setShowCodeModal(false);
+  };
+
   // antd 文件上传列表受控上传example
   // 可能需要改成先选择，后上传的形式
   // 上传api尚未实现
-  const handleCodeChange = (info: UploadChangeParam<UploadFile<any>>) => {
-    let fileList = [...info.fileList];
-    fileList = fileList.slice(-2); // 最后的两个代码文件
-    fileList = fileList.map((file) => {
-      if (file.response) {
-        file.url = file.response.url;
+  // const handleCodeChange = (info: UploadChangeParam<UploadFile<any>>) => {
+  //   let fileList = [...info.fileList];
+  //   fileList = fileList.slice(-2); // 最后的两个代码文件
+  //   fileList = fileList.map((file) => {
+  //     if (file.response) {
+  //       file.url = file.response.url;
+  //     }
+  //     return file;
+  //   });
+  //   setUploadCodeList(fileList);
+  // };
+
+  // 调用api将代码存入数据库
+  const handleCodeUpload = async (options: RcCustomRequestOptions) => {
+    try {
+      const response = await api.createCode(
+        selfTeam.id,
+        contestId!,
+        options.file,
+        "cpp"
+      );
+      setForceUpdate(!forceUpdate);
+      // 更改上传状态，隐藏上传列表的情况下无显示效果
+      if (response.status === 201) {
+        options.onSuccess({ response }, options.file);
       }
-      return file;
-    });
-    setCodeList(fileList);
+    } catch (error) {
+      options.onError(error);
+    }
   };
 
+  // 队伍选择
   const handleSelectedChange = (value: number[]) => {
     if (value.length < 3) {
       setSelectedTeams(value);
@@ -124,10 +246,20 @@ const BattlePage: React.FC = (props) => {
     }
   };
 
-  const handleBattleStart = () => {
-    api.startBattle(contestId!, [selfTeam.id, ...selectedTeams], "", 0);
+  const handleBattleStart = async () => {
+    await api.startBattle(contestId!, [selfTeam.id, ...selectedTeams], 3005);
     setShowBattleModal(false);
     message.info(`对战已开始，请耐心等待`);
+  };
+
+  const handleCodeCompile = async (code: ICode, codeRole: number) => {
+    message.info(`正在编译代码${code.name}作为角色${codeRole}`);
+    await api.compileCode(code.id, codeRole);
+  };
+
+  const handleCodeDelete = async (codeId: number) => {
+    await api.deleteCode(codeId);
+    setForceUpdate(!forceUpdate);
   };
 
   useEffect(() => {
@@ -148,6 +280,24 @@ const BattlePage: React.FC = (props) => {
       message.error("信息加载失败");
     }
   }, [error]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const codes = await api.getCodes(contestId!, selfTeam.id, 0, 1);
+      setCodeList(codes);
+    };
+
+    fetchData();
+  }, [contestId, selfTeam, forceUpdate]);
+
+  useEffect(() => {
+    const clipboard = new Clipboard("#copyButton", {
+      target: () => document.getElementById("codeContent")!,
+    });
+    clipboard.on("success", () => message.success("复制成功"));
+    clipboard.on("error", () => message.error("复制失败"));
+    return () => clipboard.destroy();
+  });
 
   const selectChildren = teams.map((team: ITeam) => {
     if (team.id !== selfTeam.id) {
@@ -172,6 +322,13 @@ const BattlePage: React.FC = (props) => {
     pageSizeOptions: ["5", "10", "20"],
   };
 
+  const codeSelctionConfig: TableRowSelection<ICode> = {
+    type: "radio",
+    onChange: (selectKeys, selectRows) => {
+      setSelectedCode([selectRows[0]]);
+    },
+  };
+
   return (
     <div className={styles.root}>
       <div style={{ width: "80%" }}>
@@ -182,7 +339,7 @@ const BattlePage: React.FC = (props) => {
               <Title level={4}>Tips</Title>
               <Text strong>代码管理</Text>
               <br />
-              两个角色，各一份代码。我们只会保留最新的一整份代码。
+              两个角色，各一份代码。我们只会保留最新的一整份代码供操作。
               <br />
               <Text strong>历史记录</Text>
               <br />
@@ -190,7 +347,7 @@ const BattlePage: React.FC = (props) => {
               <br />
               <Text strong>对战</Text>
               <br />
-              每场比赛支持最多四支队伍（包括Bot）同时对战
+              每场比赛支持最多四支队伍同时对战
             </Typography>
           </Col>
           <Col span={12}>
@@ -239,17 +396,78 @@ const BattlePage: React.FC = (props) => {
       />
       <Modal
         title="代码管理"
+        width="40%"
         visible={showCodeModal}
         closable
         footer={null}
         onCancel={handleCodeModal}
       >
-        {/* 代码上传的细节尚未实现，需考虑限制两份代码，上传使用的api等 */}
-        <Upload fileList={codeList} onChange={handleCodeChange}>
-          <Button>
-            <Icon type="upload" theme="outlined" /> 上传代码
-          </Button>
-        </Upload>
+        <Row justify="space-between">
+          <Col span={8}>
+            <Upload
+              fileList={[]} // 暂不考虑文件上传列表展示
+              // onChange={handleCodeChange}
+              customRequest={handleCodeUpload}
+            >
+              <Button>
+                <Icon type="upload" theme="outlined" /> 上传代码
+              </Button>
+            </Upload>
+          </Col>
+          <Col span={8}>
+            AI角色
+            <Radio.Group
+              value={codeRole}
+              onChange={(event) => {
+                setCodeRole(event.target.value);
+              }}
+            >
+              <Radio value={1}>1</Radio>
+              <Radio value={2}>2</Radio>
+            </Radio.Group>
+          </Col>
+          <Col span={4}></Col>
+          <Col span={4}>
+            <Button
+              type="primary"
+              onClick={() => {
+                handleCodeCompile(selectedCode[0], codeRole);
+                message.info("编译需要一段时间，请稍后刷新以查看");
+              }}
+            >
+              编译
+            </Button>
+          </Col>
+        </Row>
+        <Table
+          columns={codeColumns}
+          dataSource={codeList}
+          rowSelection={codeSelctionConfig}
+          pagination={false}
+        />
+      </Modal>
+
+      <Modal
+        visible={showCompileInfoModal}
+        title="编译结果"
+        closable
+        footer={null}
+        onCancel={handleCompileInfoModal}
+      >
+        <div style={{ whiteSpace: "pre" }}>{showCompileInfo}</div>
+      </Modal>
+
+      <Modal
+        visible={showCodeContentModal}
+        title="代码"
+        closable
+        footer={null}
+        onCancel={handleCodeContentModal}
+      >
+        <Button id="copyButton">复制代码</Button>
+        <div style={{ whiteSpace: "pre" }} id="codeContent">
+          {showCodeContent}
+        </div>
       </Modal>
 
       <Modal
@@ -282,12 +500,7 @@ const BattlePage: React.FC = (props) => {
             </Select>
           </Col>
           <Col span={4}>
-            <Button
-              type="primary"
-              size="large"
-              onClick={handleBattleStart}
-              disabled
-            >
+            <Button type="primary" size="large" onClick={handleBattleStart}>
               Start
             </Button>
           </Col>
