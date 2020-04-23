@@ -185,7 +185,7 @@ const BattlePage: React.FC = (props) => {
   };
 
   const handleShowCompileInfo = (compileInfo: string) => {
-    if (compileInfo) setShowCompileInfo(compileInfo);
+    if (compileInfo) setShowCompileInfo(compileInfo.replace("#", "\n"));
     else setShowCompileInfo("暂无编译信息");
     setShowCompileInfoModal(true);
     setShowCodeModal(false);
