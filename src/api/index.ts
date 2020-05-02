@@ -1,9 +1,26 @@
 import axios from "axios";
-import { getArticleFeeds } from "./articles";
+import {
+  getArticleFeeds,
+  getArticle,
+  getArticleByAlias,
+  getSelfArticles,
+  getSelfArticleNum,
+  getPostedArticles,
+  getUnderReviewArticles,
+  getUnderReviewArticlesNum,
+  postArticle,
+  updateArticle,
+  updateArticleVisibility,
+  deleteArticle,
+  likeArticle,
+  unlikeArticle,
+} from "./articles";
 import {
   login,
   register,
   updateUser,
+  getUserId,
+  getUsername,
   getUserInfo,
   getUserInfos,
   verifyToken,
@@ -26,6 +43,7 @@ import {
   updateCode,
   deleteCode,
 } from "./codes";
+import { uploadImage } from "./static";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -39,6 +57,21 @@ export default {
   updateUser,
   verifyToken,
   getArticleFeeds,
+  getArticle,
+  getArticleByAlias,
+  getSelfArticles,
+  getSelfArticleNum,
+  getPostedArticles,
+  getUnderReviewArticles,
+  getUnderReviewArticlesNum,
+  postArticle,
+  updateArticle,
+  updateArticleVisibility,
+  deleteArticle,
+  likeArticle,
+  unlikeArticle,
+  getUserId,
+  getUsername,
   getUserInfo,
   getUserInfos,
   getTeams,
@@ -56,4 +89,5 @@ export default {
   compileCode,
   updateCode,
   deleteCode,
+  uploadImage,
 };

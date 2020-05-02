@@ -1,0 +1,11 @@
+.root {
+  height: calc(90vh - 67px - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.list {
+  width: 85%;
+}
