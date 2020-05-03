@@ -89,6 +89,7 @@ export interface ITeam {
   description: string;
   leader: number;
   members: number[];
+  score?: number;
   leaderInfo?: IUser;
   membersInfo?: IUser[];
   inviteCode?: string;
