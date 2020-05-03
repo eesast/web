@@ -18,6 +18,7 @@ import styles from "./BattlePage.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { IAppState, ITeam } from "../../redux/types/state";
 import { ICode } from "../../api/codes";
+import { IRoom } from "../../api/rooms";
 import { getTeams, getSelfTeam, getContestId } from "../../redux/actions/teams";
 import { ColumnProps, PaginationConfig } from "antd/lib/table";
 import api from "../../api";
@@ -46,7 +47,7 @@ const BattlePage: React.FC = (props) => {
 
   // 本页面的state
   const [codeList, setCodeList] = useState<ICode[]>([]);
-  // const [uploadCodeList, setUploadCodeList] = useState<UploadFile[]>([]); // 已上传代码的获取尚未实现
+  const [historyList, setHistoryList] = useState<IRoom[]>([]);
   const [pageSize, setPageSize] = useState(5);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedTeams, setSelectedTeams] = useState<number[]>([]); // 选中作为对手的teamId，比赛限制四队，0用于表示bot
@@ -72,6 +73,9 @@ const BattlePage: React.FC = (props) => {
       title: "分数",
       dataIndex: "score",
       key: "score",
+      sorter: (a, b) => (a.score || 0) - (b.score || 0),
+      sortDirections: ["descend"],
+      defaultSortOrder: "descend",
     },
   ];
 
@@ -139,21 +143,22 @@ const BattlePage: React.FC = (props) => {
   ];
 
   // 也可以考虑滚动加载的列表展示历史记录
-  const historyColumns = [
+  const historyColumns: ColumnProps<IRoom>[] = [
     {
       title: "比赛结果",
-      dataIndex: "result",
+      dataIndex: "scores",
       key: "result",
     },
     {
       title: "对战成员",
       dataIndex: "teams",
       key: "teams",
+      render: (teams: number[]) => teams.toString(),
     },
     {
       title: "回放文件",
-      dataIndex: "file",
       key: "file",
+      render: () => <p>暂未上线</p>,
     },
   ];
 
@@ -285,6 +290,8 @@ const BattlePage: React.FC = (props) => {
     const fetchData = async () => {
       const codes = await api.getCodes(contestId!, selfTeam.id, 0, 1);
       setCodeList(codes);
+      const rooms = await api.getRooms(contestId!, 0);
+      setHistoryList(rooms);
     };
 
     fetchData();
@@ -477,7 +484,11 @@ const BattlePage: React.FC = (props) => {
         footer={null}
         onCancel={handleHistoryModal}
       >
-        <Table className={styles.list} columns={historyColumns} />
+        <Table
+          className={styles.list}
+          columns={historyColumns}
+          dataSource={historyList}
+        />
       </Modal>
 
       <Modal
