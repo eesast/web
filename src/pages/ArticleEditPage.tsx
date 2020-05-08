@@ -53,10 +53,9 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
   const [text, setText] = useState(
     "# EESAST Weekly Editor\n\n> Powered by EESAST\n>\n> Thanks to:\n> - [react](https://react.docschina.org/)\n> - [ant.design](https://ant.design/index-cn)\n> - [react-markdown-editor-lite](https://harrychen0506.github.io/react-markdown-editor-lite/)\n> - [md2wx](https://github.com/eesast/md2wx)\n> - ...\n\n## How to use\n\n`$\\LaTeX$` is supported\n    > with the help of [`katex`](https://github.com/KaTeX/KaTeX)\n\n```markdown\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n\n```\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n"
   );
-  const [highlight, setHighlight] = useState(true);
+  const [highlight] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  setHighlight(false); //WIP
   const [showImgManage, setShowImgManage] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -399,7 +398,9 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
           <Col span={8}>
             <Form.Item label="标签">
               {form.getFieldDecorator("tags", { initialValue: tags })(
-                <Tags value={tags} onChange={onTagsChange} />
+                <div>
+                  <Tags value={tags} onChange={onTagsChange} />
+                </div>
               )}
             </Form.Item>
           </Col>

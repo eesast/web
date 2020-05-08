@@ -3,3 +3,10 @@
   margin-top: 48px;
   width: 60vw;
 }
+
+.floated {
+  position: absolute;
+  right: 15vw;
+  top: 70vh;
+  opacity: 0.8;
+}

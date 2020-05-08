@@ -1,4 +1,4 @@
-import { List, message } from "antd";
+import { List, message, Tooltip, Button } from "antd";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { connect } from "react-redux";
@@ -8,6 +8,8 @@ import { getArticleFeeds } from "../redux/actions/weekly";
 import { IAppState, IArticle } from "../redux/types/state";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import styles from "./ArticleFeedPage.module.css";
+import * as lodash from "lodash";
+import { PlusOutlined, ControlOutlined } from "@ant-design/icons";
 
 interface IArticleFeedPageStateProps {
   fetching: boolean;
@@ -50,8 +52,22 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
 
   return (
     <div>
-      <Link to={`/weekly/edit`}>发布文章</Link>
-      <Link to={`/weekly/manage`}>管理文章</Link>
+      <div className={styles.floated}>
+        <Tooltip title="新建文章">
+          <Button size="large" shape="circle" type="primary">
+            <Link to={`/weekly/edit`}>
+              <PlusOutlined />
+            </Link>
+          </Button>
+        </Tooltip>
+        <Tooltip title="管理文章">
+          <Button size="large" shape="circle" type="primary">
+            <Link to={`/weekly/manage`}></Link>
+            <ControlOutlined />
+          </Button>
+        </Tooltip>
+      </div>
+
       <InfiniteScroll
         initialLoad={false}
         pageStart={1}
@@ -63,7 +79,7 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
           itemLayout="vertical"
           split={false}
           loading={fetching}
-          dataSource={articles}
+          dataSource={lodash.uniqWith(articles, lodash.isEqual)}
           // tslint:disable-next-line: jsx-no-lambda
           renderItem={(item: IArticle) => (
             <List.Item key={item.id}>
