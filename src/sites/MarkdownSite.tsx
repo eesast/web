@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Site } from "../App";
 import styles from "./MarkdownSite.module.css";
-import md2wx from "md2wx";
 import { Input, Switch, Button, message, Upload } from "antd";
 import Clipboard from "clipboard";
 import { UploadProps } from "antd/lib/upload";
@@ -10,8 +9,18 @@ export interface IMarkdownSiteProps {
   setSite: (site: Site) => void;
 }
 
-const ApiSite: React.FC<IMarkdownSiteProps> = ({ setSite }) => {
-  setSite("others");
+const MarkdownSite: React.FC<IMarkdownSiteProps> = ({ setSite }) => {
+  const [md2wx, setMd2wx] = useState<typeof import("md2wx")>();
+
+  useEffect(() => {
+    (async () => {
+      setMd2wx(await import("md2wx"));
+    })();
+  });
+
+  useEffect(() => {
+    setSite("others");
+  }, [setSite]);
 
   const [text, setText] = useState(`
 # This is md2wx
@@ -46,23 +55,25 @@ const a = 13;
   `);
   const [highlight, setHighlight] = useState(true);
 
-  const html = useMemo(() => md2wx.renderHtml(text, highlight), [
-    text,
-    highlight
-  ]);
+  const html = useMemo(
+    () => (md2wx ? md2wx.default.renderHtml(text, highlight) : ""),
+    [md2wx, text, highlight]
+  );
 
   const [pngConverting, setPngConverting] = useState(false);
 
   const handleConvert = async () => {
-    setPngConverting(true);
-    await md2wx.convertSvgToPng();
-    setPngConverting(false);
-    message.success("转换成功");
+    if (md2wx) {
+      setPngConverting(true);
+      await md2wx.default.convertSvgToPng();
+      setPngConverting(false);
+      message.success("转换成功");
+    }
   };
 
   useEffect(() => {
     const clipboard = new Clipboard("#button", {
-      target: () => document.getElementById("content")!
+      target: () => document.getElementById("content")!,
     });
     clipboard.on("success", () => message.success("复制成功"));
     clipboard.on("error", () => message.error("复制失败"));
@@ -106,14 +117,14 @@ const a = 13;
           style={{
             height: "100%",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
           }}
         >
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              marginBottom: 16
+              marginBottom: 16,
             }}
           >
             <div style={{ flex: 1 }}>
@@ -140,14 +151,14 @@ const a = 13;
             ref={textAreaRef as any}
             style={{ resize: "none", flex: 1 }}
             value={text}
-            onChange={e => setText(e.target.value)}
+            onChange={(e) => setText(e.target.value)}
           />
           <div
             style={{
               display: "flex",
               alignItems: "center",
               marginTop: 16,
-              justifyContent: "flex-end"
+              justifyContent: "flex-end",
             }}
           >
             <Upload
@@ -169,4 +180,4 @@ const a = 13;
   );
 };
 
-export default ApiSite;
+export default MarkdownSite;

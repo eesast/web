@@ -13,7 +13,7 @@ import {
   Button,
   Checkbox,
   Modal,
-  Result
+  Result,
 } from "antd";
 import { WithRouterComponent } from "../types/WithRouterComponent";
 import api from "../api";
@@ -36,13 +36,14 @@ interface ITeamManagePageDispatchProps {
 type ITeamManagePageProps = ITeamManagePageDispatchProps &
   ITeamManagePageStateProps;
 
-const TeamManagePage: React.FC<
-  WithRouterComponent<{}, ITeamManagePageProps>
-> = props => {
+const TeamManagePage: React.FC<WithRouterComponent<
+  {},
+  ITeamManagePageProps
+>> = (props) => {
   const { contestId, error, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
-    getSelfTeam("电设", 2019);
+    getSelfTeam("队式", 2020);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,21 +87,18 @@ function mapStateToProps(state: IAppState): ITeamManagePageStateProps {
     user: state.auth.user!,
     contestId: state.teams.contestId,
     error: state.teams.error,
-    selfTeam: state.teams.selfTeam
+    selfTeam: state.teams.selfTeam,
   };
 }
 
 const mapDispatchToProps: ITeamManagePageDispatchProps = {
   getTeams,
   getContestId,
-  getSelfTeam
+  getSelfTeam,
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(TeamManagePage)
+  connect(mapStateToProps, mapDispatchToProps)(TeamManagePage)
 );
 
 interface ITeamManageFormProps extends FormComponentProps {
@@ -111,7 +109,7 @@ interface ITeamManageFormProps extends FormComponentProps {
 const TeamManageForm: React.FC<ITeamManageFormProps> = ({
   form,
   props,
-  contestId
+  contestId,
 }) => {
   const {
     id,
@@ -121,7 +119,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
     leader,
     leaderInfo,
     members = [],
-    membersInfo = []
+    membersInfo = [],
   } = props.selfTeam;
 
   const isLeader = props.user.id === leader;
@@ -135,12 +133,12 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
         options.push({
           label: membersInfo[i].username,
           value: members[i],
-          disabled: true
+          disabled: true,
         });
       } else {
         options.push({
           label: membersInfo[i].username,
-          value: members[i]
+          value: members[i],
         });
       }
     }
@@ -152,7 +150,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       if (!err && values.name && values.description && values.members) {
         try {
           if (!contestId) {
-            props.getContestId("电设", 2019);
+            props.getContestId("队式", 2020);
           }
 
           await api.updateTeam(
@@ -164,9 +162,9 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
           );
           Modal.success({
             title: "队伍信息已修改",
-            content: "请确认修改后的信息"
+            content: "请确认修改后的信息",
           });
-          getTeams(true, "电设", 2019);
+          getTeams(true, "队式", 2020);
         } catch (error) {
           if (
             error.response.data === "409 Conflict: Team name already exists"
@@ -196,10 +194,10 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       async onOk() {
         try {
           await api.deleteTeam(id);
-          getTeams(true, "电设", 2019);
+          getTeams(true, "队式", 2020);
           Modal.success({
             title: "队伍已解散",
-            content: "请重新加入队伍"
+            content: "请重新加入队伍",
           });
           props.history.push({ pathname: "/thuedc" });
           props.history.replace({ pathname: "/thuedc/teams/join" });
@@ -211,7 +209,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
           }
         }
       },
-      onCancel() {}
+      onCancel() {},
     });
   };
 
@@ -222,10 +220,10 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       async onOk() {
         try {
           await api.quitTeam(id, props.user.id);
-          getTeams(true, "电设", 2019);
+          getTeams(true, "队式", 2020);
           Modal.success({
             title: "您已退出队伍",
-            content: "请重新加入队伍"
+            content: "请重新加入队伍",
           });
           props.history.push({ pathname: "/thuedc" });
           props.history.replace({ pathname: "/thuedc/teams/join" });
@@ -237,13 +235,13 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
           }
         }
       },
-      onCancel() {}
+      onCancel() {},
     });
   };
 
   const formItemLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 14 }
+    wrapperCol: { span: 14 },
   };
 
   return (
@@ -251,7 +249,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       <Form.Item label="队伍名称">
         {getFieldDecorator("name", {
           rules: [{ required: true, message: "请输入队伍名称!" }],
-          initialValue: name
+          initialValue: name,
         })(
           <Input
             prefix={<Icon type="team" style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -271,7 +269,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       </Form.Item>
       <Form.Item label="队员">
         {getFieldDecorator("members", {
-          initialValue: members
+          initialValue: members,
         })(
           <Checkbox.Group options={getMemberOptions()} disabled={!isLeader} />
         )}
@@ -279,7 +277,7 @@ const TeamManageForm: React.FC<ITeamManageFormProps> = ({
       <Form.Item label="队伍简介">
         {getFieldDecorator("description", {
           rules: [{ required: true, message: "请输入队伍简介!" }],
-          initialValue: description
+          initialValue: description,
         })(
           <Input.TextArea
             autosize={{ minRows: 5, maxRows: 10 }}

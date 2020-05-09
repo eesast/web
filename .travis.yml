@@ -6,6 +6,8 @@ before_install:
 install:
   - yarn
 script:
+  - yarn lint
+  - yarn typecheck
   - yarn test
   - yarn build
 deploy:

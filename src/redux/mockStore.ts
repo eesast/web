@@ -16,8 +16,8 @@ const mockStore: IAppState = {
       email: "zhangsan@mails.tsinghua.edu.cn",
       phone: 15600000000,
       iat: 100000,
-      exp: 100010
-    }
+      exp: 100010,
+    },
   },
   weekly: {
     currentArticle: {
@@ -35,8 +35,8 @@ const mockStore: IAppState = {
         views: 20,
         likers: [2016011000],
         tags: ["Weekly"],
-        createdAt: new Date().toDateString()
-      }
+        createdAt: new Date().toDateString(),
+      },
     },
     articles: {
       fetching: false,
@@ -54,9 +54,9 @@ const mockStore: IAppState = {
           views: 20,
           likers: [2016011000],
           tags: ["Weekly"],
-          createdAt: new Date().toDateString()
-        }
-      ]
+          createdAt: new Date().toDateString(),
+        },
+      ],
     },
     comments: {
       fetching: false,
@@ -68,10 +68,10 @@ const mockStore: IAppState = {
           articleId: 1,
           content: "好赞",
           replyTo: -1,
-          likers: []
-        }
-      ]
-    }
+          likers: [],
+        },
+      ],
+    },
   },
   teams: {
     fetching: false,
@@ -93,7 +93,7 @@ const mockStore: IAppState = {
           group: "admin",
           role: "root",
           email: "zhangsan@mails.tsinghua.edu.cn",
-          phone: 15600000000
+          phone: 15600000000,
         },
         membersInfo: [
           {
@@ -105,12 +105,12 @@ const mockStore: IAppState = {
             group: "admin",
             role: "root",
             email: "zhangsan@mails.tsinghua.edu.cn",
-            phone: 15600000000
-          }
+            phone: 15600000000,
+          },
         ],
         inviteCode: "123abcde",
-        createdAt: new Date().toDateString()
-      }
+        createdAt: new Date().toDateString(),
+      },
     ],
     selfTeam: {
       id: 1,
@@ -128,7 +128,7 @@ const mockStore: IAppState = {
         group: "admin",
         role: "root",
         email: "zhangsan@mails.tsinghua.edu.cn",
-        phone: 15600000000
+        phone: 15600000000,
       },
       membersInfo: [
         {
@@ -140,14 +140,14 @@ const mockStore: IAppState = {
           group: "admin",
           role: "root",
           email: "zhangsan@mails.tsinghua.edu.cn",
-          phone: 15600000000
-        }
+          phone: 15600000000,
+        },
       ],
       inviteCode: "123abcde",
-      createdAt: new Date().toDateString()
+      createdAt: new Date().toDateString(),
     },
-    totalTeams: 1
-  }
+    totalTeams: 1,
+  },
 };
 
 export default mockStore;

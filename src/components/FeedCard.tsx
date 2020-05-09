@@ -17,7 +17,7 @@ export interface IFeedCardProps {
   createdAt: string;
 }
 
-const FeedCard: React.FC<IFeedCardProps> = props => {
+const FeedCard: React.FC<IFeedCardProps> = (props) => {
   const {
     title,
     abstract,
@@ -26,7 +26,7 @@ const FeedCard: React.FC<IFeedCardProps> = props => {
     views,
     tags,
     likes,
-    createdAt
+    createdAt,
   } = props;
 
   const [imgLoading, setImgLoading] = useState(true);

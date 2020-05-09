@@ -7,7 +7,7 @@ import React, {
   useState,
   useRef,
   forwardRef,
-  useImperativeHandle
+  useImperativeHandle,
 } from "react";
 import styles from "./ArticleEditPage.module.css";
 import {
@@ -20,7 +20,7 @@ import {
   Button,
   message,
   Modal,
-  Alert
+  Alert,
 } from "antd";
 import { FormComponentProps, ValidationRule } from "antd/lib/form";
 import api from "../api";
@@ -48,12 +48,12 @@ interface IArticleEditPageDispatchProps {
 type IArticleEditPageProps = IArticleEditPageStateProps &
   IArticleEditPageDispatchProps;
 
-const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
+const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
   const { article, token } = props;
   const [text, setText] = useState(
     "# EESAST Weekly Editor\n\n> Powered by EESAST\n>\n> Thanks to:\n> - [react](https://react.docschina.org/)\n> - [ant.design](https://ant.design/index-cn)\n> - [react-markdown-editor-lite](https://harrychen0506.github.io/react-markdown-editor-lite/)\n> - [md2wx](https://github.com/eesast/md2wx)\n> - ...\n\n## How to use\n\n`$\\LaTeX$` is supported\n    > with the help of [`katex`](https://github.com/KaTeX/KaTeX)\n\n```markdown\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n\n```\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n"
   );
-  const [highlight, setHighlight] = useState(true);
+  // const [highlight, setHighlight] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showImgManage, setShowImgManage] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -97,7 +97,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
       setShowModal(true);
       return;
     }
-    setInfo(state => ({
+    setInfo((state) => ({
       ...state,
       title: topFormRef.current?.form.getFieldValue("title"),
       alias: topFormRef.current?.form.getFieldValue("alias"),
@@ -105,7 +105,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
       authorId: authorId,
       content: text,
       abstract: buttomFormRef.current?.form.getFieldValue("abstract"),
-      image: coverImageFile[0].url!
+      image: coverImageFile[0].url!,
     }));
   };
 
@@ -119,7 +119,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
           content: info.content,
           abstract: info.abstract,
           image: info.image,
-          tags: [...info.tags, "underReview"]
+          tags: [...info.tags, "underReview"],
         });
         message.success("发布成功，请耐心等待审核");
         history.replace(`/weekly/manage`);
@@ -131,7 +131,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
           content: info.content,
           abstract: info.abstract,
           image: info.image,
-          tags: info.tags
+          tags: info.tags,
         });
         message.success("更新成功，请耐心等待审核");
         history.replace(`/weekly/articles/${info.alias}`);
@@ -154,7 +154,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
   };
 
   const handleTagsChange = (tags: string[]) => {
-    setInfo(state => ({ ...state, tags: tags }));
+    setInfo((state) => ({ ...state, tags: tags }));
   };
 
   const handleImageUpload = async (originFile: File) => {
@@ -163,7 +163,7 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
       name: originFile.name,
       size: originFile.size,
       type: originFile.type,
-      originFileObj: originFile
+      originFileObj: originFile,
     };
     const response = await api.uploadImage(file);
     file.url = axios.defaults.baseURL + response;
@@ -195,10 +195,10 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = props => {
             "link",
             "clear",
             "logger",
-            "mode-toggle"
+            "mode-toggle",
           ]}
           value={text}
-          renderHTML={text => md2wx.renderHtml(text, highlight)}
+          renderHTML={(text: string) => md2wx.renderHtml(text, true)} // highlight = true
           onChange={handleEditorChange}
           onImageUpload={handleImageUpload}
         />
@@ -284,13 +284,13 @@ function mapStateToProps(state: IAppState): IArticleEditPageStateProps {
     fetching: state.weekly.currentArticle.fetching,
     article: state.weekly.currentArticle.item,
     status: state.weekly.currentArticle.status,
-    error: state.weekly.currentArticle.error
+    error: state.weekly.currentArticle.error,
   };
 }
 
 const mapDispatchToProps: IArticleEditPageDispatchProps = {
   getArticle,
-  getArticleByAlias
+  getArticleByAlias,
 };
 
 export default withRouter(
@@ -310,12 +310,12 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 }
+        sm: { span: 8 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
-      }
+        sm: { span: 16 },
+      },
     };
 
     const validateAlias: ValidationRule["validator"] = (
@@ -343,7 +343,7 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
               {form.getFieldDecorator("title", {
                 initialValue:
                   props.status === "update" ? props.article.title : "",
-                rules: [{ required: true, message: "请输入文章标题" }]
+                rules: [{ required: true, message: "请输入文章标题" }],
               })(<Input placeholder="标题，例：浅论基尔霍夫定律" />)}
             </Form.Item>
           </Col>
@@ -363,7 +363,7 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
               {form.getFieldDecorator("author", {
                 initialValue:
                   props.status === "update" ? props.article.author : "",
-                rules: [{ required: true, message: "请输入作者的用户名" }]
+                rules: [{ required: true, message: "请输入作者的用户名" }],
               })(<Input placeholder="作者的用户名" />)}
             </Form.Item>
           </Col>
@@ -387,8 +387,8 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
                   props.status === "update" ? props.article.alias : "",
                 rules: [
                   { required: true, message: "请输入文章别名" },
-                  { validator: validateAlias }
-                ]
+                  { validator: validateAlias },
+                ],
               })(
                 <Input placeholder="英文标题，字母小写且用横杠连接，例：tensorflow-first-look" />
               )}
@@ -425,7 +425,7 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
       onCoverImageChange,
       onCoverImageRemove,
       onImgManageClick,
-      onSubmit
+      onSubmit,
     }: IButtomInfoFormProps,
     ref
   ) => {
@@ -436,12 +436,12 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 }
+        sm: { span: 8 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
-      }
+        sm: { span: 16 },
+      },
     };
 
     return (
@@ -464,7 +464,7 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
             >
               {form.getFieldDecorator("abstract", {
                 initialValue:
-                  props.status === "update" ? props.article.abstract : ""
+                  props.status === "update" ? props.article.abstract : "",
               })(<TextArea autoSize={{ minRows: 4 }} placeholder="文章摘要" />)}
             </Form.Item>
           </Col>

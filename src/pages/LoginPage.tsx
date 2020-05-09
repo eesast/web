@@ -22,7 +22,9 @@ interface ILoginPageDispatchProps {
 
 type ILoginPageProps = ILoginPageStateProps & ILoginPageDispatchProps;
 
-const LoginPage: React.FC<WithRouterComponent<{}, ILoginPageProps>> = props => {
+const LoginPage: React.FC<WithRouterComponent<{}, ILoginPageProps>> = (
+  props
+) => {
   const { login, loggingIn, loggedIn, error, history } = props;
 
   const submit = (username: string, password: string) => {
@@ -61,19 +63,16 @@ function mapStateToProps(state: IAppState): ILoginPageStateProps {
   return {
     loggedIn: state.auth.loggedIn,
     loggingIn: state.auth.loggingIn,
-    error: state.auth.error
+    error: state.auth.error,
   };
 }
 
 const mapDispatchToProps: ILoginPageDispatchProps = {
-  login
+  login,
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(LoginPage)
+  connect(mapStateToProps, mapDispatchToProps)(LoginPage)
 );
 
 interface ILoginFormProps extends FormComponentProps {
@@ -96,7 +95,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ form, submit, loggingIn }) => {
     <Form>
       <Form.Item>
         {getFieldDecorator("username", {
-          rules: [{ required: true, message: "请输入用户名" }]
+          rules: [{ required: true, message: "请输入用户名" }],
         })(
           <Input
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -109,7 +108,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ form, submit, loggingIn }) => {
       </Form.Item>
       <Form.Item>
         {getFieldDecorator("password", {
-          rules: [{ required: true, message: "请输入密码" }]
+          rules: [{ required: true, message: "请输入密码" }],
         })(
           <Input.Password
             prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}

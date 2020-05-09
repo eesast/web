@@ -12,7 +12,7 @@ import { IAppState } from "../redux/types/state";
 const { Panel } = Collapse;
 marked.setOptions({
   sanitize: true,
-  sanitizer: DOMPurify.sanitize
+  sanitizer: DOMPurify.sanitize,
 });
 
 interface IResourcePageStateProps {
@@ -26,7 +26,7 @@ interface IResourcePageDispatchProps {
 
 type IResourcePageProps = IResourcePageStateProps & IResourcePageDispatchProps;
 
-const ResourcePage: React.FC<IResourcePageProps> = props => {
+const ResourcePage: React.FC<IResourcePageProps> = (props) => {
   const { contestId, error, getContestId } = props;
 
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
@@ -41,7 +41,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
 
   useEffect(() => {
     if (!contestId) {
-      getContestId("电设", 2019);
+      getContestId("队式", 2020);
     }
   }, [contestId, getContestId]);
 
@@ -51,7 +51,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
     let newAnnouncements: IAnnouncement[] = [];
     try {
       if (!contestId) {
-        getContestId("电设", 2019);
+        getContestId("队式", 2020);
       }
       newAnnouncements = await getAnnouncements(
         page * 5,
@@ -69,7 +69,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
       return;
     }
 
-    setAnnouncements(announcements => announcements.concat(newAnnouncements));
+    setAnnouncements((announcements) => announcements.concat(newAnnouncements));
     setPage(page + 1);
   };
 
@@ -91,7 +91,7 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
               image={Empty.PRESENTED_IMAGE_SIMPLE}
               description={"暂无公告"}
             />
-          )
+          ),
         }}
         split={false}
         dataSource={announcements}
@@ -122,15 +122,12 @@ const ResourcePage: React.FC<IResourcePageProps> = props => {
 function mapStateToProps(state: IAppState): IResourcePageStateProps {
   return {
     contestId: state.teams.contestId,
-    error: state.teams.error
+    error: state.teams.error,
   };
 }
 
 const mapDispatchToProps: IResourcePageDispatchProps = {
-  getContestId
+  getContestId,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ResourcePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ResourcePage);

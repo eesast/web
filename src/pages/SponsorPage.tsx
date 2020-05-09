@@ -29,7 +29,7 @@ const SponsorPage: React.FC<{}> = () => {
           style={{
             display: "flex",
             justifyItems: "space-around",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <img

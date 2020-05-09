@@ -26,7 +26,7 @@ type IArticleFeedPageProps = IArticleFeedPageStateProps &
 const ArticleFeedPage: React.FC<WithRouterComponent<
   {},
   IArticleFeedPageProps
->> = props => {
+>> = (props) => {
   const { fetching, hasMore, error, articles, getArticleFeeds } = props;
 
   const [page, setPage] = useState(0);
@@ -95,12 +95,12 @@ function mapStateToProps(state: IAppState): IArticleFeedPageStateProps {
     fetching: state.weekly.articles.fetching,
     hasMore: state.weekly.articles.hasMore,
     error: state.weekly.articles.error,
-    articles: state.weekly.articles.items
+    articles: state.weekly.articles.items,
   };
 }
 
 const mapDispatchToProps: IArticleFeedPageDispatchProps = {
-  getArticleFeeds
+  getArticleFeeds,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleFeedPage);

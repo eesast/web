@@ -4,7 +4,7 @@ import {
   IGetArticleFeedsAction,
   IGetArticleAction,
   IGetArticleByAliasAction,
-  IThunkResult
+  IThunkResult,
 } from "../types/actions";
 import {
   GET_ARTICLE_FEEDS_FAILURE,
@@ -15,7 +15,7 @@ import {
   GET_ARTICLE_FAILURE,
   GET_ARTICLE_BY_ALIAS_REQUEST,
   GET_ARTICLE_BY_ALIAS_SUCCESS,
-  GET_ARTICLE_BY_ALIAS_FAILURE
+  GET_ARTICLE_BY_ALIAS_FAILURE,
 } from "../types/constants";
 import { IArticle } from "../types/state";
 
@@ -29,7 +29,7 @@ export function getArticleFeeds(
   page: number,
   pageSize: number
 ): IThunkResult<IGetArticleFeedsAction> {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(getArticleFeedsAction.request());
 
     try {
@@ -54,7 +54,7 @@ export function getArticle(
   articleId: number,
   status?: "post" | "update"
 ): IThunkResult<IGetArticleAction> {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(getArticleAction.request());
 
     try {
@@ -62,7 +62,7 @@ export function getArticle(
       dispatch(
         getArticleAction.success({
           article: article,
-          status: status
+          status: status,
         })
       );
     } catch (e) {
@@ -81,7 +81,7 @@ export function getArticleByAlias(
   alias: string,
   status?: "post" | "update"
 ): IThunkResult<IGetArticleByAliasAction> {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(getArticleByAliasAction.request());
 
     try {
@@ -89,7 +89,7 @@ export function getArticleByAlias(
       dispatch(
         getArticleByAliasAction.success({
           article: article,
-          status: status
+          status: status,
         })
       );
     } catch (e) {

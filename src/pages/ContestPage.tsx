@@ -16,7 +16,7 @@ const ContestPage: React.FC<IContestPageProps> = ({ setPage }) => {
   return (
     <Tabs
       tabBarStyle={{
-        marginTop: 48
+        marginTop: 48,
       }}
       tabPosition="left"
     >

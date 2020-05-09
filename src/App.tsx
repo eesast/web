@@ -4,7 +4,7 @@ import {
   Layout,
   ConfigProvider,
   Menu,
-  Typography
+  Typography,
 } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import moment from "moment";
@@ -19,13 +19,14 @@ import {
   Route,
   RouteComponentProps,
   RouteProps,
-  Switch
+  Switch,
 } from "react-router-dom";
 import logo from "./assets/logo.png";
 import LoginPage from "./pages/LoginPage";
 import store from "./redux/store";
 import ApiSite from "./sites/ApiSite";
 import EdcSite from "./sites/EdcSite";
+import TsSite from "./sites/TsSite";
 import HomeSite from "./sites/HomeSite";
 import NotFoundSite from "./sites/NotFoundSite";
 import WeeklySite from "./sites/WeeklySite";
@@ -42,12 +43,12 @@ const { Title } = Typography;
 
 moment.locale("zh-cn");
 
-export type Site = "home" | "weekly" | "edc" | "others";
+export type Site = "home" | "weekly" | "edc" | "ts" | "others";
 
 const App = () => {
   const getRoute = ({ location }: RouteProps) => {
     const pathname = "/" + location!.pathname.split("/")[1];
-    const matchedRoute = routes.find(item => pathname === item.to);
+    const matchedRoute = routes.find((item) => pathname === item.to);
     const Component = matchedRoute ? matchedRoute.component : NotFoundSite;
     const authRequired = matchedRoute && matchedRoute.auth;
 
@@ -67,7 +68,7 @@ const App = () => {
                 left: 0,
                 right: 0,
                 top: 0,
-                bottom: 0
+                bottom: 0,
               }}
               key={pathname}
             >
@@ -80,7 +81,7 @@ const App = () => {
               ) : (
                 <Route location={location} path="/:url" render={siteRoute} />
               )}
-              <Footer className={styles.footer}>© 2019 EESAST</Footer>
+              <Footer className={styles.footer}>© 2020 EESAST</Footer>
             </div>
           </QueueAnim>
         </Switch>
@@ -90,7 +91,7 @@ const App = () => {
 
   const [site, setSite] = useState<Site>("home");
 
-  const onHeaderMenuSelect: MenuProps["onSelect"] = item =>
+  const onHeaderMenuSelect: MenuProps["onSelect"] = (item) =>
     setSite(item.key as Site);
 
   return (
@@ -119,8 +120,8 @@ const App = () => {
                 <Menu.Item key="weekly">
                   <Link to="/weekly">Weekly</Link>
                 </Menu.Item>
-                <Menu.Item key="edc">
-                  <Link to="/thuedc">电子设计大赛</Link>
+                <Menu.Item key="ts">
+                  <Link to="/teamstyle">队式程序设计比赛</Link>
                 </Menu.Item>
                 <Menu.Item key="info">
                   <a href="https://info.eesast.com">Info</a>
@@ -145,12 +146,13 @@ const routes = [
   { to: "/home", component: HomeSite, auth: false },
   { to: "/weekly", component: WeeklySite, auth: false },
   { to: "/thuedc", component: EdcSite, auth: false },
+  { to: "/teamstyle", component: TsSite, auth: false },
   { to: "/api", component: ApiSite, auth: false },
   { to: "/md2wx", component: MarkdownSite, auth: false },
   { to: "/login", component: LoginPage, auth: false },
   { to: "/profile", component: ProfilePage, auth: true },
   { to: "/register", component: RegisterPage, auth: false },
-  { to: "/reset", component: ResetPage, auth: false }
+  { to: "/reset", component: ResetPage, auth: false },
 ];
 
 export default App;

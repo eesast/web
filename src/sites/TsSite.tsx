@@ -7,23 +7,26 @@ import {
   RouteComponentProps,
   Switch,
   Redirect,
+  useRouteMatch,
+  useLocation,
 } from "react-router-dom";
 import { Site } from "../App";
 import styles from "./EdcSite.module.css";
 import IntroPage from "../pages/IntroPage";
-import { WithRouterComponent } from "../types/WithRouterComponent";
 import NotFoundSite from "./NotFoundSite";
 import EnrollPage from "../pages/EnrollPage";
 import TeamManagePage from "../pages/TeamManagePage";
 import ResourcePage from "../pages/ResourcePage";
 import TeamJoinPage from "../pages/TeamJoinPage";
-import SponsorPage from "../pages/SponsorPage";
+import BattlePage from "../pages/contestPages/BattlePage";
+import TokenVerifyPage from "../pages/TokenVerifyPage";
+// import SponsorPage from "../pages/SponsorPage";
 import AuthRoute from "../components/AuthRoute";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
-export interface IEdcSiteProps {
+export interface ITsSiteProps {
   setSite: (site: Site) => void;
 }
 
@@ -33,17 +36,28 @@ type Page =
   | "teamJoin"
   | "teamManage"
   | "resource"
+  | "battle"
   | "sponsor";
 
-const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
-  setSite,
-  match,
-  location,
-}) => {
+const routes: { to: string; key: Page }[] = [
+  { to: "/intro", key: "intro" },
+  { to: "/enroll", key: "enroll" },
+  { to: "/teams/manage", key: "teamManage" },
+  { to: "/teams/join", key: "teamJoin" },
+  { to: "/resources", key: "resource" },
+  { to: "/battle", key: "battle" },
+  { to: "/sponsor", key: "sponsor" },
+];
+
+const TsSite: React.FC<ITsSiteProps> = (props) => {
+  const { setSite } = props;
   const [page, setPage] = useState<Page>("intro");
 
+  const match = useRouteMatch();
+  const location = useLocation();
+
   const homeRoute = () => {
-    return <Redirect to={"/thuedc/intro"} push />;
+    return <Redirect to={"/teamstyle/intro"} push />;
   };
 
   const NotFoundPage = (props: RouteComponentProps<any>) => (
@@ -54,7 +68,7 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
     setPage(item.key as Page);
 
   useEffect(() => {
-    setSite("edc");
+    setSite("ts");
   }, [setSite]);
 
   useEffect(() => {
@@ -79,24 +93,24 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
         >
           <Menu.Item key="intro">
             <Link to={`${match.url}/intro`} replace />
-            <Icon type="home" />
+            <Icon type="home" theme="outlined" />
             介绍
           </Menu.Item>
           <Menu.Item key="resource">
             <Link to={`${match.url}/resources`} replace />
-            <Icon type="database" />
+            <Icon type="database" theme="outlined" />
             资源与公告
           </Menu.Item>
           <Menu.Item key="enroll">
             <Link to={`${match.url}/enroll`} replace />
-            <Icon type="form" />
+            <Icon type="form" theme="outlined" />
             报名
           </Menu.Item>
           <SubMenu
             key="team"
             title={
               <span>
-                <Icon type="team" />
+                <Icon type="team" theme="outlined" />
                 队伍
               </span>
             }
@@ -110,11 +124,16 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
               管理
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="sponsor">
-            <Link to={`${match.url}/sponsor`} replace />
-            <Icon type="heart" />
-            赞助商
+          <Menu.Item key="battle">
+            <Link to={`${match.url}/battle`} replace />
+            <Icon type="thunderbolt" theme="outlined" />
+            对战
           </Menu.Item>
+          {/* <Menu.Item key="sponsor">
+            <Link to={`${match.url}/sponsor`} replace />
+            <Icon type="heart" theme="outlined"/>
+            赞助商
+          </Menu.Item> */}
         </Menu>
       </Sider>
       <Content className={styles.content}>
@@ -136,12 +155,22 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
             path={`${match.path}/teams/join`}
             component={TeamJoinPage}
           />
+          <AuthRoute
+            location={location}
+            path={`${match.path}/battle`}
+            component={BattlePage}
+          />
           <Route
             exact
             path={`${match.path}/resources`}
             component={ResourcePage}
           />
-          <Route exact path={`${match.path}/sponsor`} component={SponsorPage} />
+          {/* <Route exact path={`${match.path}/sponsor`} component={SponsorPage} /> */}
+          <Route
+            exact
+            path={`${match.path}/token/:token`}
+            component={TokenVerifyPage}
+          />
           <Route component={NotFoundPage} />
         </Switch>
       </Content>
@@ -149,13 +178,4 @@ const EdcSite: React.FC<WithRouterComponent<{}, IEdcSiteProps>> = ({
   );
 };
 
-const routes: { to: string; key: Page }[] = [
-  { to: "/intro", key: "intro" },
-  { to: "/enroll", key: "enroll" },
-  { to: "/teams/manage", key: "teamManage" },
-  { to: "/teams/join", key: "teamJoin" },
-  { to: "/resources", key: "resource" },
-  { to: "/sponsor", key: "sponsor" },
-];
-
-export default EdcSite;
+export default TsSite;

@@ -8,7 +8,7 @@ import {
   GET_ARTICLE_FAILURE,
   GET_ARTICLE_BY_ALIAS_REQUEST,
   GET_ARTICLE_BY_ALIAS_SUCCESS,
-  GET_ARTICLE_BY_ALIAS_FAILURE
+  GET_ARTICLE_BY_ALIAS_FAILURE,
 } from "../types/constants";
 import { IWeeklyState } from "../types/state";
 
@@ -29,18 +29,18 @@ export default function weekly(
         views: 0,
         likers: [],
         tags: [],
-        createdAt: ""
-      }
+        createdAt: "",
+      },
     },
     articles: {
       fetching: false,
       hasMore: false,
-      items: []
+      items: [],
     },
     comments: {
       fetching: false,
-      items: []
-    }
+      items: [],
+    },
   },
   action: IWeeklyAction
 ): IWeeklyState {
@@ -51,8 +51,8 @@ export default function weekly(
         articles: {
           ...state.articles,
           fetching: true,
-          error: null
-        }
+          error: null,
+        },
       };
     case GET_ARTICLE_FEEDS_SUCCESS:
       const newArticles = action.payload.articles;
@@ -64,8 +64,8 @@ export default function weekly(
           ...state.articles,
           fetching: false,
           hasMore: newArticles.length === pageSize,
-          items: [...state.articles.items, ...newArticles]
-        }
+          items: [...state.articles.items, ...newArticles],
+        },
       };
     case GET_ARTICLE_FEEDS_FAILURE:
       return {
@@ -73,8 +73,8 @@ export default function weekly(
         articles: {
           ...state.articles,
           fetching: false,
-          error: action.payload
-        }
+          error: action.payload,
+        },
       };
 
     case GET_ARTICLE_REQUEST: {
@@ -83,8 +83,8 @@ export default function weekly(
         currentArticle: {
           ...state.currentArticle,
           fetching: true,
-          error: null
-        }
+          error: null,
+        },
       };
     }
     case GET_ARTICLE_SUCCESS: {
@@ -96,8 +96,8 @@ export default function weekly(
           status: status,
           item: article,
           fetching: false,
-          error: null
-        }
+          error: null,
+        },
       };
     }
     case GET_ARTICLE_FAILURE: {
@@ -106,8 +106,8 @@ export default function weekly(
         currentArticle: {
           ...state.currentArticle,
           fetching: false,
-          error: action.payload
-        }
+          error: action.payload,
+        },
       };
     }
 
@@ -117,8 +117,8 @@ export default function weekly(
         currentArticle: {
           ...state.currentArticle,
           fetching: true,
-          error: null
-        }
+          error: null,
+        },
       };
     }
     case GET_ARTICLE_BY_ALIAS_SUCCESS: {
@@ -130,8 +130,8 @@ export default function weekly(
           status: status,
           item: article,
           fetching: false,
-          error: null
-        }
+          error: null,
+        },
       };
     }
     case GET_ARTICLE_BY_ALIAS_FAILURE: {
@@ -140,8 +140,8 @@ export default function weekly(
         currentArticle: {
           ...state.currentArticle,
           fetching: false,
-          error: action.payload
-        }
+          error: action.payload,
+        },
       };
     }
   }

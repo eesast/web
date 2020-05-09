@@ -1,5 +1,5 @@
 import { Button, Result } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Site } from "../App";
 
@@ -8,7 +8,9 @@ export interface INotFoundSiteProps {
 }
 
 const NotFoundSite: React.FC<INotFoundSiteProps> = ({ setSite }) => {
-  setSite("others");
+  useEffect(() => {
+    setSite("others");
+  }, [setSite]);
 
   return (
     <Result

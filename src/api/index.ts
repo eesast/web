@@ -13,7 +13,7 @@ import {
   updateArticleVisibility,
   deleteArticle,
   likeArticle,
-  unlikeArticle
+  unlikeArticle,
 } from "./articles";
 import {
   login,
@@ -22,7 +22,8 @@ import {
   getUserId,
   getUsername,
   getUserInfo,
-  getUserInfos
+  getUserInfos,
+  verifyToken,
 } from "./users";
 import {
   getTeams,
@@ -32,9 +33,17 @@ import {
   quitTeam,
   addTeamMember,
   getContestId,
-  getTeamNum
+  getTeamNum,
 } from "./teams";
 import { uploadImage } from "./static";
+import { startBattle, getBattleHistory, getRooms } from "./rooms";
+import {
+  getCodes,
+  createCode,
+  compileCode,
+  updateCode,
+  deleteCode,
+} from "./codes";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -46,6 +55,7 @@ export default {
   login,
   register,
   updateUser,
+  verifyToken,
   getArticleFeeds,
   getArticle,
   getArticleByAlias,
@@ -72,5 +82,13 @@ export default {
   addTeamMember,
   getContestId,
   getTeamNum,
-  uploadImage
+  uploadImage,
+  startBattle,
+  getBattleHistory,
+  getRooms,
+  getCodes,
+  createCode,
+  compileCode,
+  updateCode,
+  deleteCode,
 };

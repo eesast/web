@@ -8,7 +8,7 @@ EESAST 网页前端
 
 ### 环境
 
-- node 12 / npm
+- node 14 / npm
 - yarn
 - TypeScript
 - Chrome / Firefox

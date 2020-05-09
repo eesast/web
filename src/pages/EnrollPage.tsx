@@ -6,7 +6,7 @@ import {
   Icon,
   Input,
   message,
-  Modal
+  Modal,
 } from "antd";
 import React, { useEffect } from "react";
 import { IAppState, ITeam } from "../redux/types/state";
@@ -34,19 +34,19 @@ interface IEnrollPageDispatchProps {
 
 type IEnrollPageProps = IEnrollPageStateProps & IEnrollPageDispatchProps;
 
-const EnrollPage: React.FC<
-  WithRouterComponent<{}, IEnrollPageProps>
-> = props => {
+const EnrollPage: React.FC<WithRouterComponent<{}, IEnrollPageProps>> = (
+  props
+) => {
   const { error, fetching, contestId, selfTeam, getSelfTeam } = props;
 
   useEffect(() => {
-    getSelfTeam("电设", 2019);
+    getSelfTeam("队式", 2020);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!contestId) {
-      getContestId("电设", 2019);
+      getContestId("队式", 2020);
     }
   }, [contestId]);
 
@@ -70,7 +70,7 @@ const EnrollPage: React.FC<
       description,
       inviteCode,
       leaderInfo,
-      membersInfo = []
+      membersInfo = [],
     } = selfTeam;
 
     return (
@@ -84,7 +84,7 @@ const EnrollPage: React.FC<
             </Descriptions.Item>
             <Descriptions.Item label="队员">
               {membersInfo &&
-                membersInfo.map(member => member.username).join(", ")}
+                membersInfo.map((member) => member.username).join(", ")}
             </Descriptions.Item>
             <Descriptions.Item label="队伍简介">
               {description}
@@ -102,21 +102,18 @@ function mapStateToProps(state: IAppState): IEnrollPageStateProps {
     contestId: state.teams.contestId,
     error: state.teams.error,
     teams: state.teams.items,
-    selfTeam: state.teams.selfTeam
+    selfTeam: state.teams.selfTeam,
   };
 }
 
 const mapDispatchToProps: IEnrollPageDispatchProps = {
   getTeams,
   getSelfTeam,
-  getContestId
+  getContestId,
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(EnrollPage)
+  connect(mapStateToProps, mapDispatchToProps)(EnrollPage)
 );
 
 interface IEnrollFormProps extends FormComponentProps {
@@ -132,7 +129,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
       if (!err && values.name && values.description) {
         try {
           if (!contestId) {
-            getContestId("电设", 2019);
+            getContestId("队式", 2020);
           }
 
           const inviteCode = await api.createTeam(
@@ -142,7 +139,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
           );
           Modal.success({
             title: "队伍创建成功",
-            content: <div>邀请码：{inviteCode}</div>
+            content: <div>邀请码：{inviteCode}</div>,
           });
           props.history.push({ pathname: "/thuedc" });
           props.history.replace({ pathname: "/thuedc/enroll" });
@@ -159,6 +156,10 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
             error.response.data === "400 Bad Request: Contest not available"
           ) {
             message.error("当前不在报名时间");
+          } else if (
+            error.response.data === "400 Bad Request: User not in track"
+          ) {
+            message.error("您没有加入本赛道，请前往主网站加入");
           } else {
             message.error("队伍创建失败");
           }
@@ -171,7 +172,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
     <Form>
       <Form.Item label="队伍名称">
         {getFieldDecorator("name", {
-          rules: [{ required: true, message: "请输入队伍名称" }]
+          rules: [{ required: true, message: "请输入队伍名称" }],
         })(
           <Input
             prefix={<Icon type="team" style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -184,7 +185,7 @@ const EnrollForm: React.FC<IEnrollFormProps> = ({ form, props, contestId }) => {
       </Form.Item>
       <Form.Item label="队伍简介">
         {getFieldDecorator("description", {
-          rules: [{ required: true, message: "请输入队伍简介" }]
+          rules: [{ required: true, message: "请输入队伍简介" }],
         })(
           <Input.TextArea
             autosize={{ minRows: 5, maxRows: 10 }}
