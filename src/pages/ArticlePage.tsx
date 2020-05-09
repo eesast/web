@@ -44,7 +44,7 @@ interface IArticlePageDispatchProps {
 
 type IArticlePageProps = IArticlePageStateProps & IArticlePageDispatchProps;
 
-const ArticlePage: React.FC<IArticlePageProps> = props => {
+const ArticlePage: React.FC<IArticlePageProps> = (props) => {
   const { article, user, getArticleByAlias } = props;
 
   const [loggedIn, setLoggedIn] = useState(false);
@@ -52,7 +52,7 @@ const ArticlePage: React.FC<IArticlePageProps> = props => {
     if (user) {
       setLoggedIn(true);
     }
-  });
+  }, [user]);
 
   const { alias } = useParams();
 
@@ -64,11 +64,10 @@ const ArticlePage: React.FC<IArticlePageProps> = props => {
     if (alias) {
       fetchData();
     }
-  }, [alias]);
+  }, [alias, getArticleByAlias]);
 
   const html = useMemo(() => md2wx.renderHtml(article.content, true), [
     article.content,
-    true
   ]);
 
   const handleLike = async () => {
@@ -102,13 +101,13 @@ function mapStateToProps(state: IAppState): IArticlePageStateProps {
     user: state.auth.user!,
     fetching: state.weekly.currentArticle.fetching,
     article: state.weekly.currentArticle.item,
-    error: state.weekly.currentArticle.error
+    error: state.weekly.currentArticle.error,
   };
 }
 
 const mapDispatchToProps: IArticlePageDispatchProps = {
   getArticle,
-  getArticleByAlias
+  getArticleByAlias,
 };
 
 export default withRouter(
