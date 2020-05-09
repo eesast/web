@@ -2,11 +2,15 @@ import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType } from "typesafe-actions";
 import {
+  getArticleFeedsAction,
+  getArticleAction,
+  getArticleByAliasAction,
+} from "../actions/weekly";
+import {
   loginAction,
   updateUserAction,
   verifyTokenAction,
 } from "../actions/auth";
-import { getArticleFeedsAction } from "../actions/weekly";
 import {
   getTeamsAction,
   getTeamNumAction,
@@ -30,7 +34,16 @@ export type IAuthAction = ILoginAction | IUpdateUserAction | IVerifyTokenAction;
 
 export type IGetArticleFeedsAction = ActionType<typeof getArticleFeedsAction>;
 
-export type IWeeklyAction = IGetArticleFeedsAction;
+export type IGetArticleAction = ActionType<typeof getArticleAction>;
+
+export type IGetArticleByAliasAction = ActionType<
+  typeof getArticleByAliasAction
+>;
+
+export type IWeeklyAction =
+  | IGetArticleFeedsAction
+  | IGetArticleAction
+  | IGetArticleByAliasAction;
 
 export type IGetTeamsAction = ActionType<typeof getTeamsAction>;
 

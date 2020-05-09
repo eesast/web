@@ -50,6 +50,8 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
 
   return (
     <div>
+      <Link to={`/weekly/edit`}>发布文章</Link>
+      <Link to={`/weekly/manage`}>管理文章</Link>
       <InfiniteScroll
         initialLoad={false}
         pageStart={1}
@@ -65,7 +67,10 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
           // tslint:disable-next-line: jsx-no-lambda
           renderItem={(item: IArticle) => (
             <List.Item key={item.id}>
-              <Link style={{ width: "100%" }} to={`/articles/${item.alias}`}>
+              <Link
+                style={{ width: "100%" }}
+                to={`/weekly/articles/${item.alias}`}
+              >
                 <FeedCard
                   loading={fetching}
                   image={item.image}

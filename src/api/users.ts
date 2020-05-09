@@ -17,6 +17,18 @@ export const updateUser = async (id: number, form: Partial<IUser>) => {
   await axios.put("/v1/users/" + id, form);
 };
 
+export const getUserId = async (username: string) => {
+  const response = await axios.get(`/v1/users?username=${username}`);
+  const convertedResponse = response.data as IUser[];
+  if (convertedResponse.length) return convertedResponse[0].id;
+  else return 0;
+};
+
+export const getUsername = async (userId: number) => {
+  const response = await axios.get(`/v1/users/username/${userId}`);
+  return response.data.username as string;
+};
+
 export const getUserInfo = async (id: number) => {
   const response = await axios.get(`/v1/users/${id}`);
   return response.data as IUser;

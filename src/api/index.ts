@@ -1,9 +1,26 @@
 import axios from "axios";
-import { getArticleFeeds } from "./articles";
+import {
+  getArticleFeeds,
+  getArticle,
+  getArticleByAlias,
+  getSelfArticles,
+  getSelfArticleNum,
+  getPostedArticles,
+  getUnderReviewArticles,
+  getUnderReviewArticlesNum,
+  postArticle,
+  updateArticle,
+  updateArticleVisibility,
+  deleteArticle,
+  likeArticle,
+  unlikeArticle,
+} from "./articles";
 import {
   login,
   register,
   updateUser,
+  getUserId,
+  getUsername,
   getUserInfo,
   getUserInfos,
   verifyToken,
@@ -18,6 +35,7 @@ import {
   getContestId,
   getTeamNum,
 } from "./teams";
+import { uploadImage } from "./static";
 import { startBattle, getBattleHistory, getRooms } from "./rooms";
 import {
   getCodes,
@@ -39,6 +57,21 @@ export default {
   updateUser,
   verifyToken,
   getArticleFeeds,
+  getArticle,
+  getArticleByAlias,
+  getSelfArticles,
+  getSelfArticleNum,
+  getPostedArticles,
+  getUnderReviewArticles,
+  getUnderReviewArticlesNum,
+  postArticle,
+  updateArticle,
+  updateArticleVisibility,
+  deleteArticle,
+  likeArticle,
+  unlikeArticle,
+  getUserId,
+  getUsername,
   getUserInfo,
   getUserInfos,
   getTeams,
@@ -49,6 +82,7 @@ export default {
   addTeamMember,
   getContestId,
   getTeamNum,
+  uploadImage,
   startBattle,
   getBattleHistory,
   getRooms,
