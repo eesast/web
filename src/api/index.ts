@@ -35,7 +35,7 @@ import {
   getContestId,
   getTeamNum,
 } from "./teams";
-import { startBattle, getBattleHistory } from "./battle";
+import { startBattle, getBattleHistory, getRooms } from "./rooms";
 import {
   getCodes,
   createCode,
@@ -84,6 +84,7 @@ export default {
   getTeamNum,
   startBattle,
   getBattleHistory,
+  getRooms,
   getCodes,
   createCode,
   compileCode,
