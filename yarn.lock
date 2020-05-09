@@ -10209,8 +10209,8 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
 
 react-markdown-editor-lite@^1.1.2:
   version "1.1.2"
-  resolved "https://registry.npm.taobao.org/react-markdown-editor-lite/download/react-markdown-editor-lite-1.1.2.tgz#e66cde081ce05d30bbe10abe6f833e2a5a84a7ad"
-  integrity sha1-5mzeCBzgXTC74Qq+b4M+KlqEp60=
+  resolved "https://registry.yarnpkg.com/react-markdown-editor-lite/-/react-markdown-editor-lite-1.1.2.tgz#e66cde081ce05d30bbe10abe6f833e2a5a84a7ad"
+  integrity sha512-RDVzL4PlLj7AoK2Iu6lw8+xMSrH+9X8T+s9HBl6F3cVNDVNuX1t8u7yf4UM2UmlPOm6VNU4kF1IEf+0XeUut9Q==
   dependencies:
     react "^16.9.0"
 
