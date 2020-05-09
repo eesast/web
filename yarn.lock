@@ -10229,13 +10229,12 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
-react-markdown-editor-lite@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.npm.taobao.org/react-markdown-editor-lite/download/react-markdown-editor-lite-1.0.2.tgz#5f82aa95b25c7f9a6fb5a059f4ebd987c30282e3"
-  integrity sha1-X4KqlbJcf5pvtaBZ9OvZh8MCguM=
+react-markdown-editor-lite@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npm.taobao.org/react-markdown-editor-lite/download/react-markdown-editor-lite-1.1.2.tgz#e66cde081ce05d30bbe10abe6f833e2a5a84a7ad"
+  integrity sha1-5mzeCBzgXTC74Qq+b4M+KlqEp60=
   dependencies:
-    eventemitter3 "^4.0.0"
-    uuid "^3.4.0"
+    react "^16.9.0"
 
 react-motion@^0.5.2:
   version "0.5.2"
@@ -10369,7 +10368,7 @@ react-slick@~0.25.2:
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
 
-react@16.13.1:
+react@16.13.1, react@^16.9.0:
   version "16.13.1"
   resolved "https://registry.npm.taobao.org/react/download/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha1-LoGIIvGpdDEiwGPWQQ2FweOv5I4=
@@ -10476,10 +10475,18 @@ redux-immutable@3.1.0:
   dependencies:
     immutable "^3.8.1"
 
-redux-thunk@^2.3.0:
+redux-thunk@2.3.0:
   version "2.3.0"
-  resolved "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz?cache=0&sync_timestamp=1573615470050&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fredux-thunk%2Fdownload%2Fredux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
+  resolved "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
   integrity sha1-UcLBmhhe1Rh6qpotCLZm0NZGdiI=
+
+redux@4.0.5, redux@^4.0.0:
+  version "4.0.5"
+  resolved "https://registry.npm.taobao.org/redux/download/redux-4.0.5.tgz?cache=0&sync_timestamp=1577154206919&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fredux%2Fdownload%2Fredux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
+  integrity sha1-TbXeWBbheJHeioDEJCMtBvBR2T8=
+  dependencies:
+    loose-envify "^1.4.0"
+    symbol-observable "^1.2.0"
 
 redux@^3.x.x:
   version "3.7.2"
@@ -10490,14 +10497,6 @@ redux@^3.x.x:
     lodash-es "^4.2.1"
     loose-envify "^1.1.0"
     symbol-observable "^1.0.3"
-
-redux@^4.0.0, redux@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.npm.taobao.org/redux/download/redux-4.0.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fredux%2Fdownload%2Fredux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
-  integrity sha1-TbXeWBbheJHeioDEJCMtBvBR2T8=
-  dependencies:
-    loose-envify "^1.4.0"
-    symbol-observable "^1.2.0"
 
 regenerate-unicode-properties@^8.2.0:
   version "8.2.0"
@@ -11429,7 +11428,7 @@ stack-utils@^1.0.1:
   resolved "https://registry.npm.taobao.org/stack-utils/download/stack-utils-1.0.2.tgz#33eba3897788558bebfc2db059dc158ec36cebb8"
   integrity sha1-M+ujiXeIVYvr/C2wWdwVjsNs67g=
 
-stackedit-js@^1.0.7:
+stackedit-js@1.0.7:
   version "1.0.7"
   resolved "https://registry.npm.taobao.org/stackedit-js/download/stackedit-js-1.0.7.tgz#2ee22dd3aa78140fbb81926f01a4308e8e967bf0"
   integrity sha1-LuIt06p4FA+7gZJvAaQwjo6We/A=
@@ -12135,7 +12134,7 @@ typedarray@^0.0.6:
   resolved "https://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typesafe-actions@^5.1.0:
+typesafe-actions@5.1.0:
   version "5.1.0"
   resolved "https://registry.npm.taobao.org/typesafe-actions/download/typesafe-actions-5.1.0.tgz#9afe8b1e6a323af1fd59e6a57b11b7dd6623d2f1"
   integrity sha1-mv6LHmoyOvH9WealexG33WYj0vE=
@@ -12334,7 +12333,7 @@ utils-merge@1.0.1:
   resolved "https://registry.npm.taobao.org/utils-merge/download/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.1, uuid@^3.3.2, uuid@^3.4.0:
+uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.npm.taobao.org/uuid/download/uuid-3.4.0.tgz?cache=0&sync_timestamp=1588193215088&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fuuid%2Fdownload%2Fuuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha1-sj5DWK+oogL+ehAK8fX4g/AgB+4=
