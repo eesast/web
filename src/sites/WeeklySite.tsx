@@ -35,6 +35,11 @@ const WeeklySite: React.FC<WithRouterComponent<{}, IWeeklySiteProps>> = ({
       />
       <AuthRoute
         exact
+        path={`${match.path}/edit/:alias`}
+        component={ArticleEditPage}
+      />
+      <AuthRoute
+        exact
         path={`${match.path}/manage`}
         component={ArticleManagePage}
       />

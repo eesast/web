@@ -1,5 +1,5 @@
 import { IArticle, IAppState, IUser } from "../redux/types/state";
-import { withRouter, useHistory } from "react-router-dom";
+import { useParams, withRouter, useHistory } from "react-router-dom";
 import { getArticle, getArticleByAlias } from "../redux/actions/weekly";
 import { connect } from "react-redux";
 import md2wx from "md2wx";
@@ -8,6 +8,7 @@ import React, {
   useRef,
   forwardRef,
   useImperativeHandle,
+  useEffect,
 } from "react";
 import styles from "./ArticleEditPage.module.css";
 import {
@@ -49,7 +50,7 @@ type IArticleEditPageProps = IArticleEditPageStateProps &
   IArticleEditPageDispatchProps;
 
 const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
-  const { article, token } = props;
+  const { article, token, getArticleByAlias } = props;
   const [text, setText] = useState(
     "# EESAST Weekly Editor\n\n> Powered by EESAST\n>\n> Thanks to:\n> - [react](https://react.docschina.org/)\n> - [ant.design](https://ant.design/index-cn)\n> - [react-markdown-editor-lite](https://harrychen0506.github.io/react-markdown-editor-lite/)\n> - [md2wx](https://github.com/eesast/md2wx)\n> - ...\n\n## How to use\n\n`$\\LaTeX$` is supported\n    > with the help of [`katex`](https://github.com/KaTeX/KaTeX)\n\n```markdown\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n\n```\n\n# h1\n## h2\n### h3\n#### h4\n\n---\n\n*Italic*\n\n**Bold**\n\n---\n\n- unordered\n- unordered\n\n1. ordered\n2. ordered\n\n---\n\n![logo](https://api.eesast.com/static/images/logo.png)\n"
   );
@@ -62,10 +63,22 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
   const topFormRef = useRef<ITopInfoFormProps>();
   const buttomFormRef = useRef<IButtomInfoFormProps>();
   const [info, setInfo] = useState(article);
-
   const [imageFileList, setImageFileList] = useState<UploadFile[]>([]);
   const [coverImageFile, setCoverImageFile] = useState<UploadFile[]>([]);
+  const { alias } = useParams();
+  useEffect(() => {
+    console.log("updatex");
+    setInfo(article);
+  }, [article]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getArticleByAlias(alias!, "update");
+    };
 
+    if (alias) {
+      fetchData();
+    }
+  }, [alias]);
   const history = useHistory();
 
   const handleCoverImageChange = (fileList: UploadFile[]) => {
@@ -98,20 +111,26 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
       setShowModal(true);
       return;
     }
-    setInfo((state) => ({
-      ...state,
-      title: topFormRef.current?.form.getFieldValue("title"),
-      alias: topFormRef.current?.form.getFieldValue("alias"),
-      author: author,
-      authorId: authorId,
-      content: text,
-      abstract: buttomFormRef.current?.form.getFieldValue("abstract"),
-      image: coverImageFile[0].url!,
-    }));
+    setInfo((state) => {
+      const imgUrl: string =
+        (coverImageFile[0] ? coverImageFile[0].response : article.image) || "";
+      console.log(imgUrl);
+      return {
+        ...state,
+        title: topFormRef.current?.form.getFieldValue("title"),
+        alias: topFormRef.current?.form.getFieldValue("alias"),
+        author: author,
+        authorId: authorId,
+        content: text,
+        abstract: buttomFormRef.current?.form.getFieldValue("abstract"),
+        image: imgUrl,
+      };
+    });
   };
 
   const handleSubmit = async () => {
     try {
+      console.log(info);
       if (info.id === 0) {
         await api.postArticle({
           title: info.title.trim(),
@@ -174,7 +193,6 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
     setImageFileList(newFileList);
     return file.url;
   };
-
   return (
     <div className={styles.root}>
       <div style={{ width: "90%", margin: "20px auto" }}>
@@ -397,9 +415,17 @@ const TopInfoForm = forwardRef<FormComponentProps, ITopInfoFormProps>(
           </Col>
           <Col span={8}>
             <Form.Item label="标签">
-              {form.getFieldDecorator("tags", { initialValue: tags })(
+              {form.getFieldDecorator("tags", {
+                initialValue:
+                  props.status === "update" ? props.article.tags : tags,
+              })(
                 <div>
-                  <Tags value={tags} onChange={onTagsChange} />
+                  <Tags
+                    value={
+                      props.status === "update" ? props.article.tags : tags
+                    }
+                    onChange={onTagsChange}
+                  />
                 </div>
               )}
             </Form.Item>
@@ -472,8 +498,18 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
             </Form.Item>
           </Col>
 
-          <Col span={4}>
-            <Form.Item label="封面" required>
+          <Col span={6}>
+            <Form.Item
+              label={
+                <span>
+                  封面&nbsp;
+                  <Tooltip title="这篇文章的封面">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+              required
+            >
               <MultipleUpload
                 maxUpload={1}
                 token={props.token}
@@ -488,7 +524,7 @@ const ButtomInfoForm = forwardRef<FormComponentProps, IButtomInfoFormProps>(
               图片管理
             </Button>
           </Col>
-          <Col span={6}></Col>
+          <Col span={4}></Col>
 
           <Col span={3} style={{ paddingRight: "0" }}>
             <Button type="primary" icon="upload" onClick={onSubmit}>

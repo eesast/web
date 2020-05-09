@@ -53,17 +53,18 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
   return (
     <div>
       <div className={styles.floated}>
-        <Tooltip title="新建文章">
+        <Tooltip title="新建文章" className={styles.spacer}>
           <Button size="large" shape="circle" type="primary">
             <Link to={`/weekly/edit`}>
               <PlusOutlined />
             </Link>
           </Button>
         </Tooltip>
-        <Tooltip title="管理文章">
+        <Tooltip title="管理文章" className={styles.spacer}>
           <Button size="large" shape="circle" type="primary">
-            <Link to={`/weekly/manage`}></Link>
-            <ControlOutlined />
+            <Link to={`/weekly/manage`}>
+              <ControlOutlined />
+            </Link>
           </Button>
         </Tooltip>
       </div>
@@ -79,27 +80,30 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
           itemLayout="vertical"
           split={false}
           loading={fetching}
-          dataSource={lodash.uniqWith(articles, lodash.isEqual)}
+          dataSource={lodash.uniqWith(articles, (x, y) => x.alias === y.alias)}
           // tslint:disable-next-line: jsx-no-lambda
-          renderItem={(item: IArticle) => (
-            <List.Item key={item.id}>
-              <Link
-                style={{ width: "100%" }}
-                to={`/weekly/articles/${item.alias}`}
-              >
-                <FeedCard
-                  loading={fetching}
-                  image={item.image}
-                  title={item.title}
-                  abstract={item.abstract}
-                  views={item.views}
-                  likes={item.likers.length}
-                  tags={item.tags}
-                  createdAt={item.createdAt}
-                />
-              </Link>
-            </List.Item>
-          )}
+          renderItem={(item: IArticle) => {
+            console.log(item);
+            return (
+              <List.Item key={item.id}>
+                <Link
+                  style={{ width: "100%" }}
+                  to={`/weekly/articles/${item.alias}`}
+                >
+                  <FeedCard
+                    loading={fetching}
+                    image={item.image}
+                    title={item.title}
+                    abstract={item.abstract}
+                    views={item.views}
+                    likes={item.likers.length}
+                    tags={item.tags}
+                    createdAt={item.createdAt}
+                  />
+                </Link>
+              </List.Item>
+            );
+          }}
         />
       </InfiniteScroll>
     </div>

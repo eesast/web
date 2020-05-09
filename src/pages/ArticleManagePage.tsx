@@ -125,6 +125,11 @@ const ArticleManagePage: React.FC<IArticleManagePageProps> = (props) => {
           )}
 
           <Divider type="vertical" />
+          <Button>
+            <Link to={`/weekly/edit/${record.alias}`}>Edit</Link>
+          </Button>
+
+          <Divider type="vertical" />
           {visible ? (
             <Button
               onClick={() => {

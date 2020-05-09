@@ -39,7 +39,7 @@ const FeedCard: React.FC<IFeedCardProps> = (props) => {
     setImgLoading(false);
     setImgFailLoading(true);
   };
-
+  console.log(image);
   return (
     <Card
       className={styles.card}

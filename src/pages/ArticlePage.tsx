@@ -4,8 +4,12 @@ import { useParams, withRouter, Link } from "react-router-dom";
 import { getArticle, getArticleByAlias } from "../redux/actions/weekly";
 import { connect } from "react-redux";
 import md2wx from "md2wx";
+import moment from "moment";
+import { Button, Tooltip } from "antd";
+import { Typography, Divider, Row, Col } from "antd";
+import { LikeOutlined, LikeFilled, EditFilled } from "@ant-design/icons";
 
-import { Button } from "antd";
+import styles from "./ArticlePage.module.css";
 import api from "../api";
 
 interface IArticlePageStateProps {
@@ -48,9 +52,13 @@ const ArticlePage: React.FC<IArticlePageProps> = (props) => {
   const { article, user, getArticleByAlias } = props;
 
   const [loggedIn, setLoggedIn] = useState(false);
+  const [likesNum, setLikesNum] = useState(0);
+  const [likeState, setLikeState] = useState(false);
   useEffect(() => {
     if (user) {
       setLoggedIn(true);
+      setLikeState(article.likers.indexOf(user.id) !== -1);
+      setLikesNum(article.likers.length);
     }
   });
 
@@ -70,28 +78,69 @@ const ArticlePage: React.FC<IArticlePageProps> = (props) => {
     article.content,
     true,
   ]);
-
-  const handleLike = async () => {
-    await api.likeArticle(article.id);
+  const toggleLike = async () => {
+    await (likeState
+      ? api.unlikeArticle(article.id)
+      : api.likeArticle(article.id));
+    await getArticleByAlias(alias);
+    return;
   };
-
-  const handleUnlike = async () => {
-    await api.unlikeArticle(article.id);
-  };
-
   return (
-    <div style={{ whiteSpace: "pre-wrap" }}>
-      <h1>{article.title}</h1>
-      <h6>{article.author + article.updatedAt}</h6>
-      <h5>{article.tags.toString()}</h5>
-      <Button onClick={handleLike} disabled={!loggedIn}>
-        LIKE
-      </Button>
-      <Button onClick={handleUnlike} disabled={!loggedIn}>
-        UNLIKE
-      </Button>
-      <Link to={`/weekly/edit`}> 编辑 </Link>
-      <div id="content" dangerouslySetInnerHTML={{ __html: html }}></div>
+    <div>
+      {loggedIn ? (
+        <div className={styles.floated}>
+          <Tooltip title="点赞" className={styles.spacer}>
+            <Button
+              size="large"
+              onClick={toggleLike}
+              type="primary"
+              shape="circle"
+              className={styles.large}
+            >
+              {!likeState ? <LikeOutlined /> : <LikeFilled />}({likesNum})
+            </Button>
+          </Tooltip>
+        </div>
+      ) : (
+        <div className={styles.floated}>
+          <Tooltip title="您需要登录" className={styles.spacer}>
+            <Button
+              size="large"
+              type="primary"
+              shape="circle"
+              className={styles.large}
+            >
+              <LikeOutlined /> ({likesNum})
+            </Button>
+          </Tooltip>
+        </div>
+      )}
+      <Typography className={styles.root}>
+        <div id="content" dangerouslySetInnerHTML={{ __html: html }}></div>
+        <Divider />
+        <Row gutter={16}>
+          <Col span={8}>
+            <h4>题目:{article.title}</h4>
+          </Col>
+          <Col span={8}>
+            <h4>作者:{article.author}</h4>
+          </Col>
+          <Col span={8}>
+            <h4>编辑于:{moment(article.updatedAt).format("YYYY MMM Do")}</h4>
+          </Col>
+        </Row>
+        <Divider />
+        标签:&nbsp;
+        {article.tags.map((x) => (
+          <Button type="dashed" size="small">
+            {x}
+          </Button>
+        ))}
+        <Link to={`/weekly/edit/${alias}`}>
+          <EditFilled />
+        </Link>
+        <Divider />
+      </Typography>
     </div>
   );
 };
