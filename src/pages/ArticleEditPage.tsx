@@ -67,7 +67,6 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
   const [coverImageFile, setCoverImageFile] = useState<UploadFile[]>([]);
   const { alias } = useParams();
   useEffect(() => {
-    console.log("updatex");
     setInfo(article);
   }, [article]);
   useEffect(() => {
@@ -114,7 +113,6 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
     setInfo((state) => {
       const imgUrl: string =
         (coverImageFile[0] ? coverImageFile[0].response : article.image) || "";
-      console.log(imgUrl);
       return {
         ...state,
         title: topFormRef.current?.form.getFieldValue("title"),
@@ -130,7 +128,6 @@ const ArticleEditPage: React.FC<IArticleEditPageProps> = (props) => {
 
   const handleSubmit = async () => {
     try {
-      console.log(info);
       if (info.id === 0) {
         await api.postArticle({
           title: info.title.trim(),

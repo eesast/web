@@ -83,7 +83,6 @@ const ArticleFeedPage: React.FC<WithRouterComponent<
           dataSource={lodash.uniqWith(articles, (x, y) => x.alias === y.alias)}
           // tslint:disable-next-line: jsx-no-lambda
           renderItem={(item: IArticle) => {
-            console.log(item);
             return (
               <List.Item key={item.id}>
                 <Link
