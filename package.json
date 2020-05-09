@@ -58,9 +58,6 @@
     "source-map-explorer": "2.4.2",
     "typescript": "3.8.3"
   },
-  "resolutions": {
-    "moment": "2.25.3"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged && yarn lint && yarn typecheck"
