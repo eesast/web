@@ -26,6 +26,7 @@ import {
 import { FormComponentProps, ValidationRule } from "antd/lib/form";
 import api from "../api";
 import MdEditor from "react-markdown-editor-lite";
+import "react-markdown-editor-lite/lib/index.css";
 import Tags from "../components/Tags";
 import MultipleUpload from "../components/MultipleUpload";
 import { UploadFile } from "antd/lib/upload/interface";

@@ -2,15 +2,15 @@ import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType } from "typesafe-actions";
 import {
-  loginAction,
-  updateUserAction,
-  verifyTokenAction,
-} from "../actions/auth";
-import {
   getArticleFeedsAction,
   getArticleAction,
   getArticleByAliasAction,
 } from "../actions/weekly";
+import {
+  loginAction,
+  updateUserAction,
+  verifyTokenAction,
+} from "../actions/auth";
 import {
   getTeamsAction,
   getTeamNumAction,
