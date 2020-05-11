@@ -145,9 +145,15 @@ const BattlePage: React.FC = (props) => {
   // 也可以考虑滚动加载的列表展示历史记录
   const historyColumns: ColumnProps<IRoom>[] = [
     {
+      title: "比赛时间",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+    },
+    {
       title: "比赛结果",
       dataIndex: "scores",
       key: "result",
+      render: (scores: number[]) => scores.toString(),
     },
     {
       title: "对战成员",
@@ -480,15 +486,12 @@ const BattlePage: React.FC = (props) => {
       <Modal
         visible={showHistoryModal}
         title="历史记录"
+        width="40%"
         closable
         footer={null}
         onCancel={handleHistoryModal}
       >
-        <Table
-          className={styles.list}
-          columns={historyColumns}
-          dataSource={historyList}
-        />
+        <Table columns={historyColumns} dataSource={historyList} />
       </Modal>
 
       <Modal
