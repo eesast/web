@@ -36,7 +36,7 @@ export const startBattle = async (
 
 export const getRooms = async (contestId: number, status: number) => {
   const response = await axios.get(
-    `/v1/rooms?contestId=${contestId}&self=true`
+    `/v1/rooms?contestId=${contestId}&self=true&status=${status}`
   );
   return response.data as IRoom[];
 };
