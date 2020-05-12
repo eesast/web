@@ -159,12 +159,28 @@ const BattlePage: React.FC = (props) => {
       title: "对战成员",
       dataIndex: "teams",
       key: "teams",
-      render: (teams: number[]) => teams.toString(),
+      render: (team: number[]) =>
+        team
+          .map((teamId: number) => {
+            return (
+              teams.find((t) => {
+                return t.id === teamId;
+              })?.name || "无名"
+            );
+          })
+          .toString(),
     },
     {
       title: "回放文件",
       key: "file",
-      render: () => <p>暂未上线</p>,
+      render: (record: IRoom) => (
+        <a
+          href={`https://api.eesast.com/static/thuai/Room${record.id}.tar`}
+          download={`Room${record.id}.tar`}
+        >
+          回放
+        </a>
+      ),
     },
   ];
 
@@ -296,7 +312,7 @@ const BattlePage: React.FC = (props) => {
     const fetchData = async () => {
       const codes = await api.getCodes(contestId!, selfTeam.id, 0, 1);
       setCodeList(codes);
-      const rooms = await api.getRooms(contestId!, 0);
+      const rooms = await api.getRooms(contestId!, 2);
       setHistoryList(rooms);
     };
 
