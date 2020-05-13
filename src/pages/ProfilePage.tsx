@@ -1,54 +1,13 @@
-import React, { useState } from "react";
-import { AutoComplete, Button, Card, Form, Input, message } from "antd";
-import { FormComponentProps, ValidationRule, FormProps } from "antd/lib/form";
-import { InputProps } from "antd/lib/input";
-import { isNumeric } from "../helpers";
-import { AutoCompleteProps } from "antd/lib/auto-complete";
-import { IUser, IAppState } from "../redux/types/state";
-import { WithRouterComponent } from "../types/WithRouterComponent";
-import api from "../api";
-import styles from "./ProfilePage.module.css";
-import { updateUserAction } from "../redux/actions/auth";
-import { connect } from "react-redux";
-
-export interface IProfilePageStateProps {
-  user: IUser;
-}
-
-export interface IProfilePageDispatchProps {
-  updateUserAction: typeof updateUserAction;
-}
-
-type IProfilePageProps = IProfilePageStateProps & IProfilePageDispatchProps;
-
-const ProfilePage: React.FC<IProfilePageProps> = ({
-  user,
-  updateUserAction,
-}) => {
-  return (
-    <div className={styles.root}>
-      <Card className={styles.card}>
-        <h1>个人信息</h1>
-        <WrappedProfileForm user={user} update={updateUserAction} />
-      </Card>
-    </div>
-  );
-};
-
-function mapStateToProps(state: IAppState): IProfilePageStateProps {
-  return {
-    user: state.auth.user!,
-  };
-}
-
-const mapDispatchToProps: IProfilePageDispatchProps = {
-  updateUserAction,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
-
-const FormItem = Form.Item;
-const AutoCompleteOption = AutoComplete.Option;
+import React, { useEffect } from "react";
+import { message, Form, Input, Button } from "antd";
+import { useQuery, useMutation } from "@apollo/client";
+import styled from "styled-components";
+import {
+  GetUser as GET_USER,
+  UpdateUser as UPDATE_USER,
+} from "../api/user.graphql";
+import { GetUser, UpdateUser } from "../api/types";
+import Loading from "../components/Loading";
 
 const formItemLayout = {
   labelCol: {
@@ -73,205 +32,122 @@ const tailFormItemLayout = {
   },
 };
 
-interface IProfileFormProps extends FormComponentProps {
-  user: IUser;
-  update: typeof updateUserAction;
-}
+const Container = styled.div`
+  margin: auto;
+  padding: 48px 24px;
+  width: 90vw;
+  max-width: 400px;
+`;
 
-const ProfileForm: React.FC<WithRouterComponent<{}, IProfileFormProps>> = (
-  props
-) => {
-  const { getFieldDecorator } = props.form;
-  const { user, update } = props;
+const ProfilePage: React.FC = () => {
+  const { data, loading, error } = useQuery<GetUser>(GET_USER);
+  const [
+    updateUser,
+    { data: updateData, loading: updating, error: updateError },
+  ] = useMutation<UpdateUser>(UPDATE_USER);
 
-  const [confirmDirty, setConfirmDirty] = useState(false);
-  const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-  const handleConfirmBlur: InputProps["onBlur"] = (e) => {
-    const value = e.target.value;
-    setConfirmDirty(confirmDirty || !!value);
-  };
-
-  const validatePhone: ValidationRule["validator"] = (
-    rule,
-    value: any,
-    callback: any
-  ) => {
-    if (value && (!isNumeric(value) || value.length !== 11)) {
-      callback("请输入正确的手机号");
-    } else {
-      callback();
+  useEffect(() => {
+    if (error) {
+      message.error("加载失败");
     }
-  };
+  }, [error]);
 
-  const compareToFirstPassword: ValidationRule["validator"] = (
-    rule,
-    value,
-    callback: any
-  ) => {
-    const form = props.form;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("两次输入的密码不一致");
-    } else {
-      callback();
+  useEffect(() => {
+    if (updateError) {
+      message.error("更新失败");
     }
-  };
+  }, [updateError]);
 
-  const validateToNextPassword: ValidationRule["validator"] = (
-    rule,
-    value,
-    callback: any
-  ) => {
-    const form = props.form;
-    if (value && confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
+  useEffect(() => {
+    if (updateData && !updateError) {
+      message.success("更新成功");
     }
-    callback();
-  };
+  }, [updateData, updateError]);
 
-  const handleEmailChange: AutoCompleteProps["onChange"] = (value) => {
-    let result: string[];
-    if (!value) {
-      result = [];
-    } else {
-      result = [
-        "@mails.tsinghua.edu.cn",
-        "@qq.com",
-        "@gmail.com",
-        "@163.com",
-        "@126.com",
-        "@outlook.com",
-        "@hotmail.com",
-        "@sina.com",
-      ].map((domain) => `${value}${domain}`);
-    }
-    setAutoCompleteResult(result);
-  };
+  if (loading) {
+    return <Loading />;
+  }
 
-  const handleSubmit: FormProps["onSubmit"] = (e) => {
-    e.preventDefault();
-    props.form.validateFieldsAndScroll(async (err, values) => {
-      if (!err) {
-        try {
-          if (!values.password) {
-            values.password = undefined;
-          }
-
-          await api.updateUser(user.id, {
-            password: values.password,
-            email: values.email,
-            phone: parseFloat(values.phone),
-            department: values.department,
-            class: values.class,
-          });
-
-          update(user.id, {
-            password: values.password,
-            email: values.email,
-            phone: parseFloat(values.phone),
-            department: values.department,
-            class: values.class,
-          } as IUser);
-
-          message.success("更新成功");
-        } catch {
-          message.error("更新失败");
-        }
-      } else {
-        message.error("请完整填写所有信息");
-      }
+  const onFinish = (values: any) => {
+    const { password, ...rest } = values;
+    updateUser({
+      variables: rest,
     });
   };
 
+  const user = data?.user[0];
+
   return (
-    <Form {...formItemLayout} onSubmit={handleSubmit}>
-      <FormItem label="学号">
-        <Input readOnly defaultValue={user.id.toString()} />
-      </FormItem>
-      <FormItem label="用户名">
-        <Input readOnly defaultValue={user.username} />
-      </FormItem>
-      <FormItem label="Email">
-        {getFieldDecorator("email", {
-          initialValue: user.email,
-          rules: [
-            {
-              type: "email",
-              message: "请输入有效的清华电子邮箱",
-            },
-            {
-              required: true,
-              message: "请输入电子邮箱",
-            },
-          ],
-        })(
-          <AutoComplete
-            dataSource={autoCompleteResult.map((email) => (
-              <AutoCompleteOption key={email}>{email}</AutoCompleteOption>
-            ))}
-            onChange={handleEmailChange}
-          >
-            <Input />
-          </AutoComplete>
-        )}
-      </FormItem>
-      <FormItem label="手机号码">
-        {getFieldDecorator("phone", {
-          initialValue: user.phone ? user.phone.toString() : undefined,
-          rules: [
-            { required: true, message: "请输入手机号码" },
-            {
-              validator: validatePhone,
-            },
-          ],
-        })(<Input />)}
-      </FormItem>
-      <FormItem label="密码" hasFeedback>
-        {getFieldDecorator("password", {
-          rules: [
-            {
-              message: "请输入密码",
-            },
-            {
-              validator: validateToNextPassword,
-            },
-          ],
-        })(<Input type="password" />)}
-      </FormItem>
-      <FormItem label="确认密码" hasFeedback>
-        {getFieldDecorator("confirm", {
-          rules: [
-            {
-              message: "请再次输入密码",
-            },
-            {
-              validator: compareToFirstPassword,
-            },
-          ],
-        })(<Input type="password" onBlur={handleConfirmBlur} />)}
-      </FormItem>
-      <FormItem label="姓名">
-        <Input readOnly defaultValue={user.name} />
-      </FormItem>
-      <FormItem label="院系">
-        {getFieldDecorator("department", {
-          initialValue: user.department,
-          rules: [{ required: true, message: "请输入院系" }],
-        })(<Input placeholder="简写，如：电子系" />)}
-      </FormItem>
-      <FormItem label="班级">
-        {getFieldDecorator("class", {
-          initialValue: user.class,
-          rules: [{ required: true, message: "请输入班级" }],
-        })(<Input placeholder="如：无61" />)}
-      </FormItem>
-      <FormItem {...tailFormItemLayout} style={{ textAlign: "center" }}>
-        <Button type="primary" htmlType="submit">
-          更新
-        </Button>
-      </FormItem>
-    </Form>
+    <Container>
+      <Form
+        {...formItemLayout}
+        name="register"
+        onFinish={onFinish}
+        initialValues={user}
+        scrollToFirstError
+      >
+        <Form.Item name="id" label="学号">
+          <Input readOnly />
+        </Form.Item>
+        <Form.Item name="password" label="更新密码">
+          <Input.Password
+            minLength={12}
+            placeholder="留空则不更改密码"
+            autoComplete="new-password"
+          />
+        </Form.Item>
+        <Form.Item
+          name="username"
+          label="用户名"
+          rules={[
+            { required: true, message: "请输入用户名", whitespace: false },
+          ]}
+        >
+          <Input placeholder="仅包含字母与数字" pattern="^[a-zA-Z0-9]*$" />
+        </Form.Item>
+        <Form.Item
+          name="name"
+          label="姓名"
+          rules={[{ required: true, message: "请输入姓名", whitespace: false }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="邮箱"
+          rules={[{ required: true, message: "请输入邮箱" }]}
+        >
+          <Input type="email" />
+        </Form.Item>
+        <Form.Item
+          name="phone"
+          label="手机"
+          rules={[{ required: true, message: "请输入手机" }]}
+        >
+          <Input type="tel" />
+        </Form.Item>
+        <Form.Item
+          name="department"
+          label="院系"
+          rules={[{ required: true, message: "请输入院系" }]}
+        >
+          <Input placeholder="院系简写，如：电子系、计算机系" />
+        </Form.Item>
+        <Form.Item
+          name="class"
+          label="班级"
+          rules={[{ required: true, message: "请输入班级" }]}
+        >
+          <Input placeholder="如：无64，计80" />
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button loading={updating} type="primary" htmlType="submit">
+            更新
+          </Button>
+        </Form.Item>
+      </Form>
+    </Container>
   );
 };
 
-const WrappedProfileForm = Form.create<IProfileFormProps>()(ProfileForm);
+export default ProfilePage;

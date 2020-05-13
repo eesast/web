@@ -1,14 +1,10 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  overflow-x: hidden;
 }
 
 code {
@@ -16,31 +12,17 @@ code {
     monospace;
 }
 
-.ant-layout {
-  background: white;
+img {
+  max-width: 100%;
+  display: block;
 }
 
-.ant-menu-inline {
-  height: 100%;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.ant-carousel .slick-dots-bottom {
-  bottom: 24px;
-}
-
-.ant-carousel .slick-dots li button {
-  height: 8px;
-  width: 25px;
-  border-radius: 4px;
-}
-
-.ant-carousel .slick-dots li.slick-active button {
-  width: 40px;
-}
-
-a:hover,
-a:visited,
-a:link,
-a:active {
-  text-decoration: none !important;
+input[type="number"] {
+  -moz-appearance: textfield;
 }

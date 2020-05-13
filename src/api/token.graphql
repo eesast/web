@@ -1,0 +1,7 @@
+extend type query_root {
+  token: String
+}
+
+query GetToken {
+  token @client
+}

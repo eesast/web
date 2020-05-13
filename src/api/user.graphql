@@ -1,0 +1,37 @@
+query GetUser {
+  user {
+    id
+    name
+    username
+    role
+    department
+    class
+    email
+    phone
+    email_verified
+  }
+}
+
+mutation UpdateUser(
+  $id: Int!
+  $username: String
+  $phone: String
+  $name: String
+  $email: String
+  $department: String
+  $class: String
+) {
+  update_user(
+    where: { id: { _eq: $id } }
+    _set: {
+      username: $username
+      phone: $phone
+      name: $name
+      email: $email
+      department: $department
+      class: $class
+    }
+  ) {
+    affected_rows
+  }
+}
