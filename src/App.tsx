@@ -81,9 +81,6 @@ function App() {
                   <Menu.Item key="weekly">
                     <Link to="/weekly">WEEKLY</Link>
                   </Menu.Item>
-                  <Menu.Item key="teamstyle">
-                    <Link to="/teamstyle">队式程序设计比赛</Link>
-                  </Menu.Item>
                   <Menu.Item key="info">
                     <Link to="/info">INFO</Link>
                   </Menu.Item>
@@ -105,7 +102,7 @@ function App() {
             <Route path="/home">
               <HomeSite />
             </Route>
-            <Route exact path="/login">
+            <Route exact path="/(login|register)">
               <LoginPage />
             </Route>
             <AuthRoute exact path="/profile">

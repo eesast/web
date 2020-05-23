@@ -11,7 +11,7 @@ import { setContext } from "@apollo/link-context";
 import axios from "axios";
 import { GetToken } from "./types";
 
-axios.defaults.baseURL = "https://api.eesast.com";
+axios.defaults.baseURL = "https://api.eesast.com/next";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const httpLink = new HttpLink({
