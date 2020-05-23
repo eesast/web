@@ -12,7 +12,7 @@ import { useApolloClient, gql } from "@apollo/client";
 const Background = styled.div`
   height: calc(100vh - 67px);
   width: 100%;
-  background-image: url("https://static-cdn.eesast.com/public/images/tsinghua-background-summer.jpg");
+  background-image: url("${process.env.REACT_APP_STATIC_URL}/public/images/tsinghua-background-summer.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
