@@ -102,7 +102,7 @@ function App() {
             <Route path="/home">
               <HomeSite />
             </Route>
-            <Route exact path="/(login|register)">
+            <Route exact path="/(login|register|reset|verify)">
               <LoginPage />
             </Route>
             <AuthRoute exact path="/profile">
