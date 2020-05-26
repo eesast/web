@@ -17,20 +17,57 @@ export interface GetToken {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetId
+// ====================================================
+
+export interface GetId {
+  _id: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetEmail
+// ====================================================
+
+export interface GetEmail {
+  email: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetRole
+// ====================================================
+
+export interface GetRole {
+  role: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 
 export interface GetUser_user {
   __typename: "user";
-  id: number;
-  name: string;
-  username: string;
-  role: string;
-  department: string;
-  class: string;
-  email: string;
-  phone: string;
-  email_verified: boolean;
+  _id: string;
+  id: any | null;
+  name: string | null;
+  username: string | null;
+  department: string | null;
+  class: string | null;
+  phone: string | null;
 }
 
 export interface GetUser {
@@ -38,6 +75,10 @@ export interface GetUser {
    * fetch data from the table: "user"
    */
   user: GetUser_user[];
+}
+
+export interface GetUserVariables {
+  _id: string;
 }
 
 /* tslint:disable */
@@ -65,11 +106,11 @@ export interface UpdateUser {
 }
 
 export interface UpdateUserVariables {
-  id: number;
+  _id: string;
+  id: any;
   username?: string | null;
   phone?: string | null;
   name?: string | null;
-  email?: string | null;
   department?: string | null;
   class?: string | null;
 }

@@ -53,6 +53,8 @@ const LoginPage: React.FC = () => {
   const verifyType = urlParams.get("type");
   const from = location.state?.from;
 
+  const [loading, setLoading] = useState(false);
+
   const [verifySuccess, setVerifySuccess] = useState<boolean | null>(null);
   useEffect(() => {
     if (verifyType && verifyToken) {
@@ -84,6 +86,7 @@ const LoginPage: React.FC = () => {
   }, [from]);
 
   const onFinish = async (values: any) => {
+    setLoading(true);
     if (verify) {
       try {
         await axios.post("/users/verify", {
@@ -152,14 +155,18 @@ const LoginPage: React.FC = () => {
     } else {
       try {
         const response = await axios.post("/users/login", values);
-        const { token } = response.data;
+        const data = response.data;
+        axios.defaults.headers.common["Authorization"] = "Bearer " + data.token;
         client.writeQuery({
           query: gql`
             {
+              _id
               token
+              email
+              role
             }
           `,
-          data: { token },
+          data,
         });
         message.success("登录成功");
         if (from) {
@@ -186,6 +193,7 @@ const LoginPage: React.FC = () => {
         }
       }
     }
+    setLoading(false);
   };
 
   const reCaptchaRef = useRef<ReCAPTCHA>(null);
@@ -278,7 +286,7 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={loading}>
                     发送验证邮件
                   </Button>
                   <Link
@@ -346,7 +354,7 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={loading}>
                     更改密码
                   </Button>
                   <Link
@@ -399,7 +407,7 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={loading}>
                     发送重置邮件
                   </Button>
                   <Link
@@ -506,7 +514,7 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={loading}>
                     注册
                   </Button>
                   <Link
@@ -570,7 +578,7 @@ const LoginPage: React.FC = () => {
                   </Link>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={loading}>
                     登录
                   </Button>
                   <Link

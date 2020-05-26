@@ -1,14 +1,21 @@
 import React from "react";
 import { Route, Redirect, useLocation, RouteProps } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import GET_USER from "../api/user.graphql";
-import { GetUser } from "../api/types";
+import { useQuery, gql } from "@apollo/client";
+import { GetUser as GET_USER } from "../api/user.graphql";
+import { GetUser, GetId } from "../api/types";
 import Loading from "./Loading";
 
 const AuthRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   const location = useLocation();
 
-  const { data, loading, error } = useQuery<GetUser>(GET_USER);
+  const { data: idData } = useQuery<GetId>(gql`
+    {
+      _id @client
+    }
+  `);
+  const { data, loading, error } = useQuery<GetUser>(GET_USER, {
+    variables: { _id: idData?._id },
+  });
 
   return (
     <Route {...rest}>

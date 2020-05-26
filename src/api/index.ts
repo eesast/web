@@ -11,11 +11,11 @@ import { setContext } from "@apollo/link-context";
 import axios from "axios";
 import { GetToken } from "./types";
 
-axios.defaults.baseURL = "https://api.eesast.com/next";
+axios.defaults.baseURL = "https://api.eesast.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const httpLink = new HttpLink({
-  uri: "https://graphql.eesast.com/v1/graphql",
+  uri: "https://api.eesast.com/v1/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -37,7 +37,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: `wss://graphql.eesast.com/v1/graphql`,
+  uri: `wss://api.eesast.com/v1/graphql`,
   options: {
     reconnect: true,
     lazy: true,

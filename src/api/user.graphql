@@ -1,33 +1,31 @@
-query GetUser {
-  user {
+query GetUser($_id: String!) {
+  user(where: { _id: { _eq: $_id } }) {
+    _id
     id
     name
     username
-    role
     department
     class
-    email
     phone
-    email_verified
   }
 }
 
 mutation UpdateUser(
-  $id: Int!
+  $_id: String!
+  $id: bigint!
   $username: String
   $phone: String
   $name: String
-  $email: String
   $department: String
   $class: String
 ) {
   update_user(
-    where: { id: { _eq: $id } }
+    where: { _id: { _eq: $_id } }
     _set: {
+      id: $id
       username: $username
       phone: $phone
       name: $name
-      email: $email
       department: $department
       class: $class
     }

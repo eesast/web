@@ -1,13 +1,16 @@
-import React, { useEffect } from "react";
-import { message, Form, Input, Button } from "antd";
-import { useQuery, useMutation } from "@apollo/client";
+import React, { useEffect, useState, useRef } from "react";
+import { message, Form, Input, Button, Alert, Modal } from "antd";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import styled from "styled-components";
 import {
   GetUser as GET_USER,
   UpdateUser as UPDATE_USER,
 } from "../api/user.graphql";
-import { GetUser, UpdateUser } from "../api/types";
+import { GetUser, UpdateUser, GetId, GetEmail, GetRole } from "../api/types";
 import Loading from "../components/Loading";
+import axios, { AxiosError } from "axios";
+import IsEmail from "isemail";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const formItemLayout = {
   labelCol: {
@@ -40,7 +43,25 @@ const Container = styled.div`
 `;
 
 const ProfilePage: React.FC = () => {
-  const { data, loading, error } = useQuery<GetUser>(GET_USER);
+  const { data: idData } = useQuery<GetId>(gql`
+    {
+      _id @client
+    }
+  `);
+  const { data: emailData } = useQuery<GetEmail>(gql`
+    {
+      email @client
+    }
+  `);
+  const { data: roleData } = useQuery<GetRole>(gql`
+    {
+      role @client
+    }
+  `);
+  const { data, loading, error } = useQuery<GetUser>(GET_USER, {
+    variables: { _id: idData?._id },
+  });
+
   const [
     updateUser,
     { data: updateData, loading: updating, error: updateError },
@@ -64,18 +85,60 @@ const ProfilePage: React.FC = () => {
     }
   }, [updateData, updateError]);
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const reCaptchaRef = useRef<ReCAPTCHA>(null);
+  const [form] = Form.useForm();
+
   if (loading) {
     return <Loading />;
   }
 
-  const onFinish = (values: any) => {
-    const { password, ...rest } = values;
-    updateUser({
-      variables: rest,
-    });
+  const handleTsinghuaVerification = async () => {
+    try {
+      await form.validateFields();
+    } catch {
+      return;
+    }
+
+    setVerifyLoading(true);
+
+    const values = form.getFieldsValue();
+    try {
+      await axios.post("/users/verify", {
+        ...values,
+        action: "request",
+        type: "tsinghua",
+      });
+      message.success("邮箱验证邮件已发送，请注意查收");
+      form.resetFields();
+      setVerifyLoading(false);
+      setModalVisible(false);
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 400) {
+        message.error("reCAPTCHA 验证已失效，请重新验证");
+      } else {
+        message.error("未知错误");
+      }
+      reCaptchaRef.current?.reset();
+      setVerifyLoading(false);
+    }
   };
 
-  const user = data?.user[0];
+  const onFinish = async (values: any) => {
+    const { password, email, ...rest } = values;
+
+    updateUser({
+      variables: { ...rest, _id: idData?._id },
+    });
+
+    if (password) {
+      // not implemented
+    }
+  };
+
+  const user = { ...data?.user[0], email: emailData?.email };
 
   return (
     <Container>
@@ -86,38 +149,39 @@ const ProfilePage: React.FC = () => {
         initialValues={user}
         scrollToFirstError
       >
-        <Form.Item name="id" label="学号">
-          <Input readOnly />
+        <Form.Item name="email" label="注册邮箱">
+          <Input readOnly type="email" />
         </Form.Item>
-        <Form.Item name="password" label="更新密码">
-          <Input.Password
-            minLength={12}
-            placeholder="留空则不更改密码"
-            autoComplete="new-password"
-          />
+        <Form.Item
+          name="id"
+          label="学号"
+          rules={[{ required: true, message: "请输入学号" }]}
+        >
+          <Input />
         </Form.Item>
         <Form.Item
           name="username"
           label="用户名"
           rules={[
-            { required: true, message: "请输入用户名", whitespace: false },
+            { required: true, message: "请输入用户名" },
+            () => ({
+              validator(rule, value) {
+                if (!value || /^[a-zA-Z0-9]*$/.test(value)) {
+                  return Promise.resolve();
+                }
+                return Promise.reject("请输入仅包含字母与数字的用户名");
+              },
+            }),
           ]}
         >
-          <Input placeholder="仅包含字母与数字" pattern="^[a-zA-Z0-9]*$" />
+          <Input placeholder="仅包含字母与数字" />
         </Form.Item>
         <Form.Item
           name="name"
           label="姓名"
-          rules={[{ required: true, message: "请输入姓名", whitespace: false }]}
+          rules={[{ required: true, message: "请输入姓名" }]}
         >
           <Input />
-        </Form.Item>
-        <Form.Item
-          name="email"
-          label="邮箱"
-          rules={[{ required: true, message: "请输入邮箱" }]}
-        >
-          <Input type="email" />
         </Form.Item>
         <Form.Item
           name="phone"
@@ -140,12 +204,82 @@ const ProfilePage: React.FC = () => {
         >
           <Input placeholder="如：无64，计80" />
         </Form.Item>
+        <Form.Item name="tsinghuaVerified" label="清华邮箱验证">
+          {roleData?.role !== "user" ? (
+            <Button onClick={() => setModalVisible(true)}>申请验证</Button>
+          ) : (
+            <Alert message="已通过邮箱验证" type="success" showIcon />
+          )}
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="更新密码"
+          rules={[
+            () => ({
+              validator(rule, value) {
+                if (!value || value.length >= 12) {
+                  return Promise.resolve();
+                }
+                return Promise.reject("请输入长度至少为 12 位的新密码");
+              },
+            }),
+          ]}
+        >
+          <Input.Password
+            placeholder="留空则不更改密码"
+            autoComplete="new-password"
+          />
+        </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button loading={updating} type="primary" htmlType="submit">
             更新
           </Button>
         </Form.Item>
       </Form>
+      <Modal
+        title="验证清华邮箱"
+        visible={modalVisible}
+        onOk={handleTsinghuaVerification}
+        confirmLoading={verifyLoading}
+        onCancel={() => setModalVisible(false)}
+      >
+        <Form form={form}>
+          <Form.Item
+            name="tsinghuaEmail"
+            rules={[
+              { required: true, message: "请输入清华邮箱" },
+              () => ({
+                validator(rule, value: string) {
+                  if (
+                    !value ||
+                    (IsEmail.validate(value) &&
+                      value.endsWith("@mails.tsinghua.edu.cn"))
+                  ) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject("请输入正确的清华邮箱");
+                },
+              }),
+            ]}
+          >
+            <Input
+              placeholder="清华邮箱"
+              autoComplete="email"
+              spellCheck={false}
+              autoFocus
+            />
+          </Form.Item>
+          <Form.Item
+            name="recaptcha"
+            rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+          >
+            <ReCAPTCHA
+              ref={reCaptchaRef}
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Container>
   );
 };
