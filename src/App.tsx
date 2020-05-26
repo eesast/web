@@ -84,6 +84,12 @@ function App() {
                   <Menu.Item key="info">
                     <Link to="/info">INFO</Link>
                   </Menu.Item>
+                  <Menu.Item key="overleaf">
+                    <a href="https://overleaf.eesast.com">OVERLEAF</a>
+                  </Menu.Item>
+                  <Menu.Item key="minecraft">
+                    <a href="https://mc.eesast.com">MINECRAFT</a>
+                  </Menu.Item>
                 </Menu>
               </Space>
             </Col>
