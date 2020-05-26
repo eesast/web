@@ -111,7 +111,7 @@ const LoginPage: React.FC = () => {
         });
         message.success("密码更改成功");
         form.resetFields();
-        history.push("/login");
+        history.replace("/login");
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -139,7 +139,7 @@ const LoginPage: React.FC = () => {
         await axios.post("/users", values);
         message.success("注册成功");
         form.resetFields();
-        history.push("/login");
+        history.replace("/login");
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
@@ -219,7 +219,7 @@ const LoginPage: React.FC = () => {
                     status="success"
                     title="成功验证此邮箱"
                     extra={[
-                      <Link key="login" to="/login">
+                      <Link key="login" to="/login" replace>
                         返回登录
                       </Link>,
                     ]}
@@ -230,7 +230,7 @@ const LoginPage: React.FC = () => {
                     title="验证邮箱失败"
                     subTitle="请重新申请发送验证邮件"
                     extra={[
-                      <Link key="login" to="/login">
+                      <Link key="login" to="/login" replace>
                         返回登录
                       </Link>,
                     ]}
@@ -286,6 +286,7 @@ const LoginPage: React.FC = () => {
                       margin-left: 16px;
                     `}
                     to="/login"
+                    replace
                   >
                     返回登录
                   </Link>
@@ -353,6 +354,7 @@ const LoginPage: React.FC = () => {
                       margin-left: 16px;
                     `}
                     to="/reset"
+                    replace
                   >
                     重发邮件
                   </Link>
@@ -405,6 +407,7 @@ const LoginPage: React.FC = () => {
                       margin-left: 16px;
                     `}
                     to="/login"
+                    replace
                   >
                     返回登录
                   </Link>
@@ -511,6 +514,7 @@ const LoginPage: React.FC = () => {
                       margin-left: 16px;
                     `}
                     to="/login"
+                    replace
                   >
                     返回登录
                   </Link>
@@ -558,8 +562,12 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Link to="/reset">忘记密码？</Link>{" "}
-                  <Link to="/verify">注册邮箱未验证？</Link>
+                  <Link to="/reset" replace>
+                    忘记密码？
+                  </Link>{" "}
+                  <Link to="/verify" replace>
+                    注册邮箱未验证？
+                  </Link>
                 </Form.Item>
                 <Form.Item>
                   <Button type="primary" htmlType="submit">
@@ -570,6 +578,7 @@ const LoginPage: React.FC = () => {
                       margin-left: 16px;
                     `}
                     to="/register"
+                    replace
                   >
                     注册
                   </Link>
