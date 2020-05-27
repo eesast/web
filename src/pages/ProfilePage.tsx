@@ -87,6 +87,7 @@ const ProfilePage: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
+  const [passwordUpdating, setPasswordUpdating] = useState(false);
   const reCaptchaRef = useRef<ReCAPTCHA>(null);
   const [form] = Form.useForm();
 
@@ -134,7 +135,22 @@ const ProfilePage: React.FC = () => {
     });
 
     if (password) {
-      // not implemented
+      setPasswordUpdating(true);
+      try {
+        await axios.put("/users", {
+          password,
+        });
+        message.success("密码更改成功");
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("当前会话已失效，请重新登录");
+        } else {
+          message.error("未知错误");
+        }
+      } finally {
+        setPasswordUpdating(false);
+      }
     }
   };
 
@@ -205,7 +221,7 @@ const ProfilePage: React.FC = () => {
           <Input placeholder="如：无64，计80" />
         </Form.Item>
         <Form.Item name="tsinghuaVerified" label="清华邮箱验证">
-          {roleData?.role !== "user" ? (
+          {roleData?.role === "user" ? (
             <Button onClick={() => setModalVisible(true)}>申请验证</Button>
           ) : (
             <Alert message="已通过邮箱验证" type="success" showIcon />
@@ -231,7 +247,11 @@ const ProfilePage: React.FC = () => {
           />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button loading={updating} type="primary" htmlType="submit">
+          <Button
+            loading={updating || passwordUpdating}
+            type="primary"
+            htmlType="submit"
+          >
             更新
           </Button>
         </Form.Item>
