@@ -22,5 +22,5 @@ module.exports = override(
   addWebpackPlugin(new AntdDayjsWebpackPlugin()),
 
   // TODO: remove this when CRA officially supports Fast Refresh
-  addReactRefresh({ disableRefreshCheck: true })
+  addReactRefresh()
 );
