@@ -9,17 +9,21 @@ import {
   Col,
   Space,
 } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, ExportOutlined } from "@ant-design/icons";
 import zhCN from "antd/es/locale/zh_CN";
 import { Switch, Route, Link, Redirect, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+import relativeTime from "dayjs/plugin/relativeTime";
 import logo from "./assets/logo.png";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
 import AuthRoute from "./components/AutoRoute";
 import ProfilePage from "./pages/ProfilePage";
+import InfoSite from "./pages/InfoSite";
 
+dayjs.extend(relativeTime);
 dayjs.locale("zh-cn");
 
 const { Header, Footer, Content } = Layout;
@@ -30,6 +34,10 @@ const StyledHeader = styled(Header)`
   z-index: 99;
   height: 67px;
   border-bottom: 2px #eee solid;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 `;
 
 const Logo = styled.div`
@@ -85,10 +93,12 @@ function App() {
                     <Link to="/info">INFO</Link>
                   </Menu.Item>
                   <Menu.Item key="overleaf">
-                    <a href="https://overleaf.eesast.com">OVERLEAF</a>
+                    <a href="https://overleaf.eesast.com">OVERLEAF</a>{" "}
+                    <ExportOutlined />
                   </Menu.Item>
                   <Menu.Item key="minecraft">
-                    <a href="https://mc.eesast.com">MINECRAFT</a>
+                    <a href="https://mc.eesast.com">MINECRAFT</a>{" "}
+                    <ExportOutlined />
                   </Menu.Item>
                 </Menu>
               </Space>
@@ -100,13 +110,20 @@ function App() {
             </Col>
           </FullRow>
         </StyledHeader>
-        <Content>
+        <Content
+          css={`
+            margin-top: 67px;
+          `}
+        >
           <Switch>
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
             <Route path="/home">
               <HomeSite />
+            </Route>
+            <Route path="/info">
+              <InfoSite />
             </Route>
             <Route exact path="/(login|register|reset|verify)">
               <LoginPage />

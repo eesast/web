@@ -56,6 +56,32 @@ export interface GetRole {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetNotices
+// ====================================================
+
+export interface GetNotices_info_notice {
+  __typename: "info_notice";
+  id: any;
+  title: string;
+  content: string;
+  created_at: any;
+  updated_at: any;
+  files: string | null;
+}
+
+export interface GetNotices {
+  /**
+   * fetch data from the table: "info_notice"
+   */
+  info_notice: GetNotices_info_notice[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 
