@@ -2,6 +2,7 @@ import React from "react";
 import { Carousel } from "antd";
 import styled from "styled-components";
 import Center from "../../components/Center";
+import Picture from "../../components/Picture";
 
 const news = [
   {
@@ -42,7 +43,7 @@ const Background = styled.div`
   filter: opacity(0.7) blur(12px);
 `;
 
-const Image = styled.img`
+const Image = styled(Picture)`
   max-width: 75%;
   height: 100%;
   object-fit: cover;

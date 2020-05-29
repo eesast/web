@@ -8,6 +8,7 @@ import {
   DesktopOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
+import Picture from "../../components/Picture";
 
 const { TabPane } = Tabs;
 
@@ -15,7 +16,7 @@ const StyledTypography = styled(Typography)`
   padding: 48px 10vw;
 `;
 
-const Image = styled.img`
+const Image = styled(Picture)`
   margin: 24px auto;
   max-width: 70%;
   max-height: 50vh;

@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, Typography, Divider, Row, Col } from "antd";
 import styled from "styled-components";
 import Center from "../../components/Center";
+import Picture from "../../components/Picture";
 
 const { Title, Paragraph, Text } = Typography;
 const { TabPane } = Tabs;
@@ -10,7 +11,7 @@ const StyledTypography = styled(Typography)`
   padding: 48px 10vw;
 `;
 
-const Image = styled.img`
+const Image = styled(Picture)`
   margin: 24px auto 6px auto;
   max-width: 70%;
   max-height: 50vh;
