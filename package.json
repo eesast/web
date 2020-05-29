@@ -17,7 +17,7 @@
     "axios": "0.19.2",
     "clipboard": "2.0.6",
     "jwt-decode": "2.2.0",
-    "marked": "1.0.0",
+    "marked": "1.1.0",
     "md2wx": "3.1.2",
     "moment": "2.25.3",
     "rc-queue-anim": "1.8.4",
