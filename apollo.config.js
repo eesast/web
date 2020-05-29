@@ -10,7 +10,7 @@ module.exports = {
     includes: ["src/api/**/*.graphql"],
     service: {
       name: "eesast",
-      url: "https://graphql.eesast.com/v1/graphql",
+      url: "https://api.eesast.com/v1/graphql",
       headers: {
         "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
       },
