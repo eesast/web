@@ -10180,10 +10180,10 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-markdown-editor-lite@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/react-markdown-editor-lite/-/react-markdown-editor-lite-1.1.3.tgz#a639f42432993f7348897ec93caf9a1ca78832c5"
-  integrity sha512-M/H990S94mIWZMSOIeq9it89g2UsEXaNEKh3mCujqheIWfAFHQW6XxURtEBung93mP7CneEGwAjJqqI3+PSmvQ==
+react-markdown-editor-lite@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-markdown-editor-lite/-/react-markdown-editor-lite-1.1.4.tgz#9e10b5e9786263becdf99dea82830f061490a093"
+  integrity sha512-DnHa3e1CBax+34MKr75Bt9UPyC7PEItV16qGh59zU9YBxrISupOUwzN5oh6LLXp0uv8WrRdzyPLo3c7dHmNfKg==
 
 react-motion@^0.5.2:
   version "0.5.2"
