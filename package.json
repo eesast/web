@@ -48,7 +48,7 @@
     "babel-plugin-import": "1.13.0",
     "customize-cra": "0.9.1",
     "husky": "4.2.5",
-    "less": "3.11.1",
+    "less": "3.11.3",
     "less-loader": "5.0.0",
     "lint-staged": "10.2.7",
     "patch-package": "6.2.2",
