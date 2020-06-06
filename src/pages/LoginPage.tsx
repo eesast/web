@@ -33,7 +33,7 @@ import IsEmail from "isemail";
 const Background = styled.div`
   height: calc(100vh - 67px);
   width: 100%;
-  background-image: url("${process.env.REACT_APP_STATIC_URL}/public/images/tsinghua-background-summer.jpg");
+  background-image: url("${process.env.REACT_APP_STATIC_URL}/public/images/tsinghua-background-summer.jpg?x-oss-process=image/auto-orient,1/interlace,1/quality,q_90");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -114,7 +114,7 @@ const LoginPage: React.FC = () => {
         });
         message.success("密码更改成功");
         form.resetFields();
-        history.replace("/login");
+        return history.replace("/login");
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -142,7 +142,7 @@ const LoginPage: React.FC = () => {
         await axios.post("/users", values);
         message.success("注册成功");
         form.resetFields();
-        history.replace("/login");
+        return history.replace("/login");
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
@@ -170,9 +170,9 @@ const LoginPage: React.FC = () => {
         });
         message.success("登录成功");
         if (from) {
-          history.replace(from.pathname + from.search);
+          return history.replace(from.pathname + from.search);
         } else {
-          history.replace("/");
+          return history.replace("/");
         }
       } catch (e) {
         const err = e as AxiosError;
