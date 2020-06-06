@@ -29,7 +29,7 @@
     "react-router-dom": "5.2.0",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
-    "swagger-ui-react": "3.25.2",
+    "swagger-ui-react": "3.26.0",
     "typesafe-actions": "5.1.0",
     "xlsx": "0.16.0"
   },
