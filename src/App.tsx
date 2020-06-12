@@ -122,9 +122,9 @@ function App() {
             <Route path="/home">
               <HomeSite />
             </Route>
-            <Route path="/info">
+            <AuthRoute path="/info">
               <InfoSite />
-            </Route>
+            </AuthRoute>
             <Route exact path="/(login|register|reset|verify)">
               <LoginPage />
             </Route>
