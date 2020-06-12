@@ -82,6 +82,77 @@ export interface GetNotices {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpdateNotice
+// ====================================================
+
+export interface UpdateNotice_update_info_notice_returning {
+  __typename: "info_notice";
+  id: any;
+}
+
+export interface UpdateNotice_update_info_notice {
+  __typename: "info_notice_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateNotice_update_info_notice_returning[];
+}
+
+export interface UpdateNotice {
+  /**
+   * update data of the table: "info_notice"
+   */
+  update_info_notice: UpdateNotice_update_info_notice | null;
+}
+
+export interface UpdateNoticeVariables {
+  id: any;
+  title: string;
+  content: string;
+  files?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddNotice
+// ====================================================
+
+export interface AddNotice_insert_info_notice_returning {
+  __typename: "info_notice";
+  id: any;
+}
+
+export interface AddNotice_insert_info_notice {
+  __typename: "info_notice_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddNotice_insert_info_notice_returning[];
+}
+
+export interface AddNotice {
+  /**
+   * insert data into the table: "info_notice"
+   */
+  insert_info_notice: AddNotice_insert_info_notice | null;
+}
+
+export interface AddNoticeVariables {
+  title: string;
+  content: string;
+  files?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 

@@ -12,18 +12,29 @@ import {
   Form,
   Upload,
 } from "antd";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import Linkify from "react-linkify";
 import {
   EditOutlined,
   DownloadOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { GetNotices as GET_NOTICES } from "../../api/info_notice.graphql";
-import { GetNotices } from "../../api/types";
+import {
+  GetNotices as GET_NOTICES,
+  UpdateNotice as UPDATE_NOTICE,
+  AddNotice as ADD_NOTICE,
+} from "../../api/info_notice.graphql";
+import {
+  GetNotices,
+  UpdateNotice,
+  AddNotice,
+  GetRole,
+  GetNotices_info_notice,
+} from "../../api/types";
 import { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import { UploadFile, RcCustomRequestOptions } from "antd/lib/upload/interface";
+import { getOSS, downloadFile } from "../../helpers/oss";
 
 const { Text } = Typography;
 
@@ -33,11 +44,27 @@ interface File {
 }
 
 const NoticePage: React.FC = () => {
+  const { data: roleData } = useQuery<GetRole>(gql`
+    {
+      role @client
+    }
+  `);
+
   const {
     data: noticeData,
     loading: noticeLoading,
     error: noticeError,
+    refetch: refetchNotices,
   } = useQuery<GetNotices>(GET_NOTICES);
+
+  const [
+    updateNotice,
+    { loading: noticeUpdating, error: noticeUpdateError },
+  ] = useMutation<UpdateNotice>(UPDATE_NOTICE);
+  const [
+    addNotice,
+    { loading: noticeAdding, error: noticeAddError },
+  ] = useMutation<AddNotice>(ADD_NOTICE);
 
   useEffect(() => {
     if (noticeError) {
@@ -45,19 +72,83 @@ const NoticePage: React.FC = () => {
     }
   }, [noticeError]);
 
+  useEffect(() => {
+    if (noticeUpdateError) {
+      message.error("公告更新失败");
+    }
+  }, [noticeUpdateError]);
+
+  useEffect(() => {
+    if (noticeAddError) {
+      message.error("公告发布失败");
+    }
+  }, [noticeAddError]);
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [editingNotice, setEditingNotice] = useState();
-  const [noticeUpdating, setNoticeUpdating] = useState(false);
+  const [editingNotice, setEditingNotice] = useState<GetNotices_info_notice>();
   const [form] = Form.useForm();
 
-  const handleNoticeEdit = () => {
+  const handleNoticeEdit = async () => {
+    try {
+      form.validateFields();
+    } catch {}
+
+    const values = form.getFieldsValue();
+    const files = fileList.map((f) => ({
+      filename: f.name,
+      url: "/upload/" + f.name,
+    }));
+
+    if (editingNotice) {
+      await updateNotice({
+        variables: {
+          id: editingNotice.id,
+          title: values.title,
+          content: values.content,
+          files: JSON.stringify(files),
+        },
+      });
+    } else {
+      await addNotice({
+        variables: {
+          title: values.title,
+          content: values.content,
+          files: JSON.stringify(files),
+        },
+      });
+    }
+
+    setModalVisible(false);
     setEditingNotice(undefined);
+    form.resetFields();
+
+    refetchNotices();
   };
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const handleUpload = (a: RcCustomRequestOptions) => {
-    setNoticeUpdating(true);
+  const handleUpload = async (e: RcCustomRequestOptions) => {
+    const oss = await getOSS();
+    const result = await oss.multipartUpload(
+      "upload/" + encodeURI(e.file.name),
+      e.file,
+      {
+        progress: (progress) =>
+          e.onProgress({ percent: progress * 100 }, e.file),
+      }
+    );
+    if (result.res.status === 200) {
+      e.onSuccess(result.res, e.file);
+    } else {
+      e.onError(new Error());
+    }
+  };
+
+  const handleRemove = async (file: UploadFile) => {
+    if (file.response?.status === 200) {
+      const oss = await getOSS();
+      await oss.delete("upload/" + encodeURI(file.name));
+    }
   };
 
   return (
@@ -78,14 +169,24 @@ const NoticePage: React.FC = () => {
               margin-top: 24px;
               margin-bottom: 24px;
             `}
-            // onEditPress={
-            //   user.role === "counselor" || user.role === "root"
-            //     ? () => {
-            //         setFormData(item);
-            //         setFormVisible(true);
-            //       }
-            //     : undefined
-            // }
+            onEditPress={
+              roleData?.role === "counselor" || roleData?.role === "root"
+                ? () => {
+                    setEditingNotice(item);
+                    setFileList(
+                      JSON.parse(item.files ?? "[]").map((f: File) => ({
+                        response: { status: 200 },
+                        status: "done",
+                        uid: f.url,
+                        size: 0,
+                        name: f.filename,
+                        type: "",
+                      }))
+                    );
+                    setModalVisible(true);
+                  }
+                : undefined
+            }
             title={item.title}
             content={item.content}
             updatedAt={item.updated_at}
@@ -100,12 +201,18 @@ const NoticePage: React.FC = () => {
         centered
         okText="发布"
         onCancel={() => {
+          if (fileList.length !== 0) {
+            message.info("请先移除已上传文件");
+            return;
+          }
           setModalVisible(false);
           form.resetFields();
+          setEditingNotice(undefined);
         }}
         onOk={handleNoticeEdit}
         maskClosable={false}
-        confirmLoading={noticeUpdating}
+        confirmLoading={noticeUpdating || noticeAdding}
+        destroyOnClose
       >
         <Form
           form={form}
@@ -131,7 +238,7 @@ const NoticePage: React.FC = () => {
             <Upload
               customRequest={handleUpload}
               onChange={(info) => setFileList(info.fileList)}
-              onRemove={(file) => {}}
+              onRemove={handleRemove}
               multiple
               fileList={fileList}
             >
@@ -218,12 +325,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               shape="round"
               icon={<DownloadOutlined />}
               size="small"
-              onClick={() => {
-                // FileSaver.saveAs(
-                //   axios.defaults.baseURL + file.url,
-                //   file.filename
-                // );
-              }}
+              onClick={() => downloadFile(file)}
             >
               {file.filename}
             </Button>
@@ -236,16 +338,10 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
           align-items: center;
         `}
       >
-        {onEditPress && (
-          <EditOutlined
-            css={`
-              marginright: 5;
-            `}
-            onClick={onEditPress}
-          />
-        )}
+        {onEditPress && <EditOutlined onClick={onEditPress} />}
         <Text
           css={`
+            margin-left: 5px;
             font-style: italic;
             font-size: 12px;
             color: gray;

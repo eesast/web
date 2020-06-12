@@ -8,3 +8,29 @@ query GetNotices {
     files
   }
 }
+
+mutation UpdateNotice(
+  $id: uuid!
+  $title: String!
+  $content: String!
+  $files: String
+) {
+  update_info_notice(
+    where: { id: { _eq: $id } }
+    _set: { title: $title, content: $content, files: $files }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation AddNotice($title: String!, $content: String!, $files: String) {
+  insert_info_notice(
+    objects: { title: $title, content: $content, files: $files }
+  ) {
+    returning {
+      id
+    }
+  }
+}
