@@ -1,5 +1,5 @@
 language: node_js
-node_js: "node"
+node_js: 14
 cache: yarn
 before_install:
   - npm i -g yarn
@@ -14,4 +14,4 @@ deploy:
   provider: script
   script: bash scripts/deploy.sh
   on:
-    branch: next
+    branch: master
