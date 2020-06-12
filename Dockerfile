@@ -28,6 +28,6 @@ RUN yarn global add serve
 # Copy build files
 COPY --from=builder /home/node/app/build ./build
 
-EXPOSE 27777
+EXPOSE 27776
 
-CMD serve -s build -p 27777
+CMD serve -s build -p 27776

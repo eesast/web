@@ -1,0 +1,22 @@
+extend type query_root {
+  _id: String
+  email: String
+  token: String
+  role: String
+}
+
+query GetToken {
+  token @client
+}
+
+query GetId {
+  _id @client
+}
+
+query GetEmail {
+  email @client
+}
+
+query GetRole {
+  role @client
+}

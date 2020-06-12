@@ -8,8 +8,8 @@ EESAST 网页前端
 
 ### 环境
 
-- node 14 / npm
-- yarn
+- Node 14 / NPM
+- Yarn
 - TypeScript
 - Chrome / Firefox
 
@@ -19,23 +19,12 @@ EESAST 网页前端
 
   - Prettier
   - ESLint
-
-    在 VSCode 设置中添加以下内容，开启 ESLint 插件对 TypeScript 的支持：
-
-    ```json
-    "eslint.autoFixOnSave": true,
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        { "language": "typescript", "autoFix": true },
-        { "language": "typescriptreact", "autoFix": true }
-    ],
-    ```
+  - vscode-styled-component
+  - Apollo GraphQL
 
 - Chrome 扩展
 
   - React DevTools
-  - Redux DevTools
 
 - Postman
 
@@ -65,6 +54,10 @@ EESAST 网页前端
 
 检查类型错误
 
-#### `yarn prettier`
+#### `yarn analyze`
 
-使用 Prettier 进行代码格式修正
+对 `build` 内的打包进行构成分析
+
+#### `yarn codegen`
+
+根据后端 GraphQL 定义自动生成 TypeScript 类型文件
