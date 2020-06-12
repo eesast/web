@@ -44,10 +44,11 @@ const Background = styled.div`
 `;
 
 const Image = styled(Picture)`
-  max-width: 75%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const Description = styled.div`
