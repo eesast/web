@@ -21,7 +21,7 @@ const AuthRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
     <Route {...rest}>
       {loading ? (
         <Loading />
-      ) : !error && data?.user[0].id ? (
+      ) : !error && data?.user[0]._id ? (
         children
       ) : (
         <Redirect
