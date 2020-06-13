@@ -60,7 +60,6 @@
     "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
     "eject": "react-app-rewired eject",
     "codegen": "yarn apollo client:codegen --target=typescript --outputFlat src/api/types.ts",
-    "bundlesize": "yarn bundlesize",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint --ext .ts,.tsx src/",
     "typecheck": "tsc --noUnusedLocals"
