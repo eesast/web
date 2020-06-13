@@ -35,6 +35,7 @@ import { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import { UploadFile, RcCustomRequestOptions } from "antd/lib/upload/interface";
 import { getOSS, downloadFile } from "../../helpers/oss";
+import { useHistory } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -44,11 +45,20 @@ interface File {
 }
 
 const NoticePage: React.FC = () => {
+  const history = useHistory();
+
   const { data: roleData } = useQuery<GetRole>(gql`
     {
       role @client
     }
   `);
+
+  useEffect(() => {
+    if (roleData?.role === "user") {
+      message.warning("请先补全个人信息，并完成清华邮箱验证");
+      history.push("/profile");
+    }
+  }, [history, roleData]);
 
   const {
     data: noticeData,
