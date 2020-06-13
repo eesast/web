@@ -38,8 +38,8 @@ interface File {
 }
 
 export const downloadFile = async (file: File) => {
-  let response = await axios.get(`/static${file.url}`);
-  const data = response.data as { location: string };
-  response = await axios.get(data.location, { responseType: "blob" });
+  const response = await axios.get(`/static${file.url}`, {
+    responseType: "blob",
+  });
   FileSaver.saveAs(response.data, file.filename);
 };
