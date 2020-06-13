@@ -30,6 +30,8 @@ import {
   AddNotice,
   GetRole,
   GetNotices_info_notice,
+  AddNoticeVariables,
+  UpdateNoticeVariables,
 } from "../../api/types";
 import { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
@@ -70,11 +72,11 @@ const NoticePage: React.FC = () => {
   const [
     updateNotice,
     { loading: noticeUpdating, error: noticeUpdateError },
-  ] = useMutation<UpdateNotice>(UPDATE_NOTICE);
+  ] = useMutation<UpdateNotice, UpdateNoticeVariables>(UPDATE_NOTICE);
   const [
     addNotice,
     { loading: noticeAdding, error: noticeAddError },
-  ] = useMutation<AddNotice>(ADD_NOTICE);
+  ] = useMutation<AddNotice, AddNoticeVariables>(ADD_NOTICE);
 
   useEffect(() => {
     if (noticeError) {

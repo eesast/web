@@ -6,7 +6,15 @@ import {
   GetUser as GET_USER,
   UpdateUser as UPDATE_USER,
 } from "../api/user.graphql";
-import { GetUser, UpdateUser, GetId, GetEmail, GetRole } from "../api/types";
+import {
+  GetUser,
+  UpdateUser,
+  GetId,
+  GetEmail,
+  GetRole,
+  GetUserVariables,
+  UpdateUserVariables,
+} from "../api/types";
 import Loading from "../components/Loading";
 import axios, { AxiosError } from "axios";
 import IsEmail from "isemail";
@@ -58,14 +66,17 @@ const ProfilePage: React.FC = () => {
       role @client
     }
   `);
-  const { data, loading, error } = useQuery<GetUser>(GET_USER, {
-    variables: { _id: idData?._id },
-  });
+  const { data, loading, error } = useQuery<GetUser, GetUserVariables>(
+    GET_USER,
+    {
+      variables: { _id: idData?._id! },
+    }
+  );
 
   const [
     updateUser,
     { data: updateData, loading: updating, error: updateError },
-  ] = useMutation<UpdateUser>(UPDATE_USER);
+  ] = useMutation<UpdateUser, UpdateUserVariables>(UPDATE_USER);
 
   useEffect(() => {
     if (error) {
@@ -131,7 +142,7 @@ const ProfilePage: React.FC = () => {
     const { password, email, ...rest } = values;
 
     updateUser({
-      variables: { ...rest, _id: idData?._id },
+      variables: { ...rest, _id: idData?._id! },
     });
 
     if (password) {
