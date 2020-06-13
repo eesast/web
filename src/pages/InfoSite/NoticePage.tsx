@@ -158,7 +158,12 @@ const NoticePage: React.FC = () => {
           <Typography.Title level={2}>公告</Typography.Title>
         </Col>
         <Col>
-          <Button onClick={() => setModalVisible(true)}>新公告</Button>
+          <Button
+            hidden={roleData?.role !== "counselor" && roleData?.role !== "root"}
+            onClick={() => setModalVisible(true)}
+          >
+            新公告
+          </Button>
         </Col>
       </Row>
       <List
