@@ -10,6 +10,7 @@ script:
   - yarn typecheck
   - yarn test
   - yarn build
+  - yarn bundlesize
 deploy:
   provider: script
   script: bash scripts/deploy.sh

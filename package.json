@@ -28,6 +28,7 @@
     "babel-plugin-import": "1.13.0",
     "babel-plugin-import-graphql": "2.7.0",
     "babel-plugin-styled-components": "1.10.7",
+    "bundlesize": "0.18.0",
     "concurrently": "5.2.0",
     "customize-cra": "1.0.0",
     "customize-cra-react-refresh": "1.1.0",
@@ -59,6 +60,7 @@
     "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
     "eject": "react-app-rewired eject",
     "codegen": "yarn apollo client:codegen --target=typescript --outputFlat src/api/types.ts",
+    "bundlesize": "yarn bundlesize",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint --ext .ts,.tsx src/",
     "typecheck": "tsc --noUnusedLocals"
@@ -74,6 +76,13 @@
       "git add"
     ]
   },
+  "bundlesize": [
+    {
+      "path": "build/static/js/2.*.chunk.js",
+      "maxSize": "1.2 MB",
+      "compression": "none"
+    }
+  ],
   "eslintConfig": {
     "extends": "react-app"
   },
