@@ -51,25 +51,18 @@ const Container = styled.div`
 `;
 
 const ProfilePage: React.FC = () => {
-  const { data: idData } = useQuery<GetId>(gql`
+  const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
     {
       _id @client
-    }
-  `);
-  const { data: emailData } = useQuery<GetEmail>(gql`
-    {
       email @client
-    }
-  `);
-  const { data: roleData } = useQuery<GetRole>(gql`
-    {
       role @client
     }
   `);
+
   const { data, loading, error } = useQuery<GetUser, GetUserVariables>(
     GET_USER,
     {
-      variables: { _id: idData?._id! },
+      variables: { _id: userData?._id! },
     }
   );
 
@@ -139,10 +132,10 @@ const ProfilePage: React.FC = () => {
   };
 
   const onFinish = async (values: any) => {
-    const { password, email, ...rest } = values;
+    const { password, registeredEmail, ...rest } = values;
 
     updateUser({
-      variables: { ...rest, _id: idData?._id! },
+      variables: { ...rest, _id: userData?._id! },
     });
 
     if (password) {
@@ -165,7 +158,7 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const user = { ...data?.user[0], email: emailData?.email };
+  const user = { ...data?.user[0], registeredEmail: userData?.email };
 
   return (
     <Container>
@@ -176,7 +169,7 @@ const ProfilePage: React.FC = () => {
         initialValues={user}
         scrollToFirstError
       >
-        <Form.Item name="email" label="注册邮箱">
+        <Form.Item name="registeredEmail" label="注册邮箱">
           <Input readOnly type="email" />
         </Form.Item>
         <Form.Item
@@ -211,6 +204,26 @@ const ProfilePage: React.FC = () => {
           <Input />
         </Form.Item>
         <Form.Item
+          name="email"
+          label="联系邮箱"
+          rules={[
+            {
+              required: true,
+              message: "请输入用于联系的邮箱；可与注册邮箱不同",
+            },
+            () => ({
+              validator(rule, value) {
+                if (!value || IsEmail.validate(value)) {
+                  return Promise.resolve();
+                }
+                return Promise.reject("请输入正确的邮箱");
+              },
+            }),
+          ]}
+        >
+          <Input type="email" />
+        </Form.Item>
+        <Form.Item
           name="phone"
           label="手机"
           rules={[{ required: true, message: "请输入手机" }]}
@@ -232,7 +245,7 @@ const ProfilePage: React.FC = () => {
           <Input placeholder="如：无64，计80" />
         </Form.Item>
         <Form.Item name="tsinghuaVerified" label="清华邮箱验证">
-          {roleData?.role === "user" ? (
+          {userData?.role === "user" ? (
             <Button onClick={() => setModalVisible(true)}>申请验证</Button>
           ) : (
             <Alert message="已通过邮箱验证" type="success" showIcon />

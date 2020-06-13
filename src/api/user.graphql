@@ -7,6 +7,7 @@ query GetUser($_id: String!) {
     department
     class
     phone
+    email
   }
 }
 
@@ -18,6 +19,7 @@ mutation UpdateUser(
   $name: String
   $department: String
   $class: String
+  $email: String
 ) {
   update_user(
     where: { _id: { _eq: $_id } }
@@ -28,6 +30,7 @@ mutation UpdateUser(
       name: $name
       department: $department
       class: $class
+      email: $email
     }
   ) {
     affected_rows

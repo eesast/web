@@ -165,6 +165,7 @@ export interface GetUser_user {
   department: string | null;
   class: string | null;
   phone: string | null;
+  email: string | null;
 }
 
 export interface GetUser {
@@ -210,6 +211,7 @@ export interface UpdateUserVariables {
   name?: string | null;
   department?: string | null;
   class?: string | null;
+  email?: string | null;
 }
 
 /* tslint:disable */
