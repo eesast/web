@@ -22,6 +22,7 @@ import LoginPage from "./pages/LoginPage";
 import AuthRoute from "./components/AutoRoute";
 import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
+import NotFoundPage from "./pages/NotFoundPage";
 
 dayjs.extend(relativeTime);
 dayjs.locale("zh-cn");
@@ -131,6 +132,9 @@ function App() {
             <AuthRoute exact path="/profile">
               <ProfilePage />
             </AuthRoute>
+            <Route>
+              <NotFoundPage />
+            </Route>
           </Switch>
         </Content>
         <StyledFooter>© 2020 EESAST</StyledFooter>
