@@ -18,6 +18,7 @@ import {
 } from "@ant-design/icons";
 import styled from "styled-components";
 import NoticePage from "./NoticePage";
+import MentorApplicationPage from "./MentorApplicationPage";
 
 const { Content, Sider } = Layout;
 
@@ -101,6 +102,9 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/notices`}>
             <NoticePage />
+          </Route>
+          <Route exact path={`${path}/mentor-applications`}>
+            <MentorApplicationPage />
           </Route>
           {/*  <Route exact path={`${path}/divisions`}>
               <DivisionPage />

@@ -6,7 +6,7 @@
     "@apollo/client": "3.0.0-rc.4",
     "@apollo/link-context": "2.0.0-beta.3",
     "@apollo/link-ws": "2.0.0-beta.3",
-    "@testing-library/jest-dom": "5.10.0",
+    "@testing-library/jest-dom": "5.10.1",
     "@testing-library/react": "10.2.1",
     "@testing-library/user-event": "11.4.2",
     "@types/ali-oss": "6.0.5",
@@ -21,7 +21,7 @@
     "@types/react-router-dom": "5.1.5",
     "@types/styled-components": "5.1.0",
     "ali-oss": "6.9.0",
-    "antd": "4.3.3",
+    "antd": "4.3.4",
     "antd-dayjs-webpack-plugin": "1.0.0",
     "apollo": "2.28.3",
     "axios": "0.19.2",
@@ -52,14 +52,16 @@
     "source-map-explorer": "2.4.2",
     "styled-components": "5.1.1",
     "subscriptions-transport-ws": "0.9.16",
-    "typescript": "3.9.5"
+    "typescript": "3.9.5",
+    "xlsx": "0.16.2"
   },
   "scripts": {
-    "start": "concurrently \"rm -rf ./node_modules/.cache/babel-loader && react-app-rewired start\" \"yarn codegen --watch\"",
+    "start": "rm -rf ./node_modules/.cache/babel-loader && yarn codegen && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
     "eject": "react-app-rewired eject",
     "codegen": "yarn apollo client:codegen --target=typescript --outputFlat src/api/types.ts",
+    "codegen:watch": "yarn codegen --watch",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint --ext .ts,.tsx src/",
     "typecheck": "tsc --noUnusedLocals"
@@ -78,7 +80,7 @@
   "bundlesize": [
     {
       "path": "build/static/js/2.*.chunk.js",
-      "maxSize": "1.2 MB",
+      "maxSize": "1.3 MB",
       "compression": "none"
     }
   ],
