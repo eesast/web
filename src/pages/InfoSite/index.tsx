@@ -20,6 +20,7 @@ import styled from "styled-components";
 import NoticePage from "./NoticePage";
 import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
+import HonorApplicationPage from "./HonorApplicationPage";
 
 const { Content, Sider } = Layout;
 
@@ -109,6 +110,9 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/mentor-chats`}>
             <MentorChatPage />
+          </Route>
+          <Route exact path={`${path}/honors`}>
+            <HonorApplicationPage />
           </Route>
         </Switch>
       </Content>

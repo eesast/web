@@ -170,6 +170,215 @@ export interface AddMessageVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetHonorApplications
+// ====================================================
+
+export interface GetHonorApplications_honor_application {
+  __typename: "honor_application";
+  id: any;
+  honor: string;
+  statement: string;
+  attachment_url: string | null;
+  status: string;
+  created_at: any;
+  updated_at: any;
+}
+
+export interface GetHonorApplications {
+  /**
+   * fetch data from the table: "honor_application"
+   */
+  honor_application: GetHonorApplications_honor_application[];
+}
+
+export interface GetHonorApplicationsVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetHonorApplicationsForCounselors
+// ====================================================
+
+export interface GetHonorApplicationsForCounselors_honor_application_student {
+  __typename: "user";
+  id: any | null;
+  name: string | null;
+  class: string | null;
+}
+
+export interface GetHonorApplicationsForCounselors_honor_application {
+  __typename: "honor_application";
+  id: any;
+  honor: string;
+  statement: string;
+  attachment_url: string | null;
+  status: string;
+  /**
+   * An object relationship
+   */
+  student: GetHonorApplicationsForCounselors_honor_application_student;
+  created_at: any;
+  updated_at: any;
+}
+
+export interface GetHonorApplicationsForCounselors {
+  /**
+   * fetch data from the table: "honor_application"
+   */
+  honor_application: GetHonorApplicationsForCounselors_honor_application[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddHonorApplication
+// ====================================================
+
+export interface AddHonorApplication_insert_honor_application_returning {
+  __typename: "honor_application";
+  id: any;
+}
+
+export interface AddHonorApplication_insert_honor_application {
+  __typename: "honor_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddHonorApplication_insert_honor_application_returning[];
+}
+
+export interface AddHonorApplication {
+  /**
+   * insert data into the table: "honor_application"
+   */
+  insert_honor_application: AddHonorApplication_insert_honor_application | null;
+}
+
+export interface AddHonorApplicationVariables {
+  student_id: string;
+  honor: string;
+  statement: string;
+  attachment_url?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateHonorApplication
+// ====================================================
+
+export interface UpdateHonorApplication_update_honor_application_returning {
+  __typename: "honor_application";
+  id: any;
+}
+
+export interface UpdateHonorApplication_update_honor_application {
+  __typename: "honor_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateHonorApplication_update_honor_application_returning[];
+}
+
+export interface UpdateHonorApplication {
+  /**
+   * update data of the table: "honor_application"
+   */
+  update_honor_application: UpdateHonorApplication_update_honor_application | null;
+}
+
+export interface UpdateHonorApplicationVariables {
+  id: any;
+  honor: string;
+  statement: string;
+  attachment_url?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteHonorApplication
+// ====================================================
+
+export interface DeleteHonorApplication_delete_honor_application_returning {
+  __typename: "honor_application";
+  id: any;
+}
+
+export interface DeleteHonorApplication_delete_honor_application {
+  __typename: "honor_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeleteHonorApplication_delete_honor_application_returning[];
+}
+
+export interface DeleteHonorApplication {
+  /**
+   * delete data from the table: "honor_application"
+   */
+  delete_honor_application: DeleteHonorApplication_delete_honor_application | null;
+}
+
+export interface DeleteHonorApplicationVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateHonorApplicationStatus
+// ====================================================
+
+export interface UpdateHonorApplicationStatus_update_honor_application_returning {
+  __typename: "honor_application";
+  id: any;
+  status: string;
+}
+
+export interface UpdateHonorApplicationStatus_update_honor_application {
+  __typename: "honor_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateHonorApplicationStatus_update_honor_application_returning[];
+}
+
+export interface UpdateHonorApplicationStatus {
+  /**
+   * update data of the table: "honor_application"
+   */
+  update_honor_application: UpdateHonorApplicationStatus_update_honor_application | null;
+}
+
+export interface UpdateHonorApplicationStatusVariables {
+  id: any;
+  status: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetMentorApplications
 // ====================================================
 
