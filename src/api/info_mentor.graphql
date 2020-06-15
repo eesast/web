@@ -70,7 +70,7 @@ mutation ChangeMentorAvailable($_id: String!, $available: Boolean!) {
   }
 }
 
-mutation UpdateApplicationStatus($id: uuid!, $status: String!) {
+mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
   update_mentor_application(
     where: { id: { _eq: $id } }
     _set: { status: $status }
@@ -81,7 +81,7 @@ mutation UpdateApplicationStatus($id: uuid!, $status: String!) {
   }
 }
 
-mutation AddApplication(
+mutation AddMentorApplication(
   $student_id: String!
   $mentor_id: String!
   $statement: String!
@@ -99,7 +99,7 @@ mutation AddApplication(
   }
 }
 
-mutation UpdateApplication($id: uuid!, $statement: String!) {
+mutation UpdateMentorApplication($id: uuid!, $statement: String!) {
   update_mentor_application(
     where: { id: { _eq: $id } }
     _set: { statement: $statement }

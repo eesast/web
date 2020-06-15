@@ -340,30 +340,30 @@ export interface ChangeMentorAvailableVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: UpdateApplicationStatus
+// GraphQL mutation operation: UpdateMentorApplicationStatus
 // ====================================================
 
-export interface UpdateApplicationStatus_update_mentor_application_returning {
+export interface UpdateMentorApplicationStatus_update_mentor_application_returning {
   __typename: "mentor_application";
   id: any;
 }
 
-export interface UpdateApplicationStatus_update_mentor_application {
+export interface UpdateMentorApplicationStatus_update_mentor_application {
   __typename: "mentor_application_mutation_response";
   /**
    * data of the affected rows by the mutation
    */
-  returning: UpdateApplicationStatus_update_mentor_application_returning[];
+  returning: UpdateMentorApplicationStatus_update_mentor_application_returning[];
 }
 
-export interface UpdateApplicationStatus {
+export interface UpdateMentorApplicationStatus {
   /**
    * update data of the table: "mentor_application"
    */
-  update_mentor_application: UpdateApplicationStatus_update_mentor_application | null;
+  update_mentor_application: UpdateMentorApplicationStatus_update_mentor_application | null;
 }
 
-export interface UpdateApplicationStatusVariables {
+export interface UpdateMentorApplicationStatusVariables {
   id: any;
   status: string;
 }
@@ -374,30 +374,30 @@ export interface UpdateApplicationStatusVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: AddApplication
+// GraphQL mutation operation: AddMentorApplication
 // ====================================================
 
-export interface AddApplication_insert_mentor_application_returning {
+export interface AddMentorApplication_insert_mentor_application_returning {
   __typename: "mentor_application";
   id: any;
 }
 
-export interface AddApplication_insert_mentor_application {
+export interface AddMentorApplication_insert_mentor_application {
   __typename: "mentor_application_mutation_response";
   /**
    * data of the affected rows by the mutation
    */
-  returning: AddApplication_insert_mentor_application_returning[];
+  returning: AddMentorApplication_insert_mentor_application_returning[];
 }
 
-export interface AddApplication {
+export interface AddMentorApplication {
   /**
    * insert data into the table: "mentor_application"
    */
-  insert_mentor_application: AddApplication_insert_mentor_application | null;
+  insert_mentor_application: AddMentorApplication_insert_mentor_application | null;
 }
 
-export interface AddApplicationVariables {
+export interface AddMentorApplicationVariables {
   student_id: string;
   mentor_id: string;
   statement: string;
@@ -409,30 +409,30 @@ export interface AddApplicationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: UpdateApplication
+// GraphQL mutation operation: UpdateMentorApplication
 // ====================================================
 
-export interface UpdateApplication_update_mentor_application_returning {
+export interface UpdateMentorApplication_update_mentor_application_returning {
   __typename: "mentor_application";
   id: any;
 }
 
-export interface UpdateApplication_update_mentor_application {
+export interface UpdateMentorApplication_update_mentor_application {
   __typename: "mentor_application_mutation_response";
   /**
    * data of the affected rows by the mutation
    */
-  returning: UpdateApplication_update_mentor_application_returning[];
+  returning: UpdateMentorApplication_update_mentor_application_returning[];
 }
 
-export interface UpdateApplication {
+export interface UpdateMentorApplication {
   /**
    * update data of the table: "mentor_application"
    */
-  update_mentor_application: UpdateApplication_update_mentor_application | null;
+  update_mentor_application: UpdateMentorApplication_update_mentor_application | null;
 }
 
-export interface UpdateApplicationVariables {
+export interface UpdateMentorApplicationVariables {
   id: any;
   statement: string;
 }

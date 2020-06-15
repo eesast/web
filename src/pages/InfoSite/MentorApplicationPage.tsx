@@ -19,9 +19,9 @@ import {
   GetMentorApplications as GET_MENTOR_APPLICATIONS,
   GetMentorAvailable as GET_MENTOR_AVAILABLE,
   ChangeMentorAvailable as CHANGE_MENTOR_AVAILABLE,
-  UpdateApplicationStatus as UPDATE_APPLICATION_STATUS,
-  AddApplication as ADD_APPLICATION,
-  UpdateApplication as UPDATE_APPLICATION,
+  UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
+  AddMentorApplication as ADD_MENTOR_APPLICATION,
+  UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
   GetMentorList as GET_MENTOR_LIST,
   GetMentorApplicationsForCounselors as GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
 } from "../../api/info_mentor.graphql";
@@ -29,18 +29,18 @@ import {
   GetMentorApplications,
   GetMentorAvailable,
   ChangeMentorAvailable,
-  UpdateApplicationStatus,
+  UpdateMentorApplicationStatus,
   GetRole,
   GetId,
   GetMentorApplicationsVariables,
   ChangeMentorAvailableVariables,
   GetMentorAvailableVariables,
-  UpdateApplicationStatusVariables,
+  UpdateMentorApplicationStatusVariables,
   GetMentorApplications_mentor_application,
-  AddApplication,
-  UpdateApplication,
-  AddApplicationVariables,
-  UpdateApplicationVariables,
+  AddMentorApplication,
+  UpdateMentorApplication,
+  AddMentorApplicationVariables,
+  UpdateMentorApplicationVariables,
   GetMentorList,
   GetMentorList_user_by_role,
   GetMentorApplicationsForCounselors,
@@ -50,6 +50,8 @@ import { TableProps, ColumnProps } from "antd/lib/table";
 import { FilterDropdownProps } from "antd/lib/table/interface";
 import { SearchOutlined } from "@ant-design/icons";
 import { getStatusText } from "../../helpers/application";
+
+const { Text } = Typography;
 
 const MentorApplicationPage = () => {
   const { data: userData } = useQuery<GetRole & GetId>(gql`
@@ -141,9 +143,10 @@ const MentorApplicationPage = () => {
       loading: updateApplicationStatusLoading,
       error: updateApplicationStatusError,
     },
-  ] = useMutation<UpdateApplicationStatus, UpdateApplicationStatusVariables>(
-    UPDATE_APPLICATION_STATUS
-  );
+  ] = useMutation<
+    UpdateMentorApplicationStatus,
+    UpdateMentorApplicationStatusVariables
+  >(UPDATE_MENTOR_APPLICATION_STATUS);
 
   useEffect(() => {
     if (updateApplicationStatusError) {
@@ -173,7 +176,9 @@ const MentorApplicationPage = () => {
   const [
     addApplication,
     { loading: applicationAdding, error: addApplicationError },
-  ] = useMutation<AddApplication, AddApplicationVariables>(ADD_APPLICATION);
+  ] = useMutation<AddMentorApplication, AddMentorApplicationVariables>(
+    ADD_MENTOR_APPLICATION
+  );
 
   useEffect(() => {
     if (addApplicationError) {
@@ -184,8 +189,8 @@ const MentorApplicationPage = () => {
   const [
     updateApplication,
     { loading: applicationUpdating, error: updateApplicationError },
-  ] = useMutation<UpdateApplication, UpdateApplicationVariables>(
-    UPDATE_APPLICATION
+  ] = useMutation<UpdateMentorApplication, UpdateMentorApplicationVariables>(
+    UPDATE_MENTOR_APPLICATION
   );
 
   useEffect(() => {
@@ -287,7 +292,7 @@ const MentorApplicationPage = () => {
           onPressEnter={() => handleSearch(selectedKeys, confirm)}
           css={`
             width: 188px;
-            display: "block";
+            display: block;
           `}
         />
         <Space>
@@ -564,9 +569,14 @@ const MentorApplicationPage = () => {
                     )}
                   </Descriptions.Item>
                   <Descriptions.Item label="申请陈述" span={3}>
-                    <Typography.Text style={{ wordWrap: "break-word" }}>
+                    <Text
+                      css={`
+                        word-rap: break-word;
+                        white-space: pre-wrap;
+                      `}
+                    >
                       {item.statement}
-                    </Typography.Text>
+                    </Text>
                     <br />
                     <br />
                     <Button
