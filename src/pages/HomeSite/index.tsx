@@ -16,6 +16,7 @@ import {
 import NewsPage from "./NewsPage";
 import DivisionPage from "./DivisionPage";
 import ContestPage from "./ContestPage";
+import NotFoundPage from "../NotFoundPage";
 
 const { Header, Content } = Layout;
 
@@ -73,6 +74,9 @@ const HomeSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/contests`}>
             <ContestPage />
+          </Route>
+          <Route>
+            <NotFoundPage />
           </Route>
         </Switch>
       </Content>

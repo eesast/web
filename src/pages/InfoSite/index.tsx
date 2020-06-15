@@ -21,6 +21,7 @@ import NoticePage from "./NoticePage";
 import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
 import HonorApplicationPage from "./HonorApplicationPage";
+import NotFoundPage from "../NotFoundPage";
 
 const { Content, Sider } = Layout;
 
@@ -113,6 +114,9 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/honors`}>
             <HonorApplicationPage />
+          </Route>
+          <Route>
+            <NotFoundPage />
           </Route>
         </Switch>
       </Content>
