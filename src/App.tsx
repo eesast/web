@@ -16,6 +16,7 @@ import styled from "styled-components";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
+import calendar from "dayjs/plugin/calendar";
 import logo from "./assets/logo.png";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
@@ -25,6 +26,7 @@ import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
 
 dayjs.extend(relativeTime);
+dayjs.extend(calendar);
 dayjs.locale("zh-cn");
 
 const { Header, Footer, Content } = Layout;

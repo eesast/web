@@ -42,10 +42,18 @@ const wsLink = new WebSocketLink({
     reconnect: true,
     lazy: true,
     connectionParams: () => {
-      const token = localStorage.getItem("token");
+      const data = client.readQuery<GetToken>({
+        query: gql`
+          {
+            token @client
+          }
+        `,
+      });
       return {
         headers: {
-          authorization: token ? `Bearer ${token}` : "",
+          ...(data?.token && {
+            authorization: `Bearer ${data?.token}`,
+          }),
         },
       };
     },

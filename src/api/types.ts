@@ -56,6 +56,120 @@ export interface GetRole {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetApprovedMentorApplications
+// ====================================================
+
+export interface GetApprovedMentorApplications_mentor_application_student {
+  __typename: "user";
+  _id: string;
+  name: string | null;
+}
+
+export interface GetApprovedMentorApplications_mentor_application_mentor {
+  __typename: "user";
+  _id: string;
+  name: string | null;
+}
+
+export interface GetApprovedMentorApplications_mentor_application {
+  __typename: "mentor_application";
+  id: any;
+  /**
+   * An object relationship
+   */
+  student: GetApprovedMentorApplications_mentor_application_student;
+  /**
+   * An object relationship
+   */
+  mentor: GetApprovedMentorApplications_mentor_application_mentor;
+  statement: string;
+  status: string;
+  created_at: any;
+  updated_at: any;
+}
+
+export interface GetApprovedMentorApplications {
+  /**
+   * fetch data from the table: "mentor_application"
+   */
+  mentor_application: GetApprovedMentorApplications_mentor_application[];
+}
+
+export interface GetApprovedMentorApplicationsVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL subscription operation: SubscribeToMessages
+// ====================================================
+
+export interface SubscribeToMessages_mentor_message {
+  __typename: "mentor_message";
+  created_at: any;
+  from_id: string;
+  id: any;
+  payload: string;
+  to_id: string;
+}
+
+export interface SubscribeToMessages {
+  /**
+   * fetch data from the table: "mentor_message"
+   */
+  mentor_message: SubscribeToMessages_mentor_message[];
+}
+
+export interface SubscribeToMessagesVariables {
+  from_id: string;
+  to_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddMessage
+// ====================================================
+
+export interface AddMessage_insert_mentor_message_returning {
+  __typename: "mentor_message";
+  id: any;
+}
+
+export interface AddMessage_insert_mentor_message {
+  __typename: "mentor_message_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddMessage_insert_mentor_message_returning[];
+}
+
+export interface AddMessage {
+  /**
+   * insert data into the table: "mentor_message"
+   */
+  insert_mentor_message: AddMessage_insert_mentor_message | null;
+}
+
+export interface AddMessageVariables {
+  from_id: string;
+  to_id: string;
+  payload: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetMentorApplications
 // ====================================================
 
