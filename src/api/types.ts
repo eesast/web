@@ -56,6 +56,196 @@ export interface GetRole {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetAidApplications
+// ====================================================
+
+export interface GetAidApplications_aid_application_student {
+  __typename: "user";
+  id: any | null;
+  name: string | null;
+  department: string | null;
+  class: string | null;
+}
+
+export interface GetAidApplications_aid_application {
+  __typename: "aid_application";
+  id: any;
+  /**
+   * An object relationship
+   */
+  student: GetAidApplications_aid_application_student;
+  aid: string;
+  amount: number;
+  code: string;
+  thank_letter: string | null;
+  form_url: string | null;
+  status: string;
+  created_at: any;
+  updated_at: any;
+}
+
+export interface GetAidApplications {
+  /**
+   * fetch data from the table: "aid_application"
+   */
+  aid_application: GetAidApplications_aid_application[];
+}
+
+export interface GetAidApplicationsVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetAidApplicationsForCounselors
+// ====================================================
+
+export interface GetAidApplicationsForCounselors_aid_application_student {
+  __typename: "user";
+  id: any | null;
+  name: string | null;
+  department: string | null;
+  class: string | null;
+}
+
+export interface GetAidApplicationsForCounselors_aid_application {
+  __typename: "aid_application";
+  id: any;
+  /**
+   * An object relationship
+   */
+  student: GetAidApplicationsForCounselors_aid_application_student;
+  aid: string;
+  amount: number;
+  code: string;
+  thank_letter: string | null;
+  form_url: string | null;
+  status: string;
+  created_at: any;
+  updated_at: any;
+}
+
+export interface GetAidApplicationsForCounselors {
+  /**
+   * fetch data from the table: "aid_application"
+   */
+  aid_application: GetAidApplicationsForCounselors_aid_application[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddAidApplication
+// ====================================================
+
+export interface AddAidApplication_insert_aid_application_returning {
+  __typename: "aid_application";
+  id: any;
+}
+
+export interface AddAidApplication_insert_aid_application {
+  __typename: "aid_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddAidApplication_insert_aid_application_returning[];
+}
+
+export interface AddAidApplication {
+  /**
+   * insert data into the table: "aid_application"
+   */
+  insert_aid_application: AddAidApplication_insert_aid_application | null;
+}
+
+export interface AddAidApplicationVariables {
+  student_id: string;
+  aid: string;
+  amount: number;
+  code: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateAidApplication
+// ====================================================
+
+export interface UpdateAidApplication_update_aid_application_returning {
+  __typename: "aid_application";
+  id: any;
+}
+
+export interface UpdateAidApplication_update_aid_application {
+  __typename: "aid_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateAidApplication_update_aid_application_returning[];
+}
+
+export interface UpdateAidApplication {
+  /**
+   * update data of the table: "aid_application"
+   */
+  update_aid_application: UpdateAidApplication_update_aid_application | null;
+}
+
+export interface UpdateAidApplicationVariables {
+  id: any;
+  thank_letter?: string | null;
+  form_url?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteAidApplication
+// ====================================================
+
+export interface DeleteAidApplication_delete_aid_application_returning {
+  __typename: "aid_application";
+  id: any;
+}
+
+export interface DeleteAidApplication_delete_aid_application {
+  __typename: "aid_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeleteAidApplication_delete_aid_application_returning[];
+}
+
+export interface DeleteAidApplication {
+  /**
+   * delete data from the table: "aid_application"
+   */
+  delete_aid_application: DeleteAidApplication_delete_aid_application | null;
+}
+
+export interface DeleteAidApplicationVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetApprovedMentorApplications
 // ====================================================
 
@@ -806,6 +996,199 @@ export interface AddNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetScholarshipApplications
+// ====================================================
+
+export interface GetScholarshipApplications_scholarship_application_student {
+  __typename: "user";
+  id: any | null;
+  name: string | null;
+  department: string | null;
+  class: string | null;
+}
+
+export interface GetScholarshipApplications_scholarship_application {
+  __typename: "scholarship_application";
+  id: any;
+  /**
+   * An object relationship
+   */
+  student: GetScholarshipApplications_scholarship_application_student;
+  scholarship: string;
+  honor: string;
+  amount: number;
+  code: string;
+  thank_letter: string | null;
+  form_url: string | null;
+  status: string;
+  created_at: any;
+  updated_at: any;
+}
+
+export interface GetScholarshipApplications {
+  /**
+   * fetch data from the table: "scholarship_application"
+   */
+  scholarship_application: GetScholarshipApplications_scholarship_application[];
+}
+
+export interface GetScholarshipApplicationsVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetScholarshipApplicationsForCounselors
+// ====================================================
+
+export interface GetScholarshipApplicationsForCounselors_scholarship_application_student {
+  __typename: "user";
+  id: any | null;
+  name: string | null;
+  department: string | null;
+  class: string | null;
+}
+
+export interface GetScholarshipApplicationsForCounselors_scholarship_application {
+  __typename: "scholarship_application";
+  id: any;
+  /**
+   * An object relationship
+   */
+  student: GetScholarshipApplicationsForCounselors_scholarship_application_student;
+  scholarship: string;
+  honor: string;
+  amount: number;
+  code: string;
+  thank_letter: string | null;
+  form_url: string | null;
+  status: string;
+  created_at: any;
+  updated_at: any;
+}
+
+export interface GetScholarshipApplicationsForCounselors {
+  /**
+   * fetch data from the table: "scholarship_application"
+   */
+  scholarship_application: GetScholarshipApplicationsForCounselors_scholarship_application[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddScholarshipApplication
+// ====================================================
+
+export interface AddScholarshipApplication_insert_scholarship_application_returning {
+  __typename: "scholarship_application";
+  id: any;
+}
+
+export interface AddScholarshipApplication_insert_scholarship_application {
+  __typename: "scholarship_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddScholarshipApplication_insert_scholarship_application_returning[];
+}
+
+export interface AddScholarshipApplication {
+  /**
+   * insert data into the table: "scholarship_application"
+   */
+  insert_scholarship_application: AddScholarshipApplication_insert_scholarship_application | null;
+}
+
+export interface AddScholarshipApplicationVariables {
+  student_id: string;
+  scholarship: string;
+  honor: string;
+  amount: number;
+  code: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateScholarshipApplication
+// ====================================================
+
+export interface UpdateScholarshipApplication_update_scholarship_application_returning {
+  __typename: "scholarship_application";
+  id: any;
+}
+
+export interface UpdateScholarshipApplication_update_scholarship_application {
+  __typename: "scholarship_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateScholarshipApplication_update_scholarship_application_returning[];
+}
+
+export interface UpdateScholarshipApplication {
+  /**
+   * update data of the table: "scholarship_application"
+   */
+  update_scholarship_application: UpdateScholarshipApplication_update_scholarship_application | null;
+}
+
+export interface UpdateScholarshipApplicationVariables {
+  id: any;
+  thank_letter?: string | null;
+  form_url?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteScholarshipApplication
+// ====================================================
+
+export interface DeleteScholarshipApplication_delete_scholarship_application_returning {
+  __typename: "scholarship_application";
+  id: any;
+}
+
+export interface DeleteScholarshipApplication_delete_scholarship_application {
+  __typename: "scholarship_application_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeleteScholarshipApplication_delete_scholarship_application_returning[];
+}
+
+export interface DeleteScholarshipApplication {
+  /**
+   * delete data from the table: "scholarship_application"
+   */
+  delete_scholarship_application: DeleteScholarshipApplication_delete_scholarship_application | null;
+}
+
+export interface DeleteScholarshipApplicationVariables {
+  id: any;
 }
 
 /* tslint:disable */

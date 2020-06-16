@@ -22,6 +22,8 @@ import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
 import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../NotFoundPage";
+import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
+import AidApplicationPage from "./AidApplicationPage";
 
 const { Content, Sider } = Layout;
 
@@ -114,6 +116,12 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/honors`}>
             <HonorApplicationPage />
+          </Route>
+          <Route exact path={`${path}/scholarships`}>
+            <ScholarshipApplicationPage />
+          </Route>
+          <Route exact path={`${path}/financial-aid`}>
+            <AidApplicationPage />
           </Route>
           <Route>
             <NotFoundPage />
