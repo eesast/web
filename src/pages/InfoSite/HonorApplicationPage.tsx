@@ -202,7 +202,7 @@ const HonorApplicationPage = () => {
   } = useQuery<GetHonorApplicationsForCounselors>(
     GET_HONOR_APPLICATIONS_FOR_COUNSELORS,
     {
-      skip: userData?.role === "student",
+      skip: userData?.role !== "counselor",
     }
   );
 
@@ -580,7 +580,14 @@ const HonorApplicationPage = () => {
             dataSource={applicationData?.honor_application}
             renderItem={(item) => {
               return (
-                <Descriptions key={item.id} bordered size="small">
+                <Descriptions
+                  key={item.id}
+                  bordered
+                  size="small"
+                  css={`
+                    margin: 24px auto;
+                  `}
+                >
                   <Descriptions.Item label="荣誉类型" span={2}>
                     {item.honor}
                   </Descriptions.Item>
@@ -624,6 +631,7 @@ const HonorApplicationPage = () => {
                       disabled={item.status !== "submitted"}
                       onClick={() => {
                         setEditingApplication(item);
+                        form.setFieldsValue(item);
                         setApplicationFormVisible(true);
                       }}
                     >

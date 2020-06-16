@@ -98,7 +98,7 @@ const InfoSite: React.FC = () => {
       <Content
         css={`
           margin-left: 200px;
-          padding: 48px 15vw;
+          padding: 48px 10vw;
         `}
       >
         <Switch>

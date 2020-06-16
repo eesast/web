@@ -542,14 +542,13 @@ const MentorApplicationPage = () => {
         <>
           <Typography.Title level={2}>已申请</Typography.Title>
           <List
-            css={`
-              margin: 24px auto;
-            `}
             loading={applicationLoading}
             dataSource={applicationData?.mentor_application}
             renderItem={(item) => {
               return (
-                <Descriptions key={item.id} bordered size="small">
+                <Descriptions key={item.id} bordered size="small"   css={`
+                margin: 24px auto;
+              `}>
                   <Descriptions.Item label="导师姓名" span={2}>
                     {item.mentor.name}
                   </Descriptions.Item>
@@ -583,6 +582,7 @@ const MentorApplicationPage = () => {
                       disabled={item.status !== "submitted"}
                       onClick={() => {
                         setEditingApplication(item);
+                        form.setFieldsValue(item);
                         setModalVisible(true);
                       }}
                     >
@@ -607,14 +607,13 @@ const MentorApplicationPage = () => {
             onChange={handleMentorAvailableChange}
           />
           <List
-            css={`
-              margin: 24px auto;
-            `}
             loading={applicationLoading}
             dataSource={applicationData?.mentor_application}
             renderItem={(item) => {
               return (
-                <Descriptions key={item.id} bordered size="small">
+                <Descriptions key={item.id} bordered size="small"   css={`
+                margin: 24px auto;
+              `}>
                   <Descriptions.Item label="学生姓名" span={2}>
                     {item.student.name}
                   </Descriptions.Item>
