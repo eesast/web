@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useRouteMatch,
   useLocation,
@@ -6,8 +6,9 @@ import {
   Route,
   Link,
   Redirect,
+  useHistory,
 } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, message } from "antd";
 import {
   NotificationOutlined,
   TeamOutlined,
@@ -24,6 +25,9 @@ import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../NotFoundPage";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import AidApplicationPage from "./AidApplicationPage";
+import { gql, useQuery } from "@apollo/client";
+import { GetId, GetRole, GetUserVariables, GetUser } from "../../api/types";
+import { GetUser as GET_USER } from "../../api/user.graphql";
 
 const { Content, Sider } = Layout;
 
@@ -42,7 +46,36 @@ const FixedSider = styled(Sider)`
 const InfoSite: React.FC = () => {
   const { path, url } = useRouteMatch();
   const location = useLocation();
+  const history = useHistory();
   const page = location.pathname.split("/")[2] ?? "notices";
+
+  const { data: userData } = useQuery<GetId & GetRole>(gql`
+    {
+      _id @client
+      role @client
+    }
+  `);
+
+  const { data } = useQuery<GetUser, GetUserVariables>(GET_USER, {
+    variables: { _id: userData?._id! },
+  });
+
+  const user = data?.user?.[0];
+
+  useEffect(() => {
+    if (
+      userData?.role === "user" ||
+      !user?.class ||
+      !user.department ||
+      !user.email ||
+      !user.id ||
+      !user.name ||
+      !user.phone
+    ) {
+      message.warning("请先补全个人信息，并完成清华邮箱验证");
+      history.push("/profile");
+    }
+  }, [history, user, userData]);
 
   return (
     <Layout>
