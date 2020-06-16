@@ -33,9 +33,12 @@ import {
   AddNoticeVariables,
   UpdateNoticeVariables,
 } from "../../api/types";
-import { CardProps } from "antd/lib/card";
+import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
-import { UploadFile, RcCustomRequestOptions } from "antd/lib/upload/interface";
+import type {
+  UploadFile,
+  RcCustomRequestOptions,
+} from "antd/lib/upload/interface";
 import { getOSS, downloadFile } from "../../helpers/oss";
 
 const { Text } = Typography;

@@ -40,10 +40,10 @@ import {
 import isUrl from "is-url";
 import { honors, scholarships } from "../../configs";
 import { generateThankLetter } from "../../helpers/application";
-import { ColumnProps, TableProps } from "antd/lib/table";
+import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
-import { FilterDropdownProps } from "antd/lib/table/interface";
+import type { FilterDropdownProps } from "antd/lib/table/interface";
 
 const { Text } = Typography;
 const { Option } = Select;

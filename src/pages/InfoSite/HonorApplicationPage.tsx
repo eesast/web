@@ -45,8 +45,8 @@ import {
 import isUrl from "is-url";
 import { honors } from "../../configs";
 import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { ColumnProps, TableProps } from "antd/lib/table";
-import { FilterDropdownProps } from "antd/lib/table/interface";
+import type { ColumnProps, TableProps } from "antd/lib/table";
+import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getStatusText, getStatusValue } from "../../helpers/application";
 import get from "lodash.get";
 

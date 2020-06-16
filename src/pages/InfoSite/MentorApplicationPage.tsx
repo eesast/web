@@ -46,8 +46,8 @@ import {
   GetMentorApplicationsForCounselors,
 } from "../../api/types";
 import dayjs from "dayjs";
-import { TableProps, ColumnProps } from "antd/lib/table";
-import { FilterDropdownProps } from "antd/lib/table/interface";
+import type { TableProps, ColumnProps } from "antd/lib/table";
+import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { SearchOutlined } from "@ant-design/icons";
 import { getStatusText } from "../../helpers/application";
 
@@ -546,9 +546,14 @@ const MentorApplicationPage = () => {
             dataSource={applicationData?.mentor_application}
             renderItem={(item) => {
               return (
-                <Descriptions key={item.id} bordered size="small"   css={`
-                margin: 24px auto;
-              `}>
+                <Descriptions
+                  key={item.id}
+                  bordered
+                  size="small"
+                  css={`
+                    margin: 24px auto;
+                  `}
+                >
                   <Descriptions.Item label="导师姓名" span={2}>
                     {item.mentor.name}
                   </Descriptions.Item>
@@ -611,9 +616,14 @@ const MentorApplicationPage = () => {
             dataSource={applicationData?.mentor_application}
             renderItem={(item) => {
               return (
-                <Descriptions key={item.id} bordered size="small"   css={`
-                margin: 24px auto;
-              `}>
+                <Descriptions
+                  key={item.id}
+                  bordered
+                  size="small"
+                  css={`
+                    margin: 24px auto;
+                  `}
+                >
                   <Descriptions.Item label="学生姓名" span={2}>
                     {item.student.name}
                   </Descriptions.Item>
