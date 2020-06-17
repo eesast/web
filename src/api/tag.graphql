@@ -1,0 +1,113 @@
+query GetTag($id: uuid, $tag: String, $with_articles: Boolean!) {
+  tag(where: { _and: [{ id: { _eq: $id } }, { tag: { _eq: $tag } }] }) {
+    tag
+    tag_articles_aggregate {
+      aggregate {
+        count
+      }
+      nodes @include(if: $with_articles) {
+        article {
+          id
+          title
+          abstract
+          alias
+        }
+      }
+    }
+  }
+}
+
+mutation InsertTag($tag: String!) {
+  insert_tag_one(
+    object: { tag: $tag }
+    on_conflict: { constraint: tag_tag_key, update_columns: tag }
+  ) {
+    id
+    tag
+  }
+}
+
+# mutation insert tags
+# param: [tag_insert_input]
+# tag_insert_input: {tag: <string>, id?: <uuid>}
+mutation InsertTags($objects: [tag_insert_input!]! = {}) {
+  insert_tag(
+    objects: $objects
+    on_conflict: { constraint: tag_tag_key, update_columns: tag }
+  ) {
+    returning {
+      id
+      tag
+    }
+  }
+}
+
+mutation UpdateTag($id: uuid!, $tag: String) {
+  update_tag_by_pk(pk_columns: { id: $id }, _set: { tag: $tag }) {
+    id
+    tag
+  }
+}
+
+mutation DeleteTag($id: uuid!) {
+  delete_article_tag(where: { tag_id: { _eq: $id } }) {
+    affected_rows
+  }
+  delete_tag_by_pk(id: $id) {
+    id
+    tag
+  }
+}
+
+mutation InsertArticleTag(
+  $article_id: Int!
+  $tag_id: uuid!
+  $with_article: Boolean!
+) {
+  insert_article_tag_one(
+    object: { article_id: $article_id, tag_id: $tag_id }
+    on_conflict: { constraint: article_tag_pkey, update_columns: article_id }
+  ) {
+    article_id
+    tag_id
+    article @include(if: $with_article) {
+      alias
+      title
+      author {
+        username
+      }
+      article_tags {
+        tag {
+          tag
+        }
+      }
+    }
+    tag {
+      tag
+    }
+  }
+}
+
+mutation DeleteArticleTag(
+  $article_id: Int!
+  $tag_id: uuid!
+  $with_article: Boolean!
+) {
+  delete_article_tag_by_pk(article_id: $article_id, tag_id: $tag_id) {
+    article @include(if: $with_article) {
+      alias
+      title
+      author {
+        username
+      }
+      article_tags {
+        tag {
+          tag
+        }
+      }
+    }
+    tag {
+      tag
+    }
+  }
+}

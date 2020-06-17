@@ -4,6 +4,329 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetArticle
+// ====================================================
+
+export interface GetArticle_article_by_pk_author {
+  __typename: "user";
+  username: string | null;
+}
+
+export interface GetArticle_article_by_pk_article_tags_tag {
+  __typename: "tag";
+  tag: string;
+}
+
+export interface GetArticle_article_by_pk_article_tags {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  tag: GetArticle_article_by_pk_article_tags_tag;
+}
+
+export interface GetArticle_article_by_pk_article_likers_aggregate_aggregate {
+  __typename: "article_liker_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetArticle_article_by_pk_article_likers_aggregate {
+  __typename: "article_liker_aggregate";
+  aggregate: GetArticle_article_by_pk_article_likers_aggregate_aggregate | null;
+}
+
+export interface GetArticle_article_by_pk {
+  __typename: "article";
+  id: number;
+  title: string;
+  authorId: string;
+  /**
+   * An object relationship
+   */
+  author: GetArticle_article_by_pk_author;
+  alias: string;
+  abstract: string | null;
+  content: string;
+  createdAt: any;
+  updatedAt: any;
+  /**
+   * An array relationship
+   */
+  article_tags: GetArticle_article_by_pk_article_tags[];
+  /**
+   * An aggregated array relationship
+   */
+  article_likers_aggregate: GetArticle_article_by_pk_article_likers_aggregate;
+}
+
+export interface GetArticle {
+  /**
+   * fetch data from the table: "article" using primary key columns
+   */
+  article_by_pk: GetArticle_article_by_pk | null;
+}
+
+export interface GetArticleVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetArticles
+// ====================================================
+
+export interface GetArticles_article_author {
+  __typename: "user";
+  username: string | null;
+}
+
+export interface GetArticles_article_article_tags_aggregate_aggregate {
+  __typename: "article_tag_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetArticles_article_article_tags_aggregate_nodes_tag {
+  __typename: "tag";
+  tag: string;
+}
+
+export interface GetArticles_article_article_tags_aggregate_nodes {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  tag: GetArticles_article_article_tags_aggregate_nodes_tag;
+}
+
+export interface GetArticles_article_article_tags_aggregate {
+  __typename: "article_tag_aggregate";
+  aggregate: GetArticles_article_article_tags_aggregate_aggregate | null;
+  nodes: GetArticles_article_article_tags_aggregate_nodes[];
+}
+
+export interface GetArticles_article_article_likers_aggregate_aggregate {
+  __typename: "article_liker_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetArticles_article_article_likers_aggregate {
+  __typename: "article_liker_aggregate";
+  aggregate: GetArticles_article_article_likers_aggregate_aggregate | null;
+}
+
+export interface GetArticles_article {
+  __typename: "article";
+  id: number;
+  title: string;
+  /**
+   * An object relationship
+   */
+  author: GetArticles_article_author;
+  alias: string;
+  abstract: string | null;
+  updatedAt: any;
+  /**
+   * An aggregated array relationship
+   */
+  article_tags_aggregate: GetArticles_article_article_tags_aggregate;
+  /**
+   * An aggregated array relationship
+   */
+  article_likers_aggregate: GetArticles_article_article_likers_aggregate;
+}
+
+export interface GetArticles {
+  /**
+   * fetch data from the table: "article"
+   */
+  article: GetArticles_article[];
+}
+
+export interface GetArticlesVariables {
+  authorId?: string | null;
+  title?: string | null;
+  alias?: string | null;
+  abstract?: string | null;
+  content?: string | null;
+  tag?: string | null;
+  visible?: boolean | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertArticle
+// ====================================================
+
+export interface InsertArticle_insert_article_one {
+  __typename: "article";
+  id: number;
+}
+
+export interface InsertArticle {
+  /**
+   * insert a single row into the table: "article"
+   */
+  insert_article_one: InsertArticle_insert_article_one | null;
+}
+
+export interface InsertArticleVariables {
+  abstract?: string | null;
+  alias: string;
+  content: string;
+  authorId: string;
+  title: string;
+  tags: article_tag_insert_input[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateArticle
+// ====================================================
+
+export interface UpdateArticle_update_article_by_pk {
+  __typename: "article";
+  title: string;
+  alias: string;
+  content: string;
+  abstract: string | null;
+}
+
+export interface UpdateArticle {
+  /**
+   * update single row of the table: "article"
+   */
+  update_article_by_pk: UpdateArticle_update_article_by_pk | null;
+}
+
+export interface UpdateArticleVariables {
+  id: number;
+  title?: string | null;
+  alias?: string | null;
+  content?: string | null;
+  abstract?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteArticle
+// ====================================================
+
+export interface DeleteArticle_delete_article_tag {
+  __typename: "article_tag_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteArticle_delete_article_liker {
+  __typename: "article_liker_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteArticle_delete_article_by_pk {
+  __typename: "article";
+  id: number;
+}
+
+export interface DeleteArticle {
+  /**
+   * delete data from the table: "article_tag"
+   */
+  delete_article_tag: DeleteArticle_delete_article_tag | null;
+  /**
+   * delete data from the table: "article_liker"
+   */
+  delete_article_liker: DeleteArticle_delete_article_liker | null;
+  /**
+   * delete single row from the table: "article"
+   */
+  delete_article_by_pk: DeleteArticle_delete_article_by_pk | null;
+}
+
+export interface DeleteArticleVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: LikeArticle
+// ====================================================
+
+export interface LikeArticle_insert_article_liker_one {
+  __typename: "article_liker";
+  article_id: number;
+  user_id: string;
+}
+
+export interface LikeArticle {
+  /**
+   * insert a single row into the table: "article_liker"
+   */
+  insert_article_liker_one: LikeArticle_insert_article_liker_one | null;
+}
+
+export interface LikeArticleVariables {
+  article_id: number;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UnlikeArticle
+// ====================================================
+
+export interface UnlikeArticle_delete_article_liker_by_pk {
+  __typename: "article_liker";
+  article_id: number;
+  user_id: string;
+}
+
+export interface UnlikeArticle {
+  /**
+   * delete single row from the table: "article_liker"
+   */
+  delete_article_liker_by_pk: UnlikeArticle_delete_article_liker_by_pk | null;
+}
+
+export interface UnlikeArticleVariables {
+  article_id: number;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetToken
 // ====================================================
 
@@ -1197,6 +1520,333 @@ export interface DeleteScholarshipApplicationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetTag
+// ====================================================
+
+export interface GetTag_tag_tag_articles_aggregate_aggregate {
+  __typename: "article_tag_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetTag_tag_tag_articles_aggregate_nodes_article {
+  __typename: "article";
+  id: number;
+  title: string;
+  abstract: string | null;
+  alias: string;
+}
+
+export interface GetTag_tag_tag_articles_aggregate_nodes {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  article: GetTag_tag_tag_articles_aggregate_nodes_article;
+}
+
+export interface GetTag_tag_tag_articles_aggregate {
+  __typename: "article_tag_aggregate";
+  aggregate: GetTag_tag_tag_articles_aggregate_aggregate | null;
+  nodes: GetTag_tag_tag_articles_aggregate_nodes[];
+}
+
+export interface GetTag_tag {
+  __typename: "tag";
+  tag: string;
+  /**
+   * An aggregated array relationship
+   */
+  tag_articles_aggregate: GetTag_tag_tag_articles_aggregate;
+}
+
+export interface GetTag {
+  /**
+   * fetch data from the table: "tag"
+   */
+  tag: GetTag_tag[];
+}
+
+export interface GetTagVariables {
+  id?: any | null;
+  tag?: string | null;
+  with_articles: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertTag
+// ====================================================
+
+export interface InsertTag_insert_tag_one {
+  __typename: "tag";
+  id: any;
+  tag: string;
+}
+
+export interface InsertTag {
+  /**
+   * insert a single row into the table: "tag"
+   */
+  insert_tag_one: InsertTag_insert_tag_one | null;
+}
+
+export interface InsertTagVariables {
+  tag: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertTags
+// ====================================================
+
+export interface InsertTags_insert_tag_returning {
+  __typename: "tag";
+  id: any;
+  tag: string;
+}
+
+export interface InsertTags_insert_tag {
+  __typename: "tag_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: InsertTags_insert_tag_returning[];
+}
+
+export interface InsertTags {
+  /**
+   * insert data into the table: "tag"
+   */
+  insert_tag: InsertTags_insert_tag | null;
+}
+
+export interface InsertTagsVariables {
+  objects: tag_insert_input[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateTag
+// ====================================================
+
+export interface UpdateTag_update_tag_by_pk {
+  __typename: "tag";
+  id: any;
+  tag: string;
+}
+
+export interface UpdateTag {
+  /**
+   * update single row of the table: "tag"
+   */
+  update_tag_by_pk: UpdateTag_update_tag_by_pk | null;
+}
+
+export interface UpdateTagVariables {
+  id: any;
+  tag?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTag
+// ====================================================
+
+export interface DeleteTag_delete_article_tag {
+  __typename: "article_tag_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteTag_delete_tag_by_pk {
+  __typename: "tag";
+  id: any;
+  tag: string;
+}
+
+export interface DeleteTag {
+  /**
+   * delete data from the table: "article_tag"
+   */
+  delete_article_tag: DeleteTag_delete_article_tag | null;
+  /**
+   * delete single row from the table: "tag"
+   */
+  delete_tag_by_pk: DeleteTag_delete_tag_by_pk | null;
+}
+
+export interface DeleteTagVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertArticleTag
+// ====================================================
+
+export interface InsertArticleTag_insert_article_tag_one_article_author {
+  __typename: "user";
+  username: string | null;
+}
+
+export interface InsertArticleTag_insert_article_tag_one_article_article_tags_tag {
+  __typename: "tag";
+  tag: string;
+}
+
+export interface InsertArticleTag_insert_article_tag_one_article_article_tags {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  tag: InsertArticleTag_insert_article_tag_one_article_article_tags_tag;
+}
+
+export interface InsertArticleTag_insert_article_tag_one_article {
+  __typename: "article";
+  alias: string;
+  title: string;
+  /**
+   * An object relationship
+   */
+  author: InsertArticleTag_insert_article_tag_one_article_author;
+  /**
+   * An array relationship
+   */
+  article_tags: InsertArticleTag_insert_article_tag_one_article_article_tags[];
+}
+
+export interface InsertArticleTag_insert_article_tag_one_tag {
+  __typename: "tag";
+  tag: string;
+}
+
+export interface InsertArticleTag_insert_article_tag_one {
+  __typename: "article_tag";
+  article_id: number;
+  tag_id: any;
+  /**
+   * An object relationship
+   */
+  article: InsertArticleTag_insert_article_tag_one_article;
+  /**
+   * An object relationship
+   */
+  tag: InsertArticleTag_insert_article_tag_one_tag;
+}
+
+export interface InsertArticleTag {
+  /**
+   * insert a single row into the table: "article_tag"
+   */
+  insert_article_tag_one: InsertArticleTag_insert_article_tag_one | null;
+}
+
+export interface InsertArticleTagVariables {
+  article_id: number;
+  tag_id: any;
+  with_article: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteArticleTag
+// ====================================================
+
+export interface DeleteArticleTag_delete_article_tag_by_pk_article_author {
+  __typename: "user";
+  username: string | null;
+}
+
+export interface DeleteArticleTag_delete_article_tag_by_pk_article_article_tags_tag {
+  __typename: "tag";
+  tag: string;
+}
+
+export interface DeleteArticleTag_delete_article_tag_by_pk_article_article_tags {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  tag: DeleteArticleTag_delete_article_tag_by_pk_article_article_tags_tag;
+}
+
+export interface DeleteArticleTag_delete_article_tag_by_pk_article {
+  __typename: "article";
+  alias: string;
+  title: string;
+  /**
+   * An object relationship
+   */
+  author: DeleteArticleTag_delete_article_tag_by_pk_article_author;
+  /**
+   * An array relationship
+   */
+  article_tags: DeleteArticleTag_delete_article_tag_by_pk_article_article_tags[];
+}
+
+export interface DeleteArticleTag_delete_article_tag_by_pk_tag {
+  __typename: "tag";
+  tag: string;
+}
+
+export interface DeleteArticleTag_delete_article_tag_by_pk {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  article: DeleteArticleTag_delete_article_tag_by_pk_article;
+  /**
+   * An object relationship
+   */
+  tag: DeleteArticleTag_delete_article_tag_by_pk_tag;
+}
+
+export interface DeleteArticleTag {
+  /**
+   * delete single row from the table: "article_tag"
+   */
+  delete_article_tag_by_pk: DeleteArticleTag_delete_article_tag_by_pk | null;
+}
+
+export interface DeleteArticleTagVariables {
+  article_id: number;
+  tag_id: any;
+  with_article: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 
@@ -1266,6 +1916,572 @@ export interface UpdateUserVariables {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+/**
+ * unique or primary key constraints on table "article"
+ */
+export enum article_constraint {
+  article_alias_key = "article_alias_key",
+  article_pkey = "article_pkey",
+}
+
+/**
+ * unique or primary key constraints on table "article_liker"
+ */
+export enum article_liker_constraint {
+  article_liker_pkey = "article_liker_pkey",
+}
+
+/**
+ * update columns of table "article_liker"
+ */
+export enum article_liker_update_column {
+  article_id = "article_id",
+  user_id = "user_id",
+}
+
+/**
+ * unique or primary key constraints on table "article_tag"
+ */
+export enum article_tag_constraint {
+  article_tag_pkey = "article_tag_pkey",
+}
+
+/**
+ * update columns of table "article_tag"
+ */
+export enum article_tag_update_column {
+  article_id = "article_id",
+  tag_id = "tag_id",
+}
+
+/**
+ * update columns of table "article"
+ */
+export enum article_update_column {
+  abstract = "abstract",
+  alias = "alias",
+  authorId = "authorId",
+  content = "content",
+  createdAt = "createdAt",
+  id = "id",
+  title = "title",
+  updatedAt = "updatedAt",
+  views = "views",
+  visible = "visible",
+}
+
+/**
+ * unique or primary key constraints on table "mentor_application"
+ */
+export enum mentor_application_constraint {
+  mentor_application_pkey1 = "mentor_application_pkey1",
+}
+
+/**
+ * update columns of table "mentor_application"
+ */
+export enum mentor_application_update_column {
+  created_at = "created_at",
+  id = "id",
+  mentor_id = "mentor_id",
+  statement = "statement",
+  status = "status",
+  student_id = "student_id",
+  updated_at = "updated_at",
+}
+
+/**
+ * unique or primary key constraints on table "mentor_available"
+ */
+export enum mentor_available_constraint {
+  mentor_available_mentor_id_key = "mentor_available_mentor_id_key",
+  mentor_available_pkey = "mentor_available_pkey",
+}
+
+/**
+ * update columns of table "mentor_available"
+ */
+export enum mentor_available_update_column {
+  available = "available",
+  created_at = "created_at",
+  mentor_id = "mentor_id",
+  updated_at = "updated_at",
+}
+
+/**
+ * unique or primary key constraints on table "tag"
+ */
+export enum tag_constraint {
+  tag_pkey = "tag_pkey",
+  tag_tag_key = "tag_tag_key",
+}
+
+/**
+ * update columns of table "tag"
+ */
+export enum tag_update_column {
+  id = "id",
+  tag = "tag",
+}
+
+/**
+ * unique or primary key constraints on table "user"
+ */
+export enum user_constraint {
+  user_id_key = "user_id_key",
+  user_pkey = "user_pkey",
+  user_student_id_key = "user_student_id_key",
+  user_username_key = "user_username_key",
+}
+
+/**
+ * update columns of table "user"
+ */
+export enum user_update_column {
+  _id = "_id",
+  class = "class",
+  created_at = "created_at",
+  department = "department",
+  email = "email",
+  id = "id",
+  name = "name",
+  phone = "phone",
+  updated_at = "updated_at",
+  username = "username",
+}
+
+/**
+ * expression to compare columns of type Boolean. All fields are combined with logical 'AND'.
+ */
+export interface Boolean_comparison_exp {
+  _eq?: boolean | null;
+  _gt?: boolean | null;
+  _gte?: boolean | null;
+  _in?: boolean[] | null;
+  _is_null?: boolean | null;
+  _lt?: boolean | null;
+  _lte?: boolean | null;
+  _neq?: boolean | null;
+  _nin?: boolean[] | null;
+}
+
+/**
+ * expression to compare columns of type Int. All fields are combined with logical 'AND'.
+ */
+export interface Int_comparison_exp {
+  _eq?: number | null;
+  _gt?: number | null;
+  _gte?: number | null;
+  _in?: number[] | null;
+  _is_null?: boolean | null;
+  _lt?: number | null;
+  _lte?: number | null;
+  _neq?: number | null;
+  _nin?: number[] | null;
+}
+
+/**
+ * expression to compare columns of type String. All fields are combined with logical 'AND'.
+ */
+export interface String_comparison_exp {
+  _eq?: string | null;
+  _gt?: string | null;
+  _gte?: string | null;
+  _ilike?: string | null;
+  _in?: string[] | null;
+  _is_null?: boolean | null;
+  _like?: string | null;
+  _lt?: string | null;
+  _lte?: string | null;
+  _neq?: string | null;
+  _nilike?: string | null;
+  _nin?: string[] | null;
+  _nlike?: string | null;
+  _nsimilar?: string | null;
+  _similar?: string | null;
+}
+
+/**
+ * input type for inserting array relation for remote table "article"
+ */
+export interface article_arr_rel_insert_input {
+  data: article_insert_input[];
+  on_conflict?: article_on_conflict | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "article". All fields are combined with a logical 'AND'.
+ */
+export interface article_bool_exp {
+  _and?: (article_bool_exp | null)[] | null;
+  _not?: article_bool_exp | null;
+  _or?: (article_bool_exp | null)[] | null;
+  abstract?: String_comparison_exp | null;
+  alias?: String_comparison_exp | null;
+  article_likers?: article_liker_bool_exp | null;
+  article_tags?: article_tag_bool_exp | null;
+  author?: user_bool_exp | null;
+  authorId?: String_comparison_exp | null;
+  content?: String_comparison_exp | null;
+  createdAt?: timestamptz_comparison_exp | null;
+  id?: Int_comparison_exp | null;
+  title?: String_comparison_exp | null;
+  updatedAt?: timestamptz_comparison_exp | null;
+  views?: Int_comparison_exp | null;
+  visible?: Boolean_comparison_exp | null;
+}
+
+/**
+ * input type for inserting data into table "article"
+ */
+export interface article_insert_input {
+  abstract?: string | null;
+  alias?: string | null;
+  article_likers?: article_liker_arr_rel_insert_input | null;
+  article_tags?: article_tag_arr_rel_insert_input | null;
+  author?: user_obj_rel_insert_input | null;
+  authorId?: string | null;
+  content?: string | null;
+  createdAt?: any | null;
+  id?: number | null;
+  title?: string | null;
+  updatedAt?: any | null;
+  views?: number | null;
+  visible?: boolean | null;
+}
+
+/**
+ * input type for inserting array relation for remote table "article_liker"
+ */
+export interface article_liker_arr_rel_insert_input {
+  data: article_liker_insert_input[];
+  on_conflict?: article_liker_on_conflict | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "article_liker". All fields are combined with a logical 'AND'.
+ */
+export interface article_liker_bool_exp {
+  _and?: (article_liker_bool_exp | null)[] | null;
+  _not?: article_liker_bool_exp | null;
+  _or?: (article_liker_bool_exp | null)[] | null;
+  article?: article_bool_exp | null;
+  article_id?: Int_comparison_exp | null;
+  liker?: user_bool_exp | null;
+  user_id?: String_comparison_exp | null;
+}
+
+/**
+ * input type for inserting data into table "article_liker"
+ */
+export interface article_liker_insert_input {
+  article?: article_obj_rel_insert_input | null;
+  article_id?: number | null;
+  liker?: user_obj_rel_insert_input | null;
+  user_id?: string | null;
+}
+
+/**
+ * on conflict condition type for table "article_liker"
+ */
+export interface article_liker_on_conflict {
+  constraint: article_liker_constraint;
+  update_columns: article_liker_update_column[];
+  where?: article_liker_bool_exp | null;
+}
+
+/**
+ * input type for inserting object relation for remote table "article"
+ */
+export interface article_obj_rel_insert_input {
+  data: article_insert_input;
+  on_conflict?: article_on_conflict | null;
+}
+
+/**
+ * on conflict condition type for table "article"
+ */
+export interface article_on_conflict {
+  constraint: article_constraint;
+  update_columns: article_update_column[];
+  where?: article_bool_exp | null;
+}
+
+/**
+ * input type for inserting array relation for remote table "article_tag"
+ */
+export interface article_tag_arr_rel_insert_input {
+  data: article_tag_insert_input[];
+  on_conflict?: article_tag_on_conflict | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "article_tag". All fields are combined with a logical 'AND'.
+ */
+export interface article_tag_bool_exp {
+  _and?: (article_tag_bool_exp | null)[] | null;
+  _not?: article_tag_bool_exp | null;
+  _or?: (article_tag_bool_exp | null)[] | null;
+  article?: article_bool_exp | null;
+  article_id?: Int_comparison_exp | null;
+  tag?: tag_bool_exp | null;
+  tag_id?: uuid_comparison_exp | null;
+}
+
+/**
+ * input type for inserting data into table "article_tag"
+ */
+export interface article_tag_insert_input {
+  article?: article_obj_rel_insert_input | null;
+  article_id?: number | null;
+  tag?: tag_obj_rel_insert_input | null;
+  tag_id?: any | null;
+}
+
+/**
+ * on conflict condition type for table "article_tag"
+ */
+export interface article_tag_on_conflict {
+  constraint: article_tag_constraint;
+  update_columns: article_tag_update_column[];
+  where?: article_tag_bool_exp | null;
+}
+
+/**
+ * expression to compare columns of type bigint. All fields are combined with logical 'AND'.
+ */
+export interface bigint_comparison_exp {
+  _eq?: any | null;
+  _gt?: any | null;
+  _gte?: any | null;
+  _in?: any[] | null;
+  _is_null?: boolean | null;
+  _lt?: any | null;
+  _lte?: any | null;
+  _neq?: any | null;
+  _nin?: any[] | null;
+}
+
+/**
+ * input type for inserting array relation for remote table "mentor_application"
+ */
+export interface mentor_application_arr_rel_insert_input {
+  data: mentor_application_insert_input[];
+  on_conflict?: mentor_application_on_conflict | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "mentor_application". All fields are combined with a logical 'AND'.
+ */
+export interface mentor_application_bool_exp {
+  _and?: (mentor_application_bool_exp | null)[] | null;
+  _not?: mentor_application_bool_exp | null;
+  _or?: (mentor_application_bool_exp | null)[] | null;
+  created_at?: timestamptz_comparison_exp | null;
+  id?: uuid_comparison_exp | null;
+  mentor?: user_bool_exp | null;
+  mentor_id?: String_comparison_exp | null;
+  statement?: String_comparison_exp | null;
+  status?: String_comparison_exp | null;
+  student?: user_bool_exp | null;
+  student_id?: String_comparison_exp | null;
+  updated_at?: timestamptz_comparison_exp | null;
+}
+
+/**
+ * input type for inserting data into table "mentor_application"
+ */
+export interface mentor_application_insert_input {
+  created_at?: any | null;
+  id?: any | null;
+  mentor?: user_obj_rel_insert_input | null;
+  mentor_id?: string | null;
+  statement?: string | null;
+  status?: string | null;
+  student?: user_obj_rel_insert_input | null;
+  student_id?: string | null;
+  updated_at?: any | null;
+}
+
+/**
+ * on conflict condition type for table "mentor_application"
+ */
+export interface mentor_application_on_conflict {
+  constraint: mentor_application_constraint;
+  update_columns: mentor_application_update_column[];
+  where?: mentor_application_bool_exp | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "mentor_available". All fields are combined with a logical 'AND'.
+ */
+export interface mentor_available_bool_exp {
+  _and?: (mentor_available_bool_exp | null)[] | null;
+  _not?: mentor_available_bool_exp | null;
+  _or?: (mentor_available_bool_exp | null)[] | null;
+  available?: Boolean_comparison_exp | null;
+  created_at?: timestamptz_comparison_exp | null;
+  mentor_id?: String_comparison_exp | null;
+  updated_at?: timestamptz_comparison_exp | null;
+}
+
+/**
+ * input type for inserting data into table "mentor_available"
+ */
+export interface mentor_available_insert_input {
+  available?: boolean | null;
+  created_at?: any | null;
+  mentor_id?: string | null;
+  updated_at?: any | null;
+}
+
+/**
+ * input type for inserting object relation for remote table "mentor_available"
+ */
+export interface mentor_available_obj_rel_insert_input {
+  data: mentor_available_insert_input;
+  on_conflict?: mentor_available_on_conflict | null;
+}
+
+/**
+ * on conflict condition type for table "mentor_available"
+ */
+export interface mentor_available_on_conflict {
+  constraint: mentor_available_constraint;
+  update_columns: mentor_available_update_column[];
+  where?: mentor_available_bool_exp | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "tag". All fields are combined with a logical 'AND'.
+ */
+export interface tag_bool_exp {
+  _and?: (tag_bool_exp | null)[] | null;
+  _not?: tag_bool_exp | null;
+  _or?: (tag_bool_exp | null)[] | null;
+  id?: uuid_comparison_exp | null;
+  tag?: String_comparison_exp | null;
+  tag_articles?: article_tag_bool_exp | null;
+}
+
+/**
+ * input type for inserting data into table "tag"
+ */
+export interface tag_insert_input {
+  id?: any | null;
+  tag?: string | null;
+  tag_articles?: article_tag_arr_rel_insert_input | null;
+}
+
+/**
+ * input type for inserting object relation for remote table "tag"
+ */
+export interface tag_obj_rel_insert_input {
+  data: tag_insert_input;
+  on_conflict?: tag_on_conflict | null;
+}
+
+/**
+ * on conflict condition type for table "tag"
+ */
+export interface tag_on_conflict {
+  constraint: tag_constraint;
+  update_columns: tag_update_column[];
+  where?: tag_bool_exp | null;
+}
+
+/**
+ * expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+ */
+export interface timestamptz_comparison_exp {
+  _eq?: any | null;
+  _gt?: any | null;
+  _gte?: any | null;
+  _in?: any[] | null;
+  _is_null?: boolean | null;
+  _lt?: any | null;
+  _lte?: any | null;
+  _neq?: any | null;
+  _nin?: any[] | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'.
+ */
+export interface user_bool_exp {
+  _and?: (user_bool_exp | null)[] | null;
+  _id?: String_comparison_exp | null;
+  _not?: user_bool_exp | null;
+  _or?: (user_bool_exp | null)[] | null;
+  articles?: article_bool_exp | null;
+  class?: String_comparison_exp | null;
+  created_at?: timestamptz_comparison_exp | null;
+  department?: String_comparison_exp | null;
+  email?: String_comparison_exp | null;
+  id?: bigint_comparison_exp | null;
+  like_articles?: article_liker_bool_exp | null;
+  mentor_applications_mentor?: mentor_application_bool_exp | null;
+  mentor_applications_student?: mentor_application_bool_exp | null;
+  mentor_available?: mentor_available_bool_exp | null;
+  name?: String_comparison_exp | null;
+  phone?: String_comparison_exp | null;
+  updated_at?: timestamptz_comparison_exp | null;
+  username?: String_comparison_exp | null;
+}
+
+/**
+ * input type for inserting data into table "user"
+ */
+export interface user_insert_input {
+  _id?: string | null;
+  articles?: article_arr_rel_insert_input | null;
+  class?: string | null;
+  created_at?: any | null;
+  department?: string | null;
+  email?: string | null;
+  id?: any | null;
+  like_articles?: article_liker_arr_rel_insert_input | null;
+  mentor_applications_mentor?: mentor_application_arr_rel_insert_input | null;
+  mentor_applications_student?: mentor_application_arr_rel_insert_input | null;
+  mentor_available?: mentor_available_obj_rel_insert_input | null;
+  name?: string | null;
+  phone?: string | null;
+  updated_at?: any | null;
+  username?: string | null;
+}
+
+/**
+ * input type for inserting object relation for remote table "user"
+ */
+export interface user_obj_rel_insert_input {
+  data: user_insert_input;
+  on_conflict?: user_on_conflict | null;
+}
+
+/**
+ * on conflict condition type for table "user"
+ */
+export interface user_on_conflict {
+  constraint: user_constraint;
+  update_columns: user_update_column[];
+  where?: user_bool_exp | null;
+}
+
+/**
+ * expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+ */
+export interface uuid_comparison_exp {
+  _eq?: any | null;
+  _gt?: any | null;
+  _gte?: any | null;
+  _in?: any[] | null;
+  _is_null?: boolean | null;
+  _lt?: any | null;
+  _lte?: any | null;
+  _neq?: any | null;
+  _nin?: any[] | null;
+}
 
 //==============================================================
 // END Enums and Input Objects

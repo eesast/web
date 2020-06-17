@@ -1,0 +1,227 @@
+query GetArticle($id: Int!) {
+  article_by_pk(id: $id) {
+    id
+    title
+    authorId
+    author {
+      username
+    }
+    alias
+    abstract
+    content
+    created_at
+    updated_at
+    article_tags {
+      tag {
+        tag
+      }
+    }
+    article_likers_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}
+
+mutation ViewArticle($id: Int!) {
+  update_article_by_pk(pk_columns: { id: $id }, _inc: { views: 1 }) {
+    id
+    title
+    alias
+    abstract
+    content
+    authorId
+    author {
+      username
+    }
+    updated_at
+    views
+    article_tags {
+      tag {
+        tag
+      }
+    }
+    article_likers_aggregate {
+      aggregate {
+        count(distinct: true)
+      }
+    }
+  }
+}
+
+query GetArticles(
+  $authorId: String
+  $title: String
+  $alias: String
+  $abstract: String
+  $content: String
+  $tag: String
+  $visible: Boolean
+) {
+  article(
+    where: {
+      _and: [
+        { authorId: { _eq: $authorId } }
+        { visible: { _eq: $visible } }
+        { title: { _ilike: $title } }
+        { alias: { _ilike: $alias } }
+        { abstract: { _ilike: $abstract } }
+        { content: { _ilike: $content } }
+        { article_tags: { tag: { tag: { _eq: $tag } } } }
+      ]
+    }
+    order_by: { updated_at: desc }
+  ) {
+    id
+    title
+    author {
+      username
+    }
+    alias
+    abstract
+    updated_at
+    article_tags_aggregate {
+      aggregate {
+        count
+      }
+      nodes {
+        tag {
+          tag
+        }
+      }
+    }
+    article_likers_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}
+
+# mutation insert article with tags
+# param [article_tag_insert_input]:
+# [
+#   {
+#     "tag": {
+#       "data": {
+#         "tag": <string>
+#       },
+#       "on_conflict": {
+#         "constraint": "tag_tag_key",
+#         "update_columns": "tag"
+#       }
+#     }
+#   }
+# ]
+mutation InsertArticle(
+  $abstract: String = ""
+  $alias: String!
+  $content: String!
+  $authorId: String!
+  $title: String!
+  $tags: [article_tag_insert_input!]! = []
+) {
+  insert_article_one(
+    object: {
+      abstract: $abstract
+      alias: $alias
+      content: $content
+      authorId: $authorId
+      title: $title
+      article_tags: {
+        data: $tags
+        on_conflict: { constraint: article_tag_pkey, update_columns: tag_id }
+      }
+    }
+    on_conflict: { constraint: article_alias_key, update_columns: [] }
+  ) {
+    id
+  }
+}
+
+# mutation update article with tags
+# param [article_tag_insert_input]:
+# [
+#   {
+#     "article_id": <id>
+#     "tag": {
+#       "data": {
+#         "tag": <string>
+#       },
+#       "on_conflict": {
+#         "constraint": "tag_tag_key",
+#         "update_columns": "tag"
+#       }
+#     }
+#   }
+# ]
+# **********
+# 注意：目前 where 似乎并不能保证 $tags 中的 article_id 与 $id 一致才插入数据
+mutation UpdateArticle(
+  $id: Int!
+  $abstract: String = ""
+  $alias: String!
+  $authorId: String!
+  $content: String!
+  $title: String!
+  $tags: [article_tag_insert_input!]! = {}
+) {
+  update_article_by_pk(
+    pk_columns: { id: $id }
+    _set: {
+      abstract: $abstract
+      alias: $alias
+      authorId: $authorId
+      content: $content
+      title: $title
+      visible: false
+    }
+  ) {
+    id
+    article_tags {
+      tag {
+        tag
+      }
+    }
+  }
+  insert_article_tag(
+    objects: $tags
+    on_conflict: {
+      constraint: article_tag_pkey
+      update_columns: tag_id
+      where: { article_id: { _eq: $id } }
+    }
+  ) {
+    affected_rows
+  }
+}
+
+mutation DeleteArticle($id: Int!) {
+  delete_article_tag(where: { article_id: { _eq: $id } }) {
+    affected_rows
+  }
+  delete_article_liker(where: { article_id: { _eq: $id } }) {
+    affected_rows
+  }
+  delete_article_by_pk(id: $id) {
+    id
+  }
+}
+
+mutation LikeArticle($article_id: Int!, $user_id: String!) {
+  insert_article_liker_one(
+    object: { article_id: $article_id, user_id: $user_id }
+    on_conflict: { constraint: article_liker_pkey, update_columns: article_id }
+  ) {
+    article_id
+    user_id
+  }
+}
+
+mutation UnlikeArticle($article_id: Int!, $user_id: String!) {
+  delete_article_liker_by_pk(article_id: $article_id, user_id: $user_id) {
+    article_id
+    user_id
+  }
+}
