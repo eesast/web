@@ -20,7 +20,7 @@ import calendar from "dayjs/plugin/calendar";
 import logo from "./assets/logo.png";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
-import AuthRoute from "./components/AutoRoute";
+import AuthRoute from "./components/AuthRoute";
 import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
