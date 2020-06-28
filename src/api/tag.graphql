@@ -1,6 +1,6 @@
 query GetTag($id: uuid, $tag: String, $with_articles: Boolean!) {
-  tag(where: { _and: [{ id: { _eq: $id } }, { tag: { _eq: $tag } }] }) {
-    tag
+  tag(where: { _and: [{ id: { _eq: $id } }, { tag_name: { _eq: $tag } }] }) {
+    tag_name
     tag_articles_aggregate {
       aggregate {
         count
@@ -19,11 +19,11 @@ query GetTag($id: uuid, $tag: String, $with_articles: Boolean!) {
 
 mutation InsertTag($tag: String!) {
   insert_tag_one(
-    object: { tag: $tag }
-    on_conflict: { constraint: tag_tag_key, update_columns: tag }
+    object: { tag_name: $tag }
+    on_conflict: { constraint: tag_tag_key, update_columns: tag_name }
   ) {
     id
-    tag
+    tag_name
   }
 }
 
@@ -33,19 +33,19 @@ mutation InsertTag($tag: String!) {
 mutation InsertTags($objects: [tag_insert_input!]! = {}) {
   insert_tag(
     objects: $objects
-    on_conflict: { constraint: tag_tag_key, update_columns: tag }
+    on_conflict: { constraint: tag_tag_key, update_columns: tag_name }
   ) {
     returning {
       id
-      tag
+      tag_name
     }
   }
 }
 
 mutation UpdateTag($id: uuid!, $tag: String) {
-  update_tag_by_pk(pk_columns: { id: $id }, _set: { tag: $tag }) {
+  update_tag_by_pk(pk_columns: { id: $id }, _set: { tag_name: $tag }) {
     id
-    tag
+    tag_name
   }
 }
 
@@ -55,7 +55,7 @@ mutation DeleteTag($id: uuid!) {
   }
   delete_tag_by_pk(id: $id) {
     id
-    tag
+    tag_name
   }
 }
 
@@ -78,12 +78,12 @@ mutation InsertArticleTag(
       }
       article_tags {
         tag {
-          tag
+          tag_name
         }
       }
     }
     tag {
-      tag
+      tag_name
     }
   }
 }
@@ -102,12 +102,12 @@ mutation DeleteArticleTag(
       }
       article_tags {
         tag {
-          tag
+          tag_name
         }
       }
     }
     tag {
-      tag
+      tag_name
     }
   }
 }

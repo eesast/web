@@ -14,7 +14,7 @@ export interface GetArticle_article_by_pk_author {
 
 export interface GetArticle_article_by_pk_article_tags_tag {
   __typename: "tag";
-  tag: string;
+  tag_name: string;
 }
 
 export interface GetArticle_article_by_pk_article_tags {
@@ -47,8 +47,8 @@ export interface GetArticle_article_by_pk {
   alias: string;
   abstract: string | null;
   content: string;
-  createdAt: any;
-  updatedAt: any;
+  created_at: any;
+  updated_at: any;
   /**
    * An array relationship
    */
@@ -76,84 +76,167 @@ export interface GetArticleVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetArticles
+// GraphQL mutation operation: ViewArticle
 // ====================================================
 
-export interface GetArticles_article_author {
+export interface ViewArticle_update_article_public_returning_author {
   __typename: "user";
   username: string | null;
 }
 
-export interface GetArticles_article_article_tags_aggregate_aggregate {
-  __typename: "article_tag_aggregate_fields";
-  count: number | null;
-}
-
-export interface GetArticles_article_article_tags_aggregate_nodes_tag {
+export interface ViewArticle_update_article_public_returning_article_tags_tag {
   __typename: "tag";
-  tag: string;
+  tag_name: string;
 }
 
-export interface GetArticles_article_article_tags_aggregate_nodes {
+export interface ViewArticle_update_article_public_returning_article_tags {
   __typename: "article_tag";
   /**
    * An object relationship
    */
-  tag: GetArticles_article_article_tags_aggregate_nodes_tag;
+  tag: ViewArticle_update_article_public_returning_article_tags_tag;
 }
 
-export interface GetArticles_article_article_tags_aggregate {
-  __typename: "article_tag_aggregate";
-  aggregate: GetArticles_article_article_tags_aggregate_aggregate | null;
-  nodes: GetArticles_article_article_tags_aggregate_nodes[];
-}
-
-export interface GetArticles_article_article_likers_aggregate_aggregate {
+export interface ViewArticle_update_article_public_returning_article_likers_aggregate_aggregate {
   __typename: "article_liker_aggregate_fields";
   count: number | null;
 }
 
-export interface GetArticles_article_article_likers_aggregate {
-  __typename: "article_liker_aggregate";
-  aggregate: GetArticles_article_article_likers_aggregate_aggregate | null;
+export interface ViewArticle_update_article_public_returning_article_likers_aggregate_nodes_liker {
+  __typename: "user";
+  username: string | null;
 }
 
-export interface GetArticles_article {
-  __typename: "article";
-  id: number;
-  title: string;
+export interface ViewArticle_update_article_public_returning_article_likers_aggregate_nodes {
+  __typename: "article_liker";
   /**
    * An object relationship
    */
-  author: GetArticles_article_author;
-  alias: string;
+  liker: ViewArticle_update_article_public_returning_article_likers_aggregate_nodes_liker;
+}
+
+export interface ViewArticle_update_article_public_returning_article_likers_aggregate {
+  __typename: "article_liker_aggregate";
+  aggregate: ViewArticle_update_article_public_returning_article_likers_aggregate_aggregate | null;
+  nodes: ViewArticle_update_article_public_returning_article_likers_aggregate_nodes[];
+}
+
+export interface ViewArticle_update_article_public_returning {
+  __typename: "article_public";
+  id: number | null;
+  title: string | null;
+  alias: string | null;
   abstract: string | null;
-  updatedAt: any;
+  content: string | null;
+  authorId: string | null;
+  /**
+   * An object relationship
+   */
+  author: ViewArticle_update_article_public_returning_author | null;
+  views: number | null;
+  /**
+   * An array relationship
+   */
+  article_tags: ViewArticle_update_article_public_returning_article_tags[];
   /**
    * An aggregated array relationship
    */
-  article_tags_aggregate: GetArticles_article_article_tags_aggregate;
+  article_likers_aggregate: ViewArticle_update_article_public_returning_article_likers_aggregate;
+}
+
+export interface ViewArticle_update_article_public {
+  __typename: "article_public_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: ViewArticle_update_article_public_returning[];
+}
+
+export interface ViewArticle {
+  /**
+   * update data of the table: "article_public"
+   */
+  update_article_public: ViewArticle_update_article_public | null;
+}
+
+export interface ViewArticleVariables {
+  alias: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetArticleFeeds
+// ====================================================
+
+export interface GetArticleFeeds_article_public_author {
+  __typename: "user";
+  username: string | null;
+}
+
+export interface GetArticleFeeds_article_public_article_tags_tag {
+  __typename: "tag";
+  tag_name: string;
+}
+
+export interface GetArticleFeeds_article_public_article_tags {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  tag: GetArticleFeeds_article_public_article_tags_tag;
+}
+
+export interface GetArticleFeeds_article_public_article_likers_aggregate_aggregate {
+  __typename: "article_liker_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetArticleFeeds_article_public_article_likers_aggregate {
+  __typename: "article_liker_aggregate";
+  aggregate: GetArticleFeeds_article_public_article_likers_aggregate_aggregate | null;
+}
+
+export interface GetArticleFeeds_article_public {
+  __typename: "article_public";
+  id: number | null;
+  alias: string | null;
+  title: string | null;
+  abstract: string | null;
+  views: number | null;
+  created_at: any | null;
+  /**
+   * An object relationship
+   */
+  author: GetArticleFeeds_article_public_author | null;
+  /**
+   * An array relationship
+   */
+  article_tags: GetArticleFeeds_article_public_article_tags[];
   /**
    * An aggregated array relationship
    */
-  article_likers_aggregate: GetArticles_article_article_likers_aggregate;
+  article_likers_aggregate: GetArticleFeeds_article_public_article_likers_aggregate;
 }
 
-export interface GetArticles {
+export interface GetArticleFeeds {
   /**
-   * fetch data from the table: "article"
+   * fetch data from the table: "article_public"
    */
-  article: GetArticles_article[];
+  article_public: GetArticleFeeds_article_public[];
 }
 
-export interface GetArticlesVariables {
+export interface GetArticleFeedsVariables {
+  limit?: number | null;
+  cursor: any;
   authorId?: string | null;
   title?: string | null;
   alias?: string | null;
   abstract?: string | null;
   content?: string | null;
-  tag?: string | null;
-  visible?: boolean | null;
 }
 
 /* tslint:disable */
@@ -195,12 +278,34 @@ export interface InsertArticleVariables {
 // GraphQL mutation operation: UpdateArticle
 // ====================================================
 
+export interface UpdateArticle_update_article_by_pk_article_tags_tag {
+  __typename: "tag";
+  tag_name: string;
+}
+
+export interface UpdateArticle_update_article_by_pk_article_tags {
+  __typename: "article_tag";
+  /**
+   * An object relationship
+   */
+  tag: UpdateArticle_update_article_by_pk_article_tags_tag;
+}
+
 export interface UpdateArticle_update_article_by_pk {
   __typename: "article";
-  title: string;
-  alias: string;
-  content: string;
-  abstract: string | null;
+  id: number;
+  /**
+   * An array relationship
+   */
+  article_tags: UpdateArticle_update_article_by_pk_article_tags[];
+}
+
+export interface UpdateArticle_insert_article_tag {
+  __typename: "article_tag_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
 }
 
 export interface UpdateArticle {
@@ -208,14 +313,20 @@ export interface UpdateArticle {
    * update single row of the table: "article"
    */
   update_article_by_pk: UpdateArticle_update_article_by_pk | null;
+  /**
+   * insert data into the table: "article_tag"
+   */
+  insert_article_tag: UpdateArticle_insert_article_tag | null;
 }
 
 export interface UpdateArticleVariables {
   id: number;
-  title?: string | null;
-  alias?: string | null;
-  content?: string | null;
   abstract?: string | null;
+  alias: string;
+  authorId: string;
+  content: string;
+  title: string;
+  tags: article_tag_insert_input[];
 }
 
 /* tslint:disable */
@@ -319,6 +430,67 @@ export interface UnlikeArticle {
 export interface UnlikeArticleVariables {
   article_id: number;
   user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUserArticleLike
+// ====================================================
+
+export interface GetUserArticleLike_article_liker_by_pk {
+  __typename: "article_liker";
+  article_id: number;
+  user_id: string;
+}
+
+export interface GetUserArticleLike {
+  /**
+   * fetch data from the table: "article_liker" using primary key columns
+   */
+  article_liker_by_pk: GetUserArticleLike_article_liker_by_pk | null;
+}
+
+export interface GetUserArticleLikeVariables {
+  article_id: number;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetComments
+// ====================================================
+
+export interface GetComments_comment_user {
+  __typename: "user";
+  username: string | null;
+}
+
+export interface GetComments_comment {
+  __typename: "comment";
+  content: string;
+  /**
+   * An object relationship
+   */
+  user: GetComments_comment_user;
+}
+
+export interface GetComments {
+  /**
+   * fetch data from the table: "comment"
+   */
+  comment: GetComments_comment[];
+}
+
+export interface GetCommentsVariables {
+  article_id: number;
 }
 
 /* tslint:disable */
@@ -1552,7 +1724,7 @@ export interface GetTag_tag_tag_articles_aggregate {
 
 export interface GetTag_tag {
   __typename: "tag";
-  tag: string;
+  tag_name: string;
   /**
    * An aggregated array relationship
    */
@@ -1584,7 +1756,7 @@ export interface GetTagVariables {
 export interface InsertTag_insert_tag_one {
   __typename: "tag";
   id: any;
-  tag: string;
+  tag_name: string;
 }
 
 export interface InsertTag {
@@ -1610,7 +1782,7 @@ export interface InsertTagVariables {
 export interface InsertTags_insert_tag_returning {
   __typename: "tag";
   id: any;
-  tag: string;
+  tag_name: string;
 }
 
 export interface InsertTags_insert_tag {
@@ -1644,7 +1816,7 @@ export interface InsertTagsVariables {
 export interface UpdateTag_update_tag_by_pk {
   __typename: "tag";
   id: any;
-  tag: string;
+  tag_name: string;
 }
 
 export interface UpdateTag {
@@ -1679,7 +1851,7 @@ export interface DeleteTag_delete_article_tag {
 export interface DeleteTag_delete_tag_by_pk {
   __typename: "tag";
   id: any;
-  tag: string;
+  tag_name: string;
 }
 
 export interface DeleteTag {
@@ -1713,7 +1885,7 @@ export interface InsertArticleTag_insert_article_tag_one_article_author {
 
 export interface InsertArticleTag_insert_article_tag_one_article_article_tags_tag {
   __typename: "tag";
-  tag: string;
+  tag_name: string;
 }
 
 export interface InsertArticleTag_insert_article_tag_one_article_article_tags {
@@ -1740,7 +1912,7 @@ export interface InsertArticleTag_insert_article_tag_one_article {
 
 export interface InsertArticleTag_insert_article_tag_one_tag {
   __typename: "tag";
-  tag: string;
+  tag_name: string;
 }
 
 export interface InsertArticleTag_insert_article_tag_one {
@@ -1786,7 +1958,7 @@ export interface DeleteArticleTag_delete_article_tag_by_pk_article_author {
 
 export interface DeleteArticleTag_delete_article_tag_by_pk_article_article_tags_tag {
   __typename: "tag";
-  tag: string;
+  tag_name: string;
 }
 
 export interface DeleteArticleTag_delete_article_tag_by_pk_article_article_tags {
@@ -1813,7 +1985,7 @@ export interface DeleteArticleTag_delete_article_tag_by_pk_article {
 
 export interface DeleteArticleTag_delete_article_tag_by_pk_tag {
   __typename: "tag";
-  tag: string;
+  tag_name: string;
 }
 
 export interface DeleteArticleTag_delete_article_tag_by_pk {
@@ -1963,12 +2135,31 @@ export enum article_update_column {
   alias = "alias",
   authorId = "authorId",
   content = "content",
-  createdAt = "createdAt",
+  created_at = "created_at",
   id = "id",
   title = "title",
-  updatedAt = "updatedAt",
+  updated_at = "updated_at",
   views = "views",
   visible = "visible",
+}
+
+/**
+ * unique or primary key constraints on table "comment"
+ */
+export enum comment_constraint {
+  comment_pkey = "comment_pkey",
+}
+
+/**
+ * update columns of table "comment"
+ */
+export enum comment_update_column {
+  article_id = "article_id",
+  content = "content",
+  created_at = "created_at",
+  id = "id",
+  updated_at = "updated_at",
+  user_id = "user_id",
 }
 
 /**
@@ -2022,7 +2213,7 @@ export enum tag_constraint {
  */
 export enum tag_update_column {
   id = "id",
-  tag = "tag",
+  tag_name = "tag_name",
 }
 
 /**
@@ -2123,11 +2314,12 @@ export interface article_bool_exp {
   article_tags?: article_tag_bool_exp | null;
   author?: user_bool_exp | null;
   authorId?: String_comparison_exp | null;
+  comments?: comment_bool_exp | null;
   content?: String_comparison_exp | null;
-  createdAt?: timestamptz_comparison_exp | null;
+  created_at?: timestamptz_comparison_exp | null;
   id?: Int_comparison_exp | null;
   title?: String_comparison_exp | null;
-  updatedAt?: timestamptz_comparison_exp | null;
+  updated_at?: timestamptz_comparison_exp | null;
   views?: Int_comparison_exp | null;
   visible?: Boolean_comparison_exp | null;
 }
@@ -2142,11 +2334,12 @@ export interface article_insert_input {
   article_tags?: article_tag_arr_rel_insert_input | null;
   author?: user_obj_rel_insert_input | null;
   authorId?: string | null;
+  comments?: comment_arr_rel_insert_input | null;
   content?: string | null;
-  createdAt?: any | null;
+  created_at?: any | null;
   id?: number | null;
   title?: string | null;
-  updatedAt?: any | null;
+  updated_at?: any | null;
   views?: number | null;
   visible?: boolean | null;
 }
@@ -2264,6 +2457,54 @@ export interface bigint_comparison_exp {
 }
 
 /**
+ * input type for inserting array relation for remote table "comment"
+ */
+export interface comment_arr_rel_insert_input {
+  data: comment_insert_input[];
+  on_conflict?: comment_on_conflict | null;
+}
+
+/**
+ * Boolean expression to filter rows from the table "comment". All fields are combined with a logical 'AND'.
+ */
+export interface comment_bool_exp {
+  _and?: (comment_bool_exp | null)[] | null;
+  _not?: comment_bool_exp | null;
+  _or?: (comment_bool_exp | null)[] | null;
+  article?: article_bool_exp | null;
+  article_id?: Int_comparison_exp | null;
+  content?: String_comparison_exp | null;
+  created_at?: timestamptz_comparison_exp | null;
+  id?: uuid_comparison_exp | null;
+  updated_at?: timestamptz_comparison_exp | null;
+  user?: user_bool_exp | null;
+  user_id?: String_comparison_exp | null;
+}
+
+/**
+ * input type for inserting data into table "comment"
+ */
+export interface comment_insert_input {
+  article?: article_obj_rel_insert_input | null;
+  article_id?: number | null;
+  content?: string | null;
+  created_at?: any | null;
+  id?: any | null;
+  updated_at?: any | null;
+  user?: user_obj_rel_insert_input | null;
+  user_id?: string | null;
+}
+
+/**
+ * on conflict condition type for table "comment"
+ */
+export interface comment_on_conflict {
+  constraint: comment_constraint;
+  update_columns: comment_update_column[];
+  where?: comment_bool_exp | null;
+}
+
+/**
  * input type for inserting array relation for remote table "mentor_application"
  */
 export interface mentor_application_arr_rel_insert_input {
@@ -2361,8 +2602,8 @@ export interface tag_bool_exp {
   _not?: tag_bool_exp | null;
   _or?: (tag_bool_exp | null)[] | null;
   id?: uuid_comparison_exp | null;
-  tag?: String_comparison_exp | null;
   tag_articles?: article_tag_bool_exp | null;
+  tag_name?: String_comparison_exp | null;
 }
 
 /**
@@ -2370,8 +2611,8 @@ export interface tag_bool_exp {
  */
 export interface tag_insert_input {
   id?: any | null;
-  tag?: string | null;
   tag_articles?: article_tag_arr_rel_insert_input | null;
+  tag_name?: string | null;
 }
 
 /**
@@ -2416,6 +2657,7 @@ export interface user_bool_exp {
   _or?: (user_bool_exp | null)[] | null;
   articles?: article_bool_exp | null;
   class?: String_comparison_exp | null;
+  comments?: comment_bool_exp | null;
   created_at?: timestamptz_comparison_exp | null;
   department?: String_comparison_exp | null;
   email?: String_comparison_exp | null;
@@ -2437,6 +2679,7 @@ export interface user_insert_input {
   _id?: string | null;
   articles?: article_arr_rel_insert_input | null;
   class?: string | null;
+  comments?: comment_arr_rel_insert_input | null;
   created_at?: any | null;
   department?: string | null;
   email?: string | null;

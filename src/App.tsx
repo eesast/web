@@ -20,10 +20,11 @@ import calendar from "dayjs/plugin/calendar";
 import logo from "./assets/logo.png";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
-import AuthRoute from "./components/AutoRoute";
+import { AuthRoute } from "./components";
 import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
+import WeeklySite from "./pages/WeeklySite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -124,6 +125,9 @@ function App() {
             </Route>
             <Route path="/home">
               <HomeSite />
+            </Route>
+            <Route path="/weekly">
+              <WeeklySite />
             </Route>
             <AuthRoute path="/info">
               <InfoSite />

@@ -13,7 +13,7 @@ query GetArticle($id: Int!) {
     updated_at
     article_tags {
       tag {
-        tag
+        tag_name
       }
     }
     article_likers_aggregate {
@@ -24,76 +24,78 @@ query GetArticle($id: Int!) {
   }
 }
 
-mutation ViewArticle($id: Int!) {
-  update_article_by_pk(pk_columns: { id: $id }, _inc: { views: 1 }) {
-    id
-    title
-    alias
-    abstract
-    content
-    authorId
-    author {
-      username
-    }
-    updated_at
-    views
-    article_tags {
-      tag {
-        tag
+mutation ViewArticle($alias: String! = "") {
+  update_article_public(where: { alias: { _eq: $alias } }, _inc: { views: 1 }) {
+    returning {
+      id
+      title
+      alias
+      abstract
+      content
+      authorId
+      author {
+        username
       }
-    }
-    article_likers_aggregate {
-      aggregate {
-        count(distinct: true)
+      views
+      article_tags {
+        tag {
+          tag_name
+        }
+      }
+      article_likers_aggregate {
+        aggregate {
+          count(distinct: true)
+        }
+        nodes {
+          liker {
+            username
+          }
+        }
       }
     }
   }
 }
 
-query GetArticles(
+query GetArticleFeeds(
+  $limit: Int = 2
+  $cursor: timestamptz!
   $authorId: String
   $title: String
   $alias: String
   $abstract: String
   $content: String
-  $tag: String
-  $visible: Boolean
 ) {
-  article(
+  article_public(
+    limit: $limit
     where: {
       _and: [
+        { created_at: { _lte: $cursor } }
         { authorId: { _eq: $authorId } }
-        { visible: { _eq: $visible } }
         { title: { _ilike: $title } }
         { alias: { _ilike: $alias } }
         { abstract: { _ilike: $abstract } }
         { content: { _ilike: $content } }
-        { article_tags: { tag: { tag: { _eq: $tag } } } }
       ]
     }
-    order_by: { updated_at: desc }
+    order_by: { created_at: desc }
   ) {
     id
+    alias
     title
+    abstract
+    views
+    created_at
     author {
       username
     }
-    alias
-    abstract
-    updated_at
-    article_tags_aggregate {
-      aggregate {
-        count
-      }
-      nodes {
-        tag {
-          tag
-        }
+    article_tags {
+      tag {
+        tag_name
       }
     }
     article_likers_aggregate {
       aggregate {
-        count
+        count(distinct: true)
       }
     }
   }
@@ -181,7 +183,7 @@ mutation UpdateArticle(
     id
     article_tags {
       tag {
-        tag
+        tag_name
       }
     }
   }
@@ -223,5 +225,24 @@ mutation UnlikeArticle($article_id: Int!, $user_id: String!) {
   delete_article_liker_by_pk(article_id: $article_id, user_id: $user_id) {
     article_id
     user_id
+  }
+}
+
+query GetUserArticleLike($article_id: Int! = 10, $user_id: String! = "") {
+  article_liker_by_pk(article_id: $article_id, user_id: $user_id) {
+    article_id
+    user_id
+  }
+}
+
+query GetComments($article_id: Int!) {
+  comment(
+    where: { article: { id: { _eq: $article_id } } }
+    order_by: { updated_at: desc }
+  ) {
+    content
+    user {
+      username
+    }
   }
 }
