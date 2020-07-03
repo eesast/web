@@ -34,7 +34,7 @@
     "concurrently": "5.2.0",
     "customize-cra": "1.0.0",
     "customize-cra-react-refresh": "1.1.0",
-    "dayjs": "1.8.28",
+    "dayjs": "1.8.29",
     "docxtemplater": "3.17.9",
     "dotenv": "8.2.0",
     "file-saver": "2.0.2",
