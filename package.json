@@ -43,7 +43,7 @@
     "is-url": "1.2.4",
     "isemail": "3.2.0",
     "less": "3.11.3",
-    "less-loader": "6.1.2",
+    "less-loader": "6.2.0",
     "lint-staged": "10.2.11",
     "lodash.get": "4.4.2",
     "pizzip": "3.0.6",
