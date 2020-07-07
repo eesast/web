@@ -33,6 +33,12 @@ const ArticlePage: React.FC = () => {
     { data: articleData, loading: articleLoading, error: articleError },
   ] = useMutation<ViewArticle, ViewArticleVariables>(VIEW_ARTICLE);
 
+  useEffect(() => {
+    viewArticle({
+      variables: { alias: alias },
+    });
+  }, [alias, viewArticle]);
+
   const cacheData = client.readQuery({
     query: gql`
       query getCache {
@@ -41,12 +47,6 @@ const ArticlePage: React.FC = () => {
       }
     `,
   });
-
-  useEffect(() => {
-    viewArticle({
-      variables: { alias: alias },
-    });
-  }, [alias, viewArticle]);
 
   useEffect(() => {
     if (articleData && !articleError && articleData.update_article_public) {
