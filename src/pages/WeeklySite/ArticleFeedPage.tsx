@@ -19,11 +19,13 @@ const ArticleFeedPage: React.FC = () => {
     }[]
   >([]);
 
+  const [cursor, setCursor] = useState(new Date().toISOString());
+
   const { data, loading, error } = useQuery<
     GetArticleFeeds,
     GetArticleFeedsVariables
   >(GET_ARTICLE_FEEDS, {
-    variables: { limit: 5, cursor: "2020-06-19T08:41:02.633547+00:00" },
+    variables: { limit: 5, cursor: cursor },
   });
 
   useEffect(() => {
