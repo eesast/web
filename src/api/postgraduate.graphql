@@ -1,0 +1,88 @@
+query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
+  postgraduate_mentor_info(
+    limit: $limit
+    order_by: { id: asc }
+    offset: $offset
+  ) {
+    id
+    created_at
+    updated_at
+    mentor
+    school
+    department
+    field
+    master_quota
+    phd_quota
+    contact
+    alternate_contact
+    home_page
+    detail_info
+  }
+  postgraduate_mentor_info_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+
+mutation InsertPostgraduateInfo(
+  $mentor: String!
+  $school: String!
+  $department: String = ""
+  $field: String!
+  $contact: String!
+  $alternate_contact: String = ""
+  $detail_info: String = ""
+  $home_page: String = ""
+  $master_quota: Int = 0
+  $phd_quota: Int = 0
+) {
+  insert_postgraduate_mentor_info_one(
+    object: {
+      mentor: $mentor
+      school: $school
+      department: $department
+      field: $field
+      contact: $contact
+      alternate_contact: $alternate_contact
+      detail_info: $detail_info
+      home_page: $home_page
+      master_quota: $master_quota
+      phd_quota: $phd_quota
+    }
+  ) {
+    id
+  }
+}
+
+mutation UpdatePostgraduateInfo(
+  $id: Int!
+  $mentor: String!
+  $school: String!
+  $department: String = ""
+  $field: String!
+  $contact: String!
+  $alternate_contact: String = ""
+  $detail_info: String = ""
+  $home_page: String = ""
+  $master_quota: Int = 0
+  $phd_quota: Int = 0
+) {
+  update_postgraduate_mentor_info_by_pk(
+    pk_columns: { id: $id }
+    _set: {
+      mentor: $mentor
+      school: $school
+      department: $department
+      field: $field
+      contact: $contact
+      alternate_contact: $alternate_contact
+      detail_info: $detail_info
+      home_page: $home_page
+      master_quota: $master_quota
+      phd_quota: $phd_quota
+    }
+  ) {
+    id
+  }
+}

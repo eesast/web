@@ -1692,6 +1692,127 @@ export interface DeleteScholarshipApplicationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetPostgraduateFeeds
+// ====================================================
+
+export interface GetPostgraduateFeeds_postgraduate_mentor_info {
+  __typename: "postgraduate_mentor_info";
+  id: number;
+  created_at: any;
+  updated_at: any;
+  mentor: string;
+  school: string;
+  department: string;
+  field: string;
+  master_quota: number;
+  phd_quota: number;
+  contact: string;
+  alternate_contact: string | null;
+  home_page: string | null;
+  detail_info: string | null;
+}
+
+export interface GetPostgraduateFeeds_postgraduate_mentor_info_aggregate_aggregate {
+  __typename: "postgraduate_mentor_info_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetPostgraduateFeeds_postgraduate_mentor_info_aggregate {
+  __typename: "postgraduate_mentor_info_aggregate";
+  aggregate: GetPostgraduateFeeds_postgraduate_mentor_info_aggregate_aggregate | null;
+}
+
+export interface GetPostgraduateFeeds {
+  /**
+   * fetch data from the table: "postgraduate_mentor_info"
+   */
+  postgraduate_mentor_info: GetPostgraduateFeeds_postgraduate_mentor_info[];
+  /**
+   * fetch aggregated fields from the table: "postgraduate_mentor_info"
+   */
+  postgraduate_mentor_info_aggregate: GetPostgraduateFeeds_postgraduate_mentor_info_aggregate;
+}
+
+export interface GetPostgraduateFeedsVariables {
+  limit?: number | null;
+  offset?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertPostgraduateInfo
+// ====================================================
+
+export interface InsertPostgraduateInfo_insert_postgraduate_mentor_info_one {
+  __typename: "postgraduate_mentor_info";
+  id: number;
+}
+
+export interface InsertPostgraduateInfo {
+  /**
+   * insert a single row into the table: "postgraduate_mentor_info"
+   */
+  insert_postgraduate_mentor_info_one: InsertPostgraduateInfo_insert_postgraduate_mentor_info_one | null;
+}
+
+export interface InsertPostgraduateInfoVariables {
+  mentor: string;
+  school: string;
+  department?: string | null;
+  field: string;
+  contact: string;
+  alternate_contact?: string | null;
+  detail_info?: string | null;
+  home_page?: string | null;
+  master_quota?: number | null;
+  phd_quota?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdatePostgraduateInfo
+// ====================================================
+
+export interface UpdatePostgraduateInfo_update_postgraduate_mentor_info_by_pk {
+  __typename: "postgraduate_mentor_info";
+  id: number;
+}
+
+export interface UpdatePostgraduateInfo {
+  /**
+   * update single row of the table: "postgraduate_mentor_info"
+   */
+  update_postgraduate_mentor_info_by_pk: UpdatePostgraduateInfo_update_postgraduate_mentor_info_by_pk | null;
+}
+
+export interface UpdatePostgraduateInfoVariables {
+  id: number;
+  mentor: string;
+  school: string;
+  department?: string | null;
+  field: string;
+  contact: string;
+  alternate_contact?: string | null;
+  detail_info?: string | null;
+  home_page?: string | null;
+  master_quota?: number | null;
+  phd_quota?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetTag
 // ====================================================
 
