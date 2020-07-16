@@ -25,6 +25,7 @@ import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../NotFoundPage";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import AidApplicationPage from "./AidApplicationPage";
+import PostgraduateMentorPage from "./PostgraduateMentorPage";
 import { gql, useQuery } from "@apollo/client";
 import { GetId, GetRole, GetUserVariables, GetUser } from "../../api/types";
 import { GetUser as GET_USER } from "../../api/user.graphql";
@@ -126,6 +127,14 @@ const InfoSite: React.FC = () => {
               </Link>
             </Menu.Item>
           </Menu.ItemGroup>
+          <Menu.ItemGroup key="postgraduate" title="推研信息">
+            <Menu.Item key="mentor-info">
+              <Link to={`${url}/postgraduate-mentor-info`}>
+                <TeamOutlined />
+                招生信息
+              </Link>
+            </Menu.Item>
+          </Menu.ItemGroup>
         </Menu>
       </FixedSider>
       <Content
@@ -155,6 +164,9 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/financial-aid`}>
             <AidApplicationPage />
+          </Route>
+          <Route exact path={`${path}/postgraduate-mentor-info`}>
+            <PostgraduateMentorPage />
           </Route>
           <Route>
             <NotFoundPage />
