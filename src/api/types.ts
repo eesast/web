@@ -1215,6 +1215,7 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
   alternate_contact: string | null;
   home_page: string | null;
   detail_info: string | null;
+  user_id: string;
 }
 
 export interface GetPostgraduateFeeds_postgraduate_mentor_info_aggregate_aggregate {
@@ -1275,6 +1276,7 @@ export interface InsertPostgraduateInfoVariables {
   home_page?: string | null;
   master_quota?: number | null;
   phd_quota?: number | null;
+  user_id: string;
 }
 
 /* tslint:disable */
@@ -1310,6 +1312,39 @@ export interface UpdatePostgraduateInfoVariables {
   home_page?: string | null;
   master_quota?: number | null;
   phd_quota?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeletePostgraduateInfo
+// ====================================================
+
+export interface DeletePostgraduateInfo_delete_postgraduate_mentor_info_returning {
+  __typename: "postgraduate_mentor_info";
+  id: number;
+}
+
+export interface DeletePostgraduateInfo_delete_postgraduate_mentor_info {
+  __typename: "postgraduate_mentor_info_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeletePostgraduateInfo_delete_postgraduate_mentor_info_returning[];
+}
+
+export interface DeletePostgraduateInfo {
+  /**
+   * delete data from the table: "postgraduate_mentor_info"
+   */
+  delete_postgraduate_mentor_info: DeletePostgraduateInfo_delete_postgraduate_mentor_info | null;
+}
+
+export interface DeletePostgraduateInfoVariables {
+  id: number;
 }
 
 /* tslint:disable */

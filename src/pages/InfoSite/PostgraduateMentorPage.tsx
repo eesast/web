@@ -15,6 +15,7 @@ import {
   GetPostgraduateFeeds as GET_POSTGRADUATE_FEEDS,
   InsertPostgraduateInfo as INSERT_POSTGRADUATE_INFO,
   UpdatePostgraduateInfo as UPDATE_POSTGRADUATE_INFO,
+  DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
 } from "../../api/postgraduate.graphql";
 import {
   GetPostgraduateFeeds,
@@ -24,6 +25,8 @@ import {
   InsertPostgraduateInfoVariables,
   UpdatePostgraduateInfo,
   UpdatePostgraduateInfoVariables,
+  DeletePostgraduateInfo,
+  DeletePostgraduateInfoVariables,
   GetId,
   GetEmail,
   GetRole,
@@ -57,6 +60,11 @@ const PostgraduateMentorPage: React.FC = () => {
     UpdatePostgraduateInfo,
     UpdatePostgraduateInfoVariables
   >(UPDATE_POSTGRADUATE_INFO);
+
+  const [deleteInfo, { error: deleteError }] = useMutation<
+    DeletePostgraduateInfo,
+    DeletePostgraduateInfoVariables
+  >(DELETE_POSTGRADUATE_INFO);
 
   const columns: TableProps<mentorInfo>["columns"] = [
     {
@@ -118,9 +126,33 @@ const PostgraduateMentorPage: React.FC = () => {
                 setInfoId(record.id);
                 form.setFieldsValue(record);
               }}
+              hidden={
+                !(
+                  (userData?.role === "teacher" &&
+                    userData?._id === record.user_id) ||
+                  userData?.role === "root"
+                )
+              }
               type="link"
             >
-              更新信息
+              更新
+            </Button>
+            <Button
+              onClick={async () => {
+                await deleteInfo({ variables: { id: record.id } });
+                refetchFeeds();
+              }}
+              type="link"
+              danger
+              hidden={
+                !(
+                  (userData?.role === "teacher" &&
+                    userData?._id === record.user_id) ||
+                  userData?.role === "root"
+                )
+              }
+            >
+              删除
             </Button>
           </>
         );
@@ -144,6 +176,12 @@ const PostgraduateMentorPage: React.FC = () => {
       message.error("添加/更新信息失败");
     }
   }, [insertError, updateError]);
+
+  useEffect(() => {
+    if (deleteError) {
+      message.error("删除信息失败");
+    }
+  });
 
   const handlePageChange = (page: number, size?: number) => {
     if (size !== pageSize) setPageSize(size || 10);
@@ -215,6 +253,7 @@ const PostgraduateMentorPage: React.FC = () => {
           alternate_contact: values["alternate_contact"],
           home_page: values["home_page"],
           detail_info: values["detail_info"],
+          user_id: userData?._id!,
         },
       });
     }
@@ -228,20 +267,19 @@ const PostgraduateMentorPage: React.FC = () => {
         title="电子系推研信息平台"
         subTitle=" "
         extra={
-          userData?.role === "teacher" || userData?.role === "root" ? (
-            <Button
-              type="primary"
-              onClick={() => {
-                form.resetFields();
-                setShowManage(true);
-                setInfoId(0);
-              }}
-            >
-              发布信息
-            </Button>
-          ) : (
-            <></>
-          )
+          <Button
+            type="primary"
+            hidden={
+              !(userData?.role === "teacher" || userData?.role === "root")
+            }
+            onClick={() => {
+              form.resetFields();
+              setShowManage(true);
+              setInfoId(0);
+            }}
+          >
+            发布信息
+          </Button>
         }
       ></PageHeader>
       <Table
