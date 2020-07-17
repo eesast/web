@@ -42,7 +42,7 @@
     "is-number": "7.0.0",
     "is-url": "1.2.4",
     "isemail": "3.2.0",
-    "less": "3.12.0",
+    "less": "3.12.2",
     "less-loader": "6.2.0",
     "lint-staged": "10.2.11",
     "lodash.get": "4.4.2",
