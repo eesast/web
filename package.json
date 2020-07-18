@@ -60,7 +60,7 @@
     "source-map-explorer": "2.4.2",
     "styled-components": "5.1.1",
     "subscriptions-transport-ws": "0.9.17",
-    "typescript": "3.9.6",
+    "typescript": "3.9.7",
     "xlsx": "0.16.3"
   },
   "scripts": {
