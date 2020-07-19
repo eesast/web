@@ -9,6 +9,7 @@ import {
   Descriptions,
   InputNumber,
   PageHeader,
+  Select,
 } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
@@ -16,6 +17,7 @@ import {
   InsertPostgraduateInfo as INSERT_POSTGRADUATE_INFO,
   UpdatePostgraduateInfo as UPDATE_POSTGRADUATE_INFO,
   DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
+  InsertApplication as INSERT_APPLICATION,
 } from "../../api/postgraduate.graphql";
 import {
   GetPostgraduateFeeds,
@@ -27,6 +29,8 @@ import {
   UpdatePostgraduateInfoVariables,
   DeletePostgraduateInfo,
   DeletePostgraduateInfoVariables,
+  InsertApplication,
+  InsertApplicationVariables,
   GetId,
   GetEmail,
   GetRole,
@@ -42,6 +46,7 @@ const PostgraduateMentorPage: React.FC = () => {
   const [form] = Form.useForm();
   const [showManage, setShowManage] = useState(false);
   const [infoId, setInfoId] = useState(0);
+  const [applicationStatus, setApplicationStatus] = useState("");
 
   const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
     {
@@ -66,6 +71,11 @@ const PostgraduateMentorPage: React.FC = () => {
     DeletePostgraduateInfoVariables
   >(DELETE_POSTGRADUATE_INFO);
 
+  const [insertApplication, { error: insertApplicationError }] = useMutation<
+    InsertApplication,
+    InsertApplicationVariables
+  >(INSERT_APPLICATION);
+
   const columns: TableProps<mentorInfo>["columns"] = [
     {
       title: "发布时间",
@@ -81,24 +91,9 @@ const PostgraduateMentorPage: React.FC = () => {
       key: "mentor",
     },
     {
-      title: "学校",
-      dataIndex: "school",
-      key: "school",
-    },
-    {
-      title: "院系",
-      dataIndex: "department",
-      key: "department",
-    },
-    {
       title: "研究方向",
       dataIndex: "field",
       key: "field",
-    },
-    {
-      title: "硕士名额",
-      dataIndex: "master_quota",
-      key: "master_quota",
     },
     {
       title: "博士名额",
@@ -183,6 +178,12 @@ const PostgraduateMentorPage: React.FC = () => {
     }
   });
 
+  useEffect(() => {
+    if (insertApplicationError) {
+      message.error("提交申请情况失败");
+    }
+  });
+
   const handlePageChange = (page: number, size?: number) => {
     if (size !== pageSize) setPageSize(size || 10);
     setOffset((page - 1) * (size || 10));
@@ -213,10 +214,7 @@ const PostgraduateMentorPage: React.FC = () => {
     }
     const values = form.getFieldsValue([
       "mentor",
-      "school",
-      "department",
       "field",
-      "master_quota",
       "phd_quota",
       "contact",
       "alternate_contact",
@@ -229,10 +227,7 @@ const PostgraduateMentorPage: React.FC = () => {
         variables: {
           id: infoId,
           mentor: values["mentor"],
-          school: values["school"],
-          department: values["department"],
           field: values["field"],
-          master_quota: values["master_quota"],
           phd_quota: values["phd_quota"],
           contact: values["contact"],
           alternate_contact: values["alternate_contact"],
@@ -244,10 +239,7 @@ const PostgraduateMentorPage: React.FC = () => {
       await insertInfo({
         variables: {
           mentor: values["mentor"],
-          school: values["school"],
-          department: values["department"],
           field: values["field"],
-          master_quota: values["master_quota"],
           phd_quota: values["phd_quota"],
           contact: values["contact"],
           alternate_contact: values["alternate_contact"],
@@ -300,14 +292,7 @@ const PostgraduateMentorPage: React.FC = () => {
       >
         <Descriptions>
           <Descriptions.Item label="导师">{detail?.mentor}</Descriptions.Item>
-          <Descriptions.Item label="学校">{detail?.school}</Descriptions.Item>
-          <Descriptions.Item label="院系">
-            {detail?.department}
-          </Descriptions.Item>
           <Descriptions.Item label="方向">{detail?.field}</Descriptions.Item>
-          <Descriptions.Item label="硕士名额">
-            {detail?.master_quota}
-          </Descriptions.Item>
           <Descriptions.Item label="博士名额">
             {detail?.phd_quota}
           </Descriptions.Item>
@@ -324,6 +309,61 @@ const PostgraduateMentorPage: React.FC = () => {
             {detail?.detail_info}
           </Descriptions.Item>
         </Descriptions>
+        <Descriptions column={2}>
+          <Descriptions.Item label="有意向学生">
+            {detail?.intend.aggregate?.count}人
+          </Descriptions.Item>
+          <Descriptions.Item label="更新时间">
+            {new Date(detail?.intend.aggregate?.max?.updated_at).toDateString()}
+          </Descriptions.Item>
+          <Descriptions.Item label="联络中学生">
+            {detail?.in_contact.aggregate?.count}人
+          </Descriptions.Item>
+          <Descriptions.Item label="更新时间">
+            {new Date(
+              detail?.in_contact.aggregate?.max?.updated_at
+            ).toDateString()}
+          </Descriptions.Item>
+          <Descriptions.Item label="已确认学生">
+            {detail?.confirmed.aggregate?.count}人
+          </Descriptions.Item>
+          <Descriptions.Item label="更新时间">
+            {new Date(
+              detail?.confirmed.aggregate?.max?.updated_at
+            ).toDateString()}
+          </Descriptions.Item>
+        </Descriptions>
+        {/* {userData?.role === "EEsenior" ? ( */}
+        <div>
+          <Select
+            style={{ width: 120 }}
+            onSelect={(value: string) => {
+              setApplicationStatus(value);
+            }}
+            disabled={!(userData?.role === "EEsenior")}
+          >
+            <Select.Option value="intend">有意向</Select.Option>
+            <Select.Option value="in contact">联络中</Select.Option>
+            <Select.Option value="confirmed">已确认</Select.Option>
+          </Select>
+          <Button
+            type="primary"
+            onClick={() => {
+              insertApplication({
+                variables: {
+                  mentor_info_id: detail?.id!,
+                  user_id: userData?._id!,
+                  status: applicationStatus,
+                },
+              });
+              message.info("已提交申请情况，请等待辅导员审核");
+            }}
+            disabled={!(userData?.role === "EEsenior")}
+          >
+            提交申请
+          </Button>
+        </div>
+        {/* ) : null} */}
       </Modal>
       <Modal
         title="添加/更新信息"
@@ -344,28 +384,11 @@ const PostgraduateMentorPage: React.FC = () => {
             <Input placeholder="导师姓名" />
           </Form.Item>
           <Form.Item
-            name="school"
-            label="学校"
-            rules={[{ required: true, message: "请输入学校信息" }]}
-          >
-            <Input placeholder="学校或组织名称，如：清华大学" />
-          </Form.Item>
-          <Form.Item name="department" label="院系">
-            <Input />
-          </Form.Item>
-          <Form.Item
             name="field"
             label="研究方向"
             rules={[{ required: true, message: "请输入研究方向" }]}
           >
             <Input placeholder="研究方向简要介绍，详细信息建议填写在下方“详细信息”处" />
-          </Form.Item>
-          <Form.Item
-            name="master_quota"
-            label="硕士名额"
-            rules={[{ required: true }]}
-          >
-            <InputNumber min={0} />
           </Form.Item>
           <Form.Item
             name="phd_quota"

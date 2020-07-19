@@ -1,5 +1,6 @@
 query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
   postgraduate_mentor_info(
+    where: { verified: { _eq: true } }
     limit: $limit
     order_by: { id: asc }
     offset: $offset
@@ -8,16 +9,49 @@ query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
     created_at
     updated_at
     mentor
-    school
-    department
     field
-    master_quota
     phd_quota
     contact
     alternate_contact
     home_page
     detail_info
     user_id
+    intend: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    in_contact: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "in_contact" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    confirmed: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "confirmed" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
   }
   postgraduate_mentor_info_aggregate {
     aggregate {
@@ -28,30 +62,25 @@ query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
 
 mutation InsertPostgraduateInfo(
   $mentor: String!
-  $school: String!
-  $department: String = ""
   $field: String!
   $contact: String!
   $alternate_contact: String = ""
   $detail_info: String = ""
   $home_page: String = ""
-  $master_quota: Int = 0
   $phd_quota: Int = 0
   $user_id: String!
 ) {
   insert_postgraduate_mentor_info_one(
     object: {
       mentor: $mentor
-      school: $school
-      department: $department
       field: $field
       contact: $contact
       alternate_contact: $alternate_contact
       detail_info: $detail_info
       home_page: $home_page
-      master_quota: $master_quota
       phd_quota: $phd_quota
       user_id: $user_id
+      verified: false
     }
   ) {
     id
@@ -61,29 +90,24 @@ mutation InsertPostgraduateInfo(
 mutation UpdatePostgraduateInfo(
   $id: Int!
   $mentor: String!
-  $school: String!
-  $department: String = ""
   $field: String!
   $contact: String!
   $alternate_contact: String = ""
   $detail_info: String = ""
   $home_page: String = ""
-  $master_quota: Int = 0
   $phd_quota: Int = 0
 ) {
   update_postgraduate_mentor_info_by_pk(
     pk_columns: { id: $id }
     _set: {
       mentor: $mentor
-      school: $school
-      department: $department
       field: $field
       contact: $contact
       alternate_contact: $alternate_contact
       detail_info: $detail_info
       home_page: $home_page
-      master_quota: $master_quota
       phd_quota: $phd_quota
+      verified: false
     }
   ) {
     id
@@ -95,5 +119,26 @@ mutation DeletePostgraduateInfo($id: Int!) {
     returning {
       id
     }
+  }
+}
+
+mutation InsertApplication(
+  $mentor_info_id: Int!
+  $status: String = ""
+  $user_id: String!
+) {
+  insert_postgraduate_application_one(
+    object: {
+      mentor_info_id: $mentor_info_id
+      status: $status
+      user_id: $user_id
+      verified: false
+    }
+    on_conflict: {
+      constraint: postgraduate_application_pkey
+      update_columns: [status, updated_at, verified]
+    }
+  ) {
+    status
   }
 }
