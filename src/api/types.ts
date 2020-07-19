@@ -1310,6 +1310,59 @@ export interface GetPostgraduateFeedsVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetUnverifiedMentorInfo
+// ====================================================
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
+  __typename: "postgraduate_mentor_info";
+  id: number;
+  created_at: any;
+  updated_at: any;
+  mentor: string;
+  field: string;
+  phd_quota: number;
+  contact: string;
+  alternate_contact: string | null;
+  home_page: string | null;
+  detail_info: string | null;
+  /**
+   * 创建此信息用户id，有权更改
+   */
+  user_id: string;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_aggregate_aggregate {
+  __typename: "postgraduate_mentor_info_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_aggregate {
+  __typename: "postgraduate_mentor_info_aggregate";
+  aggregate: GetUnverifiedMentorInfo_postgraduate_mentor_info_aggregate_aggregate | null;
+}
+
+export interface GetUnverifiedMentorInfo {
+  /**
+   * fetch data from the table: "postgraduate_mentor_info"
+   */
+  postgraduate_mentor_info: GetUnverifiedMentorInfo_postgraduate_mentor_info[];
+  /**
+   * fetch aggregated fields from the table: "postgraduate_mentor_info"
+   */
+  postgraduate_mentor_info_aggregate: GetUnverifiedMentorInfo_postgraduate_mentor_info_aggregate;
+}
+
+export interface GetUnverifiedMentorInfoVariables {
+  limit?: number | null;
+  offset?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertPostgraduateInfo
 // ====================================================
 
@@ -1429,6 +1482,31 @@ export interface InsertApplicationVariables {
   mentor_info_id: number;
   status?: string | null;
   user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: VerifyMentorInfo
+// ====================================================
+
+export interface VerifyMentorInfo_update_postgraduate_mentor_info_by_pk {
+  __typename: "postgraduate_mentor_info";
+  id: number;
+}
+
+export interface VerifyMentorInfo {
+  /**
+   * update single row of the table: "postgraduate_mentor_info"
+   */
+  update_postgraduate_mentor_info_by_pk: VerifyMentorInfo_update_postgraduate_mentor_info_by_pk | null;
+}
+
+export interface VerifyMentorInfoVariables {
+  id: number;
 }
 
 /* tslint:disable */
