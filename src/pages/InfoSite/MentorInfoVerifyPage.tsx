@@ -4,40 +4,39 @@ import {
   Form,
   Input,
   Button,
+  Result,
   Table,
   message,
   Descriptions,
   InputNumber,
   PageHeader,
-  Select,
 } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
-  GetPostgraduateFeeds as GET_POSTGRADUATE_FEEDS,
-  InsertPostgraduateInfo as INSERT_POSTGRADUATE_INFO,
+  GetUnverifiedMentorInfo as GET_UNVERIFIED_MENTOR_INFO,
   UpdatePostgraduateInfo as UPDATE_POSTGRADUATE_INFO,
   DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
-  InsertApplication as INSERT_APPLICATION,
+  VerifyMentorInfo as VERIFY_MENTOR_INFO,
 } from "../../api/postgraduate.graphql";
 import {
-  GetPostgraduateFeeds,
-  GetPostgraduateFeedsVariables,
-  GetPostgraduateFeeds_postgraduate_mentor_info as mentorInfo,
-  InsertPostgraduateInfo,
-  InsertPostgraduateInfoVariables,
+  GetUnverifiedMentorInfo,
+  GetUnverifiedMentorInfoVariables,
+  GetUnverifiedMentorInfo_postgraduate_mentor_info as mentorInfo,
   UpdatePostgraduateInfo,
   UpdatePostgraduateInfoVariables,
   DeletePostgraduateInfo,
   DeletePostgraduateInfoVariables,
-  InsertApplication,
-  InsertApplicationVariables,
+  VerifyMentorInfo,
+  VerifyMentorInfoVariables,
   GetId,
   GetEmail,
   GetRole,
 } from "../../api/types";
 import Modal from "antd/lib/modal/Modal";
+import Center from "../../components/Center";
+import { Link } from "react-router-dom";
 
-const PostgraduateMentorPage: React.FC = () => {
+const MentorInfoVerifyPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -46,7 +45,6 @@ const PostgraduateMentorPage: React.FC = () => {
   const [form] = Form.useForm();
   const [showManage, setShowManage] = useState(false);
   const [infoId, setInfoId] = useState(0);
-  const [applicationStatus, setApplicationStatus] = useState("");
 
   const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
     {
@@ -55,11 +53,6 @@ const PostgraduateMentorPage: React.FC = () => {
       role @client
     }
   `);
-
-  const [insertInfo, { error: insertError }] = useMutation<
-    InsertPostgraduateInfo,
-    InsertPostgraduateInfoVariables
-  >(INSERT_POSTGRADUATE_INFO);
 
   const [updateInfo, { error: updateError }] = useMutation<
     UpdatePostgraduateInfo,
@@ -71,10 +64,10 @@ const PostgraduateMentorPage: React.FC = () => {
     DeletePostgraduateInfoVariables
   >(DELETE_POSTGRADUATE_INFO);
 
-  const [insertApplication, { error: insertApplicationError }] = useMutation<
-    InsertApplication,
-    InsertApplicationVariables
-  >(INSERT_APPLICATION);
+  const [verifyInfo, { error: verifyError }] = useMutation<
+    VerifyMentorInfo,
+    VerifyMentorInfoVariables
+  >(VERIFY_MENTOR_INFO);
 
   const columns: TableProps<mentorInfo>["columns"] = [
     {
@@ -123,9 +116,10 @@ const PostgraduateMentorPage: React.FC = () => {
               }}
               hidden={
                 !(
+                  userData?.role === "counselor" ||
+                  userData?.role === "root" ||
                   (userData?.role === "teacher" &&
-                    userData?._id === record.user_id) ||
-                  userData?.role === "root"
+                    userData?._id === record.user_id)
                 )
               }
               type="link"
@@ -141,13 +135,26 @@ const PostgraduateMentorPage: React.FC = () => {
               danger
               hidden={
                 !(
+                  userData?.role === "counselor" ||
+                  userData?.role === "root" ||
                   (userData?.role === "teacher" &&
-                    userData?._id === record.user_id) ||
-                  userData?.role === "root"
+                    userData?._id === record.user_id)
                 )
               }
             >
               删除
+            </Button>
+            <Button
+              onClick={async () => {
+                await verifyInfo({ variables: { id: record.id } });
+                refetchFeeds();
+              }}
+              type="link"
+              hidden={
+                !(userData?.role === "counselor" || userData?.role === "root")
+              }
+            >
+              审核通过
             </Button>
           </>
         );
@@ -156,9 +163,11 @@ const PostgraduateMentorPage: React.FC = () => {
   ];
 
   const { data, loading, error, refetch: refetchFeeds } = useQuery<
-    GetPostgraduateFeeds,
-    GetPostgraduateFeedsVariables
-  >(GET_POSTGRADUATE_FEEDS, { variables: { limit: pageSize, offset: offset } });
+    GetUnverifiedMentorInfo,
+    GetUnverifiedMentorInfoVariables
+  >(GET_UNVERIFIED_MENTOR_INFO, {
+    variables: { limit: pageSize, offset: offset },
+  });
 
   useEffect(() => {
     if (error) {
@@ -167,10 +176,10 @@ const PostgraduateMentorPage: React.FC = () => {
   }, [error]);
 
   useEffect(() => {
-    if (insertError || updateError) {
-      message.error("添加/更新信息失败");
+    if (updateError) {
+      message.error("更新信息失败");
     }
-  }, [insertError, updateError]);
+  }, [updateError]);
 
   useEffect(() => {
     if (deleteError) {
@@ -179,8 +188,8 @@ const PostgraduateMentorPage: React.FC = () => {
   });
 
   useEffect(() => {
-    if (insertApplicationError) {
-      message.error("提交申请情况失败");
+    if (verifyError) {
+      message.error("审核信息失败");
     }
   });
 
@@ -214,7 +223,10 @@ const PostgraduateMentorPage: React.FC = () => {
     }
     const values = form.getFieldsValue([
       "mentor",
+      "school",
+      "department",
       "field",
+      "master_quota",
       "phd_quota",
       "contact",
       "alternate_contact",
@@ -235,45 +247,18 @@ const PostgraduateMentorPage: React.FC = () => {
           detail_info: values["detail_info"],
         },
       });
-    } else {
-      await insertInfo({
-        variables: {
-          mentor: values["mentor"],
-          field: values["field"],
-          phd_quota: values["phd_quota"],
-          contact: values["contact"],
-          alternate_contact: values["alternate_contact"],
-          home_page: values["home_page"],
-          detail_info: values["detail_info"],
-          user_id: userData?._id!,
-        },
-      });
     }
     setShowManage(false);
-    message.info("已提交信息，请等待辅导员审核");
     refetchFeeds();
   };
 
-  return (
+  return userData?.role === "counselor" ||
+    userData?.role === "root" ||
+    userData?.role === "teacher" ? (
     <div>
       <PageHeader
         title="电子系推研信息平台"
-        subTitle=" "
-        extra={
-          <Button
-            type="primary"
-            hidden={
-              !(userData?.role === "teacher" || userData?.role === "root")
-            }
-            onClick={() => {
-              form.resetFields();
-              setShowManage(true);
-              setInfoId(0);
-            }}
-          >
-            发布信息
-          </Button>
-        }
+        subTitle="导师发布信息审核"
       ></PageHeader>
       <Table
         columns={columns}
@@ -293,7 +278,6 @@ const PostgraduateMentorPage: React.FC = () => {
       >
         <Descriptions>
           <Descriptions.Item label="导师">{detail?.mentor}</Descriptions.Item>
-          <Descriptions.Item label="方向">{detail?.field}</Descriptions.Item>
           <Descriptions.Item label="博士名额">
             {detail?.phd_quota}
           </Descriptions.Item>
@@ -303,68 +287,13 @@ const PostgraduateMentorPage: React.FC = () => {
           <Descriptions.Item label="课题组联系方式">
             {detail?.alternate_contact}
           </Descriptions.Item>
-          <Descriptions.Item label="课题组主页">
+          <Descriptions.Item label="课题组主页" span={2}>
             <a href={detail?.home_page!}>{detail?.home_page}</a>
           </Descriptions.Item>
-          <Descriptions.Item label="详细说明">
+          <Descriptions.Item label="详细说明" span={3}>
             {detail?.detail_info}
           </Descriptions.Item>
         </Descriptions>
-        <Descriptions column={2}>
-          <Descriptions.Item label="有意向学生">
-            {detail?.intend.aggregate?.count}人
-          </Descriptions.Item>
-          <Descriptions.Item label="更新时间">
-            {new Date(detail?.intend.aggregate?.max?.updated_at).toDateString()}
-          </Descriptions.Item>
-          <Descriptions.Item label="联络中学生">
-            {detail?.in_contact.aggregate?.count}人
-          </Descriptions.Item>
-          <Descriptions.Item label="更新时间">
-            {new Date(
-              detail?.in_contact.aggregate?.max?.updated_at
-            ).toDateString()}
-          </Descriptions.Item>
-          <Descriptions.Item label="已确认学生">
-            {detail?.confirmed.aggregate?.count}人
-          </Descriptions.Item>
-          <Descriptions.Item label="更新时间">
-            {new Date(
-              detail?.confirmed.aggregate?.max?.updated_at
-            ).toDateString()}
-          </Descriptions.Item>
-        </Descriptions>
-        {/* {userData?.role === "EEsenior" ? ( */}
-        <div>
-          <Select
-            style={{ width: 120 }}
-            onSelect={(value: string) => {
-              setApplicationStatus(value);
-            }}
-            disabled={!(userData?.role === "EEsenior")}
-          >
-            <Select.Option value="intend">有意向</Select.Option>
-            <Select.Option value="in contact">联络中</Select.Option>
-            <Select.Option value="confirmed">已确认</Select.Option>
-          </Select>
-          <Button
-            type="primary"
-            onClick={() => {
-              insertApplication({
-                variables: {
-                  mentor_info_id: detail?.id!,
-                  user_id: userData?._id!,
-                  status: applicationStatus,
-                },
-              });
-              message.info("已提交申请情况，请等待辅导员审核");
-            }}
-            disabled={!(userData?.role === "EEsenior")}
-          >
-            提交申请
-          </Button>
-        </div>
-        {/* ) : null} */}
       </Modal>
       <Modal
         title="添加/更新信息"
@@ -422,7 +351,20 @@ const PostgraduateMentorPage: React.FC = () => {
         </Form>
       </Modal>
     </div>
+  ) : (
+    <Center>
+      <Result
+        status="403"
+        title="403"
+        subTitle="您没有权限访问此页面"
+        extra={
+          <Button type="primary">
+            <Link to="/home"> 返回主页</Link>
+          </Button>
+        }
+      />
+    </Center>
   );
 };
 
-export default PostgraduateMentorPage;
+export default MentorInfoVerifyPage;
