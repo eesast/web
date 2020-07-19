@@ -6,8 +6,8 @@ import {
   gql,
 } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
-import { WebSocketLink } from "@apollo/link-ws";
-import { setContext } from "@apollo/link-context";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { setContext } from "@apollo/client/link/context";
 import axios from "axios";
 import { GetToken } from "./types";
 

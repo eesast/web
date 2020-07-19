@@ -17,6 +17,7 @@ query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
     alternate_contact
     home_page
     detail_info
+    user_id
   }
   postgraduate_mentor_info_aggregate {
     aggregate {
@@ -36,6 +37,7 @@ mutation InsertPostgraduateInfo(
   $home_page: String = ""
   $master_quota: Int = 0
   $phd_quota: Int = 0
+  $user_id: String!
 ) {
   insert_postgraduate_mentor_info_one(
     object: {
@@ -49,6 +51,7 @@ mutation InsertPostgraduateInfo(
       home_page: $home_page
       master_quota: $master_quota
       phd_quota: $phd_quota
+      user_id: $user_id
     }
   ) {
     id
@@ -84,5 +87,13 @@ mutation UpdatePostgraduateInfo(
     }
   ) {
     id
+  }
+}
+
+mutation DeletePostgraduateInfo($id: Int!) {
+  delete_postgraduate_mentor_info(where: { id: { _eq: $id } }) {
+    returning {
+      id
+    }
   }
 }
