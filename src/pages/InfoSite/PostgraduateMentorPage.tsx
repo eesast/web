@@ -10,6 +10,7 @@ import {
   InputNumber,
   PageHeader,
   Select,
+  Modal,
 } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
@@ -35,7 +36,6 @@ import {
   GetEmail,
   GetRole,
 } from "../../api/types";
-import Modal from "antd/lib/modal/Modal";
 
 const PostgraduateMentorPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -344,7 +344,7 @@ const PostgraduateMentorPage: React.FC = () => {
             disabled={!(userData?.role === "EEsenior")}
           >
             <Select.Option value="intend">有意向</Select.Option>
-            <Select.Option value="in contact">联络中</Select.Option>
+            <Select.Option value="in_contact">联络中</Select.Option>
             <Select.Option value="confirmed">已确认</Select.Option>
           </Select>
           <Button

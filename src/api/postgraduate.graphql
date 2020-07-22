@@ -78,6 +78,42 @@ query GetUnverifiedMentorInfo($limit: Int = 10, $offset: Int = 0) {
     home_page
     detail_info
     user_id
+    intend: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    in_contact: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "in_contact" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    confirmed: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "confirmed" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
   }
   postgraduate_mentor_info_aggregate {
     aggregate {
@@ -175,5 +211,55 @@ mutation VerifyMentorInfo($id: Int!) {
     _set: { verified: true }
   ) {
     id
+  }
+}
+
+query GetPostgraudateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
+  postgraduate_application_aggregate {
+    aggregate {
+      count
+    }
+  }
+  postgraduate_application(
+    where: { verified: { _eq: false } }
+    offset: $offset
+    limit: $limit
+  ) {
+    created_at
+    mentor_info_id
+    status
+    updated_at
+    user_id
+    mentor {
+      mentor
+    }
+    user {
+      name
+    }
+  }
+}
+
+mutation VerifyPostgraduateApplication(
+  $mentor_info_id: Int!
+  $user_id: String!
+) {
+  update_postgraduate_application_by_pk(
+    pk_columns: { mentor_info_id: $mentor_info_id, user_id: $user_id }
+    _set: { verified: true }
+  ) {
+    verified
+  }
+}
+
+mutation DeletePostgraduateApplication(
+  $mentor_info_id: Int!
+  $user_id: String!
+) {
+  delete_postgraduate_application_by_pk(
+    mentor_info_id: $mentor_info_id
+    user_id: $user_id
+  ) {
+    mentor_info_id
+    user_id
   }
 }

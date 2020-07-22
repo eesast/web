@@ -1313,6 +1313,54 @@ export interface GetPostgraduateFeedsVariables {
 // GraphQL query operation: GetUnverifiedMentorInfo
 // ====================================================
 
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate_max {
+  __typename: "postgraduate_application_max_fields";
+  updated_at: any | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate {
+  __typename: "postgraduate_application_aggregate_fields";
+  count: number | null;
+  max: GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate_max | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend {
+  __typename: "postgraduate_application_aggregate";
+  aggregate: GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact_aggregate_max {
+  __typename: "postgraduate_application_max_fields";
+  updated_at: any | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact_aggregate {
+  __typename: "postgraduate_application_aggregate_fields";
+  count: number | null;
+  max: GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact_aggregate_max | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact {
+  __typename: "postgraduate_application_aggregate";
+  aggregate: GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact_aggregate | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed_aggregate_max {
+  __typename: "postgraduate_application_max_fields";
+  updated_at: any | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed_aggregate {
+  __typename: "postgraduate_application_aggregate_fields";
+  count: number | null;
+  max: GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed_aggregate_max | null;
+}
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed {
+  __typename: "postgraduate_application_aggregate";
+  aggregate: GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed_aggregate | null;
+}
+
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
   __typename: "postgraduate_mentor_info";
   id: number;
@@ -1329,6 +1377,18 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
    * 创建此信息用户id，有权更改
    */
   user_id: string;
+  /**
+   * An aggregated array relationship
+   */
+  intend: GetUnverifiedMentorInfo_postgraduate_mentor_info_intend;
+  /**
+   * An aggregated array relationship
+   */
+  in_contact: GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact;
+  /**
+   * An aggregated array relationship
+   */
+  confirmed: GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed;
 }
 
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_aggregate_aggregate {
@@ -1507,6 +1567,124 @@ export interface VerifyMentorInfo {
 
 export interface VerifyMentorInfoVariables {
   id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetPostgraudateApplicationFeeds
+// ====================================================
+
+export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate {
+  __typename: "postgraduate_application_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate {
+  __typename: "postgraduate_application_aggregate";
+  aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate | null;
+}
+
+export interface GetPostgraudateApplicationFeeds_postgraduate_application_mentor {
+  __typename: "postgraduate_mentor_info";
+  mentor: string;
+}
+
+export interface GetPostgraudateApplicationFeeds_postgraduate_application_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetPostgraudateApplicationFeeds_postgraduate_application {
+  __typename: "postgraduate_application";
+  created_at: any;
+  mentor_info_id: number;
+  /**
+   * intend, in contact, confirmed
+   */
+  status: string;
+  updated_at: any;
+  user_id: string;
+  /**
+   * An object relationship
+   */
+  mentor: GetPostgraudateApplicationFeeds_postgraduate_application_mentor;
+  /**
+   * An object relationship
+   */
+  user: GetPostgraudateApplicationFeeds_postgraduate_application_user;
+}
+
+export interface GetPostgraudateApplicationFeeds {
+  /**
+   * fetch aggregated fields from the table: "postgraduate_application"
+   */
+  postgraduate_application_aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate;
+  /**
+   * fetch data from the table: "postgraduate_application"
+   */
+  postgraduate_application: GetPostgraudateApplicationFeeds_postgraduate_application[];
+}
+
+export interface GetPostgraudateApplicationFeedsVariables {
+  offset?: number | null;
+  limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: VerifyPostgraduateApplication
+// ====================================================
+
+export interface VerifyPostgraduateApplication_update_postgraduate_application_by_pk {
+  __typename: "postgraduate_application";
+  verified: boolean;
+}
+
+export interface VerifyPostgraduateApplication {
+  /**
+   * update single row of the table: "postgraduate_application"
+   */
+  update_postgraduate_application_by_pk: VerifyPostgraduateApplication_update_postgraduate_application_by_pk | null;
+}
+
+export interface VerifyPostgraduateApplicationVariables {
+  mentor_info_id: number;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeletePostgraduateApplication
+// ====================================================
+
+export interface DeletePostgraduateApplication_delete_postgraduate_application_by_pk {
+  __typename: "postgraduate_application";
+  mentor_info_id: number;
+  user_id: string;
+}
+
+export interface DeletePostgraduateApplication {
+  /**
+   * delete single row from the table: "postgraduate_application"
+   */
+  delete_postgraduate_application_by_pk: DeletePostgraduateApplication_delete_postgraduate_application_by_pk | null;
+}
+
+export interface DeletePostgraduateApplicationVariables {
+  mentor_info_id: number;
+  user_id: string;
 }
 
 /* tslint:disable */
