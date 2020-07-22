@@ -60,6 +60,68 @@ query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
   }
 }
 
+query GetUnverifiedMentorInfo($limit: Int = 10, $offset: Int = 0) {
+  postgraduate_mentor_info(
+    limit: $limit
+    order_by: { id: asc }
+    offset: $offset
+    where: { verified: { _eq: false } }
+  ) {
+    id
+    created_at
+    updated_at
+    mentor
+    field
+    phd_quota
+    contact
+    alternate_contact
+    home_page
+    detail_info
+    user_id
+    intend: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    in_contact: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "in_contact" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    confirmed: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "confirmed" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+  }
+  postgraduate_mentor_info_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+
 mutation InsertPostgraduateInfo(
   $mentor: String!
   $field: String!
@@ -140,5 +202,14 @@ mutation InsertApplication(
     }
   ) {
     status
+  }
+}
+
+mutation VerifyMentorInfo($id: Int!) {
+  update_postgraduate_mentor_info_by_pk(
+    pk_columns: { id: $id }
+    _set: { verified: true }
+  ) {
+    id
   }
 }

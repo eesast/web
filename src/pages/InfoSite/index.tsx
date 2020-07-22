@@ -16,11 +16,13 @@ import {
   TrophyOutlined,
   ReadOutlined,
   PayCircleOutlined,
+  VerifiedOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import NoticePage from "./NoticePage";
 import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
+import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
 import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../NotFoundPage";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
@@ -134,6 +136,12 @@ const InfoSite: React.FC = () => {
                 招生信息
               </Link>
             </Menu.Item>
+            <Menu.Item key="mentor-info-verify">
+              <Link to={`${url}/mentor-info-verify`}>
+                <VerifiedOutlined />
+                导师信息审核
+              </Link>
+            </Menu.Item>
           </Menu.ItemGroup>
         </Menu>
       </FixedSider>
@@ -167,6 +175,9 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/postgraduate-mentor-info`}>
             <PostgraduateMentorPage />
+          </Route>
+          <Route exact path={`${path}/mentor-info-verify`}>
+            <MentorInfoVerifyPage />
           </Route>
           <Route>
             <NotFoundPage />
