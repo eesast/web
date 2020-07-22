@@ -213,3 +213,53 @@ mutation VerifyMentorInfo($id: Int!) {
     id
   }
 }
+
+query GetPostgraudateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
+  postgraduate_application_aggregate {
+    aggregate {
+      count
+    }
+  }
+  postgraduate_application(
+    where: { verified: { _eq: false } }
+    offset: $offset
+    limit: $limit
+  ) {
+    created_at
+    mentor_info_id
+    status
+    updated_at
+    user_id
+    mentor {
+      mentor
+    }
+    user {
+      name
+    }
+  }
+}
+
+mutation VerifyPostgraduateApplication(
+  $mentor_info_id: Int!
+  $user_id: String!
+) {
+  update_postgraduate_application_by_pk(
+    pk_columns: { mentor_info_id: $mentor_info_id, user_id: $user_id }
+    _set: { verified: true }
+  ) {
+    verified
+  }
+}
+
+mutation DeletePostgraduateApplication(
+  $mentor_info_id: Int!
+  $user_id: String!
+) {
+  delete_postgraduate_application_by_pk(
+    mentor_info_id: $mentor_info_id
+    user_id: $user_id
+  ) {
+    mentor_info_id
+    user_id
+  }
+}

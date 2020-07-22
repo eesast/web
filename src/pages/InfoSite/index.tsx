@@ -28,6 +28,7 @@ import NotFoundPage from "../NotFoundPage";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import AidApplicationPage from "./AidApplicationPage";
 import PostgraduateMentorPage from "./PostgraduateMentorPage";
+import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
 import { gql, useQuery } from "@apollo/client";
 import { GetId, GetRole, GetUserVariables, GetUser } from "../../api/types";
 import { GetUser as GET_USER } from "../../api/user.graphql";
@@ -130,18 +131,28 @@ const InfoSite: React.FC = () => {
             </Menu.Item>
           </Menu.ItemGroup>
           <Menu.ItemGroup key="postgraduate" title="推研信息">
-            <Menu.Item key="mentor-info">
+            <Menu.Item key="postgraduate-mentor-info">
               <Link to={`${url}/postgraduate-mentor-info`}>
                 <TeamOutlined />
                 招生信息
               </Link>
             </Menu.Item>
-            <Menu.Item key="mentor-info-verify">
-              <Link to={`${url}/mentor-info-verify`}>
-                <VerifiedOutlined />
-                导师信息审核
-              </Link>
-            </Menu.Item>
+            {["root", "counselor"].includes(userData?.role!) ? (
+              <Menu.Item key="mentor-info-verify">
+                <Link to={`${url}/mentor-info-verify`}>
+                  <VerifiedOutlined />
+                  导师信息审核
+                </Link>
+              </Menu.Item>
+            ) : null}
+            {["root", "counselor"].includes(userData?.role!) ? (
+              <Menu.Item key="postgraduate-application">
+                <Link to={`${url}/postgraduate-application`}>
+                  <VerifiedOutlined />
+                  学生申请审核
+                </Link>
+              </Menu.Item>
+            ) : null}
           </Menu.ItemGroup>
         </Menu>
       </FixedSider>
@@ -178,6 +189,9 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/mentor-info-verify`}>
             <MentorInfoVerifyPage />
+          </Route>
+          <Route exact path={`${path}/postgraduate-application`}>
+            <PostgraduateApplicationPage />
           </Route>
           <Route>
             <NotFoundPage />
