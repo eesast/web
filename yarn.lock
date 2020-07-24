@@ -1844,10 +1844,10 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@types/enquire.js@^2.1.2":
+"@types/enquire.js@2.1.2":
   version "2.1.2"
-  resolved "https://registry.npm.taobao.org/@types/enquire.js/download/@types/enquire.js-2.1.2.tgz#8cfa6196faabb9a7e09aebcb50c4b9a8538e229c"
-  integrity sha1-jPphlvqruafgmuvLUMS5qFOOIpw=
+  resolved "https://registry.yarnpkg.com/@types/enquire.js/-/enquire.js-2.1.2.tgz#8cfa6196faabb9a7e09aebcb50c4b9a8538e229c"
+  integrity sha512-0Jmr8vj9xsPtPTEJbnXA4ChRtG+kggFojsUlvG6n1VnxcNSEy62RLY2M0eGECyvwun++uSOsxwsootzWD0ycyQ==
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
@@ -5380,9 +5380,9 @@ enhanced-resolve@^4.1.0:
     memory-fs "^0.5.0"
     tapable "^1.0.0"
 
-enquire.js@^2.1.6:
+enquire.js@2.1.6:
   version "2.1.6"
-  resolved "https://registry.npm.taobao.org/enquire.js/download/enquire.js-2.1.6.tgz#3e8780c9b8b835084c3f60e166dbc3c2a3c89814"
+  resolved "https://registry.yarnpkg.com/enquire.js/-/enquire.js-2.1.6.tgz#3e8780c9b8b835084c3f60e166dbc3c2a3c89814"
   integrity sha1-PoeAybi4NQhMP2DhZtvDwqPImBQ=
 
 enquirer@^2.3.5:
