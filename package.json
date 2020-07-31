@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "4.2.1",
-    "@apollo/client": "3.0.2",
+    "@apollo/client": "3.1.1",
     "@testing-library/react": "10.4.7",
     "@types/ali-oss": "6.0.5",
     "@types/enquire.js": "2.1.2",
