@@ -22,7 +22,7 @@
     "@types/react-router-dom": "5.1.5",
     "@types/styled-components": "5.1.2",
     "ali-oss": "6.10.0",
-    "antd": "4.5.1",
+    "antd": "4.5.2",
     "antd-dayjs-webpack-plugin": "1.0.0",
     "apollo": "2.30.2",
     "axios": "0.19.2",
