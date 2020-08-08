@@ -2591,12 +2591,10 @@ ansicolors@~0.3.2:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.3.2.tgz#665597de86a9ffe3aa9bfbe6cae5c6ea426b4979"
   integrity sha1-ZlWX3oap/+Oqm/vmyuXG6kJrSXk=
 
-antd-dayjs-webpack-plugin@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/antd-dayjs-webpack-plugin/-/antd-dayjs-webpack-plugin-1.0.0.tgz#e3f4b0bce3985aa0d75a36341b3f9f67b486423a"
-  integrity sha512-Ix/k8HZxZA7v+Uh+hI3Pw3+fSTlwEnsccFqTZmAeHN1gXSt2vXLXK20KUOZphVgF8zf2zwPpJPlQWvC7TG7lHQ==
-  dependencies:
-    dayjs "*"
+antd-dayjs-webpack-plugin@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/antd-dayjs-webpack-plugin/-/antd-dayjs-webpack-plugin-1.0.1.tgz#cc31cc05c9bd69652a4bddab19eb49726bebe0d5"
+  integrity sha512-1UWGAnv856s5r/2bi6KJvWMeevDEHwFFdHaymZElW5kbH06A/xP7JcZ75UdYoxqny3scD22DWErbGg+vQ9RNdg==
 
 antd@4.5.2:
   version "4.5.2"
@@ -4956,15 +4954,15 @@ dateformat@^2.0.0:
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-2.2.0.tgz#4065e2013cf9fb916ddfd82efb506ad4c6769062"
   integrity sha1-QGXiATz5+5Ft39gu+1Bq1MZ2kGI=
 
-dayjs@*, dayjs@^1.8.30:
-  version "1.8.31"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.31.tgz#0cd1114c2539dd5ad9428be0c38df6d4bb40b9d3"
-  integrity sha512-mPh1mslned+5PuIuiUfbw4CikHk6AEAf2Baxih+wP5fssv+wmlVhvgZ7mq+BhLt7Sr/Hc8leWDiwe6YnrpNt3g==
-
 dayjs@1.8.30:
   version "1.8.30"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.30.tgz#d3b314d3ccdc179015d915fd3c6e14422c026378"
   integrity sha512-5s5IGuP5bVvIbOWkEDcfmXsUj24fZW1NMHVVSdSFF/kW8d+alZcI9SpBKC+baEyBe+z3fUp17y75ulstv5swUw==
+
+dayjs@^1.8.30:
+  version "1.8.31"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.31.tgz#0cd1114c2539dd5ad9428be0c38df6d4bb40b9d3"
+  integrity sha512-mPh1mslned+5PuIuiUfbw4CikHk6AEAf2Baxih+wP5fssv+wmlVhvgZ7mq+BhLt7Sr/Hc8leWDiwe6YnrpNt3g==
 
 debug@2, debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
