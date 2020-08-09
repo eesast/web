@@ -96,9 +96,30 @@ const PostgraduateMentorPage: React.FC = () => {
       key: "field",
     },
     {
-      title: "博士名额",
-      dataIndex: "phd_quota",
-      key: "phd_quota",
+      title: "报名情况",
+      children: [
+        {
+          title: "有意向",
+          key: "intend",
+          render: (_, record) => {
+            return <>{record.intend.aggregate?.count || 0}</>;
+          },
+        },
+        {
+          title: "联络中",
+          key: "in_contact",
+          render: (_, record) => {
+            return <>{record.in_contact.aggregate?.count || 0}</>;
+          },
+        },
+        {
+          title: "已确认",
+          key: "confirmed",
+          render: (_, record) => {
+            return <>{record.confirmed.aggregate?.count || 0}</>;
+          },
+        },
+      ],
     },
     {
       title: "操作",
