@@ -1526,7 +1526,7 @@ export interface DeletePostgraduateInfoVariables {
 export interface InsertApplication_insert_postgraduate_application_one {
   __typename: "postgraduate_application";
   /**
-   * intend, in contact, confirmed
+   * intend, in_contact, confirmed
    */
   status: string;
 }
@@ -1603,7 +1603,7 @@ export interface GetPostgraudateApplicationFeeds_postgraduate_application {
   created_at: any;
   mentor_info_id: number;
   /**
-   * intend, in contact, confirmed
+   * intend, in_contact, confirmed
    */
   status: string;
   updated_at: any;
