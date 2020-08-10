@@ -11,27 +11,39 @@ import {
   Input,
   Form,
   Upload,
+  Radio,
+  Menu,
 } from "antd";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import Linkify from "react-linkify";
 import {
   EditOutlined,
+  DeleteOutlined,
   DownloadOutlined,
   UploadOutlined,
+  ExclamationCircleOutlined,
+  ReadOutlined,
+  TeamOutlined,
+  LaptopOutlined,
+  FundProjectionScreenOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons";
 import {
   GetNotices as GET_NOTICES,
   UpdateNotice as UPDATE_NOTICE,
   AddNotice as ADD_NOTICE,
+  DeleteNotice as DELETE_NOTICE,
 } from "../../api/info_notice.graphql";
 import {
   GetNotices,
   UpdateNotice,
   AddNotice,
+  DeleteNotice,
   GetRole,
   GetNotices_info_notice,
   AddNoticeVariables,
   UpdateNoticeVariables,
+  DeleteNoticeVariables,
 } from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
@@ -42,6 +54,7 @@ import type {
 import { getOSS, downloadFile } from "../../helpers/oss";
 
 const { Text } = Typography;
+const { confirm } = Modal;
 
 interface File {
   filename: string;
@@ -70,6 +83,10 @@ const NoticePage: React.FC = () => {
     addNotice,
     { loading: noticeAdding, error: noticeAddError },
   ] = useMutation<AddNotice, AddNoticeVariables>(ADD_NOTICE);
+  const [deleteNotice, { error: noticeDeleteError }] = useMutation<
+    DeleteNotice,
+    DeleteNoticeVariables
+  >(DELETE_NOTICE);
 
   useEffect(() => {
     if (noticeError) {
@@ -89,8 +106,15 @@ const NoticePage: React.FC = () => {
     }
   }, [noticeAddError]);
 
+  useEffect(() => {
+    if (noticeDeleteError) {
+      message.error("公告删除失败");
+    }
+  }, [noticeDeleteError]);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] = useState<GetNotices_info_notice>();
+  const [noticeType, setNoticeType] = useState<string>("");
   const [form] = Form.useForm();
 
   const handleNoticeEdit = async () => {
@@ -111,6 +135,7 @@ const NoticePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
+          notice_type: values.type,
         },
       });
     } else {
@@ -119,6 +144,7 @@ const NoticePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
+          notice_type: values.type,
         },
       });
     }
@@ -156,6 +182,23 @@ const NoticePage: React.FC = () => {
     }
   };
 
+  const handleNoticeDelete = async (id: string) => {
+    confirm({
+      title: "确定要删除此公告吗？",
+      icon: <ExclamationCircleOutlined />,
+      content: "此操作不可恢复。",
+      onOk: async () => {
+        await deleteNotice({ variables: { id } });
+        await refetchNotices();
+      },
+    });
+  };
+
+  const handleTypeClick = async (e: any) => {
+    setNoticeType(e.key);
+    await refetchNotices({ notice_type: e.key });
+  };
+
   return (
     <>
       <Row align="middle" justify="space-between">
@@ -171,6 +214,27 @@ const NoticePage: React.FC = () => {
           </Button>
         </Col>
       </Row>
+      <Menu
+        mode="horizontal"
+        selectedKeys={[noticeType]}
+        onClick={handleTypeClick}
+      >
+        <Menu.Item key="奖助学金" icon={<ReadOutlined />}>
+          奖助学金
+        </Menu.Item>
+        <Menu.Item key="推研信息" icon={<TeamOutlined />}>
+          推研信息
+        </Menu.Item>
+        <Menu.Item key="就业信息" icon={<LaptopOutlined />}>
+          就业信息
+        </Menu.Item>
+        <Menu.Item key="实习信息" icon={<FundProjectionScreenOutlined />}>
+          实习信息
+        </Menu.Item>
+        <Menu.Item key="赛事信息" icon={<TrophyOutlined />}>
+          赛事信息
+        </Menu.Item>
+      </Menu>
       <List
         dataSource={noticeData?.info_notice}
         renderItem={(item) => (
@@ -194,6 +258,13 @@ const NoticePage: React.FC = () => {
                       }))
                     );
                     setModalVisible(true);
+                  }
+                : undefined
+            }
+            onDeletePress={
+              roleData?.role === "counselor" || roleData?.role === "root"
+                ? () => {
+                    handleNoticeDelete(item.id);
                   }
                 : undefined
             }
@@ -229,7 +300,23 @@ const NoticePage: React.FC = () => {
           name="notice"
           onFinish={handleNoticeEdit}
           initialValues={editingNotice}
+          preserve={false}
         >
+          <Form.Item
+            name="type"
+            rules={[{ required: true, message: "请选择公告类别" }]}
+          >
+            <Radio.Group
+              disabled={editingNotice !== undefined}
+              defaultValue={editingNotice?.notice_type}
+            >
+              <Radio.Button value="奖助学金">奖助学金</Radio.Button>
+              <Radio.Button value="推研信息">推研信息</Radio.Button>
+              <Radio.Button value="就业信息">就业信息</Radio.Button>
+              <Radio.Button value="实习信息">实习信息</Radio.Button>
+              <Radio.Button value="赛事信息">赛事信息</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
           <Form.Item
             name="title"
             label="标题"
@@ -271,10 +358,19 @@ interface NoticeCardProps extends CardProps {
   files?: File[];
   updatedAt: Date;
   onEditPress?: () => void;
+  onDeletePress?: () => void;
 }
 
 const NoticeCard: React.FC<NoticeCardProps> = (props) => {
-  const { title, content, files, updatedAt, onEditPress, ...restProps } = props;
+  const {
+    title,
+    content,
+    files,
+    updatedAt,
+    onEditPress,
+    onDeletePress,
+    ...restProps
+  } = props;
 
   return (
     <Card
@@ -349,6 +445,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
         `}
       >
         {onEditPress && <EditOutlined onClick={onEditPress} />}
+        {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
         <Text
           css={`
             margin-left: 5px;

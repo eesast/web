@@ -1,11 +1,15 @@
-query GetNotices {
-  info_notice(order_by: { created_at: desc }) {
+query GetNotices($notice_type: String) {
+  info_notice(
+    where: { notice_type: { _eq: $notice_type } }
+    order_by: { created_at: desc }
+  ) {
     id
     title
     content
     created_at
     updated_at
     files
+    notice_type
   }
 }
 
@@ -14,10 +18,16 @@ mutation UpdateNotice(
   $title: String!
   $content: String!
   $files: String
+  $notice_type: String
 ) {
   update_info_notice(
     where: { id: { _eq: $id } }
-    _set: { title: $title, content: $content, files: $files }
+    _set: {
+      title: $title
+      content: $content
+      files: $files
+      notice_type: $notice_type
+    }
   ) {
     returning {
       id
@@ -25,10 +35,28 @@ mutation UpdateNotice(
   }
 }
 
-mutation AddNotice($title: String!, $content: String!, $files: String) {
+mutation AddNotice(
+  $title: String!
+  $content: String!
+  $files: String
+  $notice_type: String
+) {
   insert_info_notice(
-    objects: { title: $title, content: $content, files: $files }
+    objects: {
+      title: $title
+      content: $content
+      files: $files
+      notice_type: $notice_type
+    }
   ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation DeleteNotice($id: uuid!) {
+  delete_info_notice(where: { id: { _eq: $id } }) {
     returning {
       id
     }
