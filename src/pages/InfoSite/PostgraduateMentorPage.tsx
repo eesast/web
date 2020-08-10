@@ -279,7 +279,7 @@ const PostgraduateMentorPage: React.FC = () => {
     <div>
       <PageHeader
         title="电子系推研信息平台"
-        subTitle=" "
+        subTitle="信息仅供参考"
         extra={
           <Button
             type="primary"
@@ -412,11 +412,7 @@ const PostgraduateMentorPage: React.FC = () => {
           >
             <Input placeholder="研究方向简要介绍，详细信息建议填写在下方“详细信息”处" />
           </Form.Item>
-          <Form.Item
-            name="phd_quota"
-            label="博士名额"
-            rules={[{ required: true }]}
-          >
+          <Form.Item name="phd_quota" label="博士名额">
             <InputNumber min={0} />
           </Form.Item>
           <Form.Item
