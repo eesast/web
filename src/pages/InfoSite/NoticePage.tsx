@@ -27,6 +27,7 @@ import {
   LaptopOutlined,
   FundProjectionScreenOutlined,
   TrophyOutlined,
+  BarsOutlined,
 } from "@ant-design/icons";
 import {
   GetNotices as GET_NOTICES,
@@ -114,7 +115,7 @@ const NoticePage: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] = useState<GetNotices_info_notice>();
-  const [noticeType, setNoticeType] = useState<string>("");
+  const [noticeType, setNoticeType] = useState<string>("all");
   const [form] = Form.useForm();
 
   const handleNoticeEdit = async () => {
@@ -135,7 +136,7 @@ const NoticePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          notice_type: values.type,
+          notice_type: editingNotice.notice_type,
         },
       });
     } else {
@@ -196,7 +197,7 @@ const NoticePage: React.FC = () => {
 
   const handleTypeClick = async (e: any) => {
     setNoticeType(e.key);
-    await refetchNotices({ notice_type: e.key });
+    await refetchNotices({ notice_type: e.key === "all" ? null : e.key });
   };
 
   return (
@@ -219,6 +220,9 @@ const NoticePage: React.FC = () => {
         selectedKeys={[noticeType]}
         onClick={handleTypeClick}
       >
+        <Menu.Item key="all" icon={<BarsOutlined />}>
+          全部公告
+        </Menu.Item>
         <Menu.Item key="奖助学金" icon={<ReadOutlined />}>
           奖助学金
         </Menu.Item>
@@ -304,10 +308,10 @@ const NoticePage: React.FC = () => {
         >
           <Form.Item
             name="type"
-            rules={[{ required: true, message: "请选择公告类别" }]}
+            rules={[{ required: !editingNotice, message: "请选择公告类别" }]}
           >
             <Radio.Group
-              disabled={editingNotice !== undefined}
+              disabled={!!editingNotice}
               defaultValue={editingNotice?.notice_type}
             >
               <Radio.Button value="奖助学金">奖助学金</Radio.Button>

@@ -966,7 +966,7 @@ export interface UpdateNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
-  notice_type?: string | null;
+  notice_type: string;
 }
 
 /* tslint:disable */
@@ -1002,7 +1002,7 @@ export interface AddNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
-  notice_type?: string | null;
+  notice_type: string;
 }
 
 /* tslint:disable */
