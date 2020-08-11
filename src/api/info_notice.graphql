@@ -18,7 +18,7 @@ mutation UpdateNotice(
   $title: String!
   $content: String!
   $files: String
-  $notice_type: String
+  $notice_type: String!
 ) {
   update_info_notice(
     where: { id: { _eq: $id } }
@@ -39,7 +39,7 @@ mutation AddNotice(
   $title: String!
   $content: String!
   $files: String
-  $notice_type: String
+  $notice_type: String!
 ) {
   insert_info_notice(
     objects: {
