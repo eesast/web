@@ -11,19 +11,25 @@ import {
   PageHeader,
   Select,
   Modal,
+  Tag,
 } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
   GetPostgraduateFeeds as GET_POSTGRADUATE_FEEDS,
+  GetSelfPostgraduateApplications as GET_SELF_POSTGRADUATE_APPLICATIONS,
   InsertPostgraduateInfo as INSERT_POSTGRADUATE_INFO,
   UpdatePostgraduateInfo as UPDATE_POSTGRADUATE_INFO,
   DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
   InsertApplication as INSERT_APPLICATION,
+  DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
 } from "../../api/postgraduate.graphql";
 import {
   GetPostgraduateFeeds,
   GetPostgraduateFeedsVariables,
   GetPostgraduateFeeds_postgraduate_mentor_info as mentorInfo,
+  GetSelfPostgraduateApplications,
+  GetSelfPostgraduateApplicationsVariables,
+  GetSelfPostgraduateApplications_postgraduate_application as selfApplication,
   InsertPostgraduateInfo,
   InsertPostgraduateInfoVariables,
   UpdatePostgraduateInfo,
@@ -35,6 +41,8 @@ import {
   GetId,
   GetEmail,
   GetRole,
+  DeletePostgraduateApplication,
+  DeletePostgraduateApplicationVariables,
 } from "../../api/types";
 
 const PostgraduateMentorPage: React.FC = () => {
@@ -47,6 +55,18 @@ const PostgraduateMentorPage: React.FC = () => {
   const [showManage, setShowManage] = useState(false);
   const [infoId, setInfoId] = useState(0);
   const [applicationStatus, setApplicationStatus] = useState("");
+  const [showSelfApplications, setShowSelfApplications] = useState(false);
+  const [selfApplicationPagination, setSelfApplicationPagination] = useState<{
+    current: number;
+    offset: number;
+    pageSize: number;
+    selfApplications: selfApplication[];
+  }>({
+    current: 1,
+    offset: 0,
+    pageSize: 10,
+    selfApplications: [],
+  });
 
   const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
     {
@@ -75,6 +95,14 @@ const PostgraduateMentorPage: React.FC = () => {
     InsertApplication,
     InsertApplicationVariables
   >(INSERT_APPLICATION);
+
+  const [
+    deleteSelfApplication,
+    { error: deleteSelfApplicationError },
+  ] = useMutation<
+    DeletePostgraduateApplication,
+    DeletePostgraduateApplicationVariables
+  >(DELETE_POSTGRADUATE_APPLICATION);
 
   const columns: TableProps<mentorInfo>["columns"] = [
     {
@@ -176,10 +204,81 @@ const PostgraduateMentorPage: React.FC = () => {
     },
   ];
 
+  const selfApplicationColumns: TableProps<selfApplication>["columns"] = [
+    {
+      title: "申请时间",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (text) => {
+        return new Date(text).toDateString();
+      },
+    },
+    {
+      title: "审核状态",
+      dataIndex: "verified",
+      key: "verified",
+      render: (verified) => {
+        return verified ? (
+          <Tag color="green">通过</Tag>
+        ) : (
+          <Tag color="red">未通过</Tag>
+        );
+      },
+    },
+    {
+      title: "导师",
+      key: "mentor",
+      render: (_, record) => {
+        return record.mentor.mentor;
+      },
+    },
+    {
+      title: "操作",
+      render: (_, record) => {
+        return (
+          <>
+            {/* <Button type="link">修改</Button> */}
+            <Button
+              type="link"
+              danger
+              onClick={() => {
+                deleteSelfApplication({
+                  variables: {
+                    mentor_info_id: record.mentor_info_id,
+                    user_id: record.user_id,
+                  },
+                });
+                refetchSelfApplications();
+              }}
+            >
+              删除
+            </Button>
+          </>
+        );
+      },
+    },
+  ];
+
   const { data, loading, error, refetch: refetchFeeds } = useQuery<
     GetPostgraduateFeeds,
     GetPostgraduateFeedsVariables
   >(GET_POSTGRADUATE_FEEDS, { variables: { limit: pageSize, offset: offset } });
+
+  const {
+    data: selfApplicationData,
+    loading: selfApplicationLoading,
+    error: selfApplicationError,
+    refetch: refetchSelfApplications,
+  } = useQuery<
+    GetSelfPostgraduateApplications,
+    GetSelfPostgraduateApplicationsVariables
+  >(GET_SELF_POSTGRADUATE_APPLICATIONS, {
+    variables: {
+      user_id: userData?._id!,
+      limit: selfApplicationPagination.pageSize,
+      offset: selfApplicationPagination.offset,
+    },
+  });
 
   useEffect(() => {
     if (error) {
@@ -194,16 +293,22 @@ const PostgraduateMentorPage: React.FC = () => {
   }, [insertError, updateError]);
 
   useEffect(() => {
-    if (deleteError) {
+    if (deleteError || deleteSelfApplicationError) {
       message.error("删除信息失败");
     }
-  });
+  }, [deleteError, deleteSelfApplicationError]);
 
   useEffect(() => {
     if (insertApplicationError) {
       message.error("提交申请情况失败");
     }
-  });
+  }, [insertApplicationError]);
+
+  useEffect(() => {
+    if (selfApplicationError) {
+      message.error("申请信息加载失败");
+    }
+  }, [selfApplicationError]);
 
   const handlePageChange = (page: number, size?: number) => {
     if (size !== pageSize) setPageSize(size || 10);
@@ -216,6 +321,30 @@ const PostgraduateMentorPage: React.FC = () => {
     setCurrent(Math.ceil((current * pageSize) / size));
   };
 
+  const handleSelfApplicationPageChange = (page: number, size?: number) => {
+    if (size !== pageSize)
+      setSelfApplicationPagination({
+        ...selfApplicationPagination,
+        pageSize: size || 10,
+      });
+    setSelfApplicationPagination({
+      ...selfApplicationPagination,
+      offset: (page - 1) * (size || 10),
+      current: page,
+    });
+  };
+
+  const handleSelfApplicationPageSizeChange = (
+    current: number,
+    size: number
+  ) => {
+    setSelfApplicationPagination({
+      ...selfApplicationPagination,
+      offset: Math.ceil((current * pageSize) / size - 1) * size,
+      current: Math.ceil((current * pageSize) / size),
+    });
+  };
+
   const pageConfig: TablePaginationConfig = {
     current: current,
     total: data?.postgraduate_mentor_info_aggregate.aggregate?.count!,
@@ -225,6 +354,18 @@ const PostgraduateMentorPage: React.FC = () => {
     hideOnSinglePage: true,
     onChange: handlePageChange,
     onShowSizeChange: handlePageSizeChange,
+  };
+
+  const selfApplicationPageConfig: TablePaginationConfig = {
+    current: selfApplicationPagination.current,
+    total: selfApplicationData?.postgraduate_application_aggregate.aggregate
+      ?.count!,
+    pageSize: selfApplicationPagination.pageSize,
+    showSizeChanger: true,
+    pageSizeOptions: ["5", "10", "20"],
+    hideOnSinglePage: true,
+    onChange: handleSelfApplicationPageChange,
+    onShowSizeChange: handleSelfApplicationPageSizeChange,
   };
 
   const handleFormSubmit = async () => {
@@ -281,19 +422,29 @@ const PostgraduateMentorPage: React.FC = () => {
         title="电子系推研信息平台"
         subTitle="信息仅供参考"
         extra={
-          <Button
-            type="primary"
-            hidden={
-              !(userData?.role === "teacher" || userData?.role === "root")
-            }
-            onClick={() => {
-              form.resetFields();
-              setShowManage(true);
-              setInfoId(0);
-            }}
-          >
-            发布信息
-          </Button>
+          <>
+            <Button
+              hidden={!(userData?.role === "EEsenior")}
+              onClick={() => {
+                setShowSelfApplications(true);
+              }}
+            >
+              我的申请
+            </Button>
+            <Button
+              type="primary"
+              hidden={
+                !(userData?.role === "teacher" || userData?.role === "root")
+              }
+              onClick={() => {
+                form.resetFields();
+                setShowManage(true);
+                setInfoId(0);
+              }}
+            >
+              发布信息
+            </Button>
+          </>
         }
       ></PageHeader>
       <Table
@@ -437,6 +588,25 @@ const PostgraduateMentorPage: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
+      </Modal>
+      <Modal
+        title="我的申请"
+        visible={showSelfApplications}
+        footer={null}
+        width="60%"
+        onCancel={() => {
+          setShowSelfApplications(false);
+        }}
+      >
+        <Table
+          columns={selfApplicationColumns}
+          dataSource={selfApplicationData?.postgraduate_application}
+          loading={selfApplicationLoading}
+          pagination={selfApplicationPageConfig}
+          rowKey={(record) => {
+            return record.created_at;
+          }}
+        />
       </Modal>
     </div>
   );

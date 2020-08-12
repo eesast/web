@@ -1680,6 +1680,64 @@ export interface GetPostgraudateApplicationFeedsVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetSelfPostgraduateApplications
+// ====================================================
+
+export interface GetSelfPostgraduateApplications_postgraduate_application_mentor {
+  __typename: "postgraduate_mentor_info";
+  mentor: string;
+}
+
+export interface GetSelfPostgraduateApplications_postgraduate_application {
+  __typename: "postgraduate_application";
+  created_at: any;
+  mentor_info_id: number;
+  /**
+   * An object relationship
+   */
+  mentor: GetSelfPostgraduateApplications_postgraduate_application_mentor;
+  /**
+   * intend, in_contact, confirmed
+   */
+  status: string;
+  updated_at: any;
+  user_id: string;
+  verified: boolean;
+}
+
+export interface GetSelfPostgraduateApplications_postgraduate_application_aggregate_aggregate {
+  __typename: "postgraduate_application_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetSelfPostgraduateApplications_postgraduate_application_aggregate {
+  __typename: "postgraduate_application_aggregate";
+  aggregate: GetSelfPostgraduateApplications_postgraduate_application_aggregate_aggregate | null;
+}
+
+export interface GetSelfPostgraduateApplications {
+  /**
+   * fetch data from the table: "postgraduate_application"
+   */
+  postgraduate_application: GetSelfPostgraduateApplications_postgraduate_application[];
+  /**
+   * fetch aggregated fields from the table: "postgraduate_application"
+   */
+  postgraduate_application_aggregate: GetSelfPostgraduateApplications_postgraduate_application_aggregate;
+}
+
+export interface GetSelfPostgraduateApplicationsVariables {
+  user_id: string;
+  offset?: number | null;
+  limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: VerifyPostgraduateApplication
 // ====================================================
 

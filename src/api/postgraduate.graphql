@@ -239,6 +239,33 @@ query GetPostgraudateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
   }
 }
 
+query GetSelfPostgraduateApplications(
+  $user_id: String!
+  $offset: Int = 0
+  $limit: Int = 10
+) {
+  postgraduate_application(
+    where: { user_id: { _eq: $user_id } }
+    offset: $offset
+    limit: $limit
+  ) {
+    created_at
+    mentor_info_id
+    mentor {
+      mentor
+    }
+    status
+    updated_at
+    user_id
+    verified
+  }
+  postgraduate_application_aggregate(where: { user_id: { _eq: $user_id } }) {
+    aggregate {
+      count
+    }
+  }
+}
+
 mutation VerifyPostgraduateApplication(
   $mentor_info_id: Int!
   $user_id: String!
