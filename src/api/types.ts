@@ -918,6 +918,7 @@ export interface GetNotices_info_notice {
   created_at: any;
   updated_at: any;
   files: string | null;
+  notice_type: string;
 }
 
 export interface GetNotices {
@@ -925,6 +926,10 @@ export interface GetNotices {
    * fetch data from the table: "info_notice"
    */
   info_notice: GetNotices_info_notice[];
+}
+
+export interface GetNoticesVariables {
+  notice_type?: string | null;
 }
 
 /* tslint:disable */
@@ -961,6 +966,7 @@ export interface UpdateNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
+  notice_type: string;
 }
 
 /* tslint:disable */
@@ -996,6 +1002,40 @@ export interface AddNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
+  notice_type: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteNotice
+// ====================================================
+
+export interface DeleteNotice_delete_info_notice_returning {
+  __typename: "info_notice";
+  id: any;
+}
+
+export interface DeleteNotice_delete_info_notice {
+  __typename: "info_notice_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeleteNotice_delete_info_notice_returning[];
+}
+
+export interface DeleteNotice {
+  /**
+   * delete data from the table: "info_notice"
+   */
+  delete_info_notice: DeleteNotice_delete_info_notice | null;
+}
+
+export interface DeleteNoticeVariables {
+  id: any;
 }
 
 /* tslint:disable */
