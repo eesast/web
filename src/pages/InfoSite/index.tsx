@@ -137,7 +137,7 @@ const InfoSite: React.FC = () => {
                 招生信息
               </Link>
             </Menu.Item>
-            {["root", "counselor"].includes(userData?.role!) ? (
+            {["root", "counselor", "teacher"].includes(userData?.role!) ? (
               <Menu.Item key="mentor-info-verify">
                 <Link to={`${url}/mentor-info-verify`}>
                   <VerifiedOutlined />

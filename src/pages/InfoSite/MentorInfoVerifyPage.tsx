@@ -259,6 +259,11 @@ const MentorInfoVerifyPage: React.FC = () => {
       <PageHeader
         title="电子系推研信息平台"
         subTitle="导师发布信息审核"
+        extra={
+          <>
+            <Button onClick={() => refetchFeeds()}>刷新</Button>
+          </>
+        }
       ></PageHeader>
       <Table
         columns={columns}

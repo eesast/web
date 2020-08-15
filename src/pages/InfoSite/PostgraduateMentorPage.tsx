@@ -424,6 +424,14 @@ const PostgraduateMentorPage: React.FC = () => {
         extra={
           <>
             <Button
+              onClick={() => {
+                refetchFeeds();
+                refetchSelfApplications();
+              }}
+            >
+              刷新
+            </Button>
+            <Button
               hidden={!(userData?.role === "EEsenior")}
               onClick={() => {
                 setShowSelfApplications(true);
@@ -527,6 +535,7 @@ const PostgraduateMentorPage: React.FC = () => {
                   mentor_info_id: detail?.id!,
                   user_id: userData?._id!,
                   status: applicationStatus,
+                  verified: applicationStatus === "confirmed" ? false : true,
                 },
               });
               message.info("已提交申请情况，请等待辅导员审核");

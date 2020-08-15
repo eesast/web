@@ -188,13 +188,14 @@ mutation InsertApplication(
   $mentor_info_id: Int!
   $status: String = ""
   $user_id: String!
+  $verified: Boolean!
 ) {
   insert_postgraduate_application_one(
     object: {
       mentor_info_id: $mentor_info_id
       status: $status
       user_id: $user_id
-      verified: false
+      verified: $verified
     }
     on_conflict: {
       constraint: postgraduate_application_pkey
