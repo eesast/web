@@ -183,6 +183,11 @@ const PostgraduateApplicationPage: React.FC = () => {
       <PageHeader
         title="电子系推研信息平台"
         subTitle="学生申请审核"
+        extra={
+          <>
+            <Button onClick={() => refetchFeeds()}>刷新</Button>
+          </>
+        }
       ></PageHeader>
       <Table
         columns={columns}
