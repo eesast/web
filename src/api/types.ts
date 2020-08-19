@@ -1582,6 +1582,7 @@ export interface InsertApplicationVariables {
   mentor_info_id: number;
   status?: string | null;
   user_id: string;
+  verified: boolean;
 }
 
 /* tslint:disable */
