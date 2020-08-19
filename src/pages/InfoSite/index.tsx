@@ -134,7 +134,7 @@ const InfoSite: React.FC = () => {
             <Menu.Item key="postgraduate-mentor-info">
               <Link to={`${url}/postgraduate-mentor-info`}>
                 <TeamOutlined />
-                招生信息
+                博士生招生信息
               </Link>
             </Menu.Item>
             {["root", "counselor"].includes(userData?.role!) ? (
