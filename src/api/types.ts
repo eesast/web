@@ -1295,7 +1295,7 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
-  phd_quota: number;
+  phd_quota: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1408,7 +1408,7 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
-  phd_quota: number;
+  phd_quota: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1485,7 +1485,7 @@ export interface InsertPostgraduateInfoVariables {
   alternate_contact?: string | null;
   detail_info?: string | null;
   home_page?: string | null;
-  phd_quota?: number | null;
+  phd_quota?: any | null;
   user_id: string;
 }
 
@@ -1518,7 +1518,7 @@ export interface UpdatePostgraduateInfoVariables {
   alternate_contact?: string | null;
   detail_info?: string | null;
   home_page?: string | null;
-  phd_quota?: number | null;
+  phd_quota?: any | null;
 }
 
 /* tslint:disable */

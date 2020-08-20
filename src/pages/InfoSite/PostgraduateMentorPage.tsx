@@ -124,6 +124,11 @@ const PostgraduateMentorPage: React.FC = () => {
       key: "field",
     },
     {
+      title: "博士名额",
+      dataIndex: "phd_quota",
+      key: "phd_quota",
+    },
+    {
       title: "报名情况",
       children: [
         {

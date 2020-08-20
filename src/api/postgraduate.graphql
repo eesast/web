@@ -129,7 +129,7 @@ mutation InsertPostgraduateInfo(
   $alternate_contact: String = ""
   $detail_info: String = ""
   $home_page: String = ""
-  $phd_quota: Int = 0
+  $phd_quota: numeric = 0
   $user_id: String!
 ) {
   insert_postgraduate_mentor_info_one(
@@ -157,7 +157,7 @@ mutation UpdatePostgraduateInfo(
   $alternate_contact: String = ""
   $detail_info: String = ""
   $home_page: String = ""
-  $phd_quota: Int = 0
+  $phd_quota: numeric = 0
 ) {
   update_postgraduate_mentor_info_by_pk(
     pk_columns: { id: $id }
