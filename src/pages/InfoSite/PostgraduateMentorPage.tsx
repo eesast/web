@@ -22,6 +22,7 @@ import {
   DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
   InsertApplication as INSERT_APPLICATION,
   DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
+  SetPostAppHistory as SET_POST_APP_HISTORY,
 } from "../../api/postgraduate.graphql";
 import {
   GetPostgraduateFeeds,
@@ -43,6 +44,8 @@ import {
   GetRole,
   DeletePostgraduateApplication,
   DeletePostgraduateApplicationVariables,
+  SetPostAppHistory,
+  SetPostAppHistoryVariables,
 } from "../../api/types";
 
 const PostgraduateMentorPage: React.FC = () => {
@@ -103,6 +106,11 @@ const PostgraduateMentorPage: React.FC = () => {
     DeletePostgraduateApplication,
     DeletePostgraduateApplicationVariables
   >(DELETE_POSTGRADUATE_APPLICATION);
+
+  const [setAppHistory, { error: setAppHistoryError }] = useMutation<
+    SetPostAppHistory,
+    SetPostAppHistoryVariables
+  >(SET_POST_APP_HISTORY);
 
   const columns: TableProps<mentorInfo>["columns"] = [
     {
@@ -253,6 +261,13 @@ const PostgraduateMentorPage: React.FC = () => {
                     user_id: record.user_id,
                   },
                 });
+                setAppHistory({
+                  variables: {
+                    mentor_info_id: record.mentor_info_id,
+                    user_id: record.user_id,
+                    status: "delete",
+                  },
+                });
                 refetchSelfApplications();
               }}
             >
@@ -314,6 +329,12 @@ const PostgraduateMentorPage: React.FC = () => {
       message.error("申请信息加载失败");
     }
   }, [selfApplicationError]);
+
+  useEffect(() => {
+    if (setAppHistoryError) {
+      message.error("记录操作历史失败");
+    }
+  }, [setAppHistoryError]);
 
   const handlePageChange = (page: number, size?: number) => {
     if (size !== pageSize) setPageSize(size || 10);
@@ -478,7 +499,7 @@ const PostgraduateMentorPage: React.FC = () => {
       >
         <Descriptions>
           <Descriptions.Item label="导师">{detail?.mentor}</Descriptions.Item>
-          <Descriptions.Item label="方向">{detail?.field}</Descriptions.Item>
+          <Descriptions.Item label="研究所">{detail?.field}</Descriptions.Item>
           <Descriptions.Item label="博士名额">
             {detail?.phd_quota}
           </Descriptions.Item>
@@ -541,6 +562,16 @@ const PostgraduateMentorPage: React.FC = () => {
                   user_id: userData?._id!,
                   status: applicationStatus,
                   verified: applicationStatus === "confirmed" ? false : true,
+                },
+              });
+              setAppHistory({
+                variables: {
+                  mentor_info_id: detail?.id!,
+                  user_id: userData?._id!,
+                  status:
+                    applicationStatus === "confirmed"
+                      ? "confirmed_unverified"
+                      : applicationStatus,
                 },
               });
               applicationStatus === "confirmed"

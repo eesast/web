@@ -291,3 +291,54 @@ mutation DeletePostgraduateApplication(
     user_id
   }
 }
+
+mutation SetPostAppHistory(
+  $user_id: String!
+  $mentor_info_id: Int!
+  $status: String!
+) {
+  insert_postgraduate_application_history_one(
+    object: {
+      user_id: $user_id
+      mentor_info_id: $mentor_info_id
+      status: $status
+    }
+    on_conflict: {
+      constraint: postgraduate_application_history_pkey
+      update_columns: created_at
+    }
+  ) {
+    created_at
+  }
+}
+
+query GetPostAppHistory($offset: Int = 0, $limit: Int = 10) {
+  postgraduate_application_history(
+    offset: $offset
+    limit: $limit
+    where: {
+      _and: [
+        { status: { _neq: "intend" } }
+        { status: { _neq: "in_contact" } }
+        { status: { _neq: "delete" } }
+      ]
+    }
+  ) {
+    created_at
+    mentor_info_id
+    status
+    user_id
+    updated_at
+    mentor {
+      mentor
+    }
+    user {
+      name
+    }
+  }
+  postgraduate_application_history_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
