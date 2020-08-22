@@ -57,7 +57,7 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.3",
     "rimraf": "3.0.2",
-    "source-map-explorer": "2.4.2",
+    "source-map-explorer": "2.5.0",
     "styled-components": "5.1.1",
     "subscriptions-transport-ws": "0.9.17",
     "typescript": "3.9.7",
