@@ -1295,7 +1295,7 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
-  phd_quota: number;
+  phd_quota: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1408,7 +1408,7 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
-  phd_quota: number;
+  phd_quota: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1485,7 +1485,7 @@ export interface InsertPostgraduateInfoVariables {
   alternate_contact?: string | null;
   detail_info?: string | null;
   home_page?: string | null;
-  phd_quota?: number | null;
+  phd_quota?: any | null;
   user_id: string;
 }
 
@@ -1518,7 +1518,7 @@ export interface UpdatePostgraduateInfoVariables {
   alternate_contact?: string | null;
   detail_info?: string | null;
   home_page?: string | null;
-  phd_quota?: number | null;
+  phd_quota?: any | null;
 }
 
 /* tslint:disable */
@@ -1784,6 +1784,98 @@ export interface DeletePostgraduateApplication {
 export interface DeletePostgraduateApplicationVariables {
   mentor_info_id: number;
   user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: SetPostAppHistory
+// ====================================================
+
+export interface SetPostAppHistory_insert_postgraduate_application_history_one {
+  __typename: "postgraduate_application_history";
+  created_at: any;
+}
+
+export interface SetPostAppHistory {
+  /**
+   * insert a single row into the table: "postgraduate_application_history"
+   */
+  insert_postgraduate_application_history_one: SetPostAppHistory_insert_postgraduate_application_history_one | null;
+}
+
+export interface SetPostAppHistoryVariables {
+  user_id: string;
+  mentor_info_id: number;
+  status: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetPostAppHistory
+// ====================================================
+
+export interface GetPostAppHistory_postgraduate_application_history_mentor {
+  __typename: "postgraduate_mentor_info";
+  mentor: string;
+}
+
+export interface GetPostAppHistory_postgraduate_application_history_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetPostAppHistory_postgraduate_application_history {
+  __typename: "postgraduate_application_history";
+  created_at: any;
+  mentor_info_id: number;
+  /**
+   * intend, in_contact, confirmed_unverified, confirmed_verified, delete
+   */
+  status: string;
+  user_id: string;
+  updated_at: any;
+  /**
+   * An object relationship
+   */
+  mentor: GetPostAppHistory_postgraduate_application_history_mentor;
+  /**
+   * An object relationship
+   */
+  user: GetPostAppHistory_postgraduate_application_history_user;
+}
+
+export interface GetPostAppHistory_postgraduate_application_history_aggregate_aggregate {
+  __typename: "postgraduate_application_history_aggregate_fields";
+  count: number | null;
+}
+
+export interface GetPostAppHistory_postgraduate_application_history_aggregate {
+  __typename: "postgraduate_application_history_aggregate";
+  aggregate: GetPostAppHistory_postgraduate_application_history_aggregate_aggregate | null;
+}
+
+export interface GetPostAppHistory {
+  /**
+   * fetch data from the table: "postgraduate_application_history"
+   */
+  postgraduate_application_history: GetPostAppHistory_postgraduate_application_history[];
+  /**
+   * fetch aggregated fields from the table: "postgraduate_application_history"
+   */
+  postgraduate_application_history_aggregate: GetPostAppHistory_postgraduate_application_history_aggregate;
+}
+
+export interface GetPostAppHistoryVariables {
+  offset?: number | null;
+  limit?: number | null;
 }
 
 /* tslint:disable */

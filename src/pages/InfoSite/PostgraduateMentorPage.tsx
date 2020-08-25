@@ -22,6 +22,7 @@ import {
   DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
   InsertApplication as INSERT_APPLICATION,
   DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
+  SetPostAppHistory as SET_POST_APP_HISTORY,
 } from "../../api/postgraduate.graphql";
 import {
   GetPostgraduateFeeds,
@@ -43,6 +44,8 @@ import {
   GetRole,
   DeletePostgraduateApplication,
   DeletePostgraduateApplicationVariables,
+  SetPostAppHistory,
+  SetPostAppHistoryVariables,
 } from "../../api/types";
 
 const PostgraduateMentorPage: React.FC = () => {
@@ -104,6 +107,11 @@ const PostgraduateMentorPage: React.FC = () => {
     DeletePostgraduateApplicationVariables
   >(DELETE_POSTGRADUATE_APPLICATION);
 
+  const [setAppHistory, { error: setAppHistoryError }] = useMutation<
+    SetPostAppHistory,
+    SetPostAppHistoryVariables
+  >(SET_POST_APP_HISTORY);
+
   const columns: TableProps<mentorInfo>["columns"] = [
     {
       title: "发布时间",
@@ -119,9 +127,14 @@ const PostgraduateMentorPage: React.FC = () => {
       key: "mentor",
     },
     {
-      title: "研究方向",
+      title: "研究所",
       dataIndex: "field",
       key: "field",
+    },
+    {
+      title: "博士名额",
+      dataIndex: "phd_quota",
+      key: "phd_quota",
     },
     {
       title: "报名情况",
@@ -248,6 +261,13 @@ const PostgraduateMentorPage: React.FC = () => {
                     user_id: record.user_id,
                   },
                 });
+                setAppHistory({
+                  variables: {
+                    mentor_info_id: record.mentor_info_id,
+                    user_id: record.user_id,
+                    status: "delete",
+                  },
+                });
                 refetchSelfApplications();
               }}
             >
@@ -309,6 +329,12 @@ const PostgraduateMentorPage: React.FC = () => {
       message.error("申请信息加载失败");
     }
   }, [selfApplicationError]);
+
+  useEffect(() => {
+    if (setAppHistoryError) {
+      message.error("记录操作历史失败");
+    }
+  }, [setAppHistoryError]);
 
   const handlePageChange = (page: number, size?: number) => {
     if (size !== pageSize) setPageSize(size || 10);
@@ -420,7 +446,7 @@ const PostgraduateMentorPage: React.FC = () => {
     <div>
       <PageHeader
         title="电子系推研信息平台"
-        subTitle="信息仅供参考"
+        subTitle="信息仅供参考 名额数量0.5代表竞争名额"
         extra={
           <>
             <Button
@@ -473,7 +499,7 @@ const PostgraduateMentorPage: React.FC = () => {
       >
         <Descriptions>
           <Descriptions.Item label="导师">{detail?.mentor}</Descriptions.Item>
-          <Descriptions.Item label="方向">{detail?.field}</Descriptions.Item>
+          <Descriptions.Item label="研究所">{detail?.field}</Descriptions.Item>
           <Descriptions.Item label="博士名额">
             {detail?.phd_quota}
           </Descriptions.Item>
@@ -538,7 +564,19 @@ const PostgraduateMentorPage: React.FC = () => {
                   verified: applicationStatus === "confirmed" ? false : true,
                 },
               });
-              message.info("已提交申请情况，请等待辅导员审核");
+              setAppHistory({
+                variables: {
+                  mentor_info_id: detail?.id!,
+                  user_id: userData?._id!,
+                  status:
+                    applicationStatus === "confirmed"
+                      ? "confirmed_unverified"
+                      : applicationStatus,
+                },
+              });
+              applicationStatus === "confirmed"
+                ? message.info("已提交申请情况，请等待辅导员审核")
+                : message.success("提交成功");
             }}
             disabled={!(userData?.role === "EEsenior")}
           >
@@ -567,10 +605,10 @@ const PostgraduateMentorPage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="field"
-            label="研究方向"
-            rules={[{ required: true, message: "请输入研究方向" }]}
+            label="研究所"
+            rules={[{ required: true, message: "请输入研究所" }]}
           >
-            <Input placeholder="研究方向简要介绍，详细信息建议填写在下方“详细信息”处" />
+            <Input placeholder="研究所名称，详细信息（研究方向）建议填写在下方“详细信息”处" />
           </Form.Item>
           <Form.Item name="phd_quota" label="博士名额">
             <InputNumber min={0} />

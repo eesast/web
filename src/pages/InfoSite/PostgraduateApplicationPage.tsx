@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { Button, Table, PageHeader, message, Alert } from "antd";
+import { Button, Table, PageHeader, message, Alert, Switch, Tag } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
   VerifyPostgraduateApplication as VERIFY_POSTGRADUATE_APPLICATION,
   DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
   GetPostgraudateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
+  GetPostAppHistory as GET_POST_APP_HISTORY,
+  SetPostAppHistory as SET_POST_APP_HISTORY,
 } from "../../api/postgraduate.graphql";
 import {
   GetPostgraudateApplicationFeeds_postgraduate_application as applicationInfo,
+  GetPostAppHistory_postgraduate_application_history as applicationHistory,
   GetId,
   GetEmail,
   GetRole,
@@ -18,12 +21,17 @@ import {
   DeletePostgraduateApplicationVariables,
   GetPostgraudateApplicationFeeds,
   GetPostgraudateApplicationFeedsVariables,
+  GetPostAppHistory,
+  GetPostAppHistoryVariables,
+  SetPostAppHistory,
+  SetPostAppHistoryVariables,
 } from "../../api/types";
 
 const PostgraduateApplicationPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [history, setHistory] = useState(false);
 
   const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
     {
@@ -43,6 +51,11 @@ const PostgraduateApplicationPage: React.FC = () => {
     DeletePostgraduateApplicationVariables
   >(DELETE_POSTGRADUATE_APPLICATION);
 
+  const [setAppHistory, { error: setAppHistoryError }] = useMutation<
+    SetPostAppHistory,
+    SetPostAppHistoryVariables
+  >(SET_POST_APP_HISTORY);
+
   const { data, loading, error, refetch: refetchFeeds } = useQuery<
     GetPostgraudateApplicationFeeds,
     GetPostgraudateApplicationFeedsVariables
@@ -50,11 +63,21 @@ const PostgraduateApplicationPage: React.FC = () => {
     variables: { limit: pageSize, offset: offset },
   });
 
+  const {
+    data: historyData,
+    loading: historyLoading,
+    error: historyError,
+    refetch: refetchHistory,
+  } = useQuery<GetPostAppHistory, GetPostAppHistoryVariables>(
+    GET_POST_APP_HISTORY,
+    { variables: { limit: pageSize, offset: offset } }
+  );
+
   useEffect(() => {
-    if (error) {
+    if (error || historyError) {
       message.error("申请信息加载失败");
     }
-  }, [error]);
+  }, [error, historyError]);
 
   useEffect(() => {
     if (verifyError) {
@@ -68,6 +91,12 @@ const PostgraduateApplicationPage: React.FC = () => {
     }
   }, [deleteError]);
 
+  useEffect(() => {
+    if (setAppHistoryError) {
+      message.error("记录操作历史失败");
+    }
+  }, [setAppHistoryError]);
+
   const handlePageChange = (page: number, size?: number) => {
     if (size !== pageSize) setPageSize(size || 10);
     setOffset((page - 1) * (size || 10));
@@ -77,6 +106,13 @@ const PostgraduateApplicationPage: React.FC = () => {
   const handlePageSizeChange = (current: number, size: number) => {
     setOffset(Math.ceil((current * pageSize) / size - 1) * size);
     setCurrent(Math.ceil((current * pageSize) / size));
+  };
+
+  const handleHistorySwitchChange = (checked: boolean, event: Event) => {
+    setHistory(checked);
+    setOffset(0);
+    setPageSize(10);
+    setCurrent(1);
   };
 
   const columns: TableProps<applicationInfo>["columns"] = [
@@ -109,11 +145,15 @@ const PostgraduateApplicationPage: React.FC = () => {
       dataIndex: "status",
       key: "status",
       render: (text) => {
-        return text === "intend"
-          ? "有意向"
-          : text === "in_contact"
-          ? "联络中"
-          : "已确认";
+        return text === "intend" ? (
+          <Tag>有意向</Tag>
+        ) : text === "in_contact" ? (
+          <Tag>联络中</Tag>
+        ) : text === "confirmed_unverified" ? (
+          <Tag color="lime">已确认（未审核）</Tag>
+        ) : (
+          <Tag color="green">已确认（通过）</Tag>
+        );
       },
     },
     {
@@ -131,6 +171,13 @@ const PostgraduateApplicationPage: React.FC = () => {
                     user_id: record.user_id,
                   },
                 });
+                setAppHistory({
+                  variables: {
+                    mentor_info_id: record.mentor_info_id,
+                    user_id: record.user_id,
+                    status: "confirmed_verified",
+                  },
+                });
                 refetchFeeds();
               }}
             >
@@ -146,6 +193,13 @@ const PostgraduateApplicationPage: React.FC = () => {
                     user_id: record.user_id,
                   },
                 });
+                setAppHistory({
+                  variables: {
+                    mentor_info_id: record.mentor_info_id,
+                    user_id: record.user_id,
+                    status: "delete",
+                  },
+                });
                 refetchFeeds();
               }}
             >
@@ -157,9 +211,55 @@ const PostgraduateApplicationPage: React.FC = () => {
     },
   ];
 
+  const historyColumns: TableProps<applicationHistory>["columns"] = [
+    {
+      title: "申请时间",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (text) => {
+        return new Date(text).toDateString();
+      },
+    },
+    {
+      title: "学生",
+      dataIndex: "user",
+      key: "user",
+      render: (user) => {
+        return user.name;
+      },
+    },
+    {
+      title: "导师",
+      dataIndex: "mentor",
+      key: "mentor",
+      render: (mentor) => {
+        return mentor.mentor;
+      },
+    },
+    {
+      title: "状态",
+      dataIndex: "status",
+      key: "status",
+      render: (text) => {
+        return text === "intend" ? (
+          <Tag>有意向</Tag>
+        ) : text === "in_contact" ? (
+          <Tag>联络中</Tag>
+        ) : text === "confirmed_unverified" ? (
+          <Tag color="lime">已确认（未审核）</Tag>
+        ) : (
+          <Tag color="green">已确认（通过）</Tag>
+        );
+      },
+    },
+  ];
+
   const pageConfig: TablePaginationConfig = {
     current: current,
-    total: data?.postgraduate_application_aggregate.aggregate?.count!,
+    total: history
+      ? historyData?.postgraduate_application_history_aggregate.aggregate
+          ?.count!
+      : data?.postgraduate_application_aggregate.aggregate?.count!,
     pageSize: pageSize,
     showSizeChanger: true,
     pageSizeOptions: ["10", "20", "50"],
@@ -185,19 +285,44 @@ const PostgraduateApplicationPage: React.FC = () => {
         subTitle="学生申请审核"
         extra={
           <>
-            <Button onClick={() => refetchFeeds()}>刷新</Button>
+            <Switch
+              checkedChildren="查看申请历史"
+              unCheckedChildren="查看待审核者"
+              checked={history}
+              onChange={handleHistorySwitchChange}
+            />
+            <Button
+              onClick={() => {
+                if (history) refetchHistory();
+                else refetchFeeds();
+              }}
+            >
+              刷新
+            </Button>
           </>
         }
       ></PageHeader>
-      <Table
-        columns={columns}
-        dataSource={data?.postgraduate_application}
-        loading={loading}
-        pagination={pageConfig}
-        rowKey={(record) => {
-          return `${record.mentor_info_id}${record.user_id}`;
-        }}
-      />
+      {history ? (
+        <Table
+          columns={historyColumns}
+          dataSource={historyData?.postgraduate_application_history}
+          loading={historyLoading}
+          pagination={pageConfig}
+          rowKey={(record) => {
+            return `${record.mentor_info_id}${record.user_id}${record.created_at}`;
+          }}
+        />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={data?.postgraduate_application}
+          loading={loading}
+          pagination={pageConfig}
+          rowKey={(record) => {
+            return `${record.mentor_info_id}${record.user_id}`;
+          }}
+        />
+      )}
     </div>
   );
 };

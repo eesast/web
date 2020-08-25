@@ -84,7 +84,7 @@ const MentorInfoVerifyPage: React.FC = () => {
       key: "mentor",
     },
     {
-      title: "研究方向",
+      title: "研究所",
       dataIndex: "field",
       key: "field",
     },
@@ -320,10 +320,10 @@ const MentorInfoVerifyPage: React.FC = () => {
           </Form.Item>
           <Form.Item
             name="field"
-            label="研究方向"
-            rules={[{ required: true, message: "请输入研究方向" }]}
+            label="研究所"
+            rules={[{ required: true, message: "请输入研究所" }]}
           >
-            <Input placeholder="研究方向简要介绍，详细信息建议填写在下方“详细信息”处" />
+            <Input placeholder="研究所名称，详细信息（研究方向）建议填写在下方“详细信息”处" />
           </Form.Item>
           <Form.Item
             name="phd_quota"
