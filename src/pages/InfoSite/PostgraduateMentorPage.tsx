@@ -185,8 +185,8 @@ const PostgraduateMentorPage: React.FC = () => {
               }}
               hidden={
                 !(
-                  (userData?.role === "teacher" &&
-                    userData?._id === record.user_id) ||
+                  userData?.role === "teacher" ||
+                  userData?.role === "counselor" ||
                   userData?.role === "root"
                 )
               }
@@ -205,6 +205,7 @@ const PostgraduateMentorPage: React.FC = () => {
                 !(
                   (userData?.role === "teacher" &&
                     userData?._id === record.user_id) ||
+                  userData?.role === "counselor" ||
                   userData?.role === "root"
                 )
               }
@@ -468,7 +469,11 @@ const PostgraduateMentorPage: React.FC = () => {
             <Button
               type="primary"
               hidden={
-                !(userData?.role === "teacher" || userData?.role === "root")
+                !(
+                  userData?.role === "teacher" ||
+                  userData?.role === "counselor" ||
+                  userData?.role === "root"
+                )
               }
               onClick={() => {
                 form.resetFields();

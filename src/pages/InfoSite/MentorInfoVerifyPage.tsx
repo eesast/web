@@ -118,8 +118,7 @@ const MentorInfoVerifyPage: React.FC = () => {
                 !(
                   userData?.role === "counselor" ||
                   userData?.role === "root" ||
-                  (userData?.role === "teacher" &&
-                    userData?._id === record.user_id)
+                  userData?.role === "teacher"
                 )
               }
               type="link"
