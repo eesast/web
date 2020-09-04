@@ -8,7 +8,7 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import { Layout, Menu, message } from "antd";
+import { Layout, Menu, message, Modal } from "antd";
 import {
   NotificationOutlined,
   TeamOutlined,
@@ -81,6 +81,18 @@ const InfoSite: React.FC = () => {
     }
   }, [history, user, userData]);
 
+  const disclaimer = () => {
+    if (localStorage.getItem("disclaimerChecked") !== "true") {
+      Modal.warning({
+        title: "免责声明",
+        content:
+          "本平台信息非官方数据，不保证信息的准确性、真实性和有效性，不构成任何选择导师的建议，仅供参考。",
+        okText: "我已知悉",
+      });
+      localStorage.setItem("disclaimerChecked", "true");
+    }
+  };
+
   return (
     <Layout>
       <FixedSider>
@@ -131,7 +143,7 @@ const InfoSite: React.FC = () => {
             </Menu.Item>
           </Menu.ItemGroup>
           <Menu.ItemGroup key="postgraduate" title="推研信息">
-            <Menu.Item key="postgraduate-mentor-info">
+            <Menu.Item key="postgraduate-mentor-info" onClick={disclaimer}>
               <Link to={`${url}/postgraduate-mentor-info`}>
                 <TeamOutlined />
                 博士生招生信息

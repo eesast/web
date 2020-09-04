@@ -5,6 +5,8 @@ import {
   Input,
   Button,
   Table,
+  Typography,
+  Space,
   message,
   Descriptions,
   InputNumber,
@@ -47,6 +49,8 @@ import {
   SetPostAppHistory,
   SetPostAppHistoryVariables,
 } from "../../api/types";
+
+const { Text } = Typography;
 
 const PostgraduateMentorPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -447,7 +451,6 @@ const PostgraduateMentorPage: React.FC = () => {
     <div>
       <PageHeader
         title="电子系推研信息平台"
-        subTitle="信息仅供参考 名额数量0.5代表竞争名额"
         extra={
           <>
             <Button
@@ -486,6 +489,10 @@ const PostgraduateMentorPage: React.FC = () => {
           </>
         }
       ></PageHeader>
+      <Space direction="vertical" size={1}>
+        <Text type="secondary">信息仅供参考，名额数量0.5代表竞争名额</Text>
+        <Text type="secondary">导师名额初始值为0，可参考往年招生情况</Text>
+      </Space>
       <Table
         columns={columns}
         dataSource={data?.postgraduate_mentor_info}
