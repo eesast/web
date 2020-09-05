@@ -2602,10 +2602,10 @@ antd-dayjs-webpack-plugin@1.0.1:
   resolved "https://registry.yarnpkg.com/antd-dayjs-webpack-plugin/-/antd-dayjs-webpack-plugin-1.0.1.tgz#cc31cc05c9bd69652a4bddab19eb49726bebe0d5"
   integrity sha512-1UWGAnv856s5r/2bi6KJvWMeevDEHwFFdHaymZElW5kbH06A/xP7JcZ75UdYoxqny3scD22DWErbGg+vQ9RNdg==
 
-antd@4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.6.1.tgz#d204215d3d00a3ac51a2e93ec2ee1a49adbdb705"
-  integrity sha512-RsqbFvUNSZ5K114492BNo4p+4MpCUpzIsZLu0XFlufYLyIE3pyw184OZjPnJ7b4qlMEvlIoE14N8qCb4BnZF0w==
+antd@4.6.2:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.6.2.tgz#c3a8fda7f7c60aa3d3e8ed356bef61902ed3d1ad"
+  integrity sha512-6hmSRiSV3Lzz/1fKGOLHld7gf0d+MW7fg7MNGCAAceGmxtG1WEaaOtV8dZeL2WXq0SGH4wY4GytN6chRrtatfw==
   dependencies:
     "@ant-design/colors" "^4.0.5"
     "@ant-design/css-animation" "^1.7.2"
@@ -2649,8 +2649,8 @@ antd@4.6.1:
     rc-tree "~3.9.0"
     rc-tree-select "~4.1.1"
     rc-trigger "~4.4.0"
-    rc-upload "~3.2.0"
-    rc-util "^5.0.1"
+    rc-upload "~3.2.1"
+    rc-util "^5.1.0"
     scroll-into-view-if-needed "^2.2.25"
     warning "^4.0.3"
 
@@ -11641,7 +11641,7 @@ rc-trigger@^4.0.0, rc-trigger@^4.2.1, rc-trigger@^4.3.0, rc-trigger@^4.4.0, rc-t
     rc-motion "^1.0.0"
     rc-util "^5.0.1"
 
-rc-upload@~3.2.0:
+rc-upload@~3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/rc-upload/-/rc-upload-3.2.1.tgz#2bd6af19061be748736624f553a67d04a49c0deb"
   integrity sha512-gmIy08tco2YFTSiru9zgeTmUcDKPyUMUUBdUIjG2CcHz4jdbpaPx/RL/Wz9CMD6ppQizK0gES0rcQ1+o5frK2Q==
@@ -11652,6 +11652,14 @@ rc-util@^5.0.0, rc-util@^5.0.1, rc-util@^5.0.4, rc-util@^5.0.5, rc-util@^5.0.6, 
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.1.0.tgz#a525440d5138e6b2b68dfb61ca16dc4213bdb815"
   integrity sha512-uxkO3WRjHKcwrqpkVs1sk0DOq0X3BQ/J+Kjgql05Zhrs5wqxWVn5bvTmdKHJ/zUjHLaHm/NfPe07YfD9/NK6vQ==
+  dependencies:
+    react-is "^16.12.0"
+    shallowequal "^1.1.0"
+
+rc-util@^5.1.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.2.1.tgz#c01a3e25b4d65570e433f46f85fdf36ed44de6af"
+  integrity sha512-OnIKp4DsYZpT3St9LwiGARXyMR38wNbk7C4jXS6NGAGHZEQWck7W6qfiJwj+MUmhJiUisAknU6BUs65exbhFTw==
   dependencies:
     react-is "^16.12.0"
     shallowequal "^1.1.0"
