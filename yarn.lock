@@ -5292,10 +5292,10 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docxtemplater@3.19.0:
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.19.0.tgz#b242591057d5c6e950f975d046ab18dfd58b982e"
-  integrity sha512-CHohxvD2/4I6YADnY5F+lpDBrwIB8nanCWJgj0qYlulZH/v2IiDAfJsZqDwQJiDbkuNZ8pHMjTNGsNBLFCLXvQ==
+docxtemplater@3.19.3:
+  version "3.19.3"
+  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.19.3.tgz#69b315f321a7260a6d96beed83ba8fb8f0b6e576"
+  integrity sha512-4kDFv1CMCOzRxKNmNDZwhUXXfoGi2Y6AWIIUBtDdz0bXWmzAT1yZJ+x7EGG2J+kz9dk/1mZR1wT4oMkOFPWORw==
   dependencies:
     xmldom "^0.3.0"
 
