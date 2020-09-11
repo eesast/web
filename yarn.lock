@@ -1941,10 +1941,10 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
-"@types/is-number@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@types/is-number/-/is-number-7.0.0.tgz#657229b7b1f7a66fc13fc0abe48637634f91ecd6"
-  integrity sha512-22yxG9vfSLKP779bHhEX2qkyaKsR9oIqaJDmhFztgGJTziUWVqNSvv9/s9t6NtLXaYuwa5eeGauyFvbLzAA85A==
+"@types/is-number@7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@types/is-number/-/is-number-7.0.1.tgz#67ae3b4d95e72d5585e08abfed8390e7543661ca"
+  integrity sha512-X8x3GugC4+84FEukgkKT75SkSVdzdeZJzy5k7n5CRB7/jk0PgeYwe2O5qRx7qOTnKkLNMVOP2d190R7VWzbzEw==
 
 "@types/is-url@1.2.28":
   version "1.2.28"
