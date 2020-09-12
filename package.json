@@ -38,7 +38,7 @@
     "dotenv": "8.2.0",
     "enquire.js": "2.1.6",
     "file-saver": "2.0.2",
-    "husky": "4.2.5",
+    "husky": "4.3.0",
     "is-number": "7.0.0",
     "is-url": "1.2.4",
     "isemail": "3.2.0",
