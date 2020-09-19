@@ -33,7 +33,7 @@
     "concurrently": "5.3.0",
     "customize-cra": "1.0.0",
     "customize-cra-react-refresh": "1.1.0",
-    "dayjs": "1.8.35",
+    "dayjs": "1.8.36",
     "docxtemplater": "3.19.3",
     "dotenv": "8.2.0",
     "enquire.js": "2.1.6",
