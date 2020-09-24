@@ -33,7 +33,8 @@ import IsEmail from "isemail";
 const Background = styled.div`
   height: calc(100vh - 67px);
   width: 100%;
-  background-image: url("${process.env.REACT_APP_STATIC_URL}/public/images/tsinghua-background-summer.jpg?x-oss-process=image/auto-orient,1/interlace,1/quality,q_90");
+  background-image: url("${process.env
+    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-summer.jpg?x-oss-process=image/auto-orient,1/interlace,1/quality,q_90");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -43,7 +44,7 @@ const LoginPage: React.FC = () => {
   const client = useApolloClient();
 
   const history = useHistory();
-  const location = useLocation<{ from?: Location<History.PoorMansUnknown> }>();
+  const location = useLocation<{ from?: Location<History.UnknownFacade> }>();
   const register = location.pathname === "/register";
   const reset = location.pathname.startsWith("/reset");
   const urlParams = new URLSearchParams(location.search);
