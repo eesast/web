@@ -17,7 +17,7 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { History, Location } from "history";
+import { Location } from "history";
 import styled from "styled-components";
 import Center from "../components/Center";
 import logo from "../assets/logo.png";
@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
   const client = useApolloClient();
 
   const history = useHistory();
-  const location = useLocation<{ from?: Location<History.UnknownFacade> }>();
+  const location = useLocation<{ from?: Location<unknown> }>();
   const register = location.pathname === "/register";
   const reset = location.pathname.startsWith("/reset");
   const urlParams = new URLSearchParams(location.search);
