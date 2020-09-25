@@ -16,7 +16,7 @@ import {
   Switch,
   Progress,
 } from "antd";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import {
   GetHonorApplications as GET_HONOR_APPLICATIONS,
   AddHonorApplication as ADD_HONOR_APPLICATION,
@@ -26,8 +26,6 @@ import {
   UpdateHonorApplicationStatus as UPDATE_HONOR_APPLICATION_STATUS,
 } from "../../api/info_honor.graphql";
 import {
-  GetRole,
-  GetId,
   GetHonorApplications,
   GetHonorApplicationsVariables,
   GetHonorApplications_honor_application,
@@ -49,6 +47,7 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getStatusText, getStatusValue } from "../../helpers/application";
 import get from "lodash.get";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -76,12 +75,7 @@ const exportSelectOptions = classes.map((_class) => (
 ));
 
 const HonorApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -92,9 +86,9 @@ const HonorApplicationPage = () => {
     GET_HONOR_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -156,7 +150,7 @@ const HonorApplicationPage = () => {
     } else {
       await addApplication({
         variables: {
-          student_id: userData?._id!,
+          student_id: userInfo?._id!,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
@@ -202,7 +196,7 @@ const HonorApplicationPage = () => {
   } = useQuery<GetHonorApplicationsForCounselors>(
     GET_HONOR_APPLICATIONS_FOR_COUNSELORS,
     {
-      skip: userData?.role !== "counselor",
+      skip: userInfo?.role !== "counselor",
     }
   );
 
@@ -567,7 +561,7 @@ const HonorApplicationPage = () => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
-      {userData?.role !== "counselor" && (
+      {userInfo?.role !== "counselor" && (
         <>
           <Button
             disabled={false}
@@ -700,7 +694,7 @@ const HonorApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

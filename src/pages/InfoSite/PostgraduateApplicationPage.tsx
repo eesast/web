@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Button, Table, PageHeader, message, Alert, Switch, Tag } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
@@ -12,9 +12,6 @@ import {
 import {
   GetPostgraudateApplicationFeeds_postgraduate_application as applicationInfo,
   GetPostAppHistory_postgraduate_application_history as applicationHistory,
-  GetId,
-  GetEmail,
-  GetRole,
   VerifyPostgraduateApplication,
   VerifyPostgraduateApplicationVariables,
   DeletePostgraduateApplication,
@@ -26,6 +23,7 @@ import {
   SetPostAppHistory,
   SetPostAppHistoryVariables,
 } from "../../api/types";
+import { getUserInfo } from "../../helpers/auth";
 
 const PostgraduateApplicationPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -33,13 +31,7 @@ const PostgraduateApplicationPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [history, setHistory] = useState(false);
 
-  const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
-    {
-      _id @client
-      email @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const [verifyApplication, { error: verifyError }] = useMutation<
     VerifyPostgraduateApplication,
@@ -268,7 +260,7 @@ const PostgraduateApplicationPage: React.FC = () => {
     onShowSizeChange: handlePageSizeChange,
   };
 
-  return !["root", "counselor"].includes(userData?.role!) ? (
+  return !["root", "counselor"].includes(userInfo?.role!) ? (
     <>
       <Alert
         message="Warning"

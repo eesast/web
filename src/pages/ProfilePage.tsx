@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { message, Form, Input, Button, Alert, Modal } from "antd";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import {
   GetUser as GET_USER,
@@ -9,9 +9,6 @@ import {
 import {
   GetUser,
   UpdateUser,
-  GetId,
-  GetEmail,
-  GetRole,
   GetUserVariables,
   UpdateUserVariables,
 } from "../api/types";
@@ -19,6 +16,7 @@ import Loading from "../components/Loading";
 import axios, { AxiosError } from "axios";
 import IsEmail from "isemail";
 import ReCAPTCHA from "react-google-recaptcha";
+import { getUserInfo } from "../helpers/auth";
 
 const formItemLayout = {
   labelCol: {
@@ -51,18 +49,12 @@ const Container = styled.div`
 `;
 
 const ProfilePage: React.FC = () => {
-  const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
-    {
-      _id @client
-      email @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const { data, loading, error } = useQuery<GetUser, GetUserVariables>(
     GET_USER,
     {
-      variables: { _id: userData?._id! },
+      variables: { _id: userInfo?._id! },
     }
   );
 
@@ -135,7 +127,7 @@ const ProfilePage: React.FC = () => {
     const { password, registeredEmail, ...rest } = values;
 
     updateUser({
-      variables: { ...rest, _id: userData?._id! },
+      variables: { ...rest, _id: userInfo?._id! },
     });
 
     if (password) {
@@ -158,7 +150,7 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const user = { ...data?.user[0], registeredEmail: userData?.email };
+  const user = { ...data?.user[0], registeredEmail: userInfo?.email };
 
   return (
     <Container>
@@ -245,7 +237,7 @@ const ProfilePage: React.FC = () => {
           <Input placeholder="如：无64，计80" />
         </Form.Item>
         <Form.Item name="tsinghuaVerified" label="清华邮箱验证">
-          {userData?.role === "user" ? (
+          {userInfo?.role === "user" ? (
             <Button onClick={() => setModalVisible(true)}>申请验证</Button>
           ) : (
             <Alert message="已通过邮箱验证" type="success" showIcon />

@@ -14,7 +14,7 @@ import {
   Table,
   Input,
 } from "antd";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   GetMentorApplications as GET_MENTOR_APPLICATIONS,
   GetMentorAvailable as GET_MENTOR_AVAILABLE,
@@ -30,8 +30,6 @@ import {
   GetMentorAvailable,
   ChangeMentorAvailable,
   UpdateMentorApplicationStatus,
-  GetRole,
-  GetId,
   GetMentorApplicationsVariables,
   ChangeMentorAvailableVariables,
   GetMentorAvailableVariables,
@@ -50,16 +48,12 @@ import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { SearchOutlined } from "@ant-design/icons";
 import { getStatusText } from "../../helpers/application";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 
 const MentorApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -70,9 +64,9 @@ const MentorApplicationPage = () => {
     GET_MENTOR_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -83,7 +77,7 @@ const MentorApplicationPage = () => {
   } = useQuery<GetMentorApplicationsForCounselors>(
     GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
     {
-      skip: userData?.role !== "counselor",
+      skip: userInfo?.role !== "counselor",
     }
   );
 
@@ -102,9 +96,9 @@ const MentorApplicationPage = () => {
     GET_MENTOR_AVAILABLE,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
       },
-      skip: userData?.role !== "teacher",
+      skip: userInfo?.role !== "teacher",
     }
   );
 
@@ -132,7 +126,7 @@ const MentorApplicationPage = () => {
 
   const handleMentorAvailableChange = async (checked: boolean) => {
     await changeMentorAvailable({
-      variables: { _id: userData?._id!, available: checked },
+      variables: { _id: userInfo?._id!, available: checked },
     });
     await refetchMentorAvailable();
   };
@@ -217,7 +211,7 @@ const MentorApplicationPage = () => {
       await addApplication({
         variables: {
           statement: values.statement,
-          student_id: userData?._id!,
+          student_id: userInfo?._id!,
           mentor_id: selectedMentor?._id!,
         },
       });
@@ -238,7 +232,7 @@ const MentorApplicationPage = () => {
     error: mentorListError,
     refetch: refetchMentorList,
   } = useQuery<GetMentorList>(GET_MENTOR_LIST, {
-    skip: userData?.role === "teacher",
+    skip: userInfo?.role === "teacher",
   });
 
   useEffect(() => {
@@ -538,7 +532,7 @@ const MentorApplicationPage = () => {
           <p>2019-09-17 00:00 ~ 2019-09-22 23:59</p>
         </Timeline.Item>
       </Timeline>
-      {userData?.role === "student" && (
+      {userInfo?.role === "student" && (
         <>
           <Typography.Title level={2}>已申请</Typography.Title>
           <List
@@ -600,7 +594,7 @@ const MentorApplicationPage = () => {
           />
         </>
       )}
-      {userData?.role === "teacher" && (
+      {userInfo?.role === "teacher" && (
         <>
           <Switch
             loading={mentorAvailableLoading || changeMentorAvailableLoading}
@@ -674,7 +668,7 @@ const MentorApplicationPage = () => {
           />
         </>
       )}
-      {userData?.role === "student" && (
+      {userInfo?.role === "student" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
           <Table
@@ -725,7 +719,7 @@ const MentorApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
           <Button

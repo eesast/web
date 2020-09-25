@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   Form,
   Input,
@@ -28,13 +28,11 @@ import {
   DeletePostgraduateInfoVariables,
   VerifyMentorInfo,
   VerifyMentorInfoVariables,
-  GetId,
-  GetEmail,
-  GetRole,
 } from "../../api/types";
 import Modal from "antd/lib/modal/Modal";
 import Center from "../../components/Center";
 import { Link } from "react-router-dom";
+import { getUserInfo } from "../../helpers/auth";
 
 const MentorInfoVerifyPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -46,13 +44,7 @@ const MentorInfoVerifyPage: React.FC = () => {
   const [showManage, setShowManage] = useState(false);
   const [infoId, setInfoId] = useState(0);
 
-  const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
-    {
-      _id @client
-      email @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const [updateInfo, { error: updateError }] = useMutation<
     UpdatePostgraduateInfo,
@@ -116,9 +108,9 @@ const MentorInfoVerifyPage: React.FC = () => {
               }}
               hidden={
                 !(
-                  userData?.role === "counselor" ||
-                  userData?.role === "root" ||
-                  userData?.role === "teacher"
+                  userInfo?.role === "counselor" ||
+                  userInfo?.role === "root" ||
+                  userInfo?.role === "teacher"
                 )
               }
               type="link"
@@ -134,10 +126,10 @@ const MentorInfoVerifyPage: React.FC = () => {
               danger
               hidden={
                 !(
-                  userData?.role === "counselor" ||
-                  userData?.role === "root" ||
-                  (userData?.role === "teacher" &&
-                    userData?._id === record.user_id)
+                  userInfo?.role === "counselor" ||
+                  userInfo?.role === "root" ||
+                  (userInfo?.role === "teacher" &&
+                    userInfo?._id === record.user_id)
                 )
               }
             >
@@ -150,7 +142,7 @@ const MentorInfoVerifyPage: React.FC = () => {
               }}
               type="link"
               hidden={
-                !(userData?.role === "counselor" || userData?.role === "root")
+                !(userInfo?.role === "counselor" || userInfo?.role === "root")
               }
             >
               审核通过
@@ -251,9 +243,9 @@ const MentorInfoVerifyPage: React.FC = () => {
     refetchFeeds();
   };
 
-  return userData?.role === "counselor" ||
-    userData?.role === "root" ||
-    userData?.role === "teacher" ? (
+  return userInfo?.role === "counselor" ||
+    userInfo?.role === "root" ||
+    userInfo?.role === "teacher" ? (
     <div>
       <PageHeader
         title="电子系推研信息平台"

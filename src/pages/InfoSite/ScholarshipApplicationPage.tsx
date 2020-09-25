@@ -14,10 +14,8 @@ import {
   Table,
   Progress,
 } from "antd";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import {
-  GetRole,
-  GetId,
   GetScholarshipApplications,
   GetScholarshipApplicationsVariables,
   GetScholarshipApplications_scholarship_application,
@@ -44,6 +42,7 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -79,12 +78,7 @@ const exportSelectOptions = ["全部", ...classes].map((_class) => (
 ));
 
 const ScholarshipApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -95,9 +89,9 @@ const ScholarshipApplicationPage = () => {
     GET_SCHOLARSHIP_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -181,7 +175,7 @@ const ScholarshipApplicationPage = () => {
   } = useQuery<GetScholarshipApplicationsForCounselors>(
     GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
     {
-      skip: userData?.role !== "counselor",
+      skip: userInfo?.role !== "counselor",
     }
   );
 
@@ -586,7 +580,7 @@ const ScholarshipApplicationPage = () => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>奖学金</Typography.Title>
-      {userData?.role !== "counselor" && (
+      {userInfo?.role !== "counselor" && (
         <>
           <List
             loading={applicationLoading}
@@ -719,7 +713,7 @@ const ScholarshipApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button
