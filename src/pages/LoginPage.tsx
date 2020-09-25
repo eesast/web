@@ -22,7 +22,6 @@ import styled from "styled-components";
 import Center from "../components/Center";
 import logo from "../assets/logo.png";
 import axios, { AxiosError } from "axios";
-import { useApolloClient, gql } from "@apollo/client";
 import ReCAPTCHA from "react-google-recaptcha";
 import IsEmail from "isemail";
 
@@ -41,8 +40,6 @@ const Background = styled.div`
 `;
 
 const LoginPage: React.FC = () => {
-  const client = useApolloClient();
-
   const history = useHistory();
   const location = useLocation<{ from?: Location<unknown> }>();
   const register = location.pathname === "/register";
@@ -158,17 +155,7 @@ const LoginPage: React.FC = () => {
         const response = await axios.post("/users/login", values);
         const data = response.data;
         axios.defaults.headers.common["Authorization"] = "Bearer " + data.token;
-        client.writeQuery({
-          query: gql`
-            {
-              _id
-              token
-              email
-              role
-            }
-          `,
-          data,
-        });
+        localStorage.setItem("token", data.token);
         message.success("登录成功");
         if (from) {
           return history.replace(from.pathname + from.search);
