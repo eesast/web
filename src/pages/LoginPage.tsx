@@ -39,6 +39,14 @@ const Background = styled.div`
   background-position: center;
 `;
 
+const Logo = () => (
+  <Picture
+    src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+    alt="Logo"
+    width="40%"
+  />
+);
+
 const LoginPage: React.FC = () => {
   const history = useHistory();
   const location = useLocation<{ from?: Location<unknown> }>();
@@ -239,11 +247,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <Picture
-                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-                      alt="Logo"
-                      width="40%"
-                    />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -296,11 +300,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <Picture
-                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-                      alt="Logo"
-                      width="40%"
-                    />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -368,11 +368,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <Picture
-                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-                      alt="Logo"
-                      width="40%"
-                    />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -425,11 +421,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <Picture
-                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-                      alt="Logo"
-                      width="40%"
-                    />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -536,11 +528,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <Picture
-                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-                      alt="Logo"
-                      width="40%"
-                    />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
