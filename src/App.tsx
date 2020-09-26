@@ -19,13 +19,13 @@ import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
 import { enquireScreenSize } from "./helpers/enquire";
-import logo from "./assets/logo.png";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
 import AuthRoute from "./components/AuthRoute";
 import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
+import Picture from "./components/Picture";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -115,7 +115,11 @@ function App() {
               <Space size="large">
                 <Logo>
                   <Space size="middle">
-                    <img src={logo} alt="Logo" height="48" />
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      height="48"
+                    />
                     <Title>EESΛST</Title>
                   </Space>
                 </Logo>
