@@ -20,10 +20,10 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import { Location } from "history";
 import styled from "styled-components";
 import Center from "../components/Center";
-import logo from "../assets/logo.png";
 import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import IsEmail from "isemail";
+import Picture from "../components/Picture";
 
 (window as any).recaptchaOptions = {
   useRecaptchaNet: true,
@@ -33,7 +33,7 @@ const Background = styled.div`
   height: calc(100vh - 67px);
   width: 100%;
   background-image: url("${process.env
-    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-summer.jpg?x-oss-process=image/auto-orient,1/interlace,1/quality,q_90");
+    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-fall.jpg/compressed");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -239,7 +239,11 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      width="40%"
+                    />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -292,7 +296,11 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      width="40%"
+                    />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -360,7 +368,11 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      width="40%"
+                    />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -413,7 +425,11 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      width="40%"
+                    />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -520,7 +536,11 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      width="40%"
+                    />
                   </Center>
                 </Form.Item>
                 <Form.Item
