@@ -12,7 +12,7 @@ const httpLink = new HttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   return {
     headers: {
       ...headers,
@@ -29,7 +29,7 @@ const wsLink = new WebSocketLink({
     reconnect: true,
     lazy: true,
     connectionParams: () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       return {
         headers: {
           ...(token && {
