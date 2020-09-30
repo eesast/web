@@ -331,6 +331,7 @@ export interface GetHonorApplications {
 
 export interface GetHonorApplicationsVariables {
   _id: string;
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -369,6 +370,10 @@ export interface GetHonorApplicationsForCounselors {
    * fetch data from the table: "honor_application"
    */
   honor_application: GetHonorApplicationsForCounselors_honor_application[];
+}
+
+export interface GetHonorApplicationsForCounselorsVariables {
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -1030,6 +1035,7 @@ export interface GetScholarshipApplications {
 
 export interface GetScholarshipApplicationsVariables {
   _id: string;
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -1072,6 +1078,10 @@ export interface GetScholarshipApplicationsForCounselors {
    * fetch data from the table: "scholarship_application"
    */
   scholarship_application: GetScholarshipApplicationsForCounselors_scholarship_application[];
+}
+
+export interface GetScholarshipApplicationsForCounselorsVariables {
+  _gte: any;
 }
 
 /* tslint:disable */
