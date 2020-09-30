@@ -36,6 +36,7 @@ import {
   DeleteHonorApplication,
   DeleteHonorApplicationVariables,
   GetHonorApplicationsForCounselors,
+  GetHonorApplicationsForCounselorsVariables,
   GetHonorApplicationsForCounselors_honor_application,
   UpdateHonorApplicationStatus,
   UpdateHonorApplicationStatusVariables,
@@ -87,6 +88,7 @@ const HonorApplicationPage = () => {
     {
       variables: {
         _id: userInfo?._id!,
+        _gte: "2020-09-29",
       },
       skip: userInfo?.role === "counselor",
     }
@@ -193,12 +195,13 @@ const HonorApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<GetHonorApplicationsForCounselors>(
-    GET_HONOR_APPLICATIONS_FOR_COUNSELORS,
-    {
-      skip: userInfo?.role !== "counselor",
-    }
-  );
+  } = useQuery<
+    GetHonorApplicationsForCounselors,
+    GetHonorApplicationsForCounselorsVariables
+  >(GET_HONOR_APPLICATIONS_FOR_COUNSELORS, {
+    variables: { _gte: "2020-09-29" },
+    skip: userInfo?.role !== "counselor",
+  });
 
   useEffect(() => {
     if (applicationsForCounselorsError) {

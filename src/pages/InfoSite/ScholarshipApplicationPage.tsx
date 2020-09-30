@@ -22,6 +22,7 @@ import {
   UpdateScholarshipApplication,
   UpdateScholarshipApplicationVariables,
   GetScholarshipApplicationsForCounselors,
+  GetScholarshipApplicationsForCounselorsVariables,
   GetScholarshipApplicationsForCounselors_scholarship_application,
   DeleteScholarshipApplication,
   DeleteScholarshipApplicationVariables,
@@ -90,6 +91,7 @@ const ScholarshipApplicationPage = () => {
     {
       variables: {
         _id: userInfo?._id!,
+        _gte: "2020-09-29",
       },
       skip: userInfo?.role === "counselor",
     }
@@ -172,12 +174,13 @@ const ScholarshipApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<GetScholarshipApplicationsForCounselors>(
-    GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
-    {
-      skip: userInfo?.role !== "counselor",
-    }
-  );
+  } = useQuery<
+    GetScholarshipApplicationsForCounselors,
+    GetScholarshipApplicationsForCounselorsVariables
+  >(GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS, {
+    variables: { _gte: "2020-09-29" },
+    skip: userInfo?.role !== "counselor",
+  });
 
   useEffect(() => {
     if (applicationsForCounselorsError) {
