@@ -6,13 +6,18 @@ import axios from "axios";
 
 axios.defaults.baseURL = "https://api.eesast.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.interceptors.request.use(function (config) {
+  const token = localStorage.getItem("token");
+  config.headers.Authorization = "Bearer " + token;
+  return config;
+});
 
 const httpLink = new HttpLink({
   uri: "https://api.eesast.com/v1/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   return {
     headers: {
       ...headers,
@@ -29,7 +34,7 @@ const wsLink = new WebSocketLink({
     reconnect: true,
     lazy: true,
     connectionParams: () => {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       return {
         headers: {
           ...(token && {

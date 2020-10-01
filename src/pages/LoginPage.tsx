@@ -24,6 +24,7 @@ import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import IsEmail from "isemail";
 import Picture from "../components/Picture";
+import { validatePassword } from "../helpers/validate";
 
 (window as any).recaptchaOptions = {
   useRecaptchaNet: true,
@@ -41,6 +42,9 @@ const Background = styled.div`
 
 const Logo = () => (
   <Picture
+    css={`
+      margin: 0 auto;
+    `}
     src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
     alt="Logo"
     width="40%"
@@ -162,8 +166,7 @@ const LoginPage: React.FC = () => {
       try {
         const response = await axios.post("/users/login", values);
         const data = response.data;
-        axios.defaults.headers.common["Authorization"] = "Bearer " + data.token;
-        sessionStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.token);
         message.success("登录成功");
         if (from) {
           return history.replace(from.pathname + from.search);
@@ -309,10 +312,12 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入新密码" },
                     () => ({
                       validator(rule, value: string) {
-                        if (!value || value.length >= 12) {
+                        if (!value || validatePassword(value)) {
                           return Promise.resolve();
                         }
-                        return Promise.reject("请输入长度至少为 12 位的密码");
+                        return Promise.reject(
+                          "请输入长度至少为 8，需包含大小写字母及数字的密码"
+                        );
                       },
                     }),
                   ]}
@@ -460,10 +465,12 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入密码" },
                     () => ({
                       validator(rule, value: string) {
-                        if (!value || value.length >= 12) {
+                        if (!value || validatePassword(value)) {
                           return Promise.resolve();
                         }
-                        return Promise.reject("请输入长度至少为 12 位的密码");
+                        return Promise.reject(
+                          "请输入长度至少为 8，需包含大小写字母及数字的密码"
+                        );
                       },
                     }),
                   ]}
