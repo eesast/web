@@ -12,7 +12,7 @@ export interface JwtPayload {
 }
 
 export const getUserInfo = () => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   if (!token) {
     return null;

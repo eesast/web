@@ -9,6 +9,7 @@ import {
   Col,
   Space,
   Popover,
+  Dropdown,
 } from "antd";
 import { UserOutlined, ExportOutlined, MenuOutlined } from "@ant-design/icons";
 import zhCN from "antd/es/locale/zh_CN";
@@ -64,6 +65,23 @@ const FullRow = styled(Row)`
 const StyledFooter = styled(Footer)`
   text-align: center;
 `;
+
+const UserMenu = (
+  <Menu>
+    <Menu.Item>
+      <Link to="/profile">个人信息</Link>
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item
+      onClick={() => {
+        localStorage.removeItem("token");
+        window.location.reload();
+      }}
+    >
+      退出
+    </Menu.Item>
+  </Menu>
+);
 
 function App() {
   const location = useLocation();
@@ -135,9 +153,9 @@ function App() {
               )}
             </Col>
             <Col span={1}>
-              <Link to="/profile">
+              <Dropdown overlay={UserMenu} placement="bottomRight">
                 <Button icon={<UserOutlined />} />
-              </Link>
+              </Dropdown>
             </Col>
           </FullRow>
         </StyledHeader>
