@@ -163,7 +163,7 @@ const LoginPage: React.FC = () => {
         const response = await axios.post("/users/login", values);
         const data = response.data;
         axios.defaults.headers.common["Authorization"] = "Bearer " + data.token;
-        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
         message.success("登录成功");
         if (from) {
           return history.replace(from.pathname + from.search);
