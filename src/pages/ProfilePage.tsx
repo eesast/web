@@ -72,7 +72,14 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     if (updateError) {
-      message.error("更新失败");
+      if (
+        updateError.graphQLErrors?.[0]?.extensions?.code ===
+        "constraint-violation"
+      ) {
+        message.error("更新失败：学号已存在");
+      } else {
+        message.error("更新失败");
+      }
     }
   }, [updateError]);
 
@@ -116,6 +123,8 @@ const ProfilePage: React.FC = () => {
       const err = e as AxiosError;
       if (err.response?.status === 400) {
         message.error("reCAPTCHA 验证已失效，请重新验证");
+      } else if (err.response?.status === 401) {
+        message.error("当前会话已失效，请重新登录");
       } else {
         message.error("未知错误");
       }

@@ -75,11 +75,14 @@ const LoginPage: React.FC = () => {
             type: verifyType,
             token: verifyToken,
           });
+          localStorage.removeItem("token");
           setVerifySuccess(true);
         } catch (e) {
           const err = e as AxiosError;
           if (err.response?.status === 401) {
             message.error("邮箱验证链接已失效，请重新申请发送验证邮件");
+          } else if (err.response?.status === 409) {
+            message.error("此清华邮箱已与其他用户绑定");
           } else {
             message.error("未知错误");
           }
@@ -110,6 +113,8 @@ const LoginPage: React.FC = () => {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
           message.error("reCAPTCHA 验证已失效，请重新验证");
+        } else if (err.response?.status === 404) {
+          message.error("该邮箱未被注册");
         } else {
           message.error("未知错误");
         }
@@ -142,6 +147,8 @@ const LoginPage: React.FC = () => {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
           message.error("reCAPTCHA 验证已失效，请重新验证");
+        } else if (err.response?.status === 404) {
+          message.error("该邮箱未被注册");
         } else {
           message.error("未知错误");
         }
@@ -157,8 +164,11 @@ const LoginPage: React.FC = () => {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
           message.error("reCAPTCHA 验证已失效，请重新验证");
+        }
+        if (err.response?.status === 409) {
+          message.error("该邮箱已被注册");
         } else {
-          message.error("该学号已被注册");
+          message.error("未知错误");
         }
         reCaptchaRef.current?.reset();
       }
@@ -185,7 +195,7 @@ const LoginPage: React.FC = () => {
               "注册邮箱未验证，请前往邮箱进行验证或重新申请发送验证邮件"
             );
           } else {
-            message.error("学号或密码错误");
+            message.error("邮箱或密码错误");
           }
         } else {
           message.error("未知错误");
