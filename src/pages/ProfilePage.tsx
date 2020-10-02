@@ -17,6 +17,7 @@ import axios, { AxiosError } from "axios";
 import IsEmail from "isemail";
 import ReCAPTCHA from "react-google-recaptcha";
 import { getUserInfo } from "../helpers/auth";
+import { validatePassword } from "../helpers/validate";
 
 const formItemLayout = {
   labelCol: {
@@ -247,12 +248,15 @@ const ProfilePage: React.FC = () => {
           name="password"
           label="更新密码"
           rules={[
+            { required: true, message: "请输入新密码" },
             () => ({
-              validator(rule, value) {
-                if (!value || value.length >= 12) {
+              validator(rule, value: string) {
+                if (!value || validatePassword(value)) {
                   return Promise.resolve();
                 }
-                return Promise.reject("请输入长度至少为 12 位的新密码");
+                return Promise.reject(
+                  "请输入长度至少为 8，需包含大小写字母及数字的密码"
+                );
               },
             }),
           ]}
