@@ -14,10 +14,8 @@ import {
   Table,
   Progress,
 } from "antd";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import {
-  GetRole,
-  GetId,
   GetAidApplications,
   GetAidApplicationsVariables,
   GetAidApplications_aid_application,
@@ -44,6 +42,7 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -73,12 +72,7 @@ const exportSelectOptions = ["全部", ...classes].map((_class) => (
 ));
 
 const AidApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -89,9 +83,9 @@ const AidApplicationPage = () => {
     GET_AID_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -174,7 +168,7 @@ const AidApplicationPage = () => {
   } = useQuery<GetAidApplicationsForCounselors>(
     GET_AID_APPLICATIONS_FOR_COUNSELORS,
     {
-      skip: userData?.role !== "counselor",
+      skip: userInfo?.role !== "counselor",
     }
   );
 
@@ -540,7 +534,7 @@ const AidApplicationPage = () => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>助学金</Typography.Title>
-      {userData?.role !== "counselor" && (
+      {userInfo?.role !== "counselor" && (
         <>
           <List
             loading={applicationLoading}
@@ -667,7 +661,7 @@ const AidApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

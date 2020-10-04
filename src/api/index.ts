@@ -1,36 +1,30 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  split,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache, split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
-import { WebSocketLink } from "@apollo/link-ws";
-import { setContext } from "@apollo/link-context";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { setContext } from "@apollo/client/link/context";
 import axios from "axios";
-import { GetToken } from "./types";
 
 axios.defaults.baseURL = "https://api.eesast.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.interceptors.request.use(function (config) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = "Bearer " + token;
+  }
+  return config;
+});
 
 const httpLink = new HttpLink({
   uri: "https://api.eesast.com/v1/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const data = client.readQuery<GetToken>({
-    query: gql`
-      {
-        token @client
-      }
-    `,
-  });
+  const token = localStorage.getItem("token");
   return {
     headers: {
       ...headers,
-      ...(data?.token && {
-        authorization: `Bearer ${data?.token}`,
+      ...(token && {
+        authorization: `Bearer ${token}`,
       }),
     },
   };
@@ -42,17 +36,11 @@ const wsLink = new WebSocketLink({
     reconnect: true,
     lazy: true,
     connectionParams: () => {
-      const data = client.readQuery<GetToken>({
-        query: gql`
-          {
-            token @client
-          }
-        `,
-      });
+      const token = localStorage.getItem("token");
       return {
         headers: {
-          ...(data?.token && {
-            authorization: `Bearer ${data?.token}`,
+          ...(token && {
+            authorization: `Bearer ${token}`,
           }),
         },
       };

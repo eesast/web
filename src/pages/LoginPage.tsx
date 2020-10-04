@@ -17,14 +17,14 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { History, Location } from "history";
+import { Location } from "history";
 import styled from "styled-components";
 import Center from "../components/Center";
-import logo from "../assets/logo.png";
 import axios, { AxiosError } from "axios";
-import { useApolloClient, gql } from "@apollo/client";
 import ReCAPTCHA from "react-google-recaptcha";
 import IsEmail from "isemail";
+import Picture from "../components/Picture";
+import { validatePassword } from "../helpers/validate";
 
 (window as any).recaptchaOptions = {
   useRecaptchaNet: true,
@@ -33,17 +33,27 @@ import IsEmail from "isemail";
 const Background = styled.div`
   height: calc(100vh - 67px);
   width: 100%;
-  background-image: url("${process.env.REACT_APP_STATIC_URL}/public/images/tsinghua-background-summer.jpg?x-oss-process=image/auto-orient,1/interlace,1/quality,q_90");
+  background-image: url("${process.env
+    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-fall.jpg/compressed");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 `;
 
-const LoginPage: React.FC = () => {
-  const client = useApolloClient();
+const Logo = () => (
+  <Picture
+    css={`
+      margin: 0 auto;
+    `}
+    src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+    alt="Logo"
+    width="40%"
+  />
+);
 
+const LoginPage: React.FC = () => {
   const history = useHistory();
-  const location = useLocation<{ from?: Location<History.PoorMansUnknown> }>();
+  const location = useLocation<{ from?: Location<unknown> }>();
   const register = location.pathname === "/register";
   const reset = location.pathname.startsWith("/reset");
   const urlParams = new URLSearchParams(location.search);
@@ -65,11 +75,14 @@ const LoginPage: React.FC = () => {
             type: verifyType,
             token: verifyToken,
           });
+          localStorage.removeItem("token");
           setVerifySuccess(true);
         } catch (e) {
           const err = e as AxiosError;
           if (err.response?.status === 401) {
             message.error("邮箱验证链接已失效，请重新申请发送验证邮件");
+          } else if (err.response?.status === 409) {
+            message.error("此清华邮箱已与其他用户绑定");
           } else {
             message.error("未知错误");
           }
@@ -100,6 +113,8 @@ const LoginPage: React.FC = () => {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
           message.error("reCAPTCHA 验证已失效，请重新验证");
+        } else if (err.response?.status === 404) {
+          message.error("该邮箱未被注册");
         } else {
           message.error("未知错误");
         }
@@ -132,6 +147,8 @@ const LoginPage: React.FC = () => {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
           message.error("reCAPTCHA 验证已失效，请重新验证");
+        } else if (err.response?.status === 404) {
+          message.error("该邮箱未被注册");
         } else {
           message.error("未知错误");
         }
@@ -147,8 +164,11 @@ const LoginPage: React.FC = () => {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
           message.error("reCAPTCHA 验证已失效，请重新验证");
+        }
+        if (err.response?.status === 409) {
+          message.error("该邮箱已被注册");
         } else {
-          message.error("该学号已被注册");
+          message.error("未知错误");
         }
         reCaptchaRef.current?.reset();
       }
@@ -156,18 +176,7 @@ const LoginPage: React.FC = () => {
       try {
         const response = await axios.post("/users/login", values);
         const data = response.data;
-        axios.defaults.headers.common["Authorization"] = "Bearer " + data.token;
-        client.writeQuery({
-          query: gql`
-            {
-              _id
-              token
-              email
-              role
-            }
-          `,
-          data,
-        });
+        localStorage.setItem("token", data.token);
         message.success("登录成功");
         if (from) {
           return history.replace(from.pathname + from.search);
@@ -186,7 +195,7 @@ const LoginPage: React.FC = () => {
               "注册邮箱未验证，请前往邮箱进行验证或重新申请发送验证邮件"
             );
           } else {
-            message.error("学号或密码错误");
+            message.error("邮箱或密码错误");
           }
         } else {
           message.error("未知错误");
@@ -251,7 +260,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -304,7 +313,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -313,10 +322,12 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入新密码" },
                     () => ({
                       validator(rule, value: string) {
-                        if (!value || value.length >= 12) {
+                        if (!value || validatePassword(value)) {
                           return Promise.resolve();
                         }
-                        return Promise.reject("请输入长度至少为 12 位的密码");
+                        return Promise.reject(
+                          "请输入长度至少为 8，需包含大小写字母及数字的密码"
+                        );
                       },
                     }),
                   ]}
@@ -372,7 +383,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -425,7 +436,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item
@@ -464,10 +475,12 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入密码" },
                     () => ({
                       validator(rule, value: string) {
-                        if (!value || value.length >= 12) {
+                        if (!value || validatePassword(value)) {
                           return Promise.resolve();
                         }
-                        return Promise.reject("请输入长度至少为 12 位的密码");
+                        return Promise.reject(
+                          "请输入长度至少为 8，需包含大小写字母及数字的密码"
+                        );
                       },
                     }),
                   ]}
@@ -532,7 +545,7 @@ const LoginPage: React.FC = () => {
               <Form form={form} onFinish={onFinish}>
                 <Form.Item>
                   <Center>
-                    <img src={logo} alt="Logo" width="40%" />
+                    <Logo />
                   </Center>
                 </Form.Item>
                 <Form.Item

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ConfigProvider,
   Layout,
@@ -8,8 +8,10 @@ import {
   Row,
   Col,
   Space,
+  Popover,
+  Dropdown,
 } from "antd";
-import { UserOutlined, ExportOutlined } from "@ant-design/icons";
+import { UserOutlined, ExportOutlined, MenuOutlined } from "@ant-design/icons";
 import zhCN from "antd/es/locale/zh_CN";
 import { Switch, Route, Link, Redirect, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -17,7 +19,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
-import logo from "./assets/logo.png";
+import { enquireScreenSize } from "./helpers/enquire";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
 import { AuthRoute } from "./components";
@@ -25,6 +27,7 @@ import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
 import WeeklySite from "./pages/WeeklySite";
+import Picture from "./components/Picture";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -64,53 +67,96 @@ const StyledFooter = styled(Footer)`
   text-align: center;
 `;
 
+const UserMenu = (
+  <Menu>
+    <Menu.Item>
+      <Link to="/profile">个人信息</Link>
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item
+      onClick={() => {
+        localStorage.removeItem("token");
+        window.location.reload();
+      }}
+    >
+      退出
+    </Menu.Item>
+  </Menu>
+);
+
 function App() {
   const location = useLocation();
   const site = location.pathname.split("/")[1];
+
+  const [menuMode, setMenuMode] = useState<"inline" | "horizontal">(
+    "horizontal"
+  );
+
+  useEffect(() => {
+    enquireScreenSize((bool) => {
+      setMenuMode(bool ? "inline" : "horizontal");
+    });
+  });
+
+  const menu = (
+    <Menu
+      id="nav"
+      key="nav"
+      theme="light"
+      mode={menuMode}
+      defaultSelectedKeys={["home"]}
+      selectedKeys={[site]}
+    >
+      <Menu.Item key="home">
+        <Link to="/home">首页</Link>
+      </Menu.Item>
+      <Menu.Item key="weekly">
+        <Link to="/weekly">WEEKLY</Link>
+      </Menu.Item>
+      <Menu.Item key="info">
+        <Link to="/info">INFO</Link>
+      </Menu.Item>
+      <Menu.Item key="overleaf">
+        <a href="https://overleaf.eesast.com">OVERLEAF</a> <ExportOutlined />
+      </Menu.Item>
+      <Menu.Item key="minecraft">
+        <a href="https://mc.eesast.com">MINECRAFT</a> <ExportOutlined />
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <ConfigProvider locale={zhCN}>
       <Layout>
         <StyledHeader>
           <FullRow justify="space-between">
-            <Col>
+            <Col xxl={4} xl={4} lg={7} md={7} sm={19} xs={19}>
               <Space size="large">
                 <Logo>
                   <Space size="middle">
-                    <img src={logo} alt="Logo" height="48" />
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      height="48"
+                    />
                     <Title>EESΛST</Title>
                   </Space>
                 </Logo>
-                <Menu
-                  theme="light"
-                  mode="horizontal"
-                  defaultSelectedKeys={["home"]}
-                  selectedKeys={[site]}
-                >
-                  <Menu.Item key="home">
-                    <Link to="/home">首页</Link>
-                  </Menu.Item>
-                  <Menu.Item key="weekly">
-                    <Link to="/weekly">WEEKLY</Link>
-                  </Menu.Item>
-                  <Menu.Item key="info">
-                    <Link to="/info">INFO</Link>
-                  </Menu.Item>
-                  <Menu.Item key="overleaf">
-                    <a href="https://overleaf.eesast.com">OVERLEAF</a>{" "}
-                    <ExportOutlined />
-                  </Menu.Item>
-                  <Menu.Item key="minecraft">
-                    <a href="https://mc.eesast.com">MINECRAFT</a>{" "}
-                    <ExportOutlined />
-                  </Menu.Item>
-                </Menu>
               </Space>
             </Col>
+            <Col xxl={19} xl={19} lg={16} md={16} sm={4} xs={4}>
+              {menuMode === "inline" ? (
+                <Popover placement="bottomRight" content={menu} trigger="click">
+                  <Button icon={<MenuOutlined />} size="large" type="text" />
+                </Popover>
+              ) : (
+                <div id="menu">{menu}</div>
+              )}
+            </Col>
             <Col span={1}>
-              <Link to="/profile">
+              <Dropdown overlay={UserMenu} placement="bottomRight">
                 <Button icon={<UserOutlined />} />
-              </Link>
+              </Dropdown>
             </Col>
           </FullRow>
         </StyledHeader>

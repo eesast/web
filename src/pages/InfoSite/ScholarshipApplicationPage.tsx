@@ -14,16 +14,15 @@ import {
   Table,
   Progress,
 } from "antd";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import {
-  GetRole,
-  GetId,
   GetScholarshipApplications,
   GetScholarshipApplicationsVariables,
   GetScholarshipApplications_scholarship_application,
   UpdateScholarshipApplication,
   UpdateScholarshipApplicationVariables,
   GetScholarshipApplicationsForCounselors,
+  GetScholarshipApplicationsForCounselorsVariables,
   GetScholarshipApplicationsForCounselors_scholarship_application,
   DeleteScholarshipApplication,
   DeleteScholarshipApplicationVariables,
@@ -44,6 +43,7 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -79,12 +79,7 @@ const exportSelectOptions = ["全部", ...classes].map((_class) => (
 ));
 
 const ScholarshipApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -95,9 +90,10 @@ const ScholarshipApplicationPage = () => {
     GET_SCHOLARSHIP_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
+        _gte: "2020-09-29",
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -178,12 +174,13 @@ const ScholarshipApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<GetScholarshipApplicationsForCounselors>(
-    GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
-    {
-      skip: userData?.role !== "counselor",
-    }
-  );
+  } = useQuery<
+    GetScholarshipApplicationsForCounselors,
+    GetScholarshipApplicationsForCounselorsVariables
+  >(GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS, {
+    variables: { _gte: "2020-09-29" },
+    skip: userInfo?.role !== "counselor",
+  });
 
   useEffect(() => {
     if (applicationsForCounselorsError) {
@@ -578,15 +575,15 @@ const ScholarshipApplicationPage = () => {
       <Timeline>
         <Timeline.Item color="green">
           <p>第一阶段：奖学金荣誉申请</p>
-          <p>2019-09-22 00:00 ~ 2019-09-23 23:59</p>
+          <p>2020年10月2日（周五）0:00 ~ 2020年10月5日（周一）23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：奖学金申请结果公示</p>
-          <p>2019-10-08 00:00 ~ 2019-10-10 23:59</p>
+          <p>拟定于 2020年10月17日 ~ 2020年10月19日</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>奖学金</Typography.Title>
-      {userData?.role !== "counselor" && (
+      {userInfo?.role !== "counselor" && (
         <>
           <List
             loading={applicationLoading}
@@ -719,7 +716,7 @@ const ScholarshipApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

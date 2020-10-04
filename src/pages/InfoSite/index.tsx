@@ -8,7 +8,7 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import { Layout, Menu, message } from "antd";
+import { Layout, Menu, message, Modal } from "antd";
 import {
   NotificationOutlined,
   TeamOutlined,
@@ -16,19 +16,23 @@ import {
   TrophyOutlined,
   ReadOutlined,
   PayCircleOutlined,
+  VerifiedOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import NoticePage from "./NoticePage";
 import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
+import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
 import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../NotFoundPage";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import AidApplicationPage from "./AidApplicationPage";
 import PostgraduateMentorPage from "./PostgraduateMentorPage";
-import { gql, useQuery } from "@apollo/client";
-import { GetId, GetRole, GetUserVariables, GetUser } from "../../api/types";
+import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
+import { useQuery } from "@apollo/client";
+import { GetUserVariables, GetUser } from "../../api/types";
 import { GetUser as GET_USER } from "../../api/user.graphql";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Content, Sider } = Layout;
 
@@ -50,22 +54,17 @@ const InfoSite: React.FC = () => {
   const history = useHistory();
   const page = location.pathname.split("/")[2] ?? "notices";
 
-  const { data: userData } = useQuery<GetId & GetRole>(gql`
-    {
-      _id @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const { data } = useQuery<GetUser, GetUserVariables>(GET_USER, {
-    variables: { _id: userData?._id! },
+    variables: { _id: userInfo?._id! },
   });
 
   const user = data?.user?.[0];
 
   useEffect(() => {
     if (
-      userData?.role === "user" ||
+      userInfo?.role === "user" ||
       !user?.class ||
       !user.department ||
       !user.email ||
@@ -76,7 +75,19 @@ const InfoSite: React.FC = () => {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
       history.push("/profile");
     }
-  }, [history, user, userData]);
+  }, [history, user, userInfo]);
+
+  const disclaimer = () => {
+    if (localStorage.getItem("disclaimerChecked") !== "true") {
+      Modal.warning({
+        title: "免责声明",
+        content:
+          "本平台信息非官方数据，不保证信息的准确性、真实性和有效性，不构成任何选择导师的建议，仅供参考。",
+        okText: "我已知悉",
+      });
+      localStorage.setItem("disclaimerChecked", "true");
+    }
+  };
 
   return (
     <Layout>
@@ -128,12 +139,28 @@ const InfoSite: React.FC = () => {
             </Menu.Item>
           </Menu.ItemGroup>
           <Menu.ItemGroup key="postgraduate" title="推研信息">
-            <Menu.Item key="mentor-info">
+            <Menu.Item key="postgraduate-mentor-info" onClick={disclaimer}>
               <Link to={`${url}/postgraduate-mentor-info`}>
                 <TeamOutlined />
-                招生信息
+                博士生招生信息
               </Link>
             </Menu.Item>
+            {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
+              <Menu.Item key="mentor-info-verify">
+                <Link to={`${url}/mentor-info-verify`}>
+                  <VerifiedOutlined />
+                  导师信息审核
+                </Link>
+              </Menu.Item>
+            ) : null}
+            {["root", "counselor"].includes(userInfo?.role!) ? (
+              <Menu.Item key="postgraduate-application">
+                <Link to={`${url}/postgraduate-application`}>
+                  <VerifiedOutlined />
+                  学生申请审核
+                </Link>
+              </Menu.Item>
+            ) : null}
           </Menu.ItemGroup>
         </Menu>
       </FixedSider>
@@ -167,6 +194,12 @@ const InfoSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/postgraduate-mentor-info`}>
             <PostgraduateMentorPage />
+          </Route>
+          <Route exact path={`${path}/mentor-info-verify`}>
+            <MentorInfoVerifyPage />
+          </Route>
+          <Route exact path={`${path}/postgraduate-application`}>
+            <PostgraduateApplicationPage />
           </Route>
           <Route>
             <NotFoundPage />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { message, Form, Input, Button, Alert, Modal } from "antd";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import {
   GetUser as GET_USER,
@@ -9,9 +9,6 @@ import {
 import {
   GetUser,
   UpdateUser,
-  GetId,
-  GetEmail,
-  GetRole,
   GetUserVariables,
   UpdateUserVariables,
 } from "../api/types";
@@ -19,6 +16,8 @@ import Loading from "../components/Loading";
 import axios, { AxiosError } from "axios";
 import IsEmail from "isemail";
 import ReCAPTCHA from "react-google-recaptcha";
+import { getUserInfo } from "../helpers/auth";
+import { validatePassword } from "../helpers/validate";
 
 const formItemLayout = {
   labelCol: {
@@ -51,18 +50,12 @@ const Container = styled.div`
 `;
 
 const ProfilePage: React.FC = () => {
-  const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
-    {
-      _id @client
-      email @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const { data, loading, error } = useQuery<GetUser, GetUserVariables>(
     GET_USER,
     {
-      variables: { _id: userData?._id! },
+      variables: { _id: userInfo?._id! },
     }
   );
 
@@ -79,7 +72,14 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     if (updateError) {
-      message.error("更新失败");
+      if (
+        updateError.graphQLErrors?.[0]?.extensions?.code ===
+        "constraint-violation"
+      ) {
+        message.error("更新失败：学号已存在");
+      } else {
+        message.error("更新失败");
+      }
     }
   }, [updateError]);
 
@@ -123,6 +123,8 @@ const ProfilePage: React.FC = () => {
       const err = e as AxiosError;
       if (err.response?.status === 400) {
         message.error("reCAPTCHA 验证已失效，请重新验证");
+      } else if (err.response?.status === 401) {
+        message.error("当前会话已失效，请重新登录");
       } else {
         message.error("未知错误");
       }
@@ -135,7 +137,7 @@ const ProfilePage: React.FC = () => {
     const { password, registeredEmail, ...rest } = values;
 
     updateUser({
-      variables: { ...rest, _id: userData?._id! },
+      variables: { ...rest, _id: userInfo?._id! },
     });
 
     if (password) {
@@ -158,7 +160,7 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const user = { ...data?.user[0], registeredEmail: userData?.email };
+  const user = { ...data?.user[0], registeredEmail: userInfo?.email };
 
   return (
     <Container>
@@ -245,7 +247,7 @@ const ProfilePage: React.FC = () => {
           <Input placeholder="如：无64，计80" />
         </Form.Item>
         <Form.Item name="tsinghuaVerified" label="清华邮箱验证">
-          {userData?.role === "user" ? (
+          {userInfo?.role === "user" ? (
             <Button onClick={() => setModalVisible(true)}>申请验证</Button>
           ) : (
             <Alert message="已通过邮箱验证" type="success" showIcon />
@@ -255,12 +257,15 @@ const ProfilePage: React.FC = () => {
           name="password"
           label="更新密码"
           rules={[
+            { required: true, message: "请输入新密码" },
             () => ({
-              validator(rule, value) {
-                if (!value || value.length >= 12) {
+              validator(rule, value: string) {
+                if (!value || validatePassword(value)) {
                   return Promise.resolve();
                 }
-                return Promise.reject("请输入长度至少为 12 位的新密码");
+                return Promise.reject(
+                  "请输入长度至少为 8，需包含大小写字母及数字的密码"
+                );
               },
             }),
           ]}
