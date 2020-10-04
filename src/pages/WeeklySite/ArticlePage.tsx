@@ -11,16 +11,16 @@ import {
   GetUserArticleLike,
   GetUserArticleLikeVariables,
 } from "../../api/types";
-import { useQuery, useMutation, gql, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Button, PageHeader, Tag, Tooltip, Layout } from "antd";
 import { Loading } from "../../components";
 import { useParams, useHistory } from "react-router-dom";
 import { DislikeTwoTone, LikeTwoTone } from "@ant-design/icons";
 import style from "./ArticlePage.module.css";
+import { getUserInfo } from "../../helpers/auth";
 
 const ArticlePage: React.FC = () => {
-  const client = useApolloClient();
-  const { alias } = useParams();
+  const { alias } = useParams<{ alias: string }>();
   const history = useHistory();
   const [article, setArticle] = useState<
     ViewArticle_update_article_public_returning
@@ -39,14 +39,7 @@ const ArticlePage: React.FC = () => {
     });
   }, [alias, viewArticle]);
 
-  const cacheData = client.readQuery({
-    query: gql`
-      query getCache {
-        _id
-        role
-      }
-    `,
-  });
+  const userInfo = getUserInfo();
 
   useEffect(() => {
     if (articleData && !articleError && articleData.update_article_public) {
@@ -65,7 +58,7 @@ const ArticlePage: React.FC = () => {
   >(GET_USER_ARTICLE_LIKE, {
     variables: {
       article_id: article?.id!,
-      user_id: cacheData?._id!,
+      user_id: userInfo?._id!,
     },
   });
 

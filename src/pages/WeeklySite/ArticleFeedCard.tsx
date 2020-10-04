@@ -28,7 +28,7 @@ const ArticleFeedCard: React.FC<ArticleFeedCardProps> = ({ article }) => {
       <Row>
         <Col span={20}>{abstract}</Col>
         <Col span={4}>
-          <img src={coverImageUrl} />
+          <img src={coverImageUrl} alt={""} />
         </Col>
       </Row>
     );
