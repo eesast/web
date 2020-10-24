@@ -5,7 +5,6 @@ const {
   addWebpackPlugin,
 } = require("customize-cra");
 const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
-const { addReactRefresh } = require("customize-cra-react-refresh");
 
 module.exports = override(
   useBabelRc(),
@@ -19,8 +18,5 @@ module.exports = override(
       },
     },
   }),
-  addWebpackPlugin(new AntdDayjsWebpackPlugin()),
-
-  // TODO: remove this when CRA officially supports Fast Refresh
-  addReactRefresh()
+  addWebpackPlugin(new AntdDayjsWebpackPlugin())
 );
