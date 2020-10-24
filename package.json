@@ -27,7 +27,7 @@
     "antd-dayjs-webpack-plugin": "1.0.1",
     "apollo": "2.31.0",
     "axios": "0.21.0",
-    "babel-plugin-import": "1.13.0",
+    "babel-plugin-import": "1.13.1",
     "babel-plugin-import-graphql": "2.7.0",
     "babel-plugin-styled-components": "1.11.1",
     "bundlesize": "0.18.0",
