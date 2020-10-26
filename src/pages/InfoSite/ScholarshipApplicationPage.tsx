@@ -526,7 +526,7 @@ const ScholarshipApplicationPage = () => {
       await Promise.all(
         applications.map(async (application) => {
           try {
-            const id = application[1].toString();
+            const student_id = application[1].toString();
             const code = application[6].toString().trim();
             const scholarship = application[5].toString().trim();
             const amount = parseInt(application[7].toString().trim(), 10);
@@ -538,11 +538,12 @@ const ScholarshipApplicationPage = () => {
             >({
               query: GET_USER_BY_ID,
               variables: {
-                id,
+                id: student_id,
               },
             });
 
-            const student_id = data.user[0]._id;
+            // _id in database
+            const id = data.user[0]._id;
 
             const { errors } = await client.mutate<
               AddScholarshipApplication,
@@ -550,7 +551,7 @@ const ScholarshipApplicationPage = () => {
             >({
               mutation: ADD_SCHOLARSHIP_APPLICATION,
               variables: {
-                student_id,
+                student_id: id,
                 scholarship,
                 honor,
                 amount,
