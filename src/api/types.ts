@@ -1874,6 +1874,33 @@ export interface GetUserVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetUserById
+// ====================================================
+
+export interface GetUserById_user {
+  __typename: "user";
+  _id: string;
+  id: any | null;
+  username: string | null;
+}
+
+export interface GetUserById {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUserById_user[];
+}
+
+export interface GetUserByIdVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: UpdateUser
 // ====================================================
 
