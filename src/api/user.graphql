@@ -11,6 +11,14 @@ query GetUser($_id: String!) {
   }
 }
 
+query GetUserById($id: bigint!) {
+  user(where: { id: { _eq: $id } }) {
+    _id
+    id
+    username
+  }
+}
+
 mutation UpdateUser(
   $_id: String!
   $id: bigint!

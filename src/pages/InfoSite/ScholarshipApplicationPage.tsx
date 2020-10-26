@@ -28,6 +28,8 @@ import {
   DeleteScholarshipApplicationVariables,
   AddScholarshipApplication,
   AddScholarshipApplicationVariables,
+  GetUserById,
+  GetUserByIdVariables,
 } from "../../api/types";
 import {
   GetScholarshipApplications as GET_SCHOLARSHIP_APPLICATIONS,
@@ -36,6 +38,7 @@ import {
   GetScholarshipApplicationsForCounselors as GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
   AddScholarshipApplication as ADD_SCHOLARSHIP_APPLICATION,
 } from "../../api/info_scholarship.graphql";
+import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
 import { honors, scholarships } from "../../configs";
 import { generateThankLetter } from "../../helpers/application";
@@ -523,11 +526,23 @@ const ScholarshipApplicationPage = () => {
       await Promise.all(
         applications.map(async (application) => {
           try {
-            const student_id = application[1].toString();
+            const id = application[1].toString();
             const code = application[6].toString().trim();
             const scholarship = application[5].toString().trim();
             const amount = parseInt(application[7].toString().trim(), 10);
             const honor = application[4].toString().trim();
+
+            const { data } = await client.query<
+              GetUserById,
+              GetUserByIdVariables
+            >({
+              query: GET_USER_BY_ID,
+              variables: {
+                id,
+              },
+            });
+
+            const student_id = data.user[0]._id;
 
             const { errors } = await client.mutate<
               AddScholarshipApplication,
