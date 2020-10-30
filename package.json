@@ -4,9 +4,9 @@
   "dependencies": {
     "@ant-design/icons": "4.2.2",
     "@apollo/client": "3.2.5",
-    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/jest-dom": "5.11.5",
     "@testing-library/react": "11.1.0",
-    "@testing-library/user-event": "^12.1.10",
+    "@testing-library/user-event": "12.1.10",
     "@types/ali-oss": "6.0.5",
     "@types/enquire.js": "2.1.2",
     "@types/file-saver": "2.0.1",
@@ -65,7 +65,7 @@
     "styled-components": "5.2.0",
     "subscriptions-transport-ws": "0.9.18",
     "typescript": "4.0.3",
-    "web-vitals": "^0.2.4",
+    "web-vitals": "0.2.4",
     "xlsx": "0.16.8"
   },
   "scripts": {
