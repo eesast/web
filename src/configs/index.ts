@@ -485,7 +485,7 @@ export const scholarships = {
       salutation: "尊敬的POSCO青岩财团有关人士",
     },
   ],
-  "清华之友－黄乾亨奖学金（含助学金）": [
+  "清华之友－黄乾亨奖学金": [
     {
       code: "J2362020",
       amount: 2000,
@@ -501,7 +501,7 @@ export const scholarships = {
       salutation: "尊敬的苏州工业园区有关人士",
     },
   ],
-  "清华之友—恒大奖学金": [
+  "清华之友－恒大奖学金": [
     {
       code: "J2532050",
       amount: 5000,
@@ -526,7 +526,7 @@ export const scholarships = {
     },
   ],
   国家奖学金: [{ code: "J2602080", amount: 8000, type: "校管校分" }],
-  丰田奖学金: [
+  "清华之友－丰田奖学金": [
     {
       code: "J2612030",
       amount: 3000,
@@ -548,12 +548,20 @@ export const scholarships = {
       salutation: "尊敬的SK集团有关人士",
     },
   ],
-  "清华之友-三星奖学金": [
+  "清华之友－三星奖学金": [
     {
       code: "J2652050",
       amount: 5000,
       type: "校管校分",
       salutation: "尊敬的三星(中国)投资有限公司有关人士",
+    },
+  ],
+  唐仲英德育奖学金: [
+    {
+      code: "J2702040",
+      amount: 4000,
+      type: "校管校分",
+      salutation: "",
     },
   ],
   "清华之友－郑格如奖学金": [
@@ -613,7 +621,7 @@ export const scholarships = {
   ],
   电子系97级校友奖学金: [{ code: "J7237030", amount: 1800, type: "院管院分" }],
   电子系1998级校友奖学基金: [
-    { code: "J7232020", amount: 1800, type: "院管院分" },
+    { code: "J7232020", amount: 2000, type: "院管院分" },
   ],
   常锋奖学金: [{ code: "J7234020", amount: 2000, type: "院管院分" }],
   校设奖学金: [
