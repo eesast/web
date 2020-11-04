@@ -5,7 +5,7 @@ dotenv.config({
   path: path.resolve(process.cwd(), ".env.local"),
 });
 
-module.exports = {
+module.exports = process.env.NODE_ENV === "production" ? {
   client: {
     includes: ["src/api/**/*.graphql"],
     service: {
@@ -15,5 +15,15 @@ module.exports = {
         "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
       },
     },
-  },
+  }
+} : {
+  client: {
+    includes: ["src/api/**/*.graphql"],
+    service: {
+      name: "eesast-dev",
+      url: process.env.REACT_APP_HASURA_INSTANCE === "local"
+      ? "http://localhost:23333/v1/graphql"
+      : "https://api.eesast.com/dev/v1/graphql"
+    }
+  }
 };
