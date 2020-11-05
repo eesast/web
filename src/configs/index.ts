@@ -34,7 +34,7 @@ export const scholarships = {
       code: "J2042200",
       amount: 20000,
       type: "校管校分",
-      salutaton: "尊敬的宝钢教育基金理事会有关人士",
+      salutation: "尊敬的宝钢教育基金理事会有关人士",
     },
   ],
   "清华之友－宝钢台湾、港澳学生奖学金": [
@@ -42,7 +42,7 @@ export const scholarships = {
       code: "J2043100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的宝钢教育基金理事会有关人士",
+      salutation: "尊敬的宝钢教育基金理事会有关人士",
     },
   ],
   "清华之友－中国石油奖学金": [
@@ -50,7 +50,7 @@ export const scholarships = {
       code: "J2052080",
       amount: 8000,
       type: "校管校分",
-      salutaton: "尊敬的中国石油天然气集团公司有关人士",
+      salutation: "尊敬的中国石油天然气集团公司有关人士",
     },
   ],
   "清华之友—松下奖学金": [
@@ -58,7 +58,7 @@ export const scholarships = {
       code: "J2062100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的中国友好和平发展基金会及松下电器公司领导",
+      salutation: "尊敬的中国友好和平发展基金会及松下电器公司领导",
     },
   ],
   "清华之友—承宪康纪念奖学金": [
@@ -66,7 +66,7 @@ export const scholarships = {
       code: "J2082100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的高英士先生",
+      salutation: "尊敬的高英士先生",
     },
   ],
   "清华之友－蔡雄奖学金": [
@@ -74,7 +74,7 @@ export const scholarships = {
       code: "J2092100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的杨蔡詠芳女士、杨敏德女士、郑杨敏贤女士",
+      salutation: "尊敬的杨蔡詠芳女士、杨敏德女士、郑杨敏贤女士",
     },
   ],
   "清华之友-微臣奖学金": [
@@ -82,7 +82,7 @@ export const scholarships = {
       code: "J2112050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的陈琦学长",
+      salutation: "尊敬的陈琦学长",
     },
   ],
   "清华之友—WQF奖学金": [
@@ -90,7 +90,7 @@ export const scholarships = {
       code: "J2122100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的捐赠人",
+      salutation: "尊敬的捐赠人",
     },
   ],
   "清华之友—先锋奖学金": [
@@ -98,7 +98,7 @@ export const scholarships = {
       code: "J2132100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "清华大学英雄文化基金",
+      salutation: "清华大学英雄文化基金",
     },
   ],
   "清华之友—中国光谷奖学金": [
@@ -106,7 +106,7 @@ export const scholarships = {
       code: "J2142100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的武汉东湖新技术开发区管理委员会",
+      salutation: "尊敬的武汉东湖新技术开发区管理委员会",
     },
   ],
   "清华之友—小米奖学金": [
@@ -114,13 +114,13 @@ export const scholarships = {
       code: "J2152100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的小米公益基金会相关人士",
+      salutation: "尊敬的小米公益基金会相关人士",
     },
     {
       code: "J2152050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的小米公益基金会相关人士",
+      salutation: "尊敬的小米公益基金会相关人士",
     },
   ],
   "清华之友-唐君远奖学金": [
@@ -128,7 +128,7 @@ export const scholarships = {
       code: "J2172070",
       amount: 7000,
       type: "校管校分",
-      salutaton: "尊敬的上海唐君远教育基金会",
+      salutation: "尊敬的上海唐君远教育基金会",
     },
   ],
   "清华之友－高田二等奖学金": [
@@ -136,7 +136,7 @@ export const scholarships = {
       code: "J2182030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "尊敬的日本SMC株式会社有关人士",
+      salutation: "尊敬的日本SMC株式会社有关人士",
     },
   ],
   "清华之友－高田一等奖学金": [
@@ -144,7 +144,7 @@ export const scholarships = {
       code: "J2182050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的日本SMC株式会社有关人士",
+      salutation: "尊敬的日本SMC株式会社有关人士",
     },
   ],
   "清华之友－高田特等奖学金": [
@@ -152,7 +152,7 @@ export const scholarships = {
       code: "J2182070",
       amount: 7000,
       type: "校管校分",
-      salutaton: "尊敬的日本SMC株式会社有关人士",
+      salutation: "尊敬的日本SMC株式会社有关人士",
     },
   ],
   "清华之友－MUFG銀行奖学金": [
@@ -160,7 +160,7 @@ export const scholarships = {
       code: "J2232045",
       amount: 4500,
       type: "校管校分",
-      salutaton: "尊敬的三菱UFJ国际财团有关人士",
+      salutation: "尊敬的三菱UFJ国际财团有关人士",
     },
   ],
   "清华之友－长兴奖学金": [
@@ -168,7 +168,7 @@ export const scholarships = {
       code: "J2322030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "尊敬的长兴（广州）电子材料有限公司领导",
+      salutation: "尊敬的长兴（广州）电子材料有限公司领导",
     },
   ],
   "清华之友—李捷参奖助学金": [
@@ -176,7 +176,7 @@ export const scholarships = {
       code: "J2372050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "李捷参先生亲属",
+      salutation: "李捷参先生亲属",
     },
   ],
   "清华之友－黄焕猷奖学金": [
@@ -184,7 +184,7 @@ export const scholarships = {
       code: "J2402020",
       amount: 2000,
       type: "校管校分",
-      salutaton: "尊敬的黄松益先生，黄何善胜女士",
+      salutation: "尊敬的黄松益先生，黄何善胜女士",
     },
   ],
   "清华之友－何王玉池奖学金": [
@@ -192,7 +192,7 @@ export const scholarships = {
       code: "J2412020",
       amount: 2000,
       type: "校管校分",
-      salutaton: "尊敬的黄松益先生，黄何善胜女士",
+      salutation: "尊敬的黄松益先生，黄何善胜女士",
     },
   ],
   "清华之友－黄松益何善胜奖学金": [
@@ -200,7 +200,7 @@ export const scholarships = {
       code: "J2422020",
       amount: 2000,
       type: "校管校分",
-      salutaton: "尊敬的黄松益先生，黄何善胜女士",
+      salutation: "尊敬的黄松益先生，黄何善胜女士",
     },
   ],
   "清华之友－中国航天科技CASC三等奖学金": [
@@ -208,7 +208,7 @@ export const scholarships = {
       code: "J2442030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "尊敬的中国航天科技集团公司有关人士",
+      salutation: "尊敬的中国航天科技集团公司有关人士",
     },
   ],
   "清华之友－中国航天科技CASC二等奖学金": [
@@ -216,7 +216,7 @@ export const scholarships = {
       code: "J2442050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的中国航天科技集团公司有关人士",
+      salutation: "尊敬的中国航天科技集团公司有关人士",
     },
   ],
   "清华之友－中国航天科技CASC一等奖学金": [
@@ -224,7 +224,7 @@ export const scholarships = {
       code: "J2442100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的中国航天科技集团公司有关人士",
+      salutation: "尊敬的中国航天科技集团公司有关人士",
     },
   ],
   "清华之友—白晶奖学金": [
@@ -232,7 +232,7 @@ export const scholarships = {
       code: "J2512050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的白武明、张亦杰伉俪",
+      salutation: "尊敬的白武明、张亦杰伉俪",
     },
   ],
   "清华之友—禾丰正则奖学金": [
@@ -240,7 +240,7 @@ export const scholarships = {
       code: "J2552050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的禾丰正则资产管理有限公司领导",
+      salutation: "尊敬的禾丰正则资产管理有限公司领导",
     },
   ],
   "清华之友—潍柴动力奖学金": [
@@ -248,19 +248,19 @@ export const scholarships = {
       code: "J2592030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "尊敬的潍柴动力股份有限公司领导",
+      salutation: "尊敬的潍柴动力股份有限公司领导",
     },
     {
       code: "J2682060",
       amount: 6000,
       type: "校管校分",
-      salutaton: "尊敬的潍柴动力股份有限公司领导",
+      salutation: "尊敬的潍柴动力股份有限公司领导",
     },
     {
       code: "J2682100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的潍柴动力股份有限公司领导",
+      salutation: "尊敬的潍柴动力股份有限公司领导",
     },
   ],
   五粮液科技久久励学基金: [
@@ -268,19 +268,19 @@ export const scholarships = {
       code: "J2632060",
       amount: 6000,
       type: "校管校分",
-      salutaton: "尊敬的四川五粮液集团公司、北京久德励志科技有限公司",
+      salutation: "尊敬的四川五粮液集团公司、北京久德励志科技有限公司",
     },
     {
       code: "J2632080",
       amount: 8000,
       type: "校管校分",
-      salutaton: "尊敬的四川五粮液集团公司、北京久德励志科技有限公司",
+      salutation: "尊敬的四川五粮液集团公司、北京久德励志科技有限公司",
     },
     {
       code: "J2632100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的四川五粮液集团公司、北京久德励志科技有限公司",
+      salutation: "尊敬的四川五粮液集团公司、北京久德励志科技有限公司",
     },
   ],
   "清华之友——张荣华奖学金": [
@@ -288,13 +288,13 @@ export const scholarships = {
       code: "J2642030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "张荣华阿姨、张阿姨",
+      salutation: "张荣华阿姨、张阿姨",
     },
     {
       code: "J2642040",
       amount: 4000,
       type: "校管校分",
-      salutaton: "张荣华阿姨、张阿姨",
+      salutation: "张荣华阿姨、张阿姨",
     },
   ],
   "清华之友—东方电气奖学金": [
@@ -302,7 +302,7 @@ export const scholarships = {
       code: "J2662050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的中国东方电气集团有限公司领导",
+      salutation: "尊敬的中国东方电气集团有限公司领导",
     },
   ],
   "清华之友——上海华谊奖学金": [
@@ -310,7 +310,7 @@ export const scholarships = {
       code: "J2672040",
       amount: 4000,
       type: "校管校分",
-      salutaton: "尊敬的上海华谊集团股份有限公司领导",
+      salutation: "尊敬的上海华谊集团股份有限公司领导",
     },
   ],
   "协鑫奖-奖学金": [
@@ -318,19 +318,29 @@ export const scholarships = {
       code: "J2712080",
       amount: 8000,
       type: "校管校分",
-      salutaton: "尊敬的协鑫集团领导",
+      salutation: "尊敬的协鑫集团领导",
     },
   ],
   清荷奖学金: [
-    { code: "J2732050", amount: 5000, type: "校管校分", salutaton: "青青女士" },
-    { code: "J2732080", amount: 8000, type: "校管校分", salutaton: "青青女士" },
+    {
+      code: "J2732050",
+      amount: 5000,
+      type: "校管校分",
+      salutation: "青青女士",
+    },
+    {
+      code: "J2732080",
+      amount: 8000,
+      type: "校管校分",
+      salutation: "青青女士",
+    },
   ],
   唐立新优秀奖学金: [
     {
       code: "J2742100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的唐先生/唐立新先生",
+      salutation: "尊敬的唐先生/唐立新先生",
     },
   ],
   波音奖学金: [
@@ -338,7 +348,7 @@ export const scholarships = {
       code: "J2792100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的波音公司有关领导",
+      salutation: "尊敬的波音公司有关领导",
     },
   ],
   "清华校友－林志群奖学金": [
@@ -346,7 +356,7 @@ export const scholarships = {
       code: "J3042020",
       amount: 2000,
       type: "校管校分",
-      salutaton: "尊敬的林志群学长亲属",
+      salutation: "尊敬的林志群学长亲属",
     },
   ],
   "清华校友－倪天增奖学金": [
@@ -354,7 +364,7 @@ export const scholarships = {
       code: "J3052010",
       amount: 1000,
       type: "校管校分",
-      salutaton: "尊敬的倪天增教育奖励基金负责人",
+      salutation: "尊敬的倪天增教育奖励基金负责人",
     },
   ],
   "清华校友—1997级奖学基金": [
@@ -362,7 +372,7 @@ export const scholarships = {
       code: "J3082025",
       amount: 2500,
       type: "校管校分",
-      salutaton: "尊敬的1997级学长",
+      salutation: "尊敬的1997级学长",
     },
   ],
   "清华校友－黄宪儒奖学金": [
@@ -370,7 +380,7 @@ export const scholarships = {
       code: "J3132030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "尊敬的黄明宪、黄明德女士",
+      salutation: "尊敬的黄明宪、黄明德女士",
     },
   ],
   西南联大奖学金: [
@@ -378,7 +388,7 @@ export const scholarships = {
       code: "J3152100",
       amount: 10000,
       type: "校管校分",
-      salutaton: "尊敬的西南联大老学长",
+      salutation: "尊敬的西南联大老学长",
     },
   ],
   夏翔纪念奖学金: [
@@ -386,7 +396,7 @@ export const scholarships = {
       code: "J3172050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的夏元庆、沈书府学长",
+      salutation: "尊敬的夏元庆、沈书府学长",
     },
   ],
   赵元任纪念奖学金: [
@@ -394,7 +404,7 @@ export const scholarships = {
       code: "J3182020",
       amount: 2000,
       type: "校管校分",
-      salutaton: "尊敬的赵新那学长",
+      salutation: "尊敬的赵新那学长",
     },
   ],
   冀朝鼎学长纪念奖学金: [
@@ -402,7 +412,7 @@ export const scholarships = {
       code: "J3212030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "尊敬的冀复生学长",
+      salutation: "尊敬的冀复生学长",
     },
   ],
   西南联大1944级奖励金: [
@@ -410,7 +420,7 @@ export const scholarships = {
       code: "J3222015",
       amount: 1500,
       type: "校管校分",
-      salutaton: "尊敬的1944级学长",
+      salutation: "尊敬的1944级学长",
     },
   ],
   "清华校友-周和平奖学基金": [
@@ -418,7 +428,7 @@ export const scholarships = {
       code: "J3242030",
       amount: 3000,
       type: "校管校分",
-      salutaton: "尊敬的周和平学长",
+      salutation: "尊敬的周和平学长",
     },
   ],
   "清华校友—王补宣院士奖学金": [
@@ -426,7 +436,7 @@ export const scholarships = {
       code: "J3262050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的学长们",
+      salutation: "尊敬的学长们",
     },
   ],
   清华校友过增元奖学励学基金: [
@@ -434,7 +444,7 @@ export const scholarships = {
       code: "J3292050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的学长们",
+      salutation: "尊敬的学长们",
     },
   ],
   "清华之友—叔蘋医学奖学金": [
@@ -442,7 +452,7 @@ export const scholarships = {
       code: "J2842050",
       amount: 5000,
       type: "校管校分",
-      salutaton: "尊敬的叔蘋奖学金基金会爱心人士",
+      salutation: "尊敬的叔蘋奖学金基金会爱心人士",
     },
   ],
   "清华之友—张明为奖学金": [
