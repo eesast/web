@@ -215,7 +215,7 @@ mutation VerifyMentorInfo($id: Int!) {
   }
 }
 
-query GetPostgraudateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
+query GetPostgraduateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
   postgraduate_application_aggregate {
     aggregate {
       count

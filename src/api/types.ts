@@ -1574,30 +1574,30 @@ export interface VerifyMentorInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetPostgraudateApplicationFeeds
+// GraphQL query operation: GetPostgraduateApplicationFeeds
 // ====================================================
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
   count: number | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate {
   __typename: "postgraduate_application_aggregate";
-  aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate | null;
+  aggregate: GetPostgraduateApplicationFeeds_postgraduate_application_aggregate_aggregate | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_mentor {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_mentor {
   __typename: "postgraduate_mentor_info";
   mentor: string;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_user {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_user {
   __typename: "user";
   name: string | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application {
   __typename: "postgraduate_application";
   created_at: any;
   mentor_info_id: number;
@@ -1610,25 +1610,25 @@ export interface GetPostgraudateApplicationFeeds_postgraduate_application {
   /**
    * An object relationship
    */
-  mentor: GetPostgraudateApplicationFeeds_postgraduate_application_mentor;
+  mentor: GetPostgraduateApplicationFeeds_postgraduate_application_mentor;
   /**
    * An object relationship
    */
-  user: GetPostgraudateApplicationFeeds_postgraduate_application_user;
+  user: GetPostgraduateApplicationFeeds_postgraduate_application_user;
 }
 
-export interface GetPostgraudateApplicationFeeds {
+export interface GetPostgraduateApplicationFeeds {
   /**
    * fetch aggregated fields from the table: "postgraduate_application"
    */
-  postgraduate_application_aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate;
+  postgraduate_application_aggregate: GetPostgraduateApplicationFeeds_postgraduate_application_aggregate;
   /**
    * fetch data from the table: "postgraduate_application"
    */
-  postgraduate_application: GetPostgraudateApplicationFeeds_postgraduate_application[];
+  postgraduate_application: GetPostgraduateApplicationFeeds_postgraduate_application[];
 }
 
-export interface GetPostgraudateApplicationFeedsVariables {
+export interface GetPostgraduateApplicationFeedsVariables {
   offset?: number | null;
   limit?: number | null;
 }
