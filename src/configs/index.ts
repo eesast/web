@@ -631,9 +631,21 @@ export const scholarships = {
   ],
   电子系97级校友奖学金: [{ code: "J7237030", amount: 1800, type: "院管院分" }],
   电子系1998级校友奖学基金: [
-    { code: "J7232020", amount: 2000, type: "院管院分" },
+    {
+      code: "J7232020",
+      amount: 2000,
+      type: "院管院分",
+      salutation: "尊敬的电子系98级奖学金捐赠人",
+    },
   ],
-  常锋奖学金: [{ code: "J7234020", amount: 2000, type: "院管院分" }],
+  常锋奖学金: [
+    {
+      code: "J7234020",
+      amount: 2000,
+      type: "院管院分",
+      salutation: "尊敬的常锋奖学金捐赠人",
+    },
+  ],
   校设奖学金: [
     { code: "J1022000", amount: 0, type: "校管院分" },
     { code: "J1022010", amount: 1000, type: "校管院分" },
