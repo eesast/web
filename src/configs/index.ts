@@ -689,7 +689,10 @@ export const aids = {
       salutation: "庄人川先生、陈友忠先生等爱心人士",
     },
   ],
-  清华大学生活费助学金: [{ code: "Z2062020", amount: 2000, type: "校管校分" }],
+  清华大学生活费助学金: [
+    { code: "Z2062020", amount: 2000, type: "校管校分" },
+    { code: "Z2062030", amount: 3000, type: "校管校分" },
+  ],
   "清华之友－励志助学金": [
     {
       code: "Z2072040",
@@ -754,7 +757,7 @@ export const aids = {
       salutation: "尊敬的杨蔡咏芳女士",
     },
   ],
-  "清华大学－昱鸿助学金": [
+  "清华大学-昱鸿助学金": [
     {
       code: "Z2552050",
       amount: 5000,
@@ -768,7 +771,7 @@ export const aids = {
       salutation: "尊敬的吴官正学长",
     },
   ],
-  "清华之友－张明为助学金": [
+  "清华之友-张明为助学金": [
     {
       code: "Z2612050",
       amount: 5000,
@@ -955,10 +958,22 @@ export const aids = {
       type: "校管校分",
       salutation: "尊敬的学长",
     },
+    {
+      code: "Z5562060",
+      amount: 6000,
+      type: "校管校分",
+      salutation: "尊敬的学长",
+    },
   ],
   "清华校友－吴道怀史常忻励学基金": [
     {
       code: "Z5712040",
+      amount: 4000,
+      type: "校管校分",
+      salutation: "尊敬的史常忻学长",
+    },
+    {
+      code: "Z5712060",
       amount: 4000,
       type: "校管校分",
       salutation: "尊敬的史常忻学长",
@@ -1001,6 +1016,24 @@ export const aids = {
       type: "校管校分",
       salutation: "尊敬的学长们",
     },
+    {
+      code: "Z6102060",
+      amount: 6000,
+      type: "校管校分",
+      salutation: "尊敬的学长们",
+    },
+    {
+      code: "Z6102030",
+      amount: 3000,
+      type: "校管校分",
+      salutation: "尊敬的学长们",
+    },
+    {
+      code: "Z6102020",
+      amount: 2000,
+      type: "校管校分",
+      salutation: "尊敬的学长们",
+    },
   ],
   珠海市得理慈善基金会清华励学金: [
     {
@@ -1030,6 +1063,36 @@ export const aids = {
       amount: 12000,
       type: "校管校分",
       salutation: "尊敬的任向军学长",
+    },
+  ],
+  "清华之友-爱心勤工助学金": [
+    {
+      code: "Z2022050",
+      amount: 5000,
+      type: "校管校分",
+    },
+  ],
+  "清华之友-敖龙助学金": [
+    {
+      code: "Z2152100",
+      amount: 10000,
+      type: "校管校分",
+      salutation: "尊敬的刘海龙先生、敖美真女士",
+    },
+  ],
+  "“好读书”奖学金（自强专项）": [
+    {
+      code: "Z2602035",
+      amount: 3500,
+      type: "校管校分",
+    },
+  ],
+  "清华之友－小米助学金": [
+    {
+      code: "Z2082050",
+      amount: 5000,
+      type: "校管校分",
+      salutation: "北京小米公益基金会",
     },
   ],
   国家助学金: [
