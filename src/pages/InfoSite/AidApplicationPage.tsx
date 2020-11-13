@@ -27,6 +27,8 @@ import {
   DeleteAidApplicationVariables,
   AddAidApplication,
   AddAidApplicationVariables,
+  GetUserById,
+  GetUserByIdVariables,
 } from "../../api/types";
 import {
   GetAidApplications as GET_AID_APPLICATIONS,
@@ -35,6 +37,7 @@ import {
   GetAidApplicationsForCounselors as GET_AID_APPLICATIONS_FOR_COUNSELORS,
   AddAidApplication as ADD_AID_APPLICATION,
 } from "../../api/info_aid.graphql";
+import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
 import { aids } from "../../configs";
 import { generateThankLetter } from "../../helpers/application";
@@ -481,13 +484,26 @@ const AidApplicationPage = () => {
             const aid = application[4].toString().trim();
             const amount = parseInt(application[6].toString().trim(), 10);
 
+            const { data } = await client.query<
+              GetUserById,
+              GetUserByIdVariables
+            >({
+              query: GET_USER_BY_ID,
+              variables: {
+                id: student_id,
+              },
+            });
+
+            // _id in database
+            const id = data.user[0]._id;
+
             const { errors } = await client.mutate<
               AddAidApplication,
               AddAidApplicationVariables
             >({
               mutation: ADD_AID_APPLICATION,
               variables: {
-                student_id,
+                student_id: id,
                 aid,
                 amount,
                 code,

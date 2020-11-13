@@ -974,7 +974,7 @@ export const aids = {
     },
     {
       code: "Z5712060",
-      amount: 4000,
+      amount: 6000,
       type: "校管校分",
       salutation: "尊敬的史常忻学长",
     },
