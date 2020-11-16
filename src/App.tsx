@@ -118,7 +118,6 @@ function App() {
       <Menu.Item key="game">
         <Link to="/game">GAME</Link>
       </Menu.Item>
-      -{" "}
       <Menu.Item key="overleaf">
         <a href="https://overleaf.eesast.com">OVERLEAF</a> <ExportOutlined />
       </Menu.Item>
