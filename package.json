@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "4.3.0",
-    "@apollo/client": "3.2.7",
+    "@apollo/client": "3.2.9",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.2.2",
