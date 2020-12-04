@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "4.3.0",
-    "@apollo/client": "3.2.9",
+    "@apollo/client": "3.3.4",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.5.0",
@@ -27,7 +27,7 @@
     "ali-oss": "6.11.2",
     "antd": "4.8.6",
     "antd-dayjs-webpack-plugin": "1.0.1",
-    "apollo": "2.31.1",
+    "apollo": "2.31.2",
     "axios": "0.21.0",
     "babel-plugin-import": "1.13.3",
     "babel-plugin-import-graphql": "2.7.0",
