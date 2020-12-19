@@ -2840,10 +2840,10 @@ antd-dayjs-webpack-plugin@1.0.1:
   resolved "https://registry.yarnpkg.com/antd-dayjs-webpack-plugin/-/antd-dayjs-webpack-plugin-1.0.1.tgz#cc31cc05c9bd69652a4bddab19eb49726bebe0d5"
   integrity sha512-1UWGAnv856s5r/2bi6KJvWMeevDEHwFFdHaymZElW5kbH06A/xP7JcZ75UdYoxqny3scD22DWErbGg+vQ9RNdg==
 
-antd@4.9.2:
-  version "4.9.2"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.9.2.tgz#382a409187fc2e5395ad4b1769bd7a0ec8da62f9"
-  integrity sha512-unZxnwihmIzHDGchZxuJDJe2tfeKWpsZHrrIdQR2hIie7I1lYSn4GyFZvn8MAkQvpum7Mj41eTJKib5TVfYxQw==
+antd@4.9.4:
+  version "4.9.4"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.9.4.tgz#129092bc4a67c774145cb2450e4046d27a1acbb1"
+  integrity sha512-kieGi1Isb/ddnn9E/AJVFCUgSZIqDv6HtFg7r5WWI0s6zf+nfCOtpes0oX8TdHO6mE/dL39pJG52aHNe8MwkJg==
   dependencies:
     "@ant-design/colors" "^5.0.0"
     "@ant-design/icons" "^4.3.0"
