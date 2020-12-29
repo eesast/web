@@ -134,3 +134,27 @@ query GetMentorList {
     }
   }
 }
+
+mutation UpsertMentorInfo(
+  $achievement: String = ""
+  $background: String = ""
+  $field: String = ""
+  $intro: String = ""
+  $mentor_id: String!
+) {
+  insert_mentor_info_one(
+    object: {
+      achievement: $achievement
+      background: $background
+      field: $field
+      intro: $intro
+      mentor_id: $mentor_id
+    }
+    on_conflict: {
+      constraint: mentor_info_pkey
+      update_columns: [achievement, background, field, intro]
+    }
+  ) {
+    mentor_id
+  }
+}

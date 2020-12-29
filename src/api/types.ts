@@ -221,6 +221,9 @@ export interface GetApprovedMentorApplications_mentor_application {
    */
   mentor: GetApprovedMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -560,6 +563,9 @@ export interface GetMentorApplications_mentor_application {
    */
   mentor: GetMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -622,6 +628,9 @@ export interface GetMentorApplicationsForCounselors_mentor_application {
    */
   mentor: GetMentorApplicationsForCounselors_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -852,6 +861,35 @@ export interface GetMentorList {
    * perform the action: "user_by_role"
    */
   user_by_role: GetMentorList_user_by_role[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertMentorInfo
+// ====================================================
+
+export interface UpsertMentorInfo_insert_mentor_info_one {
+  __typename: "mentor_info";
+  mentor_id: string;
+}
+
+export interface UpsertMentorInfo {
+  /**
+   * insert a single row into the table: "mentor_info"
+   */
+  insert_mentor_info_one: UpsertMentorInfo_insert_mentor_info_one | null;
+}
+
+export interface UpsertMentorInfoVariables {
+  achievement?: string | null;
+  background?: string | null;
+  field?: string | null;
+  intro?: string | null;
+  mentor_id: string;
 }
 
 /* tslint:disable */
@@ -1893,6 +1931,31 @@ export interface GetUserById {
 
 export interface GetUserByIdVariables {
   id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUserByName
+// ====================================================
+
+export interface GetUserByName_user {
+  __typename: "user";
+  _id: string;
+}
+
+export interface GetUserByName {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUserByName_user[];
+}
+
+export interface GetUserByNameVariables {
+  name: string;
 }
 
 /* tslint:disable */
