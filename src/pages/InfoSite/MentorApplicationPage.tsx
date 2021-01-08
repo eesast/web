@@ -15,9 +15,15 @@ import {
   Switch,
   Table,
   Timeline,
+  Tooltip,
   Typography,
 } from "antd";
-import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import {
+  useQuery,
+  useMutation,
+  useApolloClient,
+  useLazyQuery,
+} from "@apollo/client";
 import {
   AddMentorApplication as ADD_MENTOR_APPLICATION,
   ChangeMentorAvailable as CHANGE_MENTOR_AVAILABLE,
@@ -28,6 +34,7 @@ import {
   UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
   UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
   UpsertMentorInfo as UPSERT_MENTOR_INFO,
+  GetMentorInfo as GET_MENTOR_INFO,
 } from "../../api/info_mentor.graphql";
 import { GetUserByName as GET_USER_BY_NAME } from "../../api/user.graphql";
 import {
@@ -51,13 +58,16 @@ import {
   UpdateMentorApplicationVariables,
   UpsertMentorInfo,
   UpsertMentorInfoVariables,
+  GetMentorInfo,
+  GetMentorInfoVariables,
 } from "../../api/types";
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
-import { SearchOutlined } from "@ant-design/icons";
+import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import { getStatusText } from "../../helpers/application";
 import { getUserInfo } from "../../helpers/auth";
+import { pick } from "../../helpers/utils";
 
 const { Text } = Typography;
 
@@ -408,8 +418,14 @@ const MentorApplicationPage = () => {
             </Button>
           </Col>
           <Col span={8}>
-            {/* TODO: Pass mentorInfo to modal */}
-            <Button onClick={() => setShowMentorInfo(true)}>查看信息</Button>
+            <Button
+              onClick={() => {
+                getMentorInfo({ variables: { mentor_id: record._id } });
+                setShowMentorInfo(true);
+              }}
+            >
+              查看信息
+            </Button>
           </Col>
           <Col span={8}></Col>
         </Row>
@@ -484,8 +500,14 @@ const MentorApplicationPage = () => {
       key: "action",
       render: (text, record) => (
         <>
-          {/* TODO: Pass mentorInfo to modal */}
-          <Button onClick={() => setShowMentorInfo(true)}>查看信息</Button>
+          <Button
+            onClick={() => {
+              getMentorInfo({ variables: { mentor_id: record._id } });
+              setShowMentorInfo(true);
+            }}
+          >
+            查看信息
+          </Button>
         </>
       ),
     },
@@ -639,7 +661,19 @@ const MentorApplicationPage = () => {
     }
   };
 
+  const [
+    getMentorInfo,
+    { data: mentorInfoData, refetch: refetchMentorInfo },
+  ] = useLazyQuery<GetMentorInfo, GetMentorInfoVariables>(GET_MENTOR_INFO);
   const [showMentorInfo, setShowMentorInfo] = useState(false);
+  const [showUpdateInfo, setShowUpdateInfo] = useState(false);
+  const [updateInfoForm] = Form.useForm();
+  const [
+    updateMentorInfo,
+    { loading: updateMentorInfoLoading, error: updateMentorInfoError },
+  ] = useMutation<UpsertMentorInfo, UpsertMentorInfoVariables>(
+    UPSERT_MENTOR_INFO
+  );
 
   return (
     <Space
@@ -750,7 +784,13 @@ const MentorApplicationPage = () => {
               />
             </Col>
             <Col span={4}>
-              <Button type="primary" onClick={() => setShowMentorInfo(true)}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  getMentorInfo({ variables: { mentor_id: userInfo._id } });
+                  setShowMentorInfo(true);
+                }}
+              >
                 查看我的信息
               </Button>
             </Col>
@@ -948,12 +988,113 @@ const MentorApplicationPage = () => {
         onCancel={() => {
           setShowMentorInfo(false);
         }}
+        footer={null}
       >
         {/*
         TODO: Mentor Info
         学生查看导师信息的弹窗
         导师查看自己信息的弹窗、修改信息的按钮 => 打开修改信息的弹窗
         */}
+        <Descriptions
+          title={`${mentorInfoData?.mentor_info_by_pk?.user.name}的信息`}
+          column={1}
+          extra={
+            ["teacher", "counselor"].includes(userInfo?.role!) ? (
+              <Tooltip title="更新信息">
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    setShowUpdateInfo(true);
+                    setShowMentorInfo(false);
+                    updateInfoForm.setFields([
+                      {
+                        name: "intro",
+                        value: mentorInfoData?.mentor_info_by_pk?.intro,
+                      },
+                      {
+                        name: "background",
+                        value: mentorInfoData?.mentor_info_by_pk?.background,
+                      },
+                      {
+                        name: "field",
+                        value: mentorInfoData?.mentor_info_by_pk?.field,
+                      },
+                      {
+                        name: "achievement",
+                        value: mentorInfoData?.mentor_info_by_pk?.achievement,
+                      },
+                    ]);
+                  }}
+                  shape="circle"
+                  icon={<EditOutlined />}
+                />
+              </Tooltip>
+            ) : (
+              <></>
+            )
+          }
+        >
+          <Descriptions.Item label="基本信息">
+            {mentorInfoData?.mentor_info_by_pk?.intro}
+          </Descriptions.Item>
+          <Descriptions.Item label="教育背景">
+            {mentorInfoData?.mentor_info_by_pk?.background}
+          </Descriptions.Item>
+          <Descriptions.Item label="研究领域">
+            {mentorInfoData?.mentor_info_by_pk?.field}
+          </Descriptions.Item>
+          <Descriptions.Item label="学术成果">
+            {mentorInfoData?.mentor_info_by_pk?.achievement}
+          </Descriptions.Item>
+        </Descriptions>
+      </Modal>
+      <Modal
+        visible={showUpdateInfo}
+        title={`更新${mentorInfoData?.mentor_info_by_pk?.user.name}信息`}
+        centered
+        destroyOnClose
+        onCancel={() => {
+          setShowUpdateInfo(false);
+        }}
+        okText="更新"
+        confirmLoading={updateMentorInfoLoading}
+        cancelText="取消"
+        onOk={async () => {
+          try {
+            const values = await updateInfoForm
+              .validateFields()
+              .catch((info) => message.error(`表单验证失败`));
+            await updateMentorInfo({
+              variables: {
+                ...pick(values, "intro", "background", "field", "achievement"),
+                mentor_id: mentorInfoData?.mentor_info_by_pk?.mentor_id!,
+              },
+            });
+            message.info(`信息更新成功`);
+            await refetchMentorInfo!();
+          } catch (error) {
+            message.error(`信息更新失败：${updateMentorInfoError}`);
+          }
+        }}
+      >
+        <Form form={updateInfoForm} layout="vertical" name="updateInfoForm">
+          <Form.Item
+            name="intro"
+            label="基本信息"
+            rules={[{ required: true, message: "请输入导师的基本信息" }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="background" label="教育背景">
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="field" label="研究领域">
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="achievement" label="学术成果">
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
       </Modal>
     </Space>
   );
