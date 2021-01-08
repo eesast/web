@@ -898,6 +898,56 @@ export interface UpsertMentorInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetMentorInfo
+// ====================================================
+
+export interface GetMentorInfo_mentor_info_by_pk_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetMentorInfo_mentor_info_by_pk {
+  __typename: "mentor_info";
+  /**
+   * 学术成果
+   */
+  achievement: string | null;
+  /**
+   * 教育背景
+   */
+  background: string | null;
+  /**
+   * 研究领域
+   */
+  field: string | null;
+  /**
+   * 简要信息：联系方式、职位等
+   */
+  intro: string | null;
+  mentor_id: string;
+  /**
+   * An object relationship
+   */
+  user: GetMentorInfo_mentor_info_by_pk_user;
+}
+
+export interface GetMentorInfo {
+  /**
+   * fetch data from the table: "mentor_info" using primary key columns
+   */
+  mentor_info_by_pk: GetMentorInfo_mentor_info_by_pk | null;
+}
+
+export interface GetMentorInfoVariables {
+  mentor_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetNotices
 // ====================================================
 

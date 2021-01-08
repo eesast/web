@@ -158,3 +158,16 @@ mutation UpsertMentorInfo(
     mentor_id
   }
 }
+
+query GetMentorInfo($mentor_id: String!) {
+  mentor_info_by_pk(mentor_id: $mentor_id) {
+    achievement
+    background
+    field
+    intro
+    mentor_id
+    user {
+      name
+    }
+  }
+}
