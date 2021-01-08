@@ -24,7 +24,7 @@
     "@types/react-linkify": "1.0.0",
     "@types/react-router-dom": "5.1.7",
     "@types/styled-components": "5.1.7",
-    "ali-oss": "6.12.0",
+    "ali-oss": "6.13.1",
     "antd": "4.9.4",
     "antd-dayjs-webpack-plugin": "1.0.2",
     "apollo": "2.32.0",
