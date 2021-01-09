@@ -21,6 +21,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
 import { enquireScreenSize } from "./helpers/enquire";
 import HomeSite from "./pages/HomeSite";
+import GameSite from "./pages/GameSite";
 import LoginPage from "./pages/LoginPage";
 import AuthRoute from "./components/AuthRoute";
 import ProfilePage from "./pages/ProfilePage";
@@ -174,6 +175,9 @@ function App() {
             </Route>
             <Route path="/home">
               <HomeSite />
+            </Route>
+            <Route path="/game">
+              <GameSite />
             </Route>
             <AuthRoute path="/info">
               <InfoSite />
