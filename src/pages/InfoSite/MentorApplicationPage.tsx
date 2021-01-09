@@ -1066,7 +1066,12 @@ const MentorApplicationPage = () => {
               .catch((info) => message.error(`表单验证失败`));
             await updateMentorInfo({
               variables: {
-                ...pick(values, "intro", "background", "field", "achievement"),
+                ...pick(values, [
+                  "intro",
+                  "background",
+                  "field",
+                  "achievement",
+                ]),
                 mentor_id: mentorInfoData?.mentor_info_by_pk?.mentor_id!,
               },
             });
