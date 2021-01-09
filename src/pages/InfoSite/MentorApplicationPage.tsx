@@ -989,12 +989,8 @@ const MentorApplicationPage = () => {
           setShowMentorInfo(false);
         }}
         footer={null}
+        width="70%"
       >
-        {/*
-        TODO: Mentor Info
-        学生查看导师信息的弹窗
-        导师查看自己信息的弹窗、修改信息的按钮 => 打开修改信息的弹窗
-        */}
         <Descriptions
           title={`${mentorInfoData?.mentor_info_by_pk?.user.name}的信息`}
           column={1}
@@ -1081,6 +1077,7 @@ const MentorApplicationPage = () => {
             message.error(`信息更新失败：${updateMentorInfoError}`);
           }
         }}
+        width="70%"
       >
         <Form form={updateInfoForm} layout="vertical" name="updateInfoForm">
           <Form.Item
