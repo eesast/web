@@ -221,6 +221,9 @@ export interface GetApprovedMentorApplications_mentor_application {
    */
   mentor: GetApprovedMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -560,6 +563,9 @@ export interface GetMentorApplications_mentor_application {
    */
   mentor: GetMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -622,6 +628,9 @@ export interface GetMentorApplicationsForCounselors_mentor_application {
    */
   mentor: GetMentorApplicationsForCounselors_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;

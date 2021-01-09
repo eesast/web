@@ -109,15 +109,16 @@ function App() {
       <Menu.Item key="home">
         <Link to="/home">首页</Link>
       </Menu.Item>
+      <Menu.Item key="game">
+        <Link to="/game">比赛</Link>
+      </Menu.Item>
       <Menu.Item key="weekly">
         <Link to="/weekly">WEEKLY</Link>
       </Menu.Item>
       <Menu.Item key="info">
         <Link to="/info">INFO</Link>
       </Menu.Item>
-      <Menu.Item key="game">
-        <Link to="/game">GAME</Link>
-      </Menu.Item>
+
       <Menu.Item key="overleaf">
         <a href="https://overleaf.eesast.com">OVERLEAF</a> <ExportOutlined />
       </Menu.Item>
