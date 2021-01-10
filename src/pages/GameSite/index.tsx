@@ -1,8 +1,6 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-// import {
-//   SwitcherOutlined
-// } from "@ant-design/icons";
+import { AndroidOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import {
   useLocation,
@@ -39,7 +37,10 @@ const GameSite: React.FC = () => {
       <StyledHeader>
         <StyledMenu theme="light" mode="horizontal" selectedKeys={[page]}>
           <Menu.Item key="sign">
-            <Link to={`${url}`}>报名</Link>
+            <Link to={`${url}`}>
+              <AndroidOutlined />
+              报名
+            </Link>
           </Menu.Item>
           <Menu.Item key="divisions">
             <Link to={`${url}/divisions`}>展示</Link>
