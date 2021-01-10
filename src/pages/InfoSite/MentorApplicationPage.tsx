@@ -9,6 +9,7 @@ import {
   List,
   message,
   Modal,
+  notification,
   Progress,
   Row,
   Space,
@@ -398,6 +399,11 @@ const MentorApplicationPage = () => {
                 form.setFieldsValue({ mentor: record });
                 setSelectedMentor(record);
                 setModalVisible(true);
+                notification.open({
+                  message: "申请提醒",
+                  description:
+                    "部分老师可能已经离开清华，请再三确认您将申请这位老师",
+                });
               }}
               disabled={
                 (applicationData &&
@@ -992,7 +998,11 @@ const MentorApplicationPage = () => {
         width="70%"
       >
         <Descriptions
-          title={`${mentorInfoData?.mentor_info_by_pk?.user.name}的信息`}
+          title={
+            mentorInfoData?.mentor_info_by_pk
+              ? `${mentorInfoData?.mentor_info_by_pk?.user.name}的信息`
+              : "老师信息未记录于数据库中"
+          }
           column={1}
           extra={
             ["teacher", "counselor"].includes(userInfo?.role!) ? (
