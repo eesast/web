@@ -698,11 +698,11 @@ const MentorApplicationPage = () => {
         )}
         <Timeline.Item color="green">
           <p>预备阶段：学生了解导师信息</p>
-          <p>2021-01-18 00:00 ~ 2021-01-21 23:59</p>
+          <p>2021-01-18 00:00 ~ 2021-02-21 23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第一阶段：自由申请与匹配</p>
-          <p>2021-01-22 00:00 ~ 2021-02-28 23:59</p>
+          <p>2021-02-22 00:00 ~ 2021-02-28 23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：未匹配同学补选</p>
@@ -871,7 +871,9 @@ const MentorApplicationPage = () => {
           <Table
             rowKey="_id"
             loading={mentorListLoading}
-            dataSource={mentorList?.user_by_role}
+            dataSource={mentorList?.user_by_role.filter(
+              (item) => item.user?.mentor_available?.available !== false
+            )}
             columns={mentorListColumnsForStudents}
           />
           <Modal
@@ -942,7 +944,9 @@ const MentorApplicationPage = () => {
 
           <Table
             loading={mentorListLoading}
-            dataSource={mentorList?.user_by_role}
+            dataSource={mentorList?.user_by_role.filter(
+              (item) => item.user?.mentor_available?.available !== false
+            )}
             columns={mentorListColumnsForCounselors}
           />
           <Modal
