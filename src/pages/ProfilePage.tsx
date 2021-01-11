@@ -177,7 +177,9 @@ const ProfilePage: React.FC = () => {
         <Form.Item
           name="id"
           label="学号"
-          rules={[{ required: true, message: "请输入学号" }]}
+          rules={[
+            { required: userInfo?.role !== "teacher", message: "请输入学号" },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -242,7 +244,9 @@ const ProfilePage: React.FC = () => {
         <Form.Item
           name="class"
           label="班级"
-          rules={[{ required: true, message: "请输入班级" }]}
+          rules={[
+            { required: userInfo?.role !== "teacher", message: "请输入班级" },
+          ]}
         >
           <Input placeholder="如：无64，计80" />
         </Form.Item>
@@ -257,7 +261,8 @@ const ProfilePage: React.FC = () => {
           name="password"
           label="更新密码"
           rules={[
-            { required: true, message: "请输入新密码" },
+            // 必填阻止了下面对于空值的判断
+            // { required: true, message: "请输入新密码" },
             () => ({
               validator(rule, value: string) {
                 if (!value || validatePassword(value)) {
