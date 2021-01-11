@@ -65,12 +65,11 @@ const InfoSite: React.FC = () => {
   useEffect(() => {
     if (
       userInfo?.role === "user" ||
-      !user?.class ||
-      !user.department ||
+      !user?.department ||
       !user.email ||
-      !user.id ||
       !user.name ||
-      !user.phone
+      !user.phone ||
+      ((!user.id || !user.class) && userInfo?.role !== "teacher")
     ) {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
       history.push("/profile");
