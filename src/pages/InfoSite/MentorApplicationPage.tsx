@@ -1082,7 +1082,9 @@ const MentorApplicationPage = () => {
                   "field",
                   "achievement",
                 ]),
-                mentor_id: mentorInfoData?.mentor_info_by_pk?.mentor_id!,
+                mentor_id:
+                  mentorInfoData?.mentor_info_by_pk?.mentor_id! ||
+                  userInfo?._id!,
               },
             });
             message.info(`信息更新成功`);
