@@ -50,3 +50,29 @@ mutation UpdateUser(
     affected_rows
   }
 }
+
+mutation UpdateUserForTeacher(
+  $_id: String!
+  $id: bigint
+  $username: String
+  $phone: String
+  $name: String
+  $department: String
+  $class: String
+  $email: String
+) {
+  update_user(
+    where: { _id: { _eq: $_id } }
+    _set: {
+      id: $id
+      username: $username
+      phone: $phone
+      name: $name
+      department: $department
+      class: $class
+      email: $email
+    }
+  ) {
+    affected_rows
+  }
+}

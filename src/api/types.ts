@@ -2048,6 +2048,41 @@ export interface UpdateUserVariables {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL mutation operation: UpdateUserForTeacher
+// ====================================================
+
+export interface UpdateUserForTeacher_update_user {
+  __typename: "user_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateUserForTeacher {
+  /**
+   * update data of the table: "user"
+   */
+  update_user: UpdateUserForTeacher_update_user | null;
+}
+
+export interface UpdateUserForTeacherVariables {
+  _id: string;
+  id?: any | null;
+  username?: string | null;
+  phone?: string | null;
+  name?: string | null;
+  department?: string | null;
+  class?: string | null;
+  email?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
