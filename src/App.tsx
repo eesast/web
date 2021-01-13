@@ -114,9 +114,7 @@ function App() {
       <Menu.Item key="thuai">
         <Link to="/thuai">队式程序大赛</Link>
       </Menu.Item>
-      <Menu.Item key="game">
-        <Link to="/game">比赛</Link>
-      </Menu.Item>
+
       <Menu.Item key="weekly">
         <Link to="/weekly">WEEKLY</Link>
       </Menu.Item>
@@ -183,9 +181,7 @@ function App() {
             <Route path="/thuai">
               <ThuaiSite />
             </Route>
-            <Route path="/game">
-              <GameSite />
-            </Route>
+
             <AuthRoute path="/info">
               <InfoSite />
             </AuthRoute>
