@@ -7,29 +7,47 @@ import React from "react";
 //     useRouteMatch,
 // } from "react-router-dom";
 import {
-  Tabs,
+  //Tabs,
   //Typography,
   //Divider,
   //Row,
-  //Col
+  //Col,
+  Menu,
 } from "antd";
-const { TabPane } = Tabs;
+//const { TabPane } = Tabs;
+const { SubMenu } = Menu;
+const rootSubmenuKeys = ["sub1"];
 const ThuaiSite: React.FC = () => {
   // const { path, url } = useRouteMatch();
   // const location = useLocation();
+  const [openKeys, setOpenKeys] = React.useState(["sub1"]);
+
+  const onOpenChange = (keys: any) => {
+    const latestOpenKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
   return (
-    <Tabs
-      tabBarStyle={{
-        marginTop: 48,
-      }}
-      tabPosition="left"
+    <Menu
+      mode="inline"
+      openKeys={openKeys}
+      onOpenChange={onOpenChange}
+      style={{ width: 256 }}
     >
-      <TabPane tab="介绍" key="intro"></TabPane>
-      <TabPane tab="资源与公告" key="source"></TabPane>
-      <TabPane tab="报名" key="register"></TabPane>
-      <TabPane tab="队伍" key="team"></TabPane>
-      <TabPane tab="对战" key="fight"></TabPane>`
-    </Tabs>
+      <Menu.Item key="intro">介绍</Menu.Item>
+      <Menu.Item key="source">资源与公告</Menu.Item>
+      <Menu.Item key="register">报名</Menu.Item>
+      <SubMenu key="sub1" title="队伍">
+        <Menu.Item key="join">加入</Menu.Item>
+        <Menu.Item key="manage">管理</Menu.Item>
+      </SubMenu>
+      <Menu.Item key="fight">对战</Menu.Item>
+    </Menu>
   );
 };
+
 export default ThuaiSite;
