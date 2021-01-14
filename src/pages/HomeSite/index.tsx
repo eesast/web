@@ -14,7 +14,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import NewsPage from "./NewsPage";
-//import DivisionPage from "./DivisionPage";
+import DivisionPage from "./DivisionPage";
 import ContestPage from "./ContestPage";
 import NotFoundPage from "../NotFoundPage";
 
@@ -39,13 +39,13 @@ const StyledMenu = styled(Menu)`
 const HomeSite: React.FC = () => {
   const { path, url } = useRouteMatch();
   const location = useLocation();
-  const page = location.pathname.split("/")[2] ?? "sign";
+  const page = location.pathname.split("/")[2] ?? "news";
 
   return (
     <Layout>
       <StyledHeader>
         <StyledMenu theme="light" mode="horizontal" selectedKeys={[page]}>
-          <Menu.Item key="sign">
+          <Menu.Item key="news">
             <Link to={`${url}`}>
               <SwitcherOutlined />
               动态
@@ -71,7 +71,7 @@ const HomeSite: React.FC = () => {
             <NewsPage />
           </Route>
           <Route exact path={`${path}/divisions`}>
-            <NewsPage />
+            <DivisionPage />
           </Route>
           <Route exact path={`${path}/contests`}>
             <ContestPage />
