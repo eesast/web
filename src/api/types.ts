@@ -869,6 +869,85 @@ export interface GetMentorList {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpsertMentorInfo
+// ====================================================
+
+export interface UpsertMentorInfo_insert_mentor_info_one {
+  __typename: "mentor_info";
+  mentor_id: string;
+}
+
+export interface UpsertMentorInfo {
+  /**
+   * insert a single row into the table: "mentor_info"
+   */
+  insert_mentor_info_one: UpsertMentorInfo_insert_mentor_info_one | null;
+}
+
+export interface UpsertMentorInfoVariables {
+  achievement?: string | null;
+  background?: string | null;
+  field?: string | null;
+  intro?: string | null;
+  mentor_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMentorInfo
+// ====================================================
+
+export interface GetMentorInfo_mentor_info_by_pk_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetMentorInfo_mentor_info_by_pk {
+  __typename: "mentor_info";
+  /**
+   * 学术成果
+   */
+  achievement: string | null;
+  /**
+   * 教育背景
+   */
+  background: string | null;
+  /**
+   * 研究领域
+   */
+  field: string | null;
+  /**
+   * 简要信息：联系方式、职位等
+   */
+  intro: string | null;
+  mentor_id: string;
+  /**
+   * An object relationship
+   */
+  user: GetMentorInfo_mentor_info_by_pk_user;
+}
+
+export interface GetMentorInfo {
+  /**
+   * fetch data from the table: "mentor_info" using primary key columns
+   */
+  mentor_info_by_pk: GetMentorInfo_mentor_info_by_pk | null;
+}
+
+export interface GetMentorInfoVariables {
+  mentor_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetNotices
 // ====================================================
 
@@ -1910,6 +1989,31 @@ export interface GetUserByIdVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetUserByName
+// ====================================================
+
+export interface GetUserByName_user {
+  __typename: "user";
+  _id: string;
+}
+
+export interface GetUserByName {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUserByName_user[];
+}
+
+export interface GetUserByNameVariables {
+  name: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: UpdateUser
 // ====================================================
 
@@ -1931,6 +2035,41 @@ export interface UpdateUser {
 export interface UpdateUserVariables {
   _id: string;
   id: any;
+  username?: string | null;
+  phone?: string | null;
+  name?: string | null;
+  department?: string | null;
+  class?: string | null;
+  email?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateUserForTeacher
+// ====================================================
+
+export interface UpdateUserForTeacher_update_user {
+  __typename: "user_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateUserForTeacher {
+  /**
+   * update data of the table: "user"
+   */
+  update_user: UpdateUserForTeacher_update_user | null;
+}
+
+export interface UpdateUserForTeacherVariables {
+  _id: string;
+  id?: any | null;
   username?: string | null;
   phone?: string | null;
   name?: string | null;
