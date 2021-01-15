@@ -27,6 +27,7 @@ import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
 import Picture from "./components/Picture";
+import ThuaiSite from "./pages/ThuaiSite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -109,6 +110,9 @@ function App() {
       <Menu.Item key="home">
         <Link to="/home">首页</Link>
       </Menu.Item>
+      <Menu.Item key="thuai">
+        <Link to="/thuai">队式程序大赛</Link>
+      </Menu.Item>
       <Menu.Item key="weekly">
         <Link to="/weekly">WEEKLY</Link>
       </Menu.Item>
@@ -178,6 +182,10 @@ function App() {
             <Route path="/home">
               <HomeSite />
             </Route>
+            <Route path="/thuai">
+              <ThuaiSite />
+            </Route>
+
             <AuthRoute path="/info">
               <InfoSite />
             </AuthRoute>
