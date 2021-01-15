@@ -119,6 +119,9 @@ function App() {
       <Menu.Item key="info">
         <Link to="/info">INFO</Link>
       </Menu.Item>
+      <Menu.Item key="docs">
+        <a href="https://docs.eesast.com">DOCS</a> <ExportOutlined />
+      </Menu.Item>
       <Menu.Item key="overleaf">
         <a href="https://overleaf.eesast.com">OVERLEAF</a> <ExportOutlined />
       </Menu.Item>
@@ -137,12 +140,16 @@ function App() {
               <Space size="large">
                 <Logo>
                   <Space size="middle">
-                    <Picture
-                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-                      alt="Logo"
-                      height="48"
-                    />
-                    <Title>EESΛST</Title>
+                    <Link to="/home">
+                      <Picture
+                        src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                        alt="Logo"
+                        height="48"
+                      />
+                    </Link>
+                    <Link to="/home" style={{ color: "black" }}>
+                      <Title> EESΛST</Title>
+                    </Link>
                   </Space>
                 </Logo>
               </Space>
