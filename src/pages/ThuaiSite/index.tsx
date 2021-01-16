@@ -67,6 +67,9 @@ const ThuaiSite: React.FC = () => {
           <Route exact path={path}>
             <IntroPage />
           </Route>
+          <Route exact path={`${path}/intro`}>
+            <IntroPage />
+          </Route>
           <Route exact path={`${path}/register`}>
             <RegisterPage />
           </Route>

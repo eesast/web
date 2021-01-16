@@ -3,12 +3,12 @@ import Center from "../../components/Center";
 import { Result, Button } from "antd";
 import { Link } from "react-router-dom";
 
-const NotFoundPage = () => {
+const IntroPage = () => {
   return (
     <Center>
       <Result
-        status="404"
-        title="404"
+        status="403"
+        title="403"
         subTitle="introPage"
         extra={
           <Button type="primary">
@@ -20,4 +20,4 @@ const NotFoundPage = () => {
   );
 };
 
-export default NotFoundPage;
+export default IntroPage;
