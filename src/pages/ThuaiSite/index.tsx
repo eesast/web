@@ -51,10 +51,11 @@ const ThuaiSite: React.FC = () => {
             <Link to={`${url}/intro`}>介绍</Link>
           </Menu.Item>
           <Menu.Item key="source">资源与公告</Menu.Item>
-          <Menu.Item key="register">
-            <Link to={`${url}/register`}>报名</Link>
-          </Menu.Item>
+
           <SubMenu key="sub1" title="队伍">
+            <Menu.Item key="register">
+              <Link to={`${url}/register`}>创建</Link>
+            </Menu.Item>
             <Menu.Item key="join">加入</Menu.Item>
             <Menu.Item key="manage">管理</Menu.Item>
           </SubMenu>
