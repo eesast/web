@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Input, Card, Row, Col } from "antd"; //botton
+import { Input, Card, Row, Col, Button, Space } from "antd"; //botton
 import { Layout } from "antd";
+import { Link } from "react-router-dom";
 const { Content } = Layout;
 const { TextArea } = Input;
 const SignPage: React.FC = () => {
@@ -9,8 +10,12 @@ const SignPage: React.FC = () => {
     //<Center>
 
     <Layout>
+      <br />
+      <br />
+      <br />
+      <br />
       <Row>
-        <Col offset={8}>
+        <Col offset={7}>
           <Card
             hoverable
             css={`
@@ -23,8 +28,18 @@ const SignPage: React.FC = () => {
             `}
           >
             <Content>
-              <Input placeholder="Basic usage" />
-              <TextArea rows={4} />
+              <Input placeholder="输入队名" />
+              <br />
+              <br />
+              <TextArea placeholder="输入队伍简介" rows={6} />
+              <br />
+              <br />
+              <Space size={290}>
+                <Button type="primary">
+                  <Link to="/home"> 创建队伍</Link>
+                </Button>
+                <Button type="link">加入队伍</Button>
+              </Space>
             </Content>
           </Card>
         </Col>
