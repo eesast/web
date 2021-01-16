@@ -1,23 +1,35 @@
 import React from "react";
-import Center from "../../components/Center";
-import { Result, Button } from "antd";
-import { Link } from "react-router-dom";
 
-const NotFoundPage = () => {
+import { Input, Card, Row, Col } from "antd"; //botton
+import { Layout } from "antd";
+const { Content } = Layout;
+const { TextArea } = Input;
+const SignPage: React.FC = () => {
   return (
-    <Center>
-      <Result
-        status="404"
-        title="404"
-        subTitle="RegisterPage"
-        extra={
-          <Button type="primary">
-            <Link to="/home"> 返回主页</Link>
-          </Button>
-        }
-      />
-    </Center>
+    //<Center>
+
+    <Layout>
+      <Row>
+        <Col offset={8}>
+          <Card
+            hoverable
+            css={`
+              width: 500px;
+              padding-top: 24px;
+              padding-bottom: 12px;
+              &.ant-card-bordered {
+                cursor: default;
+              }
+            `}
+          >
+            <Content>
+              <Input placeholder="Basic usage" />
+              <TextArea rows={4} />
+            </Content>
+          </Card>
+        </Col>
+      </Row>
+    </Layout>
   );
 };
-
-export default NotFoundPage;
+export default SignPage;
