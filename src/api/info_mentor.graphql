@@ -110,6 +110,12 @@ mutation UpdateMentorApplication($id: uuid!, $statement: String!) {
   }
 }
 
+mutation DeleteMentorApplication($id: uuid!) {
+  delete_mentor_application_by_pk(id: $id) {
+    id
+  }
+}
+
 query GetMentorList {
   user_by_role(role: "teacher") {
     _id

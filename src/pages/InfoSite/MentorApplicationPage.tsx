@@ -9,8 +9,8 @@ import {
   List,
   message,
   Modal,
-  notification,
   Progress,
+  Radio,
   Row,
   Space,
   Switch,
@@ -28,14 +28,15 @@ import {
 import {
   AddMentorApplication as ADD_MENTOR_APPLICATION,
   ChangeMentorAvailable as CHANGE_MENTOR_AVAILABLE,
+  DeleteMentorApplication as DELETE_MENTOR_APPLICATION,
   GetMentorApplications as GET_MENTOR_APPLICATIONS,
   GetMentorApplicationsForCounselors as GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
   GetMentorAvailable as GET_MENTOR_AVAILABLE,
+  GetMentorInfo as GET_MENTOR_INFO,
   GetMentorList as GET_MENTOR_LIST,
   UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
   UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
   UpsertMentorInfo as UPSERT_MENTOR_INFO,
-  GetMentorInfo as GET_MENTOR_INFO,
 } from "../../api/info_mentor.graphql";
 import { GetUserByName as GET_USER_BY_NAME } from "../../api/user.graphql";
 import {
@@ -43,12 +44,16 @@ import {
   AddMentorApplicationVariables,
   ChangeMentorAvailable,
   ChangeMentorAvailableVariables,
+  DeleteMentorApplication,
+  DeleteMentorApplicationVariables,
   GetMentorApplications_mentor_application,
   GetMentorApplications,
   GetMentorApplicationsForCounselors,
   GetMentorApplicationsVariables,
   GetMentorAvailable,
   GetMentorAvailableVariables,
+  GetMentorInfo,
+  GetMentorInfoVariables,
   GetMentorList_user_by_role,
   GetMentorList,
   GetUserByName,
@@ -59,8 +64,6 @@ import {
   UpdateMentorApplicationVariables,
   UpsertMentorInfo,
   UpsertMentorInfoVariables,
-  GetMentorInfo,
-  GetMentorInfoVariables,
 } from "../../api/types";
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
@@ -169,13 +172,13 @@ const MentorApplicationPage = () => {
   }, [updateApplicationStatusError]);
 
   const handleApplicationStatusChange = async (
-    checked: boolean,
+    status: "approved" | "submitted" | "rejected",
     item: GetMentorApplications_mentor_application
   ) => {
     await updateApplicationStatus({
       variables: {
         id: item.id,
-        status: checked ? "approved" : "submitted",
+        status: status,
       },
     });
     await refetchApplications();
@@ -246,6 +249,22 @@ const MentorApplicationPage = () => {
     refetchApplications();
     refetchMentorList();
   };
+
+  const [
+    deleteMentorApplication,
+    {
+      loading: deleteMentorApplicationLoading,
+      error: deleteMentorApplicationError,
+    },
+  ] = useMutation<DeleteMentorApplication, DeleteMentorApplicationVariables>(
+    DELETE_MENTOR_APPLICATION
+  );
+
+  useEffect(() => {
+    if (deleteMentorApplicationError) {
+      message.error("删除申请失败");
+    }
+  }, [deleteMentorApplicationError]);
 
   const {
     data: mentorList,
@@ -399,11 +418,6 @@ const MentorApplicationPage = () => {
                 form.setFieldsValue({ mentor: record });
                 setSelectedMentor(record);
                 setModalVisible(true);
-                notification.open({
-                  message: "申请提醒",
-                  description:
-                    "部分老师可能已经离开清华，请再三确认您将申请这位老师",
-                });
               }}
               disabled={
                 (applicationData &&
@@ -413,10 +427,11 @@ const MentorApplicationPage = () => {
                   ).length === 1 ||
                     applicationData.mentor_application.filter(
                       (i) => i.status === "submitted"
-                    ).length === 1 ||
-                    applicationData.mentor_application.filter(
-                      (i) => i.status === "rejected"
-                    ).length > 1)) ||
+                    ).length === 1)) ||
+                // ||
+                // applicationData.mentor_application.filter(
+                //   (i) => i.status === "rejected"
+                // ).length > 1
                 !(record.user?.mentor_available?.available ?? true)
               }
             >
@@ -700,15 +715,15 @@ const MentorApplicationPage = () => {
           <p>预备阶段：学生了解导师信息</p>
           <p>2021-01-18 00:00 ~ 2021-02-21 23:59</p>
         </Timeline.Item>
-        <Timeline.Item color="green">
+        <Timeline.Item color="gray">
           <p>第一阶段：自由申请与匹配</p>
           <p>2021-02-22 00:00 ~ 2021-02-28 23:59</p>
         </Timeline.Item>
-        <Timeline.Item color="green">
+        <Timeline.Item color="gray">
           <p>第二阶段：未匹配同学补选</p>
           <p>2021-03-01 00:00 ~ 2021-03-04 23:59</p>
         </Timeline.Item>
-        <Timeline.Item color="red">
+        <Timeline.Item color="gray">
           <p>第三阶段：系统随机分配</p>
           <p>2021-03-05 00:00 ~ 2021-03-11 23:59</p>
         </Timeline.Item>
@@ -758,16 +773,37 @@ const MentorApplicationPage = () => {
                     </Text>
                     <br />
                     <br />
-                    <Button
-                      disabled={item.status !== "submitted"}
-                      onClick={() => {
-                        setEditingApplication(item);
-                        form.setFieldsValue(item);
-                        setModalVisible(true);
-                      }}
-                    >
-                      编辑
-                    </Button>
+                    <Row>
+                      <Col span={4}>
+                        <Button
+                          disabled={item.status !== "submitted"}
+                          onClick={() => {
+                            setEditingApplication(item);
+                            form.setFieldsValue(item);
+                            setModalVisible(true);
+                          }}
+                        >
+                          编辑
+                        </Button>
+                      </Col>
+                      <Col span={4}>
+                        <Button
+                          danger
+                          loading={deleteMentorApplicationLoading}
+                          onClick={async () => {
+                            await deleteMentorApplication({
+                              variables: {
+                                id: item.id,
+                              },
+                            });
+                            refetchApplications();
+                            message.success("删除申请成功");
+                          }}
+                        >
+                          删除
+                        </Button>
+                      </Col>
+                    </Row>
                   </Descriptions.Item>
                 </Descriptions>
               );
@@ -849,15 +885,17 @@ const MentorApplicationPage = () => {
                     </Typography.Text>
                     <br />
                     <br />
-                    <Switch
-                      loading={updateApplicationStatusLoading}
-                      checkedChildren="已接收该同学"
-                      unCheckedChildren="未接收该同学"
-                      defaultChecked={item.status === "approved"}
-                      onChange={(checked) =>
-                        handleApplicationStatusChange(checked, item)
-                      }
-                    />
+                    <Radio.Group
+                      disabled={updateApplicationStatusLoading}
+                      value={item.status}
+                      onChange={(e) => {
+                        handleApplicationStatusChange(e.target.value, item);
+                      }}
+                    >
+                      <Radio value="approved">接收该同学</Radio>
+                      <Radio value="submitted">尚未处理</Radio>
+                      <Radio value="rejected">拒绝该同学</Radio>
+                    </Radio.Group>
                   </Descriptions.Item>
                 </Descriptions>
               );
