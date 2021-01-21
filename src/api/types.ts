@@ -804,6 +804,31 @@ export interface UpdateMentorApplicationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteMentorApplication
+// ====================================================
+
+export interface DeleteMentorApplication_delete_mentor_application_by_pk {
+  __typename: "mentor_application";
+  id: any;
+}
+
+export interface DeleteMentorApplication {
+  /**
+   * delete single row from the table: "mentor_application"
+   */
+  delete_mentor_application_by_pk: DeleteMentorApplication_delete_mentor_application_by_pk | null;
+}
+
+export interface DeleteMentorApplicationVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetMentorList
 // ====================================================
 
