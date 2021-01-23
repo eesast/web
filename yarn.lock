@@ -2847,10 +2847,10 @@ ansicolors@~0.3.2:
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.3.2.tgz#665597de86a9ffe3aa9bfbe6cae5c6ea426b4979"
   integrity sha1-ZlWX3oap/+Oqm/vmyuXG6kJrSXk=
 
-antd-dayjs-webpack-plugin@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/antd-dayjs-webpack-plugin/-/antd-dayjs-webpack-plugin-1.0.4.tgz#017c3681fdd7fede38e3fa5b7ee9e04bf62cfb3a"
-  integrity sha512-yraPusfk1eO3JN6DZ6itH2woDSRPQoxd0sDv4tnr2NoGRz9u2iBJsUHjVnm2mE6JqjN0a/eGUPB+b1jAeZ+GEg==
+antd-dayjs-webpack-plugin@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/antd-dayjs-webpack-plugin/-/antd-dayjs-webpack-plugin-1.0.6.tgz#7d98bcb51422248b8cd4a32e352a0425a3bffa3a"
+  integrity sha512-UlK3BfA0iE2c5+Zz/Bd2iPAkT6cICtrKG4/swSik5MZweBHtgmu1aUQCHvICdiv39EAShdZy/edfP6mlkS/xXg==
 
 antd@4.9.4:
   version "4.9.4"
