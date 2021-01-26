@@ -1,0 +1,15 @@
+query GetTeamInfo {
+  thuai {
+    team_name
+    team_sum
+    thuai_user {
+      name
+    }
+  }
+}
+
+query GetTeamName {
+  thuai {
+    team_name
+  }
+}

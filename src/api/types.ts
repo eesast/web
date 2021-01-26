@@ -1930,6 +1930,58 @@ export interface GetPostAppHistoryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetTeamInfo
+// ====================================================
+
+export interface GetTeamInfo_thuai_thuai_user {
+  __typename: "thuai_user";
+  name: string;
+}
+
+export interface GetTeamInfo_thuai {
+  __typename: "thuai";
+  team_name: string;
+  team_sum: string;
+  /**
+   * An object relationship
+   */
+  thuai_user: GetTeamInfo_thuai_thuai_user;
+}
+
+export interface GetTeamInfo {
+  /**
+   * fetch data from the table: "thuai"
+   */
+  thuai: GetTeamInfo_thuai[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTeamName
+// ====================================================
+
+export interface GetTeamName_thuai {
+  __typename: "thuai";
+  team_name: string;
+}
+
+export interface GetTeamName {
+  /**
+   * fetch data from the table: "thuai"
+   */
+  thuai: GetTeamName_thuai[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 

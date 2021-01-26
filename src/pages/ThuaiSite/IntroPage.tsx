@@ -1,21 +1,25 @@
 import React from "react";
 import Center from "../../components/Center";
-import { Result, Button } from "antd";
-import { Link } from "react-router-dom";
-
+import { Card } from "antd";
+//import { Link } from "react-router-dom";
+import { GetTeamName as GET_TEAMNAME } from "../../api/thuai.graphql";
+import { GetTeamName } from "../../api/types";
+import { useQuery } from "@apollo/client";
+//import Loading from "../../components/Loading";
 const IntroPage = () => {
+  const { data: team } = useQuery<GetTeamName>(GET_TEAMNAME);
+  // useEffect(() => {
+  //   if (error) {
+  //     message.error("加载失败");
+  //   }
+  // }, [error]);
+  // if (loading) {
+  //   return <Loading />;
+  // }
+  //const team = {...data};
   return (
     <Center>
-      <Result
-        status="403"
-        title="403"
-        subTitle="introPage"
-        extra={
-          <Button type="primary">
-            <Link to="/home"> 返回主页</Link>
-          </Button>
-        }
-      />
+      <Card title={team}></Card>
     </Center>
   );
 };
