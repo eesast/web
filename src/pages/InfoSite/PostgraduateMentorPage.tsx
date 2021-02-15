@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   Form,
   Input,
   Button,
   Table,
+  Typography,
+  Space,
   message,
   Descriptions,
   InputNumber,
@@ -39,14 +41,14 @@ import {
   DeletePostgraduateInfoVariables,
   InsertApplication,
   InsertApplicationVariables,
-  GetId,
-  GetEmail,
-  GetRole,
   DeletePostgraduateApplication,
   DeletePostgraduateApplicationVariables,
   SetPostAppHistory,
   SetPostAppHistoryVariables,
 } from "../../api/types";
+import { getUserInfo } from "../../helpers/auth";
+
+const { Text } = Typography;
 
 const PostgraduateMentorPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -71,13 +73,7 @@ const PostgraduateMentorPage: React.FC = () => {
     selfApplications: [],
   });
 
-  const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
-    {
-      _id @client
-      email @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const [insertInfo, { error: insertError }] = useMutation<
     InsertPostgraduateInfo,
@@ -185,9 +181,9 @@ const PostgraduateMentorPage: React.FC = () => {
               }}
               hidden={
                 !(
-                  userData?.role === "teacher" ||
-                  userData?.role === "counselor" ||
-                  userData?.role === "root"
+                  userInfo?.role === "teacher" ||
+                  userInfo?.role === "counselor" ||
+                  userInfo?.role === "root"
                 )
               }
               type="link"
@@ -203,10 +199,10 @@ const PostgraduateMentorPage: React.FC = () => {
               danger
               hidden={
                 !(
-                  (userData?.role === "teacher" &&
-                    userData?._id === record.user_id) ||
-                  userData?.role === "counselor" ||
-                  userData?.role === "root"
+                  (userInfo?.role === "teacher" &&
+                    userInfo?._id === record.user_id) ||
+                  userInfo?.role === "counselor" ||
+                  userInfo?.role === "root"
                 )
               }
             >
@@ -295,7 +291,7 @@ const PostgraduateMentorPage: React.FC = () => {
     GetSelfPostgraduateApplicationsVariables
   >(GET_SELF_POSTGRADUATE_APPLICATIONS, {
     variables: {
-      user_id: userData?._id!,
+      user_id: userInfo?._id!,
       limit: selfApplicationPagination.pageSize,
       offset: selfApplicationPagination.offset,
     },
@@ -434,7 +430,7 @@ const PostgraduateMentorPage: React.FC = () => {
           alternate_contact: values["alternate_contact"],
           home_page: values["home_page"],
           detail_info: values["detail_info"],
-          user_id: userData?._id!,
+          user_id: userInfo?._id!,
         },
       });
     }
@@ -447,7 +443,6 @@ const PostgraduateMentorPage: React.FC = () => {
     <div>
       <PageHeader
         title="电子系推研信息平台"
-        subTitle="信息仅供参考 名额数量0.5代表竞争名额"
         extra={
           <>
             <Button
@@ -459,7 +454,7 @@ const PostgraduateMentorPage: React.FC = () => {
               刷新
             </Button>
             <Button
-              hidden={!(userData?.role === "EEsenior")}
+              hidden={!(userInfo?.role === "EEsenior")}
               onClick={() => {
                 setShowSelfApplications(true);
               }}
@@ -470,9 +465,9 @@ const PostgraduateMentorPage: React.FC = () => {
               type="primary"
               hidden={
                 !(
-                  userData?.role === "teacher" ||
-                  userData?.role === "counselor" ||
-                  userData?.role === "root"
+                  userInfo?.role === "teacher" ||
+                  userInfo?.role === "counselor" ||
+                  userInfo?.role === "root"
                 )
               }
               onClick={() => {
@@ -486,6 +481,10 @@ const PostgraduateMentorPage: React.FC = () => {
           </>
         }
       ></PageHeader>
+      <Space direction="vertical" size={1}>
+        <Text type="secondary">信息仅供参考，名额数量0.5代表竞争名额</Text>
+        <Text type="secondary">导师名额初始值为0，可参考往年招生情况</Text>
+      </Space>
       <Table
         columns={columns}
         dataSource={data?.postgraduate_mentor_info}
@@ -552,7 +551,7 @@ const PostgraduateMentorPage: React.FC = () => {
             onSelect={(value: string) => {
               setApplicationStatus(value);
             }}
-            disabled={!(userData?.role === "EEsenior")}
+            disabled={!(userInfo?.role === "EEsenior")}
           >
             <Select.Option value="intend">有意向</Select.Option>
             <Select.Option value="in_contact">联络中</Select.Option>
@@ -564,7 +563,7 @@ const PostgraduateMentorPage: React.FC = () => {
               insertApplication({
                 variables: {
                   mentor_info_id: detail?.id!,
-                  user_id: userData?._id!,
+                  user_id: userInfo?._id!,
                   status: applicationStatus,
                   verified: applicationStatus === "confirmed" ? false : true,
                 },
@@ -572,7 +571,7 @@ const PostgraduateMentorPage: React.FC = () => {
               setAppHistory({
                 variables: {
                   mentor_info_id: detail?.id!,
-                  user_id: userData?._id!,
+                  user_id: userInfo?._id!,
                   status:
                     applicationStatus === "confirmed"
                       ? "confirmed_unverified"
@@ -583,7 +582,7 @@ const PostgraduateMentorPage: React.FC = () => {
                 ? message.info("已提交申请情况，请等待辅导员审核")
                 : message.success("提交成功");
             }}
-            disabled={!(userData?.role === "EEsenior")}
+            disabled={!(userInfo?.role === "EEsenior")}
           >
             提交申请
           </Button>
@@ -615,7 +614,16 @@ const PostgraduateMentorPage: React.FC = () => {
           >
             <Input placeholder="研究所名称，详细信息（研究方向）建议填写在下方“详细信息”处" />
           </Form.Item>
-          <Form.Item name="phd_quota" label="博士名额">
+          <Form.Item
+            name="phd_quota"
+            label="博士名额"
+            help={
+              <>
+                若已经确定<b>外校同学</b>
+                或者<b>存在教师间名额协商</b>，请在<b>详细信息</b>中注明
+              </>
+            }
+          >
             <InputNumber min={0} />
           </Form.Item>
           <Form.Item

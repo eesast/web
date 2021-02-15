@@ -14,21 +14,22 @@ import {
   Table,
   Progress,
 } from "antd";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import {
-  GetRole,
-  GetId,
   GetScholarshipApplications,
   GetScholarshipApplicationsVariables,
   GetScholarshipApplications_scholarship_application,
   UpdateScholarshipApplication,
   UpdateScholarshipApplicationVariables,
   GetScholarshipApplicationsForCounselors,
+  GetScholarshipApplicationsForCounselorsVariables,
   GetScholarshipApplicationsForCounselors_scholarship_application,
   DeleteScholarshipApplication,
   DeleteScholarshipApplicationVariables,
   AddScholarshipApplication,
   AddScholarshipApplicationVariables,
+  GetUserById,
+  GetUserByIdVariables,
 } from "../../api/types";
 import {
   GetScholarshipApplications as GET_SCHOLARSHIP_APPLICATIONS,
@@ -37,6 +38,7 @@ import {
   GetScholarshipApplicationsForCounselors as GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
   AddScholarshipApplication as ADD_SCHOLARSHIP_APPLICATION,
 } from "../../api/info_scholarship.graphql";
+import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
 import { honors, scholarships } from "../../configs";
 import { generateThankLetter } from "../../helpers/application";
@@ -44,6 +46,7 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -79,12 +82,7 @@ const exportSelectOptions = ["全部", ...classes].map((_class) => (
 ));
 
 const ScholarshipApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -95,9 +93,10 @@ const ScholarshipApplicationPage = () => {
     GET_SCHOLARSHIP_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
+        _gte: "2020-09-29",
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -108,9 +107,10 @@ const ScholarshipApplicationPage = () => {
   }, [applicationError]);
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetScholarshipApplications_scholarship_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetScholarshipApplications_scholarship_application>();
 
   const [form] = Form.useForm();
 
@@ -178,12 +178,13 @@ const ScholarshipApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<GetScholarshipApplicationsForCounselors>(
-    GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
-    {
-      skip: userData?.role !== "counselor",
-    }
-  );
+  } = useQuery<
+    GetScholarshipApplicationsForCounselors,
+    GetScholarshipApplicationsForCounselorsVariables
+  >(GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS, {
+    variables: { _gte: "2020-09-29" },
+    skip: userInfo?.role !== "counselor",
+  });
 
   useEffect(() => {
     if (applicationsForCounselorsError) {
@@ -271,9 +272,7 @@ const ScholarshipApplicationPage = () => {
     },
   });
 
-  const scholarshipColumnsForCounselor: TableProps<
-    GetScholarshipApplicationsForCounselors_scholarship_application
-  >["columns"] = [
+  const scholarshipColumnsForCounselor: TableProps<GetScholarshipApplicationsForCounselors_scholarship_application>["columns"] = [
     {
       title: "学号",
       dataIndex: ["student", "id"],
@@ -532,13 +531,26 @@ const ScholarshipApplicationPage = () => {
             const amount = parseInt(application[7].toString().trim(), 10);
             const honor = application[4].toString().trim();
 
+            const { data } = await client.query<
+              GetUserById,
+              GetUserByIdVariables
+            >({
+              query: GET_USER_BY_ID,
+              variables: {
+                id: student_id,
+              },
+            });
+
+            // _id in database
+            const id = data.user[0]._id;
+
             const { errors } = await client.mutate<
               AddScholarshipApplication,
               AddScholarshipApplicationVariables
             >({
               mutation: ADD_SCHOLARSHIP_APPLICATION,
               variables: {
-                student_id,
+                student_id: id,
                 scholarship,
                 honor,
                 amount,
@@ -578,15 +590,15 @@ const ScholarshipApplicationPage = () => {
       <Timeline>
         <Timeline.Item color="green">
           <p>第一阶段：奖学金荣誉申请</p>
-          <p>2019-09-22 00:00 ~ 2019-09-23 23:59</p>
+          <p>2020年10月2日（周五）0:00 ~ 2020年10月5日（周一）23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：奖学金申请结果公示</p>
-          <p>2019-10-08 00:00 ~ 2019-10-10 23:59</p>
+          <p>拟定于 2020年10月17日 ~ 2020年10月19日</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>奖学金</Typography.Title>
-      {userData?.role !== "counselor" && (
+      {userInfo?.role !== "counselor" && (
         <>
           <List
             loading={applicationLoading}
@@ -719,7 +731,7 @@ const ScholarshipApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

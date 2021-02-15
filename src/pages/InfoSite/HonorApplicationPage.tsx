@@ -16,7 +16,7 @@ import {
   Switch,
   Progress,
 } from "antd";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import {
   GetHonorApplications as GET_HONOR_APPLICATIONS,
   AddHonorApplication as ADD_HONOR_APPLICATION,
@@ -26,8 +26,6 @@ import {
   UpdateHonorApplicationStatus as UPDATE_HONOR_APPLICATION_STATUS,
 } from "../../api/info_honor.graphql";
 import {
-  GetRole,
-  GetId,
   GetHonorApplications,
   GetHonorApplicationsVariables,
   GetHonorApplications_honor_application,
@@ -38,6 +36,7 @@ import {
   DeleteHonorApplication,
   DeleteHonorApplicationVariables,
   GetHonorApplicationsForCounselors,
+  GetHonorApplicationsForCounselorsVariables,
   GetHonorApplicationsForCounselors_honor_application,
   UpdateHonorApplicationStatus,
   UpdateHonorApplicationStatusVariables,
@@ -49,6 +48,7 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getStatusText, getStatusValue } from "../../helpers/application";
 import get from "lodash.get";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -76,12 +76,7 @@ const exportSelectOptions = classes.map((_class) => (
 ));
 
 const HonorApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -92,9 +87,10 @@ const HonorApplicationPage = () => {
     GET_HONOR_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
+        _gte: "2020-09-29",
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -105,9 +101,10 @@ const HonorApplicationPage = () => {
   }, [applicationError]);
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetHonorApplications_honor_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetHonorApplications_honor_application>();
 
   const [form] = Form.useForm();
 
@@ -156,7 +153,7 @@ const HonorApplicationPage = () => {
     } else {
       await addApplication({
         variables: {
-          student_id: userData?._id!,
+          student_id: userInfo?._id!,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
@@ -199,12 +196,13 @@ const HonorApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<GetHonorApplicationsForCounselors>(
-    GET_HONOR_APPLICATIONS_FOR_COUNSELORS,
-    {
-      skip: userData?.role !== "counselor",
-    }
-  );
+  } = useQuery<
+    GetHonorApplicationsForCounselors,
+    GetHonorApplicationsForCounselorsVariables
+  >(GET_HONOR_APPLICATIONS_FOR_COUNSELORS, {
+    variables: { _gte: "2020-09-29" },
+    skip: userInfo?.role !== "counselor",
+  });
 
   useEffect(() => {
     if (applicationsForCounselorsError) {
@@ -333,9 +331,7 @@ const HonorApplicationPage = () => {
     }
   }, [updateApplicationStatusError]);
 
-  const honorColumnsForCounselor: TableProps<
-    GetHonorApplicationsForCounselors_honor_application
-  >["columns"] = [
+  const honorColumnsForCounselor: TableProps<GetHonorApplicationsForCounselors_honor_application>["columns"] = [
     {
       title: "学号",
       dataIndex: ["student", "id"],
@@ -559,15 +555,15 @@ const HonorApplicationPage = () => {
       <Timeline>
         <Timeline.Item color="green">
           <p>第一阶段：奖学金荣誉申请</p>
-          <p>2019-09-22 00:00 ~ 2019-09-23 23:59</p>
+          <p>2020年10月2日（周五）0:00 ~ 2020年10月5日（周一）23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：奖学金申请结果公示</p>
-          <p>2019-10-08 00:00 ~ 2019-10-10 23:59</p>
+          <p>拟定于 2020年10月17日 ~ 2020年10月19日</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
-      {userData?.role !== "counselor" && (
+      {userInfo?.role !== "counselor" && (
         <>
           <Button
             disabled={false}
@@ -700,7 +696,7 @@ const HonorApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

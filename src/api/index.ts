@@ -1,58 +1,56 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  split,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache, split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { setContext } from "@apollo/client/link/context";
 import axios from "axios";
-import { GetToken } from "./types";
 
 axios.defaults.baseURL = "https://api.eesast.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.interceptors.request.use(function (config) {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = "Bearer " + token;
+  }
+  return config;
+});
 
 const httpLink = new HttpLink({
-  uri: "https://api.eesast.com/v1/graphql",
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://api.eesast.com/v1/graphql"
+      : process.env.REACT_APP_HASURA_INSTANCE === "local"
+      ? "http://localhost:23333/v1/graphql"
+      : "https://api.eesast.com/dev/v1/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const data = client.readQuery<GetToken>({
-    query: gql`
-      {
-        token @client
-      }
-    `,
-  });
+  const token = localStorage.getItem("token");
   return {
     headers: {
       ...headers,
-      ...(data?.token && {
-        authorization: `Bearer ${data?.token}`,
+      ...(token && {
+        authorization: `Bearer ${token}`,
       }),
     },
   };
 });
 
 const wsLink = new WebSocketLink({
-  uri: `wss://api.eesast.com/v1/graphql`,
+  uri:
+    process.env.NODE_ENV === "production"
+      ? `wss://api.eesast.com/v1/graphql`
+      : process.env.REACT_APP_HASURA_INSTANCE === "local"
+      ? "wss://localhost:23333/v1/graphql"
+      : "wss://api.eesast.com/dev/v1/graphql",
   options: {
     reconnect: true,
     lazy: true,
     connectionParams: () => {
-      const data = client.readQuery<GetToken>({
-        query: gql`
-          {
-            token @client
-          }
-        `,
-      });
+      const token = localStorage.getItem("token");
       return {
         headers: {
-          ...(data?.token && {
-            authorization: `Bearer ${data?.token}`,
+          ...(token && {
+            authorization: `Bearer ${token}`,
           }),
         },
       };

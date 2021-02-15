@@ -9,6 +9,7 @@ import {
   Col,
   Space,
   Popover,
+  Dropdown,
 } from "antd";
 import { UserOutlined, ExportOutlined, MenuOutlined } from "@ant-design/icons";
 import zhCN from "antd/es/locale/zh_CN";
@@ -19,13 +20,14 @@ import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
 import { enquireScreenSize } from "./helpers/enquire";
-import logo from "./assets/logo.png";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
 import AuthRoute from "./components/AuthRoute";
 import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
+import Picture from "./components/Picture";
+import ThuaiSite from "./pages/ThuaiSite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -65,6 +67,23 @@ const StyledFooter = styled(Footer)`
   text-align: center;
 `;
 
+const UserMenu = (
+  <Menu>
+    <Menu.Item>
+      <Link to="/profile">个人信息</Link>
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item
+      onClick={() => {
+        localStorage.removeItem("token");
+        window.location.reload();
+      }}
+    >
+      退出
+    </Menu.Item>
+  </Menu>
+);
+
 function App() {
   const location = useLocation();
   const site = location.pathname.split("/")[1];
@@ -91,11 +110,17 @@ function App() {
       <Menu.Item key="home">
         <Link to="/home">首页</Link>
       </Menu.Item>
+      <Menu.Item key="thuai">
+        <Link to="/thuai">队式程序大赛</Link>
+      </Menu.Item>
       <Menu.Item key="weekly">
         <Link to="/weekly">WEEKLY</Link>
       </Menu.Item>
       <Menu.Item key="info">
         <Link to="/info">INFO</Link>
+      </Menu.Item>
+      <Menu.Item key="docs">
+        <a href="https://docs.eesast.com">DOCS</a> <ExportOutlined />
       </Menu.Item>
       <Menu.Item key="overleaf">
         <a href="https://overleaf.eesast.com">OVERLEAF</a> <ExportOutlined />
@@ -115,8 +140,16 @@ function App() {
               <Space size="large">
                 <Logo>
                   <Space size="middle">
-                    <img src={logo} alt="Logo" height="48" />
-                    <Title>EESΛST</Title>
+                    <Link to="/home">
+                      <Picture
+                        src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                        alt="Logo"
+                        height="48"
+                      />
+                    </Link>
+                    <Link to="/home" style={{ color: "black" }}>
+                      <Title> EESΛST</Title>
+                    </Link>
                   </Space>
                 </Logo>
               </Space>
@@ -131,9 +164,9 @@ function App() {
               )}
             </Col>
             <Col span={1}>
-              <Link to="/profile">
+              <Dropdown overlay={UserMenu} placement="bottomRight">
                 <Button icon={<UserOutlined />} />
-              </Link>
+              </Dropdown>
             </Col>
           </FullRow>
         </StyledHeader>
@@ -149,6 +182,10 @@ function App() {
             <Route path="/home">
               <HomeSite />
             </Route>
+            <Route path="/thuai">
+              <ThuaiSite />
+            </Route>
+
             <AuthRoute path="/info">
               <InfoSite />
             </AuthRoute>

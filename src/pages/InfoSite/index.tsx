@@ -8,7 +8,7 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import { Layout, Menu, message } from "antd";
+import { Layout, Menu, message, Modal } from "antd";
 import {
   NotificationOutlined,
   TeamOutlined,
@@ -29,9 +29,10 @@ import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import AidApplicationPage from "./AidApplicationPage";
 import PostgraduateMentorPage from "./PostgraduateMentorPage";
 import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
-import { gql, useQuery } from "@apollo/client";
-import { GetId, GetRole, GetUserVariables, GetUser } from "../../api/types";
+import { useQuery } from "@apollo/client";
+import { GetUserVariables, GetUser } from "../../api/types";
 import { GetUser as GET_USER } from "../../api/user.graphql";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Content, Sider } = Layout;
 
@@ -53,33 +54,39 @@ const InfoSite: React.FC = () => {
   const history = useHistory();
   const page = location.pathname.split("/")[2] ?? "notices";
 
-  const { data: userData } = useQuery<GetId & GetRole>(gql`
-    {
-      _id @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const { data } = useQuery<GetUser, GetUserVariables>(GET_USER, {
-    variables: { _id: userData?._id! },
+    variables: { _id: userInfo?._id! },
   });
 
   const user = data?.user?.[0];
 
   useEffect(() => {
     if (
-      userData?.role === "user" ||
-      !user?.class ||
-      !user.department ||
+      userInfo?.role === "user" ||
+      !user?.department ||
       !user.email ||
-      !user.id ||
       !user.name ||
-      !user.phone
+      !user.phone ||
+      ((!user.id || !user.class) && userInfo?.role !== "teacher")
     ) {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
       history.push("/profile");
     }
-  }, [history, user, userData]);
+  }, [history, user, userInfo]);
+
+  const disclaimer = () => {
+    if (localStorage.getItem("disclaimerChecked") !== "true") {
+      Modal.warning({
+        title: "免责声明",
+        content:
+          "本平台信息非官方数据，不保证信息的准确性、真实性和有效性，不构成任何选择导师的建议，仅供参考。",
+        okText: "我已知悉",
+      });
+      localStorage.setItem("disclaimerChecked", "true");
+    }
+  };
 
   return (
     <Layout>
@@ -131,13 +138,13 @@ const InfoSite: React.FC = () => {
             </Menu.Item>
           </Menu.ItemGroup>
           <Menu.ItemGroup key="postgraduate" title="推研信息">
-            <Menu.Item key="postgraduate-mentor-info">
+            <Menu.Item key="postgraduate-mentor-info" onClick={disclaimer}>
               <Link to={`${url}/postgraduate-mentor-info`}>
                 <TeamOutlined />
                 博士生招生信息
               </Link>
             </Menu.Item>
-            {["root", "counselor", "teacher"].includes(userData?.role!) ? (
+            {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
               <Menu.Item key="mentor-info-verify">
                 <Link to={`${url}/mentor-info-verify`}>
                   <VerifiedOutlined />
@@ -145,7 +152,7 @@ const InfoSite: React.FC = () => {
                 </Link>
               </Menu.Item>
             ) : null}
-            {["root", "counselor"].includes(userData?.role!) ? (
+            {["root", "counselor"].includes(userInfo?.role!) ? (
               <Menu.Item key="postgraduate-application">
                 <Link to={`${url}/postgraduate-application`}>
                   <VerifiedOutlined />

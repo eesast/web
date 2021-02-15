@@ -31,7 +31,8 @@ const StyledHeader = styled(Header)`
 
 const StyledMenu = styled(Menu)`
   &.ant-menu {
-    line-height: 45px;
+    line-height: 46px;
+    border-bottom: unset;
   }
 `;
 

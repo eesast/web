@@ -14,7 +14,7 @@ import {
   Radio,
   Menu,
 } from "antd";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import Linkify from "react-linkify";
 import {
   EditOutlined,
@@ -40,7 +40,6 @@ import {
   UpdateNotice,
   AddNotice,
   DeleteNotice,
-  GetRole,
   GetNotices_info_notice,
   AddNoticeVariables,
   UpdateNoticeVariables,
@@ -53,6 +52,7 @@ import type {
   RcCustomRequestOptions,
 } from "antd/lib/upload/interface";
 import { getOSS, downloadFile } from "../../helpers/oss";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -63,11 +63,7 @@ interface File {
 }
 
 const NoticePage: React.FC = () => {
-  const { data: roleData } = useQuery<GetRole>(gql`
-    {
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     data: noticeData,
@@ -208,7 +204,7 @@ const NoticePage: React.FC = () => {
         </Col>
         <Col>
           <Button
-            hidden={roleData?.role !== "counselor" && roleData?.role !== "root"}
+            hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
             onClick={() => setModalVisible(true)}
           >
             新公告
@@ -248,7 +244,7 @@ const NoticePage: React.FC = () => {
               margin-bottom: 24px;
             `}
             onEditPress={
-              roleData?.role === "counselor" || roleData?.role === "root"
+              userInfo?.role === "counselor" || userInfo?.role === "root"
                 ? () => {
                     setEditingNotice(item);
                     setFileList(
@@ -266,7 +262,7 @@ const NoticePage: React.FC = () => {
                 : undefined
             }
             onDeletePress={
-              roleData?.role === "counselor" || roleData?.role === "root"
+              userInfo?.role === "counselor" || userInfo?.role === "root"
                 ? () => {
                     handleNoticeDelete(item.id);
                   }

@@ -1,9 +1,11 @@
 import React from "react";
 
-const Picture: React.FC<React.DetailedHTMLProps<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  HTMLImageElement
->> = (props) => {
+const Picture: React.FC<
+  React.DetailedHTMLProps<
+    React.ImgHTMLAttributes<HTMLImageElement>,
+    HTMLImageElement
+  >
+> = (props) => {
   const { alt, src, ...restProps } = props;
   return (
     <picture
@@ -11,12 +13,9 @@ const Picture: React.FC<React.DetailedHTMLProps<
         height: 100%;
       `}
     >
-      <source
-        type="image/webp"
-        srcSet={`${src}?x-oss-process=image/quality,q_90/format,webp`}
-      />
-      <source srcSet={src} />
-      <img {...restProps} alt={alt} />
+      <source type="image/webp" srcSet={`${src}/webp`} />
+      <source srcSet={`${src}/compressed`} />
+      <img {...restProps} src={`${src}/compressed`} alt={alt} />
     </picture>
   );
 };

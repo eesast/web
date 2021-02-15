@@ -14,10 +14,8 @@ import {
   Table,
   Progress,
 } from "antd";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import {
-  GetRole,
-  GetId,
   GetAidApplications,
   GetAidApplicationsVariables,
   GetAidApplications_aid_application,
@@ -29,6 +27,8 @@ import {
   DeleteAidApplicationVariables,
   AddAidApplication,
   AddAidApplicationVariables,
+  GetUserById,
+  GetUserByIdVariables,
 } from "../../api/types";
 import {
   GetAidApplications as GET_AID_APPLICATIONS,
@@ -37,6 +37,7 @@ import {
   GetAidApplicationsForCounselors as GET_AID_APPLICATIONS_FOR_COUNSELORS,
   AddAidApplication as ADD_AID_APPLICATION,
 } from "../../api/info_aid.graphql";
+import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
 import { aids } from "../../configs";
 import { generateThankLetter } from "../../helpers/application";
@@ -44,6 +45,7 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
+import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -73,12 +75,7 @@ const exportSelectOptions = ["全部", ...classes].map((_class) => (
 ));
 
 const AidApplicationPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: applicationLoading,
@@ -89,9 +86,9 @@ const AidApplicationPage = () => {
     GET_AID_APPLICATIONS,
     {
       variables: {
-        _id: userData?._id!,
+        _id: userInfo?._id!,
       },
-      skip: userData?.role === "counselor",
+      skip: userInfo?.role === "counselor",
     }
   );
 
@@ -102,9 +99,10 @@ const AidApplicationPage = () => {
   }, [applicationError]);
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetAidApplications_aid_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetAidApplications_aid_application>();
 
   const [form] = Form.useForm();
 
@@ -174,7 +172,7 @@ const AidApplicationPage = () => {
   } = useQuery<GetAidApplicationsForCounselors>(
     GET_AID_APPLICATIONS_FOR_COUNSELORS,
     {
-      skip: userData?.role !== "counselor",
+      skip: userInfo?.role !== "counselor",
     }
   );
 
@@ -265,9 +263,7 @@ const AidApplicationPage = () => {
     },
   });
 
-  const aidColumnsForCounselor: TableProps<
-    GetAidApplicationsForCounselors_aid_application
-  >["columns"] = [
+  const aidColumnsForCounselor: TableProps<GetAidApplicationsForCounselors_aid_application>["columns"] = [
     {
       title: "学号",
       dataIndex: ["student", "id"],
@@ -487,13 +483,26 @@ const AidApplicationPage = () => {
             const aid = application[4].toString().trim();
             const amount = parseInt(application[6].toString().trim(), 10);
 
+            const { data } = await client.query<
+              GetUserById,
+              GetUserByIdVariables
+            >({
+              query: GET_USER_BY_ID,
+              variables: {
+                id: student_id,
+              },
+            });
+
+            // _id in database
+            const id = data.user[0]._id;
+
             const { errors } = await client.mutate<
               AddAidApplication,
               AddAidApplicationVariables
             >({
               mutation: ADD_AID_APPLICATION,
               variables: {
-                student_id,
+                student_id: id,
                 aid,
                 amount,
                 code,
@@ -540,7 +549,7 @@ const AidApplicationPage = () => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>助学金</Typography.Title>
-      {userData?.role !== "counselor" && (
+      {userInfo?.role !== "counselor" && (
         <>
           <List
             loading={applicationLoading}
@@ -667,7 +676,7 @@ const AidApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userData?.role === "counselor" && (
+      {userInfo?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

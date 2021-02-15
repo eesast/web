@@ -4,58 +4,6 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetToken
-// ====================================================
-
-export interface GetToken {
-  token: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetId
-// ====================================================
-
-export interface GetId {
-  _id: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetEmail
-// ====================================================
-
-export interface GetEmail {
-  email: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetRole
-// ====================================================
-
-export interface GetRole {
-  role: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: GetAidApplications
 // ====================================================
 
@@ -273,6 +221,9 @@ export interface GetApprovedMentorApplications_mentor_application {
    */
   mentor: GetApprovedMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -383,6 +334,7 @@ export interface GetHonorApplications {
 
 export interface GetHonorApplicationsVariables {
   _id: string;
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -421,6 +373,10 @@ export interface GetHonorApplicationsForCounselors {
    * fetch data from the table: "honor_application"
    */
   honor_application: GetHonorApplicationsForCounselors_honor_application[];
+}
+
+export interface GetHonorApplicationsForCounselorsVariables {
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -607,6 +563,9 @@ export interface GetMentorApplications_mentor_application {
    */
   mentor: GetMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -669,6 +628,9 @@ export interface GetMentorApplicationsForCounselors_mentor_application {
    */
   mentor: GetMentorApplicationsForCounselors_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -842,6 +804,31 @@ export interface UpdateMentorApplicationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteMentorApplication
+// ====================================================
+
+export interface DeleteMentorApplication_delete_mentor_application_by_pk {
+  __typename: "mentor_application";
+  id: any;
+}
+
+export interface DeleteMentorApplication {
+  /**
+   * delete single row from the table: "mentor_application"
+   */
+  delete_mentor_application_by_pk: DeleteMentorApplication_delete_mentor_application_by_pk | null;
+}
+
+export interface DeleteMentorApplicationVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetMentorList
 // ====================================================
 
@@ -899,6 +886,85 @@ export interface GetMentorList {
    * perform the action: "user_by_role"
    */
   user_by_role: GetMentorList_user_by_role[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertMentorInfo
+// ====================================================
+
+export interface UpsertMentorInfo_insert_mentor_info_one {
+  __typename: "mentor_info";
+  mentor_id: string;
+}
+
+export interface UpsertMentorInfo {
+  /**
+   * insert a single row into the table: "mentor_info"
+   */
+  insert_mentor_info_one: UpsertMentorInfo_insert_mentor_info_one | null;
+}
+
+export interface UpsertMentorInfoVariables {
+  achievement?: string | null;
+  background?: string | null;
+  field?: string | null;
+  intro?: string | null;
+  mentor_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMentorInfo
+// ====================================================
+
+export interface GetMentorInfo_mentor_info_by_pk_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetMentorInfo_mentor_info_by_pk {
+  __typename: "mentor_info";
+  /**
+   * 学术成果
+   */
+  achievement: string | null;
+  /**
+   * 教育背景
+   */
+  background: string | null;
+  /**
+   * 研究领域
+   */
+  field: string | null;
+  /**
+   * 简要信息：联系方式、职位等
+   */
+  intro: string | null;
+  mentor_id: string;
+  /**
+   * An object relationship
+   */
+  user: GetMentorInfo_mentor_info_by_pk_user;
+}
+
+export interface GetMentorInfo {
+  /**
+   * fetch data from the table: "mentor_info" using primary key columns
+   */
+  mentor_info_by_pk: GetMentorInfo_mentor_info_by_pk | null;
+}
+
+export interface GetMentorInfoVariables {
+  mentor_id: string;
 }
 
 /* tslint:disable */
@@ -1082,6 +1148,7 @@ export interface GetScholarshipApplications {
 
 export interface GetScholarshipApplicationsVariables {
   _id: string;
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -1124,6 +1191,10 @@ export interface GetScholarshipApplicationsForCounselors {
    * fetch data from the table: "scholarship_application"
    */
   scholarship_application: GetScholarshipApplicationsForCounselors_scholarship_application[];
+}
+
+export interface GetScholarshipApplicationsForCounselorsVariables {
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -1616,30 +1687,30 @@ export interface VerifyMentorInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetPostgraudateApplicationFeeds
+// GraphQL query operation: GetPostgraduateApplicationFeeds
 // ====================================================
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
   count: number | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate {
   __typename: "postgraduate_application_aggregate";
-  aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate | null;
+  aggregate: GetPostgraduateApplicationFeeds_postgraduate_application_aggregate_aggregate | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_mentor {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_mentor {
   __typename: "postgraduate_mentor_info";
   mentor: string;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_user {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_user {
   __typename: "user";
   name: string | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application {
   __typename: "postgraduate_application";
   created_at: any;
   mentor_info_id: number;
@@ -1652,25 +1723,25 @@ export interface GetPostgraudateApplicationFeeds_postgraduate_application {
   /**
    * An object relationship
    */
-  mentor: GetPostgraudateApplicationFeeds_postgraduate_application_mentor;
+  mentor: GetPostgraduateApplicationFeeds_postgraduate_application_mentor;
   /**
    * An object relationship
    */
-  user: GetPostgraudateApplicationFeeds_postgraduate_application_user;
+  user: GetPostgraduateApplicationFeeds_postgraduate_application_user;
 }
 
-export interface GetPostgraudateApplicationFeeds {
+export interface GetPostgraduateApplicationFeeds {
   /**
    * fetch aggregated fields from the table: "postgraduate_application"
    */
-  postgraduate_application_aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate;
+  postgraduate_application_aggregate: GetPostgraduateApplicationFeeds_postgraduate_application_aggregate;
   /**
    * fetch data from the table: "postgraduate_application"
    */
-  postgraduate_application: GetPostgraudateApplicationFeeds_postgraduate_application[];
+  postgraduate_application: GetPostgraduateApplicationFeeds_postgraduate_application[];
 }
 
-export interface GetPostgraudateApplicationFeedsVariables {
+export interface GetPostgraduateApplicationFeedsVariables {
   offset?: number | null;
   limit?: number | null;
 }
@@ -1916,6 +1987,58 @@ export interface GetUserVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetUserById
+// ====================================================
+
+export interface GetUserById_user {
+  __typename: "user";
+  _id: string;
+  id: any | null;
+  username: string | null;
+}
+
+export interface GetUserById {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUserById_user[];
+}
+
+export interface GetUserByIdVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUserByName
+// ====================================================
+
+export interface GetUserByName_user {
+  __typename: "user";
+  _id: string;
+}
+
+export interface GetUserByName {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUserByName_user[];
+}
+
+export interface GetUserByNameVariables {
+  name: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: UpdateUser
 // ====================================================
 
@@ -1937,6 +2060,41 @@ export interface UpdateUser {
 export interface UpdateUserVariables {
   _id: string;
   id: any;
+  username?: string | null;
+  phone?: string | null;
+  name?: string | null;
+  department?: string | null;
+  class?: string | null;
+  email?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateUserForTeacher
+// ====================================================
+
+export interface UpdateUserForTeacher_update_user {
+  __typename: "user_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateUserForTeacher {
+  /**
+   * update data of the table: "user"
+   */
+  update_user: UpdateUserForTeacher_update_user | null;
+}
+
+export interface UpdateUserForTeacherVariables {
+  _id: string;
+  id?: any | null;
   username?: string | null;
   phone?: string | null;
   name?: string | null;

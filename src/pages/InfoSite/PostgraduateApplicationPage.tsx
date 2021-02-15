@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Button, Table, PageHeader, message, Alert, Switch, Tag } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
   VerifyPostgraduateApplication as VERIFY_POSTGRADUATE_APPLICATION,
   DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
-  GetPostgraudateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
+  GetPostgraduateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
   GetPostAppHistory as GET_POST_APP_HISTORY,
   SetPostAppHistory as SET_POST_APP_HISTORY,
 } from "../../api/postgraduate.graphql";
 import {
-  GetPostgraudateApplicationFeeds_postgraduate_application as applicationInfo,
+  GetPostgraduateApplicationFeeds_postgraduate_application as applicationInfo,
   GetPostAppHistory_postgraduate_application_history as applicationHistory,
-  GetId,
-  GetEmail,
-  GetRole,
   VerifyPostgraduateApplication,
   VerifyPostgraduateApplicationVariables,
   DeletePostgraduateApplication,
   DeletePostgraduateApplicationVariables,
-  GetPostgraudateApplicationFeeds,
-  GetPostgraudateApplicationFeedsVariables,
+  GetPostgraduateApplicationFeeds,
+  GetPostgraduateApplicationFeedsVariables,
   GetPostAppHistory,
   GetPostAppHistoryVariables,
   SetPostAppHistory,
   SetPostAppHistoryVariables,
 } from "../../api/types";
+import { getUserInfo } from "../../helpers/auth";
 
 const PostgraduateApplicationPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -33,13 +31,7 @@ const PostgraduateApplicationPage: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [history, setHistory] = useState(false);
 
-  const { data: userData } = useQuery<GetId & GetEmail & GetRole>(gql`
-    {
-      _id @client
-      email @client
-      role @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const [verifyApplication, { error: verifyError }] = useMutation<
     VerifyPostgraduateApplication,
@@ -57,8 +49,8 @@ const PostgraduateApplicationPage: React.FC = () => {
   >(SET_POST_APP_HISTORY);
 
   const { data, loading, error, refetch: refetchFeeds } = useQuery<
-    GetPostgraudateApplicationFeeds,
-    GetPostgraudateApplicationFeedsVariables
+    GetPostgraduateApplicationFeeds,
+    GetPostgraduateApplicationFeedsVariables
   >(GET_POSTGRADUATE_APPLICATON_FEEDS, {
     variables: { limit: pageSize, offset: offset },
   });
@@ -268,7 +260,7 @@ const PostgraduateApplicationPage: React.FC = () => {
     onShowSizeChange: handlePageSizeChange,
   };
 
-  return !["root", "counselor"].includes(userData?.role!) ? (
+  return !["root", "counselor"].includes(userInfo?.role!) ? (
     <>
       <Alert
         message="Warning"

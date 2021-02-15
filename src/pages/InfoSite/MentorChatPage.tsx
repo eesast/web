@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
   GetApprovedMentorApplications as GET_APPROVED_MENTOR_APPLICATIONS,
   SubscribeToMessages as SUBSCRIBE_TO_MESSAGES,
@@ -6,8 +6,6 @@ import {
 } from "../../api/info_chat.graphql";
 import {
   GetApprovedMentorApplications,
-  GetRole,
-  GetId,
   GetApprovedMentorApplicationsVariables,
   GetApprovedMentorApplications_mentor_application_student,
   SubscribeToMessages,
@@ -15,7 +13,7 @@ import {
   AddMessage,
   AddMessageVariables,
 } from "../../api/types";
-import { useQuery, gql, useSubscription, useMutation } from "@apollo/client";
+import { useQuery, useSubscription, useMutation } from "@apollo/client";
 import {
   message,
   Spin,
@@ -31,16 +29,12 @@ import Center from "../../components/Center";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import Scrollbars from "react-custom-scrollbars";
+import { getUserInfo } from "../../helpers/auth";
 
 const { TextArea } = Input;
 
 const MentorChatPage = () => {
-  const { data: userData } = useQuery<GetRole & GetId>(gql`
-    {
-      role @client
-      _id @client
-    }
-  `);
+  const userInfo = getUserInfo();
 
   const {
     loading: approvedApplicationsLoading,
@@ -51,9 +45,9 @@ const MentorChatPage = () => {
     GetApprovedMentorApplicationsVariables
   >(GET_APPROVED_MENTOR_APPLICATIONS, {
     variables: {
-      _id: userData?._id!,
+      _id: userInfo?._id!,
     },
-    skip: userData?.role === "counselor",
+    skip: userInfo?.role === "counselor",
   });
 
   useEffect(() => {
@@ -63,12 +57,16 @@ const MentorChatPage = () => {
   }, [approvedApplicationsError]);
 
   const mentor = approvedApplicationsData?.mentor_application?.[0]?.mentor;
-  const students =
-    approvedApplicationsData?.mentor_application.map((i) => i.student) ?? [];
+  const students = useMemo(
+    () =>
+      approvedApplicationsData?.mentor_application.map((i) => i.student) ?? [],
+    [approvedApplicationsData?.mentor_application]
+  );
 
-  const [selectedStudent, setSelectedStudent] = useState<
-    GetApprovedMentorApplications_mentor_application_student
-  >();
+  const [
+    selectedStudent,
+    setSelectedStudent,
+  ] = useState<GetApprovedMentorApplications_mentor_application_student>();
 
   useEffect(() => {
     if (
@@ -85,8 +83,8 @@ const MentorChatPage = () => {
     students,
   ]);
 
-  const from = userData?._id;
-  const to = userData?.role === "student" ? mentor?._id : selectedStudent?._id;
+  const from = userInfo?._id;
+  const to = userInfo?.role === "student" ? mentor?._id : selectedStudent?._id;
 
   const [text, setText] = useState("");
 
@@ -128,9 +126,9 @@ const MentorChatPage = () => {
   }
 
   if (
-    (userData?.role !== "student" && userData?.role !== "teacher") ||
-    (userData?.role === "student" && !mentor) ||
-    (userData?.role === "teacher" && students?.length === 0)
+    (userInfo?.role !== "student" && userInfo?.role !== "teacher") ||
+    (userInfo?.role === "student" && !mentor) ||
+    (userInfo?.role === "teacher" && students?.length === 0)
   ) {
     return (
       <Result
@@ -152,18 +150,18 @@ const MentorChatPage = () => {
         width: 100%;
       `}
     >
-      {userData.role === "student" && (
+      {userInfo.role === "student" && (
         <Typography.Title
           level={2}
         >{`与导师 ${mentor?.name} 的聊天`}</Typography.Title>
       )}
-      {userData.role === "teacher" && (
+      {userInfo.role === "teacher" && (
         <Typography.Title
           level={2}
         >{`与学生 ${selectedStudent?.name} 的聊天`}</Typography.Title>
       )}
       <div>
-        {userData.role === "teacher" && (
+        {userInfo.role === "teacher" && (
           <Menu
             mode="horizontal"
             selectedKeys={selectedStudent ? [selectedStudent._id] : undefined}
@@ -185,9 +183,9 @@ const MentorChatPage = () => {
             `}
           >
             <ChatFeed
-              from={userData._id!}
+              from={userInfo._id!}
               to={
-                userData.role === "student" ? mentor!._id : selectedStudent!._id
+                userInfo.role === "student" ? mentor!._id : selectedStudent!._id
               }
             />
             <TextArea
