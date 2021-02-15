@@ -18,6 +18,7 @@ import {
 import RegisterPage from "./RegisterPage";
 import IntroPage from "./IntroPage";
 import NotFoundPage from "../NotFoundPage";
+import AuthRoute from "../../components/AuthRoute";
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
 const rootSubmenuKeys = ["sub1"];
@@ -70,9 +71,9 @@ const ThuaiSite: React.FC = () => {
           <Route exact path={`${path}/intro`}>
             <IntroPage />
           </Route>
-          <Route exact path={`${path}/register`}>
+          <AuthRoute exact path={`${path}/register`}>
             <RegisterPage />
-          </Route>
+          </AuthRoute>
           <Route>
             <NotFoundPage />
           </Route>
