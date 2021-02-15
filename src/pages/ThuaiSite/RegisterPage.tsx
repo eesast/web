@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton
-import { Layout } from "antd";
+import { Layout, message } from "antd";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
 import { InsertThuai, InsertThuaiVariables } from "../../api/types";
-import { InsertThuai as INSERT_THUAI } from "../api/user.graphql";
+import { InsertThuai as INSERT_THUAI } from "../../api/thuai.graphql";
 import { useMutation } from "@apollo/client";
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -19,16 +19,31 @@ const headLayout = {
 const SignPage: React.FC = () => {
   const userInfo = getUserInfo();
   const [form] = Form.useForm(); //获取表单信息？#ques
-  const [insertThuai] = useMutation<InsertThuai, InsertThuaiVariables>(
-    INSERT_THUAI
-  );
+  const [insertThuai, { error: insertError }] = useMutation<
+    InsertThuai,
+    InsertThuaiVariables
+  >(INSERT_THUAI);
+  useEffect(() => {
+    if (insertError) {
+      message.error("创建失败,可能队名重复或网络问题");
+    }
+    // else
+    // {
+    //   message.success("创建成功");
+    // }
+  }, [insertError]);
 
-  const onFinish = () => {
-    console.log("Success");
-    const values = form.getFieldsValue(); //表单里的信息？#ques
-    insertThuai({
-      variables: { ...values, team_leader: userInfo?._id! },
-    });
+  const onFinish = async () => {
+    const values = await form.getFieldsValue(); //表单里的信息？#ques
+    console.log(values);
+    try {
+      await insertThuai({
+        variables: { ...values, team_leader: userInfo?._id! },
+      });
+    } catch (e) {
+      form.resetFields();
+    }
+    message.success("创建成功");
     form.resetFields();
   };
 
@@ -54,7 +69,8 @@ const SignPage: React.FC = () => {
           >
             <Content>
               <Form
-                name="register"
+                name="form"
+                form={form}
                 layout="vertical"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}

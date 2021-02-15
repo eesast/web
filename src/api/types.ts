@@ -1954,20 +1954,12 @@ export interface GetTeamName {
 // GraphQL mutation operation: InsertThuai
 // ====================================================
 
-export interface InsertThuai_insert_thuai_returning {
-  __typename: "thuai";
-  team_id: any;
-  team_name: string;
-  team_sum: string;
-  team_leader: any | null;
-}
-
 export interface InsertThuai_insert_thuai {
   __typename: "thuai_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * number of affected rows by the mutation
    */
-  returning: InsertThuai_insert_thuai_returning[];
+  affected_rows: number;
 }
 
 export interface InsertThuai {
@@ -1978,8 +1970,9 @@ export interface InsertThuai {
 }
 
 export interface InsertThuaiVariables {
-  team_name?: string | null;
-  team_sum?: string | null;
+  team_name: string;
+  team_sum: string;
+  team_leader: string;
 }
 
 /* tslint:disable */
