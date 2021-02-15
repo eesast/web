@@ -1930,37 +1930,6 @@ export interface GetPostAppHistoryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetTeamInfo
-// ====================================================
-
-export interface GetTeamInfo_thuai_thuai_user {
-  __typename: "thuai_user";
-  name: string;
-}
-
-export interface GetTeamInfo_thuai {
-  __typename: "thuai";
-  team_name: string;
-  team_sum: string;
-  /**
-   * An object relationship
-   */
-  thuai_user: GetTeamInfo_thuai_thuai_user;
-}
-
-export interface GetTeamInfo {
-  /**
-   * fetch data from the table: "thuai"
-   */
-  thuai: GetTeamInfo_thuai[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: GetTeamName
 // ====================================================
 
@@ -1974,6 +1943,43 @@ export interface GetTeamName {
    * fetch data from the table: "thuai"
    */
   thuai: GetTeamName_thuai[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertThuai
+// ====================================================
+
+export interface InsertThuai_insert_thuai_returning {
+  __typename: "thuai";
+  team_id: any;
+  team_name: string;
+  team_sum: string;
+  team_leader: any | null;
+}
+
+export interface InsertThuai_insert_thuai {
+  __typename: "thuai_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: InsertThuai_insert_thuai_returning[];
+}
+
+export interface InsertThuai {
+  /**
+   * insert data into the table: "thuai"
+   */
+  insert_thuai: InsertThuai_insert_thuai | null;
+}
+
+export interface InsertThuaiVariables {
+  team_name?: string | null;
+  team_sum?: string | null;
 }
 
 /* tslint:disable */

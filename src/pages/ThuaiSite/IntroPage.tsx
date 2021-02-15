@@ -5,10 +5,10 @@ import { Card } from "antd";
 import { GetTeamName as GET_TEAMNAME } from "../../api/thuai.graphql";
 import { GetTeamName } from "../../api/types";
 import { useQuery } from "@apollo/client";
-//import Loading from "../../components/Loading";
+//import { getUserInfo } from "../../helpers/auth";
 const IntroPage = () => {
-  const { data: team } = useQuery<GetTeamName>(GET_TEAMNAME);
-  // useEffect(() => {
+  const { data } = useQuery<GetTeamName>(GET_TEAMNAME);
+  //useEffect(() => {
   //   if (error) {
   //     message.error("加载失败");
   //   }
@@ -16,10 +16,13 @@ const IntroPage = () => {
   // if (loading) {
   //   return <Loading />;
   // }
-  //const team = {...data};
+  const team = data?.thuai[0].team_name;
+  if (team === undefined) {
+    console.log("error");
+  }
   return (
     <Center>
-      <Card title={team}></Card>
+      <Card title={team}>{team}</Card>
     </Center>
   );
 };

@@ -1,19 +1,35 @@
 import React from "react";
-
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton
 import { Layout } from "antd";
 import { Link } from "react-router-dom";
+import { getUserInfo } from "../../helpers/auth";
+import { InsertThuai, InsertThuaiVariables } from "../../api/types";
+import { InsertThuai as INSERT_THUAI } from "../api/user.graphql";
+import { useMutation } from "@apollo/client";
 const { Content } = Layout;
 const { TextArea } = Input;
+
 const tailLayout = {
   wrapperCol: { offset: 20, span: 4 },
 };
 const headLayout = {
   wrapperCol: { offset: 10, span: 4 },
 };
+
 const SignPage: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const userInfo = getUserInfo();
+  const [form] = Form.useForm(); //获取表单信息？#ques
+  const [insertThuai] = useMutation<InsertThuai, InsertThuaiVariables>(
+    INSERT_THUAI
+  );
+
+  const onFinish = () => {
+    console.log("Success");
+    const values = form.getFieldsValue(); //表单里的信息？#ques
+    insertThuai({
+      variables: { ...values, team_leader: userInfo?._id! },
+    });
+    form.resetFields();
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -38,7 +54,7 @@ const SignPage: React.FC = () => {
           >
             <Content>
               <Form
-                name="basic"
+                name="register"
                 layout="vertical"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
@@ -46,7 +62,7 @@ const SignPage: React.FC = () => {
               >
                 <Form.Item
                   label="队名"
-                  name="队名"
+                  name="team_name"
                   rules={[
                     { required: true, message: "Please input the team name!" },
                   ]}
@@ -56,7 +72,7 @@ const SignPage: React.FC = () => {
 
                 <Form.Item
                   label="队伍简介"
-                  name="队伍简介"
+                  name="team_sum"
                   rules={[
                     { required: true, message: "Please input team detail!" },
                   ]}
