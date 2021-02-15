@@ -16,6 +16,7 @@ import {
   Layout,
 } from "antd";
 import RegisterPage from "./RegisterPage";
+import ManagePage from "./ManagePage";
 import IntroPage from "./IntroPage";
 import NotFoundPage from "../NotFoundPage";
 import AuthRoute from "../../components/AuthRoute";
@@ -58,7 +59,9 @@ const ThuaiSite: React.FC = () => {
               <Link to={`${url}/register`}>创建</Link>
             </Menu.Item>
             <Menu.Item key="join">加入</Menu.Item>
-            <Menu.Item key="manage">管理</Menu.Item>
+            <Menu.Item key="manage">
+              <Link to={`${url}/manage`}>管理</Link>
+            </Menu.Item>
           </SubMenu>
           <Menu.Item key="fight">对战</Menu.Item>
         </Menu>
@@ -74,6 +77,9 @@ const ThuaiSite: React.FC = () => {
           <AuthRoute exact path={`${path}/register`}>
             <RegisterPage />
           </AuthRoute>
+          <Route exact path={`${path}/manage`}>
+            <ManagePage />
+          </Route>
           <Route>
             <NotFoundPage />
           </Route>
