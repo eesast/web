@@ -1973,6 +1973,7 @@ export interface InsertThuaiVariables {
   team_name: string;
   team_sum: string;
   team_leader: string;
+  invited_code: string;
 }
 
 /* tslint:disable */

@@ -15,9 +15,18 @@ const tailLayout = {
 const headLayout = {
   wrapperCol: { offset: 10, span: 4 },
 };
-
+function randomString() {
+  var e = 8;
+  var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+    a = t.length,
+    n = "";
+  for (var i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+  return n;
+}
+//alert(randomString(6));
 const SignPage: React.FC = () => {
   const userInfo = getUserInfo();
+  const InviteCode = randomString();
   const [form] = Form.useForm(); //获取表单信息？#ques
   const [insertThuai, { error: insertError }] = useMutation<
     InsertThuai,
@@ -38,7 +47,11 @@ const SignPage: React.FC = () => {
     console.log(values);
     try {
       await insertThuai({
-        variables: { ...values, team_leader: userInfo?._id! },
+        variables: {
+          ...values,
+          team_leader: userInfo?._id!,
+          invited_code: InviteCode!,
+        },
       });
     } catch (e) {
       form.resetFields();
