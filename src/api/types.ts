@@ -1982,6 +1982,126 @@ export interface InsertThuaiVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: IsTeamLeader
+// ====================================================
+
+export interface IsTeamLeader_user_team_as_leader {
+  __typename: "thuai";
+  team_id: any;
+}
+
+export interface IsTeamLeader_user {
+  __typename: "user";
+  /**
+   * An array relationship
+   */
+  team_as_leader: IsTeamLeader_user_team_as_leader[];
+}
+
+export interface IsTeamLeader {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: IsTeamLeader_user[];
+}
+
+export interface IsTeamLeaderVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: IsTeamMember
+// ====================================================
+
+export interface IsTeamMember_user_team_as_member {
+  __typename: "team_member";
+  team_id: any;
+}
+
+export interface IsTeamMember_user {
+  __typename: "user";
+  /**
+   * An array relationship
+   */
+  team_as_member: IsTeamMember_user_team_as_member[];
+}
+
+export interface IsTeamMember {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: IsTeamMember_user[];
+}
+
+export interface IsTeamMemberVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTeamInfo
+// ====================================================
+
+export interface GetTeamInfo_thuai_team_members_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetTeamInfo_thuai_team_members {
+  __typename: "team_member";
+  /**
+   * An object relationship
+   */
+  user: GetTeamInfo_thuai_team_members_user;
+}
+
+export interface GetTeamInfo_thuai_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetTeamInfo_thuai {
+  __typename: "thuai";
+  invited_code: string | null;
+  team_leader: string | null;
+  team_name: string;
+  team_sum: string;
+  /**
+   * An array relationship
+   */
+  team_members: GetTeamInfo_thuai_team_members[];
+  /**
+   * An object relationship
+   */
+  user: GetTeamInfo_thuai_user | null;
+}
+
+export interface GetTeamInfo {
+  /**
+   * fetch data from the table: "thuai"
+   */
+  thuai: GetTeamInfo_thuai[];
+}
+
+export interface GetTeamInfoVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 

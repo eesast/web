@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Space, Card, Row, Col, Layout } from "antd";
+import { Table, Space, Card, Row, Col, Layout, Button } from "antd";
 const { Content } = Layout;
 const JoinPage: React.FC = () => {
   const columns = [
@@ -24,7 +24,7 @@ const JoinPage: React.FC = () => {
       key: "action",
       render: () => (
         <Space size="middle">
-          <a>Invite</a>
+          <Button>加入</Button>
         </Space>
       ),
     },
