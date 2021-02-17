@@ -7,22 +7,23 @@ import { GetTeamName } from "../../api/types";
 import { useQuery } from "@apollo/client";
 //import { getUserInfo } from "../../helpers/auth";
 const IntroPage = () => {
-  const { data } = useQuery<GetTeamName>(GET_TEAMNAME);
-  //useEffect(() => {
-  //   if (error) {
-  //     message.error("加载失败");
+  //const { data } = useQuery<GetTeamName>(GET_TEAMNAME);
+  const {
+    //error: nameError,
+    data: nameData,
+  } = useQuery<GetTeamName>(GET_TEAMNAME);
+  const team = nameData?.thuai[0].team_name;
+  // try {
+  //   const team = nameData?.thuai[0].team_name;
+  // }catch(e){
+  //   if(nameError){
+  //     console.log("error");
   //   }
-  // }, [error]);
-  // if (loading) {
-  //   return <Loading />;
   // }
-  const team = data?.thuai[0].team_name;
-  if (team === undefined) {
-    console.log("error");
-  }
+
   return (
     <Center>
-      <Card title={team}>{team}</Card>
+      <Card title={team}>"baga"</Card>
     </Center>
   );
 };

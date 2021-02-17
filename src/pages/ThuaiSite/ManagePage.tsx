@@ -1,12 +1,16 @@
 import React from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton
 import { Layout } from "antd";
+//import { getUserInfo } from "../../helpers/auth";
+
 // import { Link } from "react-router-dom";
 // import { useQuery } from "@apollo/client";
 const { TextArea } = Input;
 const { Content } = Layout;
-//import { getUserInfo } from "../../helpers/auth";
+
 const ManagePage: React.FC = () => {
+  //const userInfo = getUserInfo();
+
   return (
     <Layout>
       <br />

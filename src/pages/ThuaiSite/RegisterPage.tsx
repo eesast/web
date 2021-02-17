@@ -112,7 +112,7 @@ const SignPage: React.FC = () => {
                   <TextArea placeholder="输入队伍简介" rows={6} />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                  <Link to="/home"> 加入队伍</Link>
+                  <Link to="/thuai/join"> 加入队伍</Link>
                 </Form.Item>
                 <Form.Item {...headLayout}>
                   <Button type="primary" htmlType="submit">
