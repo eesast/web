@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react"; //, { useEffect } from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton
 import { Layout, message } from "antd";
 import { Link } from "react-router-dom";
@@ -32,15 +32,15 @@ const SignPage: React.FC = () => {
     InsertThuai,
     InsertThuaiVariables
   >(INSERT_THUAI);
-  useEffect(() => {
-    if (insertError) {
-      message.error("创建失败,可能队名重复或网络问题");
-    }
-    // else
-    // {
-    //   message.success("创建成功");
-    // }
-  }, [insertError]);
+  // useEffect(() => {
+  //   if (insertError) {
+
+  //   }
+  //   // else
+  //   // {
+  //   //   message.success("创建成功");
+  //   // }
+  // }, [insertError]);
 
   const onFinish = async () => {
     const values = await form.getFieldsValue(); //表单里的信息？#ques
@@ -54,7 +54,7 @@ const SignPage: React.FC = () => {
         },
       });
     } catch (e) {
-      form.resetFields();
+      message.error("创建失败,可能队名重复或网络问题");
     } finally {
       if (!insertError) {
         message.success("创建成功");
