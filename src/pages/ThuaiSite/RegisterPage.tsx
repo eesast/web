@@ -55,9 +55,12 @@ const SignPage: React.FC = () => {
       });
     } catch (e) {
       form.resetFields();
+    } finally {
+      if (!insertError) {
+        message.success("创建成功");
+        form.resetFields();
+      }
     }
-    message.success("创建成功");
-    form.resetFields();
   };
 
   const onFinishFailed = (errorInfo: any) => {
