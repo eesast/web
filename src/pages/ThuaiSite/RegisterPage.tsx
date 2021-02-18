@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
 import { InsertThuai, InsertThuaiVariables } from "../../api/types";
 import { InsertThuai as INSERT_THUAI } from "../../api/thuai.graphql";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
+import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
+import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
+import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
 const { Content } = Layout;
 const { TextArea } = Input;
 
@@ -26,6 +30,22 @@ function randomString() {
 //alert(randomString(6));
 const SignPage: React.FC = () => {
   const userInfo = getUserInfo();
+  const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
+    ISTEAMLEADER,
+    {
+      variables: {
+        _id: userInfo?._id!,
+      },
+    }
+  );
+  const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
+    ISTEAMMEMBER,
+    {
+      variables: {
+        _id: userInfo?._id!,
+      },
+    }
+  );
   const InviteCode = randomString();
   const [form] = Form.useForm(); //获取表单信息？#ques
   const [insertThuai, { error: insertError }] = useMutation<
@@ -115,7 +135,14 @@ const SignPage: React.FC = () => {
                   <Link to="/thuai/join"> 加入队伍</Link>
                 </Form.Item>
                 <Form.Item {...headLayout}>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={
+                      isleaderData?.user[0].team_as_leader.length !== 0 ||
+                      ismemberData?.user[0].team_as_member.length !== 0
+                    }
+                  >
                     创建队伍
                   </Button>
                 </Form.Item>
