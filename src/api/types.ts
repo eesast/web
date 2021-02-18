@@ -2048,6 +2048,48 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: IsLeaderMember
+// ====================================================
+
+export interface IsLeaderMember_user_team_as_leader {
+  __typename: "thuai";
+  team_id: any;
+}
+
+export interface IsLeaderMember_user_team_as_member {
+  __typename: "team_member";
+  team_id: any;
+}
+
+export interface IsLeaderMember_user {
+  __typename: "user";
+  /**
+   * An array relationship
+   */
+  team_as_leader: IsLeaderMember_user_team_as_leader[];
+  /**
+   * An array relationship
+   */
+  team_as_member: IsLeaderMember_user_team_as_member[];
+}
+
+export interface IsLeaderMember {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: IsLeaderMember_user[];
+}
+
+export interface IsLeaderMemberVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetTeamInfo
 // ====================================================
 
@@ -2125,6 +2167,7 @@ export interface GetAllTeamInfo_thuai_user {
 
 export interface GetAllTeamInfo_thuai {
   __typename: "thuai";
+  team_id: any;
   team_name: string;
   team_sum: string;
   /**
@@ -2142,6 +2185,35 @@ export interface GetAllTeamInfo {
    * fetch data from the table: "thuai"
    */
   thuai: GetAllTeamInfo_thuai[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertTeamMember
+// ====================================================
+
+export interface InsertTeamMember_insert_team_member {
+  __typename: "team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertTeamMember {
+  /**
+   * insert data into the table: "team_member"
+   */
+  insert_team_member: InsertTeamMember_insert_team_member | null;
+}
+
+export interface InsertTeamMemberVariables {
+  team_id: any;
+  user_id: string;
 }
 
 /* tslint:disable */

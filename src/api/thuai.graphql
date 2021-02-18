@@ -62,6 +62,7 @@ query GetTeamInfo($team_id: uuid!) {
 #获取全部team信息
 query GetAllTeamInfo {
   thuai {
+    team_id
     team_name
     team_sum
     team_members {
@@ -72,5 +73,11 @@ query GetAllTeamInfo {
     user {
       name
     }
+  }
+}
+#插入队员
+mutation InsertTeamMember($team_id: uuid!, $user_id: String!) {
+  insert_team_member(objects: {team_id: $team_id, user_id: $user_id}) {
+    affected_rows
   }
 }

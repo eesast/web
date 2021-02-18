@@ -7,7 +7,10 @@ import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
 import { GetAllTeamInfo_thuai, GetAllTeamInfo } from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/thuai.graphql";
-import { useQuery } from "@apollo/client";
+//插入队员
+import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
+import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/thuai.graphql";
+import { useMutation, useQuery } from "@apollo/client";
 import type { TableProps } from "antd/lib/table";
 const { Content } = Layout;
 const JoinPage: React.FC = () => {
@@ -33,6 +36,8 @@ const JoinPage: React.FC = () => {
       },
     }
   );
+
+  //console.log(ismemberData);
   // useEffect(() => {
   //   setisleader = (!!isleaderData);
   // }, [isleaderData]);
@@ -54,7 +59,32 @@ const JoinPage: React.FC = () => {
       message.error("队伍列表加载失败");
     }
   }, [teamListError]);
-  console.log(teamListData);
+  console.log(isleaderData);
+  console.log(ismemberData);
+  // console.log(teamListData);
+  /***************队员插入****************/
+  const [insertteamMember, { error: insertError }] = useMutation<
+    InsertTeamMember,
+    InsertTeamMemberVariables
+  >(INSERTTEAMMEMBER);
+  const onclick = async (record: GetAllTeamInfo_thuai) => {
+    //const values = await form.getFieldsValue(); //表单里的信息？#ques
+    //console.log(values);
+    try {
+      await insertteamMember({
+        variables: {
+          team_id: record.team_id,
+          user_id: userInfo?._id!!,
+        },
+      });
+    } catch (e) {
+      message.error("加入失败");
+    } finally {
+      if (!insertError) {
+        message.success("加入成功");
+      }
+    }
+  };
   const teamListColumns: TableProps<GetAllTeamInfo_thuai>["columns"] = [
     {
       title: "队名",
@@ -84,8 +114,13 @@ const JoinPage: React.FC = () => {
         <Row justify="space-around">
           <Col span={8}>
             <Button
-              //onClick={() => {}}
-              disabled={!!ismemberData && !!isleaderData}
+              type="primary"
+              onClick={() => onclick(record)}
+              //onClick={() => console.log(ismemberData?.user[0].team_as_member === null)}
+              disabled={
+                isleaderData?.user[0].team_as_leader.length !== 0 ||
+                ismemberData?.user[0].team_as_member.length !== 0
+              }
             >
               加入
             </Button>
