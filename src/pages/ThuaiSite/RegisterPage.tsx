@@ -1,8 +1,9 @@
-import React from "react"; //, { useEffect } from "react";
+import React from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton
 import { Layout, message } from "antd";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
+//graphql的语句由Apollo生成ts句柄，在此import
 import { InsertThuai, InsertThuaiVariables } from "../../api/types";
 import { InsertThuai as INSERT_THUAI } from "../../api/thuai.graphql";
 import { useMutation, useQuery } from "@apollo/client";
@@ -10,15 +11,17 @@ import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
+
 const { Content } = Layout;
 const { TextArea } = Input;
-
+//css
 const tailLayout = {
   wrapperCol: { offset: 20, span: 4 },
 };
 const headLayout = {
   wrapperCol: { offset: 10, span: 4 },
 };
+//生成邀请码，8位
 function randomString() {
   var e = 8;
   var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
@@ -28,8 +31,10 @@ function randomString() {
   return n;
 }
 //alert(randomString(6));
-const SignPage: React.FC = () => {
+const RegisterPage: React.FC = () => {
+  //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
+  //查询语句
   const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
     ISTEAMLEADER,
     {
@@ -47,28 +52,20 @@ const SignPage: React.FC = () => {
     }
   );
   const InviteCode = randomString();
-  const [form] = Form.useForm(); //获取表单信息？#ques
+  //获取表单信息#form为表单名字
+  const [form] = Form.useForm();
   const [insertThuai, { error: insertError }] = useMutation<
     InsertThuai,
     InsertThuaiVariables
   >(INSERT_THUAI);
-  // useEffect(() => {
-  //   if (insertError) {
-
-  //   }
-  //   // else
-  //   // {
-  //   //   message.success("创建成功");
-  //   // }
-  // }, [insertError]);
-
+  //函数组件
   const onFinish = async () => {
-    const values = await form.getFieldsValue(); //表单里的信息？#ques
+    const values = await form.getFieldsValue(); //form表单里的信息
     console.log(values);
     try {
       await insertThuai({
         variables: {
-          ...values,
+          ...values, //剩余参数
           team_leader: userInfo?._id!,
           invited_code: InviteCode!,
         },
@@ -82,7 +79,6 @@ const SignPage: React.FC = () => {
       }
     }
   };
-
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
@@ -106,7 +102,7 @@ const SignPage: React.FC = () => {
             <Content>
               <Form
                 name="form"
-                form={form}
+                form={form} //表单名字绑定
                 layout="vertical"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
@@ -154,4 +150,4 @@ const SignPage: React.FC = () => {
     </Layout>
   );
 };
-export default SignPage;
+export default RegisterPage;

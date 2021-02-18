@@ -81,3 +81,9 @@ mutation InsertTeamMember($team_id: uuid!, $user_id: String!) {
     affected_rows
   }
 }
+
+query GetIntroContent($id: Int!) {
+  article(where: {id: {_eq: $id}}) {
+    content
+  }
+}
