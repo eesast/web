@@ -2102,6 +2102,54 @@ export interface GetTeamInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetAllTeamInfo
+// ====================================================
+
+export interface GetAllTeamInfo_thuai_team_members_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetAllTeamInfo_thuai_team_members {
+  __typename: "team_member";
+  /**
+   * An object relationship
+   */
+  user: GetAllTeamInfo_thuai_team_members_user;
+}
+
+export interface GetAllTeamInfo_thuai_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetAllTeamInfo_thuai {
+  __typename: "thuai";
+  team_name: string;
+  team_sum: string;
+  /**
+   * An array relationship
+   */
+  team_members: GetAllTeamInfo_thuai_team_members[];
+  /**
+   * An object relationship
+   */
+  user: GetAllTeamInfo_thuai_user | null;
+}
+
+export interface GetAllTeamInfo {
+  /**
+   * fetch data from the table: "thuai"
+   */
+  thuai: GetAllTeamInfo_thuai[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 

@@ -32,11 +32,36 @@ query IsTeamMember($_id: String!) {
     }
   }
 }
+query IsLeaderMember($_id: String!) {
+  user(where: {_id: {_eq: $_id}}) {
+    team_as_leader {
+      team_id
+    }
+    team_as_member {
+      team_id
+    }
+  }
+}
 # 借由team_id获取team的所有信息
 query GetTeamInfo($team_id: uuid!) {
   thuai(where: {team_id: {_eq: $team_id}}) {
     invited_code
     team_leader
+    team_name
+    team_sum
+    team_members {
+      user {
+        name
+      }
+    }
+    user {
+      name
+    }
+  }
+}
+#获取全部team信息
+query GetAllTeamInfo {
+  thuai {
     team_name
     team_sum
     team_members {
