@@ -99,9 +99,10 @@ const AidApplicationPage = () => {
   }, [applicationError]);
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetAidApplications_aid_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetAidApplications_aid_application>();
 
   const [form] = Form.useForm();
 
@@ -262,9 +263,7 @@ const AidApplicationPage = () => {
     },
   });
 
-  const aidColumnsForCounselor: TableProps<
-    GetAidApplicationsForCounselors_aid_application
-  >["columns"] = [
+  const aidColumnsForCounselor: TableProps<GetAidApplicationsForCounselors_aid_application>["columns"] = [
     {
       title: "学号",
       dataIndex: ["student", "id"],

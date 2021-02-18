@@ -63,9 +63,10 @@ const MentorChatPage = () => {
     [approvedApplicationsData?.mentor_application]
   );
 
-  const [selectedStudent, setSelectedStudent] = useState<
-    GetApprovedMentorApplications_mentor_application_student
-  >();
+  const [
+    selectedStudent,
+    setSelectedStudent,
+  ] = useState<GetApprovedMentorApplications_mentor_application_student>();
 
   useEffect(() => {
     if (
