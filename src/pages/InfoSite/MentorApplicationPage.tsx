@@ -1,54 +1,74 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
-  Typography,
-  Timeline,
-  Space,
-  List,
-  Descriptions,
   Badge,
-  message,
   Button,
-  Switch,
-  Modal,
+  Col,
+  Descriptions,
   Form,
-  Table,
   Input,
+  List,
+  message,
+  Modal,
+  notification,
+  Progress,
+  Row,
+  Space,
+  Switch,
+  Table,
+  Timeline,
+  Tooltip,
+  Typography,
 } from "antd";
-import { useQuery, useMutation } from "@apollo/client";
 import {
-  GetMentorApplications as GET_MENTOR_APPLICATIONS,
-  GetMentorAvailable as GET_MENTOR_AVAILABLE,
-  ChangeMentorAvailable as CHANGE_MENTOR_AVAILABLE,
-  UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
+  useQuery,
+  useMutation,
+  useApolloClient,
+  useLazyQuery,
+} from "@apollo/client";
+import {
   AddMentorApplication as ADD_MENTOR_APPLICATION,
-  UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
-  GetMentorList as GET_MENTOR_LIST,
+  ChangeMentorAvailable as CHANGE_MENTOR_AVAILABLE,
+  GetMentorApplications as GET_MENTOR_APPLICATIONS,
   GetMentorApplicationsForCounselors as GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
+  GetMentorAvailable as GET_MENTOR_AVAILABLE,
+  GetMentorList as GET_MENTOR_LIST,
+  UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
+  UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
+  UpsertMentorInfo as UPSERT_MENTOR_INFO,
+  GetMentorInfo as GET_MENTOR_INFO,
 } from "../../api/info_mentor.graphql";
+import { GetUserByName as GET_USER_BY_NAME } from "../../api/user.graphql";
 import {
-  GetMentorApplications,
-  GetMentorAvailable,
-  ChangeMentorAvailable,
-  UpdateMentorApplicationStatus,
-  GetMentorApplicationsVariables,
-  ChangeMentorAvailableVariables,
-  GetMentorAvailableVariables,
-  UpdateMentorApplicationStatusVariables,
-  GetMentorApplications_mentor_application,
   AddMentorApplication,
-  UpdateMentorApplication,
   AddMentorApplicationVariables,
-  UpdateMentorApplicationVariables,
-  GetMentorList,
-  GetMentorList_user_by_role,
+  ChangeMentorAvailable,
+  ChangeMentorAvailableVariables,
+  GetMentorApplications_mentor_application,
+  GetMentorApplications,
   GetMentorApplicationsForCounselors,
+  GetMentorApplicationsVariables,
+  GetMentorAvailable,
+  GetMentorAvailableVariables,
+  GetMentorList_user_by_role,
+  GetMentorList,
+  GetUserByName,
+  GetUserByNameVariables,
+  UpdateMentorApplication,
+  UpdateMentorApplicationStatus,
+  UpdateMentorApplicationStatusVariables,
+  UpdateMentorApplicationVariables,
+  UpsertMentorInfo,
+  UpsertMentorInfoVariables,
+  GetMentorInfo,
+  GetMentorInfoVariables,
 } from "../../api/types";
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
-import { SearchOutlined } from "@ant-design/icons";
+import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import { getStatusText } from "../../helpers/application";
 import { getUserInfo } from "../../helpers/auth";
+import { pick } from "../../helpers/utils";
 
 const { Text } = Typography;
 
@@ -77,7 +97,7 @@ const MentorApplicationPage = () => {
   } = useQuery<GetMentorApplicationsForCounselors>(
     GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
     {
-      skip: userInfo?.role !== "counselor",
+      skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
     }
   );
 
@@ -162,9 +182,10 @@ const MentorApplicationPage = () => {
   };
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetMentorApplications_mentor_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetMentorApplications_mentor_application>();
   const [form] = Form.useForm();
 
   const [
@@ -327,13 +348,12 @@ const MentorApplicationPage = () => {
     },
   });
 
-  const [selectedMentor, setSelectedMentor] = useState<
-    GetMentorList_user_by_role
-  >();
+  const [
+    selectedMentor,
+    setSelectedMentor,
+  ] = useState<GetMentorList_user_by_role>();
 
-  const mentorListColumnsForStudents: TableProps<
-    GetMentorList_user_by_role
-  >["columns"] = [
+  const mentorListColumnsForStudents: TableProps<GetMentorList_user_by_role>["columns"] = [
     {
       title: "姓名",
       dataIndex: "name",
@@ -372,36 +392,54 @@ const MentorApplicationPage = () => {
       title: "操作",
       key: "action",
       render: (text, record) => (
-        <Button
-          onClick={() => {
-            form.setFieldsValue({ mentor: record });
-            setSelectedMentor(record);
-            setModalVisible(true);
-          }}
-          disabled={
-            (applicationData &&
-              applicationData.mentor_application.length !== 0 &&
-              (applicationData.mentor_application.filter(
-                (i) => i.status === "approved"
-              ).length === 1 ||
-                applicationData.mentor_application.filter(
-                  (i) => i.status === "submitted"
-                ).length === 1 ||
-                applicationData.mentor_application.filter(
-                  (i) => i.status === "rejected"
-                ).length > 1)) ||
-            !(record.user?.mentor_available?.available ?? true)
-          }
-        >
-          申请
-        </Button>
+        <Row justify="space-around">
+          <Col span={8}>
+            <Button
+              onClick={() => {
+                form.setFieldsValue({ mentor: record });
+                setSelectedMentor(record);
+                setModalVisible(true);
+                notification.open({
+                  message: "申请提醒",
+                  description:
+                    "部分老师可能已经离开清华，请再三确认您将申请这位老师",
+                });
+              }}
+              disabled={
+                (applicationData &&
+                  applicationData.mentor_application.length !== 0 &&
+                  (applicationData.mentor_application.filter(
+                    (i) => i.status === "approved"
+                  ).length === 1 ||
+                    applicationData.mentor_application.filter(
+                      (i) => i.status === "submitted"
+                    ).length === 1 ||
+                    applicationData.mentor_application.filter(
+                      (i) => i.status === "rejected"
+                    ).length > 1)) ||
+                !(record.user?.mentor_available?.available ?? true)
+              }
+            >
+              申请
+            </Button>
+          </Col>
+          <Col span={8}>
+            <Button
+              onClick={() => {
+                getMentorInfo({ variables: { mentor_id: record._id } });
+                setShowMentorInfo(true);
+              }}
+            >
+              查看信息
+            </Button>
+          </Col>
+          <Col span={8}></Col>
+        </Row>
       ),
     },
   ];
 
-  const mentorListColumnsForCounselors: TableProps<
-    GetMentorList_user_by_role
-  >["columns"] = [
+  const mentorListColumnsForCounselors: TableProps<GetMentorList_user_by_role>["columns"] = [
     {
       title: "姓名",
       dataIndex: "name",
@@ -463,6 +501,22 @@ const MentorApplicationPage = () => {
       render: (text, record) =>
         record.user?.mentor_available?.available ?? true ? "是" : "否",
     },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <>
+          <Button
+            onClick={() => {
+              getMentorInfo({ variables: { mentor_id: record._id } });
+              setShowMentorInfo(true);
+            }}
+          >
+            查看信息
+          </Button>
+        </>
+      ),
+    },
   ];
 
   const [exporting, setExporting] = useState(false);
@@ -510,6 +564,123 @@ const MentorApplicationPage = () => {
     }
   };
 
+  const [importing, setImporting] = useState(false);
+  const [importFormVisible, setImportFormVisible] = useState(false);
+  const [fileList, setFileList] = useState<FileList | null>(null);
+  const [parseProgress, setParseProgress] = useState(0);
+
+  const client = useApolloClient();
+
+  const handleImport = async () => {
+    if (!fileList || fileList.length !== 1) {
+      message.info("请选择文件");
+      return;
+    }
+    const file = fileList[0];
+    setImporting(true);
+
+    const Xlsx = await import("xlsx");
+
+    try {
+      const reader = new FileReader();
+      const data = await new Promise<ArrayBuffer>((resolve, reject) => {
+        reader.onerror = () => {
+          reader.abort();
+          reject();
+        };
+
+        reader.onload = () => {
+          resolve(reader.result as ArrayBuffer);
+        };
+
+        reader.readAsBinaryString(file);
+      });
+      const workbook = Xlsx.read(data, { type: "binary" });
+      const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+      const mentorInfos = (Xlsx.utils.sheet_to_json(firstWorksheet, {
+        header: 1,
+      }) as (string | number)[][]).filter((i) => i.length !== 0);
+      const head = mentorInfos.shift();
+      if (!head || head.length < 5) {
+        throw new Error("Parse error");
+      }
+
+      let count = 0;
+      await Promise.all(
+        mentorInfos.map(async (info) => {
+          try {
+            const name = info[0].toString();
+            const intro = info[1].toString();
+            const background = info[2].toString();
+            const field = info[3].toString();
+            const achievement = info[4].toString();
+
+            console.log(`try get user`);
+
+            const { data } = await client.query<
+              GetUserByName,
+              GetUserByNameVariables
+            >({
+              query: GET_USER_BY_NAME,
+              variables: {
+                name: name,
+              },
+            });
+
+            console.log(`get user ${data}`);
+
+            // _id in database
+            const id = data.user[0]._id;
+
+            const { errors } = await client.mutate<
+              UpsertMentorInfo,
+              UpsertMentorInfoVariables
+            >({
+              mutation: UPSERT_MENTOR_INFO,
+              variables: {
+                mentor_id: id,
+                intro,
+                background,
+                field,
+                achievement,
+              },
+            });
+
+            console.log(`upsert ${errors}`);
+
+            count++;
+            setParseProgress(Math.round((count / mentorInfos.length) * 100));
+
+            if (errors) {
+              throw errors;
+            }
+          } catch (err) {
+            throw err;
+          }
+        })
+      );
+    } catch (err) {
+      message.error("文件解析失败：" + err);
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  const [
+    getMentorInfo,
+    { data: mentorInfoData, refetch: refetchMentorInfo },
+  ] = useLazyQuery<GetMentorInfo, GetMentorInfoVariables>(GET_MENTOR_INFO);
+  const [showMentorInfo, setShowMentorInfo] = useState(false);
+  const [showUpdateInfo, setShowUpdateInfo] = useState(false);
+  const [updateInfoForm] = Form.useForm();
+  const [
+    updateMentorInfo,
+    { loading: updateMentorInfoLoading, error: updateMentorInfoError },
+  ] = useMutation<UpsertMentorInfo, UpsertMentorInfoVariables>(
+    UPSERT_MENTOR_INFO
+  );
+
   return (
     <Space
       direction="vertical"
@@ -519,17 +690,27 @@ const MentorApplicationPage = () => {
     >
       <Typography.Title level={2}>关键时间点</Typography.Title>
       <Timeline>
+        {userInfo?.role === "teacher" && (
+          <Timeline.Item color="blue">
+            <p>预备阶段：导师更新个人信息</p>
+            <p>2021-01-10 00:00 ~ 2021-01-17 23:59</p>
+          </Timeline.Item>
+        )}
+        <Timeline.Item color="green">
+          <p>预备阶段：学生了解导师信息</p>
+          <p>2021-01-18 00:00 ~ 2021-02-21 23:59</p>
+        </Timeline.Item>
         <Timeline.Item color="green">
           <p>第一阶段：自由申请与匹配</p>
-          <p>2019-09-04 00:00 ~ 2019-09-11 23:59</p>
+          <p>2021-02-22 00:00 ~ 2021-02-28 23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：未匹配同学补选</p>
-          <p>2019-09-12 00:00 ~ 2019-09-16 23:59</p>
+          <p>2021-03-01 00:00 ~ 2021-03-04 23:59</p>
         </Timeline.Item>
-        <Timeline.Item color="green">
+        <Timeline.Item color="red">
           <p>第三阶段：系统随机分配</p>
-          <p>2019-09-17 00:00 ~ 2019-09-22 23:59</p>
+          <p>2021-03-05 00:00 ~ 2021-03-11 23:59</p>
         </Timeline.Item>
       </Timeline>
       {userInfo?.role === "student" && (
@@ -596,15 +777,31 @@ const MentorApplicationPage = () => {
       )}
       {userInfo?.role === "teacher" && (
         <>
-          <Switch
-            loading={mentorAvailableLoading || changeMentorAvailableLoading}
-            checkedChildren="正在接收申请"
-            unCheckedChildren="停止接收申请"
-            checked={
-              mentorAvailableData?.mentor_available?.[0]?.available ?? true
-            }
-            onChange={handleMentorAvailableChange}
-          />
+          <Row align="middle">
+            <Col span={4}>
+              <Switch
+                loading={mentorAvailableLoading || changeMentorAvailableLoading}
+                checkedChildren="正在接收申请"
+                unCheckedChildren="停止接收申请"
+                checked={
+                  mentorAvailableData?.mentor_available?.[0]?.available ?? true
+                }
+                onChange={handleMentorAvailableChange}
+              />
+            </Col>
+            <Col span={4}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  getMentorInfo({ variables: { mentor_id: userInfo._id } });
+                  setShowMentorInfo(true);
+                }}
+              >
+                查看我的信息
+              </Button>
+            </Col>
+          </Row>
+
           <List
             loading={applicationLoading}
             dataSource={applicationData?.mentor_application}
@@ -674,7 +871,9 @@ const MentorApplicationPage = () => {
           <Table
             rowKey="_id"
             loading={mentorListLoading}
-            dataSource={mentorList?.user_by_role}
+            dataSource={mentorList?.user_by_role.filter(
+              (item) => item.user?.mentor_available?.available !== false
+            )}
             columns={mentorListColumnsForStudents}
           />
           <Modal
@@ -722,20 +921,199 @@ const MentorApplicationPage = () => {
       {userInfo?.role === "counselor" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
-          <Button
-            onClick={handleExport}
-            loading={exporting}
-            disabled={applicationForCounselorsLoading}
-          >
-            导出申请
-          </Button>
+          <Row>
+            <Col span={3}>
+              <Button
+                onClick={handleExport}
+                loading={exporting}
+                disabled={applicationForCounselorsLoading}
+              >
+                导出申请
+              </Button>
+            </Col>
+            <Col span={3}>
+              <Button
+                onClick={() => setImportFormVisible(true)}
+                loading={importing}
+                disabled={applicationForCounselorsLoading}
+              >
+                导入信息
+              </Button>
+            </Col>
+          </Row>
+
           <Table
             loading={mentorListLoading}
-            dataSource={mentorList?.user_by_role}
+            dataSource={mentorList?.user_by_role.filter(
+              (item) => item.user?.mentor_available?.available !== false
+            )}
             columns={mentorListColumnsForCounselors}
           />
+          <Modal
+            visible={importFormVisible}
+            title="导入导师信息"
+            centered
+            onOk={handleImport}
+            onCancel={() => setImportFormVisible(false)}
+            maskClosable={false}
+            confirmLoading={importing}
+            okText="导入"
+          >
+            <Typography.Paragraph>
+              上传 Excel 文件以更新申请状态。Excel
+              的格式应为：导师姓名、简要信息、教育背景、研究领域、学术成果
+            </Typography.Paragraph>
+            <div
+              css={`
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+              `}
+            >
+              <input
+                id="upload-file"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                type="file"
+                name="file"
+                onChange={(e) => setFileList(e.target.files)}
+              />
+              <label htmlFor="upload-file"></label>
+              {parseProgress > 0 && (
+                <Progress
+                  type="circle"
+                  percent={parseProgress}
+                  status="active"
+                />
+              )}
+            </div>
+          </Modal>
         </>
       )}
+      <Modal
+        visible={showMentorInfo}
+        title="导师信息"
+        centered
+        destroyOnClose
+        onCancel={() => {
+          setShowMentorInfo(false);
+        }}
+        footer={null}
+        width="70%"
+      >
+        <Descriptions
+          title={
+            mentorInfoData?.mentor_info_by_pk
+              ? `${mentorInfoData?.mentor_info_by_pk?.user.name}的信息`
+              : "老师信息未记录于数据库中"
+          }
+          column={1}
+          extra={
+            ["teacher", "counselor"].includes(userInfo?.role!) ? (
+              <Tooltip title="更新信息">
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    setShowUpdateInfo(true);
+                    setShowMentorInfo(false);
+                    updateInfoForm.setFields([
+                      {
+                        name: "intro",
+                        value: mentorInfoData?.mentor_info_by_pk?.intro,
+                      },
+                      {
+                        name: "background",
+                        value: mentorInfoData?.mentor_info_by_pk?.background,
+                      },
+                      {
+                        name: "field",
+                        value: mentorInfoData?.mentor_info_by_pk?.field,
+                      },
+                      {
+                        name: "achievement",
+                        value: mentorInfoData?.mentor_info_by_pk?.achievement,
+                      },
+                    ]);
+                  }}
+                  shape="circle"
+                  icon={<EditOutlined />}
+                />
+              </Tooltip>
+            ) : (
+              <></>
+            )
+          }
+        >
+          <Descriptions.Item label="基本信息">
+            {mentorInfoData?.mentor_info_by_pk?.intro}
+          </Descriptions.Item>
+          <Descriptions.Item label="教育背景">
+            {mentorInfoData?.mentor_info_by_pk?.background}
+          </Descriptions.Item>
+          <Descriptions.Item label="研究领域">
+            {mentorInfoData?.mentor_info_by_pk?.field}
+          </Descriptions.Item>
+          <Descriptions.Item label="学术成果">
+            {mentorInfoData?.mentor_info_by_pk?.achievement}
+          </Descriptions.Item>
+        </Descriptions>
+      </Modal>
+      <Modal
+        visible={showUpdateInfo}
+        title={`更新${mentorInfoData?.mentor_info_by_pk?.user.name}信息`}
+        centered
+        destroyOnClose
+        onCancel={() => {
+          setShowUpdateInfo(false);
+        }}
+        okText="更新"
+        confirmLoading={updateMentorInfoLoading}
+        cancelText="取消"
+        onOk={async () => {
+          try {
+            const values = await updateInfoForm
+              .validateFields()
+              .catch((info) => message.error(`表单验证失败`));
+            await updateMentorInfo({
+              variables: {
+                ...pick(values, [
+                  "intro",
+                  "background",
+                  "field",
+                  "achievement",
+                ]),
+                mentor_id:
+                  mentorInfoData?.mentor_info_by_pk?.mentor_id! ||
+                  userInfo?._id!,
+              },
+            });
+            message.info(`信息更新成功`);
+            await refetchMentorInfo!();
+          } catch (error) {
+            message.error(`信息更新失败：${updateMentorInfoError}`);
+          }
+        }}
+        width="70%"
+      >
+        <Form form={updateInfoForm} layout="vertical" name="updateInfoForm">
+          <Form.Item
+            name="intro"
+            label="基本信息"
+            rules={[{ required: true, message: "请输入导师的基本信息" }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="background" label="教育背景">
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="field" label="研究领域">
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item name="achievement" label="学术成果">
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Space>
   );
 };

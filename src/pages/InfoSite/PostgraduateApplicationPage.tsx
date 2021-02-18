@@ -5,19 +5,19 @@ import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
   VerifyPostgraduateApplication as VERIFY_POSTGRADUATE_APPLICATION,
   DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
-  GetPostgraudateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
+  GetPostgraduateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
   GetPostAppHistory as GET_POST_APP_HISTORY,
   SetPostAppHistory as SET_POST_APP_HISTORY,
 } from "../../api/postgraduate.graphql";
 import {
-  GetPostgraudateApplicationFeeds_postgraduate_application as applicationInfo,
+  GetPostgraduateApplicationFeeds_postgraduate_application as applicationInfo,
   GetPostAppHistory_postgraduate_application_history as applicationHistory,
   VerifyPostgraduateApplication,
   VerifyPostgraduateApplicationVariables,
   DeletePostgraduateApplication,
   DeletePostgraduateApplicationVariables,
-  GetPostgraudateApplicationFeeds,
-  GetPostgraudateApplicationFeedsVariables,
+  GetPostgraduateApplicationFeeds,
+  GetPostgraduateApplicationFeedsVariables,
   GetPostAppHistory,
   GetPostAppHistoryVariables,
   SetPostAppHistory,
@@ -49,8 +49,8 @@ const PostgraduateApplicationPage: React.FC = () => {
   >(SET_POST_APP_HISTORY);
 
   const { data, loading, error, refetch: refetchFeeds } = useQuery<
-    GetPostgraudateApplicationFeeds,
-    GetPostgraudateApplicationFeedsVariables
+    GetPostgraduateApplicationFeeds,
+    GetPostgraduateApplicationFeedsVariables
   >(GET_POSTGRADUATE_APPLICATON_FEEDS, {
     variables: { limit: pageSize, offset: offset },
   });

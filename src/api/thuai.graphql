@@ -1,0 +1,51 @@
+
+
+query GetTeamName {
+  thuai {
+    team_name
+  }
+}
+mutation InsertThuai($team_name: String!, $team_sum: String!, $team_leader: String!, $invited_code: String!) {
+  insert_thuai(objects: {team_name: $team_name, team_sum: $team_sum, team_leader: $team_leader, invited_code: $invited_code}) {
+    # returning {
+    #   team_id
+    #   team_name
+    #   team_sum
+    #   team_leader
+    # }
+    affected_rows
+  }
+}
+# 判断是否是leader返回id
+query IsTeamLeader($_id: String!) {
+  user(where: {_id: {_eq: $_id}}) {
+    team_as_leader {
+      team_id
+    }
+  }
+}
+# 判断是否是member返回id
+query IsTeamMember($_id: String!) {
+  user(where: {_id: {_eq: $_id}}) {
+    team_as_member {
+      team_id
+    }
+  }
+}
+# 借由team_id获取team的所有信息
+query GetTeamInfo($team_id: uuid!) {
+  thuai(where: {team_id: {_eq: $team_id}}) {
+    invited_code
+    team_leader
+    team_name
+    team_sum
+    team_members {
+      user {
+        name
+      }
+    }
+    user {
+      name
+    }
+  }
+}
