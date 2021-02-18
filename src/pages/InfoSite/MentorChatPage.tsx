@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
   GetApprovedMentorApplications as GET_APPROVED_MENTOR_APPLICATIONS,
   SubscribeToMessages as SUBSCRIBE_TO_MESSAGES,
@@ -57,12 +57,16 @@ const MentorChatPage = () => {
   }, [approvedApplicationsError]);
 
   const mentor = approvedApplicationsData?.mentor_application?.[0]?.mentor;
-  const students =
-    approvedApplicationsData?.mentor_application.map((i) => i.student) ?? [];
+  const students = useMemo(
+    () =>
+      approvedApplicationsData?.mentor_application.map((i) => i.student) ?? [],
+    [approvedApplicationsData?.mentor_application]
+  );
 
-  const [selectedStudent, setSelectedStudent] = useState<
-    GetApprovedMentorApplications_mentor_application_student
-  >();
+  const [
+    selectedStudent,
+    setSelectedStudent,
+  ] = useState<GetApprovedMentorApplications_mentor_application_student>();
 
   useEffect(() => {
     if (

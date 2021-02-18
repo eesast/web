@@ -28,6 +28,8 @@ import {
   DeleteScholarshipApplicationVariables,
   AddScholarshipApplication,
   AddScholarshipApplicationVariables,
+  GetUserById,
+  GetUserByIdVariables,
 } from "../../api/types";
 import {
   GetScholarshipApplications as GET_SCHOLARSHIP_APPLICATIONS,
@@ -36,6 +38,7 @@ import {
   GetScholarshipApplicationsForCounselors as GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
   AddScholarshipApplication as ADD_SCHOLARSHIP_APPLICATION,
 } from "../../api/info_scholarship.graphql";
+import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
 import { honors, scholarships } from "../../configs";
 import { generateThankLetter } from "../../helpers/application";
@@ -104,9 +107,10 @@ const ScholarshipApplicationPage = () => {
   }, [applicationError]);
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetScholarshipApplications_scholarship_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetScholarshipApplications_scholarship_application>();
 
   const [form] = Form.useForm();
 
@@ -268,9 +272,7 @@ const ScholarshipApplicationPage = () => {
     },
   });
 
-  const scholarshipColumnsForCounselor: TableProps<
-    GetScholarshipApplicationsForCounselors_scholarship_application
-  >["columns"] = [
+  const scholarshipColumnsForCounselor: TableProps<GetScholarshipApplicationsForCounselors_scholarship_application>["columns"] = [
     {
       title: "学号",
       dataIndex: ["student", "id"],
@@ -529,13 +531,26 @@ const ScholarshipApplicationPage = () => {
             const amount = parseInt(application[7].toString().trim(), 10);
             const honor = application[4].toString().trim();
 
+            const { data } = await client.query<
+              GetUserById,
+              GetUserByIdVariables
+            >({
+              query: GET_USER_BY_ID,
+              variables: {
+                id: student_id,
+              },
+            });
+
+            // _id in database
+            const id = data.user[0]._id;
+
             const { errors } = await client.mutate<
               AddScholarshipApplication,
               AddScholarshipApplicationVariables
             >({
               mutation: ADD_SCHOLARSHIP_APPLICATION,
               variables: {
-                student_id,
+                student_id: id,
                 scholarship,
                 honor,
                 amount,

@@ -101,9 +101,10 @@ const HonorApplicationPage = () => {
   }, [applicationError]);
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetHonorApplications_honor_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetHonorApplications_honor_application>();
 
   const [form] = Form.useForm();
 
@@ -330,9 +331,7 @@ const HonorApplicationPage = () => {
     }
   }, [updateApplicationStatusError]);
 
-  const honorColumnsForCounselor: TableProps<
-    GetHonorApplicationsForCounselors_honor_application
-  >["columns"] = [
+  const honorColumnsForCounselor: TableProps<GetHonorApplicationsForCounselors_honor_application>["columns"] = [
     {
       title: "学号",
       dataIndex: ["student", "id"],

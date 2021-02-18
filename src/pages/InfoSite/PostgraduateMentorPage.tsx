@@ -614,7 +614,16 @@ const PostgraduateMentorPage: React.FC = () => {
           >
             <Input placeholder="研究所名称，详细信息（研究方向）建议填写在下方“详细信息”处" />
           </Form.Item>
-          <Form.Item name="phd_quota" label="博士名额">
+          <Form.Item
+            name="phd_quota"
+            label="博士名额"
+            help={
+              <>
+                若已经确定<b>外校同学</b>
+                或者<b>存在教师间名额协商</b>，请在<b>详细信息</b>中注明
+              </>
+            }
+          >
             <InputNumber min={0} />
           </Form.Item>
           <Form.Item
