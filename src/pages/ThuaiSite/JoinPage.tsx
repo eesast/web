@@ -1,5 +1,16 @@
-import React, { useEffect } from "react";
-import { Table, Card, Row, Col, Layout, Button, message } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  Table,
+  Card,
+  Row,
+  Col,
+  Layout,
+  Button,
+  message,
+  Modal,
+  Form,
+  Input,
+} from "antd";
 import { getUserInfo } from "../../helpers/auth";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
@@ -65,6 +76,18 @@ const JoinPage: React.FC = () => {
       }
     }
   };
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  // const handleOk = () => {
+  //   setIsModalVisible(false);
+  // };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const teamListColumns: TableProps<GetAllTeamInfo_thuai>["columns"] = [
     {
       title: "队名",
@@ -95,8 +118,9 @@ const JoinPage: React.FC = () => {
           <Col span={8}>
             <Button
               type="primary"
+              onClick={showModal}
               //onClick+一个匿名函数
-              onClick={() => onclick(record)}
+              //onClick={() => onclick(record)}
               disabled={
                 isleaderData?.user[0].team_as_leader.length !== 0 ||
                 ismemberData?.user[0].team_as_member.length !== 0
@@ -104,6 +128,36 @@ const JoinPage: React.FC = () => {
             >
               加入
             </Button>
+            <Modal
+              title="邀请码"
+              visible={isModalVisible}
+              onOk={() => onclick(record)}
+              onCancel={handleCancel}
+            >
+              <Form
+                name="form"
+                //form={form} //表单名字绑定
+                // layout="vertical"
+                // initialValues={{ remember: true }}
+                // onFinish={onFinish}
+                // onFinishFailed={onFinishFailed}
+              >
+                <Form.Item
+                  name="invited_code"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the invite code!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="输入邀请码" />
+                </Form.Item>
+                {/* <Form.Item>
+              <Button type="primary" htmlType="submit" onClick={() => onclick(record)}>确定</Button>
+              </Form.Item> */}
+              </Form>
+            </Modal>
           </Col>
         </Row>
       ),
