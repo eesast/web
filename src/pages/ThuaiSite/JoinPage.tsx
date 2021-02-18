@@ -106,6 +106,7 @@ const JoinPage: React.FC = () => {
       title: "队伍简介",
       dataIndex: "team_sum",
       key: "team_sum",
+      ellipsis: true,
     },
     {
       title: "加入",
