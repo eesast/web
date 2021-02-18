@@ -4,12 +4,16 @@ import { Card } from "antd";
 import { GetTeamName as GET_TEAMNAME } from "../../api/thuai.graphql";
 import { GetTeamName } from "../../api/types";
 import { useQuery } from "@apollo/client";
+//import md2wx from "md2wx";
 const IntroPage = () => {
   const { data: nameData } = useQuery<GetTeamName>(GET_TEAMNAME);
   const team = nameData?.thuai[0].team_name;
   return (
     <Center>
       <Card title={team}>"baga"</Card>
+      {/* md2wx.renderHtml(
+          articleData?.update_article_public?.returning[0].content!
+      ) */}
     </Center>
   );
 };
