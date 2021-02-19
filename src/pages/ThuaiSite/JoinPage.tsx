@@ -61,15 +61,15 @@ const JoinPage: React.FC = () => {
     InsertTeamMemberVariables
   >(INSERTTEAMMEMBER);
   const [form] = Form.useForm();
-  const onclick = async (record: GetAllTeamInfo_thuai) => {
+  const onclick = async () => {
     const values = await form.getFieldValue("invited_code");
-    // console.log(values);
-    // console.log(record.invited_code);
-    if (record.invited_code === values) {
+    console.log(teamId);
+    console.log(inviteCode);
+    if (inviteCode === values) {
       try {
         await insertteamMember({
           variables: {
-            team_id: record.team_id,
+            team_id: teamId,
             user_id: userInfo?._id!!,
           },
         });
@@ -87,8 +87,14 @@ const JoinPage: React.FC = () => {
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const showModal = () => {
+  const [teamId, setTeamId] = useState<any>();
+  const [inviteCode, setInvite] = useState<string | null>();
+  const showModal = (record: GetAllTeamInfo_thuai) => {
     setIsModalVisible(true);
+    setTeamId(record.team_id);
+    setInvite(record.invited_code);
+    // console.log(teamId);
+    // console.log(inviteCode);
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -123,7 +129,7 @@ const JoinPage: React.FC = () => {
           <Col span={8}>
             <Button
               type="primary"
-              onClick={showModal}
+              onClick={() => showModal(record)}
               //onClick+一个匿名函数
               //onClick={() => onclick(record)}
               disabled={
@@ -136,7 +142,7 @@ const JoinPage: React.FC = () => {
             <Modal
               title="邀请码"
               visible={isModalVisible}
-              onOk={() => onclick(record)}
+              onOk={() => onclick()}
               onCancel={handleCancel}
             >
               <Form
