@@ -18,6 +18,8 @@ import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
 import { GetAllTeamInfo_thuai, GetAllTeamInfo } from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/thuai.graphql";
+import { GetMember, GetMemberVariables } from "../../api/types";
+import { GetMember as GETMEMBER } from "../../api/thuai.graphql";
 //插入队员
 import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
 import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/thuai.graphql";
@@ -26,6 +28,27 @@ import type { TableProps } from "antd/lib/table";
 const { Content } = Layout;
 const JoinPage: React.FC = () => {
   const userInfo = getUserInfo();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [teamId, setTeamId] = useState<any>();
+  const [inviteCode, setInvite] = useState<string | null>();
+  const { data: getmemberData } = useQuery<GetMember, GetMemberVariables>(
+    GETMEMBER,
+    {
+      variables: {
+        team_id: teamId,
+      },
+    }
+  );
+  const showModal = (record: GetAllTeamInfo_thuai) => {
+    setIsModalVisible(true);
+    setTeamId(record.team_id);
+    setInvite(record.invited_code);
+    // console.log(teamId);
+    // console.log(inviteCode);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
     ISTEAMLEADER,
     {
@@ -63,8 +86,8 @@ const JoinPage: React.FC = () => {
   const [form] = Form.useForm();
   const onclick = async () => {
     const values = await form.getFieldValue("invited_code");
-    console.log(teamId);
-    console.log(inviteCode);
+    // console.log(teamId);
+    // console.log(inviteCode);
     if (inviteCode === values) {
       try {
         await insertteamMember({
@@ -86,19 +109,6 @@ const JoinPage: React.FC = () => {
     }
   };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [teamId, setTeamId] = useState<any>();
-  const [inviteCode, setInvite] = useState<string | null>();
-  const showModal = (record: GetAllTeamInfo_thuai) => {
-    setIsModalVisible(true);
-    setTeamId(record.team_id);
-    setInvite(record.invited_code);
-    // console.log(teamId);
-    // console.log(inviteCode);
-  };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const teamListColumns: TableProps<GetAllTeamInfo_thuai>["columns"] = [
     {
       title: "队名",
@@ -134,7 +144,8 @@ const JoinPage: React.FC = () => {
               //onClick={() => onclick(record)}
               disabled={
                 isleaderData?.user[0].team_as_leader.length !== 0 ||
-                ismemberData?.user[0].team_as_member.length !== 0
+                ismemberData?.user[0].team_as_member.length !== 0 ||
+                getmemberData?.team_member.length === 3
               }
             >
               加入

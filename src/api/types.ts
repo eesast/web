@@ -1930,27 +1930,6 @@ export interface GetPostAppHistoryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetTeamName
-// ====================================================
-
-export interface GetTeamName_thuai {
-  __typename: "thuai";
-  team_name: string;
-}
-
-export interface GetTeamName {
-  /**
-   * fetch data from the table: "thuai"
-   */
-  thuai: GetTeamName_thuai[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: InsertThuai
 // ====================================================
 
@@ -2048,40 +2027,23 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: IsLeaderMember
+// GraphQL query operation: GetMember
 // ====================================================
 
-export interface IsLeaderMember_user_team_as_leader {
-  __typename: "thuai";
-  team_id: any;
-}
-
-export interface IsLeaderMember_user_team_as_member {
+export interface GetMember_team_member {
   __typename: "team_member";
+  user_id: string;
+}
+
+export interface GetMember {
+  /**
+   * fetch data from the table: "team_member"
+   */
+  team_member: GetMember_team_member[];
+}
+
+export interface GetMemberVariables {
   team_id: any;
-}
-
-export interface IsLeaderMember_user {
-  __typename: "user";
-  /**
-   * An array relationship
-   */
-  team_as_leader: IsLeaderMember_user_team_as_leader[];
-  /**
-   * An array relationship
-   */
-  team_as_member: IsLeaderMember_user_team_as_member[];
-}
-
-export interface IsLeaderMember {
-  /**
-   * fetch data from the table: "user"
-   */
-  user: IsLeaderMember_user[];
-}
-
-export interface IsLeaderMemberVariables {
-  _id: string;
 }
 
 /* tslint:disable */
