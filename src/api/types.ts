@@ -2170,6 +2170,7 @@ export interface GetAllTeamInfo_thuai {
   team_id: any;
   team_name: string;
   team_sum: string;
+  invited_code: string | null;
   /**
    * An array relationship
    */

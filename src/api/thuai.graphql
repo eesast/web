@@ -65,6 +65,7 @@ query GetAllTeamInfo {
     team_id
     team_name
     team_sum
+    invited_code
     team_members {
       user {
         name

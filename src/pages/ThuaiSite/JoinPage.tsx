@@ -60,20 +60,29 @@ const JoinPage: React.FC = () => {
     InsertTeamMember,
     InsertTeamMemberVariables
   >(INSERTTEAMMEMBER);
+  const [form] = Form.useForm();
   const onclick = async (record: GetAllTeamInfo_thuai) => {
-    try {
-      await insertteamMember({
-        variables: {
-          team_id: record.team_id,
-          user_id: userInfo?._id!!,
-        },
-      });
-    } catch (e) {
-      message.error("加入失败");
-    } finally {
-      if (!insertError) {
-        message.success("加入成功");
+    const values = await form.getFieldValue("invited_code");
+    // console.log(values);
+    // console.log(record.invited_code);
+    if (record.invited_code === values) {
+      try {
+        await insertteamMember({
+          variables: {
+            team_id: record.team_id,
+            user_id: userInfo?._id!!,
+          },
+        });
+      } catch (e) {
+        message.error("加入失败");
+      } finally {
+        if (!insertError) {
+          message.success("加入成功");
+          setIsModalVisible(false);
+        }
       }
+    } else {
+      message.error("验证码不对");
     }
   };
 
@@ -81,10 +90,6 @@ const JoinPage: React.FC = () => {
   const showModal = () => {
     setIsModalVisible(true);
   };
-  // const handleOk = () => {
-  //   setIsModalVisible(false);
-  // };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -136,11 +141,7 @@ const JoinPage: React.FC = () => {
             >
               <Form
                 name="form"
-                //form={form} //表单名字绑定
-                // layout="vertical"
-                // initialValues={{ remember: true }}
-                // onFinish={onFinish}
-                // onFinishFailed={onFinishFailed}
+                form={form} //表单名字绑定
               >
                 <Form.Item
                   name="invited_code"
@@ -153,9 +154,6 @@ const JoinPage: React.FC = () => {
                 >
                   <Input placeholder="输入邀请码" />
                 </Form.Item>
-                {/* <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={() => onclick(record)}>确定</Button>
-              </Form.Item> */}
               </Form>
             </Modal>
           </Col>
