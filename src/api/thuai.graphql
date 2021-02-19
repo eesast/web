@@ -26,12 +26,6 @@ query IsTeamMember($_id: String!) {
     }
   }
 }
-# 借由team_id获取该team成员
-query GetMember($team_id: uuid!) {
-  team_member(where: {team_id: {_eq: $team_id}}) {
-    user_id
-  }
-}
 # 借由team_id获取team的所有信息
 query GetTeamInfo($team_id: uuid!) {
   thuai(where: {team_id: {_eq: $team_id}}) {

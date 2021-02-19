@@ -2027,31 +2027,6 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetMember
-// ====================================================
-
-export interface GetMember_team_member {
-  __typename: "team_member";
-  user_id: string;
-}
-
-export interface GetMember {
-  /**
-   * fetch data from the table: "team_member"
-   */
-  team_member: GetMember_team_member[];
-}
-
-export interface GetMemberVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: GetTeamInfo
 // ====================================================
 

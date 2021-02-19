@@ -18,8 +18,6 @@ import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
 import { GetAllTeamInfo_thuai, GetAllTeamInfo } from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/thuai.graphql";
-import { GetMember, GetMemberVariables } from "../../api/types";
-import { GetMember as GETMEMBER } from "../../api/thuai.graphql";
 //插入队员
 import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
 import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/thuai.graphql";
@@ -32,14 +30,6 @@ const JoinPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [teamId, setTeamId] = useState<any>();
   const [inviteCode, setInvite] = useState<string | null>();
-  const { data: getmemberData } = useQuery<GetMember, GetMemberVariables>(
-    GETMEMBER,
-    {
-      variables: {
-        team_id: teamId,
-      },
-    }
-  );
   const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
     ISTEAMLEADER,
     {
@@ -74,7 +64,7 @@ const JoinPage: React.FC = () => {
     setInvite(record.invited_code);
     // console.log(teamId);
     // console.log(inviteCode);
-    console.log(getmemberData?.team_member[0].user_id);
+    // console.log(record.team_members.length);
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -147,7 +137,7 @@ const JoinPage: React.FC = () => {
               disabled={
                 isleaderData?.user[0].team_as_leader.length !== 0 ||
                 ismemberData?.user[0].team_as_member.length !== 0 ||
-                getmemberData?.team_member.length === 1
+                record.team_members.length === 3
               }
             >
               加入
