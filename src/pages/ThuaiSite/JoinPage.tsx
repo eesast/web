@@ -30,27 +30,27 @@ const JoinPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [teamId, setTeamId] = useState<any>();
   const [inviteCode, setInvite] = useState<string | null>();
-  const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
-    ISTEAMLEADER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-    }
-  );
-  const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
-    ISTEAMMEMBER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-    }
-  );
+  const { data: isleaderData, refetch: refetchisleader } = useQuery<
+    IsTeamLeader,
+    IsTeamLeaderVariables
+  >(ISTEAMLEADER, {
+    variables: {
+      _id: userInfo?._id!,
+    },
+  });
+  const { data: ismemberData, refetch: refetchismember } = useQuery<
+    IsTeamMember,
+    IsTeamMemberVariables
+  >(ISTEAMMEMBER, {
+    variables: {
+      _id: userInfo?._id!,
+    },
+  });
   const {
     data: teamListData,
     loading: teamListLoading,
     error: teamListError,
-    //refetch: refetchteamList,
+    refetch: refetchteamList,
   } = useQuery<GetAllTeamInfo>(GETALLTEAMINFO);
   /***************队员插入****************/
   const [insertteamMember, { error: insertError }] = useMutation<
@@ -98,6 +98,9 @@ const JoinPage: React.FC = () => {
     } else {
       message.error("验证码不对");
     }
+    refetchismember();
+    refetchisleader();
+    refetchteamList();
   };
 
   const teamListColumns: TableProps<GetAllTeamInfo_thuai>["columns"] = [
@@ -115,7 +118,7 @@ const JoinPage: React.FC = () => {
       title: "队员",
       key: "team_member",
       render: (text, record) =>
-        record.team_members.map((i) => [i.user.name, ","]),
+        record.team_members.map((i) => [i.user.name, ", "]),
     },
     {
       title: "队伍简介",
@@ -127,7 +130,7 @@ const JoinPage: React.FC = () => {
       title: "加入",
       key: "action",
       render: (text, record) => (
-        <Row justify="space-around">
+        <Row justify="start">
           <Col span={8}>
             <Button
               type="primary"

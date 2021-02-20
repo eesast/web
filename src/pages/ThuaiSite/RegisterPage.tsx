@@ -35,22 +35,22 @@ const RegisterPage: React.FC = () => {
   //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
   //查询语句
-  const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
-    ISTEAMLEADER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-    }
-  );
-  const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
-    ISTEAMMEMBER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-    }
-  );
+  const { data: isleaderData, refetch: refetchisleader } = useQuery<
+    IsTeamLeader,
+    IsTeamLeaderVariables
+  >(ISTEAMLEADER, {
+    variables: {
+      _id: userInfo?._id!,
+    },
+  });
+  const { data: ismemberData, refetch: refetchismember } = useQuery<
+    IsTeamMember,
+    IsTeamMemberVariables
+  >(ISTEAMMEMBER, {
+    variables: {
+      _id: userInfo?._id!,
+    },
+  });
   const InviteCode = randomString();
   //获取表单信息#form为表单名字
   const [form] = Form.useForm();
@@ -78,6 +78,8 @@ const RegisterPage: React.FC = () => {
         form.resetFields();
       }
     }
+    refetchisleader();
+    refetchismember();
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
