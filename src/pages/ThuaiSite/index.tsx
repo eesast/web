@@ -6,6 +6,12 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
+import {
+  HomeOutlined,
+  DatabaseOutlined,
+  TeamOutlined,
+  ThunderboltOutlined,
+} from "@ant-design/icons";
 //antd的包
 import { Menu, Layout } from "antd";
 //以下为子分页
@@ -50,10 +56,22 @@ const ThuaiSite: React.FC = () => {
           selectedKeys={[page]}
         >
           <Menu.Item key="intro">
+            <HomeOutlined />
             <Link to={`${url}/intro`}>介绍</Link>
           </Menu.Item>
-          <Menu.Item key="source">资源与公告</Menu.Item>
-          <SubMenu key="sub1" title="队伍">
+          <Menu.Item key="source">
+            <DatabaseOutlined />
+            资源与公告
+          </Menu.Item>
+          <SubMenu
+            key="sub1"
+            title={
+              <span>
+                <TeamOutlined />
+                队伍
+              </span>
+            }
+          >
             <Menu.Item key="register">
               <Link to={`${url}/register`}>创建</Link>
             </Menu.Item>
@@ -64,7 +82,10 @@ const ThuaiSite: React.FC = () => {
               <Link to={`${url}/manage`}>管理</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="fight">对战</Menu.Item>
+          <Menu.Item key="fight">
+            <ThunderboltOutlined />
+            对战
+          </Menu.Item>
         </Menu>
       </Sider>
       <Content>
