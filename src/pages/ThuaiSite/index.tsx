@@ -15,10 +15,11 @@ import {
 //antd的包
 import { Menu, Layout } from "antd";
 //以下为子分页
+import IntroPage from "./IntroPage";
+import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-import IntroPage from "./IntroPage";
 import NotFoundPage from "../NotFoundPage";
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
@@ -61,7 +62,7 @@ const ThuaiSite: React.FC = () => {
           </Menu.Item>
           <Menu.Item key="source">
             <DatabaseOutlined />
-            资源与公告
+            <Link to={`${url}/source`}>资源与公告</Link>
           </Menu.Item>
           <SubMenu
             key="sub1"
@@ -95,6 +96,9 @@ const ThuaiSite: React.FC = () => {
           </Route>
           <Route exact path={`${path}/intro`}>
             <IntroPage />
+          </Route>
+          <Route exact path={`${path}/source`}>
+            <ResourcePage />
           </Route>
           <AuthRoute exact path={`${path}/register`}>
             <RegisterPage />
