@@ -857,11 +857,9 @@ const MentorApplicationPage = () => {
                   <Descriptions.Item label="学生院系">
                     {item.student.department}
                   </Descriptions.Item>
-                  {item.status === "approved" && (
-                    <Descriptions.Item label="邮箱" span={2}>
-                      {item.student.email}
-                    </Descriptions.Item>
-                  )}
+                  <Descriptions.Item label="邮箱" span={2}>
+                    {item.student.email}
+                  </Descriptions.Item>
                   {item.status === "approved" && (
                     <Descriptions.Item label="手机">
                       {item.student.phone}
@@ -1093,6 +1091,9 @@ const MentorApplicationPage = () => {
           </Descriptions.Item>
           <Descriptions.Item label="学术成果">
             {mentorInfoData?.mentor_info_by_pk?.achievement}
+          </Descriptions.Item>
+          <Descriptions.Item label="联系邮箱">
+            {mentorInfoData?.mentor_info_by_pk?.user.email}
           </Descriptions.Item>
         </Descriptions>
       </Modal>
