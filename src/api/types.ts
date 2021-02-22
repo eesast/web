@@ -2039,6 +2039,36 @@ export interface GetUserByNameVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetUserByEmail
+// ====================================================
+
+export interface GetUserByEmail_user {
+  __typename: "user";
+  _id: string;
+  class: string | null;
+  id: any | null;
+  name: string | null;
+  department: string | null;
+  username: string | null;
+}
+
+export interface GetUserByEmail {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUserByEmail_user[];
+}
+
+export interface GetUserByEmailVariables {
+  email: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: UpdateUser
 // ====================================================
 
