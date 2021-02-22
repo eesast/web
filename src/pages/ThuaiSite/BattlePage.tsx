@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   Typography,
@@ -13,6 +13,67 @@ import {
 import styles from "./BattlePage.module.css";
 const { Title, Text } = Typography;
 const BattlePage: React.FC = () => {
+  //   const [codeList, setCodeList] = useState<ICode[]>([]);
+  //   const [historyList, setHistoryList] = useState<IRoom[]>([]);
+  //   const [pageSize, setPageSize] = useState(5);
+  //   const [pageNumber, setPageNumber] = useState(1);
+  //  const [selectedTeams, setSelectedTeams] = useState<number[]>([]); // 选中作为对手的teamId，比赛限制四队，0用于表示bot
+  const [showCodeModal, setShowCodeModal] = useState(false);
+  const [showCompileInfoModal, setShowCompileInfoModal] = useState(false);
+  const [showCodeContentModal, setShowCodeContentModal] = useState(false);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [showBattleModal, setShowBattleModal] = useState(false);
+  //   const [forceUpdate, setForceUpdate] = useState(true); // 更改以强制重新获取数据
+  //   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
+  //   const [selectedCode, setSelectedCode] = useState<ICode[]>([]); // 选择要编译的代码
+  //   const [showCompileInfo, setShowCompileInfo] = useState(""); // 查看的编译结果
+  //   const [showCodeContent, setShowCodeContent] = useState(""); // 查看的代码内容
+  //   const handlePageChange = (currentPage: number, nextPageSize?: number) => {
+  //     setPageNumber(currentPage);
+  //     if (nextPageSize) setPageSize(nextPageSize);
+  //   };
+
+  //   const handlePageSizeChange = (current: number, nextPageSize: number) => {
+  //     setPageSize(nextPageSize);
+  //     setPageNumber(current);
+  //   };
+
+  const handleCodeModal = () => {
+    setShowCodeModal(!showCodeModal);
+  };
+
+  const handleHistoryModal = () => {
+    setShowHistoryModal(!showHistoryModal);
+  };
+
+  const handleBattleModal = () => {
+    setShowBattleModal(!showBattleModal);
+  };
+
+  const handleCompileInfoModal = () => {
+    setShowCompileInfoModal(false);
+    setShowCodeModal(true);
+  };
+
+  //   const handleShowCompileInfo = (compileInfo: string) => {
+  //     if (compileInfo) setShowCompileInfo(compileInfo.replace("#", "\n"));
+  //     else setShowCompileInfo("暂无编译信息");
+  //     setShowCompileInfoModal(true);
+  //     setShowCodeModal(false);
+  //   };
+
+  const handleCodeContentModal = () => {
+    setShowCodeContentModal(false);
+    setShowCodeModal(true);
+  };
+
+  //   const handleShowCodeContent = (content: string) => {
+  //     if (content) setShowCodeContent(content);
+  //     else setShowCodeContent("暂无编译信息");
+  //     setShowCodeContentModal(true);
+  //     setShowCodeModal(false);
+  //   };
+
   return (
     <div className={styles.root}>
       <div style={{ width: "80%" }}>
@@ -37,31 +98,21 @@ const BattlePage: React.FC = () => {
           <Col span={12}>
             <Row gutter={[16, 16]} justify="end">
               <Col span={24}>
-                <Button
-                  size="large"
-                  //onClick={handleCodeModal}
-                >
+                <Button size="large" onClick={handleCodeModal}>
                   代码管理
                 </Button>
               </Col>
             </Row>
             <Row gutter={[16, 16]} justify="end">
               <Col span={24}>
-                <Button
-                  size="large"
-                  //onClick={handleHistoryModal}
-                >
+                <Button size="large" onClick={handleHistoryModal}>
                   历史记录
                 </Button>
               </Col>
             </Row>
             <Row gutter={[16, 16]} justify="end">
               <Col span={24}>
-                <Button
-                  size="large"
-                  type="primary"
-                  //onClick={handleBattleModal}
-                >
+                <Button size="large" type="primary" onClick={handleBattleModal}>
                   开始游戏
                 </Button>
               </Col>
@@ -82,16 +133,16 @@ const BattlePage: React.FC = () => {
       <Modal
         title="代码管理"
         width="40%"
-        //visible={showCodeModal}
+        visible={showCodeModal}
         closable
         footer={null}
-        //onCancel={handleCodeModal}
+        onCancel={handleCodeModal}
       >
         <Row justify="space-between">
           <Col span={8}>
             <Upload
               fileList={[]} // 暂不考虑文件上传列表展示
-              // onChange={handleCodeChange}
+              //onChange={handleCodeChange}
               //customRequest={handleCodeUpload}
             >
               <Button>上传代码</Button>
@@ -131,21 +182,21 @@ const BattlePage: React.FC = () => {
       </Modal>
 
       <Modal
-      // visible={showCompileInfoModal}
-      // title="编译结果"
-      // closable
-      // footer={null}
-      // onCancel={handleCompileInfoModal}
+        visible={showCompileInfoModal}
+        title="编译结果"
+        closable
+        footer={null}
+        onCancel={handleCompileInfoModal}
       >
         {/* <div style={{ whiteSpace: "pre" }}>{showCompileInfo}</div> */}
       </Modal>
 
       <Modal
-        //visible={showCodeContentModal}
+        visible={showCodeContentModal}
         title="代码"
         closable
         footer={null}
-        //onCancel={handleCodeContentModal}
+        onCancel={handleCodeContentModal}
       >
         <Button id="copyButton">复制代码</Button>
         {/* <div style={{ whiteSpace: "pre" }} id="codeContent">
@@ -154,22 +205,22 @@ const BattlePage: React.FC = () => {
       </Modal>
 
       <Modal
-        //visible={showHistoryModal}
+        visible={showHistoryModal}
         title="历史记录"
         width="40%"
         closable
         footer={null}
-        //onCancel={handleHistoryModal}
+        onCancel={handleHistoryModal}
       >
         {/* <Table columns={historyColumns} dataSource={historyList} /> */}
       </Modal>
 
       <Modal
-        //visible={showBattleModal}
+        visible={showBattleModal}
         title="对战准备"
         closable
         footer={null}
-        //onCancel={handleBattleModal}
+        onCancel={handleBattleModal}
       >
         <Row gutter={16}>
           <Col span={20}>
