@@ -118,7 +118,7 @@ const JoinPage: React.FC = () => {
       title: "队员",
       key: "team_member",
       render: (text, record) =>
-        record.team_members.map((i) => [i.user.name, ", "]),
+        record.team_members.map((i) => [i.user.name + "   "]),
     },
     {
       title: "队伍简介",

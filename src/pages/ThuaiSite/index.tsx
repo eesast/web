@@ -20,6 +20,7 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
+import BattlePage from "./BattlePage";
 import NotFoundPage from "../NotFoundPage";
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
@@ -85,7 +86,7 @@ const ThuaiSite: React.FC = () => {
           </SubMenu>
           <Menu.Item key="fight">
             <ThunderboltOutlined />
-            对战
+            <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -108,6 +109,9 @@ const ThuaiSite: React.FC = () => {
           </AuthRoute>
           <Route exact path={`${path}/manage`}>
             <ManagePage />
+          </Route>
+          <Route exact path={`${path}/battle`}>
+            <BattlePage />
           </Route>
           <Route>
             <NotFoundPage />
