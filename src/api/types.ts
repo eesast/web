@@ -929,6 +929,7 @@ export interface UpsertMentorInfoVariables {
 export interface GetMentorInfo_mentor_info_by_pk_user {
   __typename: "user";
   name: string | null;
+  email: string | null;
 }
 
 export interface GetMentorInfo_mentor_info_by_pk {
