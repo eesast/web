@@ -1,8 +1,9 @@
 import { useLazyQuery } from "@apollo/client";
-import { Button, PageHeader } from "antd";
+import { Button, message, PageHeader, Select } from "antd";
 import Search from "antd/lib/input/Search";
 import Table, { TableProps } from "antd/lib/table";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
 import {
   GetUserByEmail,
   GetUserByEmailVariables,
@@ -12,6 +13,9 @@ import { GetUserByEmail as GET_USER_BY_EMAIL } from "../../api/user.graphql";
 
 const RolePage: React.FC = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [role, setRole] = useState<
+    "user" | "student" | "EEsenior" | "teacher" | "counselor" | "root"
+  >("user");
 
   const columns: TableProps<GetUserByEmail_user>["columns"] = [
     {
@@ -30,6 +34,12 @@ const RolePage: React.FC = () => {
     getUsers,
     { data: userData, loading: userLoading, error: userError },
   ] = useLazyQuery<GetUserByEmail, GetUserByEmailVariables>(GET_USER_BY_EMAIL);
+
+  useEffect(() => {
+    if (userError) {
+      message.error("获取用户失败");
+    }
+  }, [userError]);
 
   const rowSelection = {
     selectedRowKeys: selectedUsers,
@@ -67,7 +77,35 @@ const RolePage: React.FC = () => {
           return record._id;
         }}
       ></Table>
-      <Button onClick={() => console.log(selectedUsers)}>test</Button>
+      <Select
+        value={role}
+        style={{ width: 120 }}
+        onChange={(value) => setRole(value)}
+      >
+        <Select.Option value="user">user</Select.Option>
+        <Select.Option value="student">student</Select.Option>
+        <Select.Option value="teacher">teacher</Select.Option>
+        <Select.Option value="counselor">counselor</Select.Option>
+        <Select.Option value="EEsenior">EEsenior</Select.Option>
+        <Select.Option value="root">root</Select.Option>
+      </Select>
+      <Button
+        type="primary"
+        onClick={async () => {
+          try {
+            await axios.put("/users/role", {
+              _ids: selectedUsers,
+              role: role,
+            });
+            message.success("No err");
+          } catch (e) {
+            const err = e as AxiosError;
+            message.error(err.response?.status);
+          }
+        }}
+      >
+        test
+      </Button>
     </>
   );
 };
