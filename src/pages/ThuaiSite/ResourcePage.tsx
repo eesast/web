@@ -20,7 +20,7 @@ const ResourcePage = () => {
         //className={styles.list}
         renderItem={() => <List.Item></List.Item>}
       />
-      <Button>查看更多公告</Button>
+      <Button type={"primary"}>查看更多公告</Button>
     </div>
   );
 };
