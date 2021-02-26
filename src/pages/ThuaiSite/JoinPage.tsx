@@ -15,11 +15,6 @@ import type { TableProps } from "antd/lib/table";
 const { Content } = Layout;
 const JoinPage: React.FC = () => {
   const userInfo = getUserInfo();
-  // var isleader = true;
-  // var ismember = true;
-  // var [setisleader] = useState(true);
-  // var [setismember] = useState(true);
-  //var teamid ;
   const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
     ISTEAMLEADER,
     {
@@ -36,18 +31,6 @@ const JoinPage: React.FC = () => {
       },
     }
   );
-
-  //console.log(ismemberData);
-  // useEffect(() => {
-  //   setisleader = (!!isleaderData);
-  // }, [isleaderData]);
-  // const [
-  //   selectTeam,
-  //   setselectTeam,
-  // ] = useState<GetAllTeamInfo_thuai>();
-  // const handleApplicationEdit = async () => {
-  //   refetchteamList();
-  // }
   const {
     data: teamListData,
     loading: teamListLoading,
@@ -59,17 +42,14 @@ const JoinPage: React.FC = () => {
       message.error("队伍列表加载失败");
     }
   }, [teamListError]);
-  console.log(isleaderData);
-  console.log(ismemberData);
-  // console.log(teamListData);
+  // console.log(isleaderData);
+  // console.log(ismemberData);
   /***************队员插入****************/
   const [insertteamMember, { error: insertError }] = useMutation<
     InsertTeamMember,
     InsertTeamMemberVariables
   >(INSERTTEAMMEMBER);
   const onclick = async (record: GetAllTeamInfo_thuai) => {
-    //const values = await form.getFieldsValue(); //表单里的信息？#ques
-    //console.log(values);
     try {
       await insertteamMember({
         variables: {
@@ -90,7 +70,6 @@ const JoinPage: React.FC = () => {
       title: "队名",
       dataIndex: "team_name",
       key: "team_name",
-      //...getColumnSearchProps("team_name", "队名"),
     },
     {
       title: "队长",
@@ -106,6 +85,7 @@ const JoinPage: React.FC = () => {
       title: "队伍简介",
       dataIndex: "team_sum",
       key: "team_sum",
+      ellipsis: true,
     },
     {
       title: "加入",
@@ -115,8 +95,8 @@ const JoinPage: React.FC = () => {
           <Col span={8}>
             <Button
               type="primary"
+              //onClick+一个匿名函数
               onClick={() => onclick(record)}
-              //onClick={() => console.log(ismemberData?.user[0].team_as_member === null)}
               disabled={
                 isleaderData?.user[0].team_as_leader.length !== 0 ||
                 ismemberData?.user[0].team_as_member.length !== 0

@@ -2364,6 +2364,30 @@ export interface DeleteTeamMember {
 export interface DeleteTeamMemberVariables {
   user_id: string;
 }
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetIntroContent
+// ====================================================
+
+export interface GetIntroContent_article {
+  __typename: "article";
+  content: string;
+}
+
+export interface GetIntroContent {
+  /**
+   * fetch data from the table: "article"
+   */
+  article: GetIntroContent_article[];
+}
+
+export interface GetIntroContentVariables {
+  id: number;
+}
 
 /* tslint:disable */
 /* eslint-disable */
