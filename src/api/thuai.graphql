@@ -87,7 +87,7 @@ mutation UpdateTeam($team_id: uuid!, $team_name: String!, $team_sum: String = ""
     affected_rows
   }
 }
-#根据队伍id查询所有队员信息(记得删了重来)
+#根据队伍id查询所有队员信息
 query GetMemberInfo($team_id: uuid!) {
   team_member(where: {team_id: {_eq: $team_id}}) {
     user {
