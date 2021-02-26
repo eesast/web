@@ -46,7 +46,7 @@
     "is-url": "1.2.4",
     "isemail": "3.2.0",
     "jwt-decode": "3.1.2",
-    "less": "3.12.2",
+    "less": "3.13.1",
     "less-loader": "7.3.0",
     "lint-staged": "10.5.4",
     "lodash.get": "4.4.2",
