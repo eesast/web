@@ -2160,6 +2160,155 @@ export interface InsertTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpdateTeam
+// ====================================================
+
+export interface UpdateTeam_update_thuai {
+  __typename: "thuai_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateTeam {
+  /**
+   * update data of the table: "thuai"
+   */
+  update_thuai: UpdateTeam_update_thuai | null;
+}
+
+export interface UpdateTeamVariables {
+  team_id: any;
+  team_name: string;
+  team_sum?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMemberInfo
+// ====================================================
+
+export interface GetMemberInfo_team_member_user {
+  __typename: "user";
+  name: string | null;
+  id: any | null;
+  _id: string;
+}
+
+export interface GetMemberInfo_team_member {
+  __typename: "team_member";
+  /**
+   * An object relationship
+   */
+  user: GetMemberInfo_team_member_user;
+}
+
+export interface GetMemberInfo {
+  /**
+   * fetch data from the table: "team_member"
+   */
+  team_member: GetMemberInfo_team_member[];
+}
+
+export interface GetMemberInfoVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTeam
+// ====================================================
+
+export interface DeleteTeam_delete_thuai {
+  __typename: "thuai_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteTeam {
+  /**
+   * delete data from the table: "thuai"
+   */
+  delete_thuai: DeleteTeam_delete_thuai | null;
+}
+
+export interface DeleteTeamVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteAllTeamMember
+// ====================================================
+
+export interface DeleteAllTeamMember_delete_team_member {
+  __typename: "team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteAllTeamMember {
+  /**
+   * delete data from the table: "team_member"
+   */
+  delete_team_member: DeleteAllTeamMember_delete_team_member | null;
+}
+
+export interface DeleteAllTeamMemberVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTeamMember
+// ====================================================
+
+export interface DeleteTeamMember_delete_team_member {
+  __typename: "team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteTeamMember {
+  /**
+   * delete data from the table: "team_member"
+   */
+  delete_team_member: DeleteTeamMember_delete_team_member | null;
+}
+
+export interface DeleteTeamMemberVariables {
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetIntroContent
 // ====================================================
 
