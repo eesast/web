@@ -145,7 +145,7 @@ const ManagePage: React.FC = () => {
     ...teamData?.thuai[0],
     leader_name: teamData?.thuai[0]?.user?.name,
   };
-  const isLeader = userInfo?._id == team?.team_leader;
+  const isLeader = userInfo?._id === team?.team_leader;
 
   if (loading || leaderLoading || memberLoading || !userInfo) {
     return <Loading />;
@@ -319,7 +319,23 @@ const ManagePage: React.FC = () => {
                     dataSource={teamMemberData?.team_member}
                   />
                 </Form.Item>
-                <Form.Item name="team_sum" label="队伍简介">
+                <Form.Item
+                  name="team_sum"
+                  label="队伍简介"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                    () => ({
+                      validator(rule, value) {
+                        if (value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject("队伍简介不能为空");
+                      },
+                    }),
+                  ]}
+                >
                   <TextArea
                     rows={6}
                     disabled={false}
