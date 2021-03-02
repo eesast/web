@@ -339,7 +339,7 @@ const ManagePage: React.FC = () => {
                   <TextArea
                     rows={6}
                     disabled={false}
-                    placeholder="请输入队伍简介"
+                    placeholder={team.team_sum}
                   />
                 </Form.Item>
                 <Form.Item style={{ textAlign: "center" }}>
