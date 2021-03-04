@@ -59,7 +59,7 @@ const { confirm } = Modal;
 
 const ManagePage: React.FC = () => {
   const userInfo = getUserInfo();
-  //-----------------根据队员id查询队伍信息------------------
+  //-----------------根据队员id查询队伍id------------------
   const { data: isleaderData, loading: leaderLoading } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
@@ -68,6 +68,7 @@ const ManagePage: React.FC = () => {
       _id: userInfo?._id!,
     },
   });
+
   const {
     data: ismemberData,
     loading: memberLoading,
@@ -77,15 +78,17 @@ const ManagePage: React.FC = () => {
       _id: userInfo?._id!,
     },
   });
+
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
 
   //根据team_id查询所有队员信息
-  const { data: teamMemberData, loading: teamMemberLoading } = useQuery<
-    GetMemberInfo,
-    GetMemberInfoVariables
-  >(GETMEMBERINFO, {
+  const {
+    data: teamMemberData,
+    loading: teamMemberLoading,
+    refetch: refetchTeamMember,
+  } = useQuery<GetMemberInfo, GetMemberInfoVariables>(GETMEMBERINFO, {
     variables: {
       team_id: teamid,
     },
@@ -181,6 +184,7 @@ const ManagePage: React.FC = () => {
     });
     await refetchTeam();
   };
+
   const deleteTeamMember = async (user_id: string) => {
     confirm({
       title: "确定要退出队伍吗？",
@@ -193,7 +197,6 @@ const ManagePage: React.FC = () => {
           content: "请重新加入队伍",
         });
         await refetchMember();
-        //await refetchTeam();
       },
     });
   };
@@ -205,8 +208,7 @@ const ManagePage: React.FC = () => {
       onOk: async () => {
         await DeleteTeamMember({ variables: { user_id } });
         message.success("移除成功");
-        //await refetchMember();
-        await refetchTeam();
+        refetchTeamMember();
       },
     });
   };
@@ -272,9 +274,7 @@ const ManagePage: React.FC = () => {
             <Content>
               <Form
                 name="form"
-                //form={form}
                 layout="vertical"
-                //initialValues={{ remember: true }}
                 initialValues={team}
                 onFinish={onFinish}
               >
@@ -297,7 +297,7 @@ const ManagePage: React.FC = () => {
                 >
                   <Input
                     style={{ width: "30%" }}
-                    disabled={false} //{!isLeader}
+                    disabled={false}
                     autoCapitalize="off"
                     autoCorrect="off"
                     autoComplete="on"

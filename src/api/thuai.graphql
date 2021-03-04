@@ -113,8 +113,10 @@ mutation DeleteAllTeamMember($team_id: uuid!) {
 mutation DeleteTeamMember( $user_id: String!) {
   delete_team_member(where: {user_id: {_eq: $user_id}}) {
     affected_rows
+  }
+}
 
-query GetIntroContent($id: Int!) {
+query GetIntroContent( $id: Int!) {
   article(where: {id: {_eq: $id}}) {
     content
   }

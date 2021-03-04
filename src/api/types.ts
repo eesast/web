@@ -2364,6 +2364,7 @@ export interface DeleteTeamMember {
 export interface DeleteTeamMemberVariables {
   user_id: string;
 }
+
 /* tslint:disable */
 /* eslint-disable */
 // @generated

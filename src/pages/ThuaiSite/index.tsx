@@ -81,9 +81,9 @@ const ThuaiSite: React.FC = () => {
           <AuthRoute exact path={`${path}/join`}>
             <JoinPage />
           </AuthRoute>
-          <Route exact path={`${path}/manage`}>
+          <AuthRoute exact path={`${path}/manage`}>
             <ManagePage />
-          </Route>
+          </AuthRoute>
           <Route>
             <NotFoundPage />
           </Route>
