@@ -50,6 +50,7 @@
     "less-loader": "7.3.0",
     "lint-staged": "10.5.4",
     "lodash.get": "4.4.2",
+    "md2wx": "^3.1.2",
     "pizzip": "3.0.6",
     "prettier": "2.2.1",
     "react": "16.13.1",
@@ -58,6 +59,7 @@
     "react-dom": "16.13.1",
     "react-google-recaptcha": "2.1.0",
     "react-linkify": "1.0.0-alpha",
+    "react-markdown-editor-lite": "^1.1.5",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
     "rimraf": "3.0.2",
@@ -86,8 +88,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,md}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "bundlesize": [

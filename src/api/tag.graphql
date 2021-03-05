@@ -1,0 +1,113 @@
+query GetTag($id: uuid, $tag: String, $with_articles: Boolean!) {
+  tag(where: { _and: [{ id: { _eq: $id } }, { tag_name: { _eq: $tag } }] }) {
+    tag_name
+    tag_articles_aggregate {
+      aggregate {
+        count
+      }
+      nodes @include(if: $with_articles) {
+        article {
+          id
+          title
+          abstract
+          alias
+        }
+      }
+    }
+  }
+}
+
+mutation InsertTag($tag: String!) {
+  insert_tag_one(
+    object: { tag_name: $tag }
+    on_conflict: { constraint: tag_tag_key, update_columns: tag_name }
+  ) {
+    id
+    tag_name
+  }
+}
+
+# mutation insert tags
+# param: [tag_insert_input]
+# tag_insert_input: {tag: <string>, id?: <uuid>}
+mutation InsertTags($objects: [tag_insert_input!]! = {}) {
+  insert_tag(
+    objects: $objects
+    on_conflict: { constraint: tag_tag_key, update_columns: tag_name }
+  ) {
+    returning {
+      id
+      tag_name
+    }
+  }
+}
+
+mutation UpdateTag($id: uuid!, $tag: String) {
+  update_tag_by_pk(pk_columns: { id: $id }, _set: { tag_name: $tag }) {
+    id
+    tag_name
+  }
+}
+
+mutation DeleteTag($id: uuid!) {
+  delete_article_tag(where: { tag_id: { _eq: $id } }) {
+    affected_rows
+  }
+  delete_tag_by_pk(id: $id) {
+    id
+    tag_name
+  }
+}
+
+mutation InsertArticleTag(
+  $article_id: Int!
+  $tag_id: uuid!
+  $with_article: Boolean!
+) {
+  insert_article_tag_one(
+    object: { article_id: $article_id, tag_id: $tag_id }
+    on_conflict: { constraint: article_tag_pkey, update_columns: article_id }
+  ) {
+    article_id
+    tag_id
+    article @include(if: $with_article) {
+      alias
+      title
+      author {
+        username
+      }
+      article_tags {
+        tag {
+          tag_name
+        }
+      }
+    }
+    tag {
+      tag_name
+    }
+  }
+}
+
+mutation DeleteArticleTag(
+  $article_id: Int!
+  $tag_id: uuid!
+  $with_article: Boolean!
+) {
+  delete_article_tag_by_pk(article_id: $article_id, tag_id: $tag_id) {
+    article @include(if: $with_article) {
+      alias
+      title
+      author {
+        username
+      }
+      article_tags {
+        tag {
+          tag_name
+        }
+      }
+    }
+    tag {
+      tag_name
+    }
+  }
+}

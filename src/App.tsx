@@ -22,10 +22,11 @@ import calendar from "dayjs/plugin/calendar";
 import { enquireScreenSize } from "./helpers/enquire";
 import HomeSite from "./pages/HomeSite";
 import LoginPage from "./pages/LoginPage";
-import AuthRoute from "./components/AuthRoute";
+import { AuthRoute } from "./components";
 import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
+import WeeklySite from "./pages/WeeklySite";
 import Picture from "./components/Picture";
 import ThuaiSite from "./pages/ThuaiSite";
 
@@ -182,10 +183,12 @@ function App() {
             <Route path="/home">
               <HomeSite />
             </Route>
+            <Route path="/weekly">
+              <WeeklySite />
+            </Route>
             <Route path="/thuai">
               <ThuaiSite />
             </Route>
-
             <AuthRoute path="/info">
               <InfoSite />
             </AuthRoute>

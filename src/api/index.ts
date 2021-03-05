@@ -1,4 +1,10 @@
-import { ApolloClient, HttpLink, InMemoryCache, split } from "@apollo/client";
+import {
+  ApolloClient,
+  gql,
+  HttpLink,
+  InMemoryCache,
+  split,
+} from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { setContext } from "@apollo/client/link/context";
@@ -70,7 +76,28 @@ const splitLink = split(
   authLink.concat(httpLink)
 );
 
+const cache = new InMemoryCache();
+
+const GET_INITIAL_STATE = gql`
+  query GetInitialState {
+    _id @client
+    token @client
+    role @client
+    email @client
+  }
+`;
+
+cache.writeQuery({
+  query: GET_INITIAL_STATE,
+  data: {
+    _id: null,
+    token: null,
+    role: null,
+    email: null,
+  },
+});
+
 export const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: cache,
   link: splitLink,
 });
