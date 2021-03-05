@@ -336,7 +336,17 @@ query GetPostAppHistory($offset: Int = 0, $limit: Int = 10) {
       name
     }
   }
-  postgraduate_application_history_aggregate {
+  postgraduate_application_history_aggregate(
+    offset: $offset
+    limit: $limit
+    where: {
+      _and: [
+        { status: { _neq: "intend" } }
+        { status: { _neq: "in_contact" } }
+        { status: { _neq: "delete" } }
+      ]
+    }
+  ) {
     aggregate {
       count
     }
