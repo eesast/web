@@ -94,7 +94,7 @@
   "bundlesize": [
     {
       "path": "build/static/js/4.*.chunk.js",
-      "maxSize": "1.4 MB",
+      "maxSize": "2.5 MB",
       "compression": "none"
     }
   ],
