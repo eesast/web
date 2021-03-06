@@ -1,0 +1,108 @@
+#插入队伍信息
+mutation InsertThuai($team_name: String!, $team_sum: String!, $team_leader: String!, $invited_code: String!) {
+  insert_thuai(objects: {team_name: $team_name, team_sum: $team_sum, team_leader: $team_leader, invited_code: $invited_code}) {
+    # returning {
+    #   team_id
+    #   team_name
+    #   team_sum
+    #   team_leader
+    # }
+    affected_rows
+  }
+}
+# 判断是否是leader返回id
+query IsTeamLeader($_id: String!) {
+  user(where: {_id: {_eq: $_id}}) {
+    team_as_leader {
+      team_id
+    }
+  }
+}
+# 判断是否是member返回id
+query IsTeamMember($_id: String!) {
+  user(where: {_id: {_eq: $_id}}) {
+    team_as_member {
+      team_id
+    }
+  }
+}
+# 借由team_id获取team的所有信息
+query GetTeamInfo($team_id: uuid!) {
+  thuai(where: {team_id: {_eq: $team_id}}) {
+    invited_code
+    team_leader
+    team_name
+    team_sum
+    team_members {
+      user {
+        name
+      }
+    }
+    user {
+      name
+    }
+  }
+}
+#获取全部team信息
+query GetAllTeamInfo {
+  thuai {
+    team_id
+    team_name
+    team_sum
+    invited_code
+    team_members {
+      user {
+        name
+      }
+    }
+    user {
+      name
+    }
+  }
+}
+#插入队员
+mutation InsertTeamMember($team_id: uuid!, $user_id: String!) {
+  insert_team_member(objects: {team_id: $team_id, user_id: $user_id}) {
+    affected_rows
+  }
+}
+#更新队伍信息
+mutation UpdateTeam($team_id: uuid!, $team_name: String!, $team_sum: String = "") {
+  update_thuai(where: {team_id: {_eq: $team_id}}, _set: {team_name: $team_name, team_sum: $team_sum}) {
+    affected_rows
+  }
+}
+#根据队伍id查询所有队员信息
+query GetMemberInfo($team_id: uuid!) {
+  team_member(where: {team_id: {_eq: $team_id}}) {
+    user {
+      name
+      id
+      _id
+    }
+  }
+}
+#在thuai中删除队伍
+mutation DeleteTeam($team_id: uuid!) {
+  delete_thuai(where: {team_id: {_eq: $team_id}}) {
+    affected_rows
+  }
+}
+#在team_member中删除所有队员信息
+mutation DeleteAllTeamMember($team_id: uuid!) {
+  delete_team_member(where: {team_id: {_eq: $team_id}}) {
+    affected_rows
+  }
+}
+#在team_member中删除指定队员信息
+mutation DeleteTeamMember( $user_id: String!) {
+  delete_team_member(where: {user_id: {_eq: $user_id}}) {
+    affected_rows
+  }
+}
+#intropage用
+query GetIntroContent($id: Int!) {
+  article(where: {id: {_eq: $id}}) {
+    content
+  }
+}
