@@ -6,7 +6,7 @@
     "@apollo/client": "3.3.11",
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "11.2.5",
-    "@testing-library/user-event": "12.7.3",
+    "@testing-library/user-event": "12.8.1",
     "@types/ali-oss": "6.0.7",
     "@types/enquire.js": "2.1.2",
     "@types/file-saver": "2.0.1",
@@ -50,12 +50,13 @@
     "less-loader": "7.3.0",
     "lint-staged": "10.5.4",
     "lodash.get": "4.4.2",
+    "md2wx": "^3.1.2",
     "pizzip": "3.0.6",
     "prettier": "2.2.1",
-    "react": "16.13.1",
+    "react": "16.14.0",
     "react-app-rewired": "2.1.8",
     "react-custom-scrollbars": "4.2.1",
-    "react-dom": "16.13.1",
+    "react-dom": "16.14.0",
     "react-google-recaptcha": "2.1.0",
     "react-linkify": "1.0.0-alpha",
     "react-router-dom": "5.2.0",
@@ -64,7 +65,7 @@
     "source-map-explorer": "2.5.2",
     "styled-components": "5.2.1",
     "subscriptions-transport-ws": "0.9.18",
-    "typescript": "4.2.2",
+    "typescript": "4.2.3",
     "web-vitals": "0.2.4",
     "xlsx": "0.16.9"
   },
@@ -93,7 +94,7 @@
   "bundlesize": [
     {
       "path": "build/static/js/4.*.chunk.js",
-      "maxSize": "1.4 MB",
+      "maxSize": "2.5 MB",
       "compression": "none"
     }
   ],
