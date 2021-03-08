@@ -33,6 +33,7 @@ import Modal from "antd/lib/modal/Modal";
 import Center from "../../components/Center";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
+import dayjs from "dayjs";
 
 const MentorInfoVerifyPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -63,11 +64,16 @@ const MentorInfoVerifyPage: React.FC = () => {
 
   const columns: TableProps<mentorInfo>["columns"] = [
     {
-      title: "发布时间",
-      dataIndex: "created_at",
-      key: "created_at",
-      render: (text) => {
-        return new Date(text).toDateString();
+      title: "更新时间",
+      dataIndex: "updated_at",
+      key: "updated_at",
+      render: (text) => dayjs(text).format("YYYY-MM-DD"),
+    },
+    {
+      title: "修改者",
+      key: "editor",
+      render: (_, record) => {
+        return record.userEditor.name;
       },
     },
     {
@@ -82,8 +88,12 @@ const MentorInfoVerifyPage: React.FC = () => {
     },
     {
       title: "博士名额",
-      dataIndex: "phd_quota",
       key: "phd_quota",
+      render: (_, record) => {
+        return `${record.phd_quota}-${
+          record.phd_quota + record.phd_quota_unfixed
+        }`;
+      },
     },
     {
       title: "操作",
@@ -219,6 +229,7 @@ const MentorInfoVerifyPage: React.FC = () => {
       "field",
       "master_quota",
       "phd_quota",
+      "phd_quota_unfixed",
       "contact",
       "alternate_contact",
       "home_page",
@@ -232,6 +243,7 @@ const MentorInfoVerifyPage: React.FC = () => {
           mentor: values["mentor"],
           field: values["field"],
           phd_quota: values["phd_quota"],
+          phd_quota_unfixed: values["phd_quota_unfixed"],
           contact: values["contact"],
           alternate_contact: values["alternate_contact"],
           home_page: values["home_page"],
@@ -275,7 +287,9 @@ const MentorInfoVerifyPage: React.FC = () => {
         <Descriptions>
           <Descriptions.Item label="导师">{detail?.mentor}</Descriptions.Item>
           <Descriptions.Item label="博士名额">
-            {detail?.phd_quota}
+            {`${detail?.phd_quota}-${
+              detail?.phd_quota + detail?.phd_quota_unfixed
+            }`}
           </Descriptions.Item>
           <Descriptions.Item label="联系方式">
             {detail?.contact}
@@ -319,6 +333,13 @@ const MentorInfoVerifyPage: React.FC = () => {
           <Form.Item
             name="phd_quota"
             label="博士名额"
+            rules={[{ required: true }]}
+          >
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item
+            name="phd_quota_unfixed"
+            label="非固定博士名额"
             rules={[{ required: true }]}
           >
             <InputNumber min={0} />
