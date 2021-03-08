@@ -24,6 +24,7 @@ import {
   SetPostAppHistoryVariables,
 } from "../../api/types";
 import { getUserInfo } from "../../helpers/auth";
+import dayjs from "dayjs";
 
 const PostgraduateApplicationPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -113,7 +114,7 @@ const PostgraduateApplicationPage: React.FC = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (text) => {
-        return new Date(text).toDateString();
+        return dayjs(text).format("YYYY-MM-DD");
       },
     },
     {
@@ -123,6 +124,23 @@ const PostgraduateApplicationPage: React.FC = () => {
       render: (user) => {
         return user.name;
       },
+    },
+    {
+      title: "班级",
+      dataIndex: "user",
+      key: "class",
+      render: (user) => user.class,
+      filters: [
+        { text: "无01", value: "无01" },
+        { text: "无02", value: "无02" },
+        { text: "无03", value: "无03" },
+        { text: "无04", value: "无04" },
+        { text: "无05", value: "无05" },
+        { text: "无06", value: "无06" },
+        { text: "无07", value: "无07" },
+        { text: "无08", value: "无08" },
+      ],
+      onFilter: (value, record) => record.user.class === value,
     },
     {
       title: "导师",
@@ -141,10 +159,12 @@ const PostgraduateApplicationPage: React.FC = () => {
           <Tag>有意向</Tag>
         ) : text === "in_contact" ? (
           <Tag>联络中</Tag>
-        ) : text === "confirmed_unverified" ? (
+        ) : text === "confirmed" ? (
           <Tag color="lime">已确认（未审核）</Tag>
-        ) : (
+        ) : text === "confirmed_verified" ? (
           <Tag color="green">已确认（通过）</Tag>
+        ) : (
+          <Tag color="red">未匹配字段</Tag>
         );
       },
     },
@@ -209,7 +229,7 @@ const PostgraduateApplicationPage: React.FC = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (text) => {
-        return new Date(text).toDateString();
+        return dayjs(text).format("YYYY-MM-DD");
       },
     },
     {
@@ -219,6 +239,23 @@ const PostgraduateApplicationPage: React.FC = () => {
       render: (user) => {
         return user.name;
       },
+    },
+    {
+      title: "班级",
+      dataIndex: "user",
+      key: "class",
+      render: (user) => user.class,
+      filters: [
+        { text: "无01", value: "无01" },
+        { text: "无02", value: "无02" },
+        { text: "无03", value: "无03" },
+        { text: "无04", value: "无04" },
+        { text: "无05", value: "无05" },
+        { text: "无06", value: "无06" },
+        { text: "无07", value: "无07" },
+        { text: "无08", value: "无08" },
+      ],
+      onFilter: (value, record) => record.user.class === value,
     },
     {
       title: "导师",
@@ -239,8 +276,10 @@ const PostgraduateApplicationPage: React.FC = () => {
           <Tag>联络中</Tag>
         ) : text === "confirmed_unverified" ? (
           <Tag color="lime">已确认（未审核）</Tag>
-        ) : (
+        ) : text === "confirmed_verified" ? (
           <Tag color="green">已确认（通过）</Tag>
+        ) : (
+          <Tag color="red">未知</Tag>
         );
       },
     },
