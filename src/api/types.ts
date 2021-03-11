@@ -1367,6 +1367,9 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
+  /**
+   * 固定名额
+   */
   phd_quota: any;
   contact: string;
   alternate_contact: string | null;
@@ -1480,6 +1483,9 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
+  /**
+   * 固定名额
+   */
   phd_quota: any;
   contact: string;
   alternate_contact: string | null;
@@ -2352,6 +2358,35 @@ export interface GetIntroContent {
 
 export interface GetIntroContentVariables {
   id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateIntro
+// ====================================================
+
+export interface UpdateIntro_update_article {
+  __typename: "article_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateIntro {
+  /**
+   * update data of the table: "article"
+   */
+  update_article: UpdateIntro_update_article | null;
+}
+
+export interface UpdateIntroVariables {
+  id: number;
+  content?: string | null;
 }
 
 /* tslint:disable */
