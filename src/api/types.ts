@@ -1371,6 +1371,10 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
    * 固定名额
    */
   phd_quota: any;
+  /**
+   * 非固定名额
+   */
+  phd_quota_unfixed: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1427,6 +1431,11 @@ export interface GetPostgraduateFeedsVariables {
 // ====================================================
 // GraphQL query operation: GetUnverifiedMentorInfo
 // ====================================================
+
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_userEditor {
+  __typename: "user";
+  name: string | null;
+}
 
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate_max {
   __typename: "postgraduate_application_max_fields";
@@ -1487,6 +1496,10 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
    * 固定名额
    */
   phd_quota: any;
+  /**
+   * 非固定名额
+   */
+  phd_quota_unfixed: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1495,6 +1508,10 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
    * 创建此信息用户id，有权更改
    */
   user_id: string;
+  /**
+   * An object relationship
+   */
+  userEditor: GetUnverifiedMentorInfo_postgraduate_mentor_info_userEditor;
   /**
    * An aggregated array relationship
    */
@@ -1564,6 +1581,7 @@ export interface InsertPostgraduateInfoVariables {
   detail_info?: string | null;
   home_page?: string | null;
   phd_quota?: any | null;
+  phd_quota_unfixed?: any | null;
   user_id: string;
 }
 
@@ -1597,6 +1615,7 @@ export interface UpdatePostgraduateInfoVariables {
   detail_info?: string | null;
   home_page?: string | null;
   phd_quota?: any | null;
+  phd_quota_unfixed?: any | null;
 }
 
 /* tslint:disable */
@@ -1658,7 +1677,7 @@ export interface InsertApplication {
 
 export interface InsertApplicationVariables {
   mentor_info_id: number;
-  status?: string | null;
+  status: string;
   user_id: string;
   verified: boolean;
 }
@@ -1715,6 +1734,7 @@ export interface GetPostgraduateApplicationFeeds_postgraduate_application_mentor
 export interface GetPostgraduateApplicationFeeds_postgraduate_application_user {
   __typename: "user";
   name: string | null;
+  class: string | null;
 }
 
 export interface GetPostgraduateApplicationFeeds_postgraduate_application {
@@ -1817,6 +1837,31 @@ export interface GetSelfPostgraduateApplicationsVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetSelfConfirmedApplication
+// ====================================================
+
+export interface GetSelfConfirmedApplication_postgraduate_application {
+  __typename: "postgraduate_application";
+  mentor_info_id: number;
+}
+
+export interface GetSelfConfirmedApplication {
+  /**
+   * fetch data from the table: "postgraduate_application"
+   */
+  postgraduate_application: GetSelfConfirmedApplication_postgraduate_application[];
+}
+
+export interface GetSelfConfirmedApplicationVariables {
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: VerifyPostgraduateApplication
 // ====================================================
 
@@ -1908,6 +1953,7 @@ export interface GetPostAppHistory_postgraduate_application_history_mentor {
 export interface GetPostAppHistory_postgraduate_application_history_user {
   __typename: "user";
   name: string | null;
+  class: string | null;
 }
 
 export interface GetPostAppHistory_postgraduate_application_history {

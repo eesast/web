@@ -92,6 +92,7 @@ const ThuaiSite: React.FC = () => {
             <ThunderboltOutlined />
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item>
+
           {["root", "teacher"].includes(userInfo?.role!) ? (
             <SubMenu
               key="sub2"
