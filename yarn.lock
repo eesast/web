@@ -9358,7 +9358,7 @@ matcher@^3.0.0:
   dependencies:
     escape-string-regexp "^4.0.0"
 
-md2wx@^3.1.2:
+md2wx@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/md2wx/-/md2wx-3.1.2.tgz#d892e1d0a987179edc4c77038cdecfa56f80b381"
   integrity sha512-xVjx/5cQg6lzNw14vO9/SaqlpgAUMhSTTuwadpmLk1jG9A9gnndZtcfre7wRnQtRlxGbUTlut1yypL/SSVNqoA==
