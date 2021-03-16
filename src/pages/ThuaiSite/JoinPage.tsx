@@ -180,7 +180,7 @@ const JoinPage: React.FC = () => {
       <Row>
         <Col offset={4}>
           <Card
-            hoverable
+            //hoverable
             css={`
               width: 1000px;
               padding-top: 24px;

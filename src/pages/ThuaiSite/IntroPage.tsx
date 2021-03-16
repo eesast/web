@@ -1,4 +1,3 @@
-//import React, { useEffect, useState } from "react";
 import { useEffect, useState } from "react";
 import { message, Layout } from "antd";
 import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/thuai.graphql";
