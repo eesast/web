@@ -59,7 +59,7 @@ const { confirm } = Modal;
 
 const ManagePage: React.FC = () => {
   const userInfo = getUserInfo();
-  //-----------------根据队员id查询队伍信息------------------
+  //-----------------根据队员id查询队伍id------------------
   const { data: isleaderData, loading: leaderLoading } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
@@ -193,7 +193,6 @@ const ManagePage: React.FC = () => {
           content: "请重新加入队伍",
         });
         await refetchMember();
-        //await refetchTeam();
       },
     });
   };
@@ -272,9 +271,7 @@ const ManagePage: React.FC = () => {
             <Content>
               <Form
                 name="form"
-                //form={form}
                 layout="vertical"
-                //initialValues={{ remember: true }}
                 initialValues={team}
                 onFinish={onFinish}
               >
@@ -297,7 +294,7 @@ const ManagePage: React.FC = () => {
                 >
                   <Input
                     style={{ width: "30%" }}
-                    disabled={false} //{!isLeader}
+                    disabled={false}
                     autoCapitalize="off"
                     autoCorrect="off"
                     autoComplete="on"
@@ -312,7 +309,7 @@ const ManagePage: React.FC = () => {
                 </Form.Item>
                 <Form.Item label="队员">
                   {}
-
+                    
                   <Table
                     loading={teamMemberLoading}
                     columns={memberListColumns}
