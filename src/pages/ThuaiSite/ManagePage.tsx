@@ -68,7 +68,6 @@ const ManagePage: React.FC = () => {
       _id: userInfo?._id!,
     },
   });
-
   const {
     data: ismemberData,
     loading: memberLoading,
@@ -78,17 +77,15 @@ const ManagePage: React.FC = () => {
       _id: userInfo?._id!,
     },
   });
-
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
 
   //根据team_id查询所有队员信息
-  const {
-    data: teamMemberData,
-    loading: teamMemberLoading,
-    refetch: refetchTeamMember,
-  } = useQuery<GetMemberInfo, GetMemberInfoVariables>(GETMEMBERINFO, {
+  const { data: teamMemberData, loading: teamMemberLoading } = useQuery<
+    GetMemberInfo,
+    GetMemberInfoVariables
+  >(GETMEMBERINFO, {
     variables: {
       team_id: teamid,
     },
@@ -148,7 +145,7 @@ const ManagePage: React.FC = () => {
     ...teamData?.thuai[0],
     leader_name: teamData?.thuai[0]?.user?.name,
   };
-  const isLeader = userInfo?._id == team?.team_leader;
+  const isLeader = userInfo?._id === team?.team_leader;
 
   if (loading || leaderLoading || memberLoading || !userInfo) {
     return <Loading />;
@@ -184,7 +181,6 @@ const ManagePage: React.FC = () => {
     });
     await refetchTeam();
   };
-
   const deleteTeamMember = async (user_id: string) => {
     confirm({
       title: "确定要退出队伍吗？",
@@ -208,7 +204,8 @@ const ManagePage: React.FC = () => {
       onOk: async () => {
         await DeleteTeamMember({ variables: { user_id } });
         message.success("移除成功");
-        refetchTeamMember();
+        //await refetchMember();
+        await refetchTeam();
       },
     });
   };
@@ -319,11 +316,27 @@ const ManagePage: React.FC = () => {
                     dataSource={teamMemberData?.team_member}
                   />
                 </Form.Item>
-                <Form.Item name="team_sum" label="队伍简介">
+                <Form.Item
+                  name="team_sum"
+                  label="队伍简介"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                    () => ({
+                      validator(rule, value) {
+                        if (value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject("队伍简介不能为空");
+                      },
+                    }),
+                  ]}
+                >
                   <TextArea
                     rows={6}
                     disabled={false}
-                    placeholder="请输入队伍简介"
+                    placeholder={team.team_sum}
                   />
                 </Form.Item>
                 <Form.Item style={{ textAlign: "center" }}>

@@ -804,6 +804,31 @@ export interface UpdateMentorApplicationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteMentorApplication
+// ====================================================
+
+export interface DeleteMentorApplication_delete_mentor_application_by_pk {
+  __typename: "mentor_application";
+  id: any;
+}
+
+export interface DeleteMentorApplication {
+  /**
+   * delete single row from the table: "mentor_application"
+   */
+  delete_mentor_application_by_pk: DeleteMentorApplication_delete_mentor_application_by_pk | null;
+}
+
+export interface DeleteMentorApplicationVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetMentorList
 // ====================================================
 
@@ -904,6 +929,7 @@ export interface UpsertMentorInfoVariables {
 export interface GetMentorInfo_mentor_info_by_pk_user {
   __typename: "user";
   name: string | null;
+  email: string | null;
 }
 
 export interface GetMentorInfo_mentor_info_by_pk {
@@ -1341,7 +1367,14 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
+  /**
+   * 固定名额
+   */
   phd_quota: any;
+  /**
+   * 非固定名额
+   */
+  phd_quota_unfixed: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1399,6 +1432,11 @@ export interface GetPostgraduateFeedsVariables {
 // GraphQL query operation: GetUnverifiedMentorInfo
 // ====================================================
 
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_userEditor {
+  __typename: "user";
+  name: string | null;
+}
+
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate_max {
   __typename: "postgraduate_application_max_fields";
   updated_at: any | null;
@@ -1454,7 +1492,14 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
+  /**
+   * 固定名额
+   */
   phd_quota: any;
+  /**
+   * 非固定名额
+   */
+  phd_quota_unfixed: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1463,6 +1508,10 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
    * 创建此信息用户id，有权更改
    */
   user_id: string;
+  /**
+   * An object relationship
+   */
+  userEditor: GetUnverifiedMentorInfo_postgraduate_mentor_info_userEditor;
   /**
    * An aggregated array relationship
    */
@@ -1532,6 +1581,7 @@ export interface InsertPostgraduateInfoVariables {
   detail_info?: string | null;
   home_page?: string | null;
   phd_quota?: any | null;
+  phd_quota_unfixed?: any | null;
   user_id: string;
 }
 
@@ -1565,6 +1615,7 @@ export interface UpdatePostgraduateInfoVariables {
   detail_info?: string | null;
   home_page?: string | null;
   phd_quota?: any | null;
+  phd_quota_unfixed?: any | null;
 }
 
 /* tslint:disable */
@@ -1626,7 +1677,7 @@ export interface InsertApplication {
 
 export interface InsertApplicationVariables {
   mentor_info_id: number;
-  status?: string | null;
+  status: string;
   user_id: string;
   verified: boolean;
 }
@@ -1683,6 +1734,7 @@ export interface GetPostgraduateApplicationFeeds_postgraduate_application_mentor
 export interface GetPostgraduateApplicationFeeds_postgraduate_application_user {
   __typename: "user";
   name: string | null;
+  class: string | null;
 }
 
 export interface GetPostgraduateApplicationFeeds_postgraduate_application {
@@ -1785,6 +1837,31 @@ export interface GetSelfPostgraduateApplicationsVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetSelfConfirmedApplication
+// ====================================================
+
+export interface GetSelfConfirmedApplication_postgraduate_application {
+  __typename: "postgraduate_application";
+  mentor_info_id: number;
+}
+
+export interface GetSelfConfirmedApplication {
+  /**
+   * fetch data from the table: "postgraduate_application"
+   */
+  postgraduate_application: GetSelfConfirmedApplication_postgraduate_application[];
+}
+
+export interface GetSelfConfirmedApplicationVariables {
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: VerifyPostgraduateApplication
 // ====================================================
 
@@ -1876,6 +1953,7 @@ export interface GetPostAppHistory_postgraduate_application_history_mentor {
 export interface GetPostAppHistory_postgraduate_application_history_user {
   __typename: "user";
   name: string | null;
+  class: string | null;
 }
 
 export interface GetPostAppHistory_postgraduate_application_history {
@@ -1922,27 +2000,6 @@ export interface GetPostAppHistory {
 export interface GetPostAppHistoryVariables {
   offset?: number | null;
   limit?: number | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetTeamName
-// ====================================================
-
-export interface GetTeamName_thuai {
-  __typename: "thuai";
-  team_name: string;
-}
-
-export interface GetTeamName {
-  /**
-   * fetch data from the table: "thuai"
-   */
-  thuai: GetTeamName_thuai[];
 }
 
 /* tslint:disable */
@@ -2048,48 +2105,6 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: IsLeaderMember
-// ====================================================
-
-export interface IsLeaderMember_user_team_as_leader {
-  __typename: "thuai";
-  team_id: any;
-}
-
-export interface IsLeaderMember_user_team_as_member {
-  __typename: "team_member";
-  team_id: any;
-}
-
-export interface IsLeaderMember_user {
-  __typename: "user";
-  /**
-   * An array relationship
-   */
-  team_as_leader: IsLeaderMember_user_team_as_leader[];
-  /**
-   * An array relationship
-   */
-  team_as_member: IsLeaderMember_user_team_as_member[];
-}
-
-export interface IsLeaderMember {
-  /**
-   * fetch data from the table: "user"
-   */
-  user: IsLeaderMember_user[];
-}
-
-export interface IsLeaderMemberVariables {
-  _id: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: GetTeamInfo
 // ====================================================
 
@@ -2170,6 +2185,7 @@ export interface GetAllTeamInfo_thuai {
   team_id: any;
   team_name: string;
   team_sum: string;
+  invited_code: string | null;
   /**
    * An array relationship
    */

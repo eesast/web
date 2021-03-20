@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Card, Row, Col, Button, Form } from "antd"; //botton
+import { Input, Card, Row, Col, Button, Form, Result } from "antd"; //botton
 import { Layout, message } from "antd";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
@@ -30,30 +30,31 @@ function randomString() {
   for (var i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
   return n;
 }
-//alert(randomString(6));
 const RegisterPage: React.FC = () => {
   //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
   //查询语句
-  const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
-    ISTEAMLEADER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-    }
-  );
-  const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
-    ISTEAMMEMBER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-    }
-  );
+  const { data: isleaderData, refetch: refetchisleader } = useQuery<
+    IsTeamLeader,
+    IsTeamLeaderVariables
+  >(ISTEAMLEADER, {
+    variables: {
+      _id: userInfo?._id!,
+    },
+  });
+  const { data: ismemberData, refetch: refetchismember } = useQuery<
+    IsTeamMember,
+    IsTeamMemberVariables
+  >(ISTEAMMEMBER, {
+    variables: {
+      _id: userInfo?._id!,
+    },
+  });
   const InviteCode = randomString();
+
   //获取表单信息#form为表单名字
   const [form] = Form.useForm();
+
   const [insertThuai, { error: insertError }] = useMutation<
     InsertThuai,
     InsertThuaiVariables
@@ -78,10 +79,22 @@ const RegisterPage: React.FC = () => {
         form.resetFields();
       }
     }
+    refetchisleader();
+    refetchismember();
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+  if (
+    isleaderData?.user[0].team_as_leader.length !== 0 ||
+    ismemberData?.user[0].team_as_member.length !== 0
+  ) {
+    return (
+      <div>
+        <Result status="warning" title="您已加入队伍，不能再创建队伍！" />
+      </div>
+    );
+  }
   return (
     <Layout>
       <br />
@@ -131,14 +144,7 @@ const RegisterPage: React.FC = () => {
                   <Link to="/thuai/join"> 加入队伍</Link>
                 </Form.Item>
                 <Form.Item {...headLayout}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    disabled={
-                      isleaderData?.user[0].team_as_leader.length !== 0 ||
-                      ismemberData?.user[0].team_as_member.length !== 0
-                    }
-                  >
+                  <Button type="primary" htmlType="submit">
                     创建队伍
                   </Button>
                 </Form.Item>

@@ -1,10 +1,4 @@
-
-
-query GetTeamName {
-  thuai {
-    team_name
-  }
-}
+#插入队伍信息
 mutation InsertThuai($team_name: String!, $team_sum: String!, $team_leader: String!, $invited_code: String!) {
   insert_thuai(objects: {team_name: $team_name, team_sum: $team_sum, team_leader: $team_leader, invited_code: $invited_code}) {
     # returning {
@@ -27,16 +21,6 @@ query IsTeamLeader($_id: String!) {
 # 判断是否是member返回id
 query IsTeamMember($_id: String!) {
   user(where: {_id: {_eq: $_id}}) {
-    team_as_member {
-      team_id
-    }
-  }
-}
-query IsLeaderMember($_id: String!) {
-  user(where: {_id: {_eq: $_id}}) {
-    team_as_leader {
-      team_id
-    }
     team_as_member {
       team_id
     }
@@ -65,6 +49,7 @@ query GetAllTeamInfo {
     team_id
     team_name
     team_sum
+    invited_code
     team_members {
       user {
         name
@@ -115,8 +100,8 @@ mutation DeleteTeamMember( $user_id: String!) {
     affected_rows
   }
 }
-
-query GetIntroContent( $id: Int!) {
+#intropage用
+query GetIntroContent($id: Int!) {
   article(where: {id: {_eq: $id}}) {
     content
   }
