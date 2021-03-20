@@ -11,7 +11,7 @@ const IntroPage = () => {
     GetIntroContentVariables
   >(GET_INTRO_CONTENT, {
     variables: {
-      id: 1,
+      id: 3,
     },
   });
   useEffect(() => {
