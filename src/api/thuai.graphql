@@ -112,3 +112,9 @@ mutation UpdateIntro($id: Int!, $content: String = "") {
     affected_rows
   }
 }
+#insert thuaicode
+mutation InsertCode($team_id: uuid!) {
+  insert_thuai_code(objects: {team_id: $team_id}) {
+    affected_rows
+  }
+}

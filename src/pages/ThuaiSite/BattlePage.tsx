@@ -9,10 +9,48 @@ import {
   Modal,
   Upload,
   Radio,
+  Result,
 } from "antd";
+import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
+import { Link } from "react-router-dom";
+//----根据队员信息查找队伍信息------
+import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
+import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
+import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
+import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
+//————创建thuaicode————
+import { InsertCode, InsertCodeVariables } from "../../api/types";
+import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
+import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
 const { Title, Text } = Typography;
 const BattlePage: React.FC = () => {
+  const userInfo = getUserInfo();
+  //-----------------根据队员id查询队伍id------------------
+  const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
+    ISTEAMLEADER,
+    {
+      variables: {
+        _id: userInfo?._id!,
+      },
+    }
+  );
+  const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
+    ISTEAMMEMBER,
+    {
+      variables: {
+        _id: userInfo?._id!,
+      },
+    }
+  );
+  const [insertcode, { error: insertcodeError }] = useMutation<
+    InsertCode,
+    InsertCodeVariables
+  >(INSERTCODE);
+  const teamid =
+    isleaderData?.user[0].team_as_leader[0]?.team_id ||
+    ismemberData?.user[0].team_as_member[0]?.team_id;
+
   //   const [codeList, setCodeList] = useState<ICode[]>([]);
   //   const [historyList, setHistoryList] = useState<IRoom[]>([]);
   //   const [pageSize, setPageSize] = useState(5);
@@ -24,7 +62,7 @@ const BattlePage: React.FC = () => {
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showBattleModal, setShowBattleModal] = useState(false);
   //   const [forceUpdate, setForceUpdate] = useState(true); // 更改以强制重新获取数据
-  //   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
+  const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   //   const [selectedCode, setSelectedCode] = useState<ICode[]>([]); // 选择要编译的代码
   //   const [showCompileInfo, setShowCompileInfo] = useState(""); // 查看的编译结果
   //   const [showCodeContent, setShowCodeContent] = useState(""); // 查看的代码内容
@@ -32,7 +70,38 @@ const BattlePage: React.FC = () => {
   //     setPageNumber(currentPage);
   //     if (nextPageSize) setPageSize(nextPageSize);
   //   };
-
+  if (!teamid) {
+    return (
+      <div>
+        <Result
+          status="warning"
+          title="您还没有加入任何队伍"
+          extra={
+            <Button type="primary">
+              <Link replace to="/thuai/join">
+                加入队伍
+              </Link>
+            </Button>
+          }
+        />
+      </div>
+    );
+  }
+  if (teamid) {
+    try {
+      insertcode({
+        variables: {
+          team_id: teamid,
+        },
+      });
+    } catch (e) {
+      console.log("insertcode表失败");
+    } finally {
+      if (!insertcodeError) {
+        console.log("insertcode表成功");
+      }
+    }
+  }
   //   const handlePageSizeChange = (current: number, nextPageSize: number) => {
   //     setPageSize(nextPageSize);
   //     setPageNumber(current);
@@ -54,7 +123,7 @@ const BattlePage: React.FC = () => {
     setShowCompileInfoModal(false);
     setShowCodeModal(true);
   };
-
+  const handleCodeUpload = async () => {};
   //   const handleShowCompileInfo = (compileInfo: string) => {
   //     if (compileInfo) setShowCompileInfo(compileInfo.replace("#", "\n"));
   //     else setShowCompileInfo("暂无编译信息");
@@ -92,7 +161,7 @@ const BattlePage: React.FC = () => {
               <br />
               <Text strong>对战</Text>
               <br />
-              每场比赛支持最多四支队伍同时对战
+              每场比赛支持最多两支队伍同时对战
             </Typography>
           </Col>
           <Col span={12}>
@@ -132,7 +201,7 @@ const BattlePage: React.FC = () => {
       />
       <Modal
         title="代码管理"
-        width="40%"
+        width="50%"
         visible={showCodeModal}
         closable
         footer={null}
@@ -143,7 +212,7 @@ const BattlePage: React.FC = () => {
             <Upload
               fileList={[]} // 暂不考虑文件上传列表展示
               //onChange={handleCodeChange}
-              //customRequest={handleCodeUpload}
+              customRequest={handleCodeUpload}
             >
               <Button>上传代码</Button>
             </Upload>
@@ -151,10 +220,10 @@ const BattlePage: React.FC = () => {
           <Col span={8}>
             AI角色
             <Radio.Group
-            //   value={codeRole}
-            //   onChange={(event) => {
-            //     setCodeRole(event.target.value);
-            //   }}
+              value={codeRole}
+              onChange={(event) => {
+                setCodeRole(event.target.value);
+              }}
             >
               <Radio value={1}>1</Radio>
               <Radio value={2}>2</Radio>

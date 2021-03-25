@@ -2441,6 +2441,34 @@ export interface UpdateIntroVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: InsertCode
+// ====================================================
+
+export interface InsertCode_insert_thuai_code {
+  __typename: "thuai_code_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertCode {
+  /**
+   * insert data into the table: "thuai_code"
+   */
+  insert_thuai_code: InsertCode_insert_thuai_code | null;
+}
+
+export interface InsertCodeVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetUser
 // ====================================================
 
