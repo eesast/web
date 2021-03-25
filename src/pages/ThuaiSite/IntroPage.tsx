@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { message, Layout } from "antd";
 import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/thuai.graphql";
 import { GetIntroContentVariables, GetIntroContent } from "../../api/types";
@@ -11,7 +11,7 @@ const IntroPage = () => {
     GetIntroContentVariables
   >(GET_INTRO_CONTENT, {
     variables: {
-      id: 1,
+      id: 3,
     },
   });
   useEffect(() => {
