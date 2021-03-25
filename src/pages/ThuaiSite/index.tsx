@@ -11,7 +11,9 @@ import {
   DatabaseOutlined,
   TeamOutlined,
   ThunderboltOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
+import { getUserInfo } from "../../helpers/auth";
 //antd的包
 import { Menu, Layout } from "antd";
 //以下为子分页
@@ -20,16 +22,18 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-//import BattlePage from "./BattlePage";
+import BattlePage from "./BattlePage";
+import UpdateIntroPage from "./UpdateIntroPage";
 import NotFoundPage from "../NotFoundPage";
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
 //antd部件实例化
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
-const rootSubmenuKeys = ["sub1"];
+const rootSubmenuKeys = ["sub1", "sub2"];
 //react页面标准写法
 const ThuaiSite: React.FC = () => {
+  const userInfo = getUserInfo();
   //url
   const { path, url } = useRouteMatch();
   const location = useLocation();
@@ -88,6 +92,22 @@ const ThuaiSite: React.FC = () => {
             <ThunderboltOutlined />
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item>
+
+          {["root", "teacher"].includes(userInfo?.role!) ? (
+            <SubMenu
+              key="sub2"
+              title={
+                <span>
+                  <LockOutlined />
+                  管理员
+                </span>
+              }
+            >
+              <Menu.Item key="updateIntro">
+                <Link to={`${url}/updateIntro`}>修改介绍</Link>
+              </Menu.Item>
+            </SubMenu>
+          ) : null}
         </Menu>
       </Sider>
       <Content>
@@ -110,6 +130,12 @@ const ThuaiSite: React.FC = () => {
           <AuthRoute exact path={`${path}/manage`}>
             <ManagePage />
           </AuthRoute>
+          <Route exact path={`${path}/battle`}>
+            <BattlePage />
+          </Route>
+          <Route exact path={`${path}/updateIntro`}>
+            <UpdateIntroPage />
+          </Route>
           <Route>
             <NotFoundPage />
           </Route>
