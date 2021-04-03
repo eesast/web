@@ -1992,10 +1992,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@types/ali-oss@6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@types/ali-oss/-/ali-oss-6.0.7.tgz#e3cc05f5989f1084ccef2ae1709d9b0bd168c3c0"
-  integrity sha512-Fjtn8fa/IxayxbMC5JdS/Bp8YC2s65ylxb0J002gXCP0uzBKwutQwyz1GpULmO10AWPjN6LpxWl81gCGXnQvVQ==
+"@types/ali-oss@6.0.8":
+  version "6.0.8"
+  resolved "https://registry.yarnpkg.com/@types/ali-oss/-/ali-oss-6.0.8.tgz#55ff45aba7e61e97998109932c1334db7bce9ea6"
+  integrity sha512-uXTUrMoYJK9a2iebOzEqUHnJ9Wz1ebh+XlghjXd1KM/E3zxt6qjbj0A5p/bGudwtW8zrEWWTdjTv+tSweD2FmQ==
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -2778,10 +2778,10 @@ ajv@^7.0.2:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-ali-oss@6.14.0:
-  version "6.14.0"
-  resolved "https://registry.yarnpkg.com/ali-oss/-/ali-oss-6.14.0.tgz#e2369acd0954a7e0c9e9aa75e4a32457ad99244d"
-  integrity sha512-zzOfk9nPgVOpgpfyFIve/TU/v3znXO1DhVLSCPdq/DiMAC3CVrU3zb7LhPkYdDVvN2nO7jJaPbxqCMyK4UOCaQ==
+ali-oss@6.15.2:
+  version "6.15.2"
+  resolved "https://registry.yarnpkg.com/ali-oss/-/ali-oss-6.15.2.tgz#276c3bdff5f89460ac9feac8d1d2a0bc32a18d6c"
+  integrity sha512-sLB3a2Q6BvD4fNfHO4a0uuVn+5dlFaWUE/tExFk8bNMTevNGb4hH419kyvTSvKsO8FGLIhyezdi2NVhLHwhPqA==
   dependencies:
     address "^1.0.0"
     agentkeepalive "^3.4.1"
