@@ -20,9 +20,9 @@ import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
 //————创建thuaicode————
-import { InsertCode, InsertCodeVariables } from "../../api/types";
-import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
-import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
+// import { InsertCode, InsertCodeVariables } from "../../api/types";
+// import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
+import { useQuery } from "@apollo/client"; //更改：取消注释
 const { Title, Text } = Typography;
 const BattlePage: React.FC = () => {
   const userInfo = getUserInfo();
@@ -43,10 +43,10 @@ const BattlePage: React.FC = () => {
       },
     }
   );
-  const [insertcode, { error: insertcodeError }] = useMutation<
-    InsertCode,
-    InsertCodeVariables
-  >(INSERTCODE);
+  // const [insertcode, { error: insertcodeError }] = useMutation<
+  //   InsertCode,
+  //   InsertCodeVariables
+  // >(INSERTCODE);
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
@@ -87,21 +87,21 @@ const BattlePage: React.FC = () => {
       </div>
     );
   }
-  if (teamid) {
-    try {
-      insertcode({
-        variables: {
-          team_id: teamid,
-        },
-      });
-    } catch (e) {
-      console.log("insertcode表失败");
-    } finally {
-      if (!insertcodeError) {
-        console.log("insertcode表成功");
-      }
-    }
-  }
+  // if (teamid) {
+  //   try {
+  //     insertcode({
+  //       variables: {
+  //         team_id: teamid,
+  //       },
+  //     });
+  //   } catch (e) {
+  //     console.log("insertcode表失败");
+  //   } finally {
+  //     if (!insertcodeError) {
+  //       console.log("insertcode表成功");
+  //     }
+  //   }
+  // }
   //   const handlePageSizeChange = (current: number, nextPageSize: number) => {
   //     setPageSize(nextPageSize);
   //     setPageNumber(current);
