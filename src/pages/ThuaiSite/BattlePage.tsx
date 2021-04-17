@@ -10,6 +10,7 @@ import {
   Upload,
   Radio,
   Result,
+  Tabs,
 } from "antd";
 import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
@@ -19,11 +20,19 @@ import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
+//----天梯队伍信息------
+import type { TableProps } from "antd/lib/table";
+import { GetAllTeamInfo_thuai, GetAllTeamInfo } from "../../api/types";
+import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/thuai.graphql";
+//----回放信息------
+import { GetRoomInfo_thuai_room, GetRoomInfo } from "../../api/types";
+import { GetRoomInfo as GETROOMINFO } from "../../api/thuai.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
 import { useQuery } from "@apollo/client"; //更改：取消注释
 const { Title, Text } = Typography;
+const { TabPane } = Tabs;
 const BattlePage: React.FC = () => {
   const userInfo = getUserInfo();
   //-----------------根据队员id查询队伍id------------------
@@ -43,10 +52,20 @@ const BattlePage: React.FC = () => {
       },
     }
   );
-  // const [insertcode, { error: insertcodeError }] = useMutation<
-  //   InsertCode,
-  //   InsertCodeVariables
-  // >(INSERTCODE);
+  //-----------------获取天梯队伍信息------------------
+  const {
+    data: teamListData,
+    loading: teamListLoading,
+    //error: teamListError,
+    //refetch: refetchteamList,
+  } = useQuery<GetAllTeamInfo>(GETALLTEAMINFO);
+  //-----------------获取room信息------------------、
+  const {
+    data: roomListData,
+    loading: roomListLoading,
+    //error: teamListError,
+    //refetch: refetchteamList,
+  } = useQuery<GetRoomInfo>(GETROOMINFO);
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
@@ -87,26 +106,6 @@ const BattlePage: React.FC = () => {
       </div>
     );
   }
-  // if (teamid) {
-  //   try {
-  //     insertcode({
-  //       variables: {
-  //         team_id: teamid,
-  //       },
-  //     });
-  //   } catch (e) {
-  //     console.log("insertcode表失败");
-  //   } finally {
-  //     if (!insertcodeError) {
-  //       console.log("insertcode表成功");
-  //     }
-  //   }
-  // }
-  //   const handlePageSizeChange = (current: number, nextPageSize: number) => {
-  //     setPageSize(nextPageSize);
-  //     setPageNumber(current);
-  //   };
-
   const handleCodeModal = () => {
     setShowCodeModal(!showCodeModal);
   };
@@ -142,6 +141,59 @@ const BattlePage: React.FC = () => {
   //     setShowCodeContentModal(true);
   //     setShowCodeModal(false);
   //   };
+  const teamListColumns: TableProps<GetAllTeamInfo_thuai>["columns"] = [
+    {
+      title: "队名",
+      dataIndex: "team_name",
+      key: "team_name",
+    },
+    {
+      title: "队长",
+      key: "team_leader",
+      render: (text, record) => record.user?.name,
+    },
+    {
+      title: "队员",
+      key: "team_member",
+      render: (text, record) =>
+        record.team_members.map((i) => [i.user.name + "   "]),
+    },
+    {
+      title: "队伍简介",
+      dataIndex: "team_sum",
+      key: "team_sum",
+      ellipsis: true,
+    },
+    {
+      title: "分数",
+      dataIndex: "score",
+      key: "score",
+      sorter: (a, b) => a.score - b.score,
+    },
+  ];
+  const roomListColumns: TableProps<GetRoomInfo_thuai_room>["columns"] = [
+    {
+      title: "ID",
+      dataIndex: "room_id",
+      key: "room_id",
+    },
+    {
+      title: "状态",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
+      title: "队名",
+      key: "team_name",
+      render: (text, record) =>
+        record.thuai_room_teams.map((i) => [i.thuai_team + "  "]),
+    },
+    {
+      title: "结果",
+      dataIndex: "result",
+      key: "result",
+    },
+  ];
 
   return (
     <div className={styles.root}>
@@ -189,16 +241,28 @@ const BattlePage: React.FC = () => {
           </Col>
         </Row>
       </div>
-      <Table
-        className={styles.list}
-        //columns={rankColumns}
-        // dataSource={teams.slice(
-        //   (pageNumber - 1) * pageSize,
-        //   pageNumber * pageSize
-        // )}
-        // pagination={rankPagination}
-        // loading={fetching}
-      />
+      <div className={styles.list}>
+        <div style={{ width: "80%" }}>
+          <Tabs type="card">
+            <TabPane tab="天梯" key="1">
+              <Table
+                className={styles.list}
+                loading={teamListLoading}
+                dataSource={teamListData?.thuai}
+                columns={teamListColumns}
+              />
+            </TabPane>
+            <TabPane tab="回放" key="2">
+              <Table
+                className={styles.list}
+                loading={roomListLoading}
+                dataSource={roomListData?.thuai_room}
+                columns={roomListColumns}
+              />
+            </TabPane>
+          </Tabs>
+        </div>
+      </div>
       <Modal
         title="代码管理"
         width="50%"
@@ -251,7 +315,6 @@ const BattlePage: React.FC = () => {
         //   pagination={false}
         />
       </Modal>
-
       <Modal
         visible={showCompileInfoModal}
         title="编译结果"
@@ -261,7 +324,6 @@ const BattlePage: React.FC = () => {
       >
         {/* <div style={{ whiteSpace: "pre" }}>{showCompileInfo}</div> */}
       </Modal>
-
       <Modal
         visible={showCodeContentModal}
         title="代码"
@@ -274,7 +336,6 @@ const BattlePage: React.FC = () => {
           {showCodeContent}
         </div> */}
       </Modal>
-
       <Modal
         visible={showHistoryModal}
         title="历史记录"
@@ -285,7 +346,6 @@ const BattlePage: React.FC = () => {
       >
         {/* <Table columns={historyColumns} dataSource={historyList} /> */}
       </Modal>
-
       <Modal
         visible={showBattleModal}
         title="对战准备"

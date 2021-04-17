@@ -50,6 +50,7 @@ query GetAllTeamInfo {
     team_name
     team_sum
     invited_code
+    score
     team_members {
       user {
         name
@@ -116,5 +117,18 @@ mutation UpdateIntro($id: Int!, $content: String = "") {
 mutation InsertCode($team_id: uuid!) {
   insert_thuai_code(objects: {team_id: $team_id}) {
     affected_rows
+  }
+}
+#roominfo
+query GetRoomInfo {
+  thuai_room {
+    thuai_room_teams {
+      thuai_team {
+        team_name
+      }
+    }
+    room_id
+    result
+    status
   }
 }

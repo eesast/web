@@ -2186,6 +2186,7 @@ export interface GetAllTeamInfo_thuai {
   team_name: string;
   team_sum: string;
   invited_code: string | null;
+  score: number;
   /**
    * An array relationship
    */
@@ -2461,6 +2462,46 @@ export interface InsertCode {
 
 export interface InsertCodeVariables {
   team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetRoomInfo
+// ====================================================
+
+export interface GetRoomInfo_thuai_room_thuai_room_teams_thuai_team {
+  __typename: "thuai";
+  team_name: string;
+}
+
+export interface GetRoomInfo_thuai_room_thuai_room_teams {
+  __typename: "thuai_room_team";
+  /**
+   * An object relationship
+   */
+  thuai_team: GetRoomInfo_thuai_room_thuai_room_teams_thuai_team;
+}
+
+export interface GetRoomInfo_thuai_room {
+  __typename: "thuai_room";
+  /**
+   * An array relationship
+   */
+  thuai_room_teams: GetRoomInfo_thuai_room_thuai_room_teams[];
+  room_id: any;
+  result: string | null;
+  status: boolean;
+}
+
+export interface GetRoomInfo {
+  /**
+   * fetch data from the table: "thuai_room"
+   */
+  thuai_room: GetRoomInfo_thuai_room[];
 }
 
 /* tslint:disable */
