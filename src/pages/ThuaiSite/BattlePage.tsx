@@ -193,6 +193,10 @@ const BattlePage: React.FC = () => {
       dataIndex: "result",
       key: "result",
     },
+    {
+      title: "下载",
+      key: "download",
+    },
   ];
 
   return (
