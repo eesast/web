@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Table,
   Typography,
-  Select,
   Row,
   Col,
   Button,
@@ -81,8 +80,8 @@ const BattlePage: React.FC = () => {
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [showCompileInfoModal, setShowCompileInfoModal] = useState(false);
   const [showCodeContentModal, setShowCodeContentModal] = useState(false);
-  const [showHistoryModal, setShowHistoryModal] = useState(false);
-  const [showBattleModal, setShowBattleModal] = useState(false);
+  //const [showHistoryModal, setShowHistoryModal] = useState(false);
+  //const [showBattleModal, setShowBattleModal] = useState(false);
   //   const [forceUpdate, setForceUpdate] = useState(true); // 更改以强制重新获取数据
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   //   const [selectedCode, setSelectedCode] = useState<ICode[]>([]); // 选择要编译的代码
@@ -113,13 +112,13 @@ const BattlePage: React.FC = () => {
     setShowCodeModal(!showCodeModal);
   };
 
-  const handleHistoryModal = () => {
-    setShowHistoryModal(!showHistoryModal);
-  };
+  // const handleHistoryModal = () => {
+  //   setShowHistoryModal(!showHistoryModal);
+  // };
 
-  const handleBattleModal = () => {
-    setShowBattleModal(!showBattleModal);
-  };
+  // const handleBattleModal = () => {
+  //   setShowBattleModal(!showBattleModal);
+  // };
 
   const handleCompileInfoModal = () => {
     setShowCompileInfoModal(false);
@@ -274,20 +273,6 @@ const BattlePage: React.FC = () => {
                 </Button>
               </Col>
             </Row>
-            <Row gutter={[16, 16]} justify="end">
-              <Col span={24}>
-                <Button size="large" onClick={handleHistoryModal}>
-                  历史记录
-                </Button>
-              </Col>
-            </Row>
-            <Row gutter={[16, 16]} justify="end">
-              <Col span={24}>
-                <Button size="large" type="primary" onClick={handleBattleModal}>
-                  开始游戏
-                </Button>
-              </Col>
-            </Row>
           </Col>
         </Row>
       </div>
@@ -385,46 +370,6 @@ const BattlePage: React.FC = () => {
         {/* <div style={{ whiteSpace: "pre" }} id="codeContent">
           {showCodeContent}
         </div> */}
-      </Modal>
-      <Modal
-        visible={showHistoryModal}
-        title="历史记录"
-        width="40%"
-        closable
-        footer={null}
-        onCancel={handleHistoryModal}
-      >
-        {/* <Table columns={historyColumns} dataSource={historyList} /> */}
-      </Modal>
-      <Modal
-        visible={showBattleModal}
-        title="对战准备"
-        closable
-        footer={null}
-        onCancel={handleBattleModal}
-      >
-        <Row gutter={16}>
-          <Col span={20}>
-            <Select
-              mode="multiple"
-              size="large"
-              style={{ width: "100%" }}
-              //value={selectedTeams}
-              //onChange={handleSelectedChange}
-            >
-              {/* {selectChildren} */}
-            </Select>
-          </Col>
-          <Col span={4}>
-            <Button
-              type="primary"
-              size="large"
-              //onClick={handleBattleStart}
-            >
-              Start
-            </Button>
-          </Col>
-        </Row>
       </Modal>
     </div>
   );
