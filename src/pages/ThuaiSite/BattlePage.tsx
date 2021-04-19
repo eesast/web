@@ -11,6 +11,7 @@ import {
   Radio,
   Result,
   Tabs,
+  message,
 } from "antd";
 import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
@@ -30,6 +31,8 @@ import { GetRoomInfo as GETROOMINFO } from "../../api/thuai.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
+//————后端发送post————
+import axios, { AxiosError } from "axios";
 import { useQuery } from "@apollo/client"; //更改：取消注释
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -122,14 +125,43 @@ const BattlePage: React.FC = () => {
     setShowCompileInfoModal(false);
     setShowCodeModal(true);
   };
-  const handleCodeUpload = async () => {};
-  //   const handleShowCompileInfo = (compileInfo: string) => {
-  //     if (compileInfo) setShowCompileInfo(compileInfo.replace("#", "\n"));
-  //     else setShowCompileInfo("暂无编译信息");
-  //     setShowCompileInfoModal(true);
-  //     setShowCodeModal(false);
-  //   };
-
+  //点击下载回放
+  const download = (record: GetRoomInfo_thuai_room) => {
+    (async () => {
+      try {
+        await axios.post("/users/verify", {});
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("401");
+        } else if (err.response?.status === 409) {
+          message.error("409");
+        } else {
+          message.error("404");
+        }
+      }
+    })();
+  };
+  //点击发起对战
+  const fight = (record: GetAllTeamInfo_thuai) => {
+    (async () => {
+      try {
+        await axios.post("api.eesast.com/room", {
+          header: {},
+          body: { room_id: record.team_id },
+        });
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("401");
+        } else if (err.response?.status === 409) {
+          message.error("409");
+        } else {
+          message.error("404");
+        }
+      }
+    })();
+  };
   const handleCodeContentModal = () => {
     setShowCodeContentModal(false);
     setShowCodeModal(true);
@@ -170,6 +202,15 @@ const BattlePage: React.FC = () => {
       key: "score",
       sorter: (a, b) => a.score - b.score,
     },
+    {
+      title: "对战",
+      key: "fight",
+      render: (text, record) => (
+        <Button type="primary" onClick={() => fight(record)}>
+          对战
+        </Button>
+      ),
+    },
   ];
   const roomListColumns: TableProps<GetRoomInfo_thuai_room>["columns"] = [
     {
@@ -194,8 +235,13 @@ const BattlePage: React.FC = () => {
       key: "result",
     },
     {
-      title: "下载",
+      title: "回放下载",
       key: "download",
+      render: (text, record) => (
+        <Button type="primary" onClick={() => download(record)}>
+          下载
+        </Button>
+      ),
     },
   ];
 
@@ -256,7 +302,7 @@ const BattlePage: React.FC = () => {
                 columns={teamListColumns}
               />
             </TabPane>
-            <TabPane tab="回放" key="2">
+            <TabPane tab="对战记录" key="2">
               <Table
                 className={styles.list}
                 loading={roomListLoading}
@@ -280,7 +326,7 @@ const BattlePage: React.FC = () => {
             <Upload
               fileList={[]} // 暂不考虑文件上传列表展示
               //onChange={handleCodeChange}
-              customRequest={handleCodeUpload}
+              //customRequest={handleCodeUpload}
             >
               <Button>上传代码</Button>
             </Upload>
