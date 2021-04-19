@@ -130,5 +130,6 @@ query GetRoomInfo {
     room_id
     result
     status
+    created_at
   }
 }
