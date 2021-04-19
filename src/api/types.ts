@@ -2495,6 +2495,7 @@ export interface GetRoomInfo_thuai_room {
   room_id: any;
   result: string | null;
   status: boolean;
+  created_at: any;
 }
 
 export interface GetRoomInfo {
@@ -2502,6 +2503,64 @@ export interface GetRoomInfo {
    * fetch data from the table: "thuai_room"
    */
   thuai_room: GetRoomInfo_thuai_room[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: MakeRoom
+// ====================================================
+
+export interface MakeRoom_insert_thuai_room_returning {
+  __typename: "thuai_room";
+  room_id: any;
+}
+
+export interface MakeRoom_insert_thuai_room {
+  __typename: "thuai_room_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: MakeRoom_insert_thuai_room_returning[];
+}
+
+export interface MakeRoom {
+  /**
+   * insert data into the table: "thuai_room"
+   */
+  insert_thuai_room: MakeRoom_insert_thuai_room | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertTeamIntoRoom
+// ====================================================
+
+export interface InsertTeamIntoRoom_insert_thuai_room_team {
+  __typename: "thuai_room_team_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertTeamIntoRoom {
+  /**
+   * insert data into the table: "thuai_room_team"
+   */
+  insert_thuai_room_team: InsertTeamIntoRoom_insert_thuai_room_team | null;
+}
+
+export interface InsertTeamIntoRoomVariables {
+  room_id: any;
+  thuai_team_id: any;
 }
 
 /* tslint:disable */

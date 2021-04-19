@@ -133,3 +133,17 @@ query GetRoomInfo {
     created_at
   }
 }
+#make a room
+mutation MakeRoom {
+  insert_thuai_room(objects: {}) {
+    returning {
+      room_id
+    }
+  }
+}
+#insert team into room
+mutation InsertTeamIntoRoom($room_id:uuid!, $thuai_team_id: uuid!) {
+  insert_thuai_room_team(objects: {room_id: $room_id, thuai_team_id: $thuai_team_id}) {
+    affected_rows
+  }
+}
