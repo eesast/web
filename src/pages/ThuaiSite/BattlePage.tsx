@@ -128,7 +128,9 @@ const BattlePage: React.FC = () => {
   const download = (record: GetRoomInfo_thuai_room) => {
     (async () => {
       try {
-        await axios.post("/users/verify", {});
+        await axios.get("api.eesast.com/room", {
+          url: "record.room_id",
+        });
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -200,6 +202,7 @@ const BattlePage: React.FC = () => {
       dataIndex: "score",
       key: "score",
       sorter: (a, b) => a.score - b.score,
+      defaultSortOrder: "descend",
     },
     {
       title: "对战",
@@ -232,6 +235,11 @@ const BattlePage: React.FC = () => {
       title: "结果",
       dataIndex: "result",
       key: "result",
+    },
+    {
+      title: "时间",
+      dataIndex: "created_at",
+      key: "created_at",
     },
     {
       title: "回放下载",
