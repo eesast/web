@@ -153,10 +153,8 @@ const BattlePage: React.FC = () => {
         });
       } catch (e) {
         const err = e as AxiosError;
-        if (err.response?.status === 401) {
-          message.error("401");
-        } else if (err.response?.status === 409) {
-          message.error("409");
+        if (err.response?.status === 400) {
+          message.error("400");
         } else {
           message.error("404");
         }
