@@ -57,6 +57,8 @@ query GetAllTeamInfo {
     }
     user {
       name
+      email
+      phone
     }
   }
 }
