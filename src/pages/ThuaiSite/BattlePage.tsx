@@ -194,8 +194,8 @@ const BattlePage: React.FC = () => {
       }
       try {
         await axios.post("api.eesast.com/room", {
-          header: {},
-          body: { room_id: record.team_id },
+          //header: {},
+          body: { room_id: makeRoomData },
         });
       } catch (e) {
         const err = e as AxiosError;
@@ -252,7 +252,11 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <Button type="primary" onClick={() => fight(record)}>
+        <Button
+          type="primary"
+          onClick={() => fight(record)}
+          disabled={record.team_id === teamid}
+        >
           对战
         </Button>
       ),
