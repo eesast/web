@@ -2496,6 +2496,7 @@ export interface GetRoomInfo_thuai_room {
   result: string | null;
   status: boolean;
   created_at: any;
+  show_id: number;
 }
 
 export interface GetRoomInfo {

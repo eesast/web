@@ -265,8 +265,8 @@ const BattlePage: React.FC = () => {
   const roomListColumns: TableProps<GetRoomInfo_thuai_room>["columns"] = [
     {
       title: "ID",
-      dataIndex: "room_id",
-      key: "room_id",
+      dataIndex: "show_id",
+      key: "show_id",
     },
     {
       title: "状态",
@@ -277,7 +277,7 @@ const BattlePage: React.FC = () => {
       title: "队名",
       key: "team_name",
       render: (text, record) =>
-        record.thuai_room_teams.map((i) => [i.thuai_team + "  "]),
+        record.thuai_room_teams.map((i) => [i.thuai_team.team_name + "  "]),
     },
     {
       title: "结果",

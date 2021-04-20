@@ -131,6 +131,7 @@ query GetRoomInfo {
     result
     status
     created_at
+    show_id
   }
 }
 #make a room
