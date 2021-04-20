@@ -158,6 +158,8 @@ const BattlePage: React.FC = () => {
             >
               <Radio value={1}>1</Radio>
               <Radio value={2}>2</Radio>
+              <Radio value={3}>3</Radio>
+              <Radio value={4}>4</Radio>
             </Radio.Group>
           </Col>
           <Col span={4}></Col>

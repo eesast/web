@@ -216,7 +216,7 @@ const JoinPage: React.FC = () => {
               onClick={exportTeamsData}
               type="primary"
               shape="round"
-              disabled //待权限管理配置完成后再更改
+              disabled={userInfo?.role !== "root"} //待权限管理配置完成后再更改
               size="small"
             >
               导出队伍信息

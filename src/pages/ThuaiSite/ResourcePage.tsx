@@ -1,3 +1,4 @@
+//import React from "react";
 import { List, Button, Empty } from "antd";
 import styles from "./ResourcePage.module.css";
 const ResourcePage = () => {

@@ -106,3 +106,9 @@ query GetIntroContent($id: Int!) {
     content
   }
 }
+#updateIntro
+mutation UpdateIntro($id: Int!, $content: String = "") {
+  update_article(where: {id: {_eq: $id}}, _set: {content: $content}) {
+    affected_rows
+  }
+}
