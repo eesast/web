@@ -2178,6 +2178,8 @@ export interface GetAllTeamInfo_thuai_team_members {
 export interface GetAllTeamInfo_thuai_user {
   __typename: "user";
   name: string | null;
+  email: string | null;
+  phone: string | null;
 }
 
 export interface GetAllTeamInfo_thuai {

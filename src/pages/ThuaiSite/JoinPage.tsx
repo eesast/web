@@ -79,9 +79,13 @@ const JoinPage: React.FC = () => {
       const data: any = [];
       const teamsData = data.concat(
         teamListData?.thuai.map((team) =>
-          [team.team_name, team.team_sum, team.user?.name].concat(
-            team.team_members.map((member) => member.user?.name)
-          )
+          [
+            team.team_name,
+            team.team_sum,
+            team.user?.name,
+            team.user?.email || "null",
+            team.user?.phone || "null",
+          ].concat(team.team_members.map((member) => member.user?.name))
         )
       );
       const workBook = xlsx.utils.book_new();
