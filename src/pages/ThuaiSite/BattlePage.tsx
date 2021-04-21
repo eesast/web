@@ -28,13 +28,8 @@ import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/thuai.graphql";
 import { GetRoomInfo_thuai_room, GetRoomInfo } from "../../api/types";
 import { GetRoomInfo as GETROOMINFO } from "../../api/thuai.graphql";
 //----插入room和team------
-import { MakeRoom } from "../../api/types";
-import { MakeRoom as MAKEROOM } from "../../api/thuai.graphql";
-import {
-  InsertTeamIntoRoom,
-  InsertTeamIntoRoomVariables,
-} from "../../api/types";
-import { InsertTeamIntoRoom as INSERTTEAMINTOROOM } from "../../api/thuai.graphql";
+import { InsertRoom, InsertRoomVariables } from "../../api/types";
+import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
@@ -76,14 +71,10 @@ const BattlePage: React.FC = () => {
     //error: teamListError,
     //refetch: refetchteamList,
   } = useQuery<GetRoomInfo>(GETROOMINFO);
-  const [insertTeamIntoRoom, { error: insertTeamIntoRoomError }] = useMutation<
-    InsertTeamIntoRoom,
-    InsertTeamIntoRoomVariables
-  >(INSERTTEAMINTOROOM);
-  const [
-    makeRoom,
-    { data: makeRoomData, error: makeRoomError },
-  ] = useMutation<MakeRoom>(MAKEROOM);
+  const [insertRoom, { error: insertRoomError }] = useMutation<
+    InsertRoom,
+    InsertRoomVariables
+  >(INSERTROOM);
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
@@ -163,46 +154,23 @@ const BattlePage: React.FC = () => {
   const fight = (record: GetAllTeamInfo_thuai) => {
     (async () => {
       try {
-        //make a room
-        await makeRoom({});
-        console.log(makeRoomData);
-        //insert the team of the user choose
-        await insertTeamIntoRoom({
+        const roomId = await insertRoom({
           variables: {
-            room_id: makeRoomData,
-            thuai_team_id: record.team_id,
+            team1_id: teamid,
+            team2_id: record.team_id,
           },
         });
-        //insert their own teamid
-        await insertTeamIntoRoom({
-          variables: {
-            room_id: makeRoomData,
-            thuai_team_id: teamid,
-          },
-        });
-      } catch (e) {
-        if (makeRoomError) {
-          console.error("maek room fail");
-          message.error("发起对战失败");
-        } else if (insertTeamIntoRoomError) {
-          console.error("insert team into room fail");
-          message.error("发起对战失败");
-        } else {
-          message.error("发起对战失败");
-          console.log("fail");
-        }
-      }
-      try {
         await axios.post("api.eesast.com/room", {
           //header: {},
-          body: { room_id: makeRoomData },
+          room_id: roomId,
         });
       } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 400) {
-          message.error("400");
+        if (insertRoomError) {
+          console.error("make room fail");
+          message.error("发起对战失败");
         } else {
-          message.error("404");
+          message.error("发起对战失败");
+          console.log(e);
         }
       }
     })();
@@ -233,7 +201,7 @@ const BattlePage: React.FC = () => {
       title: "队员",
       key: "team_member",
       render: (text, record) =>
-        record.team_members.map((i) => [i.user.name + "   "]),
+        record.team_members.map((i) => [i.user.name + "  "]),
     },
     {
       title: "队伍简介",

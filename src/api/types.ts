@@ -2178,6 +2178,8 @@ export interface GetAllTeamInfo_thuai_team_members {
 export interface GetAllTeamInfo_thuai_user {
   __typename: "user";
   name: string | null;
+  email: string | null;
+  phone: string | null;
 }
 
 export interface GetAllTeamInfo_thuai {
@@ -2512,56 +2514,24 @@ export interface GetRoomInfo {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: MakeRoom
+// GraphQL mutation operation: InsertRoom
 // ====================================================
 
-export interface MakeRoom_insert_thuai_room_returning {
+export interface InsertRoom_insert_thuai_room_one {
   __typename: "thuai_room";
   room_id: any;
 }
 
-export interface MakeRoom_insert_thuai_room {
-  __typename: "thuai_room_mutation_response";
+export interface InsertRoom {
   /**
-   * data of the affected rows by the mutation
+   * insert a single row into the table: "thuai_room"
    */
-  returning: MakeRoom_insert_thuai_room_returning[];
+  insert_thuai_room_one: InsertRoom_insert_thuai_room_one | null;
 }
 
-export interface MakeRoom {
-  /**
-   * insert data into the table: "thuai_room"
-   */
-  insert_thuai_room: MakeRoom_insert_thuai_room | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: InsertTeamIntoRoom
-// ====================================================
-
-export interface InsertTeamIntoRoom_insert_thuai_room_team {
-  __typename: "thuai_room_team_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface InsertTeamIntoRoom {
-  /**
-   * insert data into the table: "thuai_room_team"
-   */
-  insert_thuai_room_team: InsertTeamIntoRoom_insert_thuai_room_team | null;
-}
-
-export interface InsertTeamIntoRoomVariables {
-  room_id: any;
-  thuai_team_id: any;
+export interface InsertRoomVariables {
+  team1_id?: any | null;
+  team2_id?: any | null;
 }
 
 /* tslint:disable */
