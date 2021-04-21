@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Typography,
@@ -33,6 +33,23 @@ import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
+//上传代码
+import {
+  UpsertCode1,
+  UpsertCode1Variables,
+  UpsertCode2,
+  UpsertCode2Variables,
+  UpsertCode3,
+  UpsertCode3Variables,
+  UpsertCode4,
+  UpsertCode4Variables,
+} from "../../api/types";
+import {
+  UpsertCode1 as UPSERTCODE1,
+  UpsertCode2 as UPSERTCODE2,
+  UpsertCode3 as UPSERTCODE3,
+  UpsertCode4 as UPSERTCODE4,
+} from "../../api/thuai.graphql";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
@@ -78,7 +95,25 @@ const BattlePage: React.FC = () => {
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
+  const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
+    UpsertCode1,
+    UpsertCode1Variables
+  >(UPSERTCODE1);
 
+  const [upsertCode2, { data: code2, error: code2Error }] = useMutation<
+    UpsertCode2,
+    UpsertCode2Variables
+  >(UPSERTCODE2);
+
+  const [upsertCode3, { data: code3, error: code3Error }] = useMutation<
+    UpsertCode3,
+    UpsertCode3Variables
+  >(UPSERTCODE3);
+
+  const [upsertCode4, { data: code4, error: code4Error }] = useMutation<
+    UpsertCode4,
+    UpsertCode4Variables
+  >(UPSERTCODE4);
   //   const [codeList, setCodeList] = useState<ICode[]>([]);
   //   const [historyList, setHistoryList] = useState<IRoom[]>([]);
   //   const [pageSize, setPageSize] = useState(5);
@@ -98,6 +133,23 @@ const BattlePage: React.FC = () => {
   //     setPageNumber(currentPage);
   //     if (nextPageSize) setPageSize(nextPageSize);
   //   };
+  useEffect(() => {
+    if (code1Error || code2Error || code3Error || code4Error) {
+      message.error("上传代码失败");
+    } else {
+      message.success("上传代码成功");
+    }
+  }, [
+    code1,
+    code1Error,
+    code2,
+    code2Error,
+    code3,
+    code3Error,
+    code4,
+    code4Error,
+  ]);
+
   if (!teamid) {
     return (
       <div>
@@ -115,6 +167,33 @@ const BattlePage: React.FC = () => {
       </div>
     );
   }
+  const handleCodeChange1 = async (values: any) => {
+    upsertCode1({ variables: { ...values, team_id: teamid! } });
+    console.log(values);
+  };
+  const handleCodeChange2 = async (values: any) => {
+    upsertCode2({ variables: { ...values, team_id: teamid! } });
+  };
+  const handleCodeChange3 = async (values: any) => {
+    upsertCode3({ variables: { ...values, team_id: teamid! } });
+  };
+  const handleCodeChange4 = async (values: any) => {
+    upsertCode4({ variables: { ...values, team_id: teamid! } });
+  };
+  const handleCodeChange = (codeRole: any) => {
+    switch (codeRole) {
+      case 1:
+        return handleCodeChange1;
+      case 2:
+        return handleCodeChange2;
+      case 3:
+        return handleCodeChange3;
+      case 4:
+        return handleCodeChange4;
+      default:
+        break;
+    }
+  };
   const handleCodeModal = () => {
     setShowCodeModal(!showCodeModal);
   };
@@ -333,8 +412,10 @@ const BattlePage: React.FC = () => {
         <Row justify="space-between">
           <Col span={8}>
             <Upload
+              name="code"
               fileList={[]} // 暂不考虑文件上传列表展示
-              //onChange={handleCodeChange}
+              //onChange={handleCodeChange1}
+              onChange={handleCodeChange(codeRole)}
               //customRequest={handleCodeUpload}
             >
               <Button>上传代码</Button>
