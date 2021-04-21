@@ -79,9 +79,13 @@ const JoinPage: React.FC = () => {
       const data: any = [];
       const teamsData = data.concat(
         teamListData?.thuai.map((team) =>
-          [team.team_name, team.team_sum, team.user?.name].concat(
-            team.team_members.map((member) => member.user?.name)
-          )
+          [
+            team.team_name,
+            team.team_sum,
+            team.user?.name,
+            team.user?.email || "null",
+            team.user?.phone || "null",
+          ].concat(team.team_members.map((member) => member.user?.name))
         )
       );
       const workBook = xlsx.utils.book_new();
@@ -216,7 +220,7 @@ const JoinPage: React.FC = () => {
               onClick={exportTeamsData}
               type="primary"
               shape="round"
-              disabled //待权限管理配置完成后再更改
+              disabled={userInfo?.role !== "root"} //待权限管理配置完成后再更改
               size="small"
             >
               导出队伍信息
