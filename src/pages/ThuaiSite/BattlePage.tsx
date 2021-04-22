@@ -96,6 +96,7 @@ const BattlePage: React.FC = () => {
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
+  //-----------------上传代码------------------、
   const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
     UpsertCode1,
     UpsertCode1Variables
@@ -453,12 +454,6 @@ const BattlePage: React.FC = () => {
           </Col>
         </Row>
         <TextArea placeholder="输入完整代码" onChange={(e) => inputChange(e)} />
-        <Table
-        //   columns={codeColumns}
-        //   dataSource={codeList}
-        //   rowSelection={codeSelctionConfig}
-        //   pagination={false}
-        />
       </Modal>
       <Modal
         visible={showCompileInfoModal}
