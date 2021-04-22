@@ -224,7 +224,7 @@ const BattlePage: React.FC = () => {
   const download = (record: GetRoomInfo_thuai_room) => {
     (async () => {
       try {
-        await axios.get("api.eesast.com/room", {
+        await axios.get("room", {
           url: "record.room_id",
         });
       } catch (e) {
@@ -249,7 +249,7 @@ const BattlePage: React.FC = () => {
             team2_id: record.team_id,
           },
         });
-        await axios.post("api.eesast.com/room", {
+        await axios.post("room", {
           //header: {},
           room_id: roomId,
         });
