@@ -205,7 +205,6 @@ const BattlePage: React.FC = () => {
   const download = (record: GetRoomInfo_thuai_room) => {
     (async () => {
       try {
-
         await axios.get(`room/${record.room_id}`);
       } catch (e) {
         const err = e as AxiosError;
@@ -231,7 +230,7 @@ const BattlePage: React.FC = () => {
         });
         await axios.post("room", {
           //header: {},
-          room_id: roomId,
+          room_id: roomId.data?.insert_thuai_room_one?.room_id,
         });
       } catch (e) {
         if (insertRoomError) {
