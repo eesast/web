@@ -33,7 +33,7 @@ import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
-
+import FileSaver from "file-saver";
 //上传代码
 import {
   UpsertCode1,
@@ -205,7 +205,10 @@ const BattlePage: React.FC = () => {
   const download = (record: GetRoomInfo_thuai_room) => {
     (async () => {
       try {
-        await axios.get(`room/${record.room_id}`);
+        const response = await axios.get(`room/${record.room_id}`, {
+          responseType: "blob",
+        });
+        FileSaver.saveAs(response.data, record.created_at);
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -303,7 +306,7 @@ const BattlePage: React.FC = () => {
         <Button
           type="primary"
           onClick={() => fight(record)}
-          disabled={record.team_id === teamid}
+          //disabled={record.team_id === teamid}
         >
           对战
         </Button>
@@ -339,9 +342,13 @@ const BattlePage: React.FC = () => {
     },
     {
       title: "回放下载",
-      key: "download",
+      key: "file",
       render: (text, record) => (
-        <Button type="primary" onClick={() => download(record)}>
+        <Button
+          type="primary"
+          onClick={() => download(record)}
+          disabled={record.status !== true}
+        >
           下载
         </Button>
       ),
