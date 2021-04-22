@@ -167,3 +167,78 @@ mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
     room_id
   }
 }
+
+
+#上传选手代码（原有：更新，无：插入）
+mutation UpsertCode1(
+  $code: String = ""
+  $team_id: uuid!
+) {
+  insert_thuai_code_one(
+    object: {
+      code_1: $code
+      team_id: $team_id
+    }
+    on_conflict: {
+      constraint: thuai_code_pkey
+      update_columns: [code_1]
+    }
+  ) {
+    team_id
+  }
+}
+
+mutation UpsertCode2(
+  $code: String = ""
+  $team_id: uuid!
+) {
+  insert_thuai_code_one(
+    object: {
+      code_2: $code
+      team_id: $team_id
+    }
+    on_conflict: {
+      constraint: thuai_code_pkey
+      update_columns: [code_2]
+    }
+  ) {
+    team_id
+  }
+}
+
+mutation UpsertCode3(
+  $code: String = ""
+  $team_id: uuid!
+) {
+  insert_thuai_code_one(
+    object: {
+      code_3: $code
+      team_id: $team_id
+    }
+    on_conflict: {
+      constraint: thuai_code_pkey
+      update_columns: [code_3]
+    }
+  ) {
+    team_id
+  }
+}
+
+mutation UpsertCode4(
+  $code: String = ""
+  $team_id: uuid!
+) {
+  insert_thuai_code_one(
+    object: {
+      code_4: $code
+      team_id: $team_id
+    }
+    on_conflict: {
+      constraint: thuai_code_pkey
+      update_columns: [code_4]
+    }
+  ) {
+    team_id
+  }
+}
+

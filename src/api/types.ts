@@ -2541,6 +2541,112 @@ export interface InsertRoomVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+
+// GraphQL mutation operation: UpsertCode1
+// ====================================================
+
+export interface UpsertCode1_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode1 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode1_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode1Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode2
+// ====================================================
+
+export interface UpsertCode2_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode2 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode2_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode2Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode3
+// ====================================================
+
+export interface UpsertCode3_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode3 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode3_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode3Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode4
+// ====================================================
+
+export interface UpsertCode4_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode4 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode4_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode4Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+
 // GraphQL query operation: GetUser
 // ====================================================
 
