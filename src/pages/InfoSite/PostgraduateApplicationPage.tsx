@@ -5,25 +5,26 @@ import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
   VerifyPostgraduateApplication as VERIFY_POSTGRADUATE_APPLICATION,
   DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
-  GetPostgraudateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
+  GetPostgraduateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
   GetPostAppHistory as GET_POST_APP_HISTORY,
   SetPostAppHistory as SET_POST_APP_HISTORY,
 } from "../../api/postgraduate.graphql";
 import {
-  GetPostgraudateApplicationFeeds_postgraduate_application as applicationInfo,
+  GetPostgraduateApplicationFeeds_postgraduate_application as applicationInfo,
   GetPostAppHistory_postgraduate_application_history as applicationHistory,
   VerifyPostgraduateApplication,
   VerifyPostgraduateApplicationVariables,
   DeletePostgraduateApplication,
   DeletePostgraduateApplicationVariables,
-  GetPostgraudateApplicationFeeds,
-  GetPostgraudateApplicationFeedsVariables,
+  GetPostgraduateApplicationFeeds,
+  GetPostgraduateApplicationFeedsVariables,
   GetPostAppHistory,
   GetPostAppHistoryVariables,
   SetPostAppHistory,
   SetPostAppHistoryVariables,
 } from "../../api/types";
 import { getUserInfo } from "../../helpers/auth";
+import dayjs from "dayjs";
 
 const PostgraduateApplicationPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -49,8 +50,8 @@ const PostgraduateApplicationPage: React.FC = () => {
   >(SET_POST_APP_HISTORY);
 
   const { data, loading, error, refetch: refetchFeeds } = useQuery<
-    GetPostgraudateApplicationFeeds,
-    GetPostgraudateApplicationFeedsVariables
+    GetPostgraduateApplicationFeeds,
+    GetPostgraduateApplicationFeedsVariables
   >(GET_POSTGRADUATE_APPLICATON_FEEDS, {
     variables: { limit: pageSize, offset: offset },
   });
@@ -113,7 +114,7 @@ const PostgraduateApplicationPage: React.FC = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (text) => {
-        return new Date(text).toDateString();
+        return dayjs(text).format("YYYY-MM-DD");
       },
     },
     {
@@ -123,6 +124,23 @@ const PostgraduateApplicationPage: React.FC = () => {
       render: (user) => {
         return user.name;
       },
+    },
+    {
+      title: "班级",
+      dataIndex: "user",
+      key: "class",
+      render: (user) => user.class,
+      filters: [
+        { text: "无81", value: "无81" },
+        { text: "无82", value: "无82" },
+        { text: "无83", value: "无83" },
+        { text: "无84", value: "无84" },
+        { text: "无85", value: "无85" },
+        { text: "无86", value: "无86" },
+        { text: "无87", value: "无87" },
+        { text: "无88", value: "无88" },
+      ],
+      onFilter: (value, record) => record.user.class === value,
     },
     {
       title: "导师",
@@ -141,10 +159,12 @@ const PostgraduateApplicationPage: React.FC = () => {
           <Tag>有意向</Tag>
         ) : text === "in_contact" ? (
           <Tag>联络中</Tag>
-        ) : text === "confirmed_unverified" ? (
+        ) : text === "confirmed" ? (
           <Tag color="lime">已确认（未审核）</Tag>
-        ) : (
+        ) : text === "confirmed_verified" ? (
           <Tag color="green">已确认（通过）</Tag>
+        ) : (
+          <Tag color="red">未匹配字段</Tag>
         );
       },
     },
@@ -209,7 +229,7 @@ const PostgraduateApplicationPage: React.FC = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (text) => {
-        return new Date(text).toDateString();
+        return dayjs(text).format("YYYY-MM-DD");
       },
     },
     {
@@ -219,6 +239,23 @@ const PostgraduateApplicationPage: React.FC = () => {
       render: (user) => {
         return user.name;
       },
+    },
+    {
+      title: "班级",
+      dataIndex: "user",
+      key: "class",
+      render: (user) => user.class,
+      filters: [
+        { text: "无01", value: "无01" },
+        { text: "无02", value: "无02" },
+        { text: "无03", value: "无03" },
+        { text: "无04", value: "无04" },
+        { text: "无05", value: "无05" },
+        { text: "无06", value: "无06" },
+        { text: "无07", value: "无07" },
+        { text: "无08", value: "无08" },
+      ],
+      onFilter: (value, record) => record.user.class === value,
     },
     {
       title: "导师",
@@ -239,8 +276,10 @@ const PostgraduateApplicationPage: React.FC = () => {
           <Tag>联络中</Tag>
         ) : text === "confirmed_unverified" ? (
           <Tag color="lime">已确认（未审核）</Tag>
-        ) : (
+        ) : text === "confirmed_verified" ? (
           <Tag color="green">已确认（通过）</Tag>
+        ) : (
+          <Tag color="red">未知</Tag>
         );
       },
     },

@@ -221,6 +221,9 @@ export interface GetApprovedMentorApplications_mentor_application {
    */
   mentor: GetApprovedMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -560,6 +563,9 @@ export interface GetMentorApplications_mentor_application {
    */
   mentor: GetMentorApplications_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -622,6 +628,9 @@ export interface GetMentorApplicationsForCounselors_mentor_application {
    */
   mentor: GetMentorApplicationsForCounselors_mentor_application_mentor;
   statement: string;
+  /**
+   * approved | submitted
+   */
   status: string;
   created_at: any;
   updated_at: any;
@@ -795,6 +804,31 @@ export interface UpdateMentorApplicationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteMentorApplication
+// ====================================================
+
+export interface DeleteMentorApplication_delete_mentor_application_by_pk {
+  __typename: "mentor_application";
+  id: any;
+}
+
+export interface DeleteMentorApplication {
+  /**
+   * delete single row from the table: "mentor_application"
+   */
+  delete_mentor_application_by_pk: DeleteMentorApplication_delete_mentor_application_by_pk | null;
+}
+
+export interface DeleteMentorApplicationVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetMentorList
 // ====================================================
 
@@ -852,6 +886,86 @@ export interface GetMentorList {
    * perform the action: "user_by_role"
    */
   user_by_role: GetMentorList_user_by_role[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertMentorInfo
+// ====================================================
+
+export interface UpsertMentorInfo_insert_mentor_info_one {
+  __typename: "mentor_info";
+  mentor_id: string;
+}
+
+export interface UpsertMentorInfo {
+  /**
+   * insert a single row into the table: "mentor_info"
+   */
+  insert_mentor_info_one: UpsertMentorInfo_insert_mentor_info_one | null;
+}
+
+export interface UpsertMentorInfoVariables {
+  achievement?: string | null;
+  background?: string | null;
+  field?: string | null;
+  intro?: string | null;
+  mentor_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMentorInfo
+// ====================================================
+
+export interface GetMentorInfo_mentor_info_by_pk_user {
+  __typename: "user";
+  name: string | null;
+  email: string | null;
+}
+
+export interface GetMentorInfo_mentor_info_by_pk {
+  __typename: "mentor_info";
+  /**
+   * 学术成果
+   */
+  achievement: string | null;
+  /**
+   * 教育背景
+   */
+  background: string | null;
+  /**
+   * 研究领域
+   */
+  field: string | null;
+  /**
+   * 简要信息：联系方式、职位等
+   */
+  intro: string | null;
+  mentor_id: string;
+  /**
+   * An object relationship
+   */
+  user: GetMentorInfo_mentor_info_by_pk_user;
+}
+
+export interface GetMentorInfo {
+  /**
+   * fetch data from the table: "mentor_info" using primary key columns
+   */
+  mentor_info_by_pk: GetMentorInfo_mentor_info_by_pk | null;
+}
+
+export interface GetMentorInfoVariables {
+  mentor_id: string;
 }
 
 /* tslint:disable */
@@ -1253,7 +1367,14 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
+  /**
+   * 固定名额
+   */
   phd_quota: any;
+  /**
+   * 非固定名额
+   */
+  phd_quota_unfixed: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1311,6 +1432,11 @@ export interface GetPostgraduateFeedsVariables {
 // GraphQL query operation: GetUnverifiedMentorInfo
 // ====================================================
 
+export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_userEditor {
+  __typename: "user";
+  name: string | null;
+}
+
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate_max {
   __typename: "postgraduate_application_max_fields";
   updated_at: any | null;
@@ -1366,7 +1492,14 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
   updated_at: any;
   mentor: string;
   field: string;
+  /**
+   * 固定名额
+   */
   phd_quota: any;
+  /**
+   * 非固定名额
+   */
+  phd_quota_unfixed: any;
   contact: string;
   alternate_contact: string | null;
   home_page: string | null;
@@ -1375,6 +1508,10 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
    * 创建此信息用户id，有权更改
    */
   user_id: string;
+  /**
+   * An object relationship
+   */
+  userEditor: GetUnverifiedMentorInfo_postgraduate_mentor_info_userEditor;
   /**
    * An aggregated array relationship
    */
@@ -1444,6 +1581,7 @@ export interface InsertPostgraduateInfoVariables {
   detail_info?: string | null;
   home_page?: string | null;
   phd_quota?: any | null;
+  phd_quota_unfixed?: any | null;
   user_id: string;
 }
 
@@ -1477,6 +1615,7 @@ export interface UpdatePostgraduateInfoVariables {
   detail_info?: string | null;
   home_page?: string | null;
   phd_quota?: any | null;
+  phd_quota_unfixed?: any | null;
 }
 
 /* tslint:disable */
@@ -1538,7 +1677,7 @@ export interface InsertApplication {
 
 export interface InsertApplicationVariables {
   mentor_info_id: number;
-  status?: string | null;
+  status: string;
   user_id: string;
   verified: boolean;
 }
@@ -1574,30 +1713,31 @@ export interface VerifyMentorInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetPostgraudateApplicationFeeds
+// GraphQL query operation: GetPostgraduateApplicationFeeds
 // ====================================================
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
   count: number | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_aggregate {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate {
   __typename: "postgraduate_application_aggregate";
-  aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate_aggregate | null;
+  aggregate: GetPostgraduateApplicationFeeds_postgraduate_application_aggregate_aggregate | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_mentor {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_mentor {
   __typename: "postgraduate_mentor_info";
   mentor: string;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application_user {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application_user {
   __typename: "user";
   name: string | null;
+  class: string | null;
 }
 
-export interface GetPostgraudateApplicationFeeds_postgraduate_application {
+export interface GetPostgraduateApplicationFeeds_postgraduate_application {
   __typename: "postgraduate_application";
   created_at: any;
   mentor_info_id: number;
@@ -1610,25 +1750,25 @@ export interface GetPostgraudateApplicationFeeds_postgraduate_application {
   /**
    * An object relationship
    */
-  mentor: GetPostgraudateApplicationFeeds_postgraduate_application_mentor;
+  mentor: GetPostgraduateApplicationFeeds_postgraduate_application_mentor;
   /**
    * An object relationship
    */
-  user: GetPostgraudateApplicationFeeds_postgraduate_application_user;
+  user: GetPostgraduateApplicationFeeds_postgraduate_application_user;
 }
 
-export interface GetPostgraudateApplicationFeeds {
+export interface GetPostgraduateApplicationFeeds {
   /**
    * fetch aggregated fields from the table: "postgraduate_application"
    */
-  postgraduate_application_aggregate: GetPostgraudateApplicationFeeds_postgraduate_application_aggregate;
+  postgraduate_application_aggregate: GetPostgraduateApplicationFeeds_postgraduate_application_aggregate;
   /**
    * fetch data from the table: "postgraduate_application"
    */
-  postgraduate_application: GetPostgraudateApplicationFeeds_postgraduate_application[];
+  postgraduate_application: GetPostgraduateApplicationFeeds_postgraduate_application[];
 }
 
-export interface GetPostgraudateApplicationFeedsVariables {
+export interface GetPostgraduateApplicationFeedsVariables {
   offset?: number | null;
   limit?: number | null;
 }
@@ -1689,6 +1829,31 @@ export interface GetSelfPostgraduateApplicationsVariables {
   user_id: string;
   offset?: number | null;
   limit?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetSelfConfirmedApplication
+// ====================================================
+
+export interface GetSelfConfirmedApplication_postgraduate_application {
+  __typename: "postgraduate_application";
+  mentor_info_id: number;
+}
+
+export interface GetSelfConfirmedApplication {
+  /**
+   * fetch data from the table: "postgraduate_application"
+   */
+  postgraduate_application: GetSelfConfirmedApplication_postgraduate_application[];
+}
+
+export interface GetSelfConfirmedApplicationVariables {
+  user_id: string;
 }
 
 /* tslint:disable */
@@ -1788,6 +1953,7 @@ export interface GetPostAppHistory_postgraduate_application_history_mentor {
 export interface GetPostAppHistory_postgraduate_application_history_user {
   __typename: "user";
   name: string | null;
+  class: string | null;
 }
 
 export interface GetPostAppHistory_postgraduate_application_history {
@@ -1842,6 +2008,645 @@ export interface GetPostAppHistoryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: InsertThuai
+// ====================================================
+
+export interface InsertThuai_insert_thuai {
+  __typename: "thuai_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertThuai {
+  /**
+   * insert data into the table: "thuai"
+   */
+  insert_thuai: InsertThuai_insert_thuai | null;
+}
+
+export interface InsertThuaiVariables {
+  team_name: string;
+  team_sum: string;
+  team_leader: string;
+  invited_code: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: IsTeamLeader
+// ====================================================
+
+export interface IsTeamLeader_user_team_as_leader {
+  __typename: "thuai";
+  team_id: any;
+}
+
+export interface IsTeamLeader_user {
+  __typename: "user";
+  /**
+   * An array relationship
+   */
+  team_as_leader: IsTeamLeader_user_team_as_leader[];
+}
+
+export interface IsTeamLeader {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: IsTeamLeader_user[];
+}
+
+export interface IsTeamLeaderVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: IsTeamMember
+// ====================================================
+
+export interface IsTeamMember_user_team_as_member {
+  __typename: "team_member";
+  team_id: any;
+}
+
+export interface IsTeamMember_user {
+  __typename: "user";
+  /**
+   * An array relationship
+   */
+  team_as_member: IsTeamMember_user_team_as_member[];
+}
+
+export interface IsTeamMember {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: IsTeamMember_user[];
+}
+
+export interface IsTeamMemberVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTeamInfo
+// ====================================================
+
+export interface GetTeamInfo_thuai_team_members_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetTeamInfo_thuai_team_members {
+  __typename: "team_member";
+  /**
+   * An object relationship
+   */
+  user: GetTeamInfo_thuai_team_members_user;
+}
+
+export interface GetTeamInfo_thuai_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetTeamInfo_thuai {
+  __typename: "thuai";
+  invited_code: string | null;
+  team_leader: string | null;
+  team_name: string;
+  team_sum: string;
+  /**
+   * An array relationship
+   */
+  team_members: GetTeamInfo_thuai_team_members[];
+  /**
+   * An object relationship
+   */
+  user: GetTeamInfo_thuai_user | null;
+}
+
+export interface GetTeamInfo {
+  /**
+   * fetch data from the table: "thuai"
+   */
+  thuai: GetTeamInfo_thuai[];
+}
+
+export interface GetTeamInfoVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetAllTeamInfo
+// ====================================================
+
+export interface GetAllTeamInfo_thuai_team_members_user {
+  __typename: "user";
+  name: string | null;
+}
+
+export interface GetAllTeamInfo_thuai_team_members {
+  __typename: "team_member";
+  /**
+   * An object relationship
+   */
+  user: GetAllTeamInfo_thuai_team_members_user;
+}
+
+export interface GetAllTeamInfo_thuai_user {
+  __typename: "user";
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+}
+
+export interface GetAllTeamInfo_thuai {
+  __typename: "thuai";
+  team_id: any;
+  team_name: string;
+  team_sum: string;
+  invited_code: string | null;
+  score: number;
+  /**
+   * An array relationship
+   */
+  team_members: GetAllTeamInfo_thuai_team_members[];
+  /**
+   * An object relationship
+   */
+  user: GetAllTeamInfo_thuai_user | null;
+}
+
+export interface GetAllTeamInfo {
+  /**
+   * fetch data from the table: "thuai"
+   */
+  thuai: GetAllTeamInfo_thuai[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertTeamMember
+// ====================================================
+
+export interface InsertTeamMember_insert_team_member {
+  __typename: "team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertTeamMember {
+  /**
+   * insert data into the table: "team_member"
+   */
+  insert_team_member: InsertTeamMember_insert_team_member | null;
+}
+
+export interface InsertTeamMemberVariables {
+  team_id: any;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateTeam
+// ====================================================
+
+export interface UpdateTeam_update_thuai {
+  __typename: "thuai_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateTeam {
+  /**
+   * update data of the table: "thuai"
+   */
+  update_thuai: UpdateTeam_update_thuai | null;
+}
+
+export interface UpdateTeamVariables {
+  team_id: any;
+  team_name: string;
+  team_sum?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMemberInfo
+// ====================================================
+
+export interface GetMemberInfo_team_member_user {
+  __typename: "user";
+  name: string | null;
+  id: any | null;
+  _id: string;
+}
+
+export interface GetMemberInfo_team_member {
+  __typename: "team_member";
+  /**
+   * An object relationship
+   */
+  user: GetMemberInfo_team_member_user;
+}
+
+export interface GetMemberInfo {
+  /**
+   * fetch data from the table: "team_member"
+   */
+  team_member: GetMemberInfo_team_member[];
+}
+
+export interface GetMemberInfoVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTeam
+// ====================================================
+
+export interface DeleteTeam_delete_thuai {
+  __typename: "thuai_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteTeam {
+  /**
+   * delete data from the table: "thuai"
+   */
+  delete_thuai: DeleteTeam_delete_thuai | null;
+}
+
+export interface DeleteTeamVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteAllTeamMember
+// ====================================================
+
+export interface DeleteAllTeamMember_delete_team_member {
+  __typename: "team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteAllTeamMember {
+  /**
+   * delete data from the table: "team_member"
+   */
+  delete_team_member: DeleteAllTeamMember_delete_team_member | null;
+}
+
+export interface DeleteAllTeamMemberVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTeamMember
+// ====================================================
+
+export interface DeleteTeamMember_delete_team_member {
+  __typename: "team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteTeamMember {
+  /**
+   * delete data from the table: "team_member"
+   */
+  delete_team_member: DeleteTeamMember_delete_team_member | null;
+}
+
+export interface DeleteTeamMemberVariables {
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetIntroContent
+// ====================================================
+
+export interface GetIntroContent_article {
+  __typename: "article";
+  content: string;
+}
+
+export interface GetIntroContent {
+  /**
+   * fetch data from the table: "article"
+   */
+  article: GetIntroContent_article[];
+}
+
+export interface GetIntroContentVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateIntro
+// ====================================================
+
+export interface UpdateIntro_update_article {
+  __typename: "article_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateIntro {
+  /**
+   * update data of the table: "article"
+   */
+  update_article: UpdateIntro_update_article | null;
+}
+
+export interface UpdateIntroVariables {
+  id: number;
+  content?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+
+// GraphQL mutation operation: InsertCode
+// ====================================================
+
+export interface InsertCode_insert_thuai_code {
+  __typename: "thuai_code_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertCode {
+  /**
+   * insert data into the table: "thuai_code"
+   */
+  insert_thuai_code: InsertCode_insert_thuai_code | null;
+}
+
+export interface InsertCodeVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetRoomInfo
+// ====================================================
+
+export interface GetRoomInfo_thuai_room_thuai_room_teams_thuai_team {
+  __typename: "thuai";
+  team_name: string;
+}
+
+export interface GetRoomInfo_thuai_room_thuai_room_teams {
+  __typename: "thuai_room_team";
+  /**
+   * An object relationship
+   */
+  thuai_team: GetRoomInfo_thuai_room_thuai_room_teams_thuai_team;
+}
+
+export interface GetRoomInfo_thuai_room {
+  __typename: "thuai_room";
+  /**
+   * An array relationship
+   */
+  thuai_room_teams: GetRoomInfo_thuai_room_thuai_room_teams[];
+  room_id: any;
+  result: string | null;
+  status: boolean;
+  created_at: any;
+  show_id: number;
+}
+
+export interface GetRoomInfo {
+  /**
+   * fetch data from the table: "thuai_room"
+   */
+  thuai_room: GetRoomInfo_thuai_room[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertRoom
+// ====================================================
+
+export interface InsertRoom_insert_thuai_room_one {
+  __typename: "thuai_room";
+  room_id: any;
+}
+
+export interface InsertRoom {
+  /**
+   * insert a single row into the table: "thuai_room"
+   */
+  insert_thuai_room_one: InsertRoom_insert_thuai_room_one | null;
+}
+
+export interface InsertRoomVariables {
+  team1_id?: any | null;
+  team2_id?: any | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+
+// GraphQL mutation operation: UpsertCode1
+// ====================================================
+
+export interface UpsertCode1_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode1 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode1_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode1Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode2
+// ====================================================
+
+export interface UpsertCode2_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode2 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode2_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode2Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode3
+// ====================================================
+
+export interface UpsertCode3_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode3 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode3_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode3Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode4
+// ====================================================
+
+export interface UpsertCode4_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode4 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode4_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode4Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+
 // GraphQL query operation: GetUser
 // ====================================================
 
@@ -1901,6 +2706,31 @@ export interface GetUserByIdVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetUserByName
+// ====================================================
+
+export interface GetUserByName_user {
+  __typename: "user";
+  _id: string;
+}
+
+export interface GetUserByName {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUserByName_user[];
+}
+
+export interface GetUserByNameVariables {
+  name: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: UpdateUser
 // ====================================================
 
@@ -1922,6 +2752,41 @@ export interface UpdateUser {
 export interface UpdateUserVariables {
   _id: string;
   id: any;
+  username?: string | null;
+  phone?: string | null;
+  name?: string | null;
+  department?: string | null;
+  class?: string | null;
+  email?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateUserForTeacher
+// ====================================================
+
+export interface UpdateUserForTeacher_update_user {
+  __typename: "user_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateUserForTeacher {
+  /**
+   * update data of the table: "user"
+   */
+  update_user: UpdateUserForTeacher_update_user | null;
+}
+
+export interface UpdateUserForTeacherVariables {
+  _id: string;
+  id?: any | null;
   username?: string | null;
   phone?: string | null;
   name?: string | null;

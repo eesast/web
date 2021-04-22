@@ -25,6 +25,7 @@ import {
   InsertApplication as INSERT_APPLICATION,
   DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
   SetPostAppHistory as SET_POST_APP_HISTORY,
+  GetSelfConfirmedApplication as GET_SELF_CONFIRMED_APPLICATION,
 } from "../../api/postgraduate.graphql";
 import {
   GetPostgraduateFeeds,
@@ -45,8 +46,11 @@ import {
   DeletePostgraduateApplicationVariables,
   SetPostAppHistory,
   SetPostAppHistoryVariables,
+  GetSelfConfirmedApplication,
+  GetSelfConfirmedApplicationVariables,
 } from "../../api/types";
 import { getUserInfo } from "../../helpers/auth";
+import dayjs from "dayjs";
 
 const { Text } = Typography;
 
@@ -114,7 +118,7 @@ const PostgraduateMentorPage: React.FC = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (text) => {
-        return new Date(text).toDateString();
+        return dayjs(text).format("YYYY-MM-DD");
       },
     },
     {
@@ -129,8 +133,14 @@ const PostgraduateMentorPage: React.FC = () => {
     },
     {
       title: "博士名额",
-      dataIndex: "phd_quota",
       key: "phd_quota",
+      render: (_, record) => {
+        return (
+          <>{`${record.phd_quota}-${
+            record.phd_quota + record.phd_quota_unfixed
+          }`}</>
+        );
+      },
     },
     {
       title: "报名情况",
@@ -220,7 +230,7 @@ const PostgraduateMentorPage: React.FC = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (text) => {
-        return new Date(text).toDateString();
+        return dayjs(text).format("YYYY-MM-DD");
       },
     },
     {
@@ -297,6 +307,19 @@ const PostgraduateMentorPage: React.FC = () => {
     },
   });
 
+  const {
+    data: selfConfirmedApplicationData,
+    error: selfConfirmedApplicationError,
+    refetch: getSelfConfirmedApplication,
+  } = useQuery<
+    GetSelfConfirmedApplication,
+    GetSelfConfirmedApplicationVariables
+  >(GET_SELF_CONFIRMED_APPLICATION, {
+    variables: {
+      user_id: userInfo?._id!,
+    },
+  });
+
   useEffect(() => {
     if (error) {
       message.error("招收信息加载失败");
@@ -322,10 +345,10 @@ const PostgraduateMentorPage: React.FC = () => {
   }, [insertApplicationError]);
 
   useEffect(() => {
-    if (selfApplicationError) {
+    if (selfApplicationError || selfConfirmedApplicationError) {
       message.error("申请信息加载失败");
     }
-  }, [selfApplicationError]);
+  }, [selfApplicationError, selfConfirmedApplicationError]);
 
   useEffect(() => {
     if (setAppHistoryError) {
@@ -401,6 +424,7 @@ const PostgraduateMentorPage: React.FC = () => {
       "mentor",
       "field",
       "phd_quota",
+      "phd_quota_unfixed",
       "contact",
       "alternate_contact",
       "home_page",
@@ -414,6 +438,7 @@ const PostgraduateMentorPage: React.FC = () => {
           mentor: values["mentor"],
           field: values["field"],
           phd_quota: values["phd_quota"],
+          phd_quota_unfixed: values["phd_quota_unfixed"],
           contact: values["contact"],
           alternate_contact: values["alternate_contact"],
           home_page: values["home_page"],
@@ -426,6 +451,7 @@ const PostgraduateMentorPage: React.FC = () => {
           mentor: values["mentor"],
           field: values["field"],
           phd_quota: values["phd_quota"],
+          phd_quota_unfixed: values["phd_quota_unfixed"],
           contact: values["contact"],
           alternate_contact: values["alternate_contact"],
           home_page: values["home_page"],
@@ -482,7 +508,7 @@ const PostgraduateMentorPage: React.FC = () => {
         }
       ></PageHeader>
       <Space direction="vertical" size={1}>
-        <Text type="secondary">信息仅供参考，名额数量0.5代表竞争名额</Text>
+        <Text type="secondary">信息仅供参考</Text>
         <Text type="secondary">导师名额初始值为0，可参考往年招生情况</Text>
       </Space>
       <Table
@@ -505,7 +531,9 @@ const PostgraduateMentorPage: React.FC = () => {
           <Descriptions.Item label="导师">{detail?.mentor}</Descriptions.Item>
           <Descriptions.Item label="研究所">{detail?.field}</Descriptions.Item>
           <Descriptions.Item label="博士名额">
-            {detail?.phd_quota}
+            {`${detail?.phd_quota}-${
+              detail?.phd_quota + detail?.phd_quota_unfixed
+            }`}
           </Descriptions.Item>
           <Descriptions.Item label="联系方式">
             {detail?.contact}
@@ -525,23 +553,25 @@ const PostgraduateMentorPage: React.FC = () => {
             {detail?.intend.aggregate?.count}人
           </Descriptions.Item>
           <Descriptions.Item label="更新时间">
-            {new Date(detail?.intend.aggregate?.max?.updated_at).toDateString()}
+            {dayjs(
+              detail?.intend.aggregate?.max?.updated_at || undefined
+            ).format("YYYY-MM-DD")}
           </Descriptions.Item>
           <Descriptions.Item label="联络中学生">
             {detail?.in_contact.aggregate?.count}人
           </Descriptions.Item>
           <Descriptions.Item label="更新时间">
-            {new Date(
-              detail?.in_contact.aggregate?.max?.updated_at
-            ).toDateString()}
+            {dayjs(
+              detail?.in_contact.aggregate?.max?.updated_at || undefined
+            ).format("YYYY-MM-DD")}
           </Descriptions.Item>
           <Descriptions.Item label="已确认学生">
             {detail?.confirmed.aggregate?.count}人
           </Descriptions.Item>
           <Descriptions.Item label="更新时间">
-            {new Date(
-              detail?.confirmed.aggregate?.max?.updated_at
-            ).toDateString()}
+            {dayjs(
+              detail?.confirmed.aggregate?.max?.updated_at || undefined
+            ).format("YYYY-MM-DD")}
           </Descriptions.Item>
         </Descriptions>
         {/* {userData?.role === "EEsenior" ? ( */}
@@ -559,8 +589,25 @@ const PostgraduateMentorPage: React.FC = () => {
           </Select>
           <Button
             type="primary"
-            onClick={() => {
-              insertApplication({
+            onClick={async () => {
+              console.log("提交");
+              console.log(selfConfirmedApplicationData);
+              if (
+                applicationStatus === "confirmed" &&
+                selfConfirmedApplicationData?.postgraduate_application
+                  .length !== 0
+              ) {
+                console.log("有已确认");
+                await deleteSelfApplication({
+                  variables: {
+                    mentor_info_id: selfConfirmedApplicationData
+                      ?.postgraduate_application[0].mentor_info_id!,
+                    user_id: userInfo?._id!,
+                  },
+                });
+              }
+              console.log("尝试插入");
+              await insertApplication({
                 variables: {
                   mentor_info_id: detail?.id!,
                   user_id: userInfo?._id!,
@@ -568,7 +615,7 @@ const PostgraduateMentorPage: React.FC = () => {
                   verified: applicationStatus === "confirmed" ? false : true,
                 },
               });
-              setAppHistory({
+              await setAppHistory({
                 variables: {
                   mentor_info_id: detail?.id!,
                   user_id: userInfo?._id!,
@@ -578,6 +625,7 @@ const PostgraduateMentorPage: React.FC = () => {
                       : applicationStatus,
                 },
               });
+              await getSelfConfirmedApplication();
               applicationStatus === "confirmed"
                 ? message.info("已提交申请情况，请等待辅导员审核")
                 : message.success("提交成功");
@@ -614,7 +662,27 @@ const PostgraduateMentorPage: React.FC = () => {
           >
             <Input placeholder="研究所名称，详细信息（研究方向）建议填写在下方“详细信息”处" />
           </Form.Item>
-          <Form.Item name="phd_quota" label="博士名额">
+          <Form.Item
+            name="phd_quota"
+            label="固定博士名额"
+            help={
+              <>
+                若已经确定<b>外校同学</b>
+                或者<b>存在教师间名额协商</b>，请在<b>详细信息</b>中注明
+              </>
+            }
+          >
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item
+            name="phd_quota_unfixed"
+            label="非固定博士名额"
+            help={
+              <>
+                学生端显示效果为<b>固定博士名额-总名额</b>，本项为两者差值
+              </>
+            }
+          >
             <InputNumber min={0} />
           </Form.Item>
           <Form.Item

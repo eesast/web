@@ -1,0 +1,7 @@
+.root {
+  margin-left: 25vw;
+  height: calc(100vh - 67px - 64px);
+  overflow: auto;
+  width: 100%;
+  text-align: center;
+}

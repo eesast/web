@@ -13,6 +13,10 @@ EESAST 网页前端
 - TypeScript
 - Chrome / Firefox
 
+#### 环境变量
+
+本地开发时在 `.env.local` 中添加 `REACT_APP_HASURA_INSTANCE` 和 `HASURA_GRAPHQL_ADMIN_SECRET`
+
 ### 工具
 
 - VSCode 扩展

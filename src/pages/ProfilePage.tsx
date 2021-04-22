@@ -5,12 +5,15 @@ import styled from "styled-components";
 import {
   GetUser as GET_USER,
   UpdateUser as UPDATE_USER,
+  UpdateUserForTeacher as UPDATE_USER_FOR_TEACHER,
 } from "../api/user.graphql";
 import {
   GetUser,
   UpdateUser,
   GetUserVariables,
   UpdateUserVariables,
+  UpdateUserForTeacherVariables,
+  UpdateUserForTeacher,
 } from "../api/types";
 import Loading from "../components/Loading";
 import axios, { AxiosError } from "axios";
@@ -64,6 +67,17 @@ const ProfilePage: React.FC = () => {
     { data: updateData, loading: updating, error: updateError },
   ] = useMutation<UpdateUser, UpdateUserVariables>(UPDATE_USER);
 
+  const [
+    updateUserForTeacher,
+    {
+      data: updateForTeacherData,
+      loading: updatingForTeacher,
+      error: updateForTeacherError,
+    },
+  ] = useMutation<UpdateUserForTeacher, UpdateUserForTeacherVariables>(
+    UPDATE_USER_FOR_TEACHER
+  );
+
   useEffect(() => {
     if (error) {
       message.error("加载失败");
@@ -84,10 +98,13 @@ const ProfilePage: React.FC = () => {
   }, [updateError]);
 
   useEffect(() => {
-    if (updateData && !updateError) {
+    if (
+      (updateData && !updateError) ||
+      (updateForTeacherData && !updateForTeacherError)
+    ) {
       message.success("更新成功");
     }
-  }, [updateData, updateError]);
+  }, [updateData, updateError, updateForTeacherData, updateForTeacherError]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
@@ -136,9 +153,13 @@ const ProfilePage: React.FC = () => {
   const onFinish = async (values: any) => {
     const { password, registeredEmail, ...rest } = values;
 
-    updateUser({
-      variables: { ...rest, _id: userInfo?._id! },
-    });
+    if (userInfo?.role === "teacher") {
+      updateUserForTeacher({ variables: { ...rest, _id: userInfo?._id! } });
+    } else {
+      updateUser({
+        variables: { ...rest, _id: userInfo?._id! },
+      });
+    }
 
     if (password) {
       setPasswordUpdating(true);
@@ -177,7 +198,9 @@ const ProfilePage: React.FC = () => {
         <Form.Item
           name="id"
           label="学号"
-          rules={[{ required: true, message: "请输入学号" }]}
+          rules={[
+            { required: userInfo?.role !== "teacher", message: "请输入学号" },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -242,7 +265,9 @@ const ProfilePage: React.FC = () => {
         <Form.Item
           name="class"
           label="班级"
-          rules={[{ required: true, message: "请输入班级" }]}
+          rules={[
+            { required: userInfo?.role !== "teacher", message: "请输入班级" },
+          ]}
         >
           <Input placeholder="如：无64，计80" />
         </Form.Item>
@@ -257,7 +282,8 @@ const ProfilePage: React.FC = () => {
           name="password"
           label="更新密码"
           rules={[
-            { required: true, message: "请输入新密码" },
+            // 必填阻止了下面对于空值的判断
+            // { required: true, message: "请输入新密码" },
             () => ({
               validator(rule, value: string) {
                 if (!value || validatePassword(value)) {
@@ -277,7 +303,7 @@ const ProfilePage: React.FC = () => {
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button
-            loading={updating || passwordUpdating}
+            loading={updating || passwordUpdating || updatingForTeacher}
             type="primary"
             htmlType="submit"
           >

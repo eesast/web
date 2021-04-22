@@ -11,6 +11,7 @@ query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
     mentor
     field
     phd_quota
+    phd_quota_unfixed
     contact
     alternate_contact
     home_page
@@ -73,11 +74,15 @@ query GetUnverifiedMentorInfo($limit: Int = 10, $offset: Int = 0) {
     mentor
     field
     phd_quota
+    phd_quota_unfixed
     contact
     alternate_contact
     home_page
     detail_info
     user_id
+    userEditor {
+      name
+    }
     intend: applications_aggregate(
       where: {
         _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
@@ -130,6 +135,7 @@ mutation InsertPostgraduateInfo(
   $detail_info: String = ""
   $home_page: String = ""
   $phd_quota: numeric = 0
+  $phd_quota_unfixed: numeric = 0
   $user_id: String!
 ) {
   insert_postgraduate_mentor_info_one(
@@ -141,6 +147,7 @@ mutation InsertPostgraduateInfo(
       detail_info: $detail_info
       home_page: $home_page
       phd_quota: $phd_quota
+      phd_quota_unfixed: $phd_quota_unfixed
       user_id: $user_id
       verified: false
     }
@@ -158,6 +165,7 @@ mutation UpdatePostgraduateInfo(
   $detail_info: String = ""
   $home_page: String = ""
   $phd_quota: numeric = 0
+  $phd_quota_unfixed: numeric = 0
 ) {
   update_postgraduate_mentor_info_by_pk(
     pk_columns: { id: $id }
@@ -169,6 +177,7 @@ mutation UpdatePostgraduateInfo(
       detail_info: $detail_info
       home_page: $home_page
       phd_quota: $phd_quota
+      phd_quota_unfixed: $phd_quota_unfixed
       verified: false
     }
   ) {
@@ -186,7 +195,7 @@ mutation DeletePostgraduateInfo($id: Int!) {
 
 mutation InsertApplication(
   $mentor_info_id: Int!
-  $status: String = ""
+  $status: String!
   $user_id: String!
   $verified: Boolean!
 ) {
@@ -215,8 +224,8 @@ mutation VerifyMentorInfo($id: Int!) {
   }
 }
 
-query GetPostgraudateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
-  postgraduate_application_aggregate {
+query GetPostgraduateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
+  postgraduate_application_aggregate(where: { verified: { _eq: false } }) {
     aggregate {
       count
     }
@@ -236,6 +245,7 @@ query GetPostgraudateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
     }
     user {
       name
+      class
     }
   }
 }
@@ -264,6 +274,20 @@ query GetSelfPostgraduateApplications(
     aggregate {
       count
     }
+  }
+}
+
+query GetSelfConfirmedApplication($user_id: String!) {
+  postgraduate_application(
+    where: {
+      _and: [
+        { user_id: { _eq: $user_id } }
+        { verified: { _eq: true } }
+        { status: { _eq: "confirmed" } }
+      ]
+    }
+  ) {
+    mentor_info_id
   }
 }
 
@@ -334,9 +358,20 @@ query GetPostAppHistory($offset: Int = 0, $limit: Int = 10) {
     }
     user {
       name
+      class
     }
   }
-  postgraduate_application_history_aggregate {
+  postgraduate_application_history_aggregate(
+    offset: $offset
+    limit: $limit
+    where: {
+      _and: [
+        { status: { _neq: "intend" } }
+        { status: { _neq: "in_contact" } }
+        { status: { _neq: "delete" } }
+      ]
+    }
+  ) {
     aggregate {
       count
     }

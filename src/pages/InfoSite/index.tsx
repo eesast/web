@@ -65,12 +65,11 @@ const InfoSite: React.FC = () => {
   useEffect(() => {
     if (
       userInfo?.role === "user" ||
-      !user?.class ||
-      !user.department ||
+      !user?.department ||
       !user.email ||
-      !user.id ||
       !user.name ||
-      !user.phone
+      !user.phone ||
+      ((!user.id || !user.class) && userInfo?.role !== "teacher")
     ) {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
       history.push("/profile");
@@ -80,9 +79,9 @@ const InfoSite: React.FC = () => {
   const disclaimer = () => {
     if (localStorage.getItem("disclaimerChecked") !== "true") {
       Modal.warning({
-        title: "免责声明",
+        title: "友情提醒",
         content:
-          "本平台信息非官方数据，不保证信息的准确性、真实性和有效性，不构成任何选择导师的建议，仅供参考。",
+          "本平台建立初衷为方便系内同学共享推研信息，为联络导师提供便利。本平台所有信息非官方数据，均由同学自行上传并对真实性负责，因此平台无法保证信息的真实性、有效性。所有信息以最终推研通知为准，仅供参考。",
         okText: "我已知悉",
       });
       localStorage.setItem("disclaimerChecked", "true");

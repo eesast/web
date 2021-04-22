@@ -107,9 +107,10 @@ const ScholarshipApplicationPage = () => {
   }, [applicationError]);
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [editingApplication, setEditingApplication] = useState<
-    GetScholarshipApplications_scholarship_application
-  >();
+  const [
+    editingApplication,
+    setEditingApplication,
+  ] = useState<GetScholarshipApplications_scholarship_application>();
 
   const [form] = Form.useForm();
 
@@ -271,9 +272,7 @@ const ScholarshipApplicationPage = () => {
     },
   });
 
-  const scholarshipColumnsForCounselor: TableProps<
-    GetScholarshipApplicationsForCounselors_scholarship_application
-  >["columns"] = [
+  const scholarshipColumnsForCounselor: TableProps<GetScholarshipApplicationsForCounselors_scholarship_application>["columns"] = [
     {
       title: "学号",
       dataIndex: ["student", "id"],

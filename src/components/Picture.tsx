@@ -1,9 +1,11 @@
 import React from "react";
 
-const Picture: React.FC<React.DetailedHTMLProps<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  HTMLImageElement
->> = (props) => {
+const Picture: React.FC<
+  React.DetailedHTMLProps<
+    React.ImgHTMLAttributes<HTMLImageElement>,
+    HTMLImageElement
+  >
+> = (props) => {
   const { alt, src, ...restProps } = props;
   return (
     <picture
