@@ -306,7 +306,7 @@ const BattlePage: React.FC = () => {
         <Button
           type="primary"
           onClick={() => fight(record)}
-          //disabled={record.team_id === teamid}
+          disabled={record.team_id === teamid}
         >
           对战
         </Button>
@@ -342,7 +342,7 @@ const BattlePage: React.FC = () => {
     },
     {
       title: "回放下载",
-      key: "file",
+      key: "download",
       render: (text, record) => (
         <Button
           type="primary"
