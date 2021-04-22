@@ -53,6 +53,7 @@ import {
 } from "../../api/thuai.graphql";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
+import FileSaver from "file-saver";
 import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -202,21 +203,20 @@ const BattlePage: React.FC = () => {
     setShowCodeModal(true);
   };
   //点击下载回放
-  const download = (record: GetRoomInfo_thuai_room) => {
-    (async () => {
-      try {
-        await axios.get(`room/${record.room_id}`);
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 401) {
-          message.error("401");
-        } else if (err.response?.status === 409) {
-          message.error("409");
-        } else {
-          message.error("404");
-        }
+  const download = async (record: GetRoomInfo_thuai_room) => {
+    try {
+      const response = await axios.get(`room/${record.room_id}`, {
+        responseType: "blob",
+      });
+      FileSaver.saveAs(response.data, record.created_at);
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("认证失败");
+      } else {
+        message.error("未知错误");
       }
-    })();
+    }
   };
   //点击发起对战
   const fight = (record: GetAllTeamInfo_thuai) => {
@@ -343,7 +343,11 @@ const BattlePage: React.FC = () => {
       title: "回放下载",
       key: "download",
       render: (text, record) => (
-        <Button type="primary" onClick={() => download(record)}>
+        <Button
+          type="primary"
+          onClick={() => download(record)}
+          disabled={record.status !== true}
+        >
           下载
         </Button>
       ),
