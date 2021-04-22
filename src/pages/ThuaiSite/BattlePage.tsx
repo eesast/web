@@ -33,6 +33,7 @@ import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
+
 //上传代码
 import {
   UpsertCode1,
@@ -116,26 +117,12 @@ const BattlePage: React.FC = () => {
     UpsertCode4,
     UpsertCode4Variables
   >(UPSERTCODE4);
-  //   const [codeList, setCodeList] = useState<ICode[]>([]);
-  //   const [historyList, setHistoryList] = useState<IRoom[]>([]);
-  //   const [pageSize, setPageSize] = useState(5);
-  //   const [pageNumber, setPageNumber] = useState(1);
-  //  const [selectedTeams, setSelectedTeams] = useState<number[]>([]); // 选中作为对手的teamId，比赛限制四队，0用于表示bot
+
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [showCompileInfoModal, setShowCompileInfoModal] = useState(false);
   const [showCodeContentModal, setShowCodeContentModal] = useState(false);
-  //const [showHistoryModal, setShowHistoryModal] = useState(false);
-  //const [showBattleModal, setShowBattleModal] = useState(false);
-  //   const [forceUpdate, setForceUpdate] = useState(true); // 更改以强制重新获取数据
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [codeText, setCodeText] = useState("");
-  //   const [selectedCode, setSelectedCode] = useState<ICode[]>([]); // 选择要编译的代码
-  //   const [showCompileInfo, setShowCompileInfo] = useState(""); // 查看的编译结果
-  //   const [showCodeContent, setShowCodeContent] = useState(""); // 查看的代码内容
-  //   const handlePageChange = (currentPage: number, nextPageSize?: number) => {
-  //     setPageNumber(currentPage);
-  //     if (nextPageSize) setPageSize(nextPageSize);
-  //   };
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
@@ -170,6 +157,7 @@ const BattlePage: React.FC = () => {
       </div>
     );
   }
+
   const inputChange = (e: any) => {
     setCodeText(e.target.value);
   };
@@ -209,14 +197,6 @@ const BattlePage: React.FC = () => {
     setShowCodeModal(!showCodeModal);
   };
 
-  // const handleHistoryModal = () => {
-  //   setShowHistoryModal(!showHistoryModal);
-  // };
-
-  // const handleBattleModal = () => {
-  //   setShowBattleModal(!showBattleModal);
-  // };
-
   const handleCompileInfoModal = () => {
     setShowCompileInfoModal(false);
     setShowCodeModal(true);
@@ -225,9 +205,8 @@ const BattlePage: React.FC = () => {
   const download = (record: GetRoomInfo_thuai_room) => {
     (async () => {
       try {
-        await axios.get("room", {
-          url: "record.room_id",
-        });
+
+        await axios.get(`room/${record.room_id}`);
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -270,12 +249,26 @@ const BattlePage: React.FC = () => {
     setShowCodeModal(true);
   };
 
-  //   const handleShowCodeContent = (content: string) => {
-  //     if (content) setShowCodeContent(content);
-  //     else setShowCodeContent("暂无编译信息");
-  //     setShowCodeContentModal(true);
-  //     setShowCodeModal(false);
-  //   };
+  const handleCodeCompile = () => {
+    (async () => {
+      try {
+        console.log(teamid);
+        await axios.post("code/compile", {
+          team_id: teamid,
+        });
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("401");
+        } else if (err.response?.status === 409) {
+          message.error("409");
+        } else {
+          message.error("404");
+        }
+      }
+    })();
+  };
+
   const teamListColumns: TableProps<GetAllTeamInfo_thuai>["columns"] = [
     {
       title: "队名",
@@ -444,10 +437,10 @@ const BattlePage: React.FC = () => {
           <Col span={4}>
             <Button
               type="primary"
-              //   onClick={() => {
-              //     handleCodeCompile(selectedCode[0], codeRole);
-              //     message.info("编译需要一段时间，请稍后刷新以查看");
-              //   }}
+              onClick={() => {
+                handleCodeCompile();
+                message.info("编译需要一段时间，请稍后刷新以查看");
+              }}
             >
               编译
             </Button>
@@ -461,9 +454,7 @@ const BattlePage: React.FC = () => {
         closable
         footer={null}
         onCancel={handleCompileInfoModal}
-      >
-        {/* <div style={{ whiteSpace: "pre" }}>{showCompileInfo}</div> */}
-      </Modal>
+      ></Modal>
       <Modal
         visible={showCodeContentModal}
         title="代码"

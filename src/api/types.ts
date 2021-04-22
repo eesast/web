@@ -2444,6 +2444,7 @@ export interface UpdateIntroVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+
 // GraphQL mutation operation: InsertCode
 // ====================================================
 
@@ -2497,7 +2498,7 @@ export interface GetRoomInfo_thuai_room {
   room_id: any;
   result: string | null;
   status: boolean;
-  created_at: any | null;
+  created_at: any;
   show_id: number;
 }
 
@@ -2540,6 +2541,7 @@ export interface InsertRoomVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+
 // GraphQL mutation operation: UpsertCode1
 // ====================================================
 
@@ -2644,6 +2646,7 @@ export interface UpsertCode4Variables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+
 // GraphQL query operation: GetUser
 // ====================================================
 

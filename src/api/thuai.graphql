@@ -168,6 +168,7 @@ mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
   }
 }
 
+
 #上传选手代码（原有：更新，无：插入）
 mutation UpsertCode1(
   $code: String = ""
@@ -240,3 +241,4 @@ mutation UpsertCode4(
     team_id
   }
 }
+
