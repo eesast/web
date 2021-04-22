@@ -6,7 +6,7 @@ import {
   Col,
   Button,
   Modal,
-  Upload,
+  Input,
   Radio,
   Result,
   Tabs,
@@ -57,6 +57,7 @@ const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 const BattlePage: React.FC = () => {
   const userInfo = getUserInfo();
+  const { TextArea } = Input;
   //-----------------根据队员id查询队伍id------------------
   const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
     ISTEAMLEADER,
@@ -126,6 +127,7 @@ const BattlePage: React.FC = () => {
   //const [showBattleModal, setShowBattleModal] = useState(false);
   //   const [forceUpdate, setForceUpdate] = useState(true); // 更改以强制重新获取数据
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
+  const [codeText, setCodeText] = useState("");
   //   const [selectedCode, setSelectedCode] = useState<ICode[]>([]); // 选择要编译的代码
   //   const [showCompileInfo, setShowCompileInfo] = useState(""); // 查看的编译结果
   //   const [showCodeContent, setShowCodeContent] = useState(""); // 查看的代码内容
@@ -136,7 +138,7 @@ const BattlePage: React.FC = () => {
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
-    } else {
+    } else if (code1 || code2 || code3 || code4) {
       message.success("上传代码成功");
     }
   }, [
@@ -167,29 +169,37 @@ const BattlePage: React.FC = () => {
       </div>
     );
   }
-  const handleCodeChange1 = async (values: any) => {
-    upsertCode1({ variables: { ...values, team_id: teamid! } });
-    console.log(values);
+  const inputChange = (e: any) => {
+    setCodeText(e.target.value);
   };
-  const handleCodeChange2 = async (values: any) => {
-    upsertCode2({ variables: { ...values, team_id: teamid! } });
+
+  const handleCodeChange1 = async (codeText: any) => {
+    upsertCode1({ variables: { code: codeText, team_id: teamid! } });
+    //console.log(values);
   };
-  const handleCodeChange3 = async (values: any) => {
-    upsertCode3({ variables: { ...values, team_id: teamid! } });
+  const handleCodeChange2 = async (codeText: any) => {
+    upsertCode2({ variables: { code: codeText, team_id: teamid! } });
   };
-  const handleCodeChange4 = async (values: any) => {
-    upsertCode4({ variables: { ...values, team_id: teamid! } });
+  const handleCodeChange3 = async (codeText: any) => {
+    upsertCode3({ variables: { code: codeText, team_id: teamid! } });
   };
-  const handleCodeChange = (codeRole: any) => {
+  const handleCodeChange4 = async (codeText: any) => {
+    upsertCode4({ variables: { code: codeText, team_id: teamid! } });
+  };
+  const handleCodeChange = (codeRole: any, codeText: any) => {
     switch (codeRole) {
       case 1:
-        return handleCodeChange1;
+        handleCodeChange1(codeText);
+        break;
       case 2:
-        return handleCodeChange2;
+        handleCodeChange2(codeText);
+        break;
       case 3:
-        return handleCodeChange3;
+        handleCodeChange3(codeText);
+        break;
       case 4:
-        return handleCodeChange4;
+        handleCodeChange4(codeText);
+        break;
       default:
         break;
     }
@@ -411,15 +421,9 @@ const BattlePage: React.FC = () => {
       >
         <Row justify="space-between">
           <Col span={8}>
-            <Upload
-              name="code"
-              fileList={[]} // 暂不考虑文件上传列表展示
-              //onChange={handleCodeChange1}
-              onChange={handleCodeChange(codeRole)}
-              //customRequest={handleCodeUpload}
-            >
-              <Button>上传代码</Button>
-            </Upload>
+            <Button onClick={() => handleCodeChange(codeRole, codeText)}>
+              上传代码
+            </Button>
           </Col>
           <Col span={8}>
             AI角色
@@ -448,6 +452,7 @@ const BattlePage: React.FC = () => {
             </Button>
           </Col>
         </Row>
+        <TextArea placeholder="输入完整代码" onChange={(e) => inputChange(e)} />
         <Table
         //   columns={codeColumns}
         //   dataSource={codeList}
