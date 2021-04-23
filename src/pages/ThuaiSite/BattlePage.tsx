@@ -505,11 +505,7 @@ const BattlePage: React.FC = () => {
         onCancel={handleCodeModal}
       >
         <Row justify="space-between">
-          <Col span={8}>
-            <Button onClick={() => handleCodeChange(codeRole, codeText)}>
-              上传代码
-            </Button>
-          </Col>
+          <Col span={8}></Col>
           <Col span={8}>
             AI角色
             <Radio.Group
@@ -537,7 +533,31 @@ const BattlePage: React.FC = () => {
             </Button>
           </Col>
         </Row>
-        <TextArea placeholder="输入完整代码" onChange={(e) => inputChange(e)} />
+        <Form
+          onFinish={() => {
+            handleCodeChange(codeRole, codeText);
+            setCodeText("");
+          }}
+        >
+          <Form.Item>
+            <Button
+              //onClick={() => {handleCodeChange(codeRole, codeText)}}
+              type="primary"
+              htmlType="submit"
+            >
+              上传代码
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <TextArea
+              placeholder="输入完整代码"
+              defaultValue=""
+              onChange={(e) => inputChange(e)}
+              value={codeText}
+              allowClear={true}
+            />
+          </Form.Item>
+        </Form>
       </Modal>
       <Modal
         visible={showCompileInfoModal}
