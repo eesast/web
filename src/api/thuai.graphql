@@ -56,6 +56,15 @@ query GetTeamInfo($team_id: uuid!) {
     }
   }
 }
+# 借由team_id获取code的所有信息
+query GetCode ($team_id: uuid!){
+  thuai_code(where: { team_id: { _eq: $team_id } }) {
+    code_1
+    code_2
+    code_3
+    code_4
+  }
+}
 #获取全部team信息
 query GetAllTeamInfo {
   thuai {
