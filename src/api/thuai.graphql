@@ -45,6 +45,7 @@ query GetTeamInfo($team_id: uuid!) {
     team_leader
     team_name
     team_sum
+    status
     team_members {
       user {
         name
@@ -63,6 +64,7 @@ query GetAllTeamInfo {
     team_sum
     invited_code
     score
+    status
     team_members {
       user {
         name
@@ -241,4 +243,3 @@ mutation UpsertCode4(
     team_id
   }
 }
-

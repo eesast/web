@@ -11,6 +11,7 @@ import {
   Result,
   Tabs,
   message,
+  Form,
 } from "antd";
 import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
@@ -33,7 +34,8 @@ import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
-
+import { GetTeamInfo as GETTEAMINFO } from "../../api/thuai.graphql";
+import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
 //上传代码
 import {
   UpsertCode1,
@@ -77,6 +79,7 @@ const BattlePage: React.FC = () => {
       },
     }
   );
+
   //-----------------获取天梯队伍信息------------------
   const {
     data: teamListData,
@@ -98,6 +101,15 @@ const BattlePage: React.FC = () => {
   const teamid =
     isleaderData?.user[0].team_as_leader[0]?.team_id ||
     ismemberData?.user[0].team_as_member[0]?.team_id;
+  //利用teamid查询team的信息储存在teamdata中
+  const { data: teamData } = useQuery<GetTeamInfo, GetTeamInfoVariables>(
+    GETTEAMINFO,
+    {
+      variables: {
+        team_id: teamid!,
+      },
+    }
+  );
   //-----------------上传代码------------------、
   const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
     UpsertCode1,
@@ -201,6 +213,21 @@ const BattlePage: React.FC = () => {
   const handleCompileInfoModal = () => {
     setShowCompileInfoModal(false);
     setShowCodeModal(true);
+  };
+  const downloadcompile = async () => {
+    try {
+      const response = await axios.get(`code/logs/${teamid}`, {
+        responseType: "blob",
+      });
+      FileSaver.saveAs(response.data, teamid);
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("认证失败");
+      } else {
+        message.error("未知错误");
+      }
+    }
   };
   //点击下载回放
   const download = async (record: GetRoomInfo_thuai_room) => {
@@ -317,6 +344,8 @@ const BattlePage: React.FC = () => {
       title: "ID",
       dataIndex: "show_id",
       key: "show_id",
+      sorter: (a, b) => a.show_id - b.show_id,
+      defaultSortOrder: "descend",
     },
     {
       title: "状态",
@@ -404,6 +433,30 @@ const BattlePage: React.FC = () => {
                 dataSource={roomListData?.thuai_room}
                 columns={roomListColumns}
               />
+            </TabPane>
+            <TabPane tab="编译信息" key="3">
+              <Form
+                name="form"
+                //form={form} //表单名字绑定
+                layout="vertical"
+                initialValues={teamData}
+                //onFinish={onFinish}
+                //onFinishFailed={onFinishFailed}
+              >
+                <Form.Item label="编译状态" name="status">
+                  <span>{teamData?.thuai[0].status}</span>
+                </Form.Item>
+
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    onClick={downloadcompile}
+                    //disabled={teamData?.thuai[0].status === "success"}
+                  >
+                    下载编译信息
+                  </Button>
+                </Form.Item>
+              </Form>
             </TabPane>
           </Tabs>
         </div>

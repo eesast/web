@@ -2132,6 +2132,7 @@ export interface GetTeamInfo_thuai {
   team_leader: string | null;
   team_name: string;
   team_sum: string;
+  status: string | null;
   /**
    * An array relationship
    */
@@ -2189,6 +2190,7 @@ export interface GetAllTeamInfo_thuai {
   team_sum: string;
   invited_code: string | null;
   score: number;
+  status: string | null;
   /**
    * An array relationship
    */
