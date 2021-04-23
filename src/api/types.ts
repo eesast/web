@@ -2160,6 +2160,34 @@ export interface GetTeamInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetCode
+// ====================================================
+
+export interface GetCode_thuai_code {
+  __typename: "thuai_code";
+  code_1: string | null;
+  code_2: string | null;
+  code_3: string | null;
+  code_4: string | null;
+}
+
+export interface GetCode {
+  /**
+   * fetch data from the table: "thuai_code"
+   */
+  thuai_code: GetCode_thuai_code[];
+}
+
+export interface GetCodeVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetAllTeamInfo
 // ====================================================
 
