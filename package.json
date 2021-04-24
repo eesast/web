@@ -27,7 +27,7 @@
     "ali-oss": "6.15.2",
     "antd": "4.9.4",
     "antd-dayjs-webpack-plugin": "1.0.6",
-    "apollo": "2.32.5",
+    "apollo": "2.32.8",
     "axios": "0.21.1",
     "babel-plugin-import": "1.13.3",
     "babel-plugin-import-graphql": "2.8.1",
