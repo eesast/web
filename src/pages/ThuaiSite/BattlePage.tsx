@@ -266,6 +266,7 @@ const BattlePage: React.FC = () => {
           //header: {},
           room_id: roomId.data?.insert_thuai_room_one?.room_id,
         });
+        message.success("已发起对战");
       } catch (e) {
         if (insertRoomError) {
           console.error("make room fail");
