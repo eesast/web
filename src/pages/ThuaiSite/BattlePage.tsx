@@ -36,8 +36,8 @@ import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
 import { GetTeamInfo as GETTEAMINFO } from "../../api/thuai.graphql";
 import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
-// import { GetCode as GETCODE } from "../../api/thuai.graphql";
-// import { GetCode, GetCodeVariables } from "../../api/types";
+import { GetCode as GETCODE } from "../../api/thuai.graphql";
+import { GetCode, GetCodeVariables } from "../../api/types";
 //上传代码
 import {
   UpsertCode1,
@@ -112,11 +112,11 @@ const BattlePage: React.FC = () => {
       },
     }
   );
-  // const { data: codeData } = useQuery<GetCode, GetCodeVariables>(GETCODE, {
-  //   variables: {
-  //     team_id: teamid!,
-  //   },
-  // });
+  const { data: codeData } = useQuery<GetCode, GetCodeVariables>(GETCODE, {
+    variables: {
+      team_id: teamid!,
+    },
+  });
   //-----------------上传代码------------------、
   const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
     UpsertCode1,
@@ -242,7 +242,7 @@ const BattlePage: React.FC = () => {
       const response = await axios.get(`room/${record.room_id}`, {
         responseType: "blob",
       });
-      FileSaver.saveAs(response.data, record.created_at);
+      FileSaver.saveAs(response.data, record.room_id + ".thupb");
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -463,6 +463,34 @@ const BattlePage: React.FC = () => {
                   >
                     下载编译信息
                   </Button>
+                </Form.Item>
+                <Form.Item label="code1" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_1 + " "}
+                  />
+                </Form.Item>
+                <Form.Item label="code2" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_2 + " "}
+                  />
+                </Form.Item>
+                <Form.Item label="code3" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_3 + " "}
+                  />
+                </Form.Item>
+                <Form.Item label="code4" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_4 + " "}
+                  />
                 </Form.Item>
               </Form>
             </TabPane>
