@@ -241,7 +241,7 @@ const ManagePage: React.FC = () => {
       render: (_, record) => {
         return (
           <Button
-            disabled={!isLeader}
+            disabled={true}
             onClick={() => deleteTeamMemberByLeader(record.user._id)}
           >
             移除
@@ -350,6 +350,7 @@ const ManagePage: React.FC = () => {
                   <Button
                     danger
                     type="default"
+                    disabled={true}
                     onClick={
                       isLeader
                         ? () => deleteWholeTeam(teamid)

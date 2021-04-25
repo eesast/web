@@ -34,7 +34,7 @@ const RegisterPage: React.FC = () => {
   //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
   //查询语句
-  const { data: isleaderData, refetch: refetchisleader } = useQuery<
+  const { refetch: refetchisleader } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
@@ -42,7 +42,7 @@ const RegisterPage: React.FC = () => {
       _id: userInfo?._id!,
     },
   });
-  const { data: ismemberData, refetch: refetchismember } = useQuery<
+  const { refetch: refetchismember } = useQuery<
     IsTeamMember,
     IsTeamMemberVariables
   >(ISTEAMMEMBER, {
@@ -86,12 +86,13 @@ const RegisterPage: React.FC = () => {
     console.log("Failed:", errorInfo);
   };
   if (
-    isleaderData?.user[0].team_as_leader.length !== 0 ||
-    ismemberData?.user[0].team_as_member.length !== 0
+    true
+    //isleaderData?.user[0].team_as_leader.length !== 0 ||
+    //ismemberData?.user[0].team_as_member.length !== 0
   ) {
     return (
       <div>
-        <Result status="warning" title="您已加入队伍，不能再创建队伍！" />
+        <Result status="warning" title="报名已结束，不能再创建队伍" />
       </div>
     );
   }
