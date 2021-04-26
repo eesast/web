@@ -242,7 +242,7 @@ const BattlePage: React.FC = () => {
       const response = await axios.get(`room/${record.room_id}`, {
         responseType: "blob",
       });
-      FileSaver.saveAs(response.data, record.room_id + ".thupb");
+      FileSaver.saveAs(response.data, record.room_id + ".thuaipb");
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
