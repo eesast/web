@@ -265,6 +265,34 @@ const BattlePage: React.FC = () => {
         await axios.post("room", {
           //header: {},
           room_id: roomId.data?.insert_thuai_room_one?.room_id,
+          team_seq: true,
+        });
+        message.success("已发起对战");
+      } catch (e) {
+        if (insertRoomError) {
+          console.error("make room fail");
+          message.error("发起对战失败");
+        } else {
+          message.error("发起对战失败");
+          console.log(e);
+        }
+      }
+    })();
+  };
+  //点击发起对战
+  const fight2 = (record: GetAllTeamInfo_thuai) => {
+    (async () => {
+      try {
+        const roomId = await insertRoom({
+          variables: {
+            team1_id: teamid,
+            team2_id: record.team_id,
+          },
+        });
+        await axios.post("room", {
+          //header: {},
+          room_id: roomId.data?.insert_thuai_room_one?.room_id,
+          team_seq: false,
         });
         message.success("已发起对战");
       } catch (e) {
@@ -337,13 +365,24 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <Button
-          type="primary"
-          onClick={() => fight(record)}
-          disabled={record.team_id === teamid}
-        >
-          对战
-        </Button>
+        <>
+          <Button
+            type="primary"
+            onClick={() => fight(record)}
+            disabled={record.team_id === teamid}
+          >
+            team0
+          </Button>
+          <br />
+          <br />
+          <Button
+            type="primary"
+            onClick={() => fight2(record)}
+            disabled={record.team_id === teamid}
+          >
+            team1
+          </Button>
+        </>
       ),
     },
   ];
