@@ -268,7 +268,7 @@ const BattlePage: React.FC = () => {
         await axios.post("room", {
           //header: {},
           room_id: roomId.data?.insert_thuai_room_one?.room_id,
-          team_seq: true,
+          team_seq: false,
         });
         message.success("已发起对战");
       } catch (e) {
@@ -295,7 +295,7 @@ const BattlePage: React.FC = () => {
         await axios.post("room", {
           //header: {},
           room_id: roomId.data?.insert_thuai_room_one?.room_id,
-          team_seq: false,
+          team_seq: true,
         });
         message.success("已发起对战");
       } catch (e) {
@@ -315,10 +315,10 @@ const BattlePage: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={() => fight()}>
-        team0
+        紫方
       </Menu.Item>
       <Menu.Item key="2" onClick={() => fight2()}>
-        team1
+        白方
       </Menu.Item>
     </Menu>
   );
@@ -385,6 +385,7 @@ const BattlePage: React.FC = () => {
           overlay={menu}
           onClick={() => setfight(record)}
           trigger={["click"]}
+          type={"ghost"}
         >
           对战
         </Dropdown.Button>
