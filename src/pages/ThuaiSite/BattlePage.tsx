@@ -12,6 +12,8 @@ import {
   Tabs,
   message,
   Form,
+  Dropdown,
+  Menu,
 } from "antd";
 import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
@@ -143,6 +145,7 @@ const BattlePage: React.FC = () => {
   const [showCodeContentModal, setShowCodeContentModal] = useState(false);
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [codeText, setCodeText] = useState("");
+  const [teamId, setTeamId] = useState<any>();
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
@@ -253,13 +256,13 @@ const BattlePage: React.FC = () => {
     }
   };
   //点击发起对战
-  const fight = (record: GetAllTeamInfo_thuai) => {
+  const fight = () => {
     (async () => {
       try {
         const roomId = await insertRoom({
           variables: {
             team1_id: teamid,
-            team2_id: record.team_id,
+            team2_id: teamId,
           },
         });
         await axios.post("room", {
@@ -280,13 +283,13 @@ const BattlePage: React.FC = () => {
     })();
   };
   //点击发起对战
-  const fight2 = (record: GetAllTeamInfo_thuai) => {
+  const fight2 = () => {
     (async () => {
       try {
         const roomId = await insertRoom({
           variables: {
             team1_id: teamid,
-            team2_id: record.team_id,
+            team2_id: teamId,
           },
         });
         await axios.post("room", {
@@ -306,6 +309,19 @@ const BattlePage: React.FC = () => {
       }
     })();
   };
+  const setfight = (record: GetAllTeamInfo_thuai) => {
+    setTeamId(record.team_id);
+  };
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" onClick={() => fight()}>
+        team0
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => fight2()}>
+        team1
+      </Menu.Item>
+    </Menu>
+  );
   const handleCodeContentModal = () => {
     setShowCodeContentModal(false);
     setShowCodeModal(true);
@@ -365,24 +381,13 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <>
-          <Button
-            type="primary"
-            onClick={() => fight(record)}
-            disabled={record.team_id === teamid}
-          >
-            team0
-          </Button>
-          <br />
-          <br />
-          <Button
-            type="primary"
-            onClick={() => fight2(record)}
-            disabled={record.team_id === teamid}
-          >
-            team1
-          </Button>
-        </>
+        <Dropdown.Button
+          overlay={menu}
+          onClick={() => setfight(record)}
+          trigger={["click"]}
+        >
+          对战
+        </Dropdown.Button>
       ),
     },
   ];
