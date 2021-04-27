@@ -15,6 +15,7 @@ import {
   Dropdown,
   Menu,
 } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
@@ -259,6 +260,7 @@ const BattlePage: React.FC = () => {
   const fight = () => {
     (async () => {
       try {
+        //console.log(teamId);
         const roomId = await insertRoom({
           variables: {
             team1_id: teamid,
@@ -286,6 +288,7 @@ const BattlePage: React.FC = () => {
   const fight2 = () => {
     (async () => {
       try {
+        //console.log(teamId);
         const roomId = await insertRoom({
           variables: {
             team1_id: teamid,
@@ -381,14 +384,11 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <Dropdown.Button
-          overlay={menu}
-          onClick={() => setfight(record)}
-          trigger={["click"]}
-          type={"ghost"}
-        >
-          对战
-        </Dropdown.Button>
+        <Dropdown overlay={menu} trigger={["click"]}>
+          <a className="ant-dropdown-link" onClick={() => setfight(record)}>
+            对战 <DownOutlined />
+          </a>
+        </Dropdown>
       ),
     },
   ];
