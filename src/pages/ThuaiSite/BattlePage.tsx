@@ -146,7 +146,7 @@ const BattlePage: React.FC = () => {
   const [showCodeContentModal, setShowCodeContentModal] = useState(false);
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [codeText, setCodeText] = useState("");
-  const [teamId, setTeamId] = useState<any>();
+  const [opponentTeamId, setTeamId] = useState<any>();
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
@@ -264,7 +264,7 @@ const BattlePage: React.FC = () => {
         const roomId = await insertRoom({
           variables: {
             team1_id: teamid,
-            team2_id: teamId,
+            team2_id: opponentTeamId,
           },
         });
         await axios.post("room", {
@@ -292,7 +292,7 @@ const BattlePage: React.FC = () => {
         const roomId = await insertRoom({
           variables: {
             team1_id: teamid,
-            team2_id: teamId,
+            team2_id: opponentTeamId,
           },
         });
         await axios.post("room", {
