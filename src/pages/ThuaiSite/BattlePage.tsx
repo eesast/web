@@ -146,7 +146,7 @@ const BattlePage: React.FC = () => {
   const [showCodeContentModal, setShowCodeContentModal] = useState(false);
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [codeText, setCodeText] = useState("");
-  const [opponentTeamId, setTeamId] = useState<any>();
+  const [opponentTeamId, setTeamId] = useState("");
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
