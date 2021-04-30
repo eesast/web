@@ -6,7 +6,7 @@
     "@apollo/client": "3.3.16",
     "@testing-library/jest-dom": "5.12.0",
     "@testing-library/react": "11.2.6",
-    "@testing-library/user-event": "13.1.5",
+    "@testing-library/user-event": "13.1.8",
     "@types/ali-oss": "6.0.8",
     "@types/enquire.js": "2.1.2",
     "@types/file-saver": "2.0.2",
