@@ -136,7 +136,7 @@ const PostgraduateMentorPage: React.FC = () => {
       key: "phd_quota",
       render: (_, record) => {
         return (
-          <>{`${record.phd_quota}-${
+          <>{`${record.phd_quota}~${
             record.phd_quota + record.phd_quota_unfixed
           }`}</>
         );
@@ -461,7 +461,7 @@ const PostgraduateMentorPage: React.FC = () => {
       });
     }
     setShowManage(false);
-    message.info("已提交信息，请等待辅导员审核");
+    message.info("已提交信息");
     refetchFeeds();
   };
 
@@ -508,8 +508,12 @@ const PostgraduateMentorPage: React.FC = () => {
         }
       ></PageHeader>
       <Space direction="vertical" size={1}>
-        <Text type="secondary">信息仅供参考</Text>
-        <Text type="secondary">导师名额初始值为0，可参考往年招生情况</Text>
+        <Text type="secondary">
+          注意：导师名额信息仅供参考，以最终推研通知为准
+        </Text>
+        <Text type="secondary">
+          导师博士名额初始值为-1~-1，分别为固定名额和竞争名额，未更新导师可参考往年招生情况
+        </Text>
       </Space>
       <Table
         columns={columns}
@@ -531,7 +535,7 @@ const PostgraduateMentorPage: React.FC = () => {
           <Descriptions.Item label="导师">{detail?.mentor}</Descriptions.Item>
           <Descriptions.Item label="研究所">{detail?.field}</Descriptions.Item>
           <Descriptions.Item label="博士名额">
-            {`${detail?.phd_quota}-${
+            {`${detail?.phd_quota}~${
               detail?.phd_quota + detail?.phd_quota_unfixed
             }`}
           </Descriptions.Item>
@@ -627,7 +631,7 @@ const PostgraduateMentorPage: React.FC = () => {
               });
               await getSelfConfirmedApplication();
               applicationStatus === "confirmed"
-                ? message.info("已提交申请情况，请等待辅导员审核")
+                ? message.info("已提交申请情况，请等待辅导员和老师审核")
                 : message.success("提交成功");
             }}
             disabled={!(userInfo?.role === "EEsenior")}
@@ -665,21 +669,26 @@ const PostgraduateMentorPage: React.FC = () => {
           <Form.Item
             name="phd_quota"
             label="固定博士名额"
+            initialValue={-1}
             help={
               <>
-                若已经确定<b>外校同学</b>
+                教师可根据<b>往年名额信息</b>填写，该信息<b>仅供同学参考</b>
+                <br />
+                若已经确定
+                <b>外校同学</b>
                 或者<b>存在教师间名额协商</b>，请在<b>详细信息</b>中注明
               </>
             }
           >
-            <InputNumber min={0} />
+            <InputNumber min={-1} />
           </Form.Item>
           <Form.Item
             name="phd_quota_unfixed"
             label="非固定博士名额"
+            initialValue={0}
             help={
               <>
-                学生端显示效果为<b>固定博士名额-总名额</b>，本项为两者差值
+                学生端显示效果为<b>固定博士名额~总名额</b>，本项为两者差值
               </>
             }
           >

@@ -149,7 +149,7 @@ mutation InsertPostgraduateInfo(
       phd_quota: $phd_quota
       phd_quota_unfixed: $phd_quota_unfixed
       user_id: $user_id
-      verified: false
+      verified: true
     }
   ) {
     id
@@ -178,7 +178,7 @@ mutation UpdatePostgraduateInfo(
       home_page: $home_page
       phd_quota: $phd_quota
       phd_quota_unfixed: $phd_quota_unfixed
-      verified: false
+      verified: true
     }
   ) {
     id

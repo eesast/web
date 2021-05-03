@@ -90,7 +90,7 @@ const MentorInfoVerifyPage: React.FC = () => {
       title: "博士名额",
       key: "phd_quota",
       render: (_, record) => {
-        return `${record.phd_quota}-${
+        return `${record.phd_quota}~${
           record.phd_quota + record.phd_quota_unfixed
         }`;
       },
@@ -152,7 +152,11 @@ const MentorInfoVerifyPage: React.FC = () => {
               }}
               type="link"
               hidden={
-                !(userInfo?.role === "counselor" || userInfo?.role === "root")
+                !(
+                  userInfo?.role === "counselor" ||
+                  userInfo?.role === "root" ||
+                  userInfo?.role === "teacher"
+                )
               }
             >
               审核通过

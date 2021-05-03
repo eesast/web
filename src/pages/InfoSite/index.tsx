@@ -144,15 +144,15 @@ const InfoSite: React.FC = () => {
                 博士生招生信息
               </Link>
             </Menu.Item>
-            {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
+            {/* {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
               <Menu.Item key="mentor-info-verify">
                 <Link to={`${url}/mentor-info-verify`}>
                   <VerifiedOutlined />
                   导师信息审核
                 </Link>
               </Menu.Item>
-            ) : null}
-            {["root", "counselor"].includes(userInfo?.role!) ? (
+            ) : null} */}
+            {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
               <Menu.Item key="postgraduate-application">
                 <Link to={`${url}/postgraduate-application`}>
                   <VerifiedOutlined />
