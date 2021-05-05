@@ -232,6 +232,7 @@ query GetPostgraduateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
   }
   postgraduate_application(
     where: { verified: { _eq: false } }
+    order_by: { created_at: desc }
     offset: $offset
     limit: $limit
   ) {
@@ -269,6 +270,9 @@ query GetSelfPostgraduateApplications(
     updated_at
     user_id
     verified
+    history(order_by: { created_at: desc }) {
+      status
+    }
   }
   postgraduate_application_aggregate(where: { user_id: { _eq: $user_id } }) {
     aggregate {
@@ -340,6 +344,7 @@ query GetPostAppHistory($offset: Int = 0, $limit: Int = 10) {
   postgraduate_application_history(
     offset: $offset
     limit: $limit
+    order_by: { created_at: desc }
     where: {
       _and: [
         { status: { _neq: "intend" } }
