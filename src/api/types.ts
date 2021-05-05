@@ -1787,6 +1787,14 @@ export interface GetSelfPostgraduateApplications_postgraduate_application_mentor
   mentor: string;
 }
 
+export interface GetSelfPostgraduateApplications_postgraduate_application_history {
+  __typename: "postgraduate_application_history";
+  /**
+   * intend, in_contact, confirmed_unverified, confirmed_verified, delete
+   */
+  status: string;
+}
+
 export interface GetSelfPostgraduateApplications_postgraduate_application {
   __typename: "postgraduate_application";
   created_at: any;
@@ -1802,6 +1810,10 @@ export interface GetSelfPostgraduateApplications_postgraduate_application {
   updated_at: any;
   user_id: string;
   verified: boolean;
+  /**
+   * An array relationship
+   */
+  history: GetSelfPostgraduateApplications_postgraduate_application_history[];
 }
 
 export interface GetSelfPostgraduateApplications_postgraduate_application_aggregate_aggregate {

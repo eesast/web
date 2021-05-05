@@ -235,11 +235,12 @@ const PostgraduateMentorPage: React.FC = () => {
     },
     {
       title: "审核状态",
-      dataIndex: "verified",
       key: "verified",
-      render: (verified) => {
-        return verified ? (
+      render: (_, record) => {
+        return record.verified ? (
           <Tag color="green">通过</Tag>
+        ) : record.history[0].status === "confirmed_unverified" ? (
+          <Tag color="lime">审核中</Tag>
         ) : (
           <Tag color="red">未通过</Tag>
         );
