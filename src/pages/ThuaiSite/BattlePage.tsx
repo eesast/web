@@ -12,7 +12,10 @@ import {
   Tabs,
   message,
   Form,
+  Dropdown,
+  Menu,
 } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
@@ -36,8 +39,8 @@ import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
 // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
 import { GetTeamInfo as GETTEAMINFO } from "../../api/thuai.graphql";
 import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
-// import { GetCode as GETCODE } from "../../api/thuai.graphql";
-// import { GetCode, GetCodeVariables } from "../../api/types";
+import { GetCode as GETCODE } from "../../api/thuai.graphql";
+import { GetCode, GetCodeVariables } from "../../api/types";
 //上传代码
 import {
   UpsertCode1,
@@ -112,11 +115,11 @@ const BattlePage: React.FC = () => {
       },
     }
   );
-  // const { data: codeData } = useQuery<GetCode, GetCodeVariables>(GETCODE, {
-  //   variables: {
-  //     team_id: teamid!,
-  //   },
-  // });
+  const { data: codeData } = useQuery<GetCode, GetCodeVariables>(GETCODE, {
+    variables: {
+      team_id: teamid!,
+    },
+  });
   //-----------------上传代码------------------、
   const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
     UpsertCode1,
@@ -143,6 +146,7 @@ const BattlePage: React.FC = () => {
   const [showCodeContentModal, setShowCodeContentModal] = useState(false);
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [codeText, setCodeText] = useState("");
+  const [opponentTeamId, setTeamId] = useState("");
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
@@ -242,7 +246,7 @@ const BattlePage: React.FC = () => {
       const response = await axios.get(`room/${record.room_id}`, {
         responseType: "blob",
       });
-      FileSaver.saveAs(response.data, record.created_at);
+      FileSaver.saveAs(response.data, record.room_id + ".thuaipb");
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -253,18 +257,20 @@ const BattlePage: React.FC = () => {
     }
   };
   //点击发起对战
-  const fight = (record: GetAllTeamInfo_thuai) => {
+  const fight = () => {
     (async () => {
       try {
+        //console.log(teamId);
         const roomId = await insertRoom({
           variables: {
             team1_id: teamid,
-            team2_id: record.team_id,
+            team2_id: opponentTeamId,
           },
         });
         await axios.post("room", {
           //header: {},
           room_id: roomId.data?.insert_thuai_room_one?.room_id,
+          team_seq: false,
         });
         message.success("已发起对战");
       } catch (e) {
@@ -278,6 +284,47 @@ const BattlePage: React.FC = () => {
       }
     })();
   };
+  //点击发起对战
+  const fight2 = () => {
+    (async () => {
+      try {
+        //console.log(teamId);
+        const roomId = await insertRoom({
+          variables: {
+            team1_id: teamid,
+            team2_id: opponentTeamId,
+          },
+        });
+        await axios.post("room", {
+          //header: {},
+          room_id: roomId.data?.insert_thuai_room_one?.room_id,
+          team_seq: true,
+        });
+        message.success("已发起对战");
+      } catch (e) {
+        if (insertRoomError) {
+          console.error("make room fail");
+          message.error("发起对战失败");
+        } else {
+          message.error("发起对战失败");
+          console.log(e);
+        }
+      }
+    })();
+  };
+  const setfight = (record: GetAllTeamInfo_thuai) => {
+    setTeamId(record.team_id);
+  };
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" onClick={() => fight()}>
+        紫方
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => fight2()}>
+        白方
+      </Menu.Item>
+    </Menu>
+  );
   const handleCodeContentModal = () => {
     setShowCodeContentModal(false);
     setShowCodeModal(true);
@@ -337,13 +384,11 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <Button
-          type="primary"
-          onClick={() => fight(record)}
-          disabled={record.team_id === teamid}
-        >
-          对战
-        </Button>
+        <Dropdown overlay={menu} trigger={["click"]}>
+          <a className="ant-dropdown-link" onClick={() => setfight(record)}>
+            对战 <DownOutlined />
+          </a>
+        </Dropdown>
       ),
     },
   ];
@@ -463,6 +508,34 @@ const BattlePage: React.FC = () => {
                   >
                     下载编译信息
                   </Button>
+                </Form.Item>
+                <Form.Item label="code1" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_1 + " "}
+                  />
+                </Form.Item>
+                <Form.Item label="code2" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_2 + " "}
+                  />
+                </Form.Item>
+                <Form.Item label="code3" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_3 + " "}
+                  />
+                </Form.Item>
+                <Form.Item label="code4" name="status">
+                  <TextArea
+                    rows={10}
+                    disabled={false}
+                    defaultValue={codeData?.thuai_code[0].code_4 + " "}
+                  />
                 </Form.Item>
               </Form>
             </TabPane>
