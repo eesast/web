@@ -164,16 +164,16 @@ const BattlePage: React.FC = () => {
     code4Error,
   ]);
 
-  if (!teamid) {
+  if (true) {
     return (
       <div>
         <Result
           status="warning"
-          title="您还没有加入任何队伍"
+          title="比赛提交代码已结束"
           extra={
             <Button type="primary">
-              <Link replace to="/thuai/join">
-                加入队伍
+              <Link replace to="/thuai/intro">
+                回到主页面
               </Link>
             </Button>
           }
@@ -181,6 +181,23 @@ const BattlePage: React.FC = () => {
       </div>
     );
   }
+  // if (!teamid) {
+  //   return (
+  //     <div>
+  //       <Result
+  //         status="warning"
+  //         title="您还没有加入任何队伍"
+  //         extra={
+  //           <Button type="primary">
+  //             <Link replace to="/thuai/join">
+  //               加入队伍
+  //             </Link>
+  //           </Button>
+  //         }
+  //       />
+  //     </div>
+  //   );
+  // }
 
   const inputChange = (e: any) => {
     setCodeText(e.target.value);
