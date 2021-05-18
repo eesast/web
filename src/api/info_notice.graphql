@@ -1,7 +1,7 @@
 query GetNotices($notice_type: String) {
   info_notice(
     where: { notice_type: { _eq: $notice_type } }
-    order_by: { created_at: desc }
+    order_by: { updated_at: desc }
   ) {
     id
     title
