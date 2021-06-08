@@ -584,7 +584,7 @@ const PostgraduateMentorPage: React.FC = () => {
           <Select
             style={{ width: 120 }}
             onSelect={(value: string) => {
-              setApplicationStatus(value);
+              setApplicationStatus(value || "intend");
             }}
             disabled={!(userInfo?.role === "EEsenior")}
           >
