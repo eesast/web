@@ -7,7 +7,7 @@
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
     "@testing-library/user-event": "13.1.9",
-    "@types/ali-oss": "6.0.8",
+    "@types/ali-oss": "6.0.9",
     "@types/enquire.js": "2.1.2",
     "@types/file-saver": "2.0.2",
     "@types/is-number": "7.0.1",
