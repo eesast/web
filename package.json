@@ -17,7 +17,7 @@
     "@types/lodash.get": "4.4.6",
     "@types/node": "14.17.5",
     "@types/pizzip": "3.0.2",
-    "@types/react": "17.0.13",
+    "@types/react": "17.0.14",
     "@types/react-custom-scrollbars": "4.0.7",
     "@types/react-dom": "17.0.5",
     "@types/react-google-recaptcha": "2.1.0",
