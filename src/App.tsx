@@ -11,7 +11,12 @@ import {
   Popover,
   Dropdown,
 } from "antd";
-import { UserOutlined, ExportOutlined, MenuOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  ExportOutlined,
+  MenuOutlined,
+  ToolOutlined,
+} from "@ant-design/icons";
 import zhCN from "antd/es/locale/zh_CN";
 import { Switch, Route, Link, Redirect, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -28,6 +33,7 @@ import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
 import Picture from "./components/Picture";
 import ThuaiSite from "./pages/ThuaiSite";
+import AdminSite from "./pages/AdminSite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -136,7 +142,7 @@ function App() {
       <Layout>
         <StyledHeader>
           <FullRow justify="space-between">
-            <Col xxl={4} xl={4} lg={7} md={7} sm={19} xs={19}>
+            <Col xxl={4} xl={4} lg={7} md={7} sm={18} xs={18}>
               <Space size="large">
                 <Logo>
                   <Space size="middle">
@@ -154,7 +160,7 @@ function App() {
                 </Logo>
               </Space>
             </Col>
-            <Col xxl={19} xl={19} lg={16} md={16} sm={4} xs={4}>
+            <Col xxl={18} xl={18} lg={15} md={15} sm={4} xs={4}>
               {menuMode === "inline" ? (
                 <Popover placement="bottomRight" content={menu} trigger="click">
                   <Button icon={<MenuOutlined />} size="large" type="text" />
@@ -162,6 +168,11 @@ function App() {
               ) : (
                 <div id="menu">{menu}</div>
               )}
+            </Col>
+            <Col span={1}>
+              <Link to="/admin">
+                <Button icon={<ToolOutlined />} />
+              </Link>
             </Col>
             <Col span={1}>
               <Dropdown overlay={UserMenu} placement="bottomRight">
@@ -194,6 +205,9 @@ function App() {
             </Route>
             <AuthRoute exact path="/profile">
               <ProfilePage />
+            </AuthRoute>
+            <AuthRoute path="/admin">
+              <AdminSite />
             </AuthRoute>
             <Route>
               <NotFoundPage />

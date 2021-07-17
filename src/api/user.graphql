@@ -25,6 +25,17 @@ query GetUserByName($name: String!) {
   }
 }
 
+query GetUserByEmail($email: String!) {
+  user(where: { email: { _ilike: $email } }) {
+    _id
+    class
+    id
+    name
+    department
+    username
+  }
+}
+
 mutation UpdateUser(
   $_id: String!
   $id: bigint!
