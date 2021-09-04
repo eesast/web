@@ -10291,7 +10291,12 @@ pac-resolver@^4.1.0:
     ip "^1.1.5"
     netmask "^2.0.1"
 
-pako@~1.0.2, pako@~1.0.5:
+pako@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-2.0.4.tgz#6cebc4bbb0b6c73b0d5b8d7e8476e2b2fbea576d"
+  integrity sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==
+
+pako@~1.0.5:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
@@ -10539,12 +10544,12 @@ pirates@^4.0.1:
   dependencies:
     node-modules-regexp "^1.0.0"
 
-pizzip@3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/pizzip/-/pizzip-3.0.6.tgz#223485511f9e23abbb2888fd67734e12fc7861a8"
-  integrity sha512-CYmQJQ6ShNhScp2zrpGetRfamQ2CtUdsfcXaauqsQ0h/HVdQTTlHNUaNzMO0i+l8XTNctHJ6PrmFP+YZoF4iZw==
+pizzip@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/pizzip/-/pizzip-3.1.1.tgz#4f4896189da7386e5060b148696e116a61cb2bd0"
+  integrity sha512-+SYbkj87i+/4LR2F0lIeLTRFg95aj14OhGka988Jg8HiXZVOifdBIWaKZTnfZFvvUl5torCXQ/e+wZ6D23hPuQ==
   dependencies:
-    pako "~1.0.2"
+    pako "^2.0.4"
 
 pkg-dir@^2.0.0:
   version "2.0.0"
