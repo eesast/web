@@ -32,7 +32,7 @@ const JoinPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [teamId, setTeamId] = useState<any>();
   const [inviteCode, setInvite] = useState<string | null>();
-  const { refetch: refetchisleader } = useQuery<
+  const { data: isleaderData,refetch: refetchisleader } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
@@ -40,7 +40,7 @@ const JoinPage: React.FC = () => {
       _id: userInfo?._id!,
     },
   });
-  const { refetch: refetchismember } = useQuery<
+  const { data: ismemberData,refetch: refetchismember } = useQuery<
     IsTeamMember,
     IsTeamMemberVariables
   >(ISTEAMMEMBER, {
@@ -156,10 +156,10 @@ const JoinPage: React.FC = () => {
               type="primary"
               onClick={() => showModal(record)}
               disabled={
-                true
-                //isleaderData?.user[0].team_as_leader.length !== 0 ||
-                //ismemberData?.user[0].team_as_member.length !== 0 ||
-                //record.team_members.length === 3
+                // true
+                isleaderData?.user[0].team_as_leader.length !== 0 ||
+                ismemberData?.user[0].team_as_member.length !== 0 ||
+                record.team_members.length === 3
               }
             >
               加入
