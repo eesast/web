@@ -151,21 +151,21 @@ mutation InsertCode($team_id: uuid!) {
     affected_rows
   }
 }
-#roominfo
-query GetRoomInfo {
-  thuai_room {
-    thuai_room_teams {
-      thuai_team {
-        team_name
-      }
-    }
-    room_id
-    result
-    status
-    created_at
-    show_id
-  }
-}
+##roominfo
+##query GetRoomInfo {
+##  thuai_room {
+##    thuai_room_teams {
+##      thuai_team {
+##        team_name
+##      }
+##    }
+##    room_id
+##    result
+##    status
+##    created_at
+##    show_id
+##  }
+##}
 #insert team into room
 mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
   insert_thuai_room_one(

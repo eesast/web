@@ -160,7 +160,7 @@ const ManagePage: React.FC = () => {
           title="您还没有加入任何队伍"
           extra={
             <Button type="primary">
-              <Link replace to="/thuai/join">
+              <Link replace to="/contest/join">
                 加入队伍
               </Link>
             </Button>
@@ -350,7 +350,7 @@ const ManagePage: React.FC = () => {
                   <Button
                     danger
                     type="default"
-                    disabled={true}
+                    // disabled={true}
                     onClick={
                       isLeader
                         ? () => deleteWholeTeam(teamid)

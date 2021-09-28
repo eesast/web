@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Card, Row, Col, Button, Form, Result } from "antd"; //botton
+import { Input, Card, Row, Col, Button, Form } from "antd"; //botton  修改:delete Result
 import { Layout, message } from "antd";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
@@ -85,17 +85,17 @@ const RegisterPage: React.FC = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-  if (
-    true
-    //isleaderData?.user[0].team_as_leader.length !== 0 ||
-    //ismemberData?.user[0].team_as_member.length !== 0
-  ) {
-    return (
-      <div>
-        <Result status="warning" title="报名已结束，不能再创建队伍" />
-      </div>
-    );
-  }
+  // if (
+  //   true
+  //   //isleaderData?.user[0].team_as_leader.length !== 0 ||
+  //   //ismemberData?.user[0].team_as_member.length !== 0
+  // ) {
+  //   return (
+  //     <div>
+  //       <Result status="warning" title="报名已结束，不能再创建队伍" />
+  //     </div>
+  //   );
+  // }
   return (
     <Layout>
       <br />
@@ -142,7 +142,7 @@ const RegisterPage: React.FC = () => {
                   <TextArea placeholder="输入队伍简介" rows={6} />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                  <Link to="/thuai/join"> 加入队伍</Link>
+                  <Link to="/contest/join"> 加入队伍</Link>
                 </Form.Item>
                 <Form.Item {...headLayout}>
                   <Button type="primary" htmlType="submit">
