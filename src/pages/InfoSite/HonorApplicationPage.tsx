@@ -555,11 +555,11 @@ const HonorApplicationPage = () => {
       <Timeline>
         <Timeline.Item color="green">
           <p>第一阶段：奖学金荣誉申请</p>
-          <p>2020年10月2日（周五）0:00 ~ 2020年10月5日（周一）23:59</p>
+          <p>2021年10月1日（周五）0:00 ~ 2021年10月5日（周二）23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：奖学金申请结果公示</p>
-          <p>拟定于 2020年10月17日 ~ 2020年10月19日</p>
+          <p>拟定于 2021年10月13日 ~ 2021年10月15日（3天）</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
