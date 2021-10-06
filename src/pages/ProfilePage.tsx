@@ -20,7 +20,7 @@ import axios, { AxiosError } from "axios";
 import IsEmail from "isemail";
 import ReCAPTCHA from "react-google-recaptcha";
 import { getUserInfo } from "../helpers/auth";
-import { validatePassword } from "../helpers/validate";
+import { validateClass, validatePassword } from "../helpers/validate";
 
 const formItemLayout = {
   labelCol: {
@@ -267,7 +267,17 @@ const ProfilePage: React.FC = () => {
           label="班级"
           rules={[
             { required: userInfo?.role !== "teacher", message: "请输入班级" },
-          ]}
+          () => ({
+            validator(rule, value: string) {
+              if (!value || validateClass(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                "请输入正确班级信息，如：无92，计81"
+              );
+            },
+          })
+        ]}
         >
           <Input placeholder="如：无64，计80" />
         </Form.Item>

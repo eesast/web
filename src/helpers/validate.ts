@@ -31,3 +31,9 @@ export const validatePassword = (password: string) => {
     password
   );
 };
+
+export const validateClass = (className: string) =>{
+  return /^[\u4E00-\u9FA5]{1,3}[0-9]{1,3}$/.test(
+    className
+  );
+}
