@@ -457,6 +457,54 @@ const HonorApplicationPage = () => {
     setExportLoading(false);
   };
 
+  const [exportAllLoading, setExportAllLoading] = useState(false);
+
+  const handleAllApplicationExport = async () =>{
+    setExportAllLoading(true);
+
+    const applications = applicationsForCounselors!.honor_application.map(
+      (i) => [
+        i.id,
+        i.student.id,
+        i.student.name,
+        i.student.class,
+        i.honor,
+        getStatusText(i.status),
+        i.statement,
+        i.attachment_url,
+      ]
+    );
+
+    if (applications.length === 0){
+      message.info("无申请");
+      setExportAllLoading(false);
+      return;
+    }
+
+    const Xlsx = await import("xlsx");
+
+    const head = [
+      "申请 ID",
+      "学号",
+      "姓名",
+      "班级",
+      "荣誉类型",
+      "申请状态",
+      "申请陈述",
+      "申请材料",
+    ];
+
+    applications.unshift(head);
+
+    const worksheet = Xlsx.utils.aoa_to_sheet(applications);
+    const workbook = Xlsx.utils.book_new();
+    Xlsx.utils.book_append_sheet(workbook, worksheet, "全部荣誉申请");
+    Xlsx.writeFile(workbook, `荣誉申请-全部.xlsx`);
+
+    message.success("申请导出成功");
+    setExportAllLoading(false);
+  };
+
   const [importFormVisible, setImportFormVisible] = useState(false);
   const [importLoading, setImportLoading] = useState(false);
   const [fileList, setFileList] = useState<FileList | null>(null);
@@ -704,6 +752,13 @@ const HonorApplicationPage = () => {
               onClick={() => setExportFormVisible(true)}
             >
               导出申请
+            </Button>
+            <Button
+              disabled={applicationsForCounselorsLoading}
+              loading={exportAllLoading}
+              onClick={() => handleAllApplicationExport()}
+            >
+              导出全部
             </Button>
             <Button
               disabled={applicationsForCounselorsLoading}
