@@ -200,7 +200,7 @@ function App() {
             </Route>
           </Switch>
         </Content>
-        <StyledFooter>© 2020 EESAST</StyledFooter>
+        <StyledFooter>京ICP备19058476号  © 2020 EESAST</StyledFooter>
       </Layout>
       <BackTop />
     </ConfigProvider>
