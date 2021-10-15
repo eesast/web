@@ -1,0 +1,65 @@
+query GetContestNotices($contest_type: String) {
+  contest_info(
+    where: { contest_type: { _eq: $contest_type } }
+    order_by: { updated_at: desc }
+  ) {
+    id
+    title
+    content
+    created_at
+    updated_at
+    files
+    contest_type
+  }
+}
+
+mutation UpdateContestNotice(
+  $id: uuid!
+  $title: String!
+  $content: String!
+  $files: String
+  $contest_type: String!
+) {
+  update_contest_info(
+    where: { id: { _eq: $id } }
+    _set: {
+      title: $title,
+      content: $content,
+      files: $files,
+      contest_type: $contest_type
+    }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation AddContestNotice(
+  $title: String!
+  $content: String!
+  $files: String
+  $contest_type: String!
+) {
+  insert_contest_info(
+    objects: {
+      title: $title
+      content: $content
+      files: $files
+      contest_type: $contest_type
+    }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+
+mutation DeleteContestNotice($id: uuid!) {
+  delete_contest_info(where: { id: { _eq: $id } }) {
+    returning {
+      id
+    }
+  }
+}

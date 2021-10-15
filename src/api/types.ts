@@ -4,6 +4,143 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetContestNotices
+// ====================================================
+
+export interface GetContestNotices_contest_info {
+  __typename: "contest_info";
+  id: any;
+  title: string;
+  content: string;
+  created_at: any;
+  updated_at: any;
+  files: string | null;
+  contest_type: string;
+}
+
+export interface GetContestNotices {
+  /**
+   * fetch data from the table: "contest_info"
+   */
+  contest_info: GetContestNotices_contest_info[];
+}
+
+export interface GetContestNoticesVariables {
+  contest_type?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateContestNotice
+// ====================================================
+
+export interface UpdateContestNotice_update_contest_info_returning {
+  __typename: "contest_info";
+  id: any;
+}
+
+export interface UpdateContestNotice_update_contest_info {
+  __typename: "contest_info_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateContestNotice_update_contest_info_returning[];
+}
+
+export interface UpdateContestNotice {
+  /**
+   * update data of the table: "contest_info"
+   */
+  update_contest_info: UpdateContestNotice_update_contest_info | null;
+}
+
+export interface UpdateContestNoticeVariables {
+  id: any;
+  title: string;
+  content: string;
+  files?: string | null;
+  contest_type: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddContestNotice
+// ====================================================
+
+export interface AddContestNotice_insert_contest_info_returning {
+  __typename: "contest_info";
+  id: any;
+}
+
+export interface AddContestNotice_insert_contest_info {
+  __typename: "contest_info_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddContestNotice_insert_contest_info_returning[];
+}
+
+export interface AddContestNotice {
+  /**
+   * insert data into the table: "contest_info"
+   */
+  insert_contest_info: AddContestNotice_insert_contest_info | null;
+}
+
+export interface AddContestNoticeVariables {
+  title: string;
+  content: string;
+  files?: string | null;
+  contest_type: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContestNotice
+// ====================================================
+
+export interface DeleteContestNotice_delete_contest_info_returning {
+  __typename: "contest_info";
+  id: any;
+}
+
+export interface DeleteContestNotice_delete_contest_info {
+  __typename: "contest_info_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeleteContestNotice_delete_contest_info_returning[];
+}
+
+export interface DeleteContestNotice {
+  /**
+   * delete data from the table: "contest_info"
+   */
+  delete_contest_info: DeleteContestNotice_delete_contest_info | null;
+}
+
+export interface DeleteContestNoticeVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetAidApplications
 // ====================================================
 
