@@ -200,7 +200,7 @@ function App() {
             </Route>
           </Switch>
         </Content>
-        <StyledFooter>京ICP备19058476号-1  © 2020 EESAST</StyledFooter>
+        <StyledFooter><a href="https://beian.miit.gov.cn/">京ICP备19058476号-1 </a>  © 2020 EESAST</StyledFooter>
       </Layout>
       <BackTop />
     </ConfigProvider>
