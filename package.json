@@ -31,7 +31,7 @@
     "axios": "0.21.4",
     "babel-plugin-import": "1.13.3",
     "babel-plugin-import-graphql": "2.8.1",
-    "babel-plugin-styled-components": "1.13.2",
+    "babel-plugin-styled-components": "1.13.3",
     "bundlesize": "0.18.1",
     "concurrently": "6.2.2",
     "customize-cra": "1.0.0",
