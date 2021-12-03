@@ -4,7 +4,7 @@
   "dependencies": {
     "@ant-design/icons": "4.7.0",
     "@apollo/client": "3.5.5",
-    "@testing-library/jest-dom": "5.15.1",
+    "@testing-library/jest-dom": "5.16.0",
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.2.1",
     "@types/ali-oss": "6.0.11",
