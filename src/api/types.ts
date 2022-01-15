@@ -9,13 +9,12 @@
 
 export interface GetContestNotices_contest_info {
   __typename: "contest_info";
-  id: any;
-  title: string;
   content: string;
   created_at: any;
   updated_at: any;
   files: string | null;
-  contest_type: string;
+  id: any;
+  title: string;
 }
 
 export interface GetContestNotices {
@@ -26,7 +25,7 @@ export interface GetContestNotices {
 }
 
 export interface GetContestNoticesVariables {
-  contest_type?: string | null;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -63,7 +62,7 @@ export interface UpdateContestNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
-  contest_type: string;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -99,7 +98,7 @@ export interface AddContestNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
-  contest_type: string;
+  contest_id: any;
 }
 
 /* tslint:disable */
