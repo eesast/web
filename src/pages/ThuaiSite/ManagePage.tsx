@@ -16,20 +16,20 @@ import { getUserInfo } from "../../helpers/auth"; //更改：取消注释
 import Loading from "../../components/Loading";
 //----根据队员信息查找队伍信息------
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
+import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
+import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 //---------插入结束----------------
-import { GetTeamInfo as GETTEAMINFO } from "../../api/thuai.graphql";
+import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
 import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
 //-----------更新队伍名称、队伍简介----------------
-import { UpdateTeam as UPDATETEAM } from "../../api/thuai.graphql";
+import { UpdateTeam as UPDATETEAM } from "../../api/contest.graphql";
 import { UpdateTeam, UpdateTeamVariables } from "../../api/types";
 //----------------查询队员信息-------------------
-import { GetMemberInfo as GETMEMBERINFO } from "../../api/thuai.graphql";
+import { GetMemberInfo as GETMEMBERINFO } from "../../api/contest.graphql";
 import {
-  GetMemberInfo_team_member,
   GetMemberInfo,
+  GetMemberInfo_contest_team_member,
   GetMemberInfoVariables,
 } from "../../api/types";
 //----------------------删除相关操作-----------------------------
@@ -37,7 +37,7 @@ import {
   DeleteTeam as DELETETEAM,
   DeleteAllTeamMember as DELETEALLMEMBERTEAM,
   DeleteTeamMember as DELETETEAMMEMBER,
-} from "../../api/thuai.graphql";
+} from "../../api/contest.graphql";
 import {
   DeleteTeam,
   DeleteTeamVariables,
@@ -66,6 +66,7 @@ const ManagePage: React.FC = () => {
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
     },
   });
   const {
@@ -75,11 +76,14 @@ const ManagePage: React.FC = () => {
   } = useQuery<IsTeamMember, IsTeamMemberVariables>(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
     },
   });
   const teamid =
-    isleaderData?.user[0].team_as_leader[0]?.team_id ||
-    ismemberData?.user[0].team_as_member[0]?.team_id;
+    isleaderData?.contest_team[0]?.team_id ||
+    ismemberData?.contest_team_member[0]?.team_id;
+
+  useEffect(() => {console.log(teamid);})
 
   //根据team_id查询所有队员信息
   const { data: teamMemberData, loading: teamMemberLoading } = useQuery<
@@ -87,7 +91,7 @@ const ManagePage: React.FC = () => {
     GetMemberInfoVariables
   >(GETMEMBERINFO, {
     variables: {
-      team_id: teamid,
+      team_id: teamid!,
     },
   });
   //更新队伍信息
@@ -142,8 +146,8 @@ const ManagePage: React.FC = () => {
   }, [DeleteTeamError, DeleteAllTeamMemberERROR]);
 
   const team = {
-    ...teamData?.thuai[0],
-    leader_name: teamData?.thuai[0]?.user?.name,
+    ...teamData?.contest_team[0],
+    leader_name: teamData?.contest_team[0]?.team_leader,
   };
   const isLeader = userInfo?._id === team?.team_leader;
 
@@ -174,7 +178,7 @@ const ManagePage: React.FC = () => {
     const newinfo = {
       team_id: teamid,
       team_name: record.team_name,
-      team_sum: record.team_sum,
+      team_intro: record.team_intro,
     };
     UpdateTeam({
       variables: newinfo,
@@ -224,16 +228,16 @@ const ManagePage: React.FC = () => {
       },
     });
   };
-  const memberListColumns: TableProps<GetMemberInfo_team_member>["columns"] = [
+  const memberListColumns: TableProps<GetMemberInfo_contest_team_member>["columns"] = [
     {
       title: "姓名",
       key: "name",
-      render: (text, record) => record.user?.name,
+      render: (text, record) => record.user_as_contest_team_member?.name,
     },
     {
       title: "学号",
       key: "id",
-      render: (text, record) => record.user?.id,
+      render: (text, record) => record.user_as_contest_team_member?.id,
     },
     {
       title: "管理",
@@ -242,7 +246,7 @@ const ManagePage: React.FC = () => {
         return (
           <Button
             // disabled={true}
-            onClick={() => deleteTeamMemberByLeader(record.user._id)}
+            onClick={() => deleteTeamMemberByLeader(record.user_as_contest_team_member._id)}
           >
             移除
           </Button>
@@ -305,7 +309,7 @@ const ManagePage: React.FC = () => {
                   <span>{team.invited_code}</span>
                 </Form.Item>
                 <Form.Item label="队长">
-                  <span>{team.leader_name}</span>
+                  <span>{team.team_leader_id?.name}</span>
                 </Form.Item>
                 <Form.Item label="队员">
                   {}
@@ -313,11 +317,11 @@ const ManagePage: React.FC = () => {
                   <Table
                     loading={teamMemberLoading}
                     columns={memberListColumns}
-                    dataSource={teamMemberData?.team_member}
+                    dataSource={teamMemberData?.contest_team_member}
                   />
                 </Form.Item>
                 <Form.Item
-                  name="team_sum"
+                  name="team_intro"
                   label="队伍简介"
                   rules={[
                     {
@@ -336,7 +340,7 @@ const ManagePage: React.FC = () => {
                   <TextArea
                     rows={6}
                     disabled={false}
-                    placeholder={team.team_sum}
+                    placeholder={team.team_intro!}
                   />
                 </Form.Item>
                 <Form.Item style={{ textAlign: "center" }}>

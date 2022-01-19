@@ -1,7 +1,7 @@
 //import React, { useEffect, useState } from "react";
 import { useEffect, useState } from "react";
 import { message, Layout } from "antd";
-import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/thuai.graphql";
+import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/contest.graphql";
 import { GetIntroContentVariables, GetIntroContent } from "../../api/types";
 import { useQuery } from "@apollo/client";
 import md2wx from "md2wx";

@@ -93,7 +93,7 @@ const ThuaiSite: React.FC = () => {
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item> */}
 
-          {["root", "teacher"].includes(userInfo?.role!) ? (
+          {["root"].includes(userInfo?.role!) ? (
             <SubMenu
               key="sub2"
               title={

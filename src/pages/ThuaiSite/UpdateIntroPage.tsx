@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import styles from "./UpdateIntroPage.module.css";
 import { message, Layout, Form, Input, Button } from "antd";
-import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/thuai.graphql";
+import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/contest.graphql";
 import { GetIntroContentVariables, GetIntroContent } from "../../api/types";
 import { useQuery, useMutation } from "@apollo/client";
 //-----------更新队伍名称、队伍简介----------------
-import { UpdateIntro as UPDATEINTRO } from "../../api/thuai.graphql";
+import { UpdateIntro as UPDATEINTRO } from "../../api/contest.graphql";
 import { UpdateIntro, UpdateIntroVariables } from "../../api/types";
 const { TextArea } = Input;
 const UpdateIntroPage = () => {
