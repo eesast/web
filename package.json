@@ -22,7 +22,7 @@
     "@types/react-dom": "17.0.5",
     "@types/react-google-recaptcha": "2.1.2",
     "@types/react-linkify": "1.0.1",
-    "@types/react-router-dom": "5.3.2",
+    "@types/react-router-dom": "5.3.3",
     "@types/styled-components": "5.1.19",
     "ali-oss": "6.16.0",
     "antd": "4.9.4",
