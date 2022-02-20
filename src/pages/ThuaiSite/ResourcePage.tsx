@@ -48,6 +48,7 @@ import type {
 import { getOSS, downloadFile } from "../../helpers/oss";
 import { getUserInfo } from "../../helpers/auth";
 
+
 const { Text } = Typography;
 const { confirm } = Modal;
 
@@ -66,7 +67,7 @@ const ResourcePage: React.FC = () => {
     refetch: refetchNotices,
   } = useQuery<GetContestNotices,GetContestNoticesVariables>(GET_NOTICES,{
     variables:{
-      contest_id:"3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // 对应 2021电设 的比赛id
+      contest_id:"3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // TODO: 待修正，对应 2021电设 的比赛id
     }
   });
 
