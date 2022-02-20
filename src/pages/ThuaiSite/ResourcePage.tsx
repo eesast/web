@@ -11,6 +11,7 @@ import {
   Input,
   Form,
   Upload,
+  Space,
 } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import Linkify from "react-linkify";
@@ -36,6 +37,7 @@ import {
   AddContestNoticeVariables,
   UpdateContestNoticeVariables,
   DeleteContestNoticeVariables,
+  GetContestNoticesVariables,
 } from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
@@ -45,6 +47,7 @@ import type {
 } from "antd/lib/upload/interface";
 import { getOSS, downloadFile } from "../../helpers/oss";
 import { getUserInfo } from "../../helpers/auth";
+
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -62,7 +65,11 @@ const ResourcePage: React.FC = () => {
     loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-  } = useQuery<GetContestNotices>(GET_NOTICES);
+  } = useQuery<GetContestNotices,GetContestNoticesVariables>(GET_NOTICES,{
+    variables:{
+      contest_id:"3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // TODO: 待修正，对应 2021电设 的比赛id
+    }
+  });
 
   const [
     updateNotice,
@@ -82,6 +89,7 @@ const ResourcePage: React.FC = () => {
   useEffect(() => {
     if (noticeError) {
       message.error("公告加载失败");
+      console.log(noticeError.message);
     }
   }, [noticeError]);
 
@@ -125,7 +133,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_type: "2021电子设计大赛",
+          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
         },
       });
     } else {
@@ -134,7 +142,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_type: "2021电子设计大赛",
+          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
         },
       });
     }
@@ -191,7 +199,7 @@ const ResourcePage: React.FC = () => {
             margin-top: 12px;
             margin-right: 24px;
           `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
+          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root" }
           onClick={() => setModalVisible(true)}
         >
           编辑新公告
@@ -393,6 +401,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
           align-items: center;
         `}
       >
+        <Space size = {'middle'}>
         {onEditPress && <EditOutlined onClick={onEditPress} />}
         {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
         <Text
@@ -405,6 +414,9 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
         >
           {"编辑于 " + dayjs(updatedAt).fromNow()}
         </Text>
+        </Space>
+
+
       </div>
     </Card>
   );

@@ -44,25 +44,25 @@ export default NotFoundPage;
 // import { Link } from "react-router-dom";
 // //----根据队员信息查找队伍信息------
 // import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-// import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
+// import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 // import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-// import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
+// import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 // //----天梯队伍信息------
 // import type { TableProps } from "antd/lib/table";
 // import { GetAllTeamInfo_thuai, GetAllTeamInfo } from "../../api/types";
-// import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/thuai.graphql";
+// import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
 // //----回放信息------
 // import { GetRoomInfo_thuai_room, GetRoomInfo } from "../../api/types";
-// import { GetRoomInfo as GETROOMINFO } from "../../api/thuai.graphql";
+// import { GetRoomInfo as GETROOMINFO } from "../../api/contest.graphql";
 // //----插入room和team------
 // import { InsertRoom, InsertRoomVariables } from "../../api/types";
-// import { InsertRoom as INSERTROOM } from "../../api/thuai.graphql";
+// import { InsertRoom as INSERTROOM } from "../../api/contest.graphql";
 // //————创建thuaicode————
 // // import { InsertCode, InsertCodeVariables } from "../../api/types";
-// // import { InsertCode as INSERTCODE } from "../../api/thuai.graphql";
-// import { GetTeamInfo as GETTEAMINFO } from "../../api/thuai.graphql";
+// // import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
+// import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
 // import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
-// import { GetCode as GETCODE } from "../../api/thuai.graphql";
+// import { GetCode as GETCODE } from "../../api/contest.graphql";
 // import { GetCode, GetCodeVariables } from "../../api/types";
 // //上传代码
 // import {
@@ -80,7 +80,7 @@ export default NotFoundPage;
 //   UpsertCode2 as UPSERTCODE2,
 //   UpsertCode3 as UPSERTCODE3,
 //   UpsertCode4 as UPSERTCODE4,
-// } from "../../api/thuai.graphql";
+// } from "../../api/contest.graphql";
 // //————后端发送post————
 // import axios, { AxiosError } from "axios";
 // import FileSaver from "file-saver";
