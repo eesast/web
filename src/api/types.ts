@@ -824,6 +824,31 @@ export interface DeleteTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetAllContest
+// ====================================================
+
+export interface GetAllContest_contest {
+  __typename: "contest";
+  id: any;
+  contest_name: string;
+  description: string | null;
+  start_date: any;
+  end_date: any;
+}
+
+export interface GetAllContest {
+  /**
+   * fetch data from the table: "contest"
+   */
+  contest: GetAllContest_contest[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetIntroContent
 // ====================================================
 

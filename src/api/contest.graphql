@@ -149,6 +149,18 @@ mutation DeleteTeamMember($user_id: String!) {
     affected_rows
   }
 }
+
+# 获取所有比赛
+query GetAllContest {
+  contest {
+    id
+    contest_name
+    description
+    start_date
+    end_date
+  }
+}
+
 #intropage用
 query GetIntroContent($id: Int!) {
   article(where: { id: { _eq: $id } }) {
