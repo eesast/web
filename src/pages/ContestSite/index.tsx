@@ -44,7 +44,6 @@ import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, MinusCircleOut
 import MenuPage from "./MenuPage";
 
 //用以没登陆会跳转到登陆页面
-import AuthRoute from "../../components/AuthRoute";
 import dayjs, { Dayjs } from "dayjs";
 
 
@@ -61,7 +60,8 @@ dayjs.extend(utc);
 const ContestSite: React.FC = () => {
   const userInfo = getUserInfo();
 
-  const { path, url } = useRouteMatch();
+  const { path } = useRouteMatch();
+  //console.log(path);
 
   const {
     data: contestData,
@@ -522,7 +522,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
     ...restProps
   } = props;
 
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   const state = dayjs(endDate).isAfter(dayjs().format()) ? (dayjs(startDate).isBefore(dayjs().format()) ? "正在进行" : "未开始") : "已结束";
 
