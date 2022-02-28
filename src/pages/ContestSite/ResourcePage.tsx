@@ -43,11 +43,10 @@ import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type {
   UploadFile,
-  RcCustomRequestOptions,
+  RcCustomRequestOptions
 } from "antd/lib/upload/interface";
 import { getOSS, downloadFile } from "../../helpers/oss";
 import { getUserInfo } from "../../helpers/auth";
-
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -65,9 +64,9 @@ const ResourcePage: React.FC = () => {
     loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-  } = useQuery<GetContestNotices,GetContestNoticesVariables>(GET_NOTICES,{
-    variables:{
-      contest_id:"3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // TODO: 待修正，对应 2021电设 的比赛id
+  } = useQuery<GetContestNotices, GetContestNoticesVariables>(GET_NOTICES, {
+    variables: {
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // 对应 2021电设 的比赛id
     }
   });
 
@@ -118,7 +117,7 @@ const ResourcePage: React.FC = () => {
   const handleNoticeEdit = async () => {
     try {
       form.validateFields();
-    } catch {}
+    } catch { }
 
     const values = form.getFieldsValue();
     const files = fileList.map((f) => ({
@@ -199,7 +198,7 @@ const ResourcePage: React.FC = () => {
             margin-top: 12px;
             margin-right: 24px;
           `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root" }
+          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
           onClick={() => setModalVisible(true)}
         >
           编辑新公告
@@ -218,26 +217,26 @@ const ResourcePage: React.FC = () => {
             onEditPress={
               userInfo?.role === "counselor" || userInfo?.role === "root"
                 ? () => {
-                    setEditingNotice(item);
-                    setFileList(
-                      JSON.parse(item.files ?? "[]").map((f: File) => ({
-                        response: { status: 200 },
-                        status: "done",
-                        uid: f.url,
-                        size: 0,
-                        name: f.filename,
-                        type: "",
-                      }))
-                    );
-                    setModalVisible(true);
-                  }
+                  setEditingNotice(item);
+                  setFileList(
+                    JSON.parse(item.files ?? "[]").map((f: File) => ({
+                      response: { status: 200 },
+                      status: "done",
+                      uid: f.url,
+                      size: 0,
+                      name: f.filename,
+                      type: "",
+                    }))
+                  );
+                  setModalVisible(true);
+                }
                 : undefined
             }
             onDeletePress={
               userInfo?.role === "counselor" || userInfo?.role === "root"
                 ? () => {
-                    handleNoticeDelete(item.id);
-                  }
+                  handleNoticeDelete(item.id);
+                }
                 : undefined
             }
             title={item.title}
@@ -401,19 +400,19 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
           align-items: center;
         `}
       >
-        <Space size = {'middle'}>
-        {onEditPress && <EditOutlined onClick={onEditPress} />}
-        {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
-        <Text
-          css={`
+        <Space size={'middle'}>
+          {onEditPress && <EditOutlined onClick={onEditPress} />}
+          {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
+          <Text
+            css={`
             margin-left: 5px;
             font-style: italic;
             font-size: 12px;
             color: gray;
           `}
-        >
-          {"编辑于 " + dayjs(updatedAt).fromNow()}
-        </Text>
+          >
+            {"编辑于 " + dayjs(updatedAt).fromNow()}
+          </Text>
         </Space>
 
 
