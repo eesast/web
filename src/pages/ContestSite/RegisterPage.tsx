@@ -1,16 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton  修改:delete Result
-import { Layout, message } from "antd";
+import { Layout, message} from "antd";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
 //graphql的语句由Apollo生成ts句柄，在此import
-import { InsertThuai, InsertThuaiVariables } from "../../api/types";
-import { InsertThuai as INSERT_THUAI } from "../../api/thuai.graphql";
+import {InsertTeam, InsertTeamVariables } from "../../api/types";
+import { InsertTeam as INSERT_TEAM } from "../../api/contest.graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
+import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
+import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -33,46 +33,57 @@ function randomString() {
 const RegisterPage: React.FC = () => {
   //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
-  //查询语句
-  const { refetch: refetchisleader } = useQuery<
+  // 查询此用户是否已有队伍，若有则不可再创建
+
+  const {  data: isleaderData ,refetch: refetchisleader } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
     },
   });
-  const { refetch: refetchismember } = useQuery<
+  const { data: ismemberData ,refetch: refetchismember } = useQuery<
     IsTeamMember,
     IsTeamMemberVariables
   >(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
     },
   });
+  useEffect(() => {
+    if (isleaderData?.contest_team.length !== 0 ||
+      ismemberData?.contest_team_member.length !== 0)
+      message.warning("您已在队伍中，不可再创建队伍！");
+  })
   const InviteCode = randomString();
+
 
   //获取表单信息#form为表单名字
   const [form] = Form.useForm();
 
-  const [insertThuai, { error: insertError }] = useMutation<
-    InsertThuai,
-    InsertThuaiVariables
-  >(INSERT_THUAI);
+  const [insertTeam, { error: insertError }] = useMutation<
+    InsertTeam,
+    InsertTeamVariables
+  >(INSERT_TEAM);
   //函数组件
   const onFinish = async () => {
     const values = await form.getFieldsValue(); //form表单里的信息
     console.log(values);
     try {
-      await insertThuai({
+      await insertTeam({
         variables: {
           ...values, //剩余参数
           team_leader: userInfo?._id!,
           invited_code: InviteCode!,
+          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7", // TODO： 待修改
         },
       });
     } catch (e) {
       message.error("创建失败,可能队名重复或网络问题");
+      console.log(e);
     } finally {
       if (!insertError) {
         message.success("创建成功");
@@ -85,17 +96,6 @@ const RegisterPage: React.FC = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-  // if (
-  //   true
-  //   //isleaderData?.user[0].team_as_leader.length !== 0 ||
-  //   //ismemberData?.user[0].team_as_member.length !== 0
-  // ) {
-  //   return (
-  //     <div>
-  //       <Result status="warning" title="报名已结束，不能再创建队伍" />
-  //     </div>
-  //   );
-  // }
   return (
     <Layout>
       <br />
@@ -145,7 +145,11 @@ const RegisterPage: React.FC = () => {
                   <Link to="/contest/join"> 加入队伍</Link>
                 </Form.Item>
                 <Form.Item {...headLayout}>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit"
+                  disabled={
+                isleaderData?.contest_team.length !== 0 ||
+                ismemberData?.contest_team_member.length !== 0
+              }>
                     创建队伍
                   </Button>
                 </Form.Item>

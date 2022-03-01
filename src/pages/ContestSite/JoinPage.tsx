@@ -13,14 +13,14 @@ import {
 } from "antd";
 import { getUserInfo } from "../../helpers/auth";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/thuai.graphql";
+import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/thuai.graphql";
-import { GetAllTeamInfo_thuai, GetAllTeamInfo } from "../../api/types";
-import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/thuai.graphql";
+import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
+import { GetAllTeamInfo_contest_team, GetAllTeamInfo } from "../../api/types";
+import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
 //插入队员
 import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
-import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/thuai.graphql";
+import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/contest.graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import type { TableProps } from "antd/lib/table";
 //导出excel
@@ -38,6 +38,7 @@ const JoinPage: React.FC = () => {
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
     },
   });
   const { data: ismemberData,refetch: refetchismember } = useQuery<
@@ -46,6 +47,7 @@ const JoinPage: React.FC = () => {
   >(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
     },
   });
   const {
@@ -54,13 +56,24 @@ const JoinPage: React.FC = () => {
     error: teamListError,
     refetch: refetchteamList,
   } = useQuery<GetAllTeamInfo>(GETALLTEAMINFO);
+
+  const teamid =
+    isleaderData?.contest_team[0]?.team_id ||
+    ismemberData?.contest_team_member[0]?.team_id;
+
+useEffect(() => {
+  console.log(teamid);
+  console.log(isleaderData?.contest_team.length);
+  console.log(ismemberData?.contest_team_member.length);
+})
+
   /***************队员插入****************/
   const [insertteamMember, { error: insertError }] = useMutation<
     InsertTeamMember,
     InsertTeamMemberVariables
   >(INSERTTEAMMEMBER);
   //点击加入
-  const showModal = (record: GetAllTeamInfo_thuai) => {
+  const showModal = (record: GetAllTeamInfo_contest_team) => {
     setIsModalVisible(true);
     setTeamId(record.team_id);
     setInvite(record.invited_code);
@@ -71,21 +84,25 @@ const JoinPage: React.FC = () => {
   useEffect(() => {
     if (teamListError) {
       message.error("队伍列表加载失败");
+      console.log(teamListError.message);
     }
   }, [teamListError]);
 
   const exportTeamsData = () => {
     try {
       const data: any = [];
-      const teamsData = data.concat(
-        teamListData?.thuai.map((team) =>
+      const teamsData = data.concat(  // 函数concat 把队伍信息和成员信息连接起来
+        // eslint-disable-next-line
+        teamListData?.contest_team.map((team) =>
           [
             team.team_name,
-            team.team_sum,
-            team.user?.name,
-            team.user?.email || "null",
-            team.user?.phone || "null",
-          ].concat(team.team_members.map((member) => member.user?.name))
+            team.team_intro,
+            team.team_leader_id?.name,
+            team.team_leader_id?.email || "null",
+            team.team_leader_id?.phone || "null",
+          ].concat(team.contest_team_members?.map((member) =>
+          `${member.user_as_contest_team_member?.name}/ ${member.user_as_contest_team_member?._id}/ ${member.user_as_contest_team_member?.email || "null"}/ ${member.user_as_contest_team_member?.phone || "null"}`
+          ))
         )
       );
       const workBook = xlsx.utils.book_new();
@@ -123,7 +140,7 @@ const JoinPage: React.FC = () => {
     refetchteamList();
   };
 
-  const teamListColumns: TableProps<GetAllTeamInfo_thuai>["columns"] = [
+  const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
@@ -132,18 +149,19 @@ const JoinPage: React.FC = () => {
     {
       title: "队长",
       key: "team_leader",
-      render: (text, record) => record.user?.name,
+      render: (text, record) => record.team_leader_id?.name,
     },
     {
       title: "队员",
       key: "team_member",
       render: (text, record) =>
-        record.team_members.map((i) => [i.user.name + "   "]),
+        record.contest_team_members.map((i) => [i.user_as_contest_team_member.name + "   "]),
     },
     {
       title: "队伍简介",
       dataIndex: "team_sum",
       key: "team_sum",
+      render: (text, record) => record.team_intro,
       ellipsis: true,
     },
     {
@@ -157,9 +175,9 @@ const JoinPage: React.FC = () => {
               onClick={() => showModal(record)}
               disabled={
                 // true
-                isleaderData?.user[0].team_as_leader.length !== 0 ||
-                ismemberData?.user[0].team_as_member.length !== 0 ||
-                record.team_members.length === 3
+                isleaderData?.contest_team.length !== 0 ||
+                ismemberData?.contest_team_member.length !== 0 ||
+                record.contest_team_members.length === 3
               }
             >
               加入
@@ -212,7 +230,7 @@ const JoinPage: React.FC = () => {
             <Content>
               <Table
                 loading={teamListLoading}
-                dataSource={teamListData?.thuai}
+                dataSource={teamListData?.contest_team}
                 columns={teamListColumns}
               />
             </Content>

@@ -27,7 +27,7 @@ import ProfilePage from "./pages/ProfilePage";
 import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
 import Picture from "./components/Picture";
-import ThuaiSite from "./pages/ThuaiSite";
+import ContestSite from "./pages/ContestSite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -111,7 +111,7 @@ function App() {
         <Link to="/home">首页</Link>
       </Menu.Item>
       <Menu.Item key="contest">
-        <Link to="/contest">电子设计大赛</Link>
+        <Link to="/contest">比赛</Link>
       </Menu.Item>
       <Menu.Item key="weekly">
         <Link to="/weekly">WEEKLY</Link>
@@ -147,7 +147,7 @@ function App() {
                         height="48"
                       />
                     </Link>
-                    <Link to="/home" style={{ color: "black" }}>
+                    <Link to="/home" style={{ color: "black", fontSize: "large" }}>
                       <Title> EESΛST</Title>
                     </Link>
                   </Space>
@@ -183,7 +183,7 @@ function App() {
               <HomeSite />
             </Route>
             <Route path="/contest">
-              <ThuaiSite />
+              <ContestSite />
             </Route>
 
             <AuthRoute path="/info">
@@ -200,7 +200,7 @@ function App() {
             </Route>
           </Switch>
         </Content>
-        <StyledFooter><a href="https://beian.miit.gov.cn/">京ICP备19058476号-1 </a>  © 2020 EESAST</StyledFooter>
+        <StyledFooter><a href="https://beian.miit.gov.cn/">京ICP备19058476号-1 </a>  © 2022 EESAST</StyledFooter>
       </Layout>
       <BackTop />
     </ConfigProvider>

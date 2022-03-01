@@ -198,6 +198,7 @@ const LoginPage: React.FC = () => {
             message.error("邮箱或密码错误");
           }
         } else {
+          console.log(err);
           message.error("未知错误");
         }
       }

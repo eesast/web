@@ -9,13 +9,12 @@
 
 export interface GetContestNotices_contest_info {
   __typename: "contest_info";
-  id: any;
-  title: string;
   content: string;
   created_at: any;
   updated_at: any;
   files: string | null;
-  contest_type: string;
+  id: any;
+  title: string;
 }
 
 export interface GetContestNotices {
@@ -26,7 +25,7 @@ export interface GetContestNotices {
 }
 
 export interface GetContestNoticesVariables {
-  contest_type?: string | null;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -63,7 +62,7 @@ export interface UpdateContestNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
-  contest_type: string;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -99,7 +98,7 @@ export interface AddContestNoticeVariables {
   title: string;
   content: string;
   files?: string | null;
-  contest_type: string;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -133,6 +132,927 @@ export interface DeleteContestNotice {
 
 export interface DeleteContestNoticeVariables {
   id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetContests
+// ====================================================
+
+export interface GetContests_contest {
+  __typename: "contest";
+  contest_name: string;
+  description: string | null;
+  end_date: any;
+  id: any;
+  start_date: any;
+  contest_type: string;
+}
+
+export interface GetContests {
+  /**
+   * fetch data from the table: "contest"
+   */
+  contest: GetContests_contest[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddContest
+// ====================================================
+
+export interface AddContest_insert_contest_returning {
+  __typename: "contest";
+  id: any;
+}
+
+export interface AddContest_insert_contest {
+  __typename: "contest_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddContest_insert_contest_returning[];
+}
+
+export interface AddContest {
+  /**
+   * insert data into the table: "contest"
+   */
+  insert_contest: AddContest_insert_contest | null;
+}
+
+export interface AddContestVariables {
+  start_date: any;
+  end_date: any;
+  description?: string | null;
+  contest_name: string;
+  contest_type: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateContest
+// ====================================================
+
+export interface UpdateContest_update_contest_returning {
+  __typename: "contest";
+  id: any;
+}
+
+export interface UpdateContest_update_contest {
+  __typename: "contest_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateContest_update_contest_returning[];
+}
+
+export interface UpdateContest {
+  /**
+   * update data of the table: "contest"
+   */
+  update_contest: UpdateContest_update_contest | null;
+}
+
+export interface UpdateContestVariables {
+  id: any;
+  description?: string | null;
+  contest_name: string;
+  end_date: any;
+  start_date: any;
+  contest_type: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContest
+// ====================================================
+
+export interface DeleteContest_delete_contest_returning {
+  __typename: "contest";
+  id: any;
+}
+
+export interface DeleteContest_delete_contest {
+  __typename: "contest_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeleteContest_delete_contest_returning[];
+}
+
+export interface DeleteContest {
+  /**
+   * delete data from the table: "contest"
+   */
+  delete_contest: DeleteContest_delete_contest | null;
+}
+
+export interface DeleteContestVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetContestManager
+// ====================================================
+
+export interface GetContestManager_contest_manager_user {
+  __typename: "user";
+  _id: string;
+  name: string | null;
+  email: string | null;
+}
+
+export interface GetContestManager_contest_manager {
+  __typename: "contest_manager";
+  /**
+   * An object relationship
+   */
+  user: GetContestManager_contest_manager_user;
+}
+
+export interface GetContestManager {
+  /**
+   * fetch data from the table: "contest_manager"
+   */
+  contest_manager: GetContestManager_contest_manager[];
+}
+
+export interface GetContestManagerVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContestAllManager
+// ====================================================
+
+export interface DeleteContestAllManager_delete_contest_manager {
+  __typename: "contest_manager_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteContestAllManager {
+  /**
+   * delete data from the table: "contest_manager"
+   */
+  delete_contest_manager: DeleteContestAllManager_delete_contest_manager | null;
+}
+
+export interface DeleteContestAllManagerVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddContestManager
+// ====================================================
+
+export interface AddContestManager_insert_contest_manager {
+  __typename: "contest_manager_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface AddContestManager {
+  /**
+   * insert data into the table: "contest_manager"
+   */
+  insert_contest_manager: AddContestManager_insert_contest_manager | null;
+}
+
+export interface AddContestManagerVariables {
+  contest_id: any;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUser_Id
+// ====================================================
+
+export interface GetUser_Id_user {
+  __typename: "user";
+  _id: string;
+}
+
+export interface GetUser_Id {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUser_Id_user[];
+}
+
+export interface GetUser_IdVariables {
+  email: string;
+  name: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertTeam
+// ====================================================
+
+export interface InsertTeam_insert_contest_team {
+  __typename: "contest_team_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertTeam {
+  /**
+   * insert data into the table: "contest_team"
+   */
+  insert_contest_team: InsertTeam_insert_contest_team | null;
+}
+
+export interface InsertTeamVariables {
+  team_name: string;
+  team_intro?: string | null;
+  team_leader: string;
+  invited_code: string;
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: IsTeamLeader
+// ====================================================
+
+export interface IsTeamLeader_contest_team {
+  __typename: "contest_team";
+  team_id: any;
+}
+
+export interface IsTeamLeader {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: IsTeamLeader_contest_team[];
+}
+
+export interface IsTeamLeaderVariables {
+  _id: string;
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: IsTeamMember
+// ====================================================
+
+export interface IsTeamMember_contest_team_member {
+  __typename: "contest_team_member";
+  team_id: any;
+}
+
+export interface IsTeamMember {
+  /**
+   * fetch data from the table: "contest_team_member"
+   */
+  contest_team_member: IsTeamMember_contest_team_member[];
+}
+
+export interface IsTeamMemberVariables {
+  _id: string;
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTeamInfo
+// ====================================================
+
+export interface GetTeamInfo_contest_team_contest_team_members {
+  __typename: "contest_team_member";
+  user_id: string;
+}
+
+export interface GetTeamInfo_contest_team_team_leader_id {
+  __typename: "user";
+  name: string | null;
+  _id: string;
+}
+
+export interface GetTeamInfo_contest_team {
+  __typename: "contest_team";
+  contest_id: any;
+  /**
+   * An array relationship
+   */
+  contest_team_members: GetTeamInfo_contest_team_contest_team_members[];
+  invited_code: string | null;
+  /**
+   * 已有人员数量
+   */
+  member_num: number;
+  team_name: string;
+  team_intro: string | null;
+  team_leader: string | null;
+  score: string | null;
+  /**
+   * An object relationship
+   */
+  team_leader_id: GetTeamInfo_contest_team_team_leader_id | null;
+}
+
+export interface GetTeamInfo {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: GetTeamInfo_contest_team[];
+}
+
+export interface GetTeamInfoVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetCode
+// ====================================================
+
+export interface GetCode_contest_code {
+  __typename: "contest_code";
+  code1: string;
+  code2: string;
+  code3: string | null;
+  code4: string | null;
+  code5: string | null;
+  code6: string | null;
+}
+
+export interface GetCode {
+  /**
+   * fetch data from the table: "contest_code"
+   */
+  contest_code: GetCode_contest_code[];
+}
+
+export interface GetCodeVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetAllTeamInfo
+// ====================================================
+
+export interface GetAllTeamInfo_contest_team_contest_team_members_user_as_contest_team_member {
+  __typename: "user";
+  _id: string;
+  email: string | null;
+  name: string | null;
+  phone: string | null;
+}
+
+export interface GetAllTeamInfo_contest_team_contest_team_members {
+  __typename: "contest_team_member";
+  /**
+   * An object relationship
+   */
+  user_as_contest_team_member: GetAllTeamInfo_contest_team_contest_team_members_user_as_contest_team_member;
+}
+
+export interface GetAllTeamInfo_contest_team_team_leader_id {
+  __typename: "user";
+  name: string | null;
+  phone: string | null;
+  email: string | null;
+  _id: string;
+}
+
+export interface GetAllTeamInfo_contest_team {
+  __typename: "contest_team";
+  team_name: string;
+  invited_code: string | null;
+  /**
+   * 已有人员数量
+   */
+  member_num: number;
+  score: string | null;
+  status: string | null;
+  status2: string | null;
+  status3: string | null;
+  team_id: any;
+  team_intro: string | null;
+  /**
+   * An array relationship
+   */
+  contest_team_members: GetAllTeamInfo_contest_team_contest_team_members[];
+  /**
+   * An object relationship
+   */
+  team_leader_id: GetAllTeamInfo_contest_team_team_leader_id | null;
+}
+
+export interface GetAllTeamInfo {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: GetAllTeamInfo_contest_team[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertTeamMember
+// ====================================================
+
+export interface InsertTeamMember_insert_contest_team_member {
+  __typename: "contest_team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertTeamMember {
+  /**
+   * insert data into the table: "contest_team_member"
+   */
+  insert_contest_team_member: InsertTeamMember_insert_contest_team_member | null;
+}
+
+export interface InsertTeamMemberVariables {
+  team_id: any;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateTeam
+// ====================================================
+
+export interface UpdateTeam_update_contest_team {
+  __typename: "contest_team_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateTeam {
+  /**
+   * update data of the table: "contest_team"
+   */
+  update_contest_team: UpdateTeam_update_contest_team | null;
+}
+
+export interface UpdateTeamVariables {
+  team_id: any;
+  team_intro: string;
+  team_name: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetMemberInfo
+// ====================================================
+
+export interface GetMemberInfo_contest_team_team_leader_id {
+  __typename: "user";
+  name: string | null;
+  id: any | null;
+  _id: string;
+}
+
+export interface GetMemberInfo_contest_team {
+  __typename: "contest_team";
+  /**
+   * An object relationship
+   */
+  team_leader_id: GetMemberInfo_contest_team_team_leader_id | null;
+}
+
+export interface GetMemberInfo_contest_team_member_user_as_contest_team_member {
+  __typename: "user";
+  id: any | null;
+  _id: string;
+  name: string | null;
+}
+
+export interface GetMemberInfo_contest_team_member {
+  __typename: "contest_team_member";
+  /**
+   * An object relationship
+   */
+  user_as_contest_team_member: GetMemberInfo_contest_team_member_user_as_contest_team_member;
+}
+
+export interface GetMemberInfo {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: GetMemberInfo_contest_team[];
+  /**
+   * fetch data from the table: "contest_team_member"
+   */
+  contest_team_member: GetMemberInfo_contest_team_member[];
+}
+
+export interface GetMemberInfoVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTeam
+// ====================================================
+
+export interface DeleteTeam_delete_contest_team {
+  __typename: "contest_team_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteTeam {
+  /**
+   * delete data from the table: "contest_team"
+   */
+  delete_contest_team: DeleteTeam_delete_contest_team | null;
+}
+
+export interface DeleteTeamVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteAllTeamMember
+// ====================================================
+
+export interface DeleteAllTeamMember_delete_contest_team_member {
+  __typename: "contest_team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteAllTeamMember {
+  /**
+   * delete data from the table: "contest_team_member"
+   */
+  delete_contest_team_member: DeleteAllTeamMember_delete_contest_team_member | null;
+}
+
+export interface DeleteAllTeamMemberVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteTeamMember
+// ====================================================
+
+export interface DeleteTeamMember_delete_contest_team_member {
+  __typename: "contest_team_member_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteTeamMember {
+  /**
+   * delete data from the table: "contest_team_member"
+   */
+  delete_contest_team_member: DeleteTeamMember_delete_contest_team_member | null;
+}
+
+export interface DeleteTeamMemberVariables {
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetAllContest
+// ====================================================
+
+export interface GetAllContest_contest {
+  __typename: "contest";
+  id: any;
+  contest_name: string;
+  description: string | null;
+  start_date: any;
+  end_date: any;
+}
+
+export interface GetAllContest {
+  /**
+   * fetch data from the table: "contest"
+   */
+  contest: GetAllContest_contest[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetIntroContent
+// ====================================================
+
+export interface GetIntroContent_article {
+  __typename: "article";
+  content: string;
+}
+
+export interface GetIntroContent {
+  /**
+   * fetch data from the table: "article"
+   */
+  article: GetIntroContent_article[];
+}
+
+export interface GetIntroContentVariables {
+  id: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateIntro
+// ====================================================
+
+export interface UpdateIntro_update_article {
+  __typename: "article_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface UpdateIntro {
+  /**
+   * update data of the table: "article"
+   */
+  update_article: UpdateIntro_update_article | null;
+}
+
+export interface UpdateIntroVariables {
+  id: number;
+  content?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertCode
+// ====================================================
+
+export interface InsertCode_insert_thuai_code {
+  __typename: "thuai_code_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface InsertCode {
+  /**
+   * insert data into the table: "thuai_code"
+   */
+  insert_thuai_code: InsertCode_insert_thuai_code | null;
+}
+
+export interface InsertCodeVariables {
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: InsertRoom
+// ====================================================
+
+export interface InsertRoom_insert_thuai_room_one {
+  __typename: "thuai_room";
+  room_id: any;
+}
+
+export interface InsertRoom {
+  /**
+   * insert a single row into the table: "thuai_room"
+   */
+  insert_thuai_room_one: InsertRoom_insert_thuai_room_one | null;
+}
+
+export interface InsertRoomVariables {
+  team1_id?: any | null;
+  team2_id?: any | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode1
+// ====================================================
+
+export interface UpsertCode1_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode1 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode1_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode1Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode2
+// ====================================================
+
+export interface UpsertCode2_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode2 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode2_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode2Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode3
+// ====================================================
+
+export interface UpsertCode3_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode3 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode3_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode3Variables {
+  code?: string | null;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpsertCode4
+// ====================================================
+
+export interface UpsertCode4_insert_thuai_code_one {
+  __typename: "thuai_code";
+  team_id: any;
+}
+
+export interface UpsertCode4 {
+  /**
+   * insert a single row into the table: "thuai_code"
+   */
+  insert_thuai_code_one: UpsertCode4_insert_thuai_code_one | null;
+}
+
+export interface UpsertCode4Variables {
+  code?: string | null;
+  team_id: any;
 }
 
 /* tslint:disable */
@@ -2149,630 +3069,6 @@ export interface GetPostAppHistory {
 export interface GetPostAppHistoryVariables {
   offset?: number | null;
   limit?: number | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: InsertThuai
-// ====================================================
-
-export interface InsertThuai_insert_thuai {
-  __typename: "thuai_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface InsertThuai {
-  /**
-   * insert data into the table: "thuai"
-   */
-  insert_thuai: InsertThuai_insert_thuai | null;
-}
-
-export interface InsertThuaiVariables {
-  team_name: string;
-  team_sum: string;
-  team_leader: string;
-  invited_code: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: IsTeamLeader
-// ====================================================
-
-export interface IsTeamLeader_user_team_as_leader {
-  __typename: "thuai";
-  team_id: any;
-}
-
-export interface IsTeamLeader_user {
-  __typename: "user";
-  /**
-   * An array relationship
-   */
-  team_as_leader: IsTeamLeader_user_team_as_leader[];
-}
-
-export interface IsTeamLeader {
-  /**
-   * fetch data from the table: "user"
-   */
-  user: IsTeamLeader_user[];
-}
-
-export interface IsTeamLeaderVariables {
-  _id: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: IsTeamMember
-// ====================================================
-
-export interface IsTeamMember_user_team_as_member {
-  __typename: "team_member";
-  team_id: any;
-}
-
-export interface IsTeamMember_user {
-  __typename: "user";
-  /**
-   * An array relationship
-   */
-  team_as_member: IsTeamMember_user_team_as_member[];
-}
-
-export interface IsTeamMember {
-  /**
-   * fetch data from the table: "user"
-   */
-  user: IsTeamMember_user[];
-}
-
-export interface IsTeamMemberVariables {
-  _id: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetTeamInfo
-// ====================================================
-
-export interface GetTeamInfo_thuai_team_members_user {
-  __typename: "user";
-  name: string | null;
-}
-
-export interface GetTeamInfo_thuai_team_members {
-  __typename: "team_member";
-  /**
-   * An object relationship
-   */
-  user: GetTeamInfo_thuai_team_members_user;
-}
-
-export interface GetTeamInfo_thuai_user {
-  __typename: "user";
-  name: string | null;
-}
-
-export interface GetTeamInfo_thuai {
-  __typename: "thuai";
-  invited_code: string | null;
-  team_leader: string | null;
-  team_name: string;
-  team_sum: string;
-  status: string | null;
-  /**
-   * An array relationship
-   */
-  team_members: GetTeamInfo_thuai_team_members[];
-  /**
-   * An object relationship
-   */
-  user: GetTeamInfo_thuai_user | null;
-}
-
-export interface GetTeamInfo {
-  /**
-   * fetch data from the table: "thuai"
-   */
-  thuai: GetTeamInfo_thuai[];
-}
-
-export interface GetTeamInfoVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetCode
-// ====================================================
-
-export interface GetCode_thuai_code {
-  __typename: "thuai_code";
-  code_1: string | null;
-  code_2: string | null;
-  code_3: string | null;
-  code_4: string | null;
-}
-
-export interface GetCode {
-  /**
-   * fetch data from the table: "thuai_code"
-   */
-  thuai_code: GetCode_thuai_code[];
-}
-
-export interface GetCodeVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetAllTeamInfo
-// ====================================================
-
-export interface GetAllTeamInfo_thuai_team_members_user {
-  __typename: "user";
-  name: string | null;
-}
-
-export interface GetAllTeamInfo_thuai_team_members {
-  __typename: "team_member";
-  /**
-   * An object relationship
-   */
-  user: GetAllTeamInfo_thuai_team_members_user;
-}
-
-export interface GetAllTeamInfo_thuai_user {
-  __typename: "user";
-  name: string | null;
-  email: string | null;
-  phone: string | null;
-}
-
-export interface GetAllTeamInfo_thuai {
-  __typename: "thuai";
-  team_id: any;
-  team_name: string;
-  team_sum: string;
-  invited_code: string | null;
-  score: number;
-  status: string | null;
-  /**
-   * An array relationship
-   */
-  team_members: GetAllTeamInfo_thuai_team_members[];
-  /**
-   * An object relationship
-   */
-  user: GetAllTeamInfo_thuai_user | null;
-}
-
-export interface GetAllTeamInfo {
-  /**
-   * fetch data from the table: "thuai"
-   */
-  thuai: GetAllTeamInfo_thuai[];
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: InsertTeamMember
-// ====================================================
-
-export interface InsertTeamMember_insert_team_member {
-  __typename: "team_member_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface InsertTeamMember {
-  /**
-   * insert data into the table: "team_member"
-   */
-  insert_team_member: InsertTeamMember_insert_team_member | null;
-}
-
-export interface InsertTeamMemberVariables {
-  team_id: any;
-  user_id: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpdateTeam
-// ====================================================
-
-export interface UpdateTeam_update_thuai {
-  __typename: "thuai_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface UpdateTeam {
-  /**
-   * update data of the table: "thuai"
-   */
-  update_thuai: UpdateTeam_update_thuai | null;
-}
-
-export interface UpdateTeamVariables {
-  team_id: any;
-  team_name: string;
-  team_sum?: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetMemberInfo
-// ====================================================
-
-export interface GetMemberInfo_team_member_user {
-  __typename: "user";
-  name: string | null;
-  id: any | null;
-  _id: string;
-}
-
-export interface GetMemberInfo_team_member {
-  __typename: "team_member";
-  /**
-   * An object relationship
-   */
-  user: GetMemberInfo_team_member_user;
-}
-
-export interface GetMemberInfo {
-  /**
-   * fetch data from the table: "team_member"
-   */
-  team_member: GetMemberInfo_team_member[];
-}
-
-export interface GetMemberInfoVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteTeam
-// ====================================================
-
-export interface DeleteTeam_delete_thuai {
-  __typename: "thuai_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteTeam {
-  /**
-   * delete data from the table: "thuai"
-   */
-  delete_thuai: DeleteTeam_delete_thuai | null;
-}
-
-export interface DeleteTeamVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteAllTeamMember
-// ====================================================
-
-export interface DeleteAllTeamMember_delete_team_member {
-  __typename: "team_member_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteAllTeamMember {
-  /**
-   * delete data from the table: "team_member"
-   */
-  delete_team_member: DeleteAllTeamMember_delete_team_member | null;
-}
-
-export interface DeleteAllTeamMemberVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteTeamMember
-// ====================================================
-
-export interface DeleteTeamMember_delete_team_member {
-  __typename: "team_member_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteTeamMember {
-  /**
-   * delete data from the table: "team_member"
-   */
-  delete_team_member: DeleteTeamMember_delete_team_member | null;
-}
-
-export interface DeleteTeamMemberVariables {
-  user_id: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetIntroContent
-// ====================================================
-
-export interface GetIntroContent_article {
-  __typename: "article";
-  content: string;
-}
-
-export interface GetIntroContent {
-  /**
-   * fetch data from the table: "article"
-   */
-  article: GetIntroContent_article[];
-}
-
-export interface GetIntroContentVariables {
-  id: number;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpdateIntro
-// ====================================================
-
-export interface UpdateIntro_update_article {
-  __typename: "article_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface UpdateIntro {
-  /**
-   * update data of the table: "article"
-   */
-  update_article: UpdateIntro_update_article | null;
-}
-
-export interface UpdateIntroVariables {
-  id: number;
-  content?: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: InsertCode
-// ====================================================
-
-export interface InsertCode_insert_thuai_code {
-  __typename: "thuai_code_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface InsertCode {
-  /**
-   * insert data into the table: "thuai_code"
-   */
-  insert_thuai_code: InsertCode_insert_thuai_code | null;
-}
-
-export interface InsertCodeVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: InsertRoom
-// ====================================================
-
-export interface InsertRoom_insert_thuai_room_one {
-  __typename: "thuai_room";
-  room_id: any;
-}
-
-export interface InsertRoom {
-  /**
-   * insert a single row into the table: "thuai_room"
-   */
-  insert_thuai_room_one: InsertRoom_insert_thuai_room_one | null;
-}
-
-export interface InsertRoomVariables {
-  team1_id?: any | null;
-  team2_id?: any | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpsertCode1
-// ====================================================
-
-export interface UpsertCode1_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
-}
-
-export interface UpsertCode1 {
-  /**
-   * insert a single row into the table: "thuai_code"
-   */
-  insert_thuai_code_one: UpsertCode1_insert_thuai_code_one | null;
-}
-
-export interface UpsertCode1Variables {
-  code?: string | null;
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpsertCode2
-// ====================================================
-
-export interface UpsertCode2_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
-}
-
-export interface UpsertCode2 {
-  /**
-   * insert a single row into the table: "thuai_code"
-   */
-  insert_thuai_code_one: UpsertCode2_insert_thuai_code_one | null;
-}
-
-export interface UpsertCode2Variables {
-  code?: string | null;
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpsertCode3
-// ====================================================
-
-export interface UpsertCode3_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
-}
-
-export interface UpsertCode3 {
-  /**
-   * insert a single row into the table: "thuai_code"
-   */
-  insert_thuai_code_one: UpsertCode3_insert_thuai_code_one | null;
-}
-
-export interface UpsertCode3Variables {
-  code?: string | null;
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpsertCode4
-// ====================================================
-
-export interface UpsertCode4_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
-}
-
-export interface UpsertCode4 {
-  /**
-   * insert a single row into the table: "thuai_code"
-   */
-  insert_thuai_code_one: UpsertCode4_insert_thuai_code_one | null;
-}
-
-export interface UpsertCode4Variables {
-  code?: string | null;
-  team_id: any;
 }
 
 /* tslint:disable */
