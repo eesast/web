@@ -140,6 +140,262 @@ export interface DeleteContestNoticeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetContests
+// ====================================================
+
+export interface GetContests_contest {
+  __typename: "contest";
+  contest_name: string;
+  description: string | null;
+  end_date: any;
+  id: any;
+  start_date: any;
+  contest_type: string;
+}
+
+export interface GetContests {
+  /**
+   * fetch data from the table: "contest"
+   */
+  contest: GetContests_contest[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddContest
+// ====================================================
+
+export interface AddContest_insert_contest_returning {
+  __typename: "contest";
+  id: any;
+}
+
+export interface AddContest_insert_contest {
+  __typename: "contest_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: AddContest_insert_contest_returning[];
+}
+
+export interface AddContest {
+  /**
+   * insert data into the table: "contest"
+   */
+  insert_contest: AddContest_insert_contest | null;
+}
+
+export interface AddContestVariables {
+  start_date: any;
+  end_date: any;
+  description?: string | null;
+  contest_name: string;
+  contest_type: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateContest
+// ====================================================
+
+export interface UpdateContest_update_contest_returning {
+  __typename: "contest";
+  id: any;
+}
+
+export interface UpdateContest_update_contest {
+  __typename: "contest_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateContest_update_contest_returning[];
+}
+
+export interface UpdateContest {
+  /**
+   * update data of the table: "contest"
+   */
+  update_contest: UpdateContest_update_contest | null;
+}
+
+export interface UpdateContestVariables {
+  id: any;
+  description?: string | null;
+  contest_name: string;
+  end_date: any;
+  start_date: any;
+  contest_type: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContest
+// ====================================================
+
+export interface DeleteContest_delete_contest_returning {
+  __typename: "contest";
+  id: any;
+}
+
+export interface DeleteContest_delete_contest {
+  __typename: "contest_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: DeleteContest_delete_contest_returning[];
+}
+
+export interface DeleteContest {
+  /**
+   * delete data from the table: "contest"
+   */
+  delete_contest: DeleteContest_delete_contest | null;
+}
+
+export interface DeleteContestVariables {
+  id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetContestManager
+// ====================================================
+
+export interface GetContestManager_contest_manager_user {
+  __typename: "user";
+  _id: string;
+  name: string | null;
+  email: string | null;
+}
+
+export interface GetContestManager_contest_manager {
+  __typename: "contest_manager";
+  /**
+   * An object relationship
+   */
+  user: GetContestManager_contest_manager_user;
+}
+
+export interface GetContestManager {
+  /**
+   * fetch data from the table: "contest_manager"
+   */
+  contest_manager: GetContestManager_contest_manager[];
+}
+
+export interface GetContestManagerVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContestAllManager
+// ====================================================
+
+export interface DeleteContestAllManager_delete_contest_manager {
+  __typename: "contest_manager_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteContestAllManager {
+  /**
+   * delete data from the table: "contest_manager"
+   */
+  delete_contest_manager: DeleteContestAllManager_delete_contest_manager | null;
+}
+
+export interface DeleteContestAllManagerVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddContestManager
+// ====================================================
+
+export interface AddContestManager_insert_contest_manager {
+  __typename: "contest_manager_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface AddContestManager {
+  /**
+   * insert data into the table: "contest_manager"
+   */
+  insert_contest_manager: AddContestManager_insert_contest_manager | null;
+}
+
+export interface AddContestManagerVariables {
+  contest_id: any;
+  user_id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetUser_Id
+// ====================================================
+
+export interface GetUser_Id_user {
+  __typename: "user";
+  _id: string;
+}
+
+export interface GetUser_Id {
+  /**
+   * fetch data from the table: "user"
+   */
+  user: GetUser_Id_user[];
+}
+
+export interface GetUser_IdVariables {
+  email: string;
+  name: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertTeam
 // ====================================================
 

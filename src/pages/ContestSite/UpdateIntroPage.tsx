@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import styles from "./UpdateIntroPage.module.css";
-import { Layout, message,  Form,Input, Button, Select,Space, Typography} from "antd";
-import { UserOutlined,BranchesOutlined} from '@ant-design/icons';
+import { message, Layout, Form, Input, Button,Text } from "antd";
 import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/contest.graphql";
-import { GetAllContest as GET_ALL_CONTEST } from "../../api/contest.graphql";
-import {GetAllContest} from "../../api/types";
 import { GetIntroContentVariables, GetIntroContent } from "../../api/types";
 import { useQuery, useMutation } from "@apollo/client";
 //-----------更新队伍名称、队伍简介----------------
