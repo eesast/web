@@ -65,15 +65,9 @@ const ResourcePage: React.FC = () => {
     loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
-  } = useQuery<GetContestNotices,GetContestNoticesVariables>(GET_NOTICES,{
-    variables:{
-      contest_id:"3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // TODO: 待修正，对应 2021电设 的比赛id
-=======
   } = useQuery<GetContestNotices, GetContestNoticesVariables>(GET_NOTICES, {
     variables: {
       contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // 对应 2021电设 的比赛id
->>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/ResourcePage.tsx
     }
   });
 
@@ -407,33 +401,19 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
           align-items: center;
         `}
       >
-<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
-        <Space size = {'middle'}>
-        {onEditPress && <EditOutlined onClick={onEditPress} />}
-        {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
-        <Text
-          css={`
-=======
         <Space size={'middle'}>
           {onEditPress && <EditOutlined onClick={onEditPress} />}
           {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
           <Text
             css={`
->>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/ResourcePage.tsx
             margin-left: 5px;
             font-style: italic;
             font-size: 12px;
             color: gray;
           `}
-<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
-        >
-          {"编辑于 " + dayjs(updatedAt).fromNow()}
-        </Text>
-=======
           >
             {"编辑于 " + dayjs(updatedAt).fromNow()}
           </Text>
->>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/ResourcePage.tsx
         </Space>
 
 

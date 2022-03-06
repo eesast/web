@@ -541,7 +541,13 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
         {name}
       </Text>}
       hoverable
-      extra={<Link to={`${url}/${id}}`}>More</Link>}
+      extra={
+      <p><Link to={`${url}/${id}}`}>
+        <Button size={"large"}>查看详情</Button>
+        </Link>
+
+      </p>
+    }
       {...restProps}
     >
       {description &&

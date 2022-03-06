@@ -13,10 +13,11 @@ import {
   TeamOutlined,
   // ThunderboltOutlined,
   LockOutlined,
+  ArrowLeftOutlined
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 //antd的包
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Row,Button} from "antd";
 //以下为子分页
 import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
@@ -98,11 +99,7 @@ const MenuPage: React.FC = () => {
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item> */}
 
-<<<<<<< HEAD:src/pages/ThuaiSite/index.tsx
-          {["root","student"].includes(userInfo?.role!) ? (
-=======
           {["root"].includes(userInfo?.role!) ? (
->>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/MenuPage.tsx
             <SubMenu
               key="sub2"
               title={
@@ -112,14 +109,28 @@ const MenuPage: React.FC = () => {
                 </span>
               }
             >
-              <Menu.Item key="updateIntro">
+              {/*<Menu.Item key="updateIntro">
                 <Link to={`${url}/updateIntro`}>修改介绍</Link>
-              </Menu.Item>
+            </Menu.Item>*/}
             </SubMenu>
           ) : null}
         </Menu>
       </Sider>
       <Content>
+      <Row align="middle" justify="end">
+      <Link to={`/contest`}>
+      <Button
+          css={`
+            margin-top: 12px;
+            margin-right: 24px;
+          `}
+          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
+          icon = {<ArrowLeftOutlined/>}
+        >
+          返回
+        </Button>
+      </Link>
+      </Row>
         <Switch>
           <Route exact path={path}>
             <IntroPage />
@@ -144,7 +155,7 @@ const MenuPage: React.FC = () => {
           </Route> */}
           <Route exact path={`${path}/updateIntro`}>
             <UpdateIntroPage />
-          </Route>
+        </Route>
           <Route>
             <NotFoundPage />
           </Route>
