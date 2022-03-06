@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   useLocation,
   Link,
@@ -17,7 +17,7 @@ import {
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 //antd的包
-import { Menu, Layout, Row,Button} from "antd";
+import { Menu, Layout, Row, Col, Button, message, Typography} from "antd";
 //以下为子分页
 import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
@@ -28,11 +28,16 @@ import ManagePage from "./ManagePage";
 // import BattlePage from "./BattlePage";
 import UpdateIntroPage from "./UpdateIntroPage";
 import NotFoundPage from "../NotFoundPage";
+// hasura查询
+import { useQuery } from "@apollo/client";
+import {GetContestInfo, GetContestInfoVariables} from "../../api/types"
+import {GetContestInfo as GETCONTESTINFO} from "../../api/contest.graphql"
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
 //antd部件实例化
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
+const {Text} = Typography
 const rootSubmenuKeys = ["sub1", "sub2"];
 //react页面标准写法
 const MenuPage: React.FC = () => {
@@ -45,6 +50,25 @@ const MenuPage: React.FC = () => {
   const location = useLocation();
   //url的split，预设页面是intro
   const page = location.pathname.split("/")[2] ?? "intro";
+  // 从url中获取比赛的id
+  const Contest_id = location.pathname.split("/")[2].replace('}','')
+  const {
+    data: ContestData,
+    error: ContestError,
+  } = useQuery<GetContestInfo,GetContestInfoVariables>(GETCONTESTINFO,{
+    variables:{
+      contest_id: Contest_id
+    }
+  });
+  useEffect(() => {
+    if (ContestError){
+      message.error("比赛加载失败");
+      console.log(ContestError.message)
+    }
+  },[ContestError])
+  var Contest_name = ContestData?.contest.length===1? ContestData?.contest[0].contest_name : "null"
+  var Contest_type = ContestData?.contest.length===1? ContestData?.contest[0].contest_type : "null"
+
   //小子分页
   const [openKeys, setOpenKeys] = React.useState(["sub1"]);
   //subpage的开关
@@ -118,18 +142,28 @@ const MenuPage: React.FC = () => {
       </Sider>
       <Content>
       <Row align="middle" justify="end">
+        <Col span={4}>
+          <Text strong>当前比赛：</Text>
+          <Text>{Contest_name}</Text>
+        </Col>
+        <Col span={4}>
+          <Text strong>比赛类型：</Text>
+          <Text>{Contest_type}</Text>
+        </Col>
+        <Col span={4}>
       <Link to={`/contest`}>
       <Button
           css={`
             margin-top: 12px;
             margin-right: 24px;
           `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
+
           icon = {<ArrowLeftOutlined/>}
         >
           返回
         </Button>
       </Link>
+      </Col>
       </Row>
         <Switch>
           <Route exact path={path}>

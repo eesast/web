@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import {useLocation} from "react-router-dom"
 import {
   Input,
   Table,
@@ -60,13 +61,16 @@ const { confirm } = Modal;
 const ManagePage: React.FC = () => {
   const userInfo = getUserInfo();
   //-----------------根据队员id查询队伍id------------------
+  const location = useLocation()
+  // 从url中获取比赛的id
+  const Contest_id = location.pathname.split("/")[2].replace('}','')
   const { data: isleaderData, loading: leaderLoading } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
   const {
@@ -76,7 +80,7 @@ const ManagePage: React.FC = () => {
   } = useQuery<IsTeamMember, IsTeamMemberVariables>(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
   const teamid =
@@ -164,7 +168,7 @@ const ManagePage: React.FC = () => {
           title="您还没有加入任何队伍"
           extra={
             <Button type="primary">
-              <Link replace to="/contest/join">
+              <Link replace to={`/contest/${Contest_id}/join`}>
                 加入队伍
               </Link>
             </Button>
