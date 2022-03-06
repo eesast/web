@@ -5,6 +5,7 @@ import {
   Switch,
   Route,
   useRouteMatch,
+  useParams,
 } from "react-router-dom";
 import {
   HomeOutlined,
@@ -17,6 +18,7 @@ import { getUserInfo } from "../../helpers/auth";
 //antd的包
 import { Menu, Layout } from "antd";
 //以下为子分页
+import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
 import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
@@ -32,8 +34,11 @@ const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
 const rootSubmenuKeys = ["sub1", "sub2"];
 //react页面标准写法
-const ThuaiSite: React.FC = () => {
+const MenuPage: React.FC = () => {
   const userInfo = getUserInfo();
+  const params = useParams<contestProps>();
+  console.log(params.contestID);
+
   //url
   const { path, url } = useRouteMatch();
   const location = useLocation();
@@ -93,7 +98,11 @@ const ThuaiSite: React.FC = () => {
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item> */}
 
+<<<<<<< HEAD:src/pages/ThuaiSite/index.tsx
           {["root","student"].includes(userInfo?.role!) ? (
+=======
+          {["root"].includes(userInfo?.role!) ? (
+>>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/MenuPage.tsx
             <SubMenu
               key="sub2"
               title={
@@ -145,4 +154,4 @@ const ThuaiSite: React.FC = () => {
   );
 };
 
-export default ThuaiSite;
+export default MenuPage;

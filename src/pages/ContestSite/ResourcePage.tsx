@@ -43,7 +43,7 @@ import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type {
   UploadFile,
-  RcCustomRequestOptions,
+  RcCustomRequestOptions
 } from "antd/lib/upload/interface";
 import { getOSS, downloadFile } from "../../helpers/oss";
 import { getUserInfo } from "../../helpers/auth";
@@ -65,9 +65,15 @@ const ResourcePage: React.FC = () => {
     loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
+<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
   } = useQuery<GetContestNotices,GetContestNoticesVariables>(GET_NOTICES,{
     variables:{
       contest_id:"3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // TODO: 待修正，对应 2021电设 的比赛id
+=======
+  } = useQuery<GetContestNotices, GetContestNoticesVariables>(GET_NOTICES, {
+    variables: {
+      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // 对应 2021电设 的比赛id
+>>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/ResourcePage.tsx
     }
   });
 
@@ -118,7 +124,7 @@ const ResourcePage: React.FC = () => {
   const handleNoticeEdit = async () => {
     try {
       form.validateFields();
-    } catch {}
+    } catch { }
 
     const values = form.getFieldsValue();
     const files = fileList.map((f) => ({
@@ -218,26 +224,26 @@ const ResourcePage: React.FC = () => {
             onEditPress={
               userInfo?.role === "counselor" || userInfo?.role === "root"
                 ? () => {
-                    setEditingNotice(item);
-                    setFileList(
-                      JSON.parse(item.files ?? "[]").map((f: File) => ({
-                        response: { status: 200 },
-                        status: "done",
-                        uid: f.url,
-                        size: 0,
-                        name: f.filename,
-                        type: "",
-                      }))
-                    );
-                    setModalVisible(true);
-                  }
+                  setEditingNotice(item);
+                  setFileList(
+                    JSON.parse(item.files ?? "[]").map((f: File) => ({
+                      response: { status: 200 },
+                      status: "done",
+                      uid: f.url,
+                      size: 0,
+                      name: f.filename,
+                      type: "",
+                    }))
+                  );
+                  setModalVisible(true);
+                }
                 : undefined
             }
             onDeletePress={
               userInfo?.role === "counselor" || userInfo?.role === "root"
                 ? () => {
-                    handleNoticeDelete(item.id);
-                  }
+                  handleNoticeDelete(item.id);
+                }
                 : undefined
             }
             title={item.title}
@@ -401,19 +407,33 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
           align-items: center;
         `}
       >
+<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
         <Space size = {'middle'}>
         {onEditPress && <EditOutlined onClick={onEditPress} />}
         {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
         <Text
           css={`
+=======
+        <Space size={'middle'}>
+          {onEditPress && <EditOutlined onClick={onEditPress} />}
+          {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
+          <Text
+            css={`
+>>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/ResourcePage.tsx
             margin-left: 5px;
             font-style: italic;
             font-size: 12px;
             color: gray;
           `}
+<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
         >
           {"编辑于 " + dayjs(updatedAt).fromNow()}
         </Text>
+=======
+          >
+            {"编辑于 " + dayjs(updatedAt).fromNow()}
+          </Text>
+>>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/ResourcePage.tsx
         </Space>
 
 

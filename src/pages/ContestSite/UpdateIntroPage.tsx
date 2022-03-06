@@ -1,10 +1,15 @@
 import { useEffect } from "react";
 import styles from "./UpdateIntroPage.module.css";
+<<<<<<< HEAD:src/pages/ThuaiSite/UpdateIntroPage.tsx
 import { Layout, message,  Form,Input, Button, Select,Space, Typography} from "antd";
 import { UserOutlined,BranchesOutlined} from '@ant-design/icons';
 import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/contest.graphql";
 import { GetAllContest as GET_ALL_CONTEST } from "../../api/contest.graphql";
 import {GetAllContest} from "../../api/types";
+=======
+import { message, Layout, Form, Input, Button } from "antd";
+import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/contest.graphql";
+>>>>>>> 8e8660e6fa5746c69d5bc5041e94a554b31e28b6:src/pages/ContestSite/UpdateIntroPage.tsx
 import { GetIntroContentVariables, GetIntroContent } from "../../api/types";
 import { useQuery, useMutation } from "@apollo/client";
 //-----------更新队伍名称、队伍简介----------------
