@@ -11,12 +11,13 @@ import {
   Form,
   Input,
 } from "antd";
+import {useLocation} from "react-router-dom"
 import { getUserInfo } from "../../helpers/auth";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
-import { GetAllTeamInfo_contest_team, GetAllTeamInfo } from "../../api/types";
+import { GetAllTeamInfo_contest_team, GetAllTeamInfo,GetAllTeamInfoVariables} from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
 //插入队员
 import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
@@ -27,6 +28,9 @@ import type { TableProps } from "antd/lib/table";
 import xlsx from "xlsx";
 const { Content } = Layout;
 const JoinPage: React.FC = () => {
+  const location = useLocation()
+  const Contest_id = location.pathname.split("/")[2].replace('}','')
+  console.log("此比赛id:"+Contest_id)
   const userInfo = getUserInfo();
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -38,7 +42,7 @@ const JoinPage: React.FC = () => {
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
   const { data: ismemberData,refetch: refetchismember } = useQuery<
@@ -47,7 +51,7 @@ const JoinPage: React.FC = () => {
   >(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
   const {
@@ -55,16 +59,20 @@ const JoinPage: React.FC = () => {
     loading: teamListLoading,
     error: teamListError,
     refetch: refetchteamList,
-  } = useQuery<GetAllTeamInfo>(GETALLTEAMINFO);
+  } = useQuery<GetAllTeamInfo,GetAllTeamInfoVariables>(GETALLTEAMINFO,{
+    variables:{
+      contest_id: Contest_id
+    }
+  });
 
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
 useEffect(() => {
-  console.log(teamid);
-  console.log(isleaderData?.contest_team.length);
-  console.log(ismemberData?.contest_team_member.length);
+  console.log("队伍的id:"+teamid);
+  console.log("是否队长："+isleaderData?.contest_team.length);
+  console.log("是否队员："+ismemberData?.contest_team_member.length);
 })
 
   /***************队员插入****************/
@@ -124,13 +132,13 @@ useEffect(() => {
             user_id: userInfo?._id!!,
           },
         });
-      } catch (e) {
-        message.error("加入失败");
-      } finally {
         if (!insertError) {
           message.success("加入成功");
           setIsModalVisible(false);
         }
+      } catch (e) {
+        message.error("加入失败");
+        console.log("错误信息:"+e);
       }
     } else {
       message.error("验证码错误");
@@ -159,8 +167,8 @@ useEffect(() => {
     },
     {
       title: "队伍简介",
-      dataIndex: "team_sum",
-      key: "team_sum",
+      dataIndex: "team_intro",
+      key: "team_intro",
       render: (text, record) => record.team_intro,
       ellipsis: true,
     },
