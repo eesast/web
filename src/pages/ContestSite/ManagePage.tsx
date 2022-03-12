@@ -249,7 +249,7 @@ const ManagePage: React.FC = () => {
       render: (_, record) => {
         return (
           <Button
-            // disabled={true}
+            disabled={isleaderData?.contest_team.length===0}
             onClick={() => deleteTeamMemberByLeader(record.user_as_contest_team_member._id)}
           >
             移除

@@ -132,13 +132,13 @@ useEffect(() => {
             user_id: userInfo?._id!!,
           },
         });
-      } catch (e) {
-        message.error("加入失败");
-      } finally {
         if (!insertError) {
           message.success("加入成功");
           setIsModalVisible(false);
         }
+      } catch (e) {
+        message.error("加入失败");
+        console.log("错误信息:"+e);
       }
     } else {
       message.error("验证码错误");
