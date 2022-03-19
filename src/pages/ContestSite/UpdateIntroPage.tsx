@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+/* import { useEffect } from "react";
 import styles from "./UpdateIntroPage.module.css";
 import { Layout, message,  Form,Input, Button, Select,Space, Typography} from "antd";
 import { UserOutlined,BranchesOutlined} from '@ant-design/icons';
@@ -265,5 +265,25 @@ const [form] = Form.useForm();
   //   </Layout>
   // </div>
     );
+};*/
+import Center from "../../components/Center";
+import { Result, Button } from "antd";
+import { Link } from "react-router-dom";
+
+const UpdateIntroPage = () => {
+  return (
+    <Center>
+      <Result
+        status="404"
+        title="404"
+        subTitle="未找到您要访问的页面"
+        extra={
+          <Button type="primary">
+            <Link to="/home"> 返回主页</Link>
+          </Button>
+        }
+      />
+    </Center>
+  );
 };
 export default UpdateIntroPage;

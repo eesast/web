@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {useLocation} from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import {
   Input,
   Table,
@@ -63,7 +63,7 @@ const ManagePage: React.FC = () => {
   //-----------------根据队员id查询队伍id------------------
   const location = useLocation()
   // 从url中获取比赛的id
-  const Contest_id = location.pathname.split("/")[2].replace('}','')
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
   const { data: isleaderData, loading: leaderLoading } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
@@ -87,7 +87,7 @@ const ManagePage: React.FC = () => {
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-  useEffect(() => {console.log(teamid);})
+  useEffect(() => { console.log(teamid); })
 
   //根据team_id查询所有队员信息
   const { data: teamMemberData, loading: teamMemberLoading } = useQuery<
@@ -249,7 +249,7 @@ const ManagePage: React.FC = () => {
       render: (_, record) => {
         return (
           <Button
-            disabled={isleaderData?.contest_team.length===0}
+            disabled={isleaderData?.contest_team.length === 0}
             onClick={() => deleteTeamMemberByLeader(record.user_as_contest_team_member._id)}
           >
             移除
@@ -316,8 +316,8 @@ const ManagePage: React.FC = () => {
                   <span>{team.team_leader_id?.name}</span>
                 </Form.Item>
                 <Form.Item label="队员">
-                  {}
-                    
+                  { }
+
                   <Table
                     loading={teamMemberLoading}
                     columns={memberListColumns}
@@ -347,26 +347,31 @@ const ManagePage: React.FC = () => {
                     placeholder={team.team_intro!}
                   />
                 </Form.Item>
-                <Form.Item style={{ textAlign: "center" }}>
-                  <Button
-                    type="primary"
-                    loading={UpdatingTeamInfo}
-                    htmlType="submit"
-                  >
-                    确认修改
-                  </Button>
-                  <Button
-                    danger
-                    type="default"
-                    // disabled={true}
-                    onClick={
-                      isLeader
-                        ? () => deleteWholeTeam(teamid)
-                        : () => deleteTeamMember(userid)
-                    }
-                  >
-                    {isLeader ? "解散队伍" : "退出队伍"}
-                  </Button>
+                <Form.Item style={{ textAlign: "center" }} >
+                  <Row justify="center">
+                    <Col span={6}>
+                      <Button
+                        type="primary"
+                        loading={UpdatingTeamInfo}
+                        htmlType="submit"
+                      >
+                        确认修改
+                      </Button>
+                    </Col>
+                    <Col span={6}>
+                      <Button
+                        danger
+                        type="default"
+                        onClick={
+                          isLeader
+                            ? () => deleteWholeTeam(teamid)
+                            : () => deleteTeamMember(userid)
+                        }
+                      >
+                        {isLeader ? "解散队伍" : "退出队伍"}
+                      </Button>
+                    </Col>
+                  </Row>
                 </Form.Item>
               </Form>
             </Content>
