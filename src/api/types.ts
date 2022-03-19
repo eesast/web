@@ -396,6 +396,32 @@ export interface GetUser_IdVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: QueryContestManager
+// ====================================================
+
+export interface QueryContestManager_contest_manager {
+  __typename: "contest_manager";
+  user_id: string;
+}
+
+export interface QueryContestManager {
+  /**
+   * fetch data from the table: "contest_manager"
+   */
+  contest_manager: QueryContestManager_contest_manager[];
+}
+
+export interface QueryContestManagerVariables {
+  contest_id: any;
+  user_id?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertTeam
 // ====================================================
 
