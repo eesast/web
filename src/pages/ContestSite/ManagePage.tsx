@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom"
 import {
   Input,
   Table,
@@ -60,13 +61,16 @@ const { confirm } = Modal;
 const ManagePage: React.FC = () => {
   const userInfo = getUserInfo();
   //-----------------根据队员id查询队伍id------------------
+  const location = useLocation()
+  // 从url中获取比赛的id
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
   const { data: isleaderData, loading: leaderLoading } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
   const {
@@ -76,14 +80,14 @@ const ManagePage: React.FC = () => {
   } = useQuery<IsTeamMember, IsTeamMemberVariables>(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-  useEffect(() => {console.log(teamid);})
+  useEffect(() => { console.log(teamid); })
 
   //根据team_id查询所有队员信息
   const { data: teamMemberData, loading: teamMemberLoading } = useQuery<
@@ -164,7 +168,7 @@ const ManagePage: React.FC = () => {
           title="您还没有加入任何队伍"
           extra={
             <Button type="primary">
-              <Link replace to="/contest/join">
+              <Link replace to={`/contest/${Contest_id}/join`}>
                 加入队伍
               </Link>
             </Button>
@@ -245,7 +249,7 @@ const ManagePage: React.FC = () => {
       render: (_, record) => {
         return (
           <Button
-            // disabled={true}
+            disabled={isleaderData?.contest_team.length === 0}
             onClick={() => deleteTeamMemberByLeader(record.user_as_contest_team_member._id)}
           >
             移除
@@ -312,8 +316,8 @@ const ManagePage: React.FC = () => {
                   <span>{team.team_leader_id?.name}</span>
                 </Form.Item>
                 <Form.Item label="队员">
-                  {}
-                    
+                  { }
+
                   <Table
                     loading={teamMemberLoading}
                     columns={memberListColumns}
@@ -343,26 +347,31 @@ const ManagePage: React.FC = () => {
                     placeholder={team.team_intro!}
                   />
                 </Form.Item>
-                <Form.Item style={{ textAlign: "center" }}>
-                  <Button
-                    type="primary"
-                    loading={UpdatingTeamInfo}
-                    htmlType="submit"
-                  >
-                    确认修改
-                  </Button>
-                  <Button
-                    danger
-                    type="default"
-                    // disabled={true}
-                    onClick={
-                      isLeader
-                        ? () => deleteWholeTeam(teamid)
-                        : () => deleteTeamMember(userid)
-                    }
-                  >
-                    {isLeader ? "解散队伍" : "退出队伍"}
-                  </Button>
+                <Form.Item style={{ textAlign: "center" }} >
+                  <Row justify="center">
+                    <Col span={6}>
+                      <Button
+                        type="primary"
+                        loading={UpdatingTeamInfo}
+                        htmlType="submit"
+                      >
+                        确认修改
+                      </Button>
+                    </Col>
+                    <Col span={6}>
+                      <Button
+                        danger
+                        type="default"
+                        onClick={
+                          isLeader
+                            ? () => deleteWholeTeam(teamid)
+                            : () => deleteTeamMember(userid)
+                        }
+                      >
+                        {isLeader ? "解散队伍" : "退出队伍"}
+                      </Button>
+                    </Col>
+                  </Row>
                 </Form.Item>
               </Form>
             </Content>

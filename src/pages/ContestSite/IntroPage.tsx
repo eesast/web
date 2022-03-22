@@ -1,29 +1,38 @@
 //import React, { useEffect, useState } from "react";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { message, Layout } from "antd";
-import { GetIntroContent as GET_INTRO_CONTENT } from "../../api/contest.graphql";
-import { GetIntroContentVariables, GetIntroContent } from "../../api/types";
+import { GetContestInfo as GETCONTESTINFO } from "../../api/contest.graphql";
+import { GetContestInfoVariables, GetContestInfo } from "../../api/types";
 import { useQuery } from "@apollo/client";
 import md2wx from "md2wx";
 const IntroPage = () => {
+  const location = useLocation();
+  const Contest_id = location.pathname.split("/")[2].replace('}', '');
   const [contentHtml, setContentHtml] = useState("");
   const { data: introData, error: introError } = useQuery<
-    GetIntroContent,
-    GetIntroContentVariables
-  >(GET_INTRO_CONTENT, {
+    GetContestInfo,
+    GetContestInfoVariables
+  >(GETCONTESTINFO, {
     variables: {
-      id: 3,
+      contest_id: Contest_id,
     },
   });
   useEffect(() => {
     if (introError) {
-      message.error("加载失败");
+      message.error("简介加载失败");
     }
   }, [introError]);
   useEffect(() => {
-    console.log("intro", introData);
+    console.log("intro:", introData);
     if (introData) {
-      setContentHtml(md2wx.renderHtml(introData?.article[0].content!));
+      var contest_intro = introData?.contest[0].description
+      if (contest_intro) {
+        setContentHtml(md2wx.renderHtml(contest_intro));
+      }
+      else {
+        setContentHtml(md2wx.renderHtml("NULL"));
+      }
     }
   }, [introData]);
   return (
