@@ -1,3 +1,10 @@
+# 查询某ID用户是否为某比赛管理员
+query QueryContestManager($contest_id: uuid!, $user_id: String="") {
+  contest_manager(where: {contest_id: {_eq: $contest_id}, user_id: {_eq: $user_id}}) {
+    user_id
+  }
+}
+
 #插入队伍信息
 mutation InsertTeam(
  $team_name: String!
@@ -70,9 +77,10 @@ query GetCode($team_id: uuid!) {
  }
 }
 
-query GetAllTeamInfo {
-  contest_team {
+query GetAllTeamInfo($contest_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}}) {
     team_name
+    created_at
     invited_code
     member_num
     score
@@ -80,23 +88,29 @@ query GetAllTeamInfo {
     status2
     status3
     team_id
+    team_contest_id {
+      contest_name
+    }
     team_intro
+    team_leader_id {
+      _id
+      class
+      email
+      name
+      phone
+    }
     contest_team_members {
       user_as_contest_team_member {
         _id
+        class
         email
         name
         phone
       }
     }
-    team_leader_id {
-      name
-      phone
-      email
-      _id
-    }
   }
 }
+
 
 #插入队员
 mutation InsertTeamMember($team_id: uuid! , $user_id: String!) {
@@ -161,7 +175,17 @@ query GetAllContest {
   }
 }
 
-#intropage用
+# 根据比赛id获取比赛信息
+query GetContestInfo($contest_id: uuid!) {
+  contest(where: {id: {_eq: $contest_id}}) {
+    contest_name
+    contest_type
+    description
+  }
+}
+
+
+#intropage用 现在换成contest_intro了
 query GetIntroContent($id: Int!) {
   article(where: { id: { _eq: $id } }) {
     content

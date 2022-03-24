@@ -480,6 +480,32 @@ export interface DeleteContestAllRoomsVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: QueryContestManager
+// ====================================================
+
+export interface QueryContestManager_contest_manager {
+  __typename: "contest_manager";
+  user_id: string;
+}
+
+export interface QueryContestManager {
+  /**
+   * fetch data from the table: "contest_manager"
+   */
+  contest_manager: QueryContestManager_contest_manager[];
+}
+
+export interface QueryContestManagerVariables {
+  contest_id: any;
+  user_id?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertTeam
 // ====================================================
 
@@ -650,9 +676,24 @@ export interface GetCodeVariables {
 // GraphQL query operation: GetAllTeamInfo
 // ====================================================
 
+export interface GetAllTeamInfo_contest_team_team_contest_id {
+  __typename: "contest";
+  contest_name: string;
+}
+
+export interface GetAllTeamInfo_contest_team_team_leader_id {
+  __typename: "user";
+  _id: string;
+  class: string | null;
+  email: string | null;
+  name: string | null;
+  phone: string | null;
+}
+
 export interface GetAllTeamInfo_contest_team_contest_team_members_user_as_contest_team_member {
   __typename: "user";
   _id: string;
+  class: string | null;
   email: string | null;
   name: string | null;
   phone: string | null;
@@ -666,17 +707,10 @@ export interface GetAllTeamInfo_contest_team_contest_team_members {
   user_as_contest_team_member: GetAllTeamInfo_contest_team_contest_team_members_user_as_contest_team_member;
 }
 
-export interface GetAllTeamInfo_contest_team_team_leader_id {
-  __typename: "user";
-  name: string | null;
-  phone: string | null;
-  email: string | null;
-  _id: string;
-}
-
 export interface GetAllTeamInfo_contest_team {
   __typename: "contest_team";
   team_name: string;
+  created_at: any;
   invited_code: string | null;
   /**
    * 已有人员数量
@@ -687,15 +721,19 @@ export interface GetAllTeamInfo_contest_team {
   status2: string | null;
   status3: string | null;
   team_id: any;
-  team_intro: string | null;
   /**
-   * An array relationship
+   * An object relationship
    */
-  contest_team_members: GetAllTeamInfo_contest_team_contest_team_members[];
+  team_contest_id: GetAllTeamInfo_contest_team_team_contest_id;
+  team_intro: string | null;
   /**
    * An object relationship
    */
   team_leader_id: GetAllTeamInfo_contest_team_team_leader_id | null;
+  /**
+   * An array relationship
+   */
+  contest_team_members: GetAllTeamInfo_contest_team_contest_team_members[];
 }
 
 export interface GetAllTeamInfo {
@@ -703,6 +741,10 @@ export interface GetAllTeamInfo {
    * fetch data from the table: "contest_team"
    */
   contest_team: GetAllTeamInfo_contest_team[];
+}
+
+export interface GetAllTeamInfoVariables {
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -925,6 +967,33 @@ export interface GetAllContest {
    * fetch data from the table: "contest"
    */
   contest: GetAllContest_contest[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetContestInfo
+// ====================================================
+
+export interface GetContestInfo_contest {
+  __typename: "contest";
+  contest_name: string;
+  contest_type: string;
+  description: string | null;
+}
+
+export interface GetContestInfo {
+  /**
+   * fetch data from the table: "contest"
+   */
+  contest: GetContestInfo_contest[];
+}
+
+export interface GetContestInfoVariables {
+  contest_id: any;
 }
 
 /* tslint:disable */
