@@ -1,11 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton  修改:delete Result
 import { Layout, message} from "antd";
-<<<<<<< HEAD:src/pages/ThuaiSite/RegisterPage.tsx
-import { Link } from "react-router-dom";
-=======
 import { Link, useLocation } from "react-router-dom";
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/RegisterPage.tsx
 import { getUserInfo } from "../../helpers/auth";
 //graphql的语句由Apollo生成ts句柄，在此import
 import {InsertTeam, InsertTeamVariables } from "../../api/types";
@@ -50,11 +46,7 @@ const RegisterPage: React.FC = () => {
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
-<<<<<<< HEAD:src/pages/ThuaiSite/RegisterPage.tsx
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
-=======
       contest_id: Contest_id,
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/RegisterPage.tsx
     },
   });
   const { data: ismemberData ,refetch: refetchismember } = useQuery<
@@ -63,16 +55,6 @@ const RegisterPage: React.FC = () => {
   >(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
-<<<<<<< HEAD:src/pages/ThuaiSite/RegisterPage.tsx
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
-    },
-  });
-  useEffect(() => {
-    if (isleaderData?.contest_team.length !== 0 ||
-      ismemberData?.contest_team_member.length !== 0)
-      message.warning("您已在队伍中，不可再创建队伍！");
-  })
-=======
       contest_id: Contest_id,
     },
   });
@@ -82,7 +64,6 @@ const RegisterPage: React.FC = () => {
   //     ismemberData?.contest_team_member.length !== 0)
   //     message.warning("您已在队伍中，不可再创建队伍！");
   // })
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/RegisterPage.tsx
   const InviteCode = randomString();
 
 
@@ -103,19 +84,9 @@ const RegisterPage: React.FC = () => {
           ...values, //剩余参数
           team_leader: userInfo?._id!,
           invited_code: InviteCode!,
-<<<<<<< HEAD:src/pages/ThuaiSite/RegisterPage.tsx
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7", // TODO： 待修改
-        },
-      });
-    } catch (e) {
-      message.error("创建失败,可能队名重复或网络问题");
-      console.log(e);
-    } finally {
-=======
           contest_id: Contest_id!,
         },
       });
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/RegisterPage.tsx
       if (!insertError) {
         message.success("创建成功");
         form.resetFields();

@@ -145,11 +145,7 @@ const MenuPage: React.FC = () => {
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item> */}
 
-<<<<<<< HEAD:src/pages/ThuaiSite/index.tsx
-          {["root","student"].includes(userInfo?.role!) ? (
-=======
           {(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1) ? (
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/MenuPage.tsx
             <SubMenu
               key="sub2"
               title={
@@ -192,15 +188,15 @@ const MenuPage: React.FC = () => {
           </Col>
         </Row>
         <Switch>
-          <Route exact path={path}>
+          <AuthRoute exact path={path}>
             <IntroPage />
-          </Route>
-          <Route exact path={`${path}/intro`}>
+          </AuthRoute>
+          <AuthRoute exact path={`${path}/intro`}>
             <IntroPage />
-          </Route>
-          <Route exact path={`${path}/source`}>
+          </AuthRoute>
+          <AuthRoute exact path={`${path}/source`}>
             <ResourcePage />
-          </Route>
+          </AuthRoute>
           <AuthRoute exact path={`${path}/register`}>
             <RegisterPage />
           </AuthRoute>
@@ -213,12 +209,12 @@ const MenuPage: React.FC = () => {
           {/* <Route exact path={`${path}/battle`}>
             <BattlePage />
           </Route> */}
-          <Route exact path={`${path}/updateIntro`}>
+          <AuthRoute exact path={`${path}/updateIntro`}>
             <UpdateIntroPage />
-          </Route>
-          <Route>
+          </AuthRoute>
+          <AuthRoute>
             <NotFoundPage />
-          </Route>
+          </AuthRoute>
         </Switch>
       </Content>
     </Layout>

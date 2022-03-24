@@ -17,13 +17,8 @@ import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
-<<<<<<< HEAD:src/pages/ThuaiSite/JoinPage.tsx
-import { GetAllTeamInfo_contest_team, GetAllTeamInfo } from "../../api/types";
-import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
-=======
 import { GetAllTeamInfo_contest_team, GetAllTeamInfo, GetAllTeamInfoVariables, QueryContestManager, QueryContestManagerVariables } from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO, QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/JoinPage.tsx
 //插入队员
 import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
 import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/contest.graphql";
@@ -47,11 +42,7 @@ const JoinPage: React.FC = () => {
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
-<<<<<<< HEAD:src/pages/ThuaiSite/JoinPage.tsx
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
-=======
       contest_id: Contest_id,
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/JoinPage.tsx
     },
   });
   const { data: ismemberData, refetch: refetchismember } = useQuery<
@@ -60,11 +51,7 @@ const JoinPage: React.FC = () => {
   >(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
-<<<<<<< HEAD:src/pages/ThuaiSite/JoinPage.tsx
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
-=======
       contest_id: Contest_id,
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/JoinPage.tsx
     },
   });
   const {
@@ -72,9 +59,6 @@ const JoinPage: React.FC = () => {
     loading: teamListLoading,
     error: teamListError,
     refetch: refetchteamList,
-<<<<<<< HEAD:src/pages/ThuaiSite/JoinPage.tsx
-  } = useQuery<GetAllTeamInfo>(GETALLTEAMINFO);
-=======
   } = useQuery<GetAllTeamInfo, GetAllTeamInfoVariables>(GETALLTEAMINFO, {
     variables: {
       contest_id: Contest_id
@@ -90,25 +74,16 @@ const JoinPage: React.FC = () => {
       user_id: userInfo?._id
     }
   });
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/JoinPage.tsx
 
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-<<<<<<< HEAD:src/pages/ThuaiSite/JoinPage.tsx
-useEffect(() => {
-  console.log(teamid);
-  console.log(isleaderData?.contest_team.length);
-  console.log(ismemberData?.contest_team_member.length);
-})
-=======
   useEffect(() => {
     console.log("队伍的id:" + teamid);
     console.log("是否队长：" + isleaderData?.contest_team.length);
     console.log("是否队员：" + ismemberData?.contest_team_member.length);
   })
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/JoinPage.tsx
 
   /***************队员插入****************/
   const [insertteamMember, { error: insertError }] = useMutation<
@@ -151,11 +126,7 @@ useEffect(() => {
             team.team_leader_id?.email || "null",
             team.team_leader_id?.phone || "null",
           ].concat(team.contest_team_members?.map((member) =>
-<<<<<<< HEAD:src/pages/ThuaiSite/JoinPage.tsx
-          `${member.user_as_contest_team_member?.name}/ ${member.user_as_contest_team_member?._id}/ ${member.user_as_contest_team_member?.email || "null"}/ ${member.user_as_contest_team_member?.phone || "null"}`
-=======
             `${member.user_as_contest_team_member?.name}/ ${member.user_as_contest_team_member?._id}/ ${member.user_as_contest_team_member?.email || "null"}/ ${member.user_as_contest_team_member?.phone || "null"}`
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/JoinPage.tsx
           ))
         )
       );
@@ -213,13 +184,8 @@ useEffect(() => {
     },
     {
       title: "队伍简介",
-<<<<<<< HEAD:src/pages/ThuaiSite/JoinPage.tsx
-      dataIndex: "team_sum",
-      key: "team_sum",
-=======
       dataIndex: "team_intro",
       key: "team_intro",
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/JoinPage.tsx
       render: (text, record) => record.team_intro,
       ellipsis: true,
     },

@@ -70,11 +70,7 @@ const ManagePage: React.FC = () => {
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
-<<<<<<< HEAD:src/pages/ThuaiSite/ManagePage.tsx
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
-=======
       contest_id: Contest_id,
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/ManagePage.tsx
     },
   });
   const {
@@ -84,22 +80,14 @@ const ManagePage: React.FC = () => {
   } = useQuery<IsTeamMember, IsTeamMemberVariables>(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
-<<<<<<< HEAD:src/pages/ThuaiSite/ManagePage.tsx
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
-=======
       contest_id: Contest_id,
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/ManagePage.tsx
     },
   });
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-<<<<<<< HEAD:src/pages/ThuaiSite/ManagePage.tsx
-  useEffect(() => {console.log(teamid);})
-=======
   useEffect(() => { console.log(teamid); })
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/ManagePage.tsx
 
   //根据team_id查询所有队员信息
   const { data: teamMemberData, loading: teamMemberLoading } = useQuery<
@@ -261,11 +249,7 @@ const ManagePage: React.FC = () => {
       render: (_, record) => {
         return (
           <Button
-<<<<<<< HEAD:src/pages/ThuaiSite/ManagePage.tsx
-            // disabled={true}
-=======
             disabled={isleaderData?.contest_team.length === 0}
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/ManagePage.tsx
             onClick={() => deleteTeamMemberByLeader(record.user_as_contest_team_member._id)}
           >
             移除

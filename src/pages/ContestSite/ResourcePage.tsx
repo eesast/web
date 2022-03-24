@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"
 import {
   Typography,
   Row,
@@ -59,21 +60,17 @@ interface File {
 
 const ResourcePage: React.FC = () => {
   const userInfo = getUserInfo();
+  const location = useLocation()
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
 
   const {
     data: noticeData,
     loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
-  } = useQuery<GetContestNotices,GetContestNoticesVariables>(GET_NOTICES,{
-    variables:{
-      contest_id:"3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // TODO: 待修正，对应 2021电设 的比赛id
-=======
   } = useQuery<GetContestNotices, GetContestNoticesVariables>(GET_NOTICES, {
     variables: {
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // 对应 2021电设 的比赛id
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/ResourcePage.tsx
+      contest_id: Contest_id,
     }
   });
 
@@ -139,7 +136,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
+          contest_id: Contest_id,
         },
       });
     } else {
@@ -148,7 +145,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
+          contest_id: Contest_id,
         },
       });
     }
@@ -407,33 +404,19 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
           align-items: center;
         `}
       >
-<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
-        <Space size = {'middle'}>
-        {onEditPress && <EditOutlined onClick={onEditPress} />}
-        {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
-        <Text
-          css={`
-=======
         <Space size={'middle'}>
           {onEditPress && <EditOutlined onClick={onEditPress} />}
           {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
           <Text
             css={`
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/ResourcePage.tsx
             margin-left: 5px;
             font-style: italic;
             font-size: 12px;
             color: gray;
           `}
-<<<<<<< HEAD:src/pages/ThuaiSite/ResourcePage.tsx
-        >
-          {"编辑于 " + dayjs(updatedAt).fromNow()}
-        </Text>
-=======
           >
             {"编辑于 " + dayjs(updatedAt).fromNow()}
           </Text>
->>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/ResourcePage.tsx
         </Space>
 
 
