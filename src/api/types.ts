@@ -509,6 +509,9 @@ export interface GetTeamInfo_contest_team {
   team_name: string;
   team_intro: string | null;
   team_leader: string | null;
+  status: string | null;
+  status2: string | null;
+  status3: string | null;
   score: string | null;
   /**
    * An object relationship
@@ -974,24 +977,71 @@ export interface InsertCodeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetRoomInfo
+// ====================================================
+
+export interface GetRoomInfo_contest_room_contest_room_teams_contest_team {
+  __typename: "contest_team";
+  team_name: string;
+  team_id: any;
+}
+
+export interface GetRoomInfo_contest_room_contest_room_teams {
+  __typename: "contest_room_team";
+  /**
+   * An object relationship
+   */
+  contest_team: GetRoomInfo_contest_room_contest_room_teams_contest_team;
+}
+
+export interface GetRoomInfo_contest_room {
+  __typename: "contest_room";
+  created_at: any;
+  result: string | null;
+  room_id: any;
+  status: boolean;
+  /**
+   * An array relationship
+   */
+  contest_room_teams: GetRoomInfo_contest_room_contest_room_teams[];
+}
+
+export interface GetRoomInfo {
+  /**
+   * fetch data from the table: "contest_room"
+   */
+  contest_room: GetRoomInfo_contest_room[];
+}
+
+export interface GetRoomInfoVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertRoom
 // ====================================================
 
-export interface InsertRoom_insert_thuai_room_one {
-  __typename: "thuai_room";
+export interface InsertRoom_insert_contest_room_one {
+  __typename: "contest_room";
   room_id: any;
 }
 
 export interface InsertRoom {
   /**
-   * insert a single row into the table: "thuai_room"
+   * insert a single row into the table: "contest_room"
    */
-  insert_thuai_room_one: InsertRoom_insert_thuai_room_one | null;
+  insert_contest_room_one: InsertRoom_insert_contest_room_one | null;
 }
 
 export interface InsertRoomVariables {
-  team1_id?: any | null;
-  team2_id?: any | null;
+  contest_id: any;
+  team1_id: any;
+  team2_id: any;
 }
 
 /* tslint:disable */

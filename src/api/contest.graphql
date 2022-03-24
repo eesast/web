@@ -50,6 +50,9 @@ query GetTeamInfo($team_id: uuid!) {
     team_name
     team_intro
     team_leader
+    status
+    status2
+    status3
     score
     team_leader_id {
       name
@@ -196,33 +199,46 @@ mutation InsertCode($team_id: uuid!) {
     affected_rows
   }
 }
-##roominfo
-##query GetRoomInfo {
-##  thuai_room {
-##    thuai_room_teams {
-##      thuai_team {
-##        team_name
-##      }
-##    }
-##    room_id
-##    result
-##    status
-##    created_at
-##    show_id
-##  }
-##}
-#insert team into room
-mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
-  insert_thuai_room_one(
-    object: {
-      thuai_room_teams: {
-        data: [{ thuai_team_id: $team1_id }, { thuai_team_id: $team2_id }]
+
+# get the contest room info
+query GetRoomInfo($contest_id: uuid!) {
+  contest_room(where: {contest_id: {_eq: $contest_id}}) {
+    created_at
+    result
+    room_id
+    status
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_id
       }
     }
-  ) {
+  }
+}
+
+#insert team into room, return room_id
+
+# mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
+#   insert_thuai_room_one(
+#     object: {
+#       thuai_room_teams: {
+#         data: [{ thuai_team_id: $team1_id }, { thuai_team_id: $team2_id }]
+#       }
+#     }
+#   ) {
+#     room_id
+#   }
+# }
+mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!,$team2_id: uuid!) {
+  insert_contest_room_one(object:
+    {contest_id: $contest_id,
+    contest_room_teams: {data: [{team_id: $team1_id},{team_id: $team2_id}]}
+    }
+  ){
     room_id
   }
 }
+
 
 
 #上传选手代码（原有：更新，无：插入）

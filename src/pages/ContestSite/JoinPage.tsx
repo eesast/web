@@ -164,7 +164,7 @@ useEffect(() => {
       key: "team_member",
       render: (text, record) =>
         record.contest_team_members.map((i) => [i.user_as_contest_team_member.name + "   "]),
-    },
+    }, // TODO: 此处有误
     {
       title: "队伍简介",
       dataIndex: "team_intro",
