@@ -188,15 +188,15 @@ const MenuPage: React.FC = () => {
           </Col>
         </Row>
         <Switch>
-          <AuthRoute exact path={path}>
+          <Route exact path={path}>
             <IntroPage />
-          </AuthRoute>
-          <AuthRoute exact path={`${path}/intro`}>
+          </Route>
+          <Route exact path={`${path}/intro`}>
             <IntroPage />
-          </AuthRoute>
-          <AuthRoute exact path={`${path}/source`}>
+          </Route>
+          <Route exact path={`${path}/source`}>
             <ResourcePage />
-          </AuthRoute>
+          </Route>
           <AuthRoute exact path={`${path}/register`}>
             <RegisterPage />
           </AuthRoute>
