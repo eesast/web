@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useLocation,
   Link,
   Switch,
   Route,
   useRouteMatch,
+  //useParams,
 } from "react-router-dom";
 import {
   HomeOutlined,
@@ -12,11 +13,13 @@ import {
   TeamOutlined,
   // ThunderboltOutlined,
   LockOutlined,
+  ArrowLeftOutlined
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 //antd的包
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Row, Col, Button, message, Typography } from "antd";
 //以下为子分页
+//import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
 import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
@@ -25,20 +28,68 @@ import ManagePage from "./ManagePage";
 // import BattlePage from "./BattlePage";
 import UpdateIntroPage from "./UpdateIntroPage";
 import NotFoundPage from "../NotFoundPage";
+// hasura查询
+import { useQuery } from "@apollo/client";
+import { GetContestInfo, GetContestInfoVariables, QueryContestManager, QueryContestManagerVariables } from "../../api/types"
+import {
+  GetContestInfo as GETCONTESTINFO,
+  QueryContestManager as QUERY_CONTEST_MANAGER
+} from "../../api/contest.graphql"
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
 //antd部件实例化
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
+const { Text } = Typography
 const rootSubmenuKeys = ["sub1", "sub2"];
 //react页面标准写法
-const ThuaiSite: React.FC = () => {
+const MenuPage: React.FC = () => {
   const userInfo = getUserInfo();
+  console.log(userInfo);
+
   //url
   const { path, url } = useRouteMatch();
   const location = useLocation();
   //url的split，预设页面是intro
   const page = location.pathname.split("/")[2] ?? "intro";
+  // 从url中获取比赛的id
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  const {
+    data: ContestData,
+    error: ContestError,
+  } = useQuery<GetContestInfo, GetContestInfoVariables>(GETCONTESTINFO, {
+    variables: {
+      contest_id: Contest_id
+    }
+  });
+
+  const {
+    data: isContestManagerData,
+    error: isContestManagerError
+  } = useQuery<QueryContestManager, QueryContestManagerVariables>(QUERY_CONTEST_MANAGER, {
+    variables: {
+      contest_id: Contest_id,
+      user_id: userInfo?._id
+    }
+  });
+
+  useEffect(() => {
+    if (ContestError) {
+      message.error("比赛加载失败");
+      console.log(ContestError.message)
+    }
+  }, [ContestError]);
+
+  useEffect(() => {
+    if (isContestManagerError) {
+      message.error("管理员加载失败");
+      console.log(isContestManagerError.message)
+    }
+  }, [isContestManagerError]);
+
+  var Contest_name = ContestData?.contest.length === 1 ? ContestData?.contest[0].contest_name : "null"
+  var Contest_type = ContestData?.contest.length === 1 ? ContestData?.contest[0].contest_type : "null"
+
   //小子分页
   const [openKeys, setOpenKeys] = React.useState(["sub1"]);
   //subpage的开关
@@ -50,6 +101,7 @@ const ThuaiSite: React.FC = () => {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
+
   //渲染页面,switch类似c，用以切换url
   return (
     <Layout>
@@ -58,7 +110,7 @@ const ThuaiSite: React.FC = () => {
           mode="inline"
           openKeys={openKeys}
           onOpenChange={onOpenChange}
-          style={{ width: 256 }}
+          // style={{ width: 256 }}
           selectedKeys={[page]}
         >
           <Menu.Item key="intro">
@@ -93,7 +145,11 @@ const ThuaiSite: React.FC = () => {
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item> */}
 
+<<<<<<< HEAD:src/pages/ThuaiSite/index.tsx
           {["root","student"].includes(userInfo?.role!) ? (
+=======
+          {(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1) ? (
+>>>>>>> bc39ebafe2a63ad17ba6a2e6958736c60eb502da:src/pages/ContestSite/MenuPage.tsx
             <SubMenu
               key="sub2"
               title={
@@ -111,6 +167,30 @@ const ThuaiSite: React.FC = () => {
         </Menu>
       </Sider>
       <Content>
+        <Row align="middle" justify="end">
+          <Col span={4}>
+            <Text strong>当前比赛：</Text>
+            <Text>{Contest_name}</Text>
+          </Col>
+          <Col span={4}>
+            <Text strong>比赛类型：</Text>
+            <Text>{Contest_type === "Electronic-design" ? "电子设计大赛" : Contest_type}</Text>
+          </Col>
+          <Col span={4}>
+            <Link to={`/contest`}>
+              <Button
+                css={`
+            margin-top: 12px;
+            margin-right: 24px;
+          `}
+
+                icon={<ArrowLeftOutlined />}
+              >
+                返回
+              </Button>
+            </Link>
+          </Col>
+        </Row>
         <Switch>
           <Route exact path={path}>
             <IntroPage />
@@ -145,4 +225,4 @@ const ThuaiSite: React.FC = () => {
   );
 };
 
-export default ThuaiSite;
+export default MenuPage;
