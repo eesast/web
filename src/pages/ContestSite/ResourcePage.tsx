@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"
 import {
   Typography,
   Row,
@@ -48,6 +49,7 @@ import type {
 import { getOSS, downloadFile } from "../../helpers/oss";
 import { getUserInfo } from "../../helpers/auth";
 
+
 const { Text } = Typography;
 const { confirm } = Modal;
 
@@ -58,6 +60,8 @@ interface File {
 
 const ResourcePage: React.FC = () => {
   const userInfo = getUserInfo();
+  const location = useLocation()
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
 
   const {
     data: noticeData,
@@ -66,7 +70,7 @@ const ResourcePage: React.FC = () => {
     refetch: refetchNotices,
   } = useQuery<GetContestNotices, GetContestNoticesVariables>(GET_NOTICES, {
     variables: {
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // 对应 2021电设 的比赛id
+      contest_id: Contest_id,
     }
   });
 
@@ -132,7 +136,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
+          contest_id: Contest_id,
         },
       });
     } else {
@@ -141,7 +145,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
+          contest_id: Contest_id,
         },
       });
     }
@@ -198,7 +202,7 @@ const ResourcePage: React.FC = () => {
             margin-top: 12px;
             margin-right: 24px;
           `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
+          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root" }
           onClick={() => setModalVisible(true)}
         >
           编辑新公告
