@@ -209,12 +209,12 @@ const MenuPage: React.FC = () => {
           {/* <Route exact path={`${path}/battle`}>
             <BattlePage />
           </Route> */}
-          <Route exact path={`${path}/updateIntro`}>
+          <AuthRoute exact path={`${path}/updateIntro`}>
             <UpdateIntroPage />
-          </Route>
-          <Route>
+          </AuthRoute>
+          <AuthRoute>
             <NotFoundPage />
-          </Route>
+          </AuthRoute>
         </Switch>
       </Content>
     </Layout>

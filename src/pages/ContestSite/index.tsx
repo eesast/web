@@ -43,7 +43,6 @@ import {
   DeleteContestAllRooms,
   DeleteContestAllRoomsVariables,
 } from "../../api/types";
-
 import { getUserInfo } from "../../helpers/auth";
 //导入antd的包
 import Card, { CardProps } from "antd/lib/card";
@@ -212,7 +211,7 @@ const ContestSite: React.FC = () => {
     error: contestManagerError,
     refetch: refetchContestManager
   } = useQuery<GetContestManager, GetContestManagerVariables>(GET_CONTEST_MANAGER, {
-    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }
+    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" } // TODO
   });
 
   useEffect(() => {
