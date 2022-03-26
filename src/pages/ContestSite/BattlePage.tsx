@@ -53,7 +53,7 @@ import type { TableProps } from "antd/lib/table";
 import { GetAllTeamInfo_contest_team, GetAllTeamInfo,GetAllTeamInfoVariables } from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
 //----回放信息------
-import { GetRoomInfo, GetRoomInfoVariables } from "../../api/types";
+import { GetRoomInfo, GetRoomInfoVariables,GetRoomInfo_contest_room} from "../../api/types";
 import { GetRoomInfo as GETROOMINFO } from "../../api/contest.graphql";
 //----插入room和team------
 import { InsertRoom, InsertRoomVariables } from "../../api/types";
@@ -275,12 +275,13 @@ const BattlePage: React.FC = () => {
     }
   };
   //点击下载回放
+  //TODO: 下载格式待商议
   const download = async (record: GetRoomInfo) => {
     try {
       const response = await axios.get(`room/${record.contest_room[0].room_id}`, { // TODO:此处应与后端协调
         responseType: "blob",
       });
-      FileSaver.saveAs(response.data, record.contest_room[0].room_id + ".thuaipb"); // TODO: 回访文件格式
+      FileSaver.saveAs(response.data, record.contest_room[0].room_id + ".thuaipb"); // TODO: 回放文件格式
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -394,8 +395,8 @@ const BattlePage: React.FC = () => {
     },
     {
       title: "队长",
-      key: "team_leader",
-      render: (text, record) => record.team_leader_id?.name,
+      key: "team_leader_id",
+      render: (text, record) => record.team_leader_id?.name
     },
     {
       title: "队员",
@@ -405,8 +406,8 @@ const BattlePage: React.FC = () => {
     },
     {
       title: "队伍简介",
-      dataIndex: "team_sum",
-      key: "team_sum",
+      dataIndex: "team_intro",
+      key: "team_intro",
       ellipsis: true,
     },
     {
@@ -428,7 +429,7 @@ const BattlePage: React.FC = () => {
       ),
     },
   ];
-  const roomListColumns: TableProps<GetRoomInfo>["columns"] = [
+  const roomListColumns: TableProps<GetRoomInfo_contest_room>["columns"] = [
     // {
     //   title: "ID",
     //   dataIndex: "show_id",
@@ -445,7 +446,7 @@ const BattlePage: React.FC = () => {
       title: "队名",
       key: "team_name",
       render: (text, record) =>
-        record.contest_room.map((i) => [i.contest_room_teams.map((team) => [team.contest_team.team_name+"   "])]),
+        record.contest_room_teams.map((i)=>[i.contest_team.team_name+"  "]),
     },
     {
       title: "结果",
@@ -463,7 +464,7 @@ const BattlePage: React.FC = () => {
       render: (text, record) => (
         <Button
           type="primary"
-          onClick={() => download(record)}
+          //onClick={() => download(record)}
           disabled={record.status !== true}
         >
           下载
@@ -519,7 +520,7 @@ const BattlePage: React.FC = () => {
               <Table
                 className={styles.list}
                 loading={roomListLoading}
-                dataSource={roomListData?.thuai_room}
+                dataSource={roomListData?.contest_room}
                 columns={roomListColumns}
               />
             </TabPane>

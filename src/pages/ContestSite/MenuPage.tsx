@@ -11,7 +11,7 @@ import {
   HomeOutlined,
   DatabaseOutlined,
   TeamOutlined,
-  // ThunderboltOutlined,
+  ThunderboltOutlined,
   LockOutlined,
   ArrowLeftOutlined
 } from "@ant-design/icons";
@@ -25,7 +25,7 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-// import BattlePage from "./BattlePage";
+import BattlePage from "./BattlePage";
 import UpdateIntroPage from "./UpdateIntroPage";
 import NotFoundPage from "../NotFoundPage";
 // hasura查询
@@ -118,10 +118,10 @@ const MenuPage: React.FC = () => {
               <Link to={`${url}/manage`}>管理</Link>
             </Menu.Item>
           </SubMenu>
-          {/* <Menu.Item key="fight">
+          <Menu.Item key="fight">
             <ThunderboltOutlined />
             <Link to={`${url}/battle`}>对战</Link>
-          </Menu.Item> */}
+          </Menu.Item>
 
           {["root"].includes(userInfo?.role!) ? (
             <SubMenu
@@ -184,9 +184,9 @@ const MenuPage: React.FC = () => {
           <AuthRoute exact path={`${path}/manage`}>
             <ManagePage />
           </AuthRoute>
-          {/* <Route exact path={`${path}/battle`}>
+          <AuthRoute exact path={`${path}/battle`}>
             <BattlePage />
-          </Route> */}
+          </AuthRoute>
           <Route exact path={`${path}/updateIntro`}>
             <UpdateIntroPage />
         </Route>
