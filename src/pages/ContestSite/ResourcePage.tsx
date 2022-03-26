@@ -49,7 +49,6 @@ import type {
 import { getOSS, downloadFile } from "../../helpers/oss";
 import { getUserInfo } from "../../helpers/auth";
 
-
 const { Text } = Typography;
 const { confirm } = Modal;
 
@@ -202,7 +201,7 @@ const ResourcePage: React.FC = () => {
             margin-top: 12px;
             margin-right: 24px;
           `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root" }
+          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
           onClick={() => setModalVisible(true)}
         >
           编辑新公告

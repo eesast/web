@@ -11,6 +11,7 @@ import {
   Form,
   message,
   Modal,
+  Typography,
 } from "antd"; //botton
 import { Layout } from "antd";
 import { getUserInfo } from "../../helpers/auth"; //更改：取消注释
@@ -57,6 +58,7 @@ import { TableProps } from "antd/lib/table";
 const { TextArea } = Input;
 const { Content } = Layout;
 const { confirm } = Modal;
+const { Text } = Typography;
 
 const ManagePage: React.FC = () => {
   const userInfo = getUserInfo();
@@ -64,7 +66,7 @@ const ManagePage: React.FC = () => {
   const location = useLocation()
   // 从url中获取比赛的id
   const Contest_id = location.pathname.split("/")[2].replace('}', '')
-  const { data: isleaderData, loading: leaderLoading } = useQuery<
+  const { data: isleaderData, loading: leaderLoading, refetch: refetchLeader } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
@@ -128,6 +130,7 @@ const ManagePage: React.FC = () => {
   >(GETTEAMINFO, {
     variables: {
       team_id: teamid!,
+      contest_id: Contest_id
     },
   });
 
@@ -151,14 +154,15 @@ const ManagePage: React.FC = () => {
 
   const team = {
     ...teamData?.contest_team[0],
-    leader_name: teamData?.contest_team[0]?.team_leader,
+    leader_name: teamData?.contest_team[0]?.team_leader_id?.name,
   };
-  const isLeader = userInfo?._id === team?.team_leader;
+  const isLeader = userInfo?._id === team.team_leader_id?._id;
 
   if (loading || leaderLoading || memberLoading || !userInfo) {
     return <Loading />;
   }
   const userid = userInfo._id;
+
   //若未加入任何队伍
   if (!teamid) {
     return (
@@ -229,6 +233,7 @@ const ManagePage: React.FC = () => {
           title: "队伍已解散",
           content: "请重新加入队伍",
         });
+        await refetchLeader();
       },
     });
   };
@@ -260,14 +265,28 @@ const ManagePage: React.FC = () => {
   ];
   //-----------------查询结束---------------------------
   return (
-    <Layout>
-      <br />
-      <br />
-      <Row>
-        <Col offset={7}>
-          <Card
-            hoverable
-            css={`
+    (!teamid) ? (
+      <div>
+        <Result
+          status="warning"
+          title="您还没有加入任何队伍"
+          extra={
+            <Button type="primary">
+              <Link replace to={`/contest/${Contest_id}/join`}>
+                加入队伍
+              </Link>
+            </Button>
+          }
+        />
+      </div>) : (
+      <Layout>
+        <br />
+        <br />
+        <Row>
+          <Col offset={7}>
+            <Card
+              hoverable
+              css={`
               width: 500px;
               padding-top: 24px;
               padding-bottom: 12px;
@@ -275,110 +294,109 @@ const ManagePage: React.FC = () => {
                 cursor: default;
               }
             `}
-          >
-            <Content>
-              <Form
-                name="form"
-                layout="vertical"
-                initialValues={team}
-                onFinish={onFinish}
-              >
-                <Form.Item
-                  name="team_name"
-                  label="队伍名称"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    () => ({
-                      validator(rule, value) {
-                        if (value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("队伍名不能为空");
-                      },
-                    }),
-                  ]}
+            >
+              <Content>
+                <Form
+                  name="form"
+                  layout="vertical"
+                  initialValues={team}
+                  onFinish={onFinish}
                 >
-                  <Input
-                    style={{ width: "30%" }}
-                    disabled={false}
-                    autoCapitalize="off"
-                    autoCorrect="off"
-                    autoComplete="on"
-                    placeholder={team.team_name}
-                  />
-                </Form.Item>
-                <Form.Item name="invited_code" label="邀请码">
-                  <span>{team.invited_code}</span>
-                </Form.Item>
-                <Form.Item label="队长">
-                  <span>{team.team_leader_id?.name}</span>
-                </Form.Item>
-                <Form.Item label="队员">
-                  { }
+                  <Form.Item
+                    name="team_name"
+                    label="队伍名称"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                      () => ({
+                        validator(rule, value) {
+                          if (value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject("队伍名不能为空");
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input
+                      style={{ width: "30%" }}
+                      disabled={false}
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      autoComplete="on"
+                      placeholder={team.team_name}
+                    />
+                  </Form.Item>
+                  <Form.Item name="invited_code" label="邀请码">
+                    <Text>{team.invited_code}</Text>
+                  </Form.Item>
+                  <Form.Item label="队长">
+                    <Text>{team.team_leader_id?.name}</Text>
+                  </Form.Item>
+                  <Form.Item label="队员">
 
-                  <Table
-                    loading={teamMemberLoading}
-                    columns={memberListColumns}
-                    dataSource={teamMemberData?.contest_team_member}
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="team_intro"
-                  label="队伍简介"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    () => ({
-                      validator(rule, value) {
-                        if (value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("队伍简介不能为空");
+                    <Table
+                      loading={teamMemberLoading}
+                      columns={memberListColumns}
+                      dataSource={teamMemberData?.contest_team_member}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="team_intro"
+                    label="队伍简介"
+                    rules={[
+                      {
+                        required: true,
                       },
-                    }),
-                  ]}
-                >
-                  <TextArea
-                    rows={6}
-                    disabled={false}
-                    placeholder={team.team_intro!}
-                  />
-                </Form.Item>
-                <Form.Item style={{ textAlign: "center" }} >
-                  <Row justify="center">
-                    <Col span={6}>
-                      <Button
-                        type="primary"
-                        loading={UpdatingTeamInfo}
-                        htmlType="submit"
-                      >
-                        确认修改
-                      </Button>
-                    </Col>
-                    <Col span={6}>
-                      <Button
-                        danger
-                        type="default"
-                        onClick={
-                          isLeader
-                            ? () => deleteWholeTeam(teamid)
-                            : () => deleteTeamMember(userid)
-                        }
-                      >
-                        {isLeader ? "解散队伍" : "退出队伍"}
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form.Item>
-              </Form>
-            </Content>
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
+                      () => ({
+                        validator(rule, value) {
+                          if (value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject("队伍简介不能为空");
+                        },
+                      }),
+                    ]}
+                  >
+                    <TextArea
+                      rows={6}
+                      disabled={false}
+                      placeholder={team.team_intro!}
+                    />
+                  </Form.Item>
+                  <Form.Item style={{ textAlign: "center" }} >
+                    <Row justify="center">
+                      <Col span={6}>
+                        <Button
+                          type="primary"
+                          loading={UpdatingTeamInfo}
+                          htmlType="submit"
+                        >
+                          确认修改
+                        </Button>
+                      </Col>
+                      <Col span={6}>
+                        <Button
+                          danger
+                          type="default"
+                          onClick={
+                            isLeader
+                              ? () => deleteWholeTeam(teamid)
+                              : () => deleteTeamMember(userid)
+                          }
+                        >
+                          {isLeader ? "解散队伍" : "退出队伍"}
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form.Item>
+                </Form>
+              </Content>
+            </Card>
+          </Col>
+        </Row>
+      </Layout>)
   );
 };
 export default ManagePage;

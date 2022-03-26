@@ -366,6 +366,7 @@ const ContestSite: React.FC = () => {
         dataSource={contestData?.contest}
         renderItem={(item) => (
           <ContestInfoCard
+            key={item.id}
             css={`
             margin-top: 12px;
             margin-bottom: 24px;
