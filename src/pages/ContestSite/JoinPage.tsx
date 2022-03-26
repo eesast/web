@@ -29,8 +29,7 @@ import xlsx from "xlsx";
 const { Content } = Layout;
 const JoinPage: React.FC = () => {
   const location = useLocation()
-  const Contest_id = location.pathname.split("/")[2].replace('}', '')
-  //console.log("此比赛id:"+Contest_id)
+  const Contest_id = location.pathname.split("/")[2].replace('}', '');
   const userInfo = getUserInfo();
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -75,15 +74,13 @@ const JoinPage: React.FC = () => {
     }
   });
 
-  const teamid =
+  /* const teamid =
     isleaderData?.contest_team[0]?.team_id ||
-    ismemberData?.contest_team_member[0]?.team_id;
+    ismemberData?.contest_team_member[0]?.team_id; */
 
   useEffect(() => {
-    console.log("队伍的id:" + teamid);
-    console.log("是否队长：" + isleaderData?.contest_team.length);
-    console.log("是否队员：" + ismemberData?.contest_team_member.length);
-  })
+    refetchteamList();
+  });
 
   /***************队员插入****************/
   const [insertteamMember, { error: insertError }] = useMutation<
@@ -199,7 +196,6 @@ const JoinPage: React.FC = () => {
               type="primary"
               onClick={() => showModal(record)}
               disabled={
-                // true
                 isleaderData?.contest_team.length !== 0 ||
                 ismemberData?.contest_team_member.length !== 0 ||
                 record.contest_team_members.length === 3
@@ -235,12 +231,13 @@ const JoinPage: React.FC = () => {
       ),
     },
   ];
+
   return (
     <Layout>
-      <br />
-      <br />
-      <Row>
-        <Col offset={4}>
+      <Row
+        justify="center"
+        css={`margin-top:50px`}>
+        <Col>
           <Card
             hoverable
             css={`
@@ -257,6 +254,7 @@ const JoinPage: React.FC = () => {
                 loading={teamListLoading}
                 dataSource={teamListData?.contest_team}
                 columns={teamListColumns}
+                rowKey={record => record.team_id}
               />
             </Content>
             <Button
@@ -264,7 +262,7 @@ const JoinPage: React.FC = () => {
               onClick={exportTeamsData}
               type="primary"
               shape="round"
-              disabled={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)} //待权限管理配置完成后再更改
+              disabled={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
               size="small"
             >
               导出队伍信息
