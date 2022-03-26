@@ -53,7 +53,7 @@ import type { TableProps } from "antd/lib/table";
 import { GetAllTeamInfo_contest_team, GetAllTeamInfo,GetAllTeamInfoVariables } from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
 //----回放信息------
-import { GetRoomInfo, GetRoomInfoVariables,GetRoomInfo_contest_room} from "../../api/types";
+import { GetRoomInfo,GetRoomInfo_contest_room} from "../../api/types";
 import { GetRoomInfo as GETROOMINFO } from "../../api/contest.graphql";
 //----插入room和team------
 import { InsertRoom, InsertRoomVariables } from "../../api/types";
@@ -119,8 +119,8 @@ const BattlePage: React.FC = () => {
   const {
     data: teamListData,
     loading: teamListLoading,
-    error: teamListError,
-    refetch: refetchteamList,
+    //error: teamListError,
+    //refetch: refetchteamList,
   } = useQuery<GetAllTeamInfo,GetAllTeamInfoVariables>(GETALLTEAMINFO,{
     variables:{
       contest_id: Contest_id
@@ -276,21 +276,21 @@ const BattlePage: React.FC = () => {
   };
   //点击下载回放
   //TODO: 下载格式待商议
-  const download = async (record: GetRoomInfo) => {
-    try {
-      const response = await axios.get(`room/${record.contest_room[0].room_id}`, { // TODO:此处应与后端协调
-        responseType: "blob",
-      });
-      FileSaver.saveAs(response.data, record.contest_room[0].room_id + ".thuaipb"); // TODO: 回放文件格式
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err.response?.status === 401) {
-        message.error("认证失败");
-      } else {
-        message.error("未知错误");
-      }
-    }
-  };
+  // const download = async (record: GetRoomInfo) => {
+  //   try {
+  //     const response = await axios.get(`room/${record.contest_room[0].room_id}`, { // TODO:此处应与后端协调
+  //       responseType: "blob",
+  //     });
+  //     FileSaver.saveAs(response.data, record.contest_room[0].room_id + ".thuaipb"); // TODO: 回放文件格式
+  //   } catch (e) {
+  //     const err = e as AxiosError;
+  //     if (err.response?.status === 401) {
+  //       message.error("认证失败");
+  //     } else {
+  //       message.error("未知错误");
+  //     }
+  //   }
+  // };
   //点击发起对战
   const fight = () => {
     (async () => {
