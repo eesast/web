@@ -15,6 +15,9 @@ import {
   DeleteContestAllManager as DELETE_CONTEST_MANAGER,
   AddContestManager as ADD_CONTEST_MANAGER,
   GetUser_Id as GET_USER_ID,
+  DeleteContestAllTeams as DELETE_CONTEST_TEAMS,
+  DeleteContestAllInfo as DELETE_CONTEST_INFO,
+  DeleteContestAllRooms as DELETE_CONTEST_ROOMS
 } from "../../api/contest_manager.graphql"
 import {
   GetContests,
@@ -33,8 +36,13 @@ import {
   GetUser_Id,
   GetUser_IdVariables,
   GetContestManager_contest_manager_user,
+  DeleteContestAllTeams,
+  DeleteContestAllTeamsVariables,
+  DeleteContestAllInfo,
+  DeleteContestAllInfoVariables,
+  DeleteContestAllRooms,
+  DeleteContestAllRoomsVariables,
 } from "../../api/types";
-
 import { getUserInfo } from "../../helpers/auth";
 //导入antd的包
 import Card, { CardProps } from "antd/lib/card";
@@ -90,6 +98,9 @@ const ContestSite: React.FC = () => {
     { error: contestDeleteError }
   ] = useMutation<DeleteContest, DeleteContestVariables>(DELETE_CONTEST);
 
+  const [deleteContestTeams,
+    { error: teamDeleteError }
+  ] = useMutation<DeleteContestAllTeams, DeleteContestAllTeamsVariables>(DELETE_CONTEST_TEAMS);
 
   const [
     addContestManager,
@@ -100,6 +111,16 @@ const ContestSite: React.FC = () => {
     deleteContestManager,
     { error: managerDeleteError },
   ] = useMutation<DeleteContestAllManager, DeleteContestAllManagerVariables>(DELETE_CONTEST_MANAGER);
+
+  const [
+    deleteContestInfo,
+    { error: infoDeleteError },
+  ] = useMutation<DeleteContestAllInfo, DeleteContestAllInfoVariables>(DELETE_CONTEST_INFO);
+
+  const [
+    deleteContestRooms,
+    { error: roomsDeleteError },
+  ] = useMutation<DeleteContestAllRooms, DeleteContestAllRoomsVariables>(DELETE_CONTEST_ROOMS);
 
 
   useEffect(() => {
@@ -144,6 +165,27 @@ const ContestSite: React.FC = () => {
     }
   }, [managerDeleteError]);
 
+  useEffect(() => {
+    if (teamDeleteError) {
+      message.error("比赛队伍删除失败");
+      console.log(teamDeleteError.message);
+    }
+  }, [teamDeleteError]);
+
+  useEffect(() => {
+    if (infoDeleteError) {
+      message.error("比赛公告删除失败");
+      console.log(infoDeleteError.message);
+    }
+  }, [infoDeleteError]);
+
+  useEffect(() => {
+    if (roomsDeleteError) {
+      message.error("比赛房间删除失败");
+      console.log(roomsDeleteError.message);
+    }
+  }, [roomsDeleteError]);
+
   const {
     /* data: userData,
     loading: userLoading, */
@@ -169,7 +211,7 @@ const ContestSite: React.FC = () => {
     error: contestManagerError,
     refetch: refetchContestManager
   } = useQuery<GetContestManager, GetContestManagerVariables>(GET_CONTEST_MANAGER, {
-    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }
+    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" } // TODO
   });
 
   useEffect(() => {
@@ -293,6 +335,9 @@ const ContestSite: React.FC = () => {
       icon: <ExclamationCircleOutlined />,
       content: "这样做会删除此比赛的所有数据，此操作不可恢复。",
       onOk: async () => {
+        await deleteContestInfo({ variables: { contest_id: id } });
+        await deleteContestTeams({ variables: { contest_id: id } });
+        await deleteContestRooms({ variables: { contest_id: id } });
         await deleteContestManager({ variables: { contest_id: id } });
         await deleteContest({ variables: { id } });
         await refetchContests();
@@ -542,12 +587,12 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
       </Text>}
       hoverable
       extra={
-      <p><Link to={`${url}/${id}}`}>
-        <Button size={"large"}>查看详情</Button>
+        <p><Link to={`${url}/${id}}`}>
+          <Button size={"large"}>查看详情</Button>
         </Link>
 
-      </p>
-    }
+        </p>
+      }
       {...restProps}
     >
       {description &&

@@ -396,6 +396,116 @@ export interface GetUser_IdVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteContestAllTeams
+// ====================================================
+
+export interface DeleteContestAllTeams_delete_contest_team {
+  __typename: "contest_team_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteContestAllTeams {
+  /**
+   * delete data from the table: "contest_team"
+   */
+  delete_contest_team: DeleteContestAllTeams_delete_contest_team | null;
+}
+
+export interface DeleteContestAllTeamsVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContestAllInfo
+// ====================================================
+
+export interface DeleteContestAllInfo_delete_contest_info {
+  __typename: "contest_info_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteContestAllInfo {
+  /**
+   * delete data from the table: "contest_info"
+   */
+  delete_contest_info: DeleteContestAllInfo_delete_contest_info | null;
+}
+
+export interface DeleteContestAllInfoVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteContestAllRooms
+// ====================================================
+
+export interface DeleteContestAllRooms_delete_contest_room {
+  __typename: "contest_room_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteContestAllRooms {
+  /**
+   * delete data from the table: "contest_room"
+   */
+  delete_contest_room: DeleteContestAllRooms_delete_contest_room | null;
+}
+
+export interface DeleteContestAllRoomsVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: QueryContestManager
+// ====================================================
+
+export interface QueryContestManager_contest_manager {
+  __typename: "contest_manager";
+  user_id: string;
+}
+
+export interface QueryContestManager {
+  /**
+   * fetch data from the table: "contest_manager"
+   */
+  contest_manager: QueryContestManager_contest_manager[];
+}
+
+export interface QueryContestManagerVariables {
+  contest_id: any;
+  user_id?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertTeam
 // ====================================================
 

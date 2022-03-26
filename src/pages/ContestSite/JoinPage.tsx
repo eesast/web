@@ -11,14 +11,14 @@ import {
   Form,
   Input,
 } from "antd";
-import {useLocation} from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { getUserInfo } from "../../helpers/auth";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
-import { GetAllTeamInfo_contest_team, GetAllTeamInfo,GetAllTeamInfoVariables} from "../../api/types";
-import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
+import { GetAllTeamInfo_contest_team, GetAllTeamInfo, GetAllTeamInfoVariables, QueryContestManager, QueryContestManagerVariables } from "../../api/types";
+import { GetAllTeamInfo as GETALLTEAMINFO, QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
 //插入队员
 import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
 import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/contest.graphql";
@@ -29,14 +29,14 @@ import xlsx from "xlsx";
 const { Content } = Layout;
 const JoinPage: React.FC = () => {
   const location = useLocation()
-  const Contest_id = location.pathname.split("/")[2].replace('}','')
-  console.log("此比赛id:"+Contest_id)
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  //console.log("此比赛id:"+Contest_id)
   const userInfo = getUserInfo();
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [teamId, setTeamId] = useState<any>();
   const [inviteCode, setInvite] = useState<string | null>();
-  const { data: isleaderData,refetch: refetchisleader } = useQuery<
+  const { data: isleaderData, refetch: refetchisleader } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
@@ -45,7 +45,7 @@ const JoinPage: React.FC = () => {
       contest_id: Contest_id,
     },
   });
-  const { data: ismemberData,refetch: refetchismember } = useQuery<
+  const { data: ismemberData, refetch: refetchismember } = useQuery<
     IsTeamMember,
     IsTeamMemberVariables
   >(ISTEAMMEMBER, {
@@ -59,9 +59,19 @@ const JoinPage: React.FC = () => {
     loading: teamListLoading,
     error: teamListError,
     refetch: refetchteamList,
-  } = useQuery<GetAllTeamInfo,GetAllTeamInfoVariables>(GETALLTEAMINFO,{
-    variables:{
+  } = useQuery<GetAllTeamInfo, GetAllTeamInfoVariables>(GETALLTEAMINFO, {
+    variables: {
       contest_id: Contest_id
+    }
+  });
+
+  const {
+    data: isContestManagerData,
+    error: isContestManagerError
+  } = useQuery<QueryContestManager, QueryContestManagerVariables>(QUERY_CONTEST_MANAGER, {
+    variables: {
+      contest_id: Contest_id,
+      user_id: userInfo?._id
     }
   });
 
@@ -69,11 +79,12 @@ const JoinPage: React.FC = () => {
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-useEffect(() => {
-  console.log("队伍的id:"+teamid);
-  console.log("是否队长："+isleaderData?.contest_team.length);
-  console.log("是否队员："+ismemberData?.contest_team_member.length);
-})
+//TODO: 调试用，push时删掉
+  useEffect(() => {
+    console.log("队伍的id:" + teamid);
+    console.log("是否队长：" + isleaderData?.contest_team.length);
+    console.log("是否队员：" + ismemberData?.contest_team_member.length);
+  })
 
   /***************队员插入****************/
   const [insertteamMember, { error: insertError }] = useMutation<
@@ -96,6 +107,13 @@ useEffect(() => {
     }
   }, [teamListError]);
 
+  useEffect(() => {
+    if (isContestManagerError) {
+      message.error("管理员加载失败");
+      console.log(isContestManagerError.message)
+    }
+  }, [isContestManagerError]);
+
   const exportTeamsData = () => {
     try {
       const data: any = [];
@@ -109,7 +127,7 @@ useEffect(() => {
             team.team_leader_id?.email || "null",
             team.team_leader_id?.phone || "null",
           ].concat(team.contest_team_members?.map((member) =>
-          `${member.user_as_contest_team_member?.name}/ ${member.user_as_contest_team_member?._id}/ ${member.user_as_contest_team_member?.email || "null"}/ ${member.user_as_contest_team_member?.phone || "null"}`
+            `${member.user_as_contest_team_member?.name}/ ${member.user_as_contest_team_member?._id}/ ${member.user_as_contest_team_member?.email || "null"}/ ${member.user_as_contest_team_member?.phone || "null"}`
           ))
         )
       );
@@ -138,7 +156,7 @@ useEffect(() => {
         }
       } catch (e) {
         message.error("加入失败");
-        console.log("错误信息:"+e);
+        console.log("错误信息:" + e);
       }
     } else {
       message.error("验证码错误");
@@ -247,7 +265,7 @@ useEffect(() => {
               onClick={exportTeamsData}
               type="primary"
               shape="round"
-              disabled={userInfo?.role !== "root"} //待权限管理配置完成后再更改
+              disabled={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)} //待权限管理配置完成后再更改
               size="small"
             >
               导出队伍信息
