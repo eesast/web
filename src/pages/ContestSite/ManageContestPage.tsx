@@ -16,7 +16,8 @@ import {
   QueryContestManager as QUERY_CONTEST_MANAGER,
   InsertTeam as INSERT_TEAM,
   IsTeamLeader as IS_TEAM_LEADER,
-  IsTeamMember as IS_TEAM_MEMBER
+  IsTeamMember as IS_TEAM_MEMBER,
+  GetTeamInfo as GET_TEAM_INFO
 } from "../../api/contest.graphql";
 import { GetUser_Id as GET_USER_ID } from "../../api/contest_manager.graphql";
 import {
@@ -33,11 +34,15 @@ import {
   IsTeamMemberVariables,
   GetUser_Id,
   GetUser_IdVariables,
+  GetTeamInfo,
+  GetTeamInfoVariables,
 } from "../../api/types";
-import { Button, Card, Form, Input, Layout, message, Modal, Result, Row, Table } from "antd";
+import { Button, Card, Form, Input, Layout, message, Modal, Result, Row, Table, Typography } from "antd";
 import { TableProps } from "antd/lib/table";
-import { ArrowRightOutlined, PlusOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, PlusOutlined, RollbackOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
+
+const { Text } = Typography;
 
 const ManageContestPage: React.FC = () => {
   //获取比赛ID
@@ -253,13 +258,16 @@ const ListPage: React.FC<{
 
   ];
 
+  //搜索功能
+
+
   return (
     <Layout>
       <Row justify="center" css={`margin-top:50px`}>
         <Card
           hoverable
           css={`
-      width: 1000px;
+      width: 80%;
       padding-top: 24px;
       padding-bottom: 12px;
       &.ant-card-bordered {
@@ -356,10 +364,102 @@ const SubPage: React.FC<{
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>
 }> = (props) => {
 
+  const {
+    data: teamData,
+    error: getTeamInfoError,
+    refetch: refetchTeamInfo
+  } = useQuery<GetTeamInfo, GetTeamInfoVariables>(GET_TEAM_INFO, {
+    variables: {
+      contest_id: props.contest_id,
+      team_id: props.team_id
+    }
+  });
+
+  useEffect(() => {
+    if (getTeamInfoError) {
+      message.error("队伍信息加载失败");
+      console.log(getTeamInfoError.message);
+    }
+  }, [getTeamInfoError]);
+
+  const [activeTabKey, setActiveTabKey] = useState("basic");
+
+  const tabList = [
+    {
+      key: "basic",
+      tab: "基础信息"
+    },
+    {
+      key: "addMember",
+      tab: "添加成员"
+    },
+    {
+      key: "code",
+      tab: "查看代码"
+    },
+    {
+      key: "compile",
+      tab: "手动编译"
+    }
+  ];
+
+  const onTabChange = (key: any) => {
+    setActiveTabKey(key);
+  }
+
+  const contentList = {
+    basic: (
+      <div>
+        <Text>
+          队名: {teamData?.contest_team[0].team_name}
+        </Text>
+        <br />
+        <Text>
+          队长: {teamData?.contest_team[0].team_leader_id?.name}
+        </Text>
+        <br />
+        <Text>
+          队员: {teamData?.contest_team[0].contest_team_members.length === 0 ? "无" : teamData?.contest_team[0].contest_team_members.map((i) => [i.user_as_contest_team_member.name + "   "])}
+        </Text>
+        <br />
+        <Text>
+          队伍描述: {teamData?.contest_team[0].team_intro}
+        </Text>
+        <br />
+        <Text>
+          已提交代码数: {teamData?.contest_team[0].submitted_code_num}
+        </Text>
+      </div>
+    ),
+    addMember: (<p>add-member</p>)
+  }
 
 
   return (
     <div>
+      <Row
+        justify="center"
+        css={`margin-top:50px`}>
+        <Card
+          style={{ width: "70%" }}
+          title={
+            <Text css={`
+          font-size:x-large;
+          font-weight:bold;
+          `}>
+              {teamData?.contest_team[0].team_name}
+            </Text>}
+          extra={<Button icon={<RollbackOutlined />} onClick={() => props.setEditingTeamID(undefined)} />}
+          tabList={tabList}
+          activeTabKey={activeTabKey}
+          onTabChange={(key) => {
+            onTabChange(key);
+          }}
+          hoverable
+        >
+          {contentList[activeTabKey as keyof typeof contentList]}
+        </Card>
+      </Row>
 
     </div>
   );
