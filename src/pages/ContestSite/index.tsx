@@ -604,7 +604,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
         white-space: pre-wrap;
         font-size:15px;
       `}>
-            {description}
+            {description.replace(/#+ [^\r\n]*[\r\n]/g, "")}
           </Text>
           <Divider />
         </>}
