@@ -184,6 +184,8 @@ query GetContestInfo($contest_id: uuid!) {
     contest_name
     contest_type
     description
+    start_date
+    end_date
   }
 }
 

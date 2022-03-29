@@ -986,6 +986,8 @@ export interface GetContestInfo_contest {
   contest_name: string;
   contest_type: string;
   description: string | null;
+  start_date: any;
+  end_date: any;
 }
 
 export interface GetContestInfo {

@@ -306,7 +306,7 @@ const BattlePage: React.FC = () => {
         await axios.post("room", {
           //header: {},
           room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: false, // TODO:啥玩意
+          team_seq: false, // 一个是紫方还是白方的标记
         });
         message.success("已发起对战");
       } catch (e) {
@@ -414,7 +414,7 @@ const BattlePage: React.FC = () => {
       title: "分数",
       dataIndex: "score",
       key: "score",
-      sorter: (a, b) =>  Number(a.score) - Number(b.score), // TODO
+      sorter: (a, b) =>  Number(a.score) - Number(b.score),
       defaultSortOrder: "descend",
     },
     {
