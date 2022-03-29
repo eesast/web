@@ -431,7 +431,13 @@ const SubPage: React.FC<{
         </Text>
       </div>
     ),
-    addMember: (<p>add-member</p>)
+    addMember: (
+      <div>
+        <p>add-member</p>
+        <Button onClick={() => refetchTeamInfo()}>Refetch</Button>
+      </div>
+
+    )
   }
 
 
