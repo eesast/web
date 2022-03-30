@@ -17,7 +17,9 @@ import {
   InsertTeam as INSERT_TEAM,
   IsTeamLeader as IS_TEAM_LEADER,
   IsTeamMember as IS_TEAM_MEMBER,
-  GetTeamInfo as GET_TEAM_INFO
+  GetTeamInfo as GET_TEAM_INFO,
+  InsertTeamMember as INSERT_TEAM_MEMBER,
+  DeleteTeamMember as DELETE_TEAM_MEMBER
 } from "../../api/contest.graphql";
 import { GetUser_Id as GET_USER_ID } from "../../api/contest_manager.graphql";
 import {
@@ -36,10 +38,14 @@ import {
   GetUser_IdVariables,
   GetTeamInfo,
   GetTeamInfoVariables,
+  InsertTeamMember,
+  InsertTeamMemberVariables,
+  DeleteTeamMember,
+  DeleteTeamMemberVariables,
 } from "../../api/types";
-import { Button, Card, Form, Input, Layout, message, Modal, Result, Row, Table, Typography } from "antd";
+import { Button, Card, Form, Input, Layout, List, message, Modal, Result, Row, Table, Typography } from "antd";
 import { TableProps } from "antd/lib/table";
-import { ArrowRightOutlined, PlusOutlined, RollbackOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 
 const { Text } = Typography;
@@ -281,20 +287,19 @@ const ListPage: React.FC<{
             columns={teamListColumns}
             rowKey={record => record.team_id}
           />
-        </Card>
-      </Row>
-      <Button
-        css={`
+          <Button
+            css={`
     width:120px;
     margin-top: 12px;
-    margin-right: 24px;
-    margin-left:150px;
     `}
-        icon={<PlusOutlined />}
-        onClick={() => setIsModalVisible(true)}
-      >
-        添加新队伍
-      </Button>
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalVisible(true)}
+          >
+            添加新队伍
+          </Button>
+        </Card>
+      </Row>
+
       <Modal
         visible={isModalVisible}
         title="添加新队伍"
@@ -382,6 +387,58 @@ const SubPage: React.FC<{
     }
   }, [getTeamInfoError]);
 
+  const { refetch: refetchisleader } = useQuery<
+    IsTeamLeader,
+    IsTeamLeaderVariables
+  >(IS_TEAM_LEADER, {
+    variables: {
+      _id: "",
+      contest_id: props.contest_id,
+    },
+  });
+  const { refetch: refetchismember } = useQuery<
+    IsTeamMember,
+    IsTeamMemberVariables
+  >(IS_TEAM_MEMBER, {
+    variables: {
+      _id: "",
+      contest_id: props.contest_id,
+    },
+  });
+
+  const {
+    error: userError,
+    refetch: refetchUserId
+  } = useQuery<GetUser_Id, GetUser_IdVariables>(GET_USER_ID, {
+    variables: {
+      email: "",
+      name: ""
+    }
+  });
+
+  useEffect(() => {
+    if (userError) {
+      message.error("用户信息查询失败");
+      console.log(userError.message);
+    }
+  }, [userError]);
+
+  const [insertteamMember, { error: insertError }] = useMutation<
+    InsertTeamMember,
+    InsertTeamMemberVariables
+  >(INSERT_TEAM_MEMBER);
+
+  const [DeleteTeamMember, { error: DeleteTeamMemberError }] = useMutation<
+    DeleteTeamMember,
+    DeleteTeamMemberVariables
+  >(DELETE_TEAM_MEMBER);
+
+  useEffect(() => {
+    if (DeleteTeamMemberError) {
+      message.error("删除成员失败");
+    }
+  }, [DeleteTeamMemberError]);
+
   const [activeTabKey, setActiveTabKey] = useState("basic");
 
   const tabList = [
@@ -407,37 +464,168 @@ const SubPage: React.FC<{
     setActiveTabKey(key);
   }
 
+  //添加成员界面
+  //#region
+  const [add_member_form] = Form.useForm();
+  const handleAddMember = async () => {
+    const values = add_member_form.getFieldsValue();
+    try {
+      const userData = await refetchUserId({ email: values.member_email, name: values.member_name });
+      if (userData.data.user.length === 0) {
+        message.warn("队长信息有误，查无此人！");
+        return;
+      }
+      const user_id = userData.data.user[0]._id;
+      const isTeamLeader = await refetchisleader({
+        _id: user_id,
+        contest_id: props.contest_id
+      });
+      const isTeamMember = await refetchismember({
+        _id: user_id,
+        contest_id: props.contest_id
+      });
+      if (isTeamLeader.data.contest_team.length !== 0 || isTeamMember.data.contest_team_member.length !== 0) {
+        message.warn("该用户已存在于某一队伍中");
+        return;
+      }
+      await insertteamMember({
+        variables: {
+          team_id: props.team_id,
+          user_id: user_id,
+        },
+      });
+      if (!insertError) {
+        message.success("添加成员成功")
+      }
+    } catch {
+
+    }
+    add_member_form.resetFields();
+    refetchTeamInfo();
+  }
+  //#endregion
+
   const contentList = {
     basic: (
-      <div>
+      <div
+        style={{
+          fontSize: "large",
+          lineHeight: "30px"
+        }}
+      >
+        <Text style={{ fontWeight: "700" }}>
+          {"队名: "}
+        </Text>
         <Text>
-          队名: {teamData?.contest_team[0].team_name}
+          {teamData?.contest_team[0].team_name}
+        </Text>
+        <br />
+        <Text style={{ fontWeight: "700" }}>
+          {"队长: "}
+        </Text>
+        <Text>
+          {teamData?.contest_team[0].team_leader_id?.name}
+        </Text>
+        <br />
+        <Text style={{ fontWeight: "700" }}>
+          {"队员: "}
+        </Text>
+        {
+          teamData?.contest_team[0].contest_team_members.length === 0 ?
+            <><Text>无</Text><br /></> :
+            <List
+              dataSource={teamData?.contest_team[0].contest_team_members}
+              renderItem={(item) => (
+                <List.Item style={{ width: "100px" }}>
+                  <Text>{item.user_as_contest_team_member.name}</Text>
+                  <MinusCircleOutlined onClick={() => {
+                    Modal.confirm({
+                      title: "确定要移除该成员吗？",
+                      icon: <ExclamationCircleOutlined />,
+                      content: "若不在任何队伍中无法参加比赛!",
+                      onOk: async () => {
+                        await DeleteTeamMember({ variables: { team_id: props.team_id, user_id: item.user_as_contest_team_member._id } });
+                        await refetchTeamInfo();
+                        if (!DeleteTeamMemberError) {
+                          message.success("成功移除该成员");
+                        }
+                      }
+                    });
+                  }} />
+                </List.Item>
+              )}
+            />
+        }
+
+        <Text style={{ fontWeight: "700" }}>
+          {"队伍描述: "}
         </Text>
         <br />
         <Text>
-          队长: {teamData?.contest_team[0].team_leader_id?.name}
+          {teamData?.contest_team[0].team_intro}
         </Text>
         <br />
-        <Text>
-          队员: {teamData?.contest_team[0].contest_team_members.length === 0 ? "无" : teamData?.contest_team[0].contest_team_members.map((i) => [i.user_as_contest_team_member.name + "   "])}
+        <Text style={{ fontWeight: "700" }}>
+          {"已提交代码数: "}
         </Text>
-        <br />
         <Text>
-          队伍描述: {teamData?.contest_team[0].team_intro}
-        </Text>
-        <br />
-        <Text>
-          已提交代码数: {teamData?.contest_team[0].submitted_code_num}
+          {teamData?.contest_team[0].submitted_code_num}
         </Text>
       </div>
     ),
     addMember: (
       <div>
-        <p>add-member</p>
-        <Button onClick={() => refetchTeamInfo()}>Refetch</Button>
+        <Row justify="start">
+          <Form
+            name="addMember"
+            form={add_member_form}
+            onFinish={handleAddMember}
+            onFinishFailed={(errorInfo: any) => {
+              console.log("Failed:", errorInfo);
+            }}
+            preserve={false}
+          >
+            <Form.Item
+              name="member_name"
+              label="成员姓名"
+              rules={[{ required: true, message: "成员的姓名不能为空" }]}
+            >
+              <Input allowClear placeholder="输入需添加成员姓名" />
+            </Form.Item>
+            <Form.Item
+              name="member_email"
+              label="成员邮箱"
+              rules={[{ required: true, message: "成员的邮箱不能为空" }, {
+                type: "email",
+                message: "请输入合法邮箱"
+              }]}
+            >
+              <Input allowClear placeholder="输入需添加成员邮箱" />
+            </Form.Item>
+            <Form.Item name="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={
+                  teamData?.contest_team[0].contest_team_members.length === 3
+                }
+              >提交
+              </Button>
+            </Form.Item>
+          </Form>
+        </Row>
       </div>
+    ),
+    code: (
+      <div>
 
-    )
+      </div>
+    ),
+    complie: (
+      <div>
+
+      </div>
+    ),
   }
 
 
@@ -450,7 +638,7 @@ const SubPage: React.FC<{
           style={{ width: "70%" }}
           title={
             <Text css={`
-          font-size:x-large;
+          font-size:xx-large;
           font-weight:bold;
           `}>
               {teamData?.contest_team[0].team_name}

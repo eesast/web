@@ -89,10 +89,10 @@ const ManagePage: React.FC = () => {
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-  useEffect(() => { console.log(teamid); })
+  useEffect(() => { refetchMemberInfo(); })
 
   //根据team_id查询所有队员信息
-  const { data: teamMemberData, loading: teamMemberLoading } = useQuery<
+  const { data: teamMemberData, loading: teamMemberLoading, refetch: refetchMemberInfo } = useQuery<
     GetMemberInfo,
     GetMemberInfoVariables
   >(GETMEMBERINFO, {
@@ -188,7 +188,7 @@ const ManagePage: React.FC = () => {
       team_name: record.team_name,
       team_intro: record.team_intro,
     };
-    UpdateTeam({
+    await UpdateTeam({
       variables: newinfo,
     });
     await refetchTeam();
@@ -199,7 +199,7 @@ const ManagePage: React.FC = () => {
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteTeamMember({ variables: { user_id } });
+        await DeleteTeamMember({ variables: { user_id: user_id, team_id: teamid } });
         Modal.success({
           title: "已退出队伍",
           content: "请重新加入队伍",
@@ -214,7 +214,7 @@ const ManagePage: React.FC = () => {
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteTeamMember({ variables: { user_id } });
+        await DeleteTeamMember({ variables: { user_id: user_id, team_id: teamid } });
         message.success("移除成功");
         //await refetchMember();
         await refetchTeam();
@@ -255,7 +255,10 @@ const ManagePage: React.FC = () => {
         return (
           <Button
             disabled={isleaderData?.contest_team.length === 0}
-            onClick={() => deleteTeamMemberByLeader(record.user_as_contest_team_member._id)}
+            onClick={async () => {
+              await deleteTeamMemberByLeader(record.user_as_contest_team_member._id);
+              await refetchMemberInfo();
+            }}
           >
             移除
           </Button>
@@ -263,6 +266,8 @@ const ManagePage: React.FC = () => {
       },
     },
   ];
+
+
   //-----------------查询结束---------------------------
   return (
     (!teamid) ? (
@@ -335,11 +340,11 @@ const ManagePage: React.FC = () => {
                     <Text>{team.team_leader_id?.name}</Text>
                   </Form.Item>
                   <Form.Item label="队员">
-
                     <Table
                       loading={teamMemberLoading}
                       columns={memberListColumns}
                       dataSource={teamMemberData?.contest_team_member}
+                      rowKey={record => record.user_as_contest_team_member._id}
                     />
                   </Form.Item>
                   <Form.Item
