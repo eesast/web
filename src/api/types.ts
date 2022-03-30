@@ -972,6 +972,7 @@ export interface DeleteTeamMember {
 
 export interface DeleteTeamMemberVariables {
   user_id: string;
+  team_id: any;
 }
 
 /* tslint:disable */
