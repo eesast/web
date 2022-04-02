@@ -145,6 +145,7 @@ const BattlePage: React.FC = () => {
     GETTEAMINFO,
     {
       variables: {
+        contest_id: Contest_id,
         team_id: teamid!,
       },
     }

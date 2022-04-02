@@ -25,13 +25,9 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-<<<<<<< HEAD
+
 import BattlePage from "./BattlePage";
-import UpdateIntroPage from "./UpdateIntroPage";
-=======
-// import BattlePage from "./BattlePage";
 import ManageContestPage from "./ManageContestPage";
->>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
 import NotFoundPage from "../NotFoundPage";
 // hasura查询
 import { useQuery } from "@apollo/client";
@@ -159,15 +155,9 @@ const MenuPage: React.FC = () => {
                 </span>
               }
             >
-<<<<<<< HEAD
-              {/*<Menu.Item key="updateIntro">
-                <Link to={`${url}/updateIntro`}>修改介绍</Link>
-            </Menu.Item>*/}
-=======
               <Menu.Item key="manageContest">
                 <Link to={`${url}/manageContest`}>管理比赛</Link>
               </Menu.Item>
->>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
             </SubMenu>
           ) : null}
         </Menu>
@@ -218,20 +208,16 @@ const MenuPage: React.FC = () => {
           </AuthRoute>
           <AuthRoute exact path={`${path}/battle`}>
             <BattlePage />
-<<<<<<< HEAD
+
           </AuthRoute>
-          <AuthRoute exact path={`${path}/updateIntro`}>
-            <UpdateIntroPage />
-=======
-          </Route> */}
           <AuthRoute exact path={`${path}/manageContest`}>
             <ManageContestPage />
->>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
           </AuthRoute>
           <AuthRoute>
             <NotFoundPage />
           </AuthRoute>
         </Switch>
+        {/* </Contest_status.Provider> */}
       </Content>
     </Layout>
   );
