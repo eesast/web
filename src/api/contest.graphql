@@ -45,31 +45,6 @@ query IsTeamMember($_id: String!, $contest_id: uuid!) {
     team_id
   }
 }
-<<<<<<< HEAD
-# 借由team_id获取team的所有信息
-query GetTeamInfo($team_id: uuid!) {
-  contest_team(where: {team_id: {_eq: $team_id}}) {
-    contest_id
-    contest_team_members {
-      user_id
-    }
-    invited_code
-    member_num
-    team_name
-    team_intro
-    team_leader
-    status
-    status2
-    status3
-    score
-    team_leader_id {
-      name
-      _id
-    }
-  }
-}
-=======
->>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
 
 # 借由team_id获取code的所有信息
 query GetCode($team_id: uuid!) {
@@ -249,7 +224,6 @@ mutation InsertCode($team_id: uuid!) {
   }
 }
 
-<<<<<<< HEAD
 # get the contest room info
 query GetRoomInfo($contest_id: uuid!) {
   contest_room(where: {contest_id: {_eq: $contest_id}}) {
@@ -261,13 +235,6 @@ query GetRoomInfo($contest_id: uuid!) {
       contest_team {
         team_name
         team_id
-=======
-mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
-  insert_thuai_room_one(
-    object: {
-      thuai_room_teams: {
-        data: [{ thuai_team_id: $team1_id }, { thuai_team_id: $team2_id }]
->>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
       }
     }
   }
