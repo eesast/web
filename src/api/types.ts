@@ -590,6 +590,7 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+<<<<<<< HEAD
 // GraphQL query operation: GetTeamInfo
 // ====================================================
 
@@ -646,6 +647,8 @@ export interface GetTeamInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+=======
+>>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
 // GraphQL query operation: GetCode
 // ====================================================
 
@@ -724,6 +727,7 @@ export interface GetAllTeamInfo_contest_team {
   status2: string | null;
   status3: string | null;
   team_id: any;
+  submitted_code_num: number;
   /**
    * An object relationship
    */
@@ -748,6 +752,88 @@ export interface GetAllTeamInfo {
 
 export interface GetAllTeamInfoVariables {
   contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTeamInfo
+// ====================================================
+
+export interface GetTeamInfo_contest_team_team_contest_id {
+  __typename: "contest";
+  contest_name: string;
+}
+
+export interface GetTeamInfo_contest_team_team_leader_id {
+  __typename: "user";
+  _id: string;
+  class: string | null;
+  email: string | null;
+  name: string | null;
+  phone: string | null;
+}
+
+export interface GetTeamInfo_contest_team_contest_team_members_user_as_contest_team_member {
+  __typename: "user";
+  _id: string;
+  class: string | null;
+  email: string | null;
+  name: string | null;
+  phone: string | null;
+}
+
+export interface GetTeamInfo_contest_team_contest_team_members {
+  __typename: "contest_team_member";
+  /**
+   * An object relationship
+   */
+  user_as_contest_team_member: GetTeamInfo_contest_team_contest_team_members_user_as_contest_team_member;
+}
+
+export interface GetTeamInfo_contest_team {
+  __typename: "contest_team";
+  team_name: string;
+  created_at: any;
+  invited_code: string | null;
+  /**
+   * 已有人员数量
+   */
+  member_num: number;
+  score: string | null;
+  status: string | null;
+  status2: string | null;
+  status3: string | null;
+  team_id: any;
+  submitted_code_num: number;
+  /**
+   * An object relationship
+   */
+  team_contest_id: GetTeamInfo_contest_team_team_contest_id;
+  team_intro: string | null;
+  /**
+   * An object relationship
+   */
+  team_leader_id: GetTeamInfo_contest_team_team_leader_id | null;
+  /**
+   * An array relationship
+   */
+  contest_team_members: GetTeamInfo_contest_team_contest_team_members[];
+}
+
+export interface GetTeamInfo {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: GetTeamInfo_contest_team[];
+}
+
+export interface GetTeamInfoVariables {
+  contest_id: any;
+  team_id: any;
 }
 
 /* tslint:disable */
@@ -945,6 +1031,7 @@ export interface DeleteTeamMember {
 
 export interface DeleteTeamMemberVariables {
   user_id: string;
+  team_id: any;
 }
 
 /* tslint:disable */

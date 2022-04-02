@@ -45,6 +45,7 @@ query IsTeamMember($_id: String!, $contest_id: uuid!) {
     team_id
   }
 }
+<<<<<<< HEAD
 # 借由team_id获取team的所有信息
 query GetTeamInfo($team_id: uuid!) {
   contest_team(where: {team_id: {_eq: $team_id}}) {
@@ -67,6 +68,8 @@ query GetTeamInfo($team_id: uuid!) {
     }
   }
 }
+=======
+>>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
 
 # 借由team_id获取code的所有信息
 query GetCode($team_id: uuid!) {
@@ -91,6 +94,43 @@ query GetAllTeamInfo($contest_id: uuid!) {
     status2
     status3
     team_id
+    submitted_code_num
+    team_contest_id {
+      contest_name
+    }
+    team_intro
+    team_leader_id {
+      _id
+      class
+      email
+      name
+      phone
+    }
+    contest_team_members {
+      user_as_contest_team_member {
+        _id
+        class
+        email
+        name
+        phone
+      }
+    }
+  }
+}
+
+# 查询某只队伍的信息
+query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}, , team_id: {_eq: $team_id}}) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    status3
+    team_id
+    submitted_code_num
     team_contest_id {
       contest_name
     }
@@ -161,8 +201,8 @@ mutation DeleteAllTeamMember($team_id: uuid!) {
 }
 
 #在team_member中删除指定队员信息
-mutation DeleteTeamMember($user_id: String!) {
-  delete_contest_team_member(where: { user_id: { _eq: $user_id } }) {
+mutation DeleteTeamMember($user_id: String!, $team_id: uuid!) {
+  delete_contest_team_member(where: {user_id: {_eq: $user_id}, team_id: {_eq: $team_id}}) {
     affected_rows
   }
 }
@@ -209,6 +249,7 @@ mutation InsertCode($team_id: uuid!) {
   }
 }
 
+<<<<<<< HEAD
 # get the contest room info
 query GetRoomInfo($contest_id: uuid!) {
   contest_room(where: {contest_id: {_eq: $contest_id}}) {
@@ -220,6 +261,13 @@ query GetRoomInfo($contest_id: uuid!) {
       contest_team {
         team_name
         team_id
+=======
+mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
+  insert_thuai_room_one(
+    object: {
+      thuai_room_teams: {
+        data: [{ thuai_team_id: $team1_id }, { thuai_team_id: $team2_id }]
+>>>>>>> 6b6248b98c6eff77faf4afe62e79112ad3db97d8
       }
     }
   }
