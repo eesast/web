@@ -1,10 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton  修改:delete Result
-import { Layout, message} from "antd";
-import { Link } from "react-router-dom";
+import { Layout, message } from "antd";
+import { Link, useLocation } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
 //graphql的语句由Apollo生成ts句柄，在此import
-import {InsertTeam, InsertTeamVariables } from "../../api/types";
+import { InsertTeam, InsertTeamVariables } from "../../api/types";
 import { InsertTeam as INSERT_TEAM } from "../../api/contest.graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
@@ -14,6 +14,7 @@ import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 
 const { Content } = Layout;
 const { TextArea } = Input;
+
 //css
 const tailLayout = {
   wrapperCol: { offset: 20, span: 4 },
@@ -21,6 +22,7 @@ const tailLayout = {
 const headLayout = {
   wrapperCol: { offset: 10, span: 4 },
 };
+
 //生成邀请码，8位
 function randomString() {
   var e = 8;
@@ -31,33 +33,37 @@ function randomString() {
   return n;
 }
 const RegisterPage: React.FC = () => {
+  const location = useLocation();
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  console.log(Contest_id)
   //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
   // 查询此用户是否已有队伍，若有则不可再创建
 
-  const {  data: isleaderData ,refetch: refetchisleader } = useQuery<
+  const { data: isleaderData, refetch: refetchisleader } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables
   >(ISTEAMLEADER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
-  const { data: ismemberData ,refetch: refetchismember } = useQuery<
+  const { data: ismemberData, refetch: refetchismember } = useQuery<
     IsTeamMember,
     IsTeamMemberVariables
   >(ISTEAMMEMBER, {
     variables: {
       _id: userInfo?._id!,
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",  // TODO： 待更改
+      contest_id: Contest_id,
     },
   });
-  useEffect(() => {
-    if (isleaderData?.contest_team.length !== 0 ||
-      ismemberData?.contest_team_member.length !== 0)
-      message.warning("您已在队伍中，不可再创建队伍！");
-  })
+  // TODO: 待修复：创建完队伍后会渲染一次
+  // useEffect(() => {
+  //   if (isleaderData?.contest_team.length !== 0 ||
+  //     ismemberData?.contest_team_member.length !== 0)
+  //     message.warning("您已在队伍中，不可再创建队伍！");
+  // })
   const InviteCode = randomString();
 
 
@@ -78,17 +84,16 @@ const RegisterPage: React.FC = () => {
           ...values, //剩余参数
           team_leader: userInfo?._id!,
           invited_code: InviteCode!,
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7", // TODO： 待修改
+          contest_id: Contest_id!,
         },
       });
-    } catch (e) {
-      message.error("创建失败,可能队名重复或网络问题");
-      console.log(e);
-    } finally {
       if (!insertError) {
         message.success("创建成功");
         form.resetFields();
       }
+    } catch (e) {
+      message.error("创建失败,可能队名重复或网络问题");
+      console.log("当前错误：" + e);
     }
     refetchisleader();
     refetchismember();
@@ -123,7 +128,7 @@ const RegisterPage: React.FC = () => {
                 onFinishFailed={onFinishFailed}
               >
                 <Form.Item
-                  label="队名"
+                  label="队伍名称"
                   name="team_name"
                   rules={[
                     { required: true, message: "Please input the team name!" },
@@ -134,7 +139,7 @@ const RegisterPage: React.FC = () => {
 
                 <Form.Item
                   label="队伍简介"
-                  name="team_sum"
+                  name="team_intro"
                   rules={[
                     { required: true, message: "Please input team detail!" },
                   ]}
@@ -142,14 +147,14 @@ const RegisterPage: React.FC = () => {
                   <TextArea placeholder="输入队伍简介" rows={6} />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                  <Link to="/contest/join"> 加入队伍</Link>
+                  <Link to={`/contest/${Contest_id}/join`}> 加入队伍</Link>
                 </Form.Item>
                 <Form.Item {...headLayout}>
                   <Button type="primary" htmlType="submit"
-                  disabled={
-                isleaderData?.contest_team.length !== 0 ||
-                ismemberData?.contest_team_member.length !== 0
-              }>
+                    disabled={
+                      isleaderData?.contest_team.length !== 0 ||
+                      ismemberData?.contest_team_member.length !== 0
+                    }>
                     创建队伍
                   </Button>
                 </Form.Item>

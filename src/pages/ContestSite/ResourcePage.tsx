@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"
 import {
   Typography,
   Row,
@@ -29,6 +30,9 @@ import {
   DeleteContestNotice as DELETE_NOTICE,
 } from "../../api/contest_info.graphql";
 import {
+  QueryContestManager as QUERY_CONTEST_MANAGER
+} from "../../api/contest.graphql";
+import {
   GetContestNotices,
   UpdateContestNotice,
   AddContestNotice,
@@ -38,6 +42,8 @@ import {
   UpdateContestNoticeVariables,
   DeleteContestNoticeVariables,
   GetContestNoticesVariables,
+  QueryContestManager,
+  QueryContestManagerVariables,
 } from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
@@ -59,6 +65,8 @@ interface File {
 
 const ResourcePage: React.FC = () => {
   const userInfo = getUserInfo();
+  const location = useLocation()
+  const Contest_id = location.pathname.split("/")[2].replace('}', '')
 
   const {
     data: noticeData,
@@ -67,7 +75,7 @@ const ResourcePage: React.FC = () => {
     refetch: refetchNotices,
   } = useQuery<GetContestNotices, GetContestNoticesVariables>(GET_NOTICES, {
     variables: {
-      contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",   // 对应 2021电设 的比赛id
+      contest_id: Contest_id,
     }
   });
 
@@ -85,6 +93,16 @@ const ResourcePage: React.FC = () => {
     DeleteContestNotice,
     DeleteContestNoticeVariables
   >(DELETE_NOTICE);
+
+  const {
+    data: isContestManagerData,
+    error: isContestManagerError
+  } = useQuery<QueryContestManager, QueryContestManagerVariables>(QUERY_CONTEST_MANAGER, {
+    variables: {
+      contest_id: Contest_id,
+      user_id: userInfo?._id
+    }
+  });
 
   useEffect(() => {
     if (noticeError) {
@@ -111,6 +129,13 @@ const ResourcePage: React.FC = () => {
     }
   }, [noticeDeleteError]);
 
+  useEffect(() => {
+    if (isContestManagerError) {
+      message.error("管理员加载失败");
+      console.log(isContestManagerError.message)
+    }
+  }, [isContestManagerError]);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] = useState<GetContestNotices_contest_info>();
   const [form] = Form.useForm();
@@ -133,7 +158,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
+          contest_id: Contest_id,
         },
       });
     } else {
@@ -142,7 +167,7 @@ const ResourcePage: React.FC = () => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7",
+          contest_id: Contest_id,
         },
       });
     }
@@ -199,7 +224,7 @@ const ResourcePage: React.FC = () => {
             margin-top: 12px;
             margin-right: 24px;
           `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root" }
+          hidden={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
           onClick={() => setModalVisible(true)}
         >
           编辑新公告
@@ -388,7 +413,10 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               shape="round"
               icon={<DownloadOutlined />}
               size="small"
-              onClick={() => downloadFile(file)}
+              onClick={() => {
+                message.info("开始下载："+file.filename)
+                downloadFile(file)
+              }}
             >
               {file.filename}
             </Button>

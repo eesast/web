@@ -182,9 +182,9 @@ function App() {
             <Route path="/home">
               <HomeSite />
             </Route>
-            <Route path="/contest">
+            <AuthRoute path="/contest">
               <ContestSite />
-            </Route>
+            </AuthRoute>
 
             <AuthRoute path="/info">
               <InfoSite />

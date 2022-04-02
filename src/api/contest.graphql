@@ -1,3 +1,10 @@
+# 查询某ID用户是否为某比赛管理员
+query QueryContestManager($contest_id: uuid!, $user_id: String="") {
+  contest_manager(where: {contest_id: {_eq: $contest_id}, user_id: {_eq: $user_id}}) {
+    user_id
+  }
+}
+
 #插入队伍信息
 mutation InsertTeam(
  $team_name: String!
@@ -38,25 +45,6 @@ query IsTeamMember($_id: String!, $contest_id: uuid!) {
     team_id
   }
 }
-# 借由team_id获取team的所有信息
-query GetTeamInfo($team_id: uuid!) {
-  contest_team(where: {team_id: {_eq: $team_id}}) {
-    contest_id
-    contest_team_members {
-      user_id
-    }
-    invited_code
-    member_num
-    team_name
-    team_intro
-    team_leader
-    score
-    team_leader_id {
-      name
-      _id
-    }
-  }
-}
 
 # 借由team_id获取code的所有信息
 query GetCode($team_id: uuid!) {
@@ -70,9 +58,10 @@ query GetCode($team_id: uuid!) {
  }
 }
 
-query GetAllTeamInfo {
-  contest_team {
+query GetAllTeamInfo($contest_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}}) {
     team_name
+    created_at
     invited_code
     member_num
     score
@@ -80,23 +69,66 @@ query GetAllTeamInfo {
     status2
     status3
     team_id
+    submitted_code_num
+    team_contest_id {
+      contest_name
+    }
     team_intro
+    team_leader_id {
+      _id
+      class
+      email
+      name
+      phone
+    }
     contest_team_members {
       user_as_contest_team_member {
         _id
+        class
         email
         name
         phone
       }
     }
+  }
+}
+
+# 查询某只队伍的信息
+query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}, , team_id: {_eq: $team_id}}) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    status3
+    team_id
+    submitted_code_num
+    team_contest_id {
+      contest_name
+    }
+    team_intro
     team_leader_id {
+      _id
+      class
+      email
       name
       phone
-      email
-      _id
+    }
+    contest_team_members {
+      user_as_contest_team_member {
+        _id
+        class
+        email
+        name
+        phone
+      }
     }
   }
 }
+
 
 #插入队员
 mutation InsertTeamMember($team_id: uuid! , $user_id: String!) {
@@ -144,8 +176,8 @@ mutation DeleteAllTeamMember($team_id: uuid!) {
 }
 
 #在team_member中删除指定队员信息
-mutation DeleteTeamMember($user_id: String!) {
-  delete_contest_team_member(where: { user_id: { _eq: $user_id } }) {
+mutation DeleteTeamMember($user_id: String!, $team_id: uuid!) {
+  delete_contest_team_member(where: {user_id: {_eq: $user_id}, team_id: {_eq: $team_id}}) {
     affected_rows
   }
 }
@@ -161,7 +193,17 @@ query GetAllContest {
   }
 }
 
-#intropage用
+# 根据比赛id获取比赛信息
+query GetContestInfo($contest_id: uuid!) {
+  contest(where: {id: {_eq: $contest_id}}) {
+    contest_name
+    contest_type
+    description
+  }
+}
+
+
+#intropage用 现在换成contest_intro了
 query GetIntroContent($id: Int!) {
   article(where: { id: { _eq: $id } }) {
     content
@@ -179,22 +221,7 @@ mutation InsertCode($team_id: uuid!) {
     affected_rows
   }
 }
-##roominfo
-##query GetRoomInfo {
-##  thuai_room {
-##    thuai_room_teams {
-##      thuai_team {
-##        team_name
-##      }
-##    }
-##    room_id
-##    result
-##    status
-##    created_at
-##    show_id
-##  }
-##}
-#insert team into room
+
 mutation InsertRoom($team1_id: uuid, $team2_id: uuid) {
   insert_thuai_room_one(
     object: {
