@@ -22,12 +22,14 @@
 // export default NotFoundPage;
 
 import React, { useEffect, useState } from "react";
+
 import {useLocation} from "react-router-dom"
 import {
   Table,
   Typography,
   Row,
   Col,
+  Space,
   Button,
   Modal,
   Input,
@@ -39,7 +41,7 @@ import {
   Dropdown,
   Menu,
 } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
@@ -53,7 +55,7 @@ import type { TableProps } from "antd/lib/table";
 import { GetAllTeamInfo_contest_team, GetAllTeamInfo,GetAllTeamInfoVariables } from "../../api/types";
 import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
 //----回放信息------
-import { GetRoomInfo,GetRoomInfo_contest_room} from "../../api/types";
+import { GetRoomInfo,GetRoomInfo_contest_room, GetRoomInfoVariables} from "../../api/types";
 import { GetRoomInfo as GETROOMINFO } from "../../api/contest.graphql";
 //----插入room和team------
 import { InsertRoom, InsertRoomVariables } from "../../api/types";
@@ -86,6 +88,9 @@ import {
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
 import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
+import dayjs from "dayjs";
+
+const Highlighter = require('@types/react-hightlight-words')
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 const BattlePage: React.FC = () => {
@@ -130,9 +135,19 @@ const BattlePage: React.FC = () => {
   const {
     data: roomListData,
     loading: roomListLoading,
-    //error: teamListError,
+    error: teamListError,
     //refetch: refetchteamList,
-  } = useQuery<GetRoomInfo>(GETROOMINFO);
+  } = useQuery<GetRoomInfo,GetRoomInfoVariables>(GETROOMINFO,{
+    variables:{
+      contest_id: Contest_id
+    }
+  });
+  useEffect(() => {
+    if(teamListError){
+      message.error("获取对战信息失败");
+      console.log(teamListError.message);
+    }
+  })
   const [insertRoom, { error: insertRoomError }] = useMutation<
     InsertRoom,
     InsertRoomVariables
@@ -182,6 +197,7 @@ const BattlePage: React.FC = () => {
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [codeText, setCodeText] = useState("");
   const [opponentTeamId, setTeamId] = useState("");
+  const [searchText,setText] = useState("");
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
@@ -296,7 +312,7 @@ const BattlePage: React.FC = () => {
   const fight = () => {
     (async () => {
       try {
-        //console.log(teamId);
+        //console.log("您："+teamid+"  对手："+opponentTeamId);
         const roomId = await insertRoom({
           variables: {
             contest_id: Contest_id,
@@ -304,12 +320,13 @@ const BattlePage: React.FC = () => {
             team2_id: opponentTeamId,
           },
         });
-        await axios.post("room", {
-          //header: {},
-          room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: false, // 一个是紫方还是白方的标记
-        });
-        message.success("已发起对战");
+        console.log(roomId);
+        // await axios.post("room", {
+        //   //header: {},
+        //   room_id: roomId.data?.insert_contest_room_one?.room_id,
+        //   team_seq: false, // 一个是紫方还是白方的标记
+        // });
+        message.success("已发起对战!");
       } catch (e) {
         if (insertRoomError) {
           console.error("make room fail");
@@ -325,7 +342,7 @@ const BattlePage: React.FC = () => {
   const fight2 = () => {
     (async () => {
       try {
-        //console.log(teamId);
+        // console.log("您："+teamid+"  对手："+opponentTeamId);
         const roomId = await insertRoom({
           variables: {
             contest_id: Contest_id,
@@ -333,15 +350,16 @@ const BattlePage: React.FC = () => {
             team2_id: opponentTeamId,
           },
         });
-        await axios.post("room", {
-          //header: {},
-          room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: true,
-        });
-        message.success("已发起对战");
+        // await axios.post("room", {
+        //   //header: {},
+        //   room_id: roomId.data?.insert_contest_room_one?.room_id,
+        //   team_seq: true,
+        // });
+        message.success("已发起对战!");
+        console.log(roomId);
       } catch (e) {
         if (insertRoomError) {
-          console.error("make room fail");
+          console.error(insertRoomError.message);
           message.error("发起对战失败");
         } else {
           message.error("发起对战失败");
@@ -356,10 +374,10 @@ const BattlePage: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={() => fight()}>
-        紫方
+        红队
       </Menu.Item>
       <Menu.Item key="2" onClick={() => fight2()}>
-        白方
+        蓝队
       </Menu.Item>
     </Menu>
   );
@@ -387,12 +405,84 @@ const BattlePage: React.FC = () => {
       }
     })();
   };
+  // 渲染队伍列表
+
+  const handleSearch = (selectedKeys:any, confirm:any) => {
+    confirm();
+    setText(selectedKeys[0]);
+  };
+
+  const handleReset = (clearFilters:any) => {
+    clearFilters();
+    setText('');
+  };
+
 
   const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
       key: "team_name",
+      filterDropdown: (setSelectedKeys:any, selectedKeys:any, confirm:any, clearFilters:any) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            // ref={node => {
+            //    setInput(node);
+            // }}
+            placeholder={`搜索队伍`}
+            value={selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => handleSearch(selectedKeys, confirm)}
+            style={{ marginBottom: 8, display: 'block' }}
+          />
+          <Space>
+            <Button
+              type="primary"
+              onClick={() => handleSearch(selectedKeys, confirm)}
+              icon={<SearchOutlined />}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Search
+            </Button>
+            <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+              Reset
+            </Button>
+            {/* <Button
+              type="link"
+              size="small"
+              onClick={() => {
+                confirm({ closeDropdown: false });
+                this.setState({
+                  searchText: selectedKeys[0],
+                });
+              }}
+            >
+              Filter
+            </Button> */}
+          </Space>
+        </div>
+      ),
+      filterIcon: (filtered:any) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value:any, record:any) =>
+      record
+        ? record.toString().toLowerCase().includes(value.toLowerCase())
+        : '',
+    // onFilterDropdownVisibleChange: visible => {
+    //   if (visible) {
+    //     setTimeout(() => this.searchInput.select(), 100);
+    //   }
+    // },
+
+    render: (text,record) =>
+      // <Highlighter
+    //   highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+    //   searchWords={[searchText]}
+    //   autoEscape
+    //   textToHighlight={text ? text.toString() : ''}
+    // />
+    <div>{searchText}
+      {text}</div>
     },
     {
       title: "队长",
@@ -422,10 +512,14 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <Dropdown overlay={menu} trigger={["click"]}>
-          <a className="ant-dropdown-link" onClick={() => setfight(record)}>
-            对战 <DownOutlined />
-          </a>
+        <Dropdown overlay={menu} trigger={["click"]}  disabled={teamid === record.team_id}>
+          <Button
+          className="ant-dropdown-link"
+          // type="primary"
+          onClick={() => {setfight(record)}}
+          >
+            开战！ <DownOutlined />
+          </Button>
         </Dropdown>
       ),
     },
@@ -444,10 +538,17 @@ const BattlePage: React.FC = () => {
       key: "status",
     },
     {
-      title: "队名",
+      title: "对战双方",
       key: "team_name",
-      render: (text, record) =>
-        record.contest_room_teams.map((i)=>[i.contest_team.team_name+"  "]),
+      render: (text, record) =>{
+        return(
+          <div>
+          <Text>
+            {record.contest_room_teams[0].contest_team.team_name}<br/>
+            {record.contest_room_teams[1].contest_team.team_name}
+          </Text>
+         </div>
+        )}
     },
     {
       title: "结果",
@@ -455,9 +556,10 @@ const BattlePage: React.FC = () => {
       key: "result",
     },
     {
-      title: "时间",
+      title: "对战时间",
       dataIndex: "created_at",
       key: "created_at",
+      render:(text, record)=>dayjs(record.created_at).format('M-DD HH:mm:ss')
     },
     {
       title: "回放下载",
@@ -507,7 +609,7 @@ const BattlePage: React.FC = () => {
         </Row>
       </div>
       <div className={styles.list}>
-        <div style={{ width: "80%" }}>
+        <div style={{ width: "100%" }}>
           <Tabs type="card">
             <TabPane tab="天梯" key="1">
               <Table
@@ -515,6 +617,7 @@ const BattlePage: React.FC = () => {
                 loading={teamListLoading}
                 dataSource={teamListData?.contest_team}
                 columns={teamListColumns}
+                rowKey={record => record.team_id}
               />
             </TabPane>
             <TabPane tab="对战记录" key="2">
@@ -523,6 +626,7 @@ const BattlePage: React.FC = () => {
                 loading={roomListLoading}
                 dataSource={roomListData?.contest_room}
                 columns={roomListColumns}
+                rowKey={record => record.room_id}
               />
             </TabPane>
             <TabPane tab="编译信息" key="3">
@@ -625,7 +729,7 @@ const BattlePage: React.FC = () => {
         >
           <Form.Item>
             <Button
-              //onClick={() => {handleCodeChange(codeRole, codeText)}}
+              onClick={() => {handleCodeChange(codeRole, codeText)}}
               type="primary"
               htmlType="submit"
             >
