@@ -414,9 +414,8 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               icon={<DownloadOutlined />}
               size="small"
               onClick={() => {
-                message.info("开始下载:"+file.filename);
-                console.log(file);
-                downloadFile(file);
+                message.info("开始下载："+file.filename)
+                downloadFile(file)
               }}
             >
               {file.filename}

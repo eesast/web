@@ -557,7 +557,7 @@ const SubPage: React.FC<{
             />
         }
 
-        <Text >
+        <Text>
           {"队伍描述: "}
         </Text>
         <br />
