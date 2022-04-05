@@ -17,8 +17,17 @@ import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
-import { GetAllTeamInfo_contest_team, GetAllTeamInfo, GetAllTeamInfoVariables, QueryContestManager, QueryContestManagerVariables } from "../../api/types";
-import { GetAllTeamInfo as GETALLTEAMINFO, QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
+import {
+   GetAllTeamInfo_contest_team,
+   GetAllTeamInfo,
+   GetAllTeamInfoVariables,
+   QueryContestManager,
+   QueryContestManagerVariables,
+} from "../../api/types";
+import {
+  GetAllTeamInfo as GETALLTEAMINFO,
+  QueryContestManager as QUERY_CONTEST_MANAGER,
+} from "../../api/contest.graphql";
 //插入队员
 import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
 import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/contest.graphql";
@@ -96,6 +105,8 @@ const JoinPage: React.FC = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+
   useEffect(() => {
     if (teamListError) {
       message.error("队伍列表加载失败");
@@ -176,9 +187,10 @@ const JoinPage: React.FC = () => {
     {
       title: "队员",
       key: "team_member",
-      render: (text, record) =>
+      render: (text, record,index) =>
         record.contest_team_members.map((i) => [i.user_as_contest_team_member.name + "   "]),
-    },
+        //record.contest_team_members[0].user_as_contest_team_member.name,
+    }, // TODO: 此处有误
     {
       title: "队伍简介",
       dataIndex: "team_intro",
@@ -199,6 +211,7 @@ const JoinPage: React.FC = () => {
                 isleaderData?.contest_team.length !== 0 ||
                 ismemberData?.contest_team_member.length !== 0 ||
                 record.contest_team_members.length === 3
+
               }
             >
               加入
@@ -228,6 +241,7 @@ const JoinPage: React.FC = () => {
             </Modal>
           </Col>
         </Row>
+
       ),
     },
   ];
