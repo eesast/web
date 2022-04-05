@@ -589,7 +589,7 @@ const BattlePage: React.FC = () => {
       key: "name"
     },
     {
-      title:'上传代码',
+      title:'上传代码(AI.cpp)',
       key:"upload",
       dataIndex: "upload",
       render: (text,record) => (
@@ -645,6 +645,7 @@ const BattlePage: React.FC = () => {
               <Text strong>天梯对战</Text>
               <br />
               每场比赛支持最多两支队伍同时对战，请先通过编译再与他人对战！
+              <br />
               <Text strong>对战记录</Text>
               <br />
               各个历次对战的结果和回放文件。
