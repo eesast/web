@@ -22,27 +22,32 @@
 // export default NotFoundPage;
 
 import React, { useEffect, useState } from "react";
-
+import type {UploadFile, RcCustomRequestOptions} from "antd/lib/upload/interface"
 import {useLocation} from "react-router-dom"
 import {
   Table,
   Typography,
   Row,
   Col,
-  Space,
   Button,
-  Modal,
-  Input,
-  Radio,
   Result,
   Tabs,
   message,
   Form,
   Dropdown,
   Menu,
+  Upload,
+  Tag,
 } from "antd";
-import { DownOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  UploadOutlined,
+  DownloadOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
+import {getOSS,downloadFile} from "../../helpers/oss"
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
 //----根据队员信息查找队伍信息------
@@ -65,37 +70,38 @@ import { InsertRoom as INSERTROOM } from "../../api/contest.graphql";
 // import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
 import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
 import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
-import { GetCode as GETCODE } from "../../api/contest.graphql";
-import { GetCode, GetCodeVariables } from "../../api/types";
+// import { GetCode as GETCODE } from "../../api/contest.graphql";
+// import { GetCode, GetCodeVariables } from "../../api/types";
 //上传代码
-import {
-  UpsertCode1,
-  UpsertCode1Variables,
-  UpsertCode2,
-  UpsertCode2Variables,
-  UpsertCode3,
-  UpsertCode3Variables,
-  UpsertCode4,
-  UpsertCode4Variables,
-} from "../../api/types";
-import {
-  UpsertCode1 as UPSERTCODE1,
-  UpsertCode2 as UPSERTCODE2,
-  UpsertCode3 as UPSERTCODE3,
-  UpsertCode4 as UPSERTCODE4,
-} from "../../api/contest.graphql";
+// import {
+//   UpsertCode1,
+//   UpsertCode1Variables,
+//   UpsertCode2,
+//   UpsertCode2Variables,
+//   UpsertCode3,
+//   UpsertCode3Variables,
+//   UpsertCode4,
+//   UpsertCode4Variables,
+// } from "../../api/types";
+// import {
+//   UpsertCode1 as UPSERTCODE1,
+//   UpsertCode2 as UPSERTCODE2,
+//   UpsertCode3 as UPSERTCODE3,
+//   UpsertCode4 as UPSERTCODE4,
+// } from "../../api/contest.graphql";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
 import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
 import dayjs from "dayjs";
 
-const Highlighter = require('@types/react-hightlight-words')
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
+
+
+
 const BattlePage: React.FC = () => {
   const userInfo = getUserInfo();
-  const { TextArea } = Input;
   const location = useLocation();
   const Contest_id = location.pathname.split("/")[2].replace('}','');
 
@@ -165,55 +171,54 @@ const BattlePage: React.FC = () => {
       },
     }
   );
-  const { data: codeData } = useQuery<GetCode, GetCodeVariables>(GETCODE, {
-    variables: {
-      team_id: teamid!,
-    },
-  });
+  // const { data: codeData } = useQuery<GetCode, GetCodeVariables>(GETCODE, {
+  //   variables: {
+  //     team_id: teamid!,
+  //   },
+  // });
   //-----------------上传代码------------------、
-  const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
-    UpsertCode1,
-    UpsertCode1Variables
-  >(UPSERTCODE1);
+  // const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
+  //   UpsertCode1,
+  //   UpsertCode1Variables
+  // >(UPSERTCODE1);
 
-  const [upsertCode2, { data: code2, error: code2Error }] = useMutation<
-    UpsertCode2,
-    UpsertCode2Variables
-  >(UPSERTCODE2);
+  // const [upsertCode2, { data: code2, error: code2Error }] = useMutation<
+  //   UpsertCode2,
+  //   UpsertCode2Variables
+  // >(UPSERTCODE2);
 
-  const [upsertCode3, { data: code3, error: code3Error }] = useMutation<
-    UpsertCode3,
-    UpsertCode3Variables
-  >(UPSERTCODE3);
+  // const [upsertCode3, { data: code3, error: code3Error }] = useMutation<
+  //   UpsertCode3,
+  //   UpsertCode3Variables
+  // >(UPSERTCODE3);
 
-  const [upsertCode4, { data: code4, error: code4Error }] = useMutation<
-    UpsertCode4,
-    UpsertCode4Variables
-  >(UPSERTCODE4);
+  // const [upsertCode4, { data: code4, error: code4Error }] = useMutation<
+  //   UpsertCode4,
+  //   UpsertCode4Variables
+  // >(UPSERTCODE4);
 
-  const [showCodeModal, setShowCodeModal] = useState(false);
-  const [showCompileInfoModal, setShowCompileInfoModal] = useState(false);
-  const [showCodeContentModal, setShowCodeContentModal] = useState(false);
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
-  const [codeText, setCodeText] = useState("");
   const [opponentTeamId, setTeamId] = useState("");
-  const [searchText,setText] = useState("");
-  useEffect(() => {
-    if (code1Error || code2Error || code3Error || code4Error) {
-      message.error("上传代码失败");
-    } else if (code1 || code2 || code3 || code4) {
-      message.success("上传代码成功");
-    }
-  }, [
-    code1,
-    code1Error,
-    code2,
-    code2Error,
-    code3,
-    code3Error,
-    code4,
-    code4Error,
-  ]);
+  const [fileList1, setFileList1] = useState<UploadFile[]>([]);
+  const [fileList2, setFileList2] = useState<UploadFile[]>([]);
+  const [fileList3, setFileList3] = useState<UploadFile[]>([]);
+  const [fileList4, setFileList4] = useState<UploadFile[]>([]);
+  // useEffect(() => {
+  //   if (code1Error || code2Error || code3Error || code4Error) {
+  //     message.error("上传代码失败");
+  //   } else if (code1 || code2 || code3 || code4) {
+  //     message.success("上传代码成功");
+  //   }
+  // }, [
+  //   code1,
+  //   code1Error,
+  //   code2,
+  //   code2Error,
+  //   code3,
+  //   code3Error,
+  //   code4,
+  //   code4Error,
+  // ]);
 
   if (!teamid) {
     return (
@@ -233,49 +238,41 @@ const BattlePage: React.FC = () => {
     );
   }
 
-  const inputChange = (e: any) => {
-    setCodeText(e.target.value);
-  };
 
-  const handleCodeChange1 = async (codeText: any) => {
-    upsertCode1({ variables: { code: codeText, team_id: teamid! } });
-    //console.log(values);
-  };
-  const handleCodeChange2 = async (codeText: any) => {
-    upsertCode2({ variables: { code: codeText, team_id: teamid! } });
-  };
-  const handleCodeChange3 = async (codeText: any) => {
-    upsertCode3({ variables: { code: codeText, team_id: teamid! } });
-  };
-  const handleCodeChange4 = async (codeText: any) => {
-    upsertCode4({ variables: { code: codeText, team_id: teamid! } });
-  };
-  const handleCodeChange = (codeRole: any, codeText: any) => {
-    switch (codeRole) {
-      case 1:
-        handleCodeChange1(codeText);
-        break;
-      case 2:
-        handleCodeChange2(codeText);
-        break;
-      case 3:
-        handleCodeChange3(codeText);
-        break;
-      case 4:
-        handleCodeChange4(codeText);
-        break;
-      default:
-        break;
-    }
-  };
-  const handleCodeModal = () => {
-    setShowCodeModal(!showCodeModal);
-  };
+  // TODO: CodeText 变成上传最新代码的日期储存起来
 
-  const handleCompileInfoModal = () => {
-    setShowCompileInfoModal(false);
-    setShowCodeModal(true);
-  };
+  // const handleCodeChange1 = async (codeText: any) => {
+  //   upsertCode1({ variables: { code: codeText, team_id: teamid! } });
+  //   //console.log(values);
+  // };
+  // const handleCodeChange2 = async (codeText: any) => {
+  //   upsertCode2({ variables: { code: codeText, team_id: teamid! } });
+  // };
+  // const handleCodeChange3 = async (codeText: any) => {
+  //   upsertCode3({ variables: { code: codeText, team_id: teamid! } });
+  // };
+  // const handleCodeChange4 = async (codeText: any) => {
+  //   upsertCode4({ variables: { code: codeText, team_id: teamid! } });
+  // };
+  // const handleCodeChange = (codeRole: any, codeText: any) => {
+  //   switch (codeRole) {
+  //     case 1:
+  //       handleCodeChange1(codeText);
+  //       break;
+  //     case 2:
+  //       handleCodeChange2(codeText);
+  //       break;
+  //     case 3:
+  //       handleCodeChange3(codeText);
+  //       break;
+  //     case 4:
+  //       handleCodeChange4(codeText);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
   const downloadcompile = async () => {
     try {
       const response = await axios.get(`code/logs/${teamid}`, {
@@ -291,6 +288,25 @@ const BattlePage: React.FC = () => {
       }
     }
   };
+
+  const CompiledTag: React.FC = ()=>{
+    if (teamData?.contest_team[0].status==="compiled")
+    return(
+      <div>
+      <Tag icon={<CheckCircleOutlined />} color="success">
+        success
+      </Tag>
+      </div>
+    )
+   else{
+    return(
+      <Tag icon={<CloseCircleOutlined />} color="error">
+        failed
+      </Tag>
+    )
+   }
+
+  }
   //点击下载回放
   //TODO: 下载格式待商议
   // const download = async (record: GetRoomInfo) => {
@@ -381,10 +397,58 @@ const BattlePage: React.FC = () => {
       </Menu.Item>
     </Menu>
   );
-  const handleCodeContentModal = () => {
-    setShowCodeContentModal(false);
-    setShowCodeModal(true);
+
+  const handleUpload = async (e: RcCustomRequestOptions) => {
+      const oss = await getOSS();
+      //console.log(`THUAI5/${teamid}/player${codeRole.toString()}`)
+      const url = `/THUAI5/${teamid}/player${codeRole.toString()}`;
+      const result = await oss.multipartUpload(
+        url,
+      e.file,
+      {
+        progress: (progress) =>
+          e.onProgress({ percent: progress * 100 }, e.file),
+      }
+    );
+
+    if (result.res.status === 200) {
+      e.onSuccess(result.res, e.file);
+      //handleCodeChange(codeRole, url);
+    } else {
+      e.onError(new Error());
+    }
   };
+
+  const handleRemove = async (file: UploadFile) => {
+    if (file.response?.status === 200) {
+      const oss = await getOSS();
+      await oss.delete(`/THUAI5/${teamid}/player${codeRole}.cpp`);
+    }
+  };
+
+  const handleOnchange = async (info:any)=>{
+    if (info.fileList.length === 2) {
+      info.fileList = info.fileList.slice(-1);
+      message.warning("一名角色对应一份代码文件！");
+    }
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} → P${codeRole} 上传成功`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} → P${codeRole} 上传失败`);
+    }
+    switch(codeRole){
+      case 1: setFileList1(info.fileList);break;
+      case 2: setFileList2(info.fileList);break;
+      case 3: setFileList3(info.fileList);break;
+      case 4: setFileList4(info.fileList);break;
+      default: break;
+    }
+
+
+  }
 
   const handleCodeCompile = () => {
     (async () => {
@@ -406,83 +470,11 @@ const BattlePage: React.FC = () => {
     })();
   };
   // 渲染队伍列表
-
-  const handleSearch = (selectedKeys:any, confirm:any) => {
-    confirm();
-    setText(selectedKeys[0]);
-  };
-
-  const handleReset = (clearFilters:any) => {
-    clearFilters();
-    setText('');
-  };
-
-
   const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
       key: "team_name",
-      filterDropdown: (setSelectedKeys:any, selectedKeys:any, confirm:any, clearFilters:any) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            // ref={node => {
-            //    setInput(node);
-            // }}
-            placeholder={`搜索队伍`}
-            value={selectedKeys[0]}
-            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-            onPressEnter={() => handleSearch(selectedKeys, confirm)}
-            style={{ marginBottom: 8, display: 'block' }}
-          />
-          <Space>
-            <Button
-              type="primary"
-              onClick={() => handleSearch(selectedKeys, confirm)}
-              icon={<SearchOutlined />}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Search
-            </Button>
-            <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-              Reset
-            </Button>
-            {/* <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                confirm({ closeDropdown: false });
-                this.setState({
-                  searchText: selectedKeys[0],
-                });
-              }}
-            >
-              Filter
-            </Button> */}
-          </Space>
-        </div>
-      ),
-      filterIcon: (filtered:any) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value:any, record:any) =>
-      record
-        ? record.toString().toLowerCase().includes(value.toLowerCase())
-        : '',
-    // onFilterDropdownVisibleChange: visible => {
-    //   if (visible) {
-    //     setTimeout(() => this.searchInput.select(), 100);
-    //   }
-    // },
-
-    render: (text,record) =>
-      // <Highlighter
-    //   highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-    //   searchWords={[searchText]}
-    //   autoEscape
-    //   textToHighlight={text ? text.toString() : ''}
-    // />
-    <div>{searchText}
-      {text}</div>
     },
     {
       title: "队长",
@@ -533,11 +525,6 @@ const BattlePage: React.FC = () => {
     //   defaultSortOrder: "descend",
     // },
     {
-      title: "状态",
-      dataIndex: "status",
-      key: "status",
-    },
-    {
       title: "对战双方",
       key: "team_name",
       render: (text, record) =>{
@@ -548,8 +535,14 @@ const BattlePage: React.FC = () => {
             {record.contest_room_teams[1].contest_team.team_name}
           </Text>
          </div>
-        )}
+        )},
     },
+    {
+      title: "状态",
+      dataIndex: "status",
+      key: "status",
+    },
+
     {
       title: "结果",
       dataIndex: "result",
@@ -575,6 +568,71 @@ const BattlePage: React.FC = () => {
       ),
     },
   ];
+  interface Playerprops {
+    key:number,
+    name:string,
+    status:string,
+    filelist: UploadFile[],
+  }
+
+  const playerList = [
+    {key:1,name:'P1',status:'nice',filelist:fileList1},
+    {key:2,name:'P2',status:'nice',filelist:fileList2},
+    {key:3,name:'P3',status:'nice',filelist:fileList3},
+    {key:4,name:'P4',status:'nice',filelist:fileList4}
+  ]
+
+  const playerListColumns:TableProps<Playerprops>["columns"] = [
+    {
+      title:'AI角色',
+      dataIndex: "name",
+      key: "name"
+    },
+    {
+      title:'上传代码',
+      key:"upload",
+      dataIndex: "upload",
+      render: (text,record) => (
+        <Upload
+        accept = ".cpp"
+        customRequest={handleUpload}
+        onChange={handleOnchange}
+        onRemove={handleRemove}
+        multiple
+        fileList={record.filelist}
+      >
+        <Button onClick={()=>{
+          //console.log(record)
+          setCodeRole(record.key)
+          }}>
+          <UploadOutlined /> 上传
+        </Button>
+      </Upload>
+      )
+
+  },
+    {
+      title:'下载代码',
+      key:"download",
+      render: (text,record) => (
+      <Row justify = "start">
+      <Button onClick = {()=>{
+        setCodeRole(record.key);
+        const codefile = {
+          filename: `Player${codeRole}.cpp`,
+          url: `/THUAI5/${teamid}/player${codeRole}`
+        }
+        message.info("开始下载:"+codefile.filename);
+        downloadFile(codefile).catch(e=>{
+          message.error("下载失败");
+        })
+      }}>
+        <DownloadOutlined/>下载
+        </Button>
+    </Row>)
+
+    }
+  ]
 
   return (
     <div className={styles.root}>
@@ -599,11 +657,11 @@ const BattlePage: React.FC = () => {
           </Col>
           <Col span={12}>
             <Row gutter={[16, 16]} justify="end">
-              <Col span={24}>
+              {/* <Col span={24}>
                 <Button size="large" onClick={handleCodeModal}>
                   代码管理
                 </Button>
-              </Col>
+              </Col> */}
             </Row>
           </Col>
         </Row>
@@ -629,7 +687,7 @@ const BattlePage: React.FC = () => {
                 rowKey={record => record.room_id}
               />
             </TabPane>
-            <TabPane tab="编译信息" key="3">
+            <TabPane tab="代码管理" key="3">
               <Form
                 name="form"
                 //form={form} //表单名字绑定
@@ -638,11 +696,38 @@ const BattlePage: React.FC = () => {
                 //onFinish={onFinish}
                 //onFinishFailed={onFinishFailed}
               >
-                <Form.Item label="编译状态" name="status">
-                  <span>{teamData?.contest_team[0].status}</span>
-                </Form.Item>
+                <Table
+                dataSource={playerList}
+                columns={playerListColumns}
+                onRow={record=>{
+                  return{
+                    onMouseEnter: event => {
+                      setCodeRole(record.key);
+                      //console.log("鼠标事件"+codeRole);
+                  }
+                }}}
+                />
 
-                <Form.Item>
+                <Form.Item name="status">
+                <Row>
+                  <Col>
+                    <Text>编译状态：</Text>
+                  </Col>
+                  <Col span= {9}>
+                  <CompiledTag/>
+                  </Col>
+                  <Col span= {3}>
+                  <Button
+                  type="primary"
+                  onClick={() => {
+                  handleCodeCompile();
+                  message.info("编译需要一段时间，请稍后刷新以查看");
+                }}
+              >
+              编译代码
+            </Button>
+                  </Col>
+                  <Col span={6}>
                   <Button
                     type="primary"
                     onClick={downloadcompile}
@@ -650,8 +735,10 @@ const BattlePage: React.FC = () => {
                   >
                     下载编译信息
                   </Button>
+                  </Col>
+                </Row>
                 </Form.Item>
-                <Form.Item label="code1" name="status">
+                {/* <Form.Item label="code1" name="status">
                   <TextArea
                     rows={10}
                     disabled={false}
@@ -678,94 +765,12 @@ const BattlePage: React.FC = () => {
                     disabled={false}
                     defaultValue={codeData?.contest_code[0].code4 + " "}
                   />
-                </Form.Item>
+                </Form.Item> */}
               </Form>
             </TabPane>
           </Tabs>
         </div>
       </div>
-      <Modal
-        title="代码管理"
-        width="50%"
-        visible={showCodeModal}
-        closable
-        footer={null}
-        onCancel={handleCodeModal}
-      >
-        <Row justify="space-between">
-          <Col span={8}></Col>
-          <Col span={8}>
-            AI角色
-            <Radio.Group
-              value={codeRole}
-              onChange={(event) => {
-                setCodeRole(event.target.value);
-              }}
-            >
-              <Radio value={1}>1</Radio>
-              <Radio value={2}>2</Radio>
-              <Radio value={3}>3</Radio>
-              <Radio value={4}>4</Radio>
-            </Radio.Group>
-          </Col>
-          <Col span={4}></Col>
-          <Col span={4}>
-            <Button
-              type="primary"
-              onClick={() => {
-                handleCodeCompile();
-                message.info("编译需要一段时间，请稍后刷新以查看");
-              }}
-            >
-              编译
-            </Button>
-          </Col>
-        </Row>
-        <Form
-          onFinish={() => {
-            handleCodeChange(codeRole, codeText);
-            setCodeText("");
-          }}
-        >
-          <Form.Item>
-            <Button
-              onClick={() => {handleCodeChange(codeRole, codeText)}}
-              type="primary"
-              htmlType="submit"
-            >
-              上传代码
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <TextArea
-              placeholder="输入完整代码"
-              defaultValue=""
-              onChange={(e) => inputChange(e)}
-              value={codeText}
-              allowClear={true}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-      <Modal
-        visible={showCompileInfoModal}
-        title="编译结果"
-        closable
-        footer={null}
-        onCancel={handleCompileInfoModal}
-      ></Modal>
-      <Modal
-        visible={showCodeContentModal}
-        title="代码"
-        closable
-        footer={null}
-        onCancel={handleCodeContentModal}
-      >
-        <Button id="copyButton">复制代码</Button>
-        {/* <div style={{ whiteSpace: "pre" }} id="codeContent">
-          {showCodeContent}
-        </div> */}
-      </Modal>
     </div>
   );
 };
