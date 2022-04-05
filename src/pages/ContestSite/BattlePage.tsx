@@ -642,17 +642,17 @@ const BattlePage: React.FC = () => {
           <Col span={12}>
             <Typography>
               <Title level={4}>Tips</Title>
+              <Text strong>天梯对战</Text>
+              <br />
+              每场比赛支持最多两支队伍同时对战，请先通过编译再与他人对战！
+              <Text strong>对战记录</Text>
+              <br />
+              各个历次对战的结果和回放文件。
+              <br />
               <Text strong>代码管理</Text>
               <br />
-              四个角色，各一份代码。我们只会保留最新的一整份代码供操作。
+              四个角色，各一份代码。请上传对应角色的AI.cpp文件。我们只会保留最新的一整份代码供操作，您可以下载到此份代码。
               <br />
-              <Text strong>历史记录</Text>
-              <br />
-              历次对战的结果和回放文件。
-              <br />
-              <Text strong>对战</Text>
-              <br />
-              每场比赛支持最多两支队伍同时对战
             </Typography>
           </Col>
           <Col span={12}>
