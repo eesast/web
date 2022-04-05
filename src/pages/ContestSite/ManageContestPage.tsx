@@ -513,21 +513,21 @@ const SubPage: React.FC<{
           lineHeight: "30px"
         }}
       >
-        <Text style={{ fontWeight: "700" }}>
+        <Text>
           {"队名: "}
         </Text>
         <Text>
           {teamData?.contest_team[0].team_name}
         </Text>
         <br />
-        <Text style={{ fontWeight: "700" }}>
+        <Text>
           {"队长: "}
         </Text>
         <Text>
           {teamData?.contest_team[0].team_leader_id?.name}
         </Text>
         <br />
-        <Text style={{ fontWeight: "700" }}>
+        <Text>
           {"队员: "}
         </Text>
         {
@@ -557,7 +557,7 @@ const SubPage: React.FC<{
             />
         }
 
-        <Text style={{ fontWeight: "700" }}>
+        <Text>
           {"队伍描述: "}
         </Text>
         <br />
@@ -565,7 +565,7 @@ const SubPage: React.FC<{
           {teamData?.contest_team[0].team_intro}
         </Text>
         <br />
-        <Text style={{ fontWeight: "700" }}>
+        <Text>
           {"已提交代码数: "}
         </Text>
         <Text>
