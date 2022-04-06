@@ -47,14 +47,14 @@ query IsTeamMember($_id: String!, $contest_id: uuid!) {
 }
 
 # 借由team_id获取code的所有信息
-query GetCode($team_id: uuid!) {
+query GetCodeUpdateTime($team_id: uuid!) {
  contest_code(where: {team_id: {_eq: $team_id}}) {
-   code1
-   code2
-   code3
-   code4
-   code5
-   code6
+   code1_update_time
+   code2_update_time
+   code3_update_time
+   code4_update_time
+   code5_update_time
+   code6_update_time
  }
 }
 
@@ -266,74 +266,62 @@ mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!,$team2_id: uuid!) {
 
 
 #上传选手代码（原有：更新，无：插入）
-mutation UpsertCode1(
-  $code: String = ""
-  $team_id: uuid!
-) {
-  insert_thuai_code_one(
+mutation UpsertCode1($code: String!, $code1_update_time: timestamptz!, $team_id: uuid!,$contest_id:uuid!) {
+  insert_contest_code_one(
     object: {
-      code_1: $code
+      code1: $code,
+      code1_update_time: $code1_update_time,
       team_id: $team_id
+      contest_id: $contest_id
     }
-    on_conflict: {
-      constraint: thuai_code_pkey
-      update_columns: [code_1]
-    }
-  ) {
-    team_id
+    on_conflict: {constraint: contest_code_pkey,
+      update_columns: code1_update_time
+    }){
+    code1_update_time
   }
 }
 
-mutation UpsertCode2(
-  $code: String = ""
-  $team_id: uuid!
-) {
-  insert_thuai_code_one(
+mutation UpsertCode2($code: String!, $code2_update_time: timestamptz!, $team_id: uuid!,$contest_id: uuid!) {
+  insert_contest_code_one(
     object: {
-      code_2: $code
-      team_id: $team_id
+      code2: $code,
+      code2_update_time: $code2_update_time,
+      team_id: $team_id,
+      contest_id: $contest_id
     }
-    on_conflict: {
-      constraint: thuai_code_pkey
-      update_columns: [code_2]
-    }
-  ) {
-    team_id
+    on_conflict: {constraint: contest_code_pkey,
+      update_columns: code2_update_time
+    }){
+    code2_update_time
   }
 }
 
-mutation UpsertCode3(
-  $code: String = ""
-  $team_id: uuid!
-) {
-  insert_thuai_code_one(
+mutation UpsertCode3($code: String!, $code3_update_time: timestamptz!, $team_id: uuid!,$contest_id: uuid!) {
+  insert_contest_code_one(
     object: {
-      code_3: $code
-      team_id: $team_id
+      code3: $code,
+      code3_update_time: $code3_update_time,
+      team_id: $team_id,
+      contest_id: $contest_id
     }
-    on_conflict: {
-      constraint: thuai_code_pkey
-      update_columns: [code_3]
-    }
-  ) {
-    team_id
+    on_conflict: {constraint: contest_code_pkey,
+      update_columns: code3_update_time
+    }){
+    code3_update_time
   }
 }
 
-mutation UpsertCode4(
-  $code: String = ""
-  $team_id: uuid!
-) {
-  insert_thuai_code_one(
+mutation UpsertCode4($code: String!, $code4_update_time: timestamptz!, $team_id: uuid!,$contest_id: uuid!) {
+  insert_contest_code_one(
     object: {
-      code_4: $code
-      team_id: $team_id
+      code4: $code,
+      code4_update_time: $code4_update_time,
+      team_id: $team_id,
+      contest_id: $contest_id
     }
-    on_conflict: {
-      constraint: thuai_code_pkey
-      update_columns: [code_4]
-    }
-  ) {
-    team_id
+    on_conflict: {constraint: contest_code_pkey,
+      update_columns: code4_update_time
+    }){
+    code4_update_time
   }
 }
