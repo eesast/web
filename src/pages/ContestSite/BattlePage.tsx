@@ -38,6 +38,7 @@ import {
   Menu,
   Upload,
   Tag,
+  Space,
 } from "antd";
 import {
   DownOutlined,
@@ -70,25 +71,25 @@ import { InsertRoom as INSERTROOM } from "../../api/contest.graphql";
 // import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
 import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
 import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
-// import { GetCode as GETCODE } from "../../api/contest.graphql";
-// import { GetCode, GetCodeVariables } from "../../api/types";
+import { GetCodeUpdateTime as GETCODETIME } from "../../api/contest.graphql";
+import { GetCodeUpdateTime, GetCodeUpdateTimeVariables } from "../../api/types";
 //上传代码
-// import {
-//   UpsertCode1,
-//   UpsertCode1Variables,
-//   UpsertCode2,
-//   UpsertCode2Variables,
-//   UpsertCode3,
-//   UpsertCode3Variables,
-//   UpsertCode4,
-//   UpsertCode4Variables,
-// } from "../../api/types";
-// import {
-//   UpsertCode1 as UPSERTCODE1,
-//   UpsertCode2 as UPSERTCODE2,
-//   UpsertCode3 as UPSERTCODE3,
-//   UpsertCode4 as UPSERTCODE4,
-// } from "../../api/contest.graphql";
+import {
+  UpsertCode1,
+  UpsertCode1Variables,
+  UpsertCode2,
+  UpsertCode2Variables,
+  UpsertCode3,
+  UpsertCode3Variables,
+  UpsertCode4,
+  UpsertCode4Variables,
+} from "../../api/types";
+import {
+  UpsertCode1 as UPSERTCODE1,
+  UpsertCode2 as UPSERTCODE2,
+  UpsertCode3 as UPSERTCODE3,
+  UpsertCode4 as UPSERTCODE4,
+} from "../../api/contest.graphql";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
@@ -171,31 +172,50 @@ const BattlePage: React.FC = () => {
       },
     }
   );
-  // const { data: codeData } = useQuery<GetCode, GetCodeVariables>(GETCODE, {
-  //   variables: {
-  //     team_id: teamid!,
-  //   },
-  // });
+
+
+  const { data: codetimeData, refetch:refectCodeTime} = useQuery<GetCodeUpdateTime, GetCodeUpdateTimeVariables>(GETCODETIME, {
+    variables: {
+      team_id: teamid!,
+    },
+  });
+  useEffect(()=>{
+    if (codetimeData?.contest_code.length === 1){
+      if(codetimeData?.contest_code[0].code1_update_time){
+        setTime1(dayjs(codetimeData?.contest_code[0].code1_update_time).format("M-DD HH:mm:ss"));
+      }
+      if(codetimeData?.contest_code[0].code2_update_time){
+        setTime2(dayjs(codetimeData?.contest_code[0].code2_update_time).format("M-DD HH:mm:ss"));
+      }
+      if(codetimeData?.contest_code[0].code3_update_time){
+        setTime3(dayjs(codetimeData?.contest_code[0].code3_update_time).format("M-DD HH:mm:ss"));
+      }
+      if(codetimeData?.contest_code[0].code4_update_time){
+        setTime4(dayjs(codetimeData?.contest_code[0].code4_update_time).format("M-DD HH:mm:ss"));
+
+      }
+    }
+  },[codetimeData])
   //-----------------上传代码------------------、
-  // const [upsertCode1, { data: code1, error: code1Error }] = useMutation<
-  //   UpsertCode1,
-  //   UpsertCode1Variables
-  // >(UPSERTCODE1);
+  const [upsertCode1, { data: code1updatetime, error: code1Error }] = useMutation<
+    UpsertCode1,
+    UpsertCode1Variables
+  >(UPSERTCODE1);
 
-  // const [upsertCode2, { data: code2, error: code2Error }] = useMutation<
-  //   UpsertCode2,
-  //   UpsertCode2Variables
-  // >(UPSERTCODE2);
+  const [upsertCode2, { data: code2updatetime, error: code2Error }] = useMutation<
+    UpsertCode2,
+    UpsertCode2Variables
+  >(UPSERTCODE2);
 
-  // const [upsertCode3, { data: code3, error: code3Error }] = useMutation<
-  //   UpsertCode3,
-  //   UpsertCode3Variables
-  // >(UPSERTCODE3);
+  const [upsertCode3, { data: code3updatetime, error: code3Error }] = useMutation<
+    UpsertCode3,
+    UpsertCode3Variables
+  >(UPSERTCODE3);
 
-  // const [upsertCode4, { data: code4, error: code4Error }] = useMutation<
-  //   UpsertCode4,
-  //   UpsertCode4Variables
-  // >(UPSERTCODE4);
+  const [upsertCode4, { data: code4updatetime, error: code4Error }] = useMutation<
+    UpsertCode4,
+    UpsertCode4Variables
+  >(UPSERTCODE4);
 
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [opponentTeamId, setTeamId] = useState("");
@@ -203,22 +223,36 @@ const BattlePage: React.FC = () => {
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [fileList3, setFileList3] = useState<UploadFile[]>([]);
   const [fileList4, setFileList4] = useState<UploadFile[]>([]);
-  // useEffect(() => {
-  //   if (code1Error || code2Error || code3Error || code4Error) {
-  //     message.error("上传代码失败");
-  //   } else if (code1 || code2 || code3 || code4) {
-  //     message.success("上传代码成功");
-  //   }
-  // }, [
-  //   code1,
-  //   code1Error,
-  //   code2,
-  //   code2Error,
-  //   code3,
-  //   code3Error,
-  //   code4,
-  //   code4Error,
-  // ]);
+  const [time1,setTime1] = useState("未上传");
+  const [time2,setTime2] = useState("未上传");
+  const [time3,setTime3] = useState("未上传");
+  const [time4,setTime4] = useState("未上传");
+  useEffect(() => {
+    if (code1Error || code2Error || code3Error || code4Error) {
+      message.error("上传代码失败");
+    } else if (code1updatetime){
+      setTime1(dayjs(code1updatetime.insert_contest_code_one?.code1_update_time).format("M-DD HH:mm:ss"))
+    }
+    else if (code2updatetime){
+      setTime2(dayjs(code2updatetime.insert_contest_code_one?.code2_update_time).format("M-DD HH:mm:ss"))
+    }
+    else if (code3updatetime){
+      setTime3(dayjs(code3updatetime.insert_contest_code_one?.code3_update_time).format("M-DD HH:mm:ss"))
+    }
+    else if (code4updatetime){
+      setTime4(dayjs(code4updatetime.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"))
+    }
+    }
+  , [
+    code1updatetime,
+    code1Error,
+    code2updatetime,
+    code2Error,
+    code3updatetime,
+    code3Error,
+    code4updatetime,
+    code4Error,
+  ]);
 
   if (!teamid) {
     return (
@@ -239,39 +273,39 @@ const BattlePage: React.FC = () => {
   }
 
 
-  // TODO: CodeText 变成上传最新代码的日期储存起来
-
-  // const handleCodeChange1 = async (codeText: any) => {
-  //   upsertCode1({ variables: { code: codeText, team_id: teamid! } });
-  //   //console.log(values);
-  // };
-  // const handleCodeChange2 = async (codeText: any) => {
-  //   upsertCode2({ variables: { code: codeText, team_id: teamid! } });
-  // };
-  // const handleCodeChange3 = async (codeText: any) => {
-  //   upsertCode3({ variables: { code: codeText, team_id: teamid! } });
-  // };
-  // const handleCodeChange4 = async (codeText: any) => {
-  //   upsertCode4({ variables: { code: codeText, team_id: teamid! } });
-  // };
-  // const handleCodeChange = (codeRole: any, codeText: any) => {
-  //   switch (codeRole) {
-  //     case 1:
-  //       handleCodeChange1(codeText);
-  //       break;
-  //     case 2:
-  //       handleCodeChange2(codeText);
-  //       break;
-  //     case 3:
-  //       handleCodeChange3(codeText);
-  //       break;
-  //     case 4:
-  //       handleCodeChange4(codeText);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+  //上传最新代码的日期储存起来
+  let now = dayjs();
+  const handleCodeChange1 = async (url:string) => {
+    upsertCode1({ variables: { code:url,code1_update_time: now! ,team_id: teamid!,contest_id:Contest_id! } });
+    //console.log(values);
+  };
+  const handleCodeChange2 = async (url:string) => {
+    upsertCode2({ variables: { code:url,code2_update_time: now! ,team_id: teamid!,contest_id:Contest_id! } });
+  };
+  const handleCodeChange3 = async (url: string) => {
+    upsertCode3({ variables: { code: url,code3_update_time: now! ,team_id: teamid!,contest_id:Contest_id!} });
+  };
+  const handleCodeChange4 = async (url: string) => {
+    upsertCode4({ variables: { code: url,code4_update_time: now! ,team_id: teamid!,contest_id:Contest_id! } });
+  };
+  const handleCodeChange = (url:string, codeRole: any) => {
+    switch (codeRole) {
+      case 1:
+        handleCodeChange1(url);
+        break;
+      case 2:
+        handleCodeChange2(url);
+        break;
+      case 3:
+        handleCodeChange3(url);
+        break;
+      case 4:
+        handleCodeChange4(url);
+        break;
+      default:
+        break;
+    }
+  };
 
   const downloadcompile = async () => {
     try {
@@ -413,7 +447,8 @@ const BattlePage: React.FC = () => {
 
     if (result.res.status === 200) {
       e.onSuccess(result.res, e.file);
-      //handleCodeChange(codeRole, url);
+      handleCodeChange(url,codeRole);
+      refectCodeTime();
     } else {
       e.onError(new Error());
     }
@@ -516,6 +551,7 @@ const BattlePage: React.FC = () => {
       ),
     },
   ];
+  const teamName = teamData?.contest_team[0]?.team_name||"null";
   const roomListColumns: TableProps<GetRoomInfo_contest_room>["columns"] = [
     // {
     //   title: "ID",
@@ -527,6 +563,11 @@ const BattlePage: React.FC = () => {
     {
       title: "对战双方",
       key: "team_name",
+      filters: [{
+        text: '只看自己',
+        value: teamName,
+      }],
+      onFilter:(value,record) => (record.contest_room_teams[0].contest_team.team_name===value)||(record.contest_room_teams[1].contest_team.team_name===value),
       render: (text, record) =>{
         return(
           <div>
@@ -571,15 +612,17 @@ const BattlePage: React.FC = () => {
   interface Playerprops {
     key:number,
     name:string,
-    status:string,
+    updatetime:string,
     filelist: UploadFile[],
   }
 
+
+
   const playerList = [
-    {key:1,name:'P1',status:'nice',filelist:fileList1},
-    {key:2,name:'P2',status:'nice',filelist:fileList2},
-    {key:3,name:'P3',status:'nice',filelist:fileList3},
-    {key:4,name:'P4',status:'nice',filelist:fileList4}
+    {key:1,name:'P1',updatetime:time1,filelist:fileList1},
+    {key:2,name:'P2',updatetime:time2,filelist:fileList2},
+    {key:3,name:'P3',updatetime:time3,filelist:fileList3},
+    {key:4,name:'P4',updatetime:time4,filelist:fileList4}
   ]
 
   const playerListColumns:TableProps<Playerprops>["columns"] = [
@@ -587,6 +630,11 @@ const BattlePage: React.FC = () => {
       title:'AI角色',
       dataIndex: "name",
       key: "name"
+    },
+    {
+      title:'代码更新时间',
+      dataIndex: "updatetime",
+      key:"time",
     },
     {
       title:'上传代码(AI.cpp)',
@@ -711,12 +759,14 @@ const BattlePage: React.FC = () => {
 
                 <Form.Item name="status">
                 <Row>
+
                   <Col>
                     <Text>编译状态：</Text>
                   </Col>
-                  <Col span= {9}>
+                  <Col span= {13}>
                   <CompiledTag/>
                   </Col>
+                  <Space>
                   <Col span= {3}>
                   <Button
                   type="primary"
@@ -737,6 +787,7 @@ const BattlePage: React.FC = () => {
                     下载编译信息
                   </Button>
                   </Col>
+                  </Space>
                 </Row>
                 </Form.Item>
                 {/* <Form.Item label="code1" name="status">

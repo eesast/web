@@ -590,27 +590,27 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetCode
+// GraphQL query operation: GetCodeUpdateTime
 // ====================================================
 
-export interface GetCode_contest_code {
+export interface GetCodeUpdateTime_contest_code {
   __typename: "contest_code";
-  code1: string;
-  code2: string;
-  code3: string | null;
-  code4: string | null;
-  code5: string | null;
-  code6: string | null;
+  code1_update_time: any | null;
+  code2_update_time: any | null;
+  code3_update_time: any | null;
+  code4_update_time: any | null;
+  code5_update_time: any | null;
+  code6_update_time: any | null;
 }
 
-export interface GetCode {
+export interface GetCodeUpdateTime {
   /**
    * fetch data from the table: "contest_code"
    */
-  contest_code: GetCode_contest_code[];
+  contest_code: GetCodeUpdateTime_contest_code[];
 }
 
-export interface GetCodeVariables {
+export interface GetCodeUpdateTimeVariables {
   team_id: any;
 }
 
@@ -1193,21 +1193,23 @@ export interface InsertRoomVariables {
 // GraphQL mutation operation: UpsertCode1
 // ====================================================
 
-export interface UpsertCode1_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode1_insert_contest_code_one {
+  __typename: "contest_code";
+  code1_update_time: any | null;
 }
 
 export interface UpsertCode1 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode1_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode1_insert_contest_code_one | null;
 }
 
 export interface UpsertCode1Variables {
-  code?: string | null;
+  code: string;
+  code1_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -1219,21 +1221,23 @@ export interface UpsertCode1Variables {
 // GraphQL mutation operation: UpsertCode2
 // ====================================================
 
-export interface UpsertCode2_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode2_insert_contest_code_one {
+  __typename: "contest_code";
+  code2_update_time: any | null;
 }
 
 export interface UpsertCode2 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode2_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode2_insert_contest_code_one | null;
 }
 
 export interface UpsertCode2Variables {
-  code?: string | null;
+  code: string;
+  code2_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -1245,21 +1249,23 @@ export interface UpsertCode2Variables {
 // GraphQL mutation operation: UpsertCode3
 // ====================================================
 
-export interface UpsertCode3_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode3_insert_contest_code_one {
+  __typename: "contest_code";
+  code3_update_time: any | null;
 }
 
 export interface UpsertCode3 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode3_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode3_insert_contest_code_one | null;
 }
 
 export interface UpsertCode3Variables {
-  code?: string | null;
+  code: string;
+  code3_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -1271,21 +1277,23 @@ export interface UpsertCode3Variables {
 // GraphQL mutation operation: UpsertCode4
 // ====================================================
 
-export interface UpsertCode4_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode4_insert_contest_code_one {
+  __typename: "contest_code";
+  code4_update_time: any | null;
 }
 
 export interface UpsertCode4 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode4_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode4_insert_contest_code_one | null;
 }
 
 export interface UpsertCode4Variables {
-  code?: string | null;
+  code: string;
+  code4_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */
