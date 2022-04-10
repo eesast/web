@@ -1,6 +1,5 @@
 query GetContestNotices($contest_id: uuid!) {
-  contest_info(where: {contest_id: {_eq: $contest_id}},
-  order_by: {updated_at: desc}) {
+  contest_info(where: {contest_id: {_eq: $contest_id}}, order_by: {updated_at: desc}) {
     content
     created_at
     updated_at
