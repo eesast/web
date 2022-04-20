@@ -11,7 +11,7 @@ import {
   HomeOutlined,
   DatabaseOutlined,
   TeamOutlined,
-  // ThunderboltOutlined,
+  ThunderboltOutlined,
   LockOutlined,
   ArrowLeftOutlined
 } from "@ant-design/icons";
@@ -25,7 +25,8 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-// import BattlePage from "./BattlePage";
+
+import BattlePage from "./BattlePage";
 import ManageContestPage from "./ManageContestPage";
 import NotFoundPage from "../NotFoundPage";
 // hasura查询
@@ -139,10 +140,10 @@ const MenuPage: React.FC = () => {
               <Link to={`${url}/manage`}>管理</Link>
             </Menu.Item>
           </SubMenu>
-          {/* <Menu.Item key="fight">
+          <Menu.Item key="fight">
             <ThunderboltOutlined />
             <Link to={`${url}/battle`}>对战</Link>
-          </Menu.Item> */}
+          </Menu.Item>
 
           {(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1) ? (
             <SubMenu
@@ -205,9 +206,10 @@ const MenuPage: React.FC = () => {
           <AuthRoute exact path={`${path}/manage`}>
             <ManagePage />
           </AuthRoute>
-          {/* <Route exact path={`${path}/battle`}>
+          <AuthRoute exact path={`${path}/battle`}>
             <BattlePage />
-          </Route> */}
+
+          </AuthRoute>
           <AuthRoute exact path={`${path}/manageContest`}>
             <ManageContestPage />
           </AuthRoute>
@@ -215,6 +217,7 @@ const MenuPage: React.FC = () => {
             <NotFoundPage />
           </AuthRoute>
         </Switch>
+        {/* </Contest_status.Provider> */}
       </Content>
     </Layout>
   );
