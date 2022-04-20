@@ -46,6 +46,8 @@ import {
   DownloadOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  LoadingOutlined,
+  QuestionOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 import {getOSS,downloadFile} from "../../helpers/oss"
@@ -66,6 +68,10 @@ import { GetRoomInfo as GETROOMINFO } from "../../api/contest.graphql";
 //----插入room和team------
 import { InsertRoom, InsertRoomVariables } from "../../api/types";
 import { InsertRoom as INSERTROOM } from "../../api/contest.graphql";
+import { QueryContestManager, QueryContestManagerVariables } from "../../api/types"
+import {
+  QueryContestManager as QUERY_CONTEST_MANAGER
+} from "../../api/contest.graphql"
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
@@ -127,6 +133,17 @@ const BattlePage: React.FC = () => {
     }
   );
 
+  // ----------------获取比赛管理员---------------
+  const {
+    data: isContestManagerData,
+    error: isContestManagerError
+  } = useQuery<QueryContestManager, QueryContestManagerVariables>(QUERY_CONTEST_MANAGER, {
+    variables: {
+      contest_id: Contest_id,
+      user_id: userInfo?._id
+    }
+  });
+
   //-----------------获取天梯队伍信息------------------
   const {
     data: teamListData,
@@ -143,7 +160,7 @@ const BattlePage: React.FC = () => {
     data: roomListData,
     loading: roomListLoading,
     error: teamListError,
-    //refetch: refetchteamList,
+    refetch: refetchRoomList,
   } = useQuery<GetRoomInfo,GetRoomInfoVariables>(GETROOMINFO,{
     variables:{
       contest_id: Contest_id
@@ -155,6 +172,13 @@ const BattlePage: React.FC = () => {
       console.log(teamListError.message);
     }
   })
+  useEffect(() => {
+    if (isContestManagerError) {
+      message.error("管理员加载失败");
+      console.log(isContestManagerError.message)
+    }
+  }, [isContestManagerError]);
+
   const [insertRoom, { error: insertRoomError }] = useMutation<
     InsertRoom,
     InsertRoomVariables
@@ -174,14 +198,16 @@ const BattlePage: React.FC = () => {
   );
 
 
-  const { data: codetimeData, refetch:refectCodeTime} = useQuery<GetCodeUpdateTime, GetCodeUpdateTimeVariables>(GETCODETIME, {
+  const { data: codetimeData, refetch:refetchCodeTime} = useQuery<GetCodeUpdateTime, GetCodeUpdateTimeVariables>(GETCODETIME, {
     variables: {
       team_id: teamid!,
     },
   });
   useEffect(()=>{
+    // console.log("effect");
     if (codetimeData?.contest_code.length === 1){
       if(codetimeData?.contest_code[0].code1_update_time){
+        // console.log("a"+codetimeData?.contest_code[0].code1_update_time);
         setTime1(dayjs(codetimeData?.contest_code[0].code1_update_time).format("M-DD HH:mm:ss"));
       }
       if(codetimeData?.contest_code[0].code2_update_time){
@@ -192,7 +218,6 @@ const BattlePage: React.FC = () => {
       }
       if(codetimeData?.contest_code[0].code4_update_time){
         setTime4(dayjs(codetimeData?.contest_code[0].code4_update_time).format("M-DD HH:mm:ss"));
-
       }
     }
   },[codetimeData])
@@ -231,6 +256,7 @@ const BattlePage: React.FC = () => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
     } else if (code1updatetime){
+      //console.log("a"+code1updatetime)
       setTime1(dayjs(code1updatetime.insert_contest_code_one?.code1_update_time).format("M-DD HH:mm:ss"))
     }
     else if (code2updatetime){
@@ -242,6 +268,7 @@ const BattlePage: React.FC = () => {
     else if (code4updatetime){
       setTime4(dayjs(code4updatetime.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"))
     }
+
     }
   , [
     code1updatetime,
@@ -332,32 +359,47 @@ const BattlePage: React.FC = () => {
       </Tag>
       </div>
     )
-   else{
+    else if (teamData?.contest_team[0].status==="compiling")
+    return(
+      <div>
+      <Tag icon={<LoadingOutlined />} color="gold">
+        compiling
+      </Tag>
+      </div>
+    )
+   else if (teamData?.contest_team[0].status==="failed"){
     return(
       <Tag icon={<CloseCircleOutlined />} color="error">
         failed
       </Tag>
     )
    }
+   else{
+    return(
+      <Tag icon={<QuestionOutlined />} color="purple">
+        unknown
+      </Tag>
+    )
+   }
 
   }
   //点击下载回放
-  //TODO: 下载格式待商议
-  // const download = async (record: GetRoomInfo) => {
-  //   try {
-  //     const response = await axios.get(`room/${record.contest_room[0].room_id}`, { // TODO:此处应与后端协调
-  //       responseType: "blob",
-  //     });
-  //     FileSaver.saveAs(response.data, record.contest_room[0].room_id + ".thuaipb"); // TODO: 回放文件格式
-  //   } catch (e) {
-  //     const err = e as AxiosError;
-  //     if (err.response?.status === 401) {
-  //       message.error("认证失败");
-  //     } else {
-  //       message.error("未知错误");
-  //     }
-  //   }
-  // };
+
+  const download = async (record: GetRoomInfo_contest_room) => {
+    try {
+      const response = await axios.get(`room/${record.room_id}`, {
+        responseType: "blob",
+      });
+      FileSaver.saveAs(response.data, record.room_id + ".thuaipb");
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("认证失败");
+      } else {
+        message.error("未知错误");
+      }
+    }
+  };
   //点击发起对战
   const fight = () => {
     (async () => {
@@ -371,12 +413,17 @@ const BattlePage: React.FC = () => {
           },
         });
         console.log(roomId);
-        // await axios.post("room", {
-        //   //header: {},
-        //   room_id: roomId.data?.insert_contest_room_one?.room_id,
-        //   team_seq: false, // 一个是紫方还是白方的标记
-        // });
+        await axios.post("room", {
+          //header: {},
+          room_id: roomId.data?.insert_contest_room_one?.room_id,
+          team_seq: false, // 一个是紫方还是白方的标记
+        });
         message.success("已发起对战!");
+        refetchRoomList(
+          {
+            contest_id: Contest_id
+          }
+        );
       } catch (e) {
         if (insertRoomError) {
           console.error("make room fail");
@@ -435,7 +482,7 @@ const BattlePage: React.FC = () => {
   const handleUpload = async (e: RcCustomRequestOptions) => {
       const oss = await getOSS();
       //console.log(`THUAI5/${teamid}/player${codeRole.toString()}`)
-      const url = `/THUAI5/${teamid}/player${codeRole.toString()}`;
+      const url = `/THUAI5/${teamid}/player${codeRole}.cpp`;
       const result = await oss.multipartUpload(
         url,
       e.file,
@@ -448,7 +495,20 @@ const BattlePage: React.FC = () => {
     if (result.res.status === 200) {
       e.onSuccess(result.res, e.file);
       handleCodeChange(url,codeRole);
-      refectCodeTime();
+      await refetchCodeTime( {
+        team_id: teamid!,
+      });
+
+      // console.log("前："+time2);
+      // console.log("角色"+codeRole);
+      // switch(codeRole) {
+      //   case 1: setTime1(dayjs(code1updatetime?.insert_contest_code_one?.code1_update_time).format("M-DD HH:mm:ss"));break;
+      //   case 2: setTime2(dayjs(code2updatetime?.insert_contest_code_one?.code2_update_time).format("M-DD HH:mm:ss"));break;
+      //   case 3: setTime3(dayjs(code3updatetime?.insert_contest_code_one?.code3_update_time).format("M-DD HH:mm:ss"));break;
+      //   case 4: setTime4(dayjs(code4updatetime?.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"));break;
+      //   default: break;
+      // }
+      // console.log("后:"+time2);
     } else {
       e.onError(new Error());
     }
@@ -487,11 +547,16 @@ const BattlePage: React.FC = () => {
 
   const handleCodeCompile = () => {
     (async () => {
+      if(time1 ==="未上传"||time2 ==="未上传"||time3 ==="未上传"||time4 ==="未上传"){
+        message.error("请先上传4份选手代码！");
+        return;
+      }
       try {
         console.log(teamid);
         await axios.post("code/compile", {
           team_id: teamid,
         });
+        message.info("已开始编译。编译需要一段时间，请稍后刷新以查看。");
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -500,6 +565,7 @@ const BattlePage: React.FC = () => {
           message.error("409");
         } else {
           message.error("404");
+          console.log(err.message);
         }
       }
     })();
@@ -539,7 +605,11 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <Dropdown overlay={menu} trigger={["click"]}  disabled={teamid === record.team_id}>
+        <Dropdown overlay={menu} trigger={["click"]}
+        disabled={
+          teamid === record.team_id ||
+          isContestManagerData?.contest_manager.length === 0
+          }>
           <Button
           className="ant-dropdown-link"
           // type="primary"
@@ -601,8 +671,8 @@ const BattlePage: React.FC = () => {
       render: (text, record) => (
         <Button
           type="primary"
-          //onClick={() => download(record)}
-          disabled={record.status !== true}
+          onClick={() => download(record)}
+          disabled={record.status !== true || isContestManagerData?.contest_manager.length === 0}
         >
           下载
         </Button>
@@ -668,7 +738,7 @@ const BattlePage: React.FC = () => {
         setCodeRole(record.key);
         const codefile = {
           filename: `Player${codeRole}.cpp`,
-          url: `/THUAI5/${teamid}/player${codeRole}`
+          url: `/THUAI5/${teamid}/player${codeRole}.cpp`
         }
         message.info("开始下载:"+codefile.filename);
         downloadFile(codefile).catch(e=>{
@@ -690,11 +760,11 @@ const BattlePage: React.FC = () => {
           <Col span={12}>
             <Typography>
               <Title level={4}>Tips</Title>
-              <Text strong>天梯对战</Text>
+              <Text strong>天梯对战（仍然在鸽）</Text>
               <br />
               每场比赛支持最多两支队伍同时对战，请先通过编译再与他人对战！
               <br />
-              <Text strong>对战记录</Text>
+              <Text strong>对战记录（敬请期待）</Text>
               <br />
               各个历次对战的结果和回放文件。
               <br />
@@ -772,7 +842,6 @@ const BattlePage: React.FC = () => {
                   type="primary"
                   onClick={() => {
                   handleCodeCompile();
-                  message.info("编译需要一段时间，请稍后刷新以查看");
                 }}
               >
               编译代码
