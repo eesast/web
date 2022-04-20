@@ -595,8 +595,8 @@ export interface IsTeamMemberVariables {
 
 export interface GetCode_contest_code {
   __typename: "contest_code";
-  code1: string;
-  code2: string;
+  code1: string | null;
+  code2: string | null;
   code3: string | null;
   code4: string | null;
   code5: string | null;
