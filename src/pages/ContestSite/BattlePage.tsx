@@ -50,7 +50,7 @@ import {
   QuestionOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
-import {getOSS,downloadFile} from "../../helpers/oss"
+import {getSharedOSS,downloadFile} from "../../helpers/oss"
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
 //----根据队员信息查找队伍信息------
@@ -480,7 +480,7 @@ const BattlePage: React.FC = () => {
   );
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
-      const oss = await getOSS();
+      const oss = await getSharedOSS();
       //console.log(`THUAI5/${teamid}/player${codeRole.toString()}`)
       const url = `/THUAI5/${teamid}/player${codeRole}.cpp`;
       const result = await oss.multipartUpload(
@@ -516,7 +516,7 @@ const BattlePage: React.FC = () => {
 
   const handleRemove = async (file: UploadFile) => {
     if (file.response?.status === 200) {
-      const oss = await getOSS();
+      const oss = await getSharedOSS();
       await oss.delete(`/THUAI5/${teamid}/player${codeRole}.cpp`);
     }
   };
