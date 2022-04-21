@@ -609,12 +609,17 @@ const BattlePage: React.FC = () => {
         <Dropdown overlay={menu} trigger={["click"]}
         disabled={
           teamid === record.team_id ||
+          teamData?.contest_team[0].status !== "compiled"||
+          record.status !== "compiled"||
           isContestManagerData?.contest_manager.length === 0
           }>
           <Button
           className="ant-dropdown-link"
-          // type="primary"
-          onClick={() => {setfight(record)}}
+          onClick={() => {
+            // console.log(teamData?.contest_team[0].status);
+            // console.log(record.status);
+            setfight(record)
+          }}
           >
             开战！ <DownOutlined />
           </Button>
