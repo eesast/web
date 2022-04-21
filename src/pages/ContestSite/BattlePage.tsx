@@ -616,8 +616,8 @@ const BattlePage: React.FC = () => {
           <Button
           className="ant-dropdown-link"
           onClick={() => {
-            console.log(teamData?.contest_team[0].status);
-            console.log(record.status);
+            // console.log(teamData?.contest_team[0].status);
+            // console.log(record.status);
             setfight(record)
           }}
           >
