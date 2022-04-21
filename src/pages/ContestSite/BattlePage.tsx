@@ -48,6 +48,7 @@ import {
   CloseCircleOutlined,
   LoadingOutlined,
   QuestionOutlined,
+  CodeOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 import {getSharedOSS,downloadFile} from "../../helpers/oss"
@@ -336,7 +337,7 @@ const BattlePage: React.FC = () => {
 
   const downloadcompile = async () => {
     try {
-      const response = await axios.get(`code/logs/${teamid}`, {
+      const response = await axios.get(`code/logs/${teamid}/${codeRole}`, {
         responseType: "blob",
       });
       FileSaver.saveAs(response.data, teamid);
@@ -749,6 +750,23 @@ const BattlePage: React.FC = () => {
         </Button>
     </Row>)
 
+    },
+    {
+      title:'编译信息',
+      key:'compile_info',
+      render:(text,record)=>(
+        <Row justify = "start">
+      <Button onClick = {()=>{
+        setCodeRole(record.key);
+        message.info(`下载角色${codeRole}的编译信息`);
+       downloadcompile().catch(e=>{
+          message.error("下载失败");
+        })
+      }}>
+        <CodeOutlined/>获取
+        </Button>
+    </Row>
+      )
     }
   ]
 
@@ -833,13 +851,14 @@ const BattlePage: React.FC = () => {
                   <Col>
                     <Text>编译状态：</Text>
                   </Col>
-                  <Col span= {13}>
+                  <Col span= {17}>
                   <CompiledTag/>
                   </Col>
                   <Space>
                   <Col span= {3}>
                   <Button
                   type="primary"
+                  shape="round"
                   onClick={() => {
                   handleCodeCompile();
                 }}
@@ -847,7 +866,7 @@ const BattlePage: React.FC = () => {
               编译代码
             </Button>
                   </Col>
-                  <Col span={6}>
+                  {/* <Col span={6}>
                   <Button
                     type="primary"
                     onClick={downloadcompile}
@@ -855,7 +874,7 @@ const BattlePage: React.FC = () => {
                   >
                     下载编译信息
                   </Button>
-                  </Col>
+                  </Col> */}
                   </Space>
                 </Row>
                 </Form.Item>
