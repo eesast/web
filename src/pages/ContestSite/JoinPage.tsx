@@ -18,11 +18,11 @@ import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 import {
-   GetAllTeamInfo_contest_team,
-   GetAllTeamInfo,
-   GetAllTeamInfoVariables,
-   QueryContestManager,
-   QueryContestManagerVariables,
+  GetAllTeamInfo_contest_team,
+  GetAllTeamInfo,
+  GetAllTeamInfoVariables,
+  QueryContestManager,
+  QueryContestManagerVariables,
 } from "../../api/types";
 import {
   GetAllTeamInfo as GETALLTEAMINFO,
@@ -89,7 +89,7 @@ const JoinPage: React.FC = () => {
 
   useEffect(() => {
     refetchteamList();
-  });
+  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   /***************队员插入****************/
   const [insertteamMember, { error: insertError }] = useMutation<
@@ -187,9 +187,9 @@ const JoinPage: React.FC = () => {
     {
       title: "队员",
       key: "team_member",
-      render: (text, record,index) =>
+      render: (text, record, index) =>
         record.contest_team_members.map((i) => [i.user_as_contest_team_member.name + "   "]),
-        //record.contest_team_members[0].user_as_contest_team_member.name,
+      //record.contest_team_members[0].user_as_contest_team_member.name,
     }, // TODO: 此处有误
     {
       title: "队伍简介",

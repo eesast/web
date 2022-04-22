@@ -107,12 +107,10 @@ const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 
-
 const BattlePage: React.FC = () => {
   const userInfo = getUserInfo();
   const location = useLocation();
   const Contest_id = location.pathname.split("/")[2].replace('}', '');
-
 
   //-----------------根据队员id查询队伍id------------------
   const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
@@ -658,12 +656,14 @@ const BattlePage: React.FC = () => {
       title: "状态",
       dataIndex: "status",
       key: "status",
+      render: (text, record) => record.status ? "已结束" : "正在进行"
     },
 
     {
       title: "结果",
       dataIndex: "result",
       key: "result",
+      render: (text, record) => record.result ? (<Text>{record.result?.split(",")[0]} <br /> {record.result?.split(",")[1]}</Text>) : ""
     },
     {
       title: "对战时间",

@@ -241,7 +241,7 @@ const ResourcePage: React.FC = () => {
               margin-right:192px;
             `}
             onEditPress={
-              userInfo?.role === "counselor" || userInfo?.role === "root"
+              (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
                 ? () => {
                   setEditingNotice(item);
                   setFileList(
@@ -259,7 +259,7 @@ const ResourcePage: React.FC = () => {
                 : undefined
             }
             onDeletePress={
-              userInfo?.role === "counselor" || userInfo?.role === "root"
+              (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
                 ? () => {
                   handleNoticeDelete(item.id);
                 }
@@ -449,30 +449,3 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
     </Card>
   );
 };
-// import React from "react";
-// import { List, Button, Empty } from "antd";
-// import styles from "./ResourcePage.module.css";
-// const ResourcePage = () => {
-//   return (
-//     <div className={styles.root}>
-//       <List
-//         // loading={loading}
-//         itemLayout="horizontal"
-//         locale={{
-//           emptyText: (
-//             <Empty
-//               image={Empty.PRESENTED_IMAGE_SIMPLE}
-//               description={"暂无公告"}
-//             />
-//           ),
-//         }}
-//         split={false}
-//         // dataSource={announcements}
-//         // className={styles.list}
-//         renderItem={() => <List.Item></List.Item>}
-//       />
-//       <Button type={"primary"}>查看更多公告</Button>
-//     </div>
-//   );
-// };
-// export default ResourcePage;
