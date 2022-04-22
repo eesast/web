@@ -275,7 +275,7 @@ mutation UpsertCode1($code: String!, $code1_update_time: timestamptz!, $team_id:
       contest_id: $contest_id
     }
     on_conflict: {constraint: contest_code_pkey,
-      update_columns: code1_update_time
+      update_columns: [code1,code1_update_time]
     }){
     code1_update_time
   }
@@ -290,7 +290,7 @@ mutation UpsertCode2($code: String!, $code2_update_time: timestamptz!, $team_id:
       contest_id: $contest_id
     }
     on_conflict: {constraint: contest_code_pkey,
-      update_columns: code2_update_time
+      update_columns: [code2,code2_update_time]
     }){
     code2_update_time
   }
@@ -305,7 +305,7 @@ mutation UpsertCode3($code: String!, $code3_update_time: timestamptz!, $team_id:
       contest_id: $contest_id
     }
     on_conflict: {constraint: contest_code_pkey,
-      update_columns: code3_update_time
+      update_columns: [code3,code3_update_time]
     }){
     code3_update_time
   }
@@ -320,7 +320,7 @@ mutation UpsertCode4($code: String!, $code4_update_time: timestamptz!, $team_id:
       contest_id: $contest_id
     }
     on_conflict: {constraint: contest_code_pkey,
-      update_columns: code4_update_time
+      update_columns: [code4,code4_update_time]
     }){
     code4_update_time
   }

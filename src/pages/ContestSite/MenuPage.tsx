@@ -11,7 +11,7 @@ import {
   HomeOutlined,
   DatabaseOutlined,
   TeamOutlined,
-  ThunderboltOutlined,
+  FireOutlined,
   LockOutlined,
   ArrowLeftOutlined
 } from "@ant-design/icons";
@@ -72,6 +72,7 @@ const MenuPage: React.FC = () => {
       user_id: userInfo?._id
     }
   });
+
 
   useEffect(() => {
     if (ContestError) {
@@ -141,7 +142,7 @@ const MenuPage: React.FC = () => {
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="fight">
-            <ThunderboltOutlined />
+            <FireOutlined />
             <Link to={`${url}/battle`}>对战</Link>
           </Menu.Item>
 
