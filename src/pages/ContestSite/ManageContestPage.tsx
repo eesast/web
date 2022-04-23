@@ -50,7 +50,6 @@ import { TableProps } from "antd/lib/table";
 import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, ForwardOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { downloadFile, getSharedOSS } from "../../helpers/oss";
-import OSS from "ali-oss";
 import { RcCustomRequestOptions, RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import axios from "axios";
 
@@ -559,7 +558,7 @@ const SubPage: React.FC<{
 
   //上传和查看代码界面
   //列出team已上传的代码文件
-  const [codeList, setCodeList] = useState<OSS.ObjectMeta[]>([]);//返回的查看结果
+  //const [codeList, setCodeList] = useState<OSS.ObjectMeta[]>([]);//返回的查看结果
   const [codeRoutes1, setCodeRoutes1] = useState<string>();
   const [codeRoutes2, setCodeRoutes2] = useState<string>();
   const [codeRoutes3, setCodeRoutes3] = useState<string>();
@@ -573,7 +572,7 @@ const SubPage: React.FC<{
       },
         { 'timeout': 0 });
       //console.log(result.objects);
-      setCodeList(result.objects);
+      //setCodeList(result.objects);
 
       setCodeRoutes1(undefined);
       setCodeRoutes2(undefined);
