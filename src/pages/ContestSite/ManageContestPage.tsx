@@ -3,6 +3,8 @@
  * 2、将学生添加至指定队伍
  * 3、上传、下载代码
  * 4、手动编译
+ * 5、控制开放比赛提交代码、编译
+ * 6、运行比赛
  */
 
 import React, { useState } from "react";
@@ -43,13 +45,14 @@ import {
   DeleteTeamMember,
   DeleteTeamMemberVariables,
 } from "../../api/types";
-import { Button, Card, Col, Form, Input, Layout, List, message, Modal, Result, Row, Table, Typography, Upload } from "antd";
+import { Button, Card, Col, Dropdown, Form, Input, Layout, List, Menu, message, Modal, Result, Row, Table, Typography, Upload } from "antd";
 import { TableProps } from "antd/lib/table";
 import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, ForwardOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { downloadFile, getSharedOSS } from "../../helpers/oss";
 import OSS from "ali-oss";
 import { RcCustomRequestOptions, RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
+import axios from "axios";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -160,7 +163,6 @@ const ListPage: React.FC<{
 
   const handleTeamAdd = async () => {
     const values = await form.getFieldsValue();
-    console.log(values);
     if (values.leader_name === undefined ||
       values.leader_email === undefined ||
       values.team_name === undefined ||
@@ -245,18 +247,23 @@ const ListPage: React.FC<{
       render: (text, record) =>
         record.contest_team_members.map((i) => [i.user_as_contest_team_member.name + "   "]),
     },
-    {
-      title: "队伍简介",
-      dataIndex: "team_intro",
-      key: "team_intro",
-      render: (text, record) => record.team_intro,
-      ellipsis: true,
-    },
-    {
+    /* {
       title: "已提交代码数",
       dataIndex: "submitted_code_num",
       key: "submitted_code_num",
       render: (text, record) => record.submitted_code_num
+    }, */
+    {
+      title: "编译状态",
+      dataIndex: "compiled_status",
+      key: "compiled_status",
+      render: (text, record) => record.status
+    },
+    {
+      title: "比赛分数",
+      dataIndex: "contest_score",
+      key: "contest_score",
+      render: (text, record) => record.contest_score
     },
     {
       title: "操作",
@@ -268,7 +275,33 @@ const ListPage: React.FC<{
 
   ];
 
-  //搜索功能
+  //运行比赛
+  const runContest = async (mode: Number) => {
+    try {
+      await axios.post("contest", {
+        mode: mode
+      });
+      message.info("正在运行比赛,模式:" + (mode === 1 ? "单循环" : (mode === 2 ? "双循环" : "测试")));
+    } catch (e) {
+      message.error("运行比赛失败!");
+      console.log(e);
+    }
+
+  }
+
+  const modeMenu =
+    <Menu>
+      <Menu.Item key="1" onClick={() => { runContest(1) }}>
+        单循环
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => { runContest(2) }}>
+        双循环
+      </Menu.Item>
+      <Menu.Item key="3" onClick={() => { runContest(3) }}>
+        测试
+      </Menu.Item>
+    </Menu>;
+
 
 
   return (
@@ -301,15 +334,20 @@ const ListPage: React.FC<{
           >
             添加新队伍
           </Button>
-          <Button
-            css={`
+          <Dropdown
+
+            overlay={modeMenu}
+            trigger={["click"]}
+          >
+            <Button css={`
           margin-top: 12px;
           margin-left: 15px
           `}
-            icon={<ForwardOutlined />}
-          >
-            运行比赛
-          </Button>
+              icon={<ForwardOutlined />}>
+              运行比赛
+            </Button>
+          </Dropdown>
+
 
         </Card>
       </Row>
@@ -534,7 +572,7 @@ const SubPage: React.FC<{
         'prefix': `THUAI5/${props.team_id}/`,
       },
         { 'timeout': 0 });
-      console.log(result.objects);
+      //console.log(result.objects);
       setCodeList(result.objects);
 
       setCodeRoutes1(undefined);
@@ -560,11 +598,6 @@ const SubPage: React.FC<{
     }
   }
   useEffect(() => { list() }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  console.log(codeList);
-  console.log(codeRoutes1);
-
-
 
   const handleUpload = async (e: RcCustomRequestOptions, i: number) => {
     const oss = await getSharedOSS();
@@ -599,7 +632,6 @@ const SubPage: React.FC<{
   };
 
   const handleDownload = (file: UploadFile<any>, codeRole: number) => {
-    console.log(file);
     const codefile = {
       filename: file.name,
       url: `/${file.uid}`
@@ -611,8 +643,6 @@ const SubPage: React.FC<{
   }
 
   const handleChange = (info: UploadChangeParam<UploadFile<any>>, codeRole: number) => {
-    console.log(info);
-    console.log(info.file);
     if (info.file.status === 'done') {
       message.success(`${info.file.name} → P${codeRole} 上传成功`);
       switch (codeRole) {

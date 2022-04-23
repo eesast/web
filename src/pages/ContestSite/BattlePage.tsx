@@ -778,6 +778,7 @@ const BattlePage: React.FC = () => {
     }
   ]
 
+
   return (
     <div className={styles.root}>
       <div style={{ width: "80%" }}>
