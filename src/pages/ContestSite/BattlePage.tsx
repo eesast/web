@@ -409,13 +409,14 @@ const BattlePage: React.FC = () => {
             contest_id: Contest_id,
             team1_id: teamid,
             team2_id: opponentTeamId,
+            created_at: now!,
           },
         });
         console.log(roomId);
         await axios.post("room", {
           //header: {},
           room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: false, // 一个是紫方还是白方的标记
+          team_seq: false, // 一个是红队还是蓝队的标记
         });
         message.success("已发起对战!");
         refetchRoomList(
@@ -444,6 +445,7 @@ const BattlePage: React.FC = () => {
             contest_id: Contest_id,
             team1_id: teamid,
             team2_id: opponentTeamId,
+            created_at: now!
           },
         });
         // await axios.post("room", {
@@ -670,7 +672,7 @@ const BattlePage: React.FC = () => {
       title: "对战时间",
       dataIndex: "created_at",
       key: "created_at",
-      render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss')
+      render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss'),
     },
     {
       title: "回放下载",
