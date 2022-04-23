@@ -696,7 +696,7 @@ const BattlePage: React.FC = () => {
       title: "对战时间",
       dataIndex: "created_at",
       key: "created_at",
-      render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss')
+      render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss'),
     },
     {
       title: "回放下载",
