@@ -265,6 +265,16 @@ mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!,$team2_id: uuid!,$creat
   }
 }
 
+# 删除指定对战记录
+mutation DeleteRoom($room_id: uuid!) {
+  delete_contest_room_team(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
+  }
+  delete_contest_room(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
+  }
+}
+
 
 
 #上传选手代码（原有：更新，无：插入）

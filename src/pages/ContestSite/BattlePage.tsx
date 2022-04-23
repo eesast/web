@@ -49,6 +49,7 @@ import {
   LoadingOutlined,
   QuestionOutlined,
   CodeOutlined,
+  MinusOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 import { getSharedOSS, downloadFile } from "../../helpers/oss"
@@ -73,6 +74,9 @@ import { QueryContestManager, QueryContestManagerVariables } from "../../api/typ
 import {
   QueryContestManager as QUERY_CONTEST_MANAGER
 } from "../../api/contest.graphql"
+//----删除room和team
+import{DeleteRoom, DeleteRoomVariables} from "../../api/types";
+import {DeleteRoom as DELETEROOM} from "../../api/contest.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
@@ -240,6 +244,18 @@ const BattlePage: React.FC = () => {
     UpsertCode4,
     UpsertCode4Variables
   >(UPSERTCODE4);
+
+  // ----------------删除room--------------------
+  const [deleteRoom,{error: DeleteRoomError}]= useMutation<
+    DeleteRoom,
+    DeleteRoomVariables
+  >(DELETEROOM);
+  useEffect(()=>{
+    if (DeleteRoomError){
+      message.error("删除对战记录失败");
+      console.log(DeleteRoomError.message);
+    }
+  })
 
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [opponentTeamId, setTeamId] = useState("");
@@ -571,6 +587,14 @@ const BattlePage: React.FC = () => {
       }
     })();
   };
+
+  const handleDeleteRoom = async(Room_id: string) => {
+    await deleteRoom({variables:{room_id: Room_id}});
+    await refetchRoomList();
+    if(!DeleteRoomError){
+      message.success("已移除此对战记录");
+    }
+  }
   // 渲染队伍列表
   const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
@@ -687,6 +711,22 @@ const BattlePage: React.FC = () => {
         </Button>
       ),
     },
+    {
+      title:"",
+      key:"delete",
+      render:(text, record)=>(
+        isContestManagerData?.contest_manager.length === 1?
+        <Button
+          shape = "circle"
+          icon = {<MinusOutlined />}
+          type = "dashed"
+          size = "small"
+          onClick={()=>{handleDeleteRoom(record.room_id);}}
+
+        >
+        </Button>
+      :<div/>)
+    }
   ];
   interface Playerprops {
     key: number,
