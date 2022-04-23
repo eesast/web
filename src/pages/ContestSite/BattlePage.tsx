@@ -349,6 +349,7 @@ const BattlePage: React.FC = () => {
   };
 
   const CompiledTag: React.FC = () => {
+    //console.log(teamData?.contest_team[0].status);
     if (teamData?.contest_team[0].status === "compiled")
       return (
         <div>
@@ -728,7 +729,9 @@ const BattlePage: React.FC = () => {
           <Button onClick={() => {
             //console.log(record)
             setCodeRole(record.key)
-          }}>
+          }}
+            disabled
+          >
             <UploadOutlined /> 上传
           </Button>
         </Upload>
@@ -774,6 +777,7 @@ const BattlePage: React.FC = () => {
       )
     }
   ]
+
 
   return (
     <div className={styles.root}>

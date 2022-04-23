@@ -226,7 +226,7 @@ mutation InsertCode($team_id: uuid!) {
 
 # get the contest room info
 query GetRoomInfo($contest_id: uuid!) {
-  contest_room(where: {contest_id: {_eq: $contest_id}}) {
+  contest_room(where: {contest_id: {_eq: $contest_id}}, order_by: {created_at: desc}) {
     created_at
     result
     room_id
@@ -239,6 +239,7 @@ query GetRoomInfo($contest_id: uuid!) {
     }
   }
 }
+
 
 #insert team into room, return room_id
 
