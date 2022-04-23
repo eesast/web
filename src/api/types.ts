@@ -666,7 +666,7 @@ export interface GetAllTeamInfo_contest_team {
   score: string | null;
   status: string | null;
   status2: string | null;
-  status3: string | null;
+  contest_score: string | null;
   team_id: any;
   submitted_code_num: number;
   /**
@@ -747,7 +747,7 @@ export interface GetTeamInfo_contest_team {
   score: string | null;
   status: string | null;
   status2: string | null;
-  status3: string | null;
+  contest_score: string | null;
   team_id: any;
   submitted_code_num: number;
   /**
