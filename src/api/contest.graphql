@@ -67,7 +67,7 @@ query GetAllTeamInfo($contest_id: uuid!) {
     score
     status
     status2
-    status3
+    contest_score
     team_id
     submitted_code_num
     team_contest_id {
@@ -103,7 +103,7 @@ query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
     score
     status
     status2
-    status3
+    contest_score
     team_id
     submitted_code_num
     team_contest_id {
