@@ -1182,6 +1182,7 @@ export interface InsertRoomVariables {
   contest_id: any;
   team1_id: any;
   team2_id: any;
+  created_at: any;
 }
 
 /* tslint:disable */
