@@ -11,7 +11,7 @@ import {
   HomeOutlined,
   DatabaseOutlined,
   TeamOutlined,
-  // ThunderboltOutlined,
+  FireOutlined,
   LockOutlined,
   ArrowLeftOutlined
 } from "@ant-design/icons";
@@ -25,8 +25,9 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-// import BattlePage from "./BattlePage";
-import UpdateIntroPage from "./UpdateIntroPage";
+
+import BattlePage from "./BattlePage";
+import ManageContestPage from "./ManageContestPage";
 import NotFoundPage from "../NotFoundPage";
 // hasura查询
 import { useQuery } from "@apollo/client";
@@ -45,7 +46,6 @@ const rootSubmenuKeys = ["sub1", "sub2"];
 //react页面标准写法
 const MenuPage: React.FC = () => {
   const userInfo = getUserInfo();
-  console.log(userInfo);
 
   //url
   const { path, url } = useRouteMatch();
@@ -72,6 +72,7 @@ const MenuPage: React.FC = () => {
       user_id: userInfo?._id
     }
   });
+
 
   useEffect(() => {
     if (ContestError) {
@@ -140,10 +141,10 @@ const MenuPage: React.FC = () => {
               <Link to={`${url}/manage`}>管理</Link>
             </Menu.Item>
           </SubMenu>
-          {/* <Menu.Item key="fight">
-            <ThunderboltOutlined />
+          <Menu.Item key="fight">
+            <FireOutlined />
             <Link to={`${url}/battle`}>对战</Link>
-          </Menu.Item> */}
+          </Menu.Item>
 
           {(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1) ? (
             <SubMenu
@@ -155,8 +156,8 @@ const MenuPage: React.FC = () => {
                 </span>
               }
             >
-              <Menu.Item key="updateIntro">
-                <Link to={`${url}/updateIntro`}>修改介绍</Link>
+              <Menu.Item key="manageContest">
+                <Link to={`${url}/manageContest`}>管理比赛</Link>
               </Menu.Item>
             </SubMenu>
           ) : null}
@@ -206,16 +207,18 @@ const MenuPage: React.FC = () => {
           <AuthRoute exact path={`${path}/manage`}>
             <ManagePage />
           </AuthRoute>
-          {/* <Route exact path={`${path}/battle`}>
+          <AuthRoute exact path={`${path}/battle`}>
             <BattlePage />
-          </Route> */}
-          <AuthRoute exact path={`${path}/updateIntro`}>
-            <UpdateIntroPage />
+
+          </AuthRoute>
+          <AuthRoute exact path={`${path}/manageContest`}>
+            <ManageContestPage />
           </AuthRoute>
           <AuthRoute>
             <NotFoundPage />
           </AuthRoute>
         </Switch>
+        {/* </Contest_status.Provider> */}
       </Content>
     </Layout>
   );

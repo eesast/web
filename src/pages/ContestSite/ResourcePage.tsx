@@ -30,6 +30,9 @@ import {
   DeleteContestNotice as DELETE_NOTICE,
 } from "../../api/contest_info.graphql";
 import {
+  QueryContestManager as QUERY_CONTEST_MANAGER
+} from "../../api/contest.graphql";
+import {
   GetContestNotices,
   UpdateContestNotice,
   AddContestNotice,
@@ -39,6 +42,8 @@ import {
   UpdateContestNoticeVariables,
   DeleteContestNoticeVariables,
   GetContestNoticesVariables,
+  QueryContestManager,
+  QueryContestManagerVariables,
 } from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
@@ -48,6 +53,7 @@ import type {
 } from "antd/lib/upload/interface";
 import { getOSS, downloadFile } from "../../helpers/oss";
 import { getUserInfo } from "../../helpers/auth";
+
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -88,6 +94,16 @@ const ResourcePage: React.FC = () => {
     DeleteContestNoticeVariables
   >(DELETE_NOTICE);
 
+  const {
+    data: isContestManagerData,
+    error: isContestManagerError
+  } = useQuery<QueryContestManager, QueryContestManagerVariables>(QUERY_CONTEST_MANAGER, {
+    variables: {
+      contest_id: Contest_id,
+      user_id: userInfo?._id
+    }
+  });
+
   useEffect(() => {
     if (noticeError) {
       message.error("公告加载失败");
@@ -112,6 +128,13 @@ const ResourcePage: React.FC = () => {
       message.error("公告删除失败");
     }
   }, [noticeDeleteError]);
+
+  useEffect(() => {
+    if (isContestManagerError) {
+      message.error("管理员加载失败");
+      console.log(isContestManagerError.message)
+    }
+  }, [isContestManagerError]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] = useState<GetContestNotices_contest_info>();
@@ -201,7 +224,7 @@ const ResourcePage: React.FC = () => {
             margin-top: 12px;
             margin-right: 24px;
           `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
+          hidden={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
           onClick={() => setModalVisible(true)}
         >
           编辑新公告
@@ -218,7 +241,7 @@ const ResourcePage: React.FC = () => {
               margin-right:192px;
             `}
             onEditPress={
-              userInfo?.role === "counselor" || userInfo?.role === "root"
+              (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
                 ? () => {
                   setEditingNotice(item);
                   setFileList(
@@ -236,7 +259,7 @@ const ResourcePage: React.FC = () => {
                 : undefined
             }
             onDeletePress={
-              userInfo?.role === "counselor" || userInfo?.role === "root"
+              (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
                 ? () => {
                   handleNoticeDelete(item.id);
                 }
@@ -390,7 +413,10 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               shape="round"
               icon={<DownloadOutlined />}
               size="small"
-              onClick={() => downloadFile(file)}
+              onClick={() => {
+                message.info("开始下载："+file.filename)
+                downloadFile(file)
+              }}
             >
               {file.filename}
             </Button>
@@ -423,30 +449,3 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
     </Card>
   );
 };
-// import React from "react";
-// import { List, Button, Empty } from "antd";
-// import styles from "./ResourcePage.module.css";
-// const ResourcePage = () => {
-//   return (
-//     <div className={styles.root}>
-//       <List
-//         // loading={loading}
-//         itemLayout="horizontal"
-//         locale={{
-//           emptyText: (
-//             <Empty
-//               image={Empty.PRESENTED_IMAGE_SIMPLE}
-//               description={"暂无公告"}
-//             />
-//           ),
-//         }}
-//         split={false}
-//         // dataSource={announcements}
-//         // className={styles.list}
-//         renderItem={() => <List.Item></List.Item>}
-//       />
-//       <Button type={"primary"}>查看更多公告</Button>
-//     </div>
-//   );
-// };
-// export default ResourcePage;

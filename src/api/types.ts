@@ -590,80 +590,27 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetTeamInfo
+// GraphQL query operation: GetCodeUpdateTime
 // ====================================================
 
-export interface GetTeamInfo_contest_team_contest_team_members {
-  __typename: "contest_team_member";
-  user_id: string;
-}
-
-export interface GetTeamInfo_contest_team_team_leader_id {
-  __typename: "user";
-  name: string | null;
-  _id: string;
-}
-
-export interface GetTeamInfo_contest_team {
-  __typename: "contest_team";
-  contest_id: any;
-  /**
-   * An array relationship
-   */
-  contest_team_members: GetTeamInfo_contest_team_contest_team_members[];
-  invited_code: string | null;
-  /**
-   * 已有人员数量
-   */
-  member_num: number;
-  team_name: string;
-  team_intro: string | null;
-  team_leader: string | null;
-  score: string | null;
-  /**
-   * An object relationship
-   */
-  team_leader_id: GetTeamInfo_contest_team_team_leader_id | null;
-}
-
-export interface GetTeamInfo {
-  /**
-   * fetch data from the table: "contest_team"
-   */
-  contest_team: GetTeamInfo_contest_team[];
-}
-
-export interface GetTeamInfoVariables {
-  team_id: any;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetCode
-// ====================================================
-
-export interface GetCode_contest_code {
+export interface GetCodeUpdateTime_contest_code {
   __typename: "contest_code";
-  code1: string;
-  code2: string;
-  code3: string | null;
-  code4: string | null;
-  code5: string | null;
-  code6: string | null;
+  code1_update_time: any | null;
+  code2_update_time: any | null;
+  code3_update_time: any | null;
+  code4_update_time: any | null;
+  code5_update_time: any | null;
+  code6_update_time: any | null;
 }
 
-export interface GetCode {
+export interface GetCodeUpdateTime {
   /**
    * fetch data from the table: "contest_code"
    */
-  contest_code: GetCode_contest_code[];
+  contest_code: GetCodeUpdateTime_contest_code[];
 }
 
-export interface GetCodeVariables {
+export interface GetCodeUpdateTimeVariables {
   team_id: any;
 }
 
@@ -721,6 +668,7 @@ export interface GetAllTeamInfo_contest_team {
   status2: string | null;
   status3: string | null;
   team_id: any;
+  submitted_code_num: number;
   /**
    * An object relationship
    */
@@ -745,6 +693,88 @@ export interface GetAllTeamInfo {
 
 export interface GetAllTeamInfoVariables {
   contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetTeamInfo
+// ====================================================
+
+export interface GetTeamInfo_contest_team_team_contest_id {
+  __typename: "contest";
+  contest_name: string;
+}
+
+export interface GetTeamInfo_contest_team_team_leader_id {
+  __typename: "user";
+  _id: string;
+  class: string | null;
+  email: string | null;
+  name: string | null;
+  phone: string | null;
+}
+
+export interface GetTeamInfo_contest_team_contest_team_members_user_as_contest_team_member {
+  __typename: "user";
+  _id: string;
+  class: string | null;
+  email: string | null;
+  name: string | null;
+  phone: string | null;
+}
+
+export interface GetTeamInfo_contest_team_contest_team_members {
+  __typename: "contest_team_member";
+  /**
+   * An object relationship
+   */
+  user_as_contest_team_member: GetTeamInfo_contest_team_contest_team_members_user_as_contest_team_member;
+}
+
+export interface GetTeamInfo_contest_team {
+  __typename: "contest_team";
+  team_name: string;
+  created_at: any;
+  invited_code: string | null;
+  /**
+   * 已有人员数量
+   */
+  member_num: number;
+  score: string | null;
+  status: string | null;
+  status2: string | null;
+  status3: string | null;
+  team_id: any;
+  submitted_code_num: number;
+  /**
+   * An object relationship
+   */
+  team_contest_id: GetTeamInfo_contest_team_team_contest_id;
+  team_intro: string | null;
+  /**
+   * An object relationship
+   */
+  team_leader_id: GetTeamInfo_contest_team_team_leader_id | null;
+  /**
+   * An array relationship
+   */
+  contest_team_members: GetTeamInfo_contest_team_contest_team_members[];
+}
+
+export interface GetTeamInfo {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: GetTeamInfo_contest_team[];
+}
+
+export interface GetTeamInfoVariables {
+  contest_id: any;
+  team_id: any;
 }
 
 /* tslint:disable */
@@ -942,6 +972,7 @@ export interface DeleteTeamMember {
 
 export interface DeleteTeamMemberVariables {
   user_id: string;
+  team_id: any;
 }
 
 /* tslint:disable */
@@ -983,6 +1014,8 @@ export interface GetContestInfo_contest {
   contest_name: string;
   contest_type: string;
   description: string | null;
+  start_date: any;
+  end_date: any;
 }
 
 export interface GetContestInfo {
@@ -1084,24 +1117,71 @@ export interface InsertCodeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetRoomInfo
+// ====================================================
+
+export interface GetRoomInfo_contest_room_contest_room_teams_contest_team {
+  __typename: "contest_team";
+  team_name: string;
+  team_id: any;
+}
+
+export interface GetRoomInfo_contest_room_contest_room_teams {
+  __typename: "contest_room_team";
+  /**
+   * An object relationship
+   */
+  contest_team: GetRoomInfo_contest_room_contest_room_teams_contest_team;
+}
+
+export interface GetRoomInfo_contest_room {
+  __typename: "contest_room";
+  created_at: any;
+  result: string | null;
+  room_id: any;
+  status: boolean;
+  /**
+   * An array relationship
+   */
+  contest_room_teams: GetRoomInfo_contest_room_contest_room_teams[];
+}
+
+export interface GetRoomInfo {
+  /**
+   * fetch data from the table: "contest_room"
+   */
+  contest_room: GetRoomInfo_contest_room[];
+}
+
+export interface GetRoomInfoVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertRoom
 // ====================================================
 
-export interface InsertRoom_insert_thuai_room_one {
-  __typename: "thuai_room";
+export interface InsertRoom_insert_contest_room_one {
+  __typename: "contest_room";
   room_id: any;
 }
 
 export interface InsertRoom {
   /**
-   * insert a single row into the table: "thuai_room"
+   * insert a single row into the table: "contest_room"
    */
-  insert_thuai_room_one: InsertRoom_insert_thuai_room_one | null;
+  insert_contest_room_one: InsertRoom_insert_contest_room_one | null;
 }
 
 export interface InsertRoomVariables {
-  team1_id?: any | null;
-  team2_id?: any | null;
+  contest_id: any;
+  team1_id: any;
+  team2_id: any;
 }
 
 /* tslint:disable */
@@ -1113,21 +1193,23 @@ export interface InsertRoomVariables {
 // GraphQL mutation operation: UpsertCode1
 // ====================================================
 
-export interface UpsertCode1_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode1_insert_contest_code_one {
+  __typename: "contest_code";
+  code1_update_time: any | null;
 }
 
 export interface UpsertCode1 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode1_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode1_insert_contest_code_one | null;
 }
 
 export interface UpsertCode1Variables {
-  code?: string | null;
+  code: string;
+  code1_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -1139,21 +1221,23 @@ export interface UpsertCode1Variables {
 // GraphQL mutation operation: UpsertCode2
 // ====================================================
 
-export interface UpsertCode2_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode2_insert_contest_code_one {
+  __typename: "contest_code";
+  code2_update_time: any | null;
 }
 
 export interface UpsertCode2 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode2_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode2_insert_contest_code_one | null;
 }
 
 export interface UpsertCode2Variables {
-  code?: string | null;
+  code: string;
+  code2_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -1165,21 +1249,23 @@ export interface UpsertCode2Variables {
 // GraphQL mutation operation: UpsertCode3
 // ====================================================
 
-export interface UpsertCode3_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode3_insert_contest_code_one {
+  __typename: "contest_code";
+  code3_update_time: any | null;
 }
 
 export interface UpsertCode3 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode3_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode3_insert_contest_code_one | null;
 }
 
 export interface UpsertCode3Variables {
-  code?: string | null;
+  code: string;
+  code3_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */
@@ -1191,21 +1277,23 @@ export interface UpsertCode3Variables {
 // GraphQL mutation operation: UpsertCode4
 // ====================================================
 
-export interface UpsertCode4_insert_thuai_code_one {
-  __typename: "thuai_code";
-  team_id: any;
+export interface UpsertCode4_insert_contest_code_one {
+  __typename: "contest_code";
+  code4_update_time: any | null;
 }
 
 export interface UpsertCode4 {
   /**
-   * insert a single row into the table: "thuai_code"
+   * insert a single row into the table: "contest_code"
    */
-  insert_thuai_code_one: UpsertCode4_insert_thuai_code_one | null;
+  insert_contest_code_one: UpsertCode4_insert_contest_code_one | null;
 }
 
 export interface UpsertCode4Variables {
-  code?: string | null;
+  code: string;
+  code4_update_time: any;
   team_id: any;
+  contest_id: any;
 }
 
 /* tslint:disable */

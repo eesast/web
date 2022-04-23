@@ -366,6 +366,7 @@ const ContestSite: React.FC = () => {
         dataSource={contestData?.contest}
         renderItem={(item) => (
           <ContestInfoCard
+            key={item.id}
             css={`
             margin-top: 12px;
             margin-bottom: 24px;
@@ -603,7 +604,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
         white-space: pre-wrap;
         font-size:15px;
       `}>
-            {description}
+            {description.replace(/#+ [^\r\n]*[\r\n]/g, "")}
           </Text>
           <Divider />
         </>}
