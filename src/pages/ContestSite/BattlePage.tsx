@@ -446,11 +446,11 @@ const BattlePage: React.FC = () => {
             team2_id: opponentTeamId,
           },
         });
-        // await axios.post("room", {
-        //   //header: {},
-        //   room_id: roomId.data?.insert_contest_room_one?.room_id,
-        //   team_seq: true,
-        // });
+        await axios.post("room", {
+          //header: {},
+          room_id: roomId.data?.insert_contest_room_one?.room_id,
+          team_seq: true,
+        });
         message.success("已发起对战!");
         console.log(roomId);
       } catch (e) {

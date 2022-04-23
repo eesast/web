@@ -21,7 +21,8 @@ import {
   IsTeamMember as IS_TEAM_MEMBER,
   GetTeamInfo as GET_TEAM_INFO,
   InsertTeamMember as INSERT_TEAM_MEMBER,
-  DeleteTeamMember as DELETE_TEAM_MEMBER
+  DeleteTeamMember as DELETE_TEAM_MEMBER,
+  QueryTeamID as QUERY_TEAM_ID
 } from "../../api/contest.graphql";
 import { GetUser_Id as GET_USER_ID } from "../../api/contest_manager.graphql";
 import {
@@ -44,10 +45,12 @@ import {
   InsertTeamMemberVariables,
   DeleteTeamMember,
   DeleteTeamMemberVariables,
+  QueryTeamID,
+  QueryTeamIDVariables
 } from "../../api/types";
 import { Button, Card, Col, Dropdown, Form, Input, Layout, List, Menu, message, Modal, Result, Row, Table, Typography, Upload } from "antd";
 import { TableProps } from "antd/lib/table";
-import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, ForwardOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, ForwardOutlined, MinusCircleOutlined, PlayCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { downloadFile, getSharedOSS } from "../../helpers/oss";
 import { RcCustomRequestOptions, RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
@@ -79,6 +82,8 @@ const ManageContestPage: React.FC = () => {
       console.log(isContestManagerError.message)
     }
   }, [isContestManagerError]);
+
+
 
   const [editingTeamID, setEditingTeamID] = useState<string>();
 
@@ -150,6 +155,16 @@ const ListPage: React.FC<{
     }
   });
 
+  const {
+    error: queryTeamIDError,
+    refetch: refetchTeamID
+  } = useQuery<QueryTeamID, QueryTeamIDVariables>(QUERY_TEAM_ID, {
+    variables: {
+      contest_id: props.contest_id,
+      team_name: ""
+    }
+  });
+
   useEffect(() => {
     if (userError) {
       message.error("用户信息查询失败");
@@ -157,8 +172,17 @@ const ListPage: React.FC<{
     }
   }, [userError]);
 
+  useEffect(() => {
+    if (queryTeamIDError) {
+      message.error("队伍加载失败");
+      console.log(queryTeamIDError);
+    }
+  }, [queryTeamIDError]);
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isBattleModalVisible, setIsBattleModalVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const [battleForm] = Form.useForm();
 
   const handleTeamAdd = async () => {
     const values = await form.getFieldsValue();
@@ -209,6 +233,40 @@ const ListPage: React.FC<{
     setIsModalVisible(false);
   }
 
+  const handleBattle = async () => {
+    const values = await battleForm.getFieldsValue();
+    console.log(values);
+    if (values.team1 === undefined || values.team2 === undefined) {
+      return;
+    }
+
+    try {
+      const team1Data = await refetchTeamID({ contest_id: props.contest_id, team_name: values.team1 });
+      if (team1Data.data.contest_team.length === 0) {
+        message.warn("队伍1名称有误，查询失败！");
+        return;
+      }
+      const team2Data = await refetchTeamID({ contest_id: props.contest_id, team_name: values.team2 });
+      if (team2Data.data.contest_team.length === 0) {
+        message.warn("队伍2名称有误，查询失败！");
+        return;
+      }
+      const team1ID = team1Data.data.contest_team[0].team_id;
+      const team2ID = team2Data.data.contest_team[0].team_id;
+
+      await axios.post("room/assign", {
+        team_id1: team1ID,
+        team_id2: team2ID
+      });
+      message.success("已成功发起对战: " + values.team1 + " VS " + values.team2);
+    } catch (e) {
+      message.error("发起对战失败");
+      console.log(e);
+    }
+
+    form.resetFields();
+    setIsBattleModalVisible(false);
+  }
 
   //队伍一览表功能
   const {
@@ -301,8 +359,6 @@ const ListPage: React.FC<{
       </Menu.Item>
     </Menu>;
 
-
-
   return (
     <Layout>
       <Row justify="center" css={`margin-top:50px`}>
@@ -346,10 +402,63 @@ const ListPage: React.FC<{
               运行比赛
             </Button>
           </Dropdown>
-
+          <Button
+            css={`
+           margin-top: 12px;
+           margin-left: 15px
+           `}
+            icon={<PlayCircleOutlined />}
+            onClick={() => { setIsBattleModalVisible(true) }}
+          >
+            发起对战
+          </Button>
 
         </Card>
       </Row>
+
+      <Modal
+        visible={isBattleModalVisible}
+        title="发起对战"
+        centered
+        okText="发起"
+        maskClosable={false}
+        onCancel={() => {
+          setIsBattleModalVisible(false);
+          battleForm.resetFields();
+        }}
+        onOk={handleBattle}
+        destroyOnClose
+      >
+        <Form
+          form={battleForm}
+          name="battle"
+          onFinish={handleBattle}
+          onFinishFailed={(errorInfo: any) => {
+            console.log('Failed:', errorInfo);
+          }}
+          preserve={false}
+        >
+          <Form.Item
+            name="team1"
+            label="队伍1"
+            rules={[{ required: true, message: "请输入队伍1" }]}
+          >
+            <Input placeholder="输入队伍1" allowClear />
+          </Form.Item>
+          <Form.Item
+            name="team2"
+            label="队伍2"
+            rules={[{ required: true, message: "请输入队伍2" }]}
+          >
+            <Input placeholder="输入队伍2" allowClear />
+          </Form.Item>
+          <Form.Item name="remark">
+            <Text>
+              PS: 队伍1为红方,队伍2为蓝方
+            </Text>
+          </Form.Item>
+        </Form>
+      </Modal>
 
       <Modal
         visible={isModalVisible}
