@@ -49,6 +49,7 @@ import {
   LoadingOutlined,
   QuestionOutlined,
   CodeOutlined,
+  MinusOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 import { getSharedOSS, downloadFile } from "../../helpers/oss"
@@ -73,6 +74,9 @@ import { QueryContestManager, QueryContestManagerVariables } from "../../api/typ
 import {
   QueryContestManager as QUERY_CONTEST_MANAGER
 } from "../../api/contest.graphql"
+//----删除room和team
+import{DeleteRoom, DeleteRoomVariables} from "../../api/types";
+import {DeleteRoom as DELETEROOM} from "../../api/contest.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
@@ -240,6 +244,18 @@ const BattlePage: React.FC = () => {
     UpsertCode4,
     UpsertCode4Variables
   >(UPSERTCODE4);
+
+  // ----------------删除room--------------------
+  const [deleteRoom,{error: DeleteRoomError}]= useMutation<
+    DeleteRoom,
+    DeleteRoomVariables
+  >(DELETEROOM);
+  useEffect(()=>{
+    if (DeleteRoomError){
+      message.error("删除对战记录失败");
+      console.log(DeleteRoomError.message);
+    }
+  })
 
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [opponentTeamId, setTeamId] = useState("");
@@ -409,13 +425,14 @@ const BattlePage: React.FC = () => {
             contest_id: Contest_id,
             team1_id: teamid,
             team2_id: opponentTeamId,
+            created_at: now!,
           },
         });
         console.log(roomId);
         await axios.post("room", {
           //header: {},
           room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: false, // 一个是紫方还是白方的标记
+          team_seq: false, // 一个是红队还是蓝队的标记
         });
         message.success("已发起对战!");
         refetchRoomList(
@@ -444,6 +461,7 @@ const BattlePage: React.FC = () => {
             contest_id: Contest_id,
             team1_id: teamid,
             team2_id: opponentTeamId,
+            created_at: now!
           },
         });
         await axios.post("room", {
@@ -569,6 +587,14 @@ const BattlePage: React.FC = () => {
       }
     })();
   };
+
+  const handleDeleteRoom = async(Room_id: string) => {
+    await deleteRoom({variables:{room_id: Room_id}});
+    await refetchRoomList();
+    if(!DeleteRoomError){
+      message.success("已移除此对战记录");
+    }
+  }
   // 渲染队伍列表
   const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
@@ -670,7 +696,7 @@ const BattlePage: React.FC = () => {
       title: "对战时间",
       dataIndex: "created_at",
       key: "created_at",
-      render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss')
+      render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss'),
     },
     {
       title: "回放下载",
@@ -685,6 +711,22 @@ const BattlePage: React.FC = () => {
         </Button>
       ),
     },
+    {
+      title:"",
+      key:"delete",
+      render:(text, record)=>(
+        isContestManagerData?.contest_manager.length === 1?
+        <Button
+          shape = "circle"
+          icon = {<MinusOutlined />}
+          type = "dashed"
+          size = "small"
+          onClick={()=>{handleDeleteRoom(record.room_id);}}
+
+        >
+        </Button>
+      :<div/>)
+    }
   ];
   interface Playerprops {
     key: number,

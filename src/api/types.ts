@@ -1182,6 +1182,47 @@ export interface InsertRoomVariables {
   contest_id: any;
   team1_id: any;
   team2_id: any;
+  created_at: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteRoom
+// ====================================================
+
+export interface DeleteRoom_delete_contest_room_team {
+  __typename: "contest_room_team_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteRoom_delete_contest_room {
+  __typename: "contest_room_mutation_response";
+  /**
+   * number of affected rows by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteRoom {
+  /**
+   * delete data from the table: "contest_room_team"
+   */
+  delete_contest_room_team: DeleteRoom_delete_contest_room_team | null;
+  /**
+   * delete data from the table: "contest_room"
+   */
+  delete_contest_room: DeleteRoom_delete_contest_room | null;
+}
+
+export interface DeleteRoomVariables {
+  room_id: any;
 }
 
 /* tslint:disable */

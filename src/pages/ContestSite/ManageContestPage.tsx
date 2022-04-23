@@ -338,7 +338,7 @@ const ListPage: React.FC<{
       await axios.post("contest", {
         mode: mode
       });
-      message.info("正在运行比赛,模式:" + (mode === 1 ? "单循环" : (mode === 2 ? "双循环" : "测试")));
+      message.info("正在运行比赛,模式:" + (mode === 0 ? "单循环" : (mode === 1 ? "双循环" : "测试")));
     } catch (e) {
       message.error("运行比赛失败!");
       console.log(e);
@@ -348,16 +348,19 @@ const ListPage: React.FC<{
 
   const modeMenu =
     <Menu>
-      <Menu.Item key="1" onClick={() => { runContest(1) }}>
+      <Menu.Item key="1" onClick={() => { runContest(0) }}>
         单循环
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => { runContest(2) }}>
+      <Menu.Item key="2" onClick={() => { runContest(1) }}>
         双循环
       </Menu.Item>
-      <Menu.Item key="3" onClick={() => { runContest(3) }}>
+      <Menu.Item key="3" onClick={() => { runContest(2) }}>
         测试
       </Menu.Item>
     </Menu>;
+
+
+
 
   return (
     <Layout>

@@ -254,13 +254,24 @@ query GetRoomInfo($contest_id: uuid!) {
 #     room_id
 #   }
 # }
-mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!,$team2_id: uuid!) {
+mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!,$team2_id: uuid!,$created_at: timestamptz!) {
   insert_contest_room_one(object:
     {contest_id: $contest_id,
-    contest_room_teams: {data: [{team_id: $team1_id},{team_id: $team2_id}]}
+    contest_room_teams: {data: [{team_id: $team1_id},{team_id: $team2_id}]},
+    created_at: $created_at
     }
   ){
     room_id
+  }
+}
+
+# 删除指定对战记录
+mutation DeleteRoom($room_id: uuid!) {
+  delete_contest_room_team(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
+  }
+  delete_contest_room(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
   }
 }
 
