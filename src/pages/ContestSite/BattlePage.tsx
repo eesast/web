@@ -75,8 +75,8 @@ import {
   QueryContestManager as QUERY_CONTEST_MANAGER
 } from "../../api/contest.graphql"
 //----删除room和team
-import{DeleteRoom, DeleteRoomVariables} from "../../api/types";
-import {DeleteRoom as DELETEROOM} from "../../api/contest.graphql";
+import { DeleteRoom, DeleteRoomVariables } from "../../api/types";
+import { DeleteRoom as DELETEROOM } from "../../api/contest.graphql";
 //————创建thuaicode————
 // import { InsertCode, InsertCodeVariables } from "../../api/types";
 // import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
@@ -246,12 +246,12 @@ const BattlePage: React.FC = () => {
   >(UPSERTCODE4);
 
   // ----------------删除room--------------------
-  const [deleteRoom,{error: DeleteRoomError}]= useMutation<
+  const [deleteRoom, { error: DeleteRoomError }] = useMutation<
     DeleteRoom,
     DeleteRoomVariables
   >(DELETEROOM);
-  useEffect(()=>{
-    if (DeleteRoomError){
+  useEffect(() => {
+    if (DeleteRoomError) {
       message.error("删除对战记录失败");
       console.log(DeleteRoomError.message);
     }
@@ -588,10 +588,10 @@ const BattlePage: React.FC = () => {
     })();
   };
 
-  const handleDeleteRoom = async(Room_id: string) => {
-    await deleteRoom({variables:{room_id: Room_id}});
+  const handleDeleteRoom = async (Room_id: string) => {
+    await deleteRoom({ variables: { room_id: Room_id } });
     await refetchRoomList();
-    if(!DeleteRoomError){
+    if (!DeleteRoomError) {
       message.success("已移除此对战记录");
     }
   }
@@ -712,20 +712,20 @@ const BattlePage: React.FC = () => {
       ),
     },
     {
-      title:"",
-      key:"delete",
-      render:(text, record)=>(
-        isContestManagerData?.contest_manager.length === 1?
-        <Button
-          shape = "circle"
-          icon = {<MinusOutlined />}
-          type = "dashed"
-          size = "small"
-          onClick={()=>{handleDeleteRoom(record.room_id);}}
+      title: "",
+      key: "delete",
+      render: (text, record) => (
+        isContestManagerData?.contest_manager.length === 1 ?
+          <Button
+            shape="circle"
+            icon={<MinusOutlined />}
+            type="dashed"
+            size="small"
+            onClick={() => { handleDeleteRoom(record.room_id); }}
 
-        >
-        </Button>
-      :<div/>)
+          >
+          </Button>
+          : <div />)
     }
   ];
   interface Playerprops {
@@ -772,7 +772,6 @@ const BattlePage: React.FC = () => {
             //console.log(record)
             setCodeRole(record.key)
           }}
-            disabled
           >
             <UploadOutlined /> 上传
           </Button>
