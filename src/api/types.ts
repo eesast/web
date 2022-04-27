@@ -1343,6 +1343,32 @@ export interface UpsertCode4Variables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: QueryTeamID
+// ====================================================
+
+export interface QueryTeamID_contest_team {
+  __typename: "contest_team";
+  team_id: any;
+}
+
+export interface QueryTeamID {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: QueryTeamID_contest_team[];
+}
+
+export interface QueryTeamIDVariables {
+  team_name: string;
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetAidApplications
 // ====================================================
 
