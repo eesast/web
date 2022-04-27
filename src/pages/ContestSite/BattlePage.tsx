@@ -634,8 +634,7 @@ const BattlePage: React.FC = () => {
           disabled={
             teamid === record.team_id ||
             teamData?.contest_team[0].status !== "compiled" ||
-            record.status !== "compiled" ||
-            isContestManagerData?.contest_manager.length === 0
+            record.status !== "compiled"
           }>
           <Button
             className="ant-dropdown-link"
