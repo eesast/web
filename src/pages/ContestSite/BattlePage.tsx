@@ -704,7 +704,7 @@ const BattlePage: React.FC = () => {
         <Button
           type="primary"
           onClick={() => download(record)}
-          disabled={record.status !== true || isContestManagerData?.contest_manager.length === 0}
+          disabled={record.status !== true}
         >
           下载
         </Button>
@@ -826,14 +826,14 @@ const BattlePage: React.FC = () => {
         <Row gutter={16} align="middle" justify="space-between">
           <Col span={12}>
             <Typography>
-              <Title level={4}>Tips</Title>
-              <Text strong>天梯对战（仍然在鸽）</Text>
+              <Title level={4}>--THUAI5 Battle--</Title>
+              <Text strong>天梯对战正式开启！</Text>
               <br />
-              每场比赛支持最多两支队伍同时对战，请先通过编译再与他人对战！
+              愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
               <br />
-              <Text strong>对战记录（敬请期待）</Text>
+              <Text strong>对战记录</Text>
               <br />
-              各个历次对战的结果和回放文件。
+              历次对战的结果和回放文件，回放文件可通过RunPlayback观看。
               <br />
               <Text strong>代码管理</Text>
               <br />
