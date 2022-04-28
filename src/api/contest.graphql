@@ -385,3 +385,10 @@ mutation UpsertCode4($code: String!, $code4_update_time: timestamptz!, $team_id:
     code4_update_time
   }
 }
+
+# 通过队伍名查询队伍ID
+query QueryTeamID($team_name: String!, $contest_id: uuid!) {
+  contest_team(where: {team_name: {_eq: $team_name}, contest_id: {_eq: $contest_id}}) {
+    team_id
+  }
+}
