@@ -303,7 +303,6 @@ const BattlePage: React.FC = () => {
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [fileList3, setFileList3] = useState<UploadFile[]>([]);
   const [fileList4, setFileList4] = useState<UploadFile[]>([]);
-  const [map,setmap] = useState(0);
   const [time1, setTime1] = useState("未上传");
   const [time2, setTime2] = useState("未上传");
   const [time3, setTime3] = useState("未上传");
@@ -336,10 +335,6 @@ const BattlePage: React.FC = () => {
       code4Error,
     ]);
 
-    // 确认map已经修改
-    // useEffect(() => {
-    //   console.log(map);
-    // },[map])
 
   if (!teamid) {
     return (
