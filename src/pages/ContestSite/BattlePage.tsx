@@ -303,7 +303,6 @@ const BattlePage: React.FC = () => {
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [fileList3, setFileList3] = useState<UploadFile[]>([]);
   const [fileList4, setFileList4] = useState<UploadFile[]>([]);
-  const [map,setmap] = useState(0);
   const [time1, setTime1] = useState("未上传");
   const [time2, setTime2] = useState("未上传");
   const [time3, setTime3] = useState("未上传");
@@ -462,7 +461,7 @@ const BattlePage: React.FC = () => {
     }
   };
   //点击发起对战
-  const fight = () => {
+  const fight = (mapnum: number) => {
     console.log(roomStatusData?.contest_room.length);
     // TODO: 下面的代码有点丑陋
     if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
@@ -483,7 +482,7 @@ const BattlePage: React.FC = () => {
         console.log(roomId);
         await axios.post("room", {
           //header: {},
-          map: map,
+          map: mapnum,
           room_id: roomId.data?.insert_contest_room_one?.room_id,
           team_seq: false, // 一个是红队还是蓝队的标记
         });
@@ -505,7 +504,7 @@ const BattlePage: React.FC = () => {
     })();
   };
   //点击发起对战
-  const fight2 = () => {
+  const fight2 = (mapnum: number) => {
     console.log(roomStatusData?.contest_room.length);
     // TODO: 下面的代码有点丑陋
     if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
@@ -525,7 +524,7 @@ const BattlePage: React.FC = () => {
         });
         await axios.post("room", {
           //header: {},
-          map:map,
+          map:mapnum,
           room_id: roomId.data?.insert_contest_room_one?.room_id,
           team_seq: true,
         });
@@ -551,14 +550,12 @@ const BattlePage: React.FC = () => {
     <Menu>
     <SubMenu key="map1" title="初始地图">
     <Menu.Item key="1"  onClick={() => {
-      setmap(0);
-      fight();
+      fight(0);
       }}>
         红队
       </Menu.Item>
       <Menu.Item key="2" onClick={() => {
-        setmap(0);
-        fight2();
+        fight2(0);
         }}>
         蓝队
       </Menu.Item>
@@ -566,14 +563,12 @@ const BattlePage: React.FC = () => {
 
     <SubMenu key="map2" title="环形电磁基地">
     <Menu.Item key="1"  onClick={() => {
-      setmap(1);
-      fight();
+      fight(1);
       }}>
         红队
       </Menu.Item>
       <Menu.Item key="2" onClick={() => {
-        setmap(1);
-        fight2();
+        fight2(1);
         }}>
         蓝队
       </Menu.Item>
