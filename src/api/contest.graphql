@@ -238,6 +238,7 @@ query GetContestInfo($contest_id: uuid!) {
     description
     start_date
     end_date
+    status
   }
 }
 
@@ -390,5 +391,15 @@ mutation UpsertCode4($code: String!, $code4_update_time: timestamptz!, $team_id:
 query QueryTeamID($team_name: String!, $contest_id: uuid!) {
   contest_team(where: {team_name: {_eq: $team_name}, contest_id: {_eq: $contest_id}}) {
     team_id
+    status
+  }
+}
+
+# 更新比赛状态
+mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
+  update_contest(where: {id: {_eq: $contest_id}}, _set: {status: $status}) {
+    returning {
+      status
+    }
   }
 }
