@@ -115,6 +115,7 @@ import dayjs from "dayjs";
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
+const {SubMenu} = Menu;
 
 
 const BattlePage: React.FC = () => {
@@ -302,6 +303,7 @@ const BattlePage: React.FC = () => {
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [fileList3, setFileList3] = useState<UploadFile[]>([]);
   const [fileList4, setFileList4] = useState<UploadFile[]>([]);
+  const [map,setmap] = useState(0);
   const [time1, setTime1] = useState("未上传");
   const [time2, setTime2] = useState("未上传");
   const [time3, setTime3] = useState("未上传");
@@ -333,6 +335,11 @@ const BattlePage: React.FC = () => {
       code4updatetime,
       code4Error,
     ]);
+
+    // 确认map已经修改
+    // useEffect(() => {
+    //   console.log(map);
+    // },[map])
 
   if (!teamid) {
     return (
@@ -476,6 +483,7 @@ const BattlePage: React.FC = () => {
         console.log(roomId);
         await axios.post("room", {
           //header: {},
+          map: map,
           room_id: roomId.data?.insert_contest_room_one?.room_id,
           team_seq: false, // 一个是红队还是蓝队的标记
         });
@@ -517,6 +525,7 @@ const BattlePage: React.FC = () => {
         });
         await axios.post("room", {
           //header: {},
+          map:map,
           room_id: roomId.data?.insert_contest_room_one?.room_id,
           team_seq: true,
         });
@@ -536,16 +545,44 @@ const BattlePage: React.FC = () => {
   const setfight = (record: GetAllTeamInfo_contest_team) => {
     setTeamId(record.team_id);
   };
-  const menu = (
+
+
+  const map_menu = (
     <Menu>
-      <Menu.Item key="1" onClick={() => fight()}>
+    <SubMenu key="map1" title="初始地图">
+    <Menu.Item key="1"  onClick={() => {
+      setmap(0);
+      fight();
+      }}>
         红队
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => fight2()}>
+      <Menu.Item key="2" onClick={() => {
+        setmap(0);
+        fight2();
+        }}>
         蓝队
       </Menu.Item>
-    </Menu>
+    </SubMenu>
+
+    <SubMenu key="map2" title="环形电磁基地">
+    <Menu.Item key="1"  onClick={() => {
+      setmap(1);
+      fight();
+      }}>
+        红队
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => {
+        setmap(1);
+        fight2();
+        }}>
+        蓝队
+      </Menu.Item>
+    </SubMenu>
+  </Menu>
   );
+
+
+
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     const oss = await getSharedOSS();
@@ -681,7 +718,7 @@ const BattlePage: React.FC = () => {
       title: "对战",
       key: "fight",
       render: (text, record) => (
-        <Dropdown overlay={menu} trigger={["click"]}
+        <Dropdown overlay={map_menu} trigger={["click"]}
           disabled={
             teamid === record.team_id ||
             teamData?.contest_team[0].status !== "compiled" ||
@@ -881,7 +918,7 @@ const BattlePage: React.FC = () => {
           <Col span={12}>
             <Typography>
               <Title level={4}>--THUAI5 Battle--</Title>
-              <Text strong>天梯对战正式开启！</Text>
+              <Text strong>新地图：环形电磁基地 正式上线！</Text>
               <br />
               愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
               <br />
