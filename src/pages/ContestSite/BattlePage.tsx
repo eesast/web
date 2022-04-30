@@ -56,7 +56,7 @@ import { getSharedOSS, downloadFile } from "../../helpers/oss"
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
 //----根据队员信息查找队伍信息------
-import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
+import { GetContestInfo, GetContestInfoVariables, IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
@@ -77,7 +77,8 @@ import { InsertRoom, InsertRoomVariables } from "../../api/types";
 import { InsertRoom as INSERTROOM } from "../../api/contest.graphql";
 import { QueryContestManager, QueryContestManagerVariables } from "../../api/types"
 import {
-  QueryContestManager as QUERY_CONTEST_MANAGER
+  QueryContestManager as QUERY_CONTEST_MANAGER,
+  GetContestInfo as GET_CONTEST_INFO,
 } from "../../api/contest.graphql"
 //----删除room和team
 import { DeleteRoom, DeleteRoomVariables } from "../../api/types";
@@ -278,6 +279,22 @@ const BattlePage: React.FC = () => {
       console.log(DeleteRoomError.message);
     }
   })
+
+  // --------------获取比赛状态-------------------
+  const {
+    data: contestData,
+    error: contestError,
+  } = useQuery<GetContestInfo, GetContestInfoVariables>(GET_CONTEST_INFO, {
+    variables: {
+      contest_id: Contest_id
+    }
+  });
+  useEffect(() => {
+    if (contestError) {
+      message.error("比赛加载失败");
+      console.log(contestError.message);
+    }
+  }, [contestError]);
 
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [opponentTeamId, setTeamId] = useState("");
@@ -668,7 +685,8 @@ const BattlePage: React.FC = () => {
           disabled={
             teamid === record.team_id ||
             teamData?.contest_team[0].status !== "compiled" ||
-            record.status !== "compiled"
+            record.status !== "compiled" ||
+            contestData?.contest[0].status.slice(2, 3) !== "1"
           }>
           <Button
             className="ant-dropdown-link"
@@ -801,10 +819,12 @@ const BattlePage: React.FC = () => {
           multiple
           fileList={record.filelist}
         >
-          <Button onClick={() => {
-            //console.log(record)
-            setCodeRole(record.key)
-          }}
+          <Button
+            disabled={contestData?.contest[0].status.slice(0, 1) !== "1"}
+            onClick={() => {
+              //console.log(record)
+              setCodeRole(record.key)
+            }}
           >
             <UploadOutlined /> 上传
           </Button>
@@ -946,6 +966,7 @@ const BattlePage: React.FC = () => {
                           onClick={() => {
                             handleCodeCompile();
                           }}
+                          disabled={contestData?.contest[0].status.slice(1, 2) !== "1"}
                         >
                           编译代码
                         </Button>

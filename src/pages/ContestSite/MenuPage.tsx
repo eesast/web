@@ -25,9 +25,9 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-
 import BattlePage from "./BattlePage";
-import ManageContestPage from "./ManageContestPage";
+import ManageTeamsPage from "./ManageTeamsPage";
+import SettingPage from "./SettingPage";
 import NotFoundPage from "../NotFoundPage";
 // hasura查询
 import { useQuery } from "@apollo/client";
@@ -156,8 +156,11 @@ const MenuPage: React.FC = () => {
                 </span>
               }
             >
-              <Menu.Item key="manageContest">
-                <Link to={`${url}/manageContest`}>管理比赛</Link>
+              <Menu.Item key="manageTeams">
+                <Link to={`${url}/manageTeams`}>管理队伍</Link>
+              </Menu.Item>
+              <Menu.Item key="setting">
+                <Link to={`${url}/setting`}>比赛设置</Link>
               </Menu.Item>
             </SubMenu>
           ) : null}
@@ -209,16 +212,17 @@ const MenuPage: React.FC = () => {
           </AuthRoute>
           <AuthRoute exact path={`${path}/battle`}>
             <BattlePage />
-
           </AuthRoute>
-          <AuthRoute exact path={`${path}/manageContest`}>
-            <ManageContestPage />
+          <AuthRoute exact path={`${path}/manageTeams`}>
+            <ManageTeamsPage />
+          </AuthRoute>
+          <AuthRoute exact path={`${path}/setting`}>
+            <SettingPage />
           </AuthRoute>
           <AuthRoute>
             <NotFoundPage />
           </AuthRoute>
         </Switch>
-        {/* </Contest_status.Provider> */}
       </Content>
     </Layout>
   );
