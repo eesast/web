@@ -1016,6 +1016,7 @@ export interface GetContestInfo_contest {
   description: string | null;
   start_date: any;
   end_date: any;
+  status: string;
 }
 
 export interface GetContestInfo {
@@ -1349,6 +1350,7 @@ export interface UpsertCode4Variables {
 export interface QueryTeamID_contest_team {
   __typename: "contest_team";
   team_id: any;
+  status: string | null;
 }
 
 export interface QueryTeamID {
@@ -1361,6 +1363,40 @@ export interface QueryTeamID {
 export interface QueryTeamIDVariables {
   team_name: string;
   contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateContestStatus
+// ====================================================
+
+export interface UpdateContestStatus_update_contest_returning {
+  __typename: "contest";
+  status: string;
+}
+
+export interface UpdateContestStatus_update_contest {
+  __typename: "contest_mutation_response";
+  /**
+   * data of the affected rows by the mutation
+   */
+  returning: UpdateContestStatus_update_contest_returning[];
+}
+
+export interface UpdateContestStatus {
+  /**
+   * update data of the table: "contest"
+   */
+  update_contest: UpdateContestStatus_update_contest | null;
+}
+
+export interface UpdateContestStatusVariables {
+  contest_id: any;
+  status: string;
 }
 
 /* tslint:disable */
