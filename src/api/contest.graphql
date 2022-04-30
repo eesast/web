@@ -93,6 +93,43 @@ query GetAllTeamInfo($contest_id: uuid!) {
   }
 }
 
+# 查询有分数的队伍的信息
+query GetAllTeamInfo_score($contest_id: uuid!) {
+  contest_team(where: {_and: {contest_id: {_eq: $contest_id}, score: {_is_null: false}}}) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    contest_score
+    team_id
+    submitted_code_num
+    team_contest_id {
+      contest_name
+    }
+    team_intro
+    team_leader_id {
+      _id
+      class
+      email
+      name
+      phone
+    }
+    contest_team_members {
+      user_as_contest_team_member {
+        _id
+        class
+        email
+        name
+        phone
+      }
+    }
+  }
+}
+
+
 # 查询某只队伍的信息
 query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
   contest_team(where: {contest_id: {_eq: $contest_id}, , team_id: {_eq: $team_id}}) {
@@ -240,6 +277,17 @@ query GetRoomInfo($contest_id: uuid!) {
     }
   }
 }
+
+# 获取正在进行比赛的房间信息
+query GetRoomInfo_status($contest_id: uuid!) {
+  contest_room(where: {_and: {contest_id: {_eq: $contest_id}}, status: {_eq: false}}) {
+    room_id
+    status
+    created_at
+  }
+}
+
+
 
 
 #insert team into room, return room_id
