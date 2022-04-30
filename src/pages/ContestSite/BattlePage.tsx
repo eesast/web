@@ -62,11 +62,16 @@ import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
-import { GetAllTeamInfo_contest_team, GetAllTeamInfo, GetAllTeamInfoVariables } from "../../api/types";
-import { GetAllTeamInfo as GETALLTEAMINFO } from "../../api/contest.graphql";
+import { GetAllTeamInfo_contest_team} from "../../api/types";
+
+import { GetAllTeamInfo_score, GetAllTeamInfo_scoreVariables } from "../../api/types";
+import { GetAllTeamInfo_score as GETALLTEAMSCORE } from "../../api/contest.graphql";
 //----回放信息------
 import { GetRoomInfo, GetRoomInfo_contest_room, GetRoomInfoVariables } from "../../api/types";
 import { GetRoomInfo as GETROOMINFO } from "../../api/contest.graphql";
+//----正在比赛的room信息
+import{GetRoomInfo_status, GetRoomInfo_statusVariables} from "../../api/types"
+import{GetRoomInfo_status as GETROOMSTATUS} from "../../api/contest.graphql";
 //----插入room和team------
 import { InsertRoom, InsertRoomVariables } from "../../api/types";
 import { InsertRoom as INSERTROOM } from "../../api/contest.graphql";
@@ -149,11 +154,11 @@ const BattlePage: React.FC = () => {
 
   //-----------------获取天梯队伍信息------------------
   const {
-    data: teamListData,
-    loading: teamListLoading,
+    data: scoreteamListData,
+    loading: scoreteamListLoading,
     //error: teamListError,
     //refetch: refetchteamList,
-  } = useQuery<GetAllTeamInfo, GetAllTeamInfoVariables>(GETALLTEAMINFO, {
+  } = useQuery<GetAllTeamInfo_score, GetAllTeamInfo_scoreVariables>(GETALLTEAMSCORE, {
     variables: {
       contest_id: Contest_id
     }
@@ -224,6 +229,23 @@ const BattlePage: React.FC = () => {
       }
     }
   }, [codetimeData])
+
+  const {
+    data: roomStatusData,
+    error: roomStatusError,
+  } = useQuery<GetRoomInfo_status, GetRoomInfo_statusVariables>(GETROOMSTATUS, {
+    variables: {
+      contest_id: Contest_id
+    }
+  });
+  useEffect(() => {
+    if (roomStatusError) {
+      message.error("获取对战信息失败");
+      console.log(roomStatusError.message);
+    }
+  })
+
+
   //-----------------上传代码------------------、
   const [upsertCode1, { data: code1updatetime, error: code1Error }] = useMutation<
     UpsertCode1,
@@ -417,6 +439,12 @@ const BattlePage: React.FC = () => {
   };
   //点击发起对战
   const fight = () => {
+    console.log(roomStatusData?.contest_room.length);
+    // TODO: 下面的代码有点丑陋
+    if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
+      message.warning("当前正在进行的比赛过多，请稍后再试");
+      return;
+    }
     (async () => {
       try {
         //console.log("您："+teamid+"  对手："+opponentTeamId);
@@ -453,6 +481,12 @@ const BattlePage: React.FC = () => {
   };
   //点击发起对战
   const fight2 = () => {
+    console.log(roomStatusData?.contest_room.length);
+    // TODO: 下面的代码有点丑陋
+    if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
+      message.warning("当前正在进行的比赛过多，请稍后再试");
+      return;
+    }
     (async () => {
       try {
         // console.log("您："+teamid+"  对手："+opponentTeamId);
@@ -623,7 +657,7 @@ const BattlePage: React.FC = () => {
       title: "分数",
       dataIndex: "score",
       key: "score",
-      sorter: (a, b) => Number(a.score) - Number(b.score),
+      sorter: (a,b)=> Number(a.score)-Number(b.score),
       defaultSortOrder: "descend",
     },
     {
@@ -858,8 +892,8 @@ const BattlePage: React.FC = () => {
             <TabPane tab="天梯" key="1">
               <Table
                 className={styles.list}
-                loading={teamListLoading}
-                dataSource={teamListData?.contest_team}
+                loading={scoreteamListLoading}
+                dataSource={scoreteamListData?.contest_team}
                 columns={teamListColumns}
                 rowKey={record => record.team_id}
               />
