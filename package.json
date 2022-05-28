@@ -33,7 +33,7 @@
     "babel-plugin-import-graphql": "2.8.1",
     "babel-plugin-styled-components": "2.0.7",
     "bundlesize": "0.18.1",
-    "concurrently": "7.0.0",
+    "concurrently": "7.2.1",
     "customize-cra": "1.0.0",
     "customize-cra-react-refresh": "1.1.0",
     "dayjs": "1.11.2",
