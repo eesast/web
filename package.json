@@ -68,7 +68,7 @@
     "subscriptions-transport-ws": "0.11.0",
     "typescript": "4.6.2",
     "web-vitals": "2.1.4",
-    "xlsx": "0.18.0"
+    "xlsx": "0.18.5"
   },
   "scripts": {
     "start": "rimraf ./node_modules/.cache/babel-loader && yarn codegen && react-app-rewired start",
