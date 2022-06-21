@@ -8,7 +8,7 @@ const news = [
   {
     title: "清华大学电子工程系学生科协",
     content: "宽口径、厚基础，我们软硬皆通。",
-    image: `${process.env.REACT_APP_STATIC_URL}/public/images/eesast-group-photo-2021.jpg`,
+    image: `${process.env.REACT_APP_STATIC_URL}/public/images/eesast-group-photo-2022.jpg`,
   },
   {
     title: "“商汤杯”第二十一届电子设计大赛",
