@@ -79,7 +79,8 @@
     "codegen:watch": "yarn codegen --watch",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint --ext .ts,.tsx src/",
-    "typecheck": "tsc --noUnusedLocals"
+    "typecheck": "tsc --noUnusedLocals",
+    "try": "react-app-rewired start"
   },
   "husky": {
     "hooks": {

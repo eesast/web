@@ -54,22 +54,18 @@ import MenuPage from "./MenuPage";
 //用以没登陆会跳转到登陆页面
 import dayjs, { Dayjs } from "dayjs";
 
-
-
 const { Text } = Typography;
 const { confirm } = Modal;
-const { RangePicker } = DatePicker;
+const RangePicker: any = DatePicker.RangePicker;
 const { Option } = Select;
 
 var utc = require('dayjs/plugin/utc');
 dayjs.extend(utc);
 
-
 const ContestSite: React.FC = () => {
   const userInfo = getUserInfo();
 
   const { path } = useRouteMatch();
-  //console.log(path);
 
   const {
     data: contestData,
@@ -344,8 +340,6 @@ const ContestSite: React.FC = () => {
       }
     });
   };
-
-  //console.log(contestData?.contest);
 
   const index =
     <>
