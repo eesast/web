@@ -45,7 +45,7 @@ export interface UpdateContestNotice_update_contest_info_returning {
 export interface UpdateContestNotice_update_contest_info {
   __typename: "contest_info_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateContestNotice_update_contest_info_returning[];
 }
@@ -82,7 +82,7 @@ export interface AddContestNotice_insert_contest_info_returning {
 export interface AddContestNotice_insert_contest_info {
   __typename: "contest_info_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddContestNotice_insert_contest_info_returning[];
 }
@@ -118,7 +118,7 @@ export interface DeleteContestNotice_delete_contest_info_returning {
 export interface DeleteContestNotice_delete_contest_info {
   __typename: "contest_info_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: DeleteContestNotice_delete_contest_info_returning[];
 }
@@ -177,7 +177,7 @@ export interface AddContest_insert_contest_returning {
 export interface AddContest_insert_contest {
   __typename: "contest_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddContest_insert_contest_returning[];
 }
@@ -214,7 +214,7 @@ export interface UpdateContest_update_contest_returning {
 export interface UpdateContest_update_contest {
   __typename: "contest_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateContest_update_contest_returning[];
 }
@@ -252,11 +252,11 @@ export interface DeleteContest_delete_contest_returning {
 export interface DeleteContest_delete_contest {
   __typename: "contest_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: DeleteContest_delete_contest_returning[];
 }
@@ -319,7 +319,7 @@ export interface GetContestManagerVariables {
 export interface DeleteContestAllManager_delete_contest_manager {
   __typename: "contest_manager_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -347,7 +347,7 @@ export interface DeleteContestAllManagerVariables {
 export interface AddContestManager_insert_contest_manager {
   __typename: "contest_manager_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -402,7 +402,7 @@ export interface GetUser_IdVariables {
 export interface DeleteContestAllTeams_delete_contest_team {
   __typename: "contest_team_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -430,7 +430,7 @@ export interface DeleteContestAllTeamsVariables {
 export interface DeleteContestAllInfo_delete_contest_info {
   __typename: "contest_info_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -458,7 +458,7 @@ export interface DeleteContestAllInfoVariables {
 export interface DeleteContestAllRooms_delete_contest_room {
   __typename: "contest_room_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -512,7 +512,7 @@ export interface QueryContestManagerVariables {
 export interface InsertTeam_insert_contest_team {
   __typename: "contest_team_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -870,7 +870,7 @@ export interface GetTeamInfoVariables {
 export interface InsertTeamMember_insert_contest_team_member {
   __typename: "contest_team_member_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -899,7 +899,7 @@ export interface InsertTeamMemberVariables {
 export interface UpdateTeam_update_contest_team {
   __typename: "contest_team_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -983,7 +983,7 @@ export interface GetMemberInfoVariables {
 export interface DeleteTeam_delete_contest_team {
   __typename: "contest_team_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -1011,7 +1011,7 @@ export interface DeleteTeamVariables {
 export interface DeleteAllTeamMember_delete_contest_team_member {
   __typename: "contest_team_member_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -1039,7 +1039,7 @@ export interface DeleteAllTeamMemberVariables {
 export interface DeleteTeamMember_delete_contest_team_member {
   __typename: "contest_team_member_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -1148,7 +1148,7 @@ export interface GetIntroContentVariables {
 export interface UpdateIntro_update_article {
   __typename: "article_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -1163,34 +1163,6 @@ export interface UpdateIntro {
 export interface UpdateIntroVariables {
   id: number;
   content?: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: InsertCode
-// ====================================================
-
-export interface InsertCode_insert_thuai_code {
-  __typename: "thuai_code_mutation_response";
-  /**
-   * number of affected rows by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface InsertCode {
-  /**
-   * insert data into the table: "thuai_code"
-   */
-  insert_thuai_code: InsertCode_insert_thuai_code | null;
-}
-
-export interface InsertCodeVariables {
-  team_id: any;
 }
 
 /* tslint:disable */
@@ -1306,7 +1278,7 @@ export interface InsertRoomVariables {
 export interface DeleteRoom_delete_contest_room_team {
   __typename: "contest_room_team_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -1314,7 +1286,7 @@ export interface DeleteRoom_delete_contest_room_team {
 export interface DeleteRoom_delete_contest_room {
   __typename: "contest_room_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -1490,7 +1462,7 @@ export interface UpdateContestStatus_update_contest_returning {
 export interface UpdateContestStatus_update_contest {
   __typename: "contest_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateContestStatus_update_contest_returning[];
 }
@@ -1610,7 +1582,7 @@ export interface AddAidApplication_insert_aid_application_returning {
 export interface AddAidApplication_insert_aid_application {
   __typename: "aid_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddAidApplication_insert_aid_application_returning[];
 }
@@ -1646,7 +1618,7 @@ export interface UpdateAidApplication_update_aid_application_returning {
 export interface UpdateAidApplication_update_aid_application {
   __typename: "aid_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateAidApplication_update_aid_application_returning[];
 }
@@ -1681,7 +1653,7 @@ export interface DeleteAidApplication_delete_aid_application_returning {
 export interface DeleteAidApplication_delete_aid_application {
   __typename: "aid_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: DeleteAidApplication_delete_aid_application_returning[];
 }
@@ -1796,7 +1768,7 @@ export interface AddMessage_insert_mentor_message_returning {
 export interface AddMessage_insert_mentor_message {
   __typename: "mentor_message_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddMessage_insert_mentor_message_returning[];
 }
@@ -1905,7 +1877,7 @@ export interface AddHonorApplication_insert_honor_application_returning {
 export interface AddHonorApplication_insert_honor_application {
   __typename: "honor_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddHonorApplication_insert_honor_application_returning[];
 }
@@ -1941,7 +1913,7 @@ export interface UpdateHonorApplication_update_honor_application_returning {
 export interface UpdateHonorApplication_update_honor_application {
   __typename: "honor_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateHonorApplication_update_honor_application_returning[];
 }
@@ -1977,7 +1949,7 @@ export interface DeleteHonorApplication_delete_honor_application_returning {
 export interface DeleteHonorApplication_delete_honor_application {
   __typename: "honor_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: DeleteHonorApplication_delete_honor_application_returning[];
 }
@@ -2011,7 +1983,7 @@ export interface UpdateHonorApplicationStatus_update_honor_application_returning
 export interface UpdateHonorApplicationStatus_update_honor_application {
   __typename: "honor_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateHonorApplicationStatus_update_honor_application_returning[];
 }
@@ -2221,7 +2193,7 @@ export interface UpdateMentorApplicationStatus_update_mentor_application_returni
 export interface UpdateMentorApplicationStatus_update_mentor_application {
   __typename: "mentor_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateMentorApplicationStatus_update_mentor_application_returning[];
 }
@@ -2255,7 +2227,7 @@ export interface AddMentorApplication_insert_mentor_application_returning {
 export interface AddMentorApplication_insert_mentor_application {
   __typename: "mentor_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddMentorApplication_insert_mentor_application_returning[];
 }
@@ -2290,7 +2262,7 @@ export interface UpdateMentorApplication_update_mentor_application_returning {
 export interface UpdateMentorApplication_update_mentor_application {
   __typename: "mentor_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateMentorApplication_update_mentor_application_returning[];
 }
@@ -2343,7 +2315,7 @@ export interface DeleteMentorApplicationVariables {
 
 export interface GetMentorList_user_by_role_user_matched_aggregate {
   __typename: "mentor_application_aggregate_fields";
-  count: number | null;
+  count: number;
 }
 
 export interface GetMentorList_user_by_role_user_matched {
@@ -2353,7 +2325,7 @@ export interface GetMentorList_user_by_role_user_matched {
 
 export interface GetMentorList_user_by_role_user_total_aggregate {
   __typename: "mentor_application_aggregate_fields";
-  count: number | null;
+  count: number;
 }
 
 export interface GetMentorList_user_by_role_user_total {
@@ -2369,11 +2341,11 @@ export interface GetMentorList_user_by_role_user_mentor_available {
 export interface GetMentorList_user_by_role_user {
   __typename: "user";
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   matched: GetMentorList_user_by_role_user_matched;
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   total: GetMentorList_user_by_role_user_total;
   /**
@@ -2391,9 +2363,6 @@ export interface GetMentorList_user_by_role {
 }
 
 export interface GetMentorList {
-  /**
-   * perform the action: "user_by_role"
-   */
   user_by_role: GetMentorList_user_by_role[];
 }
 
@@ -2525,7 +2494,7 @@ export interface UpdateNotice_update_info_notice_returning {
 export interface UpdateNotice_update_info_notice {
   __typename: "info_notice_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateNotice_update_info_notice_returning[];
 }
@@ -2562,7 +2531,7 @@ export interface AddNotice_insert_info_notice_returning {
 export interface AddNotice_insert_info_notice {
   __typename: "info_notice_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddNotice_insert_info_notice_returning[];
 }
@@ -2598,7 +2567,7 @@ export interface DeleteNotice_delete_info_notice_returning {
 export interface DeleteNotice_delete_info_notice {
   __typename: "info_notice_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: DeleteNotice_delete_info_notice_returning[];
 }
@@ -2724,7 +2693,7 @@ export interface AddScholarshipApplication_insert_scholarship_application_return
 export interface AddScholarshipApplication_insert_scholarship_application {
   __typename: "scholarship_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: AddScholarshipApplication_insert_scholarship_application_returning[];
 }
@@ -2761,7 +2730,7 @@ export interface UpdateScholarshipApplication_update_scholarship_application_ret
 export interface UpdateScholarshipApplication_update_scholarship_application {
   __typename: "scholarship_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: UpdateScholarshipApplication_update_scholarship_application_returning[];
 }
@@ -2796,7 +2765,7 @@ export interface DeleteScholarshipApplication_delete_scholarship_application_ret
 export interface DeleteScholarshipApplication_delete_scholarship_application {
   __typename: "scholarship_application_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: DeleteScholarshipApplication_delete_scholarship_application_returning[];
 }
@@ -2828,7 +2797,7 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info_intend_aggregate_
 
 export interface GetPostgraduateFeeds_postgraduate_mentor_info_intend_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
   max: GetPostgraduateFeeds_postgraduate_mentor_info_intend_aggregate_max | null;
 }
 
@@ -2844,7 +2813,7 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info_in_contact_aggreg
 
 export interface GetPostgraduateFeeds_postgraduate_mentor_info_in_contact_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
   max: GetPostgraduateFeeds_postgraduate_mentor_info_in_contact_aggregate_max | null;
 }
 
@@ -2860,7 +2829,7 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info_confirmed_aggrega
 
 export interface GetPostgraduateFeeds_postgraduate_mentor_info_confirmed_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
   max: GetPostgraduateFeeds_postgraduate_mentor_info_confirmed_aggregate_max | null;
 }
 
@@ -2893,22 +2862,22 @@ export interface GetPostgraduateFeeds_postgraduate_mentor_info {
    */
   user_id: string;
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   intend: GetPostgraduateFeeds_postgraduate_mentor_info_intend;
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   in_contact: GetPostgraduateFeeds_postgraduate_mentor_info_in_contact;
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   confirmed: GetPostgraduateFeeds_postgraduate_mentor_info_confirmed;
 }
 
 export interface GetPostgraduateFeeds_postgraduate_mentor_info_aggregate_aggregate {
   __typename: "postgraduate_mentor_info_aggregate_fields";
-  count: number | null;
+  count: number;
 }
 
 export interface GetPostgraduateFeeds_postgraduate_mentor_info_aggregate {
@@ -2953,7 +2922,7 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggrega
 
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
   max: GetUnverifiedMentorInfo_postgraduate_mentor_info_intend_aggregate_max | null;
 }
 
@@ -2969,7 +2938,7 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact_agg
 
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
   max: GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact_aggregate_max | null;
 }
 
@@ -2985,7 +2954,7 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed_aggr
 
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
   max: GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed_aggregate_max | null;
 }
 
@@ -3022,22 +2991,22 @@ export interface GetUnverifiedMentorInfo_postgraduate_mentor_info {
    */
   userEditor: GetUnverifiedMentorInfo_postgraduate_mentor_info_userEditor;
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   intend: GetUnverifiedMentorInfo_postgraduate_mentor_info_intend;
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   in_contact: GetUnverifiedMentorInfo_postgraduate_mentor_info_in_contact;
   /**
-   * An aggregated array relationship
+   * An aggregate relationship
    */
   confirmed: GetUnverifiedMentorInfo_postgraduate_mentor_info_confirmed;
 }
 
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_aggregate_aggregate {
   __typename: "postgraduate_mentor_info_aggregate_fields";
-  count: number | null;
+  count: number;
 }
 
 export interface GetUnverifiedMentorInfo_postgraduate_mentor_info_aggregate {
@@ -3144,7 +3113,7 @@ export interface DeletePostgraduateInfo_delete_postgraduate_mentor_info_returnin
 export interface DeletePostgraduateInfo_delete_postgraduate_mentor_info {
   __typename: "postgraduate_mentor_info_mutation_response";
   /**
-   * data of the affected rows by the mutation
+   * data from the rows affected by the mutation
    */
   returning: DeletePostgraduateInfo_delete_postgraduate_mentor_info_returning[];
 }
@@ -3227,7 +3196,7 @@ export interface VerifyMentorInfoVariables {
 
 export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
 }
 
 export interface GetPostgraduateApplicationFeeds_postgraduate_application_aggregate {
@@ -3327,7 +3296,7 @@ export interface GetSelfPostgraduateApplications_postgraduate_application {
 
 export interface GetSelfPostgraduateApplications_postgraduate_application_aggregate_aggregate {
   __typename: "postgraduate_application_aggregate_fields";
-  count: number | null;
+  count: number;
 }
 
 export interface GetSelfPostgraduateApplications_postgraduate_application_aggregate {
@@ -3499,7 +3468,7 @@ export interface GetPostAppHistory_postgraduate_application_history {
 
 export interface GetPostAppHistory_postgraduate_application_history_aggregate_aggregate {
   __typename: "postgraduate_application_history_aggregate_fields";
-  count: number | null;
+  count: number;
 }
 
 export interface GetPostAppHistory_postgraduate_application_history_aggregate {
@@ -3619,7 +3588,7 @@ export interface GetUserByNameVariables {
 export interface UpdateUser_update_user {
   __typename: "user_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -3654,7 +3623,7 @@ export interface UpdateUserVariables {
 export interface UpdateUserForTeacher_update_user {
   __typename: "user_mutation_response";
   /**
-   * number of affected rows by the mutation
+   * number of rows affected by the mutation
    */
   affected_rows: number;
 }
@@ -3675,6 +3644,29 @@ export interface UpdateUserForTeacherVariables {
   department?: string | null;
   class?: string | null;
   email?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetWeekly
+// ====================================================
+
+export interface GetWeekly_weekly {
+  __typename: "weekly";
+  id: number;
+  title: string;
+  url: string;
+}
+
+export interface GetWeekly {
+  /**
+   * fetch data from the table: "weekly"
+   */
+  weekly: GetWeekly_weekly[];
 }
 
 /* tslint:disable */

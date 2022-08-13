@@ -1,26 +1,3 @@
-// import Center from "../../components/Center";
-// import { Result, Button } from "antd";
-// import { Link } from "react-router-dom";
-
-// const NotFoundPage = () => {
-//   return (
-//     <Center>
-//       <Result
-//         status="404"
-//         title="404"
-//         subTitle="未找到您要访问的页面"
-//         extra={
-//           <Button type="primary">
-//             <Link to="/home"> 返回主页</Link>
-//           </Button>
-//         }
-//       />
-//     </Center>
-//   );
-// };
-
-// export default NotFoundPage;
-
 import React, { useEffect, useState } from "react";
 import type { UploadFile, RcCustomRequestOptions } from "antd/lib/upload/interface"
 import { useLocation } from "react-router-dom"
@@ -84,8 +61,6 @@ import {
 import { DeleteRoom, DeleteRoomVariables } from "../../api/types";
 import { DeleteRoom as DELETEROOM } from "../../api/contest.graphql";
 //————创建thuaicode————
-// import { InsertCode, InsertCodeVariables } from "../../api/types";
-// import { InsertCode as INSERTCODE } from "../../api/contest.graphql";
 import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
 import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
 import { GetCodeUpdateTime as GETCODETIME } from "../../api/contest.graphql";
@@ -110,13 +85,12 @@ import {
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
+import { useQuery, useMutation } from "@apollo/client";
 import dayjs from "dayjs";
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
-const {SubMenu} = Menu;
-
+const { SubMenu } = Menu;
 
 const BattlePage: React.FC = () => {
   const userInfo = getUserInfo();

@@ -21,13 +21,14 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
 import { enquireScreenSize } from "./helpers/enquire";
 import HomeSite from "./pages/HomeSite";
+import ContestSite from "./pages/ContestSite";
+import WeeklyPage from "./pages/WeeklyPage";
+import InfoSite from "./pages/InfoSite";
 import LoginPage from "./pages/LoginPage";
 import AuthRoute from "./components/AuthRoute";
 import ProfilePage from "./pages/ProfilePage";
-import InfoSite from "./pages/InfoSite";
 import NotFoundPage from "./pages/NotFoundPage";
 import Picture from "./components/Picture";
-import ContestSite from "./pages/ContestSite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -185,7 +186,9 @@ function App() {
             <AuthRoute path="/contest">
               <ContestSite />
             </AuthRoute>
-
+            <Route path="/weekly">
+              <WeeklyPage />
+            </Route>
             <AuthRoute path="/info">
               <InfoSite />
             </AuthRoute>
