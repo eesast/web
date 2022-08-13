@@ -1,5 +1,4 @@
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Avatar, Card, List, Pagination, Layout, Image } from 'antd';
+import { Avatar, Card, List, Pagination, Layout } from 'antd';
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GetWeekly } from "../api/types";
@@ -10,25 +9,6 @@ import axios from 'axios';
 const { Meta } = Card;
 const { Content, Footer } = Layout;
 const pageSizes = ['8', '12', '16', '20', '32'];
-const url: string[] = [];
-
-const fetch_cover_img = async (data_show: any) => {
-  try {
-    if (data_show) {
-      for (let i = 0; i < data_show.length; i++) {
-        const response = await axios.get("/weekly", {
-          params: {
-            url: data_show[i].url
-          }
-        });
-        const data: string = response.data[0];
-        url[i] = data;
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
 
 const WeeklyPage: React.FC = () => {
 
@@ -37,15 +17,37 @@ const WeeklyPage: React.FC = () => {
   );
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
-  let data_show;
+  let data_show: any;
 
   data_show = weekly_data?.weekly.slice(showSize * (page - 1), showSize * page);
-  fetch_cover_img(data_show);
 
   const onChange = (pageNumber: number, pageSize?: number) => {
     setPage(pageNumber);
     if (pageSize) setShowSize(pageSize);
   };
+
+  const Im = (props: any) => {
+    const [url, setUrl] = useState("/android-chrome-192x192.png");
+    fetch_img(props.src, setUrl);
+    return <img
+      alt="weekly cover"
+      src={url}
+      referrerPolicy="no-referrer"
+    />
+  }
+
+  const fetch_img = async (url: string, setUrl: any) => {
+    try {
+      const response = await axios.get("/weekly", {
+        params: {
+          url: url
+        }
+      });
+      setUrl(response.data[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <Layout>
@@ -55,7 +57,7 @@ const WeeklyPage: React.FC = () => {
         <List
           grid={{ gutter: 16, column: 4 }}
           dataSource={data_show}
-          renderItem={(item, id) => (
+          renderItem={(item: any) => (
             <List.Item>
               <Card style={{ width: 300 }}
                 hoverable={true}
@@ -64,21 +66,12 @@ const WeeklyPage: React.FC = () => {
                   if (w != null) w.location.href = item.url;
                 }}
                 cover={
-                  <Image
-                    alt="cover image"
-                    src={url[id]}
-                    referrerPolicy="no-referrer"
-                  />
+                  <Im src={item.url} />
                 }
-                actions={[
-                  <SettingOutlined key="setting" />,
-                  <EditOutlined key="edit" />,
-                  <EllipsisOutlined key="ellipsis" />,
-                ]}
               >
                 <Meta
                   avatar={<Avatar src={`/android-chrome-192x192.png`} />}
-                  title={<p className='title'> {item.title.slice(4, 15)} <br/> {item.title.slice(22)} </p>}
+                  title={<text> {item.title.slice(4, 15)} <br/> {item.title.slice(22)} </text>}
                 />
               </Card>
             </List.Item>
