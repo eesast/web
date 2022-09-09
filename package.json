@@ -38,7 +38,7 @@
     "customize-cra-react-refresh": "1.1.0",
     "dayjs": "1.11.5",
     "docxtemplater": "3.31.3",
-    "dotenv": "16.0.1",
+    "dotenv": "16.0.2",
     "enquire.js": "2.1.6",
     "file-saver": "2.0.5",
     "husky": "7.0.4",
