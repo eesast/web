@@ -70,7 +70,9 @@ const NoticePage: React.FC = () => {
     loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-  } = useQuery<GetNotices>(GET_NOTICES);
+  } = useQuery<GetNotices>(GET_NOTICES, {variables: {
+    notice_type: ["奖助学金", "推研信息", "就业信息", "实习信息", "赛事信息"]
+  }});
 
   const [
     updateNotice,
@@ -88,6 +90,7 @@ const NoticePage: React.FC = () => {
   useEffect(() => {
     if (noticeError) {
       message.error("公告加载失败");
+      console.log(noticeError);
     }
   }, [noticeError]);
 
@@ -193,7 +196,7 @@ const NoticePage: React.FC = () => {
 
   const handleTypeClick = async (e: any) => {
     setNoticeType(e.key);
-    await refetchNotices({ notice_type: e.key === "all" ? null : e.key });
+    await refetchNotices({ notice_type: e.key !== "all" ? e.key : ["奖助学金", "推研信息", "就业信息", "实习信息", "赛事信息"] });
   };
 
   return (

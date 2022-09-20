@@ -1,6 +1,6 @@
-query GetNotices($notice_type: String) {
+query GetNotices($notice_type: [String!]) {
   info_notice(
-    where: { notice_type: { _eq: $notice_type } }
+    where: { notice_type: { _in: $notice_type } }
     order_by: { updated_at: desc }
   ) {
     id
