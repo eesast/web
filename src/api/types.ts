@@ -2474,7 +2474,7 @@ export interface GetNotices {
 }
 
 export interface GetNoticesVariables {
-  notice_type?: string | null;
+  notice_type?: string[] | null;
 }
 
 /* tslint:disable */
