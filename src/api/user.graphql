@@ -16,6 +16,7 @@ query GetUserById($id: bigint!) {
     _id
     id
     username
+    name
   }
 }
 

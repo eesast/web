@@ -61,7 +61,7 @@ const honorSelectOptions = honors.map((i) => (
   </Option>
 ));
 
-const classes = [6, 7, 8, 9].reduce<string[]>(
+const classes = [9, 0, 1].reduce<string[]>(
   (pre, year) => [
     ...pre,
     ...[1, 2, 3, 4, 5, 6, 7, 8].map((_class) => `无${year}${_class}`),
@@ -88,7 +88,7 @@ const HonorApplicationPage = () => {
     {
       variables: {
         _id: userInfo?._id!,
-        _gte: "2020-09-29",
+        _gte: "2022-01-01",
       },
       skip: userInfo?.role === "counselor",
     }
@@ -603,11 +603,11 @@ const HonorApplicationPage = () => {
       <Timeline>
         <Timeline.Item color="green">
           <p>第一阶段：奖学金荣誉申请</p>
-          <p>2021年10月1日（周五）0:00 ~ 2021年10月6日（周三）17:00</p>
+          <p>2022-10-01 00:00 ~ 2022-10-05 23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：奖学金申请结果公示</p>
-          <p>拟定于 2021年10月13日 ~ 2021年10月15日（3天）</p>
+          <p>2022-10-13 00:00 ~ 2022-10-15 23:59</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
@@ -829,7 +829,6 @@ const HonorApplicationPage = () => {
               </Form.Item>
               <Typography.Text>
                 若班级不在下拉菜单内，请手动输入班级名，并回车，结果即会包含该班级的申请。
-                申请状态可选：已提交，未通过，已通过。届时上传结果的申请状态一栏只允许这三个值，否则系统会拒绝解析上传表格。
               </Typography.Text>
             </Form>
           </Modal>

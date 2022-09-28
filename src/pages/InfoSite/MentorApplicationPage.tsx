@@ -278,6 +278,7 @@ const MentorApplicationPage = () => {
   useEffect(() => {
     if (mentorListError) {
       message.error("导师列表加载失败");
+      console.log(mentorListError)
     }
   }, [mentorListError]);
 

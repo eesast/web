@@ -1522,6 +1522,7 @@ export interface GetAidApplications {
 
 export interface GetAidApplicationsVariables {
   _id: string;
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -3538,6 +3539,7 @@ export interface GetUserById_user {
   _id: string;
   id: any | null;
   username: string | null;
+  name: string | null;
 }
 
 export interface GetUserById {

@@ -60,7 +60,7 @@ const aidSelectOptions = [...aidNames, ""].map((i) => (
   </Option>
 ));
 
-const classes = [6, 7, 8, 9].reduce<string[]>(
+const classes = [9, 0, 1].reduce<string[]>(
   (pre, year) => [
     ...pre,
     ...[1, 2, 3, 4, 5, 6, 7, 8].map((_class) => `无${year}${_class}`),
@@ -87,6 +87,7 @@ const AidApplicationPage = () => {
     {
       variables: {
         _id: userInfo?._id!,
+        _gte: "2022-01-01"
       },
       skip: userInfo?.role === "counselor",
     }
@@ -119,26 +120,85 @@ const AidApplicationPage = () => {
     }
   }, [updateApplicationError]);
 
-  const handleApplicationEdit = async () => {
+  const [
+    addApplication,
+    { loading: applicationAdding, error: addApplicationError },
+  ] = useMutation<
+    AddAidApplication,
+    AddAidApplicationVariables
+  >(ADD_AID_APPLICATION);
+
+  useEffect(() => {
+    if (addApplicationError) {
+      message.error("助学金记录添加失败");
+    }
+  }, [addApplicationError]);
+
+  const handleApplicationEdit = async (mode: boolean) => {
     try {
-      form.validateFields();
-    } catch {}
+      await form.validateFields();
+    } catch {
+      return;
+    }
 
     const values = form.getFieldsValue();
 
-    await updateApplication({
+    if (mode) await updateApplication({
       variables: {
         id: editingApplication!.id,
         thank_letter: values.thank_letter,
         form_url: values.form_url,
       },
     });
+    else {
+      const { data } = await client.query<
+        GetUserById,
+        GetUserByIdVariables
+      >({
+        query: GET_USER_BY_ID,
+        variables: {
+          id: values.student_number,
+        },
+      });
+
+      if (data.user.length !== 1) {
+        message.error("数据错误：用户不存在或不唯一！");
+        return;
+      }
+      if (data.user[0].name !== values.name) {
+        message.error("数据错误：姓名和学号不匹配！");
+        return;
+      }
+      const id = data.user[0]._id;
+
+      if (!aidNames.includes(values.aid)) {
+        message.error("数据错误：助学金不存在！");
+        return;
+      }
+      const codes = [...aids[values.aid as keyof typeof aids]].map(
+        (i) => i.code
+      );
+      if (!codes.includes(values.code)) {
+        message.error("数据错误：助学金代码错误！");
+        return;
+      }
+
+      await addApplication({
+        variables: {
+          student_id: id,
+          aid: values.aid,
+          amount: values.amount,
+          code: values.code,
+        },
+      });
+    }
 
     setApplicationFormVisible(false);
     setEditingApplication(undefined);
     form.resetFields();
-
     refetchApplications();
+    refetchApplicationsForCounselors();
+    message.success("操作成功！");
   };
 
   const [deleteApplication, { error: deleteApplicationError }] = useMutation<
@@ -524,6 +584,7 @@ const AidApplicationPage = () => {
     } catch (err) {
       message.error("文件解析失败：" + err);
     } finally {
+      setFileList(null);
       setImportLoading(false);
     }
   };
@@ -541,11 +602,11 @@ const AidApplicationPage = () => {
       <Timeline>
         <Timeline.Item color="green">
           <p>第一阶段：助学金荣誉申请</p>
-          <p>2019-09-22 00:00 ~ 2019-09-23 23:59</p>
+          <p>2022-10-01 00:00 ~ 2022-10-05 23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：助学金申请结果公示</p>
-          <p>2019-10-08 00:00 ~ 2019-10-10 23:59</p>
+          <p>2022-10-13 00:00 ~ 2022-10-15 23:59</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>助学金</Typography.Title>
@@ -641,14 +702,14 @@ const AidApplicationPage = () => {
               setEditingApplication(undefined);
               form.resetFields();
             }}
-            onOk={handleApplicationEdit}
+            onOk={() => handleApplicationEdit(true)}
             maskClosable={false}
             confirmLoading={applicationUpdating}
           >
             <Form
               form={form}
               name="application"
-              onFinish={handleApplicationEdit}
+              onFinish={() => handleApplicationEdit(true)}
               initialValues={editingApplication}
             >
               <Form.Item name="aid" label="助学金">
@@ -827,6 +888,56 @@ const AidApplicationPage = () => {
                 />
               )}
             </div>
+          </Modal>
+          <Modal
+            visible={applicationFormVisible}
+            title="添加助学金记录"
+            centered
+            destroyOnClose
+            okText="提交"
+            onCancel={() => {
+              setApplicationFormVisible(false);
+              setEditingApplication(undefined);
+              form.resetFields();
+            }}
+            onOk={() => handleApplicationEdit(false)}
+            maskClosable={false}
+            confirmLoading={applicationAdding}
+          >
+            <Form
+              form={form}
+              name="application"
+              onFinish={() => handleApplicationEdit(false)}
+            >
+              <Form.Item name="name" label="姓名" rules={[{ required: true, message: "请输入姓名" }]}>
+                <Input />
+              </Form.Item>
+              <Form.Item name="student_number" label="学号" rules={[{ required: true, message: "请输入学号" }]}>
+                <Input type="number"/>
+              </Form.Item>
+              <Form.Item name="aid" label="助学金" rules={[{ required: true, message: "请输入助学金名称" }]}>
+                <Select>{aidSelectOptions}</Select>
+              </Form.Item>
+              <Form.Item name="code" label="代码" rules={[{ required: true, message: "请输入助学金代码" }]}>
+                <Input />
+              </Form.Item>
+              <Form.Item name="amount" label="金额" rules={[{ required: true, message: "请输入助学金金额" }]}>
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item name="form_url" label="专用申请表">
+                <Input disabled placeholder="学生填写：专用申请表下载链接" />
+              </Form.Item>
+              <Form.Item name="thank_letter" label="感谢信正文">
+                <TextArea
+                  css={`
+                    resize: none;
+                  `}
+                  autoSize={{ minRows: 5 }}
+                  disabled
+                  placeholder="学生填写：感谢信正文"
+                />
+              </Form.Item>
+            </Form>
           </Modal>
         </>
       )}
