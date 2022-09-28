@@ -67,7 +67,7 @@ const scholarshipSelectOptions = [...scholarshipNames, ""].map((i) => (
   </Option>
 ));
 
-const classes = [6, 7, 8, 9].reduce<string[]>(
+const classes = [9, 0, 1].reduce<string[]>(
   (pre, year) => [
     ...pre,
     ...[1, 2, 3, 4, 5, 6, 7, 8].map((_class) => `无${year}${_class}`),
@@ -94,7 +94,7 @@ const ScholarshipApplicationPage = () => {
     {
       variables: {
         _id: userInfo?._id!,
-        _gte: "2020-09-29",
+        _gte: "2022-01-01",
       },
       skip: userInfo?.role === "counselor",
     }
@@ -128,26 +128,89 @@ const ScholarshipApplicationPage = () => {
     }
   }, [updateApplicationError]);
 
-  const handleApplicationEdit = async () => {
+  const [
+    addApplication,
+    { loading: applicationAdding, error: addApplicationError },
+  ] = useMutation<
+    AddScholarshipApplication,
+    AddScholarshipApplicationVariables
+  >(ADD_SCHOLARSHIP_APPLICATION);
+
+  useEffect(() => {
+    if (addApplicationError) {
+      message.error("奖学金记录添加失败");
+    }
+  }, [addApplicationError]);
+
+  const handleApplicationEdit = async (mode: boolean) => {
     try {
-      form.validateFields();
-    } catch {}
+      await form.validateFields();
+    } catch {
+      return;
+    }
 
     const values = form.getFieldsValue();
 
-    await updateApplication({
+    if (mode) await updateApplication({
       variables: {
         id: editingApplication!.id,
         thank_letter: values.thank_letter,
         form_url: values.form_url,
       },
     });
+    else {
+      const { data } = await client.query<
+        GetUserById,
+        GetUserByIdVariables
+      >({
+        query: GET_USER_BY_ID,
+        variables: {
+          id: values.student_number,
+        },
+      });
+
+      if (data.user.length !== 1) {
+        message.error("数据错误：用户不存在或不唯一！");
+        return;
+      }
+      if (data.user[0].name !== values.name) {
+        message.error("数据错误：姓名和学号不匹配！");
+        return;
+      }
+      const id = data.user[0]._id;
+
+      if (
+        !scholarshipNames.includes(values.scholarship) ||
+        !honors.includes(values.honor)
+      ) {
+        message.error("数据错误：奖学金或荣誉不存在！");
+        return;
+      }
+      const codes = [...scholarships[values.scholarship as keyof typeof scholarships]].map(
+        (i) => i.code
+      );
+      if (!codes.includes(values.code)) {
+        message.error("数据错误：奖学金代码错误！");
+        return;
+      }
+
+      await addApplication({
+        variables: {
+          student_id: id,
+          scholarship: values.scholarship,
+          honor: values.honor,
+          amount: values.amount,
+          code: values.code,
+        },
+      });
+    }
 
     setApplicationFormVisible(false);
     setEditingApplication(undefined);
     form.resetFields();
-
     refetchApplications();
+    refetchApplicationsForCounselors();
+    message.success("操作成功！");
   };
 
   const [deleteApplication, { error: deleteApplicationError }] = useMutation<
@@ -573,6 +636,7 @@ const ScholarshipApplicationPage = () => {
     } catch (err) {
       message.error("文件解析失败：" + err);
     } finally {
+      setFileList(null);
       setImportLoading(false);
     }
   };
@@ -590,11 +654,11 @@ const ScholarshipApplicationPage = () => {
       <Timeline>
         <Timeline.Item color="green">
           <p>第一阶段：奖学金荣誉申请</p>
-          <p>2021年10月1日（周五）0:00 ~ 2021年10月6日（周三）17:00</p>
+          <p>2022-10-01 00:00 ~ 2022-10-05 23:59</p>
         </Timeline.Item>
         <Timeline.Item color="green">
           <p>第二阶段：奖学金申请结果公示</p>
-          <p>拟定于 2021年10月13日 ~ 2021年10月15日（3天）</p>
+          <p>2022-10-13 00:00 ~ 2022-10-15 23:59</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>奖学金</Typography.Title>
@@ -693,14 +757,14 @@ const ScholarshipApplicationPage = () => {
               setEditingApplication(undefined);
               form.resetFields();
             }}
-            onOk={handleApplicationEdit}
+            onOk={() => handleApplicationEdit(true)}
             maskClosable={false}
             confirmLoading={applicationUpdating}
           >
             <Form
               form={form}
               name="application"
-              onFinish={handleApplicationEdit}
+              onFinish={() => handleApplicationEdit(true)}
               initialValues={editingApplication}
             >
               <Form.Item name="honor" label="荣誉">
@@ -709,7 +773,7 @@ const ScholarshipApplicationPage = () => {
               <Form.Item name="scholarship" label="奖学金">
                 <Select disabled>{scholarshipSelectOptions}</Select>
               </Form.Item>
-              <Form.Item name="code" label="代码">
+              <Form.Item name="code" label="奖学金代码">
                 <Input disabled />
               </Form.Item>
               <Form.Item name="amount" label="金额">
@@ -882,6 +946,59 @@ const ScholarshipApplicationPage = () => {
                 />
               )}
             </div>
+          </Modal>
+          <Modal
+            visible={applicationFormVisible}
+            title="添加奖学金记录"
+            centered
+            destroyOnClose
+            okText="提交"
+            onCancel={() => {
+              setApplicationFormVisible(false);
+              setEditingApplication(undefined);
+              form.resetFields();
+            }}
+            onOk={() => handleApplicationEdit(false)}
+            maskClosable={false}
+            confirmLoading={applicationAdding}
+          >
+            <Form
+              form={form}
+              name="application"
+              onFinish={() => handleApplicationEdit(false)}
+            >
+              <Form.Item name="name" label="姓名" rules={[{ required: true, message: "请输入姓名" }]}>
+                <Input />
+              </Form.Item>
+              <Form.Item name="student_number" label="学号" rules={[{ required: true, message: "请输入学号" }]}>
+                <Input type="number"/>
+              </Form.Item>
+              <Form.Item name="honor" label="荣誉" rules={[{ required: true, message: "请输入荣誉类型" }]}>
+                <Select>{honorSelectOptions}</Select>
+              </Form.Item>
+              <Form.Item name="scholarship" label="奖学金" rules={[{ required: true, message: "请输入奖学金名称" }]}>
+                <Select>{scholarshipSelectOptions}</Select>
+              </Form.Item>
+              <Form.Item name="code" label="代码" rules={[{ required: true, message: "请输入奖学金代码" }]}>
+                <Input />
+              </Form.Item>
+              <Form.Item name="amount" label="金额" rules={[{ required: true, message: "请输入奖学金金额" }]}>
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item name="form_url" label="专用申请表">
+                <Input disabled placeholder="学生填写：专用申请表下载链接" />
+              </Form.Item>
+              <Form.Item name="thank_letter" label="感谢信正文">
+                <TextArea
+                  css={`
+                    resize: none;
+                  `}
+                  autoSize={{ minRows: 5 }}
+                  disabled
+                  placeholder="学生填写：感谢信正文"
+                />
+              </Form.Item>
+            </Form>
           </Modal>
         </>
       )}

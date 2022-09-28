@@ -1,6 +1,10 @@
-query GetAidApplications($_id: String!) {
+query GetAidApplications($_id: String!, $_gte: timestamptz!) {
   aid_application(
-    where: { student_id: { _eq: $_id } }
+    where: {
+      student_id: { _eq: $_id }
+      updated_at: { _gte: $_gte }
+      created_at: { _gte: $_gte }
+    }
     order_by: { created_at: asc }
   ) {
     id
