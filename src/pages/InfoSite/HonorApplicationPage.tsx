@@ -17,6 +17,7 @@ import {
   Progress,
 } from "antd";
 import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import axios, { AxiosError } from "axios";
 import {
   GetHonorApplications as GET_HONOR_APPLICATIONS,
   AddHonorApplication as ADD_HONOR_APPLICATION,
@@ -42,7 +43,6 @@ import {
   UpdateHonorApplicationStatusVariables,
 } from "../../api/types";
 import isUrl from "is-url";
-import { honors } from "../../configs";
 import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import type { ColumnProps, TableProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
@@ -55,13 +55,8 @@ const { TextArea } = Input;
 const { Option } = Select;
 const { confirm } = Modal;
 
-const honorSelectOptions = honors.map((i) => (
-  <Option key={i} value={i}>
-    {i}
-  </Option>
-));
-
-const classes = [9, 0, 1].reduce<string[]>(
+const grade = (new Date().getFullYear()) % 10;
+const classes = [(grade+7)%10, (grade+8)%10, (grade+9)%10].reduce<string[]>(
   (pre, year) => [
     ...pre,
     ...[1, 2, 3, 4, 5, 6, 7, 8].map((_class) => `无${year}${_class}`),
@@ -77,6 +72,48 @@ const exportSelectOptions = classes.map((_class) => (
 
 const HonorApplicationPage = () => {
   const userInfo = getUserInfo();
+  const [info, setInfo] = useState({
+    honors: [""],
+    honor: {
+      start_A: new Date(),
+      start_B: new Date(),
+      end_A: new Date(),
+      end_B: new Date()
+    }
+  });
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await axios.get("/application/info");
+        setInfo({
+          honors: response.data.honors,
+          honor: {
+            start_A: new Date(response.data.scholarship.start_A),
+            start_B: new Date(response.data.scholarship.start_B),
+            end_A: new Date(response.data.scholarship.end_A),
+            end_B: new Date(response.data.scholarship.end_B)
+          }
+        });
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("验证失败");
+        } else if (err.response?.status === 500) {
+          message.error("数据错误");
+        } else {
+          message.error("未知错误");
+        }
+      }
+    }
+    fetch();
+  }, []);
+
+  const honorSelectOptions = info.honors.map((i) => (
+    <Option key={i} value={i}>
+      {i}
+    </Option>
+  ));
 
   const {
     loading: applicationLoading,
@@ -88,7 +125,7 @@ const HonorApplicationPage = () => {
     {
       variables: {
         _id: userInfo?._id!,
-        _gte: "2022-01-01",
+        _gte: info.honor.start_A,
       },
       skip: userInfo?.role === "counselor",
     }
@@ -200,7 +237,7 @@ const HonorApplicationPage = () => {
     GetHonorApplicationsForCounselors,
     GetHonorApplicationsForCounselorsVariables
   >(GET_HONOR_APPLICATIONS_FOR_COUNSELORS, {
-    variables: { _gte: "2020-09-29" },
+    variables: { _gte: info.honor.start_A },
     skip: userInfo?.role !== "counselor",
   });
 
@@ -354,7 +391,7 @@ const HonorApplicationPage = () => {
       title: "荣誉类型",
       dataIndex: "honor",
       key: "honor",
-      filters: honors.map((honor) => ({ text: honor, value: honor })),
+      filters: info.honors.map((honor) => ({ text: honor, value: honor })),
       onFilter: (value, record) => record.honor === value,
     },
     {
@@ -558,7 +595,7 @@ const HonorApplicationPage = () => {
 
             if (
               !["已提交", "未通过", "已通过"].includes(status) ||
-              !honors.includes(honor as any)
+              !info.honors.includes(honor as any)
             ) {
               throw new Error("Parse error");
             }
@@ -601,13 +638,13 @@ const HonorApplicationPage = () => {
     >
       <Typography.Title level={2}>关键时间点</Typography.Title>
       <Timeline>
-        <Timeline.Item color="green">
-          <p>第一阶段：奖学金荣誉申请</p>
-          <p>2022-10-01 00:00 ~ 2022-10-05 23:59</p>
+        <Timeline.Item color={new Date() >= info.honor.start_A && new Date() <= info.honor.end_A ? "green" : "red"}>
+          <p>第一阶段：荣誉申请</p>
+          <p>{info.honor.start_A.toLocaleString()} ~ {info.honor.end_A.toLocaleString()}</p>
         </Timeline.Item>
-        <Timeline.Item color="green">
-          <p>第二阶段：奖学金申请结果公示</p>
-          <p>2022-10-13 00:00 ~ 2022-10-15 23:59</p>
+        <Timeline.Item color={new Date() >= info.honor.start_B && new Date() <= info.honor.end_B ? "green" : "red"}>
+          <p>第二阶段：荣誉申请结果公示</p>
+          <p>{info.honor.start_B.toLocaleString()} ~ {info.honor.end_B.toLocaleString()}</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
@@ -615,7 +652,15 @@ const HonorApplicationPage = () => {
         <>
           <Button
             disabled={false}
-            onClick={() => setApplicationFormVisible(true)}
+            onClick={() => {
+              if (new Date() < info.honor.start_A) {
+                return message.info("未到申请时间！");
+              }
+              else if (new Date() > info.honor.end_A) {
+                return message.warn("申请时间已过！");
+              }
+              setApplicationFormVisible(true)
+            }}
           >
             申请荣誉
           </Button>
@@ -674,6 +719,12 @@ const HonorApplicationPage = () => {
                       `}
                       disabled={item.status !== "submitted"}
                       onClick={() => {
+                        if (new Date() < info.honor.start_A) {
+                          return message.info("未到申请时间！");
+                        }
+                        else if (new Date() > info.honor.end_A) {
+                          return message.warn("申请时间已过！");
+                        }
                         setEditingApplication(item);
                         form.setFieldsValue(item);
                         setApplicationFormVisible(true);
@@ -687,7 +738,15 @@ const HonorApplicationPage = () => {
                       `}
                       disabled={false}
                       danger
-                      onClick={() => handleApplicationDelete(item.id)}
+                      onClick={() => {
+                        if (new Date() < info.honor.start_A) {
+                          return message.info("未到申请时间！");
+                        }
+                        else if (new Date() > info.honor.end_A) {
+                          return message.warn("申请时间已过！");
+                        }
+                        handleApplicationDelete(item.id)
+                      }}
                     >
                       删除
                     </Button>

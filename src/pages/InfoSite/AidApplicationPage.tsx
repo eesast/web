@@ -15,7 +15,9 @@ import {
   Progress,
 } from "antd";
 import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import axios, { AxiosError } from "axios";
 import {
+  GetAidList,
   GetAidApplications,
   GetAidApplicationsVariables,
   GetAidApplications_aid_application,
@@ -31,6 +33,7 @@ import {
   GetUserByIdVariables,
 } from "../../api/types";
 import {
+  GetAidList as GET_AID_LIST,
   GetAidApplications as GET_AID_APPLICATIONS,
   UpdateAidApplication as UPDATE_AID_APPLICATION,
   DeleteAidApplication as DELETE_AID_APPLICATION,
@@ -39,7 +42,6 @@ import {
 } from "../../api/info_aid.graphql";
 import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
-import { aids } from "../../configs";
 import { generateThankLetter } from "../../helpers/application";
 import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
@@ -52,15 +54,8 @@ const { Option } = Select;
 const { TextArea } = Input;
 const { confirm } = Modal;
 
-const aidNames = Object.keys(aids);
-
-const aidSelectOptions = [...aidNames, ""].map((i) => (
-  <Option key={i} value={i}>
-    {i || "全部"}
-  </Option>
-));
-
-const classes = [9, 0, 1].reduce<string[]>(
+const grade = (new Date().getFullYear()) % 10;
+const classes = [(grade+7)%10, (grade+8)%10, (grade+9)%10].reduce<string[]>(
   (pre, year) => [
     ...pre,
     ...[1, 2, 3, 4, 5, 6, 7, 8].map((_class) => `无${year}${_class}`),
@@ -76,6 +71,61 @@ const exportSelectOptions = ["全部", ...classes].map((_class) => (
 
 const AidApplicationPage = () => {
   const userInfo = getUserInfo();
+  const [info, setInfo] = useState({
+    aid: {
+      start_A: new Date(),
+      start_B: new Date(),
+      end_A: new Date(),
+      end_B: new Date()
+    }
+  });
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await axios.get("/application/info");
+        setInfo({
+          aid: {
+            start_A: new Date(response.data.aid.start_A),
+            start_B: new Date(response.data.aid.start_B),
+            end_A: new Date(response.data.aid.end_A),
+            end_B: new Date(response.data.aid.end_B)
+          },
+        });
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("验证失败");
+        } else if (err.response?.status === 500) {
+          message.error("数据错误");
+        } else {
+          message.error("未知错误");
+        }
+      }
+    }
+    fetch();
+  }, []);
+
+  const {
+    loading: listLoading,
+    error: listError,
+    data: listData,
+  } = useQuery<GetAidList>(
+    GET_AID_LIST
+  );
+
+  useEffect(() => {
+    if (listError) {
+      message.error("助学金列表加载失败");
+    }
+  }, [listError]);
+
+  const aidNames = Array.from(new Set(listData?.scholarships_aids.map((item) => (item.name))));
+  const aidSelectOptions = aidNames.map((name) => (
+    <Option key={name} value={name}>
+        {name}
+    </Option>
+  ))
 
   const {
     loading: applicationLoading,
@@ -87,7 +137,7 @@ const AidApplicationPage = () => {
     {
       variables: {
         _id: userInfo?._id!,
-        _gte: "2022-01-01"
+        _gte: info.aid.start_A,
       },
       skip: userInfo?.role === "counselor",
     }
@@ -95,7 +145,7 @@ const AidApplicationPage = () => {
 
   useEffect(() => {
     if (applicationError) {
-      message.error("助学金加载失败");
+      message.error("助学金申请加载失败");
     }
   }, [applicationError]);
 
@@ -175,10 +225,16 @@ const AidApplicationPage = () => {
         message.error("数据错误：助学金不存在！");
         return;
       }
-      const codes = [...aids[values.aid as keyof typeof aids]].map(
-        (i) => i.code
-      );
-      if (!codes.includes(values.code)) {
+
+      if (listLoading) {
+        message.warning("未加载完成");
+        return;
+      }
+      const codes = listData?.scholarships_aids.map((i) => {
+        if (i.name === values.aid) return i.code;
+        else return "";
+      });
+      if (!codes!.includes(values.code)) {
         message.error("数据错误：助学金代码错误！");
         return;
       }
@@ -526,8 +582,14 @@ const AidApplicationPage = () => {
         if (!aidNames.includes(name)) {
           throw new Error("Parse error");
         }
-        const codes = [...aids[name as keyof typeof aids]].map((i) => i.code);
-        if (!codes.includes(code as any)) {
+        if (listLoading) {
+          throw new Error("List loading");
+        }
+        const codes = listData?.scholarships_aids.map((i) => {
+          if (i.name === name) return i.code;
+          else return "";
+        });
+        if (!codes!.includes(code as any)) {
           throw new Error("Parse error");
         }
 
@@ -600,13 +662,13 @@ const AidApplicationPage = () => {
     >
       <Typography.Title level={2}>关键时间点</Typography.Title>
       <Timeline>
-        <Timeline.Item color="green">
-          <p>第一阶段：助学金荣誉申请</p>
-          <p>2022-10-01 00:00 ~ 2022-10-05 23:59</p>
+        <Timeline.Item color={new Date() >= info.aid.start_A && new Date() <= info.aid.end_A ? "green" : "red"}>
+          <p>第一阶段：助学金申请</p>
+          <p>{info.aid.start_A.toLocaleString()} ~ {info.aid.end_A.toLocaleString()}</p>
         </Timeline.Item>
-        <Timeline.Item color="green">
+        <Timeline.Item color={new Date() >= info.aid.start_B && new Date() <= info.aid.end_B ? "green" : "red"}>
           <p>第二阶段：助学金申请结果公示</p>
-          <p>2022-10-13 00:00 ~ 2022-10-15 23:59</p>
+          <p>{info.aid.start_B.toLocaleString()} ~ {info.aid.end_B.toLocaleString()}</p>
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>助学金</Typography.Title>
@@ -676,7 +738,11 @@ const AidApplicationPage = () => {
                       onClick={() => {
                         setThankLetterGenerating(true);
                         try {
-                          generateThankLetter(item);
+                          let salutation: string | null = "";
+                          listData?.scholarships_aids.forEach((i) => {
+                            if (i.code === item.code) return salutation = i.salutation;
+                          })
+                          generateThankLetter(item, salutation);
                         } catch {
                           message.error("感谢信预览失败");
                         } finally {
@@ -803,7 +869,11 @@ const AidApplicationPage = () => {
                     onClick={() => {
                       setThankLetterGenerating(true);
                       try {
-                        generateThankLetter(record);
+                        let salutation: string | null = "";
+                        listData?.scholarships_aids.forEach((i) => {
+                          if (i.code === record.code) return salutation = i.salutation;
+                        })
+                        generateThankLetter(record, salutation);
                       } catch {
                         message.error("感谢信预览失败");
                       } finally {

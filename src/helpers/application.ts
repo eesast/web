@@ -2,7 +2,6 @@ import {
   GetScholarshipApplications_scholarship_application,
   GetAidApplications_aid_application,
 } from "../api/types";
-import { scholarships, aids } from "../configs";
 import FileSaver from "file-saver";
 
 export const getStatusText = (status: string) =>
@@ -26,7 +25,8 @@ const formatDate = (date: Date) => {
 export const generateThankLetter = async (
   application:
     | GetScholarshipApplications_scholarship_application
-    | GetAidApplications_aid_application
+    | GetAidApplications_aid_application,
+  salutation: string | null
 ) => {
   const PizZip = await import("pizzip");
   const PizZipUtils = await import("pizzip/utils/es6");
@@ -59,16 +59,10 @@ export const generateThankLetter = async (
         .scholarship
     : (application as GetAidApplications_aid_application).aid;
 
-  const info = (application as GetScholarshipApplications_scholarship_application)
-    .scholarship
-    ? {
-        title: prizeName + "感谢信",
-        salutation: (scholarships as any)[prizeName][0].salutation,
-      }
-    : {
-        title: prizeName + "感谢信",
-        salutation: (aids as any)[prizeName][0].salutation,
-      };
+  const info = {
+    title: prizeName + "感谢信",
+    salutation: salutation,
+  };
 
   const data = {
     ...info,
