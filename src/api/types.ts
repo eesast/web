@@ -1485,6 +1485,31 @@ export interface UpdateContestStatusVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetAidList
+// ====================================================
+
+export interface GetAidList_scholarships_aids {
+  __typename: "scholarships_aids";
+  amount: number;
+  code: string;
+  name: string;
+  salutation: string | null;
+  type: string;
+}
+
+export interface GetAidList {
+  /**
+   * fetch data from the table: "scholarships_aids"
+   */
+  scholarships_aids: GetAidList_scholarships_aids[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetAidApplications
 // ====================================================
 
@@ -2582,6 +2607,31 @@ export interface DeleteNotice {
 
 export interface DeleteNoticeVariables {
   id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetScholarshipList
+// ====================================================
+
+export interface GetScholarshipList_scholarships_aids {
+  __typename: "scholarships_aids";
+  amount: number;
+  code: string;
+  name: string;
+  salutation: string | null;
+  type: string;
+}
+
+export interface GetScholarshipList {
+  /**
+   * fetch data from the table: "scholarships_aids"
+   */
+  scholarships_aids: GetScholarshipList_scholarships_aids[];
 }
 
 /* tslint:disable */

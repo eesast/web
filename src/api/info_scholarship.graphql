@@ -1,3 +1,13 @@
+query GetScholarshipList {
+  scholarships_aids(where: {IsAids: {_eq: false}}) {
+    amount
+    code
+    name
+    salutation
+    type
+  }
+}
+
 query GetScholarshipApplications($_id: String!, $_gte: timestamptz!) {
   scholarship_application(
     where: {
