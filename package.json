@@ -60,7 +60,7 @@
     "react-google-recaptcha": "2.1.0",
     "react-highlight-words": "0.18.0",
     "react-linkify": "1.0.0-alpha",
-    "react-router-dom": "5.3.3",
+    "react-router-dom": "5.3.4",
     "react-scripts": "4.0.3",
     "rimraf": "3.0.2",
     "source-map-explorer": "2.5.2",
