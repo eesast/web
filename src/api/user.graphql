@@ -76,3 +76,63 @@ mutation UpdateUserForTeacher(
     affected_rows
   }
 }
+
+query GetTeamID($_id: String!) {
+  contest_team(where: { team_leader : { _eq: $_id } } ) {
+    team_id
+  }
+}
+
+mutation DeleteUser(
+  $_id: String!
+  $team_id: uuid!
+) {
+
+  delete_mentor_available(where: { mentor_id: { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_postgraduate_mentor_info(where: { user_id: { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_aid_application(where: { student_id: { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_contest_manager(where: { user_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_contest_room_team(where: { team_id : { _eq: $team_id } } ) {
+    affected_rows
+  }
+  delete_contest_team(where: { team_leader : { _eq: $_id } } ) {
+    affected_rows
+  }
+  # Question here
+  delete_contest_team_member(where: { user_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_honor_application(where: { student_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_mentor_message(where: { from_id : { _eq: $_id }, _or: { to_id : { _eq: $_id } } } ) {
+    affected_rows
+  }
+  delete_postgraduate_application(where: { user_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_postgraduate_application_history(where: { user_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_postgraduate_mentor_info(where: { user_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_postgraduate_mentor_info_pending(where: { user_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+  delete_scholarship_application(where: { student_id : { _eq: $_id } } ) {
+    affected_rows
+  }
+
+  delete_user(where: { _id: { _eq: $_id } } ) {
+    affected_rows
+  }
+}
