@@ -84,7 +84,6 @@ const ProfilePage: React.FC = () => {
     UPDATE_USER_FOR_TEACHER
   );
 
-  // get team id information
   const { data: teamData, error: teamError } = useQuery<GetTeamID, GetTeamIDVariables>(GET_TEAM_ID,
     {
       variables: { _id: userInfo?._id! },
