@@ -2,7 +2,7 @@
   "name": "eesast-web",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "4.7.0",
+    "@ant-design/icons": "4.8.0",
     "@apollo/client": "3.7.1",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "12.1.5",
