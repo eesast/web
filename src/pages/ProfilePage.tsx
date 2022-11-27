@@ -6,19 +6,16 @@ import {
   GetUser as GET_USER,
   UpdateUser as UPDATE_USER,
   UpdateUserForTeacher as UPDATE_USER_FOR_TEACHER,
-  GetTeamID as GET_TEAM_ID,
   DeleteUser as DELETE_USER,
 } from "../api/user.graphql";
 import {
   GetUser,
   UpdateUser,
   UpdateUserForTeacher,
-  GetTeamID,
   DeleteUser,
   GetUserVariables,
   UpdateUserVariables,
   UpdateUserForTeacherVariables,
-  GetTeamIDVariables,
   DeleteUserVariables,
 } from "../api/types";
 import Loading from "../components/Loading";
@@ -84,12 +81,6 @@ const ProfilePage: React.FC = () => {
     UPDATE_USER_FOR_TEACHER
   );
 
-  const { data: teamData, error: teamError } = useQuery<GetTeamID, GetTeamIDVariables>(GET_TEAM_ID,
-    {
-      variables: { _id: userInfo?._id! },
-    }
-  );
-
   const [
     deleteUser,
     { loading: deleting, error: deleteError },
@@ -112,7 +103,17 @@ const ProfilePage: React.FC = () => {
         message.error("更新失败");
       }
     }
-  }, [updateError]);
+    if (updateForTeacherError) {
+      if (
+        updateForTeacherError.graphQLErrors?.[0]?.extensions?.code ===
+        "constraint-violation"
+      ) {
+        message.error("更新失败：工号已存在");
+      } else {
+        message.error("更新失败");
+      }
+    }
+  }, [updateError, updateForTeacherError]);
 
   useEffect(() => {
     if (
@@ -124,12 +125,6 @@ const ProfilePage: React.FC = () => {
   }, [updateData, updateError, updateForTeacherData, updateForTeacherError]);
 
   useEffect(() => {
-    if (teamError) {
-      message.error("读取队伍信息失败");
-    }
-  }, [teamError]);
-
-  useEffect(() => {
     if (deleteError) {
       message.error("删除失败");
     }
@@ -138,7 +133,6 @@ const ProfilePage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [passwordUpdating, setPasswordUpdating] = useState(false);
-  const [userDeleting, setUserDeleting] = useState(false);
   const reCaptchaRef = useRef<ReCAPTCHA>(null);
   const [form] = Form.useForm();
 
@@ -219,29 +213,23 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const handleDelete = async () => {
-    await deleteUser({
+  const onDelete = async () => {
+    deleteUser({
       variables: {
         _id: userInfo?._id!,
-        team_id: teamData?.contest_team[0]?.team_id!,
       },
     });
 
-    if (!deleteError) {
-      setUserDeleting(true);
-        try {
-          await axios.put("/users/delete", { _id: userInfo?._id! });
-          message.success("用户删除成功");
-        } catch (e) {
-          const err = e as AxiosError;
-          if (err.response?.status === 401) {
-            message.error("当前会话已失效，请重新登录");
-          } else {
-            message.error("未知错误");
-          }
-        } finally {
-          setUserDeleting(false);
-        }
+    try {
+      // await axios.put("/users/delete", { _id: userInfo?._id! });
+      message.success("用户删除成功");
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("当前会话已失效，请重新登录");
+      } else {
+        message.error("未知错误");
+      }
     }
   };
 
@@ -385,7 +373,7 @@ const ProfilePage: React.FC = () => {
             更新
           </Button>
           <Button
-            loading={deleting || userDeleting}
+          loading={deleting}
             type="default"
             style={{
               color: "#f5222d",
@@ -397,7 +385,7 @@ const ProfilePage: React.FC = () => {
                 content: "删除后将无法恢复",
                 okText: "确认",
                 cancelText: "取消",
-                onOk: handleDelete,
+                onOk: onDelete,
               });
             }}
           >

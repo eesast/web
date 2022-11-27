@@ -3652,137 +3652,8 @@ export interface UpdateUserForTeacherVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetTeamID
-// ====================================================
-
-export interface GetTeamID_contest_team {
-  __typename: "contest_team";
-  team_id: any;
-}
-
-export interface GetTeamID {
-  /**
-   * fetch data from the table: "contest_team"
-   */
-  contest_team: GetTeamID_contest_team[];
-}
-
-export interface GetTeamIDVariables {
-  _id: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: DeleteUser
 // ====================================================
-
-export interface DeleteUser_delete_mentor_available {
-  __typename: "mentor_available_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_postgraduate_mentor_info {
-  __typename: "postgraduate_mentor_info_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_aid_application {
-  __typename: "aid_application_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_contest_manager {
-  __typename: "contest_manager_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_contest_room_team {
-  __typename: "contest_room_team_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_contest_team {
-  __typename: "contest_team_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_contest_team_member {
-  __typename: "contest_team_member_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_honor_application {
-  __typename: "honor_application_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_mentor_message {
-  __typename: "mentor_message_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_postgraduate_application {
-  __typename: "postgraduate_application_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_postgraduate_application_history {
-  __typename: "postgraduate_application_history_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_postgraduate_mentor_info_pending {
-  __typename: "postgraduate_mentor_info_pending_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
-
-export interface DeleteUser_delete_scholarship_application {
-  __typename: "scholarship_application_mutation_response";
-  /**
-   * number of rows affected by the mutation
-   */
-  affected_rows: number;
-}
 
 export interface DeleteUser_delete_user {
   __typename: "user_mutation_response";
@@ -3794,58 +3665,6 @@ export interface DeleteUser_delete_user {
 
 export interface DeleteUser {
   /**
-   * delete data from the table: "mentor_available"
-   */
-  delete_mentor_available: DeleteUser_delete_mentor_available | null;
-  /**
-   * delete data from the table: "postgraduate_mentor_info"
-   */
-  delete_postgraduate_mentor_info: DeleteUser_delete_postgraduate_mentor_info | null;
-  /**
-   * delete data from the table: "aid_application"
-   */
-  delete_aid_application: DeleteUser_delete_aid_application | null;
-  /**
-   * delete data from the table: "contest_manager"
-   */
-  delete_contest_manager: DeleteUser_delete_contest_manager | null;
-  /**
-   * delete data from the table: "contest_room_team"
-   */
-  delete_contest_room_team: DeleteUser_delete_contest_room_team | null;
-  /**
-   * delete data from the table: "contest_team"
-   */
-  delete_contest_team: DeleteUser_delete_contest_team | null;
-  /**
-   * delete data from the table: "contest_team_member"
-   */
-  delete_contest_team_member: DeleteUser_delete_contest_team_member | null;
-  /**
-   * delete data from the table: "honor_application"
-   */
-  delete_honor_application: DeleteUser_delete_honor_application | null;
-  /**
-   * delete data from the table: "mentor_message"
-   */
-  delete_mentor_message: DeleteUser_delete_mentor_message | null;
-  /**
-   * delete data from the table: "postgraduate_application"
-   */
-  delete_postgraduate_application: DeleteUser_delete_postgraduate_application | null;
-  /**
-   * delete data from the table: "postgraduate_application_history"
-   */
-  delete_postgraduate_application_history: DeleteUser_delete_postgraduate_application_history | null;
-  /**
-   * delete data from the table: "postgraduate_mentor_info_pending"
-   */
-  delete_postgraduate_mentor_info_pending: DeleteUser_delete_postgraduate_mentor_info_pending | null;
-  /**
-   * delete data from the table: "scholarship_application"
-   */
-  delete_scholarship_application: DeleteUser_delete_scholarship_application | null;
-  /**
    * delete data from the table: "user"
    */
   delete_user: DeleteUser_delete_user | null;
@@ -3853,7 +3672,6 @@ export interface DeleteUser {
 
 export interface DeleteUserVariables {
   _id: string;
-  team_id: any;
 }
 
 /* tslint:disable */
