@@ -3704,6 +3704,34 @@ export interface UpdateUserForTeacherVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteUser
+// ====================================================
+
+export interface DeleteUser_delete_user {
+  __typename: "user_mutation_response";
+  /**
+   * number of rows affected by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteUser {
+  /**
+   * delete data from the table: "user"
+   */
+  delete_user: DeleteUser_delete_user | null;
+}
+
+export interface DeleteUserVariables {
+  _id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetWeekly
 // ====================================================
 
