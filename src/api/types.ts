@@ -1485,6 +1485,31 @@ export interface UpdateContestStatusVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetAidList
+// ====================================================
+
+export interface GetAidList_scholarships_aids {
+  __typename: "scholarships_aids";
+  amount: number;
+  code: string;
+  name: string;
+  salutation: string | null;
+  type: string;
+}
+
+export interface GetAidList {
+  /**
+   * fetch data from the table: "scholarships_aids"
+   */
+  scholarships_aids: GetAidList_scholarships_aids[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetAidApplications
 // ====================================================
 
@@ -1522,6 +1547,7 @@ export interface GetAidApplications {
 
 export interface GetAidApplicationsVariables {
   _id: string;
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -2589,6 +2615,31 @@ export interface DeleteNoticeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetScholarshipList
+// ====================================================
+
+export interface GetScholarshipList_scholarships_aids {
+  __typename: "scholarships_aids";
+  amount: number;
+  code: string;
+  name: string;
+  salutation: string | null;
+  type: string;
+}
+
+export interface GetScholarshipList {
+  /**
+   * fetch data from the table: "scholarships_aids"
+   */
+  scholarships_aids: GetScholarshipList_scholarships_aids[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetScholarshipApplications
 // ====================================================
 
@@ -3538,6 +3589,7 @@ export interface GetUserById_user {
   _id: string;
   id: any | null;
   username: string | null;
+  name: string | null;
 }
 
 export interface GetUserById {
