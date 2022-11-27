@@ -221,7 +221,7 @@ const ProfilePage: React.FC = () => {
     });
 
     try {
-      // await axios.put("/users/delete", { _id: userInfo?._id! });
+      await axios.put("/users/delete", { _id: userInfo?._id! });
       message.success("用户删除成功");
     } catch (e) {
       const err = e as AxiosError;
