@@ -1485,6 +1485,31 @@ export interface UpdateContestStatusVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetAidList
+// ====================================================
+
+export interface GetAidList_scholarships_aids {
+  __typename: "scholarships_aids";
+  amount: number;
+  code: string;
+  name: string;
+  salutation: string | null;
+  type: string;
+}
+
+export interface GetAidList {
+  /**
+   * fetch data from the table: "scholarships_aids"
+   */
+  scholarships_aids: GetAidList_scholarships_aids[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetAidApplications
 // ====================================================
 
@@ -1522,6 +1547,7 @@ export interface GetAidApplications {
 
 export interface GetAidApplicationsVariables {
   _id: string;
+  _gte: any;
 }
 
 /* tslint:disable */
@@ -2589,6 +2615,31 @@ export interface DeleteNoticeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetScholarshipList
+// ====================================================
+
+export interface GetScholarshipList_scholarships_aids {
+  __typename: "scholarships_aids";
+  amount: number;
+  code: string;
+  name: string;
+  salutation: string | null;
+  type: string;
+}
+
+export interface GetScholarshipList {
+  /**
+   * fetch data from the table: "scholarships_aids"
+   */
+  scholarships_aids: GetScholarshipList_scholarships_aids[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetScholarshipApplications
 // ====================================================
 
@@ -3538,6 +3589,7 @@ export interface GetUserById_user {
   _id: string;
   id: any | null;
   username: string | null;
+  name: string | null;
 }
 
 export interface GetUserById {
@@ -3644,6 +3696,34 @@ export interface UpdateUserForTeacherVariables {
   department?: string | null;
   class?: string | null;
   email?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteUser
+// ====================================================
+
+export interface DeleteUser_delete_user {
+  __typename: "user_mutation_response";
+  /**
+   * number of rows affected by the mutation
+   */
+  affected_rows: number;
+}
+
+export interface DeleteUser {
+  /**
+   * delete data from the table: "user"
+   */
+  delete_user: DeleteUser_delete_user | null;
+}
+
+export interface DeleteUserVariables {
+  _id: string;
 }
 
 /* tslint:disable */

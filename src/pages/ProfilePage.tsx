@@ -6,14 +6,17 @@ import {
   GetUser as GET_USER,
   UpdateUser as UPDATE_USER,
   UpdateUserForTeacher as UPDATE_USER_FOR_TEACHER,
+  DeleteUser as DELETE_USER,
 } from "../api/user.graphql";
 import {
   GetUser,
   UpdateUser,
+  UpdateUserForTeacher,
+  DeleteUser,
   GetUserVariables,
   UpdateUserVariables,
   UpdateUserForTeacherVariables,
-  UpdateUserForTeacher,
+  DeleteUserVariables,
 } from "../api/types";
 import Loading from "../components/Loading";
 import axios, { AxiosError } from "axios";
@@ -78,6 +81,11 @@ const ProfilePage: React.FC = () => {
     UPDATE_USER_FOR_TEACHER
   );
 
+  const [
+    deleteUser,
+    { loading: deleting, error: deleteError },
+  ] = useMutation<DeleteUser, DeleteUserVariables>(DELETE_USER);
+
   useEffect(() => {
     if (error) {
       message.error("加载失败");
@@ -95,7 +103,17 @@ const ProfilePage: React.FC = () => {
         message.error("更新失败");
       }
     }
-  }, [updateError]);
+    if (updateForTeacherError) {
+      if (
+        updateForTeacherError.graphQLErrors?.[0]?.extensions?.code ===
+        "constraint-violation"
+      ) {
+        message.error("更新失败：工号已存在");
+      } else {
+        message.error("更新失败");
+      }
+    }
+  }, [updateError, updateForTeacherError]);
 
   useEffect(() => {
     if (
@@ -105,6 +123,12 @@ const ProfilePage: React.FC = () => {
       message.success("更新成功");
     }
   }, [updateData, updateError, updateForTeacherData, updateForTeacherError]);
+
+  useEffect(() => {
+    if (deleteError) {
+      message.error("删除失败");
+    }
+  }, [deleteError]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
@@ -154,10 +178,18 @@ const ProfilePage: React.FC = () => {
     const { password, registeredEmail, ...rest } = values;
 
     if (userInfo?.role === "teacher") {
-      updateUserForTeacher({ variables: { ...rest, _id: userInfo?._id! } });
+      updateUserForTeacher({
+        variables: {
+          _id: userInfo?._id!,
+          ...rest,
+        },
+      });
     } else {
       updateUser({
-        variables: { ...rest, _id: userInfo?._id! },
+        variables: {
+          _id: userInfo?._id!,
+          ...rest,
+        },
       });
     }
 
@@ -181,7 +213,27 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const user = { ...data?.user[0], registeredEmail: userInfo?.email };
+  const onDelete = async () => {
+    deleteUser({
+      variables: {
+        _id: userInfo?._id!,
+      },
+    });
+
+    try {
+      await axios.put("/users/delete", { _id: userInfo?._id! });
+      message.success("用户删除成功");
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("当前会话已失效，请重新登录");
+      } else {
+        message.error("未知错误");
+      }
+    }
+  };
+
+  const user = { ...data?.user[0], LregisteredEmail: userInfo?.email };
 
   return (
     <Container>
@@ -316,8 +368,28 @@ const ProfilePage: React.FC = () => {
             loading={updating || passwordUpdating || updatingForTeacher}
             type="primary"
             htmlType="submit"
+            style={{ marginRight: 16 }}
           >
             更新
+          </Button>
+          <Button
+          loading={deleting}
+            type="default"
+            style={{
+              color: "#f5222d",
+              borderColor: "#f5222d",
+            }}
+            onClick={() => {
+              Modal.confirm({
+                title: "确认删除账号？",
+                content: "删除后将无法恢复",
+                okText: "确认",
+                cancelText: "取消",
+                onOk: onDelete,
+              });
+            }}
+          >
+            注销
           </Button>
         </Form.Item>
       </Form>

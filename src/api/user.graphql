@@ -16,6 +16,7 @@ query GetUserById($id: bigint!) {
     _id
     id
     username
+    name
   }
 }
 
@@ -73,6 +74,12 @@ mutation UpdateUserForTeacher(
       email: $email
     }
   ) {
+    affected_rows
+  }
+}
+
+mutation DeleteUser($_id: String!) {
+  delete_user(where: { _id: { _eq: $_id } }) {
     affected_rows
   }
 }
