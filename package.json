@@ -15,7 +15,7 @@
     "@types/jest": "29.2.4",
     "@types/jwt-decode": "2.2.1",
     "@types/lodash.get": "4.4.7",
-    "@types/node": "18.11.16",
+    "@types/node": "18.11.17",
     "@types/pizzip": "3.0.2",
     "@types/react": "17.0.52",
     "@types/react-custom-scrollbars": "4.0.10",
