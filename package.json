@@ -5,7 +5,7 @@
     "@ant-design/icons": "4.8.0",
     "@apollo/client": "3.7.7",
     "@testing-library/jest-dom": "5.16.5",
-    "@testing-library/react": "12.1.5",
+    "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "14.4.3",
     "@types/ali-oss": "6.16.7",
     "@types/enquire.js": "2.1.3",
