@@ -143,7 +143,7 @@ function App() {
                   <Space size="middle">
                     <Link to="/home">
                       <Picture
-                        src={`${process.env.STATIC_URL}/public/images/logo.png`}
+                        src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
                         alt="Logo"
                         height="48"
                       />

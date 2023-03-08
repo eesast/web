@@ -432,7 +432,7 @@ const ProfilePage: React.FC = () => {
           >
             <ReCAPTCHA
               ref={reCaptchaRef}
-              sitekey={process.env.RECAPTCHA_SITE_KEY!}
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
             />
           </Form.Item>
         </Form>

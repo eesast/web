@@ -34,7 +34,7 @@ export const generateThankLetter = async (
 
   const templateData = await new Promise<any>((resolve) =>
     PizZipUtils.default.getBinaryContent(
-      `${process.env.STATIC_URL}/public/files/thankletter-template.docx`,
+      `${process.env.REACT_APP_STATIC_URL}/public/files/thankletter-template.docx`,
       (err: any, content: any) => resolve(content)
     )
   );

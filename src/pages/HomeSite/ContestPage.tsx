@@ -42,7 +42,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="队式十六——深蓝 (Deep Blue)"
-              src={`${process.env.STATIC_URL}/public/images/ts16.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/ts16.jpg`}
             />
             队式十六——深蓝 (Deep Blue)
             <br />
@@ -50,7 +50,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="队式十七——Stellar Craft"
-              src={`${process.env.STATIC_URL}/public/images/ts17.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/ts17.jpg`}
             />
             队式十七——Stellar Craft
             <br />
@@ -58,7 +58,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="队式十八——CPClash"
-              src={`${process.env.STATIC_URL}/public/images/ts18.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/ts18.jpg`}
             />
             队式十八——CPClash
             <br />
@@ -66,7 +66,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="队式十九"
-              src={`${process.env.STATIC_URL}/public/images/ts19.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/ts19.jpg`}
             />
             2018 年，队式十九作为 A1 组比赛合并到 THU-AI 中
             <br />
@@ -74,7 +74,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="队式二十——THU-AI 枪林弹雨组"
-              src={`${process.env.STATIC_URL}/public/images/ts20.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/ts20.jpg`}
             />
             队式二十——THU-AI 枪林弹雨组
             <br />
@@ -97,7 +97,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="第十八届电子设计大赛——天赐良机"
-              src={`${process.env.STATIC_URL}/public/images/edc18.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/edc18.jpg`}
             />
             第十八届电子设计大赛——天赐良机
             <br />
@@ -105,7 +105,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="第十九届电子设计大赛——绿茵荣耀"
-              src={`${process.env.STATIC_URL}/public/images/edc19.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/edc19.jpg`}
             />
             第十九届电子设计大赛——绿茵荣耀
             <br />
@@ -113,7 +113,7 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="第二十届电子设计大赛——智圆行方"
-              src={`${process.env.STATIC_URL}/public/images/edc20.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/edc20.jpg`}
             />
             第二十届电子设计大赛——智圆行方
             <br />
@@ -138,13 +138,13 @@ const ContestPage: React.FC = () => {
               <Col>
                 <Image
                   alt="2017 年硬件设计大赛作品 1"
-                  src={`${process.env.STATIC_URL}/public/images/hwdc2017-1.jpg`}
+                  src={`${process.env.REACT_APP_STATIC_URL}/public/images/hwdc2017-1.jpg`}
                 />
               </Col>
               <Col>
                 <Image
                   alt="2017 年硬件设计大赛作品 2"
-                  src={`${process.env.STATIC_URL}/public/images/hwdc2017-2.jpg`}
+                  src={`${process.env.REACT_APP_STATIC_URL}/public/images/hwdc2017-2.jpg`}
                 />
               </Col>
             </Row>
@@ -157,13 +157,13 @@ const ContestPage: React.FC = () => {
               <Col>
                 <Image
                   alt="2018 年硬件设计大赛作品 1"
-                  src={`${process.env.STATIC_URL}/public/images/hwdc2018-1.gif`}
+                  src={`${process.env.REACT_APP_STATIC_URL}/public/images/hwdc2018-1.gif`}
                 />
               </Col>
               <Col>
                 <Image
                   alt="2018 年硬件设计大赛作品 2"
-                  src={`${process.env.STATIC_URL}/public/images/hwdc2018-2.jpg`}
+                  src={`${process.env.REACT_APP_STATIC_URL}/public/images/hwdc2018-2.jpg`}
                 />
               </Col>
             </Row>
@@ -176,13 +176,13 @@ const ContestPage: React.FC = () => {
               <Col>
                 <Image
                   alt="2019 年硬件设计大赛作品 1"
-                  src={`${process.env.STATIC_URL}/public/images/hwdc2019-1.gif`}
+                  src={`${process.env.REACT_APP_STATIC_URL}/public/images/hwdc2019-1.gif`}
                 />
               </Col>
               <Col>
                 <Image
                   alt="2019 年硬件设计大赛作品 2"
-                  src={`${process.env.STATIC_URL}/public/images/hwdc2019-2.gif`}
+                  src={`${process.env.REACT_APP_STATIC_URL}/public/images/hwdc2019-2.gif`}
                 />
               </Col>
             </Row>
@@ -229,19 +229,19 @@ const ContestPage: React.FC = () => {
             <br />
             <Image
               alt="多功能计算器 CalcPro"
-              src={`${process.env.STATIC_URL}/public/images/swdc2018-1.png`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/swdc2018-1.png`}
             />
             多功能计算器 CalcPro
             <br />
             <Image
               alt="简易操作系统 BASIC-OS1"
-              src={`${process.env.STATIC_URL}/public/images/swdc2018-2.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/swdc2018-2.jpg`}
             />
             简易操作系统 BASIC-OS1
             <br />
             <Image
               alt="校园网管理软件 .NetCampus"
-              src={`${process.env.STATIC_URL}/public/images/swdc2018-3.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/swdc2018-3.jpg`}
             />
             校园网管理软件 .NetCampus
             <br />
@@ -254,19 +254,19 @@ const ContestPage: React.FC = () => {
             <br />
             <Image
               alt="音乐节奏游戏 TuneStory"
-              src={`${process.env.STATIC_URL}/public/images/swdc2019-1.png`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/swdc2019-1.png`}
             />
             音乐节奏游戏 TuneStory
             <br />
             <Image
               alt="三角形滤镜 LowPoly"
-              src={`${process.env.STATIC_URL}/public/images/swdc2019-2.png`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/swdc2019-2.png`}
             />
             三角形滤镜 LowPoly
             <br />
             <Image
               alt="在线多功能绘图"
-              src={`${process.env.STATIC_URL}/public/images/swdc2019-3.png`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/swdc2019-3.png`}
             />
             在线多功能绘图
             <br />
@@ -412,19 +412,19 @@ const ContestPage: React.FC = () => {
           <Center direction="column">
             <Image
               alt="第十五届决赛"
-              src={`${process.env.STATIC_URL}/public/images/fic15.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/fic15.jpg`}
             />
             第十五届决赛
             <br />
             <Image
               alt="第十六届决赛"
-              src={`${process.env.STATIC_URL}/public/images/fic16.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/fic16.jpg`}
             />
             第十六届决赛
             <br />
             <Image
               alt="第十七届决赛"
-              src={`${process.env.STATIC_URL}/public/images/fic17.jpg`}
+              src={`${process.env.REACT_APP_STATIC_URL}/public/images/fic17.jpg`}
             />
             第十七届决赛
             <br />

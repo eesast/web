@@ -34,7 +34,7 @@ const Background = styled.div`
   height: calc(100vh - 67px);
   width: 100%;
   background-image: url("${process.env
-    .STATIC_URL}/public/images/tsinghua-background-fall.jpg");
+    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-fall.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -45,7 +45,7 @@ const Logo = () => (
     css={`
       margin: 0 auto;
     `}
-    src={`${process.env.STATIC_URL}/public/images/logo.png`}
+    src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
     alt="Logo"
     width="40%"
   />
@@ -292,7 +292,7 @@ const LoginPage: React.FC = () => {
                 >
                   <ReCAPTCHA
                     ref={reCaptchaRef}
-                    sitekey={process.env.RECAPTCHA_SITE_KEY!}
+                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
                   />
                 </Form.Item>
                 <Form.Item>
@@ -415,7 +415,7 @@ const LoginPage: React.FC = () => {
                 >
                   <ReCAPTCHA
                     ref={reCaptchaRef}
-                    sitekey={process.env.RECAPTCHA_SITE_KEY!}
+                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
                   />
                 </Form.Item>
                 <Form.Item>
@@ -524,7 +524,7 @@ const LoginPage: React.FC = () => {
                 >
                   <ReCAPTCHA
                     ref={reCaptchaRef}
-                    sitekey={process.env.RECAPTCHA_SITE_KEY!}
+                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
                   />
                 </Form.Item>
                 <Form.Item>
