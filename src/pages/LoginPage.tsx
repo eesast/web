@@ -34,7 +34,7 @@ const Background = styled.div`
   height: calc(100vh - 67px);
   width: 100%;
   background-image: url("${process.env
-    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-fall.jpg/compressed");
+    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-fall.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

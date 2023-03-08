@@ -48,7 +48,7 @@ import { Button, Card, Col, Form, Input, Layout, List, message, Modal, Result, R
 import { TableProps } from "antd/lib/table";
 import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
-import { downloadFile, getSharedOSS } from "../../helpers/oss";
+import { downloadFile, uploadFile, deleteFile, listFile } from "../../helpers/cos";
 import { RcCustomRequestOptions, RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 
 const { Text } = Typography;
@@ -527,30 +527,23 @@ const SubPage: React.FC<{
   const [codeRoutes4, setCodeRoutes4] = useState<string>();
   const list = async () => {
     try {
-      let oss = await getSharedOSS();
-      let result = await oss.list({
-        'max-keys': 5,
-        'prefix': `THUAI5/${props.team_id}/`,
-      },
-        { 'timeout': 0 });
-      //console.log(result.objects);
-      //setCodeList(result.objects);
+      let result = await listFile(`THUAI5/${props.team_id}/`);
 
       setCodeRoutes1(undefined);
       setCodeRoutes2(undefined);
       setCodeRoutes3(undefined);
       setCodeRoutes4(undefined);
 
-      for (let i = 0; i < result.objects.length; i++) {
-        if (result.objects[i].name === `THUAI5/${props.team_id}/`) {
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].Key === `THUAI5/${props.team_id}/`) {
           continue;
         }
-        if (result.objects[i].name.indexOf(`THUAI5/${props.team_id}/`) === 0) {
-          switch (result.objects[i].name.split('/')[2]) {
-            case "player1.cpp": setCodeRoutes1(result.objects[i].name); break;
-            case "player2.cpp": setCodeRoutes2(result.objects[i].name); break;
-            case "player3.cpp": setCodeRoutes3(result.objects[i].name); break;
-            case "player4.cpp": setCodeRoutes4(result.objects[i].name); break;
+        if (result[i].Key.indexOf(`THUAI5/${props.team_id}/`) === 0) {
+          switch (result[i].Key.split('/')[2]) {
+            case "player1.cpp": setCodeRoutes1(result[i].Key); break;
+            case "player2.cpp": setCodeRoutes2(result[i].Key); break;
+            case "player3.cpp": setCodeRoutes3(result[i].Key); break;
+            case "player4.cpp": setCodeRoutes4(result[i].Key); break;
           }
         }
       }
@@ -561,35 +554,29 @@ const SubPage: React.FC<{
   useEffect(() => { list() }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleUpload = async (e: RcCustomRequestOptions, i: number) => {
-    const oss = await getSharedOSS();
-    const result = await oss.multipartUpload(
-      `THUAI5/${props.team_id}/player${i}.cpp`,
-      e.file,
-      {
-        progress: (progress) =>
-          e.onProgress({ percent: progress * 100 }, e.file),
-      }
-    );
-    if (result.res.status === 200) {
-      e.onSuccess(result.res, e.file);
-    } else {
-      e.onError(new Error());
+    try {
+      const url = `THUAI5/${props.team_id}/player${i}.cpp`;
+      const result = await uploadFile(e.file, url);
+      e.onSuccess(result, e.file);
+    } catch (err) {
+      e.onError(new Error("上传失败"));
     }
-
   };
 
   const handleRemove = async (file: UploadFile, i: number) => {
-    if (file.response?.status === 200) {
-      const oss = await getSharedOSS();
-      await oss.delete(`THUAI5/${props.team_id}/player${i}.cpp`);
+    try {
+      if (file.response?.status === 200) {
+        await deleteFile(`THUAI5/${props.team_id}/player${i}.cpp`);
+      }
+      switch (i) {
+        case 1: setCodeRoutes1(undefined); break;
+        case 2: setCodeRoutes2(undefined); break;
+        case 3: setCodeRoutes3(undefined); break;
+        case 4: setCodeRoutes4(undefined); break;
+      }
+    } catch (err) {
+      console.log(err);
     }
-    switch (i) {
-      case 1: setCodeRoutes1(undefined); break;
-      case 2: setCodeRoutes2(undefined); break;
-      case 3: setCodeRoutes3(undefined); break;
-      case 4: setCodeRoutes4(undefined); break;
-    }
-
   };
 
   const handleDownload = (file: UploadFile<any>, codeRole: number) => {
