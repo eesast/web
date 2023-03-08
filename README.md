@@ -15,7 +15,7 @@ EESAST 网页前端
 
 #### 环境变量
 
-本地开发时在 `.env` 中添加 `REACT_APP_STATIC_URL`, `REACT_APP_RECAPTCHA_SITE_KEY`和`HASURA_GRAPHQL_ADMIN_SECRET`
+本地开发时在 `.env.local` 中添加 `HASURA_GRAPHQL_ADMIN_SECRET`
 
 ### 工具
 
