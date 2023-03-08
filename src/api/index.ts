@@ -17,10 +17,7 @@ axios.interceptors.request.use(function (config) {
 const httpLink = new HttpLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? "https://api.eesast.com/v1/graphql"
-      : process.env.REACT_APP_HASURA_INSTANCE === "local"
-      ? "http://localhost:23333/v1/graphql"
-      : "https://api.eesast.com/dev/v1/graphql",
+      ? "https://api.eesast.com/v1/graphql" : "https://api.eesast.com/dev/v1/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -38,10 +35,7 @@ const authLink = setContext((_, { headers }) => {
 const wsLink = new WebSocketLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? `wss://api.eesast.com/v1/graphql`
-      : process.env.REACT_APP_HASURA_INSTANCE === "local"
-      ? "wss://localhost:23333/v1/graphql"
-      : "wss://api.eesast.com/dev/v1/graphql",
+      ? "wss://api.eesast.com/v1/graphql" : "wss://api.eesast.com/dev/v1/graphql",
   options: {
     reconnect: true,
     lazy: true,
