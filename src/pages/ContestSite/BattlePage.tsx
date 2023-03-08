@@ -29,7 +29,7 @@ import {
   MinusOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
-import { getSharedOSS, downloadFile } from "../../helpers/oss"
+import { uploadFile, downloadFile, deleteFile } from "../../helpers/cos";
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
 //----根据队员信息查找队伍信息------
@@ -546,48 +546,27 @@ const BattlePage: React.FC = () => {
   </Menu>
   );
 
-
-
-
   const handleUpload = async (e: RcCustomRequestOptions) => {
-    const oss = await getSharedOSS();
-    //console.log(`THUAI5/${teamid}/player${codeRole.toString()}`)
-    const url = `/THUAI5/${teamid}/player${codeRole}.cpp`;
-    const result = await oss.multipartUpload(
-      url,
-      e.file,
-      {
-        progress: (progress) =>
-          e.onProgress({ percent: progress * 100 }, e.file),
-      }
-    );
-
-    if (result.res.status === 200) {
-      e.onSuccess(result.res, e.file);
+    try {
+      const url = `/THUAI5/${teamid}/player${codeRole}.cpp`;
+      const result = await uploadFile(e.file, url);
+      e.onSuccess(result, e.file);
       handleCodeChange(url, codeRole);
       await refetchCodeTime({
         team_id: teamid!,
       });
-
-      // console.log("前："+time2);
-      // console.log("角色"+codeRole);
-      // switch(codeRole) {
-      //   case 1: setTime1(dayjs(code1updatetime?.insert_contest_code_one?.code1_update_time).format("M-DD HH:mm:ss"));break;
-      //   case 2: setTime2(dayjs(code2updatetime?.insert_contest_code_one?.code2_update_time).format("M-DD HH:mm:ss"));break;
-      //   case 3: setTime3(dayjs(code3updatetime?.insert_contest_code_one?.code3_update_time).format("M-DD HH:mm:ss"));break;
-      //   case 4: setTime4(dayjs(code4updatetime?.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"));break;
-      //   default: break;
-      // }
-      // console.log("后:"+time2);
-    } else {
-      e.onError(new Error());
+    } catch (err) {
+      e.onError(new Error("上传失败"));
     }
   };
 
   const handleRemove = async (file: UploadFile) => {
-    if (file.response?.status === 200) {
-      const oss = await getSharedOSS();
-      await oss.delete(`/THUAI5/${teamid}/player${codeRole}.cpp`);
+    try {
+      if (file.response?.status === 200) {
+        await deleteFile(`/THUAI5/${teamid}/player${codeRole}.cpp`);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

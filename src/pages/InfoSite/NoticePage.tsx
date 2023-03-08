@@ -51,7 +51,7 @@ import type {
   UploadFile,
   RcCustomRequestOptions,
 } from "antd/lib/upload/interface";
-import { getOSS, downloadFile } from "../../helpers/oss";
+import { uploadFile, downloadFile, deleteFile } from "../../helpers/cos";
 import { getUserInfo } from "../../helpers/auth";
 
 const { Text } = Typography;
@@ -115,6 +115,7 @@ const NoticePage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] = useState<GetNotices_info_notice>();
   const [noticeType, setNoticeType] = useState<string>("all");
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [form] = Form.useForm();
 
   const handleNoticeEdit = async () => {
@@ -156,29 +157,43 @@ const NoticePage: React.FC = () => {
     refetchNotices();
   };
 
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
   const handleUpload = async (e: RcCustomRequestOptions) => {
-    const oss = await getOSS();
-    const result = await oss.multipartUpload(
-      "upload/" + encodeURI(e.file.name),
-      e.file,
-      {
-        progress: (progress) =>
-          e.onProgress({ percent: progress * 100 }, e.file),
-      }
-    );
-    if (result.res.status === 200) {
-      e.onSuccess(result.res, e.file);
-    } else {
-      e.onError(new Error());
+    try {
+      const url = "upload/" + e.file.name;
+      const result = await uploadFile(e.file, url);
+      e.onSuccess(result, e.file);
+    } catch (err) {
+      e.onError(new Error("上传失败"));
     }
   };
 
   const handleRemove = async (file: UploadFile) => {
-    if (file.response?.status === 200) {
-      const oss = await getOSS();
-      await oss.delete("upload/" + encodeURI(file.name));
+    try {
+      let fileList_ = fileList;
+      setFileList(fileList_.splice(fileList_.findIndex(item => item.uid === file.uid), 1));
+      const files = fileList.map((f) => ({
+        filename: f.name,
+        url: "/upload/" + f.name,
+      }));
+      const values = form.getFieldsValue();
+      if (editingNotice) {
+        await updateNotice({
+          variables: {
+            id: editingNotice.id,
+            title: values.title,
+            content: values.content,
+            files: JSON.stringify(files),
+            notice_type: editingNotice.notice_type,
+          },
+        });
+      }
+      else throw (Error("error"));
+      if (file.response?.status === 200) {
+        await deleteFile("upload/" + file.name);
+      }
+      refetchNotices();
+    } catch (err) {
+      console.log(err);
     }
   };
 

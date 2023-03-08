@@ -65,7 +65,7 @@ const NewsPage: React.FC = () => {
         <Container key={news.title}>
           <Background
             style={{
-              backgroundImage: `url(${news.image}/compressed)`,
+              backgroundImage: `url(${news.image})`,
             }}
           />
           <Center>

@@ -14,8 +14,8 @@ const Picture: React.FC<
       `}
     >
       <source type="image/webp" srcSet={`${src}/webp`} />
-      <source srcSet={`${src}/compressed`} />
-      <img {...restProps} src={`${src}/compressed`} alt={alt} />
+      <source srcSet={`${src}`} />
+      <img {...restProps} src={`${src}`} alt={alt} />
     </picture>
   );
 };
