@@ -83,7 +83,7 @@ const ProfilePage: React.FC = () => {
 
   const [
     deleteUser,
-    { loading: deleting, error: deleteError },
+    { data: deleteData, loading: deleting, error: deleteError },
   ] = useMutation<DeleteUser, DeleteUserVariables>(DELETE_USER);
 
   useEffect(() => {
@@ -129,6 +129,12 @@ const ProfilePage: React.FC = () => {
       message.error("删除失败");
     }
   }, [deleteError]);
+
+  useEffect(() => {
+    if (deleteData && !deleteError) {
+      message.success("删除成功");
+    }
+  }, [deleteData, deleteError]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
@@ -223,6 +229,7 @@ const ProfilePage: React.FC = () => {
     try {
       await axios.put("/users/delete", { _id: userInfo?._id! });
       message.success("用户删除成功");
+      window.location.href = "/login";
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {

@@ -109,6 +109,7 @@ const LoginPage: React.FC = () => {
         });
         message.success("邮箱验证邮件已发送，请注意查收");
         form.resetFields();
+
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
