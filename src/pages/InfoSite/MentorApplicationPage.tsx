@@ -433,7 +433,7 @@ const MentorApplicationPage = () => {
                 // applicationData.mentor_application.filter(
                 //   (i) => i.status === "rejected"
                 // ).length > 1
-                !(record.user?.mentor_available?.available ?? true)
+                !(record.user?.mentor_available?.available ?? false)
               }
             >
               申请
