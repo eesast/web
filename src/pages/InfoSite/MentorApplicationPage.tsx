@@ -25,6 +25,7 @@ import {
   useApolloClient,
   useLazyQuery,
 } from "@apollo/client";
+import axios, { AxiosError } from "axios";
 import {
   AddMentorApplication as ADD_MENTOR_APPLICATION,
   ChangeMentorAvailable as CHANGE_MENTOR_AVAILABLE,
@@ -77,6 +78,53 @@ const { Text } = Typography;
 
 const MentorApplicationPage = () => {
   const userInfo = getUserInfo();
+
+  const [info, setInfo] = useState({
+    mentor: {
+      start_A: new Date(),
+      start_B: new Date(),
+      start_C: new Date(),
+      start_D: new Date(),
+      start_E: new Date(),
+      end_A: new Date(),
+      end_B: new Date(),
+      end_C: new Date(),
+      end_D: new Date(),
+      end_E: new Date()
+    }
+  });
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await axios.get("/application/info");
+        setInfo({
+          mentor: {
+            start_A: new Date(response.data.mentor.start_A),
+            start_B: new Date(response.data.mentor.start_B),
+            start_C: new Date(response.data.mentor.start_C),
+            start_D: new Date(response.data.mentor.start_D),
+            start_E: new Date(response.data.mentor.start_E),
+            end_A: new Date(response.data.mentor.end_A),
+            end_B: new Date(response.data.mentor.end_B),
+            end_C: new Date(response.data.mentor.end_C),
+            end_D: new Date(response.data.mentor.end_D),
+            end_E: new Date(response.data.mentor.end_E)
+          }
+        });
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("验证失败");
+        } else if (err.response?.status === 500) {
+          message.error("数据错误");
+        } else {
+          message.error("未知错误");
+        }
+      }
+    }
+    fetch();
+  }, []);
 
   const {
     loading: applicationLoading,
@@ -416,6 +464,15 @@ const MentorApplicationPage = () => {
           <Col span={8}>
             <Button
               onClick={() => {
+                if (new Date() < info.mentor.start_C) {
+                  return message.info("未到自由申请时间！");
+                }
+                else if (new Date() > info.mentor.end_C && new Date() < info.mentor.start_D) {
+                  return message.info("未到补选时间！");
+                }
+                else if (new Date() > info.mentor.end_D) {
+                  return message.warn("补选时间已过！");
+                }
                 form.setFieldsValue({ mentor: record });
                 setSelectedMentor(record);
                 setModalVisible(true);
@@ -428,12 +485,8 @@ const MentorApplicationPage = () => {
                   ).length === 1 ||
                     applicationData.mentor_application.filter(
                       (i) => i.status === "submitted"
-                    ).length === 1)) ||
-                // ||
-                // applicationData.mentor_application.filter(
-                //   (i) => i.status === "rejected"
-                // ).length > 1
-                !(record.user?.mentor_available?.available ?? false)
+                  ).length === 1)) ||
+                  !(record.user?.mentor_available?.available ?? false)
               }
             >
               申请
@@ -707,26 +760,26 @@ const MentorApplicationPage = () => {
       <Typography.Title level={2}>关键时间点</Typography.Title>
       <Timeline>
         {userInfo?.role === "teacher" && (
-          <Timeline.Item color="blue">
+          <Timeline.Item color={new Date() >= info.mentor.start_A && new Date() <= info.mentor.end_A ? "green" : "red"}>
             <p>预备阶段：导师更新个人信息</p>
-            <p>2021-01-10 00:00 ~ 2021-01-17 23:59</p>
+            <p>{info.mentor.start_A.toLocaleString()} ~ {info.mentor.end_A.toLocaleString()}</p>
           </Timeline.Item>
         )}
-        <Timeline.Item color="green">
+        <Timeline.Item color={new Date() >= info.mentor.start_B && new Date() <= info.mentor.end_B ? "green" : "red"}>
           <p>预备阶段：学生了解导师信息</p>
-          <p>2021-01-18 00:00 ~ 2021-02-21 23:59</p>
+          <p>{info.mentor.start_B.toLocaleString()} ~ {info.mentor.end_B.toLocaleString()}</p>
         </Timeline.Item>
-        <Timeline.Item color="gray">
+        <Timeline.Item color={new Date() >= info.mentor.start_C && new Date() <= info.mentor.end_C ? "green" : "red"}>
           <p>第一阶段：自由申请与匹配</p>
-          <p>2021-02-22 00:00 ~ 2021-02-28 23:59</p>
+          <p>{info.mentor.start_C.toLocaleString()} ~ {info.mentor.end_C.toLocaleString()}</p>
         </Timeline.Item>
-        <Timeline.Item color="gray">
+        <Timeline.Item color={new Date() >= info.mentor.start_D && new Date() <= info.mentor.end_D ? "green" : "red"}>
           <p>第二阶段：未匹配同学补选</p>
-          <p>2021-03-01 00:00 ~ 2021-03-04 23:59</p>
+          <p>{info.mentor.start_D.toLocaleString()} ~ {info.mentor.end_D.toLocaleString()}</p>
         </Timeline.Item>
-        <Timeline.Item color="gray">
+        <Timeline.Item color={new Date() >= info.mentor.start_E && new Date() <= info.mentor.end_E ? "green" : "red"}>
           <p>第三阶段：系统随机分配</p>
-          <p>2021-03-05 00:00 ~ 2021-03-11 23:59</p>
+          <p>{info.mentor.start_E.toLocaleString()} ~ {info.mentor.end_E.toLocaleString()}</p>
         </Timeline.Item>
       </Timeline>
       {userInfo?.role === "student" && (
