@@ -98,7 +98,7 @@ const ProfilePage: React.FC = () => {
         updateError.graphQLErrors?.[0]?.extensions?.code ===
         "constraint-violation"
       ) {
-        message.error("更新失败：学号已存在");
+        message.error("更新失败：学号或用户名已存在");
       } else {
         message.error("更新失败");
       }
@@ -108,7 +108,7 @@ const ProfilePage: React.FC = () => {
         updateForTeacherError.graphQLErrors?.[0]?.extensions?.code ===
         "constraint-violation"
       ) {
-        message.error("更新失败：工号已存在");
+        message.error("更新失败：工号或用户名已存在");
       } else {
         message.error("更新失败");
       }
@@ -230,6 +230,7 @@ const ProfilePage: React.FC = () => {
     setUserDeleting(true);
     try {
       await axios.put("/users/delete", { _id: userInfo?._id! });
+      await message.success(userInfo?._id!);
       message.success("用户删除成功");
       window.location.href = "/login";
     } catch (e) {
@@ -239,6 +240,8 @@ const ProfilePage: React.FC = () => {
       } else {
         message.error("未知错误");
       }
+    } finally {
+      setUserDeleting(false);
     }
   };
 
