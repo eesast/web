@@ -79,7 +79,7 @@ mutation UpdateUserForTeacher(
 }
 
 mutation DeleteUser($_id: String!) {
-  delete_user(where: {_id: {_eq: $_id}}) {
+  delete_user(where: { _id: { _eq: $_id }}) {
     affected_rows
   }
 }
