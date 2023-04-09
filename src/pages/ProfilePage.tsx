@@ -230,7 +230,6 @@ const ProfilePage: React.FC = () => {
     setUserDeleting(true);
     try {
       await axios.put("/users/delete", { _id: userInfo?._id! });
-      await message.success(userInfo?._id!);
       message.success("用户删除成功");
       window.location.href = "/login";
     } catch (e) {
