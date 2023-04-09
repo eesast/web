@@ -139,6 +139,7 @@ const ProfilePage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [passwordUpdating, setPasswordUpdating] = useState(false);
+  const [userDeleting, setUserDeleting] = useState(false);
   const reCaptchaRef = useRef<ReCAPTCHA>(null);
   const [form] = Form.useForm();
 
@@ -226,6 +227,7 @@ const ProfilePage: React.FC = () => {
       },
     });
 
+    setUserDeleting(true);
     try {
       await axios.put("/users/delete", { _id: userInfo?._id! });
       message.success("用户删除成功");
@@ -380,7 +382,7 @@ const ProfilePage: React.FC = () => {
             更新
           </Button>
           <Button
-          loading={deleting}
+          loading={deleting || userDeleting}
             type="default"
             style={{
               color: "#f5222d",
