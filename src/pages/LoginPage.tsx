@@ -109,7 +109,6 @@ const LoginPage: React.FC = () => {
         });
         message.success("邮箱验证邮件已发送，请注意查收");
         form.resetFields();
-
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
@@ -130,6 +129,7 @@ const LoginPage: React.FC = () => {
         });
         message.success("密码更改成功");
         form.resetFields();
+        setLoading(false);
         return history.replace("/login");
       } catch (e) {
         const err = e as AxiosError;
@@ -160,6 +160,7 @@ const LoginPage: React.FC = () => {
         await axios.post("/users", values);
         message.success("注册成功");
         form.resetFields();
+        setLoading(false);
         return history.replace("/login");
       } catch (e) {
         const err = e as AxiosError;
@@ -180,8 +181,10 @@ const LoginPage: React.FC = () => {
         localStorage.setItem("token", data.token);
         message.success("登录成功");
         if (from) {
+          setLoading(false);
           return history.replace(from.pathname + from.search);
         } else {
+          setLoading(false);
           return history.replace("/");
         }
       } catch (e) {
