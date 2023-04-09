@@ -83,7 +83,7 @@ const ProfilePage: React.FC = () => {
 
   const [
     deleteUser,
-    { loading: deleting, error: deleteError },
+    { data: deleteData, loading: deleting, error: deleteError },
   ] = useMutation<DeleteUser, DeleteUserVariables>(DELETE_USER);
 
   useEffect(() => {
@@ -130,9 +130,16 @@ const ProfilePage: React.FC = () => {
     }
   }, [deleteError]);
 
+  useEffect(() => {
+    if (deleteData && !deleteError) {
+      message.success("删除成功");
+    }
+  }, [deleteData, deleteError]);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [passwordUpdating, setPasswordUpdating] = useState(false);
+  const [userDeleting, setUserDeleting] = useState(false);
   const reCaptchaRef = useRef<ReCAPTCHA>(null);
   const [form] = Form.useForm();
 
@@ -220,9 +227,11 @@ const ProfilePage: React.FC = () => {
       },
     });
 
+    setUserDeleting(true);
     try {
       await axios.put("/users/delete", { _id: userInfo?._id! });
       message.success("用户删除成功");
+      window.location.href = "/login";
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -373,7 +382,7 @@ const ProfilePage: React.FC = () => {
             更新
           </Button>
           <Button
-          loading={deleting}
+          loading={deleting || userDeleting}
             type="default"
             style={{
               color: "#f5222d",
