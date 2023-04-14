@@ -566,9 +566,9 @@ const MentorApplicationPage = () => {
         },
       ],
       onFilter: (value, record) =>
-        (record.user?.mentor_available?.available ?? true).toString() === value,
+        (record.user?.mentor_available?.available ?? false).toString() === value,
       render: (text, record) =>
-        record.user?.mentor_available?.available ?? true ? "是" : "否",
+        record.user?.mentor_available?.available ?? false ? "是" : "否",
     },
     {
       title: "操作",
