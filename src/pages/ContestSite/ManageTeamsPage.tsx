@@ -44,15 +44,12 @@ import {
   DeleteTeamMember,
   DeleteTeamMemberVariables,
 } from "../../api/types";
-import { Button, Card, Col, Form, Input, Layout, List, message, Modal, Result, Row, Table, Typography, Upload } from "antd";
+import { Button, Card, Form, Input, Layout, List, message, Modal, Result, Row, Table, Typography } from "antd";
 import { TableProps } from "antd/lib/table";
-import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
-import { downloadFile, uploadFile, deleteFile, listFile } from "../../helpers/cos";
-import { RcCustomRequestOptions, RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 
 const { Text } = Typography;
-const { confirm } = Modal;
 
 const ManageTeamsPage: React.FC = () => {
   //获取比赛ID
@@ -276,8 +273,6 @@ const ListPage: React.FC<{
     }
 
   ];
-
-
 
   return (
     <Layout>
@@ -518,94 +513,6 @@ const SubPage: React.FC<{
   }
   //#endregion
 
-  //上传和查看代码界面
-  //列出team已上传的代码文件
-  //const [codeList, setCodeList] = useState<OSS.ObjectMeta[]>([]);//返回的查看结果
-  const [codeRoutes1, setCodeRoutes1] = useState<string>();
-  const [codeRoutes2, setCodeRoutes2] = useState<string>();
-  const [codeRoutes3, setCodeRoutes3] = useState<string>();
-  const [codeRoutes4, setCodeRoutes4] = useState<string>();
-  const list = async () => {
-    try {
-      let result = await listFile(`THUAI5/${props.team_id}/`);
-
-      setCodeRoutes1(undefined);
-      setCodeRoutes2(undefined);
-      setCodeRoutes3(undefined);
-      setCodeRoutes4(undefined);
-
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].Key === `THUAI5/${props.team_id}/`) {
-          continue;
-        }
-        if (result[i].Key.indexOf(`THUAI5/${props.team_id}/`) === 0) {
-          switch (result[i].Key.split('/')[2]) {
-            case "player1.cpp": setCodeRoutes1(result[i].Key); break;
-            case "player2.cpp": setCodeRoutes2(result[i].Key); break;
-            case "player3.cpp": setCodeRoutes3(result[i].Key); break;
-            case "player4.cpp": setCodeRoutes4(result[i].Key); break;
-          }
-        }
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  useEffect(() => { list() }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleUpload = async (e: RcCustomRequestOptions, i: number) => {
-    try {
-      const url = `THUAI5/${props.team_id}/player${i}.cpp`;
-      const result = await uploadFile(e.file, url);
-      e.onSuccess(result, e.file);
-    } catch (err) {
-      e.onError(new Error("上传失败"));
-    }
-  };
-
-  const handleRemove = async (file: UploadFile, i: number) => {
-    try {
-      if (file.response?.status === 200) {
-        await deleteFile(`THUAI5/${props.team_id}/player${i}.cpp`);
-      }
-      switch (i) {
-        case 1: setCodeRoutes1(undefined); break;
-        case 2: setCodeRoutes2(undefined); break;
-        case 3: setCodeRoutes3(undefined); break;
-        case 4: setCodeRoutes4(undefined); break;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleDownload = (file: UploadFile<any>, codeRole: number) => {
-    const codefile = {
-      filename: file.name,
-      url: `/${file.uid}`
-    }
-    message.info("开始下载:" + codefile.filename);
-    downloadFile(codefile).catch(e => {
-      message.error("下载失败");
-    })
-  }
-
-  const handleChange = (info: UploadChangeParam<UploadFile<any>>, codeRole: number) => {
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} → P${codeRole} 上传成功`);
-      switch (codeRole) {
-        case 1: setCodeRoutes1(`THUAI5/${props.team_id}/player${codeRole}.cpp`); break;
-        case 2: setCodeRoutes2(`THUAI5/${props.team_id}/player${codeRole}.cpp`); break;
-        case 3: setCodeRoutes3(`THUAI5/${props.team_id}/player${codeRole}.cpp`); break;
-        case 4: setCodeRoutes4(`THUAI5/${props.team_id}/player${codeRole}.cpp`); break;
-      }
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} → P${codeRole} 上传失败`);
-    }
-
-  }
-
-
   const contentList = {
     basic: (
       <div
@@ -715,168 +622,6 @@ const SubPage: React.FC<{
             </Form.Item>
           </Form>
         </Row>
-      </div>
-    ),
-    code: (
-      <div>
-        <Row gutter={16}>
-          <Col span={6}>
-            <Card title="Player1" hoverable>
-              <Upload
-                customRequest={async (e: RcCustomRequestOptions) => {
-                  if (codeRoutes1) {
-                    confirm({
-                      title: "你确定用此代码替换原代码吗？",
-                      icon: <ExclamationCircleOutlined />,
-                      content: '一个角色只能提交一份代码',
-                      onOk() {
-                        handleUpload(e, 1);
-                      }
-                    })
-                  } else {
-                    handleUpload(e, 1);
-                  }
-                }}
-                onRemove={async (file: UploadFile) => {
-                  handleRemove(file, 1);
-                }}
-                onDownload={async (file: UploadFile<any>) => {
-                  handleDownload(file, 1);
-                }}
-                onChange={(info: UploadChangeParam<UploadFile<any>>) => { handleChange(info, 1); }}
-                beforeUpload={(file: RcFile) => {
-                  const isCpp = file.type === 'text/plain' && file.name.endsWith(".cpp");
-                  if (!isCpp) {
-                    message.error(`请上传cpp文件`);
-                  }
-                  return isCpp;
-                }}
-                showUploadList={{
-                  showDownloadIcon: true,
-                  downloadIcon: <DownloadOutlined />,
-                }}
-                fileList={!codeRoutes1 ? undefined : [
-                  {
-                    response: { status: 200 },
-                    status: "done",
-                    uid: codeRoutes1,
-                    name: codeRoutes1?.split('/')[2],
-                    type: "",
-                  } as UploadFile]
-                }
-              >
-                <Button icon={<UploadOutlined />}>上传代码</Button>
-              </Upload>
-            </Card>
-          </Col>
-          <Col span={6}>
-            <Card title="Player2" hoverable>
-              <Upload
-                customRequest={async (e: RcCustomRequestOptions) => {
-                  if (codeRoutes2) {
-                    confirm({
-                      title: "你确定用此代码替换原代码吗？",
-                      icon: <ExclamationCircleOutlined />,
-                      content: '一个角色只能提交一份代码',
-                      onOk() {
-                        handleUpload(e, 2);
-                      }
-                    })
-                  } else {
-                    handleUpload(e, 2);
-                  }
-                }}
-                onRemove={async (file: UploadFile) => {
-                  handleRemove(file, 2);
-                }}
-                fileList={!codeRoutes2 ? undefined : [
-                  {
-                    response: { status: 200 },
-                    status: "done",
-                    uid: codeRoutes2,
-                    name: codeRoutes2?.split('/')[2],
-                    type: "",
-                  } as UploadFile]
-                }
-              >
-                <Button icon={<UploadOutlined />}>上传代码</Button>
-              </Upload>
-            </Card>
-          </Col>
-          <Col span={6}>
-            <Card title="Player3" hoverable>
-              <Upload
-                customRequest={async (e: RcCustomRequestOptions) => {
-                  if (codeRoutes3) {
-                    confirm({
-                      title: "你确定用此代码替换原代码吗？",
-                      icon: <ExclamationCircleOutlined />,
-                      content: '一个角色只能提交一份代码',
-                      onOk() {
-                        handleUpload(e, 3);
-                      }
-                    })
-                  } else {
-                    handleUpload(e, 3);
-                  }
-                }}
-                onRemove={async (file: UploadFile) => {
-                  handleRemove(file, 3);
-                }}
-                fileList={!codeRoutes3 ? undefined : [
-                  {
-                    response: { status: 200 },
-                    status: "done",
-                    uid: codeRoutes3,
-                    name: codeRoutes3?.split('/')[2],
-                    type: "",
-                  } as UploadFile]
-                }
-              >
-                <Button icon={<UploadOutlined />}>上传代码</Button>
-              </Upload>
-            </Card>
-          </Col>
-          <Col span={6}>
-            <Card title="Player4" hoverable>
-              <Upload
-                customRequest={async (e: RcCustomRequestOptions) => {
-                  if (codeRoutes4) {
-                    confirm({
-                      title: "你确定用此代码替换原代码吗？",
-                      icon: <ExclamationCircleOutlined />,
-                      content: '一个角色只能提交一份代码',
-                      onOk() {
-                        handleUpload(e, 4);
-                      }
-                    })
-                  } else {
-                    handleUpload(e, 4);
-                  }
-                }}
-                onRemove={async (file: UploadFile) => {
-                  handleRemove(file, 4);
-                }}
-                fileList={!codeRoutes4 ? undefined : [
-                  {
-                    response: { status: 200 },
-                    status: "done",
-                    uid: codeRoutes4,
-                    name: codeRoutes4?.split('/')[2],
-                    type: "",
-                  } as UploadFile]
-                }
-              >
-                <Button icon={<UploadOutlined />}>上传代码</Button>
-              </Upload>
-            </Card>
-          </Col>
-        </Row>
-      </div >
-    ),
-    complie: (
-      <div>
-
       </div>
     ),
   }
