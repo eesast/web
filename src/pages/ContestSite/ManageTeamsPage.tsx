@@ -44,9 +44,9 @@ import {
   DeleteTeamMember,
   DeleteTeamMemberVariables,
 } from "../../api/types";
-import { Button, Card, Col, Form, Input, Layout, List, message, Modal, Result, Row, Table, Typography, Upload } from "antd";
+import { Button, Card, Form, Input, Layout, List, message, Modal, Result, Row, Table, Typography } from "antd";
 import { TableProps } from "antd/lib/table";
-import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 
 const { Text } = Typography;
