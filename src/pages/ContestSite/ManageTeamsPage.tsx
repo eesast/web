@@ -48,11 +48,8 @@ import { Button, Card, Col, Form, Input, Layout, List, message, Modal, Result, R
 import { TableProps } from "antd/lib/table";
 import { ArrowRightOutlined, DownloadOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined, RollbackOutlined, UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
-import { downloadFile, uploadFile, deleteFile, listFile } from "../../helpers/cos";
-import { RcCustomRequestOptions, RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 
 const { Text } = Typography;
-const { confirm } = Modal;
 
 const ManageTeamsPage: React.FC = () => {
   //获取比赛ID
@@ -276,8 +273,6 @@ const ListPage: React.FC<{
     }
 
   ];
-
-
 
   return (
     <Layout>
