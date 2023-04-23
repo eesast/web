@@ -1329,9 +1329,10 @@ export interface UpsertCode1 {
 
 export interface UpsertCode1Variables {
   code: string;
-  code1_update_time: any;
+  update_time: any;
   team_id: any;
   contest_id: any;
+  code_type: string;
 }
 
 /* tslint:disable */
@@ -1357,9 +1358,10 @@ export interface UpsertCode2 {
 
 export interface UpsertCode2Variables {
   code: string;
-  code2_update_time: any;
+  update_time: any;
   team_id: any;
   contest_id: any;
+  code_type: string;
 }
 
 /* tslint:disable */
@@ -1385,9 +1387,10 @@ export interface UpsertCode3 {
 
 export interface UpsertCode3Variables {
   code: string;
-  code3_update_time: any;
+  update_time: any;
   team_id: any;
   contest_id: any;
+  code_type: string;
 }
 
 /* tslint:disable */
@@ -1413,9 +1416,10 @@ export interface UpsertCode4 {
 
 export interface UpsertCode4Variables {
   code: string;
-  code4_update_time: any;
+  update_time: any;
   team_id: any;
   contest_id: any;
+  code_type: string;
 }
 
 /* tslint:disable */
@@ -1441,9 +1445,10 @@ export interface UpsertCode5 {
 
 export interface UpsertCode5Variables {
   code: string;
-  code5_update_time: any;
+  update_time: any;
   team_id: any;
   contest_id: any;
+  code_type: string;
 }
 
 /* tslint:disable */

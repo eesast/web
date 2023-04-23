@@ -350,24 +350,26 @@ const BattlePage: React.FC = () => {
   //上传最新代码的日期储存起来
   let now = dayjs();
   const handleCodeChange1 = async (url: string) => {
-    upsertCode1({ variables: { code: url, code1_update_time: now!, team_id: teamid!, contest_id: Contest_id! } });
-    //console.log(values);
+    console.log("values");
+    upsertCode1({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
+    console.log("values");
   };
   const handleCodeChange2 = async (url: string) => {
-    upsertCode2({ variables: { code: url, code2_update_time: now!, team_id: teamid!, contest_id: Contest_id! } });
+    upsertCode2({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
   };
   const handleCodeChange3 = async (url: string) => {
-    upsertCode3({ variables: { code: url, code3_update_time: now!, team_id: teamid!, contest_id: Contest_id! } });
+    upsertCode3({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
   };
   const handleCodeChange4 = async (url: string) => {
-    upsertCode4({ variables: { code: url, code4_update_time: now!, team_id: teamid!, contest_id: Contest_id! } });
+    upsertCode4({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
   };
   const handleCodeChange5 = async (url: string) => {
-    upsertCode5({ variables: { code: url, code5_update_time: now!, team_id: teamid!, contest_id: Contest_id! } });
+    upsertCode5({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
   };
   const handleCodeChange = (url: string, codeRole: any) => {
     switch (codeRole) {
       case 1:
+        console.log("values");
         handleCodeChange1(url);
         break;
       case 2:
@@ -934,6 +936,7 @@ const BattlePage: React.FC = () => {
                 <Button size="large" onClick={handleCodeModal}>
                   代码管理
                 </Button>
+
               </Col> */}
             </Row>
           </Col>
