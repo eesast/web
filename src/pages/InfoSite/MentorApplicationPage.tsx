@@ -566,9 +566,9 @@ const MentorApplicationPage = () => {
         },
       ],
       onFilter: (value, record) =>
-        (record.user?.mentor_available?.available ?? true).toString() === value,
+        (record.user?.mentor_available?.available ?? false).toString() === value,
       render: (text, record) =>
-        record.user?.mentor_available?.available ?? true ? "是" : "否",
+        record.user?.mentor_available?.available ?? false ? "是" : "否",
     },
     {
       title: "操作",
@@ -874,7 +874,7 @@ const MentorApplicationPage = () => {
                 checkedChildren="正在接收申请"
                 unCheckedChildren="停止接收申请"
                 checked={
-                  mentorAvailableData?.mentor_available?.[0]?.available ?? true
+                  mentorAvailableData?.mentor_available?.[0]?.available ?? false
                 }
                 onChange={handleMentorAvailableChange}
               />

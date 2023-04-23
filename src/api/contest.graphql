@@ -365,6 +365,21 @@ mutation UpsertCode4($code: String!, $code4_update_time: timestamptz!, $team_id:
   }
 }
 
+mutation UpsertCode5($code: String!, $code5_update_time: timestamptz!, $team_id: uuid!,$contest_id: uuid!) {
+  insert_contest_code_one(
+    object: {
+      code5: $code,
+      code5_update_time: $code5_update_time,
+      team_id: $team_id,
+      contest_id: $contest_id
+    }
+    on_conflict: {constraint: contest_code_pkey,
+      update_columns: [code5,code5_update_time]
+    }){
+    code5_update_time
+  }
+}
+
 # 通过队伍名查询队伍ID
 query QueryTeamID($team_name: String!, $contest_id: uuid!) {
   contest_team(where: {team_name: {_eq: $team_name}, contest_id: {_eq: $contest_id}}) {
