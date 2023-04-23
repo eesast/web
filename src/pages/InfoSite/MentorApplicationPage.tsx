@@ -874,7 +874,7 @@ const MentorApplicationPage = () => {
                 checkedChildren="正在接收申请"
                 unCheckedChildren="停止接收申请"
                 checked={
-                  mentorAvailableData?.mentor_available?.[0]?.available ?? true
+                  mentorAvailableData?.mentor_available?.[0]?.available ?? false
                 }
                 onChange={handleMentorAvailableChange}
               />
