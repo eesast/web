@@ -571,7 +571,7 @@ const BattlePage: React.FC = () => {
   );
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
-    const lang = e.filename.split(".").slice(-1, ).join('');
+    const lang = e.file.name.split(".").slice(-1, ).join('');
     try {
       if (lang === "cpp") {
         const url = `/THUAI6/${teamid}/player${codeRole}.cpp`;
@@ -847,7 +847,7 @@ const BattlePage: React.FC = () => {
     { key: 2, name: 'P2', updatetime: time2, filelist: fileList2 },
     { key: 3, name: 'P3', updatetime: time3, filelist: fileList3 },
     { key: 4, name: 'P4', updatetime: time4, filelist: fileList4 },
-    { key: 5, name: 'P5', updatetime: time5, filelist: fileList5 }
+    { key: 5, name: 'TRICKER', updatetime: time5, filelist: fileList5 }
   ]
 
   const playerListColumns: TableProps<Playerprops>["columns"] = [
@@ -885,32 +885,6 @@ const BattlePage: React.FC = () => {
           </Button>
         </Upload>
       )
-    },
-    {
-      title: '上传代码(AI.py)',
-      key: "upload",
-      dataIndex: "upload",
-      render: (text, record) => (
-        <Upload
-          accept=".py"
-          customRequest={handleUpload}
-          onChange={handleOnchange}
-          onRemove={handleRemove}
-          multiple
-          fileList={record.filelist}
-        >
-          <Button
-            disabled={contestData?.contest[0].status.slice(0, 1) !== "1"}
-            onClick={() => {
-              //console.log(record)
-              setCodeRole(record.key)
-            }}
-          >
-            <UploadOutlined /> 上传
-          </Button>
-        </Upload>
-      )
-
     },
     {
       title: '下载代码',
