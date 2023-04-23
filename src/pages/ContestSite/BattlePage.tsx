@@ -350,9 +350,7 @@ const BattlePage: React.FC = () => {
   //上传最新代码的日期储存起来
   let now = dayjs();
   const handleCodeChange1 = async (url: string) => {
-    console.log("values");
     upsertCode1({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
-    console.log("values");
   };
   const handleCodeChange2 = async (url: string) => {
     upsertCode2({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
@@ -369,7 +367,6 @@ const BattlePage: React.FC = () => {
   const handleCodeChange = (url: string, codeRole: any) => {
     switch (codeRole) {
       case 1:
-        console.log("values");
         handleCodeChange1(url);
         break;
       case 2:
