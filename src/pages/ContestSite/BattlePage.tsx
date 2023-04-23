@@ -75,12 +75,15 @@ import {
   UpsertCode3Variables,
   UpsertCode4,
   UpsertCode4Variables,
+  UpsertCode5,
+  UpsertCode5Variables,
 } from "../../api/types";
 import {
   UpsertCode1 as UPSERTCODE1,
   UpsertCode2 as UPSERTCODE2,
   UpsertCode3 as UPSERTCODE3,
   UpsertCode4 as UPSERTCODE4,
+  UpsertCode5 as UPSERTCODE5,
 } from "../../api/contest.graphql";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
@@ -203,6 +206,9 @@ const BattlePage: React.FC = () => {
       if (codetimeData?.contest_code[0].code4_update_time) {
         setTime4(dayjs(codetimeData?.contest_code[0].code4_update_time).format("M-DD HH:mm:ss"));
       }
+      if (codetimeData?.contest_code[0].code5_update_time) {
+        setTime5(dayjs(codetimeData?.contest_code[0].code5_update_time).format("M-DD HH:mm:ss"));
+      }
     }
   }, [codetimeData])
 
@@ -243,6 +249,11 @@ const BattlePage: React.FC = () => {
     UpsertCode4Variables
   >(UPSERTCODE4);
 
+  const [upsertCode5, { data: code5updatetime, error: code5Error }] = useMutation<
+    UpsertCode5,
+    UpsertCode5Variables
+  >(UPSERTCODE5);
+
   // ----------------删除room--------------------
   const [deleteRoom, { error: DeleteRoomError }] = useMutation<
     DeleteRoom,
@@ -277,10 +288,12 @@ const BattlePage: React.FC = () => {
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [fileList3, setFileList3] = useState<UploadFile[]>([]);
   const [fileList4, setFileList4] = useState<UploadFile[]>([]);
+  const [fileList5, setFileList5] = useState<UploadFile[]>([]);
   const [time1, setTime1] = useState("未上传");
   const [time2, setTime2] = useState("未上传");
   const [time3, setTime3] = useState("未上传");
   const [time4, setTime4] = useState("未上传");
+  const [time5, setTime5] = useState("未上传");
   useEffect(() => {
     if (code1Error || code2Error || code3Error || code4Error) {
       message.error("上传代码失败");
@@ -297,6 +310,9 @@ const BattlePage: React.FC = () => {
     else if (code4updatetime) {
       setTime4(dayjs(code4updatetime.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"))
     }
+    else if (code5updatetime) {
+      setTime5(dayjs(code5updatetime.insert_contest_code_one?.code5_update_time).format("M-DD HH:mm:ss"))
+    }
   }
     , [
       code1updatetime,
@@ -307,6 +323,8 @@ const BattlePage: React.FC = () => {
       code3Error,
       code4updatetime,
       code4Error,
+      code5updatetime,
+      code5Error,
     ]);
 
 
@@ -344,6 +362,9 @@ const BattlePage: React.FC = () => {
   const handleCodeChange4 = async (url: string) => {
     upsertCode4({ variables: { code: url, code4_update_time: now!, team_id: teamid!, contest_id: Contest_id! } });
   };
+  const handleCodeChange5 = async (url: string) => {
+    upsertCode5({ variables: { code: url, code5_update_time: now!, team_id: teamid!, contest_id: Contest_id! } });
+  };
   const handleCodeChange = (url: string, codeRole: any) => {
     switch (codeRole) {
       case 1:
@@ -357,6 +378,9 @@ const BattlePage: React.FC = () => {
         break;
       case 4:
         handleCodeChange4(url);
+        break;
+      case 5:
+        handleCodeChange5(url);
         break;
       default:
         break;
@@ -588,6 +612,7 @@ const BattlePage: React.FC = () => {
       case 2: setFileList2(info.fileList); break;
       case 3: setFileList3(info.fileList); break;
       case 4: setFileList4(info.fileList); break;
+      case 5: setFileList5(info.fileList); break;
       default: break;
     }
 
@@ -596,8 +621,8 @@ const BattlePage: React.FC = () => {
 
   const handleCodeCompile = () => {
     (async () => {
-      if (time1 === "未上传" || time2 === "未上传" || time3 === "未上传" || time4 === "未上传") {
-        message.error("请先上传4份选手代码！");
+      if (time1 === "未上传" || time2 === "未上传" || time3 === "未上传" || time4 === "未上传"|| time5 === "未上传") {
+        message.error("请先上传5份选手代码！");
         return;
       }
       try {
@@ -773,7 +798,8 @@ const BattlePage: React.FC = () => {
     { key: 1, name: 'P1', updatetime: time1, filelist: fileList1 },
     { key: 2, name: 'P2', updatetime: time2, filelist: fileList2 },
     { key: 3, name: 'P3', updatetime: time3, filelist: fileList3 },
-    { key: 4, name: 'P4', updatetime: time4, filelist: fileList4 }
+    { key: 4, name: 'P4', updatetime: time4, filelist: fileList4 },
+    { key: 5, name: 'P5', updatetime: time5, filelist: fileList5 }
   ]
 
   const playerListColumns: TableProps<Playerprops>["columns"] = [
@@ -794,6 +820,32 @@ const BattlePage: React.FC = () => {
       render: (text, record) => (
         <Upload
           accept=".cpp"
+          customRequest={handleUpload}
+          onChange={handleOnchange}
+          onRemove={handleRemove}
+          multiple
+          fileList={record.filelist}
+        >
+          <Button
+            disabled={contestData?.contest[0].status.slice(0, 1) !== "1"}
+            onClick={() => {
+              //console.log(record)
+              setCodeRole(record.key)
+            }}
+          >
+            <UploadOutlined /> 上传
+          </Button>
+        </Upload>
+      )
+
+    },
+    {
+      title: '上传代码(AI.py)',
+      key: "upload",
+      dataIndex: "upload",
+      render: (text, record) => (
+        <Upload
+          accept=".py"
           customRequest={handleUpload}
           onChange={handleOnchange}
           onRemove={handleRemove}

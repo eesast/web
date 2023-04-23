@@ -1424,6 +1424,34 @@ export interface UpsertCode4Variables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpsertCode5
+// ====================================================
+
+export interface UpsertCode5_insert_contest_code_one {
+  __typename: "contest_code";
+  code5_update_time: any | null;
+}
+
+export interface UpsertCode5 {
+  /**
+   * insert a single row into the table: "contest_code"
+   */
+  insert_contest_code_one: UpsertCode5_insert_contest_code_one | null;
+}
+
+export interface UpsertCode5Variables {
+  code: string;
+  code5_update_time: any;
+  team_id: any;
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: QueryTeamID
 // ====================================================
 
