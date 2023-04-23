@@ -29,7 +29,7 @@ import {
   MinusOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
-import { uploadFile, downloadFile, deleteFile } from "../../helpers/cos";
+import { uploadFile, downloadFile, deleteFile, listFile } from "../../helpers/cos";
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
 //----根据队员信息查找队伍信息------
@@ -571,23 +571,41 @@ const BattlePage: React.FC = () => {
   );
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
+    const lang = e.filename.split(".").slice(-1, ).join('');
     try {
-      const url = `/THUAI5/${teamid}/player${codeRole}.cpp`;
-      const result = await uploadFile(e.file, url);
-      e.onSuccess(result, e.file);
-      handleCodeChange(url, codeRole);
-      await refetchCodeTime({
-        team_id: teamid!,
-      });
+      if (lang === "cpp") {
+        const url = `/THUAI6/${teamid}/player${codeRole}.cpp`;
+        const result = await uploadFile(e.file, url);
+        e.onSuccess(result, e.file);
+        handleCodeChange(url, codeRole);
+        await refetchCodeTime({
+          team_id: teamid!,
+        });
+      } else if (lang === "py") {
+        const url = `/THUAI6/${teamid}/player${codeRole}.py`;
+        const result = await uploadFile(e.file, url);
+        e.onSuccess(result, e.file);
+        handleCodeChange(url, codeRole);
+        await refetchCodeTime({
+          team_id: teamid!,
+        });
+      } else {
+        e.onError(new Error("不支持的文件类型"));
+      }
     } catch (err) {
       e.onError(new Error("上传失败"));
     }
   };
 
   const handleRemove = async (file: UploadFile) => {
+    const lang = file.name.split(".").slice(-1, ).join('');
     try {
       if (file.response?.status === 200) {
-        await deleteFile(`/THUAI5/${teamid}/player${codeRole}.cpp`);
+        if (lang === "cpp") {
+          await deleteFile(`/THUAI6/${teamid}/player${codeRole}.cpp`);
+        } else if (lang === "py") {
+          await deleteFile(`/THUAI6/${teamid}/player${codeRole}.py`);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -615,8 +633,38 @@ const BattlePage: React.FC = () => {
       case 5: setFileList5(info.fileList); break;
       default: break;
     }
+  }
 
-
+  const handleDownload = async () => {
+    let result = await listFile(`THUAI6/${teamid}/${codeRole}`);
+    if (result.length === 0) {
+      message.error("未找到代码文件");
+    } else {
+      if (result[0].Key.indexOf(`THUAI6/${teamid}/${codeRole}`) === 0) {
+        switch (result[0].Key.split('.').slice(-1, ).join('')) {
+          case "cpp": {
+            const codefile = {
+              filename: `Player${codeRole}.cpp`,
+              url: `/THUAI6/${teamid}/player${codeRole}.cpp`
+            }
+            message.info("开始下载:" + codefile.filename);
+            downloadFile(codefile).catch(e => {
+              message.error("下载失败");
+            })
+          } break;
+          case "py": {
+            const codefile = {
+              filename: `Player${codeRole}.py`,
+              url: `/THUAI6/${teamid}/player${codeRole}.py`
+            }
+            message.info("开始下载:" + codefile.filename);
+            downloadFile(codefile).catch(e => {
+              message.error("下载失败");
+            })
+          } break;
+        }
+      }
+    }
   }
 
   const handleCodeCompile = () => {
@@ -806,7 +854,7 @@ const BattlePage: React.FC = () => {
     {
       title: 'AI角色',
       dataIndex: "name",
-      key: "name"
+      key: "name",
     },
     {
       title: '代码更新时间',
@@ -814,12 +862,12 @@ const BattlePage: React.FC = () => {
       key: "time",
     },
     {
-      title: '上传代码(AI.cpp)',
+      title: '上传代码(AI.cpp & AI.py)',
       key: "upload",
       dataIndex: "upload",
       render: (text, record) => (
         <Upload
-          accept=".cpp"
+          accept=".cpp,.py"
           customRequest={handleUpload}
           onChange={handleOnchange}
           onRemove={handleRemove}
@@ -837,7 +885,6 @@ const BattlePage: React.FC = () => {
           </Button>
         </Upload>
       )
-
     },
     {
       title: '上传代码(AI.py)',
@@ -870,17 +917,7 @@ const BattlePage: React.FC = () => {
       key: "download",
       render: (text, record) => (
         <Row justify="start">
-          <Button onClick={() => {
-            setCodeRole(record.key);
-            const codefile = {
-              filename: `Player${codeRole}.cpp`,
-              url: `/THUAI5/${teamid}/player${codeRole}.cpp`
-            }
-            message.info("开始下载:" + codefile.filename);
-            downloadFile(codefile).catch(e => {
-              message.error("下载失败");
-            })
-          }}>
+          <Button onClick={handleDownload}>
             <DownloadOutlined />下载
           </Button>
         </Row>)
