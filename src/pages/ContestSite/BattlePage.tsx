@@ -191,7 +191,7 @@ const BattlePage: React.FC = () => {
     },
   });
   useEffect(() => {
-    // console.log("effect");
+    console.log(codetimeData);
     if (codetimeData?.contest_code.length === 1) {
       if (codetimeData?.contest_code[0].code1_update_time) {
         // console.log("a"+codetimeData?.contest_code[0].code1_update_time);
@@ -295,7 +295,7 @@ const BattlePage: React.FC = () => {
   const [time4, setTime4] = useState("未上传");
   const [time5, setTime5] = useState("未上传");
   useEffect(() => {
-    if (code1Error || code2Error || code3Error || code4Error) {
+    if (code1Error || code2Error || code3Error || code4Error || code5Error) {
       message.error("上传代码失败");
     } else if (code1updatetime) {
       //console.log("a"+code1updatetime)
@@ -577,7 +577,7 @@ const BattlePage: React.FC = () => {
         const result = await uploadFile(e.file, url);
         e.onSuccess(result, e.file);
         handleCodeChange(url, codeRole);
-        await refetchCodeTime({
+        refetchCodeTime({
           team_id: teamid!,
         });
       } else if (lang === "py") {
@@ -585,7 +585,7 @@ const BattlePage: React.FC = () => {
         const result = await uploadFile(e.file, url);
         e.onSuccess(result, e.file);
         handleCodeChange(url, codeRole);
-        await refetchCodeTime({
+        refetchCodeTime({
           team_id: teamid!,
         });
       } else {

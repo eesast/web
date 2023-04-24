@@ -193,28 +193,30 @@ const ResourcePage: React.FC = () => {
   const handleRemove = async (file: UploadFile) => {
     try {
       let fileList_ = fileList;
+      // Please don't delete the line below
+      console.log(fileList_.splice(fileList_.findIndex(item => item.uid === file.uid), 1));
       setFileList(fileList_.splice(fileList_.findIndex(item => item.uid === file.uid), 1));
-      const files = fileList.map((f) => ({
-        filename: f.name,
-        url: "/contest_upload/" + f.name,
-      }));
-      const values = form.getFieldsValue();
-      if (editingNotice) {
-        await updateNotice({
-          variables: {
-            id: editingNotice.id,
-            title: values.title,
-            content: values.content,
-            files: JSON.stringify(files),
-            contest_id: Contest_id,
-          },
-        });
-      }
-      else throw (Error("error"));
+      // const files = fileList.map((f) => ({
+      //   filename: f.name,
+      //   url: "/contest_upload/" + f.name,
+      // }));
+      // const values = form.getFieldsValue();
+      // if (editingNotice) {
+      //   await updateNotice({
+      //     variables: {
+      //       id: editingNotice.id,
+      //       title: values.title,
+      //       content: values.content,
+      //       files: JSON.stringify(files),
+      //       contest_id: Contest_id,
+      //     },
+      //   });
+      // }
+      // else throw (Error("error"));
       if (file.response?.status === 200) {
         await deleteFile("contest_upload/" + file.name);
       }
-      refetchNotices();
+      // refetchNotices();
     } catch (err) {
       console.log(err);
     }
@@ -295,8 +297,16 @@ const ResourcePage: React.FC = () => {
         centered
         okText="发布"
         onCancel={() => {
-          if (fileList.length !== 0) {
-            message.info("请先移除已上传文件");
+          const files = fileList.map((f) => ({
+            filename: f.name,
+            url: "/contest_upload/" + f.name,
+          }));
+          if (editingNotice && editingNotice.files !== JSON.stringify(files)) {
+            message.info("请先移除新上传的文件");
+            return;
+          }
+          if (!editingNotice && fileList.length > 0) {
+            message.info("请先移除新上传的文件");
             return;
           }
           setModalVisible(false);
