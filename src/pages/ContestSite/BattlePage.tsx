@@ -29,7 +29,7 @@ import {
   MinusOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
-import { uploadFile, downloadFile, deleteFile, listFile } from "../../helpers/cos";
+import { uploadFile, downloadFile, deleteFile, existFile } from "../../helpers/cos";
 import styles from "./BattlePage.module.css";
 import { Link } from "react-router-dom";
 //----根据队员信息查找队伍信息------
@@ -573,16 +573,16 @@ const BattlePage: React.FC = () => {
     const lang = e.file.name.split(".").slice(-1, ).join('');
     try {
       if (lang === "cpp") {
-        const url = `/THUAI6/${teamid}/player${codeRole}.cpp`;
-        const result = await uploadFile(e.file, url);
+        const url = `THUAI6/${teamid}/player${codeRole}.cpp`;
+        const result = await uploadFile(e.file, url, teamid);
         e.onSuccess(result, e.file);
         handleCodeChange(url, codeRole);
         refetchCodeTime({
           team_id: teamid!,
         });
       } else if (lang === "py") {
-        const url = `/THUAI6/${teamid}/player${codeRole}.py`;
-        const result = await uploadFile(e.file, url);
+        const url = `THUAI6/${teamid}/player${codeRole}.py`;
+        const result = await uploadFile(e.file, url, teamid);
         e.onSuccess(result, e.file);
         handleCodeChange(url, codeRole);
         refetchCodeTime({
@@ -601,9 +601,9 @@ const BattlePage: React.FC = () => {
     try {
       if (file.response?.status === 200) {
         if (lang === "cpp") {
-          await deleteFile(`/THUAI6/${teamid}/player${codeRole}.cpp`);
+          await deleteFile(`/THUAI6/${teamid}/player${codeRole}.cpp`, teamid);
         } else if (lang === "py") {
-          await deleteFile(`/THUAI6/${teamid}/player${codeRole}.py`);
+          await deleteFile(`/THUAI6/${teamid}/player${codeRole}.py`, teamid);
         }
       }
     } catch (err) {
@@ -635,34 +635,34 @@ const BattlePage: React.FC = () => {
   }
 
   const handleDownload = async () => {
-    let result = await listFile(`THUAI6/${teamid}/${codeRole}`);
-    if (result.length === 0) {
-      message.error("未找到代码文件");
-    } else {
-      if (result[0].Key.indexOf(`THUAI6/${teamid}/${codeRole}`) === 0) {
-        switch (result[0].Key.split('.').slice(-1, ).join('')) {
-          case "cpp": {
-            const codefile = {
-              filename: `Player${codeRole}.cpp`,
-              url: `/THUAI6/${teamid}/player${codeRole}.cpp`
-            }
-            message.info("开始下载:" + codefile.filename);
-            downloadFile(codefile).catch(e => {
-              message.error("下载失败");
-            })
-          } break;
-          case "py": {
-            const codefile = {
-              filename: `Player${codeRole}.py`,
-              url: `/THUAI6/${teamid}/player${codeRole}.py`
-            }
-            message.info("开始下载:" + codefile.filename);
-            downloadFile(codefile).catch(e => {
-              message.error("下载失败");
-            })
-          } break;
-        }
+    try {
+      const cpp_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.cpp`, teamid);
+      const py_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.py`, teamid);
+      if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
+        throw(Error("File error"));
       }
+      if (cpp_exist) {
+        const codefile = {
+          filename: `player${codeRole}.cpp`,
+          url: `/THUAI6/${teamid}/player${codeRole}.cpp`
+        }
+        message.info("开始下载:" + codefile.filename);
+        downloadFile(codefile, teamid).catch(e => {
+          message.error("下载失败");
+        })
+      }
+      else if (py_exist) {
+        const codefile = {
+          filename: `player${codeRole}.py`,
+          url: `/THUAI6/${teamid}/player${codeRole}.py`
+        }
+        message.info("开始下载:" + codefile.filename);
+        downloadFile(codefile, teamid).catch(e => {
+          message.error("下载失败");
+        })
+      }
+    } catch (err) {
+      message.error(err);
     }
   }
 

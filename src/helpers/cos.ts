@@ -1,10 +1,16 @@
 import COS from "cos-js-sdk-v5";
 import axios from 'axios';
 
+let team_id = "-1";
+
 const cos = new COS({
   getAuthorization: async (options: object, callback: Function) => {
     try {
-      const response = await axios.get("/static");
+      const response = await axios.get("/static", {
+        params: {
+          team_id: team_id
+        }
+      });
       if (response.status === 200) {
         if (!response.data.credentials) throw(Error("Credentials invalid!"));
         callback({
@@ -22,7 +28,8 @@ const cos = new COS({
   }
 });
 
-export const uploadFile = (file: any, location: string) => {
+export const uploadFile = (file: any, location: string, ext: string = "-1") => {
+  team_id = ext;
   return cos.uploadFile({
     Bucket: 'eesast-1255334966',
     Region: 'ap-beijing',
@@ -32,46 +39,65 @@ export const uploadFile = (file: any, location: string) => {
   });
 }
 
-export const downloadFile = (option: any) => {
+export const downloadFile = (option: any, ext: string = "-1") => {
+  team_id = ext;
   return new Promise ((resolve, reject) => {
     cos.getObjectUrl({
       Bucket: 'eesast-1255334966',
       Region: 'ap-beijing',
       Key: option.url,
     }, (err, data) => {
-      if (err) reject(err);
+      if (err) return reject(err);
       const downloadUrl = data.Url + (data.Url.indexOf('?') > -1 ? '&' : '?') + 'response-content-disposition=attachment;filename=' + option.filename;
       window.open(downloadUrl);
-      resolve(data);
+      return resolve(data);
     });
   });
 }
 
-export const deleteFile = (location: string) => {
-  console.log(location);
+export const deleteFile = (location: string, ext: string = "-1") => {
+  team_id = ext;
   return new Promise ((resolve, reject) => {
     cos.deleteObject({
       Bucket: 'eesast-1255334966',
       Region: 'ap-beijing',
       Key: location,
     }, (err, data) => {
-      console.log(err);
-      console.log(data);
-      if (err) reject(err);
-      resolve(data);
+      if (err) return reject(err);
+      return resolve(data);
     });
   })
 }
 
-export const listFile = (prefix: string) => {
+export const existFile = (key: string, ext: string = "-1") => {
+  team_id = ext;
+  return new Promise <boolean>((resolve, reject) => {
+    cos.headObject({
+      Bucket: 'eesast-1255334966',
+      Region: 'ap-beijing',
+      Key: key,
+    }, (err, data) => {
+      if (data) {
+        return resolve(true);
+      } else if (err && err.statusCode === 404) {
+        return resolve(false);
+      } else if (err && err.statusCode === 403) {
+        return reject('Unauthorized');
+      }
+    });
+  })
+}
+
+export const listFile = (prefix: string, ext: string = "-1") => {
+  team_id = ext;
   return new Promise <COS.CosObject[]>((resolve, reject) => {
     cos.getBucket({
       Bucket: 'eesast-1255334966',
       Region: 'ap-beijing',
       Prefix: prefix,
     }, (err, data) => {
-      if (err) reject(err);
-      resolve(data.Contents);
+      if (err || !data) return reject(err);
+      return resolve(data.Contents);
     });
   })
 }
