@@ -194,7 +194,7 @@ const ResourcePage: React.FC = () => {
     try {
       let fileList_ = fileList;
       // Please don't delete the line below
-      let tmp = fileList_.splice(fileList_.findIndex(item => item.uid === file.uid), 1);
+      console.log(fileList_.splice(fileList_.findIndex(item => item.uid === file.uid), 1));
       setFileList(fileList_.splice(fileList_.findIndex(item => item.uid === file.uid), 1));
       // const files = fileList.map((f) => ({
       //   filename: f.name,
