@@ -35,7 +35,6 @@ import { useMutation, useQuery } from "@apollo/client";
 import type { TableProps } from "antd/lib/table";
 //导出excel
 import xlsx from "xlsx";
-const { Content } = Layout;
 const JoinPage: React.FC = () => {
   const location = useLocation()
   const Contest_id = location.pathname.split("/")[2].replace('}', '');
