@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom"
 import {
   Table,
-  Typography,
   Button,
   message,
-  Card
+  Layout,
+  Row,
+  Col,
+  Typography,
 } from "antd";
 import { MinusOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
@@ -125,69 +127,74 @@ const RecordPage: React.FC = () => {
     const teamName = teamData?.contest_team[0]?.team_name || "null";
     const roomListColumns: TableProps<GetRoomInfo_contest_room>["columns"] = [
         {
-        title: "对战双方",
-        key: "team_name",
-        filters: [{
-            text: '只看自己',
-            value: teamName,
-        }],
-        onFilter: (value, record) => (record.contest_room_teams[0].contest_team.team_name === value) || (record.contest_room_teams[1].contest_team.team_name === value),
-        render: (text, record) => {
-            return (
-                <Text>
-                {record.contest_room_teams[0].contest_team.team_name}<br />
-                {record.contest_room_teams[1].contest_team.team_name}
-                </Text>
-            )
-        },
+            title: "对战双方",
+            key: "team_name",
+            filters: [{
+                text: '只看自己',
+                value: teamName,
+            }],
+            onFilter: (value, record) => (record.contest_room_teams[0].contest_team.team_name === value) || (record.contest_room_teams[1].contest_team.team_name === value),
+            render: (text, record) => {
+                return (
+                    <Text>
+                    {record.contest_room_teams[0].contest_team.team_name}<br />
+                    {record.contest_room_teams[1].contest_team.team_name}
+                    </Text>
+                )
+            },
         },
         {
-        title: "状态",
-        dataIndex: "status",
-        key: "status",
-        render: (text, record) => record.status ? "已结束" : "正在进行"
+            title: "状态",
+            dataIndex: "status",
+            key: "status",
+            render: (text, record) => record.status ? "已结束" : "正在进行"
         },
+        {
+            title: "观战端口",
+            dataIndex: "port",
+            key: "port",
+            render: (text, record) => record.status ? "--" : (record.port ? record.port : "等待分配")
+            },
+        {
+            title: "结果",
+            dataIndex: "result",
+            key: "result",
+            render: (text, record) => record.result ? (<Text>{record.result?.split(",")[0]} <br /> {record.result?.split(",")[1]}</Text>) : ""
+        },
+        {
+            title: "对战时间",
+            dataIndex: "created_at",
+            key: "created_at",
+            render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss'),
+        },
+        {
+            title: "回放下载",
+            key: "download",
+            render: (text, record) => (
+                <Button
+                type="primary"
+                onClick={() => download(record)}
+                disabled={record.status !== true}
+                >
+                下载
+                </Button>
+            ),
+        },
+        {
+            title: "",
+            key: "delete",
+            render: (text, record) => (
+                isContestManagerData?.contest_manager.length === 1 ?
+                <Button
+                    shape="circle"
+                    icon={<MinusOutlined />}
+                    type="dashed"
+                    size="small"
+                    onClick={() => { handleDeleteRoom(record.room_id); }}
 
-        {
-        title: "结果",
-        dataIndex: "result",
-        key: "result",
-        render: (text, record) => record.result ? (<Text>{record.result?.split(",")[0]} <br /> {record.result?.split(",")[1]}</Text>) : ""
-        },
-        {
-        title: "对战时间",
-        dataIndex: "created_at",
-        key: "created_at",
-        render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss'),
-        },
-        {
-        title: "回放下载",
-        key: "download",
-        render: (text, record) => (
-            <Button
-            type="primary"
-            onClick={() => download(record)}
-            disabled={record.status !== true}
-            >
-            下载
-            </Button>
-        ),
-        },
-        {
-        title: "",
-        key: "delete",
-        render: (text, record) => (
-            isContestManagerData?.contest_manager.length === 1 ?
-            <Button
-                shape="circle"
-                icon={<MinusOutlined />}
-                type="dashed"
-                size="small"
-                onClick={() => { handleDeleteRoom(record.room_id); }}
-
-            >
-            </Button>
-            : <div />)
+                >
+                </Button>
+                : <div />)
         }
     ];
 
@@ -216,14 +223,37 @@ const RecordPage: React.FC = () => {
     }
 
     return (
-        <Card>
-            <Table
-            loading={roomListLoading}
-            dataSource={roomListData?.contest_room}
-            columns={roomListColumns}
-            rowKey={record => record.room_id}>
-            </Table>
-        </Card>
+        <Layout>
+            <br/>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Typography.Title level={2}>
+                        对战记录
+                    </Typography.Title>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Typography.Text mark>
+                        历次对战的结果和回放文件，回放文件可通过RunPlayback观看。
+                    </Typography.Text>
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Table
+                    loading={roomListLoading}
+                    dataSource={roomListData?.contest_room}
+                    columns={roomListColumns}
+                    rowKey={record => record.room_id}>
+                    </Table>
+                </Col>
+            </Row>
+        </Layout>
     );
 }
 

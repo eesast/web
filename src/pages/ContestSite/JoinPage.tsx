@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Table,
-  Card,
+  Typography,
   Row,
   Col,
   Layout,
@@ -248,43 +248,84 @@ const JoinPage: React.FC = () => {
 
   return (
     <Layout>
-      <Row
-        justify="center"
-        css={`margin-top:50px`}>
-        <Col>
-          <Card
-            hoverable
-            css={`
-              width: 1000px;
-              padding-top: 24px;
-              padding-bottom: 12px;
-              &.ant-card-bordered {
-                cursor: default;
-              }
-            `}
-          >
-            <Content>
-              <Table
+        <br/>
+        <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+                <Typography.Title level={2}>
+                    加入战队
+                </Typography.Title>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+                <Typography.Text mark>
+                    选一个心仪的队伍加入吧！
+                </Typography.Text>
+            </Col>
+        </Row>
+        <br/>
+        <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+                <Table
                 loading={teamListLoading}
                 dataSource={teamListData?.contest_team}
                 columns={teamListColumns}
                 rowKey={record => record.team_id}
-              />
-            </Content>
-            <Button
-              style={{ marginLeft: "20px" }}
-              onClick={exportTeamsData}
-              type="primary"
-              shape="round"
-              disabled={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
-              size="small"
-            >
-              导出队伍信息
-            </Button>
-          </Card>
-        </Col>
-      </Row>
+                />
+                <Button
+                style={{ marginLeft: "20px" }}
+                onClick={exportTeamsData}
+                type="primary"
+                shape="round"
+                disabled={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
+                size="small"
+                >
+                    导出队伍信息
+                </Button>
+            </Col>
+        </Row>
     </Layout>
+    // <Layout>
+    //   <Row
+    //     justify="center"
+    //     css={`margin-top:50px`}>
+    //     <Col>
+    //       <Card
+    //         hoverable
+    //         css={`
+    //           width: 1000px;
+    //           padding-top: 24px;
+    //           padding-bottom: 12px;
+    //           &.ant-card-bordered {
+    //             cursor: default;
+    //           }
+    //         `}
+    //       >
+    //         <Content>
+    //           <Table
+    //             loading={teamListLoading}
+    //             dataSource={teamListData?.contest_team}
+    //             columns={teamListColumns}
+    //             rowKey={record => record.team_id}
+    //           />
+    //         </Content>
+    //         <Button
+    //           style={{ marginLeft: "20px" }}
+    //           onClick={exportTeamsData}
+    //           type="primary"
+    //           shape="round"
+    //           disabled={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
+    //           size="small"
+    //         >
+    //           导出队伍信息
+    //         </Button>
+    //       </Card>
+    //     </Col>
+    //   </Row>
+    // </Layout>
   );
 };
 export default JoinPage;
