@@ -258,7 +258,7 @@ const CodePage: React.FC = () => {
           key: "time",
         },
         {
-          title: '上传代码(AI.cpp & AI.py)',
+          title: '上传代码',
           key: "upload",
           dataIndex: "upload",
           render: (text, record) => (
@@ -538,7 +538,7 @@ const CodePage: React.FC = () => {
                 <Col span={2}></Col>
                 <Col span={20}>
                     <Typography.Text mark>
-                        五个角色，各一份代码。请上传对应角色的<Typography.Text code>AI.cpp</Typography.Text>或<Typography.Text code>AI.py</Typography.Text>文件。
+                        请上传对应角色的<Typography.Text code>AI.cpp</Typography.Text>或<Typography.Text code>AI.py</Typography.Text>文件。每次提交任意一份新代码都需要重新编译，即便上传的是Python文件。
                     </Typography.Text>
                 </Col>
             </Row>

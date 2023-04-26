@@ -254,7 +254,7 @@ const RecordPage: React.FC = () => {
                 <Col span={2}></Col>
                 <Col span={20}>
                     <Typography.Text mark>
-                        历次对战的观战端口、结果和回放文件，直播及回放可使用<Typography.Text code>wpf</Typography.Text>观看，直播观战URL<Typography.Text code>IP: thuai6.eesast.com</Typography.Text>。
+                        历次对战的观战端口、结果和回放文件。直播及回放可使用<Typography.Text code>wpf</Typography.Text>观看，直播观战URL<Typography.Text code>IP: thuai6.eesast.com</Typography.Text>。
                     </Typography.Text>
                     <br/><br/>
                     <Typography.Text type="danger">
