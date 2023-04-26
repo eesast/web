@@ -6,12 +6,13 @@ import {
   message,
   Dropdown,
   Menu,
+  Input,
   Layout,
   Row,
   Col,
   Typography,
 } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 //----根据队员信息查找队伍信息------
 import { GetContestInfo, GetContestInfoVariables} from "../../api/types";
@@ -146,12 +147,12 @@ const ArenaPage: React.FC = () => {
           <Menu.Item key="1" onClick={() => {
             fight(0, true);
             }}>
-            红队
+            学生
           </Menu.Item>
           <Menu.Item key="2" onClick={() => {
             fight(0, false);
             }}>
-            蓝队
+            TRICKER
           </Menu.Item>
       </Menu>
     );
@@ -261,6 +262,22 @@ const ArenaPage: React.FC = () => {
         })();
     };
 
+    const [ associatedValue, setAssociatedValue ] = useState("");
+    const [ filterParamList, setFilterParamList ] = useState(scoreteamListData?.contest_team);
+    useEffect(() => {
+      if (associatedValue !== "") {
+        setFilterParamList([])
+        setFilterParamList(
+          scoreteamListData?.contest_team.filter((item) => {
+            return item.team_name?.indexOf(associatedValue) !== -1 || item.team_leader_id?.name?.indexOf(associatedValue) !== -1
+          })
+        )
+      }
+      else {
+        setFilterParamList(scoreteamListData?.contest_team)
+      }
+    }, [associatedValue, scoreteamListData?.contest_team])
+
     return (
         <Layout>
             <br/>
@@ -268,7 +285,7 @@ const ArenaPage: React.FC = () => {
                 <Col span={2}></Col>
                 <Col span={20}>
                     <Typography.Title level={2}>
-                        对战天梯
+                        天梯挑战
                     </Typography.Title>
                 </Col>
             </Row>
@@ -283,10 +300,25 @@ const ArenaPage: React.FC = () => {
             <br/>
             <Row>
                 <Col span={2}></Col>
+                <Col span={10}>
+                    <Input
+                    value={associatedValue}
+                    onChange={e => {
+                        setAssociatedValue(e.target.value?.trim())
+                    }}
+                    placeholder="  队伍名称 / 队长"
+                    allowClear
+                    prefix={<SearchOutlined/>}>
+                    </Input>
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col span={2}></Col>
                 <Col span={20}>
                     <Table
                     loading={scoreteamListLoading}
-                    dataSource={scoreteamListData?.contest_team}
+                    dataSource={filterParamList}
                     columns={teamListColumns}
                     rowKey={record => record.team_id}>
                     </Table>

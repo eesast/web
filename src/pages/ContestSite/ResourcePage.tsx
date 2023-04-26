@@ -13,6 +13,8 @@ import {
   Form,
   Upload,
   Space,
+  Layout,
+  Col,
 } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import Linkify from "react-linkify";
@@ -235,62 +237,63 @@ const ResourcePage: React.FC = () => {
   };
 
   return (
-    <>
-      <Row align="middle" justify="end">
-        <Button
-          css={`
-            margin-top: 12px;
-            margin-right: 24px;
-          `}
-          hidden={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
-          onClick={() => setModalVisible(true)}
-        >
-          编辑新公告
-        </Button>
+    <Layout>
+      <br/>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <Button
+            hidden={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
+            onClick={() => setModalVisible(true)}
+          >
+            编辑新公告
+          </Button>
+        </Col>
       </Row>
-      <List
-        dataSource={noticeData?.contest_info}
-        renderItem={(item) => (
-          <NoticeCard
-            css={`
-              margin-top: 12px;
-              margin-bottom: 24px;
-              margin-left: 192px;
-              margin-right:192px;
-            `}
-            onEditPress={
-              (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
-                ? () => {
-                  setEditingNotice(item);
-                  setFileList(
-                    JSON.parse(item.files ?? "[]").map((f: File) => ({
-                      response: { status: 200 },
-                      status: "done",
-                      uid: f.url,
-                      size: 0,
-                      name: f.filename,
-                      type: "",
-                    }))
-                  );
-                  setModalVisible(true);
+      <br/>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <List
+            dataSource={noticeData?.contest_info}
+            renderItem={(item) => (
+              <NoticeCard
+                onEditPress={
+                  (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
+                    ? () => {
+                      setEditingNotice(item);
+                      setFileList(
+                        JSON.parse(item.files ?? "[]").map((f: File) => ({
+                          response: { status: 200 },
+                          status: "done",
+                          uid: f.url,
+                          size: 0,
+                          name: f.filename,
+                          type: "",
+                        }))
+                      );
+                      setModalVisible(true);
+                    }
+                    : undefined
                 }
-                : undefined
-            }
-            onDeletePress={
-              (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
-                ? () => {
-                  handleNoticeDelete(item.id);
+                onDeletePress={
+                  (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
+                    ? () => {
+                      handleNoticeDelete(item.id);
+                    }
+                    : undefined
                 }
-                : undefined
-            }
-            title={item.title}
-            content={item.content}
-            updatedAt={item.updated_at}
-            files={JSON.parse(item.files ?? "[]") as File[]}
+                title={item.title}
+                content={item.content}
+                updatedAt={item.updated_at}
+                files={JSON.parse(item.files ?? "[]") as File[]}
+              />
+            )}
+            loading={noticeLoading}
           />
-        )}
-        loading={noticeLoading}
-      />
+        </Col>
+      </Row>
+
       <Modal
         visible={modalVisible}
         title={editingNotice ? "编辑公告" : "新公告"}
@@ -354,7 +357,7 @@ const ResourcePage: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-    </>
+    </Layout>
   );
 };
 
