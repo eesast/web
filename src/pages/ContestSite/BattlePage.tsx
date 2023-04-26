@@ -349,37 +349,37 @@ const BattlePage: React.FC = () => {
 
   //上传最新代码的日期储存起来
   let now = dayjs();
-  const handleCodeChange1 = async (url: string) => {
-    upsertCode1({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
+  const handleCodeChange1 = async (url: string, lang: string) => {
+    upsertCode1({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: lang } });
   };
-  const handleCodeChange2 = async (url: string) => {
-    upsertCode2({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
+  const handleCodeChange2 = async (url: string, lang: string) => {
+    upsertCode2({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: lang } });
   };
-  const handleCodeChange3 = async (url: string) => {
-    upsertCode3({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
+  const handleCodeChange3 = async (url: string, lang: string) => {
+    upsertCode3({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: lang } });
   };
-  const handleCodeChange4 = async (url: string) => {
-    upsertCode4({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
+  const handleCodeChange4 = async (url: string, lang: string) => {
+    upsertCode4({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: lang } });
   };
-  const handleCodeChange5 = async (url: string) => {
-    upsertCode5({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: "C" } });
+  const handleCodeChange5 = async (url: string, lang: string) => {
+    upsertCode5({ variables: { code: url, update_time: now!, team_id: teamid!, contest_id: Contest_id!, code_type: lang } });
   };
-  const handleCodeChange = (url: string, codeRole: any) => {
+  const handleCodeChange = (url: string, codeRole: any, lang: string) => {
     switch (codeRole) {
       case 1:
-        handleCodeChange1(url);
+        handleCodeChange1(url, lang);
         break;
       case 2:
-        handleCodeChange2(url);
+        handleCodeChange2(url, lang);
         break;
       case 3:
-        handleCodeChange3(url);
+        handleCodeChange3(url, lang);
         break;
       case 4:
-        handleCodeChange4(url);
+        handleCodeChange4(url, lang);
         break;
       case 5:
-        handleCodeChange5(url);
+        handleCodeChange5(url, lang);
         break;
       default:
         break;
@@ -576,7 +576,7 @@ const BattlePage: React.FC = () => {
         const url = `THUAI6/${teamid}/player${codeRole}.cpp`;
         const result = await uploadFile(e.file, url, teamid);
         e.onSuccess(result, e.file);
-        handleCodeChange(url, codeRole);
+        handleCodeChange(url, codeRole, lang);
         refetchCodeTime({
           team_id: teamid!,
         });
@@ -584,7 +584,7 @@ const BattlePage: React.FC = () => {
         const url = `THUAI6/${teamid}/player${codeRole}.py`;
         const result = await uploadFile(e.file, url, teamid);
         e.onSuccess(result, e.file);
-        handleCodeChange(url, codeRole);
+        handleCodeChange(url, codeRole, lang);
         refetchCodeTime({
           team_id: teamid!,
         });
