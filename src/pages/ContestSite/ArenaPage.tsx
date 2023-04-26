@@ -144,15 +144,15 @@ const ArenaPage: React.FC = () => {
 
     const map_menu = (
         <Menu>
+          <Menu.Item key="0" onClick={() => {
+            fight(0, false);
+            }}>
+            我选学生
+          </Menu.Item>
           <Menu.Item key="1" onClick={() => {
             fight(0, true);
             }}>
-            学生
-          </Menu.Item>
-          <Menu.Item key="2" onClick={() => {
-            fight(0, false);
-            }}>
-            TRICKER
+            我选TRICKER
           </Menu.Item>
       </Menu>
     );
