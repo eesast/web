@@ -221,7 +221,7 @@ const ArenaPage: React.FC = () => {
 
     const fight = (map: number, team: boolean) => {
         // TODO: 下面的代码有点丑陋
-        if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
+        if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 10){
           message.warning("当前正在进行的比赛过多，请稍后再试");
           return;
         }
