@@ -288,44 +288,6 @@ const JoinPage: React.FC = () => {
             </Col>
         </Row>
     </Layout>
-    // <Layout>
-    //   <Row
-    //     justify="center"
-    //     css={`margin-top:50px`}>
-    //     <Col>
-    //       <Card
-    //         hoverable
-    //         css={`
-    //           width: 1000px;
-    //           padding-top: 24px;
-    //           padding-bottom: 12px;
-    //           &.ant-card-bordered {
-    //             cursor: default;
-    //           }
-    //         `}
-    //       >
-    //         <Content>
-    //           <Table
-    //             loading={teamListLoading}
-    //             dataSource={teamListData?.contest_team}
-    //             columns={teamListColumns}
-    //             rowKey={record => record.team_id}
-    //           />
-    //         </Content>
-    //         <Button
-    //           style={{ marginLeft: "20px" }}
-    //           onClick={exportTeamsData}
-    //           type="primary"
-    //           shape="round"
-    //           disabled={!(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)}
-    //           size="small"
-    //         >
-    //           导出队伍信息
-    //         </Button>
-    //       </Card>
-    //     </Col>
-    //   </Row>
-    // </Layout>
   );
 };
 export default JoinPage;
