@@ -1,21 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom"
 import {
   Table,
   Button,
   message,
+  Input,
   Layout,
   Row,
   Col,
   Typography,
 } from "antd";
-import { MinusOutlined } from "@ant-design/icons";
+import { MinusOutlined, SearchOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 //----根据队员信息查找队伍信息------
-import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
-import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
+// import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
+// import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
+// import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
+// import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
 //----回放信息------
@@ -28,8 +29,8 @@ import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.
 import { DeleteRoom, DeleteRoomVariables } from "../../api/types";
 import { DeleteRoom as DELETEROOM } from "../../api/contest.graphql";
 //————创建thuaicode————
-import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
-import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
+// import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
+// import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
@@ -44,25 +45,25 @@ const RecordPage: React.FC = () => {
     const location = useLocation();
     const Contest_id = location.pathname.split("/")[2].replace('}', '');
 
-    //-----------------根据队员id查询队伍id------------------
-    const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
-        ISTEAMLEADER,
-        {
-        variables: {
-            _id: userInfo?._id!,
-            contest_id: Contest_id,
-        },
-        }
-    );
-    const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
-        ISTEAMMEMBER,
-        {
-        variables: {
-            _id: userInfo?._id!,
-            contest_id: Contest_id,
-        },
-        }
-    );
+    // //-----------------根据队员id查询队伍id------------------
+    // const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
+    //     ISTEAMLEADER,
+    //     {
+    //     variables: {
+    //         _id: userInfo?._id!,
+    //         contest_id: Contest_id,
+    //     },
+    //     }
+    // );
+    // const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
+    //     ISTEAMMEMBER,
+    //     {
+    //     variables: {
+    //         _id: userInfo?._id!,
+    //         contest_id: Contest_id,
+    //     },
+    //     }
+    // );
 
     // ----------------获取比赛管理员---------------
     const {
@@ -110,30 +111,30 @@ const RecordPage: React.FC = () => {
         }
         })
 
-    const teamid =
-        isleaderData?.contest_team[0]?.team_id ||
-        ismemberData?.contest_team_member[0]?.team_id;
-    //利用teamid查询team的信息储存在teamdata中
-    const { data: teamData } = useQuery<GetTeamInfo, GetTeamInfoVariables>(
-        GETTEAMINFO,
-        {
-        variables: {
-            contest_id: Contest_id,
-            team_id: teamid!,
-        },
-        }
-    );
+    // const teamid =
+    //     isleaderData?.contest_team[0]?.team_id ||
+    //     ismemberData?.contest_team_member[0]?.team_id;
+    // //利用teamid查询team的信息储存在teamdata中
+    // const { data: teamData } = useQuery<GetTeamInfo, GetTeamInfoVariables>(
+    //     GETTEAMINFO,
+    //     {
+    //     variables: {
+    //         contest_id: Contest_id,
+    //         team_id: teamid!,
+    //     },
+    //     }
+    // );
 
-    const teamName = teamData?.contest_team[0]?.team_name || "null";
+    // const teamName = teamData?.contest_team[0]?.team_name || "null";
     const roomListColumns: TableProps<GetRoomInfo_contest_room>["columns"] = [
         {
             title: "对战双方",
             key: "team_name",
-            filters: [{
-                text: '只看自己',
-                value: teamName,
-            }],
-            onFilter: (value, record) => (record.contest_room_teams[0].contest_team.team_name === value) || (record.contest_room_teams[1].contest_team.team_name === value),
+            // filters: [{
+            //     text: '只看自己',
+            //     value: teamName,
+            // }],
+            // onFilter: (value, record) => (record.contest_room_teams[0].contest_team.team_name === value) || (record.contest_room_teams[1].contest_team.team_name === value),
             render: (text, record) => {
                 return (
                     <Text>
@@ -222,6 +223,22 @@ const RecordPage: React.FC = () => {
         }
     }
 
+    const [ associatedValue, setAssociatedValue ] = useState("");
+    const [ filterParamList, setFilterParamList ] = useState(roomListData?.contest_room);
+    useEffect(() => {
+      if (associatedValue !== "") {
+        setFilterParamList([])
+        setFilterParamList(
+            roomListData?.contest_room.filter((item) => {
+            return item.contest_room_teams[0]?.contest_team?.team_name?.indexOf(associatedValue) !== -1 || item.contest_room_teams[1]?.contest_team?.team_name?.indexOf(associatedValue) !== -1
+          })
+        )
+      }
+      else {
+        setFilterParamList(roomListData?.contest_room)
+      }
+    }, [associatedValue, roomListData?.contest_room])
+
     return (
         <Layout>
             <br/>
@@ -244,10 +261,25 @@ const RecordPage: React.FC = () => {
             <br/>
             <Row>
                 <Col span={2}></Col>
+                <Col span={10}>
+                    <Input
+                    value={associatedValue}
+                    onChange={e => {
+                        setAssociatedValue(e.target.value?.trim())
+                    }}
+                    placeholder="  队伍名称"
+                    allowClear
+                    prefix={<SearchOutlined/>}>
+                    </Input>
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col span={2}></Col>
                 <Col span={20}>
                     <Table
                     loading={roomListLoading}
-                    dataSource={roomListData?.contest_room}
+                    dataSource={filterParamList}
                     columns={roomListColumns}
                     rowKey={record => record.room_id}>
                     </Table>
