@@ -3,14 +3,14 @@ import type { UploadFile, RcCustomRequestOptions } from "antd/lib/upload/interfa
 import { useLocation } from "react-router-dom"
 import {
   Table,
-  Typography,
-  Row,
-  Col,
   Button,
   message,
   Upload,
   Tag,
-  Card
+  Layout,
+  Row,
+  Col,
+  Typography,
 } from "antd";
 import {
   UploadOutlined,
@@ -524,25 +524,48 @@ const CodePage: React.FC = () => {
     };
 
     return (
-        <Card>
-            <Table
-            dataSource={playerList}
-            columns={playerListColumns}
-            onRow={record => {
-                return {
-                    onMouseEnter: event => {
-                        setCodeRole(record.key);
-                    }
-                }
-            }}
-            />
-            <br/><br/>
+        <Layout>
+            <br/>
             <Row>
-                <Col span={1}></Col>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Typography.Title level={2}>
+                        代码管理
+                    </Typography.Title>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Typography.Text mark>
+                        五个角色，各一份代码。请上传对应角色的<Typography.Text code>AI.cpp</Typography.Text>或<Typography.Text code>AI.py</Typography.Text>文件。
+                    </Typography.Text>
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Table
+                    dataSource={playerList}
+                    columns={playerListColumns}
+                    onRow={record => {
+                        return {
+                            onMouseEnter: event => {
+                                setCodeRole(record.key);
+                            }
+                        }
+                    }}
+                    />
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col span={3}></Col>
                 <Col span={2}>
                     <Text>编译状态：</Text>
                 </Col>
-                <Col span={17}>
+                <Col span={13}>
                     <CompiledTag />
                 </Col>
                 <Col span={4}>
@@ -558,7 +581,7 @@ const CodePage: React.FC = () => {
                     </Button>
                 </Col>
             </Row>
-        </Card>
+        </Layout>
     );
 }
 
