@@ -1,6 +1,6 @@
-import { Avatar, Card, List, Pagination, Layout, Radio, Popover, Input, Button, message, Typography } from 'antd';
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import React, { useState } from "react";
+import { Avatar, Card, List, Pagination, Layout, Radio, Popover, Input, Button, message, Typography, Row, Col } from 'antd';
+import { PlusCircleOutlined, MinusCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useQuery } from "@apollo/client";
 import { GetWeekly } from "../api/types";
@@ -20,15 +20,29 @@ const WeeklyPage: React.FC = () => {
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
-  let data_show: any;
-  let weekly_sorted: any;
-  if (weekly_data) {
-    weekly_sorted = [...weekly_data.weekly];
-    weekly_sorted.sort((a: any, b: any) => {
-      return b.id - a.id;
-    })
-  }
-  data_show = weekly_sorted?.slice(showSize * (page - 1), showSize * page);
+
+  const [ associatedValue, setAssociatedValue ] = useState("");
+  const [ filterParamList, setFilterParamList ] = useState([]);
+  useEffect(() => {
+    let weekly_sorted: any;
+    if (weekly_data) {
+      weekly_sorted = [...weekly_data.weekly];
+      weekly_sorted.sort((a: any, b: any) => {
+        return b.id - a.id;
+      })
+    }
+    if (associatedValue !== "") {
+      setFilterParamList([])
+      setFilterParamList(
+        weekly_sorted?.filter((item: { title: string | any[]; }) => {
+          return item.title?.slice(14).indexOf(associatedValue) !== -1
+        })
+      )
+    }
+    else {
+      setFilterParamList(weekly_sorted)
+    }
+  }, [associatedValue, weekly_data])
 
   const onChange = (pageNumber: number, pageSize?: number) => {
     setPage(pageNumber);
@@ -179,9 +193,25 @@ const WeeklyPage: React.FC = () => {
 
       <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64, background: "#fff" }}>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 380, background: "#fff" }}>
+        <Row>
+          <Col span={2}></Col>
+          <Col span={20}>
+            <Input
+            style={{ marginBottom: 50 }}
+            value={associatedValue}
+            onChange={e => {
+                setAssociatedValue(e.target.value?.trim())
+            }}
+            placeholder="  Weekly Title"
+            allowClear
+            prefix={<SearchOutlined/>}>
+            </Input>
+          </Col>
+          <Col span={2}></Col>
+        </Row>
         <List
           grid={{ gutter: 16, column: 4 }}
-          dataSource={data_show}
+          dataSource={filterParamList?.slice(showSize * (page - 1), showSize * page)}
           renderItem={(item: any) => (
             <List.Item>
               <MyCard item={item}/>

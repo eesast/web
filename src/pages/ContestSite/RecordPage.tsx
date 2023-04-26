@@ -254,7 +254,11 @@ const RecordPage: React.FC = () => {
                 <Col span={2}></Col>
                 <Col span={20}>
                     <Typography.Text mark>
-                        历次对战的结果和回放文件，回放文件可通过RunPlayback观看。
+                        历次对战的观战端口、结果和回放文件。直播及回放可使用<Typography.Text code>wpf</Typography.Text>观看，直播观战URL<Typography.Text code>IP: thuai6.eesast.com</Typography.Text>。
+                    </Typography.Text>
+                    <br/><br/>
+                    <Typography.Text type="danger">
+                        注：1. 此页面需要刷新以拉取最新信息  2. 若观战端口长时间等待分配，说明本次对战请求失败，可能是服务器负载过高，也可能是队伍代码有误。
                     </Typography.Text>
                 </Col>
             </Row>
