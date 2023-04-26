@@ -263,6 +263,7 @@ query GetRoomInfo($contest_id: uuid!) {
     result
     room_id
     status
+    port
     contest_room_teams {
       contest_team {
         team_name
