@@ -20,17 +20,17 @@ const WeeklyPage: React.FC = () => {
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
-  let weekly_sorted: any;
-  if (weekly_data) {
-    weekly_sorted = [...weekly_data.weekly];
-    weekly_sorted.sort((a: any, b: any) => {
-      return b.id - a.id;
-    })
-  }
 
   const [ associatedValue, setAssociatedValue ] = useState("");
-  const [ filterParamList, setFilterParamList ] = useState(weekly_sorted);
+  const [ filterParamList, setFilterParamList ] = useState([]);
   useEffect(() => {
+    let weekly_sorted: any;
+    if (weekly_data) {
+      weekly_sorted = [...weekly_data.weekly];
+      weekly_sorted.sort((a: any, b: any) => {
+        return b.id - a.id;
+      })
+    }
     if (associatedValue !== "") {
       setFilterParamList([])
       setFilterParamList(
