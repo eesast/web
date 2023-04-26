@@ -33,7 +33,7 @@ export const uploadFile = (file: any, location: string, ext: string = "-1") => {
   return cos.uploadFile({
     Bucket: 'eesast-1255334966',
     Region: 'ap-beijing',
-    Key: location.split('.').slice(0, -1).join('.'),  // location 去掉后缀名
+    Key: location,
     Body: file,
     SliceSize: 1024 * 1024 * 5  /* 触发分块上传的阈值，超过5MB使用分块上传，小于5MB使用简单上传。可自行设置，非必须 */
   });
