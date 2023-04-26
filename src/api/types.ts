@@ -1194,6 +1194,7 @@ export interface GetRoomInfo_contest_room {
   result: string | null;
   room_id: any;
   status: boolean;
+  port: number | null;
   /**
    * An array relationship
    */

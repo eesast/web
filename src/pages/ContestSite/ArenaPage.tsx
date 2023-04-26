@@ -6,11 +6,15 @@ import {
   message,
   Dropdown,
   Menu,
-  Card
+  Layout,
+  Row,
+  Col,
+  Typography,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 //----根据队员信息查找队伍信息------
+import { GetContestInfo, GetContestInfoVariables} from "../../api/types";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
@@ -26,6 +30,10 @@ import{GetRoomInfo_status as GETROOMSTATUS} from "../../api/contest.graphql";
 //----插入room和team------
 import { InsertRoom, InsertRoomVariables } from "../../api/types";
 import { InsertRoom as INSERTROOM } from "../../api/contest.graphql";
+import { GetContestInfo as GET_CONTEST_INFO } from "../../api/contest.graphql"
+//————创建thuaicode————
+import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
+import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
 //————后端发送post————
 import axios from "axios";
 import { useQuery, useMutation } from "@apollo/client";
@@ -89,6 +97,31 @@ const ArenaPage: React.FC = () => {
     const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
+    const { data: teamData } = useQuery<GetTeamInfo, GetTeamInfoVariables>(
+        GETTEAMINFO,
+        {
+        variables: {
+            contest_id: Contest_id,
+            team_id: teamid!,
+        },
+        }
+    );
+
+    // --------------获取比赛状态-------------------
+    const {
+        data: contestData,
+        error: contestError,
+    } = useQuery<GetContestInfo, GetContestInfoVariables>(GET_CONTEST_INFO, {
+        variables: {
+        contest_id: Contest_id
+        }
+    });
+    useEffect(() => {
+        if (contestError) {
+        message.error("比赛加载失败");
+        console.log(contestError.message);
+        }
+    }, [contestError]);
 
     // //-----------------获取room信息------------------、
     // const {
@@ -165,12 +198,12 @@ const ArenaPage: React.FC = () => {
           key: "fight",
           render: (text, record) => (
             <Dropdown overlay={map_menu} trigger={["click"]}
-              // disabled={
-              //   teamid === record.team_id ||
-              //   teamData?.contest_team[0].status !== "compiled" ||
-              //   record.status !== "compiled" ||
-              //   contestData?.contest[0].status.slice(2, 3) !== "1"
-              // }
+              disabled={
+                teamid === record.team_id ||
+                teamData?.contest_team[0].status !== "compiled" ||
+                record.status !== "compiled" ||
+                contestData?.contest[0].status.slice(2, 3) !== "1"
+              }
               >
               <Button
                 className="ant-dropdown-link"
@@ -186,8 +219,6 @@ const ArenaPage: React.FC = () => {
     ];
 
     const fight = (map: number, team: boolean) => {
-        console.log(roomStatusData?.contest_room.length);
-        message.info("本局端口号为：12345");
         // TODO: 下面的代码有点丑陋
         if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
           message.warning("当前正在进行的比赛过多，请稍后再试");
@@ -211,7 +242,8 @@ const ArenaPage: React.FC = () => {
               team_seq: team, // 一个是红队还是蓝队的标记
               exposed: 1
             });
-            message.success("已发起对战!");
+            message.success("已发起对战！");
+            message.info("如需观战，可查看记录页面的端口号");
             // refetchRoomList(
             //   {
             //     contest_id: Contest_id
@@ -230,14 +262,37 @@ const ArenaPage: React.FC = () => {
     };
 
     return (
-        <Card>
-            <Table
-            loading={scoreteamListLoading}
-            dataSource={scoreteamListData?.contest_team}
-            columns={teamListColumns}
-            rowKey={record => record.team_id}>
-            </Table>
-        </Card>
+        <Layout>
+            <br/>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Typography.Title level={2}>
+                        对战天梯
+                    </Typography.Title>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Typography.Text mark>
+                        愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
+                    </Typography.Text>
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col span={2}></Col>
+                <Col span={20}>
+                    <Table
+                    loading={scoreteamListLoading}
+                    dataSource={scoreteamListData?.contest_team}
+                    columns={teamListColumns}
+                    rowKey={record => record.team_id}>
+                    </Table>
+                </Col>
+            </Row>
+        </Layout>
     );
 }
 
