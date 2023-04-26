@@ -93,7 +93,7 @@ import dayjs from "dayjs";
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
-const { SubMenu } = Menu;
+// const { SubMenu } = Menu;
 
 const BattlePage: React.FC = () => {
   const userInfo = getUserInfo();
@@ -454,7 +454,7 @@ const BattlePage: React.FC = () => {
     }
   };
   //点击发起对战
-  const fight = (mapnum: number) => {
+  const fight = (map: number, team: boolean) => {
     console.log(roomStatusData?.contest_room.length);
     // TODO: 下面的代码有点丑陋
     if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
@@ -475,9 +475,10 @@ const BattlePage: React.FC = () => {
         console.log(roomId);
         await axios.post("room", {
           //header: {},
-          map: mapnum,
+          map: map,
           room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: false, // 一个是红队还是蓝队的标记
+          team_seq: team, // 一个是红队还是蓝队的标记
+          exposed: 1
         });
         message.success("已发起对战!");
         refetchRoomList(
@@ -496,44 +497,44 @@ const BattlePage: React.FC = () => {
       }
     })();
   };
-  //点击发起对战
-  const fight2 = (mapnum: number) => {
-    console.log(roomStatusData?.contest_room.length);
-    // TODO: 下面的代码有点丑陋
-    if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
-      message.warning("当前正在进行的比赛过多，请稍后再试");
-      return;
-    }
-    (async () => {
-      try {
-        // console.log("您："+teamid+"  对手："+opponentTeamId);
-        const roomId = await insertRoom({
-          variables: {
-            contest_id: Contest_id,
-            team1_id: teamid,
-            team2_id: opponentTeamId,
-            created_at: now!
-          },
-        });
-        await axios.post("room", {
-          //header: {},
-          map:mapnum,
-          room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: true,
-        });
-        message.success("已发起对战!");
-        console.log(roomId);
-      } catch (e) {
-        if (insertRoomError) {
-          console.error(insertRoomError.message);
-          message.error("发起对战失败");
-        } else {
-          message.error("发起对战失败");
-          console.log(e);
-        }
-      }
-    })();
-  };
+  // //点击发起对战
+  // const fight2 = (mapnum: number) => {
+  //   console.log(roomStatusData?.contest_room.length);
+  //   // TODO: 下面的代码有点丑陋
+  //   if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 15){
+  //     message.warning("当前正在进行的比赛过多，请稍后再试");
+  //     return;
+  //   }
+  //   (async () => {
+  //     try {
+  //       // console.log("您："+teamid+"  对手："+opponentTeamId);
+  //       const roomId = await insertRoom({
+  //         variables: {
+  //           contest_id: Contest_id,
+  //           team1_id: teamid,
+  //           team2_id: opponentTeamId,
+  //           created_at: now!
+  //         },
+  //       });
+  //       await axios.post("room", {
+  //         //header: {},
+  //         map:mapnum,
+  //         room_id: roomId.data?.insert_contest_room_one?.room_id,
+  //         team_seq: true,
+  //       });
+  //       message.success("已发起对战!");
+  //       console.log(roomId);
+  //     } catch (e) {
+  //       if (insertRoomError) {
+  //         console.error(insertRoomError.message);
+  //         message.error("发起对战失败");
+  //       } else {
+  //         message.error("发起对战失败");
+  //         console.log(e);
+  //       }
+  //     }
+  //   })();
+  // };
   const setfight = (record: GetAllTeamInfo_contest_team) => {
     setTeamId(record.team_id);
   };
@@ -541,7 +542,17 @@ const BattlePage: React.FC = () => {
 
   const map_menu = (
     <Menu>
-    <SubMenu key="map1" title="初始地图">
+      <Menu.Item key="1"  onClick={() => {
+        fight(0, true);
+        }}>
+        红队
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => {
+        fight(0, false);
+        }}>
+        蓝队
+      </Menu.Item>
+    {/* <SubMenu key="map1" title="初始地图">
     <Menu.Item key="1"  onClick={() => {
       fight(0);
       }}>
@@ -565,7 +576,7 @@ const BattlePage: React.FC = () => {
         }}>
         蓝队
       </Menu.Item>
-    </SubMenu>
+    </SubMenu> */}
   </Menu>
   );
 
