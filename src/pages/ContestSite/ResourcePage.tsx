@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom"
 import {
   Typography,
-  Row,
-  // Col,
   Button,
   List,
   Card,
@@ -15,6 +13,7 @@ import {
   Space,
   Layout,
   Col,
+  Row,
 } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import Linkify from "react-linkify";
@@ -55,6 +54,7 @@ import type {
 } from "antd/lib/upload/interface";
 import { uploadFile, downloadFile, deleteFile } from "../../helpers/cos";
 import { getUserInfo } from "../../helpers/auth";
+import { Content } from "antd/lib/layout/layout";
 
 
 const { Text } = Typography;
@@ -257,37 +257,40 @@ const ResourcePage: React.FC = () => {
           <List
             dataSource={noticeData?.contest_info}
             renderItem={(item) => (
-              <NoticeCard
-                onEditPress={
-                  (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
-                    ? () => {
-                      setEditingNotice(item);
-                      setFileList(
-                        JSON.parse(item.files ?? "[]").map((f: File) => ({
-                          response: { status: 200 },
-                          status: "done",
-                          uid: f.url,
-                          size: 0,
-                          name: f.filename,
-                          type: "",
-                        }))
-                      );
-                      setModalVisible(true);
-                    }
-                    : undefined
-                }
-                onDeletePress={
-                  (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
-                    ? () => {
-                      handleNoticeDelete(item.id);
-                    }
-                    : undefined
-                }
-                title={item.title}
-                content={item.content}
-                updatedAt={item.updated_at}
-                files={JSON.parse(item.files ?? "[]") as File[]}
-              />
+              <Content>
+                <NoticeCard
+                  onEditPress={
+                    (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
+                      ? () => {
+                        setEditingNotice(item);
+                        setFileList(
+                          JSON.parse(item.files ?? "[]").map((f: File) => ({
+                            response: { status: 200 },
+                            status: "done",
+                            uid: f.url,
+                            size: 0,
+                            name: f.filename,
+                            type: "",
+                          }))
+                        );
+                        setModalVisible(true);
+                      }
+                      : undefined
+                  }
+                  onDeletePress={
+                    (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1)
+                      ? () => {
+                        handleNoticeDelete(item.id);
+                      }
+                      : undefined
+                  }
+                  title={item.title}
+                  content={item.content}
+                  updatedAt={item.updated_at}
+                  files={JSON.parse(item.files ?? "[]") as File[]}
+                />
+                <br/><br/>
+              </Content>
             )}
             loading={noticeLoading}
           />
