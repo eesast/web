@@ -191,12 +191,17 @@ const ArenaPage: React.FC = () => {
           title: "分数",
           dataIndex: "score",
           key: "score",
-          sorter: (a,b)=> Number(a.score)-Number(b.score),
+          sorter: (a,b)=> (a.status === "compiled")? ((b.status === "compiled")? Number(a.score)-Number(b.score) : 1) : -1,
           defaultSortOrder: "descend",
         },
         {
           title: "对战",
           key: "fight",
+          filters: [{
+            text: '已编译代码的队伍',
+            value: "compiled",
+          }],
+          onFilter: (value, record) => record.status === value,
           render: (text, record) => (
             <Dropdown overlay={map_menu} trigger={["click"]}
               disabled={
@@ -221,6 +226,8 @@ const ArenaPage: React.FC = () => {
 
     const fight = (map: number, team: boolean) => {
         // TODO: 下面的代码有点丑陋
+        console.log("Room Number:");
+        console.log(roomStatusData?.contest_room.length);
         if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 10){
           message.warning("当前正在进行的比赛过多，请稍后再试");
           return;

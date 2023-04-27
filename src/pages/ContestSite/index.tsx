@@ -46,13 +46,14 @@ import {
 import { getUserInfo } from "../../helpers/auth";
 //导入antd的包
 import Card, { CardProps } from "antd/lib/card";
-import { Button, Col, DatePicker, Divider, Form, Input, List, message, Modal, Row, Select, Space, Typography } from "antd";
+import { Button, Col, DatePicker, Divider, Form, Input, List, message, Modal, Layout, Row, Select, Space, Typography } from "antd";
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 //以下为分页面
 import MenuPage from "./MenuPage";
 
 //用以没登陆会跳转到登陆页面
 import dayjs, { Dayjs } from "dayjs";
+import { Content } from "antd/lib/layout/layout";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -342,31 +343,29 @@ const ContestSite: React.FC = () => {
   };
 
   const index =
-    <>
-      <Row align="middle" justify="end">
-        <Button
-          css={`
-            margin-top: 12px;
-            margin-right: 24px;
-          `}
-          hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
-          onClick={() => setModalVisible(true)}
-        >
-          添加新比赛
-        </Button>
+    <Layout>
+      <br/>
+      <Row>
+        <Col span={3}></Col>
+        <Col span={18}>
+          <Button
+            hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
+            onClick={() => setModalVisible(true)}
+          >
+            添加新比赛
+          </Button>
+        </Col>
       </Row>
-
-      <List
+      <br/>
+      <Row>
+        <Col span={3}></Col>
+        <Col span={18}>
+        <List
         dataSource={contestData?.contest}
         renderItem={(item) => (
-          <ContestInfoCard
+          <Content>
+            <ContestInfoCard
             key={item.id}
-            css={`
-            margin-top: 12px;
-            margin-bottom: 24px;
-            margin-left: 192px;
-            margin-right:192px;
-            `}
             onEditPress={userInfo?.role === "counselor" || userInfo?.role === "root"
               ? async () => {
                 setEditingContest(true);
@@ -394,10 +393,13 @@ const ContestSite: React.FC = () => {
             startDate={item.start_date}
             endDate={item.end_date}
             id={item.id} />
+            <br/><br/>
+          </Content>
         )}
         loading={contestLoading}
-      >
-      </List>
+        />
+        </Col>
+      </Row>
       <Modal
         visible={modalVisible}
         title={editingContest ? "编辑比赛" : "新比赛"}
@@ -516,10 +518,9 @@ const ContestSite: React.FC = () => {
 
         </Form>
       </Modal>
-    </>;
+    </Layout>;
 
   return (
-
     <>
       <Switch>
         <Route exact path={path}>
@@ -530,7 +531,6 @@ const ContestSite: React.FC = () => {
         </Route>
       </Switch>
     </>
-
   );
 
 };
