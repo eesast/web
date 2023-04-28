@@ -46,37 +46,40 @@ const ArenaPage: React.FC = () => {
     const location = useLocation();
     const Contest_id = location.pathname.split("/")[2].replace('}', '');
 
-    //-----------------获取天梯队伍信息------------------
+    // --------------获取比赛状态-------------------
+    const {
+        data: contestData,
+        error: contestError,
+    } = useQuery<GetContestInfo, GetContestInfoVariables>(GET_CONTEST_INFO, {
+        variables: {
+        contest_id: Contest_id
+        }
+    });
+    useEffect(() => {
+        if (contestError) {
+        message.error("比赛加载失败");
+        console.log(contestError.message);
+        }
+    });
+
+    // -----------------获取天梯队伍信息------------------
     const {
         data: scoreteamListData,
         loading: scoreteamListLoading,
+        error: scoreteamListError,
     } = useQuery<GetAllTeamInfo_score, GetAllTeamInfo_scoreVariables>(GETALLTEAMSCORE, {
         variables: {
         contest_id: Contest_id
         }
     });
-
-    const {
-        data: roomStatusData,
-        error: roomStatusError,
-      } = useQuery<GetRoomInfo_status, GetRoomInfo_statusVariables>(GETROOMSTATUS, {
-        variables: {
-          contest_id: Contest_id
-        }
-    });
     useEffect(() => {
-        if (roomStatusError) {
+        if (scoreteamListError) {
           message.error("获取对战信息失败");
-          console.log(roomStatusError.message);
+          console.log(scoreteamListError.message);
         }
     })
 
-    const [insertRoom, { error: insertRoomError }] = useMutation<
-        InsertRoom,
-        InsertRoomVariables
-    >(INSERTROOM);
-
-    //-----------------根据队员id查询队伍id------------------
+    // -----------------根据队员id查询队伍id------------------
     const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
         ISTEAMLEADER,
         {
@@ -108,62 +111,41 @@ const ArenaPage: React.FC = () => {
         }
     );
 
-    // --------------获取比赛状态-------------------
+    // -----------------获取正在比赛的room信息------------------
     const {
-        data: contestData,
-        error: contestError,
-    } = useQuery<GetContestInfo, GetContestInfoVariables>(GET_CONTEST_INFO, {
+        data: roomStatusData,
+        error: roomStatusError,
+        refetch: roomStatusRefetch,
+      } = useQuery<GetRoomInfo_status, GetRoomInfo_statusVariables>(GETROOMSTATUS, {
         variables: {
-        contest_id: Contest_id
+          contest_id: Contest_id
         }
     });
     useEffect(() => {
-        if (contestError) {
-        message.error("比赛加载失败");
-        console.log(contestError.message);
+        if (roomStatusError) {
+          message.error("获取对战信息失败");
+          console.log(roomStatusError.message);
         }
-    }, [contestError]);
+    })
 
-    // //-----------------获取room信息------------------、
-    // const {
-    //     data: roomListData,
-    //     loading: roomListLoading,
-    //     error: teamListError,
-    //     refetch: refetchRoomList,
-    // } = useQuery<GetRoomInfo, GetRoomInfoVariables>(GETROOMINFO, {
-    //     variables: {
-    //     contest_id: Contest_id
-    //     }
-    // });
-    // useEffect(() => {
-    //     if (teamListError) {
-    //     message.error("获取对战信息失败");
-    //     console.log(teamListError.message);
-    //     }
-    // })
+    // -----------------开启对战------------------
+    const [insertRoom, { error: insertRoomError }] = useMutation<
+        InsertRoom,
+        InsertRoomVariables
+    >(INSERTROOM);
+    useEffect(() => {
+        if (insertRoomError) {
+          message.error("发起对战失败");
+          console.log(insertRoomError.message);
+        }
+    })
 
-    const map_menu = (
-        <Menu>
-          <Menu.Item key="0" onClick={() => {
-            fight(0, false);
-            }}>
-            我选学生
-          </Menu.Item>
-          <Menu.Item key="1" onClick={() => {
-            fight(0, true);
-            }}>
-            我选TRICKER
-          </Menu.Item>
-      </Menu>
-    );
+    const [opponentTeamId, setOpponentTeamId] = useState("");
+    // const setfight = (record: GetAllTeamInfo_contest_team) => {
+    //     setTeamId(record.team_id);
+    // };
 
-    const [opponentTeamId, setTeamId] = useState("");
-
-    const setfight = (record: GetAllTeamInfo_contest_team) => {
-        setTeamId(record.team_id);
-    };
-
-    // 渲染队伍列表
+    // -----------------天梯列表------------------
     const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
         {
           title: "队名",
@@ -214,7 +196,7 @@ const ArenaPage: React.FC = () => {
               <Button
                 className="ant-dropdown-link"
                 onClick={() => {
-                  setfight(record)
+                  setOpponentTeamId(record.team_id)
                 }}
               >
                 开战！ <DownOutlined />
@@ -224,17 +206,31 @@ const ArenaPage: React.FC = () => {
         },
     ];
 
+    // -----------------对战选项------------------
+    const map_menu = (
+        <Menu>
+          <Menu.Item key="0" onClick={() => {
+            fight(0, false);
+            }}>
+            我选学生
+          </Menu.Item>
+          <Menu.Item key="1" onClick={() => {
+            fight(0, true);
+            }}>
+            我选TRICKER
+          </Menu.Item>
+      </Menu>
+    );
+
+    // --------------开启对战逻辑-------------------
     const fight = (map: number, team: boolean) => {
-        // TODO: 下面的代码有点丑陋
-        console.log("Room Number:");
-        console.log(roomStatusData?.contest_room.length);
-        if(roomStatusData?.contest_room.length&&roomStatusData?.contest_room.length > 10){
+        console.log("Room Number:", roomStatusData?.contest_room.length);
+        if(roomStatusData?.contest_room.length && roomStatusData?.contest_room.length >= 10){
           message.warning("当前正在进行的比赛过多，请稍后再试");
           return;
         }
         (async () => {
           try {
-            //console.log("您："+teamid+"  对手："+opponentTeamId);
             const roomId = await insertRoom({
               variables: {
                 contest_id: Contest_id,
@@ -243,7 +239,6 @@ const ArenaPage: React.FC = () => {
                 created_at: dayjs()!,
               },
             });
-            console.log(roomId);
             await axios.post("room", {
               map: map,
               room_id: roomId.data?.insert_contest_room_one?.room_id,
@@ -252,23 +247,15 @@ const ArenaPage: React.FC = () => {
             });
             message.success("已发起对战！");
             message.info("如需观战，可查看记录页面的端口号");
-            // refetchRoomList(
-            //   {
-            //     contest_id: Contest_id
-            //   }
-            // );
+            roomStatusRefetch();
           } catch (e) {
-            if (insertRoomError) {
-              console.error("make room fail");
-              message.error("发起对战失败");
-            } else {
-              message.error("发起对战失败");
-              console.log(e);
-            }
+            message.error("发起对战失败");
+            console.log(e);
           }
         })();
     };
 
+    // --------------搜索模块-------------------
     const [ associatedValue, setAssociatedValue ] = useState("");
     const [ filterParamList, setFilterParamList ] = useState(scoreteamListData?.contest_team);
     useEffect(() => {
