@@ -75,7 +75,11 @@ const MenuPage: React.FC = () => {
   //渲染页面,switch类似c，用以切换url
   return (
     <Layout>
-      <Sider>
+      <Sider
+      theme="light"
+      collapsedWidth={0}
+      collapsible={true}
+      >
         <Menu
           mode="inline"
           selectedKeys={[page]}
