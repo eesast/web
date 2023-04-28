@@ -376,7 +376,16 @@ const CodePage: React.FC = () => {
           const response = await axios.get(`code/logs/${teamid}/${codeRole}`, {
             responseType: "blob",
           });
-          FileSaver.saveAs(response.data, teamid);
+          let codeTime: string;
+          switch (codeRole) {
+            case 1: codeTime = time1; break;
+            case 2: codeTime = time2; break;
+            case 3: codeTime = time3; break;
+            case 4: codeTime = time4; break;
+            case 5: codeTime = time5; break;
+            default: codeTime = "unknown"; break;
+          }
+          FileSaver.saveAs(response.data, teamData?.contest_team[0].team_name.replace(/[&|\\*^%$'"#@-]/g, "") + "_" + codeTime + "_player_" + codeRole + "_compile_log.txt");
         } catch (e) {
           const err = e as AxiosError;
           if (err.response?.status === 401) {
