@@ -224,6 +224,7 @@ const ArenaPage: React.FC = () => {
 
     // --------------开启对战逻辑-------------------
     const fight = (map: number, team: boolean) => {
+        roomStatusRefetch();
         console.log("Room Number:", roomStatusData?.contest_room.length);
         if(roomStatusData?.contest_room.length && roomStatusData?.contest_room.length >= 10){
           message.warning("当前正在进行的比赛过多，请稍后再试");
@@ -247,7 +248,6 @@ const ArenaPage: React.FC = () => {
             });
             message.success("已发起对战！");
             message.info("如需观战，可查看记录页面的端口号");
-            roomStatusRefetch();
           } catch (e) {
             message.error("发起对战失败");
             console.log(e);

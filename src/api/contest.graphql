@@ -166,6 +166,11 @@ query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
   }
 }
 
+subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}, , team_id: {_eq: $team_id}}) {
+    status
+  }
+}
 
 #插入队员
 mutation InsertTeamMember($team_id: uuid! , $user_id: String!) {
@@ -257,7 +262,7 @@ mutation UpdateIntro($id: Int!, $content: String = "") {
 }
 
 # get the contest room info
-query GetRoomInfo($contest_id: uuid!) {
+subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(where: {contest_id: {_eq: $contest_id}}, order_by: {created_at: desc}) {
     created_at
     result

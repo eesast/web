@@ -34,7 +34,7 @@ import { DeleteRoom as DELETEROOM } from "../../api/contest.graphql";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
 
 const { Text } = Typography;
@@ -86,8 +86,8 @@ const RecordPage: React.FC = () => {
         data: roomListData,
         loading: roomListLoading,
         error: teamListError,
-        refetch: refetchRoomList,
-    } = useQuery<GetRoomInfo, GetRoomInfoVariables>(GETROOMINFO, {
+        // refetch: refetchRoomList,
+    } = useSubscription<GetRoomInfo, GetRoomInfoVariables>(GETROOMINFO, {
         variables: {
           contest_id: Contest_id
         }
@@ -217,7 +217,7 @@ const RecordPage: React.FC = () => {
 
     const handleDeleteRoom = async (Room_id: string) => {
         await deleteRoom({ variables: { room_id: Room_id } });
-        await refetchRoomList();
+        // await refetchRoomList();
         if (!DeleteRoomError) {
             message.success("已移除此对战记录");
         }

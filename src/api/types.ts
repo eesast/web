@@ -864,6 +864,32 @@ export interface GetTeamInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL subscription operation: GetCompileStatus
+// ====================================================
+
+export interface GetCompileStatus_contest_team {
+  __typename: "contest_team";
+  status: string | null;
+}
+
+export interface GetCompileStatus {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: GetCompileStatus_contest_team[];
+}
+
+export interface GetCompileStatusVariables {
+  contest_id: any;
+  team_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: InsertTeamMember
 // ====================================================
 
@@ -1171,7 +1197,7 @@ export interface UpdateIntroVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetRoomInfo
+// GraphQL subscription operation: GetRoomInfo
 // ====================================================
 
 export interface GetRoomInfo_contest_room_contest_room_teams_contest_team {
