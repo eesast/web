@@ -87,11 +87,12 @@ const CodePage: React.FC = () => {
     const [fileList3, setFileList3] = useState<UploadFile[]>([]);
     const [fileList4, setFileList4] = useState<UploadFile[]>([]);
     const [fileList5, setFileList5] = useState<UploadFile[]>([]);
-    const [time1, setTime1] = useState("未上传");
-    const [time2, setTime2] = useState("未上传");
-    const [time3, setTime3] = useState("未上传");
-    const [time4, setTime4] = useState("未上传");
-    const [time5, setTime5] = useState("未上传");
+    const defaultDate = dayjs('2000-01-01 00:00:00');
+    const [time1, setTime1] = useState(defaultDate);
+    const [time2, setTime2] = useState(defaultDate);
+    const [time3, setTime3] = useState(defaultDate);
+    const [time4, setTime4] = useState(defaultDate);
+    const [time5, setTime5] = useState(defaultDate);
 
     //-----------------根据队员id查询队伍id------------------
     const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
@@ -153,7 +154,7 @@ const CodePage: React.FC = () => {
         }
     }, [contestError]);
 
-    const { data: codetimeData, refetch: refetchCodeTime } = useQuery<GetCodeUpdateTime, GetCodeUpdateTimeVariables>(GETCODETIME, {
+    const { data: codetimeData } = useSubscription<GetCodeUpdateTime, GetCodeUpdateTimeVariables>(GETCODETIME, {
         variables: {
           team_id: teamid!,
         },
@@ -161,25 +162,25 @@ const CodePage: React.FC = () => {
     useEffect(() => {
     if (codetimeData?.contest_code.length === 1) {
         if (codetimeData?.contest_code[0].code1_update_time) {
-        setTime1(dayjs(codetimeData?.contest_code[0].code1_update_time).format("M-DD HH:mm:ss"));
+        setTime1(dayjs(codetimeData?.contest_code[0].code1_update_time));
         }
         if (codetimeData?.contest_code[0].code2_update_time) {
-        setTime2(dayjs(codetimeData?.contest_code[0].code2_update_time).format("M-DD HH:mm:ss"));
+        setTime2(dayjs(codetimeData?.contest_code[0].code2_update_time));
         }
         if (codetimeData?.contest_code[0].code3_update_time) {
-        setTime3(dayjs(codetimeData?.contest_code[0].code3_update_time).format("M-DD HH:mm:ss"));
+        setTime3(dayjs(codetimeData?.contest_code[0].code3_update_time));
         }
         if (codetimeData?.contest_code[0].code4_update_time) {
-        setTime4(dayjs(codetimeData?.contest_code[0].code4_update_time).format("M-DD HH:mm:ss"));
+        setTime4(dayjs(codetimeData?.contest_code[0].code4_update_time));
         }
         if (codetimeData?.contest_code[0].code5_update_time) {
-        setTime5(dayjs(codetimeData?.contest_code[0].code5_update_time).format("M-DD HH:mm:ss"));
+        setTime5(dayjs(codetimeData?.contest_code[0].code5_update_time));
         }
     }
     }, [codetimeData])
 
     //-----------------上传代码------------------、
-    const [upsertCode1, { data: code1Data, error: code1Error }] = useMutation<
+    const [upsertCode1, { error: code1Error }] = useMutation<
         UpsertCode1,
         UpsertCode1Variables
         >(UPSERTCODE1);
@@ -187,13 +188,9 @@ const CodePage: React.FC = () => {
         if (code1Error) {
             message.error("上传代码失败");
         }
-        // else if (code1Data) {
-        //     setTime1(dayjs(code1Data.insert_contest_code_one?.code1_update_time).format("M-DD HH:mm:ss"))
-        // }
-    },
-    [ code1Data, code1Error ])
+    })
 
-    const [upsertCode2, { data: code2Data, error: code2Error }] = useMutation<
+    const [upsertCode2, { error: code2Error }] = useMutation<
         UpsertCode2,
         UpsertCode2Variables
         >(UPSERTCODE2);
@@ -201,13 +198,9 @@ const CodePage: React.FC = () => {
         if (code2Error) {
             message.error("上传代码失败");
         }
-        // else if (code2Data) {
-        //     setTime2(dayjs(code2Data.insert_contest_code_one?.code2_update_time).format("M-DD HH:mm:ss"))
-        // }
-    },
-    [ code2Data, code2Error ])
+    })
 
-    const [upsertCode3, { data: code3Data, error: code3Error }] = useMutation<
+    const [upsertCode3, {error: code3Error }] = useMutation<
         UpsertCode3,
         UpsertCode3Variables
         >(UPSERTCODE3);
@@ -215,13 +208,9 @@ const CodePage: React.FC = () => {
         if (code3Error) {
             message.error("上传代码失败");
         }
-        // else if (code3Data) {
-        //     setTime3(dayjs(code3Data.insert_contest_code_one?.code3_update_time).format("M-DD HH:mm:ss"))
-        // }
-    },
-    [ code3Data, code3Error ])
+    })
 
-    const [upsertCode4, { data: code4Data, error: code4Error }] = useMutation<
+    const [upsertCode4, { error: code4Error }] = useMutation<
         UpsertCode4,
         UpsertCode4Variables
         >(UPSERTCODE4);
@@ -229,13 +218,9 @@ const CodePage: React.FC = () => {
         if (code4Error) {
             message.error("上传代码失败");
         }
-        // else if (code4Data) {
-        //     setTime4(dayjs(code4Data.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"))
-        // }
-    },
-    [ code4Data, code4Error ])
+    })
 
-    const [upsertCode5, { data: code5Data, error: code5Error }] = useMutation<
+    const [upsertCode5, { error: code5Error }] = useMutation<
         UpsertCode5,
         UpsertCode5Variables
         >(UPSERTCODE5);
@@ -243,18 +228,14 @@ const CodePage: React.FC = () => {
         if (code5Error) {
             message.error("上传代码失败");
         }
-        // else if (code5Data) {
-        //     setTime5(dayjs(code5Data.insert_contest_code_one?.code5_update_time).format("M-DD HH:mm:ss"))
-        // }
-    },
-    [ code5Data, code5Error ])
+    })
 
     const playerList = [
-        { key: 1, name: 'P1', updatetime: time1, filelist: fileList1 },
-        { key: 2, name: 'P2', updatetime: time2, filelist: fileList2 },
-        { key: 3, name: 'P3', updatetime: time3, filelist: fileList3 },
-        { key: 4, name: 'P4', updatetime: time4, filelist: fileList4 },
-        { key: 5, name: 'TRICKER', updatetime: time5, filelist: fileList5 }
+        { key: 1, name: 'P1', updatetime: time1.format("M-DD HH:mm:ss"), filelist: fileList1 },
+        { key: 2, name: 'P2', updatetime: time2.format("M-DD HH:mm:ss"), filelist: fileList2 },
+        { key: 3, name: 'P3', updatetime: time3.format("M-DD HH:mm:ss"), filelist: fileList3 },
+        { key: 4, name: 'P4', updatetime: time4.format("M-DD HH:mm:ss"), filelist: fileList4 },
+        { key: 5, name: 'TRICKER', updatetime: time5.format("M-DD HH:mm:ss"), filelist: fileList5 }
     ]
 
     const playerListColumns: TableProps<Playerprops>["columns"] = [
@@ -362,7 +343,7 @@ const CodePage: React.FC = () => {
 
     const handleCodeCompile = () => {
         (async () => {
-          if (time1 === "未上传" || time2 === "未上传" || time3 === "未上传" || time4 === "未上传"|| time5 === "未上传") {
+          if (time1.isSame(defaultDate) || time2.isSame(defaultDate) || time3.isSame(defaultDate) || time4.isSame(defaultDate) || time5.isSame(defaultDate)) {
             message.error("请先上传5份选手代码！");
             return;
           }
@@ -392,11 +373,11 @@ const CodePage: React.FC = () => {
           });
           let codeTime: string;
           switch (codeRole) {
-            case 1: codeTime = dayjs(codetimeData?.contest_code[0].code1_update_time).format("YY-MM-DD_HH-mm-ss"); break;
-            case 2: codeTime = dayjs(codetimeData?.contest_code[0].code2_update_time).format("YY-MM-DD_HH-mm-ss"); break;
-            case 3: codeTime = dayjs(codetimeData?.contest_code[0].code3_update_time).format("YY-MM-DD_HH-mm-ss"); break;
-            case 4: codeTime = dayjs(codetimeData?.contest_code[0].code4_update_time).format("YY-MM-DD_HH-mm-ss"); break;
-            case 5: codeTime = dayjs(codetimeData?.contest_code[0].code5_update_time).format("YY-MM-DD_HH-mm-ss"); break;
+            case 1: codeTime = time1.format("YY-MM-DD_HH-mm-ss"); break;
+            case 2: codeTime = time2.format("YY-MM-DD_HH-mm-ss"); break;
+            case 3: codeTime = time3.format("YY-MM-DD_HH-mm-ss"); break;
+            case 4: codeTime = time4.format("YY-MM-DD_HH-mm-ss"); break;
+            case 5: codeTime = time5.format("YY-MM-DD_HH-mm-ss"); break;
             default: codeTime = "unknown"; break;
           }
           FileSaver.saveAs(response.data, teamData?.contest_team[0].team_name.replace(/[&|\\*^%$'"#@-]/g, "") + "_" + codeTime + "_player_" + codeRole + "_compile_log.txt");
@@ -418,24 +399,17 @@ const CodePage: React.FC = () => {
             const result = await uploadFile(e.file, url, teamid);
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
-            // refetchCodeTime({
-            //   team_id: teamid!,
-            // });
           } else if (lang === "py") {
             const url = `THUAI6/${teamid}/player${codeRole}.py`;
             const result = await uploadFile(e.file, url, teamid);
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
-            // refetchCodeTime({
-            //   team_id: teamid!,
-            // });
           } else {
             e.onError(new Error("不支持的文件类型"));
           }
         } catch (err) {
           e.onError(new Error("上传失败"));
         }
-        refetchCodeTime();
     };
 
     const handleOnchange = async (info: any) => {

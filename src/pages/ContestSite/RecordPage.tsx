@@ -258,7 +258,7 @@ const RecordPage: React.FC = () => {
                     </Typography.Text>
                     <br/><br/>
                     <Typography.Text type="danger">
-                        注：1. 此页面需要刷新以拉取最新信息  2. 若观战端口长时间等待分配，说明本次对战请求失败，可能是服务器负载过高，也可能是队伍代码有误。
+                        注：若观战端口长时间等待分配，说明本次对战请求失败，可能是服务器负载过高，也可能是队伍代码有误。
                     </Typography.Text>
                 </Col>
             </Row>

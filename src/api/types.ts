@@ -590,7 +590,7 @@ export interface IsTeamMemberVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetCodeUpdateTime
+// GraphQL subscription operation: GetCodeUpdateTime
 // ====================================================
 
 export interface GetCodeUpdateTime_contest_code {
