@@ -256,7 +256,12 @@ const ListPage: React.FC<{
       title: "编译状态",
       dataIndex: "compiled_status",
       key: "compiled_status",
-      render: (text, record) => record.status
+      render: (text, record) => record.status,
+      filters: [{
+        text: '已编译代码的队伍',
+        value: "compiled",
+      }],
+      onFilter: (value, record) => record.status === value,
     },
     {
       title: "比赛次数",
