@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import { Link, useLocation } from "react-router-dom";
 import { getUserInfo } from "../../helpers/auth";
 //graphql语句
@@ -54,7 +54,7 @@ const { Text } = Typography;
 const ManageTeamsPage: React.FC = () => {
   //获取比赛ID
   const location = useLocation()
-  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  const Contest_id = location.pathname.split("/")[2]
   //获取用户信息
   const userInfo = getUserInfo();
 
@@ -204,7 +204,7 @@ const ListPage: React.FC<{
 
     }
     form.resetFields();
-    refetchteamList();
+    // refetchteamList();
     setIsModalVisible(false);
   }
 
@@ -215,8 +215,8 @@ const ListPage: React.FC<{
     data: teamListData,
     loading: teamListLoading,
     error: teamListError,
-    refetch: refetchteamList,
-  } = useQuery<GetAllTeamInfo, GetAllTeamInfoVariables>(GET_ALL_TEAM_INFO, {
+    // refetch: refetchteamList,
+  } = useSubscription<GetAllTeamInfo, GetAllTeamInfoVariables>(GET_ALL_TEAM_INFO, {
     variables: {
       contest_id: props.contest_id
     }
@@ -259,10 +259,18 @@ const ListPage: React.FC<{
       render: (text, record) => record.status
     },
     {
+      title: "比赛次数",
+      dataIndex: "contest_num",
+      key: "contest_num",
+      render: (text, record) => record.status2,
+      sorter: (a, b) => Number(a.status2) - Number(b.status2),
+    },
+    {
       title: "比赛分数",
       dataIndex: "contest_score",
       key: "contest_score",
-      render: (text, record) => record.contest_score
+      render: (text, record) => record.contest_score,
+      sorter: (a, b) => Number(a.contest_score) - Number(b.contest_score),
     },
     {
       title: "操作",

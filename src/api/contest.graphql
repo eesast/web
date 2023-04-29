@@ -58,7 +58,7 @@ subscription GetCodeUpdateTime($team_id: uuid!) {
  }
 }
 
-query GetAllTeamInfo($contest_id: uuid!) {
+subscription GetAllTeamInfo($contest_id: uuid!) {
   contest_team(where: {contest_id: {_eq: $contest_id}}) {
     team_name
     created_at

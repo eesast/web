@@ -620,7 +620,7 @@ export interface GetCodeUpdateTimeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetAllTeamInfo
+// GraphQL subscription operation: GetAllTeamInfo
 // ====================================================
 
 export interface GetAllTeamInfo_contest_team_team_contest_id {
