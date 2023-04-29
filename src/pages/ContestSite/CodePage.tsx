@@ -79,7 +79,7 @@ const CodePage: React.FC = () => {
 
     const userInfo = getUserInfo();
     const location = useLocation();
-    const Contest_id = location.pathname.split("/")[2].replace('}', '');
+    const Contest_id = location.pathname.split("/")[2];
 
     const [codeRole, setCodeRole] = useState(1); // 代码对应角色
     const [fileList1, setFileList1] = useState<UploadFile[]>([]);

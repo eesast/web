@@ -37,7 +37,7 @@ import type { TableProps } from "antd/lib/table";
 import xlsx from "xlsx";
 const JoinPage: React.FC = () => {
   const location = useLocation()
-  const Contest_id = location.pathname.split("/")[2].replace('}', '');
+  const Contest_id = location.pathname.split("/")[2];
   const userInfo = getUserInfo();
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);

@@ -65,7 +65,7 @@ const ManagePage: React.FC = () => {
   //-----------------根据队员id查询队伍id------------------
   const location = useLocation()
   // 从url中获取比赛的id
-  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  const Contest_id = location.pathname.split("/")[2]
   const { data: isleaderData, loading: leaderLoading, refetch: refetchLeader } = useQuery<
     IsTeamLeader,
     IsTeamLeaderVariables

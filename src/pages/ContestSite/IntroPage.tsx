@@ -8,7 +8,7 @@ import { useQuery } from "@apollo/client";
 import md2wx from "md2wx";
 const IntroPage = () => {
   const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2].replace('}', '');
+  const Contest_id = location.pathname.split("/")[2];
   const [contentHtml, setContentHtml] = useState("");
   const { data: introData, error: introError } = useQuery<
     GetContestInfo,
