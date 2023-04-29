@@ -36,6 +36,8 @@ import {
 //————创建thuaicode————
 import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
 import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
+import { GetCompileStatus as GETCOMPILESTATUS } from "../../api/contest.graphql";
+import { GetCompileStatus, GetCompileStatusVariables } from "../../api/types";
 import { GetCodeUpdateTime as GETCODETIME } from "../../api/contest.graphql";
 import { GetCodeUpdateTime, GetCodeUpdateTimeVariables } from "../../api/types";
 //上传代码
@@ -61,7 +63,7 @@ import {
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
 
 const { Text } = Typography;
@@ -125,6 +127,16 @@ const CodePage: React.FC = () => {
         }
     );
 
+    const { data: teamCompileStatus } = useSubscription<GetCompileStatus, GetCompileStatusVariables>(
+        GETCOMPILESTATUS,
+        {
+        variables: {
+            contest_id: Contest_id,
+            team_id: teamid!,
+        },
+        }
+    );
+
     // --------------获取比赛状态-------------------
     const {
         data: contestData,
@@ -147,7 +159,6 @@ const CodePage: React.FC = () => {
         },
     });
     useEffect(() => {
-    console.log(codetimeData);
     if (codetimeData?.contest_code.length === 1) {
         if (codetimeData?.contest_code[0].code1_update_time) {
         setTime1(dayjs(codetimeData?.contest_code[0].code1_update_time).format("M-DD HH:mm:ss"));
@@ -176,9 +187,9 @@ const CodePage: React.FC = () => {
         if (code1Error) {
             message.error("上传代码失败");
         }
-        else if (code1Data) {
-            setTime1(dayjs(code1Data.insert_contest_code_one?.code1_update_time).format("M-DD HH:mm:ss"))
-        }
+        // else if (code1Data) {
+        //     setTime1(dayjs(code1Data.insert_contest_code_one?.code1_update_time).format("M-DD HH:mm:ss"))
+        // }
     },
     [ code1Data, code1Error ])
 
@@ -190,9 +201,9 @@ const CodePage: React.FC = () => {
         if (code2Error) {
             message.error("上传代码失败");
         }
-        else if (code2Data) {
-            setTime2(dayjs(code2Data.insert_contest_code_one?.code2_update_time).format("M-DD HH:mm:ss"))
-        }
+        // else if (code2Data) {
+        //     setTime2(dayjs(code2Data.insert_contest_code_one?.code2_update_time).format("M-DD HH:mm:ss"))
+        // }
     },
     [ code2Data, code2Error ])
 
@@ -204,9 +215,9 @@ const CodePage: React.FC = () => {
         if (code3Error) {
             message.error("上传代码失败");
         }
-        else if (code3Data) {
-            setTime3(dayjs(code3Data.insert_contest_code_one?.code3_update_time).format("M-DD HH:mm:ss"))
-        }
+        // else if (code3Data) {
+        //     setTime3(dayjs(code3Data.insert_contest_code_one?.code3_update_time).format("M-DD HH:mm:ss"))
+        // }
     },
     [ code3Data, code3Error ])
 
@@ -218,9 +229,9 @@ const CodePage: React.FC = () => {
         if (code4Error) {
             message.error("上传代码失败");
         }
-        else if (code4Data) {
-            setTime4(dayjs(code4Data.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"))
-        }
+        // else if (code4Data) {
+        //     setTime4(dayjs(code4Data.insert_contest_code_one?.code4_update_time).format("M-DD HH:mm:ss"))
+        // }
     },
     [ code4Data, code4Error ])
 
@@ -232,9 +243,9 @@ const CodePage: React.FC = () => {
         if (code5Error) {
             message.error("上传代码失败");
         }
-        else if (code5Data) {
-            setTime5(dayjs(code5Data.insert_contest_code_one?.code5_update_time).format("M-DD HH:mm:ss"))
-        }
+        // else if (code5Data) {
+        //     setTime5(dayjs(code5Data.insert_contest_code_one?.code5_update_time).format("M-DD HH:mm:ss"))
+        // }
     },
     [ code5Data, code5Error ])
 
@@ -264,16 +275,20 @@ const CodePage: React.FC = () => {
           render: (text, record) => (
             <Upload
               accept=".cpp,.py"
+              // maxCount={1}
               customRequest={handleUpload}
               onChange={handleOnchange}
               onRemove={handleRemove}
+              // data={(file) => {
+              //   return {
+              //     key: file.url,
+              // }}}
               multiple
               fileList={record.filelist}
             >
               <Button
                 disabled={contestData?.contest[0].status.slice(0, 1) !== "1"}
                 onClick={() => {
-                  //console.log(record)
                   setCodeRole(record.key)
                 }}
               >
@@ -313,7 +328,7 @@ const CodePage: React.FC = () => {
     ]
 
     const CompiledTag: React.FC = () => {
-        if (teamData?.contest_team[0].status === "compiled")
+        if (teamCompileStatus?.contest_team[0].status === "compiled")
           return (
             <div>
               <Tag icon={<CheckCircleOutlined />} color="success">
@@ -321,7 +336,7 @@ const CodePage: React.FC = () => {
               </Tag>
             </div>
           )
-        else if (teamData?.contest_team[0].status === "compiling")
+        else if (teamCompileStatus?.contest_team[0].status === "compiling")
           return (
             <div>
               <Tag icon={<LoadingOutlined />} color="gold">
@@ -329,7 +344,7 @@ const CodePage: React.FC = () => {
               </Tag>
             </div>
           )
-        else if (teamData?.contest_team[0].status === "failed") {
+        else if (teamCompileStatus?.contest_team[0].status === "failed") {
           return (
             <Tag icon={<CloseCircleOutlined />} color="error">
               failed
@@ -352,7 +367,6 @@ const CodePage: React.FC = () => {
             return;
           }
           try {
-            console.log(teamid);
             await axios.post("code/compile", {
               team_id: teamid,
             });
@@ -378,11 +392,11 @@ const CodePage: React.FC = () => {
           });
           let codeTime: string;
           switch (codeRole) {
-            case 1: codeTime = time1; break;
-            case 2: codeTime = time2; break;
-            case 3: codeTime = time3; break;
-            case 4: codeTime = time4; break;
-            case 5: codeTime = time5; break;
+            case 1: codeTime = dayjs(codetimeData?.contest_code[0].code1_update_time).format("YY-MM-DD_HH-mm-ss"); break;
+            case 2: codeTime = dayjs(codetimeData?.contest_code[0].code2_update_time).format("YY-MM-DD_HH-mm-ss"); break;
+            case 3: codeTime = dayjs(codetimeData?.contest_code[0].code3_update_time).format("YY-MM-DD_HH-mm-ss"); break;
+            case 4: codeTime = dayjs(codetimeData?.contest_code[0].code4_update_time).format("YY-MM-DD_HH-mm-ss"); break;
+            case 5: codeTime = dayjs(codetimeData?.contest_code[0].code5_update_time).format("YY-MM-DD_HH-mm-ss"); break;
             default: codeTime = "unknown"; break;
           }
           FileSaver.saveAs(response.data, teamData?.contest_team[0].team_name.replace(/[&|\\*^%$'"#@-]/g, "") + "_" + codeTime + "_player_" + codeRole + "_compile_log.txt");
@@ -404,32 +418,30 @@ const CodePage: React.FC = () => {
             const result = await uploadFile(e.file, url, teamid);
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
-            refetchCodeTime({
-              team_id: teamid!,
-            });
+            // refetchCodeTime({
+            //   team_id: teamid!,
+            // });
           } else if (lang === "py") {
             const url = `THUAI6/${teamid}/player${codeRole}.py`;
             const result = await uploadFile(e.file, url, teamid);
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
-            refetchCodeTime({
-              team_id: teamid!,
-            });
+            // refetchCodeTime({
+            //   team_id: teamid!,
+            // });
           } else {
             e.onError(new Error("不支持的文件类型"));
           }
         } catch (err) {
           e.onError(new Error("上传失败"));
         }
+        refetchCodeTime();
     };
 
     const handleOnchange = async (info: any) => {
         if (info.fileList.length === 2) {
           info.fileList = info.fileList.slice(-1);
           message.warning("一名角色对应一份代码文件！");
-        }
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} → P${codeRole} 上传成功`);

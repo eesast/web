@@ -24,7 +24,6 @@ const IntroPage = () => {
     }
   }, [introError]);
   useEffect(() => {
-    console.log("intro:", introData);
     if (introData) {
       var contest_intro = introData?.contest[0].description
       if (contest_intro) {

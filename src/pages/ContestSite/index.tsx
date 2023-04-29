@@ -237,7 +237,6 @@ const ContestSite: React.FC = () => {
       form.validateFields();
     } catch { }
     const values = form.getFieldsValue();
-    //console.log(values);
     if (values.contest_name === undefined || values.contest_name === "" || values.time === undefined || values.contest_type === undefined) {
       return;
     }
@@ -257,8 +256,6 @@ const ContestSite: React.FC = () => {
       if (values?.managers_list?.length > 0) {//已添加管理员
         await deleteContestManager({ variables: { contest_id: contestID } });
         values.managers_list.forEach(async (item: any) => {
-          //console.log(item);
-
           try {
             const newUserData = await refetchUserId({ email: item.email, name: item.name });
             const user_id = newUserData.data.user[0]?._id;
@@ -297,8 +294,6 @@ const ContestSite: React.FC = () => {
       if (values?.managers_list?.length > 0) {//已添加管理员
         await deleteContestManager({ variables: { contest_id: id } });
         values.managers_list.forEach(async (item: any) => {
-          console.log(item);
-
           try {
             const newUserData = await refetchUserId({ email: item.email, name: item.name });
             const user_id = newUserData.data.user[0]?._id;

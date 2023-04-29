@@ -130,7 +130,6 @@ const SettingPage: React.FC = () => {
 
     const handleBattle = async () => {
         const values = await battleForm.getFieldsValue();
-        console.log(values);
         if (values.team1 === undefined || values.team2 === undefined) {
             return;
         }
@@ -170,7 +169,6 @@ const SettingPage: React.FC = () => {
         battleForm.resetFields();
         setIsBattleModalVisible(false);
     }
-    console.log(contestData?.contest[0].status.slice(0, 1) === '1');
 
     return (
         (["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1) ?

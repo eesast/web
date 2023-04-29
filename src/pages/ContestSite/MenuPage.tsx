@@ -41,6 +41,7 @@ import {
 } from "../../api/contest.graphql"
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
+import { isMobileOnly } from "react-device-detect";
 //antd部件实例化
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -79,6 +80,7 @@ const MenuPage: React.FC = () => {
       theme="light"
       collapsedWidth={0}
       collapsible={true}
+      defaultCollapsed={isMobileOnly}
       >
         <Menu
           mode="inline"
