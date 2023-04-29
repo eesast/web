@@ -44,7 +44,7 @@ const ArenaPage: React.FC = () => {
 
     const userInfo = getUserInfo();
     const location = useLocation();
-    const Contest_id = location.pathname.split("/")[2].replace('}', '');
+    const Contest_id = location.pathname.split("/")[2];
 
     // --------------获取比赛状态-------------------
     const {

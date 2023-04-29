@@ -34,7 +34,7 @@ function randomString() {
 }
 const RegisterPage: React.FC = () => {
   const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  const Contest_id = location.pathname.split("/")[2]
   //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
   // 查询此用户是否已有队伍，若有则不可再创建

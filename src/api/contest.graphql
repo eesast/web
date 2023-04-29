@@ -47,7 +47,7 @@ query IsTeamMember($_id: String!, $contest_id: uuid!) {
 }
 
 # 借由team_id获取code的所有信息
-query GetCodeUpdateTime($team_id: uuid!) {
+subscription GetCodeUpdateTime($team_id: uuid!) {
  contest_code(where: {team_id: {_eq: $team_id}}) {
    code1_update_time
    code2_update_time
@@ -58,7 +58,7 @@ query GetCodeUpdateTime($team_id: uuid!) {
  }
 }
 
-query GetAllTeamInfo($contest_id: uuid!) {
+subscription GetAllTeamInfo($contest_id: uuid!) {
   contest_team(where: {contest_id: {_eq: $contest_id}}) {
     team_name
     created_at

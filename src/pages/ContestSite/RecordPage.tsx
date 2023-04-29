@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"
+import { useLocation, Link, } from "react-router-dom"
 import {
   Table,
   Button,
@@ -43,7 +43,7 @@ const RecordPage: React.FC = () => {
 
     const userInfo = getUserInfo();
     const location = useLocation();
-    const Contest_id = location.pathname.split("/")[2].replace('}', '');
+    const Contest_id = location.pathname.split("/")[2];
 
     // //-----------------根据队员id查询队伍id------------------
     // const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
@@ -169,16 +169,21 @@ const RecordPage: React.FC = () => {
             render: (text, record) => dayjs(record.created_at).format('M-DD HH:mm:ss'),
         },
         {
-            title: "回放下载",
+            title: "回放",
             key: "download",
             render: (text, record) => (
-                <Button
-                type="primary"
-                onClick={() => download(record)}
-                disabled={record.status !== true}
-                >
-                下载
-                </Button>
+                <Row>
+                    <Button
+                    onClick={() => download(record)}
+                    disabled={record.status !== true}
+                    >
+                    下载
+                    </Button>
+                    <Col span={1} />
+                    <Button>
+                        <Link to={`/contest/${Contest_id}/play/${record.room_id}`}>查看</Link>
+                    </Button>
+                </Row>
             ),
         },
         {
@@ -192,7 +197,6 @@ const RecordPage: React.FC = () => {
                     type="dashed"
                     size="small"
                     onClick={() => { handleDeleteRoom(record.room_id); }}
-
                 >
                 </Button>
                 : <div />)
@@ -258,7 +262,7 @@ const RecordPage: React.FC = () => {
                     </Typography.Text>
                     <br/><br/>
                     <Typography.Text type="danger">
-                        注：1. 此页面需要刷新以拉取最新信息  2. 若观战端口长时间等待分配，说明本次对战请求失败，可能是服务器负载过高，也可能是队伍代码有误。
+                        注：若观战端口长时间等待分配，说明本次对战请求失败，可能是服务器负载过高，也可能是队伍代码有误。
                     </Typography.Text>
                 </Col>
             </Row>

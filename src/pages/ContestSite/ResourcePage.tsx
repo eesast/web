@@ -68,7 +68,7 @@ interface File {
 const ResourcePage: React.FC = () => {
   const userInfo = getUserInfo();
   const location = useLocation()
-  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  const Contest_id = location.pathname.split("/")[2]
 
   const {
     data: noticeData,

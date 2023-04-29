@@ -25,7 +25,6 @@ import ResourcePage from "./ResourcePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
-// import BattlePage from "./BattlePage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 import CodePage from "./CodePage";
@@ -55,7 +54,7 @@ const MenuPage: React.FC = () => {
   //url的split，预设页面是intro
   const page = location.pathname.split("/")[3] ?? "intro";
   // 从url中获取比赛的id
-  const Contest_id = location.pathname.split("/")[2].replace('}', '')
+  const Contest_id = location.pathname.split("/")[2]
 
   const {
     data: isContestManagerData,
@@ -118,10 +117,7 @@ const MenuPage: React.FC = () => {
               <Link to={`${url}/manage`}>管理</Link>
             </Menu.Item>
           </SubMenu>
-          {/* <Menu.Item key="fight">
-            <FireOutlined />
-            <Link to={`${url}/battle`}>对战</Link>
-          </Menu.Item> */}
+
           <SubMenu
             key="fight"
             title={
@@ -198,11 +194,8 @@ const MenuPage: React.FC = () => {
           <AuthRoute exact path={`${path}/codes`}>
             <CodePage />
           </AuthRoute>
-          {/* <AuthRoute exact path={`${path}/battle`}>
-            <BattlePage />
-          </AuthRoute> */}
 
-          {/* <AuthRoute exact path={`${path}/play`}>
+          {/* <AuthRoute path={`${path}/play`}>
             <PlayPage />
           </AuthRoute> */}
           <AuthRoute exact path={`${path}/manageTeams`}>

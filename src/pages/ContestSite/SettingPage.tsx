@@ -27,7 +27,7 @@ const { Text } = Typography;
 const SettingPage: React.FC = () => {
     //获取比赛ID
     const location = useLocation()
-    const Contest_id = location.pathname.split("/")[2].replace('}', '')
+    const Contest_id = location.pathname.split("/")[2]
     //获取用户信息
     const userInfo = getUserInfo();
 
