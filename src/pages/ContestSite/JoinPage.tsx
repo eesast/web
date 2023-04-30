@@ -18,14 +18,14 @@ import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 import {
-  GetAllTeamInfo_contest_team,
-  GetAllTeamInfo,
-  GetAllTeamInfoVariables,
+  GetAllTeamInfo_score_contest_team,
+  GetAllTeamInfo_score,
+  GetAllTeamInfo_scoreVariables,
   QueryContestManager,
   QueryContestManagerVariables,
 } from "../../api/types";
 import {
-  GetAllTeamInfo as GETALLTEAMINFO,
+  GetAllTeamInfo_score as GETALLTEAMINFO_SCORE,
   QueryContestManager as QUERY_CONTEST_MANAGER,
 } from "../../api/contest.graphql";
 //插入队员
@@ -66,7 +66,7 @@ const JoinPage: React.FC = () => {
     loading: teamListLoading,
     error: teamListError,
     refetch: refetchteamList,
-  } = useQuery<GetAllTeamInfo, GetAllTeamInfoVariables>(GETALLTEAMINFO, {
+  } = useQuery<GetAllTeamInfo_score, GetAllTeamInfo_scoreVariables>(GETALLTEAMINFO_SCORE, {
     variables: {
       contest_id: Contest_id
     }
@@ -96,7 +96,7 @@ const JoinPage: React.FC = () => {
     InsertTeamMemberVariables
   >(INSERTTEAMMEMBER);
   //点击加入
-  const showModal = (record: GetAllTeamInfo_contest_team) => {
+  const showModal = (record: GetAllTeamInfo_score_contest_team) => {
     setIsModalVisible(true);
     setTeamId(record.team_id);
     setInvite(record.invited_code);
@@ -172,7 +172,7 @@ const JoinPage: React.FC = () => {
     refetchteamList();
   };
 
-  const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
+  const teamListColumns: TableProps<GetAllTeamInfo_score_contest_team>["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
