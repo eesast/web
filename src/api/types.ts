@@ -2537,21 +2537,18 @@ export interface GetMentorInfoVariables {
 // @generated
 // This file was automatically generated and should not be edited.
 
-// ====================================================
-// GraphQL query operation: GetFreshmenList
-// ====================================================
-
-export interface GetFreshmenList_user {
+// GraphQL query operation: GetFreshmanList
+export interface GetFreshmanList_user {
   __typename: "user";
   _id: string;
   id: any | null;
 }
 
-export interface GetFreshmenList {
+export interface GetFreshmanList {
   /**
    * fetch data from the table: "user"
    */
-  user: GetFreshmenList_user[];
+  user: GetFreshmanList_user[];
 }
 
 /* tslint:disable */

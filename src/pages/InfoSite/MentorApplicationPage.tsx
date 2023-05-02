@@ -35,7 +35,7 @@ import {
   GetMentorAvailable as GET_MENTOR_AVAILABLE,
   GetMentorInfo as GET_MENTOR_INFO,
   GetMentorList as GET_MENTOR_LIST,
-  GetFreshmenList as GET_FRESHMEN_LIST,
+  GetFreshmanList as GET_FRESHMAN_LIST,
   UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
   UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
   UpsertMentorInfo as UPSERT_MENTOR_INFO,
@@ -58,7 +58,7 @@ import {
   GetMentorInfoVariables,
   GetMentorList_user_by_role,
   GetMentorList,
-  GetFreshmenList,
+  GetFreshmanList,
   GetUserByName,
   GetUserByNameVariables,
   UpdateMentorApplication,
@@ -637,19 +637,19 @@ const MentorApplicationPage = () => {
   };
 
   const {
-    data: freshmenList,
-    error: freshmenListError,
-    refetch: refetchFreshmenList,
-  } = useQuery<GetFreshmenList>(GET_FRESHMEN_LIST, {
+    data: freshmanList,
+    error: freshmanListError,
+    refetch: refetchFreshmanList,
+  } = useQuery<GetFreshmanList>(GET_FRESHMAN_LIST, {
     skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
   });
 
   useEffect(() => {
-    if (freshmenListError) {
+    if (freshmanListError) {
       message.error("新生列表加载失败");
-      console.log(freshmenListError)
+      console.log(freshmanListError)
     }
-  }, [freshmenListError]);
+  }, [freshmanListError]);
 
   const handleAttribute = async () => {
     setAttributing(true);
@@ -670,36 +670,42 @@ const MentorApplicationPage = () => {
           ]
         );
 
-        const freshmenToAttribute = freshmenList?.user.filter(
+        const freshmanToAttribute = freshmanList?.user.filter(
           (item) => applications.findIndex((i) => i[0] === item.id) === -1
         );
 
-        if (freshmenToAttribute?.length === 0) {
+        if (freshmanToAttribute?.length === 0) {
           break;
         } else {
-          const student = freshmenToAttribute![0];
+          const student = freshmanToAttribute![0];
+          console.log(student)
 
           const teachersToAttribute = mentorList?.user_by_role.filter(
             (item) => item.user?.mentor_available?.available !== false &&
             (item.user?.matched.aggregate?.count ?? 0 < 5)
           );
+          console.log(teachersToAttribute)
 
           const minCount = Math.min(
             ...teachersToAttribute!.map(
               (item) => item.user?.matched.aggregate?.count ?? 0
             )
           );
+          console.log(minCount)
 
           const teachersWithMinCount = teachersToAttribute!.filter(
             (item) => item.user?.matched.aggregate?.count === minCount
           );
 
+          console.log(teachersWithMinCount)
+
           const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
+          console.log(teacher)
 
           const iden = await addApplication({
             variables: {
-              student_id: student._id,
-              mentor_id: teacher._id,
+              student_id: student._id!,
+              mentor_id: teacher._id!,
               statement: "系统随机分配",
             },
           });
@@ -712,7 +718,7 @@ const MentorApplicationPage = () => {
           });
 
           refetchApplications();
-          refetchFreshmenList();
+          refetchFreshmanList();
           refetchMentorList();
         }
       }
