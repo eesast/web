@@ -687,7 +687,7 @@ const MentorApplicationPage = () => {
             message.error("没有可用的导师");
             break;
           }
-                                                          
+
           const minCount = Math.min(
             ...teachersToAttribute!.map(
               (item) => item.user?.matched.aggregate?.count ?? 0
