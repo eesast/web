@@ -656,7 +656,9 @@ const MentorApplicationPage = () => {
 
     try {
       while (true) {
-        const applications = applicationForCounselorsData!.mentor_application.map(
+        const applications = applicationForCounselorsData!.mentor_application.filter(
+          (i) => i.status !== "approved"
+        ).map(
           (item) => [
             item.student.id,
             item.student.name,
@@ -681,21 +683,24 @@ const MentorApplicationPage = () => {
             (item) => item.user?.mentor_available?.available !== false &&
             (item.user?.matched.aggregate?.count ?? 0 < 5)
           );
+
           const minCount = Math.min(
             ...teachersToAttribute!.map(
               (item) => item.user?.matched.aggregate?.count ?? 0
             )
           );
+
           const teachersWithMinCount = teachersToAttribute!.filter(
             (item) => item.user?.matched.aggregate?.count === minCount
           );
+
           const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
 
           const iden = await addApplication({
             variables: {
               student_id: student._id,
               mentor_id: teacher._id,
-              statement: "",
+              statement: "系统随机分配",
             },
           });
 
