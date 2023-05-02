@@ -35,6 +35,7 @@ import {
   GetMentorAvailable as GET_MENTOR_AVAILABLE,
   GetMentorInfo as GET_MENTOR_INFO,
   GetMentorList as GET_MENTOR_LIST,
+  GetFreshmenList as GET_FRESHMEN_LIST,
   UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
   UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
   UpsertMentorInfo as UPSERT_MENTOR_INFO,
@@ -57,6 +58,7 @@ import {
   GetMentorInfoVariables,
   GetMentorList_user_by_role,
   GetMentorList,
+  GetFreshmenList,
   GetUserByName,
   GetUserByNameVariables,
   UpdateMentorApplication,
@@ -589,6 +591,7 @@ const MentorApplicationPage = () => {
   ];
 
   const [exporting, setExporting] = useState(false);
+  const [attributing, setAttributing] = useState(false);
 
   const handleExport = async () => {
     setExporting(true);
@@ -630,6 +633,93 @@ const MentorApplicationPage = () => {
       message.error("申请导出失败");
     } finally {
       setExporting(false);
+    }
+  };
+
+  const {
+    data: freshmenList,
+    error: freshmenListError,
+    refetch: refetchFreshmenList,
+  } = useQuery<GetFreshmenList>(GET_FRESHMEN_LIST, {
+    skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
+  });
+
+  useEffect(() => {
+    if (freshmenListError) {
+      message.error("新生列表加载失败");
+      console.log(freshmenListError)
+    }
+  }, [freshmenListError]);
+
+  const handleAttribute = async () => {
+    setAttributing(true);
+
+    try {
+      while (true) {
+        const applications = applicationForCounselorsData!.mentor_application.filter(
+          (i) => i.status !== "approved"
+        ).map(
+          (item) => [
+            item.student.id,
+            item.student.name,
+            item.student.class,
+            item.mentor.department,
+            item.mentor.name,
+            item.statement,
+            getStatusText(item.status),
+          ]
+        );
+
+        const freshmenToAttribute = freshmenList?.user.filter(
+          (item) => applications.findIndex((i) => i[0] === item.id) === -1
+        );
+
+        if (freshmenToAttribute?.length === 0) {
+          break;
+        } else {
+          const student = freshmenToAttribute![0];
+
+          const teachersToAttribute = mentorList?.user_by_role.filter(
+            (item) => item.user?.mentor_available?.available !== false &&
+            (item.user?.matched.aggregate?.count ?? 0 < 5)
+          );
+
+          const minCount = Math.min(
+            ...teachersToAttribute!.map(
+              (item) => item.user?.matched.aggregate?.count ?? 0
+            )
+          );
+
+          const teachersWithMinCount = teachersToAttribute!.filter(
+            (item) => item.user?.matched.aggregate?.count === minCount
+          );
+
+          const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
+
+          const iden = await addApplication({
+            variables: {
+              student_id: student._id,
+              mentor_id: teacher._id,
+              statement: "系统随机分配",
+            },
+          });
+
+          await updateApplicationStatus({
+            variables: {
+              id: iden,
+              status: "approved",
+            },
+          });
+
+          refetchApplications();
+          refetchFreshmenList();
+          refetchMentorList();
+        }
+      }
+    } catch {
+      message.error("随机分配失败");
+    } finally {
+      setAttributing(false);
     }
   };
 
@@ -1030,6 +1120,23 @@ const MentorApplicationPage = () => {
                 导入信息
               </Button>
             </Col>
+            <Col span={3}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  Modal.confirm({
+                    title: "确认进行系统随机分配？",
+                    content: "此操作不可撤销",
+                    okText: "确认",
+                    cancelText: "取消",
+                    onOk: handleAttribute,
+                  });
+                }}
+                loading={attributing}
+              >
+                随机分配
+              </Button>
+              </Col>
           </Row>
 
           <Table

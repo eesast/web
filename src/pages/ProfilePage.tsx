@@ -184,6 +184,8 @@ const ProfilePage: React.FC = () => {
   const onFinish = async (values: any) => {
     const { password, registeredEmail, ...rest } = values;
 
+    setPasswordUpdating(true);
+
     if (userInfo?.role === "teacher") {
       updateUserForTeacher({
         variables: {
@@ -201,7 +203,6 @@ const ProfilePage: React.FC = () => {
     }
 
     if (password) {
-      setPasswordUpdating(true);
       try {
         await axios.put("/users", {
           password,
@@ -221,13 +222,14 @@ const ProfilePage: React.FC = () => {
   };
 
   const onDelete = async () => {
+    setUserDeleting(true);
+
     deleteUser({
       variables: {
         _id: userInfo?._id!,
       },
     });
 
-    setUserDeleting(true);
     try {
       await axios.put("/users/delete", { _id: userInfo?._id! });
       await message.success(userInfo?._id!);

@@ -178,3 +178,10 @@ query GetMentorInfo($mentor_id: String!) {
     }
   }
 }
+
+query GetFreshmenList {
+  user(where: {id: {_gt: "2021999999", _lte: "2022999999"}}) {
+    _id
+    id
+  }
+}
