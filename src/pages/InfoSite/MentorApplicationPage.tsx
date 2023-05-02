@@ -678,29 +678,27 @@ const MentorApplicationPage = () => {
           break;
         } else {
           const student = freshmanToAttribute![0];
-          console.log(student)
 
           const teachersToAttribute = mentorList?.user_by_role.filter(
-            (item) => item.user?.mentor_available?.available !== false &&
+            (item) => item.user?.mentor_available?.available === true &&
             (item.user?.matched.aggregate?.count ?? 0 < 5)
           );
-          console.log(teachersToAttribute)
-
+          if (teachersToAttribute?.length === 0) {
+            message.error("没有可用的导师");
+            break;
+          }
+                                                          
           const minCount = Math.min(
             ...teachersToAttribute!.map(
               (item) => item.user?.matched.aggregate?.count ?? 0
             )
           );
-          console.log(minCount)
 
           const teachersWithMinCount = teachersToAttribute!.filter(
             (item) => item.user?.matched.aggregate?.count === minCount
           );
 
-          console.log(teachersWithMinCount)
-
           const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
-          console.log(teacher)
 
           const iden = await addApplication({
             variables: {
@@ -712,7 +710,7 @@ const MentorApplicationPage = () => {
 
           await updateApplicationStatus({
             variables: {
-              id: iden,
+              id: iden.data?.insert_mentor_application?.returning[0].id!,
               status: "approved",
             },
           });
