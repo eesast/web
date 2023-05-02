@@ -702,7 +702,7 @@ const MentorApplicationPage = () => {
           await updateApplicationStatus({
             variables: {
               id: iden,
-              status: "success",
+              status: "approved",
             },
           });
 
