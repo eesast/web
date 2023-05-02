@@ -696,6 +696,7 @@ const MentorApplicationPage = () => {
           const teachersWithMinCount = teachersToAttribute!.filter(
             (item) => item.user?.matched.aggregate?.count === minCount
           );
+
           console.log(teachersWithMinCount)
 
           const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
