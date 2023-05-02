@@ -297,7 +297,7 @@ const CodePage: React.FC = () => {
               <Button onClick={() => {
                 setCodeRole(record.key);
                 message.info(`下载角色${codeRole}的编译信息`);
-                downloadcompile().catch(e => {
+                downloadCompile().catch(e => {
                   message.error("下载失败");
                 })
               }}>
@@ -366,7 +366,7 @@ const CodePage: React.FC = () => {
         })();
     };
 
-    const downloadcompile = async () => {
+    const downloadCompile = async () => {
         try {
           const response = await axios.get(`code/logs/${teamid}/${codeRole}`, {
             responseType: "blob",
