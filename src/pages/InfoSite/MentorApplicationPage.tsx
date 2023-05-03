@@ -147,6 +147,7 @@ const MentorApplicationPage = () => {
     loading: applicationForCounselorsLoading,
     error: applicationForCounselorsError,
     data: applicationForCounselorsData,
+    refetch: refetchApplicationsForCounselors,
   } = useQuery<GetMentorApplicationsForCounselors>(
     GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
     {
@@ -657,7 +658,7 @@ const MentorApplicationPage = () => {
     try {
       while (true) {
         const applications = applicationForCounselorsData!.mentor_application.filter(
-          (i) => i.status !== "approved"
+          (i) => i.status === "approved"
         ).map(
           (item) => [
             item.student.id,
@@ -670,35 +671,38 @@ const MentorApplicationPage = () => {
           ]
         );
 
-        const freshmanToAttribute = freshmanList?.user.filter(
+        const freshmanToAttribute = freshmanList!.user.filter(
           (item) => applications.findIndex((i) => i[0] === item.id) === -1
         );
 
-        if (freshmanToAttribute?.length === 0) {
+        if (freshmanToAttribute.length === 0) {
           break;
         } else {
-          const student = freshmanToAttribute![0];
+          const student = freshmanToAttribute[Date.now() % freshmanToAttribute.length];
 
-          const teachersToAttribute = mentorList?.user_by_role.filter(
+          const teachersToAttribute = mentorList!.user_by_role.filter(
             (item) => item.user?.mentor_available?.available === true &&
             (item.user?.matched.aggregate?.count ?? 0 < 5)
           );
-          if (teachersToAttribute?.length === 0) {
+          if (teachersToAttribute.length === 0) {
             message.error("没有可用的导师");
             break;
           }
 
           const minCount = Math.min(
-            ...teachersToAttribute!.map(
+            ...teachersToAttribute.map(
               (item) => item.user?.matched.aggregate?.count ?? 0
             )
           );
 
-          const teachersWithMinCount = teachersToAttribute!.filter(
+          const teachersWithMinCount = teachersToAttribute.filter(
             (item) => item.user?.matched.aggregate?.count === minCount
           );
+          console.log(minCount)
+          console.log(teachersWithMinCount)
 
           const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
+          console.log(teacher)
 
           const iden = await addApplication({
             variables: {
@@ -715,9 +719,9 @@ const MentorApplicationPage = () => {
             },
           });
 
-          refetchApplications();
-          refetchFreshmanList();
-          refetchMentorList();
+          await refetchApplicationsForCounselors();
+          await refetchFreshmanList();
+          await refetchMentorList();
         }
       }
     } catch {
