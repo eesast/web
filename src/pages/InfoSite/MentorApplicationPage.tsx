@@ -147,6 +147,7 @@ const MentorApplicationPage = () => {
     loading: applicationForCounselorsLoading,
     error: applicationForCounselorsError,
     data: applicationForCounselorsData,
+    // refetch: refetchApplicationsForCounselors,
   } = useQuery<GetMentorApplicationsForCounselors>(
     GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
     {
@@ -260,6 +261,8 @@ const MentorApplicationPage = () => {
   ] = useMutation<UpdateMentorApplication, UpdateMentorApplicationVariables>(
     UPDATE_MENTOR_APPLICATION
   );
+
+  const client = useApolloClient();
 
   useEffect(() => {
     if (updateApplicationError) {
@@ -639,7 +642,7 @@ const MentorApplicationPage = () => {
   const {
     data: freshmanList,
     error: freshmanListError,
-    refetch: refetchFreshmanList,
+    // refetch: refetchFreshmanList,
   } = useQuery<GetFreshmanList>(GET_FRESHMAN_LIST, {
     skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
   });
@@ -655,73 +658,65 @@ const MentorApplicationPage = () => {
     setAttributing(true);
 
     try {
-      while (true) {
-        const applications = applicationForCounselorsData!.mentor_application.filter(
-          (i) => i.status !== "approved"
-        ).map(
-          (item) => [
-            item.student.id,
-            item.student.name,
-            item.student.class,
-            item.mentor.department,
-            item.mentor.name,
-            item.statement,
-            getStatusText(item.status),
-          ]
-        );
+      const freshmanToAttribute = freshmanList!.user.filter(
+        (item) => item.mentor_applications_student.length === 0
+      );
+      const teachersToAttribute = mentorList!.user_by_role.filter(
+        (item) => item.user?.mentor_available?.available === true &&
+        (item.user?.matched.aggregate?.count ?? 0) < 5
+      );
 
-        const freshmanToAttribute = freshmanList?.user.filter(
-          (item) => applications.findIndex((i) => i[0] === item.id) === -1
-        );
+      if (teachersToAttribute.length === 0) {
+        message.error("没有可用的导师");
+        return;
+      }
 
-        if (freshmanToAttribute?.length === 0) {
-          break;
-        } else {
-          const student = freshmanToAttribute![0];
+      if (freshmanToAttribute.length === 0) {
+        message.success("随机分配完成");
+        return;
+      }
 
-          const teachersToAttribute = mentorList?.user_by_role.filter(
-            (item) => item.user?.mentor_available?.available === true &&
-            (item.user?.matched.aggregate?.count ?? 0 < 5)
-          );
-          if (teachersToAttribute?.length === 0) {
-            message.error("没有可用的导师");
-            break;
-          }
+      const student = freshmanToAttribute[Date.now() % freshmanToAttribute.length];
 
-          const minCount = Math.min(
-            ...teachersToAttribute!.map(
-              (item) => item.user?.matched.aggregate?.count ?? 0
-            )
-          );
-
-          const teachersWithMinCount = teachersToAttribute!.filter(
-            (item) => item.user?.matched.aggregate?.count === minCount
-          );
+      const minCount = Math.min(
+        ...teachersToAttribute.map(
+          (item) => item.user?.matched.aggregate?.count ?? 0
+        )
+      );
+      const teachersWithMinCount = teachersToAttribute.filter(
+        (item) => item.user?.matched.aggregate?.count === minCount
+      );
 
           const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
 
-          const iden = await addApplication({
-            variables: {
-              student_id: student._id!,
-              mentor_id: teacher._id!,
-              statement: "系统随机分配",
-            },
-          });
+      const { data } = await client.mutate<
+        AddMentorApplication,
+        AddMentorApplicationVariables
+      >({
+        mutation: ADD_MENTOR_APPLICATION,
+        variables: {
+          student_id: student._id,
+          mentor_id: teacher._id,
+          statement: "系统随机分配",
+        },
+      });
 
-          await updateApplicationStatus({
-            variables: {
-              id: iden.data?.insert_mentor_application?.returning[0].id!,
-              status: "approved",
-            },
-          });
+      await client.mutate<
+        UpdateMentorApplicationStatus,
+        UpdateMentorApplicationStatusVariables
+      >({
+        mutation: UPDATE_MENTOR_APPLICATION_STATUS,
+        variables: {
+          id: data?.insert_mentor_application?.returning[0].id!,
+          status: "approved",
+        },
+      });
 
-          refetchApplications();
-          refetchFreshmanList();
-          refetchMentorList();
-        }
-      }
+      message.success("分配成功");
+      window.location.reload();
+      return;
     } catch {
-      message.error("随机分配失败");
+      message.error("分配失败");
     } finally {
       setAttributing(false);
     }
@@ -731,8 +726,6 @@ const MentorApplicationPage = () => {
   const [importFormVisible, setImportFormVisible] = useState(false);
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [parseProgress, setParseProgress] = useState(0);
-
-  const client = useApolloClient();
 
   const handleImport = async () => {
     if (!fileList || fileList.length !== 1) {
@@ -1127,15 +1120,16 @@ const MentorApplicationPage = () => {
             <Col span={3}>
               <Button
                 type="primary"
-                onClick={() => {
-                  Modal.confirm({
-                    title: "确认进行系统随机分配？",
-                    content: "此操作不可撤销",
-                    okText: "确认",
-                    cancelText: "取消",
-                    onOk: handleAttribute,
-                  });
-                }}
+                onClick={handleAttribute}
+                // onClick={() => {
+                //   Modal.confirm({
+                //     title: "确认进行系统随机分配？",
+                //     content: "此操作不可撤销",
+                //     okText: "确认",
+                //     cancelText: "取消",
+                //     onOk: handleAttribute,
+                //   });
+                // }}
                 loading={attributing}
               >
                 随机分配

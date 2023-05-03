@@ -180,9 +180,13 @@ query GetMentorInfo($mentor_id: String!) {
 }
 
 query GetFreshmanList {
-
   user(where: {id: {_gt: "2021999999", _lte: "2022999999"}}) {
     _id
     id
+    mentor_applications_student(where: {status: {_eq: "approved"}}) {
+      student_id
+      mentor_id
+      statement
+    }
   }
 }

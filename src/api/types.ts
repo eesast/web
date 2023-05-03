@@ -2541,10 +2541,21 @@ export interface GetMentorInfoVariables {
 // GraphQL query operation: GetFreshmanList
 // ====================================================
 
+export interface GetFreshmanList_user_mentor_applications_student {
+  __typename: "mentor_application";
+  student_id: string;
+  mentor_id: string;
+  statement: string;
+}
+
 export interface GetFreshmanList_user {
   __typename: "user";
   _id: string;
   id: any | null;
+  /**
+   * An array relationship
+   */
+  mentor_applications_student: GetFreshmanList_user_mentor_applications_student[];
 }
 
 export interface GetFreshmanList {
