@@ -147,7 +147,7 @@ const MentorApplicationPage = () => {
     loading: applicationForCounselorsLoading,
     error: applicationForCounselorsError,
     data: applicationForCounselorsData,
-    refetch: refetchApplicationsForCounselors,
+    // refetch: refetchApplicationsForCounselors,
   } = useQuery<GetMentorApplicationsForCounselors>(
     GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
     {
@@ -642,7 +642,7 @@ const MentorApplicationPage = () => {
   const {
     data: freshmanList,
     error: freshmanListError,
-    refetch: refetchFreshmanList,
+    // refetch: refetchFreshmanList,
   } = useQuery<GetFreshmanList>(GET_FRESHMAN_LIST, {
     skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
   });
