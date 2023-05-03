@@ -702,7 +702,6 @@ const MentorApplicationPage = () => {
           console.log(teachersWithMinCount)
 
           const teacher = teachersWithMinCount[Date.now() % teachersWithMinCount.length];
-          console.log(teacher)
 
           const iden = await addApplication({
             variables: {
