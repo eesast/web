@@ -13,11 +13,11 @@ import {
   FireOutlined,
   LockOutlined,
   DoubleLeftOutlined,
-  // ExperimentOutlined
+  ExperimentOutlined
 } from "@ant-design/icons";
 import { getUserInfo } from "../../helpers/auth";
 //antd的包
-import { Menu, Layout, message } from "antd";
+import { Menu, Layout, Typography, message } from "antd";
 //以下为子分页
 //import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
@@ -28,7 +28,7 @@ import ManagePage from "./ManagePage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 import CodePage from "./CodePage";
-// import PlayPage from "./PlayPage";
+import PlayPage from "./PlayPage";
 import ManageTeamsPage from "./ManageTeamsPage";
 import SettingPage from "./SettingPage";
 import NotFoundPage from "../NotFoundPage";
@@ -44,6 +44,7 @@ import { isMobileOnly } from "react-device-detect";
 //antd部件实例化
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
+const { Text } = Typography;
 
 const MenuPage: React.FC = () => {
   const userInfo = getUserInfo();
@@ -137,10 +138,13 @@ const MenuPage: React.FC = () => {
               <Link to={`${url}/codes`}>代码</Link>
             </Menu.Item>
           </SubMenu>
-          {/* <Menu.Item key="play">
+          <Menu.Item key="play">
             <ExperimentOutlined />
-            <Link to={`${url}/play`}>开玩</Link>
-          </Menu.Item> */}
+            <Link to={`${url}/play`}>
+              开玩
+              <Text disabled>  beta</Text>
+            </Link>
+          </Menu.Item>
 
           {(["root", "counselor"].includes(userInfo?.role!) || isContestManagerData?.contest_manager.length === 1) ? (
             <SubMenu
@@ -195,9 +199,9 @@ const MenuPage: React.FC = () => {
             <CodePage />
           </AuthRoute>
 
-          {/* <AuthRoute path={`${path}/play`}>
+          <AuthRoute path={`${path}/play`}>
             <PlayPage />
-          </AuthRoute> */}
+          </AuthRoute>
           <AuthRoute exact path={`${path}/manageTeams`}>
             <ManageTeamsPage />
           </AuthRoute>
