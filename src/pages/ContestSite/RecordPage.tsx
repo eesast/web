@@ -180,7 +180,9 @@ const RecordPage: React.FC = () => {
                     下载
                     </Button>
                     <Col span={1} />
-                    <Button>
+                    <Button
+                    disabled={record.status !== true}
+                    >
                         <Link to={`/contest/${Contest_id}/play/${record.room_id}`}>查看</Link>
                     </Button>
                 </Row>
