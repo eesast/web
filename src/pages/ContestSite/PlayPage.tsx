@@ -199,13 +199,11 @@ const PlayPage: React.FC = () => {
                         defaultActiveFirstOption={false}
                         showArrow={false}
                         loading={scoreteamListLoading}
-                        optionFilterProp="label"
-                        filterOption={ (input, option) => {
-                            return option?.value?.indexOf(input) !== -1;
-                        } }
+                        optionFilterProp="children"
                         options={(scoreteamListData?.contest_team || []).map((d) => ({
                         value: d.team_id,
                         label: d.team_name,
+                        children: d.team_name,
                         }))}
                     />
                 </Form.Item>
@@ -221,13 +219,11 @@ const PlayPage: React.FC = () => {
                         defaultActiveFirstOption={false}
                         showArrow={false}
                         loading={scoreteamListLoading}
-                        optionFilterProp="label"
-                        filterOption={ (input, option) => {
-                            return option?.value?.indexOf(input) !== -1;
-                        } }
+                        optionFilterProp="children"
                         options={(scoreteamListData?.contest_team || []).map((d) => ({
                         value: d.team_id,
                         label: d.team_name,
+                        children: d.team_name,
                         }))}
                     />
                 </Form.Item>
