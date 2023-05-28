@@ -110,15 +110,22 @@ const PlayPage: React.FC = () => {
     const history = useHistory();
 
     const handleRefresh = async () => {
-        form.validateFields();
-        if (form.getFieldsError()){
-            message.error("请正确填写表单");
-            return;
+        try {
+            await form.validateFields();
+            const values = form.getFieldsValue();
+            const room_id = `Team_${values.Student}--vs--Team_${values.Tricker}--${values.Map}`;
+            history.push(`/contest/${Contest_id}/play/${room_id}/${values.Speed}`);
+            return history.go(0);
         }
-        const values = form.getFieldsValue();
-        const room_id = `Team_${values.Student}--vs--Team_${values.Tricker}--${values.Map}`;
-        history.push(`/contest/${Contest_id}/play/${room_id}/${values.Speed}`);
-        return history.go(0);
+        catch {
+            var errors = form.getFieldsError();
+            for (let i = 0; i < 4; i++) {
+                if (errors[i].errors.length !== 0) {
+                    console.log(errors[i].errors[0]);
+                    return;
+                }
+            }
+        }
     };
 
     return (
