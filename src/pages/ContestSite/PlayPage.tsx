@@ -45,12 +45,23 @@ const PlayPage: React.FC = () => {
     // const projectName = "JumpJump-Build";
     const projectName = "THUAI6_WebGL";
 
+    const handleCacheControl = (url: String) => {
+        if (url.match(/\.data/) || url.match(/\.bundle/)) {
+          return "must-revalidate";
+        }
+        if (url.match(/\.mp4/) || url.match(/\.wav/)) {
+          return "immutable";
+        }
+        return "no-store";
+    };
+
     const { unityProvider, sendMessage, isLoaded, unload, requestFullscreen } = useUnityContext({
         loaderUrl: projectDir + projectName + ".loader.js",
         dataUrl: projectDir + projectName + ".data",
         frameworkUrl: projectDir + projectName + ".framework.js",
         codeUrl: projectDir + projectName + ".wasm",
         streamingAssetsUrl: projectDir,
+        cacheControl: handleCacheControl,
     });
 
     // We'll use a state to store the device pixel ratio.
@@ -112,6 +123,7 @@ const PlayPage: React.FC = () => {
     const handleRefresh = async () => {
         try {
             await form.validateFields();
+            await handleQuit();
             const values = form.getFieldsValue();
             const room_id = `Team_${values.Student}--vs--Team_${values.Tricker}--${values.Map}`;
             history.push(`/contest/${Contest_id}/play/${room_id}/${values.Speed}`);
@@ -166,7 +178,7 @@ const PlayPage: React.FC = () => {
                             margin-top: 25px;
                         `}
                         onClick={() => {
-                            handleQuit();
+                            // handleQuit();
                             setIsPrompt(false);
                             setModalVisible(true);
                         }}
@@ -183,7 +195,7 @@ const PlayPage: React.FC = () => {
                 onCancel={() => {
                 setModalVisible(false);
                 form.resetFields();
-                history.go(0);
+                // history.go(0);
                 }}
                 onOk={handleRefresh}
                 // maskClosable={true}
