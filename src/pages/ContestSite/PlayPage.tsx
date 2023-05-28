@@ -47,15 +47,15 @@ const PlayPage: React.FC = () => {
 
     const handleCacheControl = (url: String) => {
         if (url.match(/\.data/) || url.match(/\.bundle/)) {
-          return "must-revalidate";
+            return "must-revalidate";
         }
         if (url.match(/\.mp4/) || url.match(/\.wav/)) {
-          return "immutable";
+            return "immutable";
         }
         return "no-store";
     };
 
-    const { unityProvider, sendMessage, isLoaded, unload, requestFullscreen } = useUnityContext({
+    const { unityProvider, sendMessage, isLoaded, unload, requestFullscreen, loadingProgression } = useUnityContext({
         loaderUrl: projectDir + projectName + ".loader.js",
         dataUrl: projectDir + projectName + ".data",
         frameworkUrl: projectDir + projectName + ".framework.js",
@@ -144,6 +144,9 @@ const PlayPage: React.FC = () => {
         <Layout>
             <Row>
                 <Col span={20}>
+                    {isLoaded === false && (
+                        <Row>Loading Application... {Math.round(loadingProgression * 100)}%</Row>
+                    )}
                     <Unity
                         unityProvider={unityProvider}
                         css={`
