@@ -782,6 +782,36 @@ export interface GetAllTeamInfo_scoreVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetAllTeamInfo_compile
+// ====================================================
+
+export interface GetAllTeamInfo_compile_contest_team {
+  __typename: "contest_team";
+  team_name: string;
+  score: string | null;
+  status: string | null;
+  status2: string | null;
+  contest_score: string | null;
+  team_id: any;
+}
+
+export interface GetAllTeamInfo_compile {
+  /**
+   * fetch data from the table: "contest_team"
+   */
+  contest_team: GetAllTeamInfo_compile_contest_team[];
+}
+
+export interface GetAllTeamInfo_compileVariables {
+  contest_id: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetTeamInfo
 // ====================================================
 

@@ -12,8 +12,8 @@ import {
 } from "antd";
 import { ArrowsAltOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 
-import { GetAllTeamInfo_score, GetAllTeamInfo_scoreVariables } from "../../api/types";
-import { GetAllTeamInfo_score as GETALLTEAMSCORE } from "../../api/contest.graphql";
+import { GetAllTeamInfo_compile, GetAllTeamInfo_compileVariables } from "../../api/types";
+import { GetAllTeamInfo_compile as GETALLTEAMCOMPILE } from "../../api/contest.graphql";
 import { useQuery } from "@apollo/client";
 
 import { Unity, useUnityContext } from "react-unity-webgl";
@@ -24,20 +24,19 @@ const PlayPage: React.FC = () => {
     const Contest_id = location.pathname.split("/")[2];
     const room_id = location.pathname.split("/")[4];
     const playback_speed = location.pathname.split("/")[5];
-    console.log("room_id: ", room_id);
 
     const {
         data: scoreteamListData,
         loading: scoreteamListLoading,
         error: scoreteamListError,
-    } = useQuery<GetAllTeamInfo_score, GetAllTeamInfo_scoreVariables>(GETALLTEAMSCORE, {
+    } = useQuery<GetAllTeamInfo_compile, GetAllTeamInfo_compileVariables>(GETALLTEAMCOMPILE, {
         variables: {
         contest_id: Contest_id
         }
     });
     useEffect(() => {
         if (scoreteamListError) {
-          message.error("获取对战信息失败");
+          message.error("获取队伍列表失败");
           console.log(scoreteamListError.message);
         }
     })
@@ -99,6 +98,7 @@ const PlayPage: React.FC = () => {
                 sendMessage("InputManager", "AfterInputFilename", projectDir + "test.thuaipb");
             }
             else {
+                console.log("room_id: ", room_id);
                 sendMessage("InputManager", "AfterInputPlaySpeed", playback_speed? playback_speed: "3");
                 sendMessage("InputManager", "AfterInputFilename", "https://api.eesast.com/room/" + room_id);
             }
@@ -110,14 +110,13 @@ const PlayPage: React.FC = () => {
     const history = useHistory();
 
     const handleRefresh = async () => {
-        try {
-          form.validateFields();
-        } catch { }
-
+        form.validateFields();
+        if (form.getFieldsError()){
+            message.error("请正确填写表单");
+            return;
+        }
         const values = form.getFieldsValue();
-        console.log("values: ", values);
         const room_id = `Team_${values.Student}--vs--Team_${values.Tricker}--${values.Map}`;
-        console.log("room_id: ", room_id);
         history.push(`/contest/${Contest_id}/play/${room_id}/${values.Speed}`);
         return history.go(0);
     };
@@ -173,14 +172,15 @@ const PlayPage: React.FC = () => {
                 visible={modalVisible}
                 title={"又在玩新游戏啊"}
                 centered
-                okText="刷新"
+                okText="前往"
                 onCancel={() => {
                 setModalVisible(false);
                 form.resetFields();
+                history.go(0);
                 }}
                 onOk={handleRefresh}
-                maskClosable={false}
-                destroyOnClose
+                // maskClosable={true}
+                // destroyOnClose
             >
                 <Form
                 form={form}

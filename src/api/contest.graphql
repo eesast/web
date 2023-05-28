@@ -129,6 +129,17 @@ query GetAllTeamInfo_score($contest_id: uuid!) {
   }
 }
 
+# 查询有分数的队伍的信息
+query GetAllTeamInfo_compile($contest_id: uuid!) {
+  contest_team(where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: "compiled"}}}) {
+    team_name
+    score
+    status
+    status2
+    contest_score
+    team_id
+  }
+}
 
 # 查询某只队伍的信息
 query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
