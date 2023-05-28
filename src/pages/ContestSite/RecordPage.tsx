@@ -183,7 +183,7 @@ const RecordPage: React.FC = () => {
                     <Button
                     disabled={record.status !== true}
                     >
-                        <Link to={`/contest/${Contest_id}/play/${record.room_id}`}>查看</Link>
+                        <Link to={`/contest/${Contest_id}/play/${record.room_id}/3`}>查看</Link>
                     </Button>
                 </Row>
             ),
