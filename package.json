@@ -12,7 +12,7 @@
     "@types/file-saver": "2.0.5",
     "@types/is-number": "7.0.3",
     "@types/is-url": "1.2.30",
-    "@types/jest": "29.5.1",
+    "@types/jest": "29.5.2",
     "@types/jwt-decode": "2.2.1",
     "@types/lodash.get": "4.4.7",
     "@types/node": "18.16.16",
