@@ -2996,9 +2996,9 @@
     tslib "^2.3.0"
 
 "@xmldom/xmldom@^0.8.6":
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.7.tgz#8b1e39c547013941974d83ad5e9cf5042071a9a0"
-  integrity sha512-sI1Ly2cODlWStkINzqGrZ8K6n+MTSbAeQnAipGyL+KZCXuHaRlj2gyyy8B/9MvsFFqN7XHryQnB2QwhzvJXovg==
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.8.tgz#d0d11511cbc1de77e53342ad1546a4d487d6ea72"
+  integrity sha512-0LNz4EY8B/8xXY86wMrQ4tz6zEHZv9ehFMJPm8u2gq5lQ71cfRKdaKyxfJAx5aUoyzx0qzgURblTisPGgz3d+Q==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -5151,9 +5151,9 @@ core-util-is@~1.0.0:
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
 cos-js-sdk-v5@^1.4.16:
-  version "1.4.17"
-  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.17.tgz#b8db1c533999415de85fa4014e3abe6de3daecbd"
-  integrity sha512-QIHgeEhlK3JrEeBz2qHD61wcN33M4NDfok2LrVdkGkyKXX86xMsBVBGqiVB0hG2BMpmb3AK9F6aAE6zBjndIqg==
+  version "1.4.18"
+  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.18.tgz#91fd8bb0ce0c1dc76f6aac76a02fff49988fc0f4"
+  integrity sha512-vTy8p59qnEoNJH/1chBSU8lSJDEcKV5PeOlAngmPbmHEwoMNJmKmA71nnquGIWHI4KpR4n57yC+RKP6RZkgsBg==
   dependencies:
     "@xmldom/xmldom" "^0.8.6"
 
