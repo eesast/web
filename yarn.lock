@@ -3080,7 +3080,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@xmldom/xmldom@^0.8.6":
+"@xmldom/xmldom@^0.8.6", "@xmldom/xmldom@^0.8.8":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.8.tgz#d0d11511cbc1de77e53342ad1546a4d487d6ea72"
   integrity sha512-0LNz4EY8B/8xXY86wMrQ4tz6zEHZv9ehFMJPm8u2gq5lQ71cfRKdaKyxfJAx5aUoyzx0qzgURblTisPGgz3d+Q==
@@ -5908,12 +5908,12 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docxtemplater@3.33.0:
-  version "3.33.0"
-  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.33.0.tgz#9edd02621bcde84c8b70e66f19a47aadc9bf5c7b"
-  integrity sha512-AWNEQwI6KpndL4X0IKy6nQKOyvcg7aPsjz8gI44rpgp19XzvEobhRqx+S4UCW3OdAEZhfAzW46qCHMNdSOpPEA==
+docxtemplater@3.37.11:
+  version "3.37.11"
+  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.37.11.tgz#684e68cee6fb07d253f8de87234a5365eb6a0b6a"
+  integrity sha512-nGrC0hVBLmBWiWVhczdjbP8bK9569Um3NlRanaum/o9Nib9Run9LvMvIYR/KWvvzrHjCa7X8dXwNYr0aB4KjbA==
   dependencies:
-    "@xmldom/xmldom" "^0.8.6"
+    "@xmldom/xmldom" "^0.8.8"
 
 dom-accessibility-api@^0.5.6, dom-accessibility-api@^0.5.9:
   version "0.5.13"
