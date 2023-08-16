@@ -892,7 +892,7 @@ const MentorApplicationPage = () => {
                     {item.mentor.department}
                   </Descriptions.Item>
                   <Descriptions.Item label="申请时间" span={2}>
-                    {dayjs(item.created_at).format("llll")}
+                    {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
                   </Descriptions.Item>
                   <Descriptions.Item label="申请状态">
                     {item.status === "submitted" ? (
@@ -1007,7 +1007,7 @@ const MentorApplicationPage = () => {
                     </Descriptions.Item>
                   )}
                   <Descriptions.Item label="申请时间" span={2}>
-                    {dayjs(item.created_at).format("llll")}
+                    {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
                   </Descriptions.Item>
                   <Descriptions.Item label="申请状态">
                     {item.status === "submitted" ? (
