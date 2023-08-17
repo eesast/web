@@ -71,7 +71,7 @@ import {
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
-import { EditOutlined, SearchOutlined } from "@ant-design/icons";
+import { EditOutlined, SearchOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { getStatusText } from "../../helpers/application";
 import { getUserInfo } from "../../helpers/auth";
 import { pick } from "../../helpers/utils";
@@ -931,14 +931,25 @@ const MentorApplicationPage = () => {
                         <Button
                           danger
                           loading={deleteMentorApplicationLoading}
-                          onClick={async () => {
-                            await deleteMentorApplication({
-                              variables: {
-                                id: item.id,
+                          onClick={() => {
+                            Modal.confirm({
+                              centered: true,
+                              title: '确认删除申请？',
+                              icon: <ExclamationCircleFilled />,
+                              content: '删除后可重新申请',
+                              okText: '确认',
+                              okType: 'danger',
+                              cancelText: '取消',
+                              onOk: async () => {
+                                await deleteMentorApplication({
+                                  variables: {
+                                    id: item.id,
+                                  },
+                                });
+                                refetchApplications();
+                                message.success("删除申请成功");
                               },
                             });
-                            refetchApplications();
-                            message.success("删除申请成功");
                           }}
                         >
                           删除
