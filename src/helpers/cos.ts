@@ -6,7 +6,7 @@ let team_id = "-1";
 const cos = new COS({
   getAuthorization: async (options: object, callback: Function) => {
     try {
-      const response = await axios.get("/static", {
+      const response = await axios.get("/static/team_code", {
         params: {
           team_id: team_id
         }

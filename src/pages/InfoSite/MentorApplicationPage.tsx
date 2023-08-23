@@ -18,6 +18,7 @@ import {
   Timeline,
   Tooltip,
   Typography,
+  Upload,
 } from "antd";
 import {
   useQuery,
@@ -38,6 +39,7 @@ import {
   GetFreshmanList as GET_FRESHMAN_LIST,
   UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
   UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
+  UpdateMentorApplicationChatStatus as UPDATE_MENTOR_APPLICATION_CHAT_STATUS,
   UpsertMentorInfo as UPSERT_MENTOR_INFO,
 } from "../../api/info_mentor.graphql";
 import { GetUserByName as GET_USER_BY_NAME } from "../../api/user.graphql";
@@ -67,14 +69,18 @@ import {
   UpdateMentorApplicationVariables,
   UpsertMentorInfo,
   UpsertMentorInfoVariables,
+  UpdateMentorApplicationChatStatus,
+  UpdateMentorApplicationChatStatusVariables,
 } from "../../api/types";
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
-import { EditOutlined, SearchOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+import { EditOutlined, SearchOutlined, ExclamationCircleFilled, UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import { getStatusText } from "../../helpers/application";
 import { getUserInfo } from "../../helpers/auth";
 import { pick } from "../../helpers/utils";
+import { RcCustomRequestOptions } from "antd/lib/upload/interface";
+import { uploadFile, downloadFile, listFile } from "../../helpers/cos_new";
 
 const { Text } = Typography;
 
@@ -837,6 +843,79 @@ const MentorApplicationPage = () => {
     UPSERT_MENTOR_INFO
   );
 
+  const handleApplicationDelete = async (application_id: any) => {
+    try{
+      await deleteMentorApplication({
+        variables: {
+          id: application_id,
+        },
+      });
+      refetchApplications();
+      message.success("删除申请成功");
+    } catch (err) {
+      console.log(err);
+      message.error("删除申请失败");
+    }
+    
+  }
+
+  const [
+    updateApplicationChatStatus
+  ] = useMutation<
+    UpdateMentorApplicationChatStatus,
+    UpdateMentorApplicationChatStatusVariables
+  >(UPDATE_MENTOR_APPLICATION_CHAT_STATUS);
+  
+  //更新chat_status状态并refetch
+  const handleApplicationChatStatusChange = async (chat_status: boolean, application_id: any) => {
+    try{
+      await updateApplicationChatStatus({
+        variables: {
+          id: application_id,
+          chat_status: chat_status,
+        },
+      });
+      await refetchApplications();
+    } catch (err) {
+      console.log(err);
+      message.error("谈话记录状态更新失败");
+    }
+  }
+
+  const handleUploadRecord = async (e: RcCustomRequestOptions, application_id: any) => {
+    try{
+      const url = `chat_record/${application_id}/${e.file.name}`;
+      const result = await uploadFile(e.file, url, "chat_record", {application_id: application_id});
+      e.onSuccess(result, e.file);
+      handleApplicationChatStatusChange(true, application_id);
+    } catch(err) {
+      console.log(err);
+      e.onError(new Error("上传失败"));
+    }
+  };
+
+  const handleOnchangeRecord = async (info: any) => {
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} 上传成功`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} 上传失败`);
+    }
+  };
+
+  const handleDownloadRecord = async (application_id: any) => {
+    try{
+      const fileList = await listFile(`chat_record/${application_id}/`, "chat_record", {application_id: application_id});
+      const url = fileList.reduce((max, item) => {
+          return new Date(item.LastModified) > new Date(max.LastModified) ? item : max;
+      }).Key;
+      message.info("开始下载");
+      downloadFile(url, "chat_record", {application_id: application_id});
+    } catch (err) {
+      console.log(err);
+      message.error(`下载失败`);
+    }
+  };
+
   return (
     <Space
       direction="vertical"
@@ -940,15 +1019,7 @@ const MentorApplicationPage = () => {
                               okText: '确认',
                               okType: 'danger',
                               cancelText: '取消',
-                              onOk: async () => {
-                                await deleteMentorApplication({
-                                  variables: {
-                                    id: item.id,
-                                  },
-                                });
-                                refetchApplications();
-                                message.success("删除申请成功");
-                              },
+                              onOk: () => handleApplicationDelete(item.id),
                             });
                           }}
                         >
@@ -957,6 +1028,36 @@ const MentorApplicationPage = () => {
                       </Col>
                     </Row>
                   </Descriptions.Item>
+                  {item.status === "approved" && (
+                    <Descriptions.Item label="谈话记录" span={2}>
+                      <Row align="middle">
+                        <Col span={6}>
+                          {item.chat_status === false ?
+                            <Badge status="processing" text="未提交" /> : 
+                            <Badge status="success" text="已提交" />
+                          }
+                        </Col>
+                        <Col span={5}>
+                          <Upload
+                            customRequest={(e) => {handleUploadRecord(e, item.id);}}
+                            onChange={handleOnchangeRecord}
+                            showUploadList={false}
+                            // onRemove={handleRemoveRecord}
+                            // multiple={false}
+                          >
+                            <Button icon={<UploadOutlined />}>提交</Button>
+                          </Upload>
+                        </Col>
+                        { item.chat_status === true && 
+                        <Col span={5}>
+                          <Button icon={<DownloadOutlined/>} 
+                            onClick={() => handleDownloadRecord(item.id)}
+                          >下载</Button>
+                        </Col>
+                        }
+                      </Row>
+                    </Descriptions.Item>
+                  )}
                 </Descriptions>
               );
             }}
@@ -1047,6 +1148,23 @@ const MentorApplicationPage = () => {
                       <Radio value="rejected">拒绝该同学</Radio>
                     </Radio.Group>
                   </Descriptions.Item>
+                  {item.status === "approved" && (
+                    <Descriptions.Item label="谈话记录" span={2}>
+                      {item.chat_status === false ?
+                        <Badge status="processing" text="未提交" /> : 
+                        <Row align="middle">
+                          <Col span={8}>
+                            <Badge status="success" text="已提交" />
+                          </Col>
+                          <Col span={8}>
+                            <Button onClick={() => handleDownloadRecord(item.id)}>
+                              下载
+                            </Button>
+                          </Col>
+                        </Row>
+                      }
+                    </Descriptions.Item>
+                  )}
                 </Descriptions>
               );
             }}

@@ -2164,6 +2164,7 @@ export interface GetMentorApplications_mentor_application {
    * approved | submitted
    */
   status: string;
+  chat_status: boolean;
   created_at: any;
   updated_at: any;
 }
@@ -2324,6 +2325,40 @@ export interface UpdateMentorApplicationStatus {
 export interface UpdateMentorApplicationStatusVariables {
   id: any;
   status: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateMentorApplicationChatStatus
+// ====================================================
+
+export interface UpdateMentorApplicationChatStatus_update_mentor_application_returning {
+  __typename: "mentor_application";
+  id: any;
+}
+
+export interface UpdateMentorApplicationChatStatus_update_mentor_application {
+  __typename: "mentor_application_mutation_response";
+  /**
+   * data from the rows affected by the mutation
+   */
+  returning: UpdateMentorApplicationChatStatus_update_mentor_application_returning[];
+}
+
+export interface UpdateMentorApplicationChatStatus {
+  /**
+   * update data of the table: "mentor_application"
+   */
+  update_mentor_application: UpdateMentorApplicationChatStatus_update_mentor_application | null;
+}
+
+export interface UpdateMentorApplicationChatStatusVariables {
+  id: any;
+  chat_status: boolean;
 }
 
 /* tslint:disable */
