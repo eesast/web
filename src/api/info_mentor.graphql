@@ -21,6 +21,7 @@ query GetMentorApplications($_id: String!) {
     }
     statement
     status
+    chat_status
     created_at
     updated_at
   }
@@ -74,6 +75,17 @@ mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
   update_mentor_application(
     where: { id: { _eq: $id } }
     _set: { status: $status }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!){
+  update_mentor_application(
+    where: { id: { _eq: $id } }
+    _set: { chat_status: $chat_status }
   ) {
     returning {
       id
