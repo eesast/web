@@ -121,40 +121,38 @@ const NoticePage: React.FC = () => {
   const handleNoticeEdit = async () => {
     try {
       form.validateFields();
-    } catch {}
-
-    const values = form.getFieldsValue();
-    const files = fileList.map((f) => ({
-      filename: f.name,
-      url: "/upload/" + f.name,
-    }));
-
-    if (editingNotice) {
-      await updateNotice({
-        variables: {
-          id: editingNotice.id,
-          title: values.title,
-          content: values.content,
-          files: JSON.stringify(files),
-          notice_type: editingNotice.notice_type,
-        },
-      });
-    } else {
-      await addNotice({
-        variables: {
-          title: values.title,
-          content: values.content,
-          files: JSON.stringify(files),
-          notice_type: values.type,
-        },
-      });
+      const values = form.getFieldsValue();
+      const files = fileList.map((f) => ({
+        filename: f.name,
+        url: "/upload/" + f.name,
+      }));
+      if (editingNotice) {
+        await updateNotice({
+          variables: {
+            id: editingNotice.id,
+            title: values.title,
+            content: values.content,
+            files: JSON.stringify(files),
+            notice_type: editingNotice.notice_type,
+          },
+        });
+      } else {
+        await addNotice({
+          variables: {
+            title: values.title,
+            content: values.content,
+            files: JSON.stringify(files),
+            notice_type: values.type,
+          },
+        });
+      }
+      setModalVisible(false);
+      setEditingNotice(undefined);
+      form.resetFields();
+      refetchNotices();
+    } catch (err) {
+      console.log(err);
     }
-
-    setModalVisible(false);
-    setEditingNotice(undefined);
-    form.resetFields();
-
-    refetchNotices();
   };
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
@@ -449,7 +447,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               shape="round"
               icon={<DownloadOutlined />}
               size="small"
-              onClick={() => downloadFile(file)}
+              onClick={() => downloadFile(file.url)}
             >
               {file.filename}
             </Button>
