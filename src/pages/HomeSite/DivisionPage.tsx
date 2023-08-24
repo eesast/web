@@ -46,7 +46,7 @@ const DivisionPage: React.FC = () => {
         <StyledTypography>
           <Typography.Title level={2}>软件部</Typography.Title>
           <Image
-            src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-software-group-photo.png`}
+            src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-software-group-photo-2023.jpg`}
             alt="软件部集体照"
             width="900"
           />
