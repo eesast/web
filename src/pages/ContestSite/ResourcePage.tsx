@@ -447,7 +447,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               size="small"
               onClick={() => {
                 message.info("开始下载：" + file.filename);
-                downloadFile(file);
+                downloadFile(file.url);
               }}
             >
               {file.filename}

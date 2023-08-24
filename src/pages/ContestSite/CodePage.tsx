@@ -396,12 +396,12 @@ const CodePage: React.FC = () => {
         try {
           if (lang === "cpp") {
             const url = `THUAI6/${teamid}/player${codeRole}.cpp`;
-            const result = await uploadFile(e.file, url, teamid);
+            const result = await uploadFile(e.file, url, "team_code", {team_id: teamid});
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
           } else if (lang === "py") {
             const url = `THUAI6/${teamid}/player${codeRole}.py`;
-            const result = await uploadFile(e.file, url, teamid);
+            const result = await uploadFile(e.file, url, "team_code", {team_id: teamid});
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
           } else {
@@ -437,9 +437,9 @@ const CodePage: React.FC = () => {
         try {
           if (file.response?.status === 200) {
             if (lang === "cpp") {
-              await deleteFile(`/THUAI6/${teamid}/player${codeRole}.cpp`, teamid);
+              await deleteFile(`/THUAI6/${teamid}/player${codeRole}.cpp`, "team_code", {team_id: teamid});
             } else if (lang === "py") {
-              await deleteFile(`/THUAI6/${teamid}/player${codeRole}.py`, teamid);
+              await deleteFile(`/THUAI6/${teamid}/player${codeRole}.py`, "team_code", {team_id: teamid});
             }
           }
         } catch (err) {
@@ -449,8 +449,8 @@ const CodePage: React.FC = () => {
 
     const handleDownload = async () => {
         try {
-          const cpp_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.cpp`, teamid);
-          const py_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.py`, teamid);
+          const cpp_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.cpp`, "team_code", {team_id: teamid});
+          const py_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.py`, "team_code", {team_id: teamid});
           if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
             throw(Error("File error"));
           }
@@ -460,7 +460,7 @@ const CodePage: React.FC = () => {
               url: `/THUAI6/${teamid}/player${codeRole}.cpp`
             }
             message.info("开始下载:" + codefile.filename);
-            downloadFile(codefile, teamid).catch(e => {
+            downloadFile(codefile.url, "team_code", {team_id: teamid}).catch(e => {
               message.error("下载失败");
             })
           }
@@ -470,7 +470,7 @@ const CodePage: React.FC = () => {
               url: `/THUAI6/${teamid}/player${codeRole}.py`
             }
             message.info("开始下载:" + codefile.filename);
-            downloadFile(codefile, teamid).catch(e => {
+            downloadFile(codefile.url, "team_code", {team_id: teamid}).catch(e => {
               message.error("下载失败");
             })
           }

@@ -80,7 +80,7 @@ import { getStatusText } from "../../helpers/application";
 import { getUserInfo } from "../../helpers/auth";
 import { pick } from "../../helpers/utils";
 import { RcCustomRequestOptions } from "antd/lib/upload/interface";
-import { uploadFile, downloadFile, listFile } from "../../helpers/cos_new";
+import { uploadFile, downloadFile, listFile } from "../../helpers/cos";
 
 const { Text } = Typography;
 
