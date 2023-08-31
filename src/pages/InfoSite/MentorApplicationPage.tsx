@@ -1178,7 +1178,7 @@ const MentorApplicationPage = () => {
             rowKey="_id"
             loading={mentorListLoading}
             dataSource={mentorList?.user_by_role.filter(
-              (item) => item.user?.mentor_available?.available !== false
+              (item) => item.user?.mentor_available?.available
             )}
             columns={mentorListColumnsForStudents}
           />
