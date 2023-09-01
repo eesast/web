@@ -5272,9 +5272,9 @@ core-util-is@~1.0.0:
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
 cos-js-sdk-v5@^1.4.16:
-  version "1.4.19"
-  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.19.tgz#8b0e25fe8c83dc3c845d659b64c1847c82c54619"
-  integrity sha512-14uRn9T65jN8O9FXGe4gQQ5V8sDjCGy5CsafjiyxvYbBfQwBQsFaFwMItGntKqKJSSKfD6yPDiM+VVV6gGZQgg==
+  version "1.4.20"
+  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.20.tgz#2ece3acf98c8e498b5425a5a6425ecb953b9b0ad"
+  integrity sha512-cGpmVoKN3iYBtWo8Lwp059fOrT4yyb/+I6fVS++Zyop/ZFJswDRkjnrASViwYd8N+hi3qWVAa6ruvvBsLutEwg==
   dependencies:
     "@xmldom/xmldom" "^0.8.6"
 
