@@ -2484,6 +2484,16 @@ export interface GetMentorList_user_by_role_user_total {
   aggregate: GetMentorList_user_by_role_user_total_aggregate | null;
 }
 
+export interface GetMentorList_user_by_role_user_total_for_grade_aggregate {
+  __typename: "mentor_application_aggregate_fields";
+  count: number;
+}
+
+export interface GetMentorList_user_by_role_user_total_for_grade {
+  __typename: "mentor_application_aggregate";
+  aggregate: GetMentorList_user_by_role_user_total_for_grade_aggregate | null;
+}
+
 export interface GetMentorList_user_by_role_user_mentor_available {
   __typename: "mentor_available";
   available: boolean;
@@ -2500,6 +2510,10 @@ export interface GetMentorList_user_by_role_user {
    */
   total: GetMentorList_user_by_role_user_total;
   /**
+   * An aggregate relationship
+   */
+  total_for_grade: GetMentorList_user_by_role_user_total_for_grade;
+  /**
    * An object relationship
    */
   mentor_available: GetMentorList_user_by_role_user_mentor_available | null;
@@ -2515,6 +2529,10 @@ export interface GetMentorList_user_by_role {
 
 export interface GetMentorList {
   user_by_role: GetMentorList_user_by_role[];
+}
+
+export interface GetMentorListVariables {
+  grade_time: any;
 }
 
 /* tslint:disable */

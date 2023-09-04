@@ -331,6 +331,9 @@ const MentorApplicationPage = () => {
     error: mentorListError,
     refetch: refetchMentorList,
   } = useQuery<GetMentorList>(GET_MENTOR_LIST, {
+    variables: {
+      grade_time: info.mentor.start_C,
+    },
     skip: userInfo?.role === "teacher",
   });
 
@@ -461,11 +464,11 @@ const MentorApplicationPage = () => {
     },
     {
       title: "申请人数",
-      dataIndex: ["user", "total", "aggregate", "count"],
+      dataIndex: ["user", "total_for_grade", "aggregate", "count"],
       key: "totalApplicants",
       sorter: (a, b) =>
-        (a.user?.total.aggregate?.count ?? 0) -
-        (b.user?.total.aggregate?.count ?? 0),
+        (a.user?.total_for_grade.aggregate?.count ?? 0) -
+        (b.user?.total_for_grade.aggregate?.count ?? 0),
     },
     {
       title: "操作",
@@ -1249,16 +1252,16 @@ const MentorApplicationPage = () => {
             <Col span={3}>
               <Button
                 type="primary"
-                onClick={handleAttribute}
-                // onClick={() => {
-                //   Modal.confirm({
-                //     title: "确认进行系统随机分配？",
-                //     content: "此操作不可撤销",
-                //     okText: "确认",
-                //     cancelText: "取消",
-                //     onOk: handleAttribute,
-                //   });
-                // }}
+                // onClick={handleAttribute}
+                onClick={() => {
+                  Modal.confirm({
+                    title: "确认进行系统随机分配？",
+                    content: "此操作不可撤销",
+                    okText: "确认",
+                    cancelText: "取消",
+                    onOk: handleAttribute,
+                  });
+                }}
                 loading={attributing}
               >
                 随机分配
