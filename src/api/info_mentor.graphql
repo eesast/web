@@ -128,7 +128,7 @@ mutation DeleteMentorApplication($id: uuid!) {
   }
 }
 
-query GetMentorList {
+query GetMentorList($grade_time: timestamptz!) {
   user_by_role(role: "teacher") {
     _id
     name
@@ -142,6 +142,13 @@ query GetMentorList {
         }
       }
       total: mentor_applications_mentor_aggregate {
+        aggregate {
+          count
+        }
+      }
+      total_for_grade: mentor_applications_mentor_aggregate(
+        where: { created_at: { _gte: $grade_time } } 
+      ) {
         aggregate {
           count
         }
@@ -192,7 +199,7 @@ query GetMentorInfo($mentor_id: String!) {
 }
 
 query GetFreshmanList {
-  user(where: {id: {_gt: "2021999999", _lte: "2022999999"}}) {
+  user(where: {id: {_gt: "2022999999", _lte: "2023999999"}}) {
     _id
     id
     mentor_applications_student(where: {status: {_eq: "approved"}}) {
