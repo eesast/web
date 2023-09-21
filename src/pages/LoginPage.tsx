@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -21,14 +21,14 @@ import { Location } from "history";
 import styled from "styled-components";
 import Center from "../components/Center";
 import axios, { AxiosError } from "axios";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
 import IsEmail from "isemail";
 import Picture from "../components/Picture";
 import { validatePassword } from "../helpers/validate";
 
-(window as any).recaptchaOptions = {
-  useRecaptchaNet: true,
-};
+// (window as any).recaptchaOptions = {
+//   useRecaptchaNet: true,
+// };
 
 const Background = styled.div`
   height: calc(100vh - 67px);
@@ -118,7 +118,7 @@ const LoginPage: React.FC = () => {
         } else {
           message.error("未知错误");
         }
-        reCaptchaRef.current?.reset();
+        // reCaptchaRef.current?.reset();
       }
     } else if (resetToken) {
       try {
@@ -153,7 +153,7 @@ const LoginPage: React.FC = () => {
         } else {
           message.error("未知错误");
         }
-        reCaptchaRef.current?.reset();
+        // reCaptchaRef.current?.reset();
       }
     } else if (register) {
       try {
@@ -172,7 +172,7 @@ const LoginPage: React.FC = () => {
         } else {
           message.error("未知错误");
         }
-        reCaptchaRef.current?.reset();
+        // reCaptchaRef.current?.reset();
       }
     } else {
       try {
@@ -210,7 +210,7 @@ const LoginPage: React.FC = () => {
     setLoading(false);
   };
 
-  const reCaptchaRef = useRef<ReCAPTCHA>(null);
+  // const reCaptchaRef = useRef<ReCAPTCHA>(null);
 
   const [form] = Form.useForm();
 
@@ -290,15 +290,17 @@ const LoginPage: React.FC = () => {
                     autoFocus
                   />
                 </Form.Item>
-                <Form.Item
-                  name="recaptcha"
-                  rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-                >
-                  <ReCAPTCHA
-                    ref={reCaptchaRef}
-                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-                  />
-                </Form.Item>
+                {
+                // <Form.Item
+                //   name="recaptcha"
+                //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+                // >
+                //   <ReCAPTCHA
+                //     ref={reCaptchaRef}
+                //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+                //   />
+                // </Form.Item>
+                }
                 <Form.Item>
                   <Button type="primary" htmlType="submit" loading={loading}>
                     发送验证邮件
@@ -413,15 +415,17 @@ const LoginPage: React.FC = () => {
                     autoFocus
                   />
                 </Form.Item>
-                <Form.Item
-                  name="recaptcha"
-                  rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-                >
-                  <ReCAPTCHA
-                    ref={reCaptchaRef}
-                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-                  />
-                </Form.Item>
+                {
+                // <Form.Item
+                //   name="recaptcha"
+                //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+                // >
+                //   <ReCAPTCHA
+                //     ref={reCaptchaRef}
+                //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+                //   />
+                // </Form.Item>
+                }
                 <Form.Item>
                   <Button type="primary" htmlType="submit" loading={loading}>
                     发送重置邮件
@@ -522,15 +526,17 @@ const LoginPage: React.FC = () => {
                     placeholder="确认密码"
                   />
                 </Form.Item>
-                <Form.Item
-                  name="recaptcha"
-                  rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-                >
-                  <ReCAPTCHA
-                    ref={reCaptchaRef}
-                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-                  />
-                </Form.Item>
+                {
+                // <Form.Item
+                //   name="recaptcha"
+                //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+                // >
+                //   <ReCAPTCHA
+                //     ref={reCaptchaRef}
+                //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+                //   />
+                // </Form.Item>
+                }
                 <Form.Item>
                   <Button type="primary" htmlType="submit" loading={loading}>
                     注册

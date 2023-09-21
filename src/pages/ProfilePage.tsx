@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { message, Form, Input, Button, Alert, Modal } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import styled from "styled-components";
@@ -21,7 +21,7 @@ import {
 import Loading from "../components/Loading";
 import axios, { AxiosError } from "axios";
 import IsEmail from "isemail";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
 import { getUserInfo } from "../helpers/auth";
 import { validateClass, validatePassword } from "../helpers/validate";
 
@@ -140,7 +140,7 @@ const ProfilePage: React.FC = () => {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [passwordUpdating, setPasswordUpdating] = useState(false);
   const [userDeleting, setUserDeleting] = useState(false);
-  const reCaptchaRef = useRef<ReCAPTCHA>(null);
+  // const reCaptchaRef = useRef<ReCAPTCHA>(null);
   const [form] = Form.useForm();
 
   if (loading) {
@@ -176,7 +176,7 @@ const ProfilePage: React.FC = () => {
       } else {
         message.error("未知错误");
       }
-      reCaptchaRef.current?.reset();
+      // reCaptchaRef.current?.reset();
       setVerifyLoading(false);
     }
   };
@@ -440,15 +440,17 @@ const ProfilePage: React.FC = () => {
               autoFocus
             />
           </Form.Item>
-          <Form.Item
-            name="recaptcha"
-            rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-          >
-            <ReCAPTCHA
-              ref={reCaptchaRef}
-              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-            />
-          </Form.Item>
+          {
+          // <Form.Item
+          //   name="recaptcha"
+          //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+          // >
+          //   <ReCAPTCHA
+          //     ref={reCaptchaRef}
+          //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+          //   />
+          // </Form.Item>
+          }
         </Form>
       </Modal>
     </Container>
