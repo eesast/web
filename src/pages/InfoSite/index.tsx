@@ -47,7 +47,7 @@ const FixedSider = styled(Sider)`
     padding-top: 72px;
   }
 `;
-
+console.log("hello");
 const InfoSite: React.FC = () => {
   const { path, url } = useRouteMatch();
   const location = useLocation();
