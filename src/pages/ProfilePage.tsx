@@ -184,8 +184,6 @@ const ProfilePage: React.FC = () => {
   const onFinish = async (values: any) => {
     const { password, registeredEmail, ...rest } = values;
 
-    setPasswordUpdating(true);
-
     if (userInfo?.role === "teacher") {
       updateUserForTeacher({
         variables: {
@@ -203,6 +201,7 @@ const ProfilePage: React.FC = () => {
     }
 
     if (password) {
+      setPasswordUpdating(true);
       try {
         await axios.put("/users", {
           password,
