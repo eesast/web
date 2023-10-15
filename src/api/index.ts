@@ -4,7 +4,7 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 import { setContext } from "@apollo/client/link/context";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://api.eesast.com";
+axios.defaults.baseURL = process.env.API_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
