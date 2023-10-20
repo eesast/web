@@ -2452,10 +2452,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/enquire.js@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@types/enquire.js/-/enquire.js-2.1.3.tgz#d2af28b7dba810916517975cbe970435da775163"
-  integrity sha512-czxvcuRPuOVdkZxuPg1DuqJ6m5BjDwa6VQ5xhUHuOU7abIqra7T+pUmGmhDAGddZwFqCPdrRma/ZvcZoNNWhLw==
+"@types/enquire.js@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@types/enquire.js/-/enquire.js-2.1.4.tgz#373b8ad1de522f9045017e830360a49daef65148"
+  integrity sha512-P9bMDNLT59kVcJk/XiDb4E9NzjMRlKUkoq89JDvv4/TEAYCfztWbvLI4zRlrJgTNLOXczZoFR52UHHXfW5SPvg==
 
 "@types/eslint@^7.28.2":
   version "7.29.0"
