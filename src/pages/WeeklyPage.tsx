@@ -182,7 +182,7 @@ const WeeklyPage: React.FC = () => {
           url: url
         }
       });
-      setUrl(response.data[0]);
+      setUrl(response.data);
     } catch (err) {
       console.log(err);
     }
