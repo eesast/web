@@ -2513,10 +2513,10 @@
   resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-5.1.2.tgz#693b316ad323ea97eed6b38ed1a3cc02b1672b57"
   integrity sha512-h4lTMgMJctJybDp8CQrxTUiiYmedihHWkjnF/8Pxseu2S6Nlfcy8kwboQ8yejh456rP2yWoEVm1sS/FVsfM48w==
 
-"@types/is-number@7.0.3":
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/@types/is-number/-/is-number-7.0.3.tgz#bfb9755dec4fc7a7c771a8eaa32870f6b6946b98"
-  integrity sha512-W+5JnmBqaRxR8NpHncRVww5tRSuvKLHBWEeIXN3BWvxZirL49unZBMHDtwrxnkQW5ZHHVQmsGIkdCXY7GS5WVw==
+"@types/is-number@7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@types/is-number/-/is-number-7.0.4.tgz#b8079b8ba6721b784d74d3effdb0420f35f94a57"
+  integrity sha512-kGuOYjSH9tUWwWByvRNQI7OsE6h2Ub21VImBUnMA+HYgPFL9x6+65KrEofexMUmhK9y/PuZEa2kYEcABn3A0jQ==
 
 "@types/is-url@1.2.31":
   version "1.2.31"

@@ -10,7 +10,7 @@
     "@testing-library/user-event": "14.5.1",
     "@types/enquire.js": "2.1.4",
     "@types/file-saver": "2.0.6",
-    "@types/is-number": "7.0.3",
+    "@types/is-number": "7.0.4",
     "@types/is-url": "1.2.31",
     "@types/jest": "29.5.6",
     "@types/jwt-decode": "2.2.1",
