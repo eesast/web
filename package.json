@@ -11,7 +11,7 @@
     "@types/enquire.js": "2.1.4",
     "@types/file-saver": "2.0.6",
     "@types/is-number": "7.0.3",
-    "@types/is-url": "1.2.30",
+    "@types/is-url": "1.2.31",
     "@types/jest": "29.5.5",
     "@types/jwt-decode": "2.2.1",
     "@types/lodash.get": "4.4.7",
