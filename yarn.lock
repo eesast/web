@@ -2518,10 +2518,10 @@
   resolved "https://registry.yarnpkg.com/@types/is-number/-/is-number-7.0.3.tgz#bfb9755dec4fc7a7c771a8eaa32870f6b6946b98"
   integrity sha512-W+5JnmBqaRxR8NpHncRVww5tRSuvKLHBWEeIXN3BWvxZirL49unZBMHDtwrxnkQW5ZHHVQmsGIkdCXY7GS5WVw==
 
-"@types/is-url@1.2.30":
-  version "1.2.30"
-  resolved "https://registry.yarnpkg.com/@types/is-url/-/is-url-1.2.30.tgz#85567e8bee4fee69202bc3448f9fb34b0d56c50a"
-  integrity sha512-AnlNFwjzC8XLda5VjRl4ItSd8qp8pSNowvsut0WwQyBWHpOxjxRJm8iO6uETWqEyLdYdb9/1j+Qd9gQ4l5I4fw==
+"@types/is-url@1.2.31":
+  version "1.2.31"
+  resolved "https://registry.yarnpkg.com/@types/is-url/-/is-url-1.2.31.tgz#db6f969683f02f6bc5f4fe465603ede5c6845bc4"
+  integrity sha512-ZkuJ+NIr+/V6Xz+S14kYT3g0wYmUa9+bOXXL6Z3nDsy38GqHIu4QF1q2Z0f8y8Pfd8zivikE9fTFa5cfkOROSg==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.4"
