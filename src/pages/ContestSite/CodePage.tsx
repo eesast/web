@@ -349,6 +349,7 @@ const CodePage: React.FC = () => {
           }
           try {
             await axios.post("code/compile", {
+              contest_id: Contest_id,
               team_id: teamid,
             });
             message.info("已开始编译。编译需要一段时间，请稍后刷新以查看。");
@@ -395,13 +396,13 @@ const CodePage: React.FC = () => {
         const lang = e.file.name.split(".").slice(-1, ).join('');
         try {
           if (lang === "cpp") {
-            const url = `THUAI6/${teamid}/player${codeRole}.cpp`;
-            const result = await uploadFile(e.file, url, "team_code", {team_id: teamid});
+            const url = `code/${Contest_id}/${teamid}/player${codeRole}.cpp`;
+            const result = await uploadFile(e.file, url);
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
           } else if (lang === "py") {
-            const url = `THUAI6/${teamid}/player${codeRole}.py`;
-            const result = await uploadFile(e.file, url, "team_code", {team_id: teamid});
+            const url = `code/${Contest_id}/${teamid}/player${codeRole}.py`;
+            const result = await uploadFile(e.file, url);
             e.onSuccess(result, e.file);
             handleCodeChange(url, codeRole, lang);
           } else {
@@ -437,9 +438,9 @@ const CodePage: React.FC = () => {
         try {
           if (file.response?.status === 200) {
             if (lang === "cpp") {
-              await deleteFile(`/THUAI6/${teamid}/player${codeRole}.cpp`, "team_code", {team_id: teamid});
+              await deleteFile(`code/${Contest_id}/${teamid}/player${codeRole}.cpp`);
             } else if (lang === "py") {
-              await deleteFile(`/THUAI6/${teamid}/player${codeRole}.py`, "team_code", {team_id: teamid});
+              await deleteFile(`code/${Contest_id}/${teamid}/player${codeRole}.py`);
             }
           }
         } catch (err) {
@@ -449,28 +450,28 @@ const CodePage: React.FC = () => {
 
     const handleDownload = async () => {
         try {
-          const cpp_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.cpp`, "team_code", {team_id: teamid});
-          const py_exist = await existFile(`THUAI6/${teamid}/player${codeRole}.py`, "team_code", {team_id: teamid});
+          const cpp_exist = await existFile(`code/${Contest_id}/${teamid}/player${codeRole}.cpp`);
+          const py_exist = await existFile(`code/${Contest_id}/${teamid}/player${codeRole}.py`);
           if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
             throw(Error("File error"));
           }
           if (cpp_exist) {
             const codefile = {
               filename: `player${codeRole}.cpp`,
-              url: `/THUAI6/${teamid}/player${codeRole}.cpp`
+              url: `code/${Contest_id}/${teamid}/player${codeRole}.cpp`
             }
             message.info("开始下载:" + codefile.filename);
-            downloadFile(codefile.url, "team_code", {team_id: teamid}).catch(e => {
+            downloadFile(codefile.url).catch(e => {
               message.error("下载失败");
             })
           }
           else if (py_exist) {
             const codefile = {
               filename: `player${codeRole}.py`,
-              url: `/THUAI6/${teamid}/player${codeRole}.py`
+              url: `code/${Contest_id}/${teamid}/player${codeRole}.py`
             }
             message.info("开始下载:" + codefile.filename);
-            downloadFile(codefile.url, "team_code", {team_id: teamid}).catch(e => {
+            downloadFile(codefile.url).catch(e => {
               message.error("下载失败");
             })
           }
