@@ -17,7 +17,8 @@ axios.interceptors.request.use(function (config) {
 const httpLink = new HttpLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_HASURA_HTTPLINK! : process.env.REACT_APP_HASURA_DEV_HTTPLINK!,
+      ? process.env.REACT_APP_HASURA_HTTPLINK!
+      : process.env.REACT_APP_HASURA_DEV_HTTPLINK!,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -35,7 +36,8 @@ const authLink = setContext((_, { headers }) => {
 const wsLink = new WebSocketLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_HASURA_WSSLINK! : process.env.REACT_APP_HASURA_DEV_WSSLINK!,
+      ? process.env.REACT_APP_HASURA_WSSLINK!
+      : process.env.REACT_APP_HASURA_DEV_WSSLINK!,
   options: {
     reconnect: true,
     lazy: true,
@@ -61,7 +63,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  authLink.concat(httpLink)
+  authLink.concat(httpLink),
 );
 
 export const client = new ApolloClient({
