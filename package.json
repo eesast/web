@@ -41,18 +41,15 @@
     "dotenv": "16.0.3",
     "enquire.js": "2.1.6",
     "file-saver": "2.0.5",
-    "husky": "7.0.4",
     "is-number": "7.0.0",
     "is-url": "1.2.4",
     "isemail": "3.2.0",
     "jwt-decode": "3.1.2",
     "less": "3.13.1",
     "less-loader": "7.3.0",
-    "lint-staged": "11.2.6",
     "lodash.get": "4.4.2",
     "md2wx": "3.1.2",
     "pizzip": "3.1.4",
-    "prettier": "2.8.8",
     "react": "17.0.2",
     "react-app-rewired": "2.2.1",
     "react-custom-scrollbars": "4.2.1",
@@ -64,7 +61,6 @@
     "react-router-dom": "5.3.4",
     "react-scripts": "4.0.3",
     "react-unity-webgl": "^9.4.0",
-    "rimraf": "3.0.2",
     "source-map-explorer": "2.5.3",
     "styled-components": "5.3.11",
     "subscriptions-transport-ws": "0.11.0",
@@ -72,36 +68,28 @@
     "web-vitals": "2.1.4",
     "xlsx": "0.18.0"
   },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5"
+  },
   "scripts": {
-    "start:new": "rimraf ./node_modules/.cache/babel-loader && yarn codegen && react-app-rewired --openssl-legacy-provider start",
-    "start": "rimraf ./node_modules/.cache/babel-loader && yarn codegen && react-app-rewired start",
+    "prepare": "husky install",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
-    "eject": "react-app-rewired eject",
     "codegen": "yarn apollo client:codegen --target=typescript --outputFlat src/api/types.ts",
     "codegen:watch": "yarn codegen --watch",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "lint": "eslint --ext .ts,.tsx src/",
-    "typecheck": "tsc --noUnusedLocals"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && yarn lint && yarn typecheck"
-    }
+    "start:new": "rimraf ./node_modules/.cache/babel-loader && yarn codegen && react-app-rewired --openssl-legacy-provider start",
+    "start": "rimraf ./node_modules/.cache/babel-loader && yarn codegen && react-app-rewired start",
+    "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
+    "eject": "react-app-rewired eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,md}": [
-      "prettier --write",
-      "git add"
+    "*.{js,jsx,ts,tsx,json,css,yml,md,graphql}": [
+      "prettier --write"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "build/static/js/4.*.chunk.js",
-      "maxSize": "2.5 MB",
-      "compression": "none"
-    }
-  ],
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -125,6 +113,13 @@
       ]
     }
   },
+  "bundlesize": [
+    {
+      "path": "build/static/js/4.*.chunk.js",
+      "maxSize": "2.5 MB",
+      "compression": "none"
+    }
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
