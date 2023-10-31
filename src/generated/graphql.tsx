@@ -10363,7 +10363,7 @@ export type User_Pk_Columns_Input = {
 /** select columns of table "user" */
 export enum User_Select_Column {
   /** column name */
-  Id = "_id",
+  _Id = "_id",
   /** column name */
   Class = "class",
   /** column name */
@@ -10425,7 +10425,7 @@ export type User_Sum_Fields = {
 /** update columns of table "user" */
 export enum User_Update_Column {
   /** column name */
-  Id = "_id",
+  _Id = "_id",
   /** column name */
   Class = "class",
   /** column name */

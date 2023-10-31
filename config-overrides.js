@@ -1,10 +1,4 @@
-const {
-  override,
-  useBabelRc,
-  addLessLoader,
-  // addWebpackPlugin,
-} = require("customize-cra");
-// const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
+const { override, useBabelRc, addLessLoader } = require("customize-cra");
 
 module.exports = override(
   useBabelRc(),
@@ -18,5 +12,4 @@ module.exports = override(
       },
     },
   }),
-  // addWebpackPlugin(new AntdDayjsWebpackPlugin())
 );

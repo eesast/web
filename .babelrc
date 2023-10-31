@@ -11,5 +11,6 @@
     ],
     "babel-plugin-styled-components",
     "babel-plugin-import-graphql"
+    // TODO: This needs to be deleted when we finish the migration to @graphql-codegen
   ]
 }
