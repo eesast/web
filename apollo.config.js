@@ -6,29 +6,42 @@ dotenv.config({
 });
 dotenv.config();
 
-module.exports =
-  process.env.NODE_ENV === "production"
-    ? {
-        client: {
-          includes: ["src/api/**/*.graphql"],
-          service: {
-            name: "eesast",
-            url: "https://api.eesast.com/v1/graphql",
-            headers: {
-              "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
-            },
-          },
-        },
-      }
-    : {
-        client: {
-          includes: ["src/api/**/*.graphql"],
-          service: {
-            name: "eesast-dev",
-            url: "https://api.eesast.com/dev/v1/graphql",
-            headers: {
-              "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
-            },
-          },
-        },
-      };
+// module.exports =
+//   process.env.NODE_ENV === "production"
+//     ? {
+//         client: {
+//           includes: ["src/api/**/*.graphql"],
+//           service: {
+//             name: "eesast",
+//             url: process.env.REACT_APP_HASURA_HTTPLINK,
+//             headers: {
+//               "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+//             },
+//           },
+//         },
+//       }
+//     : {
+//         client: {
+//           includes: ["src/api/**/*.graphql"],
+//           service: {
+//             name: "eesast-dev",
+//             url: process.env.REACT_APP_HASURA_DEV_HTTPLINK,
+//             headers: {
+//               "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+//             },
+//           },
+//         },
+//       };
+
+module.exports = {
+  client: {
+    includes: ["src/api/**/*.graphql"],
+    service: {
+      name: "eesast-dev",
+      url: process.env.REACT_APP_HASURA_DEV_HTTPLINK,
+      headers: {
+        "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+      },
+    },
+  },
+};

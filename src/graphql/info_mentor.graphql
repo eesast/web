@@ -1,0 +1,211 @@
+query GetMentorApplications($_id: String!) {
+  mentor_application(
+    where: {
+      _or: [{ student_id: { _eq: $_id } }, { mentor_id: { _eq: $_id } }]
+    }
+    order_by: { created_at: asc }
+  ) {
+    id
+    student {
+      name
+      department
+      email
+      phone
+    }
+    mentor {
+      name
+      department
+      mentor_available {
+        available
+      }
+    }
+    statement
+    status
+    chat_status
+    created_at
+    updated_at
+  }
+}
+
+query GetMentorApplicationsForCounselors {
+  mentor_application(order_by: { created_at: asc }) {
+    id
+    student {
+      id
+      name
+      class
+      department
+      email
+      phone
+    }
+    mentor {
+      name
+      department
+      mentor_available {
+        available
+      }
+    }
+    statement
+    status
+    created_at
+    updated_at
+  }
+}
+
+query GetMentorAvailable($_id: String!) {
+  mentor_available(where: { mentor_id: { _eq: $_id } }) {
+    available
+  }
+}
+
+mutation ChangeMentorAvailable($_id: String!, $available: Boolean!) {
+  insert_mentor_available_one(
+    object: { mentor_id: $_id, available: $available }
+    on_conflict: {
+      constraint: mentor_available_mentor_id_key
+      update_columns: available
+    }
+  ) {
+    mentor_id
+    available
+  }
+}
+
+mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
+  update_mentor_application(
+    where: { id: { _eq: $id } }
+    _set: { status: $status }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
+  update_mentor_application(
+    where: { id: { _eq: $id } }
+    _set: { chat_status: $chat_status }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation AddMentorApplication(
+  $student_id: String!
+  $mentor_id: String!
+  $statement: String!
+) {
+  insert_mentor_application(
+    objects: {
+      student_id: $student_id
+      mentor_id: $mentor_id
+      statement: $statement
+    }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation UpdateMentorApplication($id: uuid!, $statement: String!) {
+  update_mentor_application(
+    where: { id: { _eq: $id } }
+    _set: { statement: $statement }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation DeleteMentorApplication($id: uuid!) {
+  delete_mentor_application_by_pk(id: $id) {
+    id
+  }
+}
+
+query GetMentorList($grade_time: timestamptz!) {
+  user_by_role(role: "teacher") {
+    _id
+    name
+    department
+    user {
+      matched: mentor_applications_mentor_aggregate(
+        where: { status: { _eq: "approved" } }
+      ) {
+        aggregate {
+          count
+        }
+      }
+      total: mentor_applications_mentor_aggregate {
+        aggregate {
+          count
+        }
+      }
+      total_for_grade: mentor_applications_mentor_aggregate(
+        where: { created_at: { _gte: $grade_time } }
+      ) {
+        aggregate {
+          count
+        }
+      }
+      mentor_available {
+        available
+      }
+    }
+  }
+}
+
+mutation UpsertMentorInfo(
+  $achievement: String = ""
+  $background: String = ""
+  $field: String = ""
+  $intro: String = ""
+  $mentor_id: String!
+) {
+  insert_mentor_info_one(
+    object: {
+      achievement: $achievement
+      background: $background
+      field: $field
+      intro: $intro
+      mentor_id: $mentor_id
+    }
+    on_conflict: {
+      constraint: mentor_info_pkey
+      update_columns: [achievement, background, field, intro]
+    }
+  ) {
+    mentor_id
+  }
+}
+
+query GetMentorInfo($mentor_id: String!) {
+  mentor_info_by_pk(mentor_id: $mentor_id) {
+    achievement
+    background
+    field
+    intro
+    mentor_id
+    user {
+      name
+      email
+    }
+  }
+}
+
+query GetFreshmanList {
+  user(where: { id: { _gt: "2022999999", _lte: "2023999999" } }) {
+    _id
+    id
+    mentor_applications_student(where: { status: { _eq: "approved" } }) {
+      student_id
+      mentor_id
+      statement
+    }
+  }
+}
