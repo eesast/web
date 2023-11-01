@@ -65,3 +65,25 @@ EESAST 网页前端
 #### `yarn codegen`
 
 根据后端 GraphQL 定义自动生成 TypeScript 类型文件
+
+### Node >16 适配
+
+请使用`yarn start:new`启动项目
+
+建议先安装`yarn i node_gyp -g`避免报错
+
+可安装`yarn i rimraf -g`来用`rimraf node_modules`命令快速推掉重来
+
+#### TODO:升级依赖
+
+- react-scripts
+- less-loader
+- styled-components
+
+（都被`antd`卡住了）
+
+#### TODO:毒瘤
+
+- md2wx: Deprecated && Size too large
+- xlsx: Size too large
+- subscriptions-transport-ws: Deprecated
