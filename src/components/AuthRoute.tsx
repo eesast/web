@@ -3,7 +3,7 @@ import { Route, Redirect, useLocation, RouteProps } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GetUser as GET_USER } from "../api/user.graphql";
 import { GetUser, GetUserVariables } from "../api/types";
-import { getUserInfo } from "../helpers/auth";
+import { getUserInfo } from "../api/helpers/auth";
 import Loading from "./Loading";
 
 const AuthRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
@@ -15,7 +15,7 @@ const AuthRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
     GET_USER,
     {
       variables: { _id: userInfo?._id! },
-    }
+    },
   );
 
   return (

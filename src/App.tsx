@@ -19,15 +19,15 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
-import { enquireScreenSize } from "./helpers/enquire";
-import HomeSite from "./pages/HomeSite";
-import ContestSite from "./pages/ContestSite";
-import WeeklyPage from "./pages/WeeklyPage";
-import InfoSite from "./pages/InfoSite";
-import LoginPage from "./pages/LoginPage";
+import { enquireScreenSize } from "./api/helpers/enquire";
+import HomeSite from "./app/HomeSite";
+import ContestSite from "./app/ContestSite";
+import WeeklyPage from "./app/WeeklyPage";
+import InfoSite from "./app/InfoSite";
+import LoginPage from "./app/LoginPage";
 import AuthRoute from "./components/AuthRoute";
-import ProfilePage from "./pages/ProfilePage";
-import NotFoundPage from "./pages/NotFoundPage";
+import ProfilePage from "./app/ProfilePage";
+import NotFoundPage from "./app/NotFoundPage";
 import Picture from "./components/Picture";
 
 dayjs.extend(relativeTime);
@@ -90,7 +90,7 @@ function App() {
   const site = location.pathname.split("/")[1];
 
   const [menuMode, setMenuMode] = useState<"inline" | "horizontal">(
-    "horizontal"
+    "horizontal",
   );
 
   useEffect(() => {
@@ -148,7 +148,10 @@ function App() {
                         height="48"
                       />
                     </Link>
-                    <Link to="/home" style={{ color: "black", fontSize: "large" }}>
+                    <Link
+                      to="/home"
+                      style={{ color: "black", fontSize: "large" }}
+                    >
                       <Title> EESΛST</Title>
                     </Link>
                   </Space>
@@ -203,7 +206,10 @@ function App() {
             </Route>
           </Switch>
         </Content>
-        <StyledFooter><a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1 </a>  © 2023 EESAST</StyledFooter>
+        <StyledFooter>
+          <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1 </a> ©
+          2023 EESAST
+        </StyledFooter>
       </Layout>
       <BackTop />
     </ConfigProvider>
