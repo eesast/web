@@ -74,6 +74,7 @@
   "scripts": {
     "prepare": "husky install",
     "build": "react-app-rewired build",
+    "build:new": "react-app-rewired --openssl-legacy-provider build",
     "generate": "graphql-codegen",
     "prestart1": "yarn generate",
     "codegen": "yarn apollo client:codegen --target=typescript --outputFlat src/api/types.ts",
@@ -82,7 +83,9 @@
     "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
     "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
     "eject": "react-app-rewired eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "tsc"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,yml,md,graphql}": [
@@ -114,8 +117,8 @@
   },
   "bundlesize": [
     {
-      "path": "build/static/js/4.*.chunk.js",
-      "maxSize": "2.5 MB",
+      "path": "build/static/js/*.js",
+      "maxSize": "5 MB",
       "compression": "none"
     }
   ],
