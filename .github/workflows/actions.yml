@@ -1,10 +1,6 @@
 name: actions
 
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -49,10 +45,12 @@ jobs:
           yarn build
 
   deploy:
+    if: |
+      github.event_name == 'push' &&
+      github.ref_name == 'master' &&
+      github.repository_owner == 'eesast'
     needs: test
-
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
 
     steps:
       - name: Checkout repository
