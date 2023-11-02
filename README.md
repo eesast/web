@@ -62,6 +62,24 @@ EESAST 网页前端
 
 对 `build` 内的打包进行构成分析
 
-#### `yarn codegen`
+#### `yarn codegen`（已弃用）
 
 根据后端 GraphQL 定义自动生成 TypeScript 类型文件
+
+### Node >16 适配
+
+可安装`yarn i rimraf -g`来用`rimraf node_modules`命令快速推掉重来
+
+#### TODO:升级依赖
+
+- react-scripts
+- less-loader
+- styled-components
+
+（都被`antd`卡住了）
+
+#### TODO:毒瘤
+
+- md2wx: Deprecated && Size too large
+- xlsx: Size too large
+- subscriptions-transport-ws: Deprecated

@@ -2,8 +2,8 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import "./index.css";
-import App from "./App";
-import { client } from "./api";
+import App from "./app";
+import { client } from "./api/apollo";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
@@ -14,7 +14,7 @@ ReactDOM.render(
     </Router>
   </ApolloProvider>,
   // </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,0 +1,53 @@
+query GetApprovedMentorApplications($_id: String!) {
+  mentor_application(
+    where: {
+      _and: [
+        { _or: [{ student_id: { _eq: $_id } }, { mentor_id: { _eq: $_id } }] }
+        { status: { _eq: "approved" } }
+      ]
+    }
+    order_by: { created_at: asc }
+  ) {
+    id
+    student {
+      _id
+      name
+    }
+    mentor {
+      _id
+      name
+    }
+    statement
+    status
+    created_at
+    updated_at
+  }
+}
+
+subscription SubscribeToMessages($from_id: String!, $to_id: String!) {
+  mentor_message(
+    order_by: { created_at: asc }
+    where: {
+      _or: [
+        { _and: { from_id: { _eq: $from_id }, to_id: { _eq: $to_id } } }
+        { _and: { from_id: { _eq: $to_id }, to_id: { _eq: $from_id } } }
+      ]
+    }
+  ) {
+    created_at
+    from_id
+    id
+    payload
+    to_id
+  }
+}
+
+mutation AddMessage($from_id: String!, $to_id: String!, $payload: String!) {
+  insert_mentor_message(
+    objects: { from_id: $from_id, to_id: $to_id, payload: $payload }
+  ) {
+    returning {
+      id
+    }
+  }
+}
