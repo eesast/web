@@ -1,4 +1,4 @@
-name: deploy
+name: actions
 
 on:
   push:
@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{matrix.node-version}}
-        uses: actions/setup-node@v3
+      - name: Set up Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v4
         with:
           node-version: "20.x"
 
-      - name: get yarn cache path
+      - name: Get yarn cache path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
@@ -30,14 +30,20 @@ jobs:
           restore-keys: |
             ${{runner.os}}-yarn-
 
-      - name: install dependencies
+      - name: Install dependencies
         run: yarn
 
-      - name: test
+      - name: Check grammar
         run: |
           yarn lint
           yarn typecheck
+
+      - name: Test run
+        run: |
           yarn test
+
+      - name: Test build
+        run: |
           yarn build:new
           yarn bundlesize
 
@@ -48,13 +54,15 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: docker log in
+      - name: Login to DockerHub
         run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
 
-      - name: build and deploy image
+      - name: Build docker image
         shell: bash
-        run: |
-          docker build -t eesast/web:latest .
-          docker push eesast/web:latest
+        run: docker build -t eesast/web:latest .
+
+      - name: Push docker image
+        shell: bash
+        run: docker push eesast/web:latest
