@@ -12,7 +12,7 @@
     "cos-js-sdk-v5": "1.4.21",
     "dayjs": "1.11.10",
     "docxtemplater": "3.37.11",
-    "dotenv": "16.0.3",
+    "dotenv": "16.3.1",
     "enquire.js": "2.1.6",
     "file-saver": "2.0.5",
     "graphql": "16.8.1",
