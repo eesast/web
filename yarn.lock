@@ -2607,10 +2607,10 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.1.tgz#27f7559836ad796cea31acb63163b203756a5b4e"
   integrity sha512-3YmXzzPAdOTVljVMkTMBdBEvlOLg2cDQaDhnnhT3nT9uDbnJzjWhKlzb+desT12Y7tGqaN6d+AbozcKzyL36Ng==
 
-"@types/pizzip@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/pizzip/-/pizzip-3.0.3.tgz#dfa7dace3e6648b8d96a743f4d66d73981353107"
-  integrity sha512-UrHoczxXFEpoIPwYvzjcmteFTPC+QOcy4pyVluKvrP9Mh8NP0wRbdyfRElFwfKyqYKg5nXejZkTh0XajtEfRBA==
+"@types/pizzip@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/pizzip/-/pizzip-3.0.4.tgz#c7a8cb10ca1324297c93092b95a0e881566fa50c"
+  integrity sha512-tnxUNP2MvOyyXRVfce4qVSEBh7kuNNkYrt4ioMjX4AJZ5s3XRSrZqYtU46DYIvU9MIxvRtNNLfGqoUdsrq+MpQ==
   dependencies:
     "@types/node" "*"
 
