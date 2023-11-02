@@ -2,7 +2,7 @@
   "name": "eesast-web",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "4.8.1",
+    "@ant-design/icons": "5.2.6",
     "@apollo/client": "3.8.6",
     "antd": "4.9.4",
     "axios": "0.21.4",
