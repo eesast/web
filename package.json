@@ -4,7 +4,7 @@
   "dependencies": {
     "@ant-design/icons": "4.8.1",
     "@apollo/client": "3.8.6",
-    "antd": "4.9.4",
+    "antd": "4.24.14",
     "axios": "0.21.4",
     "babel-plugin-import": "1.13.8",
     "babel-plugin-import-graphql": "2.8.1",
