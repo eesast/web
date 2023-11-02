@@ -1,6 +1,6 @@
 # Builder stage
 
-FROM node:20-alpine AS builder
+FROM node:20 AS builder
 
 # Create app directory
 WORKDIR /home/node/app
