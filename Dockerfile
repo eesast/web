@@ -13,7 +13,7 @@ RUN yarn install --frozen-lockfile --no-cache
 COPY . .
 
 # Build
-RUN yarn build:new
+RUN yarn build
 
 
 # Runner stage

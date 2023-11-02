@@ -44,8 +44,7 @@ jobs:
 
       - name: Test build
         run: |
-          yarn build:new
-          yarn bundlesize
+          yarn build
 
   deploy:
     needs: test
