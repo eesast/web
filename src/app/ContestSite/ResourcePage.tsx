@@ -146,7 +146,7 @@ const ResourcePage: React.FC = () => {
     const values = form.getFieldsValue();
     const files = fileList.map((f) => ({
       filename: f.name,
-      url: "/contest_upload/" + f.name,
+      url: `contest_upload/${Contest_id}/${f.name}`,
     }));
 
     if (editingNotice) {
@@ -180,7 +180,7 @@ const ResourcePage: React.FC = () => {
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
-      const url = "contest_upload/" + e.file.name;
+      const url = `contest_upload/${Contest_id}/${e.file.name}`;
       const result = await uploadFile(e.file, url);
       e.onSuccess(result, e.file);
     } catch (err) {
@@ -222,7 +222,7 @@ const ResourcePage: React.FC = () => {
       // }
       // else throw (Error("error"));
       if (file.response?.status === 200) {
-        await deleteFile("contest_upload/" + file.name);
+        await deleteFile(`contest_upload/${Contest_id}/${file.name}`);
       }
       // refetchNotices();
     } catch (err) {
@@ -319,7 +319,7 @@ const ResourcePage: React.FC = () => {
         onCancel={() => {
           const files = fileList.map((f) => ({
             filename: f.name,
-            url: "/contest_upload/" + f.name,
+            url: `contest_upload/${Contest_id}/${f.name}`,
           }));
           if (editingNotice && editingNotice.files !== JSON.stringify(files)) {
             message.info("请先移除新上传的文件");

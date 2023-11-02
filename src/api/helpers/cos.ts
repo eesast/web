@@ -1,26 +1,17 @@
-/*
-path为鉴权路由，params为所需参数(一个键值对象)，发送给后端(api/src/routes/static)进行权限申请
-目前的路由：
-- team_code: THUAI6选手代码
-  参数为 team_id
-- chat_record: 新生导师谈话记录
-  参数为 application_id
-- ''(默认空): 全局权限 
-*/
 import COS from "cos-js-sdk-v5";
 import axios from "axios";
 
-let path = "";
-let params = {};
 let bucket = "eesast-1255334966";
 let region = "ap-beijing";
+let path = "";
 const cos = new COS({
   //getAuthorization会在每次使用cos时调用
-  getAuthorization: async (options: object, callback: Function) => {
+  getAuthorization: async (
+    options: COS.GetAuthorizationOptions,
+    callback: Function,
+  ) => {
     try {
-      const response = await axios.get(`/static/${path}`, {
-        params: params,
-      });
+      const response = await axios.get(`/static/${options.Key || path}`);
       if (response.status === 200) {
         if (!response.data.credentials) throw Error("Credentials invalid!");
         callback({
@@ -37,14 +28,7 @@ const cos = new COS({
   },
 });
 
-export const uploadFile = (
-  file: any,
-  url: string,
-  _path: string = "",
-  _params: object = {},
-) => {
-  path = _path;
-  params = _params;
+export const uploadFile = (file: any, url: string) => {
   return cos.uploadFile({
     Bucket: bucket,
     Region: region,
@@ -63,13 +47,7 @@ const downloadByUrl = (url: string) => {
   document.body.removeChild(element);
 };
 
-export const downloadFile = (
-  url: string,
-  _path: string = "",
-  _params: object = {},
-) => {
-  path = _path;
-  params = _params;
+export const downloadFile = (url: string) => {
   return new Promise((resolve, reject) => {
     cos.getObjectUrl(
       {
@@ -90,13 +68,7 @@ export const downloadFile = (
   });
 };
 
-export const deleteFile = (
-  url: string,
-  _path: string = "",
-  _params: object = {},
-) => {
-  path = _path;
-  params = _params;
+export const deleteFile = (url: string) => {
   return cos.deleteObject({
     Bucket: bucket,
     Region: region,
@@ -104,13 +76,7 @@ export const deleteFile = (
   });
 };
 
-export const existFile = (
-  url: string,
-  _path: string = "",
-  _params: object = {},
-) => {
-  path = _path;
-  params = _params;
+export const existFile = (url: string) => {
   return new Promise<boolean>((resolve, reject) => {
     cos.headObject(
       {
@@ -131,13 +97,8 @@ export const existFile = (
   });
 };
 
-export const listFile = (
-  prefix: string,
-  _path: string = "",
-  _params: object = {},
-) => {
-  path = _path;
-  params = _params;
+export const listFile = (prefix: string) => {
+  path = prefix;
   return new Promise<COS.CosObject[]>((resolve, reject) => {
     cos.getBucket(
       {

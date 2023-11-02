@@ -17,12 +17,11 @@ const AuthRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
       variables: { _id: userInfo?._id! },
     },
   );
-
   return (
     <Route {...rest}>
       {loading ? (
         <Loading />
-      ) : !error && data?.user[0]._id ? (
+      ) : !error && data?.user[0]?._id ? (
         children
       ) : (
         <Redirect

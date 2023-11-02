@@ -900,9 +900,7 @@ const MentorApplicationPage = () => {
   ) => {
     try {
       const url = `chat_record/${application_id}/${e.file.name}`;
-      const result = await uploadFile(e.file, url, "chat_record", {
-        application_id: application_id,
-      });
+      const result = await uploadFile(e.file, url);
       e.onSuccess(result, e.file);
       handleApplicationChatStatusChange(true, application_id);
     } catch (err) {
@@ -921,18 +919,14 @@ const MentorApplicationPage = () => {
 
   const handleDownloadRecord = async (application_id: any) => {
     try {
-      const fileList = await listFile(
-        `chat_record/${application_id}/`,
-        "chat_record",
-        { application_id: application_id },
-      );
+      const fileList = await listFile(`chat_record/${application_id}/`);
       const url = fileList.reduce((max, item) => {
         return new Date(item.LastModified) > new Date(max.LastModified)
           ? item
           : max;
       }).Key;
       message.info("开始下载");
-      downloadFile(url, "chat_record", { application_id: application_id });
+      downloadFile(url);
     } catch (err) {
       console.log(err);
       message.error(`下载失败`);
@@ -1044,7 +1038,7 @@ const MentorApplicationPage = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="申请状态">
                     {item.status === "submitted" ? (
-                      <Badge status="processing" text="已提交" />
+                      <Badge status="processing" text="待处理" />
                     ) : item.status === "approved" ? (
                       <Badge status="success" text="已通过" />
                     ) : (
@@ -1198,7 +1192,7 @@ const MentorApplicationPage = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="申请状态">
                     {item.status === "submitted" ? (
-                      <Badge status="processing" text="已提交" />
+                      <Badge status="processing" text="待处理" />
                     ) : item.status === "approved" ? (
                       <Badge status="success" text="已通过" />
                     ) : (
