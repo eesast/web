@@ -19,7 +19,7 @@
     "file-saver": "2.0.5",
     "graphql": "16.8.1",
     "is-url": "1.2.4",
-    "isemail": "^3.2.0",
+    "isemail": "3.2.0",
     "jwt-decode": "3.1.2",
     "less": "3.13.1",
     "less-loader": "7.3.0",
@@ -64,6 +64,7 @@
     "@types/styled-components": "5.1.28",
     "husky": "8.0.3",
     "lint-staged": "15.0.2",
+    "node-gyp": "10.0.0",
     "prettier": "3.0.3",
     "rimraf": "5.0.5",
     "typescript": "5.1.6"
