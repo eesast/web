@@ -57,7 +57,7 @@
     "@types/react-google-recaptcha": "2.1.7",
     "@types/react-linkify": "1.0.2",
     "@types/react-router-dom": "5.3.3",
-    "@types/styled-components": "5.1.28",
+    "@types/styled-components": "5.1.29",
     "cross-env": "7.0.3",
     "customize-cra": "1.0.0",
     "husky": "8.0.3",
