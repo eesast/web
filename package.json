@@ -15,7 +15,7 @@
     "dotenv": "16.3.1",
     "enquire.js": "2.1.6",
     "file-saver": "2.0.5",
-    "google-protobuf": "^3.21.2",
+    "google-protobuf": "3.21.2",
     "graphql": "16.8.1",
     "grpc-web": "1.4.2",
     "is-url": "1.2.4",
@@ -40,7 +40,6 @@
     "xlsx": "0.18.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/typescript-operations": "4.0.1",
     "@graphql-codegen/typescript-react-apollo": "4.1.0",
@@ -73,7 +72,9 @@
     "webpackbar": "5.0.2"
   },
   "resolutions": {
-    "@types/react": "17.0.69"
+    "@types/react": "17.0.69",
+    "@typescript-eslint/parser": "6.9.1",
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   },
   "scripts": {
     "prepare": "husky install",
