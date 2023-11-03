@@ -2419,11 +2419,6 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
-"@types/enquire.js@2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@types/enquire.js/-/enquire.js-2.1.4.tgz#373b8ad1de522f9045017e830360a49daef65148"
-  integrity sha512-P9bMDNLT59kVcJk/XiDb4E9NzjMRlKUkoq89JDvv4/TEAYCfztWbvLI4zRlrJgTNLOXczZoFR52UHHXfW5SPvg==
-
 "@types/eslint@^7.29.0":
   version "7.29.0"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-7.29.0.tgz#e56ddc8e542815272720bb0b4ccc2aff9c3e1c78"
