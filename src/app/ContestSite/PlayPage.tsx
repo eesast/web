@@ -72,8 +72,10 @@ const PlayPage: React.FC = () => {
   });
 
   const projectDir = "/WebGL/";
-  // const projectName = "JumpJump-Build";
-  const projectName = "THUAI6_WebGL";
+  let projectName = "THUAI6_WebGL";
+  if (Contest_id === "jump") {
+    projectName = "JumpJump-Build";
+  }
 
   const handleCacheControl = (url: String) => {
     if (url.match(/\.data/) || url.match(/\.bundle/)) {
@@ -232,7 +234,7 @@ const PlayPage: React.FC = () => {
             `}
             onClick={() => {
               // handleQuit();
-              setIsPrompt(false);
+              // setIsPrompt(false);
               setModalVisible(true);
             }}
           >
