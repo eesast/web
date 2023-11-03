@@ -4,7 +4,7 @@ import { ApolloProvider } from "@apollo/client";
 import "./index.css";
 import App from "./app";
 import { client } from "./api/apollo";
-import reportWebVitals from "./reportWebVitals";
+import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
 
 ReactDOM.render(
   // <React.StrictMode> // TODO: wait for antd fix
@@ -17,7 +17,13 @@ ReactDOM.render(
   document.getElementById("root"),
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Measuring performance in our app, pass a function
+// Learn more: https://github.com/GoogleChrome/web-vitals, https://bit.ly/CRA-vitals
+if (process.env.NODE_ENV === "development") {
+  onCLS(console.log); // Cumulative Layout Shift, https://web.dev/cls/
+  onFID(console.log); // First Input Delay, https://web.dev/fid/
+  onLCP(console.log); // Largest Contentful Paint, https://web.dev/lcp/
+  onINP(console.log); // Interaction to next Paint, https://web.dev/inp/
+  onFCP(console.log); // First Contentful Paint, https://web.dev/fcp/
+  onTTFB(console.log); // Time to First Byte, https://web.dev/ttfb/
+}
