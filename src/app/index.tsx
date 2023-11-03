@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   ConfigProvider,
   Layout,
@@ -19,7 +18,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
-import { enquireScreenSize } from "../api/helpers/enquire";
+import { useWindowSize } from "../api/helpers/windowsize";
 import HomeSite from "./HomeSite";
 import ContestSite from "./ContestSite";
 import WeeklyPage from "./WeeklyPage";
@@ -88,23 +87,14 @@ const UserMenu = (
 function App() {
   const location = useLocation();
   const site = location.pathname.split("/")[1];
-
-  const [menuMode, setMenuMode] = useState<"inline" | "horizontal">(
-    "horizontal",
-  );
-
-  useEffect(() => {
-    enquireScreenSize((bool) => {
-      setMenuMode(bool ? "inline" : "horizontal");
-    });
-  });
+  const { width, height } = useWindowSize();
 
   const menu = (
     <Menu
       id="nav"
       key="nav"
       theme="light"
-      mode={menuMode}
+      mode={width < 768 ? "inline" : "horizontal"}
       defaultSelectedKeys={["home"]}
       selectedKeys={[site]}
     >
@@ -159,7 +149,7 @@ function App() {
               </Space>
             </Col>
             <Col xxl={19} xl={19} lg={16} md={16} sm={4} xs={4}>
-              {menuMode === "inline" ? (
+              {width < 768 ? (
                 <Popover placement="bottomRight" content={menu} trigger="click">
                   <Button icon={<MenuOutlined />} size="large" type="text" />
                 </Popover>
