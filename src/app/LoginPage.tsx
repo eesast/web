@@ -22,9 +22,8 @@ import styled from "styled-components";
 import Center from "../components/Center";
 import axios, { AxiosError } from "axios";
 // import ReCAPTCHA from "react-google-recaptcha";
-import IsEmail from "isemail";
 import Picture from "../components/Picture";
-import { validatePassword } from "../api/helpers/validate";
+import { validateEmail, validatePassword } from "../api/helpers/validator";
 
 // (window as any).recaptchaOptions = {
 //   useRecaptchaNet: true,
@@ -274,7 +273,7 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入注册时所用邮箱" },
                     () => ({
                       validator(rule, value) {
-                        if (!value || IsEmail.validate(value)) {
+                        if (!value || validateEmail(value)) {
                           return Promise.resolve();
                         }
                         return Promise.reject("请输入正确的邮箱");
@@ -399,7 +398,7 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入注册时所用邮箱" },
                     () => ({
                       validator(rule, value) {
-                        if (!value || IsEmail.validate(value)) {
+                        if (!value || validateEmail(value)) {
                           return Promise.resolve();
                         }
                         return Promise.reject("请输入正确的邮箱");
@@ -462,7 +461,7 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入邮箱" },
                     () => ({
                       validator(rule, value) {
-                        if (!value || IsEmail.validate(value)) {
+                        if (!value || validateEmail(value)) {
                           return Promise.resolve();
                         }
                         return Promise.reject("请输入正确的邮箱");
@@ -565,7 +564,7 @@ const LoginPage: React.FC = () => {
                     { required: true, message: "请输入邮箱" },
                     () => ({
                       validator(rule, value) {
-                        if (!value || IsEmail.validate(value)) {
+                        if (!value || validateEmail(value)) {
                           return Promise.resolve();
                         }
                         return Promise.reject("请输入正确的邮箱");

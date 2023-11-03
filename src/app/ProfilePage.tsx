@@ -20,10 +20,13 @@ import {
 } from "../api/types";
 import Loading from "../components/Loading";
 import axios, { AxiosError } from "axios";
-import IsEmail from "isemail";
 // import ReCAPTCHA from "react-google-recaptcha";
 import { getUserInfo } from "../api/helpers/auth";
-import { validateClass, validatePassword } from "../api/helpers/validate";
+import {
+  validateClass,
+  validateEmail,
+  validatePassword,
+} from "../api/helpers/validator";
 
 const formItemLayout = {
   labelCol: {
@@ -303,7 +306,7 @@ const ProfilePage: React.FC = () => {
             },
             () => ({
               validator(rule, value) {
-                if (!value || IsEmail.validate(value)) {
+                if (!value || validateEmail(value)) {
                   return Promise.resolve();
                 }
                 return Promise.reject("请输入正确的邮箱");
@@ -418,11 +421,7 @@ const ProfilePage: React.FC = () => {
               { required: true, message: "请输入清华邮箱" },
               () => ({
                 validator(rule, value: string) {
-                  if (
-                    !value ||
-                    (IsEmail.validate(value) &&
-                      value.endsWith("@mails.tsinghua.edu.cn"))
-                  ) {
+                  if (!value || validateEmail(value, true)) {
                     return Promise.resolve();
                   }
                   return Promise.reject("请输入正确的清华邮箱");
