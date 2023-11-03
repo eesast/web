@@ -87,7 +87,7 @@ const UserMenu = (
 function App() {
   const location = useLocation();
   const site = location.pathname.split("/")[1];
-  const { width, height } = useWindowSize();
+  const { width } = useWindowSize();
 
   const menu = (
     <Menu
