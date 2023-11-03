@@ -1,17 +1,21 @@
-import isEmail from "isemail";
+// import isEmail from "isemail";
 
 /**
  * Email with `tsinghua` suffix
  */
-export const validateEmail = (email: string, tsinghua: boolean) => {
-  if (!isEmail.validate(email)) {
+export const validateEmail = (email: string, tsinghua: boolean = false) => {
+  // const isemail = isEmail.validate(email);
+  const isemail =
+    /^([0-9a-zA-Z_.\-\u4e00-\u9fa5])+@([0-9a-zA-Z_.\-\])+.([a-zA-Z]{2,8})$/.test(
+      email,
+    );
+  if (!isemail) {
     return false;
   }
-
   if (tsinghua) {
     return email.endsWith("tsinghua.edu.cn");
   } else {
-    return !email.endsWith("tsinghua.edu.cn");
+    return true;
   }
 };
 
