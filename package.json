@@ -43,7 +43,7 @@
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/typescript-operations": "4.0.1",
     "@graphql-codegen/typescript-react-apollo": "4.1.0",
-    "@testing-library/jest-dom": "5.17.0",
+    "@testing-library/jest-dom": "6.1.4",
     "@testing-library/react": "12.1.5",
     "@types/enquire.js": "2.1.4",
     "@types/file-saver": "2.0.6",
