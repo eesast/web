@@ -49,8 +49,8 @@ import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type {
   UploadFile,
-  RcCustomRequestOptions,
 } from "antd/lib/upload/interface";
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { uploadFile, downloadFile, deleteFile } from "../../api/helpers/cos";
 import { getUserInfo } from "../../api/helpers/auth";
 
@@ -157,9 +157,10 @@ const NoticePage: React.FC = () => {
     try {
       const url = "upload/" + e.file.name;
       const result = await uploadFile(e.file, url);
-      e.onSuccess(result, e.file);
+      const xhr = new XMLHttpRequest();
+      e.onSuccess!(result, xhr);
     } catch (err) {
-      e.onError(new Error("上传失败"));
+      e.onError!(new Error("上传失败"));
     }
   };
 
