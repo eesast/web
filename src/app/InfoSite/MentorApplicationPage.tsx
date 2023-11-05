@@ -85,7 +85,7 @@ import {
 import { getStatusText } from "../../api/helpers/application";
 import { getUserInfo } from "../../api/helpers/auth";
 import { pick } from "../../api/helpers/utils";
-import { RcCustomRequestOptions } from "antd/lib/upload/interface";
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { uploadFile, downloadFile, listFile } from "../../api/helpers/cos";
 
 const { Text } = Typography;
@@ -901,11 +901,12 @@ const MentorApplicationPage = () => {
     try {
       const url = `chat_record/${application_id}/${e.file.name}`;
       const result = await uploadFile(e.file, url);
-      e.onSuccess(result, e.file);
+      const xhr = new XMLHttpRequest();
+      e.onSuccess!(result, xhr);
       handleApplicationChatStatusChange(true, application_id);
     } catch (err) {
       console.log(err);
-      e.onError(new Error("上传失败"));
+      e.onError!(new Error("上传失败"));
     }
   };
 

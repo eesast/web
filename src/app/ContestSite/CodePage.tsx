@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import type {
   UploadFile,
-  RcCustomRequestOptions,
 } from "antd/lib/upload/interface";
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { useLocation } from "react-router-dom";
 import {
   Table,
@@ -465,18 +465,20 @@ const CodePage: React.FC = () => {
       if (lang === "cpp") {
         const url = `code/${Contest_id}/${teamid}/player${codeRole}.cpp`;
         const result = await uploadFile(e.file, url);
-        e.onSuccess(result, e.file);
+        const xhr = new XMLHttpRequest();
+        e.onSuccess!(result, xhr);
         handleCodeChange(url, codeRole, lang);
       } else if (lang === "py") {
         const url = `code/${Contest_id}/${teamid}/player${codeRole}.py`;
         const result = await uploadFile(e.file, url);
-        e.onSuccess(result, e.file);
+        const xhr = new XMLHttpRequest();
+        e.onSuccess!(result, xhr);
         handleCodeChange(url, codeRole, lang);
       } else {
-        e.onError(new Error("不支持的文件类型"));
+        e.onError!(new Error("不支持的文件类型"));
       }
     } catch (err) {
-      e.onError(new Error("上传失败"));
+      e.onError!(new Error("上传失败"));
     }
   };
 
