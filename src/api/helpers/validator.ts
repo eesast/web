@@ -6,7 +6,7 @@
 export const validateEmail = (email: string, tsinghua: boolean = false) => {
   // const isemail = isEmail.validate(email);
   const isemail =
-    /^([0-9a-zA-Z_.\-\u4e00-\u9fa5])+@([0-9a-zA-Z_.\-])+\.([a-zA-Z]{2,8})$/.test(
+    /^([0-9a-zA-Z_.-\u4e00-\u9fa5])+@([0-9a-zA-Z_.-])+\.([a-zA-Z]{2,8})$/.test(
       email,
     );
   if (!isemail) {
