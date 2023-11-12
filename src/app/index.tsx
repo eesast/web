@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
-import { useWindowSize } from "../api/helpers/windowsize";
+import { useWindowSize } from "../api/hooks/windowsize";
 import HomeSite from "./HomeSite";
 import ContestSite from "./ContestSite";
 import WeeklyPage from "./WeeklyPage";
