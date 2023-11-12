@@ -28,7 +28,8 @@ import ManagePage from "./ManagePage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 import CodePage from "./CodePage";
-import PlayPage from "./PlayPage";
+import PlaybackPage from "./PlaybackPage";
+import StreamPage from "./StreamPage";
 import ManageTeamsPage from "./ManageTeamsPage";
 import SettingPage from "./SettingPage";
 import NotFoundPage from "../NotFoundPage";
@@ -42,6 +43,7 @@ import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
 import { isMobileOnly } from "react-device-detect";
+
 //antd部件实例化
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -139,13 +141,26 @@ const MenuPage: React.FC = () => {
               <Link to={`${url}/codes`}>代码</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="play">
-            <ExperimentOutlined />
-            <Link to={`${url}/play`}>
-              开玩
-              <Text disabled> beta</Text>
-            </Link>
-          </Menu.Item>
+          <SubMenu
+            key="play"
+            title={
+              <span>
+                <ExperimentOutlined />
+                实验室
+                <Text disabled> beta</Text>
+              </span>
+            }
+          >
+            <Menu.Item key="playground">
+              <Link to={`${url}/playground`}>试玩</Link>
+            </Menu.Item>
+            <Menu.Item key="stream">
+              <Link to={`${url}/stream`}>直播</Link>
+            </Menu.Item>
+            <Menu.Item key="playback">
+              <Link to={`${url}/playback`}>回放</Link>
+            </Menu.Item>
+          </SubMenu>
 
           {["root", "counselor"].includes(userInfo?.role!) ||
           isContestManagerData?.contest_manager.length === 1 ? (
@@ -201,9 +216,16 @@ const MenuPage: React.FC = () => {
             <CodePage />
           </AuthRoute>
 
-          <AuthRoute path={`${path}/play`}>
-            <PlayPage />
+          <AuthRoute exact path={`${path}/playground`}>
+            <PlaybackPage />
           </AuthRoute>
+          <AuthRoute exact path={`${path}/stream`}>
+            <StreamPage />
+          </AuthRoute>
+          <AuthRoute path={`${path}/playback`}>
+            <PlaybackPage />
+          </AuthRoute>
+
           <AuthRoute exact path={`${path}/manageTeams`}>
             <ManageTeamsPage />
           </AuthRoute>

@@ -15,38 +15,7 @@ import { useQuery } from "@apollo/client";
 
 import { Unity, useUnityContext } from "react-unity-webgl";
 
-import { RpcError } from "grpc-web";
-import { AvailableServiceClient } from "../../generated/grpc-web/ServicesServiceClientPb";
-import * as Message2Clients from "../../generated/grpc-web/Message2Clients_pb";
-import * as Message2Server from "../../generated/grpc-web/Message2Server_pb";
-
-const PlayPage: React.FC = () => {
-  useEffect(() => {
-    const client = new AvailableServiceClient("http://59.66.141.33:8879");
-    const request = new Message2Server.IDMsg();
-    request.setPlayerId(99);
-    client.tryConnection(
-      request,
-      {},
-      (error: RpcError, response: Message2Clients.BoolRes) => {
-        if (!error) {
-          console.log("Success making gRPC call:", response.toObject());
-          const spectator = new Message2Server.PlayerMsg();
-          spectator.setPlayerId(2024);
-          const stream = client.addPlayer(spectator, {});
-          stream.on("data", (response) => {
-            console.log(
-              "Received message from server:",
-              response.getAllMessage(),
-            );
-          });
-        } else {
-          console.error("Error making gRPC call:", error);
-        }
-      },
-    );
-  }, []);
-
+const PlaybackPage: React.FC = () => {
   const location = useLocation();
   const Contest_id = location.pathname.split("/")[2];
   const room_id = location.pathname.split("/")[4];
@@ -176,6 +145,7 @@ const PlayPage: React.FC = () => {
     try {
       await form.validateFields();
       await handleQuit();
+      setIsPrompt(false);
       const values = form.getFieldsValue();
       const room_id = `Team_${values.Student}--vs--Team_${values.Tricker}--${values.Map}`;
       history.push(`/contest/${Contest_id}/play/${room_id}/${values.Speed}`);
@@ -355,4 +325,4 @@ const PlayPage: React.FC = () => {
   );
 };
 
-export default PlayPage;
+export default PlaybackPage;
