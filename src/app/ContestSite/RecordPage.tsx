@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Table,
   Button,
@@ -43,13 +43,14 @@ import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
+import { useUrl } from "../../api/hooks/url";
 
 const { Text } = Typography;
 
 const RecordPage: React.FC = () => {
   const userInfo = getUserInfo();
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
 
   // //-----------------根据队员id查询队伍id------------------
   // const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
@@ -197,7 +198,12 @@ const RecordPage: React.FC = () => {
           </Button>
           <Col span={1} />
           <Button disabled={record.status !== true}>
-            <Link to={`/contest/${Contest_id}/play/${record.room_id}/3`}>
+            <Link
+              to={url
+                .append("room", record.room_id)
+                .append("speed", 3)
+                .link("playback")}
+            >
               查看
             </Link>
           </Button>

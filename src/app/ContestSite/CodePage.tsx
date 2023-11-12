@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import type {
-  UploadFile,
-} from "antd/lib/upload/interface";
-import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
-import { useLocation } from "react-router-dom";
+import type { UploadFile } from "antd/lib/upload/interface";
+import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import {
   Table,
   Button,
@@ -76,6 +73,7 @@ import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
+import { useUrl } from "../../api/hooks/url";
 
 const { Text } = Typography;
 
@@ -88,8 +86,8 @@ const CodePage: React.FC = () => {
   }
 
   const userInfo = getUserInfo();
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
 
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);

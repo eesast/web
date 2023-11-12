@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
+import { Link, Switch, Route, Redirect } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   GetContests as GET_CONTESTS,
@@ -70,6 +70,7 @@ import MenuPage from "./MenuPage";
 //用以没登陆会跳转到登陆页面
 import dayjs, { Dayjs } from "dayjs";
 import { Content } from "antd/lib/layout/layout";
+import { useUrl } from "../../api/hooks/url";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -82,7 +83,7 @@ dayjs.extend(utc);
 const ContestSite: React.FC = () => {
   const userInfo = getUserInfo();
 
-  const { path } = useRouteMatch();
+  const url = useUrl();
 
   const {
     data: contestData,
@@ -562,10 +563,20 @@ const ContestSite: React.FC = () => {
   return (
     <>
       <Switch>
-        <Route exact path={path}>
+        {/* 等待React升到v18后启用 */}
+        {/* <Route path={url.route("contest", "site")}>
+          <Redirect to={url.link("list")} />
+        </Route>
+        <Route path={url.route("list")}>
+          {index}
+        </Route> */}
+        <Route exact path={url.route("contest", "site")}>
+          <Redirect to={url.link("list")} />
+        </Route>
+        <Route exact path={url.route("list")}>
           {index}
         </Route>
-        <Route path={path + "/:contestID"}>
+        <Route>
           <MenuPage />
         </Route>
       </Switch>
@@ -600,7 +611,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
     ...restProps
   } = props;
 
-  const { url } = useRouteMatch();
+  const url = useUrl();
 
   const state = dayjs(endDate).isAfter(dayjs().format())
     ? dayjs(startDate).isBefore(dayjs().format())
@@ -630,7 +641,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
       hoverable
       extra={
         <p>
-          <Link to={`${url}/${id}`}>
+          <Link to={url.append("contest", id).link("intro")}>
             <Button size={"large"}>查看详情</Button>
           </Link>
         </p>

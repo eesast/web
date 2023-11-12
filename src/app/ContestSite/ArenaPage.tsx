@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import {
   Table,
   Button,
@@ -45,11 +44,12 @@ import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
 import axios from "axios";
 import { useQuery, useMutation } from "@apollo/client";
 import dayjs from "dayjs";
+import { useUrl } from "../../api/hooks/url";
 
 const ArenaPage: React.FC = () => {
   const userInfo = getUserInfo();
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
 
   // --------------获取比赛状态-------------------
   const { data: contestData, error: contestError } = useQuery<

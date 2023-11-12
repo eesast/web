@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import {
   Typography,
   Button,
@@ -46,13 +45,12 @@ import {
 } from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
-import type {
-  UploadFile,
-} from "antd/lib/upload/interface";
-import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
+import type { UploadFile } from "antd/lib/upload/interface";
+import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, deleteFile } from "../../api/helpers/cos";
 import { getUserInfo } from "../../api/helpers/auth";
 import { Content } from "antd/lib/layout/layout";
+import { useUrl } from "../../api/hooks/url";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -62,10 +60,10 @@ interface File {
   url: string;
 }
 
-const ResourcePage: React.FC = () => {
+const NoticePage: React.FC = () => {
   const userInfo = getUserInfo();
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
 
   const {
     data: noticeData,
@@ -379,7 +377,7 @@ const ResourcePage: React.FC = () => {
   );
 };
 
-export default ResourcePage;
+export default NoticePage;
 
 interface NoticeCardProps extends CardProps {
   title: string;

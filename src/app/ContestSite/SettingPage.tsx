@@ -14,7 +14,7 @@ import {
   Row,
   Typography,
 } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import {
@@ -35,13 +35,14 @@ import {
 } from "../../api/types";
 import { useMutation, useQuery } from "@apollo/client";
 import { getUserInfo } from "../../api/helpers/auth";
+import { useUrl } from "../../api/hooks/url";
 
 const { Text } = Typography;
 
 const SettingPage: React.FC = () => {
   //获取比赛ID
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
   //获取用户信息
   const userInfo = getUserInfo();
 
@@ -398,7 +399,7 @@ const SettingPage: React.FC = () => {
       subTitle="Sorry, you are not authorized to access this page."
       extra={
         <Button type="primary">
-          <Link to="/contest">Back To ContestPage</Link>
+          <Link to={url.link("intro")}>Back To Contest Intro</Link>
         </Button>
       }
     />

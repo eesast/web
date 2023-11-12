@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useHistory, Prompt } from "react-router-dom";
+import { useHistory, Prompt } from "react-router-dom";
 import { Button, message, Layout, Row, Col, Modal, Form, Select } from "antd";
 import {
   ArrowsAltOutlined,
@@ -14,12 +14,13 @@ import { GetAllTeamInfo_compile as GETALLTEAMCOMPILE } from "../../api/contest.g
 import { useQuery } from "@apollo/client";
 
 import { Unity, useUnityContext } from "react-unity-webgl";
+import { useUrl } from "../../api/hooks/url";
 
 const PlaybackPage: React.FC = () => {
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
-  const room_id = location.pathname.split("/")[4];
-  const playback_speed = location.pathname.split("/")[5];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
+  const room_id = url.query.get("room");
+  const playback_speed = url.query.get("speed");
 
   const {
     data: scoreteamListData,
@@ -100,6 +101,8 @@ const PlaybackPage: React.FC = () => {
   const handleQuit = async () => {
     try {
       await unload();
+      setIsPrompt(false);
+      history.push(url.delete("room").delete("speed").link("playback"));
     } catch (err) {
       message.error(err);
     }
@@ -110,7 +113,7 @@ const PlaybackPage: React.FC = () => {
   useEffect(() => {
     if (isLoaded && isPrompt) {
       console.log("isLoaded: ", isLoaded);
-      if (typeof room_id === "undefined") {
+      if (room_id === null) {
         sendMessage(
           "InputManager",
           "AfterInputPlaySpeed",
@@ -144,11 +147,18 @@ const PlaybackPage: React.FC = () => {
   const handleRefresh = async () => {
     try {
       await form.validateFields();
-      await handleQuit();
-      setIsPrompt(false);
+      if (isPrompt) {
+        await handleQuit();
+      }
       const values = form.getFieldsValue();
       const room_id = `Team_${values.Student}--vs--Team_${values.Tricker}--${values.Map}`;
-      history.push(`/contest/${Contest_id}/play/${room_id}/${values.Speed}`);
+      history.push(
+        url
+          .append("room", room_id)
+          .append("speed", values.Speed)
+          .link("playback"),
+      );
+      console.log(1);
       return history.go(0);
     } catch {
       var errors = form.getFieldsError();
@@ -203,8 +213,6 @@ const PlaybackPage: React.FC = () => {
               margin-top: 25px;
             `}
             onClick={() => {
-              // handleQuit();
-              // setIsPrompt(false);
               setModalVisible(true);
             }}
           >
@@ -220,7 +228,6 @@ const PlaybackPage: React.FC = () => {
         onCancel={() => {
           setModalVisible(false);
           form.resetFields();
-          // history.go(0);
         }}
         onOk={handleRefresh}
         // maskClosable={true}
@@ -312,11 +319,8 @@ const PlaybackPage: React.FC = () => {
             cancelText: "再看看",
             onOk: () => {
               handleQuit();
-              setIsPrompt(false);
             },
-            onCancel: () => {
-              setIsPrompt(true);
-            },
+            onCancel: () => {},
           });
           return false;
         }}

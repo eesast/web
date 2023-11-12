@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton  修改:delete Result
 import { Layout, message } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 //graphql的语句由Apollo生成ts句柄，在此import
 import { InsertTeam, InsertTeamVariables } from "../../api/types";
@@ -11,6 +11,7 @@ import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
 import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
 import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
+import { useUrl } from "../../api/hooks/url";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -33,8 +34,8 @@ function randomString() {
   return n;
 }
 const RegisterPage: React.FC = () => {
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
   //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
   const userInfo = getUserInfo();
   // 查询此用户是否已有队伍，若有则不可再创建
@@ -144,7 +145,7 @@ const RegisterPage: React.FC = () => {
                   <TextArea placeholder="输入队伍简介" rows={6} />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                  <Link to={`/contest/${Contest_id}/join`}> 加入队伍</Link>
+                  <Link to={url.link("team-join")}> 加入队伍</Link>
                 </Form.Item>
                 <Form.Item {...headLayout}>
                   <Button

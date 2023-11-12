@@ -9,7 +9,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 //graphql语句
 import {
@@ -67,13 +67,14 @@ import {
   RollbackOutlined,
 } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
+import { useUrl } from "../../api/hooks/url";
 
 const { Text } = Typography;
 
 const ManageTeamsPage: React.FC = () => {
   //获取比赛ID
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest")!;
   //获取用户信息
   const userInfo = getUserInfo();
 
@@ -114,7 +115,7 @@ const ManageTeamsPage: React.FC = () => {
       subTitle="Sorry, you are not authorized to access this page."
       extra={
         <Button type="primary">
-          <Link to="/contest">Back To ContestPage</Link>
+          <Link to={url.link("intro")}>Back To Contest Intro</Link>
         </Button>
       }
     />

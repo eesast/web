@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  useLocation,
-  Link,
-  Switch,
-  Route,
-  useRouteMatch,
-} from "react-router-dom";
+import { Link, Switch, Route } from "react-router-dom";
 import {
   HomeOutlined,
   DatabaseOutlined,
@@ -14,6 +8,7 @@ import {
   LockOutlined,
   DoubleLeftOutlined,
   ExperimentOutlined,
+  CodeOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
 //antd的包
@@ -21,7 +16,7 @@ import { Menu, Layout, Typography, message } from "antd";
 //以下为子分页
 //import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
-import ResourcePage from "./ResourcePage";
+import NoticePage from "./NoticePage";
 import RegisterPage from "./RegisterPage";
 import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
@@ -43,6 +38,7 @@ import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.
 //学长写好的api，用以没登陆会跳转到登陆页面
 import AuthRoute from "../../components/AuthRoute";
 import { isMobileOnly } from "react-device-detect";
+import { useUrl } from "../../api/hooks/url";
 
 //antd部件实例化
 const { Sider, Content } = Layout;
@@ -52,13 +48,8 @@ const { Text } = Typography;
 const MenuPage: React.FC = () => {
   const userInfo = getUserInfo();
 
-  //url
-  const { path, url } = useRouteMatch();
-  const location = useLocation();
-  //url的split，预设页面是intro
-  const page = location.pathname.split("/")[3] ?? "intro";
-  // 从url中获取比赛的id
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
 
   const { data: isContestManagerData, error: isContestManagerError } = useQuery<
     QueryContestManager,
@@ -87,20 +78,20 @@ const MenuPage: React.FC = () => {
       >
         <Menu
           mode="inline"
-          selectedKeys={[page]}
+          selectedKeys={[url.page]}
           defaultSelectedKeys={["back"]}
         >
           <Menu.Item key="back">
             <DoubleLeftOutlined />
-            <Link to={`/contest`}>返回</Link>
+            <Link to={url.delete("contest").link("contest", "site")}>返回</Link>
           </Menu.Item>
           <Menu.Item key="intro">
             <HomeOutlined />
-            <Link to={`${url}/intro`}>介绍</Link>
+            <Link to={url.link("intro")}>介绍</Link>
           </Menu.Item>
-          <Menu.Item key="source">
+          <Menu.Item key="notice">
             <DatabaseOutlined />
-            <Link to={`${url}/source`}>资源与公告</Link>
+            <Link to={url.link("notice")}>公告与资源</Link>
           </Menu.Item>
           <SubMenu
             key="team"
@@ -111,38 +102,38 @@ const MenuPage: React.FC = () => {
               </span>
             }
           >
-            <Menu.Item key="register">
-              <Link to={`${url}/register`}>创建</Link>
+            <Menu.Item key="team-register">
+              <Link to={url.link("team-register")}>创建</Link>
             </Menu.Item>
-            <Menu.Item key="join">
-              <Link to={`${url}/join`}>加入</Link>
+            <Menu.Item key="team-join">
+              <Link to={url.link("team-join")}>加入</Link>
             </Menu.Item>
-            <Menu.Item key="manage">
-              <Link to={`${url}/manage`}>管理</Link>
+            <Menu.Item key="team-manage">
+              <Link to={url.link("team-manage")}>管理</Link>
             </Menu.Item>
           </SubMenu>
-
+          <Menu.Item key="code">
+            <CodeOutlined />
+            <Link to={url.link("code")}>代码</Link>
+          </Menu.Item>
           <SubMenu
-            key="fight"
+            key="arena"
             title={
               <span>
                 <FireOutlined />
-                对战
+                天梯
               </span>
             }
           >
-            <Menu.Item key="arena">
-              <Link to={`${url}/arena`}>天梯</Link>
+            <Menu.Item key="arena-score">
+              <Link to={url.link("arena-score")}>积分榜</Link>
             </Menu.Item>
-            <Menu.Item key="records">
-              <Link to={`${url}/records`}>记录</Link>
-            </Menu.Item>
-            <Menu.Item key="codes">
-              <Link to={`${url}/codes`}>代码</Link>
+            <Menu.Item key="arena-record">
+              <Link to={url.link("arena-record")}>对战记录</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu
-            key="play"
+            key="lab"
             title={
               <span>
                 <ExperimentOutlined />
@@ -152,20 +143,20 @@ const MenuPage: React.FC = () => {
             }
           >
             <Menu.Item key="playground">
-              <Link to={`${url}/playground`}>试玩</Link>
+              <Link to={url.link("playground")}>试玩</Link>
             </Menu.Item>
             <Menu.Item key="stream">
-              <Link to={`${url}/stream`}>直播</Link>
+              <Link to={url.link("stream")}>直播</Link>
             </Menu.Item>
             <Menu.Item key="playback">
-              <Link to={`${url}/playback`}>回放</Link>
+              <Link to={url.link("playback")}>回放</Link>
             </Menu.Item>
           </SubMenu>
 
           {["root", "counselor"].includes(userInfo?.role!) ||
           isContestManagerData?.contest_manager.length === 1 ? (
             <SubMenu
-              key="sub2"
+              key="admin"
               title={
                 <span>
                   <LockOutlined />
@@ -173,11 +164,11 @@ const MenuPage: React.FC = () => {
                 </span>
               }
             >
-              <Menu.Item key="manageTeams">
-                <Link to={`${url}/manageTeams`}>管理队伍</Link>
+              <Menu.Item key="admin-manage">
+                <Link to={url.link("admin-manage")}>管理队伍</Link>
               </Menu.Item>
-              <Menu.Item key="setting">
-                <Link to={`${url}/setting`}>比赛设置</Link>
+              <Menu.Item key="admin-setting">
+                <Link to={url.link("admin-setting")}>比赛设置</Link>
               </Menu.Item>
             </SubMenu>
           ) : null}
@@ -185,51 +176,48 @@ const MenuPage: React.FC = () => {
       </Sider>
       <Content>
         <Switch>
-          <Route exact path={path}>
-            <IntroPage />
-          </Route>
-          <Route exact path={`${path}/intro`}>
+          <Route exact path={url.route("intro")}>
             <IntroPage />
           </Route>
 
-          <Route exact path={`${path}/source`}>
-            <ResourcePage />
+          <Route exact path={url.route("notice")}>
+            <NoticePage />
           </Route>
 
-          <AuthRoute exact path={`${path}/register`}>
+          <AuthRoute exact path={url.route("team-register")}>
             <RegisterPage />
           </AuthRoute>
-          <AuthRoute exact path={`${path}/join`}>
+          <AuthRoute exact path={url.route("team-join")}>
             <JoinPage />
           </AuthRoute>
-          <AuthRoute exact path={`${path}/manage`}>
+          <AuthRoute exact path={url.route("team-manage")}>
             <ManagePage />
           </AuthRoute>
 
-          <AuthRoute exact path={`${path}/arena`}>
+          <AuthRoute exact path={url.route("arena-score")}>
             <ArenaPage />
           </AuthRoute>
-          <AuthRoute exact path={`${path}/records`}>
+          <AuthRoute exact path={url.route("arena-record")}>
             <RecordPage />
           </AuthRoute>
-          <AuthRoute exact path={`${path}/codes`}>
+          <AuthRoute exact path={url.route("code")}>
             <CodePage />
           </AuthRoute>
 
-          <AuthRoute exact path={`${path}/playground`}>
+          <AuthRoute exact path={url.route("playground")}>
             <PlaybackPage />
           </AuthRoute>
-          <AuthRoute exact path={`${path}/stream`}>
+          <AuthRoute exact path={url.route("stream")}>
             <StreamPage />
           </AuthRoute>
-          <AuthRoute path={`${path}/playback`}>
+          <AuthRoute path={url.route("playback")}>
             <PlaybackPage />
           </AuthRoute>
 
-          <AuthRoute exact path={`${path}/manageTeams`}>
+          <AuthRoute exact path={url.route("admin-manage")}>
             <ManageTeamsPage />
           </AuthRoute>
-          <AuthRoute exact path={`${path}/setting`}>
+          <AuthRoute exact path={url.route("admin-setting")}>
             <SettingPage />
           </AuthRoute>
           <AuthRoute>
