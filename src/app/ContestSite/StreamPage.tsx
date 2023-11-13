@@ -7,11 +7,18 @@ import * as Message2Server from "../../generated/grpc-web/Message2Server_pb";
 import { Col, Layout, Row } from "antd";
 import Title from "antd/lib/typography/Title";
 import React from "react";
+import { useUrl } from "../../api/hooks/url";
+
+interface Loc {
+  x: number;
+  y: number;
+}
 
 const StreamPage: React.FC = () => {
-  interface Loc {
-    x: number;
-    y: number;
+  const url = useUrl();
+  const [streamUrl, setStreamUrl] = useState<string>("https://api.eesast.com");
+  if (url.query.get("url") !== null) {
+    setStreamUrl("http://" + url.query.get("url"));
   }
   const [gameTime, setGameTime] = useState(0);
   const [studentScore, setStudentScore] = useState(0);
@@ -22,8 +29,7 @@ const StreamPage: React.FC = () => {
   const [student4Loc, setStudent4Loc] = useState<Loc>({ x: 0, y: 0 });
   const [trickerLoc, setTrickerLoc] = useState<Loc>({ x: 0, y: 0 });
   useEffect(() => {
-    // const client = new AvailableServiceClient("http://59.66.141.33:8879");
-    const client = new AvailableServiceClient("http://localhost:8879");
+    const client = new AvailableServiceClient(streamUrl + ":8879");
     const request = new Message2Server.IDMsg();
     request.setPlayerId(99);
     client.tryConnection(

@@ -57,7 +57,7 @@ const ShareSite: React.FC = () => {
       <Content>
         <Switch>
           <Route exact path={url.route("share", "site")}>
-            <Redirect to={url.link("course")} />
+            <Redirect to={url.link("weekly")} />
           </Route>
           <Route exact path={url.route("course")}>
             <CoursePage />
