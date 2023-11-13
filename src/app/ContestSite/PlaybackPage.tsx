@@ -41,9 +41,10 @@ const PlaybackPage: React.FC = () => {
     }
   });
 
-  const projectDir = "/WebGL/";
+  let projectUrl = process.env.REACT_APP_STATIC_URL + "/public/WebGL/THUAI6/";
   let projectName = "THUAI6_WebGL";
   if (Contest_id === "jump") {
+    projectUrl = process.env.REACT_APP_STATIC_URL + "/public/WebGL/Jump/";
     projectName = "JumpJump-Build";
   }
 
@@ -65,11 +66,11 @@ const PlaybackPage: React.FC = () => {
     requestFullscreen,
     loadingProgression,
   } = useUnityContext({
-    loaderUrl: projectDir + projectName + ".loader.js",
-    dataUrl: projectDir + projectName + ".data",
-    frameworkUrl: projectDir + projectName + ".framework.js",
-    codeUrl: projectDir + projectName + ".wasm",
-    streamingAssetsUrl: projectDir,
+    loaderUrl: projectUrl + projectName + ".loader.js",
+    dataUrl: projectUrl + projectName + ".data",
+    frameworkUrl: projectUrl + projectName + ".framework.js",
+    codeUrl: projectUrl + projectName + ".wasm",
+    streamingAssetsUrl: projectUrl,
     cacheControl: handleCacheControl,
   });
 
@@ -122,7 +123,7 @@ const PlaybackPage: React.FC = () => {
         sendMessage(
           "InputManager",
           "AfterInputFilename",
-          projectDir + "test.thuaipb",
+          projectUrl + "test.thuaipb",
         );
       } else {
         console.log("room_id: ", room_id);
