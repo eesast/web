@@ -87,7 +87,7 @@ const StreamPage: React.FC = () => {
         }
       },
     );
-  }, []);
+  });
 
   const canvasRef = React.useRef(null);
   const h = 50;
