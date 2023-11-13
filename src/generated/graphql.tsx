@@ -5091,6 +5091,10 @@ export type Mutation_Root = {
   delete_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** delete single row from the table: "scholarships_aids" */
   delete_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** delete data from the table: "share_course" */
+  delete_share_course?: Maybe<Share_Course_Mutation_Response>;
+  /** delete single row from the table: "share_course" */
+  delete_share_course_by_pk?: Maybe<Share_Course>;
   /** delete data from the table: "tag" */
   delete_tag?: Maybe<Tag_Mutation_Response>;
   /** delete single row from the table: "tag" */
@@ -5211,6 +5215,10 @@ export type Mutation_Root = {
   insert_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** insert a single row into the table: "scholarships_aids" */
   insert_scholarships_aids_one?: Maybe<Scholarships_Aids>;
+  /** insert data into the table: "share_course" */
+  insert_share_course?: Maybe<Share_Course_Mutation_Response>;
+  /** insert a single row into the table: "share_course" */
+  insert_share_course_one?: Maybe<Share_Course>;
   /** insert data into the table: "tag" */
   insert_tag?: Maybe<Tag_Mutation_Response>;
   /** insert a single row into the table: "tag" */
@@ -5329,6 +5337,10 @@ export type Mutation_Root = {
   update_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** update single row of the table: "scholarships_aids" */
   update_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** update data of the table: "share_course" */
+  update_share_course?: Maybe<Share_Course_Mutation_Response>;
+  /** update single row of the table: "share_course" */
+  update_share_course_by_pk?: Maybe<Share_Course>;
   /** update data of the table: "tag" */
   update_tag?: Maybe<Tag_Mutation_Response>;
   /** update single row of the table: "tag" */
@@ -5614,6 +5626,16 @@ export type Mutation_RootDelete_Scholarships_AidsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Scholarships_Aids_By_PkArgs = {
   code: Scalars["String"]["input"];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Share_CourseArgs = {
+  where: Share_Course_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Share_Course_By_PkArgs = {
+  uuid: Scalars["uuid"]["input"];
 };
 
 /** mutation root */
@@ -5966,6 +5988,18 @@ export type Mutation_RootInsert_Scholarships_AidsArgs = {
 export type Mutation_RootInsert_Scholarships_Aids_OneArgs = {
   object: Scholarships_Aids_Insert_Input;
   on_conflict?: InputMaybe<Scholarships_Aids_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Share_CourseArgs = {
+  objects: Array<Share_Course_Insert_Input>;
+  on_conflict?: InputMaybe<Share_Course_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Share_Course_OneArgs = {
+  object: Share_Course_Insert_Input;
+  on_conflict?: InputMaybe<Share_Course_On_Conflict>;
 };
 
 /** mutation root */
@@ -6349,6 +6383,20 @@ export type Mutation_RootUpdate_Scholarships_Aids_By_PkArgs = {
   _inc?: InputMaybe<Scholarships_Aids_Inc_Input>;
   _set?: InputMaybe<Scholarships_Aids_Set_Input>;
   pk_columns: Scholarships_Aids_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Share_CourseArgs = {
+  _inc?: InputMaybe<Share_Course_Inc_Input>;
+  _set?: InputMaybe<Share_Course_Set_Input>;
+  where: Share_Course_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
+  _inc?: InputMaybe<Share_Course_Inc_Input>;
+  _set?: InputMaybe<Share_Course_Set_Input>;
+  pk_columns: Share_Course_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -7945,6 +7993,12 @@ export type Query_Root = {
   scholarships_aids_aggregate: Scholarships_Aids_Aggregate;
   /** fetch data from the table: "scholarships_aids" using primary key columns */
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** fetch data from the table: "share_course" */
+  share_course: Array<Share_Course>;
+  /** fetch aggregated fields from the table: "share_course" */
+  share_course_aggregate: Share_Course_Aggregate;
+  /** fetch data from the table: "share_course" using primary key columns */
+  share_course_by_pk?: Maybe<Share_Course>;
   /** fetch data from the table: "tag" */
   tag: Array<Tag>;
   /** fetch aggregated fields from the table: "tag" */
@@ -8518,6 +8572,26 @@ export type Query_RootScholarships_Aids_By_PkArgs = {
   code: Scalars["String"]["input"];
 };
 
+export type Query_RootShare_CourseArgs = {
+  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
+  where?: InputMaybe<Share_Course_Bool_Exp>;
+};
+
+export type Query_RootShare_Course_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
+  where?: InputMaybe<Share_Course_Bool_Exp>;
+};
+
+export type Query_RootShare_Course_By_PkArgs = {
+  uuid: Scalars["uuid"]["input"];
+};
+
 export type Query_RootTagArgs = {
   distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
   limit?: InputMaybe<Scalars["Int"]["input"]>;
@@ -9074,6 +9148,256 @@ export type Scholarships_Aids_Variance_Fields = {
   amount?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** 所有电子系的课程，用于课程评测 */
+export type Share_Course = {
+  __typename?: "share_course";
+  code: Scalars["String"]["output"];
+  fullname: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  professor: Scalars["String"]["output"];
+  semester: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
+  uuid: Scalars["uuid"]["output"];
+  year: Scalars["Int"]["output"];
+};
+
+/** aggregated selection of "share_course" */
+export type Share_Course_Aggregate = {
+  __typename?: "share_course_aggregate";
+  aggregate?: Maybe<Share_Course_Aggregate_Fields>;
+  nodes: Array<Share_Course>;
+};
+
+/** aggregate fields of "share_course" */
+export type Share_Course_Aggregate_Fields = {
+  __typename?: "share_course_aggregate_fields";
+  avg?: Maybe<Share_Course_Avg_Fields>;
+  count: Scalars["Int"]["output"];
+  max?: Maybe<Share_Course_Max_Fields>;
+  min?: Maybe<Share_Course_Min_Fields>;
+  stddev?: Maybe<Share_Course_Stddev_Fields>;
+  stddev_pop?: Maybe<Share_Course_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Share_Course_Stddev_Samp_Fields>;
+  sum?: Maybe<Share_Course_Sum_Fields>;
+  var_pop?: Maybe<Share_Course_Var_Pop_Fields>;
+  var_samp?: Maybe<Share_Course_Var_Samp_Fields>;
+  variance?: Maybe<Share_Course_Variance_Fields>;
+};
+
+/** aggregate fields of "share_course" */
+export type Share_Course_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Share_Course_Select_Column>>;
+  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+/** aggregate avg on columns */
+export type Share_Course_Avg_Fields = {
+  __typename?: "share_course_avg_fields";
+  year?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** Boolean expression to filter rows from the table "share_course". All fields are combined with a logical 'AND'. */
+export type Share_Course_Bool_Exp = {
+  _and?: InputMaybe<Array<Share_Course_Bool_Exp>>;
+  _not?: InputMaybe<Share_Course_Bool_Exp>;
+  _or?: InputMaybe<Array<Share_Course_Bool_Exp>>;
+  code?: InputMaybe<String_Comparison_Exp>;
+  fullname?: InputMaybe<String_Comparison_Exp>;
+  language?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  professor?: InputMaybe<String_Comparison_Exp>;
+  semester?: InputMaybe<String_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "share_course" */
+export enum Share_Course_Constraint {
+  /** unique or primary key constraint on columns "uuid" */
+  ShareCoursePkey = "share_course_pkey",
+}
+
+/** input type for incrementing numeric columns in table "share_course" */
+export type Share_Course_Inc_Input = {
+  year?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** input type for inserting data into table "share_course" */
+export type Share_Course_Insert_Input = {
+  code?: InputMaybe<Scalars["String"]["input"]>;
+  fullname?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  professor?: InputMaybe<Scalars["String"]["input"]>;
+  semester?: InputMaybe<Scalars["String"]["input"]>;
+  type?: InputMaybe<Scalars["String"]["input"]>;
+  uuid?: InputMaybe<Scalars["uuid"]["input"]>;
+  year?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** aggregate max on columns */
+export type Share_Course_Max_Fields = {
+  __typename?: "share_course_max_fields";
+  code?: Maybe<Scalars["String"]["output"]>;
+  fullname?: Maybe<Scalars["String"]["output"]>;
+  language?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  professor?: Maybe<Scalars["String"]["output"]>;
+  semester?: Maybe<Scalars["String"]["output"]>;
+  type?: Maybe<Scalars["String"]["output"]>;
+  uuid?: Maybe<Scalars["uuid"]["output"]>;
+  year?: Maybe<Scalars["Int"]["output"]>;
+};
+
+/** aggregate min on columns */
+export type Share_Course_Min_Fields = {
+  __typename?: "share_course_min_fields";
+  code?: Maybe<Scalars["String"]["output"]>;
+  fullname?: Maybe<Scalars["String"]["output"]>;
+  language?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  professor?: Maybe<Scalars["String"]["output"]>;
+  semester?: Maybe<Scalars["String"]["output"]>;
+  type?: Maybe<Scalars["String"]["output"]>;
+  uuid?: Maybe<Scalars["uuid"]["output"]>;
+  year?: Maybe<Scalars["Int"]["output"]>;
+};
+
+/** response of any mutation on the table "share_course" */
+export type Share_Course_Mutation_Response = {
+  __typename?: "share_course_mutation_response";
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars["Int"]["output"];
+  /** data from the rows affected by the mutation */
+  returning: Array<Share_Course>;
+};
+
+/** on_conflict condition type for table "share_course" */
+export type Share_Course_On_Conflict = {
+  constraint: Share_Course_Constraint;
+  update_columns?: Array<Share_Course_Update_Column>;
+  where?: InputMaybe<Share_Course_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "share_course". */
+export type Share_Course_Order_By = {
+  code?: InputMaybe<Order_By>;
+  fullname?: InputMaybe<Order_By>;
+  language?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  professor?: InputMaybe<Order_By>;
+  semester?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: share_course */
+export type Share_Course_Pk_Columns_Input = {
+  uuid: Scalars["uuid"]["input"];
+};
+
+/** select columns of table "share_course" */
+export enum Share_Course_Select_Column {
+  /** column name */
+  Code = "code",
+  /** column name */
+  Fullname = "fullname",
+  /** column name */
+  Language = "language",
+  /** column name */
+  Name = "name",
+  /** column name */
+  Professor = "professor",
+  /** column name */
+  Semester = "semester",
+  /** column name */
+  Type = "type",
+  /** column name */
+  Uuid = "uuid",
+  /** column name */
+  Year = "year",
+}
+
+/** input type for updating data in table "share_course" */
+export type Share_Course_Set_Input = {
+  code?: InputMaybe<Scalars["String"]["input"]>;
+  fullname?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  professor?: InputMaybe<Scalars["String"]["input"]>;
+  semester?: InputMaybe<Scalars["String"]["input"]>;
+  type?: InputMaybe<Scalars["String"]["input"]>;
+  uuid?: InputMaybe<Scalars["uuid"]["input"]>;
+  year?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** aggregate stddev on columns */
+export type Share_Course_Stddev_Fields = {
+  __typename?: "share_course_stddev_fields";
+  year?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Share_Course_Stddev_Pop_Fields = {
+  __typename?: "share_course_stddev_pop_fields";
+  year?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Share_Course_Stddev_Samp_Fields = {
+  __typename?: "share_course_stddev_samp_fields";
+  year?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate sum on columns */
+export type Share_Course_Sum_Fields = {
+  __typename?: "share_course_sum_fields";
+  year?: Maybe<Scalars["Int"]["output"]>;
+};
+
+/** update columns of table "share_course" */
+export enum Share_Course_Update_Column {
+  /** column name */
+  Code = "code",
+  /** column name */
+  Fullname = "fullname",
+  /** column name */
+  Language = "language",
+  /** column name */
+  Name = "name",
+  /** column name */
+  Professor = "professor",
+  /** column name */
+  Semester = "semester",
+  /** column name */
+  Type = "type",
+  /** column name */
+  Uuid = "uuid",
+  /** column name */
+  Year = "year",
+}
+
+/** aggregate var_pop on columns */
+export type Share_Course_Var_Pop_Fields = {
+  __typename?: "share_course_var_pop_fields";
+  year?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate var_samp on columns */
+export type Share_Course_Var_Samp_Fields = {
+  __typename?: "share_course_var_samp_fields";
+  year?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate variance on columns */
+export type Share_Course_Variance_Fields = {
+  __typename?: "share_course_variance_fields";
+  year?: Maybe<Scalars["Float"]["output"]>;
+};
+
 export type Subscription_Root = {
   __typename?: "subscription_root";
   /** fetch data from the table: "aid_application" */
@@ -9236,6 +9560,12 @@ export type Subscription_Root = {
   scholarships_aids_aggregate: Scholarships_Aids_Aggregate;
   /** fetch data from the table: "scholarships_aids" using primary key columns */
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** fetch data from the table: "share_course" */
+  share_course: Array<Share_Course>;
+  /** fetch aggregated fields from the table: "share_course" */
+  share_course_aggregate: Share_Course_Aggregate;
+  /** fetch data from the table: "share_course" using primary key columns */
+  share_course_by_pk?: Maybe<Share_Course>;
   /** fetch data from the table: "tag" */
   tag: Array<Tag>;
   /** fetch aggregated fields from the table: "tag" */
@@ -9806,6 +10136,26 @@ export type Subscription_RootScholarships_Aids_AggregateArgs = {
 
 export type Subscription_RootScholarships_Aids_By_PkArgs = {
   code: Scalars["String"]["input"];
+};
+
+export type Subscription_RootShare_CourseArgs = {
+  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
+  where?: InputMaybe<Share_Course_Bool_Exp>;
+};
+
+export type Subscription_RootShare_Course_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
+  where?: InputMaybe<Share_Course_Bool_Exp>;
+};
+
+export type Subscription_RootShare_Course_By_PkArgs = {
+  uuid: Scalars["uuid"]["input"];
 };
 
 export type Subscription_RootTagArgs = {
@@ -12452,6 +12802,32 @@ export type GetPostAppHistoryQuery = {
       count: number;
     } | null;
   };
+};
+
+export type GetCourseQueryVariables = Exact<{
+  code?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  year?: InputMaybe<Scalars["Int"]["input"]>;
+  semester?: InputMaybe<Scalars["String"]["input"]>;
+  professor?: InputMaybe<Scalars["String"]["input"]>;
+  type?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GetCourseQuery = {
+  __typename?: "query_root";
+  share_course: Array<{
+    __typename?: "share_course";
+    code: string;
+    fullname: string;
+    language: string;
+    name: string;
+    professor: string;
+    semester: string;
+    type: string;
+    uuid: any;
+    year: number;
+  }>;
 };
 
 export type GetUserQueryVariables = Exact<{
@@ -19509,6 +19885,112 @@ export type GetPostAppHistorySuspenseQueryHookResult = ReturnType<
 export type GetPostAppHistoryQueryResult = Apollo.QueryResult<
   GetPostAppHistoryQuery,
   GetPostAppHistoryQueryVariables
+>;
+export const GetCourseDocument = gql`
+  query GetCourse(
+    $code: String
+    $name: String
+    $year: Int
+    $semester: String
+    $professor: String
+    $type: String
+    $language: String
+  ) {
+    share_course(
+      order_by: { year: desc }
+      where: {
+        _and: [
+          { code: { _eq: $code } }
+          { name: { _eq: $name } }
+          { year: { _eq: $year } }
+          { semester: { _eq: $semester } }
+          { professor: { _eq: $professor } }
+          { type: { _eq: $type } }
+          { language: { _eq: $language } }
+        ]
+      }
+    ) {
+      code
+      fullname
+      language
+      name
+      professor
+      semester
+      type
+      uuid
+      year
+    }
+  }
+`;
+
+/**
+ * __useGetCourseQuery__
+ *
+ * To run a query within a React component, call `useGetCourseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseQuery({
+ *   variables: {
+ *      code: // value for 'code'
+ *      name: // value for 'name'
+ *      year: // value for 'year'
+ *      semester: // value for 'semester'
+ *      professor: // value for 'professor'
+ *      type: // value for 'type'
+ *      language: // value for 'language'
+ *   },
+ * });
+ */
+export function useGetCourseQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCourseQuery,
+    GetCourseQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCourseQuery, GetCourseQueryVariables>(
+    GetCourseDocument,
+    options,
+  );
+}
+export function useGetCourseLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCourseQuery,
+    GetCourseQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCourseQuery, GetCourseQueryVariables>(
+    GetCourseDocument,
+    options,
+  );
+}
+export function useGetCourseSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetCourseQuery,
+    GetCourseQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetCourseQuery, GetCourseQueryVariables>(
+    GetCourseDocument,
+    options,
+  );
+}
+export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
+export type GetCourseLazyQueryHookResult = ReturnType<
+  typeof useGetCourseLazyQuery
+>;
+export type GetCourseSuspenseQueryHookResult = ReturnType<
+  typeof useGetCourseSuspenseQuery
+>;
+export type GetCourseQueryResult = Apollo.QueryResult<
+  GetCourseQuery,
+  GetCourseQueryVariables
 >;
 export const GetUserDocument = gql`
   query GetUser($_id: String!) {

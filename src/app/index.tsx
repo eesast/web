@@ -10,7 +10,7 @@ import {
   Popover,
   Dropdown,
 } from "antd";
-import { UserOutlined, ExportOutlined, MenuOutlined } from "@ant-design/icons";
+import { UserOutlined, MenuOutlined, ExportOutlined } from "@ant-design/icons";
 import zhCN from "antd/es/locale/zh_CN";
 import { Switch, Route, Link, Redirect, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -21,13 +21,15 @@ import calendar from "dayjs/plugin/calendar";
 import { useWindowSize } from "../api/hooks/windowsize";
 import HomeSite from "./HomeSite";
 import ContestSite from "./ContestSite";
-import WeeklyPage from "./WeeklyPage";
 import InfoSite from "./InfoSite";
 import LoginPage from "./LoginPage";
+import ShareSite from "./ShareSite";
 import AuthRoute from "../components/AuthRoute";
 import ProfilePage from "./ProfilePage";
 import NotFoundPage from "./NotFoundPage";
 import Picture from "../components/Picture";
+
+// import "antd/dist/antd.dark.css";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -70,9 +72,11 @@ const StyledFooter = styled(Footer)`
 const UserMenu = (
   <Menu>
     <Menu.Item>
-      <Link to="/profile">个人信息</Link>
+      <Link to="/profile">个人页面</Link>
     </Menu.Item>
-    <Menu.Divider />
+    <Menu.Item>
+      <Link to="/login">登录</Link>
+    </Menu.Item>
     <Menu.Item
       onClick={() => {
         localStorage.removeItem("token");
@@ -98,26 +102,14 @@ function App() {
       defaultSelectedKeys={["home"]}
       selectedKeys={[site]}
     >
-      <Menu.Item key="home">
-        <Link to="/home">首页</Link>
-      </Menu.Item>
       <Menu.Item key="contest">
-        <Link to="/contest">比赛</Link>
-      </Menu.Item>
-      <Menu.Item key="weekly">
-        <Link to="/weekly">WEEKLY</Link>
+        <Link to="/contest">赛事互动 CONTEST</Link>
       </Menu.Item>
       <Menu.Item key="info">
-        <Link to="/info">INFO</Link>
+        <Link to="/info">信息化平台 INFO</Link>
       </Menu.Item>
-      <Menu.Item key="docs">
-        <a href="https://docs.eesast.com">DOCS</a> <ExportOutlined />
-      </Menu.Item>
-      <Menu.Item key="overleaf">
-        <a href="https://overleaf.eesast.com">OVERLEAF</a> <ExportOutlined />
-      </Menu.Item>
-      <Menu.Item key="minecraft">
-        <a href="https://mc.eesast.com">MINECRAFT</a> <ExportOutlined />
+      <Menu.Item key="share">
+        <Link to="/share">资源共享 SHARE</Link>
       </Menu.Item>
     </Menu>
   );
@@ -179,11 +171,11 @@ function App() {
             <AuthRoute path="/contest">
               <ContestSite />
             </AuthRoute>
-            <Route path="/weekly">
-              <WeeklyPage />
-            </Route>
             <AuthRoute path="/info">
               <InfoSite />
+            </AuthRoute>
+            <AuthRoute path="/share">
+              <ShareSite />
             </AuthRoute>
             <Route exact path="/(login|register|reset|verify)">
               <LoginPage />
@@ -197,8 +189,18 @@ function App() {
           </Switch>
         </Content>
         <StyledFooter>
-          <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1 </a> ©
-          2023 EESAST
+          <h2>友情链接</h2>
+          <p>
+            <a href="https://docs.eesast.com">DOCS</a> <ExportOutlined />{" "}
+            &nbsp;&nbsp;
+            <a href="https://overleaf.eesast.com">OVERLEAF</a>{" "}
+            <ExportOutlined /> &nbsp;&nbsp;
+            <a href="https://mc.eesast.com">MINECRAFT</a> <ExportOutlined />
+          </p>
+          <p>
+            <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1</a> ©
+            2023 EESAST
+          </p>
         </StyledFooter>
       </Layout>
       <BackTop />
