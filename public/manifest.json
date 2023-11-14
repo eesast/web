@@ -1,15 +1,97 @@
 {
-  "short_name": "EESAST",
-  "name": "EESAST",
+  "short_name": "EESΛST",
+  "name": "EESΛST",
+  "description": "Home for Tsinghua EE Students",
+  "categories": ["productivity", "utilities"],
+  "start_url": "/?source=pwa",
+  "display": "standalone",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "type": "image/png",
       "sizes": "192x192",
-      "type": "image/png"
+      "src": "/android-chrome-192x192.png"
+    },
+    {
+      "type": "image/png",
+      "sizes": "48x48",
+      "src": "/android-chrome-192x192.png"
+    },
+    {
+      "type": "image/png",
+      "sizes": "72x72",
+      "src": "/android-chrome-192x192.png"
+    },
+    {
+      "type": "image/png",
+      "sizes": "128x128",
+      "src": "/android-chrome-192x192.png"
+    },
+    {
+      "type": "image/png",
+      "sizes": "384x384",
+      "src": "/android-chrome-192x192.png"
+    },
+    {
+      "type": "image/png",
+      "sizes": "512x512",
+      "src": "/android-chrome-192x192.png"
+    },
+    {
+      "type": "image/png",
+      "sizes": "96x96",
+      "src": "/android-chrome-192x192.png"
+    },
+    {
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "src": "/logo.png",
+      "purpose": "maskable"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#027dcd",
-  "background_color": "#ffffff"
+  "theme_color": "#282c34",
+  "background_color": "#282c34",
+  "shortcuts": [
+    {
+      "name": "Contest Site",
+      "short_name": "Contest",
+      "description": "All you need to know about contests",
+      "url": "/contest/?mode=day",
+      "icons": [
+        {
+          "type": "image/png",
+          "sizes": "192x192",
+          "src": "/android-chrome-192x192.png"
+        }
+      ]
+    },
+    {
+      "name": "Share Site",
+      "short_name": "Share",
+      "description": "All you need to know about courses",
+      "url": "/share/?source=pwa",
+      "icons": [
+        {
+          "type": "image/png",
+          "sizes": "192x192",
+          "src": "/android-chrome-192x192.png"
+        }
+      ]
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/open-thuaipb",
+      "accept": {
+        "application/octet-stream": [".thuaipb"]
+      },
+      "icons": [
+        {
+          "type": "image/png",
+          "sizes": "192x192",
+          "src": "/android-chrome-192x192.png"
+        }
+      ],
+      "launch_type": "single-client"
+    }
+  ]
 }

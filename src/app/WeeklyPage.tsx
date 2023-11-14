@@ -69,7 +69,6 @@ const WeeklyPage: React.FC = () => {
     const [visibleDelete, setVisibleDelete] = useState(false);
     return (
       <Card
-        style={{ width: 300 }}
         hoverable={true}
         cover={<Im src={props.item.url} />}
         actions={showAction(
@@ -275,30 +274,41 @@ const WeeklyPage: React.FC = () => {
     <Layout>
       <Content
         className="site-layout"
-        style={{ padding: "0 50px", marginTop: 64, background: "#fff" }}
+        style={{
+          marginLeft: 50,
+          marginTop: 50,
+          marginRight: 50,
+          minHeight: 380,
+          background: "#fff",
+        }}
       >
-        <div
-          className="site-layout-background"
-          style={{ padding: 24, minHeight: 380, background: "#fff" }}
-        >
-          <Row>
-            <Col span={2}></Col>
-            <Col span={20}>
-              <Input
-                style={{ marginBottom: 50 }}
-                value={associatedValue}
-                onChange={(e) => {
-                  setAssociatedValue(e.target.value?.trim());
-                }}
-                placeholder="  Weekly Title"
-                allowClear
-                prefix={<SearchOutlined />}
-              ></Input>
-            </Col>
-            <Col span={2}></Col>
-          </Row>
+        <Row>
+          <Col span={2}></Col>
+          <Col span={20}>
+            <Input
+              style={{ marginBottom: 50 }}
+              value={associatedValue}
+              onChange={(e) => {
+                setAssociatedValue(e.target.value?.trim());
+              }}
+              placeholder="  Weekly Title"
+              allowClear
+              prefix={<SearchOutlined />}
+            ></Input>
+          </Col>
+          <Col span={2}></Col>
+        </Row>
+        <Row>
           <List
-            grid={{ gutter: 16, column: 4 }}
+            grid={{
+              gutter: 16,
+              xs: 1,
+              sm: 2,
+              md: 3,
+              lg: 4,
+              xl: 4,
+              xxl: 6,
+            }}
             dataSource={filterParamList?.slice(
               showSize * (page - 1),
               showSize * page,
@@ -309,7 +319,7 @@ const WeeklyPage: React.FC = () => {
               </List.Item>
             )}
           />
-        </div>
+        </Row>
       </Content>
 
       <Footer>

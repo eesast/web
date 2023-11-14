@@ -6,17 +6,12 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
-import {
-  useLocation,
-  Link,
-  Switch,
-  Route,
-  useRouteMatch,
-} from "react-router-dom";
+import { Link, Switch, Route, Redirect } from "react-router-dom";
 import NewsPage from "./NewsPage";
 import DivisionPage from "./DivisionPage";
 import ContestPage from "./ContestPage";
 import NotFoundPage from "../NotFoundPage";
+import { useUrl } from "../../api/hooks/url";
 
 const { Header, Content } = Layout;
 
@@ -37,28 +32,26 @@ const StyledMenu = styled(Menu)`
 `;
 
 const HomeSite: React.FC = () => {
-  const { path, url } = useRouteMatch();
-  const location = useLocation();
-  const page = location.pathname.split("/")[2] ?? "news";
+  const url = useUrl();
 
   return (
     <Layout>
       <StyledHeader>
-        <StyledMenu theme="light" mode="horizontal" selectedKeys={[page]}>
+        <StyledMenu theme="light" mode="horizontal" selectedKeys={[url.page]}>
           <Menu.Item key="news">
-            <Link to={`${url}`}>
+            <Link to={url.link("news")}>
               <SwitcherOutlined />
               动态
             </Link>
           </Menu.Item>
           <Menu.Item key="divisions">
-            <Link to={`${url}/divisions`}>
+            <Link to={url.link("divisions")}>
               <ApartmentOutlined />
               部门
             </Link>
           </Menu.Item>
           <Menu.Item key="contests">
-            <Link to={`${url}/contests`}>
+            <Link to={url.link("contests")}>
               <TeamOutlined />
               比赛
             </Link>
@@ -67,13 +60,16 @@ const HomeSite: React.FC = () => {
       </StyledHeader>
       <Content>
         <Switch>
-          <Route exact path={path}>
+          <Route exact path={url.route("home", "site")}>
+            <Redirect to={url.link("news")} />
+          </Route>
+          <Route exact path={url.route("news")}>
             <NewsPage />
           </Route>
-          <Route exact path={`${path}/divisions`}>
+          <Route exact path={url.route("divisions")}>
             <DivisionPage />
           </Route>
-          <Route exact path={`${path}/contests`}>
+          <Route exact path={url.route("contests")}>
             <ContestPage />
           </Route>
           <Route>

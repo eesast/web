@@ -1,0 +1,34 @@
+query GetCourse(
+  $code: String
+  $name: String
+  $year: Int
+  $semester: String
+  $professor: String
+  $type: String
+  $language: String
+) {
+  share_course(
+    order_by: { year: desc }
+    where: {
+      _and: [
+        { code: { _eq: $code } }
+        { name: { _eq: $name } }
+        { year: { _eq: $year } }
+        { semester: { _eq: $semester } }
+        { professor: { _eq: $professor } }
+        { type: { _eq: $type } }
+        { language: { _eq: $language } }
+      ]
+    }
+  ) {
+    code
+    fullname
+    language
+    name
+    professor
+    semester
+    type
+    uuid
+    year
+  }
+}

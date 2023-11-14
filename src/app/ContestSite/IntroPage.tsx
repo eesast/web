@@ -1,14 +1,14 @@
-//import React, { useEffect, useState } from "react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { message, Layout } from "antd";
 import { GetContestInfo as GETCONTESTINFO } from "../../api/contest.graphql";
 import { GetContestInfoVariables, GetContestInfo } from "../../api/types";
 import { useQuery } from "@apollo/client";
 import md2wx from "md2wx";
+import { useUrl } from "../../api/hooks/url";
+
 const IntroPage = () => {
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
   const [contentHtml, setContentHtml] = useState("");
   const { data: introData, error: introError } = useQuery<
     GetContestInfo,

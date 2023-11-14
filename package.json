@@ -1,10 +1,13 @@
 {
   "name": "eesast-web",
+  "description": "EESAST Web App",
+  "version": "2023.11.6",
+  "author": "EESAST",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "5.2.6",
     "@apollo/client": "3.8.7",
-    "antd": "4.10.0",
+    "antd": "4.10.3",
     "axios": "0.21.4",
     "cos-js-sdk-v5": "1.4.21",
     "dayjs": "1.11.10",
@@ -57,6 +60,8 @@
     "babel-plugin-styled-components": "2.1.4",
     "cross-env": "7.0.3",
     "customize-cra": "1.0.0",
+    "electron": "27.0.3",
+    "electron-builder": "24.6.4",
     "husky": "8.0.3",
     "lint-staged": "15.0.2",
     "prettier": "3.0.3",
@@ -76,6 +81,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "postinstall": "electron-builder install-app-deps",
     "eject": "react-app-rewired eject",
     "generate": "graphql-codegen",
     "prestart-to-be-resolved": "yarn generate",
@@ -83,6 +89,9 @@
     "codegen:watch": "yarn codegen --watch",
     "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired --openssl-legacy-provider start",
     "start:old": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
+    "electron": "electron .",
+    "electron:dev": "electron . dev",
+    "electron:build": "electron-builder",
     "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
     "build:old": "cross-env GENERATE_SOURCEMAP=false react-app-rewired build",
     "build": "cross-env GENERATE_SOURCEMAP=false react-app-rewired --openssl-legacy-provider build",
@@ -110,6 +119,35 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "main": "build/electron.js",
+  "homepage": "./",
+  "build": {
+    "productName": "EESAST",
+    "appId": "eesast-web",
+    "icon": "build/logo.png",
+    "directories": {
+      "output": "electron"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "nsis": {
+      "shortcutName": "EESAST",
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
     ]
   }
 }

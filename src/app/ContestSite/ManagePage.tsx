@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import {
   Input,
   Table,
@@ -48,13 +47,13 @@ import {
   DeleteTeamMember,
   DeleteTeamMemberVariables,
 } from "../../api/types";
-// import { Link } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client"; //更改：取消注释
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 //import ThuaiSite from ".";
 //import { ConsoleSqlOutlined } from "@ant-design/icons";
 import { TableProps } from "antd/lib/table";
+import { useUrl } from "../../api/hooks/url";
 const { TextArea } = Input;
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -63,9 +62,8 @@ const { Text } = Typography;
 const ManagePage: React.FC = () => {
   const userInfo = getUserInfo();
   //-----------------根据队员id查询队伍id------------------
-  const location = useLocation();
-  // 从url中获取比赛的id
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
   const {
     data: isleaderData,
     loading: leaderLoading,
@@ -175,7 +173,7 @@ const ManagePage: React.FC = () => {
           title="您还没有加入任何队伍"
           extra={
             <Button type="primary">
-              <Link replace to={`/contest/${Contest_id}/join`}>
+              <Link replace to={url.link("team-join")}>
                 加入队伍
               </Link>
             </Button>
@@ -285,7 +283,7 @@ const ManagePage: React.FC = () => {
         title="您还没有加入任何队伍"
         extra={
           <Button type="primary">
-            <Link replace to={`/contest/${Contest_id}/join`}>
+            <Link replace to={url.link("team-join")}>
               加入队伍
             </Link>
           </Button>

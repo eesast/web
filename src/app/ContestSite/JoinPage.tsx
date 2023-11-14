@@ -11,7 +11,6 @@ import {
   Form,
   Input,
 } from "antd";
-import { useLocation } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
@@ -35,9 +34,11 @@ import { useMutation, useQuery } from "@apollo/client";
 import type { TableProps } from "antd/lib/table";
 //导出excel
 import xlsx from "xlsx";
+import { useUrl } from "../../api/hooks/url";
+
 const JoinPage: React.FC = () => {
-  const location = useLocation();
-  const Contest_id = location.pathname.split("/")[2];
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
   const userInfo = getUserInfo();
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);

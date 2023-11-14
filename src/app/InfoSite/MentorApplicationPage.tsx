@@ -84,8 +84,8 @@ import {
 } from "@ant-design/icons";
 import { getStatusText } from "../../api/helpers/application";
 import { getUserInfo } from "../../api/helpers/auth";
-import { pick } from "../../api/helpers/utils";
-import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
+import { pick } from "../../api/helpers/pick";
+import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, listFile } from "../../api/helpers/cos";
 
 const { Text } = Typography;
