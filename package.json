@@ -7,7 +7,7 @@
   "dependencies": {
     "@ant-design/icons": "5.2.6",
     "@apollo/client": "3.8.7",
-    "antd": "4.10.3",
+    "antd": "4.11.0",
     "axios": "0.21.4",
     "cos-js-sdk-v5": "1.4.21",
     "dayjs": "1.11.10",
@@ -23,6 +23,7 @@
     "less-loader": "7.3.0",
     "lodash.get": "4.4.2",
     "md2wx": "3.1.2",
+    "omit.js": "2.0.2",
     "pizzip": "3.1.4",
     "react": "17.0.2",
     "react-custom-scrollbars": "4.2.1",
