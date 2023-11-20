@@ -51,6 +51,7 @@ import { uploadFile, downloadFile, deleteFile } from "../../api/helpers/cos";
 import { getUserInfo } from "../../api/helpers/auth";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
+import { RcFile } from "rc-upload/lib/interface";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -178,7 +179,7 @@ const NoticePage: React.FC = () => {
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
-      const url = `contest_upload/${Contest_id}/${e.file.name}`;
+      const url = `contest_upload/${Contest_id}/${(e.file as RcFile).name}`;
       const result = await uploadFile(e.file, url);
       const xhr = new XMLHttpRequest();
       e.onSuccess!(result, xhr);

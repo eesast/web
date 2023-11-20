@@ -51,6 +51,7 @@ import type { UploadFile } from "antd/lib/upload/interface";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, deleteFile } from "../../api/helpers/cos";
 import { getUserInfo } from "../../api/helpers/auth";
+import { RcFile } from "rc-upload/lib/interface";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -153,7 +154,7 @@ const NoticePage: React.FC = () => {
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
-      const url = "upload/" + e.file.name;
+      const url = "upload/" + (e.file as RcFile).name;
       const result = await uploadFile(e.file, url);
       const xhr = new XMLHttpRequest();
       e.onSuccess!(result, xhr);
