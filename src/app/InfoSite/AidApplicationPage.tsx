@@ -48,7 +48,11 @@ import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getUserInfo } from "../../api/helpers/auth";
+import {  FilterConfirmProps } from "antd/lib/table/interface";
 
+const param: FilterConfirmProps ={
+  closeDropdown: true
+}
 const { Text } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -433,7 +437,7 @@ const AidApplicationPage = () => {
     selectedKeys: FilterDropdownProps["selectedKeys"],
     confirm: FilterDropdownProps["confirm"],
   ) => {
-    confirm();
+    confirm(param);
     setSearchText(selectedKeys[0]);
   };
 

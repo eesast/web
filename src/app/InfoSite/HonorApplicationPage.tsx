@@ -49,7 +49,11 @@ import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getStatusText, getStatusValue } from "../../api/helpers/application";
 import get from "lodash.get";
 import { getUserInfo } from "../../api/helpers/auth";
+import {  FilterConfirmProps } from "antd/lib/table/interface";
 
+const param: FilterConfirmProps ={
+  closeDropdown: true
+}
 const { Text } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
@@ -254,7 +258,7 @@ const HonorApplicationPage = () => {
     selectedKeys: FilterDropdownProps["selectedKeys"],
     confirm: FilterDropdownProps["confirm"],
   ) => {
-    confirm();
+    confirm(param);
     setSearchText(selectedKeys[0]);
   };
 
