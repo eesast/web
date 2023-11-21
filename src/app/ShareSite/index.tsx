@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Link, Navigate, Route, Routes } from "react-router-dom";
 // import { getUserInfo } from "../../api/helpers/auth";
 //导入antd的包
 import { Layout, Menu } from "antd";
@@ -55,26 +55,14 @@ const ShareSite: React.FC = () => {
         </StyledMenu>
       </StyledHeader>
       <Content>
-        <Switch>
-          <Route exact path={url.route("share", "site")}>
-            <Redirect to={url.link("weekly")} />
-          </Route>
-          <Route exact path={url.route("course")}>
-            <CoursePage />
-          </Route>
-          <Route exact path={url.route("repo")}>
-            <RepoPage />
-          </Route>
-          {/* <Route exact path={url.route("toturial")}>
-            <CoursePage />
-          </Route> */}
-          <Route exact path={url.route("weekly")}>
-            <WeeklyPage />
-          </Route>
-          <Route>
-            <NotFoundPage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Navigate to={url.link("weekly")} />} />
+          <Route path="course" element={<CoursePage />} />
+          <Route path="repo" element={<RepoPage />} />
+          {/* <Route path="toturial"} element={<CoursePage />} /> */}
+          <Route path="weekly" element={<WeeklyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </Content>
     </Layout>
   );

@@ -34,8 +34,10 @@ import Center from "../Components/Center";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";
+import { useUrl } from "../../api/hooks/url";
 
 const MentorInfoVerifyPage: React.FC = () => {
+  const url = useUrl();
   const [current, setCurrent] = useState(1);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -385,7 +387,7 @@ const MentorInfoVerifyPage: React.FC = () => {
         subTitle="您没有权限访问此页面"
         extra={
           <Button type="primary">
-            <Link to="/home"> 返回主页</Link>
+            <Link to={url.link("home", "site")}> 返回主页</Link>
           </Button>
         }
       />

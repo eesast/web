@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Link, Route, Routes, Navigate } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   GetContests as GET_CONTESTS,
@@ -562,24 +562,11 @@ const ContestSite: React.FC = () => {
 
   return (
     <>
-      <Switch>
-        {/* 等待React升到v18后启用 */}
-        {/* <Route path={url.route("contest", "site")}>
-          <Redirect to={url.link("list")} />
-        </Route>
-        <Route path={url.route("list")}>
-          {index}
-        </Route> */}
-        <Route exact path={url.route("contest", "site")}>
-          <Redirect to={url.link("list")} />
-        </Route>
-        <Route exact path={url.route("list")}>
-          {index}
-        </Route>
-        <Route>
-          <MenuPage />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Navigate to={url.link("list")} />} />
+        <Route path="list" element={index} />
+        <Route path="*" element={<MenuPage />} />
+      </Routes>
     </>
   );
 };

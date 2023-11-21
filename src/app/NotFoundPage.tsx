@@ -1,8 +1,10 @@
 import Center from "./Components/Center";
 import { Result, Button } from "antd";
 import { Link } from "react-router-dom";
+import { useUrl } from "../api/hooks/url";
 
 const NotFoundPage = () => {
+  const url = useUrl();
   return (
     <Center>
       <Result
@@ -11,7 +13,7 @@ const NotFoundPage = () => {
         subTitle="未找到您要访问的页面"
         extra={
           <Button type="primary">
-            <Link to="/home"> 返回主页</Link>
+            <Link to={url.link("home", "site")}> 返回主页</Link>
           </Button>
         }
       />
