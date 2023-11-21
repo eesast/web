@@ -10,7 +10,7 @@ import { Link, Route, Navigate, Routes } from "react-router-dom";
 import NewsPage from "./NewsPage";
 import DivisionPage from "./DivisionPage";
 import ContestPage from "./ContestPage";
-import NotFoundPage from "../NotFoundPage";
+import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
 
 const { Header, Content } = Layout;

@@ -16,7 +16,7 @@ import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
 import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
 import HonorApplicationPage from "./HonorApplicationPage";
-import NotFoundPage from "../NotFoundPage";
+import NotFoundPage from "../Components/NotFound";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import AidApplicationPage from "./AidApplicationPage";
 import PostgraduateMentorPage from "./PostgraduateMentorPage";

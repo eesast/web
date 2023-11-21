@@ -1,12 +1,12 @@
-import Center from "./Components/Center";
+import Container from "./Container";
 import { Result, Button } from "antd";
 import { Link } from "react-router-dom";
-import { useUrl } from "../api/hooks/url";
+import { useUrl } from "../../api/hooks/url";
 
-const NotFoundPage = () => {
+const NotFound = () => {
   const url = useUrl();
   return (
-    <Center>
+    <Container>
       <Result
         status="404"
         title="404"
@@ -17,8 +17,8 @@ const NotFoundPage = () => {
           </Button>
         }
       />
-    </Center>
+    </Container>
   );
 };
 
-export default NotFoundPage;
+export default NotFound;

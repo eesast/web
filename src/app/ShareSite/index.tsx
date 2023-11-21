@@ -6,7 +6,7 @@ import { Layout, Menu } from "antd";
 //以下为分页面
 import RepoPage from "./RepoPage";
 import CoursePage from "./CoursePage";
-import NotFoundPage from "../NotFoundPage";
+import NotFoundPage from "../Components/NotFound";
 import { Content } from "antd/lib/layout/layout";
 import styled from "styled-components";
 import WeeklyPage from "../WeeklyPage";
