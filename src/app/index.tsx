@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { UserOutlined, MenuOutlined, ExportOutlined } from "@ant-design/icons";
 import zhCN from "antd/es/locale/zh_CN";
-import { Switch, Route, Link, Redirect, useLocation } from "react-router-dom";
+import { Route, Link, Routes, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
@@ -24,10 +24,11 @@ import ContestSite from "./ContestSite";
 import InfoSite from "./InfoSite";
 import LoginPage from "./UserSite/LoginPage";
 import ShareSite from "./ShareSite";
-import AuthRoute from "../components/AuthRoute";
 import ProfilePage from "./ProfilePage";
 import NotFoundPage from "./NotFoundPage";
 import Picture from "./Components/Picture";
+import Authenticate, { userRoles } from "./Components/Authenticate";
+import { useUrl } from "../api/hooks/url";
 
 // import "antd/dist/antd.dark.css";
 
@@ -89,8 +90,7 @@ const UserMenu = (
 );
 
 function App() {
-  const location = useLocation();
-  const site = location.pathname.split("/")[1];
+  const url = useUrl();
   const { width } = useWindowSize();
 
   const menu = (
@@ -100,16 +100,16 @@ function App() {
       theme="light"
       mode={width < 768 ? "inline" : "horizontal"}
       defaultSelectedKeys={["home"]}
-      selectedKeys={[site]}
+      selectedKeys={[url.site]}
     >
       <Menu.Item key="contest">
-        <Link to="/contest">赛事互动 CONTEST</Link>
+        <Link to={url.link("contest", "site")}>赛事互动 CONTEST</Link>
       </Menu.Item>
       <Menu.Item key="info">
-        <Link to="/info">信息化平台 INFO</Link>
+        <Link to={url.link("info", "site")}>信息化平台 INFO</Link>
       </Menu.Item>
       <Menu.Item key="share">
-        <Link to="/share">资源共享 SHARE</Link>
+        <Link to={url.link("share", "site")}>资源共享 SHARE</Link>
       </Menu.Item>
     </Menu>
   );
@@ -123,7 +123,7 @@ function App() {
               <Space size="large">
                 <Logo>
                   <Space size="middle">
-                    <Link to="/home">
+                    <Link to={url.link("home", "site")}>
                       <Picture
                         src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
                         alt="Logo"
@@ -131,7 +131,7 @@ function App() {
                       />
                     </Link>
                     <Link
-                      to="/home"
+                      to={url.link("home", "site")}
                       style={{ color: "black", fontSize: "large" }}
                     >
                       <Title> EESΛST</Title>
@@ -161,32 +161,45 @@ function App() {
             margin-top: 67px;
           `}
         >
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-            <Route path="/home">
-              <HomeSite />
-            </Route>
-            <AuthRoute path="/contest">
-              <ContestSite />
-            </AuthRoute>
-            <AuthRoute path="/info">
-              <InfoSite />
-            </AuthRoute>
-            <AuthRoute path="/share">
-              <ShareSite />
-            </AuthRoute>
-            <Route exact path="/(login|register|reset|verify)">
-              <LoginPage />
-            </Route>
-            <AuthRoute exact path="/profile">
-              <ProfilePage />
-            </AuthRoute>
-            <Route>
-              <NotFoundPage />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="home/*" element={<HomeSite />} />
+            <Route
+              path="contest/*"
+              element={
+                <Authenticate role={userRoles}>
+                  <ContestSite />
+                </Authenticate>
+              }
+            />
+            <Route
+              path="info/*"
+              element={
+                <Authenticate role={userRoles}>
+                  <InfoSite />
+                </Authenticate>
+              }
+            />
+            <Route
+              path="share/*"
+              element={
+                <Authenticate role={userRoles}>
+                  <ShareSite />
+                </Authenticate>
+              }
+            />
+            <Route path="login/*" element={<LoginPage />} />
+            {/* <Route path="(login|register|reset|verify)/*" element={<LoginPage />} /> */}
+            <Route
+              path="profile/*"
+              element={
+                <Authenticate role={userRoles}>
+                  <ProfilePage />
+                </Authenticate>
+              }
+            />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
         </Content>
         <StyledFooter>
           <h2>友情链接</h2>

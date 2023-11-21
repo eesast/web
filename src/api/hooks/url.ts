@@ -18,13 +18,6 @@ export class Url {
     return "/" + this.site + "/" + end + "?" + this.query.toString();
   }
 
-  route(end: string = this.page, mode: string = "page"): string {
-    if (mode === "site") {
-      return "/" + end;
-    }
-    return "/" + this.site + "/" + end;
-  }
-
   append(key: string, value: any): Url {
     const query = new URLSearchParams(this.query);
     while (query.has(key)) {

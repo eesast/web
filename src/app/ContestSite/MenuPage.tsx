@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import {
   HomeOutlined,
   DatabaseOutlined,
@@ -36,7 +36,6 @@ import {
 } from "../../api/types";
 import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
 //学长写好的api，用以没登陆会跳转到登陆页面
-import AuthRoute from "../../components/AuthRoute";
 import { isMobileOnly } from "react-device-detect";
 import { useUrl } from "../../api/hooks/url";
 
@@ -175,55 +174,26 @@ const MenuPage: React.FC = () => {
         </Menu>
       </Sider>
       <Content>
-        <Switch>
-          <Route exact path={url.route("intro")}>
-            <IntroPage />
-          </Route>
+        <Routes>
+          <Route path="intro" element={<IntroPage />} />
 
-          <Route exact path={url.route("notice")}>
-            <NoticePage />
-          </Route>
+          <Route path="notice" element={<NoticePage />} />
+          <Route path="team-register" element={<RegisterPage />} />
+          <Route path="team-join" element={<JoinPage />} />
+          <Route path="team-manage" element={<ManagePage />} />
 
-          <AuthRoute exact path={url.route("team-register")}>
-            <RegisterPage />
-          </AuthRoute>
-          <AuthRoute exact path={url.route("team-join")}>
-            <JoinPage />
-          </AuthRoute>
-          <AuthRoute exact path={url.route("team-manage")}>
-            <ManagePage />
-          </AuthRoute>
+          <Route path="arena-score" element={<ArenaPage />} />
+          <Route path="arena-record" element={<RecordPage />} />
+          <Route path="code" element={<CodePage />} />
 
-          <AuthRoute exact path={url.route("arena-score")}>
-            <ArenaPage />
-          </AuthRoute>
-          <AuthRoute exact path={url.route("arena-record")}>
-            <RecordPage />
-          </AuthRoute>
-          <AuthRoute exact path={url.route("code")}>
-            <CodePage />
-          </AuthRoute>
+          <Route path="playground" element={<PlaybackPage />} />
+          <Route path="stream" element={<StreamPage />} />
+          <Route path="playback" element={<PlaybackPage />} />
 
-          <AuthRoute exact path={url.route("playground")}>
-            <PlaybackPage />
-          </AuthRoute>
-          <AuthRoute exact path={url.route("stream")}>
-            <StreamPage />
-          </AuthRoute>
-          <AuthRoute path={url.route("playback")}>
-            <PlaybackPage />
-          </AuthRoute>
-
-          <AuthRoute exact path={url.route("admin-manage")}>
-            <ManageTeamsPage />
-          </AuthRoute>
-          <AuthRoute exact path={url.route("admin-setting")}>
-            <SettingPage />
-          </AuthRoute>
-          <AuthRoute>
-            <NotFoundPage />
-          </AuthRoute>
-        </Switch>
+          <Route path="admin-manage" element={<ManageTeamsPage />} />
+          <Route path="admin-setting" element={<SettingPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </Content>
     </Layout>
   );

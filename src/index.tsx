@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import "./index.css";
 import App from "./app";
@@ -9,9 +9,9 @@ import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
 ReactDOM.render(
   // <React.StrictMode> // TODO: wait for antd fix
   <ApolloProvider client={client}>
-    <Router>
+    <BrowserRouter>
       <App />
-    </Router>
+    </BrowserRouter>
   </ApolloProvider>,
   // </React.StrictMode>,
   document.getElementById("root"),

@@ -16,8 +16,8 @@ import {
   LockOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { Location } from "history";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+// import { Location } from "history";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import axios, { AxiosError } from "axios";
@@ -51,8 +51,8 @@ const Logo = () => (
 );
 
 const LoginPage: React.FC = () => {
-  const history = useHistory();
-  const location = useLocation<{ from?: Location<unknown> }>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const register = location.pathname === "/register";
   const reset = location.pathname.startsWith("/reset");
   const urlParams = new URLSearchParams(location.search);
@@ -60,7 +60,14 @@ const LoginPage: React.FC = () => {
   const verify = location.pathname.startsWith("/verify");
   const verifyToken = urlParams.get("token");
   const verifyType = urlParams.get("type");
-  const from = location.state?.from;
+  // const from = location.state?.from;
+  const from = {
+    pathname: "/",
+    search: "",
+  };
+  if (from) {
+    message.info("请先登录");
+  }
 
   const [loading, setLoading] = useState(false);
 
@@ -91,11 +98,11 @@ const LoginPage: React.FC = () => {
     }
   }, [verifyToken, verifyType]);
 
-  useEffect(() => {
-    if (from) {
-      message.info("请先登录");
-    }
-  }, [from]);
+  // useEffect(() => {
+  //   if (from) {
+  //     message.info("请先登录");
+  //   }
+  // }, [from]);
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -129,7 +136,7 @@ const LoginPage: React.FC = () => {
         message.success("密码更改成功");
         form.resetFields();
         setLoading(false);
-        return history.replace("/login");
+        return navigate("/login");
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -160,7 +167,7 @@ const LoginPage: React.FC = () => {
         message.success("注册成功");
         form.resetFields();
         setLoading(false);
-        return history.replace("/login");
+        return navigate("/login");
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 400) {
@@ -181,10 +188,10 @@ const LoginPage: React.FC = () => {
         message.success("登录成功");
         if (from) {
           setLoading(false);
-          return history.replace(from.pathname + from.search);
+          return navigate(from.pathname + from.search);
         } else {
           setLoading(false);
-          return history.replace("/");
+          return navigate("/");
         }
       } catch (e) {
         const err = e as AxiosError;
