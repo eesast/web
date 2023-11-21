@@ -1,4 +1,4 @@
-query GetUserInfo($uuid: uuid!) {
+query GetProfile($uuid: uuid!) {
   users_by_pk(uuid: $uuid) {
     username
     realname
@@ -12,5 +12,29 @@ query GetUserInfo($uuid: uuid!) {
     tsinghua_email
     github_id
     id
+  }
+}
+
+mutation UpdateProfile(
+  $uuid: uuid!
+  $class: String
+  $department: String
+  $phone: String
+  $realname: String
+  $student_no: String
+  $username: String
+) {
+  update_users_by_pk(
+    pk_columns: { uuid: $uuid }
+    _set: {
+      class: $class
+      department: $department
+      username: $username
+      student_no: $student_no
+      realname: $realname
+      phone: $phone
+    }
+  ) {
+    updated_at
   }
 }
