@@ -11,7 +11,7 @@ const Centered = styled.div<CenterProps>`
   flex-direction: ${(props) => props.direction ?? "row"};
 `;
 
-export interface CenterProps {
+interface CenterProps {
   direction?: "row" | "column";
 }
 

@@ -1,30 +1,35 @@
 import React from "react";
-import { useLocation, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
+import Forbidden from "./Forbidden";
+import { message } from "antd";
 
-export const allRoles = [
-  "anonymous",
-  "user",
-  "student",
-  "teacher",
-  "counselor",
-];
+interface AuthenticateProps {
+  role: String[];
+  children: JSX.Element;
+  fallback?: JSX.Element;
+}
+
 export const userRoles = ["user", "student", "teacher", "counselor"];
 export const tsinghuaRoles = ["student", "teacher", "counselor"];
 
-const Authenticate = ({
+const Authenticate: React.FC<AuthenticateProps> = ({
   role,
   children,
-}: {
-  role: String[];
-  children: JSX.Element;
+  fallback,
 }) => {
   const userInfo = getUserInfo();
-  const location = useLocation();
 
-  if (userInfo && role.includes(userInfo.role)) return children;
+  if (!userInfo) {
+    message.info("请先登录");
+    return <Navigate to="/login" />;
+  }
 
-  return <Navigate to="/login" state={{ from: location }} replace />;
+  if (role.includes(userInfo.role)) return children;
+
+  if (fallback) return fallback;
+
+  return <Forbidden />;
 };
 
 export default Authenticate;
