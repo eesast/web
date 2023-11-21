@@ -1,12 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import Container from "./Container";
 import Center from "./Center";
 import { Spin } from "antd";
-
-const Container = styled.div`
-  height: calc(100vh - 67px);
-  width: 100%;
-`;
 
 const Loading: React.FC = () => {
   return (

@@ -23,12 +23,10 @@ import InfoSite from "./InfoSite";
 import LoginPage from "./UserSite/LoginPage";
 import ShareSite from "./ShareSite";
 import ProfilePage from "./ProfilePage";
-import NotFoundPage from "./NotFoundPage";
+import NotFoundPage from "./Components/NotFound";
 import Picture from "./Components/Picture";
 import Authenticate, { userRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
-
-// import "antd/dist/antd.dark.css";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);

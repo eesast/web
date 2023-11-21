@@ -27,7 +27,7 @@ import PlaybackPage from "./PlaybackPage";
 import StreamPage from "./StreamPage";
 import ManageTeamsPage from "./ManageTeamsPage";
 import SettingPage from "./SettingPage";
-import NotFoundPage from "../NotFoundPage";
+import NotFoundPage from "../Components/NotFound";
 // hasura查询
 import { useQuery } from "@apollo/client";
 import {
