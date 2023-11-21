@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GetUser as GET_USER } from "../api/user.graphql";
 import { GetUser, GetUserVariables } from "../api/types";
 import { getUserInfo } from "../api/helpers/auth";
-import Loading from "./Loading";
+import Loading from "../app/Components/Loading";
 
 const AuthRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   const location = useLocation();

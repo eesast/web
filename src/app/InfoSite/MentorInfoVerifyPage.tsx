@@ -30,7 +30,7 @@ import {
   VerifyMentorInfoVariables,
 } from "../../api/types";
 import Modal from "antd/lib/modal/Modal";
-import Center from "../../components/Center";
+import Center from "../Components/Center";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";

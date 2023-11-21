@@ -25,7 +25,7 @@ import {
   List,
   Input,
 } from "antd";
-import Center from "../../components/Center";
+import Center from "../Components/Center";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import Scrollbars from "react-custom-scrollbars";

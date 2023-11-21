@@ -1,4 +1,4 @@
-import Center from "../components/Center";
+import Center from "./Components/Center";
 import { Result, Button } from "antd";
 import { Link } from "react-router-dom";
 

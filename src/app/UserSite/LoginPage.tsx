@@ -19,11 +19,11 @@ import {
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { Location } from "history";
 import styled from "styled-components";
-import Center from "../components/Center";
+import Center from "../Components/Center";
 import axios, { AxiosError } from "axios";
 // import ReCAPTCHA from "react-google-recaptcha";
-import Picture from "../components/Picture";
-import { validateEmail, validatePassword } from "../api/helpers/validator";
+import Picture from "../Components/Picture";
+import { validateEmail, validatePassword } from "../../api/helpers/validator";
 
 // (window as any).recaptchaOptions = {
 //   useRecaptchaNet: true,

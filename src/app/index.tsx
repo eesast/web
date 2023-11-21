@@ -22,12 +22,12 @@ import { useWindowSize } from "../api/hooks/windowsize";
 import HomeSite from "./HomeSite";
 import ContestSite from "./ContestSite";
 import InfoSite from "./InfoSite";
-import LoginPage from "./LoginPage";
+import LoginPage from "./UserSite/LoginPage";
 import ShareSite from "./ShareSite";
 import AuthRoute from "../components/AuthRoute";
 import ProfilePage from "./ProfilePage";
 import NotFoundPage from "./NotFoundPage";
-import Picture from "../components/Picture";
+import Picture from "./Components/Picture";
 
 // import "antd/dist/antd.dark.css";
 

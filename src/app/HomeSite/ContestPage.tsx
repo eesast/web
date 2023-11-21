@@ -1,8 +1,8 @@
 import React from "react";
 import { Tabs, Typography, Divider, Row, Col } from "antd";
 import styled from "styled-components";
-import Center from "../../components/Center";
-import Picture from "../../components/Picture";
+import Center from "../Components/Center";
+import Picture from "../Components/Picture";
 
 const { Title, Paragraph, Text } = Typography;
 const { TabPane } = Tabs;
