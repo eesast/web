@@ -1,5 +1,4 @@
 import {
-  ConfigProvider,
   Layout,
   Menu,
   Button,
@@ -11,7 +10,6 @@ import {
   Dropdown,
 } from "antd";
 import { UserOutlined, MenuOutlined, ExportOutlined } from "@ant-design/icons";
-import zhCN from "antd/es/locale/zh_CN";
 import { Route, Link, Routes, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
@@ -115,109 +113,108 @@ function App() {
   );
 
   return (
-    <ConfigProvider locale={zhCN}>
-      <Layout>
-        <StyledHeader>
-          <FullRow justify="space-between">
-            <Col xxl={4} xl={4} lg={7} md={7} sm={19} xs={19}>
-              <Space size="large">
-                <Logo>
-                  <Space size="middle">
-                    <Link to={url.link("home", "site")}>
-                      <Picture
-                        src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-                        alt="Logo"
-                        height="48"
-                      />
-                    </Link>
-                    <Link
-                      to={url.link("home", "site")}
-                      style={{ color: "black", fontSize: "large" }}
-                    >
-                      <Title> EESΛST</Title>
-                    </Link>
-                  </Space>
-                </Logo>
-              </Space>
-            </Col>
-            <Col xxl={19} xl={19} lg={16} md={16} sm={4} xs={4}>
-              {width < 768 ? (
-                <Popover placement="bottomRight" content={menu} trigger="click">
-                  <Button icon={<MenuOutlined />} size="large" type="text" />
-                </Popover>
-              ) : (
-                <div id="menu">{menu}</div>
-              )}
-            </Col>
-            <Col span={1}>
-              <Dropdown overlay={UserMenu} placement="bottomRight">
-                <Button icon={<UserOutlined />} />
-              </Dropdown>
-            </Col>
-          </FullRow>
-        </StyledHeader>
-        <Content
-          css={`
-            margin-top: 67px;
-          `}
-        >
-          <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="home/*" element={<HomeSite />} />
-            <Route
-              path="contest/*"
-              element={
-                <Authenticate role={userRoles}>
-                  <ContestSite />
-                </Authenticate>
-              }
-            />
-            <Route
-              path="info/*"
-              element={
-                <Authenticate role={userRoles}>
-                  <InfoSite />
-                </Authenticate>
-              }
-            />
-            <Route
-              path="share/*"
-              element={
-                <Authenticate role={userRoles}>
-                  <ShareSite />
-                </Authenticate>
-              }
-            />
-            <Route path="login/*" element={<LoginPage />} />
-            {/* <Route path="(login|register|reset|verify)/*" element={<LoginPage />} /> */}
-            <Route
-              path="profile/*"
-              element={
-                <Authenticate role={userRoles}>
-                  <ProfilePage />
-                </Authenticate>
-              }
-            />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Content>
-        <StyledFooter>
-          <h2>友情链接</h2>
-          <p>
-            <a href="https://docs.eesast.com">DOCS</a> <ExportOutlined />{" "}
-            &nbsp;&nbsp;
-            <a href="https://overleaf.eesast.com">OVERLEAF</a>{" "}
-            <ExportOutlined /> &nbsp;&nbsp;
-            <a href="https://mc.eesast.com">MINECRAFT</a> <ExportOutlined />
-          </p>
-          <p>
-            <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1</a> ©
-            2023 EESAST
-          </p>
-        </StyledFooter>
-      </Layout>
+    <Layout>
+      <StyledHeader>
+        <FullRow justify="space-between">
+          <Col xxl={4} xl={4} lg={7} md={7} sm={19} xs={19}>
+            <Space size="large">
+              <Logo>
+                <Space size="middle">
+                  <Link to={url.link("home", "site")}>
+                    <Picture
+                      src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
+                      alt="Logo"
+                      height="48"
+                    />
+                  </Link>
+                  <Link
+                    to={url.link("home", "site")}
+                    style={{ color: "black", fontSize: "large" }}
+                  >
+                    <Title> EESΛST</Title>
+                  </Link>
+                </Space>
+              </Logo>
+            </Space>
+          </Col>
+          <Col xxl={19} xl={19} lg={16} md={16} sm={4} xs={4}>
+            {width < 768 ? (
+              <Popover placement="bottomRight" content={menu} trigger="click">
+                <Button icon={<MenuOutlined />} size="large" type="text" />
+              </Popover>
+            ) : (
+              <div id="menu">{menu}</div>
+            )}
+          </Col>
+          <Col span={1}>
+            <Dropdown overlay={UserMenu} placement="bottomRight">
+              <Button icon={<UserOutlined />} />
+            </Dropdown>
+          </Col>
+        </FullRow>
+      </StyledHeader>
+      <Content
+        css={`
+          margin-top: 67px;
+        `}
+      >
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="home/*" element={<HomeSite />} />
+          <Route
+            path="contest/*"
+            element={
+              <Authenticate role={userRoles}>
+                <ContestSite />
+              </Authenticate>
+            }
+          />
+          <Route
+            path="info/*"
+            element={
+              <Authenticate role={userRoles}>
+                <InfoSite />
+              </Authenticate>
+            }
+          />
+          <Route
+            path="share/*"
+            element={
+              <Authenticate role={userRoles}>
+                <ShareSite />
+              </Authenticate>
+            }
+          />
+          <Route path="login/*" element={<LoginPage />} />
+          {/* <Route path="(login|register|reset|verify)/*" element={<LoginPage />} /> */}
+          <Route
+            path="profile/*"
+            element={
+              <Authenticate role={userRoles}>
+                <ProfilePage />
+              </Authenticate>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Content>
+      <StyledFooter>
+        <h2>友情链接</h2>
+        <p>
+          <a href="https://docs.eesast.com">DOCS</a> <ExportOutlined />{" "}
+          &nbsp;&nbsp;
+          <a href="https://overleaf.eesast.com">
+            OVERLEAF
+          </a> <ExportOutlined /> &nbsp;&nbsp;
+          <a href="https://mc.eesast.com">MINECRAFT</a> <ExportOutlined />
+        </p>
+        <p>
+          <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1</a> © 2023
+          EESAST
+        </p>
+      </StyledFooter>
       <BackTop />
-    </ConfigProvider>
+    </Layout>
   );
 }
 
