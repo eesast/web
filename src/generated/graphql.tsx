@@ -10559,11 +10559,11 @@ export type GetWeeklyQuery = {
   }>;
 };
 
-export type GetUserInfoQueryVariables = Exact<{
+export type GetProfileQueryVariables = Exact<{
   uuid: Scalars["uuid"]["input"];
 }>;
 
-export type GetUserInfoQuery = {
+export type GetProfileQuery = {
   __typename?: "query_root";
   users_by_pk?: {
     __typename?: "users";
@@ -10580,6 +10580,21 @@ export type GetUserInfoQuery = {
     github_id?: string | null;
     id?: string | null;
   } | null;
+};
+
+export type UpdateProfileMutationVariables = Exact<{
+  uuid: Scalars["uuid"]["input"];
+  class?: InputMaybe<Scalars["String"]["input"]>;
+  department?: InputMaybe<Scalars["String"]["input"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
+  realname?: InputMaybe<Scalars["String"]["input"]>;
+  student_no?: InputMaybe<Scalars["String"]["input"]>;
+  username?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type UpdateProfileMutation = {
+  __typename?: "mutation_root";
+  update_users_by_pk?: { __typename?: "users"; updated_at: any } | null;
 };
 
 export const QueryContestManagerDocument = gql`
@@ -17587,8 +17602,8 @@ export type GetWeeklyQueryResult = Apollo.QueryResult<
   GetWeeklyQuery,
   GetWeeklyQueryVariables
 >;
-export const GetUserInfoDocument = gql`
-  query GetUserInfo($uuid: uuid!) {
+export const GetProfileDocument = gql`
+  query GetProfile($uuid: uuid!) {
     users_by_pk(uuid: $uuid) {
       username
       realname
@@ -17607,65 +17622,139 @@ export const GetUserInfoDocument = gql`
 `;
 
 /**
- * __useGetUserInfoQuery__
+ * __useGetProfileQuery__
  *
- * To run a query within a React component, call `useGetUserInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserInfoQuery({
+ * const { data, loading, error } = useGetProfileQuery({
  *   variables: {
  *      uuid: // value for 'uuid'
  *   },
  * });
  */
-export function useGetUserInfoQuery(
+export function useGetProfileQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetUserInfoQuery,
-    GetUserInfoQueryVariables
+    GetProfileQuery,
+    GetProfileQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(
-    GetUserInfoDocument,
+  return Apollo.useQuery<GetProfileQuery, GetProfileQueryVariables>(
+    GetProfileDocument,
     options,
   );
 }
-export function useGetUserInfoLazyQuery(
+export function useGetProfileLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserInfoQuery,
-    GetUserInfoQueryVariables
+    GetProfileQuery,
+    GetProfileQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(
-    GetUserInfoDocument,
+  return Apollo.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(
+    GetProfileDocument,
     options,
   );
 }
-export function useGetUserInfoSuspenseQuery(
+export function useGetProfileSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUserInfoQuery,
-    GetUserInfoQueryVariables
+    GetProfileQuery,
+    GetProfileQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(
-    GetUserInfoDocument,
+  return Apollo.useSuspenseQuery<GetProfileQuery, GetProfileQueryVariables>(
+    GetProfileDocument,
     options,
   );
 }
-export type GetUserInfoQueryHookResult = ReturnType<typeof useGetUserInfoQuery>;
-export type GetUserInfoLazyQueryHookResult = ReturnType<
-  typeof useGetUserInfoLazyQuery
+export type GetProfileQueryHookResult = ReturnType<typeof useGetProfileQuery>;
+export type GetProfileLazyQueryHookResult = ReturnType<
+  typeof useGetProfileLazyQuery
 >;
-export type GetUserInfoSuspenseQueryHookResult = ReturnType<
-  typeof useGetUserInfoSuspenseQuery
+export type GetProfileSuspenseQueryHookResult = ReturnType<
+  typeof useGetProfileSuspenseQuery
 >;
-export type GetUserInfoQueryResult = Apollo.QueryResult<
-  GetUserInfoQuery,
-  GetUserInfoQueryVariables
+export type GetProfileQueryResult = Apollo.QueryResult<
+  GetProfileQuery,
+  GetProfileQueryVariables
+>;
+export const UpdateProfileDocument = gql`
+  mutation UpdateProfile(
+    $uuid: uuid!
+    $class: String
+    $department: String
+    $phone: String
+    $realname: String
+    $student_no: String
+    $username: String
+  ) {
+    update_users_by_pk(
+      pk_columns: { uuid: $uuid }
+      _set: {
+        class: $class
+        department: $department
+        username: $username
+        student_no: $student_no
+        realname: $realname
+        phone: $phone
+      }
+    ) {
+      updated_at
+    }
+  }
+`;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
+>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      class: // value for 'class'
+ *      department: // value for 'department'
+ *      phone: // value for 'phone'
+ *      realname: // value for 'realname'
+ *      student_no: // value for 'student_no'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >(UpdateProfileDocument, options);
+}
+export type UpdateProfileMutationHookResult = ReturnType<
+  typeof useUpdateProfileMutation
+>;
+export type UpdateProfileMutationResult =
+  Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
 >;
