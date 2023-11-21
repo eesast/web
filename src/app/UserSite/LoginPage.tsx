@@ -60,14 +60,6 @@ const LoginPage: React.FC = () => {
   const verify = location.pathname.startsWith("/verify");
   const verifyToken = urlParams.get("token");
   const verifyType = urlParams.get("type");
-  // const from = location.state?.from;
-  const from = {
-    pathname: "/",
-    search: "",
-  };
-  if (from) {
-    message.info("请先登录");
-  }
 
   const [loading, setLoading] = useState(false);
 
@@ -97,12 +89,6 @@ const LoginPage: React.FC = () => {
       })();
     }
   }, [verifyToken, verifyType]);
-
-  // useEffect(() => {
-  //   if (from) {
-  //     message.info("请先登录");
-  //   }
-  // }, [from]);
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -186,13 +172,8 @@ const LoginPage: React.FC = () => {
         const data = response.data;
         localStorage.setItem("token", data.token);
         message.success("登录成功");
-        if (from) {
-          setLoading(false);
-          return navigate(from.pathname + from.search);
-        } else {
-          setLoading(false);
-          return navigate("/");
-        }
+        setLoading(false);
+        return navigate(-1);
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401 || err.response?.status === 404) {
@@ -220,6 +201,400 @@ const LoginPage: React.FC = () => {
 
   const [form] = Form.useForm();
 
+  const form1 = (
+    <Center>
+      {verifySuccess === true ? (
+        <Result
+          status="success"
+          title="成功验证此邮箱"
+          extra={[
+            <Link key="login" to="/login" replace>
+              返回登录
+            </Link>,
+          ]}
+        />
+      ) : verifySuccess === false ? (
+        <Result
+          status="error"
+          title="验证邮箱失败"
+          subTitle="请重新申请发送验证邮件"
+          extra={[
+            <Link key="login" to="/login" replace>
+              返回登录
+            </Link>,
+          ]}
+        />
+      ) : (
+        <Spin />
+      )}
+    </Center>
+  );
+
+  const form2 = (
+    <Form form={form} onFinish={onFinish}>
+      <Form.Item>
+        <Center>
+          <Logo />
+        </Center>
+      </Form.Item>
+      <Form.Item
+        name="email"
+        rules={[
+          { required: true, message: "请输入注册时所用邮箱" },
+          () => ({
+            validator(rule, value) {
+              if (!value || validateEmail(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject("请输入正确的邮箱");
+            },
+          }),
+        ]}
+      >
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="注册时所用邮箱"
+          autoComplete="email"
+          spellCheck={false}
+          autoFocus
+        />
+      </Form.Item>
+      {
+        // <Form.Item
+        //   name="recaptcha"
+        //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+        // >
+        //   <ReCAPTCHA
+        //     ref={reCaptchaRef}
+        //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+        //   />
+        // </Form.Item>
+      }
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          发送验证邮件
+        </Button>
+        <Link
+          css={`
+            margin-left: 16px;
+          `}
+          to="/login"
+          replace
+        >
+          返回登录
+        </Link>
+      </Form.Item>
+    </Form>
+  );
+
+  const form3 = (
+    <Form form={form} onFinish={onFinish}>
+      <Form.Item>
+        <Center>
+          <Logo />
+        </Center>
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[
+          { required: true, message: "请输入新密码" },
+          () => ({
+            validator(rule, value: string) {
+              if (!value || validatePassword(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                "请输入长度至少为 8，需包含大小写字母及数字的密码",
+              );
+            },
+          }),
+        ]}
+      >
+        <Input.Password
+          prefix={<LockOutlined />}
+          type="password"
+          autoComplete="new-password"
+          spellCheck={false}
+          placeholder="新密码"
+        />
+      </Form.Item>
+      <Form.Item
+        name="confirmPassword"
+        dependencies={["password"]}
+        hasFeedback
+        rules={[
+          { required: true, message: "请再次输入相同的密码" },
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              if (!value || getFieldValue("password") === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject("两次输入的密码不一致");
+            },
+          }),
+        ]}
+      >
+        <Input.Password
+          prefix={<LockOutlined />}
+          type="password"
+          autoComplete="new-password"
+          spellCheck={false}
+          placeholder="确认新密码"
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          更改密码
+        </Button>
+        <Link
+          css={`
+            margin-left: 16px;
+          `}
+          to="/reset"
+          replace
+        >
+          重发邮件
+        </Link>
+      </Form.Item>
+    </Form>
+  );
+
+  const form4 = (
+    <Form form={form} onFinish={onFinish}>
+      <Form.Item>
+        <Center>
+          <Logo />
+        </Center>
+      </Form.Item>
+      <Form.Item
+        name="email"
+        rules={[
+          { required: true, message: "请输入注册时所用邮箱" },
+          () => ({
+            validator(rule, value) {
+              if (!value || validateEmail(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject("请输入正确的邮箱");
+            },
+          }),
+        ]}
+      >
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="注册时所用邮箱"
+          autoComplete="email"
+          spellCheck={false}
+          autoFocus
+        />
+      </Form.Item>
+      {
+        // <Form.Item
+        //   name="recaptcha"
+        //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+        // >
+        //   <ReCAPTCHA
+        //     ref={reCaptchaRef}
+        //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+        //   />
+        // </Form.Item>
+      }
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          发送重置邮件
+        </Button>
+        <Link
+          css={`
+            margin-left: 16px;
+          `}
+          to="/login"
+          replace
+        >
+          返回登录
+        </Link>
+      </Form.Item>
+    </Form>
+  );
+
+  const form5 = (
+    <Form form={form} onFinish={onFinish}>
+      <Form.Item>
+        <Center>
+          <Logo />
+        </Center>
+      </Form.Item>
+      <Form.Item
+        name="email"
+        label={
+          <span>
+            邮箱&nbsp;
+            <Tooltip title="推荐使用非清华邮箱">
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </span>
+        }
+        rules={[
+          { required: true, message: "请输入邮箱" },
+          () => ({
+            validator(rule, value) {
+              if (!value || validateEmail(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject("请输入正确的邮箱");
+            },
+          }),
+        ]}
+      >
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="邮箱"
+          autoComplete="email"
+          spellCheck={false}
+          autoFocus
+        />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[
+          { required: true, message: "请输入密码" },
+          () => ({
+            validator(rule, value: string) {
+              if (!value || validatePassword(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                "请输入长度至少为 8，需包含大小写字母及数字的密码",
+              );
+            },
+          }),
+        ]}
+      >
+        <Input.Password
+          prefix={<LockOutlined />}
+          type="password"
+          autoComplete="new-password"
+          spellCheck={false}
+          placeholder="密码"
+        />
+      </Form.Item>
+      <Form.Item
+        name="confirmPassword"
+        dependencies={["password"]}
+        hasFeedback
+        rules={[
+          { required: true, message: "请再次输入相同的密码" },
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              if (!value || getFieldValue("password") === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject("两次输入的密码不一致");
+            },
+          }),
+        ]}
+      >
+        <Input.Password
+          prefix={<LockOutlined />}
+          type="password"
+          autoComplete="new-password"
+          spellCheck={false}
+          placeholder="确认密码"
+        />
+      </Form.Item>
+      {
+        // <Form.Item
+        //   name="recaptcha"
+        //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
+        // >
+        //   <ReCAPTCHA
+        //     ref={reCaptchaRef}
+        //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+        //   />
+        // </Form.Item>
+      }
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          注册
+        </Button>
+        <Link
+          css={`
+            margin-left: 16px;
+          `}
+          to="/login"
+          replace
+        >
+          返回登录
+        </Link>
+      </Form.Item>
+    </Form>
+  );
+
+  const form6 = (
+    <Form form={form} onFinish={onFinish}>
+      <Form.Item>
+        <Center>
+          <Logo />
+        </Center>
+      </Form.Item>
+      <Form.Item
+        name="email"
+        rules={[
+          { required: true, message: "请输入邮箱" },
+          () => ({
+            validator(rule, value) {
+              if (!value || validateEmail(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject("请输入正确的邮箱");
+            },
+          }),
+        ]}
+      >
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="邮箱"
+          autoComplete="email"
+          spellCheck={false}
+          autoFocus
+        />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[{ required: true, message: "请输入密码" }]}
+      >
+        <Input.Password
+          prefix={<LockOutlined />}
+          type="password"
+          autoComplete="current-password"
+          spellCheck={false}
+          placeholder="密码"
+        />
+      </Form.Item>
+      <Form.Item>
+        <Link to="/reset" replace>
+          忘记密码？
+        </Link>{" "}
+        <Link to="/verify" replace>
+          注册邮箱未验证？
+        </Link>
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          登录
+        </Button>
+        <Link
+          css={`
+            margin-left: 16px;
+          `}
+          to="/register"
+          replace
+        >
+          注册
+        </Link>
+      </Form.Item>
+    </Form>
+  );
+
   return (
     <Background>
       <Row
@@ -240,389 +615,17 @@ const LoginPage: React.FC = () => {
               }
             `}
           >
-            {verifyToken && verifyType ? (
-              <Center>
-                {verifySuccess === true ? (
-                  <Result
-                    status="success"
-                    title="成功验证此邮箱"
-                    extra={[
-                      <Link key="login" to="/login" replace>
-                        返回登录
-                      </Link>,
-                    ]}
-                  />
-                ) : verifySuccess === false ? (
-                  <Result
-                    status="error"
-                    title="验证邮箱失败"
-                    subTitle="请重新申请发送验证邮件"
-                    extra={[
-                      <Link key="login" to="/login" replace>
-                        返回登录
-                      </Link>,
-                    ]}
-                  />
-                ) : (
-                  <Spin />
-                )}
-              </Center>
-            ) : verify ? (
-              <Form form={form} onFinish={onFinish}>
-                <Form.Item>
-                  <Center>
-                    <Logo />
-                  </Center>
-                </Form.Item>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    { required: true, message: "请输入注册时所用邮箱" },
-                    () => ({
-                      validator(rule, value) {
-                        if (!value || validateEmail(value)) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("请输入正确的邮箱");
-                      },
-                    }),
-                  ]}
-                >
-                  <Input
-                    prefix={<UserOutlined />}
-                    placeholder="注册时所用邮箱"
-                    autoComplete="email"
-                    spellCheck={false}
-                    autoFocus
-                  />
-                </Form.Item>
-                {
-                  // <Form.Item
-                  //   name="recaptcha"
-                  //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-                  // >
-                  //   <ReCAPTCHA
-                  //     ref={reCaptchaRef}
-                  //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-                  //   />
-                  // </Form.Item>
-                }
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={loading}>
-                    发送验证邮件
-                  </Button>
-                  <Link
-                    css={`
-                      margin-left: 16px;
-                    `}
-                    to="/login"
-                    replace
-                  >
-                    返回登录
-                  </Link>
-                </Form.Item>
-              </Form>
-            ) : resetToken ? (
-              <Form form={form} onFinish={onFinish}>
-                <Form.Item>
-                  <Center>
-                    <Logo />
-                  </Center>
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    { required: true, message: "请输入新密码" },
-                    () => ({
-                      validator(rule, value: string) {
-                        if (!value || validatePassword(value)) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject(
-                          "请输入长度至少为 8，需包含大小写字母及数字的密码",
-                        );
-                      },
-                    }),
-                  ]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined />}
-                    type="password"
-                    autoComplete="new-password"
-                    spellCheck={false}
-                    placeholder="新密码"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="confirmPassword"
-                  dependencies={["password"]}
-                  hasFeedback
-                  rules={[
-                    { required: true, message: "请再次输入相同的密码" },
-                    ({ getFieldValue }) => ({
-                      validator(rule, value) {
-                        if (!value || getFieldValue("password") === value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("两次输入的密码不一致");
-                      },
-                    }),
-                  ]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined />}
-                    type="password"
-                    autoComplete="new-password"
-                    spellCheck={false}
-                    placeholder="确认新密码"
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={loading}>
-                    更改密码
-                  </Button>
-                  <Link
-                    css={`
-                      margin-left: 16px;
-                    `}
-                    to="/reset"
-                    replace
-                  >
-                    重发邮件
-                  </Link>
-                </Form.Item>
-              </Form>
-            ) : reset ? (
-              <Form form={form} onFinish={onFinish}>
-                <Form.Item>
-                  <Center>
-                    <Logo />
-                  </Center>
-                </Form.Item>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    { required: true, message: "请输入注册时所用邮箱" },
-                    () => ({
-                      validator(rule, value) {
-                        if (!value || validateEmail(value)) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("请输入正确的邮箱");
-                      },
-                    }),
-                  ]}
-                >
-                  <Input
-                    prefix={<UserOutlined />}
-                    placeholder="注册时所用邮箱"
-                    autoComplete="email"
-                    spellCheck={false}
-                    autoFocus
-                  />
-                </Form.Item>
-                {
-                  // <Form.Item
-                  //   name="recaptcha"
-                  //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-                  // >
-                  //   <ReCAPTCHA
-                  //     ref={reCaptchaRef}
-                  //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-                  //   />
-                  // </Form.Item>
-                }
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={loading}>
-                    发送重置邮件
-                  </Button>
-                  <Link
-                    css={`
-                      margin-left: 16px;
-                    `}
-                    to="/login"
-                    replace
-                  >
-                    返回登录
-                  </Link>
-                </Form.Item>
-              </Form>
-            ) : register ? (
-              <Form form={form} onFinish={onFinish}>
-                <Form.Item>
-                  <Center>
-                    <Logo />
-                  </Center>
-                </Form.Item>
-                <Form.Item
-                  name="email"
-                  label={
-                    <span>
-                      邮箱&nbsp;
-                      <Tooltip title="推荐使用非清华邮箱">
-                        <QuestionCircleOutlined />
-                      </Tooltip>
-                    </span>
-                  }
-                  rules={[
-                    { required: true, message: "请输入邮箱" },
-                    () => ({
-                      validator(rule, value) {
-                        if (!value || validateEmail(value)) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("请输入正确的邮箱");
-                      },
-                    }),
-                  ]}
-                >
-                  <Input
-                    prefix={<UserOutlined />}
-                    placeholder="邮箱"
-                    autoComplete="email"
-                    spellCheck={false}
-                    autoFocus
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    { required: true, message: "请输入密码" },
-                    () => ({
-                      validator(rule, value: string) {
-                        if (!value || validatePassword(value)) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject(
-                          "请输入长度至少为 8，需包含大小写字母及数字的密码",
-                        );
-                      },
-                    }),
-                  ]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined />}
-                    type="password"
-                    autoComplete="new-password"
-                    spellCheck={false}
-                    placeholder="密码"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="confirmPassword"
-                  dependencies={["password"]}
-                  hasFeedback
-                  rules={[
-                    { required: true, message: "请再次输入相同的密码" },
-                    ({ getFieldValue }) => ({
-                      validator(rule, value) {
-                        if (!value || getFieldValue("password") === value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("两次输入的密码不一致");
-                      },
-                    }),
-                  ]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined />}
-                    type="password"
-                    autoComplete="new-password"
-                    spellCheck={false}
-                    placeholder="确认密码"
-                  />
-                </Form.Item>
-                {
-                  // <Form.Item
-                  //   name="recaptcha"
-                  //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-                  // >
-                  //   <ReCAPTCHA
-                  //     ref={reCaptchaRef}
-                  //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-                  //   />
-                  // </Form.Item>
-                }
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={loading}>
-                    注册
-                  </Button>
-                  <Link
-                    css={`
-                      margin-left: 16px;
-                    `}
-                    to="/login"
-                    replace
-                  >
-                    返回登录
-                  </Link>
-                </Form.Item>
-              </Form>
-            ) : (
-              <Form form={form} onFinish={onFinish}>
-                <Form.Item>
-                  <Center>
-                    <Logo />
-                  </Center>
-                </Form.Item>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    { required: true, message: "请输入邮箱" },
-                    () => ({
-                      validator(rule, value) {
-                        if (!value || validateEmail(value)) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("请输入正确的邮箱");
-                      },
-                    }),
-                  ]}
-                >
-                  <Input
-                    prefix={<UserOutlined />}
-                    placeholder="邮箱"
-                    autoComplete="email"
-                    spellCheck={false}
-                    autoFocus
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[{ required: true, message: "请输入密码" }]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined />}
-                    type="password"
-                    autoComplete="current-password"
-                    spellCheck={false}
-                    placeholder="密码"
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Link to="/reset" replace>
-                    忘记密码？
-                  </Link>{" "}
-                  <Link to="/verify" replace>
-                    注册邮箱未验证？
-                  </Link>
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={loading}>
-                    登录
-                  </Button>
-                  <Link
-                    css={`
-                      margin-left: 16px;
-                    `}
-                    to="/register"
-                    replace
-                  >
-                    注册
-                  </Link>
-                </Form.Item>
-              </Form>
-            )}
+            {verifyToken && verifyType
+              ? form1
+              : verify
+              ? form2
+              : resetToken
+              ? form3
+              : reset
+              ? form4
+              : register
+              ? form5
+              : form6}
           </Card>
         </Col>
       </Row>
