@@ -64,7 +64,7 @@ const InfoSite: React.FC = () => {
       ((!user.id || !user.class) && userInfo?.role !== "teacher")
     ) {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
-      navigate(url.link("profile", "site"));
+      navigate(url.link("user", "site"));
     }
   });
 

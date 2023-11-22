@@ -22,7 +22,7 @@ const Authenticate: React.FC<AuthenticateProps> = ({
 
   if (!userInfo) {
     message.info("请先登录");
-    return <Navigate to="/login" />;
+    return <Navigate to="/user/login" />;
   }
 
   if (role.includes(userInfo.role)) return children;

@@ -1,634 +1,150 @@
-import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Card,
-  Row,
-  Col,
-  message,
-  Tooltip,
-  Spin,
-  Result,
-} from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-  QuestionCircleOutlined,
-} from "@ant-design/icons";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { Location } from "history";
+import { Button, Form, Input, message } from "antd";
+import axios, { AxiosError } from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Center from "../Components/Center";
-import axios, { AxiosError } from "axios";
-// import ReCAPTCHA from "react-google-recaptcha";
-import Picture from "../Components/Picture";
-import { validateEmail, validatePassword } from "../../api/helpers/validator";
+import { validateEmail } from "../../api/helpers/validator";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { useUrl } from "../../api/hooks/url";
 
-// (window as any).recaptchaOptions = {
-//   useRecaptchaNet: true,
-// };
-
-const Background = styled.div`
+const Background = styled.div<{ url: string }>`
   height: calc(100vh - 67px);
   width: 100%;
-  background-image: url("${process.env
-    .REACT_APP_STATIC_URL}/public/images/tsinghua-background-fall.jpg");
+  background-image: url(${(props) => props.url});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  display: flex;
+  align-items: center;
 `;
 
-const Logo = () => (
-  <Picture
-    css={`
-      margin: 0 auto;
-    `}
-    src={`${process.env.REACT_APP_STATIC_URL}/public/images/logo.png`}
-    alt="Logo"
-    width="40%"
-  />
-);
+const LoginCard = styled.div`
+  width: 360px;
+  padding-top: 12px;
+  padding-bottom: 36px;
+  padding-left: 36px;
+  padding-right: 36px;
+  border-radius: 6px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(36px);
+`;
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const register = location.pathname === "/register";
-  const reset = location.pathname.startsWith("/reset");
-  const urlParams = new URLSearchParams(location.search);
-  const resetToken = urlParams.get("token");
-  const verify = location.pathname.startsWith("/verify");
-  const verifyToken = urlParams.get("token");
-  const verifyType = urlParams.get("type");
-
+  const url = useUrl();
   const [loading, setLoading] = useState(false);
-
-  const [verifySuccess, setVerifySuccess] = useState<boolean | null>(null);
-  useEffect(() => {
-    if (verifyType && verifyToken) {
-      (async () => {
-        try {
-          await axios.post("/users/verify", {
-            action: "fulfill",
-            type: verifyType,
-            token: verifyToken,
-          });
-          localStorage.removeItem("token");
-          setVerifySuccess(true);
-        } catch (e) {
-          const err = e as AxiosError;
-          if (err.response?.status === 401) {
-            message.error("邮箱验证链接已失效，请重新申请发送验证邮件");
-          } else if (err.response?.status === 409) {
-            message.error("此清华邮箱已与其他用户绑定");
-          } else {
-            message.error("未知错误");
-          }
-          setVerifySuccess(false);
-        }
-      })();
-    }
-  }, [verifyToken, verifyType]);
-
   const onFinish = async (values: any) => {
     setLoading(true);
-    if (verify) {
-      try {
-        await axios.post("/users/verify", {
-          ...values,
-          action: "request",
-          type: "regular",
-        });
-        message.success("邮箱验证邮件已发送，请注意查收");
-        form.resetFields();
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 400) {
-          message.error("reCAPTCHA 验证已失效，请重新验证");
-        } else if (err.response?.status === 404) {
-          message.error("该邮箱未被注册");
+    try {
+      const response = await axios.post("/users/login", values);
+      const data = response.data;
+      localStorage.setItem("token", data.token);
+      message.success("登录成功");
+      setLoading(false);
+      return navigate(-1);
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401 || err.response?.status === 404) {
+        // TODO: Change email verification process
+        if (
+          (err.response?.data as string | undefined)?.includes(
+            "Email not verified",
+          )
+        ) {
+          message.error(
+            "注册邮箱未验证，请前往邮箱进行验证或重新申请发送验证邮件",
+          );
         } else {
-          message.error("未知错误");
+          message.error("邮箱或密码错误");
         }
-        // reCaptchaRef.current?.reset();
-      }
-    } else if (resetToken) {
-      try {
-        await axios.post("/users/reset", {
-          ...values,
-          action: "fulfill",
-          token: resetToken,
-        });
-        message.success("密码更改成功");
-        form.resetFields();
-        setLoading(false);
-        return navigate("/login");
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 401) {
-          message.error("密码重置链接已失效，请重新申请发送重置邮件");
-        } else {
-          message.error("未知错误");
-        }
-      }
-    } else if (reset) {
-      try {
-        await axios.post("/users/reset", { ...values, action: "request" });
-        message.success("重置密码邮件已发送，请注意查收");
-        form.resetFields();
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 400) {
-          message.error("reCAPTCHA 验证已失效，请重新验证");
-        } else if (err.response?.status === 404) {
-          message.error("该邮箱未被注册");
-        } else {
-          message.error("未知错误");
-        }
-        // reCaptchaRef.current?.reset();
-      }
-    } else if (register) {
-      try {
-        await axios.post("/users", values);
-        message.success("注册成功");
-        form.resetFields();
-        setLoading(false);
-        return navigate("/login");
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 400) {
-          message.error("reCAPTCHA 验证已失效，请重新验证");
-        }
-        if (err.response?.status === 409) {
-          message.error("该邮箱已被注册");
-        } else {
-          message.error("未知错误");
-        }
-        // reCaptchaRef.current?.reset();
-      }
-    } else {
-      try {
-        const response = await axios.post("/users/login", values);
-        const data = response.data;
-        localStorage.setItem("token", data.token);
-        message.success("登录成功");
-        setLoading(false);
-        return navigate(-1);
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 401 || err.response?.status === 404) {
-          if (
-            (err.response?.data as string | undefined)?.includes(
-              "Email not verified",
-            )
-          ) {
-            message.error(
-              "注册邮箱未验证，请前往邮箱进行验证或重新申请发送验证邮件",
-            );
-          } else {
-            message.error("邮箱或密码错误");
-          }
-        } else {
-          console.log(err);
-          message.error("未知错误");
-        }
+      } else {
+        console.log(err);
+        message.error("未知错误");
       }
     }
     setLoading(false);
   };
 
-  // const reCaptchaRef = useRef<ReCAPTCHA>(null);
-
-  const [form] = Form.useForm();
-
-  const form1 = (
-    <Center>
-      {verifySuccess === true ? (
-        <Result
-          status="success"
-          title="成功验证此邮箱"
-          extra={[
-            <Link key="login" to="/login" replace>
-              返回登录
-            </Link>,
-          ]}
-        />
-      ) : verifySuccess === false ? (
-        <Result
-          status="error"
-          title="验证邮箱失败"
-          subTitle="请重新申请发送验证邮件"
-          extra={[
-            <Link key="login" to="/login" replace>
-              返回登录
-            </Link>,
-          ]}
-        />
-      ) : (
-        <Spin />
-      )}
-    </Center>
-  );
-
-  const form2 = (
-    <Form form={form} onFinish={onFinish}>
-      <Form.Item>
-        <Center>
-          <Logo />
-        </Center>
-      </Form.Item>
-      <Form.Item
-        name="email"
-        rules={[
-          { required: true, message: "请输入注册时所用邮箱" },
-          () => ({
-            validator(rule, value) {
-              if (!value || validateEmail(value)) {
-                return Promise.resolve();
-              }
-              return Promise.reject("请输入正确的邮箱");
-            },
-          }),
-        ]}
-      >
-        <Input
-          prefix={<UserOutlined />}
-          placeholder="注册时所用邮箱"
-          autoComplete="email"
-          spellCheck={false}
-          autoFocus
-        />
-      </Form.Item>
-      {
-        // <Form.Item
-        //   name="recaptcha"
-        //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-        // >
-        //   <ReCAPTCHA
-        //     ref={reCaptchaRef}
-        //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-        //   />
-        // </Form.Item>
-      }
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          发送验证邮件
-        </Button>
-        <Link
-          css={`
-            margin-left: 16px;
-          `}
-          to="/login"
-          replace
-        >
-          返回登录
-        </Link>
-      </Form.Item>
-    </Form>
-  );
-
-  const form3 = (
-    <Form form={form} onFinish={onFinish}>
-      <Form.Item>
-        <Center>
-          <Logo />
-        </Center>
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          { required: true, message: "请输入新密码" },
-          () => ({
-            validator(rule, value: string) {
-              if (!value || validatePassword(value)) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                "请输入长度至少为 8，需包含大小写字母及数字的密码",
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password
-          prefix={<LockOutlined />}
-          type="password"
-          autoComplete="new-password"
-          spellCheck={false}
-          placeholder="新密码"
-        />
-      </Form.Item>
-      <Form.Item
-        name="confirmPassword"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          { required: true, message: "请再次输入相同的密码" },
-          ({ getFieldValue }) => ({
-            validator(rule, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject("两次输入的密码不一致");
-            },
-          }),
-        ]}
-      >
-        <Input.Password
-          prefix={<LockOutlined />}
-          type="password"
-          autoComplete="new-password"
-          spellCheck={false}
-          placeholder="确认新密码"
-        />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          更改密码
-        </Button>
-        <Link
-          css={`
-            margin-left: 16px;
-          `}
-          to="/reset"
-          replace
-        >
-          重发邮件
-        </Link>
-      </Form.Item>
-    </Form>
-  );
-
-  const form4 = (
-    <Form form={form} onFinish={onFinish}>
-      <Form.Item>
-        <Center>
-          <Logo />
-        </Center>
-      </Form.Item>
-      <Form.Item
-        name="email"
-        rules={[
-          { required: true, message: "请输入注册时所用邮箱" },
-          () => ({
-            validator(rule, value) {
-              if (!value || validateEmail(value)) {
-                return Promise.resolve();
-              }
-              return Promise.reject("请输入正确的邮箱");
-            },
-          }),
-        ]}
-      >
-        <Input
-          prefix={<UserOutlined />}
-          placeholder="注册时所用邮箱"
-          autoComplete="email"
-          spellCheck={false}
-          autoFocus
-        />
-      </Form.Item>
-      {
-        // <Form.Item
-        //   name="recaptcha"
-        //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-        // >
-        //   <ReCAPTCHA
-        //     ref={reCaptchaRef}
-        //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-        //   />
-        // </Form.Item>
-      }
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          发送重置邮件
-        </Button>
-        <Link
-          css={`
-            margin-left: 16px;
-          `}
-          to="/login"
-          replace
-        >
-          返回登录
-        </Link>
-      </Form.Item>
-    </Form>
-  );
-
-  const form5 = (
-    <Form form={form} onFinish={onFinish}>
-      <Form.Item>
-        <Center>
-          <Logo />
-        </Center>
-      </Form.Item>
-      <Form.Item
-        name="email"
-        label={
-          <span>
-            邮箱&nbsp;
-            <Tooltip title="推荐使用非清华邮箱">
-              <QuestionCircleOutlined />
-            </Tooltip>
-          </span>
-        }
-        rules={[
-          { required: true, message: "请输入邮箱" },
-          () => ({
-            validator(rule, value) {
-              if (!value || validateEmail(value)) {
-                return Promise.resolve();
-              }
-              return Promise.reject("请输入正确的邮箱");
-            },
-          }),
-        ]}
-      >
-        <Input
-          prefix={<UserOutlined />}
-          placeholder="邮箱"
-          autoComplete="email"
-          spellCheck={false}
-          autoFocus
-        />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          { required: true, message: "请输入密码" },
-          () => ({
-            validator(rule, value: string) {
-              if (!value || validatePassword(value)) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                "请输入长度至少为 8，需包含大小写字母及数字的密码",
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password
-          prefix={<LockOutlined />}
-          type="password"
-          autoComplete="new-password"
-          spellCheck={false}
-          placeholder="密码"
-        />
-      </Form.Item>
-      <Form.Item
-        name="confirmPassword"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          { required: true, message: "请再次输入相同的密码" },
-          ({ getFieldValue }) => ({
-            validator(rule, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject("两次输入的密码不一致");
-            },
-          }),
-        ]}
-      >
-        <Input.Password
-          prefix={<LockOutlined />}
-          type="password"
-          autoComplete="new-password"
-          spellCheck={false}
-          placeholder="确认密码"
-        />
-      </Form.Item>
-      {
-        // <Form.Item
-        //   name="recaptcha"
-        //   rules={[{ required: true, message: "请通过 reCAPTCHA 验证" }]}
-        // >
-        //   <ReCAPTCHA
-        //     ref={reCaptchaRef}
-        //     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-        //   />
-        // </Form.Item>
-      }
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          注册
-        </Button>
-        <Link
-          css={`
-            margin-left: 16px;
-          `}
-          to="/login"
-          replace
-        >
-          返回登录
-        </Link>
-      </Form.Item>
-    </Form>
-  );
-
-  const form6 = (
-    <Form form={form} onFinish={onFinish}>
-      <Form.Item>
-        <Center>
-          <Logo />
-        </Center>
-      </Form.Item>
-      <Form.Item
-        name="email"
-        rules={[
-          { required: true, message: "请输入邮箱" },
-          () => ({
-            validator(rule, value) {
-              if (!value || validateEmail(value)) {
-                return Promise.resolve();
-              }
-              return Promise.reject("请输入正确的邮箱");
-            },
-          }),
-        ]}
-      >
-        <Input
-          prefix={<UserOutlined />}
-          placeholder="邮箱"
-          autoComplete="email"
-          spellCheck={false}
-          autoFocus
-        />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[{ required: true, message: "请输入密码" }]}
-      >
-        <Input.Password
-          prefix={<LockOutlined />}
-          type="password"
-          autoComplete="current-password"
-          spellCheck={false}
-          placeholder="密码"
-        />
-      </Form.Item>
-      <Form.Item>
-        <Link to="/reset" replace>
-          忘记密码？
-        </Link>{" "}
-        <Link to="/verify" replace>
-          注册邮箱未验证？
-        </Link>
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          登录
-        </Button>
-        <Link
-          css={`
-            margin-left: 16px;
-          `}
-          to="/register"
-          replace
-        >
-          注册
-        </Link>
-      </Form.Item>
-    </Form>
-  );
+  const backgrounds = [
+    `/backgrounds/tsinghua-fall.jpg`,
+    `/backgrounds/integrated-circuits.jpg`,
+    `/backgrounds/signals.jpg`,
+    `/backgrounds/cognition.jpg`,
+  ];
+  const background =
+    backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
   return (
-    <Background>
-      <Row
-        css={`
-          height: 100%;
-        `}
-        align="middle"
-      >
-        <Col offset={16}>
-          <Card
-            hoverable
-            css={`
-              width: 360px;
-              padding-top: 24px;
-              padding-bottom: 12px;
-              &.ant-card-bordered {
-                cursor: default;
-              }
-            `}
-          >
-            {verifyToken && verifyType
-              ? form1
-              : verify
-              ? form2
-              : resetToken
-              ? form3
-              : reset
-              ? form4
-              : register
-              ? form5
-              : form6}
-          </Card>
-        </Col>
-      </Row>
+    <Background url={background}>
+      <Center>
+        <LoginCard>
+          <Center>
+            <img src="/logo.png" alt="Logo" height="256" />
+          </Center>
+          <Form onFinish={onFinish}>
+            <Form.Item
+              name="email"
+              rules={[
+                { required: true, message: "请输入邮箱" },
+                () => ({
+                  validator(rule, value) {
+                    if (!value || validateEmail(value)) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject("请输入正确的邮箱");
+                  },
+                }),
+              ]}
+            >
+              <Input
+                prefix={<UserOutlined />}
+                placeholder="邮箱"
+                autoComplete="email"
+                spellCheck={false}
+                autoFocus
+              />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: "请输入密码" }]}
+              css={`
+                margin-bottom: 48px;
+              `}
+            >
+              <Input.Password
+                prefix={<LockOutlined />}
+                type="password"
+                autoComplete="current-password"
+                spellCheck={false}
+                placeholder="密码"
+              />
+            </Form.Item>
+            <Center>
+              <Button type="primary" htmlType="submit" loading={loading}>
+                登录
+              </Button>
+              <Link
+                css={`
+                  margin-left: 16px;
+                `}
+                to={url.link("register")}
+              >
+                <Button>注册</Button>
+              </Link>
+              <Link
+                css={`
+                  margin-left: 16px;
+                `}
+                to={url.link("reset")}
+              >
+                忘记密码？
+              </Link>
+            </Center>
+          </Form>
+        </LoginCard>
+      </Center>
     </Background>
   );
 };
