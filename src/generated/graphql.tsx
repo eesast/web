@@ -10578,7 +10578,6 @@ export type GetProfileQuery = {
     updated_at: any;
     tsinghua_email?: string | null;
     github_id?: string | null;
-    id?: string | null;
   } | null;
 };
 
@@ -17616,7 +17615,6 @@ export const GetProfileDocument = gql`
       updated_at
       tsinghua_email
       github_id
-      id
     }
   }
 `;
