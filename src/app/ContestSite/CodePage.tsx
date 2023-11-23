@@ -74,6 +74,7 @@ import FileSaver from "file-saver";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
+import { RcFile } from "rc-upload/lib/interface";
 
 const { Text } = Typography;
 
@@ -458,7 +459,7 @@ const CodePage: React.FC = () => {
   };
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
-    const lang = e.file.name.split(".").slice(-1).join("");
+    const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
     try {
       if (lang === "cpp") {
         const url = `code/${Contest_id}/${teamid}/player${codeRole}.cpp`;

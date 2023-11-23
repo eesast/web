@@ -88,6 +88,7 @@ import { pick } from "../../api/helpers/pick";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, listFile } from "../../api/helpers/cos";
 import {  FilterConfirmProps } from "antd/lib/table/interface";
+import { RcFile } from "rc-upload/lib/interface";
 
 const param: FilterConfirmProps ={
   closeDropdown: true
@@ -903,7 +904,7 @@ const MentorApplicationPage = () => {
     application_id: any,
   ) => {
     try {
-      const url = `chat_record/${application_id}/${e.file.name}`;
+      const url = `chat_record/${application_id}/${(e.file as RcFile).name}`;
       const result = await uploadFile(e.file, url);
       const xhr = new XMLHttpRequest();
       e.onSuccess!(result, xhr);
