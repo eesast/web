@@ -2,17 +2,17 @@ import { ApolloClient, HttpLink, InMemoryCache, split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { setContext } from "@apollo/client/link/context";
-import axios from "axios";
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL!;
-axios.defaults.headers.post["Content-Type"] = "application/json";
-axios.interceptors.request.use(function (config) {
+const auth = () => {
   const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = "Bearer " + token;
-  }
-  return config;
-});
+  return {
+    headers: {
+      ...(token && {
+        Authorization: `Bearer ${token}`,
+      }),
+    },
+  };
+};
 
 const httpLink = new HttpLink({
   uri:
@@ -21,17 +21,7 @@ const httpLink = new HttpLink({
       : process.env.REACT_APP_HASURA_DEV_HTTPLINK!,
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("token");
-  return {
-    headers: {
-      ...headers,
-      ...(token && {
-        authorization: `Bearer ${token}`,
-      }),
-    },
-  };
-});
+const authLink = setContext(auth).concat(httpLink);
 
 const wsLink = new WebSocketLink({
   uri:
@@ -41,16 +31,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     lazy: true,
-    connectionParams: () => {
-      const token = localStorage.getItem("token");
-      return {
-        headers: {
-          ...(token && {
-            authorization: `Bearer ${token}`,
-          }),
-        },
-      };
-    },
+    connectionParams: auth,
   },
 });
 
@@ -63,7 +44,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  authLink.concat(httpLink),
+  authLink,
 );
 
 export const client = new ApolloClient({
