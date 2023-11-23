@@ -106,7 +106,7 @@ const App: React.FC = () => {
             {userInfo ? (
               <Button icon={<UserOutlined />} />
             ) : (
-              <Button type="primary">登录</Button>
+              <Button>登录</Button>
             )}
           </Link>
         </Col>
