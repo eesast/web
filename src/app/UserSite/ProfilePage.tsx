@@ -5,6 +5,16 @@ import { useGetProfileSuspenseQuery } from "../../generated/graphql";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
+import dayjs from "dayjs";
+
+const roleMap: { [key: string]: string } = {
+  anonymous: "游客",
+  user: "用户",
+  student: "学生",
+  teacher: "教师",
+  counselor: "辅导员",
+  admin: "管理员",
+};
 
 const ProfilePage: React.FC = () => {
   const url = useUrl();
@@ -48,7 +58,7 @@ const ProfilePage: React.FC = () => {
     {
       key: "3",
       label: "用户组",
-      children: userInfo.role,
+      children: roleMap[userInfo.role],
     },
     {
       key: "4",
@@ -78,12 +88,16 @@ const ProfilePage: React.FC = () => {
     {
       key: "9",
       label: "注册时间",
-      children: profileData.users_by_pk?.created_at || "",
+      children: dayjs(profileData.users_by_pk?.created_at).format(
+        "YYYY-MM-DD HH:mm",
+      ),
     },
     {
       key: "10",
       label: "信息更新时间",
-      children: profileData.users_by_pk?.updated_at || "",
+      children: dayjs(profileData.users_by_pk?.updated_at).format(
+        "YYYY-MM-DD HH:mm",
+      ),
     },
   ];
   return (
