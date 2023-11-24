@@ -1,5 +1,5 @@
 import { Button, Form, message } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import OTPInput from "react-otp-input";
 import Center from "../../Components/Center";
 import { useNavigate } from "react-router-dom";
@@ -35,47 +35,54 @@ const Verify: React.FC<VerifyProps> = ({
   setter,
   onFinish,
 }) => {
-  const [otp, setOtp] = React.useState("");
+  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
-  const [loading, setLoading] = React.useState(false);
-  const [pause, setPause] = React.useState(0);
-  const [canSubmit, setCanSubmit] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [time, setTime] = useState(0);
+  const timer = useRef<null | NodeJS.Timeout>(null);
+  const [canSubmit, setCanSubmit] = useState(false);
 
   const handleSend = async () => {
-    try {
-      let request = {};
-      if (email) {
-        request = { email: email };
-      } else if (phone) {
-        request = { phone: phone };
-      } else {
-        message.error("系统错误，请联系管理员");
-        return navigate(-1);
-      }
-      const response = await axios.post("/users/verify", request);
-      const data = response.data;
-      localStorage.setItem("verificationToken", data.token);
-      message.success("发送成功");
-      setCanSubmit(true);
-      return setPause(60);
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err.response?.status === 401) {
-        message.error("系统繁忙，请稍后再试");
-      } else {
-        console.log(err);
-        message.error("未知错误");
+    if (time <= 0) {
+      try {
+        let request = {};
+        if (email) {
+          request = { email: email };
+        } else if (phone) {
+          request = { phone: phone };
+        } else {
+          message.error("系统错误，请联系管理员");
+          return navigate(-1);
+        }
+        const response = await axios.post("/users/verify", request);
+        const data = response.data;
+        localStorage.setItem("verificationToken", data.token);
+        message.success("发送成功");
+        setCanSubmit(true);
+        return setTime(60);
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("系统繁忙，请稍后再试");
+        } else {
+          console.log(err);
+          message.error("未知错误");
+        }
       }
     }
   };
 
   useEffect(() => {
-    if (pause > 0) {
-      setTimeout(() => {
-        setPause((prev) => prev - 1);
-      }, 1000);
+    if (timer.current) {
+      clearInterval(timer.current);
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    if (time === 60)
+      timer.current = setInterval(() => setTime((time) => --time), 1000);
+    else if (time <= 0) timer.current && clearInterval(timer.current);
+  }, [time]);
 
   const handleFinish = (values: any) => {
     if (!canSubmit) {
@@ -183,12 +190,12 @@ const Verify: React.FC<VerifyProps> = ({
         <Button onClick={() => navigate(-1)}>返回</Button>
         <Button
           onClick={handleSend}
-          disabled={pause > 0}
+          disabled={time > 0}
           css={`
             margin-left: 16px;
           `}
         >
-          发送验证码 {pause > 0 ? `(${pause})` : ""}
+          发送验证码 {time > 0 ? `(${time})` : ""}
         </Button>
         <Button
           type="primary"
