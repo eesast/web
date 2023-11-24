@@ -1,46 +1,70 @@
-import {
-  // Steps,
-  message,
-} from "antd";
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
-// import { LockOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from "@ant-design/icons";
-
-// const steps = [
-//   {
-//     title: 'Email',
-//     description: "输入注册邮箱",
-//     icon: <UserOutlined />,
-//   },
-//   {
-//     title: 'Verification',
-//     description: "输入验证码",
-//     icon: <SolutionOutlined />,
-//   },
-//   {
-//     title: 'Password',
-//     description: "输入密码",
-//     icon: <LockOutlined />,
-//   },
-//   {
-//     title: 'Done',
-//     description: "注册完成",
-//     icon: <SmileOutlined />,
-//   },
-// ];
+import Background from "./Components/Background";
+import axios, { AxiosError } from "axios";
+import Verify from "./Components/Verify";
+import Password from "./Components/Password";
+import { message } from "antd";
+import Start from "./Components/Start";
 
 const RegisterPage: React.FC = () => {
   const url = useUrl();
-  message.info("系统维护中，暂不开放注册");
-  return <Navigate to={url.link("home", "site")} />;
-  // return (
-  //   <Steps current={2} css={`margin: 72px;`}>
-  //     {steps.map(item => (
-  //       <Steps.Step title={item.title} icon={item.icon} description={item.description} />
-  //     ))}
-  //   </Steps>
-  // )
+  const navigate = useNavigate();
+
+  const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [otp, setOtp] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handleRegister = async () => {
+    try {
+      const request = {
+        password: password,
+        verificationCode: otp,
+        verificationToken: localStorage.getItem("verificationToken"),
+      };
+      const response = await axios.post("/user/register", request);
+      const data = response.data;
+      localStorage.setItem("token", data.token);
+      message.success("注册成功");
+      navigate(url.link("profile"));
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("验证码错误");
+      } else {
+        console.log(err);
+        message.error("未知错误");
+      }
+    }
+  };
+
+  return (
+    <Background imageIndex={0}>
+      {email === "" && phone === "" ? (
+        <Start
+          title="填写注册信息"
+          setEmail={setEmail}
+          setPhone={setPhone}
+          hasTooltip={true}
+        />
+      ) : otp === "" ? (
+        <Verify
+          title={email === "" ? "验证注册手机号" : "验证注册邮箱"}
+          email={email}
+          phone={phone}
+          setter={setOtp}
+        />
+      ) : (
+        <Password
+          title="请输入密码并妥善保存"
+          setter={setPassword}
+          onFinish={handleRegister}
+        />
+      )}
+    </Background>
+  );
 };
 
 export default RegisterPage;

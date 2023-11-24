@@ -19,8 +19,7 @@ const roleMap: { [key: string]: string } = {
 const ProfilePage: React.FC = () => {
   const url = useUrl();
   const navigate = useNavigate();
-  let userInfo = getUserInfo()!;
-  userInfo.uuid = "45e29b81-d810-46ca-bcc2-1a90862ba693";
+  const userInfo = getUserInfo()!;
   const { data: profileData, error: getProfileError } =
     useGetProfileSuspenseQuery({
       variables: {
@@ -37,10 +36,6 @@ const ProfilePage: React.FC = () => {
   const handleQuit = () => {
     localStorage.removeItem("token");
     navigate(url.link("home", "site"));
-  };
-
-  const handleDelete = () => {
-    message.info("系统维护中，请联系科协软件部");
   };
 
   const items = [
@@ -135,7 +130,7 @@ const ProfilePage: React.FC = () => {
             content: "删除后将无法恢复",
             okText: "确认",
             cancelText: "取消",
-            onOk: handleDelete,
+            onOk: () => navigate(url.link("delete")),
           });
         }}
       >

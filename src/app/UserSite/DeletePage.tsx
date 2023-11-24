@@ -1,30 +1,30 @@
-import { message } from "antd";
 import React from "react";
+import { useUrl } from "../../api/hooks/url";
 import { useNavigate } from "react-router-dom";
-import Background from "./Components/Background";
-import Password from "./Components/Password";
-import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
-import Start from "./Components/Start";
+import { Button, Result, message } from "antd";
+import Background from "./Components/Background";
+import Verify from "./Components/Verify";
 
-const ResetPage: React.FC = () => {
+const DeletePage: React.FC = () => {
   const navigate = useNavigate();
+  const url = useUrl();
 
-  const [email, setEmail] = React.useState("");
-  const [phone, setPhone] = React.useState("");
+  const email = url.query.get("email") ?? "";
+  const phone = url.query.get("phone") ?? "";
   const [otp, setOtp] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
 
-  const handleReset = async () => {
+  const handleDelete = async () => {
     try {
       const request = {
-        password: password,
+        token: localStorage.getItem("token"),
         verificationCode: otp,
         verificationToken: localStorage.getItem("verificationToken"),
       };
-      await axios.post("/user/change-password", request);
-      message.success("密码更改成功");
-      return navigate(-1);
+      await axios.post("/user/delete", request);
+      localStorage.removeItem("token");
+      return setSuccess(true);
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -46,29 +46,31 @@ const ResetPage: React.FC = () => {
 
   return (
     <Background imageIndex={0}>
-      {email === "" && phone === "" ? (
-        <Start
-          title="输入已通过验证的邮箱"
-          setEmail={setEmail}
-          setPhone={setPhone}
-          hasTooltip={true}
+      {success ? (
+        <Result
+          status="success"
+          title="已成功删除账户"
+          subTitle="感谢您的一路相伴"
+          extra={[
+            <Button
+              type="primary"
+              onClick={() => navigate(url.link("home", "site"))}
+            >
+              返回主页
+            </Button>,
+          ]}
         />
-      ) : otp === "" ? (
+      ) : (
         <Verify
           title={email === "" ? "敏感操作，请验证手机" : "敏感操作，请验证邮箱"}
           email={email}
           phone={phone}
           setter={setOtp}
-        />
-      ) : (
-        <Password
-          title="输入新密码并妥善保存"
-          setter={setPassword}
-          onFinish={handleReset}
+          onFinish={handleDelete}
         />
       )}
     </Background>
   );
 };
 
-export default ResetPage;
+export default DeletePage;
