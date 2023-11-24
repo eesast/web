@@ -54,7 +54,11 @@ const DeletePage: React.FC = () => {
           extra={[
             <Button
               type="primary"
-              onClick={() => navigate(url.link("home", "site"))}
+              onClick={() =>
+                navigate(
+                  url.delete("email").delete("phone").link("home", "site"),
+                )
+              }
             >
               返回主页
             </Button>,

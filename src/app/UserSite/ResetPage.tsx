@@ -6,12 +6,14 @@ import Password from "./Components/Password";
 import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
 import Start from "./Components/Start";
+import { useUrl } from "../../api/hooks/url";
 
 const ResetPage: React.FC = () => {
+  const url = useUrl();
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState("");
-  const [phone, setPhone] = React.useState("");
+  const [email, setEmail] = React.useState(url.query.get("email") ?? "");
+  const [phone, setPhone] = React.useState(url.query.get("phone") ?? "");
   const [otp, setOtp] = React.useState("");
   const [password, setPassword] = React.useState("");
 

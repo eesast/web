@@ -113,7 +113,11 @@ const ProfilePage: React.FC = () => {
         css={`
           margin-top: 36px;
         `}
-        onClick={() => navigate(url.link("reset"))}
+        onClick={() =>
+          navigate(
+            url.append("email", profileData.users_by_pk?.email).link("reset"),
+          )
+        }
       >
         修改密码
       </Button>
@@ -130,7 +134,12 @@ const ProfilePage: React.FC = () => {
             content: "删除后将无法恢复",
             okText: "确认",
             cancelText: "取消",
-            onOk: () => navigate(url.link("delete")),
+            onOk: () =>
+              navigate(
+                url
+                  .append("email", profileData.users_by_pk?.email)
+                  .link("delete"),
+              ),
           });
         }}
       >
