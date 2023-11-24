@@ -7,6 +7,9 @@ import "./index.css";
 import App from "./app";
 import { client } from "./api/apollo";
 import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
+import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 ReactDOM.render(
   // <React.StrictMode> // TODO: wait for antd fix

@@ -9,6 +9,8 @@ import NotFound from "../Components/NotFound";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ResetPage from "./ResetPage";
+import UpdatePage from "./UpdatePage";
+import DeletePage from "./DeletePage";
 
 const UserSite: React.FC = () => {
   const userInfo = getUserInfo();
@@ -48,6 +50,22 @@ const UserSite: React.FC = () => {
           }
         />
         <Route path="reset" element={<ResetPage />} />
+        <Route
+          path="update"
+          element={
+            <Authenticate role={userRoles}>
+              <UpdatePage />
+            </Authenticate>
+          }
+        />
+        <Route
+          path="delete"
+          element={
+            <Authenticate role={userRoles}>
+              <DeletePage />
+            </Authenticate>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Container>
