@@ -1,5 +1,5 @@
 import { Button, Form, Input, Tooltip } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import Center from "../../Components/Center";
 import { validateEmail } from "../../../api/helpers/validator";
 import { QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
@@ -21,7 +21,7 @@ const Start: React.FC<StartProps> = ({
   onFinish,
 }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const handleFinish = (values: any) => {
     setLoading(true);
     if (values.user.includes("@")) {

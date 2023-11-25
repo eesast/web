@@ -1,5 +1,5 @@
 import { message } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Background from "./Components/Background";
 import Password from "./Components/Password";
@@ -12,10 +12,10 @@ const ResetPage: React.FC = () => {
   const url = useUrl();
   const navigate = useNavigate();
 
-  const [email, setEmail] = React.useState(url.query.get("email") ?? "");
-  const [phone, setPhone] = React.useState(url.query.get("phone") ?? "");
-  const [otp, setOtp] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState(url.query.get("email") ?? "");
+  const [phone, setPhone] = useState(url.query.get("phone") ?? "");
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleReset = async () => {
     try {

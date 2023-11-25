@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useUrl } from "../../api/hooks/url";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
@@ -12,8 +12,8 @@ const DeletePage: React.FC = () => {
 
   const email = url.query.get("email") ?? "";
   const phone = url.query.get("phone") ?? "";
-  const [otp, setOtp] = React.useState("");
-  const [success, setSuccess] = React.useState(false);
+  const [otp, setOtp] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleDelete = async () => {
     try {

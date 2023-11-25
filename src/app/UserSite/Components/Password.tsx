@@ -1,6 +1,6 @@
 import { LockOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { hash } from "../../../api/helpers/hash";
 import Center from "../../Components/Center";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ interface PasswordProps {
 }
 
 const Password: React.FC<PasswordProps> = ({ title, setter, onFinish }) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleFinish = async (values: any) => {
