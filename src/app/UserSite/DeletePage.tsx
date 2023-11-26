@@ -18,7 +18,6 @@ const DeletePage: React.FC = () => {
   const handleDelete = async () => {
     try {
       const request = {
-        token: localStorage.getItem("token"),
         verificationCode: otp,
         verificationToken: localStorage.getItem("verificationToken"),
       };
