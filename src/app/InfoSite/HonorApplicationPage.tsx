@@ -15,6 +15,7 @@ import {
   Table,
   Switch,
   Progress,
+  InputRef,
 } from "antd";
 import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import axios, { AxiosError } from "axios";
@@ -251,7 +252,7 @@ const HonorApplicationPage = () => {
     }
   }, [applicationsForCounselorsError]);
 
-  const searchInput = useRef<Input>(null);
+  const searchInput = useRef<InputRef>(null);
   const [, setSearchText] = useState<React.Key>("");
 
   const handleSearch = (

@@ -106,7 +106,7 @@ const PostgraduateApplicationPage: React.FC = () => {
     setCurrent(Math.ceil((current * pageSize) / size));
   };
 
-  const handleHistorySwitchChange = (checked: boolean, event: Event) => {
+  const handleHistorySwitchChange = (checked: boolean) => {
     setHistory(checked);
     setOffset(0);
     setPageSize(10);

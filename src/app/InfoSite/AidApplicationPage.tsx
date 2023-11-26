@@ -13,6 +13,7 @@ import {
   Input,
   Table,
   Progress,
+  InputRef,
 } from "antd";
 import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import axios, { AxiosError } from "axios";
@@ -299,7 +300,7 @@ const AidApplicationPage = () => {
     }
   }, [applicationsForCounselorsError]);
 
-  const searchInput = useRef<Input>(null);
+  const searchInput = useRef<InputRef>(null);
 
   const getColumnSearchProps: (
     dataIndex:
