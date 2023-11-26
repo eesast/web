@@ -7,7 +7,6 @@ import { validateEmail } from "../../api/helpers/validator";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
-import { hash } from "../../api/helpers/hash";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,10 +15,9 @@ const LoginPage: React.FC = () => {
   const onFinish = async (values: any) => {
     setLoading(true);
     try {
-      const password = await hash(values.password);
       const request = {
         user: values.email,
-        password: password,
+        password: values.password,
       };
       const response = await axios.post("/user/login", request);
       const data = response.data;

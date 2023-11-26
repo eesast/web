@@ -1,7 +1,6 @@
 import { LockOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import React, { useState } from "react";
-import { hash } from "../../../api/helpers/hash";
 import Center from "../../Components/Center";
 import { useNavigate } from "react-router-dom";
 import { validatePassword } from "../../../api/helpers/validator";
@@ -16,11 +15,10 @@ const Password: React.FC<PasswordProps> = ({ title, setter, onFinish }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleFinish = async (values: any) => {
+  const handleFinish = (values: any) => {
     try {
       setLoading(true);
-      const password = await hash(values.password);
-      setter(password);
+      setter(values.password);
       return onFinish && onFinish();
     } catch (e) {
       console.log(e);
