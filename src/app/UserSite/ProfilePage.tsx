@@ -1,4 +1,5 @@
-import { Button, Descriptions, Modal, message } from "antd";
+import { Button, Modal, message } from "antd";
+import { ProDescriptions } from "@ant-design/pro-components";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect } from "react";
 import { useGetProfileSuspenseQuery } from "../../generated/graphql";
@@ -40,45 +41,45 @@ const ProfilePage: React.FC = () => {
 
   const items = [
     {
-      key: "1",
       label: "用户名",
       children: profileData.users_by_pk?.username || "",
+      editable: () => true,
     },
     {
-      key: "2",
       label: "注册邮箱",
       span: 2,
       children: profileData.users_by_pk?.email || "",
+      editable: () => false,
     },
     {
-      key: "3",
       label: "用户组",
       children: roleMap[userInfo.role],
+      editable: () => false,
     },
     {
-      key: "4",
       label: "姓名",
       children: profileData.users_by_pk?.realname || "",
+      editable: () => true,
     },
     {
-      key: "5",
       label: "电话",
       children: profileData.users_by_pk?.phone || "",
+      editable: () => true,
     },
     {
-      key: "6",
       label: "院系",
       children: profileData.users_by_pk?.department || "",
+      editable: () => true,
     },
     {
-      key: "7",
       label: "班级",
       children: profileData.users_by_pk?.class || "",
+      editable: () => true,
     },
     {
-      key: "8",
       label: "学号",
       children: profileData.users_by_pk?.student_no || "",
+      editable: () => true,
     },
     {
       key: "9",
@@ -86,6 +87,7 @@ const ProfilePage: React.FC = () => {
       children: dayjs(profileData.users_by_pk?.created_at).format(
         "YYYY-MM-DD HH:mm",
       ),
+      editable: () => false,
     },
     {
       key: "10",
@@ -93,6 +95,7 @@ const ProfilePage: React.FC = () => {
       children: dayjs(profileData.users_by_pk?.updated_at).format(
         "YYYY-MM-DD HH:mm",
       ),
+      editable: () => false,
     },
   ];
   return (
@@ -101,13 +104,28 @@ const ProfilePage: React.FC = () => {
         margin: 72px;
       `}
     >
-      <Descriptions title={<h1>用户信息</h1>} bordered>
+      <ProDescriptions
+        title={<h1>用户信息</h1>}
+        bordered
+        editable={{
+          onSave: async (keypath, newInfo, oriInfo) => {
+            message.error("系统升级中，暂不支持修改用户信息");
+            console.log(keypath, newInfo, oriInfo);
+            return true;
+          },
+        }}
+      >
         {items.map((item) => (
-          <Descriptions.Item key={item.key} label={item.label} span={item.span}>
+          <ProDescriptions.Item
+            label={item.label}
+            span={item.span}
+            ellipsis={true}
+            editable={item.editable}
+          >
             {item.children}
-          </Descriptions.Item>
+          </ProDescriptions.Item>
         ))}
-      </Descriptions>
+      </ProDescriptions>
       <Button
         type="primary"
         css={`
