@@ -2,7 +2,10 @@ import { Button, Modal, message } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect } from "react";
-import { useGetProfileSuspenseQuery } from "../../generated/graphql";
+import {
+  useGetProfileSuspenseQuery,
+  useUpdateProfileMutation,
+} from "../../generated/graphql";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
@@ -41,48 +44,56 @@ const ProfilePage: React.FC = () => {
 
   const items = [
     {
+      key: "username",
       label: "用户名",
       children: profileData.users_by_pk?.username || "",
       editable: () => true,
     },
     {
+      key: "email",
       label: "注册邮箱",
       span: 2,
       children: profileData.users_by_pk?.email || "",
       editable: () => false,
     },
     {
+      key: "role",
       label: "用户组",
       children: roleMap[userInfo.role],
       editable: () => false,
     },
     {
+      key: "realname",
       label: "姓名",
       children: profileData.users_by_pk?.realname || "",
       editable: () => true,
     },
     {
+      key: "phone",
       label: "电话",
       children: profileData.users_by_pk?.phone || "",
       editable: () => true,
     },
     {
+      key: "department",
       label: "院系",
       children: profileData.users_by_pk?.department || "",
       editable: () => true,
     },
     {
+      key: "class",
       label: "班级",
       children: profileData.users_by_pk?.class || "",
       editable: () => true,
     },
     {
+      key: "student_no",
       label: "学号",
       children: profileData.users_by_pk?.student_no || "",
       editable: () => true,
     },
     {
-      key: "9",
+      key: "created_at",
       label: "注册时间",
       children: dayjs(profileData.users_by_pk?.created_at).format(
         "YYYY-MM-DD HH:mm",
@@ -90,7 +101,7 @@ const ProfilePage: React.FC = () => {
       editable: () => false,
     },
     {
-      key: "10",
+      key: "updated_at",
       label: "信息更新时间",
       children: dayjs(profileData.users_by_pk?.updated_at).format(
         "YYYY-MM-DD HH:mm",
@@ -98,6 +109,15 @@ const ProfilePage: React.FC = () => {
       editable: () => false,
     },
   ];
+
+  const [updateProfileMutation, { error }] = useUpdateProfileMutation();
+  useEffect(() => {
+    if (error) {
+      message.error("更新用户信息失败");
+      console.log(error);
+    }
+  }, [error]);
+
   return (
     <Content
       css={`
@@ -108,15 +128,19 @@ const ProfilePage: React.FC = () => {
         title={<h1>用户信息</h1>}
         bordered
         editable={{
-          onSave: async (keypath, newInfo, oriInfo) => {
-            message.error("系统升级中，暂不支持修改用户信息");
-            console.log(keypath, newInfo, oriInfo);
-            return true;
-          },
+          onSave: (key, record) =>
+            updateProfileMutation({
+              variables: {
+                uuid: userInfo.uuid,
+                ...record,
+              },
+            }),
         }}
       >
         {items.map((item) => (
           <ProDescriptions.Item
+            key={item.key}
+            dataIndex={item.key}
             label={item.label}
             span={item.span}
             ellipsis={true}
