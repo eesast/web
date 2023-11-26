@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, Prompt } from "react-router-dom";
+// import { useHistory, Prompt } from "react-router-dom";
 import { Button, message, Layout, Row, Col, Modal, Form, Select } from "antd";
 import {
   ArrowsAltOutlined,
-  ExclamationCircleOutlined,
+  // ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -15,6 +15,7 @@ import { useQuery } from "@apollo/client";
 
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { useUrl } from "../../api/hooks/url";
+import { useNavigate } from "react-router-dom";
 
 const PlaybackPage: React.FC = () => {
   const url = useUrl();
@@ -103,7 +104,7 @@ const PlaybackPage: React.FC = () => {
     try {
       await unload();
       setIsPrompt(false);
-      history.push(url.delete("room").delete("speed").link("playback"));
+      // navigate(url.delete("room").delete("speed").link("playback"));
     } catch (err) {
       message.error(err);
     }
@@ -143,7 +144,7 @@ const PlaybackPage: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleRefresh = async () => {
     try {
@@ -153,14 +154,13 @@ const PlaybackPage: React.FC = () => {
       }
       const values = form.getFieldsValue();
       const room_id = `Team_${values.Student}--vs--Team_${values.Tricker}--${values.Map}`;
-      history.push(
+      navigate(
         url
           .append("room", room_id)
           .append("speed", values.Speed)
           .link("playback"),
       );
-      console.log(1);
-      return history.go(0);
+      return;
     } catch {
       var errors = form.getFieldsError();
       for (let i = 0; i < 4; i++) {
@@ -307,7 +307,7 @@ const PlaybackPage: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-      <Prompt
+      {/* <Prompt
         when={isPrompt}
         message={(location) => {
           if (!isPrompt) {
@@ -325,7 +325,7 @@ const PlaybackPage: React.FC = () => {
           });
           return false;
         }}
-      />
+      /> */}
     </Layout>
   );
 };

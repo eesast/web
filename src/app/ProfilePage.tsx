@@ -18,7 +18,7 @@ import {
   UpdateUserForTeacherVariables,
   DeleteUserVariables,
 } from "../api/types";
-import Loading from "../components/Loading";
+import Loading from "./Components/Loading";
 import axios, { AxiosError } from "axios";
 // import ReCAPTCHA from "react-google-recaptcha";
 import { getUserInfo } from "../api/helpers/auth";
@@ -27,6 +27,23 @@ import {
   validateEmail,
   validatePassword,
 } from "../api/helpers/validator";
+
+// GitHub 认证
+// import { Octokit } from "@octokit/rest";
+// import { request } from "@octokit/request";
+// import { createOAuthUserAuth } from "@octokit/auth-oauth-user";
+// import { createAppAuth } from "@octokit/auth-app";
+// import { createOAuthAppAuth } from "@octokit/auth-oauth-app";
+// import { createTokenAuth } from "@octokit/auth-token";
+// import { createWebFlowAuth } from "@octokit/auth-oauth-web-flow";
+// import { graphql } from "@octokit/graphql";
+// import { requestGraphQL } from "@octokit/request-graphql";
+// import { createEnterpriseServerAuth } from "@octokit/auth-enterprise-server";
+// import { createGitHubAppAuth } from "@octokit/auth-github-app";
+// import { createAppAuth } from "@octokit/auth-app";
+// import { createOAuthAppAuth } from "@octokit/auth-oauth-app";
+// import { createTokenAuth } from "@octokit/auth-token";
+// import { createWebFlowAuth } from "@octokit/auth-oauth-web-flow";
 
 const formItemLayout = {
   labelCol: {

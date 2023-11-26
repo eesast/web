@@ -294,19 +294,6 @@ query GetContestInfo($contest_id: uuid!) {
   }
 }
 
-#intropage用 现在换成contest_intro了
-query GetIntroContent($id: Int!) {
-  article(where: { id: { _eq: $id } }) {
-    content
-  }
-}
-#updateIntro
-mutation UpdateIntro($id: Int!, $content: String = "") {
-  update_article(where: { id: { _eq: $id } }, _set: { content: $content }) {
-    affected_rows
-  }
-}
-
 # get the contest room info
 subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(

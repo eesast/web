@@ -360,1272 +360,6 @@ export type Aid_Application_Variance_Fields = {
   amount?: Maybe<Scalars["Float"]["output"]>;
 };
 
-/** article 数据 */
-export type Article = {
-  __typename?: "article";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias: Scalars["String"]["output"];
-  /** An array relationship */
-  article_likers: Array<Article_Liker>;
-  /** An aggregate relationship */
-  article_likers_aggregate: Article_Liker_Aggregate;
-  /** An array relationship */
-  article_tags: Array<Article_Tag>;
-  /** An aggregate relationship */
-  article_tags_aggregate: Article_Tag_Aggregate;
-  /** An object relationship */
-  author: User;
-  authorId: Scalars["String"]["output"];
-  /** An array relationship */
-  comments: Array<Comment>;
-  /** An aggregate relationship */
-  comments_aggregate: Comment_Aggregate;
-  content: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["Int"]["output"];
-  title: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
-  views: Scalars["Int"]["output"];
-  visible: Scalars["Boolean"]["output"];
-};
-
-/** article 数据 */
-export type ArticleArticle_LikersArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleArticle_Likers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleArticle_TagsArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleArticle_Tags_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleCommentsArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleComments_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** aggregated selection of "article" */
-export type Article_Aggregate = {
-  __typename?: "article_aggregate";
-  aggregate?: Maybe<Article_Aggregate_Fields>;
-  nodes: Array<Article>;
-};
-
-/** aggregate fields of "article" */
-export type Article_Aggregate_Fields = {
-  __typename?: "article_aggregate_fields";
-  avg?: Maybe<Article_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Max_Fields>;
-  min?: Maybe<Article_Min_Fields>;
-  stddev?: Maybe<Article_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Sum_Fields>;
-  var_pop?: Maybe<Article_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Var_Samp_Fields>;
-  variance?: Maybe<Article_Variance_Fields>;
-};
-
-/** aggregate fields of "article" */
-export type Article_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "article" */
-export type Article_Aggregate_Order_By = {
-  avg?: InputMaybe<Article_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Article_Max_Order_By>;
-  min?: InputMaybe<Article_Min_Order_By>;
-  stddev?: InputMaybe<Article_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Article_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Article_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Article_Sum_Order_By>;
-  var_pop?: InputMaybe<Article_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Article_Var_Samp_Order_By>;
-  variance?: InputMaybe<Article_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "article" */
-export type Article_Arr_Rel_Insert_Input = {
-  data: Array<Article_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Article_Avg_Fields = {
-  __typename?: "article_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "article" */
-export type Article_Avg_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "article". All fields are combined with a logical 'AND'. */
-export type Article_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Bool_Exp>>;
-  _not?: InputMaybe<Article_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Bool_Exp>>;
-  abstract?: InputMaybe<String_Comparison_Exp>;
-  alias?: InputMaybe<String_Comparison_Exp>;
-  article_likers?: InputMaybe<Article_Liker_Bool_Exp>;
-  article_tags?: InputMaybe<Article_Tag_Bool_Exp>;
-  author?: InputMaybe<User_Bool_Exp>;
-  authorId?: InputMaybe<String_Comparison_Exp>;
-  comments?: InputMaybe<Comment_Bool_Exp>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  views?: InputMaybe<Int_Comparison_Exp>;
-  visible?: InputMaybe<Boolean_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "article" */
-export enum Article_Constraint {
-  /** unique or primary key constraint on columns "alias" */
-  ArticleAliasKey = "article_alias_key",
-  /** unique or primary key constraint on columns "id" */
-  ArticlePkey = "article_pkey",
-}
-
-/** input type for incrementing numeric columns in table "article" */
-export type Article_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article" */
-export type Article_Insert_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  article_likers?: InputMaybe<Article_Liker_Arr_Rel_Insert_Input>;
-  article_tags?: InputMaybe<Article_Tag_Arr_Rel_Insert_Input>;
-  author?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  comments?: InputMaybe<Comment_Arr_Rel_Insert_Input>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** article - liker 多对多映射表 */
-export type Article_Liker = {
-  __typename?: "article_liker";
-  /** An object relationship */
-  article: Article;
-  article_id: Scalars["Int"]["output"];
-  /** An object relationship */
-  liker: User;
-  user_id: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "article_liker" */
-export type Article_Liker_Aggregate = {
-  __typename?: "article_liker_aggregate";
-  aggregate?: Maybe<Article_Liker_Aggregate_Fields>;
-  nodes: Array<Article_Liker>;
-};
-
-/** aggregate fields of "article_liker" */
-export type Article_Liker_Aggregate_Fields = {
-  __typename?: "article_liker_aggregate_fields";
-  avg?: Maybe<Article_Liker_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Liker_Max_Fields>;
-  min?: Maybe<Article_Liker_Min_Fields>;
-  stddev?: Maybe<Article_Liker_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Liker_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Liker_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Liker_Sum_Fields>;
-  var_pop?: Maybe<Article_Liker_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Liker_Var_Samp_Fields>;
-  variance?: Maybe<Article_Liker_Variance_Fields>;
-};
-
-/** aggregate fields of "article_liker" */
-export type Article_Liker_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "article_liker" */
-export type Article_Liker_Aggregate_Order_By = {
-  avg?: InputMaybe<Article_Liker_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Article_Liker_Max_Order_By>;
-  min?: InputMaybe<Article_Liker_Min_Order_By>;
-  stddev?: InputMaybe<Article_Liker_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Article_Liker_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Article_Liker_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Article_Liker_Sum_Order_By>;
-  var_pop?: InputMaybe<Article_Liker_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Article_Liker_Var_Samp_Order_By>;
-  variance?: InputMaybe<Article_Liker_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "article_liker" */
-export type Article_Liker_Arr_Rel_Insert_Input = {
-  data: Array<Article_Liker_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_Liker_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Article_Liker_Avg_Fields = {
-  __typename?: "article_liker_avg_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "article_liker" */
-export type Article_Liker_Avg_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "article_liker". All fields are combined with a logical 'AND'. */
-export type Article_Liker_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Liker_Bool_Exp>>;
-  _not?: InputMaybe<Article_Liker_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Liker_Bool_Exp>>;
-  article?: InputMaybe<Article_Bool_Exp>;
-  article_id?: InputMaybe<Int_Comparison_Exp>;
-  liker?: InputMaybe<User_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "article_liker" */
-export enum Article_Liker_Constraint {
-  /** unique or primary key constraint on columns "user_id", "article_id" */
-  ArticleLikerPkey = "article_liker_pkey",
-}
-
-/** input type for incrementing numeric columns in table "article_liker" */
-export type Article_Liker_Inc_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article_liker" */
-export type Article_Liker_Insert_Input = {
-  article?: InputMaybe<Article_Obj_Rel_Insert_Input>;
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  liker?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Article_Liker_Max_Fields = {
-  __typename?: "article_liker_max_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by max() on columns of table "article_liker" */
-export type Article_Liker_Max_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Article_Liker_Min_Fields = {
-  __typename?: "article_liker_min_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by min() on columns of table "article_liker" */
-export type Article_Liker_Min_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "article_liker" */
-export type Article_Liker_Mutation_Response = {
-  __typename?: "article_liker_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article_Liker>;
-};
-
-/** on_conflict condition type for table "article_liker" */
-export type Article_Liker_On_Conflict = {
-  constraint: Article_Liker_Constraint;
-  update_columns?: Array<Article_Liker_Update_Column>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "article_liker". */
-export type Article_Liker_Order_By = {
-  article?: InputMaybe<Article_Order_By>;
-  article_id?: InputMaybe<Order_By>;
-  liker?: InputMaybe<User_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: article_liker */
-export type Article_Liker_Pk_Columns_Input = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-/** select columns of table "article_liker" */
-export enum Article_Liker_Select_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** input type for updating data in table "article_liker" */
-export type Article_Liker_Set_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Liker_Stddev_Fields = {
-  __typename?: "article_liker_stddev_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "article_liker" */
-export type Article_Liker_Stddev_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Liker_Stddev_Pop_Fields = {
-  __typename?: "article_liker_stddev_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "article_liker" */
-export type Article_Liker_Stddev_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Liker_Stddev_Samp_Fields = {
-  __typename?: "article_liker_stddev_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "article_liker" */
-export type Article_Liker_Stddev_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Article_Liker_Sum_Fields = {
-  __typename?: "article_liker_sum_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "article_liker" */
-export type Article_Liker_Sum_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "article_liker" */
-export enum Article_Liker_Update_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** aggregate var_pop on columns */
-export type Article_Liker_Var_Pop_Fields = {
-  __typename?: "article_liker_var_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "article_liker" */
-export type Article_Liker_Var_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Liker_Var_Samp_Fields = {
-  __typename?: "article_liker_var_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "article_liker" */
-export type Article_Liker_Var_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Article_Liker_Variance_Fields = {
-  __typename?: "article_liker_variance_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "article_liker" */
-export type Article_Liker_Variance_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate max on columns */
-export type Article_Max_Fields = {
-  __typename?: "article_max_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by max() on columns of table "article" */
-export type Article_Max_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Article_Min_Fields = {
-  __typename?: "article_min_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by min() on columns of table "article" */
-export type Article_Min_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "article" */
-export type Article_Mutation_Response = {
-  __typename?: "article_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article>;
-};
-
-/** input type for inserting object relation for remote table "article" */
-export type Article_Obj_Rel_Insert_Input = {
-  data: Article_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** on_conflict condition type for table "article" */
-export type Article_On_Conflict = {
-  constraint: Article_Constraint;
-  update_columns?: Array<Article_Update_Column>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "article". */
-export type Article_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  article_likers_aggregate?: InputMaybe<Article_Liker_Aggregate_Order_By>;
-  article_tags_aggregate?: InputMaybe<Article_Tag_Aggregate_Order_By>;
-  author?: InputMaybe<User_Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  comments_aggregate?: InputMaybe<Comment_Aggregate_Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-  visible?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: article */
-export type Article_Pk_Columns_Input = {
-  id: Scalars["Int"]["input"];
-};
-
-/** columns and relationships of "article_public" */
-export type Article_Public = {
-  __typename?: "article_public";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  /** An array relationship */
-  article_likers: Array<Article_Liker>;
-  /** An aggregate relationship */
-  article_likers_aggregate: Article_Liker_Aggregate;
-  /** An array relationship */
-  article_tags: Array<Article_Tag>;
-  /** An aggregate relationship */
-  article_tags_aggregate: Article_Tag_Aggregate;
-  /** An object relationship */
-  author?: Maybe<User>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  /** An array relationship */
-  comments: Array<Comment>;
-  /** An aggregate relationship */
-  comments_aggregate: Comment_Aggregate;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-  visible?: Maybe<Scalars["Boolean"]["output"]>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_LikersArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_Likers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_TagsArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_Tags_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicCommentsArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicComments_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** aggregated selection of "article_public" */
-export type Article_Public_Aggregate = {
-  __typename?: "article_public_aggregate";
-  aggregate?: Maybe<Article_Public_Aggregate_Fields>;
-  nodes: Array<Article_Public>;
-};
-
-/** aggregate fields of "article_public" */
-export type Article_Public_Aggregate_Fields = {
-  __typename?: "article_public_aggregate_fields";
-  avg?: Maybe<Article_Public_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Public_Max_Fields>;
-  min?: Maybe<Article_Public_Min_Fields>;
-  stddev?: Maybe<Article_Public_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Public_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Public_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Public_Sum_Fields>;
-  var_pop?: Maybe<Article_Public_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Public_Var_Samp_Fields>;
-  variance?: Maybe<Article_Public_Variance_Fields>;
-};
-
-/** aggregate fields of "article_public" */
-export type Article_Public_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Public_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate avg on columns */
-export type Article_Public_Avg_Fields = {
-  __typename?: "article_public_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Boolean expression to filter rows from the table "article_public". All fields are combined with a logical 'AND'. */
-export type Article_Public_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Public_Bool_Exp>>;
-  _not?: InputMaybe<Article_Public_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Public_Bool_Exp>>;
-  abstract?: InputMaybe<String_Comparison_Exp>;
-  alias?: InputMaybe<String_Comparison_Exp>;
-  article_likers?: InputMaybe<Article_Liker_Bool_Exp>;
-  article_tags?: InputMaybe<Article_Tag_Bool_Exp>;
-  author?: InputMaybe<User_Bool_Exp>;
-  authorId?: InputMaybe<String_Comparison_Exp>;
-  comments?: InputMaybe<Comment_Bool_Exp>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  views?: InputMaybe<Int_Comparison_Exp>;
-  visible?: InputMaybe<Boolean_Comparison_Exp>;
-};
-
-/** input type for incrementing numeric columns in table "article_public" */
-export type Article_Public_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article_public" */
-export type Article_Public_Insert_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  article_likers?: InputMaybe<Article_Liker_Arr_Rel_Insert_Input>;
-  article_tags?: InputMaybe<Article_Tag_Arr_Rel_Insert_Input>;
-  author?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  comments?: InputMaybe<Comment_Arr_Rel_Insert_Input>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Article_Public_Max_Fields = {
-  __typename?: "article_public_max_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Article_Public_Min_Fields = {
-  __typename?: "article_public_min_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** response of any mutation on the table "article_public" */
-export type Article_Public_Mutation_Response = {
-  __typename?: "article_public_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article_Public>;
-};
-
-/** Ordering options when selecting data from "article_public". */
-export type Article_Public_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  article_likers_aggregate?: InputMaybe<Article_Liker_Aggregate_Order_By>;
-  article_tags_aggregate?: InputMaybe<Article_Tag_Aggregate_Order_By>;
-  author?: InputMaybe<User_Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  comments_aggregate?: InputMaybe<Comment_Aggregate_Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-  visible?: InputMaybe<Order_By>;
-};
-
-/** select columns of table "article_public" */
-export enum Article_Public_Select_Column {
-  /** column name */
-  Abstract = "abstract",
-  /** column name */
-  Alias = "alias",
-  /** column name */
-  AuthorId = "authorId",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Title = "title",
-  /** column name */
-  Views = "views",
-  /** column name */
-  Visible = "visible",
-}
-
-/** input type for updating data in table "article_public" */
-export type Article_Public_Set_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Public_Stddev_Fields = {
-  __typename?: "article_public_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Public_Stddev_Pop_Fields = {
-  __typename?: "article_public_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Public_Stddev_Samp_Fields = {
-  __typename?: "article_public_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate sum on columns */
-export type Article_Public_Sum_Fields = {
-  __typename?: "article_public_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** aggregate var_pop on columns */
-export type Article_Public_Var_Pop_Fields = {
-  __typename?: "article_public_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Public_Var_Samp_Fields = {
-  __typename?: "article_public_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate variance on columns */
-export type Article_Public_Variance_Fields = {
-  __typename?: "article_public_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** select columns of table "article" */
-export enum Article_Select_Column {
-  /** column name */
-  Abstract = "abstract",
-  /** column name */
-  Alias = "alias",
-  /** column name */
-  AuthorId = "authorId",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  Views = "views",
-  /** column name */
-  Visible = "visible",
-}
-
-/** input type for updating data in table "article" */
-export type Article_Set_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Stddev_Fields = {
-  __typename?: "article_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "article" */
-export type Article_Stddev_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Stddev_Pop_Fields = {
-  __typename?: "article_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "article" */
-export type Article_Stddev_Pop_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Stddev_Samp_Fields = {
-  __typename?: "article_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "article" */
-export type Article_Stddev_Samp_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Article_Sum_Fields = {
-  __typename?: "article_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "article" */
-export type Article_Sum_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** article - id 多对多映射表 */
-export type Article_Tag = {
-  __typename?: "article_tag";
-  /** An object relationship */
-  article: Article;
-  article_id: Scalars["Int"]["output"];
-  /** An object relationship */
-  tag: Tag;
-  tag_id: Scalars["uuid"]["output"];
-};
-
-/** aggregated selection of "article_tag" */
-export type Article_Tag_Aggregate = {
-  __typename?: "article_tag_aggregate";
-  aggregate?: Maybe<Article_Tag_Aggregate_Fields>;
-  nodes: Array<Article_Tag>;
-};
-
-/** aggregate fields of "article_tag" */
-export type Article_Tag_Aggregate_Fields = {
-  __typename?: "article_tag_aggregate_fields";
-  avg?: Maybe<Article_Tag_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Tag_Max_Fields>;
-  min?: Maybe<Article_Tag_Min_Fields>;
-  stddev?: Maybe<Article_Tag_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Tag_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Tag_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Tag_Sum_Fields>;
-  var_pop?: Maybe<Article_Tag_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Tag_Var_Samp_Fields>;
-  variance?: Maybe<Article_Tag_Variance_Fields>;
-};
-
-/** aggregate fields of "article_tag" */
-export type Article_Tag_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "article_tag" */
-export type Article_Tag_Aggregate_Order_By = {
-  avg?: InputMaybe<Article_Tag_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Article_Tag_Max_Order_By>;
-  min?: InputMaybe<Article_Tag_Min_Order_By>;
-  stddev?: InputMaybe<Article_Tag_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Article_Tag_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Article_Tag_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Article_Tag_Sum_Order_By>;
-  var_pop?: InputMaybe<Article_Tag_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Article_Tag_Var_Samp_Order_By>;
-  variance?: InputMaybe<Article_Tag_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "article_tag" */
-export type Article_Tag_Arr_Rel_Insert_Input = {
-  data: Array<Article_Tag_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_Tag_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Article_Tag_Avg_Fields = {
-  __typename?: "article_tag_avg_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "article_tag" */
-export type Article_Tag_Avg_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "article_tag". All fields are combined with a logical 'AND'. */
-export type Article_Tag_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Tag_Bool_Exp>>;
-  _not?: InputMaybe<Article_Tag_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Tag_Bool_Exp>>;
-  article?: InputMaybe<Article_Bool_Exp>;
-  article_id?: InputMaybe<Int_Comparison_Exp>;
-  tag?: InputMaybe<Tag_Bool_Exp>;
-  tag_id?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "article_tag" */
-export enum Article_Tag_Constraint {
-  /** unique or primary key constraint on columns "article_id", "tag_id" */
-  ArticleTagPkey = "article_tag_pkey",
-}
-
-/** input type for incrementing numeric columns in table "article_tag" */
-export type Article_Tag_Inc_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article_tag" */
-export type Article_Tag_Insert_Input = {
-  article?: InputMaybe<Article_Obj_Rel_Insert_Input>;
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  tag?: InputMaybe<Tag_Obj_Rel_Insert_Input>;
-  tag_id?: InputMaybe<Scalars["uuid"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Article_Tag_Max_Fields = {
-  __typename?: "article_tag_max_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  tag_id?: Maybe<Scalars["uuid"]["output"]>;
-};
-
-/** order by max() on columns of table "article_tag" */
-export type Article_Tag_Max_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  tag_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Article_Tag_Min_Fields = {
-  __typename?: "article_tag_min_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  tag_id?: Maybe<Scalars["uuid"]["output"]>;
-};
-
-/** order by min() on columns of table "article_tag" */
-export type Article_Tag_Min_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  tag_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "article_tag" */
-export type Article_Tag_Mutation_Response = {
-  __typename?: "article_tag_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article_Tag>;
-};
-
-/** on_conflict condition type for table "article_tag" */
-export type Article_Tag_On_Conflict = {
-  constraint: Article_Tag_Constraint;
-  update_columns?: Array<Article_Tag_Update_Column>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "article_tag". */
-export type Article_Tag_Order_By = {
-  article?: InputMaybe<Article_Order_By>;
-  article_id?: InputMaybe<Order_By>;
-  tag?: InputMaybe<Tag_Order_By>;
-  tag_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: article_tag */
-export type Article_Tag_Pk_Columns_Input = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-/** select columns of table "article_tag" */
-export enum Article_Tag_Select_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  TagId = "tag_id",
-}
-
-/** input type for updating data in table "article_tag" */
-export type Article_Tag_Set_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  tag_id?: InputMaybe<Scalars["uuid"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Tag_Stddev_Fields = {
-  __typename?: "article_tag_stddev_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "article_tag" */
-export type Article_Tag_Stddev_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Tag_Stddev_Pop_Fields = {
-  __typename?: "article_tag_stddev_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "article_tag" */
-export type Article_Tag_Stddev_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Tag_Stddev_Samp_Fields = {
-  __typename?: "article_tag_stddev_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "article_tag" */
-export type Article_Tag_Stddev_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Article_Tag_Sum_Fields = {
-  __typename?: "article_tag_sum_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "article_tag" */
-export type Article_Tag_Sum_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "article_tag" */
-export enum Article_Tag_Update_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  TagId = "tag_id",
-}
-
-/** aggregate var_pop on columns */
-export type Article_Tag_Var_Pop_Fields = {
-  __typename?: "article_tag_var_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "article_tag" */
-export type Article_Tag_Var_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Tag_Var_Samp_Fields = {
-  __typename?: "article_tag_var_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "article_tag" */
-export type Article_Tag_Var_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Article_Tag_Variance_Fields = {
-  __typename?: "article_tag_variance_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "article_tag" */
-export type Article_Tag_Variance_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "article" */
-export enum Article_Update_Column {
-  /** column name */
-  Abstract = "abstract",
-  /** column name */
-  Alias = "alias",
-  /** column name */
-  AuthorId = "authorId",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  Views = "views",
-  /** column name */
-  Visible = "visible",
-}
-
-/** aggregate var_pop on columns */
-export type Article_Var_Pop_Fields = {
-  __typename?: "article_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "article" */
-export type Article_Var_Pop_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Var_Samp_Fields = {
-  __typename?: "article_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "article" */
-export type Article_Var_Samp_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Article_Variance_Fields = {
-  __typename?: "article_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "article" */
-export type Article_Variance_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
 /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 export type Bigint_Comparison_Exp = {
   _eq?: InputMaybe<Scalars["bigint"]["input"]>;
@@ -1639,315 +373,6 @@ export type Bigint_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars["bigint"]["input"]>>;
 };
 
-/** columns and relationships of "comment" */
-export type Comment = {
-  __typename?: "comment";
-  /** An object relationship */
-  article: Article;
-  article_id: Scalars["Int"]["output"];
-  content: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["uuid"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
-  /** An object relationship */
-  user: User;
-  user_id: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "comment" */
-export type Comment_Aggregate = {
-  __typename?: "comment_aggregate";
-  aggregate?: Maybe<Comment_Aggregate_Fields>;
-  nodes: Array<Comment>;
-};
-
-/** aggregate fields of "comment" */
-export type Comment_Aggregate_Fields = {
-  __typename?: "comment_aggregate_fields";
-  avg?: Maybe<Comment_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Comment_Max_Fields>;
-  min?: Maybe<Comment_Min_Fields>;
-  stddev?: Maybe<Comment_Stddev_Fields>;
-  stddev_pop?: Maybe<Comment_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Comment_Stddev_Samp_Fields>;
-  sum?: Maybe<Comment_Sum_Fields>;
-  var_pop?: Maybe<Comment_Var_Pop_Fields>;
-  var_samp?: Maybe<Comment_Var_Samp_Fields>;
-  variance?: Maybe<Comment_Variance_Fields>;
-};
-
-/** aggregate fields of "comment" */
-export type Comment_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Comment_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "comment" */
-export type Comment_Aggregate_Order_By = {
-  avg?: InputMaybe<Comment_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Comment_Max_Order_By>;
-  min?: InputMaybe<Comment_Min_Order_By>;
-  stddev?: InputMaybe<Comment_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Comment_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Comment_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Comment_Sum_Order_By>;
-  var_pop?: InputMaybe<Comment_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Comment_Var_Samp_Order_By>;
-  variance?: InputMaybe<Comment_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "comment" */
-export type Comment_Arr_Rel_Insert_Input = {
-  data: Array<Comment_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Comment_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Comment_Avg_Fields = {
-  __typename?: "comment_avg_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "comment" */
-export type Comment_Avg_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "comment". All fields are combined with a logical 'AND'. */
-export type Comment_Bool_Exp = {
-  _and?: InputMaybe<Array<Comment_Bool_Exp>>;
-  _not?: InputMaybe<Comment_Bool_Exp>;
-  _or?: InputMaybe<Array<Comment_Bool_Exp>>;
-  article?: InputMaybe<Article_Bool_Exp>;
-  article_id?: InputMaybe<Int_Comparison_Exp>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "comment" */
-export enum Comment_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  CommentPkey = "comment_pkey",
-}
-
-/** input type for incrementing numeric columns in table "comment" */
-export type Comment_Inc_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "comment" */
-export type Comment_Insert_Input = {
-  article?: InputMaybe<Article_Obj_Rel_Insert_Input>;
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Comment_Max_Fields = {
-  __typename?: "comment_max_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by max() on columns of table "comment" */
-export type Comment_Max_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Comment_Min_Fields = {
-  __typename?: "comment_min_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by min() on columns of table "comment" */
-export type Comment_Min_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "comment" */
-export type Comment_Mutation_Response = {
-  __typename?: "comment_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Comment>;
-};
-
-/** on_conflict condition type for table "comment" */
-export type Comment_On_Conflict = {
-  constraint: Comment_Constraint;
-  update_columns?: Array<Comment_Update_Column>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "comment". */
-export type Comment_Order_By = {
-  article?: InputMaybe<Article_Order_By>;
-  article_id?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: comment */
-export type Comment_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
-};
-
-/** select columns of table "comment" */
-export enum Comment_Select_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** input type for updating data in table "comment" */
-export type Comment_Set_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Comment_Stddev_Fields = {
-  __typename?: "comment_stddev_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "comment" */
-export type Comment_Stddev_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Comment_Stddev_Pop_Fields = {
-  __typename?: "comment_stddev_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "comment" */
-export type Comment_Stddev_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Comment_Stddev_Samp_Fields = {
-  __typename?: "comment_stddev_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "comment" */
-export type Comment_Stddev_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Comment_Sum_Fields = {
-  __typename?: "comment_sum_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "comment" */
-export type Comment_Sum_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "comment" */
-export enum Comment_Update_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** aggregate var_pop on columns */
-export type Comment_Var_Pop_Fields = {
-  __typename?: "comment_var_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "comment" */
-export type Comment_Var_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Comment_Var_Samp_Fields = {
-  __typename?: "comment_var_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "comment" */
-export type Comment_Var_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Comment_Variance_Fields = {
-  __typename?: "comment_variance_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "comment" */
-export type Comment_Variance_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
 /** columns and relationships of "contest" */
 export type Contest = {
   __typename?: "contest";
@@ -1956,6 +381,7 @@ export type Contest = {
   description?: Maybe<Scalars["String"]["output"]>;
   end_date: Scalars["timestamptz"]["output"];
   id: Scalars["uuid"]["output"];
+  name?: Maybe<Scalars["String"]["output"]>;
   start_date: Scalars["timestamptz"]["output"];
   status: Scalars["String"]["output"];
 };
@@ -1991,6 +417,7 @@ export type Contest_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
 };
@@ -2339,6 +766,8 @@ export enum Contest_Code_Update_Column {
 
 /** unique or primary key constraints on table "contest" */
 export enum Contest_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  ContestNameKey = "contest_name_key",
   /** unique or primary key constraint on columns "id" */
   ContestPkey = "contest_pkey",
 }
@@ -2522,6 +951,7 @@ export type Contest_Insert_Input = {
   description?: InputMaybe<Scalars["String"]["input"]>;
   end_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
   id?: InputMaybe<Scalars["uuid"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
   start_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
   status?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -2657,6 +1087,7 @@ export type Contest_Max_Fields = {
   description?: Maybe<Scalars["String"]["output"]>;
   end_date?: Maybe<Scalars["timestamptz"]["output"]>;
   id?: Maybe<Scalars["uuid"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
   start_date?: Maybe<Scalars["timestamptz"]["output"]>;
   status?: Maybe<Scalars["String"]["output"]>;
 };
@@ -2669,6 +1100,7 @@ export type Contest_Min_Fields = {
   description?: Maybe<Scalars["String"]["output"]>;
   end_date?: Maybe<Scalars["timestamptz"]["output"]>;
   id?: Maybe<Scalars["uuid"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
   start_date?: Maybe<Scalars["timestamptz"]["output"]>;
   status?: Maybe<Scalars["String"]["output"]>;
 };
@@ -2703,6 +1135,7 @@ export type Contest_Order_By = {
   description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   start_date?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
 };
@@ -3121,6 +1554,8 @@ export enum Contest_Select_Column {
   /** column name */
   Id = "id",
   /** column name */
+  Name = "name",
+  /** column name */
   StartDate = "start_date",
   /** column name */
   Status = "status",
@@ -3133,6 +1568,7 @@ export type Contest_Set_Input = {
   description?: InputMaybe<Scalars["String"]["input"]>;
   end_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
   id?: InputMaybe<Scalars["uuid"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
   start_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
   status?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -3669,183 +2105,12 @@ export enum Contest_Update_Column {
   /** column name */
   Id = "id",
   /** column name */
+  Name = "name",
+  /** column name */
   StartDate = "start_date",
   /** column name */
   Status = "status",
 }
-
-/** 清华大学所设院系的名称 */
-export type Department = {
-  __typename?: "department";
-  id: Scalars["bigint"]["output"];
-  name: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "department" */
-export type Department_Aggregate = {
-  __typename?: "department_aggregate";
-  aggregate?: Maybe<Department_Aggregate_Fields>;
-  nodes: Array<Department>;
-};
-
-/** aggregate fields of "department" */
-export type Department_Aggregate_Fields = {
-  __typename?: "department_aggregate_fields";
-  avg?: Maybe<Department_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Department_Max_Fields>;
-  min?: Maybe<Department_Min_Fields>;
-  stddev?: Maybe<Department_Stddev_Fields>;
-  stddev_pop?: Maybe<Department_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Department_Stddev_Samp_Fields>;
-  sum?: Maybe<Department_Sum_Fields>;
-  var_pop?: Maybe<Department_Var_Pop_Fields>;
-  var_samp?: Maybe<Department_Var_Samp_Fields>;
-  variance?: Maybe<Department_Variance_Fields>;
-};
-
-/** aggregate fields of "department" */
-export type Department_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Department_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate avg on columns */
-export type Department_Avg_Fields = {
-  __typename?: "department_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Boolean expression to filter rows from the table "department". All fields are combined with a logical 'AND'. */
-export type Department_Bool_Exp = {
-  _and?: InputMaybe<Array<Department_Bool_Exp>>;
-  _not?: InputMaybe<Department_Bool_Exp>;
-  _or?: InputMaybe<Array<Department_Bool_Exp>>;
-  id?: InputMaybe<Bigint_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "department" */
-export enum Department_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  DepartmentPkey = "department_pkey",
-}
-
-/** input type for incrementing numeric columns in table "department" */
-export type Department_Inc_Input = {
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-};
-
-/** input type for inserting data into table "department" */
-export type Department_Insert_Input = {
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Department_Max_Fields = {
-  __typename?: "department_max_fields";
-  id?: Maybe<Scalars["bigint"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Department_Min_Fields = {
-  __typename?: "department_min_fields";
-  id?: Maybe<Scalars["bigint"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** response of any mutation on the table "department" */
-export type Department_Mutation_Response = {
-  __typename?: "department_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Department>;
-};
-
-/** on_conflict condition type for table "department" */
-export type Department_On_Conflict = {
-  constraint: Department_Constraint;
-  update_columns?: Array<Department_Update_Column>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "department". */
-export type Department_Order_By = {
-  id?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: department */
-export type Department_Pk_Columns_Input = {
-  id: Scalars["bigint"]["input"];
-};
-
-/** select columns of table "department" */
-export enum Department_Select_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  Name = "name",
-}
-
-/** input type for updating data in table "department" */
-export type Department_Set_Input = {
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Department_Stddev_Fields = {
-  __typename?: "department_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Department_Stddev_Pop_Fields = {
-  __typename?: "department_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Department_Stddev_Samp_Fields = {
-  __typename?: "department_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate sum on columns */
-export type Department_Sum_Fields = {
-  __typename?: "department_sum_fields";
-  id?: Maybe<Scalars["bigint"]["output"]>;
-};
-
-/** update columns of table "department" */
-export enum Department_Update_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  Name = "name",
-}
-
-/** aggregate var_pop on columns */
-export type Department_Var_Pop_Fields = {
-  __typename?: "department_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate var_samp on columns */
-export type Department_Var_Samp_Fields = {
-  __typename?: "department_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate variance on columns */
-export type Department_Variance_Fields = {
-  __typename?: "department_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
 
 /** columns and relationships of "honor_application" */
 export type Honor_Application = {
@@ -4989,24 +3254,6 @@ export type Mutation_Root = {
   delete_aid_application?: Maybe<Aid_Application_Mutation_Response>;
   /** delete single row from the table: "aid_application" */
   delete_aid_application_by_pk?: Maybe<Aid_Application>;
-  /** delete data from the table: "article" */
-  delete_article?: Maybe<Article_Mutation_Response>;
-  /** delete single row from the table: "article" */
-  delete_article_by_pk?: Maybe<Article>;
-  /** delete data from the table: "article_liker" */
-  delete_article_liker?: Maybe<Article_Liker_Mutation_Response>;
-  /** delete single row from the table: "article_liker" */
-  delete_article_liker_by_pk?: Maybe<Article_Liker>;
-  /** delete data from the table: "article_public" */
-  delete_article_public?: Maybe<Article_Public_Mutation_Response>;
-  /** delete data from the table: "article_tag" */
-  delete_article_tag?: Maybe<Article_Tag_Mutation_Response>;
-  /** delete single row from the table: "article_tag" */
-  delete_article_tag_by_pk?: Maybe<Article_Tag>;
-  /** delete data from the table: "comment" */
-  delete_comment?: Maybe<Comment_Mutation_Response>;
-  /** delete single row from the table: "comment" */
-  delete_comment_by_pk?: Maybe<Comment>;
   /** delete data from the table: "contest" */
   delete_contest?: Maybe<Contest_Mutation_Response>;
   /** delete single row from the table: "contest" */
@@ -5039,10 +3286,6 @@ export type Mutation_Root = {
   delete_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** delete single row from the table: "contest_team_member" */
   delete_contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** delete data from the table: "department" */
-  delete_department?: Maybe<Department_Mutation_Response>;
-  /** delete single row from the table: "department" */
-  delete_department_by_pk?: Maybe<Department>;
   /** delete data from the table: "honor_application" */
   delete_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** delete single row from the table: "honor_application" */
@@ -5095,14 +3338,14 @@ export type Mutation_Root = {
   delete_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** delete single row from the table: "share_course" */
   delete_share_course_by_pk?: Maybe<Share_Course>;
-  /** delete data from the table: "tag" */
-  delete_tag?: Maybe<Tag_Mutation_Response>;
-  /** delete single row from the table: "tag" */
-  delete_tag_by_pk?: Maybe<Tag>;
   /** delete data from the table: "user" */
   delete_user?: Maybe<User_Mutation_Response>;
   /** delete single row from the table: "user" */
   delete_user_by_pk?: Maybe<User>;
+  /** delete data from the table: "users" */
+  delete_users?: Maybe<Users_Mutation_Response>;
+  /** delete single row from the table: "users" */
+  delete_users_by_pk?: Maybe<Users>;
   /** delete data from the table: "weekly" */
   delete_weekly?: Maybe<Weekly_Mutation_Response>;
   /** delete single row from the table: "weekly" */
@@ -5111,26 +3354,6 @@ export type Mutation_Root = {
   insert_aid_application?: Maybe<Aid_Application_Mutation_Response>;
   /** insert a single row into the table: "aid_application" */
   insert_aid_application_one?: Maybe<Aid_Application>;
-  /** insert data into the table: "article" */
-  insert_article?: Maybe<Article_Mutation_Response>;
-  /** insert data into the table: "article_liker" */
-  insert_article_liker?: Maybe<Article_Liker_Mutation_Response>;
-  /** insert a single row into the table: "article_liker" */
-  insert_article_liker_one?: Maybe<Article_Liker>;
-  /** insert a single row into the table: "article" */
-  insert_article_one?: Maybe<Article>;
-  /** insert data into the table: "article_public" */
-  insert_article_public?: Maybe<Article_Public_Mutation_Response>;
-  /** insert a single row into the table: "article_public" */
-  insert_article_public_one?: Maybe<Article_Public>;
-  /** insert data into the table: "article_tag" */
-  insert_article_tag?: Maybe<Article_Tag_Mutation_Response>;
-  /** insert a single row into the table: "article_tag" */
-  insert_article_tag_one?: Maybe<Article_Tag>;
-  /** insert data into the table: "comment" */
-  insert_comment?: Maybe<Comment_Mutation_Response>;
-  /** insert a single row into the table: "comment" */
-  insert_comment_one?: Maybe<Comment>;
   /** insert data into the table: "contest" */
   insert_contest?: Maybe<Contest_Mutation_Response>;
   /** insert data into the table: "contest_code" */
@@ -5163,10 +3386,6 @@ export type Mutation_Root = {
   insert_contest_team_member_one?: Maybe<Contest_Team_Member>;
   /** insert a single row into the table: "contest_team" */
   insert_contest_team_one?: Maybe<Contest_Team>;
-  /** insert data into the table: "department" */
-  insert_department?: Maybe<Department_Mutation_Response>;
-  /** insert a single row into the table: "department" */
-  insert_department_one?: Maybe<Department>;
   /** insert data into the table: "honor_application" */
   insert_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** insert a single row into the table: "honor_application" */
@@ -5219,14 +3438,14 @@ export type Mutation_Root = {
   insert_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** insert a single row into the table: "share_course" */
   insert_share_course_one?: Maybe<Share_Course>;
-  /** insert data into the table: "tag" */
-  insert_tag?: Maybe<Tag_Mutation_Response>;
-  /** insert a single row into the table: "tag" */
-  insert_tag_one?: Maybe<Tag>;
   /** insert data into the table: "user" */
   insert_user?: Maybe<User_Mutation_Response>;
   /** insert a single row into the table: "user" */
   insert_user_one?: Maybe<User>;
+  /** insert data into the table: "users" */
+  insert_users?: Maybe<Users_Mutation_Response>;
+  /** insert a single row into the table: "users" */
+  insert_users_one?: Maybe<Users>;
   /** insert data into the table: "weekly" */
   insert_weekly?: Maybe<Weekly_Mutation_Response>;
   /** insert a single row into the table: "weekly" */
@@ -5235,24 +3454,6 @@ export type Mutation_Root = {
   update_aid_application?: Maybe<Aid_Application_Mutation_Response>;
   /** update single row of the table: "aid_application" */
   update_aid_application_by_pk?: Maybe<Aid_Application>;
-  /** update data of the table: "article" */
-  update_article?: Maybe<Article_Mutation_Response>;
-  /** update single row of the table: "article" */
-  update_article_by_pk?: Maybe<Article>;
-  /** update data of the table: "article_liker" */
-  update_article_liker?: Maybe<Article_Liker_Mutation_Response>;
-  /** update single row of the table: "article_liker" */
-  update_article_liker_by_pk?: Maybe<Article_Liker>;
-  /** update data of the table: "article_public" */
-  update_article_public?: Maybe<Article_Public_Mutation_Response>;
-  /** update data of the table: "article_tag" */
-  update_article_tag?: Maybe<Article_Tag_Mutation_Response>;
-  /** update single row of the table: "article_tag" */
-  update_article_tag_by_pk?: Maybe<Article_Tag>;
-  /** update data of the table: "comment" */
-  update_comment?: Maybe<Comment_Mutation_Response>;
-  /** update single row of the table: "comment" */
-  update_comment_by_pk?: Maybe<Comment>;
   /** update data of the table: "contest" */
   update_contest?: Maybe<Contest_Mutation_Response>;
   /** update single row of the table: "contest" */
@@ -5285,10 +3486,6 @@ export type Mutation_Root = {
   update_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** update single row of the table: "contest_team_member" */
   update_contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** update data of the table: "department" */
-  update_department?: Maybe<Department_Mutation_Response>;
-  /** update single row of the table: "department" */
-  update_department_by_pk?: Maybe<Department>;
   /** update data of the table: "honor_application" */
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
@@ -5341,14 +3538,14 @@ export type Mutation_Root = {
   update_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** update single row of the table: "share_course" */
   update_share_course_by_pk?: Maybe<Share_Course>;
-  /** update data of the table: "tag" */
-  update_tag?: Maybe<Tag_Mutation_Response>;
-  /** update single row of the table: "tag" */
-  update_tag_by_pk?: Maybe<Tag>;
   /** update data of the table: "user" */
   update_user?: Maybe<User_Mutation_Response>;
   /** update single row of the table: "user" */
   update_user_by_pk?: Maybe<User>;
+  /** update data of the table: "users" */
+  update_users?: Maybe<Users_Mutation_Response>;
+  /** update single row of the table: "users" */
+  update_users_by_pk?: Maybe<Users>;
   /** update data of the table: "weekly" */
   update_weekly?: Maybe<Weekly_Mutation_Response>;
   /** update single row of the table: "weekly" */
@@ -5362,53 +3559,6 @@ export type Mutation_RootDelete_Aid_ApplicationArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Aid_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_ArticleArgs = {
-  where: Article_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_LikerArgs = {
-  where: Article_Liker_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_Liker_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_PublicArgs = {
-  where: Article_Public_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_TagArgs = {
-  where: Article_Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_Tag_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_CommentArgs = {
-  where: Comment_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Comment_By_PkArgs = {
   id: Scalars["uuid"]["input"];
 };
 
@@ -5493,16 +3643,6 @@ export type Mutation_RootDelete_Contest_Team_MemberArgs = {
 export type Mutation_RootDelete_Contest_Team_Member_By_PkArgs = {
   team_id: Scalars["uuid"]["input"];
   user_id: Scalars["String"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_DepartmentArgs = {
-  where: Department_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Department_By_PkArgs = {
-  id: Scalars["bigint"]["input"];
 };
 
 /** mutation root */
@@ -5639,16 +3779,6 @@ export type Mutation_RootDelete_Share_Course_By_PkArgs = {
 };
 
 /** mutation root */
-export type Mutation_RootDelete_TagArgs = {
-  where: Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Tag_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
-
-/** mutation root */
 export type Mutation_RootDelete_UserArgs = {
   where: User_Bool_Exp;
 };
@@ -5656,6 +3786,16 @@ export type Mutation_RootDelete_UserArgs = {
 /** mutation root */
 export type Mutation_RootDelete_User_By_PkArgs = {
   _id: Scalars["String"]["input"];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_UsersArgs = {
+  where: Users_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Users_By_PkArgs = {
+  uuid: Scalars["uuid"]["input"];
 };
 
 /** mutation root */
@@ -5678,64 +3818,6 @@ export type Mutation_RootInsert_Aid_ApplicationArgs = {
 export type Mutation_RootInsert_Aid_Application_OneArgs = {
   object: Aid_Application_Insert_Input;
   on_conflict?: InputMaybe<Aid_Application_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_ArticleArgs = {
-  objects: Array<Article_Insert_Input>;
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_LikerArgs = {
-  objects: Array<Article_Liker_Insert_Input>;
-  on_conflict?: InputMaybe<Article_Liker_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_Liker_OneArgs = {
-  object: Article_Liker_Insert_Input;
-  on_conflict?: InputMaybe<Article_Liker_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_OneArgs = {
-  object: Article_Insert_Input;
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_PublicArgs = {
-  objects: Array<Article_Public_Insert_Input>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_Public_OneArgs = {
-  object: Article_Public_Insert_Input;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_TagArgs = {
-  objects: Array<Article_Tag_Insert_Input>;
-  on_conflict?: InputMaybe<Article_Tag_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_Tag_OneArgs = {
-  object: Article_Tag_Insert_Input;
-  on_conflict?: InputMaybe<Article_Tag_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_CommentArgs = {
-  objects: Array<Comment_Insert_Input>;
-  on_conflict?: InputMaybe<Comment_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Comment_OneArgs = {
-  object: Comment_Insert_Input;
-  on_conflict?: InputMaybe<Comment_On_Conflict>;
 };
 
 /** mutation root */
@@ -5832,18 +3914,6 @@ export type Mutation_RootInsert_Contest_Team_Member_OneArgs = {
 export type Mutation_RootInsert_Contest_Team_OneArgs = {
   object: Contest_Team_Insert_Input;
   on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_DepartmentArgs = {
-  objects: Array<Department_Insert_Input>;
-  on_conflict?: InputMaybe<Department_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Department_OneArgs = {
-  object: Department_Insert_Input;
-  on_conflict?: InputMaybe<Department_On_Conflict>;
 };
 
 /** mutation root */
@@ -6003,18 +4073,6 @@ export type Mutation_RootInsert_Share_Course_OneArgs = {
 };
 
 /** mutation root */
-export type Mutation_RootInsert_TagArgs = {
-  objects: Array<Tag_Insert_Input>;
-  on_conflict?: InputMaybe<Tag_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Tag_OneArgs = {
-  object: Tag_Insert_Input;
-  on_conflict?: InputMaybe<Tag_On_Conflict>;
-};
-
-/** mutation root */
 export type Mutation_RootInsert_UserArgs = {
   objects: Array<User_Insert_Input>;
   on_conflict?: InputMaybe<User_On_Conflict>;
@@ -6024,6 +4082,18 @@ export type Mutation_RootInsert_UserArgs = {
 export type Mutation_RootInsert_User_OneArgs = {
   object: User_Insert_Input;
   on_conflict?: InputMaybe<User_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_UsersArgs = {
+  objects: Array<Users_Insert_Input>;
+  on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Users_OneArgs = {
+  object: Users_Insert_Input;
+  on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
 /** mutation root */
@@ -6050,69 +4120,6 @@ export type Mutation_RootUpdate_Aid_Application_By_PkArgs = {
   _inc?: InputMaybe<Aid_Application_Inc_Input>;
   _set?: InputMaybe<Aid_Application_Set_Input>;
   pk_columns: Aid_Application_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_ArticleArgs = {
-  _inc?: InputMaybe<Article_Inc_Input>;
-  _set?: InputMaybe<Article_Set_Input>;
-  where: Article_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_By_PkArgs = {
-  _inc?: InputMaybe<Article_Inc_Input>;
-  _set?: InputMaybe<Article_Set_Input>;
-  pk_columns: Article_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_LikerArgs = {
-  _inc?: InputMaybe<Article_Liker_Inc_Input>;
-  _set?: InputMaybe<Article_Liker_Set_Input>;
-  where: Article_Liker_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_Liker_By_PkArgs = {
-  _inc?: InputMaybe<Article_Liker_Inc_Input>;
-  _set?: InputMaybe<Article_Liker_Set_Input>;
-  pk_columns: Article_Liker_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_PublicArgs = {
-  _inc?: InputMaybe<Article_Public_Inc_Input>;
-  _set?: InputMaybe<Article_Public_Set_Input>;
-  where: Article_Public_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_TagArgs = {
-  _inc?: InputMaybe<Article_Tag_Inc_Input>;
-  _set?: InputMaybe<Article_Tag_Set_Input>;
-  where: Article_Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_Tag_By_PkArgs = {
-  _inc?: InputMaybe<Article_Tag_Inc_Input>;
-  _set?: InputMaybe<Article_Tag_Set_Input>;
-  pk_columns: Article_Tag_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_CommentArgs = {
-  _inc?: InputMaybe<Comment_Inc_Input>;
-  _set?: InputMaybe<Comment_Set_Input>;
-  where: Comment_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Comment_By_PkArgs = {
-  _inc?: InputMaybe<Comment_Inc_Input>;
-  _set?: InputMaybe<Comment_Set_Input>;
-  pk_columns: Comment_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -6213,20 +4220,6 @@ export type Mutation_RootUpdate_Contest_Team_MemberArgs = {
 export type Mutation_RootUpdate_Contest_Team_Member_By_PkArgs = {
   _set?: InputMaybe<Contest_Team_Member_Set_Input>;
   pk_columns: Contest_Team_Member_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_DepartmentArgs = {
-  _inc?: InputMaybe<Department_Inc_Input>;
-  _set?: InputMaybe<Department_Set_Input>;
-  where: Department_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Department_By_PkArgs = {
-  _inc?: InputMaybe<Department_Inc_Input>;
-  _set?: InputMaybe<Department_Set_Input>;
-  pk_columns: Department_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -6400,18 +4393,6 @@ export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_TagArgs = {
-  _set?: InputMaybe<Tag_Set_Input>;
-  where: Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Tag_By_PkArgs = {
-  _set?: InputMaybe<Tag_Set_Input>;
-  pk_columns: Tag_Pk_Columns_Input;
-};
-
-/** mutation root */
 export type Mutation_RootUpdate_UserArgs = {
   _inc?: InputMaybe<User_Inc_Input>;
   _set?: InputMaybe<User_Set_Input>;
@@ -6423,6 +4404,18 @@ export type Mutation_RootUpdate_User_By_PkArgs = {
   _inc?: InputMaybe<User_Inc_Input>;
   _set?: InputMaybe<User_Set_Input>;
   pk_columns: User_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_UsersArgs = {
+  _set?: InputMaybe<Users_Set_Input>;
+  where: Users_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Users_By_PkArgs = {
+  _set?: InputMaybe<Users_Set_Input>;
+  pk_columns: Users_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -7839,34 +5832,6 @@ export type Query_Root = {
   aid_application_aggregate: Aid_Application_Aggregate;
   /** fetch data from the table: "aid_application" using primary key columns */
   aid_application_by_pk?: Maybe<Aid_Application>;
-  /** fetch data from the table: "article" */
-  article: Array<Article>;
-  /** fetch aggregated fields from the table: "article" */
-  article_aggregate: Article_Aggregate;
-  /** fetch data from the table: "article" using primary key columns */
-  article_by_pk?: Maybe<Article>;
-  /** fetch data from the table: "article_liker" */
-  article_liker: Array<Article_Liker>;
-  /** fetch aggregated fields from the table: "article_liker" */
-  article_liker_aggregate: Article_Liker_Aggregate;
-  /** fetch data from the table: "article_liker" using primary key columns */
-  article_liker_by_pk?: Maybe<Article_Liker>;
-  /** fetch data from the table: "article_public" */
-  article_public: Array<Article_Public>;
-  /** fetch aggregated fields from the table: "article_public" */
-  article_public_aggregate: Article_Public_Aggregate;
-  /** fetch data from the table: "article_tag" */
-  article_tag: Array<Article_Tag>;
-  /** fetch aggregated fields from the table: "article_tag" */
-  article_tag_aggregate: Article_Tag_Aggregate;
-  /** fetch data from the table: "article_tag" using primary key columns */
-  article_tag_by_pk?: Maybe<Article_Tag>;
-  /** fetch data from the table: "comment" */
-  comment: Array<Comment>;
-  /** fetch aggregated fields from the table: "comment" */
-  comment_aggregate: Comment_Aggregate;
-  /** fetch data from the table: "comment" using primary key columns */
-  comment_by_pk?: Maybe<Comment>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -7915,12 +5880,6 @@ export type Query_Root = {
   contest_team_member_aggregate: Contest_Team_Member_Aggregate;
   /** fetch data from the table: "contest_team_member" using primary key columns */
   contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** fetch data from the table: "department" */
-  department: Array<Department>;
-  /** fetch aggregated fields from the table: "department" */
-  department_aggregate: Department_Aggregate;
-  /** fetch data from the table: "department" using primary key columns */
-  department_by_pk?: Maybe<Department>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -7999,12 +5958,6 @@ export type Query_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "tag" */
-  tag: Array<Tag>;
-  /** fetch aggregated fields from the table: "tag" */
-  tag_aggregate: Tag_Aggregate;
-  /** fetch data from the table: "tag" using primary key columns */
-  tag_by_pk?: Maybe<Tag>;
   /** fetch data from the table: "user" */
   user: Array<User>;
   /** fetch aggregated fields from the table: "user" */
@@ -8012,6 +5965,12 @@ export type Query_Root = {
   /** fetch data from the table: "user" using primary key columns */
   user_by_pk?: Maybe<User>;
   user_by_role: Array<User_By_Role_User>;
+  /** fetch data from the table: "users" */
+  users: Array<Users>;
+  /** fetch aggregated fields from the table: "users" */
+  users_aggregate: Users_Aggregate;
+  /** fetch data from the table: "users" using primary key columns */
+  users_by_pk?: Maybe<Users>;
   /** fetch data from the table: "weekly" */
   weekly: Array<Weekly>;
   /** fetch aggregated fields from the table: "weekly" */
@@ -8037,104 +5996,6 @@ export type Query_RootAid_Application_AggregateArgs = {
 };
 
 export type Query_RootAid_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
-
-export type Query_RootArticleArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Query_RootArticle_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Query_RootArticle_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-export type Query_RootArticle_LikerArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Query_RootArticle_Liker_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Query_RootArticle_Liker_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-export type Query_RootArticle_PublicArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Query_RootArticle_Public_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Query_RootArticle_TagArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Query_RootArticle_Tag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Query_RootArticle_Tag_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-export type Query_RootCommentArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Query_RootComment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Query_RootComment_By_PkArgs = {
   id: Scalars["uuid"]["input"];
 };
 
@@ -8299,26 +6160,6 @@ export type Query_RootContest_Team_Member_AggregateArgs = {
 export type Query_RootContest_Team_Member_By_PkArgs = {
   team_id: Scalars["uuid"]["input"];
   user_id: Scalars["String"]["input"];
-};
-
-export type Query_RootDepartmentArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Query_RootDepartment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Query_RootDepartment_By_PkArgs = {
-  id: Scalars["bigint"]["input"];
 };
 
 export type Query_RootHonor_ApplicationArgs = {
@@ -8592,26 +6433,6 @@ export type Query_RootShare_Course_By_PkArgs = {
   uuid: Scalars["uuid"]["input"];
 };
 
-export type Query_RootTagArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Query_RootTag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Query_RootTag_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
-
 export type Query_RootUserArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
   limit?: InputMaybe<Scalars["Int"]["input"]>;
@@ -8634,6 +6455,26 @@ export type Query_RootUser_By_PkArgs = {
 
 export type Query_RootUser_By_RoleArgs = {
   role: Scalars["String"]["input"];
+};
+
+export type Query_RootUsersArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+export type Query_RootUsers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+export type Query_RootUsers_By_PkArgs = {
+  uuid: Scalars["uuid"]["input"];
 };
 
 export type Query_RootWeeklyArgs = {
@@ -9406,34 +7247,6 @@ export type Subscription_Root = {
   aid_application_aggregate: Aid_Application_Aggregate;
   /** fetch data from the table: "aid_application" using primary key columns */
   aid_application_by_pk?: Maybe<Aid_Application>;
-  /** fetch data from the table: "article" */
-  article: Array<Article>;
-  /** fetch aggregated fields from the table: "article" */
-  article_aggregate: Article_Aggregate;
-  /** fetch data from the table: "article" using primary key columns */
-  article_by_pk?: Maybe<Article>;
-  /** fetch data from the table: "article_liker" */
-  article_liker: Array<Article_Liker>;
-  /** fetch aggregated fields from the table: "article_liker" */
-  article_liker_aggregate: Article_Liker_Aggregate;
-  /** fetch data from the table: "article_liker" using primary key columns */
-  article_liker_by_pk?: Maybe<Article_Liker>;
-  /** fetch data from the table: "article_public" */
-  article_public: Array<Article_Public>;
-  /** fetch aggregated fields from the table: "article_public" */
-  article_public_aggregate: Article_Public_Aggregate;
-  /** fetch data from the table: "article_tag" */
-  article_tag: Array<Article_Tag>;
-  /** fetch aggregated fields from the table: "article_tag" */
-  article_tag_aggregate: Article_Tag_Aggregate;
-  /** fetch data from the table: "article_tag" using primary key columns */
-  article_tag_by_pk?: Maybe<Article_Tag>;
-  /** fetch data from the table: "comment" */
-  comment: Array<Comment>;
-  /** fetch aggregated fields from the table: "comment" */
-  comment_aggregate: Comment_Aggregate;
-  /** fetch data from the table: "comment" using primary key columns */
-  comment_by_pk?: Maybe<Comment>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -9482,12 +7295,6 @@ export type Subscription_Root = {
   contest_team_member_aggregate: Contest_Team_Member_Aggregate;
   /** fetch data from the table: "contest_team_member" using primary key columns */
   contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** fetch data from the table: "department" */
-  department: Array<Department>;
-  /** fetch aggregated fields from the table: "department" */
-  department_aggregate: Department_Aggregate;
-  /** fetch data from the table: "department" using primary key columns */
-  department_by_pk?: Maybe<Department>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -9566,18 +7373,18 @@ export type Subscription_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "tag" */
-  tag: Array<Tag>;
-  /** fetch aggregated fields from the table: "tag" */
-  tag_aggregate: Tag_Aggregate;
-  /** fetch data from the table: "tag" using primary key columns */
-  tag_by_pk?: Maybe<Tag>;
   /** fetch data from the table: "user" */
   user: Array<User>;
   /** fetch aggregated fields from the table: "user" */
   user_aggregate: User_Aggregate;
   /** fetch data from the table: "user" using primary key columns */
   user_by_pk?: Maybe<User>;
+  /** fetch data from the table: "users" */
+  users: Array<Users>;
+  /** fetch aggregated fields from the table: "users" */
+  users_aggregate: Users_Aggregate;
+  /** fetch data from the table: "users" using primary key columns */
+  users_by_pk?: Maybe<Users>;
   /** fetch data from the table: "weekly" */
   weekly: Array<Weekly>;
   /** fetch aggregated fields from the table: "weekly" */
@@ -9603,104 +7410,6 @@ export type Subscription_RootAid_Application_AggregateArgs = {
 };
 
 export type Subscription_RootAid_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
-
-export type Subscription_RootArticleArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-export type Subscription_RootArticle_LikerArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Liker_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Liker_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-export type Subscription_RootArticle_PublicArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Public_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_TagArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Tag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Tag_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-export type Subscription_RootCommentArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Subscription_RootComment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Subscription_RootComment_By_PkArgs = {
   id: Scalars["uuid"]["input"];
 };
 
@@ -9865,26 +7574,6 @@ export type Subscription_RootContest_Team_Member_AggregateArgs = {
 export type Subscription_RootContest_Team_Member_By_PkArgs = {
   team_id: Scalars["uuid"]["input"];
   user_id: Scalars["String"]["input"];
-};
-
-export type Subscription_RootDepartmentArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Subscription_RootDepartment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Subscription_RootDepartment_By_PkArgs = {
-  id: Scalars["bigint"]["input"];
 };
 
 export type Subscription_RootHonor_ApplicationArgs = {
@@ -10158,26 +7847,6 @@ export type Subscription_RootShare_Course_By_PkArgs = {
   uuid: Scalars["uuid"]["input"];
 };
 
-export type Subscription_RootTagArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Subscription_RootTag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Subscription_RootTag_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
-
 export type Subscription_RootUserArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
   limit?: InputMaybe<Scalars["Int"]["input"]>;
@@ -10196,6 +7865,26 @@ export type Subscription_RootUser_AggregateArgs = {
 
 export type Subscription_RootUser_By_PkArgs = {
   _id: Scalars["String"]["input"];
+};
+
+export type Subscription_RootUsersArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+export type Subscription_RootUsers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+export type Subscription_RootUsers_By_PkArgs = {
+  uuid: Scalars["uuid"]["input"];
 };
 
 export type Subscription_RootWeeklyArgs = {
@@ -10218,152 +7907,6 @@ export type Subscription_RootWeekly_By_PkArgs = {
   id: Scalars["Int"]["input"];
 };
 
-/** columns and relationships of "tag" */
-export type Tag = {
-  __typename?: "tag";
-  id: Scalars["uuid"]["output"];
-  /** An array relationship */
-  tag_articles: Array<Article_Tag>;
-  /** An aggregate relationship */
-  tag_articles_aggregate: Article_Tag_Aggregate;
-  tag_name: Scalars["String"]["output"];
-};
-
-/** columns and relationships of "tag" */
-export type TagTag_ArticlesArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** columns and relationships of "tag" */
-export type TagTag_Articles_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** aggregated selection of "tag" */
-export type Tag_Aggregate = {
-  __typename?: "tag_aggregate";
-  aggregate?: Maybe<Tag_Aggregate_Fields>;
-  nodes: Array<Tag>;
-};
-
-/** aggregate fields of "tag" */
-export type Tag_Aggregate_Fields = {
-  __typename?: "tag_aggregate_fields";
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Tag_Max_Fields>;
-  min?: Maybe<Tag_Min_Fields>;
-};
-
-/** aggregate fields of "tag" */
-export type Tag_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Tag_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** Boolean expression to filter rows from the table "tag". All fields are combined with a logical 'AND'. */
-export type Tag_Bool_Exp = {
-  _and?: InputMaybe<Array<Tag_Bool_Exp>>;
-  _not?: InputMaybe<Tag_Bool_Exp>;
-  _or?: InputMaybe<Array<Tag_Bool_Exp>>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  tag_articles?: InputMaybe<Article_Tag_Bool_Exp>;
-  tag_name?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "tag" */
-export enum Tag_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  TagPkey = "tag_pkey",
-  /** unique or primary key constraint on columns "tag_name" */
-  TagTagKey = "tag_tag_key",
-}
-
-/** input type for inserting data into table "tag" */
-export type Tag_Insert_Input = {
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  tag_articles?: InputMaybe<Article_Tag_Arr_Rel_Insert_Input>;
-  tag_name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Tag_Max_Fields = {
-  __typename?: "tag_max_fields";
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  tag_name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Tag_Min_Fields = {
-  __typename?: "tag_min_fields";
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  tag_name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** response of any mutation on the table "tag" */
-export type Tag_Mutation_Response = {
-  __typename?: "tag_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Tag>;
-};
-
-/** input type for inserting object relation for remote table "tag" */
-export type Tag_Obj_Rel_Insert_Input = {
-  data: Tag_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Tag_On_Conflict>;
-};
-
-/** on_conflict condition type for table "tag" */
-export type Tag_On_Conflict = {
-  constraint: Tag_Constraint;
-  update_columns?: Array<Tag_Update_Column>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "tag". */
-export type Tag_Order_By = {
-  id?: InputMaybe<Order_By>;
-  tag_articles_aggregate?: InputMaybe<Article_Tag_Aggregate_Order_By>;
-  tag_name?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: tag */
-export type Tag_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
-};
-
-/** select columns of table "tag" */
-export enum Tag_Select_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  TagName = "tag_name",
-}
-
-/** input type for updating data in table "tag" */
-export type Tag_Set_Input = {
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  tag_name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** update columns of table "tag" */
-export enum Tag_Update_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  TagName = "tag_name",
-}
-
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
   _eq?: InputMaybe<Scalars["timestamptz"]["input"]>;
@@ -10381,23 +7924,11 @@ export type Timestamptz_Comparison_Exp = {
 export type User = {
   __typename?: "user";
   _id: Scalars["String"]["output"];
-  /** An array relationship */
-  articles: Array<Article>;
-  /** An aggregate relationship */
-  articles_aggregate: Article_Aggregate;
   class?: Maybe<Scalars["String"]["output"]>;
-  /** An array relationship */
-  comments: Array<Comment>;
-  /** An aggregate relationship */
-  comments_aggregate: Comment_Aggregate;
   created_at: Scalars["timestamptz"]["output"];
   department?: Maybe<Scalars["String"]["output"]>;
   email?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["bigint"]["output"]>;
-  /** An array relationship */
-  like_articles: Array<Article_Liker>;
-  /** An aggregate relationship */
-  like_articles_aggregate: Article_Liker_Aggregate;
   /** An array relationship */
   mentor_applications_mentor: Array<Mentor_Application>;
   /** An aggregate relationship */
@@ -10416,60 +7947,6 @@ export type User = {
   phone?: Maybe<Scalars["String"]["output"]>;
   updated_at: Scalars["timestamptz"]["output"];
   username?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** columns and relationships of "user" */
-export type UserArticlesArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserArticles_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserCommentsArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserComments_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserLike_ArticlesArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserLike_Articles_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
 };
 
 /** columns and relationships of "user" */
@@ -10567,14 +8044,11 @@ export type User_Bool_Exp = {
   _id?: InputMaybe<String_Comparison_Exp>;
   _not?: InputMaybe<User_Bool_Exp>;
   _or?: InputMaybe<Array<User_Bool_Exp>>;
-  articles?: InputMaybe<Article_Bool_Exp>;
   class?: InputMaybe<String_Comparison_Exp>;
-  comments?: InputMaybe<Comment_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   department?: InputMaybe<String_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
-  like_articles?: InputMaybe<Article_Liker_Bool_Exp>;
   mentor_applications_mentor?: InputMaybe<Mentor_Application_Bool_Exp>;
   mentor_applications_student?: InputMaybe<Mentor_Application_Bool_Exp>;
   mentor_available?: InputMaybe<Mentor_Available_Bool_Exp>;
@@ -10613,14 +8087,11 @@ export type User_Inc_Input = {
 /** input type for inserting data into table "user" */
 export type User_Insert_Input = {
   _id?: InputMaybe<Scalars["String"]["input"]>;
-  articles?: InputMaybe<Article_Arr_Rel_Insert_Input>;
   class?: InputMaybe<Scalars["String"]["input"]>;
-  comments?: InputMaybe<Comment_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
   department?: InputMaybe<Scalars["String"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["bigint"]["input"]>;
-  like_articles?: InputMaybe<Article_Liker_Arr_Rel_Insert_Input>;
   mentor_applications_mentor?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
   mentor_applications_student?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
   mentor_available?: InputMaybe<Mentor_Available_Obj_Rel_Insert_Input>;
@@ -10687,14 +8158,11 @@ export type User_On_Conflict = {
 /** Ordering options when selecting data from "user". */
 export type User_Order_By = {
   _id?: InputMaybe<Order_By>;
-  articles_aggregate?: InputMaybe<Article_Aggregate_Order_By>;
   class?: InputMaybe<Order_By>;
-  comments_aggregate?: InputMaybe<Comment_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   department?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  like_articles_aggregate?: InputMaybe<Article_Liker_Aggregate_Order_By>;
   mentor_applications_mentor_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
   mentor_applications_student_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
   mentor_available?: InputMaybe<Mentor_Available_Order_By>;
@@ -10813,6 +8281,277 @@ export type User_Variance_Fields = {
   __typename?: "user_variance_fields";
   id?: Maybe<Scalars["Float"]["output"]>;
 };
+
+/** columns and relationships of "users" */
+export type Users = {
+  __typename?: "users";
+  class?: Maybe<Scalars["String"]["output"]>;
+  created_at: Scalars["timestamptz"]["output"];
+  department?: Maybe<Scalars["String"]["output"]>;
+  email: Scalars["String"]["output"];
+  github_id?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["String"]["output"]>;
+  password: Scalars["String"]["output"];
+  phone?: Maybe<Scalars["String"]["output"]>;
+  realname?: Maybe<Scalars["String"]["output"]>;
+  role: Scalars["String"]["output"];
+  student_no?: Maybe<Scalars["String"]["output"]>;
+  tsinghua_email?: Maybe<Scalars["String"]["output"]>;
+  updated_at: Scalars["timestamptz"]["output"];
+  username?: Maybe<Scalars["String"]["output"]>;
+  uuid: Scalars["uuid"]["output"];
+};
+
+/** aggregated selection of "users" */
+export type Users_Aggregate = {
+  __typename?: "users_aggregate";
+  aggregate?: Maybe<Users_Aggregate_Fields>;
+  nodes: Array<Users>;
+};
+
+/** aggregate fields of "users" */
+export type Users_Aggregate_Fields = {
+  __typename?: "users_aggregate_fields";
+  count: Scalars["Int"]["output"];
+  max?: Maybe<Users_Max_Fields>;
+  min?: Maybe<Users_Min_Fields>;
+};
+
+/** aggregate fields of "users" */
+export type Users_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+/** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
+export type Users_Bool_Exp = {
+  _and?: InputMaybe<Array<Users_Bool_Exp>>;
+  _not?: InputMaybe<Users_Bool_Exp>;
+  _or?: InputMaybe<Array<Users_Bool_Exp>>;
+  class?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  department?: InputMaybe<String_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  github_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  password?: InputMaybe<String_Comparison_Exp>;
+  phone?: InputMaybe<String_Comparison_Exp>;
+  realname?: InputMaybe<String_Comparison_Exp>;
+  role?: InputMaybe<String_Comparison_Exp>;
+  student_no?: InputMaybe<String_Comparison_Exp>;
+  tsinghua_email?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  username?: InputMaybe<String_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "users" */
+export enum Users_Constraint {
+  /** unique or primary key constraint on columns "email" */
+  UsersEmailKey = "users_email_key",
+  /** unique or primary key constraint on columns "github_id" */
+  UsersGithubIdKey = "users_github_id_key",
+  /** unique or primary key constraint on columns "id" */
+  UsersIdKey = "users_id_key",
+  /** unique or primary key constraint on columns "phone" */
+  UsersPhoneKey = "users_phone_key",
+  /** unique or primary key constraint on columns "uuid" */
+  UsersPkey = "users_pkey",
+  /** unique or primary key constraint on columns "student_no" */
+  UsersStudentNoKey = "users_student_no_key",
+  /** unique or primary key constraint on columns "tsinghua_email" */
+  UsersTsinghuaEmailKey = "users_tsinghua_email_key",
+  /** unique or primary key constraint on columns "username" */
+  UsersUsernameKey = "users_username_key",
+  /** unique or primary key constraint on columns "uuid" */
+  UsersUuidKey = "users_uuid_key",
+}
+
+/** input type for inserting data into table "users" */
+export type Users_Insert_Input = {
+  class?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  department?: InputMaybe<Scalars["String"]["input"]>;
+  email?: InputMaybe<Scalars["String"]["input"]>;
+  github_id?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  password?: InputMaybe<Scalars["String"]["input"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
+  realname?: InputMaybe<Scalars["String"]["input"]>;
+  role?: InputMaybe<Scalars["String"]["input"]>;
+  student_no?: InputMaybe<Scalars["String"]["input"]>;
+  tsinghua_email?: InputMaybe<Scalars["String"]["input"]>;
+  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  username?: InputMaybe<Scalars["String"]["input"]>;
+  uuid?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** aggregate max on columns */
+export type Users_Max_Fields = {
+  __typename?: "users_max_fields";
+  class?: Maybe<Scalars["String"]["output"]>;
+  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  department?: Maybe<Scalars["String"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  github_id?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["String"]["output"]>;
+  password?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
+  realname?: Maybe<Scalars["String"]["output"]>;
+  role?: Maybe<Scalars["String"]["output"]>;
+  student_no?: Maybe<Scalars["String"]["output"]>;
+  tsinghua_email?: Maybe<Scalars["String"]["output"]>;
+  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  username?: Maybe<Scalars["String"]["output"]>;
+  uuid?: Maybe<Scalars["uuid"]["output"]>;
+};
+
+/** aggregate min on columns */
+export type Users_Min_Fields = {
+  __typename?: "users_min_fields";
+  class?: Maybe<Scalars["String"]["output"]>;
+  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  department?: Maybe<Scalars["String"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  github_id?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["String"]["output"]>;
+  password?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
+  realname?: Maybe<Scalars["String"]["output"]>;
+  role?: Maybe<Scalars["String"]["output"]>;
+  student_no?: Maybe<Scalars["String"]["output"]>;
+  tsinghua_email?: Maybe<Scalars["String"]["output"]>;
+  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  username?: Maybe<Scalars["String"]["output"]>;
+  uuid?: Maybe<Scalars["uuid"]["output"]>;
+};
+
+/** response of any mutation on the table "users" */
+export type Users_Mutation_Response = {
+  __typename?: "users_mutation_response";
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars["Int"]["output"];
+  /** data from the rows affected by the mutation */
+  returning: Array<Users>;
+};
+
+/** on_conflict condition type for table "users" */
+export type Users_On_Conflict = {
+  constraint: Users_Constraint;
+  update_columns?: Array<Users_Update_Column>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "users". */
+export type Users_Order_By = {
+  class?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  department?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  github_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  password?: InputMaybe<Order_By>;
+  phone?: InputMaybe<Order_By>;
+  realname?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+  student_no?: InputMaybe<Order_By>;
+  tsinghua_email?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  username?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: users */
+export type Users_Pk_Columns_Input = {
+  uuid: Scalars["uuid"]["input"];
+};
+
+/** select columns of table "users" */
+export enum Users_Select_Column {
+  /** column name */
+  Class = "class",
+  /** column name */
+  CreatedAt = "created_at",
+  /** column name */
+  Department = "department",
+  /** column name */
+  Email = "email",
+  /** column name */
+  GithubId = "github_id",
+  /** column name */
+  Id = "id",
+  /** column name */
+  Password = "password",
+  /** column name */
+  Phone = "phone",
+  /** column name */
+  Realname = "realname",
+  /** column name */
+  Role = "role",
+  /** column name */
+  StudentNo = "student_no",
+  /** column name */
+  TsinghuaEmail = "tsinghua_email",
+  /** column name */
+  UpdatedAt = "updated_at",
+  /** column name */
+  Username = "username",
+  /** column name */
+  Uuid = "uuid",
+}
+
+/** input type for updating data in table "users" */
+export type Users_Set_Input = {
+  class?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  department?: InputMaybe<Scalars["String"]["input"]>;
+  email?: InputMaybe<Scalars["String"]["input"]>;
+  github_id?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  password?: InputMaybe<Scalars["String"]["input"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
+  realname?: InputMaybe<Scalars["String"]["input"]>;
+  role?: InputMaybe<Scalars["String"]["input"]>;
+  student_no?: InputMaybe<Scalars["String"]["input"]>;
+  tsinghua_email?: InputMaybe<Scalars["String"]["input"]>;
+  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  username?: InputMaybe<Scalars["String"]["input"]>;
+  uuid?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** update columns of table "users" */
+export enum Users_Update_Column {
+  /** column name */
+  Class = "class",
+  /** column name */
+  CreatedAt = "created_at",
+  /** column name */
+  Department = "department",
+  /** column name */
+  Email = "email",
+  /** column name */
+  GithubId = "github_id",
+  /** column name */
+  Id = "id",
+  /** column name */
+  Password = "password",
+  /** column name */
+  Phone = "phone",
+  /** column name */
+  Realname = "realname",
+  /** column name */
+  Role = "role",
+  /** column name */
+  StudentNo = "student_no",
+  /** column name */
+  TsinghuaEmail = "tsinghua_email",
+  /** column name */
+  UpdatedAt = "updated_at",
+  /** column name */
+  Username = "username",
+  /** column name */
+  Uuid = "uuid",
+}
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
@@ -11364,28 +9103,6 @@ export type GetContestInfoQuery = {
     end_date: any;
     status: string;
   }>;
-};
-
-export type GetIntroContentQueryVariables = Exact<{
-  id: Scalars["Int"]["input"];
-}>;
-
-export type GetIntroContentQuery = {
-  __typename?: "query_root";
-  article: Array<{ __typename?: "article"; content: string }>;
-};
-
-export type UpdateIntroMutationVariables = Exact<{
-  id: Scalars["Int"]["input"];
-  content?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type UpdateIntroMutation = {
-  __typename?: "mutation_root";
-  update_article?: {
-    __typename?: "article_mutation_response";
-    affected_rows: number;
-  } | null;
 };
 
 export type GetRoomInfoSubscriptionVariables = Exact<{
@@ -12830,99 +10547,6 @@ export type GetCourseQuery = {
   }>;
 };
 
-export type GetUserQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
-}>;
-
-export type GetUserQuery = {
-  __typename?: "query_root";
-  user: Array<{
-    __typename?: "user";
-    _id: string;
-    id?: any | null;
-    name?: string | null;
-    username?: string | null;
-    department?: string | null;
-    class?: string | null;
-    phone?: string | null;
-    email?: string | null;
-  }>;
-};
-
-export type GetUserByIdQueryVariables = Exact<{
-  id: Scalars["bigint"]["input"];
-}>;
-
-export type GetUserByIdQuery = {
-  __typename?: "query_root";
-  user: Array<{
-    __typename?: "user";
-    _id: string;
-    id?: any | null;
-    username?: string | null;
-    name?: string | null;
-  }>;
-};
-
-export type GetUserByNameQueryVariables = Exact<{
-  name: Scalars["String"]["input"];
-}>;
-
-export type GetUserByNameQuery = {
-  __typename?: "query_root";
-  user: Array<{ __typename?: "user"; _id: string }>;
-};
-
-export type UpdateUserMutationVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  id: Scalars["bigint"]["input"];
-  username?: InputMaybe<Scalars["String"]["input"]>;
-  phone?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  department?: InputMaybe<Scalars["String"]["input"]>;
-  class?: InputMaybe<Scalars["String"]["input"]>;
-  email?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type UpdateUserMutation = {
-  __typename?: "mutation_root";
-  update_user?: {
-    __typename?: "user_mutation_response";
-    affected_rows: number;
-  } | null;
-};
-
-export type UpdateUserForTeacherMutationVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  username?: InputMaybe<Scalars["String"]["input"]>;
-  phone?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  department?: InputMaybe<Scalars["String"]["input"]>;
-  class?: InputMaybe<Scalars["String"]["input"]>;
-  email?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type UpdateUserForTeacherMutation = {
-  __typename?: "mutation_root";
-  update_user?: {
-    __typename?: "user_mutation_response";
-    affected_rows: number;
-  } | null;
-};
-
-export type DeleteUserMutationVariables = Exact<{
-  _id: Scalars["String"]["input"];
-}>;
-
-export type DeleteUserMutation = {
-  __typename?: "mutation_root";
-  delete_user?: {
-    __typename?: "user_mutation_response";
-    affected_rows: number;
-  } | null;
-};
-
 export type GetWeeklyQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetWeeklyQuery = {
@@ -12933,6 +10557,43 @@ export type GetWeeklyQuery = {
     title: string;
     url: string;
   }>;
+};
+
+export type GetProfileQueryVariables = Exact<{
+  uuid: Scalars["uuid"]["input"];
+}>;
+
+export type GetProfileQuery = {
+  __typename?: "query_root";
+  users_by_pk?: {
+    __typename?: "users";
+    username?: string | null;
+    realname?: string | null;
+    email: string;
+    phone?: string | null;
+    student_no?: string | null;
+    department?: string | null;
+    class?: string | null;
+    created_at: any;
+    updated_at: any;
+    tsinghua_email?: string | null;
+    github_id?: string | null;
+  } | null;
+};
+
+export type UpdateProfileMutationVariables = Exact<{
+  uuid: Scalars["uuid"]["input"];
+  class?: InputMaybe<Scalars["String"]["input"]>;
+  department?: InputMaybe<Scalars["String"]["input"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
+  realname?: InputMaybe<Scalars["String"]["input"]>;
+  student_no?: InputMaybe<Scalars["String"]["input"]>;
+  username?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type UpdateProfileMutation = {
+  __typename?: "mutation_root";
+  update_users_by_pk?: { __typename?: "users"; updated_at: any } | null;
 };
 
 export const QueryContestManagerDocument = gql`
@@ -14192,130 +11853,6 @@ export type GetContestInfoSuspenseQueryHookResult = ReturnType<
 export type GetContestInfoQueryResult = Apollo.QueryResult<
   GetContestInfoQuery,
   GetContestInfoQueryVariables
->;
-export const GetIntroContentDocument = gql`
-  query GetIntroContent($id: Int!) {
-    article(where: { id: { _eq: $id } }) {
-      content
-    }
-  }
-`;
-
-/**
- * __useGetIntroContentQuery__
- *
- * To run a query within a React component, call `useGetIntroContentQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetIntroContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetIntroContentQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetIntroContentQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetIntroContentQuery, GetIntroContentQueryVariables>(
-    GetIntroContentDocument,
-    options,
-  );
-}
-export function useGetIntroContentLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >(GetIntroContentDocument, options);
-}
-export function useGetIntroContentSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >(GetIntroContentDocument, options);
-}
-export type GetIntroContentQueryHookResult = ReturnType<
-  typeof useGetIntroContentQuery
->;
-export type GetIntroContentLazyQueryHookResult = ReturnType<
-  typeof useGetIntroContentLazyQuery
->;
-export type GetIntroContentSuspenseQueryHookResult = ReturnType<
-  typeof useGetIntroContentSuspenseQuery
->;
-export type GetIntroContentQueryResult = Apollo.QueryResult<
-  GetIntroContentQuery,
-  GetIntroContentQueryVariables
->;
-export const UpdateIntroDocument = gql`
-  mutation UpdateIntro($id: Int!, $content: String = "") {
-    update_article(where: { id: { _eq: $id } }, _set: { content: $content }) {
-      affected_rows
-    }
-  }
-`;
-export type UpdateIntroMutationFn = Apollo.MutationFunction<
-  UpdateIntroMutation,
-  UpdateIntroMutationVariables
->;
-
-/**
- * __useUpdateIntroMutation__
- *
- * To run a mutation, you first call `useUpdateIntroMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateIntroMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateIntroMutation, { data, loading, error }] = useUpdateIntroMutation({
- *   variables: {
- *      id: // value for 'id'
- *      content: // value for 'content'
- *   },
- * });
- */
-export function useUpdateIntroMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateIntroMutation,
-    UpdateIntroMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateIntroMutation, UpdateIntroMutationVariables>(
-    UpdateIntroDocument,
-    options,
-  );
-}
-export type UpdateIntroMutationHookResult = ReturnType<
-  typeof useUpdateIntroMutation
->;
-export type UpdateIntroMutationResult =
-  Apollo.MutationResult<UpdateIntroMutation>;
-export type UpdateIntroMutationOptions = Apollo.BaseMutationOptions<
-  UpdateIntroMutation,
-  UpdateIntroMutationVariables
 >;
 export const GetRoomInfoDocument = gql`
   subscription GetRoomInfo($contest_id: uuid!) {
@@ -19992,430 +17529,6 @@ export type GetCourseQueryResult = Apollo.QueryResult<
   GetCourseQuery,
   GetCourseQueryVariables
 >;
-export const GetUserDocument = gql`
-  query GetUser($_id: String!) {
-    user(where: { _id: { _eq: $_id } }) {
-      _id
-      id
-      name
-      username
-      department
-      class
-      phone
-      email
-    }
-  }
-`;
-
-/**
- * __useGetUserQuery__
- *
- * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserQuery({
- *   variables: {
- *      _id: // value for '_id'
- *   },
- * });
- */
-export function useGetUserQuery(
-  baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
-export function useGetUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
-export function useGetUserSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
-export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
-export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserSuspenseQueryHookResult = ReturnType<
-  typeof useGetUserSuspenseQuery
->;
-export type GetUserQueryResult = Apollo.QueryResult<
-  GetUserQuery,
-  GetUserQueryVariables
->;
-export const GetUserByIdDocument = gql`
-  query GetUserById($id: bigint!) {
-    user(where: { id: { _eq: $id } }) {
-      _id
-      id
-      username
-      name
-    }
-  }
-`;
-
-/**
- * __useGetUserByIdQuery__
- *
- * To run a query within a React component, call `useGetUserByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetUserByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUserByIdQuery,
-    GetUserByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-    GetUserByIdDocument,
-    options,
-  );
-}
-export function useGetUserByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserByIdQuery,
-    GetUserByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-    GetUserByIdDocument,
-    options,
-  );
-}
-export function useGetUserByIdSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUserByIdQuery,
-    GetUserByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-    GetUserByIdDocument,
-    options,
-  );
-}
-export type GetUserByIdQueryHookResult = ReturnType<typeof useGetUserByIdQuery>;
-export type GetUserByIdLazyQueryHookResult = ReturnType<
-  typeof useGetUserByIdLazyQuery
->;
-export type GetUserByIdSuspenseQueryHookResult = ReturnType<
-  typeof useGetUserByIdSuspenseQuery
->;
-export type GetUserByIdQueryResult = Apollo.QueryResult<
-  GetUserByIdQuery,
-  GetUserByIdQueryVariables
->;
-export const GetUserByNameDocument = gql`
-  query GetUserByName($name: String!) {
-    user(where: { name: { _eq: $name } }) {
-      _id
-    }
-  }
-`;
-
-/**
- * __useGetUserByNameQuery__
- *
- * To run a query within a React component, call `useGetUserByNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserByNameQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useGetUserByNameQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserByNameQuery, GetUserByNameQueryVariables>(
-    GetUserByNameDocument,
-    options,
-  );
-}
-export function useGetUserByNameLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserByNameQuery, GetUserByNameQueryVariables>(
-    GetUserByNameDocument,
-    options,
-  );
-}
-export function useGetUserByNameSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >(GetUserByNameDocument, options);
-}
-export type GetUserByNameQueryHookResult = ReturnType<
-  typeof useGetUserByNameQuery
->;
-export type GetUserByNameLazyQueryHookResult = ReturnType<
-  typeof useGetUserByNameLazyQuery
->;
-export type GetUserByNameSuspenseQueryHookResult = ReturnType<
-  typeof useGetUserByNameSuspenseQuery
->;
-export type GetUserByNameQueryResult = Apollo.QueryResult<
-  GetUserByNameQuery,
-  GetUserByNameQueryVariables
->;
-export const UpdateUserDocument = gql`
-  mutation UpdateUser(
-    $_id: String!
-    $id: bigint!
-    $username: String
-    $phone: String
-    $name: String
-    $department: String
-    $class: String
-    $email: String
-  ) {
-    update_user(
-      where: { _id: { _eq: $_id } }
-      _set: {
-        id: $id
-        username: $username
-        phone: $phone
-        name: $name
-        department: $department
-        class: $class
-        email: $email
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-export type UpdateUserMutationFn = Apollo.MutationFunction<
-  UpdateUserMutation,
-  UpdateUserMutationVariables
->;
-
-/**
- * __useUpdateUserMutation__
- *
- * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
- *   variables: {
- *      _id: // value for '_id'
- *      id: // value for 'id'
- *      username: // value for 'username'
- *      phone: // value for 'phone'
- *      name: // value for 'name'
- *      department: // value for 'department'
- *      class: // value for 'class'
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useUpdateUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserMutation,
-    UpdateUserMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
-    UpdateUserDocument,
-    options,
-  );
-}
-export type UpdateUserMutationHookResult = ReturnType<
-  typeof useUpdateUserMutation
->;
-export type UpdateUserMutationResult =
-  Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserMutation,
-  UpdateUserMutationVariables
->;
-export const UpdateUserForTeacherDocument = gql`
-  mutation UpdateUserForTeacher(
-    $_id: String!
-    $id: bigint
-    $username: String
-    $phone: String
-    $name: String
-    $department: String
-    $class: String
-    $email: String
-  ) {
-    update_user(
-      where: { _id: { _eq: $_id } }
-      _set: {
-        id: $id
-        username: $username
-        phone: $phone
-        name: $name
-        department: $department
-        class: $class
-        email: $email
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-export type UpdateUserForTeacherMutationFn = Apollo.MutationFunction<
-  UpdateUserForTeacherMutation,
-  UpdateUserForTeacherMutationVariables
->;
-
-/**
- * __useUpdateUserForTeacherMutation__
- *
- * To run a mutation, you first call `useUpdateUserForTeacherMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserForTeacherMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserForTeacherMutation, { data, loading, error }] = useUpdateUserForTeacherMutation({
- *   variables: {
- *      _id: // value for '_id'
- *      id: // value for 'id'
- *      username: // value for 'username'
- *      phone: // value for 'phone'
- *      name: // value for 'name'
- *      department: // value for 'department'
- *      class: // value for 'class'
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useUpdateUserForTeacherMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserForTeacherMutation,
-    UpdateUserForTeacherMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateUserForTeacherMutation,
-    UpdateUserForTeacherMutationVariables
-  >(UpdateUserForTeacherDocument, options);
-}
-export type UpdateUserForTeacherMutationHookResult = ReturnType<
-  typeof useUpdateUserForTeacherMutation
->;
-export type UpdateUserForTeacherMutationResult =
-  Apollo.MutationResult<UpdateUserForTeacherMutation>;
-export type UpdateUserForTeacherMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserForTeacherMutation,
-  UpdateUserForTeacherMutationVariables
->;
-export const DeleteUserDocument = gql`
-  mutation DeleteUser($_id: String!) {
-    delete_user(where: { _id: { _eq: $_id } }) {
-      affected_rows
-    }
-  }
-`;
-export type DeleteUserMutationFn = Apollo.MutationFunction<
-  DeleteUserMutation,
-  DeleteUserMutationVariables
->;
-
-/**
- * __useDeleteUserMutation__
- *
- * To run a mutation, you first call `useDeleteUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
- *   variables: {
- *      _id: // value for '_id'
- *   },
- * });
- */
-export function useDeleteUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteUserMutation,
-    DeleteUserMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(
-    DeleteUserDocument,
-    options,
-  );
-}
-export type DeleteUserMutationHookResult = ReturnType<
-  typeof useDeleteUserMutation
->;
-export type DeleteUserMutationResult =
-  Apollo.MutationResult<DeleteUserMutation>;
-export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<
-  DeleteUserMutation,
-  DeleteUserMutationVariables
->;
 export const GetWeeklyDocument = gql`
   query GetWeekly {
     weekly {
@@ -20487,4 +17600,159 @@ export type GetWeeklySuspenseQueryHookResult = ReturnType<
 export type GetWeeklyQueryResult = Apollo.QueryResult<
   GetWeeklyQuery,
   GetWeeklyQueryVariables
+>;
+export const GetProfileDocument = gql`
+  query GetProfile($uuid: uuid!) {
+    users_by_pk(uuid: $uuid) {
+      username
+      realname
+      email
+      phone
+      student_no
+      department
+      class
+      created_at
+      updated_at
+      tsinghua_email
+      github_id
+    }
+  }
+`;
+
+/**
+ * __useGetProfileQuery__
+ *
+ * To run a query within a React component, call `useGetProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProfileQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useGetProfileQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetProfileQuery,
+    GetProfileQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetProfileQuery, GetProfileQueryVariables>(
+    GetProfileDocument,
+    options,
+  );
+}
+export function useGetProfileLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetProfileQuery,
+    GetProfileQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(
+    GetProfileDocument,
+    options,
+  );
+}
+export function useGetProfileSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetProfileQuery,
+    GetProfileQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetProfileQuery, GetProfileQueryVariables>(
+    GetProfileDocument,
+    options,
+  );
+}
+export type GetProfileQueryHookResult = ReturnType<typeof useGetProfileQuery>;
+export type GetProfileLazyQueryHookResult = ReturnType<
+  typeof useGetProfileLazyQuery
+>;
+export type GetProfileSuspenseQueryHookResult = ReturnType<
+  typeof useGetProfileSuspenseQuery
+>;
+export type GetProfileQueryResult = Apollo.QueryResult<
+  GetProfileQuery,
+  GetProfileQueryVariables
+>;
+export const UpdateProfileDocument = gql`
+  mutation UpdateProfile(
+    $uuid: uuid!
+    $class: String
+    $department: String
+    $phone: String
+    $realname: String
+    $student_no: String
+    $username: String
+  ) {
+    update_users_by_pk(
+      pk_columns: { uuid: $uuid }
+      _set: {
+        class: $class
+        department: $department
+        username: $username
+        student_no: $student_no
+        realname: $realname
+        phone: $phone
+      }
+    ) {
+      updated_at
+    }
+  }
+`;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
+>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      class: // value for 'class'
+ *      department: // value for 'department'
+ *      phone: // value for 'phone'
+ *      realname: // value for 'realname'
+ *      student_no: // value for 'student_no'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >(UpdateProfileDocument, options);
+}
+export type UpdateProfileMutationHookResult = ReturnType<
+  typeof useUpdateProfileMutation
+>;
+export type UpdateProfileMutationResult =
+  Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
 >;
