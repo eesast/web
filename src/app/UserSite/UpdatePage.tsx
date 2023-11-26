@@ -15,7 +15,6 @@ const UpdatePage: React.FC = () => {
   const handleUpdate = async () => {
     try {
       const request = {
-        token: localStorage.getItem("token"),
         verificationCode: otp,
         verificationToken: localStorage.getItem("verificationToken"),
         isTsinghua: isTsinghua,
