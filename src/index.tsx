@@ -1,19 +1,26 @@
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
+import { ConfigProvider } from "antd";
+import zhCN from "antd/es/locale/zh_CN";
 import "./index.css";
 import App from "./app";
 import { client } from "./api/apollo";
 import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
+import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 ReactDOM.render(
   // <React.StrictMode> // TODO: wait for antd fix
-  <ApolloProvider client={client}>
-    <Router>
-      <App />
-    </Router>
-  </ApolloProvider>,
-  // </React.StrictMode>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <ConfigProvider locale={zhCN}>
+        <App />
+      </ConfigProvider>
+    </ApolloProvider>
+  </BrowserRouter>,
+  // </React.StrictMode>
   document.getElementById("root"),
 );
 

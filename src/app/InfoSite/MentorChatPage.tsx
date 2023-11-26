@@ -25,15 +25,17 @@ import {
   List,
   Input,
 } from "antd";
-import Center from "../../components/Center";
+import Center from "../Components/Center";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import Scrollbars from "react-custom-scrollbars";
 import { getUserInfo } from "../../api/helpers/auth";
+import { useUrl } from "../../api/hooks/url";
 
 const { TextArea } = Input;
 
 const MentorChatPage = () => {
+  const url = useUrl();
   const userInfo = getUserInfo();
 
   const {
@@ -132,7 +134,7 @@ const MentorChatPage = () => {
         title="您尚未配对"
         extra={
           <Button type="primary">
-            <Link to="/info/mentor-applications">查看申请</Link>
+            <Link to={url.link("mentor-applications")}>查看申请</Link>
           </Button>
         }
       />
