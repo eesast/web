@@ -79,6 +79,14 @@ const ProfilePage: React.FC = () => {
       label: "院系",
       children: profileData.users_by_pk?.department || "",
       editable: () => true,
+      valueEnum: {
+        电子系: {
+          text: "电子系",
+        },
+        医学院: {
+          text: "医学院",
+        },
+      },
     },
     {
       key: "class",
@@ -145,6 +153,7 @@ const ProfilePage: React.FC = () => {
             span={item.span}
             ellipsis={true}
             editable={item.editable}
+            valueEnum={item.valueEnum}
           >
             {item.children}
           </ProDescriptions.Item>
