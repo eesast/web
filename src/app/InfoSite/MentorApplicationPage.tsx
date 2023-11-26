@@ -6,6 +6,7 @@ import {
   Descriptions,
   Form,
   Input,
+  InputRef,
   List,
   message,
   Modal,
@@ -353,7 +354,7 @@ const MentorApplicationPage = () => {
     }
   }, [mentorListError]);
 
-  const searchInput = useRef<Input>(null);
+  const searchInput = useRef<InputRef>(null);
   const [, setSearchText] = useState("");
 
   const handleSearch = (
