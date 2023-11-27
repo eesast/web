@@ -9,7 +9,7 @@
     "@ant-design/pro-components": "2.6.43",
     "@apollo/client": "3.8.7",
     "antd": "5.11.4",
-    "axios": "0.21.4",
+    "axios": "1.6.2",
     "cos-js-sdk-v5": "1.4.21",
     "dayjs": "1.11.10",
     "docxtemplater": "3.40.3",
@@ -19,7 +19,7 @@
     "graphql": "16.8.1",
     "grpc-web": "1.4.2",
     "is-url": "1.2.4",
-    "jwt-decode": "3.1.2",
+    "jwt-decode": "4.0.0",
     "lodash.get": "4.4.2",
     "md2wx": "3.1.2",
     "pizzip": "3.1.4",
@@ -43,7 +43,7 @@
     "@types/file-saver": "2.0.7",
     "@types/is-url": "1.2.32",
     "@types/jest": "29.5.10",
-    "@types/jwt-decode": "2.2.1",
+    "@types/jwt-decode": "3.1.0",
     "@types/lodash.get": "4.4.9",
     "@types/node": "20.9.4",
     "@types/pizzip": "3.0.5",
@@ -75,9 +75,6 @@
     "postinstall": "electron-builder install-app-deps",
     "eject": "react-app-rewired eject",
     "generate": "graphql-codegen",
-    "prestart-to-be-resolved": "yarn generate",
-    "codegen": "yarn apollo client:codegen --target=typescript --outputFlat src/api/types.ts",
-    "codegen:watch": "yarn codegen --watch",
     "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
     "electron": "electron .",
     "electron:dev": "electron . dev",
@@ -87,6 +84,9 @@
     "analyze": "cross-env ANALYZER=true yarn build",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "typecheck": "tsc"
+  },
+  "resolutions": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,yml,md,graphql}": [

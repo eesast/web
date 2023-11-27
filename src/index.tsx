@@ -8,11 +8,11 @@ import "./index.css";
 import App from "./app";
 import { client } from "./api/apollo";
 import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
-axios.interceptors.request.use((config: AxiosRequestConfig) => {
+axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = "Bearer " + token;
