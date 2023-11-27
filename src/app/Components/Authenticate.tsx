@@ -6,8 +6,8 @@ import { message } from "antd";
 
 interface AuthenticateProps {
   role: String[];
-  children: JSX.Element;
-  fallback?: JSX.Element;
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
 }
 
 export const userRoles = ["user", "student", "teacher", "counselor"];

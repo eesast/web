@@ -1,4 +1,5 @@
-import ReactDOM from "react-dom";
+import React from "react";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { ConfigProvider } from "antd";
@@ -19,17 +20,18 @@ axios.interceptors.request.use((config: AxiosRequestConfig) => {
   return config;
 });
 
-ReactDOM.render(
-  // <React.StrictMode> // TODO: wait for antd fix
-  <BrowserRouter>
-    <ApolloProvider client={client}>
-      <ConfigProvider locale={zhCN}>
-        <App />
-      </ConfigProvider>
-    </ApolloProvider>
-  </BrowserRouter>,
-  // </React.StrictMode>
-  document.getElementById("root"),
+const container = document.getElementById("root");
+const root = createRoot(container!);
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <ConfigProvider locale={zhCN}>
+          <App />
+        </ConfigProvider>
+      </ApolloProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
 );
 
 // Measuring performance in our app, pass a function

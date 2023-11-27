@@ -106,7 +106,7 @@ const PlaybackPage: React.FC = () => {
       setIsPrompt(false);
       // navigate(url.delete("room").delete("speed").link("playback"));
     } catch (err) {
-      message.error(err);
+      console.log(err);
     }
   };
 

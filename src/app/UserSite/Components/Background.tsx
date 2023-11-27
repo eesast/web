@@ -4,7 +4,7 @@ import Center from "../../Components/Center";
 
 interface BackgroundProps {
   imageIndex?: number;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 const Background: React.FC<BackgroundProps> = ({ children, imageIndex }) => {
