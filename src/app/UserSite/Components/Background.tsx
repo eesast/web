@@ -9,7 +9,7 @@ interface BackgroundProps {
 
 const Background: React.FC<BackgroundProps> = ({ children, imageIndex }) => {
   const Background = styled.div<{ url: string }>`
-    height: calc(100vh - 67px);
+    height: calc(100vh - 72px);
     width: 100%;
     background-image: url(${(props) => props.url});
     background-repeat: no-repeat;
@@ -25,9 +25,10 @@ const Background: React.FC<BackgroundProps> = ({ children, imageIndex }) => {
     padding-bottom: 36px;
     padding-left: 36px;
     padding-right: 36px;
-    border-radius: 6px;
+    border-radius: 8px;
     box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 0.5);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     backdrop-filter: blur(36px);
   `;
 

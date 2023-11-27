@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import "./index.css";
 import App from "./app";
@@ -26,7 +26,13 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ApolloProvider client={client}>
-        <ConfigProvider locale={zhCN}>
+        <ConfigProvider
+          locale={zhCN}
+          theme={{
+            algorithm: theme.defaultAlgorithm,
+            // algorithm: theme.darkAlgorithm,
+          }}
+        >
           <App />
         </ConfigProvider>
       </ApolloProvider>

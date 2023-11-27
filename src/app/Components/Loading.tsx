@@ -1,15 +1,14 @@
 import React from "react";
-import Container from "./Container";
 import Center from "./Center";
 import { Spin } from "antd";
 
 const Loading: React.FC = () => {
   return (
-    <Container>
+    <Center direction="column">
       <Center>
         <Spin size="large" />
       </Center>
-    </Container>
+    </Center>
   );
 };
 

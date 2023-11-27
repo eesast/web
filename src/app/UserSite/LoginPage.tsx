@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     try {
       const request = {
-        user: values.email,
+        user: values.user,
         password: values.password,
       };
       const response = await axios.post("/user/login", request);
