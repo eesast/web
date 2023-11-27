@@ -79,7 +79,7 @@
     "electron": "electron .",
     "electron:dev": "electron . dev",
     "electron:build": "electron-builder",
-    "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|css-animation|@ant-design/css-animation|@babel/runtime)\"",
+    "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|axios)\"",
     "build": "react-app-rewired build",
     "analyze": "cross-env ANALYZER=true yarn build",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
