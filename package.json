@@ -83,7 +83,7 @@
     "build": "react-app-rewired build",
     "analyze": "cross-env ANALYZER=true yarn build",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "typecheck": "tsc"
+    "typecheck": "tsc --noUnusedLocals"
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
