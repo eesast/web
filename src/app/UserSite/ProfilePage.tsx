@@ -1,7 +1,11 @@
-import { Button, Descriptions, Modal, message } from "antd";
+import { Button, Modal, message } from "antd";
+import { ProDescriptions } from "@ant-design/pro-components";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect } from "react";
-import { useGetProfileSuspenseQuery } from "../../generated/graphql";
+import {
+  useGetProfileSuspenseQuery,
+  useUpdateProfileMutation,
+} from "../../generated/graphql";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
@@ -40,74 +44,112 @@ const ProfilePage: React.FC = () => {
 
   const items = [
     {
-      key: "1",
+      key: "username",
       label: "用户名",
       children: profileData.users_by_pk?.username || "",
+      editable: () => true,
     },
     {
-      key: "2",
+      key: "email",
       label: "注册邮箱",
       span: 2,
       children: profileData.users_by_pk?.email || "",
+      editable: () => false,
     },
     {
-      key: "3",
+      key: "role",
       label: "用户组",
       children: roleMap[userInfo.role],
+      editable: () => false,
     },
     {
-      key: "4",
+      key: "realname",
       label: "姓名",
       children: profileData.users_by_pk?.realname || "",
+      editable: () => true,
     },
     {
-      key: "5",
+      key: "phone",
       label: "电话",
       children: profileData.users_by_pk?.phone || "",
+      editable: () => true,
     },
     {
-      key: "6",
+      key: "department",
       label: "院系",
       children: profileData.users_by_pk?.department || "",
+      editable: () => true,
     },
     {
-      key: "7",
+      key: "class",
       label: "班级",
       children: profileData.users_by_pk?.class || "",
+      editable: () => true,
     },
     {
-      key: "8",
+      key: "student_no",
       label: "学号",
       children: profileData.users_by_pk?.student_no || "",
+      editable: () => true,
     },
     {
-      key: "9",
+      key: "created_at",
       label: "注册时间",
       children: dayjs(profileData.users_by_pk?.created_at).format(
         "YYYY-MM-DD HH:mm",
       ),
+      editable: () => false,
     },
     {
-      key: "10",
+      key: "updated_at",
       label: "信息更新时间",
       children: dayjs(profileData.users_by_pk?.updated_at).format(
         "YYYY-MM-DD HH:mm",
       ),
+      editable: () => false,
     },
   ];
+
+  const [updateProfileMutation, { error }] = useUpdateProfileMutation();
+  useEffect(() => {
+    if (error) {
+      message.error("更新用户信息失败");
+      console.log(error);
+    }
+  }, [error]);
+
   return (
     <Content
       css={`
         margin: 72px;
       `}
     >
-      <Descriptions title={<h1>用户信息</h1>} bordered>
+      <ProDescriptions
+        title={<h1>用户信息</h1>}
+        bordered
+        editable={{
+          onSave: (key, record) =>
+            updateProfileMutation({
+              variables: {
+                uuid: userInfo.uuid,
+                ...record,
+              },
+            }),
+        }}
+      >
         {items.map((item) => (
-          <Descriptions.Item key={item.key} label={item.label} span={item.span}>
+          <ProDescriptions.Item
+            key={item.key}
+            dataIndex={item.key}
+            label={item.label}
+            span={item.span}
+            ellipsis={true}
+            editable={item.editable}
+          >
             {item.children}
-          </Descriptions.Item>
+          </ProDescriptions.Item>
         ))}
-      </Descriptions>
+      </ProDescriptions>
       <Button
         type="primary"
         css={`

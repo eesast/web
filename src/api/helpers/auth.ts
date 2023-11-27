@@ -2,9 +2,8 @@ import jwtDecode from "jwt-decode";
 
 export interface JwtPayload {
   uuid: string;
-  _id: string;
-  email: string;
   role: string;
+  _id: string;
   "https://hasura.io/jwt/claims": {
     "x-hasura-allowed-roles": string[];
     "x-hasura-default-role": string;
