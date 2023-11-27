@@ -4,9 +4,11 @@ import Background from "./Components/Background";
 import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const UpdatePage: React.FC = () => {
   const url = useUrl();
+  const navigate = useNavigate();
   const email = url.query.get("email") ?? "";
   const phone = url.query.get("phone") ?? "";
   const isTsinghua = url.query.get("tsinghua") === "true";
@@ -25,6 +27,7 @@ const UpdatePage: React.FC = () => {
         localStorage.setItem("token", data.token);
       }
       message.success("信息更新成功");
+      return navigate(-1);
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
