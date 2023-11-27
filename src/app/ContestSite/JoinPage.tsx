@@ -229,7 +229,7 @@ const JoinPage: React.FC = () => {
               </Button>
               <Modal
                 title="邀请码"
-                visible={isModalVisible}
+                open={isModalVisible}
                 onOk={() => onclick()}
                 onCancel={handleCancel}
               >

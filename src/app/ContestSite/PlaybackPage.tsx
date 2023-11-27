@@ -222,7 +222,7 @@ const PlaybackPage: React.FC = () => {
         </Col>
       </Row>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title={"又在玩新游戏啊"}
         centered
         okText="前往"

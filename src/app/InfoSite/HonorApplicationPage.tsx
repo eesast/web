@@ -50,11 +50,11 @@ import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getStatusText, getStatusValue } from "../../api/helpers/application";
 import get from "lodash.get";
 import { getUserInfo } from "../../api/helpers/auth";
-import {  FilterConfirmProps } from "antd/lib/table/interface";
+import { FilterConfirmProps } from "antd/lib/table/interface";
 
-const param: FilterConfirmProps ={
-  closeDropdown: true
-}
+const param: FilterConfirmProps = {
+  closeDropdown: true,
+};
 const { Text } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
@@ -682,7 +682,7 @@ const HonorApplicationPage = () => {
               if (new Date() < info.honor.start_A) {
                 return message.info("未到申请时间！");
               } else if (new Date() > info.honor.end_A) {
-                return message.warn("申请时间已过！");
+                return message.warning("申请时间已过！");
               }
               setApplicationFormVisible(true);
             }}
@@ -747,7 +747,7 @@ const HonorApplicationPage = () => {
                         if (new Date() < info.honor.start_A) {
                           return message.info("未到申请时间！");
                         } else if (new Date() > info.honor.end_A) {
-                          return message.warn("申请时间已过！");
+                          return message.warning("申请时间已过！");
                         }
                         setEditingApplication(item);
                         form.setFieldsValue(item);
@@ -766,7 +766,7 @@ const HonorApplicationPage = () => {
                         if (new Date() < info.honor.start_A) {
                           return message.info("未到申请时间！");
                         } else if (new Date() > info.honor.end_A) {
-                          return message.warn("申请时间已过！");
+                          return message.warning("申请时间已过！");
                         }
                         handleApplicationDelete(item.id);
                       }}
@@ -779,7 +779,7 @@ const HonorApplicationPage = () => {
             }}
           />
           <Modal
-            visible={applicationFormVisible}
+            open={applicationFormVisible}
             title={editingApplication ? "编辑申请" : "新申请"}
             centered
             destroyOnClose
@@ -883,7 +883,7 @@ const HonorApplicationPage = () => {
             )}
           />
           <Modal
-            visible={exportFormVisible}
+            open={exportFormVisible}
             title="导出申请"
             centered
             onOk={handleApplicationExport}
@@ -915,7 +915,7 @@ const HonorApplicationPage = () => {
             </Form>
           </Modal>
           <Modal
-            visible={importFormVisible}
+            open={importFormVisible}
             title="导入申请"
             centered
             onOk={handleApplicationImport}

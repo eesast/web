@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Layout, Menu, Button, BackTop, Col, Space, Popover } from "antd";
+import { Button, Col, FloatButton, Layout, Menu, Popover, Space } from "antd";
 import { UserOutlined, MenuOutlined, ExportOutlined } from "@ant-design/icons";
 import { Route, Link, Routes, Navigate } from "react-router-dom";
 import styled from "styled-components";
@@ -160,7 +160,7 @@ const App: React.FC = () => {
           EESAST
         </p>
       </StyledFooter>
-      <BackTop />
+      <FloatButton.BackTop />
     </Layout>
   );
 };

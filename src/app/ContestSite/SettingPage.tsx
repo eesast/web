@@ -173,11 +173,11 @@ const SettingPage: React.FC = () => {
         team_name: values.team1,
       });
       if (team1Data.data.contest_team.length === 0) {
-        message.warn("队伍1名称有误，查询失败！");
+        message.warning("队伍1名称有误，查询失败！");
         return;
       }
       if (team1Data.data.contest_team[0].status !== "compiled") {
-        message.warn("队伍1未进行编译！");
+        message.warning("队伍1未进行编译！");
         return;
       }
       const team2Data = await refetchTeamID({
@@ -185,11 +185,11 @@ const SettingPage: React.FC = () => {
         team_name: values.team2,
       });
       if (team2Data.data.contest_team.length === 0) {
-        message.warn("队伍2名称有误，查询失败！");
+        message.warning("队伍2名称有误，查询失败！");
         return;
       }
       if (team2Data.data.contest_team[0].status !== "compiled") {
-        message.warn("队伍2未进行编译！");
+        message.warning("队伍2未进行编译！");
         return;
       }
       const team1ID = team1Data.data.contest_team[0].team_id;
@@ -351,7 +351,7 @@ const SettingPage: React.FC = () => {
       </Row>
 
       <Modal
-        visible={isBattleModalVisible}
+        open={isBattleModalVisible}
         title="发起对战"
         centered
         okText="发起"
