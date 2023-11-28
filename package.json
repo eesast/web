@@ -70,23 +70,25 @@
     "webpack-bundle-analyzer": "4.9.1",
     "webpackbar": "5.0.2"
   },
+  "resolutions": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
+  },
   "scripts": {
     "prepare": "husky install",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && yarn clean",
     "eject": "react-app-rewired eject",
     "generate": "graphql-codegen",
-    "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
-    "electron": "electron .",
-    "electron:dev": "electron . dev",
-    "electron:build": "electron-builder",
+    "reset": "rimraf node_modules && rimraf yarn.lock && yarn",
+    "clean": "rimraf ./node_modules/.cache && rimraf build && rimraf electron",
+    "start": "react-app-rewired start",
     "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|axios)\"",
     "build": "react-app-rewired build",
     "analyze": "cross-env ANALYZER=true yarn build",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "typecheck": "tsc --noUnusedLocals"
-  },
-  "resolutions": {
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
+    "typecheck": "tsc --noUnusedLocals",
+    "electron": "electron .",
+    "electron:dev": "electron . dev",
+    "electron:build": "electron-builder"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,yml,md,graphql}": [
