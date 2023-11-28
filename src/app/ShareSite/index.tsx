@@ -9,7 +9,7 @@ import CoursePage from "./CoursePage";
 import NotFoundPage from "../Components/NotFound";
 import { Content } from "antd/lib/layout/layout";
 import styled from "styled-components";
-import WeeklyPage from "../WeeklyPage";
+import WeeklyPage from "./WeeklyPage";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 

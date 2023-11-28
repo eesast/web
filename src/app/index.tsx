@@ -193,6 +193,22 @@ const App: React.FC = () => {
     );
   };
 
+  const Container = styled.div`
+    height: calc(100vh - 72px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
   return (
     <ConfigProvider
       locale={zhCN}
@@ -209,7 +225,7 @@ const App: React.FC = () => {
           <User />
         </StyledHeader>
         <StyledContent>
-          <Suspense fallback={<Spin />}>
+          <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="home/*" element={<HomeSite mode={mode} />} />
