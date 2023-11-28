@@ -71,6 +71,7 @@ import MenuPage from "./MenuPage";
 import dayjs, { Dayjs } from "dayjs";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -80,7 +81,7 @@ const { Option } = Select;
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
 
-const ContestSite: React.FC = () => {
+const ContestSite: React.FC<PageProps> = ({ mode }) => {
   const userInfo = getUserInfo();
 
   const url = useUrl();

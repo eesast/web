@@ -16,6 +16,7 @@ import {
   validateNumber,
   validateUsername,
 } from "../../api/helpers/validator";
+import { PageProps } from "..";
 
 const roleMap: { [key: string]: string } = {
   anonymous: "游客",
@@ -26,7 +27,7 @@ const roleMap: { [key: string]: string } = {
   admin: "管理员",
 };
 
-const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const userInfo = getUserInfo()!;

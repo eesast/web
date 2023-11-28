@@ -12,6 +12,7 @@ import DivisionPage from "./DivisionPage";
 import ContestPage from "./ContestPage";
 import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
 const { Header, Content } = Layout;
 
@@ -31,7 +32,7 @@ const StyledMenu = styled(Menu)`
   }
 `;
 
-const HomeSite: React.FC = () => {
+const HomeSite: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
 
   return (

@@ -10,8 +10,9 @@ import RegisterPage from "./RegisterPage";
 import ResetPage from "./ResetPage";
 import UpdatePage from "./UpdatePage";
 import DeletePage from "./DeletePage";
+import { PageProps } from "..";
 
-const UserSite: React.FC = () => {
+const UserSite: React.FC<PageProps> = ({ mode }) => {
   const userInfo = getUserInfo();
   const url = useUrl();
 
@@ -31,28 +32,36 @@ const UserSite: React.FC = () => {
         path="profile"
         element={
           <Authenticate role={userRoles}>
-            <ProfilePage />
+            <ProfilePage mode={mode} />
           </Authenticate>
         }
       />
       <Route
         path="login"
         element={
-          userInfo ? <Navigate to={url.link("profile")} /> : <LoginPage />
+          userInfo ? (
+            <Navigate to={url.link("profile")} />
+          ) : (
+            <LoginPage mode={mode} />
+          )
         }
       />
       <Route
         path="register"
         element={
-          userInfo ? <Navigate to={url.link("profile")} /> : <RegisterPage />
+          userInfo ? (
+            <Navigate to={url.link("profile")} />
+          ) : (
+            <RegisterPage mode={mode} />
+          )
         }
       />
-      <Route path="reset" element={<ResetPage />} />
+      <Route path="reset" element={<ResetPage mode={mode} />} />
       <Route
         path="update"
         element={
           <Authenticate role={userRoles}>
-            <UpdatePage />
+            <UpdatePage mode={mode} />
           </Authenticate>
         }
       />
@@ -60,7 +69,7 @@ const UserSite: React.FC = () => {
         path="delete"
         element={
           <Authenticate role={userRoles}>
-            <DeletePage />
+            <DeletePage mode={mode} />
           </Authenticate>
         }
       />

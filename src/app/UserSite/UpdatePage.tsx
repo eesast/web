@@ -5,8 +5,9 @@ import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { PageProps } from "..";
 
-const UpdatePage: React.FC = () => {
+const UpdatePage: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const email = url.query.get("email") ?? "";
@@ -48,7 +49,7 @@ const UpdatePage: React.FC = () => {
   };
 
   return (
-    <Background imageIndex={0}>
+    <Background mode={mode} imageIndex={0}>
       <Verify
         title={email === "" ? "验证需绑定的手机" : "验证需绑定的邮箱"}
         email={email}
