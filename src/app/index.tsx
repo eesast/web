@@ -6,6 +6,7 @@ import {
   Layout,
   Menu,
   Popover,
+  Spin,
   Switch,
   theme,
 } from "antd";
@@ -27,7 +28,6 @@ import NotFoundPage from "./Components/NotFound";
 import Authenticate, { userRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
 import { getUserInfo } from "../api/helpers/auth";
-import Loading from "./Components/Loading";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -217,7 +217,7 @@ const App: React.FC = () => {
           <User />
         </StyledHeader>
         <StyledContent>
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Spin />}>
             <Routes>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="home/*" element={<HomeSite mode={mode} />} />
