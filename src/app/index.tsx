@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import {
   Button,
   ConfigProvider,
@@ -19,11 +19,6 @@ import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
 import { useWindowSize } from "../api/hooks/windowsize";
-import HomeSite from "./HomeSite";
-import ContestSite from "./ContestSite";
-import InfoSite from "./InfoSite";
-import ShareSite from "./ShareSite";
-import UserSite from "./UserSite";
 import NotFoundPage from "./Components/NotFound";
 import Authenticate, { userRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
@@ -208,6 +203,12 @@ const App: React.FC = () => {
       </Container>
     );
   };
+
+  const HomeSite = lazy(() => import("./HomeSite"));
+  const ContestSite = lazy(() => import("./ContestSite"));
+  const InfoSite = lazy(() => import("./InfoSite"));
+  const ShareSite = lazy(() => import("./ShareSite"));
+  const UserSite = lazy(() => import("./UserSite"));
 
   return (
     <ConfigProvider
