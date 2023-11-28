@@ -1952,9 +1952,9 @@
     ws "^8.13.0"
 
 "@graphql-tools/executor-http@^1.0.0":
-  version "1.0.3"
-  resolved "https://registry.npmmirror.com/@graphql-tools/executor-http/-/executor-http-1.0.3.tgz#6ee9e43287ef86fd3588a5d4d2398604234d958d"
-  integrity sha512-5WZIMBevRaxMabZ8U2Ty0dTUPy/PpeYSlMNEmC/YJjKKykgSfc/AwSejx2sE4FFKZ0I2kxRKRenyoWMHRAV49Q==
+  version "1.0.4"
+  resolved "https://registry.npmmirror.com/@graphql-tools/executor-http/-/executor-http-1.0.4.tgz#d4b3b32430c24b0167760d3b6ffb91846a3b6956"
+  integrity sha512-lSoPFWrGU6XT9nGGBogUI8bSOtP0yce2FhXTrU5akMZ35BDCNWbkmgryzRhxoAH/yDOaZtKkHQB3xrYX3uo5zA==
   dependencies:
     "@graphql-tools/utils" "^10.0.2"
     "@repeaterjs/repeater" "^3.0.4"
@@ -3331,7 +3331,16 @@
     "@types/history" "^4.7.11"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@18.2.38":
+"@types/react@*":
+  version "18.2.39"
+  resolved "https://registry.npmmirror.com/@types/react/-/react-18.2.39.tgz#744bee99e053ad61fe74eb8b897f3ab5b19a7e25"
+  integrity sha512-Oiw+ppED6IremMInLV4HXGbfbG6GyziY3kqAwJYOR0PNbkYDmLWQA3a95EhdSmamsvbkJN96ZNN+YD+fGjzSBA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@18.2.38":
   version "18.2.38"
   resolved "https://registry.npmmirror.com/@types/react/-/react-18.2.38.tgz#3605ca41d3daff2c434e0b98d79a2469d4c2dd52"
   integrity sha512-cBBXHzuPtQK6wNthuVMV6IjHAFkdl/FOPFIlkd81/Cd1+IqkHu/A+w4g43kaQQoYHik/ruaQBDL72HyCy1vuMw==
@@ -6094,9 +6103,9 @@ electron-publish@24.5.0:
     mime "^2.5.2"
 
 electron-to-chromium@^1.4.535:
-  version "1.4.594"
-  resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.594.tgz#f69f207fba80735a44a988df42f3f439115d0515"
-  integrity sha512-xT1HVAu5xFn7bDfkjGQi9dNpMqGchUkebwf1GL7cZN32NSwwlHRPMSDJ1KN6HkS0bWUtndbSQZqvpQftKG2uFQ==
+  version "1.4.595"
+  resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.595.tgz#fa33309eb9aabb7426915f8e166ec60f664e9ad4"
+  integrity sha512-+ozvXuamBhDOKvMNUQvecxfbyICmIAwS4GpLmR0bsiSBlGnLaOcs2Cj7J8XSbW+YEaN3Xl3ffgpm+srTUWFwFQ==
 
 electron@27.1.2:
   version "27.1.2"
@@ -8808,9 +8817,9 @@ jiti@^1.17.1, jiti@^1.18.2, jiti@^1.19.1:
   integrity sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==
 
 jose@^5.0.0:
-  version "5.1.1"
-  resolved "https://registry.npmmirror.com/jose/-/jose-5.1.1.tgz#d61b923baa6bdeb01040afae8295a084c4b9eb58"
-  integrity sha512-bfB+lNxowY49LfrBO0ITUn93JbUhxUN8I11K6oI5hJu/G6PO6fEUddVLjqdD0cQ9SXIHWXuWh7eJYwZF7Z0N/g==
+  version "5.1.2"
+  resolved "https://registry.npmmirror.com/jose/-/jose-5.1.2.tgz#f71a18e3ee779c2d81778e1b6f0d85062ccd9ee1"
+  integrity sha512-X7TOC/d8KPvx4wPUuLHVgTSdoWw0UW5TQOUwhvCvj+ZPfsf9vUPhhksYPjNBWVGPQ/6yd/JrL1gQxBnIDwYdFg==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -11200,9 +11209,9 @@ rc-checkbox@~3.1.0:
     rc-util "^5.25.2"
 
 rc-collapse@~3.7.1:
-  version "3.7.1"
-  resolved "https://registry.npmmirror.com/rc-collapse/-/rc-collapse-3.7.1.tgz#bda1f7f80adccf3433c1c15d4d9f9ca09910c727"
-  integrity sha512-N/7ejyiTf3XElNJBBpxqnZBUuMsQWEOPjB2QkfNvZ/Ca54eAvJXuOD1EGbCWCk2m7v/MSxku7mRpdeaLOCd4Gg==
+  version "3.7.2"
+  resolved "https://registry.npmmirror.com/rc-collapse/-/rc-collapse-3.7.2.tgz#d11538ff9c705a5c988d9a4dfcc051a919692fe3"
+  integrity sha512-ZRw6ipDyOnfLFySxAiCMdbHtb5ePAsB9mT17PA6y1mRD/W6KHRaZeb5qK/X9xDV1CqgyxMpzw0VdS74PCcUk4A==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "2.x"
