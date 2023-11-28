@@ -145,15 +145,7 @@ const App: React.FC = () => {
       return (
         <Popover
           placement="bottom"
-          content={
-            <Menu
-              mode="inline"
-              items={items}
-              css={`
-              border-inline-end = 0;
-            `}
-            />
-          }
+          content={<Menu mode="inline" items={items} />}
           trigger="click"
         >
           <Button icon={<MenuOutlined />} size="large" type="text" />
