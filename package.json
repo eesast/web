@@ -71,7 +71,7 @@
     "rimraf": "5.0.5",
     "typescript": "5.2.2",
     "web-vitals": "3.5.0",
-    "webpack-bundle-analyzer": "4.9.1",
+    "webpack-bundle-analyzer": "4.10.1",
     "webpackbar": "5.0.2"
   },
   "resolutions": {
