@@ -16,7 +16,7 @@
     "file-saver": "2.0.5",
     "google-protobuf": "3.21.2",
     "graphql": "16.8.1",
-    "grpc-web": "1.4.2",
+    "grpc-web": "1.5.0",
     "is-url": "1.2.4",
     "jwt-decode": "3.1.2",
     "less": "4.2.0",
