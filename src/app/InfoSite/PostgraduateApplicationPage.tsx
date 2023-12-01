@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { Button, Table, PageHeader, message, Alert, Switch, Tag } from "antd";
+import { PageHeader } from "@ant-design/pro-components";
+import { Button, Table, message, Alert, Switch, Tag } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import {
   VerifyPostgraduateApplication as VERIFY_POSTGRADUATE_APPLICATION,
@@ -106,7 +107,7 @@ const PostgraduateApplicationPage: React.FC = () => {
     setCurrent(Math.ceil((current * pageSize) / size));
   };
 
-  const handleHistorySwitchChange = (checked: boolean, event: Event) => {
+  const handleHistorySwitchChange = (checked: boolean) => {
     setHistory(checked);
     setOffset(0);
     setPageSize(10);

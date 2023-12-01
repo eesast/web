@@ -1,16 +1,17 @@
 import React from "react";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Link, Navigate, Route, Routes } from "react-router-dom";
 // import { getUserInfo } from "../../api/helpers/auth";
 //导入antd的包
 import { Layout, Menu } from "antd";
 //以下为分页面
 import RepoPage from "./RepoPage";
 import CoursePage from "./CoursePage";
-import NotFoundPage from "../NotFoundPage";
+import NotFoundPage from "../Components/NotFound";
 import { Content } from "antd/lib/layout/layout";
 import styled from "styled-components";
-import WeeklyPage from "../WeeklyPage";
+import WeeklyPage from "./WeeklyPage";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
 const { Header } = Layout;
 
@@ -30,7 +31,7 @@ const StyledMenu = styled(Menu)`
   }
 `;
 
-const ShareSite: React.FC = () => {
+const ShareSite: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   // const userInfo = getUserInfo();
 
@@ -55,26 +56,14 @@ const ShareSite: React.FC = () => {
         </StyledMenu>
       </StyledHeader>
       <Content>
-        <Switch>
-          <Route exact path={url.route("share", "site")}>
-            <Redirect to={url.link("weekly")} />
-          </Route>
-          <Route exact path={url.route("course")}>
-            <CoursePage />
-          </Route>
-          <Route exact path={url.route("repo")}>
-            <RepoPage />
-          </Route>
-          {/* <Route exact path={url.route("toturial")}>
-            <CoursePage />
-          </Route> */}
-          <Route exact path={url.route("weekly")}>
-            <WeeklyPage />
-          </Route>
-          <Route>
-            <NotFoundPage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Navigate to={url.link("weekly")} />} />
+          <Route path="course" element={<CoursePage />} />
+          <Route path="repo" element={<RepoPage />} />
+          {/* <Route path="toturial"} element={<CoursePage />} /> */}
+          <Route path="weekly" element={<WeeklyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </Content>
     </Layout>
   );

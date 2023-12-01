@@ -11,10 +11,10 @@ import {
   message,
   Modal,
   Typography,
+  Spin,
 } from "antd"; //botton
 import { Layout } from "antd";
 import { getUserInfo } from "../../api/helpers/auth"; //更改：取消注释
-import Loading from "../../components/Loading";
 //----根据队员信息查找队伍信息------
 import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
 import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
@@ -160,7 +160,7 @@ const ManagePage: React.FC = () => {
   const isLeader = userInfo?._id === team.team_leader_id?._id;
 
   if (loading || leaderLoading || memberLoading || !userInfo) {
-    return <Loading />;
+    return <Spin />;
   }
   const userid = userInfo._id;
 

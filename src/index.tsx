@@ -1,20 +1,33 @@
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import "./index.css";
 import App from "./app";
 import { client } from "./api/apollo";
 import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
+import axios from "axios";
 
-ReactDOM.render(
-  // <React.StrictMode> // TODO: wait for antd fix
-  <ApolloProvider client={client}>
-    <Router>
-      <App />
-    </Router>
-  </ApolloProvider>,
-  // </React.StrictMode>,
-  document.getElementById("root"),
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = "Bearer " + token;
+  }
+  return config;
+});
+
+const container = document.getElementById("root");
+const root = createRoot(container!);
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
 );
 
 // Measuring performance in our app, pass a function

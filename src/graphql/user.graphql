@@ -1,85 +1,39 @@
-query GetUser($_id: String!) {
-  user(where: { _id: { _eq: $_id } }) {
-    _id
-    id
-    name
+query GetProfile($uuid: uuid!) {
+  users_by_pk(uuid: $uuid) {
     username
+    realname
+    email
+    phone
+    student_no
     department
     class
-    phone
-    email
+    created_at
+    updated_at
+    tsinghua_email
+    github_id
   }
 }
 
-query GetUserById($id: bigint!) {
-  user(where: { id: { _eq: $id } }) {
-    _id
-    id
-    username
-    name
-  }
-}
-
-query GetUserByName($name: String!) {
-  user(where: { name: { _eq: $name } }) {
-    _id
-  }
-}
-
-mutation UpdateUser(
-  $_id: String!
-  $id: bigint!
-  $username: String
-  $phone: String
-  $name: String
-  $department: String
+mutation UpdateProfile(
+  $uuid: uuid!
   $class: String
-  $email: String
+  $department: String
+  $phone: String
+  $realname: String
+  $student_no: String
+  $username: String
 ) {
-  update_user(
-    where: { _id: { _eq: $_id } }
+  update_users_by_pk(
+    pk_columns: { uuid: $uuid }
     _set: {
-      id: $id
-      username: $username
-      phone: $phone
-      name: $name
-      department: $department
       class: $class
-      email: $email
+      department: $department
+      username: $username
+      student_no: $student_no
+      realname: $realname
+      phone: $phone
     }
   ) {
-    affected_rows
-  }
-}
-
-mutation UpdateUserForTeacher(
-  $_id: String!
-  $id: bigint
-  $username: String
-  $phone: String
-  $name: String
-  $department: String
-  $class: String
-  $email: String
-) {
-  update_user(
-    where: { _id: { _eq: $_id } }
-    _set: {
-      id: $id
-      username: $username
-      phone: $phone
-      name: $name
-      department: $department
-      class: $class
-      email: $email
-    }
-  ) {
-    affected_rows
-  }
-}
-
-mutation DeleteUser($_id: String!) {
-  delete_user(where: { _id: { _eq: $_id } }) {
-    affected_rows
+    updated_at
   }
 }

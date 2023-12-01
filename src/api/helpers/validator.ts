@@ -33,6 +33,10 @@ export const validatePassword = (password: string) => {
   );
 };
 
+export const validateNumber = (number: string) => {
+  return /^[0-9]*$/.test(number);
+};
+
 export const validateClass = (className: string) => {
   return /^((?!@).)*$/.test(className);
 };

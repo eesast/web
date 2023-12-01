@@ -1,38 +1,36 @@
 import {
   Avatar,
+  Button,
   Card,
+  Col,
+  Input,
+  Layout,
   List,
   Pagination,
-  Layout,
-  Radio,
   Popover,
-  Input,
-  Button,
-  message,
-  Typography,
+  Radio,
   Row,
-  Col,
+  Typography,
+  message,
 } from "antd";
+import React, { useEffect, useState } from "react";
+import { getUserInfo } from "../../api/helpers/auth";
+import { useGetWeeklySuspenseQuery } from "../../generated/graphql";
 import {
   PlusCircleOutlined,
   MinusCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useQuery } from "@apollo/client";
-import { GetWeekly } from "../api/types";
-import { GetWeekly as GETWEEKLY } from "../api/weekly.graphql";
-import { getUserInfo } from "../api/helpers/auth";
-
-const { Meta } = Card;
-const { Content, Footer } = Layout;
-const { Text } = Typography;
-const pageSizes = ["8", "12", "16", "20", "32"];
 
 const WeeklyPage: React.FC = () => {
+  const { Meta } = Card;
+  const { Content, Footer } = Layout;
+  const { Text } = Typography;
+  const pageSizes = ["8", "12", "16", "20", "32"];
+
   const userInfo = getUserInfo();
-  const { data: weekly_data } = useQuery<GetWeekly>(GETWEEKLY);
+  const { data: weekly_data } = useGetWeeklySuspenseQuery();
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");

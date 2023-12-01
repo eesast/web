@@ -538,7 +538,7 @@ const CodePage: React.FC = () => {
         `code/${Contest_id}/${teamid}/player${codeRole}.py`,
       );
       if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
-        throw Error("File error");
+        message.error("文件管理错误");
       }
       if (cpp_exist) {
         const codefile = {
@@ -546,21 +546,18 @@ const CodePage: React.FC = () => {
           url: `code/${Contest_id}/${teamid}/player${codeRole}.cpp`,
         };
         message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url).catch((e) => {
-          message.error("下载失败");
-        });
+        downloadFile(codefile.url);
       } else if (py_exist) {
         const codefile = {
           filename: `player${codeRole}.py`,
           url: `code/${Contest_id}/${teamid}/player${codeRole}.py`,
         };
         message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url).catch((e) => {
-          message.error("下载失败");
-        });
+        downloadFile(codefile.url);
       }
     } catch (err) {
-      message.error(err);
+      message.error("下载失败");
+      console.log(err);
     }
   };
 

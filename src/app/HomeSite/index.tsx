@@ -6,12 +6,13 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Link, Route, Navigate, Routes } from "react-router-dom";
 import NewsPage from "./NewsPage";
 import DivisionPage from "./DivisionPage";
 import ContestPage from "./ContestPage";
-import NotFoundPage from "../NotFoundPage";
+import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
 const { Header, Content } = Layout;
 
@@ -31,7 +32,7 @@ const StyledMenu = styled(Menu)`
   }
 `;
 
-const HomeSite: React.FC = () => {
+const HomeSite: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
 
   return (
@@ -59,23 +60,13 @@ const HomeSite: React.FC = () => {
         </StyledMenu>
       </StyledHeader>
       <Content>
-        <Switch>
-          <Route exact path={url.route("home", "site")}>
-            <Redirect to={url.link("news")} />
-          </Route>
-          <Route exact path={url.route("news")}>
-            <NewsPage />
-          </Route>
-          <Route exact path={url.route("divisions")}>
-            <DivisionPage />
-          </Route>
-          <Route exact path={url.route("contests")}>
-            <ContestPage />
-          </Route>
-          <Route>
-            <NotFoundPage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Navigate to={url.link("news")} />} />
+          <Route path="news" element={<NewsPage />} />
+          <Route path="divisions" element={<DivisionPage />} />
+          <Route path="contests" element={<ContestPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </Content>
     </Layout>
   );
