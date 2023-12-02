@@ -3,7 +3,8 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 
-globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+// 解决@testing-library/react在react18下的报错的问题
+(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
 
 window.matchMedia =
   window.matchMedia ||
