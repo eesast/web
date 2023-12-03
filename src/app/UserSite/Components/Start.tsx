@@ -1,5 +1,5 @@
 import { Button, Form, Input, Tooltip } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import Center from "../../Components/Center";
 import { validateEmail } from "../../../api/helpers/validator";
 import { QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
@@ -10,7 +10,6 @@ interface StartProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   hasTooltip: boolean;
-  onFinish?: () => void;
 }
 
 const Start: React.FC<StartProps> = ({
@@ -18,19 +17,15 @@ const Start: React.FC<StartProps> = ({
   setEmail,
   setPhone,
   hasTooltip,
-  onFinish,
 }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const handleFinish = (values: any) => {
-    setLoading(true);
     if (values.user.includes("@")) {
       setEmail(values.user);
     } else {
       setPhone(values.user);
     }
-    setLoading(false);
-    return onFinish && onFinish();
+    return;
   };
   return (
     <Form onFinish={handleFinish}>
@@ -83,7 +78,6 @@ const Start: React.FC<StartProps> = ({
         <Button
           type="primary"
           htmlType="submit"
-          loading={loading}
           css={`
             margin-left: 16px;
           `}

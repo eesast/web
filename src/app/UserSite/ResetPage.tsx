@@ -1,5 +1,5 @@
 import { message } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Background from "./Components/Background";
 import Password from "./Components/Password";
@@ -47,6 +47,12 @@ const ResetPage: React.FC<PageProps> = ({ mode }) => {
     }
   };
 
+  useEffect(() => {
+    if (password) {
+      handleReset();
+    }
+  });
+
   return (
     <Background mode={mode} imageIndex={0}>
       {email === "" && phone === "" ? (
@@ -64,11 +70,7 @@ const ResetPage: React.FC<PageProps> = ({ mode }) => {
           setter={setOtp}
         />
       ) : (
-        <Password
-          title="输入新密码并妥善保存"
-          setter={setPassword}
-          onFinish={handleReset}
-        />
+        <Password title="输入新密码并妥善保存" setter={setPassword} />
       )}
     </Background>
   );

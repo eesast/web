@@ -8,10 +8,9 @@ import { validatePassword } from "../../../api/helpers/validator";
 interface PasswordProps {
   title: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
-  onFinish?: () => void;
 }
 
-const Password: React.FC<PasswordProps> = ({ title, setter, onFinish }) => {
+const Password: React.FC<PasswordProps> = ({ title, setter }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -19,7 +18,7 @@ const Password: React.FC<PasswordProps> = ({ title, setter, onFinish }) => {
     try {
       setLoading(true);
       setter(values.password);
-      return onFinish && onFinish();
+      return;
     } catch (e) {
       console.log(e);
     }

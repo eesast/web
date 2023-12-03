@@ -12,7 +12,6 @@ interface VerifyProps {
   email: string;
   phone: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
-  onFinish?: () => void;
 }
 
 const VerifyCard = styled.div`
@@ -28,23 +27,18 @@ const VerifyCard = styled.div`
   margin-bottom: 36px;
 `;
 
-const Verify: React.FC<VerifyProps> = ({
-  title,
-  email,
-  phone,
-  setter,
-  onFinish,
-}) => {
+const Verify: React.FC<VerifyProps> = ({ title, email, phone, setter }) => {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [time, setTime] = useState(0);
   const timer = useRef<null | NodeJS.Timeout>(null);
-  const [canSubmit, setCanSubmit] = useState(false);
 
   const handleSend = async () => {
     if (time <= 0) {
       try {
+        setSendLoading(true);
         let request = {};
         if (email) {
           request = { email: email };
@@ -54,12 +48,12 @@ const Verify: React.FC<VerifyProps> = ({
           message.error("系统错误，请联系管理员");
           return navigate(-1);
         }
-        const response = await axios.post("/user/verify", request);
+        const response = await axios.post("/user/send-code", request);
         const data = response.data;
         localStorage.setItem("verificationToken", data.token);
         message.success("发送成功");
-        setCanSubmit(true);
-        return setTime(60);
+        setTime(60);
+        return setSendLoading(false);
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -68,6 +62,7 @@ const Verify: React.FC<VerifyProps> = ({
           console.log(err);
           message.error("未知错误");
         }
+        return setSendLoading(false);
       }
     }
   };
@@ -84,14 +79,31 @@ const Verify: React.FC<VerifyProps> = ({
     else if (time <= 0) timer.current && clearInterval(timer.current);
   }, [time]);
 
-  const handleFinish = (values: any) => {
-    if (!canSubmit) {
+  const handleFinish = async (values: any) => {
+    const verifyToken = localStorage.getItem("verificationToken");
+    if (!verifyToken) {
       message.error("请先点击发送验证码");
       return;
     }
-    setLoading(true);
-    setter(values.code);
-    return onFinish && onFinish();
+    setConfirmLoading(true);
+    try {
+      const request = {
+        verificationCode: values.code,
+        verificationToken: verifyToken,
+      };
+      await axios.post("/user/verify", request);
+      setter(values.code);
+      return setConfirmLoading(false);
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("验证码错误");
+      } else {
+        console.log(err);
+        message.error("未知错误");
+      }
+      return setConfirmLoading(false);
+    }
   };
 
   return (
@@ -191,6 +203,7 @@ const Verify: React.FC<VerifyProps> = ({
         <Button
           onClick={handleSend}
           disabled={time > 0}
+          loading={sendLoading}
           css={`
             margin-left: 16px;
           `}
@@ -200,7 +213,7 @@ const Verify: React.FC<VerifyProps> = ({
         <Button
           type="primary"
           htmlType="submit"
-          loading={loading}
+          loading={confirmLoading}
           css={`
             margin-left: 16px;
           `}

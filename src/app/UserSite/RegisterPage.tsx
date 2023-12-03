@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
@@ -41,6 +41,12 @@ const RegisterPage: React.FC<PageProps> = ({ mode }) => {
     }
   };
 
+  useEffect(() => {
+    if (password) {
+      handleRegister();
+    }
+  });
+
   return (
     <Background mode={mode} imageIndex={0}>
       {email === "" && phone === "" ? (
@@ -58,11 +64,7 @@ const RegisterPage: React.FC<PageProps> = ({ mode }) => {
           setter={setOtp}
         />
       ) : (
-        <Password
-          title="请输入密码并妥善保存"
-          setter={setPassword}
-          onFinish={handleRegister}
-        />
+        <Password title="请输入密码并妥善保存" setter={setPassword} />
       )}
     </Background>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUrl } from "../../api/hooks/url";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
@@ -44,6 +44,12 @@ const DeletePage: React.FC<PageProps> = ({ mode }) => {
     }
   };
 
+  useEffect(() => {
+    if (otp) {
+      handleDelete();
+    }
+  });
+
   return (
     <Background mode={mode} imageIndex={0}>
       {success ? (
@@ -70,7 +76,6 @@ const DeletePage: React.FC<PageProps> = ({ mode }) => {
           email={email}
           phone={phone}
           setter={setOtp}
-          onFinish={handleDelete}
         />
       )}
     </Background>
