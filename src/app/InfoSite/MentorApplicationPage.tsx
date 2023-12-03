@@ -88,12 +88,12 @@ import { getUserInfo } from "../../api/helpers/auth";
 import { pick } from "../../api/helpers/pick";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, listFile } from "../../api/helpers/cos";
-import {  FilterConfirmProps } from "antd/lib/table/interface";
+import { FilterConfirmProps } from "antd/lib/table/interface";
 import { RcFile } from "rc-upload/lib/interface";
 
-const param: FilterConfirmProps ={
-  closeDropdown: true
-}
+const param: FilterConfirmProps = {
+  closeDropdown: true,
+};
 const { Text } = Typography;
 
 const MentorApplicationPage = () => {
@@ -495,7 +495,7 @@ const MentorApplicationPage = () => {
                   ) {
                     return message.info("未到补选时间！");
                   } else if (new Date() > info.mentor.end_D) {
-                    return message.warn("补选时间已过！");
+                    return message.warning("补选时间已过！");
                   }
                   form.setFieldsValue({ mentor: record });
                   setSelectedMentor(record);
@@ -1262,7 +1262,7 @@ const MentorApplicationPage = () => {
             columns={mentorListColumnsForStudents}
           />
           <Modal
-            visible={modalVisible}
+            open={modalVisible}
             title={editingApplication?.statement ? "编辑申请" : "新申请"}
             centered
             destroyOnClose
@@ -1353,7 +1353,7 @@ const MentorApplicationPage = () => {
             columns={mentorListColumnsForCounselors}
           />
           <Modal
-            visible={importFormVisible}
+            open={importFormVisible}
             title="导入导师信息"
             centered
             onOk={handleImport}
@@ -1394,7 +1394,7 @@ const MentorApplicationPage = () => {
         </>
       )}
       <Modal
-        visible={showMentorInfo}
+        open={showMentorInfo}
         title="导师信息"
         centered
         destroyOnClose
@@ -1465,7 +1465,7 @@ const MentorApplicationPage = () => {
         </Descriptions>
       </Modal>
       <Modal
-        visible={showUpdateInfo}
+        open={showUpdateInfo}
         title={`更新${mentorInfoData?.mentor_info_by_pk?.user.name}信息`}
         centered
         destroyOnClose

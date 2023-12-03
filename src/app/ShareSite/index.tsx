@@ -9,8 +9,9 @@ import CoursePage from "./CoursePage";
 import NotFoundPage from "../Components/NotFound";
 import { Content } from "antd/lib/layout/layout";
 import styled from "styled-components";
-import WeeklyPage from "../WeeklyPage";
+import WeeklyPage from "./WeeklyPage";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
 const { Header } = Layout;
 
@@ -30,7 +31,7 @@ const StyledMenu = styled(Menu)`
   }
 `;
 
-const ShareSite: React.FC = () => {
+const ShareSite: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   // const userInfo = getUserInfo();
 

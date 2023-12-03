@@ -106,7 +106,7 @@ const PlaybackPage: React.FC = () => {
       setIsPrompt(false);
       // navigate(url.delete("room").delete("speed").link("playback"));
     } catch (err) {
-      message.error(err);
+      console.log(err);
     }
   };
 
@@ -222,7 +222,7 @@ const PlaybackPage: React.FC = () => {
         </Col>
       </Row>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title={"又在玩新游戏啊"}
         centered
         okText="前往"

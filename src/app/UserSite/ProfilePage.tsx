@@ -10,6 +10,13 @@ import { getUserInfo } from "../../api/helpers/auth";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import dayjs from "dayjs";
+import {
+  validateClass,
+  validateEmail,
+  validateNumber,
+  validateUsername,
+} from "../../api/helpers/validator";
+import { PageProps } from "..";
 
 const roleMap: { [key: string]: string } = {
   anonymous: "游客",
@@ -20,7 +27,7 @@ const roleMap: { [key: string]: string } = {
   admin: "管理员",
 };
 
-const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const userInfo = getUserInfo()!;
@@ -54,7 +61,7 @@ const ProfilePage: React.FC = () => {
       label: "注册邮箱",
       span: 2,
       children: profileData.users_by_pk?.email || "",
-      editable: () => false,
+      editable: () => true,
     },
     {
       key: "role",
@@ -79,6 +86,14 @@ const ProfilePage: React.FC = () => {
       label: "院系",
       children: profileData.users_by_pk?.department || "",
       editable: () => true,
+      valueEnum: {
+        电子系: {
+          text: "电子系",
+        },
+        医学院: {
+          text: "医学院",
+        },
+      },
     },
     {
       key: "class",
@@ -93,11 +108,25 @@ const ProfilePage: React.FC = () => {
       editable: () => true,
     },
     {
+      key: "tsinghua_email",
+      label: "清华邮箱认证",
+      span: 2,
+      children: profileData.users_by_pk?.tsinghua_email || "",
+      editable: () => true,
+    },
+    {
+      key: "github_id",
+      label: "GitHub用户绑定",
+      children: profileData.users_by_pk?.github_id || "",
+      editable: () => true,
+    },
+    {
       key: "created_at",
       label: "注册时间",
       children: dayjs(profileData.users_by_pk?.created_at).format(
         "YYYY-MM-DD HH:mm",
       ),
+      span: 2,
       editable: () => false,
     },
     {
@@ -106,17 +135,78 @@ const ProfilePage: React.FC = () => {
       children: dayjs(profileData.users_by_pk?.updated_at).format(
         "YYYY-MM-DD HH:mm",
       ),
+      span: 2,
       editable: () => false,
     },
   ];
 
-  const [updateProfileMutation, { error }] = useUpdateProfileMutation();
+  const [updateProfileMutation, { error: updateProfileError }] =
+    useUpdateProfileMutation();
   useEffect(() => {
-    if (error) {
+    if (updateProfileError) {
       message.error("更新用户信息失败");
-      console.log(error);
+      console.log(updateProfileError);
     }
-  }, [error]);
+  }, [updateProfileError]);
+  const handleEdit = (key: any, record: any) => {
+    if (key === "email") {
+      if (!validateEmail(record[key])) {
+        message.error("请输入正确的邮箱格式");
+        return Promise.reject();
+      }
+      navigate(url.append("email", record[key]).link("update"));
+      return Promise.resolve();
+    }
+    // if (key === "phone") {
+    //   if (!validateNumber(record[key])) {
+    //     message.error("请输入正确的手机号");
+    //     return Promise.reject();
+    //   }
+    //   navigate(url.append("phone", record[key]).link("update"));
+    //   return Promise.resolve();
+    // }
+    if (key === "tsinghua_email") {
+      if (!validateEmail(record[key], true)) {
+        message.error("请输入正确的邮箱格式");
+        return Promise.reject();
+      }
+      navigate(
+        url
+          .append("tsinghua", "true")
+          .append("email", record[key])
+          .link("update"),
+      );
+      return Promise.resolve();
+    }
+    if (key === "github_id") {
+      message.info("暂不支持GitHub账户绑定");
+      return Promise.reject();
+    }
+    if (key === "username") {
+      if (!validateUsername(record[key])) {
+        message.error("请输入仅包含字母与数字的用户名");
+        return Promise.reject();
+      }
+    }
+    if (key === "class") {
+      if (!validateClass(record[key])) {
+        message.error("请输入正确的班级信息，如：无92，计81");
+        return Promise.reject();
+      }
+    }
+    if (key === "student_no") {
+      if (!validateNumber(record[key])) {
+        message.error("请输入正确的学号");
+        return Promise.reject();
+      }
+    }
+    return updateProfileMutation({
+      variables: {
+        uuid: userInfo.uuid,
+        ...record,
+      },
+    });
+  };
 
   return (
     <Content
@@ -127,14 +217,9 @@ const ProfilePage: React.FC = () => {
       <ProDescriptions
         title={<h1>用户信息</h1>}
         bordered
+        column={{ xs: 1, sm: 2, md: 3 }}
         editable={{
-          onSave: (key, record) =>
-            updateProfileMutation({
-              variables: {
-                uuid: userInfo.uuid,
-                ...record,
-              },
-            }),
+          onSave: handleEdit,
         }}
       >
         {items.map((item) => (
@@ -145,6 +230,7 @@ const ProfilePage: React.FC = () => {
             span={item.span}
             ellipsis={true}
             editable={item.editable}
+            valueEnum={item.valueEnum}
           >
             {item.children}
           </ProDescriptions.Item>

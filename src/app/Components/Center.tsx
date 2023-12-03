@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+interface CenterProps {
+  children: React.ReactNode;
+  direction?: "row" | "column";
+}
+
 const Centered = styled.div<CenterProps>`
   position: relative;
   display: flex;
@@ -10,10 +15,6 @@ const Centered = styled.div<CenterProps>`
   width: 100%;
   flex-direction: ${(props) => props.direction ?? "row"};
 `;
-
-interface CenterProps {
-  direction?: "row" | "column";
-}
 
 const Center: React.FC<CenterProps> = ({ direction, children }) => {
   return <Centered direction={direction}>{children}</Centered>;

@@ -4,9 +4,12 @@ import Background from "./Components/Background";
 import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
+import { PageProps } from "..";
 
-const UpdatePage: React.FC = () => {
+const UpdatePage: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
+  const navigate = useNavigate();
   const email = url.query.get("email") ?? "";
   const phone = url.query.get("phone") ?? "";
   const isTsinghua = url.query.get("tsinghua") === "true";
@@ -25,6 +28,7 @@ const UpdatePage: React.FC = () => {
         localStorage.setItem("token", data.token);
       }
       message.success("信息更新成功");
+      return navigate(-1);
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -45,7 +49,7 @@ const UpdatePage: React.FC = () => {
   };
 
   return (
-    <Background imageIndex={0}>
+    <Background mode={mode} imageIndex={0}>
       <Verify
         title={email === "" ? "验证需绑定的手机" : "验证需绑定的邮箱"}
         email={email}

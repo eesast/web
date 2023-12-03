@@ -5,8 +5,9 @@ import axios, { AxiosError } from "axios";
 import { Button, Result, message } from "antd";
 import Background from "./Components/Background";
 import Verify from "./Components/Verify";
+import { PageProps } from "..";
 
-const DeletePage: React.FC = () => {
+const DeletePage: React.FC<PageProps> = ({ mode }) => {
   const navigate = useNavigate();
   const url = useUrl();
 
@@ -44,7 +45,7 @@ const DeletePage: React.FC = () => {
   };
 
   return (
-    <Background imageIndex={0}>
+    <Background mode={mode} imageIndex={0}>
       {success ? (
         <Result
           status="success"

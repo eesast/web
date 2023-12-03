@@ -1,15 +1,18 @@
+import Docxtemplater from "docxtemplater";
 import {
   GetScholarshipApplications_scholarship_application,
   GetAidApplications_aid_application,
 } from "../types";
 import FileSaver from "file-saver";
+import PizZip from "pizzip";
+import PizZipUtils from "pizzip/utils/index.js";
 
 export const getStatusText = (status: string) =>
   status === "submitted"
     ? "已提交"
     : status === "rejected"
-    ? "未通过"
-    : "已通过";
+      ? "未通过"
+      : "已通过";
 
 export const getStatusValue = (text: string) =>
   text === "已提交" ? "submitted" : text === "未通过" ? "rejected" : "approved";
@@ -28,19 +31,15 @@ export const generateThankLetter = async (
     | GetAidApplications_aid_application,
   salutation: string | null,
 ) => {
-  const PizZip = await import("pizzip");
-  const PizZipUtils = await import("pizzip/utils/es6");
-  const Docxtemplater = await import("docxtemplater");
-
   const templateData = await new Promise<any>((resolve) =>
-    PizZipUtils.default.getBinaryContent(
+    PizZipUtils.getBinaryContent(
       `${process.env.REACT_APP_STATIC_URL}/public/files/thankletter-template.docx`,
       (err: any, content: any) => resolve(content),
     ),
   );
-  const zipFile = new PizZip.default(templateData);
+  const zipFile = new PizZip(templateData);
 
-  const doc = new Docxtemplater.default();
+  const doc = new Docxtemplater();
   doc.loadZip(zipFile);
 
   const content = application.thank_letter ?? "";

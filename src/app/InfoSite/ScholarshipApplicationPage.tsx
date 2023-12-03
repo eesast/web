@@ -50,11 +50,11 @@ import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getUserInfo } from "../../api/helpers/auth";
-import {  FilterConfirmProps } from "antd/lib/table/interface";
+import { FilterConfirmProps } from "antd/lib/table/interface";
 
-const param: FilterConfirmProps ={
-  closeDropdown: true
-}
+const param: FilterConfirmProps = {
+  closeDropdown: true,
+};
 const { Text } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -841,7 +841,7 @@ const ScholarshipApplicationPage = () => {
             }}
           />
           <Modal
-            visible={applicationFormVisible}
+            open={applicationFormVisible}
             title="编辑申请"
             centered
             destroyOnClose
@@ -975,7 +975,7 @@ const ScholarshipApplicationPage = () => {
             )}
           />
           <Modal
-            visible={exportFormVisible}
+            open={exportFormVisible}
             title="导出奖学金"
             centered
             onOk={() => handleApplicationExport()}
@@ -1008,7 +1008,7 @@ const ScholarshipApplicationPage = () => {
             </Form>
           </Modal>
           <Modal
-            visible={importFormVisible}
+            open={importFormVisible}
             title="导入奖学金"
             centered
             onOk={handleApplicationImport}
@@ -1047,7 +1047,7 @@ const ScholarshipApplicationPage = () => {
             </div>
           </Modal>
           <Modal
-            visible={applicationFormVisible}
+            open={applicationFormVisible}
             title="添加奖学金记录"
             centered
             destroyOnClose

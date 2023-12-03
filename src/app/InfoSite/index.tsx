@@ -26,6 +26,7 @@ import { GetUserVariables, GetUser } from "../../api/types";
 import { GetUser as GET_USER } from "../../api/user.graphql";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
 const { Content, Sider } = Layout;
 
@@ -41,7 +42,7 @@ const FixedSider = styled(Sider)`
   }
 `;
 
-const InfoSite: React.FC = () => {
+const InfoSite: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
 
   const navigate = useNavigate();

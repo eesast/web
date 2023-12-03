@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
+import { PageHeader } from "@ant-design/pro-components";
 import {
   Form,
   Input,
@@ -10,7 +11,6 @@ import {
   message,
   Descriptions,
   InputNumber,
-  PageHeader,
   Select,
   Modal,
   Tag,
@@ -530,7 +530,7 @@ const PostgraduateMentorPage: React.FC = () => {
       />
       <Modal
         title="详细信息"
-        visible={showDetail}
+        open={showDetail}
         onCancel={() => setShowDetail(false)}
         footer={null}
         width="80%"
@@ -648,7 +648,7 @@ const PostgraduateMentorPage: React.FC = () => {
       </Modal>
       <Modal
         title="添加/更新信息"
-        visible={showManage}
+        open={showManage}
         width="60%"
         footer={null}
         onCancel={() => {
@@ -724,7 +724,7 @@ const PostgraduateMentorPage: React.FC = () => {
       </Modal>
       <Modal
         title="我的申请"
-        visible={showSelfApplications}
+        open={showSelfApplications}
         footer={null}
         width="60%"
         onCancel={() => {

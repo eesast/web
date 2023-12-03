@@ -71,6 +71,7 @@ import MenuPage from "./MenuPage";
 import dayjs, { Dayjs } from "dayjs";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -80,7 +81,7 @@ const { Option } = Select;
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
 
-const ContestSite: React.FC = () => {
+const ContestSite: React.FC<PageProps> = ({ mode }) => {
   const userInfo = getUserInfo();
 
   const url = useUrl();
@@ -439,7 +440,7 @@ const ContestSite: React.FC = () => {
         </Col>
       </Row>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title={editingContest ? "编辑比赛" : "新比赛"}
         centered
         okText="提交"
@@ -693,8 +694,8 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
                 state === "正在进行"
                   ? "green"
                   : state === "已结束"
-                  ? "red"
-                  : "black",
+                    ? "red"
+                    : "black",
             }}
           >
             {state}

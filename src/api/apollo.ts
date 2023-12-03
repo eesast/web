@@ -26,8 +26,8 @@ const authLink = setContext(auth).concat(httpLink);
 const wsLink = new WebSocketLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_HASURA_WSSLINK!
-      : process.env.REACT_APP_HASURA_DEV_WSSLINK!,
+      ? process.env.REACT_APP_HASURA_WSLINK!
+      : process.env.REACT_APP_HASURA_DEV_WSLINK!,
   options: {
     reconnect: true,
     lazy: true,

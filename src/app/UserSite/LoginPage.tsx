@@ -7,8 +7,9 @@ import { validateEmail } from "../../api/helpers/validator";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
+import { PageProps } from "..";
 
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC<PageProps> = ({ mode }) => {
   const navigate = useNavigate();
   const url = useUrl();
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     try {
       const request = {
-        user: values.email,
+        user: values.user,
         password: values.password,
       };
       const response = await axios.post("/user/login", request);
@@ -46,7 +47,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Background>
+    <Background mode={mode}>
       <Form onFinish={onFinish}>
         <Center>
           <img src="/logo.png" alt="Logo" height="256" />

@@ -7,8 +7,9 @@ import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
 import Start from "./Components/Start";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
-const ResetPage: React.FC = () => {
+const ResetPage: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   const navigate = useNavigate();
 
@@ -47,7 +48,7 @@ const ResetPage: React.FC = () => {
   };
 
   return (
-    <Background imageIndex={0}>
+    <Background mode={mode} imageIndex={0}>
       {email === "" && phone === "" ? (
         <Start
           title="输入已通过验证的邮箱"

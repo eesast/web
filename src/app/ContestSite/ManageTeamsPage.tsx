@@ -198,7 +198,7 @@ const ListPage: React.FC<{
         name: values.leader_name,
       });
       if (leaderData.data.user.length === 0) {
-        message.warn("队长信息有误，查无此人！");
+        message.warning("队长信息有误，查无此人！");
         return;
       }
       const leader_id = leaderData.data.user[0]?._id;
@@ -214,7 +214,7 @@ const ListPage: React.FC<{
         isTeamLeader.data.contest_team.length !== 0 ||
         isTeamMember.data.contest_team_member.length !== 0
       ) {
-        message.warn("该用户已存在于某一队伍中");
+        message.warning("该用户已存在于某一队伍中");
         return;
       }
       const InviteCode = randomString();
@@ -360,9 +360,8 @@ const ListPage: React.FC<{
           </Button>
         </Card>
       </Row>
-
       <Modal
-        visible={isModalVisible}
+        open={isModalVisible}
         title="添加新队伍"
         centered
         okText="提交"
@@ -532,7 +531,7 @@ const SubPage: React.FC<{
         name: values.member_name,
       });
       if (userData.data.user.length === 0) {
-        message.warn("队长信息有误，查无此人！");
+        message.warning("队长信息有误，查无此人！");
         return;
       }
       const user_id = userData.data.user[0]._id;
@@ -548,7 +547,7 @@ const SubPage: React.FC<{
         isTeamLeader.data.contest_team.length !== 0 ||
         isTeamMember.data.contest_team_member.length !== 0
       ) {
-        message.warn("该用户已存在于某一队伍中");
+        message.warning("该用户已存在于某一队伍中");
         return;
       }
       await insertteamMember({

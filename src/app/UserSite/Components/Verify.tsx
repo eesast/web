@@ -54,7 +54,7 @@ const Verify: React.FC<VerifyProps> = ({
           message.error("系统错误，请联系管理员");
           return navigate(-1);
         }
-        const response = await axios.post("/users/verify", request);
+        const response = await axios.post("/user/verify", request);
         const data = response.data;
         localStorage.setItem("verificationToken", data.token);
         message.success("发送成功");

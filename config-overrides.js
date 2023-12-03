@@ -1,8 +1,6 @@
 const {
   override,
-  fixBabelImports,
   addBabelPlugins,
-  addLessLoader,
   addWebpackAlias,
   addWebpackPlugin,
   // addDecoratorsLegacy,
@@ -37,27 +35,11 @@ const addAnalyzer = () => (config) => {
 };
 
 module.exports = override(
-  fixBabelImports("import", {
-    libraryName: "antd",
-    libraryDirectory: "es",
-    style: true,
-  }),
   ...addBabelPlugins(
     "babel-plugin-styled-components",
     "babel-plugin-import-graphql",
     // TODO: This needs to be deleted when we finish the migration to @graphql-codegen
   ),
-
-  addLessLoader({
-    lessOptions: {
-      javascriptEnabled: true,
-      modifyVars: {
-        "@primary-color": "#027dcd",
-        "@layout-body-background": "#fff",
-        "@layout-header-background": "#fff",
-      },
-    },
-  }),
   // 移动端适配，px转rem 需要安装postcss-pxtorem
   // addPostcssPlugins([
   //  require("postcss-pxtorem")({

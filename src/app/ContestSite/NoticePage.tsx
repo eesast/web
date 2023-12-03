@@ -310,9 +310,8 @@ const NoticePage: React.FC = () => {
           />
         </Col>
       </Row>
-
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title={editingNotice ? "编辑公告" : "新公告"}
         centered
         okText="发布"
