@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
 import Verify from "./Components/Verify";
@@ -48,6 +48,12 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
     }
   };
 
+  useEffect(() => {
+    if (otp) {
+      handleUpdate();
+    }
+  });
+
   return (
     <Background mode={mode} imageIndex={0}>
       <Verify
@@ -55,7 +61,6 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
         email={email}
         phone={phone}
         setter={setOtp}
-        onFinish={handleUpdate}
       />
     </Background>
   );

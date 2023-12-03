@@ -12,7 +12,6 @@ interface VerifyProps {
   email: string;
   phone: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
-  onFinish?: () => void;
 }
 
 const VerifyCard = styled.div`
@@ -28,13 +27,7 @@ const VerifyCard = styled.div`
   margin-bottom: 36px;
 `;
 
-const Verify: React.FC<VerifyProps> = ({
-  title,
-  email,
-  phone,
-  setter,
-  onFinish,
-}) => {
+const Verify: React.FC<VerifyProps> = ({ title, email, phone, setter }) => {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -91,7 +84,7 @@ const Verify: React.FC<VerifyProps> = ({
     }
     setLoading(true);
     setter(values.code);
-    return onFinish && onFinish();
+    return;
   };
 
   return (

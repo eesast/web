@@ -10,7 +10,6 @@ interface StartProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   hasTooltip: boolean;
-  onFinish?: () => void;
 }
 
 const Start: React.FC<StartProps> = ({
@@ -18,7 +17,6 @@ const Start: React.FC<StartProps> = ({
   setEmail,
   setPhone,
   hasTooltip,
-  onFinish,
 }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -30,7 +28,7 @@ const Start: React.FC<StartProps> = ({
       setPhone(values.user);
     }
     setLoading(false);
-    return onFinish && onFinish();
+    return;
   };
   return (
     <Form onFinish={handleFinish}>
