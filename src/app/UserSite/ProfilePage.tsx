@@ -31,12 +31,15 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const userInfo = getUserInfo()!;
-  const { data: profileData, error: getProfileError } =
-    useGetProfileSuspenseQuery({
-      variables: {
-        uuid: userInfo.uuid,
-      },
-    });
+  const {
+    data: profileData,
+    error: getProfileError,
+    refetch: getProfileRefetch,
+  } = useGetProfileSuspenseQuery({
+    variables: {
+      uuid: userInfo.uuid,
+    },
+  });
   useEffect(() => {
     if (getProfileError) {
       message.error("获取用户信息失败");
@@ -200,12 +203,13 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
         return Promise.reject();
       }
     }
-    return updateProfileMutation({
+    updateProfileMutation({
       variables: {
         uuid: userInfo.uuid,
         ...record,
       },
     });
+    return getProfileRefetch();
   };
 
   return (

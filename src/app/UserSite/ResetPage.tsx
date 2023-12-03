@@ -27,7 +27,7 @@ const ResetPage: React.FC<PageProps> = ({ mode }) => {
       };
       await axios.post("/user/change-password", request);
       message.success("密码更改成功");
-      return navigate(-1);
+      return navigate(url.delete("email").delete("phone").link("profile"));
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
