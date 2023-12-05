@@ -74,7 +74,7 @@
   "scripts": {
     "prepare": "husky install",
     "postinstall": "electron-builder install-app-deps && yarn clean",
-    "eject": "react-app-rewired eject",
+    "eject": "react-scripts eject",
     "generate": "graphql-codegen",
     "reset": "rimraf node_modules && rimraf yarn.lock && yarn",
     "clean": "rimraf ./node_modules/.cache && rimraf build && rimraf electron",
