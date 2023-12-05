@@ -98,6 +98,7 @@ const SettingPage: React.FC = () => {
   const runContest = async (mode: Number) => {
     try {
       await axios.post("contest", {
+        contest_id: Contest_id,
         mode: mode,
       });
       message.info(
@@ -196,6 +197,7 @@ const SettingPage: React.FC = () => {
       const team2ID = team2Data.data.contest_team[0].team_id;
 
       await axios.post("room/assign", {
+        contest_id: Contest_id,
         team_id1: team1ID,
         team_id2: team2ID,
       });
