@@ -30,6 +30,7 @@ import {
   DeleteContestNotice as DELETE_NOTICE,
 } from "../../api/contest_info.graphql";
 import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
+import { GetContestInfo as GET_CONTEST_INFO } from "../../api/contest.graphql";
 import {
   GetContestNotices,
   UpdateContestNotice,
@@ -42,6 +43,8 @@ import {
   GetContestNoticesVariables,
   QueryContestManager,
   QueryContestManagerVariables,
+  GetContestInfo,
+  GetContestInfoVariables,
 } from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
@@ -65,6 +68,21 @@ const NoticePage: React.FC = () => {
   const userInfo = getUserInfo();
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+
+  const { data: contestData, error: contestError } = useQuery<
+    GetContestInfo,
+    GetContestInfoVariables
+  >(GET_CONTEST_INFO, {
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+  useEffect(() => {
+    if (contestError) {
+      message.error("比赛加载失败");
+      console.log(contestError.message);
+    }
+  }, [contestError]);
 
   const {
     data: noticeData,
@@ -145,7 +163,6 @@ const NoticePage: React.FC = () => {
     const values = form.getFieldsValue();
     const files = fileList.map((f) => ({
       filename: f.name,
-      url: `contest_upload/${Contest_id}/${f.name}`,
     }));
 
     if (editingNotice) {
@@ -179,7 +196,9 @@ const NoticePage: React.FC = () => {
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
-      const url = `contest_upload/${Contest_id}/${(e.file as RcFile).name}`;
+      const url = `${contestData?.contest[0].contest_name}/notice/${
+        (e.file as RcFile).name
+      }`;
       const result = await uploadFile(e.file, url);
       const xhr = new XMLHttpRequest();
       e.onSuccess!(result, xhr);
@@ -222,7 +241,9 @@ const NoticePage: React.FC = () => {
       // }
       // else throw (Error("error"));
       if (file.response?.status === 200) {
-        await deleteFile(`contest_upload/${Contest_id}/${file.name}`);
+        await deleteFile(
+          `${contestData?.contest[0].contest_name}/notice/${file.name}`,
+        );
       }
       // refetchNotices();
     } catch (err) {
@@ -279,7 +300,6 @@ const NoticePage: React.FC = () => {
                             JSON.parse(item.files ?? "[]").map((f: File) => ({
                               response: { status: 200 },
                               status: "done",
-                              uid: f.url,
                               size: 0,
                               name: f.filename,
                               type: "",
@@ -297,6 +317,7 @@ const NoticePage: React.FC = () => {
                         }
                       : undefined
                   }
+                  contest={contestData?.contest[0].contest_name!}
                   title={item.title}
                   content={item.content}
                   updatedAt={item.updated_at}
@@ -318,7 +339,6 @@ const NoticePage: React.FC = () => {
         onCancel={() => {
           const files = fileList.map((f) => ({
             filename: f.name,
-            url: `contest_upload/${Contest_id}/${f.name}`,
           }));
           if (editingNotice && editingNotice.files !== JSON.stringify(files)) {
             message.info("请先移除新上传的文件");
@@ -380,6 +400,7 @@ const NoticePage: React.FC = () => {
 export default NoticePage;
 
 interface NoticeCardProps extends CardProps {
+  contest: string;
   title: string;
   content: string;
   files?: File[];
@@ -390,6 +411,7 @@ interface NoticeCardProps extends CardProps {
 
 const NoticeCard: React.FC<NoticeCardProps> = (props) => {
   const {
+    contest,
     title,
     content,
     files,
@@ -449,7 +471,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
         {files &&
           files.map((file) => (
             <Button
-              key={file.url}
+              key={file.filename}
               css={`
                 margin: 6px;
                 margin-left: 0px;
@@ -460,7 +482,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               size="small"
               onClick={() => {
                 message.info("开始下载：" + file.filename);
-                downloadFile(file.url);
+                downloadFile(`${contest}/notice/${file.filename}`);
               }}
             >
               {file.filename}
