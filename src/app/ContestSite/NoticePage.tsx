@@ -15,7 +15,6 @@ import {
   Row,
 } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
-import Linkify from "react-linkify";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -55,6 +54,7 @@ import { getUserInfo } from "../../api/helpers/auth";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { RcFile } from "rc-upload/lib/interface";
+import Markdown from "react-markdown";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -434,31 +434,14 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
       hoverable
       {...restProps}
     >
-      <Text
+      <Markdown
         css={`
           margin: 12px 0 12px 0;
           white-space: pre-wrap;
         `}
       >
-        <Linkify
-          componentDecorator={(
-            decoratedHref: string,
-            decoratedText: string,
-            key: number,
-          ) => (
-            <a
-              href={decoratedHref}
-              key={key}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {decoratedText}
-            </a>
-          )}
-        >
-          {content}
-        </Linkify>
-      </Text>
+        {content}
+      </Markdown>
       <div
         css={`
           display: flex;
