@@ -462,13 +462,13 @@ const CodePage: React.FC = () => {
     const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
     try {
       if (lang === "cpp") {
-        const url = `code/${Contest_id}/${teamid}/player${codeRole}.cpp`;
+        const url = `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`;
         const result = await uploadFile(e.file, url);
         const xhr = new XMLHttpRequest();
         e.onSuccess!(result, xhr);
         handleCodeChange(url, codeRole, lang);
       } else if (lang === "py") {
-        const url = `code/${Contest_id}/${teamid}/player${codeRole}.py`;
+        const url = `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`;
         const result = await uploadFile(e.file, url);
         const xhr = new XMLHttpRequest();
         e.onSuccess!(result, xhr);
@@ -518,10 +518,12 @@ const CodePage: React.FC = () => {
       if (file.response?.status === 200) {
         if (lang === "cpp") {
           await deleteFile(
-            `code/${Contest_id}/${teamid}/player${codeRole}.cpp`,
+            `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`,
           );
         } else if (lang === "py") {
-          await deleteFile(`code/${Contest_id}/${teamid}/player${codeRole}.py`);
+          await deleteFile(
+            `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`,
+          );
         }
       }
     } catch (err) {
@@ -532,10 +534,10 @@ const CodePage: React.FC = () => {
   const handleDownload = async () => {
     try {
       const cpp_exist = await existFile(
-        `code/${Contest_id}/${teamid}/player${codeRole}.cpp`,
+        `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`,
       );
       const py_exist = await existFile(
-        `code/${Contest_id}/${teamid}/player${codeRole}.py`,
+        `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`,
       );
       if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
         message.error("文件管理错误");
@@ -543,14 +545,14 @@ const CodePage: React.FC = () => {
       if (cpp_exist) {
         const codefile = {
           filename: `player${codeRole}.cpp`,
-          url: `code/${Contest_id}/${teamid}/player${codeRole}.cpp`,
+          url: `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`,
         };
         message.info("开始下载:" + codefile.filename);
         downloadFile(codefile.url);
       } else if (py_exist) {
         const codefile = {
           filename: `player${codeRole}.py`,
-          url: `code/${Contest_id}/${teamid}/player${codeRole}.py`,
+          url: `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`,
         };
         message.info("开始下载:" + codefile.filename);
         downloadFile(codefile.url);

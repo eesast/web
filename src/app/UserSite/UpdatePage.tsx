@@ -28,7 +28,9 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
         localStorage.setItem("token", data.token);
       }
       message.success("信息更新成功");
-      return navigate(-1);
+      return navigate(
+        url.delete("email").delete("phone").delete("tsinghua").link("profile"),
+      );
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {

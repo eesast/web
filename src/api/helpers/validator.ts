@@ -20,7 +20,7 @@ export const validateEmail = (email: string, tsinghua: boolean = false) => {
  * Alphanumeric username
  */
 export const validateUsername = (username: string) => {
-  return /^[a-zA-Z0-9]*$/.test(username);
+  return /^[a-zA-Z][a-zA-Z0-9]*$/.test(username);
 };
 
 /**

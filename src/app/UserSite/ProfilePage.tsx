@@ -31,12 +31,15 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const userInfo = getUserInfo()!;
-  const { data: profileData, error: getProfileError } =
-    useGetProfileSuspenseQuery({
-      variables: {
-        uuid: userInfo.uuid,
-      },
-    });
+  const {
+    data: profileData,
+    error: getProfileError,
+    refetch: getProfileRefetch,
+  } = useGetProfileSuspenseQuery({
+    variables: {
+      uuid: userInfo.uuid,
+    },
+  });
   useEffect(() => {
     if (getProfileError) {
       message.error("获取用户信息失败");
@@ -157,14 +160,14 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
       navigate(url.append("email", record[key]).link("update"));
       return Promise.resolve();
     }
-    // if (key === "phone") {
-    //   if (!validateNumber(record[key])) {
-    //     message.error("请输入正确的手机号");
-    //     return Promise.reject();
-    //   }
-    //   navigate(url.append("phone", record[key]).link("update"));
-    //   return Promise.resolve();
-    // }
+    if (key === "phone") {
+      if (!validateNumber(record[key])) {
+        message.error("请输入正确的手机号");
+        return Promise.reject();
+      }
+      navigate(url.append("phone", record[key]).link("update"));
+      return Promise.resolve();
+    }
     if (key === "tsinghua_email") {
       if (!validateEmail(record[key], true)) {
         message.error("请输入正确的邮箱格式");
@@ -184,7 +187,7 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
     }
     if (key === "username") {
       if (!validateUsername(record[key])) {
-        message.error("请输入仅包含字母与数字的用户名");
+        message.error("请输入以字母开头，仅包含字母与数字的用户名");
         return Promise.reject();
       }
     }
@@ -200,12 +203,13 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
         return Promise.reject();
       }
     }
-    return updateProfileMutation({
+    updateProfileMutation({
       variables: {
         uuid: userInfo.uuid,
         ...record,
       },
     });
+    return getProfileRefetch();
   };
 
   return (

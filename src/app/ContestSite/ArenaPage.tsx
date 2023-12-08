@@ -269,6 +269,7 @@ const ArenaPage: React.FC = () => {
           },
         });
         await axios.post("room", {
+          contest_id: Contest_id,
           map: map,
           room_id: roomId.data?.insert_contest_room_one?.room_id,
           team_seq: team, // 一个是红队还是蓝队的标记
