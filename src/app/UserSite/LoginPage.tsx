@@ -3,11 +3,15 @@ import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Center from "../Components/Center";
-import { validateEmail } from "../../api/helpers/validator";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
 import { PageProps } from "..";
+import {
+  validateEmail,
+  validateNumber,
+  validateUsername,
+} from "../../api/helpers/validator";
 
 const LoginPage: React.FC<PageProps> = ({ mode }) => {
   const navigate = useNavigate();
@@ -55,20 +59,25 @@ const LoginPage: React.FC<PageProps> = ({ mode }) => {
         <Form.Item
           name="user"
           rules={[
-            { required: true, message: "请输入邮箱" },
+            { required: true, message: "请输入用户名/邮箱/手机号" },
             () => ({
               validator(rule, value) {
-                if (!value || validateEmail(value)) {
+                if (
+                  !value ||
+                  validateEmail(value) ||
+                  validateNumber(value) ||
+                  validateUsername(value)
+                ) {
                   return Promise.resolve();
                 }
-                return Promise.reject("请输入正确的邮箱");
+                return Promise.reject("请输入正确的用户名/邮箱/手机号");
               },
             }),
           ]}
         >
           <Input
             prefix={<UserOutlined />}
-            placeholder="邮箱"
+            placeholder="用户名/邮箱/手机号"
             autoComplete="email"
             spellCheck={false}
             autoFocus

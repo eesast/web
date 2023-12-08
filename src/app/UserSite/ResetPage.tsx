@@ -57,10 +57,10 @@ const ResetPage: React.FC<PageProps> = ({ mode }) => {
     <Background mode={mode} imageIndex={0}>
       {email === "" && phone === "" ? (
         <Start
-          title="输入已通过验证的邮箱"
+          title="已绑定的邮箱/手机号"
           setEmail={setEmail}
           setPhone={setPhone}
-          hasTooltip={true}
+          hasTooltip={false}
         />
       ) : otp === "" ? (
         <Verify

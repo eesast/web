@@ -1,7 +1,7 @@
 import { Button, Form, Input, Tooltip } from "antd";
 import React from "react";
 import Center from "../../Components/Center";
-import { validateEmail } from "../../../api/helpers/validator";
+import { validateEmail, validateNumber } from "../../../api/helpers/validator";
 import { QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -44,13 +44,13 @@ const Start: React.FC<StartProps> = ({
       <Form.Item
         name="user"
         rules={[
-          { required: true, message: "请输入邮箱" },
+          { required: true, message: "请输入邮箱/手机号" },
           () => ({
             validator(rule, value) {
-              if (!value || validateEmail(value)) {
+              if (!value || validateEmail(value) || validateNumber(value)) {
                 return Promise.resolve();
               }
-              return Promise.reject("请输入正确的邮箱");
+              return Promise.reject("请输入正确的邮箱/手机号");
             },
           }),
         ]}
@@ -62,12 +62,12 @@ const Start: React.FC<StartProps> = ({
           prefix={<UserOutlined />}
           suffix={
             hasTooltip && (
-              <Tooltip title="推荐使用非清华邮箱">
+              <Tooltip title="不推荐使用清华邮箱">
                 <QuestionCircleOutlined />
               </Tooltip>
             )
           }
-          placeholder="邮箱"
+          placeholder="邮箱/手机号"
           autoComplete="email"
           spellCheck={false}
           autoFocus
