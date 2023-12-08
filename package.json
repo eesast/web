@@ -71,7 +71,7 @@
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   },
   "scripts": {
-    "preinstall": "npm config set registry https://registry.npmmirror.com/",
+    "preinstall": "npm config set registry https://registry.npmmirror.com/ && yarn config set registry https://registry.yarnpkg.com",
     "prepare": "husky install",
     "postinstall": "electron-builder install-app-deps && yarn clean",
     "eject": "react-scripts eject",
