@@ -89,7 +89,10 @@
     "electron:build": "electron-builder"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,yml,md,graphql}": [
+    "!(src/generated/**/*)*.{js,jsx,ts,tsx}": [
+      "yarn lint"
+    ],
+    "!(src/generated/**/*)*.{js,jsx,ts,tsx,json,html,css,yml,md,graphql}": [
       "prettier --write"
     ]
   },
