@@ -2780,10 +2780,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.8.tgz#95f6c6a08f2ad868ba230ead1d2d7f7be3db3837"
   integrity sha512-hroOstUScF6zhIi+5+x0dzqrHA1EJi+Irri6b1fxolMTqqHIV/Cg77EtnQcZqZCu8hR3mX2BzIxN4/GzI68Kfw==
 
-"@types/react-custom-scrollbars@4.0.12":
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/@types/react-custom-scrollbars/-/react-custom-scrollbars-4.0.12.tgz#f36d699271758f2274edf17e02574a722f17b9bf"
-  integrity sha512-PuD+qYAE/OiosHFTudP2uK/mQUR612lJ722/n3y8Dun4fBjEppix1vlMhLuO1OlKZeelSpgBQRWNoYItD2UzrA==
+"@types/react-custom-scrollbars@4.0.13":
+  version "4.0.13"
+  resolved "https://registry.yarnpkg.com/@types/react-custom-scrollbars/-/react-custom-scrollbars-4.0.13.tgz#38f11b0922503a433374b005c7e32b5279d739d8"
+  integrity sha512-t+15reWgAE1jXlrhaZoxjuH/SQf+EG0rzAzSCzTIkSiP5CDT7KhoExNPwIa6uUxtPkjc3gdW/ry7GetLEwCfGA==
   dependencies:
     "@types/react" "*"
 
