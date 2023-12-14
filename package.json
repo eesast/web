@@ -76,8 +76,8 @@
   },
   "resolutions": {
     "@types/react": "17.0.73",
-    "@typescript-eslint/parser": "6.13.2",
-    "@typescript-eslint/eslint-plugin": "6.13.2",
+    "@typescript-eslint/parser": "6.14.0",
+    "@typescript-eslint/eslint-plugin": "6.14.0",
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   },
   "scripts": {
