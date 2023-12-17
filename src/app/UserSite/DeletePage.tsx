@@ -45,7 +45,8 @@ const DeletePage: React.FC<PageProps> = ({ mode }) => {
   };
 
   useEffect(() => {
-    if (otp) {
+    const token = localStorage.getItem("token");
+    if (token && otp) {
       handleDelete();
     }
   });

@@ -1,64 +1,16 @@
-import {
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Layout,
-  Select,
-  message,
-} from "antd";
+import { Button, Layout, message } from "antd";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "../../generated/graphql";
 import { useEffect } from "react";
-
-interface CourseCardProps {
-  code: string;
-  name: string;
-  year: number;
-  semester: string;
-  professor: string;
-  type: string;
-  language: string;
-}
-
-const CourseCard: React.FC<CourseCardProps> = (props) => {
-  return (
-    <Card>
-      <h1>{props.name}</h1>
-      <p>{props.code}</p>
-      <p>{props.year}</p>
-      <p>{props.semester}</p>
-      <p>{props.professor}</p>
-      <p>{props.type}</p>
-      <p>{props.language}</p>
-    </Card>
-  );
-};
+import { ProColumns, ProTable } from "@ant-design/pro-components";
+import { PlusOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const CoursesPage: React.FC = () => {
   const url = useUrl();
-  const course_id = url.query.get("course");
 
-  const [form] = Form.useForm();
-
-  // const { data: courseData, error: courseError } = graphql.useGetCourseSuspenseQuery({
-  const {
-    data: courseData,
-    error: courseError,
-    refetch: courseRefetch,
-  } = graphql.useGetCourseQuery({
-    variables: {
-      code: form.getFieldValue("code")?.toString(),
-      name: form.getFieldValue("name")?.toString(),
-      year: form.getFieldValue("year")?.year(),
-      semester: form.getFieldValue("semester")?.toString(),
-      professor: form.getFieldValue("professor")?.toString(),
-      type: form.getFieldValue("type")?.toString(),
-      language: form.getFieldValue("language")?.toString(),
-    },
-  });
+  const { data: courseData, error: courseError } =
+    graphql.useGetCourseSuspenseQuery();
 
   useEffect(() => {
     if (courseError) {
@@ -67,87 +19,111 @@ const CoursesPage: React.FC = () => {
     }
   }, [courseError]);
 
+  const columns: ProColumns<graphql.Share_Course>[] = [
+    {
+      title: "课程号",
+      dataIndex: "code",
+      key: "code",
+    },
+    {
+      title: "课程名",
+      dataIndex: "fullname",
+      key: "fullname",
+    },
+    {
+      title: "课程简称",
+      dataIndex: "name",
+      key: "name",
+      hideInTable: true,
+    },
+    {
+      title: "年份",
+      dataIndex: "year",
+      key: "year",
+      filters: true,
+      onFilter: true,
+      hideInSearch: true,
+    },
+    {
+      title: "学期",
+      dataIndex: "semester",
+      key: "semester",
+      filters: true,
+      onFilter: true,
+      hideInSearch: true,
+      valueType: "select",
+      valueEnum: {
+        spring: { text: "春季学期", status: "spring" },
+        autumn: { text: "秋季学期", status: "autumn" },
+        summer: { text: "夏季学期", status: "summer" },
+      },
+    },
+    {
+      title: "主讲教师",
+      dataIndex: "professor",
+      key: "professor",
+    },
+    {
+      title: "课程属性",
+      dataIndex: "type",
+      key: "type",
+      filters: true,
+      onFilter: true,
+      hideInSearch: true,
+      valueType: "select",
+      valueEnum: {
+        must: { text: "核心必修", status: "must" },
+        required: { text: "专业限选", status: "required" },
+        optional: { text: "专业任选", status: "optional" },
+      },
+    },
+    {
+      title: "授课语言",
+      dataIndex: "language",
+      key: "language",
+      filters: true,
+      onFilter: true,
+      hideInSearch: true,
+      valueType: "select",
+      valueEnum: {
+        chinese: { text: "中文", status: "chinese" },
+        english: { text: "英文", status: "english" },
+      },
+    },
+    {
+      title: "操作",
+      valueType: "option",
+      key: "option",
+      render: (text, record, _, action) => [
+        <Link to={url.append("course", record.uuid).link("course")}>查看</Link>,
+      ],
+    },
+  ];
+
   return (
     <Layout
-      className="site-layout"
-      style={{
-        marginTop: 30,
-        marginBottom: 30,
-        marginLeft: 30,
-        minHeight: 380,
-        background: "#fff",
-      }}
+      css={`
+        margin: 30px;
+      `}
     >
-      <Col span={12}>
-        <Form form={form} layout="inline">
-          <Form.Item name="year" label="年份">
-            <DatePicker picker="year" />
-          </Form.Item>
-          <Form.Item name="semester" label="学期">
-            <Select
-              style={{ width: 120 }}
-              options={[
-                { value: "all", label: "全部学期" },
-                { value: "spring", label: "春季学期" },
-                { value: "autumn", label: "秋季学期" },
-                { value: "summer", label: "夏季学期" },
-              ]}
-              defaultValue={"all"}
-            />
-          </Form.Item>
-          <Form.Item name="code" label="课程号">
-            <Input></Input>
-          </Form.Item>
-          <Form.Item name="name" label="课程名">
-            <Input></Input>
-          </Form.Item>
-          <Form.Item name="professor" label="主讲教师">
-            <Input></Input>
-          </Form.Item>
-          <Form.Item name="type" label="课程属性">
-            <Select
-              style={{ width: 120 }}
-              options={[
-                { value: "all", label: "全部属性" },
-                { value: "must", label: "核心必修" },
-                { value: "required", label: "专业限选" },
-                { value: "optional", label: "专业任选" },
-              ]}
-              defaultValue={"all"}
-            />
-          </Form.Item>
-          <Form.Item name="language" label="授课语言">
-            <Select
-              style={{ width: 120 }}
-              options={[
-                { value: "all", label: "全部语言" },
-                { value: "chinese", label: "中文" },
-                { value: "english", label: "英文" },
-              ]}
-              defaultValue={"all"}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" onClick={courseRefetch}>
-              查询
-            </Button>
-          </Form.Item>
-        </Form>
-        {courseData?.share_course.map((course) => (
-          <CourseCard
-            code={course.code}
-            name={course.name}
-            year={course.year}
-            semester={course.semester}
-            professor={course.professor}
-            type={course.type}
-            language={course.language}
-          />
-        ))}
-      </Col>
-      <Col span={12} hidden={course_id === null}>
-        <h1>课程详情</h1>
-      </Col>
+      <ProTable<graphql.Share_Course>
+        columns={columns}
+        dataSource={courseData?.share_course}
+        rowKey="uuid"
+        pagination={{
+          showQuickJumper: true,
+        }}
+        search={{
+          labelWidth: "auto",
+        }}
+        dateFormatter="string"
+        headerTitle="课程列表"
+        toolBarRender={() => [
+          <Button key="button" icon={<PlusOutlined />} type="primary">
+            导入
+          </Button>,
+        ]}
+      />
     </Layout>
   );
 };

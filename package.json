@@ -46,7 +46,7 @@
     "@types/node": "20.10.4",
     "@types/pizzip": "3.0.5",
     "@types/react": "18.2.38",
-    "@types/react-custom-scrollbars": "4.0.12",
+    "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.2.17",
     "@types/react-router-dom": "5.3.3",
     "@types/styled-components": "5.1.34",
@@ -58,7 +58,7 @@
     "electron-builder": "24.9.1",
     "husky": "8.0.3",
     "lint-staged": "15.2.0",
-    "prettier": "3.1.0",
+    "prettier": "3.1.1",
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
     "rimraf": "5.0.5",
@@ -71,7 +71,7 @@
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   },
   "scripts": {
-    "preinstall": "npm config set registry https://registry.npmmirror.com/",
+    "preinstall": "npm config set registry https://registry.npmmirror.com/ && yarn config set registry https://registry.yarnpkg.com",
     "prepare": "husky install",
     "postinstall": "electron-builder install-app-deps && yarn clean",
     "eject": "react-scripts eject",
@@ -89,7 +89,10 @@
     "electron:build": "electron-builder"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,yml,md,graphql}": [
+    "!(src/generated/**/*)*.{js,jsx,ts,tsx}": [
+      "yarn lint"
+    ],
+    "!(src/generated/**/*)*.{js,jsx,ts,tsx,json,html,css,yml,md,graphql}": [
       "prettier --write"
     ]
   },
