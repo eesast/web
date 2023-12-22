@@ -92,7 +92,7 @@
     "!(src/generated/**/*)*.{js,jsx,ts,tsx}": [
       "yarn lint"
     ],
-    "!(src/generated/**/*)*.{js,jsx,ts,tsx,json,html,css,yml,md,graphql}": [
+    "!(src/generated/**/*)*.{js,jsx,ts,tsx,html,css,md,graphql}": [
       "prettier --write"
     ]
   },
