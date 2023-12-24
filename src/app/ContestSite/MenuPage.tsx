@@ -29,15 +29,10 @@ import ManageTeamsPage from "./ManageTeamsPage";
 import SettingPage from "./SettingPage";
 import NotFoundPage from "../Components/NotFound";
 // hasura查询
-import { useQuery } from "@apollo/client";
-import {
-  QueryContestManager,
-  QueryContestManagerVariables,
-} from "../../api/types";
-import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
 //学长写好的api，用以没登陆会跳转到登陆页面
 import { isMobileOnly } from "react-device-detect";
 import { useUrl } from "../../api/hooks/url";
+import * as graphql from "../../generated/graphql";
 
 //antd部件实例化
 const { Sider, Content } = Layout;
@@ -50,10 +45,7 @@ const MenuPage: React.FC = () => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
-  const { data: isContestManagerData, error: isContestManagerError } = useQuery<
-    QueryContestManager,
-    QueryContestManagerVariables
-  >(QUERY_CONTEST_MANAGER, {
+  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
     variables: {
       contest_id: Contest_id,
       user_id: userInfo?._id,

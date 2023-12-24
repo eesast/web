@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import {
   Table,
   Typography,
@@ -10,31 +10,19 @@ import {
   Modal,
   Form,
   Input,
+  Spin
 } from "antd";
 import { getUserInfo } from "../../api/helpers/auth";
-import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
-import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 import {
   GetAllTeamInfo_score_contest_team,
-  GetAllTeamInfo_score,
-  GetAllTeamInfo_scoreVariables,
-  QueryContestManager,
-  QueryContestManagerVariables,
 } from "../../api/types";
-import {
-  GetAllTeamInfo_score as GETALLTEAMINFO_SCORE,
-  QueryContestManager as QUERY_CONTEST_MANAGER,
-} from "../../api/contest.graphql";
 //插入队员
-import { InsertTeamMember, InsertTeamMemberVariables } from "../../api/types";
-import { InsertTeamMember as INSERTTEAMMEMBER } from "../../api/contest.graphql";
-import { useMutation, useQuery } from "@apollo/client";
 import type { TableProps } from "antd/lib/table";
 //导出excel
 import xlsx from "xlsx";
 import { useUrl } from "../../api/hooks/url";
+import * as graphql from "../../generated/graphql";
+import styled from "styled-components";
 
 const JoinPage: React.FC = () => {
   const url = useUrl();
@@ -44,19 +32,13 @@ const JoinPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [teamId, setTeamId] = useState<any>();
   const [inviteCode, setInvite] = useState<string | null>();
-  const { data: isleaderData, refetch: refetchisleader } = useQuery<
-    IsTeamLeader,
-    IsTeamLeaderVariables
-  >(ISTEAMLEADER, {
+  const { data: isleaderData, refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery( {
     variables: {
       _id: userInfo?._id!,
       contest_id: Contest_id,
     },
   });
-  const { data: ismemberData, refetch: refetchismember } = useQuery<
-    IsTeamMember,
-    IsTeamMemberVariables
-  >(ISTEAMMEMBER, {
+  const { data: ismemberData, refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
       _id: userInfo?._id!,
       contest_id: Contest_id,
@@ -64,22 +46,16 @@ const JoinPage: React.FC = () => {
   });
   const {
     data: teamListData,
-    loading: teamListLoading,
+    //loading: teamListLoading,
     error: teamListError,
     refetch: refetchteamList,
-  } = useQuery<GetAllTeamInfo_score, GetAllTeamInfo_scoreVariables>(
-    GETALLTEAMINFO_SCORE,
-    {
-      variables: {
-        contest_id: Contest_id,
-      },
+  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery( {
+    variables: {
+      contest_id: Contest_id,
     },
-  );
+  });
 
-  const { data: isContestManagerData, error: isContestManagerError } = useQuery<
-    QueryContestManager,
-    QueryContestManagerVariables
-  >(QUERY_CONTEST_MANAGER, {
+  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
     variables: {
       contest_id: Contest_id,
       user_id: userInfo?._id,
@@ -95,10 +71,7 @@ const JoinPage: React.FC = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /***************队员插入****************/
-  const [insertteamMember, { error: insertError }] = useMutation<
-    InsertTeamMember,
-    InsertTeamMemberVariables
-  >(INSERTTEAMMEMBER);
+  const [insertteamMember, { error: insertError }] = graphql.useInsertTeamMemberMutation();
   //点击加入
   const showModal = (record: GetAllTeamInfo_score_contest_team) => {
     setIsModalVisible(true);
@@ -180,6 +153,22 @@ const JoinPage: React.FC = () => {
     refetchismember();
     refetchisleader();
     refetchteamList();
+  };
+
+  const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
   };
 
   const teamListColumns: TableProps<GetAllTeamInfo_score_contest_team>["columns"] =
@@ -275,12 +264,14 @@ const JoinPage: React.FC = () => {
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
-          <Table
-            loading={teamListLoading}
-            dataSource={teamListData?.contest_team}
-            columns={teamListColumns}
-            rowKey={(record) => record.team_id}
-          />
+          <Suspense fallback={<Loading />}>
+            <Table
+              //loading={teamListLoading}
+              dataSource={teamListData?.contest_team as GetAllTeamInfo_score_contest_team[]}
+              columns={teamListColumns}
+              rowKey={(record) => record.team_id}
+            />
+          </Suspense>
           <Button
             style={{ marginLeft: "20px" }}
             onClick={exportTeamsData}

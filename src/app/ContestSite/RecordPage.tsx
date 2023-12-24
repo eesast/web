@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Table,
@@ -8,43 +8,28 @@ import {
   Layout,
   Row,
   Col,
+  Spin,
   Typography,
 } from "antd";
 import { MinusOutlined, SearchOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
 //----根据队员信息查找队伍信息------
-// import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-// import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
-// import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-// import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
 //----回放信息------
 import {
-  GetRoomInfo,
   GetRoomInfo_contest_room,
-  GetRoomInfoVariables,
 } from "../../api/types";
-import { GetRoomInfo as GETROOMINFO } from "../../api/contest.graphql";
 //----插入room和team------
-import {
-  QueryContestManager,
-  QueryContestManagerVariables,
-} from "../../api/types";
-import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
 //----删除room和team
-import { DeleteRoom, DeleteRoomVariables } from "../../api/types";
-import { DeleteRoom as DELETEROOM } from "../../api/contest.graphql";
 //————创建thuaicode————
-// import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
-// import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
-
+import * as graphql from "../../generated/graphql";
+import styled from "styled-components";
 const { Text } = Typography;
 
 const RecordPage: React.FC = () => {
@@ -73,10 +58,7 @@ const RecordPage: React.FC = () => {
   // );
 
   // ----------------获取比赛管理员---------------
-  const { data: isContestManagerData, error: isContestManagerError } = useQuery<
-    QueryContestManager,
-    QueryContestManagerVariables
-  >(QUERY_CONTEST_MANAGER, {
+  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
     variables: {
       contest_id: Contest_id,
       user_id: userInfo?._id,
@@ -91,10 +73,10 @@ const RecordPage: React.FC = () => {
 
   const {
     data: roomListData,
-    loading: roomListLoading,
+    //loading: roomListLoading,
     error: teamListError,
     // refetch: refetchRoomList,
-  } = useSubscription<GetRoomInfo, GetRoomInfoVariables>(GETROOMINFO, {
+  } =graphql.useGetRoomInfoSubscription( {
     variables: {
       contest_id: Contest_id,
     },
@@ -107,10 +89,7 @@ const RecordPage: React.FC = () => {
   });
 
   // ----------------删除room--------------------
-  const [deleteRoom, { error: DeleteRoomError }] = useMutation<
-    DeleteRoom,
-    DeleteRoomVariables
-  >(DELETEROOM);
+  const [deleteRoom, { error: DeleteRoomError }] = graphql.useDeleteRoomMutation();
   useEffect(() => {
     if (DeleteRoomError) {
       message.error("删除对战记录失败");
@@ -278,6 +257,22 @@ const RecordPage: React.FC = () => {
     }
   }, [associatedValue, roomListData?.contest_room]);
 
+  const Container = styled.div`
+    height: calc(100vh - 72px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
   return (
     <Layout>
       <br />
@@ -321,12 +316,14 @@ const RecordPage: React.FC = () => {
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
-          <Table
-            loading={roomListLoading}
-            dataSource={filterParamList}
-            columns={roomListColumns}
-            rowKey={(record) => record.room_id}
-          ></Table>
+          <Suspense fallback={<Loading />}>
+            <Table
+              //loading={roomListLoading}
+              dataSource={filterParamList as GetRoomInfo_contest_room[]}
+              columns={roomListColumns}
+              rowKey={(record) => record.room_id}
+            ></Table>
+          </Suspense>
         </Col>
       </Row>
     </Layout>

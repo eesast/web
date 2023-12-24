@@ -1,43 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { Link, Route, Routes, Navigate } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import {
-  GetContests as GET_CONTESTS,
-  DeleteContest as DELETE_CONTEST,
-  AddContest as ADD_CONTEST,
-  UpdateContest as UPDATE_CONTEST,
-  GetContestManager as GET_CONTEST_MANAGER,
-  DeleteContestAllManager as DELETE_CONTEST_MANAGER,
-  AddContestManager as ADD_CONTEST_MANAGER,
-  GetUser_Id as GET_USER_ID,
-  DeleteContestAllTeams as DELETE_CONTEST_TEAMS,
-  DeleteContestAllInfo as DELETE_CONTEST_INFO,
-  DeleteContestAllRooms as DELETE_CONTEST_ROOMS,
-} from "../../api/contest_manager.graphql";
-import {
-  GetContests,
-  AddContest,
-  AddContestVariables,
-  UpdateContest,
-  UpdateContestVariables,
-  DeleteContest,
-  DeleteContestVariables,
-  GetContestManager,
-  GetContestManagerVariables,
-  DeleteContestAllManager,
-  DeleteContestAllManagerVariables,
-  AddContestManager,
-  AddContestManagerVariables,
-  GetUser_Id,
-  GetUser_IdVariables,
-  GetContestManager_contest_manager_user,
-  DeleteContestAllTeams,
-  DeleteContestAllTeamsVariables,
-  DeleteContestAllInfo,
-  DeleteContestAllInfoVariables,
-  DeleteContestAllRooms,
-  DeleteContestAllRoomsVariables,
-} from "../../api/types";
+import { GetContestManager_contest_manager_user,} from "../../api/types";
 import { getUserInfo } from "../../api/helpers/auth";
 //导入antd的包
 import Card, { CardProps } from "antd/lib/card";
@@ -55,6 +18,7 @@ import {
   Row,
   Select,
   Space,
+  Spin,
   Typography,
 } from "antd";
 import {
@@ -66,12 +30,13 @@ import {
 } from "@ant-design/icons";
 //以下为分页面
 import MenuPage from "./MenuPage";
-
 //用以没登陆会跳转到登陆页面
 import dayjs, { Dayjs } from "dayjs";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
+import * as graphql from "../../generated/graphql";
+import styled from "styled-components";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -88,50 +53,33 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
 
   const {
     data: contestData,
-    loading: contestLoading,
+    //loading: contestLoading,
     error: contestError,
     refetch: refetchContests,
-  } = useQuery<GetContests, {}>(GET_CONTESTS);
+  } = graphql.useGetContestsSuspenseQuery();
 
   const [
     updateContest,
     { loading: contestUpdating, error: contestUpdatingError },
-  ] = useMutation<UpdateContest, UpdateContestVariables>(UPDATE_CONTEST);
+  ] = graphql.useUpdateContestMutation();
 
   const [addContest, { loading: contestAdding, error: contestAddingError }] =
-    useMutation<AddContest, AddContestVariables>(ADD_CONTEST);
+    graphql.useAddContestMutation();
 
-  const [deleteContest, { error: contestDeleteError }] = useMutation<
-    DeleteContest,
-    DeleteContestVariables
-  >(DELETE_CONTEST);
+  const [deleteContest, { error: contestDeleteError }] = graphql.useDeleteContestMutation();
 
-  const [deleteContestTeams, { error: teamDeleteError }] = useMutation<
-    DeleteContestAllTeams,
-    DeleteContestAllTeamsVariables
-  >(DELETE_CONTEST_TEAMS);
+  const [deleteContestTeams, { error: teamDeleteError }] = graphql.useDeleteContestAllTeamsMutation();
 
   const [
     addContestManager,
     { /*loading: managerAdding,*/ error: managerAddError },
-  ] = useMutation<AddContestManager, AddContestManagerVariables>(
-    ADD_CONTEST_MANAGER,
-  );
+  ] = graphql.useAddContestManagerMutation();
 
-  const [deleteContestManager, { error: managerDeleteError }] = useMutation<
-    DeleteContestAllManager,
-    DeleteContestAllManagerVariables
-  >(DELETE_CONTEST_MANAGER);
+  const [deleteContestManager, { error: managerDeleteError }] = graphql.useDeleteContestAllManagerMutation();
 
-  const [deleteContestInfo, { error: infoDeleteError }] = useMutation<
-    DeleteContestAllInfo,
-    DeleteContestAllInfoVariables
-  >(DELETE_CONTEST_INFO);
+  const [deleteContestInfo, { error: infoDeleteError }] = graphql.useDeleteContestAllInfoMutation();
 
-  const [deleteContestRooms, { error: roomsDeleteError }] = useMutation<
-    DeleteContestAllRooms,
-    DeleteContestAllRoomsVariables
-  >(DELETE_CONTEST_ROOMS);
+  const [deleteContestRooms, { error: roomsDeleteError }] = graphql.useDeleteContestAllRoomsMutation();
 
   useEffect(() => {
     if (contestError) {
@@ -201,7 +149,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     loading: userLoading, */
     error: userError,
     refetch: refetchUserId,
-  } = useQuery<GetUser_Id, GetUser_IdVariables>(GET_USER_ID, {
+  } = graphql.useGetUser_IdSuspenseQuery({
     variables: {
       email: "",
       name: "",
@@ -220,12 +168,9 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     loading: contestManagerLoading, */
     error: contestManagerError,
     refetch: refetchContestManager,
-  } = useQuery<GetContestManager, GetContestManagerVariables>(
-    GET_CONTEST_MANAGER,
-    {
-      variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
-    },
-  );
+  } = graphql.useGetContestManagerSuspenseQuery({
+    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
+  });
 
   useEffect(() => {
     if (contestManagerError) {
@@ -366,6 +311,22 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     });
   };
 
+  const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Loading = () => {
+  return (
+    <Container>
+      <Spin size="large" />
+    </Container>
+  );
+};
+
   const index = (
     <Layout>
       <br />
@@ -384,6 +345,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
       <Row>
         <Col span={3}></Col>
         <Col span={18}>
+          <Suspense fallback={<Loading />}>
           <List
             dataSource={contestData?.contest}
             renderItem={(item) => (
@@ -408,7 +370,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
                               ],
                               managers_list:
                                 managerData.data.contest_manager.map(
-                                  (value) => value.user,
+                                  (value) => value.user as GetContestManager_contest_manager_user,
                                 ),
                             };
                             setContestID(item?.id);
@@ -426,7 +388,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
                       : undefined
                   }
                   name={item.contest_name}
-                  description={item.description}
+                  description={item.description as string | null}
                   startDate={item.start_date}
                   endDate={item.end_date}
                   id={item.id}
@@ -435,8 +397,9 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
                 <br />
               </Content>
             )}
-            loading={contestLoading}
+            //loading={contestLoading}
           />
+          </Suspense>
         </Col>
       </Row>
       <Modal

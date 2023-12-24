@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 // import { useHistory, Prompt } from "react-router-dom";
-import { Button, message, Layout, Row, Col, Modal, Form, Select } from "antd";
+import { Button, message, Layout, Row, Col, Modal, Form, Select, Spin } from "antd";
 import {
   ArrowsAltOutlined,
   // ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
-import {
-  GetAllTeamInfo_compile,
-  GetAllTeamInfo_compileVariables,
-} from "../../api/types";
-import { GetAllTeamInfo_compile as GETALLTEAMCOMPILE } from "../../api/contest.graphql";
-import { useQuery } from "@apollo/client";
-
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { useUrl } from "../../api/hooks/url";
 import { useNavigate } from "react-router-dom";
+import * as graphql from "../../generated/graphql";
+import { Suspense } from "react";
+import styled from "styled-components";
 
 const PlaybackPage: React.FC = () => {
   const url = useUrl();
@@ -25,16 +21,13 @@ const PlaybackPage: React.FC = () => {
 
   const {
     data: scoreteamListData,
-    loading: scoreteamListLoading,
+    //loading: scoreteamListLoading,
     error: scoreteamListError,
-  } = useQuery<GetAllTeamInfo_compile, GetAllTeamInfo_compileVariables>(
-    GETALLTEAMCOMPILE,
-    {
-      variables: {
-        contest_id: Contest_id,
-      },
+  } = graphql.useGetAllTeamInfo_CompileSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
     },
-  );
+  });
   useEffect(() => {
     if (scoreteamListError) {
       message.error("获取队伍列表失败");
@@ -172,6 +165,21 @@ const PlaybackPage: React.FC = () => {
     }
   };
 
+  const Container = styled.div`
+    height: calc(100vh - 72px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
   return (
     <Layout>
       <Row>
@@ -240,40 +248,44 @@ const PlaybackPage: React.FC = () => {
             label="队伍1名称（学生）"
             rules={[{ required: true, message: "请输入队伍1名称" }]}
           >
-            <Select
-              showSearch
-              placeholder="队伍名称"
-              style={{ width: 200 }}
-              defaultActiveFirstOption={false}
-              showArrow={false}
-              loading={scoreteamListLoading}
-              optionFilterProp="children"
-              options={(scoreteamListData?.contest_team || []).map((d) => ({
-                value: d.team_id,
-                label: d.team_name,
-                children: d.team_name,
-              }))}
-            />
+            <Suspense fallback={<Loading />}>
+              <Select
+                showSearch
+                placeholder="队伍名称"
+                style={{ width: 200 }}
+                defaultActiveFirstOption={false}
+                showArrow={false}
+                //loading={scoreteamListLoading}
+                optionFilterProp="children"
+                options={(scoreteamListData?.contest_team || []).map((d) => ({
+                  value: d.team_id,
+                  label: d.team_name,
+                  children: d.team_name,
+                }))}
+              />
+            </Suspense>
           </Form.Item>
           <Form.Item
             name="Tricker"
             label="队伍2名称（TRICKER）"
             rules={[{ required: true, message: "请输入队伍2名称" }]}
           >
-            <Select
-              showSearch
-              placeholder="队伍名称"
-              style={{ width: 200 }}
-              defaultActiveFirstOption={false}
-              showArrow={false}
-              loading={scoreteamListLoading}
-              optionFilterProp="children"
-              options={(scoreteamListData?.contest_team || []).map((d) => ({
-                value: d.team_id,
-                label: d.team_name,
-                children: d.team_name,
-              }))}
-            />
+            <Suspense fallback={<Loading />}>
+              <Select
+                showSearch
+                placeholder="队伍名称"
+                style={{ width: 200 }}
+                defaultActiveFirstOption={false}
+                showArrow={false}
+                //loading={scoreteamListLoading}
+                optionFilterProp="children"
+                options={(scoreteamListData?.contest_team || []).map((d) => ({
+                  value: d.team_id,
+                  label: d.team_name,
+                  children: d.team_name,
+                }))}
+              />
+            </Suspense>
           </Form.Item>
           <Form.Item
             name="Map"
