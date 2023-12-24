@@ -15,7 +15,7 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { getUserInfo } from "../../api/helpers/auth";
-import { useGetWeeklySuspenseQuery } from "../../generated/graphql";
+import * as graphql from "../../generated/graphql";
 import {
   PlusCircleOutlined,
   MinusCircleOutlined,
@@ -30,7 +30,7 @@ const WeeklyPage: React.FC = () => {
   const pageSizes = ["8", "12", "16", "20", "32"];
 
   const userInfo = getUserInfo();
-  const { data: weekly_data } = useGetWeeklySuspenseQuery();
+  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
