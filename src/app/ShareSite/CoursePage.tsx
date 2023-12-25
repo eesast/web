@@ -1,23 +1,13 @@
 import { Button, Layout, message } from "antd";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "../../generated/graphql";
-import { useEffect } from "react";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const CoursesPage: React.FC = () => {
   const url = useUrl();
-
-  const { data: courseData, error: courseError } =
-    graphql.useGetCourseSuspenseQuery();
-
-  useEffect(() => {
-    if (courseError) {
-      message.error("课程加载失败");
-      console.log(courseError.message);
-    }
-  }, [courseError]);
+  const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
 
   const columns: ProColumns<graphql.Share_Course>[] = [
     {
@@ -95,10 +85,40 @@ const CoursesPage: React.FC = () => {
       valueType: "option",
       key: "option",
       render: (text, record, _, action) => [
-        <Link to={url.append("course", record.uuid).link("course")}>查看</Link>,
+        <Link to={url.append("course", record.uuid).link("discus")}>
+          讨论区
+        </Link>,
+        <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
   ];
+
+  const dataRequest = async (params: {
+    pageSize?: number;
+    current?: number;
+  }): Promise<{
+    data: graphql.Share_Course[];
+    success: boolean;
+    total?: number;
+  }> => {
+    console.log(params);
+    const { data, error } = await courseRefetch();
+
+    if (error) {
+      message.error("课程加载失败");
+      console.log(error.message);
+      return {
+        data: [],
+        success: false,
+        total: 0,
+      };
+    }
+    return {
+      data: data.share_course,
+      success: true,
+      total: data.share_course.length,
+    };
+  };
 
   return (
     <Layout
@@ -108,7 +128,7 @@ const CoursesPage: React.FC = () => {
     >
       <ProTable<graphql.Share_Course>
         columns={columns}
-        dataSource={courseData?.share_course}
+        request={dataRequest}
         rowKey="uuid"
         pagination={{
           showQuickJumper: true,

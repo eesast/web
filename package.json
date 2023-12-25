@@ -10,9 +10,9 @@
     "@apollo/client": "3.8.8",
     "antd": "5.11.4",
     "axios": "1.6.2",
-    "cos-js-sdk-v5": "1.4.22",
+    "cos-js-sdk-v5": "1.5.0",
     "dayjs": "1.11.10",
-    "docxtemplater": "3.42.4",
+    "docxtemplater": "3.42.7",
     "dotenv": "16.3.1",
     "file-saver": "2.0.5",
     "google-protobuf": "3.21.2",
@@ -31,7 +31,7 @@
     "react-otp-input": "3.1.0",
     "react-router-dom": "6.19.0",
     "react-unity-webgl": "9.4.3",
-    "styled-components": "6.1.1",
+    "styled-components": "6.1.2",
     "xlsx": "0.18.0"
   },
   "devDependencies": {
@@ -43,7 +43,7 @@
     "@types/is-url": "1.2.32",
     "@types/jest": "29.5.11",
     "@types/lodash.get": "4.4.9",
-    "@types/node": "20.10.4",
+    "@types/node": "20.10.5",
     "@types/pizzip": "3.0.5",
     "@types/react": "18.2.38",
     "@types/react-custom-scrollbars": "4.0.13",
@@ -54,7 +54,7 @@
     "babel-plugin-styled-components": "2.1.4",
     "cross-env": "7.0.3",
     "customize-cra": "1.0.0",
-    "electron": "28.0.0",
+    "electron": "28.1.0",
     "electron-builder": "24.9.1",
     "husky": "8.0.3",
     "lint-staged": "15.2.0",
@@ -65,7 +65,7 @@
     "typescript": "5.3.3",
     "web-vitals": "3.5.0",
     "webpack-bundle-analyzer": "4.10.1",
-    "webpackbar": "5.0.2"
+    "webpackbar": "6.0.0"
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
@@ -92,7 +92,7 @@
     "!(src/generated/**/*)*.{js,jsx,ts,tsx}": [
       "yarn lint"
     ],
-    "!(src/generated/**/*)*.{js,jsx,ts,tsx,json,html,css,yml,md,graphql}": [
+    "!(src/generated/**/*)*.{js,jsx,ts,tsx,html,css,md,graphql}": [
       "prettier --write"
     ]
   },
