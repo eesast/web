@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState } from "react";
+import React, { Suspense, lazy, useRef, useState } from "react";
 import {
   Button,
   ConfigProvider,
@@ -8,6 +8,8 @@ import {
   Popover,
   Spin,
   Switch,
+  Tour,
+  TourProps,
   theme,
 } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
@@ -36,7 +38,17 @@ const App: React.FC = () => {
   const url = useUrl();
   const userInfo = getUserInfo();
   const { width } = useWindowSize();
-  const [mode, setMode] = useState<"light" | "dark">("light");
+  const [mode, setMode] = useState<"light" | "dark">(
+    (localStorage.getItem("theme") as "light" | "dark") || "light",
+  );
+  const [open, setOpen] = useState<boolean>(
+    localStorage.getItem("tour") !== "true",
+  );
+  const homeRef = useRef(null);
+  const contestRef = useRef(null);
+  const infoRef = useRef(null);
+  const shareRef = useRef(null);
+  const themeRef = useRef(null);
 
   const { Header, Footer, Content } = Layout;
 
@@ -64,31 +76,21 @@ const App: React.FC = () => {
     text-align: center;
   `;
 
-  const Logo = () => {
+  const Logo = ({ title }: { title: string }) => {
     return (
-      <Link
-        to={url.link("home", "site")}
-        css={`
-          display: flex;
-          align-items: center;
-          height: 72px;
-          width: 180px;
-          position: absolute;
-          left: 24px;
-        `}
-      >
+      <>
         <img
           src="/logo.png"
           alt="Logo"
           css={`
-            display: flex;
+            display: inline-block;
             height: 60px;
             width: 60px;
           `}
         />
         <h1
           css={`
-            display: flex;
+            display: inline-block;
             height: 60px;
             width: 108px;
             margin-left: 6px;
@@ -100,8 +102,27 @@ const App: React.FC = () => {
               : `rgba(255, 255, 255, 0.85)`};
           `}
         >
-          EESΛST
+          {title}
         </h1>
+      </>
+    );
+  };
+
+  const Home = () => {
+    return (
+      <Link
+        to={url.link("home", "site")}
+        ref={homeRef}
+        css={`
+          display: flex;
+          align-items: center;
+          height: 72px;
+          width: 180px;
+          position: absolute;
+          left: 24px;
+        `}
+      >
+        <Logo title="EESΛST" />
       </Link>
     );
   };
@@ -110,15 +131,27 @@ const App: React.FC = () => {
     const items = [
       {
         key: "contest",
-        label: <Link to={url.link("contest", "site")}>赛事互动 CONTEST</Link>,
+        label: (
+          <Link to={url.link("contest", "site")} ref={contestRef}>
+            赛事互动 CONTEST
+          </Link>
+        ),
       },
       {
         key: "info",
-        label: <Link to={url.link("info", "site")}>信息化平台 INFO</Link>,
+        label: (
+          <Link to={url.link("info", "site")} ref={infoRef}>
+            信息化平台 INFO
+          </Link>
+        ),
       },
       {
         key: "share",
-        label: <Link to={url.link("share", "site")}>资源共享 SHARE</Link>,
+        label: (
+          <Link to={url.link("share", "site")} ref={shareRef}>
+            资源共享 SHARE
+          </Link>
+        ),
       },
     ];
     if (width > 888) {
@@ -159,9 +192,11 @@ const App: React.FC = () => {
           position: absolute;
           right: 120px;
         `}
+        ref={themeRef}
         checked={mode === "light"}
         onChange={() => {
           setMode(mode === "dark" ? "light" : "dark");
+          localStorage.setItem("theme", mode === "dark" ? "light" : "dark");
         }}
         checkedChildren="日"
         unCheckedChildren="夜"
@@ -204,6 +239,51 @@ const App: React.FC = () => {
     );
   };
 
+  const steps: TourProps["steps"] = [
+    {
+      title: "2024 新版来袭！",
+      description:
+        "科协官网全新改版，更现代的UI，更丰富的功能，更好的用户体验。新版官网分为主页和三个子站，下面让我们分别介绍它们：",
+      target: null,
+      cover: <img src="/backgrounds/2024new.jpg" alt="2024New" />,
+      mask: {
+        style: {
+          backdropFilter: "blur(8px)",
+        },
+      },
+    },
+    {
+      title: "主页",
+      description: "（已有功能介绍+一些新特点）",
+      placement: "bottom",
+      target: () => homeRef.current,
+    },
+    {
+      title: "赛事互动站",
+      description: "（已有功能介绍+一些新特点）",
+      placement: "bottom",
+      target: () => contestRef.current,
+    },
+    {
+      title: "信息化平台",
+      description: "（已有功能介绍+一些新特点）",
+      placement: "bottom",
+      target: () => infoRef.current,
+    },
+    {
+      title: "资源共享站",
+      description: "（已有功能介绍+一些新特点）",
+      placement: "bottom",
+      target: () => shareRef.current,
+    },
+    {
+      title: "暗色模式",
+      description: "还有炫酷的暗色模式，即护眼又极客，快来体验一下吧！",
+      placement: "bottom",
+      target: () => themeRef.current,
+    },
+  ];
+
   const HomeSite = lazy(() => import("./HomeSite"));
   const ContestSite = lazy(() => import("./ContestSite"));
   const InfoSite = lazy(() => import("./InfoSite"));
@@ -218,9 +298,17 @@ const App: React.FC = () => {
           mode === "light" ? theme.defaultAlgorithm : theme.darkAlgorithm,
       }}
     >
+      <Tour
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          localStorage.setItem("tour", "true");
+        }}
+        steps={steps}
+      />
       <Layout>
         <StyledHeader>
-          <Logo />
+          <Home />
           <Navigation />
           <ThemeSwitch />
           <User />
