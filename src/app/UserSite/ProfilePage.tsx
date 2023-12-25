@@ -2,10 +2,7 @@ import { Button, Modal, message } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect } from "react";
-import {
-  useGetProfileSuspenseQuery,
-  useUpdateProfileMutation,
-} from "../../generated/graphql";
+import * as graphql from "../../generated/graphql";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
@@ -35,7 +32,7 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
     data: profileData,
     error: getProfileError,
     refetch: getProfileRefetch,
-  } = useGetProfileSuspenseQuery({
+  } = graphql.useGetProfileSuspenseQuery({
     variables: {
       uuid: userInfo.uuid,
     },
@@ -144,7 +141,7 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
   ];
 
   const [updateProfileMutation, { error: updateProfileError }] =
-    useUpdateProfileMutation();
+    graphql.useUpdateProfileMutation();
   useEffect(() => {
     if (updateProfileError) {
       message.error("更新用户信息失败");

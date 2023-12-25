@@ -6,43 +6,13 @@
  * 5、控制开放比赛提交代码、编译
  */
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useEffect } from "react";
-import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 //graphql语句
 import {
-  GetAllTeamInfo as GET_ALL_TEAM_INFO,
-  QueryContestManager as QUERY_CONTEST_MANAGER,
-  InsertTeam as INSERT_TEAM,
-  IsTeamLeader as IS_TEAM_LEADER,
-  IsTeamMember as IS_TEAM_MEMBER,
-  GetTeamInfo as GET_TEAM_INFO,
-  InsertTeamMember as INSERT_TEAM_MEMBER,
-  DeleteTeamMember as DELETE_TEAM_MEMBER,
-} from "../../api/contest.graphql";
-import { GetUser_Id as GET_USER_ID } from "../../api/contest_manager.graphql";
-import {
   GetAllTeamInfo_contest_team,
-  GetAllTeamInfo,
-  GetAllTeamInfoVariables,
-  QueryContestManager,
-  QueryContestManagerVariables,
-  InsertTeam,
-  InsertTeamVariables,
-  IsTeamLeader,
-  IsTeamLeaderVariables,
-  IsTeamMember,
-  IsTeamMemberVariables,
-  GetUser_Id,
-  GetUser_IdVariables,
-  GetTeamInfo,
-  GetTeamInfoVariables,
-  InsertTeamMember,
-  InsertTeamMemberVariables,
-  DeleteTeamMember,
-  DeleteTeamMemberVariables,
 } from "../../api/types";
 import {
   Button,
@@ -55,6 +25,7 @@ import {
   Modal,
   Result,
   Row,
+  Spin,
   Table,
   Typography,
 } from "antd";
@@ -68,7 +39,8 @@ import {
 } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "../../api/hooks/url";
-
+import * as graphql from "../../generated/graphql";
+import styled from "styled-components";
 const { Text } = Typography;
 
 const ManageTeamsPage: React.FC = () => {
@@ -78,15 +50,12 @@ const ManageTeamsPage: React.FC = () => {
   //获取用户信息
   const userInfo = getUserInfo();
 
-  const { data: isContestManagerData, error: isContestManagerError } = useQuery<
-    QueryContestManager,
-    QueryContestManagerVariables
-  >(QUERY_CONTEST_MANAGER, {
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery( {
+  variables: {
+    contest_id: Contest_id,
+    user_id: userInfo?._id,
+  },
+});
 
   useEffect(() => {
     if (isContestManagerError) {
@@ -137,39 +106,27 @@ const ListPage: React.FC<{
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
 }> = (props) => {
   //添加新队伍功能
-  const [insertTeam, { error: insertError, loading: teamAdding }] = useMutation<
-    InsertTeam,
-    InsertTeamVariables
-  >(INSERT_TEAM);
+  const [insertTeam, { error: insertError, loading: teamAdding }] = graphql.useInsertTeamMutation();
 
-  const { refetch: refetchisleader } = useQuery<
-    IsTeamLeader,
-    IsTeamLeaderVariables
-  >(IS_TEAM_LEADER, {
-    variables: {
-      _id: "",
-      contest_id: props.contest_id,
-    },
-  });
-  const { refetch: refetchismember } = useQuery<
-    IsTeamMember,
-    IsTeamMemberVariables
-  >(IS_TEAM_MEMBER, {
-    variables: {
-      _id: "",
-      contest_id: props.contest_id,
-    },
-  });
+  const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
+  variables: {
+    _id: "",
+    contest_id: props.contest_id,
+  },
+});
+  const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
+  variables: {
+    _id: "",
+    contest_id: props.contest_id,
+  },
+});
 
-  const { error: userError, refetch: refetchUserId } = useQuery<
-    GetUser_Id,
-    GetUser_IdVariables
-  >(GET_USER_ID, {
-    variables: {
-      email: "",
-      name: "",
-    },
-  });
+  const { error: userError, refetch: refetchUserId } = graphql.useGetUser_IdSuspenseQuery({
+  variables: {
+    email: "",
+    name: "",
+  },
+});
 
   useEffect(() => {
     if (userError) {
@@ -239,11 +196,10 @@ const ListPage: React.FC<{
   //队伍一览表功能
   const {
     data: teamListData,
-    loading: teamListLoading,
+    //loading: teamListLoading,
     error: teamListError,
     // refetch: refetchteamList,
-  } = useSubscription<GetAllTeamInfo, GetAllTeamInfoVariables>(
-    GET_ALL_TEAM_INFO,
+  } = graphql.useGetAllTeamInfoSubscription(
     {
       variables: {
         contest_id: props.contest_id,
@@ -322,6 +278,21 @@ const ListPage: React.FC<{
       ),
     },
   ];
+  const Container = styled.div`
+    height: calc(100vh - 72px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
 
   return (
     <Layout>
@@ -342,12 +313,14 @@ const ListPage: React.FC<{
             }
           `}
         >
-          <Table
-            loading={teamListLoading}
-            dataSource={teamListData?.contest_team}
-            columns={teamListColumns}
-            rowKey={(record) => record.team_id}
-          />
+          <Suspense fallback={<Loading />}>
+            <Table
+              //loading={teamListLoading}
+              dataSource={teamListData?.contest_team as GetAllTeamInfo_contest_team[]}
+              columns={teamListColumns}
+              rowKey={(record) => record.team_id}
+            />
+          </Suspense>
           <Button
             css={`
               width: 120px;
@@ -429,7 +402,7 @@ const SubPage: React.FC<{
     data: teamData,
     error: getTeamInfoError,
     refetch: refetchTeamInfo,
-  } = useQuery<GetTeamInfo, GetTeamInfoVariables>(GET_TEAM_INFO, {
+  } = graphql.useGetTeamInfoSuspenseQuery({
     variables: {
       contest_id: props.contest_id,
       team_id: props.team_id,
@@ -443,34 +416,25 @@ const SubPage: React.FC<{
     }
   }, [getTeamInfoError]);
 
-  const { refetch: refetchisleader } = useQuery<
-    IsTeamLeader,
-    IsTeamLeaderVariables
-  >(IS_TEAM_LEADER, {
-    variables: {
-      _id: "",
-      contest_id: props.contest_id,
-    },
-  });
-  const { refetch: refetchismember } = useQuery<
-    IsTeamMember,
-    IsTeamMemberVariables
-  >(IS_TEAM_MEMBER, {
-    variables: {
-      _id: "",
-      contest_id: props.contest_id,
-    },
-  });
+  const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
+  variables: {
+    _id: "",
+    contest_id: props.contest_id,
+  },
+});
+  const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
+  variables: {
+    _id: "",
+    contest_id: props.contest_id,
+  },
+});
 
-  const { error: userError, refetch: refetchUserId } = useQuery<
-    GetUser_Id,
-    GetUser_IdVariables
-  >(GET_USER_ID, {
-    variables: {
-      email: "",
-      name: "",
-    },
-  });
+  const { error: userError, refetch: refetchUserId } =graphql.useGetUser_IdSuspenseQuery({
+  variables: {
+    email: "",
+    name: "",
+  },
+});
 
   useEffect(() => {
     if (userError) {
@@ -479,15 +443,9 @@ const SubPage: React.FC<{
     }
   }, [userError]);
 
-  const [insertteamMember, { error: insertError }] = useMutation<
-    InsertTeamMember,
-    InsertTeamMemberVariables
-  >(INSERT_TEAM_MEMBER);
+  const [insertteamMember, { error: insertError }] = graphql.useInsertTeamMemberMutation();
 
-  const [DeleteTeamMember, { error: DeleteTeamMemberError }] = useMutation<
-    DeleteTeamMember,
-    DeleteTeamMemberVariables
-  >(DELETE_TEAM_MEMBER);
+  const [DeleteTeamMember, { error: DeleteTeamMemberError }] = graphql.useDeleteTeamMemberMutation();
 
   useEffect(() => {
     if (DeleteTeamMemberError) {

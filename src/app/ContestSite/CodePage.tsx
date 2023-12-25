@@ -29,53 +29,17 @@ import {
   existFile,
 } from "../../api/helpers/cos";
 //----根据队员信息查找队伍信息------
-import {
-  GetContestInfo,
-  GetContestInfoVariables,
-  IsTeamLeader,
-  IsTeamLeaderVariables,
-} from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
-import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
-import { GetContestInfo as GET_CONTEST_INFO } from "../../api/contest.graphql";
 //————创建thuaicode————
-import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
-import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
-import { GetCompileStatus as GETCOMPILESTATUS } from "../../api/contest.graphql";
-import { GetCompileStatus, GetCompileStatusVariables } from "../../api/types";
-import { GetCodeUpdateTime as GETCODETIME } from "../../api/contest.graphql";
-import { GetCodeUpdateTime, GetCodeUpdateTimeVariables } from "../../api/types";
 //上传代码
-import {
-  UpsertCode1,
-  UpsertCode1Variables,
-  UpsertCode2,
-  UpsertCode2Variables,
-  UpsertCode3,
-  UpsertCode3Variables,
-  UpsertCode4,
-  UpsertCode4Variables,
-  UpsertCode5,
-  UpsertCode5Variables,
-} from "../../api/types";
-import {
-  UpsertCode1 as UPSERTCODE1,
-  UpsertCode2 as UPSERTCODE2,
-  UpsertCode3 as UPSERTCODE3,
-  UpsertCode4 as UPSERTCODE4,
-  UpsertCode5 as UPSERTCODE5,
-} from "../../api/contest.graphql";
 //————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import { RcFile } from "rc-upload/lib/interface";
-
+import * as graphql from "../../generated/graphql";
 const { Text } = Typography;
 
 const CodePage: React.FC = () => {
@@ -104,8 +68,7 @@ const CodePage: React.FC = () => {
   const [time5, setTime5] = useState(defaultDate);
 
   //-----------------根据队员id查询队伍id------------------
-  const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
-    ISTEAMLEADER,
+  const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery(
     {
       variables: {
         _id: userInfo?._id!,
@@ -113,8 +76,7 @@ const CodePage: React.FC = () => {
       },
     },
   );
-  const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
-    ISTEAMMEMBER,
+  const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery(
     {
       variables: {
         _id: userInfo?._id!,
@@ -127,35 +89,28 @@ const CodePage: React.FC = () => {
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
   //利用teamid查询team的信息储存在teamdata中
-  const { data: teamData } = useQuery<GetTeamInfo, GetTeamInfoVariables>(
-    GETTEAMINFO,
-    {
+  const { data: teamData } = teamid
+  ? graphql.useGetTeamInfoSuspenseQuery({
       variables: {
         contest_id: Contest_id,
         team_id: teamid!,
       },
-    },
-  );
+    })
+  : { data: undefined };
 
-  const { data: teamCompileStatus } = useSubscription<
-    GetCompileStatus,
-    GetCompileStatusVariables
-  >(GETCOMPILESTATUS, {
-    variables: {
-      contest_id: Contest_id,
-      team_id: teamid!,
-    },
-  });
+  const { data: teamCompileStatus } = graphql.useGetCompileStatusSubscription( {
+  variables: {
+    contest_id: Contest_id,
+    team_id: teamid!,
+  },
+});
 
   // --------------获取比赛状态-------------------
-  const { data: contestData, error: contestError } = useQuery<
-    GetContestInfo,
-    GetContestInfoVariables
-  >(GET_CONTEST_INFO, {
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
+  const { data: contestData, error: contestError } = graphql.useGetContestInfoSuspenseQuery({
+  variables: {
+    contest_id: Contest_id,
+  },
+});
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
@@ -163,14 +118,11 @@ const CodePage: React.FC = () => {
     }
   }, [contestError]);
 
-  const { data: codetimeData } = useSubscription<
-    GetCodeUpdateTime,
-    GetCodeUpdateTimeVariables
-  >(GETCODETIME, {
-    variables: {
-      team_id: teamid!,
-    },
-  });
+  const { data: codetimeData } = graphql.useGetCodeUpdateTimeSubscription({
+  variables: {
+    team_id: teamid!,
+  },
+});
   useEffect(() => {
     if (codetimeData?.contest_code.length === 1) {
       if (codetimeData?.contest_code[0].code1_update_time) {
@@ -192,56 +144,37 @@ const CodePage: React.FC = () => {
   }, [codetimeData]);
 
   //-----------------上传代码------------------、
-  const [upsertCode1, { error: code1Error }] = useMutation<
-    UpsertCode1,
-    UpsertCode1Variables
-  >(UPSERTCODE1);
+  const [upsertCode1, { error: code1Error }] = graphql.useUpsertCode1Mutation();
   useEffect(() => {
     if (code1Error) {
       message.error("上传代码失败");
     }
   });
 
-  const [upsertCode2, { error: code2Error }] = useMutation<
-    UpsertCode2,
-    UpsertCode2Variables
-  >(UPSERTCODE2);
+  const [upsertCode2, { error: code2Error }] = graphql.useUpsertCode2Mutation();
   useEffect(() => {
     if (code2Error) {
       message.error("上传代码失败");
     }
   });
-
-  const [upsertCode3, { error: code3Error }] = useMutation<
-    UpsertCode3,
-    UpsertCode3Variables
-  >(UPSERTCODE3);
+  const [upsertCode3, { error: code3Error }] = graphql.useUpsertCode3Mutation();
   useEffect(() => {
     if (code3Error) {
       message.error("上传代码失败");
     }
   });
-
-  const [upsertCode4, { error: code4Error }] = useMutation<
-    UpsertCode4,
-    UpsertCode4Variables
-  >(UPSERTCODE4);
+  const [upsertCode4, { error: code4Error }] = graphql.useUpsertCode4Mutation();
   useEffect(() => {
     if (code4Error) {
       message.error("上传代码失败");
     }
   });
-
-  const [upsertCode5, { error: code5Error }] = useMutation<
-    UpsertCode5,
-    UpsertCode5Variables
-  >(UPSERTCODE5);
+  const [upsertCode5, { error: code5Error }] = graphql.useUpsertCode5Mutation();
   useEffect(() => {
     if (code5Error) {
       message.error("上传代码失败");
     }
   });
-
   const playerList = [
     {
       key: 1,
