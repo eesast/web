@@ -17,25 +17,9 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
-import {
-  QueryTeamID as QUERY_TEAM_ID,
-  GetContestInfo as GET_CONTEST_INFO,
-  QueryContestManager as QUERY_CONTEST_MANAGER,
-  UpdateContestStatus as UPDATE_CONTEST_STATUS,
-} from "../../api/contest.graphql";
-import {
-  QueryTeamID,
-  QueryTeamIDVariables,
-  GetContestInfo,
-  GetContestInfoVariables,
-  QueryContestManager,
-  QueryContestManagerVariables,
-  UpdateContestStatus,
-  UpdateContestStatusVariables,
-} from "../../api/types";
-import { useMutation, useQuery } from "@apollo/client";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
+import * as graphql from "../../generated/graphql";
 
 const { Text } = Typography;
 
@@ -46,10 +30,7 @@ const SettingPage: React.FC = () => {
   //获取用户信息
   const userInfo = getUserInfo();
 
-  const { data: isContestManagerData, error: isContestManagerError } = useQuery<
-    QueryContestManager,
-    QueryContestManagerVariables
-  >(QUERY_CONTEST_MANAGER, {
+  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
     variables: {
       contest_id: Contest_id,
       user_id: userInfo?._id,
@@ -70,7 +51,7 @@ const SettingPage: React.FC = () => {
     data: contestData,
     error: contestError,
     refetch: refetchContestData,
-  } = useQuery<GetContestInfo, GetContestInfoVariables>(GET_CONTEST_INFO, {
+  } = graphql.useGetContestInfoSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
@@ -82,11 +63,7 @@ const SettingPage: React.FC = () => {
     }
   }, [contestError]);
 
-  const [updateContestStatus, { error: updateStatusError }] = useMutation<
-    UpdateContestStatus,
-    UpdateContestStatusVariables
-  >(UPDATE_CONTEST_STATUS);
-
+  const [updateContestStatus, { error: updateStatusError }] = graphql.useUpdateContestStatusMutation();
   useEffect(() => {
     if (updateStatusError) {
       message.error("比赛状态更新失败");
@@ -145,10 +122,7 @@ const SettingPage: React.FC = () => {
     useState<boolean>(false);
   const [battleForm] = Form.useForm();
 
-  const { error: queryTeamIDError, refetch: refetchTeamID } = useQuery<
-    QueryTeamID,
-    QueryTeamIDVariables
-  >(QUERY_TEAM_ID, {
+  const { error: queryTeamIDError, refetch: refetchTeamID } = graphql.useQueryTeamIdSuspenseQuery({
     variables: {
       contest_id: Contest_id,
       team_name: "",
