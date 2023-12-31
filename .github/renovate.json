@@ -9,6 +9,7 @@
   },
   "prConcurrentLimit": 0,
   "prHourlyLimit": 5,
+  "rangeStrategy": "pin",
   "separateMajorMinor": true,
   "separateMinorPatch": true,
   "separateMultipleMajor": true
