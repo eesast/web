@@ -70,7 +70,7 @@
     "react-scripts": "4.0.3",
     "rimraf": "5.0.5",
     "typescript": "5.3.3",
-    "web-vitals": "3.5.1",
+    "web-vitals": "3.5.2",
     "webpack-bundle-analyzer": "4.10.1",
     "webpackbar": "6.0.0"
   },
