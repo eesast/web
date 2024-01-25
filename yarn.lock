@@ -11454,10 +11454,10 @@ pirates@^4.0.1:
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.6.tgz#3018ae32ecfcff6c29ba2267cbf21166ac1f36b9"
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
-pizzip@3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/pizzip/-/pizzip-3.1.4.tgz#0c2578506ce5b487fa00bc2dd62eebeb291ee677"
-  integrity sha512-08yol1Of5Og1E0a1R56c+Z1jVkvfTEBUouwG9WYwCqpj8BjdcpEpLgZsrdLFNQYRgtxK0OOe0JpmBWJdrPr6Dg==
+pizzip@3.1.6:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/pizzip/-/pizzip-3.1.6.tgz#82333752231e7037be92a5037fe2bd326f650f54"
+  integrity sha512-FCG2lSMVlrt2jB1iokujjXexanfszV/Y04t4mu1icdSEC/vb/2qDISr2kgENzdkThd1jkRNjvipWitU4gpbM/g==
   dependencies:
     pako "^2.1.0"
 
