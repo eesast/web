@@ -9,7 +9,7 @@
     "@apollo/client": "3.8.10",
     "antd": "4.13.1",
     "axios": "0.21.4",
-    "cos-js-sdk-v5": "1.5.0",
+    "cos-js-sdk-v5": "1.6.0",
     "dayjs": "1.11.10",
     "docxtemplater": "3.43.1",
     "dotenv": "16.3.2",
