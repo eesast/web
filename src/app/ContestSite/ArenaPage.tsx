@@ -14,66 +14,54 @@ import {
 } from "antd";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
-//----根据队员信息查找队伍信息------
-//----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
 import { GetAllTeamInfo_contest_team } from "../../api/types";
-//----正在比赛的room信息
-//----插入room和team------
-//————创建thuaicode————
-//————后端发送post————
 import axios from "axios";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import styled from "styled-components";
 import * as graphql from "../../generated/graphql";
+import { MenuProps } from "antd/lib";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-
+const userInfo = getUserInfo();
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+height: calc(100vh - 72px);
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+`;
 /* ---------------- 主页面 ---------------- */
 const ArenaPage: React.FC = () => {
-  const userInfo = getUserInfo();
+  /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-
-  // --------------获取比赛状态-------------------
+  const [opponentTeamId, setOpponentTeamId] = useState("");
+  const [associatedValue, setAssociatedValue] = useState("");
+  const [filterParamList, setFilterParamList] = useState<graphql.GetAllTeamInfo_ScoreQuery['contest_team']>([]);
+  
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  //获取比赛状态
   const { data: contestData, error: contestError } =  graphql.useGetContestInfoSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
-
-  useEffect(() => {
-    if (contestError) {
-      message.error("比赛加载失败");
-      console.log(contestError.message);
-    }
-  });
-
-  // -----------------获取天梯队伍信息------------------
-  const {
-    data: scoreteamListData,
-    //loading: scoreteamListLoading,
-    error: scoreteamListError,
-  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery( {
+  //获取天梯队伍信息
+  const { data: scoreteamListData, error: scoreteamListError,} = graphql.useGetAllTeamInfo_ScoreSuspenseQuery( {
     variables: {
       contest_id: Contest_id,
     },
   });
-  
-  useEffect(() => {
-    if (scoreteamListError) {
-      message.error("获取对战信息失败");
-      console.log(scoreteamListError.message);
-    }
-  });
-
-  // -----------------根据队员id查询队伍id------------------
+  //根据队长id查询队伍id
   const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
       _id: userInfo?._id!,
       contest_id: Contest_id,
     },
   });
+  //根据队员id查询队伍id
   const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
       _id: userInfo?._id!,
@@ -82,9 +70,9 @@ const ArenaPage: React.FC = () => {
   });
 
   const teamid =
-    isleaderData?.contest_team[0]?.team_id ||
-    ismemberData?.contest_team_member[0]?.team_id;
-
+  isleaderData?.contest_team[0]?.team_id ||
+  ismemberData?.contest_team_member[0]?.team_id;
+  //根据队伍id获得队伍数据
   const { data: teamData } = teamid ? graphql.useGetTeamInfoSuspenseQuery({
     variables: {
       contest_id: Contest_id,
@@ -92,8 +80,7 @@ const ArenaPage: React.FC = () => {
     },
   })
   : {data: undefined};
-
-  // -----------------获取正在比赛的room信息------------------
+  //获取正在比赛的room信息
   const {
     data: roomStatusData,
     error: roomStatusError,
@@ -103,6 +90,23 @@ const ArenaPage: React.FC = () => {
       contest_id: Contest_id,
     },
   });
+  //开启对战
+  const [insertRoom, { error: insertRoomError }] = graphql.useInsertRoomMutation();
+
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (contestError) {
+      message.error("比赛加载失败");
+      console.log(contestError.message);
+    }
+  });
+
+  useEffect(() => {
+    if (scoreteamListError) {
+      message.error("获取对战信息失败");
+      console.log(scoreteamListError.message);
+    }
+  });
 
   useEffect(() => {
     if (roomStatusError) {
@@ -111,22 +115,68 @@ const ArenaPage: React.FC = () => {
     }
   });
 
-  // -----------------开启对战------------------
-  const [insertRoom, { error: insertRoomError }] = graphql.useInsertRoomMutation();
-
   useEffect(() => {
     if (insertRoomError) {
       message.error("发起对战失败");
       console.log(insertRoomError.message);
     }
   });
+  //搜索模块
+  useEffect(() => {
+    if (associatedValue !== "") {
+      setFilterParamList([]);
+      setFilterParamList(
+        scoreteamListData?.contest_team.filter((item) => {
+          return (
+            item.team_name?.indexOf(associatedValue) !== -1 ||
+            item.team_leader_id?.name?.indexOf(associatedValue) !== -1
+          );
+        }),
+      );
+    } else {
+      setFilterParamList(scoreteamListData?.contest_team);
+    }
+  }, [associatedValue, scoreteamListData?.contest_team]);
+  
+  /* ---------------- 业务逻辑函数 ---------------- */
+    //开启对战逻辑
+  const fight = (map: number, team: boolean) => {
+    roomStatusRefetch();
+    console.log("Room Number:", roomStatusData?.contest_room.length);
+    if (
+      roomStatusData?.contest_room.length &&
+      roomStatusData?.contest_room.length >= 10
+    ) {
+      message.warning("当前正在进行的比赛过多，请稍后再试");
+      return;
+    }
+    (async () => {
+      try {
+        const roomId = await insertRoom({
+          variables: {
+            contest_id: Contest_id,
+            team1_id: teamid,
+            team2_id: opponentTeamId,
+            created_at: dayjs()!,
+          },
+        });
+        await axios.post("room", {
+          contest_id: Contest_id,
+          map: map,
+          room_id: roomId.data?.insert_contest_room_one?.room_id,
+          team_seq: team, // 一个是红队还是蓝队的标记
+          exposed: 1,
+        });
+        message.success("已发起对战！");
+        message.info("如需观战，可查看记录页面的端口号");
+      } catch (e) {
+        message.error("发起对战失败");
+        console.log(e);
+      }
+    })();
+  };
 
-  const [opponentTeamId, setOpponentTeamId] = useState("");
-  // const setfight = (record: GetAllTeamInfo_contest_team) => {
-  //     setTeamId(record.team_id);
-  // };
-
-  // -----------------天梯列表------------------
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
       title: "队名",
@@ -176,7 +226,7 @@ const ArenaPage: React.FC = () => {
       onFilter: (value, record) => record.status === value,
       render: (text, record) => (
         <Dropdown
-          overlay={map_menu}
+          menu={map_menu as MenuProps}
           trigger={["click"]}
           disabled={
             teamid === record.team_id ||
@@ -198,67 +248,6 @@ const ArenaPage: React.FC = () => {
     },
   ];
 
-  // -----------------对战选项------------------
- 
-  // --------------开启对战逻辑-------------------
-  const fight = (map: number, team: boolean) => {
-    roomStatusRefetch();
-    console.log("Room Number:", roomStatusData?.contest_room.length);
-    if (
-      roomStatusData?.contest_room.length &&
-      roomStatusData?.contest_room.length >= 10
-    ) {
-      message.warning("当前正在进行的比赛过多，请稍后再试");
-      return;
-    }
-    (async () => {
-      try {
-        const roomId = await insertRoom({
-          variables: {
-            contest_id: Contest_id,
-            team1_id: teamid,
-            team2_id: opponentTeamId,
-            created_at: dayjs()!,
-          },
-        });
-        await axios.post("room", {
-          contest_id: Contest_id,
-          map: map,
-          room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: team, // 一个是红队还是蓝队的标记
-          exposed: 1,
-        });
-        message.success("已发起对战！");
-        message.info("如需观战，可查看记录页面的端口号");
-      } catch (e) {
-        message.error("发起对战失败");
-        console.log(e);
-      }
-    })();
-  };
-
-  // --------------搜索模块-------------------
-
-  const [associatedValue, setAssociatedValue] = useState("");
-  const [filterParamList, setFilterParamList] = useState(
-    scoreteamListData?.contest_team,
-  );
-  useEffect(() => {
-    if (associatedValue !== "") {
-      setFilterParamList([]);
-      setFilterParamList(
-        scoreteamListData?.contest_team.filter((item) => {
-          return (
-            item.team_name?.indexOf(associatedValue) !== -1 ||
-            item.team_leader_id?.name?.indexOf(associatedValue) !== -1
-          );
-        }),
-      );
-    } else {
-      setFilterParamList(scoreteamListData?.contest_team);
-    }
-  }, [associatedValue, scoreteamListData?.contest_team]);
-  /* ---------------- 随渲染刷新的组件 ---------------- */
   const map_menu = (
     <Menu>
       <Menu.Item
@@ -280,15 +269,6 @@ const ArenaPage: React.FC = () => {
     </Menu>
   );
 
-  /* ---------------- 页面组件 ---------------- */
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
   const Loading = () => {
     return (
       <Container>
@@ -296,7 +276,9 @@ const ArenaPage: React.FC = () => {
       </Container>
     );
   };
-  
+
+  /* ---------------- 页面组件 ---------------- */
+
   return (
     <Layout>
       <br />

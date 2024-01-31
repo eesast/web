@@ -10,10 +10,7 @@ import React, { Suspense, useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
-//graphql语句
-import {
-  GetAllTeamInfo_contest_team,
-} from "../../api/types";
+import { GetAllTeamInfo_contest_team } from "../../api/types";
 import {
   Button,
   Card,
@@ -41,22 +38,35 @@ import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "../../generated/graphql";
 import styled from "styled-components";
-const { Text } = Typography;
 
+/* ---------------- 不随渲染刷新的常量 ---------------- */
+const { Text } = Typography;
+const userInfo = getUserInfo();
+
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+height: calc(100vh - 72px);
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+`;
+/* ---------------- 主页面 ---------------- */
 const ManageTeamsPage: React.FC = () => {
-  //获取比赛ID
+  /* ---------------- States 和常量 Hooks ---------------- */
+  const [editingTeamID, setEditingTeamID] = useState<string>();
   const url = useUrl();
   const Contest_id = url.query.get("contest")!;
-  //获取用户信息
-  const userInfo = getUserInfo();
 
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery( {
-  variables: {
-    contest_id: Contest_id,
-    user_id: userInfo?._id,
-  },
-});
+    variables: {
+      contest_id: Contest_id,
+      user_id: userInfo?._id,
+    },
+  });
 
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (isContestManagerError) {
       message.error("管理员加载失败");
@@ -64,8 +74,7 @@ const ManageTeamsPage: React.FC = () => {
     }
   }, [isContestManagerError]);
 
-  const [editingTeamID, setEditingTeamID] = useState<string>();
-
+  /* ---------------- 页面组件 ---------------- */
   return ["root", "counselor"].includes(userInfo?.role!) ||
     isContestManagerData?.contest_manager.length === 1 ? (
     editingTeamID === undefined ? (
@@ -106,27 +115,35 @@ const ListPage: React.FC<{
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
 }> = (props) => {
   //添加新队伍功能
+  
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [form] = Form.useForm();
+
   const [insertTeam, { error: insertError, loading: teamAdding }] = graphql.useInsertTeamMutation();
-
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
-  variables: {
-    _id: "",
-    contest_id: props.contest_id,
-  },
-});
+    variables: {
+      _id: "",
+      contest_id: props.contest_id,
+    },
+  });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
-  variables: {
-    _id: "",
-    contest_id: props.contest_id,
-  },
-});
-
+    variables: {
+      _id: "",
+      contest_id: props.contest_id,
+    },
+  });
   const { error: userError, refetch: refetchUserId } = graphql.useGetUser_IdSuspenseQuery({
-  variables: {
-    email: "",
-    name: "",
-  },
-});
+    variables: {
+      email: "",
+      name: "",
+    },
+  });
+  //队伍一览表功能
+  const { data: teamListData,error: teamListError, } = graphql.useGetAllTeamInfoSubscription({
+    variables: {
+      contest_id: props.contest_id,
+    },
+  });
 
   useEffect(() => {
     if (userError) {
@@ -135,8 +152,12 @@ const ListPage: React.FC<{
     }
   }, [userError]);
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [form] = Form.useForm();
+  useEffect(() => {
+    if (teamListError) {
+      message.error("队伍列表加载失败");
+      console.log(teamListError.message);
+    }
+  }, [teamListError]);
 
   const handleTeamAdd = async () => {
     const values = await form.getFieldsValue();
@@ -192,27 +213,6 @@ const ListPage: React.FC<{
     // refetchteamList();
     setIsModalVisible(false);
   };
-
-  //队伍一览表功能
-  const {
-    data: teamListData,
-    //loading: teamListLoading,
-    error: teamListError,
-    // refetch: refetchteamList,
-  } = graphql.useGetAllTeamInfoSubscription(
-    {
-      variables: {
-        contest_id: props.contest_id,
-      },
-    },
-  );
-
-  useEffect(() => {
-    if (teamListError) {
-      message.error("队伍列表加载失败");
-      console.log(teamListError.message);
-    }
-  }, [teamListError]);
 
   const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
@@ -278,13 +278,6 @@ const ListPage: React.FC<{
       ),
     },
   ];
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
 
   const Loading = () => {
     return (
@@ -398,6 +391,8 @@ const SubPage: React.FC<{
   team_id: string;
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
 }> = (props) => {
+  const [activeTabKey, setActiveTabKey] = useState("basic");
+
   const {
     data: teamData,
     error: getTeamInfoError,
@@ -417,25 +412,29 @@ const SubPage: React.FC<{
   }, [getTeamInfoError]);
 
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
-  variables: {
-    _id: "",
-    contest_id: props.contest_id,
-  },
-});
+    variables: {
+      _id: "",
+      contest_id: props.contest_id,
+    },
+  });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
-  variables: {
-    _id: "",
-    contest_id: props.contest_id,
-  },
-});
+    variables: {
+      _id: "",
+      contest_id: props.contest_id,
+    },
+  });
 
   const { error: userError, refetch: refetchUserId } =graphql.useGetUser_IdSuspenseQuery({
-  variables: {
-    email: "",
-    name: "",
-  },
-});
+    variables: {
+      email: "",
+      name: "",
+    },
+  });
 
+  const [insertteamMember, { error: insertError }] = graphql.useInsertTeamMemberMutation();
+
+  const [DeleteTeamMember, { error: DeleteTeamMemberError }] = graphql.useDeleteTeamMemberMutation();
+  
   useEffect(() => {
     if (userError) {
       message.error("用户信息查询失败");
@@ -443,17 +442,11 @@ const SubPage: React.FC<{
     }
   }, [userError]);
 
-  const [insertteamMember, { error: insertError }] = graphql.useInsertTeamMemberMutation();
-
-  const [DeleteTeamMember, { error: DeleteTeamMemberError }] = graphql.useDeleteTeamMemberMutation();
-
   useEffect(() => {
     if (DeleteTeamMemberError) {
       message.error("删除成员失败");
     }
   }, [DeleteTeamMemberError]);
-
-  const [activeTabKey, setActiveTabKey] = useState("basic");
 
   const tabList = [
     {

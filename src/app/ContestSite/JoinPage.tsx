@@ -16,41 +16,42 @@ import { getUserInfo } from "../../api/helpers/auth";
 import {
   GetAllTeamInfo_score_contest_team,
 } from "../../api/types";
-//插入队员
 import type { TableProps } from "antd/lib/table";
 //导出excel
 import xlsx from "xlsx";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "../../generated/graphql";
 import styled from "styled-components";
-
+/* ---------------- 不随渲染刷新的常量 ---------------- */
+const userInfo = getUserInfo();
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+height: calc(100vh - 72px);
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+`;
+/* ---------------- 主页面 ---------------- */
 const JoinPage: React.FC = () => {
+  /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  const userInfo = getUserInfo();
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [teamId, setTeamId] = useState<any>();
   const [inviteCode, setInvite] = useState<string | null>();
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: isleaderData, refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery( {
     variables: {
       _id: userInfo?._id!,
       contest_id: Contest_id,
     },
   });
+
   const { data: ismemberData, refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
       _id: userInfo?._id!,
-      contest_id: Contest_id,
-    },
-  });
-  const {
-    data: teamListData,
-    //loading: teamListLoading,
-    error: teamListError,
-    refetch: refetchteamList,
-  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery( {
-    variables: {
       contest_id: Contest_id,
     },
   });
@@ -62,25 +63,23 @@ const JoinPage: React.FC = () => {
     },
   });
 
-  /* const teamid =
-    isleaderData?.contest_team[0]?.team_id ||
-    ismemberData?.contest_team_member[0]?.team_id; */
+  const {
+    data: teamListData,
+    error: teamListError,
+    refetch: refetchteamList,
+  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery( {
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
 
+    // 队员插入
+  const [insertteamMember, { error: insertError }] = graphql.useInsertTeamMemberMutation();
+
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     refetchteamList();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  /***************队员插入****************/
-  const [insertteamMember, { error: insertError }] = graphql.useInsertTeamMemberMutation();
-  //点击加入
-  const showModal = (record: GetAllTeamInfo_score_contest_team) => {
-    setIsModalVisible(true);
-    setTeamId(record.team_id);
-    setInvite(record.invited_code);
-  };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   useEffect(() => {
     if (teamListError) {
@@ -95,6 +94,17 @@ const JoinPage: React.FC = () => {
       console.log(isContestManagerError.message);
     }
   }, [isContestManagerError]);
+  /* ---------------- 业务逻辑函数 ---------------- */
+    //点击加入
+  const showModal = (record: GetAllTeamInfo_score_contest_team) => {
+    setIsModalVisible(true);
+    setTeamId(record.team_id);
+    setInvite(record.invited_code);
+  };
+  
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const exportTeamsData = () => {
     try {
@@ -128,7 +138,7 @@ const JoinPage: React.FC = () => {
       message.error("队伍信息导出失败");
     }
   };
-
+    //点击加入
   const onclick = async () => {
     const values = await form.getFieldValue("invited_code");
     if (inviteCode === values) {
@@ -155,14 +165,7 @@ const JoinPage: React.FC = () => {
     refetchteamList();
   };
 
-  const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   const Loading = () => {
     return (
       <Container>
@@ -245,6 +248,7 @@ const JoinPage: React.FC = () => {
       },
     ];
 
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Layout>
       <br />

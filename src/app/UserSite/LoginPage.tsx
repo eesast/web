@@ -21,10 +21,10 @@ const LoginPage: React.FC<PageProps> = ({ mode }) => {
     setLoading(true);
     try {
       const request = {
-        user: values.user,
+        email: values.user,
         password: values.password,
       };
-      const response = await axios.post("/user/login", request);
+      const response = await axios.post("/users/login", request);
       const data = response.data;
       localStorage.setItem("token", data.token);
       message.success("登录成功");
