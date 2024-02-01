@@ -63,7 +63,7 @@
     "customize-cra": "1.0.0",
     "electron": "28.2.1",
     "electron-builder": "24.9.1",
-    "husky": "8.0.3",
+    "husky": "9.0.10",
     "lint-staged": "15.2.1",
     "prettier": "3.2.4",
     "react-app-rewired": "2.2.1",
