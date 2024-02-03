@@ -21,12 +21,10 @@ import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import AidApplicationPage from "./AidApplicationPage";
 import PostgraduateMentorPage from "./PostgraduateMentorPage";
 import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
-import { useQuery } from "@apollo/client";
-import { GetUserVariables, GetUser } from "../../api/types";
-import { GetUser as GET_USER } from "../../api/user.graphql";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
+import * as graphql from "@/generated/graphql";
 
 const { Content, Sider } = Layout;
 
@@ -49,20 +47,20 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
 
   const userInfo = getUserInfo();
 
-  const { data } = useQuery<GetUser, GetUserVariables>(GET_USER, {
-    variables: { _id: userInfo?._id! },
+  const { data } = graphql.useGetProfileQuery({
+    variables: { uuid: userInfo?.uuid! },
   });
 
-  const user = data?.user?.[0];
+  const user = data?.users_by_pk;
 
   useEffect(() => {
     if (
       userInfo?.role === "user" ||
       !user?.department ||
       !user.email ||
-      !user.name ||
+      !user.realname ||
       !user.phone ||
-      ((!user.id || !user.class) && userInfo?.role !== "teacher")
+      ((!user.student_no || !user.class) && userInfo?.role !== "teacher")
     ) {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
       navigate(url.link("user", "site"));

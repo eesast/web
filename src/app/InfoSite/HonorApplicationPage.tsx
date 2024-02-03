@@ -17,32 +17,7 @@ import {
   Progress,
   InputRef,
 } from "antd";
-import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import axios, { AxiosError } from "axios";
-import {
-  GetHonorApplications as GET_HONOR_APPLICATIONS,
-  AddHonorApplication as ADD_HONOR_APPLICATION,
-  UpdateHonorApplication as UPDATE_HONOR_APPLICATION,
-  DeleteHonorApplication as DELETE_HONOR_APPLICATION,
-  GetHonorApplicationsForCounselors as GET_HONOR_APPLICATIONS_FOR_COUNSELORS,
-  UpdateHonorApplicationStatus as UPDATE_HONOR_APPLICATION_STATUS,
-} from "../../api/info_honor.graphql";
-import {
-  GetHonorApplications,
-  GetHonorApplicationsVariables,
-  GetHonorApplications_honor_application,
-  AddHonorApplication,
-  AddHonorApplicationVariables,
-  UpdateHonorApplication,
-  UpdateHonorApplicationVariables,
-  DeleteHonorApplication,
-  DeleteHonorApplicationVariables,
-  GetHonorApplicationsForCounselors,
-  GetHonorApplicationsForCounselorsVariables,
-  GetHonorApplicationsForCounselors_honor_application,
-  UpdateHonorApplicationStatus,
-  UpdateHonorApplicationStatusVariables,
-} from "../../api/types";
 import isUrl from "is-url";
 import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import type { ColumnProps, TableProps } from "antd/lib/table";
@@ -51,6 +26,7 @@ import { getStatusText, getStatusValue } from "../../api/helpers/application";
 import get from "lodash.get";
 import { getUserInfo } from "../../api/helpers/auth";
 import { FilterConfirmProps } from "antd/lib/table/interface";
+import * as graphql from "@/generated/graphql";
 
 const param: FilterConfirmProps = {
   closeDropdown: true,
@@ -127,16 +103,13 @@ const HonorApplicationPage = () => {
     error: applicationError,
     data: applicationData,
     refetch: refetchApplications,
-  } = useQuery<GetHonorApplications, GetHonorApplicationsVariables>(
-    GET_HONOR_APPLICATIONS,
-    {
-      variables: {
-        _id: userInfo?._id!,
-        _gte: info.honor.start_A,
-      },
-      skip: userInfo?.role === "counselor",
+  } = graphql.useGetHonorApplicationsQuery({
+    variables: {
+      _id: userInfo?._id!,
+      _gte: info.honor.start_A,
     },
-  );
+    skip: userInfo?.role === "counselor",
+  });
 
   useEffect(() => {
     if (applicationError) {
@@ -146,16 +119,14 @@ const HonorApplicationPage = () => {
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
   const [editingApplication, setEditingApplication] =
-    useState<GetHonorApplications_honor_application>();
+    useState<graphql.GetHonorApplicationsQuery["honor_application"][0]>();
 
   const [form] = Form.useForm();
 
   const [
     addApplication,
     { loading: applicationAdding, error: addApplicationError },
-  ] = useMutation<AddHonorApplication, AddHonorApplicationVariables>(
-    ADD_HONOR_APPLICATION,
-  );
+  ] = graphql.useAddHonorApplicationMutation();
 
   useEffect(() => {
     if (addApplicationError) {
@@ -166,9 +137,7 @@ const HonorApplicationPage = () => {
   const [
     updateApplication,
     { loading: applicationUpdating, error: updateApplicationError },
-  ] = useMutation<UpdateHonorApplication, UpdateHonorApplicationVariables>(
-    UPDATE_HONOR_APPLICATION,
-  );
+  ] = graphql.useUpdateHonorApplicationMutation();
 
   useEffect(() => {
     if (updateApplicationError) {
@@ -210,10 +179,8 @@ const HonorApplicationPage = () => {
     refetchApplications();
   };
 
-  const [deleteApplication, { error: deleteApplicationError }] = useMutation<
-    DeleteHonorApplication,
-    DeleteHonorApplicationVariables
-  >(DELETE_HONOR_APPLICATION);
+  const [deleteApplication, { error: deleteApplicationError }] =
+    graphql.useDeleteHonorApplicationMutation();
 
   useEffect(() => {
     if (deleteApplicationError) {
@@ -238,10 +205,7 @@ const HonorApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<
-    GetHonorApplicationsForCounselors,
-    GetHonorApplicationsForCounselorsVariables
-  >(GET_HONOR_APPLICATIONS_FOR_COUNSELORS, {
+  } = graphql.useGetHonorApplicationsForCounselorsQuery({
     variables: { _gte: info.honor.start_A },
     skip: userInfo?.role !== "counselor",
   });
@@ -270,15 +234,17 @@ const HonorApplicationPage = () => {
 
   const getColumnSearchProps: (
     dataIndex:
-      | keyof GetHonorApplicationsForCounselors_honor_application
+      | keyof graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
       | (
-          | keyof GetHonorApplicationsForCounselors_honor_application
+          | keyof graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
           | "name"
           | "class"
         )[],
     name: string,
   ) => Partial<
-    ColumnProps<GetHonorApplicationsForCounselors_honor_application>
+    ColumnProps<
+      graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
+    >
   > = (dataIndex, name) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -349,14 +315,11 @@ const HonorApplicationPage = () => {
       loading: updateApplicationStatusLoading,
       error: updateApplicationStatusError,
     },
-  ] = useMutation<
-    UpdateHonorApplicationStatus,
-    UpdateHonorApplicationStatusVariables
-  >(UPDATE_HONOR_APPLICATION_STATUS);
+  ] = graphql.useUpdateHonorApplicationStatusMutation();
 
   const handleApplicationApprove = async (
     checked: boolean,
-    item: GetHonorApplicationsForCounselors_honor_application,
+    item: graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0],
   ) => {
     await updateApplicationStatus({
       variables: {
@@ -373,70 +336,71 @@ const HonorApplicationPage = () => {
     }
   }, [updateApplicationStatusError]);
 
-  const honorColumnsForCounselor: TableProps<GetHonorApplicationsForCounselors_honor_application>["columns"] =
-    [
-      {
-        title: "学号",
-        dataIndex: ["student", "id"],
-        key: "student_id",
-        ...getColumnSearchProps(["student", "id"], "学号"),
-      },
-      {
-        title: "姓名",
-        dataIndex: ["student", "name"],
-        key: "name",
-        ...getColumnSearchProps(["student", "name"], "姓名"),
-      },
-      {
-        title: "班级",
-        dataIndex: ["student", "class"],
-        key: "class",
-        ...getColumnSearchProps(["student", "class"], "班级"),
-      },
-      {
-        title: "荣誉类型",
-        dataIndex: "honor",
-        key: "honor",
-        filters: info.honors.map((honor) => ({ text: honor, value: honor })),
-        onFilter: (value, record) => record.honor === value,
-      },
-      {
-        title: "申请状态",
-        dataIndex: "status",
-        key: "status",
-        filters: [
-          {
-            text: "已提交",
-            value: "submitted",
-          },
-          {
-            text: "未通过",
-            value: "rejected",
-          },
-          {
-            text: "已通过",
-            value: "approved",
-          },
-        ],
-        onFilter: (value, record) => record.status === value,
-        render: (text, record) => getStatusText(text),
-      },
-      {
-        title: "操作",
-        key: "action",
-        render: (text, record) => (
-          <Switch
-            checked={record.status === "approved"}
-            checkedChildren="已通过"
-            unCheckedChildren="未通过"
-            loading={updateApplicationStatusLoading}
-            onChange={(checked) => {
-              handleApplicationApprove(checked, record);
-            }}
-          />
-        ),
-      },
-    ];
+  const honorColumnsForCounselor: TableProps<
+    graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
+  >["columns"] = [
+    {
+      title: "学号",
+      dataIndex: ["student", "id"],
+      key: "student_id",
+      ...getColumnSearchProps(["student", "id"], "学号"),
+    },
+    {
+      title: "姓名",
+      dataIndex: ["student", "name"],
+      key: "name",
+      ...getColumnSearchProps(["student", "name"], "姓名"),
+    },
+    {
+      title: "班级",
+      dataIndex: ["student", "class"],
+      key: "class",
+      ...getColumnSearchProps(["student", "class"], "班级"),
+    },
+    {
+      title: "荣誉类型",
+      dataIndex: "honor",
+      key: "honor",
+      filters: info.honors.map((honor) => ({ text: honor, value: honor })),
+      onFilter: (value, record) => record.honor === value,
+    },
+    {
+      title: "申请状态",
+      dataIndex: "status",
+      key: "status",
+      filters: [
+        {
+          text: "已提交",
+          value: "submitted",
+        },
+        {
+          text: "未通过",
+          value: "rejected",
+        },
+        {
+          text: "已通过",
+          value: "approved",
+        },
+      ],
+      onFilter: (value, record) => record.status === value,
+      render: (text, record) => getStatusText(text),
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <Switch
+          checked={record.status === "approved"}
+          checkedChildren="已通过"
+          unCheckedChildren="未通过"
+          loading={updateApplicationStatusLoading}
+          onChange={(checked) => {
+            handleApplicationApprove(checked, record);
+          }}
+        />
+      ),
+    },
+  ];
 
   const [exportFormVisible, setExportFormVisible] = useState(false);
   const [exportHonor, setExportHonor] = useState("");
@@ -457,8 +421,8 @@ const HonorApplicationPage = () => {
       .filter(
         (application) =>
           application.honor === exportHonor &&
-          exportClasses.some(
-            (_class) => application.student.class?.includes(_class),
+          exportClasses.some((_class) =>
+            application.student.class?.includes(_class),
           ),
       )
       .map((i) => [
@@ -553,8 +517,6 @@ const HonorApplicationPage = () => {
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [parseProgress, setParseProgress] = useState(0);
 
-  const client = useApolloClient();
-
   const handleApplicationImport = async () => {
     if (!fileList || fileList.length !== 1) {
       message.info("请选择文件");
@@ -608,11 +570,7 @@ const HonorApplicationPage = () => {
               throw new Error("Parse error");
             }
 
-            const { errors } = await client.mutate<
-              UpdateHonorApplicationStatus,
-              UpdateHonorApplicationStatusVariables
-            >({
-              mutation: UPDATE_HONOR_APPLICATION_STATUS,
+            updateApplicationStatus({
               variables: {
                 id,
                 status: getStatusValue(status),
@@ -622,8 +580,8 @@ const HonorApplicationPage = () => {
             count++;
             setParseProgress(Math.round((count / applications.length) * 100));
 
-            if (errors) {
-              throw errors;
+            if (updateApplicationStatusError) {
+              throw updateApplicationStatusError;
             }
           } catch (err) {
             throw err;

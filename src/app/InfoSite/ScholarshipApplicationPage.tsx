@@ -15,34 +15,7 @@ import {
   Progress,
   InputRef,
 } from "antd";
-import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import axios, { AxiosError } from "axios";
-import {
-  GetScholarshipList,
-  GetScholarshipApplications,
-  GetScholarshipApplicationsVariables,
-  GetScholarshipApplications_scholarship_application,
-  UpdateScholarshipApplication,
-  UpdateScholarshipApplicationVariables,
-  GetScholarshipApplicationsForCounselors,
-  GetScholarshipApplicationsForCounselorsVariables,
-  GetScholarshipApplicationsForCounselors_scholarship_application,
-  DeleteScholarshipApplication,
-  DeleteScholarshipApplicationVariables,
-  AddScholarshipApplication,
-  AddScholarshipApplicationVariables,
-  GetUserById,
-  GetUserByIdVariables,
-} from "../../api/types";
-import {
-  GetScholarshipList as GET_SCHOLARSHIP_LIST,
-  GetScholarshipApplications as GET_SCHOLARSHIP_APPLICATIONS,
-  UpdateScholarshipApplication as UPDATE_SCHOLARSHIP_APPLICATION,
-  DeleteScholarshipApplication as DELETE_SCHOLARSHIP_APPLICATION,
-  GetScholarshipApplicationsForCounselors as GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS,
-  AddScholarshipApplication as ADD_SCHOLARSHIP_APPLICATION,
-} from "../../api/info_scholarship.graphql";
-import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
 import { generateThankLetter } from "../../api/helpers/application";
 import type { ColumnProps, TableProps } from "antd/lib/table";
@@ -51,6 +24,7 @@ import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getUserInfo } from "../../api/helpers/auth";
 import { FilterConfirmProps } from "antd/lib/table/interface";
+import * as graphql from "@/generated/graphql";
 
 const param: FilterConfirmProps = {
   closeDropdown: true,
@@ -126,7 +100,7 @@ const ScholarshipApplicationPage = () => {
     loading: listLoading,
     error: listError,
     data: listData,
-  } = useQuery<GetScholarshipList>(GET_SCHOLARSHIP_LIST);
+  } = graphql.useGetScholarshipListQuery();
 
   useEffect(() => {
     if (listError) {
@@ -148,16 +122,13 @@ const ScholarshipApplicationPage = () => {
     error: applicationError,
     data: applicationData,
     refetch: refetchApplications,
-  } = useQuery<GetScholarshipApplications, GetScholarshipApplicationsVariables>(
-    GET_SCHOLARSHIP_APPLICATIONS,
-    {
-      variables: {
-        _id: userInfo?._id!,
-        _gte: info.scholarship.start_A,
-      },
-      skip: userInfo?.role === "counselor",
+  } = graphql.useGetScholarshipApplicationsQuery({
+    variables: {
+      _id: userInfo?._id!,
+      _gte: info.scholarship.start_A,
     },
-  );
+    skip: userInfo?.role === "counselor",
+  });
 
   useEffect(() => {
     if (applicationError) {
@@ -167,17 +138,16 @@ const ScholarshipApplicationPage = () => {
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
   const [editingApplication, setEditingApplication] =
-    useState<GetScholarshipApplications_scholarship_application>();
+    useState<
+      graphql.GetScholarshipApplicationsQuery["scholarship_application"][0]
+    >();
 
   const [form] = Form.useForm();
 
   const [
     updateApplication,
     { loading: applicationUpdating, error: updateApplicationError },
-  ] = useMutation<
-    UpdateScholarshipApplication,
-    UpdateScholarshipApplicationVariables
-  >(UPDATE_SCHOLARSHIP_APPLICATION);
+  ] = graphql.useUpdateScholarshipApplicationMutation();
 
   useEffect(() => {
     if (updateApplicationError) {
@@ -188,10 +158,7 @@ const ScholarshipApplicationPage = () => {
   const [
     addApplication,
     { loading: applicationAdding, error: addApplicationError },
-  ] = useMutation<
-    AddScholarshipApplication,
-    AddScholarshipApplicationVariables
-  >(ADD_SCHOLARSHIP_APPLICATION);
+  ] = graphql.useAddScholarshipApplicationMutation();
 
   useEffect(() => {
     if (addApplicationError) {
@@ -217,22 +184,24 @@ const ScholarshipApplicationPage = () => {
         },
       });
     else {
-      const { data } = await client.query<GetUserById, GetUserByIdVariables>({
-        query: GET_USER_BY_ID,
+      const { data } = graphql.useGetIdByStudentNoQuery({
         variables: {
-          id: values.student_number,
+          student_no: values.student_number,
         },
       });
 
-      if (data.user.length !== 1) {
+      if (data?.users.length !== 1) {
         message.error("数据错误：用户不存在或不唯一！");
         return;
       }
-      if (data.user[0].name !== values.name) {
-        message.error("数据错误：姓名和学号不匹配！");
-        return;
-      }
-      const id = data.user[0]._id;
+
+      // if (data.user[0].name !== values.name) {
+      //   message.error("数据错误：姓名和学号不匹配！");
+      //   return;
+      // }
+
+      // _id in database
+      const id = data?.users[0]?.id;
 
       if (
         !scholarshipNames.includes(values.scholarship) ||
@@ -257,7 +226,7 @@ const ScholarshipApplicationPage = () => {
 
       await addApplication({
         variables: {
-          student_id: id,
+          student_id: id!,
           scholarship: values.scholarship,
           honor: values.honor,
           amount: values.amount,
@@ -274,10 +243,8 @@ const ScholarshipApplicationPage = () => {
     message.success("操作成功！");
   };
 
-  const [deleteApplication, { error: deleteApplicationError }] = useMutation<
-    DeleteScholarshipApplication,
-    DeleteScholarshipApplicationVariables
-  >(DELETE_SCHOLARSHIP_APPLICATION);
+  const [deleteApplication, { error: deleteApplicationError }] =
+    graphql.useDeleteScholarshipApplicationMutation();
 
   useEffect(() => {
     if (deleteApplicationError) {
@@ -302,10 +269,7 @@ const ScholarshipApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<
-    GetScholarshipApplicationsForCounselors,
-    GetScholarshipApplicationsForCounselorsVariables
-  >(GET_SCHOLARSHIP_APPLICATIONS_FOR_COUNSELORS, {
+  } = graphql.useGetScholarshipApplicationsForCounselorsQuery({
     variables: { _gte: "2020-09-29" },
     skip: userInfo?.role !== "counselor",
   });
@@ -320,15 +284,17 @@ const ScholarshipApplicationPage = () => {
 
   const getColumnSearchProps: (
     dataIndex:
-      | keyof GetScholarshipApplicationsForCounselors_scholarship_application
+      | keyof graphql.GetScholarshipApplicationsForCounselorsQuery["scholarship_application"][0]
       | (
-          | keyof GetScholarshipApplicationsForCounselors_scholarship_application
+          | keyof graphql.GetScholarshipApplicationsForCounselorsQuery["scholarship_application"][0]
           | "name"
           | "class"
         )[],
     name: string,
   ) => Partial<
-    ColumnProps<GetScholarshipApplicationsForCounselors_scholarship_application>
+    ColumnProps<
+      graphql.GetScholarshipApplicationsForCounselorsQuery["scholarship_application"][0]
+    >
   > = (dataIndex, name) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -396,66 +362,67 @@ const ScholarshipApplicationPage = () => {
     },
   });
 
-  const scholarshipColumnsForCounselor: TableProps<GetScholarshipApplicationsForCounselors_scholarship_application>["columns"] =
-    [
-      {
-        title: "学号",
-        dataIndex: ["student", "id"],
-        key: "student_id",
-        ...getColumnSearchProps(["student", "id"], "学号"),
-      },
-      {
-        title: "姓名",
-        dataIndex: ["student", "name"],
-        key: "name",
-        ...getColumnSearchProps(["student", "name"], "姓名"),
-      },
-      {
-        title: "班级",
-        dataIndex: ["student", "class"],
-        key: "class",
-        ...getColumnSearchProps(["student", "class"], "班级"),
-      },
-      {
-        title: "荣誉",
-        dataIndex: "honor",
-        key: "honor",
-        filters: info.honors.map((honor) => ({
-          text: honor,
-          value: honor,
-        })),
-        onFilter: (value, record) => record.honor === value,
-      },
-      {
-        title: "奖学金",
-        dataIndex: "scholarship",
-        key: "scholarship",
-        filters: scholarshipNames.map((scholarship) => ({
-          text: scholarship,
-          value: scholarship,
-        })),
-        onFilter: (value, record) => record.scholarship === value,
-      },
-      {
-        title: "代码",
-        dataIndex: "code",
-        key: "code",
-      },
-      {
-        title: "金额",
-        dataIndex: "amount",
-        key: "amount",
-      },
-      {
-        title: "操作",
-        key: "action",
-        render: (text, record) => (
-          <Button danger onClick={() => handleApplicationDelete(record.id)}>
-            删除
-          </Button>
-        ),
-      },
-    ];
+  const scholarshipColumnsForCounselor: TableProps<
+    graphql.GetScholarshipApplicationsForCounselorsQuery["scholarship_application"][0]
+  >["columns"] = [
+    {
+      title: "学号",
+      dataIndex: ["student", "id"],
+      key: "student_id",
+      ...getColumnSearchProps(["student", "id"], "学号"),
+    },
+    {
+      title: "姓名",
+      dataIndex: ["student", "name"],
+      key: "name",
+      ...getColumnSearchProps(["student", "name"], "姓名"),
+    },
+    {
+      title: "班级",
+      dataIndex: ["student", "class"],
+      key: "class",
+      ...getColumnSearchProps(["student", "class"], "班级"),
+    },
+    {
+      title: "荣誉",
+      dataIndex: "honor",
+      key: "honor",
+      filters: info.honors.map((honor) => ({
+        text: honor,
+        value: honor,
+      })),
+      onFilter: (value, record) => record.honor === value,
+    },
+    {
+      title: "奖学金",
+      dataIndex: "scholarship",
+      key: "scholarship",
+      filters: scholarshipNames.map((scholarship) => ({
+        text: scholarship,
+        value: scholarship,
+      })),
+      onFilter: (value, record) => record.scholarship === value,
+    },
+    {
+      title: "代码",
+      dataIndex: "code",
+      key: "code",
+    },
+    {
+      title: "金额",
+      dataIndex: "amount",
+      key: "amount",
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <Button danger onClick={() => handleApplicationDelete(record.id)}>
+          删除
+        </Button>
+      ),
+    },
+  ];
 
   const [, setSearchText] = useState<React.Key>("");
 
@@ -478,7 +445,7 @@ const ScholarshipApplicationPage = () => {
   const [exportLoading, setExportLoading] = useState(false);
 
   const handleApplicationExport = async (
-    example?: GetScholarshipApplicationsForCounselors_scholarship_application[],
+    example?: graphql.GetScholarshipApplicationsForCounselorsQuery["scholarship_application"][0][],
   ) => {
     if (!example && exportClasses.length === 0) {
       message.info("请选择筛选条件");
@@ -499,8 +466,8 @@ const ScholarshipApplicationPage = () => {
                 : true) &&
               (exportClasses.includes("全部")
                 ? true
-                : exportClasses.some(
-                    (_class) => application.student.class?.includes(_class),
+                : exportClasses.some((_class) =>
+                    application.student.class?.includes(_class),
                   )),
           )
     ).map((i) => [
@@ -588,8 +555,6 @@ const ScholarshipApplicationPage = () => {
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [parseProgress, setParseProgress] = useState(0);
 
-  const client = useApolloClient();
-
   const handleApplicationImport = async () => {
     if (!fileList || fileList.length !== 1) {
       message.info("请选择文件");
@@ -663,26 +628,18 @@ const ScholarshipApplicationPage = () => {
             const amount = parseInt(application[7].toString().trim(), 10);
             const honor = application[4].toString().trim();
 
-            const { data } = await client.query<
-              GetUserById,
-              GetUserByIdVariables
-            >({
-              query: GET_USER_BY_ID,
+            const { data } = graphql.useGetIdByStudentNoQuery({
               variables: {
-                id: student_id,
+                student_no: student_id,
               },
             });
 
             // _id in database
-            const id = data.user[0]._id;
+            const id = data?.users[0]?.id;
 
-            const { errors } = await client.mutate<
-              AddScholarshipApplication,
-              AddScholarshipApplicationVariables
-            >({
-              mutation: ADD_SCHOLARSHIP_APPLICATION,
+            const { errors } = await addApplication({
               variables: {
-                student_id: id,
+                student_id: id!,
                 scholarship,
                 honor,
                 amount,
@@ -823,7 +780,7 @@ const ScholarshipApplicationPage = () => {
                           let salutation: string | null = "";
                           listData?.scholarships_aids.forEach((i) => {
                             if (i.code === item.code)
-                              return (salutation = i.salutation);
+                              return (salutation = i.salutation!);
                           });
                           generateThankLetter(item, salutation);
                         } catch {
@@ -958,7 +915,7 @@ const ScholarshipApplicationPage = () => {
                         let salutation: string | null = "";
                         listData?.scholarships_aids.forEach((i) => {
                           if (i.code === record.code)
-                            return (salutation = i.salutation);
+                            return (salutation = i.salutation!);
                         });
                         generateThankLetter(record, salutation);
                       } catch {

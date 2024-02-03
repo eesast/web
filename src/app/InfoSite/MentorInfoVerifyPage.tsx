@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
 import { PageHeader } from "@ant-design/pro-components";
 import {
   Form,
@@ -12,29 +11,13 @@ import {
   InputNumber,
 } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
-import {
-  GetUnverifiedMentorInfo as GET_UNVERIFIED_MENTOR_INFO,
-  UpdatePostgraduateInfo as UPDATE_POSTGRADUATE_INFO,
-  DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
-  VerifyMentorInfo as VERIFY_MENTOR_INFO,
-} from "../../api/postgraduate.graphql";
-import {
-  GetUnverifiedMentorInfo,
-  GetUnverifiedMentorInfoVariables,
-  GetUnverifiedMentorInfo_postgraduate_mentor_info as mentorInfo,
-  UpdatePostgraduateInfo,
-  UpdatePostgraduateInfoVariables,
-  DeletePostgraduateInfo,
-  DeletePostgraduateInfoVariables,
-  VerifyMentorInfo,
-  VerifyMentorInfoVariables,
-} from "../../api/types";
 import Modal from "antd/lib/modal/Modal";
 import Center from "../Components/Center";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
+import * as graphql from "@/generated/graphql";
 
 const MentorInfoVerifyPage: React.FC = () => {
   const url = useUrl();
@@ -42,29 +25,28 @@ const MentorInfoVerifyPage: React.FC = () => {
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [showDetail, setShowDetail] = useState(false);
-  const [detail, setDetail] = useState<mentorInfo>();
+  const [detail, setDetail] =
+    useState<
+      graphql.GetUnverifiedMentorInfoQuery["postgraduate_mentor_info"][0]
+    >();
   const [form] = Form.useForm();
   const [showManage, setShowManage] = useState(false);
   const [infoId, setInfoId] = useState(0);
 
   const userInfo = getUserInfo();
 
-  const [updateInfo, { error: updateError }] = useMutation<
-    UpdatePostgraduateInfo,
-    UpdatePostgraduateInfoVariables
-  >(UPDATE_POSTGRADUATE_INFO);
+  const [updateInfo, { error: updateError }] =
+    graphql.useUpdatePostgraduateInfoMutation();
 
-  const [deleteInfo, { error: deleteError }] = useMutation<
-    DeletePostgraduateInfo,
-    DeletePostgraduateInfoVariables
-  >(DELETE_POSTGRADUATE_INFO);
+  const [deleteInfo, { error: deleteError }] =
+    graphql.useDeletePostgraduateInfoMutation();
 
-  const [verifyInfo, { error: verifyError }] = useMutation<
-    VerifyMentorInfo,
-    VerifyMentorInfoVariables
-  >(VERIFY_MENTOR_INFO);
+  const [verifyInfo, { error: verifyError }] =
+    graphql.useVerifyMentorInfoMutation();
 
-  const columns: TableProps<mentorInfo>["columns"] = [
+  const columns: TableProps<
+    graphql.GetUnverifiedMentorInfoQuery["postgraduate_mentor_info"][0]
+  >["columns"] = [
     {
       title: "更新时间",
       dataIndex: "updated_at",
@@ -174,12 +156,9 @@ const MentorInfoVerifyPage: React.FC = () => {
     loading,
     error,
     refetch: refetchFeeds,
-  } = useQuery<GetUnverifiedMentorInfo, GetUnverifiedMentorInfoVariables>(
-    GET_UNVERIFIED_MENTOR_INFO,
-    {
-      variables: { limit: pageSize, offset: offset },
-    },
-  );
+  } = graphql.useGetUnverifiedMentorInfoQuery({
+    variables: { limit: pageSize, offset: offset },
+  });
 
   useEffect(() => {
     if (error) {

@@ -21,58 +21,7 @@ import {
   Typography,
   Upload,
 } from "antd";
-import {
-  useQuery,
-  useMutation,
-  useApolloClient,
-  useLazyQuery,
-} from "@apollo/client";
 import axios, { AxiosError } from "axios";
-import {
-  AddMentorApplication as ADD_MENTOR_APPLICATION,
-  ChangeMentorAvailable as CHANGE_MENTOR_AVAILABLE,
-  DeleteMentorApplication as DELETE_MENTOR_APPLICATION,
-  GetMentorApplications as GET_MENTOR_APPLICATIONS,
-  GetMentorApplicationsForCounselors as GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
-  GetMentorAvailable as GET_MENTOR_AVAILABLE,
-  GetMentorInfo as GET_MENTOR_INFO,
-  GetMentorList as GET_MENTOR_LIST,
-  GetFreshmanList as GET_FRESHMAN_LIST,
-  UpdateMentorApplication as UPDATE_MENTOR_APPLICATION,
-  UpdateMentorApplicationStatus as UPDATE_MENTOR_APPLICATION_STATUS,
-  UpdateMentorApplicationChatStatus as UPDATE_MENTOR_APPLICATION_CHAT_STATUS,
-  UpsertMentorInfo as UPSERT_MENTOR_INFO,
-} from "../../api/info_mentor.graphql";
-import { GetUserByName as GET_USER_BY_NAME } from "../../api/user.graphql";
-import {
-  AddMentorApplication,
-  AddMentorApplicationVariables,
-  ChangeMentorAvailable,
-  ChangeMentorAvailableVariables,
-  DeleteMentorApplication,
-  DeleteMentorApplicationVariables,
-  GetMentorApplications_mentor_application,
-  GetMentorApplications,
-  GetMentorApplicationsForCounselors,
-  GetMentorApplicationsVariables,
-  GetMentorAvailable,
-  GetMentorAvailableVariables,
-  GetMentorInfo,
-  GetMentorInfoVariables,
-  GetMentorList_user_by_role,
-  GetMentorList,
-  GetFreshmanList,
-  GetUserByName,
-  GetUserByNameVariables,
-  UpdateMentorApplication,
-  UpdateMentorApplicationStatus,
-  UpdateMentorApplicationStatusVariables,
-  UpdateMentorApplicationVariables,
-  UpsertMentorInfo,
-  UpsertMentorInfoVariables,
-  UpdateMentorApplicationChatStatus,
-  UpdateMentorApplicationChatStatusVariables,
-} from "../../api/types";
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
@@ -90,6 +39,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/int
 import { uploadFile, downloadFile, listFile } from "../../api/helpers/cos";
 import { FilterConfirmProps } from "antd/lib/table/interface";
 import { RcFile } from "rc-upload/lib/interface";
+import * as graphql from "@/generated/graphql";
 
 const param: FilterConfirmProps = {
   closeDropdown: true,
@@ -151,27 +101,21 @@ const MentorApplicationPage = () => {
     error: applicationError,
     data: applicationData,
     refetch: refetchApplications,
-  } = useQuery<GetMentorApplications, GetMentorApplicationsVariables>(
-    GET_MENTOR_APPLICATIONS,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-      skip: userInfo?.role === "counselor",
+  } = graphql.useGetMentorApplicationsQuery({
+    variables: {
+      _id: userInfo?._id!,
     },
-  );
+    skip: userInfo?.role === "counselor",
+  });
 
   const {
     loading: applicationForCounselorsLoading,
     error: applicationForCounselorsError,
     data: applicationForCounselorsData,
     // refetch: refetchApplicationsForCounselors,
-  } = useQuery<GetMentorApplicationsForCounselors>(
-    GET_MENTOR_APPLICATIONS_FOR_COUNSELORS,
-    {
-      skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
-    },
-  );
+  } = graphql.useGetMentorApplicationsForCounselorsQuery({
+    skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
+  });
 
   useEffect(() => {
     if (applicationError || applicationForCounselorsError) {
@@ -184,15 +128,12 @@ const MentorApplicationPage = () => {
     data: mentorAvailableData,
     error: mentorAvailableError,
     refetch: refetchMentorAvailable,
-  } = useQuery<GetMentorAvailable, GetMentorAvailableVariables>(
-    GET_MENTOR_AVAILABLE,
-    {
-      variables: {
-        _id: userInfo?._id!,
-      },
-      skip: userInfo?.role !== "teacher",
+  } = graphql.useGetMentorAvailableQuery({
+    variables: {
+      _id: userInfo?._id!,
     },
-  );
+    skip: userInfo?.role !== "teacher",
+  });
 
   useEffect(() => {
     if (mentorAvailableError) {
@@ -206,9 +147,7 @@ const MentorApplicationPage = () => {
       loading: changeMentorAvailableLoading,
       error: changeMentorAvailableError,
     },
-  ] = useMutation<ChangeMentorAvailable, ChangeMentorAvailableVariables>(
-    CHANGE_MENTOR_AVAILABLE,
-  );
+  ] = graphql.useChangeMentorAvailableMutation();
 
   useEffect(() => {
     if (changeMentorAvailableError) {
@@ -229,10 +168,7 @@ const MentorApplicationPage = () => {
       loading: updateApplicationStatusLoading,
       error: updateApplicationStatusError,
     },
-  ] = useMutation<
-    UpdateMentorApplicationStatus,
-    UpdateMentorApplicationStatusVariables
-  >(UPDATE_MENTOR_APPLICATION_STATUS);
+  ] = graphql.useUpdateMentorApplicationStatusMutation();
 
   useEffect(() => {
     if (updateApplicationStatusError) {
@@ -242,7 +178,7 @@ const MentorApplicationPage = () => {
 
   const handleApplicationStatusChange = async (
     status: "approved" | "submitted" | "rejected",
-    item: GetMentorApplications_mentor_application,
+    item: graphql.GetMentorApplicationsQuery["mentor_application"][0],
   ) => {
     await updateApplicationStatus({
       variables: {
@@ -255,15 +191,13 @@ const MentorApplicationPage = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingApplication, setEditingApplication] =
-    useState<GetMentorApplications_mentor_application>();
+    useState<graphql.GetMentorApplicationsQuery["mentor_application"][0]>();
   const [form] = Form.useForm();
 
   const [
     addApplication,
     { loading: applicationAdding, error: addApplicationError },
-  ] = useMutation<AddMentorApplication, AddMentorApplicationVariables>(
-    ADD_MENTOR_APPLICATION,
-  );
+  ] = graphql.useAddMentorApplicationMutation();
 
   useEffect(() => {
     if (addApplicationError) {
@@ -274,11 +208,7 @@ const MentorApplicationPage = () => {
   const [
     updateApplication,
     { loading: applicationUpdating, error: updateApplicationError },
-  ] = useMutation<UpdateMentorApplication, UpdateMentorApplicationVariables>(
-    UPDATE_MENTOR_APPLICATION,
-  );
-
-  const client = useApolloClient();
+  ] = graphql.useUpdateMentorApplicationMutation();
 
   useEffect(() => {
     if (updateApplicationError) {
@@ -325,9 +255,7 @@ const MentorApplicationPage = () => {
       loading: deleteMentorApplicationLoading,
       error: deleteMentorApplicationError,
     },
-  ] = useMutation<DeleteMentorApplication, DeleteMentorApplicationVariables>(
-    DELETE_MENTOR_APPLICATION,
-  );
+  ] = graphql.useDeleteMentorApplicationMutation();
 
   useEffect(() => {
     if (deleteMentorApplicationError) {
@@ -340,7 +268,7 @@ const MentorApplicationPage = () => {
     loading: mentorListLoading,
     error: mentorListError,
     refetch: refetchMentorList,
-  } = useQuery<GetMentorList>(GET_MENTOR_LIST, {
+  } = graphql.useGetMentorListQuery({
     variables: {
       grade_time: info.mentor.start_C,
     },
@@ -371,9 +299,9 @@ const MentorApplicationPage = () => {
   };
 
   const getColumnSearchProps: (
-    dataIndex: keyof GetMentorList_user_by_role,
+    dataIndex: keyof graphql.GetMentorListQuery["user_by_role"][0],
     name: string,
-  ) => Partial<ColumnProps<GetMentorList_user_by_role>> = (
+  ) => Partial<ColumnProps<graphql.GetMentorListQuery["user_by_role"][0]>> = (
     dataIndex,
     name,
   ) => ({
@@ -441,166 +369,83 @@ const MentorApplicationPage = () => {
   });
 
   const [selectedMentor, setSelectedMentor] =
-    useState<GetMentorList_user_by_role>();
+    useState<graphql.GetMentorListQuery["user_by_role"][0]>();
 
-  const mentorListColumnsForStudents: TableProps<GetMentorList_user_by_role>["columns"] =
-    [
-      {
-        title: "姓名",
-        dataIndex: "name",
-        key: "name",
-        ...getColumnSearchProps("name", "姓名"),
-      },
-      {
-        title: "院系",
-        dataIndex: "department",
-        key: "department",
-        filters: [
-          {
-            text: "电子系",
-            value: "电子系",
-          },
-          {
-            text: "微纳电子系",
-            value: "微纳电子系",
-          },
-          {
-            text: "医学院",
-            value: "医学院",
-          },
-        ],
-        onFilter: (value, record) => record.department === value,
-      },
-      {
-        title: "申请人数",
-        dataIndex: ["user", "total_for_grade", "aggregate", "count"],
-        key: "totalApplicants",
-        sorter: (a, b) =>
-          (a.user?.total_for_grade.aggregate?.count ?? 0) -
-          (b.user?.total_for_grade.aggregate?.count ?? 0),
-      },
-      {
-        title: "操作",
-        key: "action",
-        render: (text, record) => (
-          <Row justify="space-around">
-            <Col span={8}>
-              <Button
-                onClick={() => {
-                  if (new Date() < info.mentor.start_C) {
-                    return message.info("未到自由申请时间！");
-                  } else if (
-                    new Date() > info.mentor.end_C &&
-                    new Date() < info.mentor.start_D
-                  ) {
-                    return message.info("未到补选时间！");
-                  } else if (new Date() > info.mentor.end_D) {
-                    return message.warning("补选时间已过！");
-                  }
-                  form.setFieldsValue({ mentor: record });
-                  setSelectedMentor(record);
-                  setModalVisible(true);
-                }}
-                disabled={
-                  (applicationData &&
-                    applicationData.mentor_application.length !== 0 &&
-                    (applicationData.mentor_application.filter(
-                      (i) => i.status === "approved",
-                    ).length === 1 ||
-                      applicationData.mentor_application.filter(
-                        (i) => i.status === "submitted",
-                      ).length === 1)) ||
-                  !(record.user?.mentor_available?.available ?? false)
+  const mentorListColumnsForStudents: TableProps<
+    graphql.GetMentorListQuery["user_by_role"][0]
+  >["columns"] = [
+    {
+      title: "姓名",
+      dataIndex: "name",
+      key: "name",
+      ...getColumnSearchProps("name", "姓名"),
+    },
+    {
+      title: "院系",
+      dataIndex: "department",
+      key: "department",
+      filters: [
+        {
+          text: "电子系",
+          value: "电子系",
+        },
+        {
+          text: "微纳电子系",
+          value: "微纳电子系",
+        },
+        {
+          text: "医学院",
+          value: "医学院",
+        },
+      ],
+      onFilter: (value, record) => record.department === value,
+    },
+    {
+      title: "申请人数",
+      dataIndex: ["user", "total_for_grade", "aggregate", "count"],
+      key: "totalApplicants",
+      sorter: (a, b) =>
+        (a.user?.total_for_grade.aggregate?.count ?? 0) -
+        (b.user?.total_for_grade.aggregate?.count ?? 0),
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <Row justify="space-around">
+          <Col span={8}>
+            <Button
+              onClick={() => {
+                if (new Date() < info.mentor.start_C) {
+                  return message.info("未到自由申请时间！");
+                } else if (
+                  new Date() > info.mentor.end_C &&
+                  new Date() < info.mentor.start_D
+                ) {
+                  return message.info("未到补选时间！");
+                } else if (new Date() > info.mentor.end_D) {
+                  return message.warning("补选时间已过！");
                 }
-              >
-                申请
-              </Button>
-            </Col>
-            <Col span={8}>
-              <Button
-                onClick={() => {
-                  getMentorInfo({ variables: { mentor_id: record._id } });
-                  setShowMentorInfo(true);
-                }}
-              >
-                查看信息
-              </Button>
-            </Col>
-            <Col span={8}></Col>
-          </Row>
-        ),
-      },
-    ];
-
-  const mentorListColumnsForCounselors: TableProps<GetMentorList_user_by_role>["columns"] =
-    [
-      {
-        title: "姓名",
-        dataIndex: "name",
-        key: "name",
-        ...getColumnSearchProps("name", "姓名"),
-      },
-      {
-        title: "院系",
-        dataIndex: "department",
-        key: "department",
-        filters: [
-          {
-            text: "电子系",
-            value: "电子系",
-          },
-          {
-            text: "微纳电子系",
-            value: "微纳电子系",
-          },
-          {
-            text: "医学院",
-            value: "医学院",
-          },
-        ],
-        onFilter: (value, record) => record.department === value,
-      },
-      {
-        title: "申请人数",
-        dataIndex: ["user", "total", "aggregate", "count"],
-        key: "totalApplicants",
-        sorter: (a, b) =>
-          (a.user?.total.aggregate?.count ?? 0) -
-          (b.user?.total.aggregate?.count ?? 0),
-      },
-      {
-        title: "匹配人数",
-        dataIndex: ["user", "matched", "aggregate", "count"],
-        key: "matched",
-        sorter: (a, b) =>
-          (a.user?.matched.aggregate?.count ?? 0) -
-          (b.user?.matched.aggregate?.count ?? 0),
-      },
-      {
-        title: "正在接收",
-        dataIndex: "available",
-        key: "available",
-        filters: [
-          {
-            text: "是",
-            value: "true",
-          },
-          {
-            text: "否",
-            value: "false",
-          },
-        ],
-        onFilter: (value, record) =>
-          (record.user?.mentor_available?.available ?? false).toString() ===
-          value,
-        render: (text, record) =>
-          record.user?.mentor_available?.available ?? false ? "是" : "否",
-      },
-      {
-        title: "操作",
-        key: "action",
-        render: (text, record) => (
-          <>
+                form.setFieldsValue({ mentor: record });
+                setSelectedMentor(record);
+                setModalVisible(true);
+              }}
+              disabled={
+                (applicationData &&
+                  applicationData.mentor_application.length !== 0 &&
+                  (applicationData.mentor_application.filter(
+                    (i) => i.status === "approved",
+                  ).length === 1 ||
+                    applicationData.mentor_application.filter(
+                      (i) => i.status === "submitted",
+                    ).length === 1)) ||
+                !(record.user?.mentor_available?.available ?? false)
+              }
+            >
+              申请
+            </Button>
+          </Col>
+          <Col span={8}>
             <Button
               onClick={() => {
                 getMentorInfo({ variables: { mentor_id: record._id } });
@@ -609,10 +454,95 @@ const MentorApplicationPage = () => {
             >
               查看信息
             </Button>
-          </>
-        ),
-      },
-    ];
+          </Col>
+          <Col span={8}></Col>
+        </Row>
+      ),
+    },
+  ];
+
+  const mentorListColumnsForCounselors: TableProps<
+    graphql.GetMentorListQuery["user_by_role"][0]
+  >["columns"] = [
+    {
+      title: "姓名",
+      dataIndex: "name",
+      key: "name",
+      ...getColumnSearchProps("name", "姓名"),
+    },
+    {
+      title: "院系",
+      dataIndex: "department",
+      key: "department",
+      filters: [
+        {
+          text: "电子系",
+          value: "电子系",
+        },
+        {
+          text: "微纳电子系",
+          value: "微纳电子系",
+        },
+        {
+          text: "医学院",
+          value: "医学院",
+        },
+      ],
+      onFilter: (value, record) => record.department === value,
+    },
+    {
+      title: "申请人数",
+      dataIndex: ["user", "total", "aggregate", "count"],
+      key: "totalApplicants",
+      sorter: (a, b) =>
+        (a.user?.total.aggregate?.count ?? 0) -
+        (b.user?.total.aggregate?.count ?? 0),
+    },
+    {
+      title: "匹配人数",
+      dataIndex: ["user", "matched", "aggregate", "count"],
+      key: "matched",
+      sorter: (a, b) =>
+        (a.user?.matched.aggregate?.count ?? 0) -
+        (b.user?.matched.aggregate?.count ?? 0),
+    },
+    {
+      title: "正在接收",
+      dataIndex: "available",
+      key: "available",
+      filters: [
+        {
+          text: "是",
+          value: "true",
+        },
+        {
+          text: "否",
+          value: "false",
+        },
+      ],
+      onFilter: (value, record) =>
+        (record.user?.mentor_available?.available ?? false).toString() ===
+        value,
+      render: (text, record) =>
+        record.user?.mentor_available?.available ?? false ? "是" : "否",
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <>
+          <Button
+            onClick={() => {
+              getMentorInfo({ variables: { mentor_id: record._id } });
+              setShowMentorInfo(true);
+            }}
+          >
+            查看信息
+          </Button>
+        </>
+      ),
+    },
+  ];
 
   const [exporting, setExporting] = useState(false);
   const [attributing, setAttributing] = useState(false);
@@ -664,7 +594,7 @@ const MentorApplicationPage = () => {
     data: freshmanList,
     error: freshmanListError,
     // refetch: refetchFreshmanList,
-  } = useQuery<GetFreshmanList>(GET_FRESHMAN_LIST, {
+  } = graphql.useGetFreshmanListQuery({
     skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
   });
 
@@ -713,11 +643,7 @@ const MentorApplicationPage = () => {
       const teacher =
         teachersWithMinCount[Date.now() % teachersWithMinCount.length];
 
-      const { data } = await client.mutate<
-        AddMentorApplication,
-        AddMentorApplicationVariables
-      >({
-        mutation: ADD_MENTOR_APPLICATION,
+      const { data } = await addApplication({
         variables: {
           student_id: student._id,
           mentor_id: teacher._id,
@@ -725,11 +651,7 @@ const MentorApplicationPage = () => {
         },
       });
 
-      await client.mutate<
-        UpdateMentorApplicationStatus,
-        UpdateMentorApplicationStatusVariables
-      >({
-        mutation: UPDATE_MENTOR_APPLICATION_STATUS,
+      await updateApplicationStatus({
         variables: {
           id: data?.insert_mentor_application?.returning[0].id!,
           status: "approved",
@@ -750,6 +672,11 @@ const MentorApplicationPage = () => {
   const [importFormVisible, setImportFormVisible] = useState(false);
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [parseProgress, setParseProgress] = useState(0);
+
+  const [
+    updateMentorInfo,
+    { loading: updateMentorInfoLoading, error: updateMentorInfoError },
+  ] = graphql.useUpsertMentorInfoMutation();
 
   const handleImport = async () => {
     if (!fileList || fileList.length !== 1) {
@@ -800,11 +727,7 @@ const MentorApplicationPage = () => {
 
             console.log(`try get user`);
 
-            const { data } = await client.query<
-              GetUserByName,
-              GetUserByNameVariables
-            >({
-              query: GET_USER_BY_NAME,
+            const { data } = await graphql.useGetIdByNameQuery({
               variables: {
                 name: name,
               },
@@ -813,15 +736,11 @@ const MentorApplicationPage = () => {
             console.log(`get user ${data}`);
 
             // _id in database
-            const id = data.user[0]._id;
+            const id = data?.users[0].id;
 
-            const { errors } = await client.mutate<
-              UpsertMentorInfo,
-              UpsertMentorInfoVariables
-            >({
-              mutation: UPSERT_MENTOR_INFO,
+            const { errors } = await updateMentorInfo({
               variables: {
-                mentor_id: id,
+                mentor_id: id!,
                 intro,
                 background,
                 field,
@@ -850,16 +769,10 @@ const MentorApplicationPage = () => {
   };
 
   const [getMentorInfo, { data: mentorInfoData, refetch: refetchMentorInfo }] =
-    useLazyQuery<GetMentorInfo, GetMentorInfoVariables>(GET_MENTOR_INFO);
+    graphql.useGetMentorInfoLazyQuery();
   const [showMentorInfo, setShowMentorInfo] = useState(false);
   const [showUpdateInfo, setShowUpdateInfo] = useState(false);
   const [updateInfoForm] = Form.useForm();
-  const [
-    updateMentorInfo,
-    { loading: updateMentorInfoLoading, error: updateMentorInfoError },
-  ] = useMutation<UpsertMentorInfo, UpsertMentorInfoVariables>(
-    UPSERT_MENTOR_INFO,
-  );
 
   const handleApplicationDelete = async (application_id: any) => {
     try {
@@ -876,10 +789,8 @@ const MentorApplicationPage = () => {
     }
   };
 
-  const [updateApplicationChatStatus] = useMutation<
-    UpdateMentorApplicationChatStatus,
-    UpdateMentorApplicationChatStatusVariables
-  >(UPDATE_MENTOR_APPLICATION_CHAT_STATUS);
+  const [updateApplicationChatStatus] =
+    graphql.useUpdateMentorApplicationChatStatusMutation();
 
   //更新chat_status状态并refetch
   const handleApplicationChatStatusChange = async (

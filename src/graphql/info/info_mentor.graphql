@@ -209,3 +209,9 @@ query GetFreshmanList {
     }
   }
 }
+
+query GetIdByName($name: String!) {
+  users(where: { realname: { _eq: $name } }) {
+    id
+  }
+}

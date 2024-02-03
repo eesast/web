@@ -1,11 +1,8 @@
 import Docxtemplater from "docxtemplater";
-import {
-  GetScholarshipApplications_scholarship_application,
-  GetAidApplications_aid_application,
-} from "../types";
 import FileSaver from "file-saver";
 import PizZip from "pizzip";
 import PizZipUtils from "pizzip/utils/index.js";
+import * as graphql from "@/generated/graphql";
 
 export const getStatusText = (status: string) =>
   status === "submitted"
@@ -27,8 +24,8 @@ const formatDate = (date: Date) => {
 
 export const generateThankLetter = async (
   application:
-    | GetScholarshipApplications_scholarship_application
-    | GetAidApplications_aid_application,
+    | graphql.GetScholarshipApplicationsQuery["scholarship_application"][0]
+    | graphql.GetAidApplicationsQuery["aid_application"][0],
   salutation: string | null,
 ) => {
   const templateData = await new Promise<any>((resolve) =>
@@ -53,11 +50,13 @@ export const generateThankLetter = async (
   }
 
   const prizeName = (
-    application as GetScholarshipApplications_scholarship_application
+    application as graphql.GetScholarshipApplicationsQuery["scholarship_application"][0]
   ).scholarship
-    ? (application as GetScholarshipApplications_scholarship_application)
-        .scholarship
-    : (application as GetAidApplications_aid_application).aid;
+    ? (
+        application as graphql.GetScholarshipApplicationsQuery["scholarship_application"][0]
+      ).scholarship
+    : (application as graphql.GetAidApplicationsQuery["aid_application"][0])
+        .aid;
 
   const info = {
     title: prizeName + "感谢信",
