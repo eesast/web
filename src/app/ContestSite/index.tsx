@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Link, Route, Routes, Navigate } from "react-router-dom";
-import { GetContestManager_contest_manager_user,} from "../../api/types";
 import { getUserInfo } from "../../api/helpers/auth";
 //导入antd的包
 import Card, { CardProps } from "antd/lib/card";
@@ -66,20 +65,25 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
   const [addContest, { loading: contestAdding, error: contestAddingError }] =
     graphql.useAddContestMutation();
 
-  const [deleteContest, { error: contestDeleteError }] = graphql.useDeleteContestMutation();
+  const [deleteContest, { error: contestDeleteError }] =
+    graphql.useDeleteContestMutation();
 
-  const [deleteContestTeams, { error: teamDeleteError }] = graphql.useDeleteContestAllTeamsMutation();
+  const [deleteContestTeams, { error: teamDeleteError }] =
+    graphql.useDeleteContestAllTeamsMutation();
 
   const [
     addContestManager,
     { /*loading: managerAdding,*/ error: managerAddError },
   ] = graphql.useAddContestManagerMutation();
 
-  const [deleteContestManager, { error: managerDeleteError }] = graphql.useDeleteContestAllManagerMutation();
+  const [deleteContestManager, { error: managerDeleteError }] =
+    graphql.useDeleteContestAllManagerMutation();
 
-  const [deleteContestInfo, { error: infoDeleteError }] = graphql.useDeleteContestAllInfoMutation();
+  const [deleteContestInfo, { error: infoDeleteError }] =
+    graphql.useDeleteContestAllInfoMutation();
 
-  const [deleteContestRooms, { error: roomsDeleteError }] = graphql.useDeleteContestAllRoomsMutation();
+  const [deleteContestRooms, { error: roomsDeleteError }] =
+    graphql.useDeleteContestAllRoomsMutation();
 
   useEffect(() => {
     if (contestError) {
@@ -185,7 +189,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     contest_type: string;
     description: string | undefined | null;
     time: Dayjs[];
-    managers_list: GetContestManager_contest_manager_user[];
+    managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["user"][];
   }
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -312,20 +316,20 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
   };
 
   const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+    height: calc(100vh - 72px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
 
-const Loading = () => {
-  return (
-    <Container>
-      <Spin size="large" />
-    </Container>
-  );
-};
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
 
   const index = (
     <Layout>
@@ -346,59 +350,62 @@ const Loading = () => {
         <Col span={3}></Col>
         <Col span={18}>
           <Suspense fallback={<Loading />}>
-          <List
-            dataSource={contestData?.contest}
-            renderItem={(item) => (
-              <Content>
-                <ContestInfoCard
-                  key={item.id}
-                  onEditPress={
-                    userInfo?.role === "counselor" || userInfo?.role === "root"
-                      ? async () => {
-                          setEditingContest(true);
-                          try {
-                            const managerData = await refetchContestManager({
-                              contest_id: item.id,
-                            });
-                            const data: FormValues = {
-                              contest_name: item?.contest_name,
-                              contest_type: item?.contest_type,
-                              description: item?.description,
-                              time: [
-                                dayjs(item?.start_date),
-                                dayjs(item?.end_date),
-                              ],
-                              managers_list:
-                                managerData.data.contest_manager.map(
-                                  (value) => value.user as GetContestManager_contest_manager_user,
-                                ),
-                            };
-                            setContestID(item?.id);
-                            form.setFieldsValue(data);
-                          } catch {}
-                          setModalVisible(true);
-                        }
-                      : undefined
-                  }
-                  onDeletePress={
-                    userInfo?.role === "counselor" || userInfo?.role === "root"
-                      ? () => {
-                          handleContestDelete(item.id);
-                        }
-                      : undefined
-                  }
-                  name={item.contest_name}
-                  description={item.description as string | null}
-                  startDate={item.start_date}
-                  endDate={item.end_date}
-                  id={item.id}
-                />
-                <br />
-                <br />
-              </Content>
-            )}
-            //loading={contestLoading}
-          />
+            <List
+              dataSource={contestData?.contest}
+              renderItem={(item) => (
+                <Content>
+                  <ContestInfoCard
+                    key={item.id}
+                    onEditPress={
+                      userInfo?.role === "counselor" ||
+                      userInfo?.role === "root"
+                        ? async () => {
+                            setEditingContest(true);
+                            try {
+                              const managerData = await refetchContestManager({
+                                contest_id: item.id,
+                              });
+                              const data: FormValues = {
+                                contest_name: item?.contest_name,
+                                contest_type: item?.contest_type,
+                                description: item?.description,
+                                time: [
+                                  dayjs(item?.start_date),
+                                  dayjs(item?.end_date),
+                                ],
+                                managers_list:
+                                  managerData.data.contest_manager.map(
+                                    (value) =>
+                                      value.user as graphql.GetContestManagerQuery["contest_manager"][0]["user"],
+                                  ),
+                              };
+                              setContestID(item?.id);
+                              form.setFieldsValue(data);
+                            } catch {}
+                            setModalVisible(true);
+                          }
+                        : undefined
+                    }
+                    onDeletePress={
+                      userInfo?.role === "counselor" ||
+                      userInfo?.role === "root"
+                        ? () => {
+                            handleContestDelete(item.id);
+                          }
+                        : undefined
+                    }
+                    name={item.contest_name}
+                    description={item.description as string | null}
+                    startDate={item.start_date}
+                    endDate={item.end_date}
+                    id={item.id}
+                  />
+                  <br />
+                  <br />
+                </Content>
+              )}
+              //loading={contestLoading}
+            />
           </Suspense>
         </Col>
       </Row>

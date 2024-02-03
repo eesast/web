@@ -1,4 +1,4 @@
-import React, { useEffect,Suspense } from "react";
+import React, { useEffect, Suspense } from "react";
 import {
   Input,
   Table,
@@ -15,16 +15,12 @@ import {
 } from "antd"; //botton
 import { Layout } from "antd";
 import { getUserInfo } from "../../api/helpers/auth"; //更改：取消注释
-import {
-  GetMemberInfo_contest_team_member,
-} from "../../api/types";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "../../generated/graphql";
 import styled from "styled-components";
-
 
 const { TextArea } = Input;
 const { Content } = Layout;
@@ -60,32 +56,35 @@ const ManagePage: React.FC = () => {
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-
   //根据team_id查询所有队员信息
   const {
     data: teamMemberData,
     //loading: teamMemberLoading,
     refetch: refetchMemberInfo,
   } = graphql.useGetMemberInfoQuery({
-        variables: {
-          team_id: teamid!,
-        },
-      });
+    variables: {
+      team_id: teamid!,
+    },
+  });
 
   useEffect(() => {
     if (teamid) {
       refetchMemberInfo();
     }
   });
-  
-  //更新队伍信息
-  const [UpdateTeam, { data: UpdateTeamData, error: UpdateTeamError },] = graphql.useUpdateTeamMutation();
-  //删除队伍信息
-  const [DeleteTeam, { error: DeleteTeamError }] = graphql.useDeleteTeamMutation();
-  //删除所有队员
-  const [DeleteAllTeamMember, { error: DeleteAllTeamMemberERROR }] =graphql.useDeleteAllTeamMemberMutation();
 
-  const [DeleteTeamMember, { error: DeleteTeamMemberError }] = graphql.useDeleteTeamMemberMutation();
+  //更新队伍信息
+  const [UpdateTeam, { data: UpdateTeamData, error: UpdateTeamError }] =
+    graphql.useUpdateTeamMutation();
+  //删除队伍信息
+  const [DeleteTeam, { error: DeleteTeamError }] =
+    graphql.useDeleteTeamMutation();
+  //删除所有队员
+  const [DeleteAllTeamMember, { error: DeleteAllTeamMemberERROR }] =
+    graphql.useDeleteAllTeamMemberMutation();
+
+  const [DeleteTeamMember, { error: DeleteTeamMemberError }] =
+    graphql.useDeleteTeamMemberMutation();
 
   //利用teamid查询team的信息储存在teamdata中
   const {
@@ -206,38 +205,39 @@ const ManagePage: React.FC = () => {
       },
     });
   };
-  const memberListColumns: TableProps<GetMemberInfo_contest_team_member>["columns"] =
-    [
-      {
-        title: "姓名",
-        key: "name",
-        render: (text, record) => record.user_as_contest_team_member?.name,
+  const memberListColumns: TableProps<
+    graphql.GetMemberInfoQuery["contest_team_member"][0]
+  >["columns"] = [
+    {
+      title: "姓名",
+      key: "name",
+      render: (text, record) => record.user_as_contest_team_member?.name,
+    },
+    {
+      title: "学号",
+      key: "id",
+      render: (text, record) => record.user_as_contest_team_member?.id,
+    },
+    {
+      title: "管理",
+      key: "action",
+      render: (_, record) => {
+        return (
+          <Button
+            // disabled={isleaderData?.contest_team.length === 0}
+            onClick={async () => {
+              await deleteTeamMemberByLeader(
+                record.user_as_contest_team_member._id,
+              );
+              await refetchMemberInfo();
+            }}
+          >
+            移除
+          </Button>
+        );
       },
-      {
-        title: "学号",
-        key: "id",
-        render: (text, record) => record.user_as_contest_team_member?.id,
-      },
-      {
-        title: "管理",
-        key: "action",
-        render: (_, record) => {
-          return (
-            <Button
-              // disabled={isleaderData?.contest_team.length === 0}
-              onClick={async () => {
-                await deleteTeamMemberByLeader(
-                  record.user_as_contest_team_member._id,
-                );
-                await refetchMemberInfo();
-              }}
-            >
-              移除
-            </Button>
-          );
-        },
-      },
-    ];
+    },
+  ];
 
   //-----------------查询结束---------------------------
   const Container = styled.div`
@@ -246,7 +246,7 @@ const ManagePage: React.FC = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-` ;
+  `;
 
   const Loading = () => {
     return (
@@ -258,25 +258,35 @@ const ManagePage: React.FC = () => {
 
   return !teamid ? (
     <div>
-    <Result
-      status="warning"
-      title="您还没有加入任何队伍"
-      extra={
-        <div style={{ display: 'flex', flexDirection: 'column' ,justifyContent: 'center', alignItems: 'center' }}>
-          <Button type="primary" style={{ marginBottom: '20px', width: '180px', height: '40px' }}>
-            <Link replace to={url.link("team-join")}>
-              加入队伍
-            </Link>
-          </Button>
-          <Button type="primary" style={{ width: '180px', height: '40px' }}>
-            <Link replace to={url.link("team-register")}>
-              创建队伍
-            </Link>
-          </Button>
-        </div>
-      }
-    />
-  </div>
+      <Result
+        status="warning"
+        title="您还没有加入任何队伍"
+        extra={
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              type="primary"
+              style={{ marginBottom: "20px", width: "180px", height: "40px" }}
+            >
+              <Link replace to={url.link("team-join")}>
+                加入队伍
+              </Link>
+            </Button>
+            <Button type="primary" style={{ width: "180px", height: "40px" }}>
+              <Link replace to={url.link("team-register")}>
+                创建队伍
+              </Link>
+            </Button>
+          </div>
+        }
+      />
+    </div>
   ) : (
     <Layout>
       <br />
@@ -338,8 +348,12 @@ const ManagePage: React.FC = () => {
                     <Table
                       //loading={teamMemberLoading}
                       columns={memberListColumns}
-                      dataSource={teamMemberData?.contest_team_member as GetMemberInfo_contest_team_member[]}
-                      rowKey={(record) => record.user_as_contest_team_member._id}
+                      dataSource={
+                        teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
+                      }
+                      rowKey={(record) =>
+                        record.user_as_contest_team_member._id
+                      }
                     />
                   </Suspense>
                 </Form.Item>

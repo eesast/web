@@ -10,12 +10,9 @@ import {
   Modal,
   Form,
   Input,
-  Spin
+  Spin,
 } from "antd";
 import { getUserInfo } from "../../api/helpers/auth";
-import {
-  GetAllTeamInfo_score_contest_team,
-} from "../../api/types";
 //插入队员
 import type { TableProps } from "antd/lib/table";
 //导出excel
@@ -32,35 +29,38 @@ const JoinPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [teamId, setTeamId] = useState<any>();
   const [inviteCode, setInvite] = useState<string | null>();
-  const { data: isleaderData, refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery( {
-    variables: {
-      _id: userInfo?._id!,
-      contest_id: Contest_id,
-    },
-  });
-  const { data: ismemberData, refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
-    variables: {
-      _id: userInfo?._id!,
-      contest_id: Contest_id,
-    },
-  });
+  const { data: isleaderData, refetch: refetchisleader } =
+    graphql.useIsTeamLeaderSuspenseQuery({
+      variables: {
+        _id: userInfo?._id!,
+        contest_id: Contest_id,
+      },
+    });
+  const { data: ismemberData, refetch: refetchismember } =
+    graphql.useIsTeamMemberSuspenseQuery({
+      variables: {
+        _id: userInfo?._id!,
+        contest_id: Contest_id,
+      },
+    });
   const {
     data: teamListData,
     //loading: teamListLoading,
     error: teamListError,
     refetch: refetchteamList,
-  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery( {
+  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
 
-  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } =
+    graphql.useQueryContestManagerSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        user_id: userInfo?._id,
+      },
+    });
 
   /* const teamid =
     isleaderData?.contest_team[0]?.team_id ||
@@ -71,9 +71,12 @@ const JoinPage: React.FC = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /***************队员插入****************/
-  const [insertteamMember, { error: insertError }] = graphql.useInsertTeamMemberMutation();
+  const [insertteamMember, { error: insertError }] =
+    graphql.useInsertTeamMemberMutation();
   //点击加入
-  const showModal = (record: GetAllTeamInfo_score_contest_team) => {
+  const showModal = (
+    record: graphql.GetAllTeamInfo_ScoreQuery["contest_team"][0],
+  ) => {
     setIsModalVisible(true);
     setTeamId(record.team_id);
     setInvite(record.invited_code);
@@ -112,8 +115,9 @@ const JoinPage: React.FC = () => {
           ].concat(
             team.contest_team_members?.map(
               (member) =>
-                `${member.user_as_contest_team_member?.name}/ ${member
-                  .user_as_contest_team_member?._id}/ ${
+                `${member.user_as_contest_team_member?.name}/ ${
+                  member.user_as_contest_team_member?._id
+                }/ ${
                   member.user_as_contest_team_member?.email || "null"
                 }/ ${member.user_as_contest_team_member?.phone || "null"}`,
             ),
@@ -156,12 +160,12 @@ const JoinPage: React.FC = () => {
   };
 
   const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+    height: calc(100vh - 72px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
 
   const Loading = () => {
     return (
@@ -171,79 +175,80 @@ const JoinPage: React.FC = () => {
     );
   };
 
-  const teamListColumns: TableProps<GetAllTeamInfo_score_contest_team>["columns"] =
-    [
-      {
-        title: "队名",
-        dataIndex: "team_name",
-        key: "team_name",
-      },
-      {
-        title: "队长",
-        key: "team_leader",
-        render: (text, record) => record.team_leader_id?.name,
-      },
-      {
-        title: "队员",
-        key: "team_member",
-        render: (text, record, index) =>
-          record.contest_team_members.map((i) => [
-            i.user_as_contest_team_member.name + "   ",
-          ]),
-        //record.contest_team_members[0].user_as_contest_team_member.name,
-      }, // TODO: 此处有误
-      {
-        title: "队伍简介",
-        dataIndex: "team_intro",
-        key: "team_intro",
-        render: (text, record) => record.team_intro,
-        ellipsis: true,
-      },
-      {
-        title: "加入",
-        key: "action",
-        render: (text, record) => (
-          <Row justify="start">
-            <Col span={8}>
-              <Button
-                type="primary"
-                onClick={() => showModal(record)}
-                disabled={
-                  isleaderData?.contest_team.length !== 0 ||
-                  ismemberData?.contest_team_member.length !== 0 ||
-                  record.contest_team_members.length === 3
-                }
+  const teamListColumns: TableProps<
+    graphql.GetAllTeamInfo_ScoreQuery["contest_team"][0]
+  >["columns"] = [
+    {
+      title: "队名",
+      dataIndex: "team_name",
+      key: "team_name",
+    },
+    {
+      title: "队长",
+      key: "team_leader",
+      render: (text, record) => record.team_leader_id?.name,
+    },
+    {
+      title: "队员",
+      key: "team_member",
+      render: (text, record, index) =>
+        record.contest_team_members.map((i) => [
+          i.user_as_contest_team_member.name + "   ",
+        ]),
+      //record.contest_team_members[0].user_as_contest_team_member.name,
+    }, // TODO: 此处有误
+    {
+      title: "队伍简介",
+      dataIndex: "team_intro",
+      key: "team_intro",
+      render: (text, record) => record.team_intro,
+      ellipsis: true,
+    },
+    {
+      title: "加入",
+      key: "action",
+      render: (text, record) => (
+        <Row justify="start">
+          <Col span={8}>
+            <Button
+              type="primary"
+              onClick={() => showModal(record)}
+              disabled={
+                isleaderData?.contest_team.length !== 0 ||
+                ismemberData?.contest_team_member.length !== 0 ||
+                record.contest_team_members.length === 3
+              }
+            >
+              加入
+            </Button>
+            <Modal
+              title="邀请码"
+              open={isModalVisible}
+              onOk={() => onclick()}
+              onCancel={handleCancel}
+            >
+              <Form
+                name="form"
+                form={form} //表单名字绑定
               >
-                加入
-              </Button>
-              <Modal
-                title="邀请码"
-                open={isModalVisible}
-                onOk={() => onclick()}
-                onCancel={handleCancel}
-              >
-                <Form
-                  name="form"
-                  form={form} //表单名字绑定
+                <Form.Item
+                  name="invited_code"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the invite code!",
+                    },
+                  ]}
                 >
-                  <Form.Item
-                    name="invited_code"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input the invite code!",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="输入邀请码" />
-                  </Form.Item>
-                </Form>
-              </Modal>
-            </Col>
-          </Row>
-        ),
-      },
-    ];
+                  <Input placeholder="输入邀请码" />
+                </Form.Item>
+              </Form>
+            </Modal>
+          </Col>
+        </Row>
+      ),
+    },
+  ];
 
   return (
     <Layout>
@@ -267,7 +272,9 @@ const JoinPage: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <Table
               //loading={teamListLoading}
-              dataSource={teamListData?.contest_team as GetAllTeamInfo_score_contest_team[]}
+              dataSource={
+                teamListData?.contest_team as graphql.GetAllTeamInfo_ScoreQuery["contest_team"]
+              }
               columns={teamListColumns}
               rowKey={(record) => record.team_id}
             />

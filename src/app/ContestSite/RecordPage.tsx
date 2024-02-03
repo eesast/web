@@ -17,9 +17,6 @@ import { getUserInfo } from "../../api/helpers/auth";
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
 //----回放信息------
-import {
-  GetRoomInfo_contest_room,
-} from "../../api/types";
 //----插入room和team------
 //----删除room和team
 //————创建thuaicode————
@@ -58,12 +55,13 @@ const RecordPage: React.FC = () => {
   // );
 
   // ----------------获取比赛管理员---------------
-  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } =
+    graphql.useQueryContestManagerSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        user_id: userInfo?._id,
+      },
+    });
   useEffect(() => {
     if (isContestManagerError) {
       message.error("管理员加载失败");
@@ -76,7 +74,7 @@ const RecordPage: React.FC = () => {
     //loading: roomListLoading,
     error: teamListError,
     // refetch: refetchRoomList,
-  } =graphql.useGetRoomInfoSubscription( {
+  } = graphql.useGetRoomInfoSubscription({
     variables: {
       contest_id: Contest_id,
     },
@@ -89,7 +87,8 @@ const RecordPage: React.FC = () => {
   });
 
   // ----------------删除room--------------------
-  const [deleteRoom, { error: DeleteRoomError }] = graphql.useDeleteRoomMutation();
+  const [deleteRoom, { error: DeleteRoomError }] =
+    graphql.useDeleteRoomMutation();
   useEffect(() => {
     if (DeleteRoomError) {
       message.error("删除对战记录失败");
@@ -112,7 +111,9 @@ const RecordPage: React.FC = () => {
   // );
 
   // const teamName = teamData?.contest_team[0]?.team_name || "null";
-  const roomListColumns: TableProps<GetRoomInfo_contest_room>["columns"] = [
+  const roomListColumns: TableProps<
+    graphql.GetRoomInfoSubscription["contest_room"][0]
+  >["columns"] = [
     {
       title: "对战双方",
       key: "team_name",
@@ -209,7 +210,9 @@ const RecordPage: React.FC = () => {
     },
   ];
 
-  const download = async (record: GetRoomInfo_contest_room) => {
+  const download = async (
+    record: graphql.GetRoomInfoSubscription["contest_room"][0],
+  ) => {
     try {
       const response = await axios.get(`room/${record.room_id}`, {
         responseType: "blob",
@@ -319,7 +322,9 @@ const RecordPage: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <Table
               //loading={roomListLoading}
-              dataSource={filterParamList as GetRoomInfo_contest_room[]}
+              dataSource={
+                filterParamList as graphql.GetRoomInfoSubscription["contest_room"]
+              }
               columns={roomListColumns}
               rowKey={(record) => record.room_id}
             ></Table>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense  } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import {
   Table,
   Button,
@@ -17,7 +17,6 @@ import { getUserInfo } from "../../api/helpers/auth";
 //----根据队员信息查找队伍信息------
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
-import { GetAllTeamInfo_contest_team } from "../../api/types";
 //----正在比赛的room信息
 //----插入room和team------
 //————创建thuaicode————
@@ -36,11 +35,12 @@ const ArenaPage: React.FC = () => {
   const Contest_id = url.query.get("contest");
 
   // --------------获取比赛状态-------------------
-  const { data: contestData, error: contestError } =  graphql.useGetContestInfoSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
+  const { data: contestData, error: contestError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
 
   useEffect(() => {
     if (contestError) {
@@ -54,12 +54,12 @@ const ArenaPage: React.FC = () => {
     data: scoreteamListData,
     //loading: scoreteamListLoading,
     error: scoreteamListError,
-  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery( {
+  } = graphql.useGetAllTeamInfo_ScoreSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
-  
+
   useEffect(() => {
     if (scoreteamListError) {
       message.error("获取对战信息失败");
@@ -85,13 +85,14 @@ const ArenaPage: React.FC = () => {
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-  const { data: teamData } = teamid ? graphql.useGetTeamInfoSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      team_id: teamid!,
-    },
-  })
-  : {data: undefined};
+  const { data: teamData } = teamid
+    ? graphql.useGetTeamInfoSuspenseQuery({
+        variables: {
+          contest_id: Contest_id,
+          team_id: teamid!,
+        },
+      })
+    : { data: undefined };
 
   // -----------------获取正在比赛的room信息------------------
   const {
@@ -112,7 +113,8 @@ const ArenaPage: React.FC = () => {
   });
 
   // -----------------开启对战------------------
-  const [insertRoom, { error: insertRoomError }] = graphql.useInsertRoomMutation();
+  const [insertRoom, { error: insertRoomError }] =
+    graphql.useInsertRoomMutation();
 
   useEffect(() => {
     if (insertRoomError) {
@@ -122,12 +124,14 @@ const ArenaPage: React.FC = () => {
   });
 
   const [opponentTeamId, setOpponentTeamId] = useState("");
-  // const setfight = (record: GetAllTeamInfo_contest_team) => {
+  // const setfight = (record: graphql.GetAllTeamInfoSubscription["contest_team"][0]) => {
   //     setTeamId(record.team_id);
   // };
 
   // -----------------天梯列表------------------
-  const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
+  const teamListColumns: TableProps<
+    graphql.GetAllTeamInfoSubscription["contest_team"][0]
+  >["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
@@ -199,7 +203,7 @@ const ArenaPage: React.FC = () => {
   ];
 
   // -----------------对战选项------------------
- 
+
   // --------------开启对战逻辑-------------------
   const fight = (map: number, team: boolean) => {
     roomStatusRefetch();
@@ -296,7 +300,7 @@ const ArenaPage: React.FC = () => {
       </Container>
     );
   };
-  
+
   return (
     <Layout>
       <br />
@@ -336,7 +340,9 @@ const ArenaPage: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <Table
               //loading={scoreteamListLoading}
-              dataSource={filterParamList as GetAllTeamInfo_contest_team[]}
+              dataSource={
+                filterParamList as graphql.GetAllTeamInfoSubscription["contest_team"]
+              }
               columns={teamListColumns}
               rowKey={(record) => record.team_id}
             ></Table>

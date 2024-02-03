@@ -22,9 +22,6 @@ import {
   UploadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import {
-  GetContestNotices_contest_info,
-} from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type { UploadFile } from "antd/lib/upload/interface";
@@ -51,11 +48,12 @@ const NoticePage: React.FC = () => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
-  const { data: contestData, error: contestError } = graphql.useGetContestInfoSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
+  const { data: contestData, error: contestError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
@@ -68,24 +66,28 @@ const NoticePage: React.FC = () => {
     //loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-  } = graphql.useGetContestNoticesSuspenseQuery( {
+  } = graphql.useGetContestNoticesSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
 
-  const [updateNotice, { loading: noticeUpdating, error: noticeUpdateError }] = graphql.useUpdateContestNoticeMutation();
+  const [updateNotice, { loading: noticeUpdating, error: noticeUpdateError }] =
+    graphql.useUpdateContestNoticeMutation();
 
-  const [addNotice, { loading: noticeAdding, error: noticeAddError }] = graphql.useAddContestNoticeMutation();
+  const [addNotice, { loading: noticeAdding, error: noticeAddError }] =
+    graphql.useAddContestNoticeMutation();
 
-  const [deleteNotice, { error: noticeDeleteError }] = graphql.useDeleteContestNoticeMutation();
+  const [deleteNotice, { error: noticeDeleteError }] =
+    graphql.useDeleteContestNoticeMutation();
 
-  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } =
+    graphql.useQueryContestManagerSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        user_id: userInfo?._id,
+      },
+    });
 
   useEffect(() => {
     if (noticeError) {
@@ -121,7 +123,7 @@ const NoticePage: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] =
-    useState<GetContestNotices_contest_info>();
+    useState<graphql.GetContestNoticesQuery["contest_info"][0]>();
   const [form] = Form.useForm();
 
   const handleNoticeEdit = async () => {
@@ -281,7 +283,9 @@ const NoticePage: React.FC = () => {
                       ["root", "counselor"].includes(userInfo?.role!) ||
                       isContestManagerData?.contest_manager.length === 1
                         ? () => {
-                            setEditingNotice(item as GetContestNotices_contest_info);
+                            setEditingNotice(
+                              item as graphql.GetContestNoticesQuery["contest_info"][0],
+                            );
                             setFileList(
                               JSON.parse(item.files ?? "[]").map((f: File) => ({
                                 response: { status: 200 },
