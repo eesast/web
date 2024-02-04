@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 //graphql的语句由Apollo生成ts句柄，在此import
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -34,18 +34,20 @@ const RegisterPage: React.FC = () => {
   const userInfo = getUserInfo();
   // 查询此用户是否已有队伍，若有则不可再创建
 
-  const { data: isleaderData, refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
-    variables: {
-      _id: userInfo?._id!,
-      contest_id: Contest_id,
-    },
-  });
-  const { data: ismemberData, refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
-    variables: {
-      _id: userInfo?._id!,
-      contest_id: Contest_id,
-    },
-  });
+  const { data: isleaderData, refetch: refetchisleader } =
+    graphql.useIsTeamLeaderSuspenseQuery({
+      variables: {
+        _id: userInfo?._id!,
+        contest_id: Contest_id,
+      },
+    });
+  const { data: ismemberData, refetch: refetchismember } =
+    graphql.useIsTeamMemberSuspenseQuery({
+      variables: {
+        _id: userInfo?._id!,
+        contest_id: Contest_id,
+      },
+    });
   // TODO: 待修复：创建完队伍后会渲染一次
   // useEffect(() => {
   //   if (isleaderData?.contest_team.length !== 0 ||

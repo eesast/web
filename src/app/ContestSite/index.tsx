@@ -34,7 +34,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 
 const { Text } = Typography;

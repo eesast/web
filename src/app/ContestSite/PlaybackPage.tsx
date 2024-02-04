@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 // import { useHistory, Prompt } from "react-router-dom";
-import { Button, message, Layout, Row, Col, Modal, Form, Select, Spin } from "antd";
+import {
+  Button,
+  message,
+  Layout,
+  Row,
+  Col,
+  Modal,
+  Form,
+  Select,
+  Spin,
+} from "antd";
 import {
   ArrowsAltOutlined,
   // ExclamationCircleOutlined,
@@ -9,7 +19,7 @@ import {
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { useUrl } from "../../api/hooks/url";
 import { useNavigate } from "react-router-dom";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import { Suspense } from "react";
 import styled from "styled-components";
 

@@ -36,7 +36,7 @@ import {
 } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 const { Text } = Typography;
 

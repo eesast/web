@@ -39,7 +39,7 @@ import FileSaver from "file-saver";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import { RcFile } from "rc-upload/lib/interface";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 const { Text } = Typography;
 
 const CodePage: React.FC = () => {
@@ -68,49 +68,46 @@ const CodePage: React.FC = () => {
   const [time5, setTime5] = useState(defaultDate);
 
   //-----------------根据队员id查询队伍id------------------
-  const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery(
-    {
-      variables: {
-        _id: userInfo?._id!,
-        contest_id: Contest_id,
-      },
+  const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
+    variables: {
+      _id: userInfo?._id!,
+      contest_id: Contest_id,
     },
-  );
-  const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery(
-    {
-      variables: {
-        _id: userInfo?._id!,
-        contest_id: Contest_id,
-      },
+  });
+  const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
+    variables: {
+      _id: userInfo?._id!,
+      contest_id: Contest_id,
     },
-  );
+  });
 
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
   //利用teamid查询team的信息储存在teamdata中
   const { data: teamData } = teamid
-  ? graphql.useGetTeamInfoSuspenseQuery({
-      variables: {
-        contest_id: Contest_id,
-        team_id: teamid!,
-      },
-    })
-  : { data: undefined };
+    ? graphql.useGetTeamInfoSuspenseQuery({
+        variables: {
+          contest_id: Contest_id,
+          team_id: teamid!,
+        },
+      })
+    : { data: undefined };
 
-  const { data: teamCompileStatus } = graphql.useGetCompileStatusSubscription( {
-  variables: {
-    contest_id: Contest_id,
-    team_id: teamid!,
-  },
-});
+  const { data: teamCompileStatus } = graphql.useGetCompileStatusSubscription({
+    variables: {
+      contest_id: Contest_id,
+      team_id: teamid!,
+    },
+  });
 
   // --------------获取比赛状态-------------------
-  const { data: contestData, error: contestError } = graphql.useGetContestInfoSuspenseQuery({
-  variables: {
-    contest_id: Contest_id,
-  },
-});
+  const { data: contestData, error: contestError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
@@ -119,10 +116,10 @@ const CodePage: React.FC = () => {
   }, [contestError]);
 
   const { data: codetimeData } = graphql.useGetCodeUpdateTimeSubscription({
-  variables: {
-    team_id: teamid!,
-  },
-});
+    variables: {
+      team_id: teamid!,
+    },
+  });
   useEffect(() => {
     if (codetimeData?.contest_code.length === 1) {
       if (codetimeData?.contest_code[0].code1_update_time) {

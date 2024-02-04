@@ -1,6 +1,6 @@
 import { Button, Layout, message } from "antd";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";

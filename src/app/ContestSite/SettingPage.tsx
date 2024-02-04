@@ -19,7 +19,7 @@ import axios from "axios";
 import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 
 const { Text } = Typography;
 
@@ -30,12 +30,13 @@ const SettingPage: React.FC = () => {
   //获取用户信息
   const userInfo = getUserInfo();
 
-  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } =
+    graphql.useQueryContestManagerSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        user_id: userInfo?._id,
+      },
+    });
   useEffect(() => {
     if (isContestManagerError) {
       message.error("管理员加载失败");
@@ -63,7 +64,8 @@ const SettingPage: React.FC = () => {
     }
   }, [contestError]);
 
-  const [updateContestStatus, { error: updateStatusError }] = graphql.useUpdateContestStatusMutation();
+  const [updateContestStatus, { error: updateStatusError }] =
+    graphql.useUpdateContestStatusMutation();
   useEffect(() => {
     if (updateStatusError) {
       message.error("比赛状态更新失败");
@@ -122,12 +124,13 @@ const SettingPage: React.FC = () => {
     useState<boolean>(false);
   const [battleForm] = Form.useForm();
 
-  const { error: queryTeamIDError, refetch: refetchTeamID } = graphql.useQueryTeamIdSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      team_name: "",
-    },
-  });
+  const { error: queryTeamIDError, refetch: refetchTeamID } =
+    graphql.useQueryTeamIdSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        team_name: "",
+      },
+    });
 
   useEffect(() => {
     if (queryTeamIDError) {

@@ -32,7 +32,7 @@ import NotFoundPage from "../Components/NotFound";
 //学长写好的api，用以没登陆会跳转到登陆页面
 import { isMobileOnly } from "react-device-detect";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 
 //antd部件实例化
 const { Sider, Content } = Layout;
@@ -45,12 +45,13 @@ const MenuPage: React.FC = () => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
-  const { data: isContestManagerData, error: isContestManagerError } = graphql.useQueryContestManagerSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } =
+    graphql.useQueryContestManagerSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        user_id: userInfo?._id,
+      },
+    });
   useEffect(() => {
     if (isContestManagerError) {
       message.error("管理员加载失败");

@@ -15,7 +15,7 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { getUserInfo } from "../../api/helpers/auth";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import {
   PlusCircleOutlined,
   MinusCircleOutlined,

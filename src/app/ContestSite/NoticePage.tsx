@@ -32,7 +32,7 @@ import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { RcFile } from "rc-upload/lib/interface";
 import Markdown from "react-markdown";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 
 const { Text } = Typography;

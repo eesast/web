@@ -25,7 +25,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import styled from "styled-components";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 
 /* ---------------- 主页面 ---------------- */

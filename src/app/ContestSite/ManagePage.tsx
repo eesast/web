@@ -19,7 +19,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 
 const { TextArea } = Input;
