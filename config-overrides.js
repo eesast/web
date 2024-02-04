@@ -35,11 +35,7 @@ const addAnalyzer = () => (config) => {
 };
 
 module.exports = override(
-  ...addBabelPlugins(
-    "babel-plugin-styled-components",
-    "babel-plugin-import-graphql",
-    // TODO: This needs to be deleted when we finish the migration to @graphql-codegen
-  ),
+  ...addBabelPlugins("babel-plugin-styled-components"),
   // 移动端适配，px转rem 需要安装postcss-pxtorem
   // addPostcssPlugins([
   //  require("postcss-pxtorem")({
