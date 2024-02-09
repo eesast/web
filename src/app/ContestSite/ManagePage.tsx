@@ -1,4 +1,4 @@
-import React, { useEffect,Suspense } from "react";
+import React, { useEffect, Suspense } from "react";
 import {
   Input,
   Table,
@@ -15,9 +15,7 @@ import {
 } from "antd"; //botton
 import { Layout } from "antd";
 import { getUserInfo } from "../../api/helpers/auth"; //更改：取消注释
-import {
-  GetMemberInfo_contest_team_member,
-} from "../../api/types";
+import { GetMemberInfo_contest_team_member } from "../../api/types";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
@@ -25,59 +23,53 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "../../generated/graphql";
 import styled from "styled-components";
 
-
+/* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
 const { Content } = Layout;
 const { confirm } = Modal;
 const { Text } = Typography;
+const userInfo = getUserInfo();
 
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+height: calc(100vh - 72px);
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+` ;
+
+/* ---------------- 主页面 ---------------- */
 const ManagePage: React.FC = () => {
-  const userInfo = getUserInfo();
-  //-----------------根据队员id查询队伍id------------------
+  /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  const {
-    data: isleaderData,
-    //loading: leaderLoading,
-    refetch: refetchLeader,
-  } = graphql.useIsTeamLeaderSuspenseQuery({
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  const { data: isleaderData, refetch: refetchLeader } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
       _id: userInfo?._id!,
       contest_id: Contest_id,
     },
   });
-  const {
-    data: ismemberData,
-    //loading: memberLoading,
-    refetch: refetchMember,
-  } = graphql.useIsTeamMemberSuspenseQuery({
+
+  const { data: ismemberData, refetch: refetchMember,} = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
       _id: userInfo?._id!,
       contest_id: Contest_id,
     },
   });
+
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
 
-
   //根据team_id查询所有队员信息
-  const {
-    data: teamMemberData,
-    //loading: teamMemberLoading,
-    refetch: refetchMemberInfo,
-  } = graphql.useGetMemberInfoQuery({
-        variables: {
-          team_id: teamid!,
-        },
-      });
-
-  useEffect(() => {
-    if (teamid) {
-      refetchMemberInfo();
-    }
+  const { data: teamMemberData, refetch: refetchMemberInfo,} = graphql.useGetMemberInfoQuery({
+    variables: {
+      team_id: teamid!,
+    },
   });
-  
+
   //更新队伍信息
   const [UpdateTeam, { data: UpdateTeamData, error: UpdateTeamError },] = graphql.useUpdateTeamMutation();
   //删除队伍信息
@@ -88,17 +80,20 @@ const ManagePage: React.FC = () => {
   const [DeleteTeamMember, { error: DeleteTeamMemberError }] = graphql.useDeleteTeamMemberMutation();
 
   //利用teamid查询team的信息储存在teamdata中
-  const {
-    data: teamData,
-    //loading,
-    refetch: refetchTeam,
-  } = graphql.useGetTeamInfoQuery({
+  const { data: teamData, refetch: refetchTeam,} = graphql.useGetTeamInfoQuery({
     variables: {
       team_id: teamid!,
       contest_id: Contest_id,
     },
   });
-
+  
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (teamid) {
+      refetchMemberInfo();
+    }
+  });
+  
   useEffect(() => {
     if (UpdateTeamData && !UpdateTeamError) {
       message.success("更新成功");
@@ -126,27 +121,10 @@ const ManagePage: React.FC = () => {
   if (!userInfo) {
     return <Spin />;
   }
+
   const userid = userInfo!._id;
 
-  //若未加入任何队伍
-  // if (!teamid) {
-  //   return (
-  //     <div>
-  //     <Result
-  //       status="warning"
-  //       title="您还没有加入任何队伍"
-  //       extra={
-  //          <Button type="primary">
-  //           <Link replace to={url.link("team-join")}>
-  //             加入队伍
-  //           </Link>
-  //         </Button>
-  //       }
-  //     />
-  //   </div>
-  //   );
-  // }
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {
     const newinfo = {
       team_id: teamid,
@@ -158,6 +136,7 @@ const ManagePage: React.FC = () => {
     });
     await refetchTeam();
   };
+
   const deleteTeamMember = async (user_id: string) => {
     confirm({
       title: "确定要退出队伍吗？",
@@ -206,6 +185,17 @@ const ManagePage: React.FC = () => {
       },
     });
   };
+  
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
+  /* ---------------- 随渲染刷新的组件 ---------------- */
+
   const memberListColumns: TableProps<GetMemberInfo_contest_team_member>["columns"] =
     [
       {
@@ -239,22 +229,7 @@ const ManagePage: React.FC = () => {
       },
     ];
 
-  //-----------------查询结束---------------------------
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-` ;
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
+  /* ---------------- 页面组件 ---------------- */
 
   return !teamid ? (
     <div>

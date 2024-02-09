@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { UploadFile } from "antd/lib/upload/interface";
-import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
+import { UploadRequestOption as RcCustomRequestOptions , RcFile } from "rc-upload/lib/interface";
 import {
   Table,
   Button,
@@ -28,32 +28,26 @@ import {
   deleteFile,
   existFile,
 } from "../../api/helpers/cos";
-//----根据队员信息查找队伍信息------
-//----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
-//————创建thuaicode————
-//上传代码
-//————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
-import { RcFile } from "rc-upload/lib/interface";
 import * as graphql from "../../generated/graphql";
+/* ---------------- 接口和类型定义 ---------------- */
+interface Playerprops {
+  key: number;
+  name: string;
+  updatetime: string;
+  filelist: UploadFile[];
+}
+/* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
-
+const userInfo = getUserInfo();
+/* ---------------- 主页面 ---------------- */
 const CodePage: React.FC = () => {
-  interface Playerprops {
-    key: number;
-    name: string;
-    updatetime: string;
-    filelist: UploadFile[];
-  }
 
-  const userInfo = getUserInfo();
-  const url = useUrl();
-  const Contest_id = url.query.get("contest");
-
+  /* ---------------- States 和常量 Hooks ---------------- */
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
@@ -66,8 +60,11 @@ const CodePage: React.FC = () => {
   const [time3, setTime3] = useState(defaultDate);
   const [time4, setTime4] = useState(defaultDate);
   const [time5, setTime5] = useState(defaultDate);
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+    //根据队员id查询队伍id
 
-  //-----------------根据队员id查询队伍id------------------
   const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery(
     {
       variables: {
@@ -84,45 +81,48 @@ const CodePage: React.FC = () => {
       },
     },
   );
-
+  
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
-  //利用teamid查询team的信息储存在teamdata中
-  const { data: teamData } = teamid
-  ? graphql.useGetTeamInfoSuspenseQuery({
-      variables: {
-        contest_id: Contest_id,
-        team_id: teamid!,
-      },
-    })
-  : { data: undefined };
-
+    // 利用teamid查询team的信息储存在teamdata中
+  const { data: teamData } = teamid? graphql.useGetTeamInfoSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+      team_id: teamid!,
+    },
+  }) : { data: undefined };
   const { data: teamCompileStatus } = graphql.useGetCompileStatusSubscription( {
-  variables: {
-    contest_id: Contest_id,
-    team_id: teamid!,
-  },
-});
-
-  // --------------获取比赛状态-------------------
+    variables: {
+      contest_id: Contest_id,
+      team_id: teamid!,
+    },
+  });
+    // 获取比赛状态
   const { data: contestData, error: contestError } = graphql.useGetContestInfoSuspenseQuery({
-  variables: {
-    contest_id: Contest_id,
-  },
-});
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+  const { data: codetimeData } = graphql.useGetCodeUpdateTimeSubscription({
+    variables: {
+      team_id: teamid!,
+    },
+  });
+    // 上传代码
+  const [upsertCode1, { error: code1Error }] = graphql.useUpsertCode1Mutation();
+  const [upsertCode2, { error: code2Error }] = graphql.useUpsertCode2Mutation();
+  const [upsertCode3, { error: code3Error }] = graphql.useUpsertCode3Mutation();
+  const [upsertCode4, { error: code4Error }] = graphql.useUpsertCode4Mutation();
+  const [upsertCode5, { error: code5Error }] = graphql.useUpsertCode5Mutation();
+  
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
       console.log(contestError.message);
     }
   }, [contestError]);
-
-  const { data: codetimeData } = graphql.useGetCodeUpdateTimeSubscription({
-  variables: {
-    team_id: teamid!,
-  },
-});
   useEffect(() => {
     if (codetimeData?.contest_code.length === 1) {
       if (codetimeData?.contest_code[0].code1_update_time) {
@@ -142,178 +142,16 @@ const CodePage: React.FC = () => {
       }
     }
   }, [codetimeData]);
-
-  //-----------------上传代码------------------、
-  const [upsertCode1, { error: code1Error }] = graphql.useUpsertCode1Mutation();
+    // 上传代码失败提示
   useEffect(() => {
-    if (code1Error) {
+    if (code1Error || code2Error || code3Error || code4Error || code5Error) {
       message.error("上传代码失败");
     }
   });
 
-  const [upsertCode2, { error: code2Error }] = graphql.useUpsertCode2Mutation();
-  useEffect(() => {
-    if (code2Error) {
-      message.error("上传代码失败");
-    }
-  });
-  const [upsertCode3, { error: code3Error }] = graphql.useUpsertCode3Mutation();
-  useEffect(() => {
-    if (code3Error) {
-      message.error("上传代码失败");
-    }
-  });
-  const [upsertCode4, { error: code4Error }] = graphql.useUpsertCode4Mutation();
-  useEffect(() => {
-    if (code4Error) {
-      message.error("上传代码失败");
-    }
-  });
-  const [upsertCode5, { error: code5Error }] = graphql.useUpsertCode5Mutation();
-  useEffect(() => {
-    if (code5Error) {
-      message.error("上传代码失败");
-    }
-  });
-  const playerList = [
-    {
-      key: 1,
-      name: "P1",
-      updatetime: time1.format("M-DD HH:mm:ss"),
-      filelist: fileList1,
-    },
-    {
-      key: 2,
-      name: "P2",
-      updatetime: time2.format("M-DD HH:mm:ss"),
-      filelist: fileList2,
-    },
-    {
-      key: 3,
-      name: "P3",
-      updatetime: time3.format("M-DD HH:mm:ss"),
-      filelist: fileList3,
-    },
-    {
-      key: 4,
-      name: "P4",
-      updatetime: time4.format("M-DD HH:mm:ss"),
-      filelist: fileList4,
-    },
-    {
-      key: 5,
-      name: "TRICKER",
-      updatetime: time5.format("M-DD HH:mm:ss"),
-      filelist: fileList5,
-    },
-  ];
-
-  const playerListColumns: TableProps<Playerprops>["columns"] = [
-    {
-      title: "AI角色",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "代码更新时间",
-      dataIndex: "updatetime",
-      key: "time",
-    },
-    {
-      title: "上传代码",
-      key: "upload",
-      dataIndex: "upload",
-      render: (text, record) => (
-        <Upload
-          accept=".cpp,.py"
-          // maxCount={1}
-          customRequest={handleUpload}
-          onChange={handleOnchange}
-          onRemove={handleRemove}
-          // data={(file) => {
-          //   return {
-          //     key: file.url,
-          // }}}
-          multiple
-          fileList={record.filelist}
-        >
-          <Button
-            disabled={contestData?.contest[0].status.slice(0, 1) !== "1"}
-            onClick={() => {
-              setCodeRole(record.key);
-            }}
-          >
-            <UploadOutlined /> 上传
-          </Button>
-        </Upload>
-      ),
-    },
-    {
-      title: "下载代码",
-      key: "download",
-      render: (text, record) => (
-        <Row justify="start">
-          <Button onClick={handleDownload}>
-            <DownloadOutlined />
-            下载
-          </Button>
-        </Row>
-      ),
-    },
-    {
-      title: "编译信息",
-      key: "compile_info",
-      render: (text, record) => (
-        <Row justify="start">
-          <Button
-            onClick={() => {
-              setCodeRole(record.key);
-              message.info(`下载角色${codeRole}的编译信息`);
-              downloadCompile().catch((e) => {
-                message.error("下载失败");
-              });
-            }}
-          >
-            <CodeOutlined />
-            获取
-          </Button>
-        </Row>
-      ),
-    },
-  ];
-
-  const CompiledTag: React.FC = () => {
-    if (teamCompileStatus?.contest_team[0].status === "compiled")
-      return (
-        <div>
-          <Tag icon={<CheckCircleOutlined />} color="success">
-            success
-          </Tag>
-        </div>
-      );
-    else if (teamCompileStatus?.contest_team[0].status === "compiling")
-      return (
-        <div>
-          <Tag icon={<LoadingOutlined />} color="gold">
-            compiling
-          </Tag>
-        </div>
-      );
-    else if (teamCompileStatus?.contest_team[0].status === "failed") {
-      return (
-        <Tag icon={<CloseCircleOutlined />} color="error">
-          failed
-        </Tag>
-      );
-    } else {
-      return (
-        <Tag icon={<QuestionOutlined />} color="purple">
-          unknown
-        </Tag>
-      );
-    }
-  };
-
+  
+  /* ---------------- 业务逻辑函数 ---------------- */
+    // 编译代码
   const handleCodeCompile = () => {
     (async () => {
       if (
@@ -345,7 +183,7 @@ const CodePage: React.FC = () => {
       }
     })();
   };
-
+    // 下载编译信息
   const downloadCompile = async () => {
     try {
       const response = await axios.get(`code/logs/${teamid}/${codeRole}`, {
@@ -390,7 +228,7 @@ const CodePage: React.FC = () => {
       }
     }
   };
-
+    // 上传代码
   const handleUpload = async (e: RcCustomRequestOptions) => {
     const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
     try {
@@ -413,7 +251,7 @@ const CodePage: React.FC = () => {
       e.onError!(new Error("上传失败"));
     }
   };
-
+    // 更新文件列表
   const handleOnchange = async (info: any) => {
     if (info.fileList.length === 2) {
       info.fileList = info.fileList.slice(-1);
@@ -444,7 +282,7 @@ const CodePage: React.FC = () => {
         break;
     }
   };
-
+    // 删除文件
   const handleRemove = async (file: UploadFile) => {
     const lang = file.name.split(".").slice(-1).join("");
     try {
@@ -463,7 +301,7 @@ const CodePage: React.FC = () => {
       console.log(err);
     }
   };
-
+    // 下载文件
   const handleDownload = async () => {
     try {
       const cpp_exist = await existFile(
@@ -496,7 +334,7 @@ const CodePage: React.FC = () => {
     }
   };
 
-  //上传最新代码的日期储存起来
+  // 把上传最新代码的日期储存起来
   let now = dayjs();
   const handleCodeChange1 = async (url: string, lang: string) => {
     upsertCode1({
@@ -575,6 +413,147 @@ const CodePage: React.FC = () => {
     }
   };
 
+/* ---------------- 随渲染刷新的组件 ---------------- */
+const playerList = [
+  {
+    key: 1,
+    name: "P1",
+    updatetime: time1.format("M-DD HH:mm:ss"),
+    filelist: fileList1,
+  },
+  {
+    key: 2,
+    name: "P2",
+    updatetime: time2.format("M-DD HH:mm:ss"),
+    filelist: fileList2,
+  },
+  {
+    key: 3,
+    name: "P3",
+    updatetime: time3.format("M-DD HH:mm:ss"),
+    filelist: fileList3,
+  },
+  {
+    key: 4,
+    name: "P4",
+    updatetime: time4.format("M-DD HH:mm:ss"),
+    filelist: fileList4,
+  },
+  {
+    key: 5,
+    name: "TRICKER",
+    updatetime: time5.format("M-DD HH:mm:ss"),
+    filelist: fileList5,
+  },
+];
+  
+const playerListColumns: TableProps<Playerprops>["columns"] = [
+  {
+    title: "AI角色",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "代码更新时间",
+    dataIndex: "updatetime",
+    key: "time",
+  },
+  {
+    title: "上传代码",
+    key: "upload",
+    dataIndex: "upload",
+    render: (text, record) => (
+      <Upload
+        accept=".cpp,.py"
+        // maxCount={1}
+        customRequest={handleUpload}
+        onChange={handleOnchange}
+        onRemove={handleRemove}
+        // data={(file) => {
+        //   return {
+        //     key: file.url,
+        // }}}
+        multiple
+        fileList={record.filelist}
+      >
+        <Button
+          disabled={contestData?.contest[0].status.slice(0, 1) !== "1"}
+          onClick={() => {
+            setCodeRole(record.key);
+          }}
+        >
+          <UploadOutlined /> 上传
+        </Button>
+      </Upload>
+    ),
+  },
+  {
+    title: "下载代码",
+    key: "download",
+    render: (text, record) => (
+      <Row justify="start">
+        <Button onClick={handleDownload}>
+          <DownloadOutlined />
+          下载
+        </Button>
+      </Row>
+    ),
+  },
+  {
+    title: "编译信息",
+    key: "compile_info",
+    render: (text, record) => (
+      <Row justify="start">
+        <Button
+          onClick={() => {
+            setCodeRole(record.key);
+            message.info(`下载角色${codeRole}的编译信息`);
+            downloadCompile().catch((e) => {
+              message.error("下载失败");
+            });
+          }}
+        >
+          <CodeOutlined />
+          获取
+        </Button>
+      </Row>
+    ),
+  },
+];
+
+const CompiledTag: React.FC = () => {
+  if (teamCompileStatus?.contest_team[0].status === "compiled")
+    return (
+      <div>
+        <Tag icon={<CheckCircleOutlined />} color="success">
+          success
+        </Tag>
+      </div>
+    );
+  else if (teamCompileStatus?.contest_team[0].status === "compiling")
+    return (
+      <div>
+        <Tag icon={<LoadingOutlined />} color="gold">
+          compiling
+        </Tag>
+      </div>
+    );
+  else if (teamCompileStatus?.contest_team[0].status === "failed") {
+    return (
+      <Tag icon={<CloseCircleOutlined />} color="error">
+        failed
+      </Tag>
+    );
+  } else {
+    return (
+      <Tag icon={<QuestionOutlined />} color="purple">
+        unknown
+      </Tag>
+    );
+  }
+};
+
+/* ---------------- 页面组件 ---------------- */
   return (
     <Layout>
       <br />

@@ -254,7 +254,8 @@ const PlaybackPage: React.FC = () => {
                 placeholder="队伍名称"
                 style={{ width: 200 }}
                 defaultActiveFirstOption={false}
-                showArrow={false}
+                //showArrow={true}
+                suffixIcon={null}
                 //loading={scoreteamListLoading}
                 optionFilterProp="children"
                 options={(scoreteamListData?.contest_team || []).map((d) => ({
@@ -276,7 +277,8 @@ const PlaybackPage: React.FC = () => {
                 placeholder="队伍名称"
                 style={{ width: 200 }}
                 defaultActiveFirstOption={false}
-                showArrow={false}
+                //showArrow={false}
+                suffixIcon={null}
                 //loading={scoreteamListLoading}
                 optionFilterProp="children"
                 options={(scoreteamListData?.contest_team || []).map((d) => ({
