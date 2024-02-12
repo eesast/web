@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 //graphql语句
+import { GetAllTeamInfo_contest_team } from "../../api/types";
 import {
   Button,
   Card,
@@ -212,9 +213,7 @@ const ListPage: React.FC<{
     }
   }, [teamListError]);
 
-  const teamListColumns: TableProps<
-    graphql.GetAllTeamInfoSubscription["contest_team"][0]
-  >["columns"] = [
+  const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
@@ -317,7 +316,7 @@ const ListPage: React.FC<{
             <Table
               //loading={teamListLoading}
               dataSource={
-                teamListData?.contest_team as graphql.GetAllTeamInfoSubscription["contest_team"]
+                teamListData?.contest_team as GetAllTeamInfo_contest_team[]
               }
               columns={teamListColumns}
               rowKey={(record) => record.team_id}

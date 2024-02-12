@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Link, Route, Routes, Navigate } from "react-router-dom";
+import { GetContestManager_contest_manager_user } from "../../api/types";
 import { getUserInfo } from "../../api/helpers/auth";
 //导入antd的包
 import Card, { CardProps } from "antd/lib/card";
@@ -189,7 +190,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     contest_type: string;
     description: string | undefined | null;
     time: Dayjs[];
-    managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["user"][];
+    managers_list: GetContestManager_contest_manager_user[];
   }
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -376,7 +377,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
                                 managers_list:
                                   managerData.data.contest_manager.map(
                                     (value) =>
-                                      value.user as graphql.GetContestManagerQuery["contest_manager"][0]["user"],
+                                      value.user as GetContestManager_contest_manager_user,
                                   ),
                               };
                               setContestID(item?.id);

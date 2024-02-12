@@ -17,6 +17,7 @@ import { getUserInfo } from "../../api/helpers/auth";
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
 //----回放信息------
+import { GetRoomInfo_contest_room } from "../../api/types";
 //----插入room和team------
 //----删除room和team
 //————创建thuaicode————
@@ -111,9 +112,7 @@ const RecordPage: React.FC = () => {
   // );
 
   // const teamName = teamData?.contest_team[0]?.team_name || "null";
-  const roomListColumns: TableProps<
-    graphql.GetRoomInfoSubscription["contest_room"][0]
-  >["columns"] = [
+  const roomListColumns: TableProps<GetRoomInfo_contest_room>["columns"] = [
     {
       title: "对战双方",
       key: "team_name",
@@ -210,9 +209,7 @@ const RecordPage: React.FC = () => {
     },
   ];
 
-  const download = async (
-    record: graphql.GetRoomInfoSubscription["contest_room"][0],
-  ) => {
+  const download = async (record: GetRoomInfo_contest_room) => {
     try {
       const response = await axios.get(`room/${record.room_id}`, {
         responseType: "blob",
@@ -322,9 +319,7 @@ const RecordPage: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <Table
               //loading={roomListLoading}
-              dataSource={
-                filterParamList as graphql.GetRoomInfoSubscription["contest_room"]
-              }
+              dataSource={filterParamList as GetRoomInfo_contest_room[]}
               columns={roomListColumns}
               rowKey={(record) => record.room_id}
             ></Table>

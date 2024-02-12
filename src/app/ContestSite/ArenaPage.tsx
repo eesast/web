@@ -17,6 +17,7 @@ import { getUserInfo } from "../../api/helpers/auth";
 //----根据队员信息查找队伍信息------
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
+import { GetAllTeamInfo_contest_team } from "../../api/types";
 //----正在比赛的room信息
 //----插入room和team------
 //————创建thuaicode————
@@ -124,14 +125,12 @@ const ArenaPage: React.FC = () => {
   });
 
   const [opponentTeamId, setOpponentTeamId] = useState("");
-  // const setfight = (record: graphql.GetAllTeamInfoSubscription["contest_team"][0]) => {
+  // const setfight = (record: GetAllTeamInfo_contest_team) => {
   //     setTeamId(record.team_id);
   // };
 
   // -----------------天梯列表------------------
-  const teamListColumns: TableProps<
-    graphql.GetAllTeamInfoSubscription["contest_team"][0]
-  >["columns"] = [
+  const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
@@ -340,9 +339,7 @@ const ArenaPage: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <Table
               //loading={scoreteamListLoading}
-              dataSource={
-                filterParamList as graphql.GetAllTeamInfoSubscription["contest_team"]
-              }
+              dataSource={filterParamList as GetAllTeamInfo_contest_team[]}
               columns={teamListColumns}
               rowKey={(record) => record.team_id}
             ></Table>

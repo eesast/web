@@ -22,6 +22,7 @@ import {
   UploadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import { GetContestNotices_contest_info } from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type { UploadFile } from "antd/lib/upload/interface";
@@ -123,7 +124,7 @@ const NoticePage: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] =
-    useState<graphql.GetContestNoticesQuery["contest_info"][0]>();
+    useState<GetContestNotices_contest_info>();
   const [form] = Form.useForm();
 
   const handleNoticeEdit = async () => {
@@ -284,7 +285,7 @@ const NoticePage: React.FC = () => {
                       isContestManagerData?.contest_manager.length === 1
                         ? () => {
                             setEditingNotice(
-                              item as graphql.GetContestNoticesQuery["contest_info"][0],
+                              item as GetContestNotices_contest_info,
                             );
                             setFileList(
                               JSON.parse(item.files ?? "[]").map((f: File) => ({
