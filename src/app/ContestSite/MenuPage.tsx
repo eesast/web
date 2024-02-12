@@ -11,7 +11,6 @@ import {
   CodeOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
-//antd的包
 import { Menu, Layout, Typography, message } from "antd";
 //以下为子分页
 //import { contestProps } from "./index";

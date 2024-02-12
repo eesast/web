@@ -2,7 +2,6 @@ import React, { useEffect, useState, Suspense } from "react";
 import { Link, Route, Routes, Navigate } from "react-router-dom";
 import { GetContestManager_contest_manager_user } from "../../api/types";
 import { getUserInfo } from "../../api/helpers/auth";
-//导入antd的包
 import Card, { CardProps } from "antd/lib/card";
 import {
   Button,
@@ -28,35 +27,90 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-//以下为分页面
+//以下为分页面，用以没登陆会跳转到登陆页面
 import MenuPage from "./MenuPage";
-//用以没登陆会跳转到登陆页面
 import dayjs, { Dayjs } from "dayjs";
+//import utc from 'dayjs/plugin/utc';
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
-import * as graphql from "@/generated/graphql";
+import * as graphql from "../../generated/graphql";
 import styled from "styled-components";
 
+/* ---------------- 接口和类型定义 ---------------- */
+// 表单数据格式
+interface FormValues {
+  contest_name: string;
+  contest_type: string;
+  description: string | undefined | null;
+  time: Dayjs[];
+  managers_list: GetContestManager_contest_manager_user[];
+}
+
+interface ContestInfoCardProps extends CardProps {
+  name: string;
+  description: string | null;
+  startDate: Date;
+  endDate: Date;
+  onEditPress?: () => void;
+  onDeletePress?: () => void;
+}
+
+/* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 const { confirm } = Modal;
 const RangePicker: any = DatePicker.RangePicker;
 const { Option } = Select;
-
+const userInfo = getUserInfo();
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
 
-const ContestSite: React.FC<PageProps> = ({ mode }) => {
-  const userInfo = getUserInfo();
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
+/* ---------------- 主页面 ---------------- */
+const ContestSite: React.FC<PageProps> = ({ mode }) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editingContest, setEditingContest] = useState<boolean>(false); //编辑or添加比赛
+  const [contestID, setContestID] = useState<string>(); //编辑比赛时的比赛ID
+  const [form] = Form.useForm();
   const url = useUrl();
 
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const {
     data: contestData,
     //loading: contestLoading,
     error: contestError,
     refetch: refetchContests,
   } = graphql.useGetContestsSuspenseQuery();
+
+  const {
+    /* data: userData,
+    loading: userLoading, */
+    error: userError,
+    refetch: refetchUserId,
+  } = graphql.useGetUser_IdSuspenseQuery({
+    variables: {
+      email: "",
+      name: "",
+    },
+  });
+
+  const {
+    /* data: contestManagerData,
+    loading: contestManagerLoading, */
+    error: contestManagerError,
+    refetch: refetchContestManager,
+  } = graphql.useGetContestManagerSuspenseQuery({
+    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
+  });
 
   const [
     updateContest,
@@ -86,6 +140,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
   const [deleteContestRooms, { error: roomsDeleteError }] =
     graphql.useDeleteContestAllRoomsMutation();
 
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
@@ -149,18 +204,6 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     }
   }, [roomsDeleteError]);
 
-  const {
-    /* data: userData,
-    loading: userLoading, */
-    error: userError,
-    refetch: refetchUserId,
-  } = graphql.useGetUser_IdSuspenseQuery({
-    variables: {
-      email: "",
-      name: "",
-    },
-  });
-
   useEffect(() => {
     if (userError) {
       message.error("用户信息查询失败");
@@ -168,36 +211,13 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     }
   }, [userError]);
 
-  const {
-    /* data: contestManagerData,
-    loading: contestManagerLoading, */
-    error: contestManagerError,
-    refetch: refetchContestManager,
-  } = graphql.useGetContestManagerSuspenseQuery({
-    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
-  });
-
   useEffect(() => {
     if (contestManagerError) {
       message.error("管理员加载失败");
       console.log(contestManagerError.message);
     }
   }, [contestManagerError]);
-
-  //表单数据格式
-  interface FormValues {
-    contest_name: string;
-    contest_type: string;
-    description: string | undefined | null;
-    time: Dayjs[];
-    managers_list: GetContestManager_contest_manager_user[];
-  }
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editingContest, setEditingContest] = useState<boolean>(false); //编辑or添加比赛
-  const [contestID, setContestID] = useState<string>(); //编辑比赛时的比赛ID
-  const [form] = Form.useForm();
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleContestEdit = async () => {
     try {
       form.validateFields();
@@ -316,14 +336,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
     });
   };
 
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   const Loading = () => {
     return (
       <Container>
@@ -531,7 +544,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
       </Modal>
     </Layout>
   );
-
+  /* ---------------- 页面组件 ---------------- */
   return (
     <>
       <Routes>
@@ -543,21 +556,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
   );
 };
 
-export default ContestSite;
-
-export interface contestProps {
-  contestID: string;
-}
-
-interface ContestInfoCardProps extends CardProps {
-  name: string;
-  description: string | null;
-  startDate: Date;
-  endDate: Date;
-  onEditPress?: () => void;
-  onDeletePress?: () => void;
-}
-
+/* ---------------- 比赛信息卡片组件 ---------------- */
 const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
   const {
     id,
@@ -682,3 +681,9 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
     </Card>
   );
 };
+
+export default ContestSite;
+
+export interface contestProps {
+  contestID: string;
+}
