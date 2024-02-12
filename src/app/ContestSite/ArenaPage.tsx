@@ -15,12 +15,11 @@ import {
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
 import type { TableProps } from "antd/lib/table";
-import { GetAllTeamInfo_contest_team } from "../../api/types";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import styled from "styled-components";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const userInfo = getUserInfo();
@@ -183,7 +182,9 @@ const ArenaPage: React.FC = () => {
   };
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
-  const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
+  const teamListColumns: TableProps<
+    graphql.GetAllTeamInfoSubscription["contest_team"][0]
+  >["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
@@ -324,7 +325,9 @@ const ArenaPage: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <Table
               //loading={scoreteamListLoading}
-              dataSource={filterParamList as GetAllTeamInfo_contest_team[]}
+              dataSource={
+                filterParamList as graphql.GetAllTeamInfoSubscription["contest_team"]
+              }
               columns={teamListColumns}
               rowKey={(record) => record.team_id}
             ></Table>

@@ -15,12 +15,11 @@ import {
 } from "antd"; //botton
 import { Layout } from "antd";
 import { getUserInfo } from "../../api/helpers/auth"; //更改：取消注释
-import { GetMemberInfo_contest_team_member } from "../../api/types";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
@@ -203,38 +202,39 @@ const ManagePage: React.FC = () => {
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
 
-  const memberListColumns: TableProps<GetMemberInfo_contest_team_member>["columns"] =
-    [
-      {
-        title: "姓名",
-        key: "name",
-        render: (text, record) => record.user_as_contest_team_member?.name,
+  const memberListColumns: TableProps<
+    graphql.GetMemberInfoQuery["contest_team_member"][0]
+  >["columns"] = [
+    {
+      title: "姓名",
+      key: "name",
+      render: (text, record) => record.user_as_contest_team_member?.name,
+    },
+    {
+      title: "学号",
+      key: "id",
+      render: (text, record) => record.user_as_contest_team_member?.id,
+    },
+    {
+      title: "管理",
+      key: "action",
+      render: (_, record) => {
+        return (
+          <Button
+            // disabled={isleaderData?.contest_team.length === 0}
+            onClick={async () => {
+              await deleteTeamMemberByLeader(
+                record.user_as_contest_team_member._id,
+              );
+              await refetchMemberInfo();
+            }}
+          >
+            移除
+          </Button>
+        );
       },
-      {
-        title: "学号",
-        key: "id",
-        render: (text, record) => record.user_as_contest_team_member?.id,
-      },
-      {
-        title: "管理",
-        key: "action",
-        render: (_, record) => {
-          return (
-            <Button
-              // disabled={isleaderData?.contest_team.length === 0}
-              onClick={async () => {
-                await deleteTeamMemberByLeader(
-                  record.user_as_contest_team_member._id,
-                );
-                await refetchMemberInfo();
-              }}
-            >
-              移除
-            </Button>
-          );
-        },
-      },
-    ];
+    },
+  ];
 
   /* ---------------- 页面组件 ---------------- */
 
@@ -331,7 +331,7 @@ const ManagePage: React.FC = () => {
                       //loading={teamMemberLoading}
                       columns={memberListColumns}
                       dataSource={
-                        teamMemberData?.contest_team_member as GetMemberInfo_contest_team_member[]
+                        teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
                       }
                       rowKey={(record) =>
                         record.user_as_contest_team_member._id

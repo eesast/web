@@ -13,12 +13,11 @@ import {
   Spin,
 } from "antd";
 import { getUserInfo } from "../../api/helpers/auth";
-import { GetAllTeamInfo_score_contest_team } from "../../api/types";
 import type { TableProps } from "antd/lib/table";
 //导出excel
 import xlsx from "xlsx";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const userInfo = getUserInfo();
@@ -98,7 +97,9 @@ const JoinPage: React.FC = () => {
   }, [isContestManagerError]);
   /* ---------------- 业务逻辑函数 ---------------- */
   //点击加入
-  const showModal = (record: GetAllTeamInfo_score_contest_team) => {
+  const showModal = (
+    record: graphql.GetAllTeamInfo_ScoreQuery["contest_team"][0],
+  ) => {
     setIsModalVisible(true);
     setTeamId(record.team_id);
     setInvite(record.invited_code);
@@ -177,79 +178,80 @@ const JoinPage: React.FC = () => {
     );
   };
 
-  const teamListColumns: TableProps<GetAllTeamInfo_score_contest_team>["columns"] =
-    [
-      {
-        title: "队名",
-        dataIndex: "team_name",
-        key: "team_name",
-      },
-      {
-        title: "队长",
-        key: "team_leader",
-        render: (text, record) => record.team_leader_id?.name,
-      },
-      {
-        title: "队员",
-        key: "team_member",
-        render: (text, record, index) =>
-          record.contest_team_members.map((i) => [
-            i.user_as_contest_team_member.name + "   ",
-          ]),
-        //record.contest_team_members[0].user_as_contest_team_member.name,
-      }, // TODO: 此处有误
-      {
-        title: "队伍简介",
-        dataIndex: "team_intro",
-        key: "team_intro",
-        render: (text, record) => record.team_intro,
-        ellipsis: true,
-      },
-      {
-        title: "加入",
-        key: "action",
-        render: (text, record) => (
-          <Row justify="start">
-            <Col span={8}>
-              <Button
-                type="primary"
-                onClick={() => showModal(record)}
-                disabled={
-                  isleaderData?.contest_team.length !== 0 ||
-                  ismemberData?.contest_team_member.length !== 0 ||
-                  record.contest_team_members.length === 3
-                }
+  const teamListColumns: TableProps<
+    graphql.GetAllTeamInfo_ScoreQuery["contest_team"][0]
+  >["columns"] = [
+    {
+      title: "队名",
+      dataIndex: "team_name",
+      key: "team_name",
+    },
+    {
+      title: "队长",
+      key: "team_leader",
+      render: (text, record) => record.team_leader_id?.name,
+    },
+    {
+      title: "队员",
+      key: "team_member",
+      render: (text, record, index) =>
+        record.contest_team_members.map((i) => [
+          i.user_as_contest_team_member.name + "   ",
+        ]),
+      //record.contest_team_members[0].user_as_contest_team_member.name,
+    }, // TODO: 此处有误
+    {
+      title: "队伍简介",
+      dataIndex: "team_intro",
+      key: "team_intro",
+      render: (text, record) => record.team_intro,
+      ellipsis: true,
+    },
+    {
+      title: "加入",
+      key: "action",
+      render: (text, record) => (
+        <Row justify="start">
+          <Col span={8}>
+            <Button
+              type="primary"
+              onClick={() => showModal(record)}
+              disabled={
+                isleaderData?.contest_team.length !== 0 ||
+                ismemberData?.contest_team_member.length !== 0 ||
+                record.contest_team_members.length === 3
+              }
+            >
+              加入
+            </Button>
+            <Modal
+              title="邀请码"
+              open={isModalVisible}
+              onOk={() => onclick()}
+              onCancel={handleCancel}
+            >
+              <Form
+                name="form"
+                form={form} //表单名字绑定
               >
-                加入
-              </Button>
-              <Modal
-                title="邀请码"
-                open={isModalVisible}
-                onOk={() => onclick()}
-                onCancel={handleCancel}
-              >
-                <Form
-                  name="form"
-                  form={form} //表单名字绑定
+                <Form.Item
+                  name="invited_code"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the invite code!",
+                    },
+                  ]}
                 >
-                  <Form.Item
-                    name="invited_code"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input the invite code!",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="输入邀请码" />
-                  </Form.Item>
-                </Form>
-              </Modal>
-            </Col>
-          </Row>
-        ),
-      },
-    ];
+                  <Input placeholder="输入邀请码" />
+                </Form.Item>
+              </Form>
+            </Modal>
+          </Col>
+        </Row>
+      ),
+    },
+  ];
 
   /* ---------------- 页面组件 ---------------- */
   return (
@@ -275,7 +277,7 @@ const JoinPage: React.FC = () => {
             <Table
               //loading={teamListLoading}
               dataSource={
-                teamListData?.contest_team as GetAllTeamInfo_score_contest_team[]
+                teamListData?.contest_team as graphql.GetAllTeamInfo_ScoreQuery["contest_team"]
               }
               columns={teamListColumns}
               rowKey={(record) => record.team_id}

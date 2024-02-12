@@ -19,7 +19,7 @@ import axios from "axios";
 import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;

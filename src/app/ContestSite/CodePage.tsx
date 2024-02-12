@@ -36,7 +36,7 @@ import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 /* ---------------- 接口和类型定义 ---------------- */
 interface Playerprops {
   key: number;

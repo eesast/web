@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { message } from "antd";
 import { useUrl } from "../../api/hooks/url";
 import Markdown from "react-markdown";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 /* ---------------- 主页面 ---------------- */
 const IntroPage = () => {
   /* ---------------- States 和常量 Hooks ---------------- */

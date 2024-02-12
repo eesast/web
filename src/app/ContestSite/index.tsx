@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Link, Route, Routes, Navigate } from "react-router-dom";
-import { GetContestManager_contest_manager_user } from "../../api/types";
 import { getUserInfo } from "../../api/helpers/auth";
 import Card, { CardProps } from "antd/lib/card";
 import {
@@ -34,7 +33,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 
 /* ---------------- 接口和类型定义 ---------------- */
@@ -44,7 +43,7 @@ interface FormValues {
   contest_type: string;
   description: string | undefined | null;
   time: Dayjs[];
-  managers_list: GetContestManager_contest_manager_user[];
+  managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["user"][];
 }
 
 interface ContestInfoCardProps extends CardProps {
@@ -390,7 +389,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
                                 managers_list:
                                   managerData.data.contest_manager.map(
                                     (value) =>
-                                      value.user as GetContestManager_contest_manager_user,
+                                      value.user as graphql.GetContestManagerQuery["contest_manager"][0]["user"],
                                   ),
                               };
                               setContestID(item?.id);

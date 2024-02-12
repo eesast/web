@@ -10,7 +10,6 @@ import React, { Suspense, useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
-import { GetAllTeamInfo_contest_team } from "../../api/types";
 import {
   Button,
   Card,
@@ -36,7 +35,7 @@ import {
 } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "../../api/hooks/url";
-import * as graphql from "../../generated/graphql";
+import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
@@ -218,7 +217,9 @@ const ListPage: React.FC<{
     setIsModalVisible(false);
   };
 
-  const teamListColumns: TableProps<GetAllTeamInfo_contest_team>["columns"] = [
+  const teamListColumns: TableProps<
+    graphql.GetAllTeamInfoSubscription["contest_team"][0]
+  >["columns"] = [
     {
       title: "队名",
       dataIndex: "team_name",
@@ -314,7 +315,7 @@ const ListPage: React.FC<{
             <Table
               //loading={teamListLoading}
               dataSource={
-                teamListData?.contest_team as GetAllTeamInfo_contest_team[]
+                teamListData?.contest_team as graphql.GetAllTeamInfoSubscription["contest_team"]
               }
               columns={teamListColumns}
               rowKey={(record) => record.team_id}
