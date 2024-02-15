@@ -6238,10 +6238,10 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docxtemplater@3.44.0:
-  version "3.44.0"
-  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.44.0.tgz#a6af4a6d917f3cd8e70bb837711b5559471b667b"
-  integrity sha512-JkMX1hMLYHaYyecSUgdJLyBPOhUFqWWNqdrv+8PDVloIeCpNnxNr887d1s52ZLQOXOLGwNIEBnJ+OblPxW2Swg==
+docxtemplater@3.45.0:
+  version "3.45.0"
+  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.45.0.tgz#c3b2f995edaa74f8a72abebdcaacb3154f289a85"
+  integrity sha512-rsr8Jvj9Ss0aOHsbyUnY9WOxsHNmIlAR0/LMNfzM9H7Y4kdjFrfPMndHyQba52XTioonqe88pM7aqZC2X+uTbQ==
   dependencies:
     "@xmldom/xmldom" "^0.8.10"
 
