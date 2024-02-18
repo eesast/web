@@ -7,7 +7,7 @@ import {
   ContactsOutlined,
   TrophyOutlined,
   ReadOutlined,
-  PayCircleOutlined,
+  // PayCircleOutlined,
   VerifiedOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
 import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../Components/NotFound";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
-import AidApplicationPage from "./AidApplicationPage";
+// import AidApplicationPage from "./AidApplicationPage";
 import PostgraduateMentorPage from "./PostgraduateMentorPage";
 import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
 import { useQuery } from "@apollo/client";
@@ -123,12 +123,12 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
                 奖学金
               </Link>
             </Menu.Item>
-            <Menu.Item key="financial-aid">
+            {/* <Menu.Item key="financial-aid">
               <Link to={url.link("financial-aid")}>
                 <PayCircleOutlined />
                 助学金
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu.ItemGroup>
           <Menu.ItemGroup key="postgraduate" title="推研信息">
             <Menu.Item key="postgraduate-mentor-info" onClick={disclaimer}>
@@ -172,7 +172,7 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
           <Route path="mentor-chats" element={<MentorChatPage />} />
           <Route path="honors" element={<HonorApplicationPage />} />
           <Route path="scholarships" element={<ScholarshipApplicationPage />} />
-          <Route path="financial-aid" element={<AidApplicationPage />} />
+          {/* <Route path="financial-aid" element={<AidApplicationPage />} /> */}
           <Route
             path="postgraduate-mentor-info"
             element={<PostgraduateMentorPage />}

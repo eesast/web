@@ -92,14 +92,14 @@ const HonorApplicationPage = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get("/application/info");
+        const response = await axios.get("/application/info/honor");
         setInfo({
-          honors: response.data.honors,
+          honors: response.data.types,
           honor: {
-            start_A: new Date(response.data.scholarship.start_A),
-            start_B: new Date(response.data.scholarship.start_B),
-            end_A: new Date(response.data.scholarship.end_A),
-            end_B: new Date(response.data.scholarship.end_B),
+            start_A: new Date(response.data.time.start_A),
+            start_B: new Date(response.data.time.start_B),
+            end_A: new Date(response.data.time.end_A),
+            end_B: new Date(response.data.time.end_B),
           },
         });
       } catch (e) {
