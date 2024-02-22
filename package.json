@@ -12,7 +12,7 @@
     "cos-js-sdk-v5": "1.6.0",
     "dayjs": "1.11.10",
     "docxtemplater": "3.45.0",
-    "dotenv": "16.4.4",
+    "dotenv": "16.4.5",
     "file-saver": "2.0.5",
     "google-protobuf": "3.21.2",
     "graphql": "16.8.1",
