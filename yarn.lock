@@ -14467,7 +14467,7 @@ statuses@2.0.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==
 
-std-env@^3.6.0:
+std-env@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/std-env/-/std-env-3.7.0.tgz#c9f7386ced6ecf13360b6c6c55b8aaa4ef7481d2"
   integrity sha512-JPbdCEQLj1w5GilpiHAx3qJvFndqybBysA3qUOnznweH4QbNYUsW/ea8QzSrnh0vNsezMMw5bcVool8lM0gwzg==
@@ -15927,10 +15927,10 @@ webpack@4.44.2:
     watchpack "^1.7.4"
     webpack-sources "^1.4.1"
 
-webpackbar@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/webpackbar/-/webpackbar-6.0.0.tgz#4fa3a040842d3d6928de5291bdc1553e3b84e5a6"
-  integrity sha512-RdB0RskzOaix1VFMnBXSkKMbUgvZliRqgoNp0gCnG6iUe9RS9sf018AJ/1h5NAeh+ttwXkXjXKC6NdjE/OOcaA==
+webpackbar@6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/webpackbar/-/webpackbar-6.0.1.tgz#5ef57d3bf7ced8b19025477bc7496ea9d502076b"
+  integrity sha512-TnErZpmuKdwWBdMoexjio3KKX6ZtoKHRVvLIU0A47R0VVBDtx3ZyOJDktgYixhoJokZTYTt1Z37OkO9pnGJa9Q==
   dependencies:
     ansi-escapes "^4.3.2"
     chalk "^4.1.2"
@@ -15938,7 +15938,7 @@ webpackbar@6.0.0:
     figures "^3.2.0"
     markdown-table "^2.0.0"
     pretty-time "^1.1.0"
-    std-env "^3.6.0"
+    std-env "^3.7.0"
     wrap-ansi "^7.0.0"
 
 websocket-driver@>=0.5.1, websocket-driver@^0.7.4:
