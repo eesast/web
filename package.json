@@ -67,7 +67,7 @@
     "lint-staged": "15.2.2",
     "prettier": "3.2.5",
     "react-app-rewired": "2.2.1",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.1",
     "rimraf": "5.0.5",
     "typescript": "5.3.3",
     "web-vitals": "3.5.2",
