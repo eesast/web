@@ -25,10 +25,10 @@
     "md2wx": "3.1.2",
     "omit.js": "2.0.2",
     "pizzip": "3.1.6",
-    "react": "17.0.2",
+    "react": "18.2.0",
     "react-custom-scrollbars": "4.2.1",
     "react-device-detect": "2.2.3",
-    "react-dom": "17.0.2",
+    "react-dom": "18.2.0",
     "react-google-recaptcha": "3.1.0",
     "react-linkify": "1.0.0-alpha",
     "react-router-dom": "5.3.4",
@@ -49,9 +49,9 @@
     "@types/lodash.get": "4.4.9",
     "@types/node": "20.11.20",
     "@types/pizzip": "3.0.5",
-    "@types/react": "17.0.75",
+    "@types/react": "18.2.58",
     "@types/react-custom-scrollbars": "4.0.13",
-    "@types/react-dom": "17.0.25",
+    "@types/react-dom": "18.2.19",
     "@types/react-google-recaptcha": "2.1.9",
     "@types/react-linkify": "1.0.4",
     "@types/react-router-dom": "5.3.3",
@@ -75,7 +75,7 @@
     "webpackbar": "6.0.1"
   },
   "resolutions": {
-    "@types/react": "17.0.75",
+    "@types/react": "18.2.58",
     "@typescript-eslint/parser": "6.21.0",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
