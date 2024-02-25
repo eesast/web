@@ -128,7 +128,7 @@ const ManagePage: React.FC = () => {
     return <Spin />;
   }
 
-  const userid = userInfo!._id;
+  const userid = userInfo!._id!;
 
   /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {

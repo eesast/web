@@ -1069,7 +1069,7 @@ const MentorApplicationPage = () => {
               <Button
                 type="primary"
                 onClick={() => {
-                  getMentorInfo({ variables: { mentor_id: userInfo._id } });
+                  getMentorInfo({ variables: { mentor_id: userInfo._id! } });
                   setShowMentorInfo(true);
                 }}
               >
