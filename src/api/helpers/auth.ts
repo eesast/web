@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 export interface JwtPayload {
   uuid: string;
   role: string;
-  _id: string;
+  _id?: string;
   "https://hasura.io/jwt/claims": {
     "x-hasura-allowed-roles": string[];
     "x-hasura-default-role": string;
@@ -29,6 +29,9 @@ export const getUserInfo = () => {
     if (now > payload.exp) {
       return null;
     }
+
+    // TODO: Remove this when the _id fields are fully altered to uuid
+    payload._id = payload.uuid;
 
     return payload as JwtPayload;
   } catch {
