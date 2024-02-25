@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
-import { Layout, Menu, message, Modal } from "antd";
+import { Layout, Menu, message } from "antd";
 import {
   NotificationOutlined,
   TeamOutlined,
@@ -8,7 +8,7 @@ import {
   TrophyOutlined,
   ReadOutlined,
   // PayCircleOutlined,
-  VerifiedOutlined,
+  // VerifiedOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import NoticePage from "./NoticePage";
@@ -67,17 +67,17 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
     }
   });
 
-  const disclaimer = () => {
-    if (localStorage.getItem("disclaimerChecked") !== "true") {
-      Modal.warning({
-        title: "友情提醒",
-        content:
-          "本平台建立初衷为方便系内同学共享推研信息，为联络导师提供便利。本平台所有信息非官方数据，均由同学自行上传并对真实性负责，因此平台无法保证信息的真实性、有效性。所有信息以最终推研通知为准，仅供参考。",
-        okText: "我已知悉",
-      });
-      localStorage.setItem("disclaimerChecked", "true");
-    }
-  };
+  // const disclaimer = () => {
+  //   if (localStorage.getItem("disclaimerChecked") !== "true") {
+  //     Modal.warning({
+  //       title: "友情提醒",
+  //       content:
+  //         "本平台建立初衷为方便系内同学共享推研信息，为联络导师提供便利。本平台所有信息非官方数据，均由同学自行上传并对真实性负责，因此平台无法保证信息的真实性、有效性。所有信息以最终推研通知为准，仅供参考。",
+  //       okText: "我已知悉",
+  //     });
+  //     localStorage.setItem("disclaimerChecked", "true");
+  //   }
+  // };
 
   return (
     <Layout>
@@ -128,21 +128,21 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
               </Link>
             </Menu.Item> */}
           </Menu.ItemGroup>
-          <Menu.ItemGroup key="postgraduate" title="推研信息">
+          {/* <Menu.ItemGroup key="postgraduate" title="推研信息">
             <Menu.Item key="postgraduate-mentor-info" onClick={disclaimer}>
               <Link to={url.link("postgraduate-mentor-info")}>
                 <TeamOutlined />
                 博士生招生信息
               </Link>
             </Menu.Item>
-            {/* {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
+            {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
               <Menu.Item key="mentor-info-verify">
                 <Link to={url.link("mentor-info-verify")}>
                   <VerifiedOutlined />
                   导师信息审核
                 </Link>
               </Menu.Item>
-            ) : null} */}
+            ) : null}
             {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
               <Menu.Item key="postgraduate-application">
                 <Link to={url.link("postgraduate-application")}>
@@ -151,7 +151,7 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
                 </Link>
               </Menu.Item>
             ) : null}
-          </Menu.ItemGroup>
+          </Menu.ItemGroup> */}
         </Menu>
       </FixedSider>
       <Content
