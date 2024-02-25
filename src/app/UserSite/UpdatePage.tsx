@@ -43,6 +43,10 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
         } else {
           message.error("验证码错误");
         }
+      } else if ((err.response?.data as string | undefined)?.includes(
+          "Uniqueness violation",
+        )) {
+        message.error("该项已被其他用户使用");
       } else {
         console.log(err);
         message.error("未知错误");

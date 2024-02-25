@@ -67,19 +67,19 @@ const MentorApplicationPage = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get("/application/info");
+        const response = await axios.get("/application/info/mentor");
         setInfo({
           mentor: {
-            start_A: new Date(response.data.mentor.start_A),
-            start_B: new Date(response.data.mentor.start_B),
-            start_C: new Date(response.data.mentor.start_C),
-            start_D: new Date(response.data.mentor.start_D),
-            start_E: new Date(response.data.mentor.start_E),
-            end_A: new Date(response.data.mentor.end_A),
-            end_B: new Date(response.data.mentor.end_B),
-            end_C: new Date(response.data.mentor.end_C),
-            end_D: new Date(response.data.mentor.end_D),
-            end_E: new Date(response.data.mentor.end_E),
+            start_A: new Date(response.data.time.start_A),
+            start_B: new Date(response.data.time.start_B),
+            start_C: new Date(response.data.time.start_C),
+            start_D: new Date(response.data.time.start_D),
+            start_E: new Date(response.data.time.start_E),
+            end_A: new Date(response.data.time.end_A),
+            end_B: new Date(response.data.time.end_B),
+            end_C: new Date(response.data.time.end_C),
+            end_D: new Date(response.data.time.end_D),
+            end_E: new Date(response.data.time.end_E),
           },
         });
       } catch (e) {
