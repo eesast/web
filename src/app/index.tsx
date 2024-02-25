@@ -37,6 +37,10 @@ export interface PageProps {
 const App: React.FC = () => {
   const url = useUrl();
   const userInfo = getUserInfo();
+  const userAgent = navigator.userAgent;
+  const isMobile = userAgent.match(
+    /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
+  );
   const { width } = useWindowSize();
   const [mode, setMode] = useState<"light" | "dark">(
     (localStorage.getItem("theme") as "light" | "dark") || "light",
@@ -299,7 +303,7 @@ const App: React.FC = () => {
       }}
     >
       <Tour
-        open={open}
+        open={open && !isMobile}
         onClose={() => {
           setOpen(false);
           localStorage.setItem("tour", "true");

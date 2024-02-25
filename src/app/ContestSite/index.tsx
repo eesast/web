@@ -347,17 +347,14 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
   const index = (
     <Layout>
       <br />
-      <Row>
-        <Col span={3}></Col>
-        <Col span={18}>
-          <Button
-            hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
-            onClick={() => setModalVisible(true)}
-          >
-            添加新比赛
-          </Button>
-        </Col>
-      </Row>
+      {(userInfo?.role === "counselor" || userInfo?.role === "root") && (
+        <Row>
+          <Col span={3}></Col>
+          <Col span={18}>
+            <Button onClick={() => setModalVisible(true)}>添加新比赛</Button>
+          </Col>
+        </Row>
+      )}
       <br />
       <Row>
         <Col span={3}></Col>
