@@ -358,7 +358,7 @@ const App: React.FC = () => {
           </p>
           <p>
             <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1</a> ©
-            2023 EESAST
+            2024 EESAST
           </p>
         </StyledFooter>
         <FloatButton.BackTop />
