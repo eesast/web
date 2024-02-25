@@ -82,7 +82,7 @@ mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
   }
 }
 
-mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!){
+mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
   update_mentor_application(
     where: { id: { _eq: $id } }
     _set: { chat_status: $chat_status }
@@ -147,7 +147,7 @@ query GetMentorList($grade_time: timestamptz!) {
         }
       }
       total_for_grade: mentor_applications_mentor_aggregate(
-        where: { created_at: { _gte: $grade_time } } 
+        where: { created_at: { _gte: $grade_time } }
       ) {
         aggregate {
           count
@@ -199,13 +199,19 @@ query GetMentorInfo($mentor_id: String!) {
 }
 
 query GetFreshmanList {
-  user(where: {id: {_gt: "2022999999", _lte: "2023999999"}}) {
+  user(where: { id: { _gt: "2022999999", _lte: "2023999999" } }) {
     _id
     id
-    mentor_applications_student(where: {status: {_eq: "approved"}}) {
+    mentor_applications_student(where: { status: { _eq: "approved" } }) {
       student_id
       mentor_id
       statement
     }
+  }
+}
+
+query GetIdByName($name: String!) {
+  users(where: { realname: { _eq: $name } }) {
+    id
   }
 }

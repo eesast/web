@@ -1,20 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
-  GetApprovedMentorApplications as GET_APPROVED_MENTOR_APPLICATIONS,
-  SubscribeToMessages as SUBSCRIBE_TO_MESSAGES,
-  AddMessage as ADD_MESSAGE,
-} from "../../api/info_chat.graphql";
-import {
-  GetApprovedMentorApplications,
-  GetApprovedMentorApplicationsVariables,
-  GetApprovedMentorApplications_mentor_application_student,
-  SubscribeToMessages,
-  SubscribeToMessagesVariables,
-  AddMessage,
-  AddMessageVariables,
-} from "../../api/types";
-import { useQuery, useSubscription, useMutation } from "@apollo/client";
-import {
   message,
   Spin,
   Result,
@@ -25,25 +10,25 @@ import {
   List,
   Input,
 } from "antd";
-import Center from "../../components/Center";
+import Center from "../Components/Center";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import Scrollbars from "react-custom-scrollbars";
 import { getUserInfo } from "../../api/helpers/auth";
+import { useUrl } from "../../api/hooks/url";
+import * as graphql from "@/generated/graphql";
 
 const { TextArea } = Input;
 
 const MentorChatPage = () => {
+  const url = useUrl();
   const userInfo = getUserInfo();
 
   const {
     loading: approvedApplicationsLoading,
     error: approvedApplicationsError,
     data: approvedApplicationsData,
-  } = useQuery<
-    GetApprovedMentorApplications,
-    GetApprovedMentorApplicationsVariables
-  >(GET_APPROVED_MENTOR_APPLICATIONS, {
+  } = graphql.useGetApprovedMentorApplicationsQuery({
     variables: {
       _id: userInfo?._id!,
     },
@@ -64,7 +49,9 @@ const MentorChatPage = () => {
   );
 
   const [selectedStudent, setSelectedStudent] =
-    useState<GetApprovedMentorApplications_mentor_application_student>();
+    useState<
+      graphql.GetApprovedMentorApplicationsQuery["mentor_application"][0]["student"]
+    >();
 
   useEffect(() => {
     if (
@@ -87,7 +74,7 @@ const MentorChatPage = () => {
   const [text, setText] = useState("");
 
   const [addMessage, { loading: addMessageLoading, error: addMessageError }] =
-    useMutation<AddMessage, AddMessageVariables>(ADD_MESSAGE);
+    graphql.useAddMessageMutation();
 
   useEffect(() => {
     if (addMessageError) {
@@ -132,7 +119,7 @@ const MentorChatPage = () => {
         title="您尚未配对"
         extra={
           <Button type="primary">
-            <Link to="/info/mentor-applications">查看申请</Link>
+            <Link to={url.link("mentor-applications")}>查看申请</Link>
           </Button>
         }
       />
@@ -273,10 +260,7 @@ const ChatFeed: React.FC<{
 }> = ({ from, to }) => {
   const scrollBarRef = useRef<Scrollbars>(null);
 
-  const { data, loading, error } = useSubscription<
-    SubscribeToMessages,
-    SubscribeToMessagesVariables
-  >(SUBSCRIBE_TO_MESSAGES, {
+  const { data, loading, error } = graphql.useSubscribeToMessagesSubscription({
     variables: {
       from_id: from,
       to_id: to,

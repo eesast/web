@@ -14,8 +14,6 @@ import {
   Radio,
   Menu,
 } from "antd";
-import { useQuery, useMutation } from "@apollo/client";
-import Linkify from "react-linkify";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -29,22 +27,6 @@ import {
   TrophyOutlined,
   BarsOutlined,
 } from "@ant-design/icons";
-import {
-  GetNotices as GET_NOTICES,
-  UpdateNotice as UPDATE_NOTICE,
-  AddNotice as ADD_NOTICE,
-  DeleteNotice as DELETE_NOTICE,
-} from "../../api/info_notice.graphql";
-import {
-  GetNotices,
-  UpdateNotice,
-  AddNotice,
-  DeleteNotice,
-  GetNotices_info_notice,
-  AddNoticeVariables,
-  UpdateNoticeVariables,
-  DeleteNoticeVariables,
-} from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type { UploadFile } from "antd/lib/upload/interface";
@@ -52,6 +34,8 @@ import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/int
 import { uploadFile, downloadFile, deleteFile } from "../../api/helpers/cos";
 import { getUserInfo } from "../../api/helpers/auth";
 import { RcFile } from "rc-upload/lib/interface";
+import Markdown from "react-markdown";
+import * as graphql from "@/generated/graphql";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -69,20 +53,18 @@ const NoticePage: React.FC = () => {
     loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-  } = useQuery<GetNotices>(GET_NOTICES, {
+  } = graphql.useGetNoticesQuery({
     variables: {
       notice_type: ["奖助学金", "推研信息", "就业信息", "实习信息", "赛事信息"],
     },
   });
 
   const [updateNotice, { loading: noticeUpdating, error: noticeUpdateError }] =
-    useMutation<UpdateNotice, UpdateNoticeVariables>(UPDATE_NOTICE);
+    graphql.useUpdateNoticeMutation();
   const [addNotice, { loading: noticeAdding, error: noticeAddError }] =
-    useMutation<AddNotice, AddNoticeVariables>(ADD_NOTICE);
-  const [deleteNotice, { error: noticeDeleteError }] = useMutation<
-    DeleteNotice,
-    DeleteNoticeVariables
-  >(DELETE_NOTICE);
+    graphql.useAddNoticeMutation();
+  const [deleteNotice, { error: noticeDeleteError }] =
+    graphql.useDeleteNoticeMutation();
 
   useEffect(() => {
     if (noticeError) {
@@ -110,7 +92,8 @@ const NoticePage: React.FC = () => {
   }, [noticeDeleteError]);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [editingNotice, setEditingNotice] = useState<GetNotices_info_notice>();
+  const [editingNotice, setEditingNotice] =
+    useState<graphql.GetNoticesQuery["info_notice"][0]>();
   const [noticeType, setNoticeType] = useState<string>("all");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [form] = Form.useForm();
@@ -408,31 +391,14 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
       hoverable
       {...restProps}
     >
-      <Text
+      <Markdown
         css={`
           margin: 12px 0 12px 0;
           white-space: pre-wrap;
         `}
       >
-        <Linkify
-          componentDecorator={(
-            decoratedHref: string,
-            decoratedText: string,
-            key: number,
-          ) => (
-            <a
-              href={decoratedHref}
-              key={key}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {decoratedText}
-            </a>
-          )}
-        >
-          {content}
-        </Linkify>
-      </Text>
+        {content}
+      </Markdown>
       <div
         css={`
           display: flex;

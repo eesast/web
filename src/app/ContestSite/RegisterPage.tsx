@@ -4,14 +4,8 @@ import { Layout, message } from "antd";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
 //graphql的语句由Apollo生成ts句柄，在此import
-import { InsertTeam, InsertTeamVariables } from "../../api/types";
-import { InsertTeam as INSERT_TEAM } from "../../api/contest.graphql";
-import { useMutation, useQuery } from "@apollo/client";
-import { IsTeamLeader, IsTeamLeaderVariables } from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
-import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
 import { useUrl } from "../../api/hooks/url";
+import * as graphql from "@/generated/graphql";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -40,24 +34,20 @@ const RegisterPage: React.FC = () => {
   const userInfo = getUserInfo();
   // 查询此用户是否已有队伍，若有则不可再创建
 
-  const { data: isleaderData, refetch: refetchisleader } = useQuery<
-    IsTeamLeader,
-    IsTeamLeaderVariables
-  >(ISTEAMLEADER, {
-    variables: {
-      _id: userInfo?._id!,
-      contest_id: Contest_id,
-    },
-  });
-  const { data: ismemberData, refetch: refetchismember } = useQuery<
-    IsTeamMember,
-    IsTeamMemberVariables
-  >(ISTEAMMEMBER, {
-    variables: {
-      _id: userInfo?._id!,
-      contest_id: Contest_id,
-    },
-  });
+  const { data: isleaderData, refetch: refetchisleader } =
+    graphql.useIsTeamLeaderSuspenseQuery({
+      variables: {
+        _id: userInfo?._id!,
+        contest_id: Contest_id,
+      },
+    });
+  const { data: ismemberData, refetch: refetchismember } =
+    graphql.useIsTeamMemberSuspenseQuery({
+      variables: {
+        _id: userInfo?._id!,
+        contest_id: Contest_id,
+      },
+    });
   // TODO: 待修复：创建完队伍后会渲染一次
   // useEffect(() => {
   //   if (isleaderData?.contest_team.length !== 0 ||
@@ -69,10 +59,7 @@ const RegisterPage: React.FC = () => {
   //获取表单信息#form为表单名字
   const [form] = Form.useForm();
 
-  const [insertTeam, { error: insertError }] = useMutation<
-    InsertTeam,
-    InsertTeamVariables
-  >(INSERT_TEAM);
+  const [insertTeam, { error: insertError }] = graphql.useInsertTeamMutation();
   //函数组件
   const onFinish = async () => {
     const values = await form.getFieldsValue(); //form表单里的信息

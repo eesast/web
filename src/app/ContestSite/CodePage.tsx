@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import type { UploadFile } from "antd/lib/upload/interface";
-import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
+import {
+  UploadRequestOption as RcCustomRequestOptions,
+  RcFile,
+} from "rc-upload/lib/interface";
 import {
   Table,
   Button,
@@ -28,68 +31,25 @@ import {
   deleteFile,
   existFile,
 } from "../../api/helpers/cos";
-//----根据队员信息查找队伍信息------
-import {
-  GetContestInfo,
-  GetContestInfoVariables,
-  IsTeamLeader,
-  IsTeamLeaderVariables,
-} from "../../api/types";
-import { IsTeamLeader as ISTEAMLEADER } from "../../api/contest.graphql";
-import { IsTeamMember, IsTeamMemberVariables } from "../../api/types";
-import { IsTeamMember as ISTEAMMEMBER } from "../../api/contest.graphql";
-//----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
-import { GetContestInfo as GET_CONTEST_INFO } from "../../api/contest.graphql";
-//————创建thuaicode————
-import { GetTeamInfo as GETTEAMINFO } from "../../api/contest.graphql";
-import { GetTeamInfo, GetTeamInfoVariables } from "../../api/types";
-import { GetCompileStatus as GETCOMPILESTATUS } from "../../api/contest.graphql";
-import { GetCompileStatus, GetCompileStatusVariables } from "../../api/types";
-import { GetCodeUpdateTime as GETCODETIME } from "../../api/contest.graphql";
-import { GetCodeUpdateTime, GetCodeUpdateTimeVariables } from "../../api/types";
-//上传代码
-import {
-  UpsertCode1,
-  UpsertCode1Variables,
-  UpsertCode2,
-  UpsertCode2Variables,
-  UpsertCode3,
-  UpsertCode3Variables,
-  UpsertCode4,
-  UpsertCode4Variables,
-  UpsertCode5,
-  UpsertCode5Variables,
-} from "../../api/types";
-import {
-  UpsertCode1 as UPSERTCODE1,
-  UpsertCode2 as UPSERTCODE2,
-  UpsertCode3 as UPSERTCODE3,
-  UpsertCode4 as UPSERTCODE4,
-  UpsertCode5 as UPSERTCODE5,
-} from "../../api/contest.graphql";
-//————后端发送post————
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
-import { RcFile } from "rc-upload/lib/interface";
-
+import * as graphql from "@/generated/graphql";
+/* ---------------- 接口和类型定义 ---------------- */
+interface Playerprops {
+  key: number;
+  name: string;
+  updatetime: string;
+  filelist: UploadFile[];
+}
+/* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
-
+const userInfo = getUserInfo();
+/* ---------------- 主页面 ---------------- */
 const CodePage: React.FC = () => {
-  interface Playerprops {
-    key: number;
-    name: string;
-    updatetime: string;
-    filelist: UploadFile[];
-  }
-
-  const userInfo = getUserInfo();
-  const url = useUrl();
-  const Contest_id = url.query.get("contest");
-
+  /* ---------------- States 和常量 Hooks ---------------- */
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
@@ -102,75 +62,68 @@ const CodePage: React.FC = () => {
   const [time3, setTime3] = useState(defaultDate);
   const [time4, setTime4] = useState(defaultDate);
   const [time5, setTime5] = useState(defaultDate);
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  //根据队员id查询队伍id
 
-  //-----------------根据队员id查询队伍id------------------
-  const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
-    ISTEAMLEADER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-        contest_id: Contest_id,
-      },
+  const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
+    variables: {
+      _id: userInfo?._id!,
+      contest_id: Contest_id,
     },
-  );
-  const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
-    ISTEAMMEMBER,
-    {
-      variables: {
-        _id: userInfo?._id!,
-        contest_id: Contest_id,
-      },
+  });
+  const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
+    variables: {
+      _id: userInfo?._id!,
+      contest_id: Contest_id,
     },
-  );
+  });
 
   const teamid =
     isleaderData?.contest_team[0]?.team_id ||
     ismemberData?.contest_team_member[0]?.team_id;
-  //利用teamid查询team的信息储存在teamdata中
-  const { data: teamData } = useQuery<GetTeamInfo, GetTeamInfoVariables>(
-    GETTEAMINFO,
-    {
-      variables: {
-        contest_id: Contest_id,
-        team_id: teamid!,
-      },
-    },
-  );
-
-  const { data: teamCompileStatus } = useSubscription<
-    GetCompileStatus,
-    GetCompileStatusVariables
-  >(GETCOMPILESTATUS, {
+  // 利用teamid查询team的信息储存在teamdata中
+  const { data: teamData } = teamid
+    ? graphql.useGetTeamInfoSuspenseQuery({
+        variables: {
+          contest_id: Contest_id,
+          team_id: teamid!,
+        },
+      })
+    : { data: undefined };
+  const { data: teamCompileStatus } = graphql.useGetCompileStatusSubscription({
     variables: {
       contest_id: Contest_id,
       team_id: teamid!,
     },
   });
-
-  // --------------获取比赛状态-------------------
-  const { data: contestData, error: contestError } = useQuery<
-    GetContestInfo,
-    GetContestInfoVariables
-  >(GET_CONTEST_INFO, {
+  // 获取比赛状态
+  const { data: contestData, error: contestError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+  const { data: codetimeData } = graphql.useGetCodeUpdateTimeSubscription({
     variables: {
-      contest_id: Contest_id,
+      team_id: teamid!,
     },
   });
+  // 上传代码
+  const [upsertCode1, { error: code1Error }] = graphql.useUpsertCode1Mutation();
+  const [upsertCode2, { error: code2Error }] = graphql.useUpsertCode2Mutation();
+  const [upsertCode3, { error: code3Error }] = graphql.useUpsertCode3Mutation();
+  const [upsertCode4, { error: code4Error }] = graphql.useUpsertCode4Mutation();
+  const [upsertCode5, { error: code5Error }] = graphql.useUpsertCode5Mutation();
+
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
       console.log(contestError.message);
     }
   }, [contestError]);
-
-  const { data: codetimeData } = useSubscription<
-    GetCodeUpdateTime,
-    GetCodeUpdateTimeVariables
-  >(GETCODETIME, {
-    variables: {
-      team_id: teamid!,
-    },
-  });
   useEffect(() => {
     if (codetimeData?.contest_code.length === 1) {
       if (codetimeData?.contest_code[0].code1_update_time) {
@@ -190,58 +143,277 @@ const CodePage: React.FC = () => {
       }
     }
   }, [codetimeData]);
-
-  //-----------------上传代码------------------、
-  const [upsertCode1, { error: code1Error }] = useMutation<
-    UpsertCode1,
-    UpsertCode1Variables
-  >(UPSERTCODE1);
+  // 上传代码失败提示
   useEffect(() => {
-    if (code1Error) {
+    if (code1Error || code2Error || code3Error || code4Error || code5Error) {
       message.error("上传代码失败");
     }
   });
 
-  const [upsertCode2, { error: code2Error }] = useMutation<
-    UpsertCode2,
-    UpsertCode2Variables
-  >(UPSERTCODE2);
-  useEffect(() => {
-    if (code2Error) {
-      message.error("上传代码失败");
+  /* ---------------- 业务逻辑函数 ---------------- */
+  // 编译代码
+  const handleCodeCompile = () => {
+    (async () => {
+      if (
+        time1.isSame(defaultDate) ||
+        time2.isSame(defaultDate) ||
+        time3.isSame(defaultDate) ||
+        time4.isSame(defaultDate) ||
+        time5.isSame(defaultDate)
+      ) {
+        message.error("请先上传5份选手代码！");
+        return;
+      }
+      try {
+        await axios.post("code/compile", {
+          contest_id: Contest_id,
+          team_id: teamid,
+        });
+        message.info("已开始编译。编译需要一段时间，请稍后刷新以查看。");
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status === 401) {
+          message.error("401");
+        } else if (err.response?.status === 409) {
+          message.error("409");
+        } else {
+          message.error("404");
+          console.log(err.message);
+        }
+      }
+    })();
+  };
+  // 下载编译信息
+  const downloadCompile = async () => {
+    try {
+      const response = await axios.get(`code/logs/${teamid}/${codeRole}`, {
+        responseType: "blob",
+      });
+      let codeTime: string;
+      switch (codeRole) {
+        case 1:
+          codeTime = time1.format("YY-MM-DD_HH-mm-ss");
+          break;
+        case 2:
+          codeTime = time2.format("YY-MM-DD_HH-mm-ss");
+          break;
+        case 3:
+          codeTime = time3.format("YY-MM-DD_HH-mm-ss");
+          break;
+        case 4:
+          codeTime = time4.format("YY-MM-DD_HH-mm-ss");
+          break;
+        case 5:
+          codeTime = time5.format("YY-MM-DD_HH-mm-ss");
+          break;
+        default:
+          codeTime = "unknown";
+          break;
+      }
+      FileSaver.saveAs(
+        response.data,
+        teamData?.contest_team[0].team_name.replace(/[&|\\*^%$'"#@-]/g, "") +
+          "_" +
+          codeTime +
+          "_player_" +
+          codeRole +
+          "_compile_log.txt",
+      );
+    } catch (e) {
+      const err = e as AxiosError;
+      if (err.response?.status === 401) {
+        message.error("认证失败");
+      } else {
+        message.error("未知错误");
+      }
     }
-  });
-
-  const [upsertCode3, { error: code3Error }] = useMutation<
-    UpsertCode3,
-    UpsertCode3Variables
-  >(UPSERTCODE3);
-  useEffect(() => {
-    if (code3Error) {
-      message.error("上传代码失败");
+  };
+  // 上传代码
+  const handleUpload = async (e: RcCustomRequestOptions) => {
+    const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
+    try {
+      if (lang === "cpp") {
+        const url = `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`;
+        const result = await uploadFile(e.file, url);
+        const xhr = new XMLHttpRequest();
+        e.onSuccess!(result, xhr);
+        handleCodeChange(url, codeRole, lang);
+      } else if (lang === "py") {
+        const url = `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`;
+        const result = await uploadFile(e.file, url);
+        const xhr = new XMLHttpRequest();
+        e.onSuccess!(result, xhr);
+        handleCodeChange(url, codeRole, lang);
+      } else {
+        e.onError!(new Error("不支持的文件类型"));
+      }
+    } catch (err) {
+      e.onError!(new Error("上传失败"));
     }
-  });
-
-  const [upsertCode4, { error: code4Error }] = useMutation<
-    UpsertCode4,
-    UpsertCode4Variables
-  >(UPSERTCODE4);
-  useEffect(() => {
-    if (code4Error) {
-      message.error("上传代码失败");
+  };
+  // 更新文件列表
+  const handleOnchange = async (info: any) => {
+    if (info.fileList.length === 2) {
+      info.fileList = info.fileList.slice(-1);
+      message.warning("一名角色对应一份代码文件！");
     }
-  });
-
-  const [upsertCode5, { error: code5Error }] = useMutation<
-    UpsertCode5,
-    UpsertCode5Variables
-  >(UPSERTCODE5);
-  useEffect(() => {
-    if (code5Error) {
-      message.error("上传代码失败");
+    if (info.file.status === "done") {
+      message.success(`${info.file.name} → P${codeRole} 上传成功`);
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} → P${codeRole} 上传失败`);
     }
-  });
+    switch (codeRole) {
+      case 1:
+        setFileList1(info.fileList);
+        break;
+      case 2:
+        setFileList2(info.fileList);
+        break;
+      case 3:
+        setFileList3(info.fileList);
+        break;
+      case 4:
+        setFileList4(info.fileList);
+        break;
+      case 5:
+        setFileList5(info.fileList);
+        break;
+      default:
+        break;
+    }
+  };
+  // 删除文件
+  const handleRemove = async (file: UploadFile) => {
+    const lang = file.name.split(".").slice(-1).join("");
+    try {
+      if (file.response?.status === 200) {
+        if (lang === "cpp") {
+          await deleteFile(
+            `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`,
+          );
+        } else if (lang === "py") {
+          await deleteFile(
+            `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`,
+          );
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 下载文件
+  const handleDownload = async () => {
+    try {
+      const cpp_exist = await existFile(
+        `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`,
+      );
+      const py_exist = await existFile(
+        `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`,
+      );
+      if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
+        message.error("文件管理错误");
+      }
+      if (cpp_exist) {
+        const codefile = {
+          filename: `player${codeRole}.cpp`,
+          url: `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.cpp`,
+        };
+        message.info("开始下载:" + codefile.filename);
+        downloadFile(codefile.url);
+      } else if (py_exist) {
+        const codefile = {
+          filename: `player${codeRole}.py`,
+          url: `${contestData?.contest[0].contest_name}/code/${teamid}/player${codeRole}.py`,
+        };
+        message.info("开始下载:" + codefile.filename);
+        downloadFile(codefile.url);
+      }
+    } catch (err) {
+      message.error("下载失败");
+      console.log(err);
+    }
+  };
 
+  // 把上传最新代码的日期储存起来
+  let now = dayjs();
+  const handleCodeChange1 = async (url: string, lang: string) => {
+    upsertCode1({
+      variables: {
+        code: url,
+        update_time: now!,
+        team_id: teamid!,
+        contest_id: Contest_id!,
+        code_type: lang,
+      },
+    });
+  };
+  const handleCodeChange2 = async (url: string, lang: string) => {
+    upsertCode2({
+      variables: {
+        code: url,
+        update_time: now!,
+        team_id: teamid!,
+        contest_id: Contest_id!,
+        code_type: lang,
+      },
+    });
+  };
+  const handleCodeChange3 = async (url: string, lang: string) => {
+    upsertCode3({
+      variables: {
+        code: url,
+        update_time: now!,
+        team_id: teamid!,
+        contest_id: Contest_id!,
+        code_type: lang,
+      },
+    });
+  };
+  const handleCodeChange4 = async (url: string, lang: string) => {
+    upsertCode4({
+      variables: {
+        code: url,
+        update_time: now!,
+        team_id: teamid!,
+        contest_id: Contest_id!,
+        code_type: lang,
+      },
+    });
+  };
+  const handleCodeChange5 = async (url: string, lang: string) => {
+    upsertCode5({
+      variables: {
+        code: url,
+        update_time: now!,
+        team_id: teamid!,
+        contest_id: Contest_id!,
+        code_type: lang,
+      },
+    });
+  };
+  const handleCodeChange = (url: string, codeRole: any, lang: string) => {
+    switch (codeRole) {
+      case 1:
+        handleCodeChange1(url, lang);
+        break;
+      case 2:
+        handleCodeChange2(url, lang);
+        break;
+      case 3:
+        handleCodeChange3(url, lang);
+        break;
+      case 4:
+        handleCodeChange4(url, lang);
+        break;
+      case 5:
+        handleCodeChange5(url, lang);
+        break;
+      default:
+        break;
+    }
+  };
+
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   const playerList = [
     {
       key: 1,
@@ -381,268 +553,7 @@ const CodePage: React.FC = () => {
     }
   };
 
-  const handleCodeCompile = () => {
-    (async () => {
-      if (
-        time1.isSame(defaultDate) ||
-        time2.isSame(defaultDate) ||
-        time3.isSame(defaultDate) ||
-        time4.isSame(defaultDate) ||
-        time5.isSame(defaultDate)
-      ) {
-        message.error("请先上传5份选手代码！");
-        return;
-      }
-      try {
-        await axios.post("code/compile", {
-          contest_id: Contest_id,
-          team_id: teamid,
-        });
-        message.info("已开始编译。编译需要一段时间，请稍后刷新以查看。");
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 401) {
-          message.error("401");
-        } else if (err.response?.status === 409) {
-          message.error("409");
-        } else {
-          message.error("404");
-          console.log(err.message);
-        }
-      }
-    })();
-  };
-
-  const downloadCompile = async () => {
-    try {
-      const response = await axios.get(`code/logs/${teamid}/${codeRole}`, {
-        responseType: "blob",
-      });
-      let codeTime: string;
-      switch (codeRole) {
-        case 1:
-          codeTime = time1.format("YY-MM-DD_HH-mm-ss");
-          break;
-        case 2:
-          codeTime = time2.format("YY-MM-DD_HH-mm-ss");
-          break;
-        case 3:
-          codeTime = time3.format("YY-MM-DD_HH-mm-ss");
-          break;
-        case 4:
-          codeTime = time4.format("YY-MM-DD_HH-mm-ss");
-          break;
-        case 5:
-          codeTime = time5.format("YY-MM-DD_HH-mm-ss");
-          break;
-        default:
-          codeTime = "unknown";
-          break;
-      }
-      FileSaver.saveAs(
-        response.data,
-        teamData?.contest_team[0].team_name.replace(/[&|\\*^%$'"#@-]/g, "") +
-          "_" +
-          codeTime +
-          "_player_" +
-          codeRole +
-          "_compile_log.txt",
-      );
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err.response?.status === 401) {
-        message.error("认证失败");
-      } else {
-        message.error("未知错误");
-      }
-    }
-  };
-
-  const handleUpload = async (e: RcCustomRequestOptions) => {
-    const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
-    try {
-      if (lang === "cpp") {
-        const url = `code/${Contest_id}/${teamid}/player${codeRole}.cpp`;
-        const result = await uploadFile(e.file, url);
-        const xhr = new XMLHttpRequest();
-        e.onSuccess!(result, xhr);
-        handleCodeChange(url, codeRole, lang);
-      } else if (lang === "py") {
-        const url = `code/${Contest_id}/${teamid}/player${codeRole}.py`;
-        const result = await uploadFile(e.file, url);
-        const xhr = new XMLHttpRequest();
-        e.onSuccess!(result, xhr);
-        handleCodeChange(url, codeRole, lang);
-      } else {
-        e.onError!(new Error("不支持的文件类型"));
-      }
-    } catch (err) {
-      e.onError!(new Error("上传失败"));
-    }
-  };
-
-  const handleOnchange = async (info: any) => {
-    if (info.fileList.length === 2) {
-      info.fileList = info.fileList.slice(-1);
-      message.warning("一名角色对应一份代码文件！");
-    }
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} → P${codeRole} 上传成功`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} → P${codeRole} 上传失败`);
-    }
-    switch (codeRole) {
-      case 1:
-        setFileList1(info.fileList);
-        break;
-      case 2:
-        setFileList2(info.fileList);
-        break;
-      case 3:
-        setFileList3(info.fileList);
-        break;
-      case 4:
-        setFileList4(info.fileList);
-        break;
-      case 5:
-        setFileList5(info.fileList);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleRemove = async (file: UploadFile) => {
-    const lang = file.name.split(".").slice(-1).join("");
-    try {
-      if (file.response?.status === 200) {
-        if (lang === "cpp") {
-          await deleteFile(
-            `code/${Contest_id}/${teamid}/player${codeRole}.cpp`,
-          );
-        } else if (lang === "py") {
-          await deleteFile(`code/${Contest_id}/${teamid}/player${codeRole}.py`);
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleDownload = async () => {
-    try {
-      const cpp_exist = await existFile(
-        `code/${Contest_id}/${teamid}/player${codeRole}.cpp`,
-      );
-      const py_exist = await existFile(
-        `code/${Contest_id}/${teamid}/player${codeRole}.py`,
-      );
-      if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
-        throw Error("File error");
-      }
-      if (cpp_exist) {
-        const codefile = {
-          filename: `player${codeRole}.cpp`,
-          url: `code/${Contest_id}/${teamid}/player${codeRole}.cpp`,
-        };
-        message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url).catch((e) => {
-          message.error("下载失败");
-        });
-      } else if (py_exist) {
-        const codefile = {
-          filename: `player${codeRole}.py`,
-          url: `code/${Contest_id}/${teamid}/player${codeRole}.py`,
-        };
-        message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url).catch((e) => {
-          message.error("下载失败");
-        });
-      }
-    } catch (err) {
-      message.error(err);
-    }
-  };
-
-  //上传最新代码的日期储存起来
-  let now = dayjs();
-  const handleCodeChange1 = async (url: string, lang: string) => {
-    upsertCode1({
-      variables: {
-        code: url,
-        update_time: now!,
-        team_id: teamid!,
-        contest_id: Contest_id!,
-        code_type: lang,
-      },
-    });
-  };
-  const handleCodeChange2 = async (url: string, lang: string) => {
-    upsertCode2({
-      variables: {
-        code: url,
-        update_time: now!,
-        team_id: teamid!,
-        contest_id: Contest_id!,
-        code_type: lang,
-      },
-    });
-  };
-  const handleCodeChange3 = async (url: string, lang: string) => {
-    upsertCode3({
-      variables: {
-        code: url,
-        update_time: now!,
-        team_id: teamid!,
-        contest_id: Contest_id!,
-        code_type: lang,
-      },
-    });
-  };
-  const handleCodeChange4 = async (url: string, lang: string) => {
-    upsertCode4({
-      variables: {
-        code: url,
-        update_time: now!,
-        team_id: teamid!,
-        contest_id: Contest_id!,
-        code_type: lang,
-      },
-    });
-  };
-  const handleCodeChange5 = async (url: string, lang: string) => {
-    upsertCode5({
-      variables: {
-        code: url,
-        update_time: now!,
-        team_id: teamid!,
-        contest_id: Contest_id!,
-        code_type: lang,
-      },
-    });
-  };
-  const handleCodeChange = (url: string, codeRole: any, lang: string) => {
-    switch (codeRole) {
-      case 1:
-        handleCodeChange1(url, lang);
-        break;
-      case 2:
-        handleCodeChange2(url, lang);
-        break;
-      case 3:
-        handleCodeChange3(url, lang);
-        break;
-      case 4:
-        handleCodeChange4(url, lang);
-        break;
-      case 5:
-        handleCodeChange5(url, lang);
-        break;
-      default:
-        break;
-    }
-  };
-
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Layout>
       <br />

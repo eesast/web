@@ -1,30 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { Button, Table, PageHeader, message, Alert, Switch, Tag } from "antd";
+import { PageHeader } from "@ant-design/pro-components";
+import { Button, Table, message, Alert, Switch, Tag } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
-import {
-  VerifyPostgraduateApplication as VERIFY_POSTGRADUATE_APPLICATION,
-  DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
-  GetPostgraduateApplicationFeeds as GET_POSTGRADUATE_APPLICATON_FEEDS,
-  GetPostAppHistory as GET_POST_APP_HISTORY,
-  SetPostAppHistory as SET_POST_APP_HISTORY,
-} from "../../api/postgraduate.graphql";
-import {
-  GetPostgraduateApplicationFeeds_postgraduate_application as applicationInfo,
-  GetPostAppHistory_postgraduate_application_history as applicationHistory,
-  VerifyPostgraduateApplication,
-  VerifyPostgraduateApplicationVariables,
-  DeletePostgraduateApplication,
-  DeletePostgraduateApplicationVariables,
-  GetPostgraduateApplicationFeeds,
-  GetPostgraduateApplicationFeedsVariables,
-  GetPostAppHistory,
-  GetPostAppHistoryVariables,
-  SetPostAppHistory,
-  SetPostAppHistoryVariables,
-} from "../../api/types";
 import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";
+import * as graphql from "@/generated/graphql";
 
 const PostgraduateApplicationPage: React.FC = () => {
   const [current, setCurrent] = useState(1);
@@ -34,30 +14,21 @@ const PostgraduateApplicationPage: React.FC = () => {
 
   const userInfo = getUserInfo();
 
-  const [verifyApplication, { error: verifyError }] = useMutation<
-    VerifyPostgraduateApplication,
-    VerifyPostgraduateApplicationVariables
-  >(VERIFY_POSTGRADUATE_APPLICATION);
+  const [verifyApplication, { error: verifyError }] =
+    graphql.useVerifyPostgraduateApplicationMutation();
 
-  const [deleteApplication, { error: deleteError }] = useMutation<
-    DeletePostgraduateApplication,
-    DeletePostgraduateApplicationVariables
-  >(DELETE_POSTGRADUATE_APPLICATION);
+  const [deleteApplication, { error: deleteError }] =
+    graphql.useDeletePostgraduateApplicationMutation();
 
-  const [setAppHistory, { error: setAppHistoryError }] = useMutation<
-    SetPostAppHistory,
-    SetPostAppHistoryVariables
-  >(SET_POST_APP_HISTORY);
+  const [setAppHistory, { error: setAppHistoryError }] =
+    graphql.useSetPostAppHistoryMutation();
 
   const {
     data,
     loading,
     error,
     refetch: refetchFeeds,
-  } = useQuery<
-    GetPostgraduateApplicationFeeds,
-    GetPostgraduateApplicationFeedsVariables
-  >(GET_POSTGRADUATE_APPLICATON_FEEDS, {
+  } = graphql.useGetPostgraduateApplicationFeedsQuery({
     variables: { limit: pageSize, offset: offset },
   });
 
@@ -66,10 +37,9 @@ const PostgraduateApplicationPage: React.FC = () => {
     loading: historyLoading,
     error: historyError,
     refetch: refetchHistory,
-  } = useQuery<GetPostAppHistory, GetPostAppHistoryVariables>(
-    GET_POST_APP_HISTORY,
-    { variables: { limit: pageSize, offset: offset } },
-  );
+  } = graphql.useGetPostAppHistoryQuery({
+    variables: { limit: pageSize, offset: offset },
+  });
 
   useEffect(() => {
     if (error || historyError) {
@@ -106,14 +76,16 @@ const PostgraduateApplicationPage: React.FC = () => {
     setCurrent(Math.ceil((current * pageSize) / size));
   };
 
-  const handleHistorySwitchChange = (checked: boolean, event: Event) => {
+  const handleHistorySwitchChange = (checked: boolean) => {
     setHistory(checked);
     setOffset(0);
     setPageSize(10);
     setCurrent(1);
   };
 
-  const columns: TableProps<applicationInfo>["columns"] = [
+  const columns: TableProps<
+    graphql.GetPostgraduateApplicationFeedsQuery["postgraduate_application"][0]
+  >["columns"] = [
     {
       title: "申请时间",
       dataIndex: "created_at",
@@ -228,7 +200,9 @@ const PostgraduateApplicationPage: React.FC = () => {
     },
   ];
 
-  const historyColumns: TableProps<applicationHistory>["columns"] = [
+  const historyColumns: TableProps<
+    graphql.GetPostAppHistoryQuery["postgraduate_application_history"][0]
+  >["columns"] = [
     {
       title: "申请时间",
       dataIndex: "created_at",

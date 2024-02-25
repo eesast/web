@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { PageHeader } from "@ant-design/pro-components";
 import {
   Form,
   Input,
@@ -10,47 +10,14 @@ import {
   message,
   Descriptions,
   InputNumber,
-  PageHeader,
   Select,
   Modal,
   Tag,
 } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
-import {
-  GetPostgraduateFeeds as GET_POSTGRADUATE_FEEDS,
-  GetSelfPostgraduateApplications as GET_SELF_POSTGRADUATE_APPLICATIONS,
-  InsertPostgraduateInfo as INSERT_POSTGRADUATE_INFO,
-  UpdatePostgraduateInfo as UPDATE_POSTGRADUATE_INFO,
-  DeletePostgraduateInfo as DELETE_POSTGRADUATE_INFO,
-  InsertApplication as INSERT_APPLICATION,
-  DeletePostgraduateApplication as DELETE_POSTGRADUATE_APPLICATION,
-  SetPostAppHistory as SET_POST_APP_HISTORY,
-  GetSelfConfirmedApplication as GET_SELF_CONFIRMED_APPLICATION,
-} from "../../api/postgraduate.graphql";
-import {
-  GetPostgraduateFeeds,
-  GetPostgraduateFeedsVariables,
-  GetPostgraduateFeeds_postgraduate_mentor_info as mentorInfo,
-  GetSelfPostgraduateApplications,
-  GetSelfPostgraduateApplicationsVariables,
-  GetSelfPostgraduateApplications_postgraduate_application as selfApplication,
-  InsertPostgraduateInfo,
-  InsertPostgraduateInfoVariables,
-  UpdatePostgraduateInfo,
-  UpdatePostgraduateInfoVariables,
-  DeletePostgraduateInfo,
-  DeletePostgraduateInfoVariables,
-  InsertApplication,
-  InsertApplicationVariables,
-  DeletePostgraduateApplication,
-  DeletePostgraduateApplicationVariables,
-  SetPostAppHistory,
-  SetPostAppHistoryVariables,
-  GetSelfConfirmedApplication,
-  GetSelfConfirmedApplicationVariables,
-} from "../../api/types";
 import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";
+import * as graphql from "@/generated/graphql";
 
 const { Text } = Typography;
 
@@ -59,7 +26,10 @@ const PostgraduateMentorPage: React.FC = () => {
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [showDetail, setShowDetail] = useState(false);
-  const [detail, setDetail] = useState<mentorInfo>();
+  const [detail, setDetail] =
+    useState<
+      graphql.GetPostgraduateFeedsQuery["postgraduate_mentor_info"][0]
+    >();
   const [form] = Form.useForm();
   const [showManage, setShowManage] = useState(false);
   const [infoId, setInfoId] = useState(0);
@@ -69,7 +39,7 @@ const PostgraduateMentorPage: React.FC = () => {
     current: number;
     offset: number;
     pageSize: number;
-    selfApplications: selfApplication[];
+    selfApplications: graphql.GetSelfPostgraduateApplicationsQuery["postgraduate_application"];
   }>({
     current: 1,
     offset: 0,
@@ -79,38 +49,27 @@ const PostgraduateMentorPage: React.FC = () => {
 
   const userInfo = getUserInfo();
 
-  const [insertInfo, { error: insertError }] = useMutation<
-    InsertPostgraduateInfo,
-    InsertPostgraduateInfoVariables
-  >(INSERT_POSTGRADUATE_INFO);
+  const [insertInfo, { error: insertError }] =
+    graphql.useInsertPostgraduateInfoMutation();
 
-  const [updateInfo, { error: updateError }] = useMutation<
-    UpdatePostgraduateInfo,
-    UpdatePostgraduateInfoVariables
-  >(UPDATE_POSTGRADUATE_INFO);
+  const [updateInfo, { error: updateError }] =
+    graphql.useUpdatePostgraduateInfoMutation();
 
-  const [deleteInfo, { error: deleteError }] = useMutation<
-    DeletePostgraduateInfo,
-    DeletePostgraduateInfoVariables
-  >(DELETE_POSTGRADUATE_INFO);
+  const [deleteInfo, { error: deleteError }] =
+    graphql.useDeletePostgraduateInfoMutation();
 
-  const [insertApplication, { error: insertApplicationError }] = useMutation<
-    InsertApplication,
-    InsertApplicationVariables
-  >(INSERT_APPLICATION);
+  const [insertApplication, { error: insertApplicationError }] =
+    graphql.useInsertApplicationMutation();
 
   const [deleteSelfApplication, { error: deleteSelfApplicationError }] =
-    useMutation<
-      DeletePostgraduateApplication,
-      DeletePostgraduateApplicationVariables
-    >(DELETE_POSTGRADUATE_APPLICATION);
+    graphql.useDeletePostgraduateApplicationMutation();
 
-  const [setAppHistory, { error: setAppHistoryError }] = useMutation<
-    SetPostAppHistory,
-    SetPostAppHistoryVariables
-  >(SET_POST_APP_HISTORY);
+  const [setAppHistory, { error: setAppHistoryError }] =
+    graphql.useSetPostAppHistoryMutation();
 
-  const columns: TableProps<mentorInfo>["columns"] = [
+  const columns: TableProps<
+    graphql.GetPostgraduateFeedsQuery["postgraduate_mentor_info"][0]
+  >["columns"] = [
     {
       title: "发布时间",
       dataIndex: "created_at",
@@ -222,7 +181,9 @@ const PostgraduateMentorPage: React.FC = () => {
     },
   ];
 
-  const selfApplicationColumns: TableProps<selfApplication>["columns"] = [
+  const selfApplicationColumns: TableProps<
+    graphql.GetSelfPostgraduateApplicationsQuery["postgraduate_application"][0]
+  >["columns"] = [
     {
       title: "申请时间",
       dataIndex: "created_at",
@@ -290,20 +251,16 @@ const PostgraduateMentorPage: React.FC = () => {
     loading,
     error,
     refetch: refetchFeeds,
-  } = useQuery<GetPostgraduateFeeds, GetPostgraduateFeedsVariables>(
-    GET_POSTGRADUATE_FEEDS,
-    { variables: { limit: pageSize, offset: offset } },
-  );
+  } = graphql.useGetPostgraduateFeedsQuery({
+    variables: { limit: pageSize, offset: offset },
+  });
 
   const {
     data: selfApplicationData,
     loading: selfApplicationLoading,
     error: selfApplicationError,
     refetch: refetchSelfApplications,
-  } = useQuery<
-    GetSelfPostgraduateApplications,
-    GetSelfPostgraduateApplicationsVariables
-  >(GET_SELF_POSTGRADUATE_APPLICATIONS, {
+  } = graphql.useGetSelfPostgraduateApplicationsQuery({
     variables: {
       user_id: userInfo?._id!,
       limit: selfApplicationPagination.pageSize,
@@ -315,10 +272,7 @@ const PostgraduateMentorPage: React.FC = () => {
     data: selfConfirmedApplicationData,
     error: selfConfirmedApplicationError,
     refetch: getSelfConfirmedApplication,
-  } = useQuery<
-    GetSelfConfirmedApplication,
-    GetSelfConfirmedApplicationVariables
-  >(GET_SELF_CONFIRMED_APPLICATION, {
+  } = graphql.useGetSelfConfirmedApplicationQuery({
     variables: {
       user_id: userInfo?._id!,
     },
@@ -530,7 +484,7 @@ const PostgraduateMentorPage: React.FC = () => {
       />
       <Modal
         title="详细信息"
-        visible={showDetail}
+        open={showDetail}
         onCancel={() => setShowDetail(false)}
         footer={null}
         width="80%"
@@ -648,7 +602,7 @@ const PostgraduateMentorPage: React.FC = () => {
       </Modal>
       <Modal
         title="添加/更新信息"
-        visible={showManage}
+        open={showManage}
         width="60%"
         footer={null}
         onCancel={() => {
@@ -724,7 +678,7 @@ const PostgraduateMentorPage: React.FC = () => {
       </Modal>
       <Modal
         title="我的申请"
-        visible={showSelfApplications}
+        open={showSelfApplications}
         footer={null}
         width="60%"
         onCancel={() => {

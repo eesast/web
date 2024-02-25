@@ -97,3 +97,9 @@ mutation DeleteAidApplication($id: uuid!) {
     }
   }
 }
+
+query GetIdByStudentNo($student_no: String!) {
+  users(where: { student_no: { _eq: $student_no } }) {
+    id
+  }
+}

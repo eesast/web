@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import {
   Typography,
   Button,
@@ -10,12 +10,11 @@ import {
   Form,
   Upload,
   Space,
+  Spin,
   Layout,
   Col,
   Row,
 } from "antd";
-import { useQuery, useMutation } from "@apollo/client";
-import Linkify from "react-linkify";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -23,26 +22,6 @@ import {
   UploadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import {
-  GetContestNotices as GET_NOTICES,
-  UpdateContestNotice as UPDATE_NOTICE,
-  AddContestNotice as ADD_NOTICE,
-  DeleteContestNotice as DELETE_NOTICE,
-} from "../../api/contest_info.graphql";
-import { QueryContestManager as QUERY_CONTEST_MANAGER } from "../../api/contest.graphql";
-import {
-  GetContestNotices,
-  UpdateContestNotice,
-  AddContestNotice,
-  DeleteContestNotice,
-  GetContestNotices_contest_info,
-  AddContestNoticeVariables,
-  UpdateContestNoticeVariables,
-  DeleteContestNoticeVariables,
-  GetContestNoticesVariables,
-  QueryContestManager,
-  QueryContestManagerVariables,
-} from "../../api/types";
 import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type { UploadFile } from "antd/lib/upload/interface";
@@ -52,6 +31,9 @@ import { getUserInfo } from "../../api/helpers/auth";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { RcFile } from "rc-upload/lib/interface";
+import Markdown from "react-markdown";
+import * as graphql from "@/generated/graphql";
+import styled from "styled-components";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -66,39 +48,46 @@ const NoticePage: React.FC = () => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
+  const { data: contestData, error: contestError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+  useEffect(() => {
+    if (contestError) {
+      message.error("比赛加载失败");
+      console.log(contestError.message);
+    }
+  }, [contestError]);
+
   const {
     data: noticeData,
-    loading: noticeLoading,
+    //loading: noticeLoading,
     error: noticeError,
     refetch: refetchNotices,
-  } = useQuery<GetContestNotices, GetContestNoticesVariables>(GET_NOTICES, {
+  } = graphql.useGetContestNoticesSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
 
   const [updateNotice, { loading: noticeUpdating, error: noticeUpdateError }] =
-    useMutation<UpdateContestNotice, UpdateContestNoticeVariables>(
-      UPDATE_NOTICE,
-    );
+    graphql.useUpdateContestNoticeMutation();
 
   const [addNotice, { loading: noticeAdding, error: noticeAddError }] =
-    useMutation<AddContestNotice, AddContestNoticeVariables>(ADD_NOTICE);
+    graphql.useAddContestNoticeMutation();
 
-  const [deleteNotice, { error: noticeDeleteError }] = useMutation<
-    DeleteContestNotice,
-    DeleteContestNoticeVariables
-  >(DELETE_NOTICE);
+  const [deleteNotice, { error: noticeDeleteError }] =
+    graphql.useDeleteContestNoticeMutation();
 
-  const { data: isContestManagerData, error: isContestManagerError } = useQuery<
-    QueryContestManager,
-    QueryContestManagerVariables
-  >(QUERY_CONTEST_MANAGER, {
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } =
+    graphql.useQueryContestManagerSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        user_id: userInfo?._id,
+      },
+    });
 
   useEffect(() => {
     if (noticeError) {
@@ -134,7 +123,7 @@ const NoticePage: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] =
-    useState<GetContestNotices_contest_info>();
+    useState<graphql.GetContestNoticesQuery["contest_info"][0]>();
   const [form] = Form.useForm();
 
   const handleNoticeEdit = async () => {
@@ -145,7 +134,6 @@ const NoticePage: React.FC = () => {
     const values = form.getFieldsValue();
     const files = fileList.map((f) => ({
       filename: f.name,
-      url: `contest_upload/${Contest_id}/${f.name}`,
     }));
 
     if (editingNotice) {
@@ -179,7 +167,9 @@ const NoticePage: React.FC = () => {
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
-      const url = `contest_upload/${Contest_id}/${(e.file as RcFile).name}`;
+      const url = `${contestData?.contest[0].contest_name}/notice/${
+        (e.file as RcFile).name
+      }`;
       const result = await uploadFile(e.file, url);
       const xhr = new XMLHttpRequest();
       e.onSuccess!(result, xhr);
@@ -222,7 +212,9 @@ const NoticePage: React.FC = () => {
       // }
       // else throw (Error("error"));
       if (file.response?.status === 200) {
-        await deleteFile(`contest_upload/${Contest_id}/${file.name}`);
+        await deleteFile(
+          `${contestData?.contest[0].contest_name}/notice/${file.name}`,
+        );
       }
       // refetchNotices();
     } catch (err) {
@@ -240,6 +232,22 @@ const NoticePage: React.FC = () => {
         await refetchNotices();
       },
     });
+  };
+
+  const Container = styled.div`
+    height: calc(100vh - 72px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
   };
 
   return (
@@ -265,61 +273,63 @@ const NoticePage: React.FC = () => {
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
-          <List
-            dataSource={noticeData?.contest_info}
-            renderItem={(item) => (
-              <Content>
-                <NoticeCard
-                  onEditPress={
-                    ["root", "counselor"].includes(userInfo?.role!) ||
-                    isContestManagerData?.contest_manager.length === 1
-                      ? () => {
-                          setEditingNotice(item);
-                          setFileList(
-                            JSON.parse(item.files ?? "[]").map((f: File) => ({
-                              response: { status: 200 },
-                              status: "done",
-                              uid: f.url,
-                              size: 0,
-                              name: f.filename,
-                              type: "",
-                            })),
-                          );
-                          setModalVisible(true);
-                        }
-                      : undefined
-                  }
-                  onDeletePress={
-                    ["root", "counselor"].includes(userInfo?.role!) ||
-                    isContestManagerData?.contest_manager.length === 1
-                      ? () => {
-                          handleNoticeDelete(item.id);
-                        }
-                      : undefined
-                  }
-                  title={item.title}
-                  content={item.content}
-                  updatedAt={item.updated_at}
-                  files={JSON.parse(item.files ?? "[]") as File[]}
-                />
-                <br />
-                <br />
-              </Content>
-            )}
-            loading={noticeLoading}
-          />
+          <Suspense fallback={<Loading />}>
+            <List
+              dataSource={noticeData?.contest_info}
+              renderItem={(item) => (
+                <Content>
+                  <NoticeCard
+                    onEditPress={
+                      ["root", "counselor"].includes(userInfo?.role!) ||
+                      isContestManagerData?.contest_manager.length === 1
+                        ? () => {
+                            setEditingNotice(
+                              item as graphql.GetContestNoticesQuery["contest_info"][0],
+                            );
+                            setFileList(
+                              JSON.parse(item.files ?? "[]").map((f: File) => ({
+                                response: { status: 200 },
+                                status: "done",
+                                size: 0,
+                                name: f.filename,
+                                type: "",
+                              })),
+                            );
+                            setModalVisible(true);
+                          }
+                        : undefined
+                    }
+                    onDeletePress={
+                      ["root", "counselor"].includes(userInfo?.role!) ||
+                      isContestManagerData?.contest_manager.length === 1
+                        ? () => {
+                            handleNoticeDelete(item.id);
+                          }
+                        : undefined
+                    }
+                    contest={contestData?.contest[0].contest_name!}
+                    title={item.title}
+                    content={item.content}
+                    updatedAt={item.updated_at}
+                    files={JSON.parse(item.files ?? "[]") as File[]}
+                  />
+                  <br />
+                  <br />
+                </Content>
+              )}
+              //loading={noticeLoading }
+            />
+          </Suspense>
         </Col>
       </Row>
-
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title={editingNotice ? "编辑公告" : "新公告"}
         centered
         okText="发布"
         onCancel={() => {
           const files = fileList.map((f) => ({
             filename: f.name,
-            url: `contest_upload/${Contest_id}/${f.name}`,
           }));
           if (editingNotice && editingNotice.files !== JSON.stringify(files)) {
             message.info("请先移除新上传的文件");
@@ -381,6 +391,7 @@ const NoticePage: React.FC = () => {
 export default NoticePage;
 
 interface NoticeCardProps extends CardProps {
+  contest: string;
   title: string;
   content: string;
   files?: File[];
@@ -391,6 +402,7 @@ interface NoticeCardProps extends CardProps {
 
 const NoticeCard: React.FC<NoticeCardProps> = (props) => {
   const {
+    contest,
     title,
     content,
     files,
@@ -413,31 +425,14 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
       hoverable
       {...restProps}
     >
-      <Text
+      <Markdown
         css={`
           margin: 12px 0 12px 0;
           white-space: pre-wrap;
         `}
       >
-        <Linkify
-          componentDecorator={(
-            decoratedHref: string,
-            decoratedText: string,
-            key: number,
-          ) => (
-            <a
-              href={decoratedHref}
-              key={key}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {decoratedText}
-            </a>
-          )}
-        >
-          {content}
-        </Linkify>
-      </Text>
+        {content}
+      </Markdown>
       <div
         css={`
           display: flex;
@@ -450,7 +445,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
         {files &&
           files.map((file) => (
             <Button
-              key={file.url}
+              key={file.filename}
               css={`
                 margin: 6px;
                 margin-left: 0px;
@@ -461,7 +456,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               size="small"
               onClick={() => {
                 message.info("开始下载：" + file.filename);
-                downloadFile(file.url);
+                downloadFile(`${contest}/notice/${file.filename}`);
               }}
             >
               {file.filename}

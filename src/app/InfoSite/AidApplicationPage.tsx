@@ -13,34 +13,9 @@ import {
   Input,
   Table,
   Progress,
+  InputRef,
 } from "antd";
-import { useQuery, useMutation, useApolloClient } from "@apollo/client";
 import axios, { AxiosError } from "axios";
-import {
-  GetAidList,
-  GetAidApplications,
-  GetAidApplicationsVariables,
-  GetAidApplications_aid_application,
-  UpdateAidApplication,
-  UpdateAidApplicationVariables,
-  GetAidApplicationsForCounselors,
-  GetAidApplicationsForCounselors_aid_application,
-  DeleteAidApplication,
-  DeleteAidApplicationVariables,
-  AddAidApplication,
-  AddAidApplicationVariables,
-  GetUserById,
-  GetUserByIdVariables,
-} from "../../api/types";
-import {
-  GetAidList as GET_AID_LIST,
-  GetAidApplications as GET_AID_APPLICATIONS,
-  UpdateAidApplication as UPDATE_AID_APPLICATION,
-  DeleteAidApplication as DELETE_AID_APPLICATION,
-  GetAidApplicationsForCounselors as GET_AID_APPLICATIONS_FOR_COUNSELORS,
-  AddAidApplication as ADD_AID_APPLICATION,
-} from "../../api/info_aid.graphql";
-import { GetUserById as GET_USER_BY_ID } from "../../api/user.graphql";
 import isUrl from "is-url";
 import { generateThankLetter } from "../../api/helpers/application";
 import type { ColumnProps, TableProps } from "antd/lib/table";
@@ -48,11 +23,12 @@ import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getUserInfo } from "../../api/helpers/auth";
-import {  FilterConfirmProps } from "antd/lib/table/interface";
+import { FilterConfirmProps } from "antd/lib/table/interface";
+import * as graphql from "@/generated/graphql";
 
-const param: FilterConfirmProps ={
-  closeDropdown: true
-}
+const param: FilterConfirmProps = {
+  closeDropdown: true,
+};
 const { Text } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -116,7 +92,7 @@ const AidApplicationPage = () => {
     loading: listLoading,
     error: listError,
     data: listData,
-  } = useQuery<GetAidList>(GET_AID_LIST);
+  } = graphql.useGetAidListQuery();
 
   useEffect(() => {
     if (listError) {
@@ -138,16 +114,13 @@ const AidApplicationPage = () => {
     error: applicationError,
     data: applicationData,
     refetch: refetchApplications,
-  } = useQuery<GetAidApplications, GetAidApplicationsVariables>(
-    GET_AID_APPLICATIONS,
-    {
-      variables: {
-        _id: userInfo?._id!,
-        _gte: info.aid.start_A,
-      },
-      skip: userInfo?.role === "counselor",
+  } = graphql.useGetAidApplicationsQuery({
+    variables: {
+      _id: userInfo?._id!,
+      _gte: info.aid.start_A,
     },
-  );
+    skip: userInfo?.role === "counselor",
+  });
 
   useEffect(() => {
     if (applicationError) {
@@ -157,16 +130,14 @@ const AidApplicationPage = () => {
 
   const [applicationFormVisible, setApplicationFormVisible] = useState(false);
   const [editingApplication, setEditingApplication] =
-    useState<GetAidApplications_aid_application>();
+    useState<graphql.GetAidApplicationsQuery["aid_application"][0]>();
 
   const [form] = Form.useForm();
 
   const [
     updateApplication,
     { loading: applicationUpdating, error: updateApplicationError },
-  ] = useMutation<UpdateAidApplication, UpdateAidApplicationVariables>(
-    UPDATE_AID_APPLICATION,
-  );
+  ] = graphql.useUpdateAidApplicationMutation();
 
   useEffect(() => {
     if (updateApplicationError) {
@@ -177,9 +148,7 @@ const AidApplicationPage = () => {
   const [
     addApplication,
     { loading: applicationAdding, error: addApplicationError },
-  ] = useMutation<AddAidApplication, AddAidApplicationVariables>(
-    ADD_AID_APPLICATION,
-  );
+  ] = graphql.useAddAidApplicationMutation();
 
   useEffect(() => {
     if (addApplicationError) {
@@ -205,22 +174,24 @@ const AidApplicationPage = () => {
         },
       });
     else {
-      const { data } = await client.query<GetUserById, GetUserByIdVariables>({
-        query: GET_USER_BY_ID,
+      const { data } = graphql.useGetIdByStudentNoQuery({
         variables: {
-          id: values.student_number,
+          student_no: values.student_number,
         },
       });
 
-      if (data.user.length !== 1) {
+      if (data?.users.length !== 1) {
         message.error("数据错误：用户不存在或不唯一！");
         return;
       }
-      if (data.user[0].name !== values.name) {
-        message.error("数据错误：姓名和学号不匹配！");
-        return;
-      }
-      const id = data.user[0]._id;
+
+      // if (data.user[0].name !== values.name) {
+      //   message.error("数据错误：姓名和学号不匹配！");
+      //   return;
+      // }
+
+      // _id in database
+      const id = data?.users[0]?.id;
 
       if (!aidNames.includes(values.aid)) {
         message.error("数据错误：助学金不存在！");
@@ -242,7 +213,7 @@ const AidApplicationPage = () => {
 
       await addApplication({
         variables: {
-          student_id: id,
+          student_id: id!,
           aid: values.aid,
           amount: values.amount,
           code: values.code,
@@ -258,10 +229,8 @@ const AidApplicationPage = () => {
     message.success("操作成功！");
   };
 
-  const [deleteApplication, { error: deleteApplicationError }] = useMutation<
-    DeleteAidApplication,
-    DeleteAidApplicationVariables
-  >(DELETE_AID_APPLICATION);
+  const [deleteApplication, { error: deleteApplicationError }] =
+    graphql.useDeleteAidApplicationMutation();
 
   useEffect(() => {
     if (deleteApplicationError) {
@@ -286,12 +255,9 @@ const AidApplicationPage = () => {
     error: applicationsForCounselorsError,
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
-  } = useQuery<GetAidApplicationsForCounselors>(
-    GET_AID_APPLICATIONS_FOR_COUNSELORS,
-    {
-      skip: userInfo?.role !== "counselor",
-    },
-  );
+  } = graphql.useGetAidApplicationsForCounselorsQuery({
+    skip: userInfo?.role !== "counselor",
+  });
 
   useEffect(() => {
     if (applicationsForCounselorsError) {
@@ -299,21 +265,22 @@ const AidApplicationPage = () => {
     }
   }, [applicationsForCounselorsError]);
 
-  const searchInput = useRef<Input>(null);
+  const searchInput = useRef<InputRef>(null);
 
   const getColumnSearchProps: (
     dataIndex:
-      | keyof GetAidApplicationsForCounselors_aid_application
+      | keyof graphql.GetAidApplicationsForCounselorsQuery["aid_application"][0]
       | (
-          | keyof GetAidApplicationsForCounselors_aid_application
+          | keyof graphql.GetAidApplicationsForCounselorsQuery["aid_application"][0]
           | "name"
           | "class"
         )[],
     name: string,
-  ) => Partial<ColumnProps<GetAidApplicationsForCounselors_aid_application>> = (
-    dataIndex,
-    name,
-  ) => ({
+  ) => Partial<
+    ColumnProps<
+      graphql.GetAidApplicationsForCounselorsQuery["aid_application"][0]
+    >
+  > = (dataIndex, name) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -380,56 +347,57 @@ const AidApplicationPage = () => {
     },
   });
 
-  const aidColumnsForCounselor: TableProps<GetAidApplicationsForCounselors_aid_application>["columns"] =
-    [
-      {
-        title: "学号",
-        dataIndex: ["student", "id"],
-        key: "student_id",
-        ...getColumnSearchProps(["student", "id"], "学号"),
-      },
-      {
-        title: "姓名",
-        dataIndex: ["student", "name"],
-        key: "name",
-        ...getColumnSearchProps(["student", "name"], "姓名"),
-      },
-      {
-        title: "班级",
-        dataIndex: ["student", "class"],
-        key: "class",
-        ...getColumnSearchProps(["student", "class"], "班级"),
-      },
-      {
-        title: "助学金",
-        dataIndex: "aid",
-        key: "aid",
-        filters: aidNames.map((aid) => ({
-          text: aid,
-          value: aid,
-        })),
-        onFilter: (value, record) => record.aid === value,
-      },
-      {
-        title: "代码",
-        dataIndex: "code",
-        key: "code",
-      },
-      {
-        title: "金额",
-        dataIndex: "amount",
-        key: "amount",
-      },
-      {
-        title: "操作",
-        key: "action",
-        render: (text, record) => (
-          <Button danger onClick={() => handleApplicationDelete(record.id)}>
-            删除
-          </Button>
-        ),
-      },
-    ];
+  const aidColumnsForCounselor: TableProps<
+    graphql.GetAidApplicationsForCounselorsQuery["aid_application"][0]
+  >["columns"] = [
+    {
+      title: "学号",
+      dataIndex: ["student", "id"],
+      key: "student_id",
+      ...getColumnSearchProps(["student", "id"], "学号"),
+    },
+    {
+      title: "姓名",
+      dataIndex: ["student", "name"],
+      key: "name",
+      ...getColumnSearchProps(["student", "name"], "姓名"),
+    },
+    {
+      title: "班级",
+      dataIndex: ["student", "class"],
+      key: "class",
+      ...getColumnSearchProps(["student", "class"], "班级"),
+    },
+    {
+      title: "助学金",
+      dataIndex: "aid",
+      key: "aid",
+      filters: aidNames.map((aid) => ({
+        text: aid,
+        value: aid,
+      })),
+      onFilter: (value, record) => record.aid === value,
+    },
+    {
+      title: "代码",
+      dataIndex: "code",
+      key: "code",
+    },
+    {
+      title: "金额",
+      dataIndex: "amount",
+      key: "amount",
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => (
+        <Button danger onClick={() => handleApplicationDelete(record.id)}>
+          删除
+        </Button>
+      ),
+    },
+  ];
 
   const [, setSearchText] = useState<React.Key>("");
 
@@ -452,7 +420,7 @@ const AidApplicationPage = () => {
   const [exportLoading, setExportLoading] = useState(false);
 
   const handleApplicationExport = async (
-    example?: GetAidApplicationsForCounselors_aid_application[],
+    example?: graphql.GetAidApplicationsForCounselorsQuery["aid_application"],
   ) => {
     if (!example && exportClasses.length === 0) {
       message.info("请选择筛选条件");
@@ -471,8 +439,8 @@ const AidApplicationPage = () => {
               (exportAid ? application.aid === exportAid : true) &&
               (exportClasses.includes("全部")
                 ? true
-                : exportClasses.some(
-                    (_class) => application.student.class?.includes(_class),
+                : exportClasses.some((_class) =>
+                    application.student.class?.includes(_class),
                   )),
           )
     ).map((i) => [
@@ -540,7 +508,8 @@ const AidApplicationPage = () => {
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [parseProgress, setParseProgress] = useState(0);
 
-  const client = useApolloClient();
+  const [addAidApplicationMutation, { error }] =
+    graphql.useAddAidApplicationMutation();
 
   const handleApplicationImport = async () => {
     if (!fileList || fileList.length !== 1) {
@@ -610,26 +579,18 @@ const AidApplicationPage = () => {
             const aid = application[4].toString().trim();
             const amount = parseInt(application[6].toString().trim(), 10);
 
-            const { data } = await client.query<
-              GetUserById,
-              GetUserByIdVariables
-            >({
-              query: GET_USER_BY_ID,
+            const { data } = graphql.useGetIdByStudentNoQuery({
               variables: {
-                id: student_id,
+                student_no: student_id,
               },
             });
 
             // _id in database
-            const id = data.user[0]._id;
+            const id = data?.users[0]?.id;
 
-            const { errors } = await client.mutate<
-              AddAidApplication,
-              AddAidApplicationVariables
-            >({
-              mutation: ADD_AID_APPLICATION,
+            addAidApplicationMutation({
               variables: {
-                student_id: id,
+                student_id: id!,
                 aid,
                 amount,
                 code,
@@ -639,8 +600,8 @@ const AidApplicationPage = () => {
             count++;
             setParseProgress(Math.round((count / applications.length) * 100));
 
-            if (errors) {
-              throw errors;
+            if (error) {
+              throw error;
             }
           } catch (err) {
             throw err;
@@ -764,7 +725,7 @@ const AidApplicationPage = () => {
                           let salutation: string | null = "";
                           listData?.scholarships_aids.forEach((i) => {
                             if (i.code === item.code)
-                              return (salutation = i.salutation);
+                              return (salutation = i.salutation!);
                           });
                           generateThankLetter(item, salutation);
                         } catch {
@@ -782,7 +743,7 @@ const AidApplicationPage = () => {
             }}
           />
           <Modal
-            visible={applicationFormVisible}
+            open={applicationFormVisible}
             title="编辑申请"
             centered
             destroyOnClose
@@ -896,7 +857,7 @@ const AidApplicationPage = () => {
                         let salutation: string | null = "";
                         listData?.scholarships_aids.forEach((i) => {
                           if (i.code === record.code)
-                            return (salutation = i.salutation);
+                            return (salutation = i.salutation!);
                         });
                         generateThankLetter(record, salutation);
                       } catch {
@@ -913,7 +874,7 @@ const AidApplicationPage = () => {
             )}
           />
           <Modal
-            visible={exportFormVisible}
+            open={exportFormVisible}
             title="导出助学金"
             centered
             onOk={() => handleApplicationExport()}
@@ -946,7 +907,7 @@ const AidApplicationPage = () => {
             </Form>
           </Modal>
           <Modal
-            visible={importFormVisible}
+            open={importFormVisible}
             title="导入助学金"
             centered
             onOk={handleApplicationImport}
@@ -985,7 +946,7 @@ const AidApplicationPage = () => {
             </div>
           </Modal>
           <Modal
-            visible={applicationFormVisible}
+            open={applicationFormVisible}
             title="添加助学金记录"
             centered
             destroyOnClose

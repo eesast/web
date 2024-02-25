@@ -1,7 +1,0 @@
-query GetWeekly {
-  weekly {
-    id
-    title
-    url
-  }
-}

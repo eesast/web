@@ -1,45 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import {
-  GetContests as GET_CONTESTS,
-  DeleteContest as DELETE_CONTEST,
-  AddContest as ADD_CONTEST,
-  UpdateContest as UPDATE_CONTEST,
-  GetContestManager as GET_CONTEST_MANAGER,
-  DeleteContestAllManager as DELETE_CONTEST_MANAGER,
-  AddContestManager as ADD_CONTEST_MANAGER,
-  GetUser_Id as GET_USER_ID,
-  DeleteContestAllTeams as DELETE_CONTEST_TEAMS,
-  DeleteContestAllInfo as DELETE_CONTEST_INFO,
-  DeleteContestAllRooms as DELETE_CONTEST_ROOMS,
-} from "../../api/contest_manager.graphql";
-import {
-  GetContests,
-  AddContest,
-  AddContestVariables,
-  UpdateContest,
-  UpdateContestVariables,
-  DeleteContest,
-  DeleteContestVariables,
-  GetContestManager,
-  GetContestManagerVariables,
-  DeleteContestAllManager,
-  DeleteContestAllManagerVariables,
-  AddContestManager,
-  AddContestManagerVariables,
-  GetUser_Id,
-  GetUser_IdVariables,
-  GetContestManager_contest_manager_user,
-  DeleteContestAllTeams,
-  DeleteContestAllTeamsVariables,
-  DeleteContestAllInfo,
-  DeleteContestAllInfoVariables,
-  DeleteContestAllRooms,
-  DeleteContestAllRoomsVariables,
-} from "../../api/types";
+import React, { useEffect, useState, Suspense } from "react";
+import { Link, Route, Routes, Navigate } from "react-router-dom";
 import { getUserInfo } from "../../api/helpers/auth";
-//导入antd的包
 import Card, { CardProps } from "antd/lib/card";
 import {
   Button,
@@ -55,6 +16,7 @@ import {
   Row,
   Select,
   Space,
+  Spin,
   Typography,
 } from "antd";
 import {
@@ -64,74 +26,120 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-//以下为分页面
+//以下为分页面，用以没登陆会跳转到登陆页面
 import MenuPage from "./MenuPage";
-
-//用以没登陆会跳转到登陆页面
 import dayjs, { Dayjs } from "dayjs";
+//import utc from 'dayjs/plugin/utc';
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
+import * as graphql from "@/generated/graphql";
+import styled from "styled-components";
 
+/* ---------------- 接口和类型定义 ---------------- */
+// 表单数据格式
+interface FormValues {
+  contest_name: string;
+  contest_type: string;
+  description: string | undefined | null;
+  time: Dayjs[];
+  managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["user"][];
+}
+
+interface ContestInfoCardProps extends CardProps {
+  name: string;
+  description: string | null;
+  startDate: Date;
+  endDate: Date;
+  onEditPress?: () => void;
+  onDeletePress?: () => void;
+}
+
+/* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 const { confirm } = Modal;
 const RangePicker: any = DatePicker.RangePicker;
 const { Option } = Select;
-
+const userInfo = getUserInfo();
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
 
-const ContestSite: React.FC = () => {
-  const userInfo = getUserInfo();
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
+/* ---------------- 主页面 ---------------- */
+const ContestSite: React.FC<PageProps> = ({ mode }) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editingContest, setEditingContest] = useState<boolean>(false); //编辑or添加比赛
+  const [contestID, setContestID] = useState<string>(); //编辑比赛时的比赛ID
+  const [form] = Form.useForm();
   const url = useUrl();
 
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const {
     data: contestData,
-    loading: contestLoading,
+    //loading: contestLoading,
     error: contestError,
     refetch: refetchContests,
-  } = useQuery<GetContests, {}>(GET_CONTESTS);
+  } = graphql.useGetContestsSuspenseQuery();
+
+  const {
+    /* data: userData,
+    loading: userLoading, */
+    error: userError,
+    refetch: refetchUserId,
+  } = graphql.useGetUser_IdSuspenseQuery({
+    variables: {
+      email: "",
+      name: "",
+    },
+  });
+
+  const {
+    /* data: contestManagerData,
+    loading: contestManagerLoading, */
+    error: contestManagerError,
+    refetch: refetchContestManager,
+  } = graphql.useGetContestManagerSuspenseQuery({
+    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
+  });
 
   const [
     updateContest,
     { loading: contestUpdating, error: contestUpdatingError },
-  ] = useMutation<UpdateContest, UpdateContestVariables>(UPDATE_CONTEST);
+  ] = graphql.useUpdateContestMutation();
 
   const [addContest, { loading: contestAdding, error: contestAddingError }] =
-    useMutation<AddContest, AddContestVariables>(ADD_CONTEST);
+    graphql.useAddContestMutation();
 
-  const [deleteContest, { error: contestDeleteError }] = useMutation<
-    DeleteContest,
-    DeleteContestVariables
-  >(DELETE_CONTEST);
+  const [deleteContest, { error: contestDeleteError }] =
+    graphql.useDeleteContestMutation();
 
-  const [deleteContestTeams, { error: teamDeleteError }] = useMutation<
-    DeleteContestAllTeams,
-    DeleteContestAllTeamsVariables
-  >(DELETE_CONTEST_TEAMS);
+  const [deleteContestTeams, { error: teamDeleteError }] =
+    graphql.useDeleteContestAllTeamsMutation();
 
   const [
     addContestManager,
     { /*loading: managerAdding,*/ error: managerAddError },
-  ] = useMutation<AddContestManager, AddContestManagerVariables>(
-    ADD_CONTEST_MANAGER,
-  );
+  ] = graphql.useAddContestManagerMutation();
 
-  const [deleteContestManager, { error: managerDeleteError }] = useMutation<
-    DeleteContestAllManager,
-    DeleteContestAllManagerVariables
-  >(DELETE_CONTEST_MANAGER);
+  const [deleteContestManager, { error: managerDeleteError }] =
+    graphql.useDeleteContestAllManagerMutation();
 
-  const [deleteContestInfo, { error: infoDeleteError }] = useMutation<
-    DeleteContestAllInfo,
-    DeleteContestAllInfoVariables
-  >(DELETE_CONTEST_INFO);
+  const [deleteContestInfo, { error: infoDeleteError }] =
+    graphql.useDeleteContestAllInfoMutation();
 
-  const [deleteContestRooms, { error: roomsDeleteError }] = useMutation<
-    DeleteContestAllRooms,
-    DeleteContestAllRoomsVariables
-  >(DELETE_CONTEST_ROOMS);
+  const [deleteContestRooms, { error: roomsDeleteError }] =
+    graphql.useDeleteContestAllRoomsMutation();
 
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
@@ -195,18 +203,6 @@ const ContestSite: React.FC = () => {
     }
   }, [roomsDeleteError]);
 
-  const {
-    /* data: userData,
-    loading: userLoading, */
-    error: userError,
-    refetch: refetchUserId,
-  } = useQuery<GetUser_Id, GetUser_IdVariables>(GET_USER_ID, {
-    variables: {
-      email: "",
-      name: "",
-    },
-  });
-
   useEffect(() => {
     if (userError) {
       message.error("用户信息查询失败");
@@ -214,39 +210,13 @@ const ContestSite: React.FC = () => {
     }
   }, [userError]);
 
-  const {
-    /* data: contestManagerData,
-    loading: contestManagerLoading, */
-    error: contestManagerError,
-    refetch: refetchContestManager,
-  } = useQuery<GetContestManager, GetContestManagerVariables>(
-    GET_CONTEST_MANAGER,
-    {
-      variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
-    },
-  );
-
   useEffect(() => {
     if (contestManagerError) {
       message.error("管理员加载失败");
       console.log(contestManagerError.message);
     }
   }, [contestManagerError]);
-
-  //表单数据格式
-  interface FormValues {
-    contest_name: string;
-    contest_type: string;
-    description: string | undefined | null;
-    time: Dayjs[];
-    managers_list: GetContestManager_contest_manager_user[];
-  }
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editingContest, setEditingContest] = useState<boolean>(false); //编辑or添加比赛
-  const [contestID, setContestID] = useState<string>(); //编辑比赛时的比赛ID
-  const [form] = Form.useForm();
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleContestEdit = async () => {
     try {
       form.validateFields();
@@ -365,6 +335,15 @@ const ContestSite: React.FC = () => {
     });
   };
 
+  /* ---------------- 随渲染刷新的组件 ---------------- */
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
   const index = (
     <Layout>
       <br />
@@ -383,63 +362,68 @@ const ContestSite: React.FC = () => {
       <Row>
         <Col span={3}></Col>
         <Col span={18}>
-          <List
-            dataSource={contestData?.contest}
-            renderItem={(item) => (
-              <Content>
-                <ContestInfoCard
-                  key={item.id}
-                  onEditPress={
-                    userInfo?.role === "counselor" || userInfo?.role === "root"
-                      ? async () => {
-                          setEditingContest(true);
-                          try {
-                            const managerData = await refetchContestManager({
-                              contest_id: item.id,
-                            });
-                            const data: FormValues = {
-                              contest_name: item?.contest_name,
-                              contest_type: item?.contest_type,
-                              description: item?.description,
-                              time: [
-                                dayjs(item?.start_date),
-                                dayjs(item?.end_date),
-                              ],
-                              managers_list:
-                                managerData.data.contest_manager.map(
-                                  (value) => value.user,
-                                ),
-                            };
-                            setContestID(item?.id);
-                            form.setFieldsValue(data);
-                          } catch {}
-                          setModalVisible(true);
-                        }
-                      : undefined
-                  }
-                  onDeletePress={
-                    userInfo?.role === "counselor" || userInfo?.role === "root"
-                      ? () => {
-                          handleContestDelete(item.id);
-                        }
-                      : undefined
-                  }
-                  name={item.contest_name}
-                  description={item.description}
-                  startDate={item.start_date}
-                  endDate={item.end_date}
-                  id={item.id}
-                />
-                <br />
-                <br />
-              </Content>
-            )}
-            loading={contestLoading}
-          />
+          <Suspense fallback={<Loading />}>
+            <List
+              dataSource={contestData?.contest}
+              renderItem={(item) => (
+                <Content>
+                  <ContestInfoCard
+                    key={item.id}
+                    onEditPress={
+                      userInfo?.role === "counselor" ||
+                      userInfo?.role === "root"
+                        ? async () => {
+                            setEditingContest(true);
+                            try {
+                              const managerData = await refetchContestManager({
+                                contest_id: item.id,
+                              });
+                              const data: FormValues = {
+                                contest_name: item?.contest_name,
+                                contest_type: item?.contest_type,
+                                description: item?.description,
+                                time: [
+                                  dayjs(item?.start_date),
+                                  dayjs(item?.end_date),
+                                ],
+                                managers_list:
+                                  managerData.data.contest_manager.map(
+                                    (value) =>
+                                      value.user as graphql.GetContestManagerQuery["contest_manager"][0]["user"],
+                                  ),
+                              };
+                              setContestID(item?.id);
+                              form.setFieldsValue(data);
+                            } catch {}
+                            setModalVisible(true);
+                          }
+                        : undefined
+                    }
+                    onDeletePress={
+                      userInfo?.role === "counselor" ||
+                      userInfo?.role === "root"
+                        ? () => {
+                            handleContestDelete(item.id);
+                          }
+                        : undefined
+                    }
+                    name={item.contest_name}
+                    description={item.description as string | null}
+                    startDate={item.start_date}
+                    endDate={item.end_date}
+                    id={item.id}
+                  />
+                  <br />
+                  <br />
+                </Content>
+              )}
+              //loading={contestLoading}
+            />
+          </Suspense>
         </Col>
       </Row>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title={editingContest ? "编辑比赛" : "新比赛"}
         centered
         okText="提交"
@@ -559,46 +543,19 @@ const ContestSite: React.FC = () => {
       </Modal>
     </Layout>
   );
-
+  /* ---------------- 页面组件 ---------------- */
   return (
     <>
-      <Switch>
-        {/* 等待React升到v18后启用 */}
-        {/* <Route path={url.route("contest", "site")}>
-          <Redirect to={url.link("list")} />
-        </Route>
-        <Route path={url.route("list")}>
-          {index}
-        </Route> */}
-        <Route exact path={url.route("contest", "site")}>
-          <Redirect to={url.link("list")} />
-        </Route>
-        <Route exact path={url.route("list")}>
-          {index}
-        </Route>
-        <Route>
-          <MenuPage />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Navigate to={url.link("list")} />} />
+        <Route path="list" element={index} />
+        <Route path="*" element={<MenuPage />} />
+      </Routes>
     </>
   );
 };
 
-export default ContestSite;
-
-export interface contestProps {
-  contestID: string;
-}
-
-interface ContestInfoCardProps extends CardProps {
-  name: string;
-  description: string | null;
-  startDate: Date;
-  endDate: Date;
-  onEditPress?: () => void;
-  onDeletePress?: () => void;
-}
-
+/* ---------------- 比赛信息卡片组件 ---------------- */
 const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
   const {
     id,
@@ -706,8 +663,8 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
                 state === "正在进行"
                   ? "green"
                   : state === "已结束"
-                  ? "red"
-                  : "black",
+                    ? "red"
+                    : "black",
             }}
           >
             {state}
@@ -723,3 +680,9 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
     </Card>
   );
 };
+
+export default ContestSite;
+
+export interface contestProps {
+  contestID: string;
+}

@@ -1,15 +1,15 @@
-import {
-  GetScholarshipApplications_scholarship_application,
-  GetAidApplications_aid_application,
-} from "../types";
+import Docxtemplater from "docxtemplater";
 import FileSaver from "file-saver";
+import PizZip from "pizzip";
+import PizZipUtils from "pizzip/utils/index.js";
+import * as graphql from "@/generated/graphql";
 
 export const getStatusText = (status: string) =>
   status === "submitted"
     ? "已提交"
     : status === "rejected"
-    ? "未通过"
-    : "已通过";
+      ? "未通过"
+      : "已通过";
 
 export const getStatusValue = (text: string) =>
   text === "已提交" ? "submitted" : text === "未通过" ? "rejected" : "approved";
@@ -24,23 +24,19 @@ const formatDate = (date: Date) => {
 
 export const generateThankLetter = async (
   application:
-    | GetScholarshipApplications_scholarship_application
-    | GetAidApplications_aid_application,
+    | graphql.GetScholarshipApplicationsQuery["scholarship_application"][0]
+    | graphql.GetAidApplicationsQuery["aid_application"][0],
   salutation: string | null,
 ) => {
-  const PizZip = await import("pizzip");
-  const PizZipUtils = await import("pizzip/utils/es6");
-  const Docxtemplater = await import("docxtemplater");
-
   const templateData = await new Promise<any>((resolve) =>
-    PizZipUtils.default.getBinaryContent(
+    PizZipUtils.getBinaryContent(
       `${process.env.REACT_APP_STATIC_URL}/public/files/thankletter-template.docx`,
       (err: any, content: any) => resolve(content),
     ),
   );
-  const zipFile = new PizZip.default(templateData);
+  const zipFile = new PizZip(templateData);
 
-  const doc = new Docxtemplater.default();
+  const doc = new Docxtemplater();
   doc.loadZip(zipFile);
 
   const content = application.thank_letter ?? "";
@@ -54,11 +50,13 @@ export const generateThankLetter = async (
   }
 
   const prizeName = (
-    application as GetScholarshipApplications_scholarship_application
+    application as graphql.GetScholarshipApplicationsQuery["scholarship_application"][0]
   ).scholarship
-    ? (application as GetScholarshipApplications_scholarship_application)
-        .scholarship
-    : (application as GetAidApplications_aid_application).aid;
+    ? (
+        application as graphql.GetScholarshipApplicationsQuery["scholarship_application"][0]
+      ).scholarship
+    : (application as graphql.GetAidApplicationsQuery["aid_application"][0])
+        .aid;
 
   const info = {
     title: prizeName + "感谢信",

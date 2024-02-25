@@ -1,128 +1,118 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  bigint: { input: any; output: any };
-  json: { input: any; output: any };
-  numeric: { input: any; output: any };
-  timestamptz: { input: any; output: any };
-  uuid: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  bigint: { input: any; output: any; }
+  json: { input: any; output: any; }
+  numeric: { input: any; output: any; }
+  timestamptz: { input: any; output: any; }
+  uuid: { input: any; output: any; }
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type Boolean_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _gt?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _gte?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["Boolean"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lte?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _neq?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["Boolean"]["input"]>>;
+  _eq?: InputMaybe<Scalars['Boolean']['input']>;
+  _gt?: InputMaybe<Scalars['Boolean']['input']>;
+  _gte?: InputMaybe<Scalars['Boolean']['input']>;
+  _in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Boolean']['input']>;
+  _lte?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<Scalars['Boolean']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["Int"]["input"]>;
-  _gt?: InputMaybe<Scalars["Int"]["input"]>;
-  _gte?: InputMaybe<Scalars["Int"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["Int"]["input"]>;
-  _lte?: InputMaybe<Scalars["Int"]["input"]>;
-  _neq?: InputMaybe<Scalars["Int"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  _eq?: InputMaybe<Scalars['Int']['input']>;
+  _gt?: InputMaybe<Scalars['Int']['input']>;
+  _gte?: InputMaybe<Scalars['Int']['input']>;
+  _in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Int']['input']>;
+  _lte?: InputMaybe<Scalars['Int']['input']>;
+  _neq?: InputMaybe<Scalars['Int']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["String"]["input"]>;
-  _gt?: InputMaybe<Scalars["String"]["input"]>;
-  _gte?: InputMaybe<Scalars["String"]["input"]>;
+  _eq?: InputMaybe<Scalars['String']['input']>;
+  _gt?: InputMaybe<Scalars['String']['input']>;
+  _gte?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike?: InputMaybe<Scalars["String"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _ilike?: InputMaybe<Scalars['String']['input']>;
+  _in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: InputMaybe<Scalars["String"]["input"]>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
+  _iregex?: InputMaybe<Scalars['String']['input']>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
   /** does the column match the given pattern */
-  _like?: InputMaybe<Scalars["String"]["input"]>;
-  _lt?: InputMaybe<Scalars["String"]["input"]>;
-  _lte?: InputMaybe<Scalars["String"]["input"]>;
-  _neq?: InputMaybe<Scalars["String"]["input"]>;
+  _like?: InputMaybe<Scalars['String']['input']>;
+  _lt?: InputMaybe<Scalars['String']['input']>;
+  _lte?: InputMaybe<Scalars['String']['input']>;
+  _neq?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: InputMaybe<Scalars["String"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _nilike?: InputMaybe<Scalars['String']['input']>;
+  _nin?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: InputMaybe<Scalars["String"]["input"]>;
+  _niregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given pattern */
-  _nlike?: InputMaybe<Scalars["String"]["input"]>;
+  _nlike?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: InputMaybe<Scalars["String"]["input"]>;
+  _nregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: InputMaybe<Scalars["String"]["input"]>;
+  _nsimilar?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: InputMaybe<Scalars["String"]["input"]>;
+  _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
-  _similar?: InputMaybe<Scalars["String"]["input"]>;
+  _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** columns and relationships of "aid_application" */
 export type Aid_Application = {
-  __typename?: "aid_application";
-  aid: Scalars["String"]["output"];
-  amount: Scalars["Int"]["output"];
-  code: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  form_url?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["uuid"]["output"];
-  status: Scalars["String"]["output"];
+  __typename?: 'aid_application';
+  aid: Scalars['String']['output'];
+  amount: Scalars['Int']['output'];
+  code: Scalars['String']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  form_url?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  status: Scalars['String']['output'];
   /** An object relationship */
   student: User;
-  student_id: Scalars["String"]["output"];
-  thank_letter?: Maybe<Scalars["String"]["output"]>;
-  updated_at: Scalars["timestamptz"]["output"];
+  student_id: Scalars['String']['output'];
+  student_uuid: Scalars['uuid']['output'];
+  thank_letter?: Maybe<Scalars['String']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  user: Users;
 };
 
 /** aggregated selection of "aid_application" */
 export type Aid_Application_Aggregate = {
-  __typename?: "aid_application_aggregate";
+  __typename?: 'aid_application_aggregate';
   aggregate?: Maybe<Aid_Application_Aggregate_Fields>;
   nodes: Array<Aid_Application>;
 };
 
 /** aggregate fields of "aid_application" */
 export type Aid_Application_Aggregate_Fields = {
-  __typename?: "aid_application_aggregate_fields";
+  __typename?: 'aid_application_aggregate_fields';
   avg?: Maybe<Aid_Application_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Aid_Application_Max_Fields>;
   min?: Maybe<Aid_Application_Min_Fields>;
   stddev?: Maybe<Aid_Application_Stddev_Fields>;
@@ -134,16 +124,17 @@ export type Aid_Application_Aggregate_Fields = {
   variance?: Maybe<Aid_Application_Variance_Fields>;
 };
 
+
 /** aggregate fields of "aid_application" */
 export type Aid_Application_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Aid_Application_Avg_Fields = {
-  __typename?: "aid_application_avg_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'aid_application_avg_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "aid_application". All fields are combined with a logical 'AND'. */
@@ -160,71 +151,77 @@ export type Aid_Application_Bool_Exp = {
   status?: InputMaybe<String_Comparison_Exp>;
   student?: InputMaybe<User_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
+  student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   thank_letter?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "aid_application" */
 export enum Aid_Application_Constraint {
   /** unique or primary key constraint on columns "id" */
-  AidApplicationPkey1 = "aid_application_pkey1",
+  AidApplicationPkey1 = 'aid_application_pkey1'
 }
 
 /** input type for incrementing numeric columns in table "aid_application" */
 export type Aid_Application_Inc_Input = {
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "aid_application" */
 export type Aid_Application_Insert_Input = {
-  aid?: InputMaybe<Scalars["String"]["input"]>;
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  form_url?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
+  aid?: InputMaybe<Scalars['String']['input']>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_url?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
   student?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  thank_letter?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  thank_letter?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Aid_Application_Max_Fields = {
-  __typename?: "aid_application_max_fields";
-  aid?: Maybe<Scalars["String"]["output"]>;
-  amount?: Maybe<Scalars["Int"]["output"]>;
-  code?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  form_url?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  thank_letter?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'aid_application_max_fields';
+  aid?: Maybe<Scalars['String']['output']>;
+  amount?: Maybe<Scalars['Int']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_url?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  thank_letter?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Aid_Application_Min_Fields = {
-  __typename?: "aid_application_min_fields";
-  aid?: Maybe<Scalars["String"]["output"]>;
-  amount?: Maybe<Scalars["Int"]["output"]>;
-  code?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  form_url?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  thank_letter?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'aid_application_min_fields';
+  aid?: Maybe<Scalars['String']['output']>;
+  amount?: Maybe<Scalars['Int']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_url?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  thank_letter?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "aid_application" */
 export type Aid_Application_Mutation_Response = {
-  __typename?: "aid_application_mutation_response";
+  __typename?: 'aid_application_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Aid_Application>;
 };
@@ -247,1738 +244,172 @@ export type Aid_Application_Order_By = {
   status?: InputMaybe<Order_By>;
   student?: InputMaybe<User_Order_By>;
   student_id?: InputMaybe<Order_By>;
+  student_uuid?: InputMaybe<Order_By>;
   thank_letter?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
 };
 
 /** primary key columns input for table: aid_application */
 export type Aid_Application_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "aid_application" */
 export enum Aid_Application_Select_Column {
   /** column name */
-  Aid = "aid",
+  Aid = 'aid',
   /** column name */
-  Amount = "amount",
+  Amount = 'amount',
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  FormUrl = "form_url",
+  FormUrl = 'form_url',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  StudentId = "student_id",
+  StudentId = 'student_id',
   /** column name */
-  ThankLetter = "thank_letter",
+  StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = "updated_at",
+  ThankLetter = 'thank_letter',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "aid_application" */
 export type Aid_Application_Set_Input = {
-  aid?: InputMaybe<Scalars["String"]["input"]>;
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  form_url?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  thank_letter?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  aid?: InputMaybe<Scalars['String']['input']>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_url?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  thank_letter?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Aid_Application_Stddev_Fields = {
-  __typename?: "aid_application_stddev_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'aid_application_stddev_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Aid_Application_Stddev_Pop_Fields = {
-  __typename?: "aid_application_stddev_pop_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'aid_application_stddev_pop_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Aid_Application_Stddev_Samp_Fields = {
-  __typename?: "aid_application_stddev_samp_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'aid_application_stddev_samp_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Aid_Application_Sum_Fields = {
-  __typename?: "aid_application_sum_fields";
-  amount?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'aid_application_sum_fields';
+  amount?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "aid_application" */
 export enum Aid_Application_Update_Column {
   /** column name */
-  Aid = "aid",
+  Aid = 'aid',
   /** column name */
-  Amount = "amount",
+  Amount = 'amount',
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  FormUrl = "form_url",
+  FormUrl = 'form_url',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  StudentId = "student_id",
+  StudentId = 'student_id',
   /** column name */
-  ThankLetter = "thank_letter",
+  StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = "updated_at",
+  ThankLetter = 'thank_letter',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
 export type Aid_Application_Var_Pop_Fields = {
-  __typename?: "aid_application_var_pop_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'aid_application_var_pop_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Aid_Application_Var_Samp_Fields = {
-  __typename?: "aid_application_var_samp_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'aid_application_var_samp_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Aid_Application_Variance_Fields = {
-  __typename?: "aid_application_variance_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** article 数据 */
-export type Article = {
-  __typename?: "article";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias: Scalars["String"]["output"];
-  /** An array relationship */
-  article_likers: Array<Article_Liker>;
-  /** An aggregate relationship */
-  article_likers_aggregate: Article_Liker_Aggregate;
-  /** An array relationship */
-  article_tags: Array<Article_Tag>;
-  /** An aggregate relationship */
-  article_tags_aggregate: Article_Tag_Aggregate;
-  /** An object relationship */
-  author: User;
-  authorId: Scalars["String"]["output"];
-  /** An array relationship */
-  comments: Array<Comment>;
-  /** An aggregate relationship */
-  comments_aggregate: Comment_Aggregate;
-  content: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["Int"]["output"];
-  title: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
-  views: Scalars["Int"]["output"];
-  visible: Scalars["Boolean"]["output"];
-};
-
-/** article 数据 */
-export type ArticleArticle_LikersArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleArticle_Likers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleArticle_TagsArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleArticle_Tags_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleCommentsArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** article 数据 */
-export type ArticleComments_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** aggregated selection of "article" */
-export type Article_Aggregate = {
-  __typename?: "article_aggregate";
-  aggregate?: Maybe<Article_Aggregate_Fields>;
-  nodes: Array<Article>;
-};
-
-/** aggregate fields of "article" */
-export type Article_Aggregate_Fields = {
-  __typename?: "article_aggregate_fields";
-  avg?: Maybe<Article_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Max_Fields>;
-  min?: Maybe<Article_Min_Fields>;
-  stddev?: Maybe<Article_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Sum_Fields>;
-  var_pop?: Maybe<Article_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Var_Samp_Fields>;
-  variance?: Maybe<Article_Variance_Fields>;
-};
-
-/** aggregate fields of "article" */
-export type Article_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "article" */
-export type Article_Aggregate_Order_By = {
-  avg?: InputMaybe<Article_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Article_Max_Order_By>;
-  min?: InputMaybe<Article_Min_Order_By>;
-  stddev?: InputMaybe<Article_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Article_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Article_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Article_Sum_Order_By>;
-  var_pop?: InputMaybe<Article_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Article_Var_Samp_Order_By>;
-  variance?: InputMaybe<Article_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "article" */
-export type Article_Arr_Rel_Insert_Input = {
-  data: Array<Article_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Article_Avg_Fields = {
-  __typename?: "article_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "article" */
-export type Article_Avg_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "article". All fields are combined with a logical 'AND'. */
-export type Article_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Bool_Exp>>;
-  _not?: InputMaybe<Article_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Bool_Exp>>;
-  abstract?: InputMaybe<String_Comparison_Exp>;
-  alias?: InputMaybe<String_Comparison_Exp>;
-  article_likers?: InputMaybe<Article_Liker_Bool_Exp>;
-  article_tags?: InputMaybe<Article_Tag_Bool_Exp>;
-  author?: InputMaybe<User_Bool_Exp>;
-  authorId?: InputMaybe<String_Comparison_Exp>;
-  comments?: InputMaybe<Comment_Bool_Exp>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  views?: InputMaybe<Int_Comparison_Exp>;
-  visible?: InputMaybe<Boolean_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "article" */
-export enum Article_Constraint {
-  /** unique or primary key constraint on columns "alias" */
-  ArticleAliasKey = "article_alias_key",
-  /** unique or primary key constraint on columns "id" */
-  ArticlePkey = "article_pkey",
-}
-
-/** input type for incrementing numeric columns in table "article" */
-export type Article_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article" */
-export type Article_Insert_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  article_likers?: InputMaybe<Article_Liker_Arr_Rel_Insert_Input>;
-  article_tags?: InputMaybe<Article_Tag_Arr_Rel_Insert_Input>;
-  author?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  comments?: InputMaybe<Comment_Arr_Rel_Insert_Input>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** article - liker 多对多映射表 */
-export type Article_Liker = {
-  __typename?: "article_liker";
-  /** An object relationship */
-  article: Article;
-  article_id: Scalars["Int"]["output"];
-  /** An object relationship */
-  liker: User;
-  user_id: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "article_liker" */
-export type Article_Liker_Aggregate = {
-  __typename?: "article_liker_aggregate";
-  aggregate?: Maybe<Article_Liker_Aggregate_Fields>;
-  nodes: Array<Article_Liker>;
-};
-
-/** aggregate fields of "article_liker" */
-export type Article_Liker_Aggregate_Fields = {
-  __typename?: "article_liker_aggregate_fields";
-  avg?: Maybe<Article_Liker_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Liker_Max_Fields>;
-  min?: Maybe<Article_Liker_Min_Fields>;
-  stddev?: Maybe<Article_Liker_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Liker_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Liker_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Liker_Sum_Fields>;
-  var_pop?: Maybe<Article_Liker_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Liker_Var_Samp_Fields>;
-  variance?: Maybe<Article_Liker_Variance_Fields>;
-};
-
-/** aggregate fields of "article_liker" */
-export type Article_Liker_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "article_liker" */
-export type Article_Liker_Aggregate_Order_By = {
-  avg?: InputMaybe<Article_Liker_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Article_Liker_Max_Order_By>;
-  min?: InputMaybe<Article_Liker_Min_Order_By>;
-  stddev?: InputMaybe<Article_Liker_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Article_Liker_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Article_Liker_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Article_Liker_Sum_Order_By>;
-  var_pop?: InputMaybe<Article_Liker_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Article_Liker_Var_Samp_Order_By>;
-  variance?: InputMaybe<Article_Liker_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "article_liker" */
-export type Article_Liker_Arr_Rel_Insert_Input = {
-  data: Array<Article_Liker_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_Liker_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Article_Liker_Avg_Fields = {
-  __typename?: "article_liker_avg_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "article_liker" */
-export type Article_Liker_Avg_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "article_liker". All fields are combined with a logical 'AND'. */
-export type Article_Liker_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Liker_Bool_Exp>>;
-  _not?: InputMaybe<Article_Liker_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Liker_Bool_Exp>>;
-  article?: InputMaybe<Article_Bool_Exp>;
-  article_id?: InputMaybe<Int_Comparison_Exp>;
-  liker?: InputMaybe<User_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "article_liker" */
-export enum Article_Liker_Constraint {
-  /** unique or primary key constraint on columns "user_id", "article_id" */
-  ArticleLikerPkey = "article_liker_pkey",
-}
-
-/** input type for incrementing numeric columns in table "article_liker" */
-export type Article_Liker_Inc_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article_liker" */
-export type Article_Liker_Insert_Input = {
-  article?: InputMaybe<Article_Obj_Rel_Insert_Input>;
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  liker?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Article_Liker_Max_Fields = {
-  __typename?: "article_liker_max_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by max() on columns of table "article_liker" */
-export type Article_Liker_Max_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Article_Liker_Min_Fields = {
-  __typename?: "article_liker_min_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by min() on columns of table "article_liker" */
-export type Article_Liker_Min_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "article_liker" */
-export type Article_Liker_Mutation_Response = {
-  __typename?: "article_liker_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article_Liker>;
-};
-
-/** on_conflict condition type for table "article_liker" */
-export type Article_Liker_On_Conflict = {
-  constraint: Article_Liker_Constraint;
-  update_columns?: Array<Article_Liker_Update_Column>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "article_liker". */
-export type Article_Liker_Order_By = {
-  article?: InputMaybe<Article_Order_By>;
-  article_id?: InputMaybe<Order_By>;
-  liker?: InputMaybe<User_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: article_liker */
-export type Article_Liker_Pk_Columns_Input = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-/** select columns of table "article_liker" */
-export enum Article_Liker_Select_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** input type for updating data in table "article_liker" */
-export type Article_Liker_Set_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Liker_Stddev_Fields = {
-  __typename?: "article_liker_stddev_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "article_liker" */
-export type Article_Liker_Stddev_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Liker_Stddev_Pop_Fields = {
-  __typename?: "article_liker_stddev_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "article_liker" */
-export type Article_Liker_Stddev_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Liker_Stddev_Samp_Fields = {
-  __typename?: "article_liker_stddev_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "article_liker" */
-export type Article_Liker_Stddev_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Article_Liker_Sum_Fields = {
-  __typename?: "article_liker_sum_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "article_liker" */
-export type Article_Liker_Sum_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "article_liker" */
-export enum Article_Liker_Update_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** aggregate var_pop on columns */
-export type Article_Liker_Var_Pop_Fields = {
-  __typename?: "article_liker_var_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "article_liker" */
-export type Article_Liker_Var_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Liker_Var_Samp_Fields = {
-  __typename?: "article_liker_var_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "article_liker" */
-export type Article_Liker_Var_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Article_Liker_Variance_Fields = {
-  __typename?: "article_liker_variance_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "article_liker" */
-export type Article_Liker_Variance_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate max on columns */
-export type Article_Max_Fields = {
-  __typename?: "article_max_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by max() on columns of table "article" */
-export type Article_Max_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Article_Min_Fields = {
-  __typename?: "article_min_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by min() on columns of table "article" */
-export type Article_Min_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "article" */
-export type Article_Mutation_Response = {
-  __typename?: "article_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article>;
-};
-
-/** input type for inserting object relation for remote table "article" */
-export type Article_Obj_Rel_Insert_Input = {
-  data: Article_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** on_conflict condition type for table "article" */
-export type Article_On_Conflict = {
-  constraint: Article_Constraint;
-  update_columns?: Array<Article_Update_Column>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "article". */
-export type Article_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  article_likers_aggregate?: InputMaybe<Article_Liker_Aggregate_Order_By>;
-  article_tags_aggregate?: InputMaybe<Article_Tag_Aggregate_Order_By>;
-  author?: InputMaybe<User_Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  comments_aggregate?: InputMaybe<Comment_Aggregate_Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-  visible?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: article */
-export type Article_Pk_Columns_Input = {
-  id: Scalars["Int"]["input"];
-};
-
-/** columns and relationships of "article_public" */
-export type Article_Public = {
-  __typename?: "article_public";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  /** An array relationship */
-  article_likers: Array<Article_Liker>;
-  /** An aggregate relationship */
-  article_likers_aggregate: Article_Liker_Aggregate;
-  /** An array relationship */
-  article_tags: Array<Article_Tag>;
-  /** An aggregate relationship */
-  article_tags_aggregate: Article_Tag_Aggregate;
-  /** An object relationship */
-  author?: Maybe<User>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  /** An array relationship */
-  comments: Array<Comment>;
-  /** An aggregate relationship */
-  comments_aggregate: Comment_Aggregate;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-  visible?: Maybe<Scalars["Boolean"]["output"]>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_LikersArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_Likers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_TagsArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicArticle_Tags_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicCommentsArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** columns and relationships of "article_public" */
-export type Article_PublicComments_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** aggregated selection of "article_public" */
-export type Article_Public_Aggregate = {
-  __typename?: "article_public_aggregate";
-  aggregate?: Maybe<Article_Public_Aggregate_Fields>;
-  nodes: Array<Article_Public>;
-};
-
-/** aggregate fields of "article_public" */
-export type Article_Public_Aggregate_Fields = {
-  __typename?: "article_public_aggregate_fields";
-  avg?: Maybe<Article_Public_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Public_Max_Fields>;
-  min?: Maybe<Article_Public_Min_Fields>;
-  stddev?: Maybe<Article_Public_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Public_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Public_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Public_Sum_Fields>;
-  var_pop?: Maybe<Article_Public_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Public_Var_Samp_Fields>;
-  variance?: Maybe<Article_Public_Variance_Fields>;
-};
-
-/** aggregate fields of "article_public" */
-export type Article_Public_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Public_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate avg on columns */
-export type Article_Public_Avg_Fields = {
-  __typename?: "article_public_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Boolean expression to filter rows from the table "article_public". All fields are combined with a logical 'AND'. */
-export type Article_Public_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Public_Bool_Exp>>;
-  _not?: InputMaybe<Article_Public_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Public_Bool_Exp>>;
-  abstract?: InputMaybe<String_Comparison_Exp>;
-  alias?: InputMaybe<String_Comparison_Exp>;
-  article_likers?: InputMaybe<Article_Liker_Bool_Exp>;
-  article_tags?: InputMaybe<Article_Tag_Bool_Exp>;
-  author?: InputMaybe<User_Bool_Exp>;
-  authorId?: InputMaybe<String_Comparison_Exp>;
-  comments?: InputMaybe<Comment_Bool_Exp>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  views?: InputMaybe<Int_Comparison_Exp>;
-  visible?: InputMaybe<Boolean_Comparison_Exp>;
-};
-
-/** input type for incrementing numeric columns in table "article_public" */
-export type Article_Public_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article_public" */
-export type Article_Public_Insert_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  article_likers?: InputMaybe<Article_Liker_Arr_Rel_Insert_Input>;
-  article_tags?: InputMaybe<Article_Tag_Arr_Rel_Insert_Input>;
-  author?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  comments?: InputMaybe<Comment_Arr_Rel_Insert_Input>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Article_Public_Max_Fields = {
-  __typename?: "article_public_max_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Article_Public_Min_Fields = {
-  __typename?: "article_public_min_fields";
-  abstract?: Maybe<Scalars["String"]["output"]>;
-  alias?: Maybe<Scalars["String"]["output"]>;
-  authorId?: Maybe<Scalars["String"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** response of any mutation on the table "article_public" */
-export type Article_Public_Mutation_Response = {
-  __typename?: "article_public_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article_Public>;
-};
-
-/** Ordering options when selecting data from "article_public". */
-export type Article_Public_Order_By = {
-  abstract?: InputMaybe<Order_By>;
-  alias?: InputMaybe<Order_By>;
-  article_likers_aggregate?: InputMaybe<Article_Liker_Aggregate_Order_By>;
-  article_tags_aggregate?: InputMaybe<Article_Tag_Aggregate_Order_By>;
-  author?: InputMaybe<User_Order_By>;
-  authorId?: InputMaybe<Order_By>;
-  comments_aggregate?: InputMaybe<Comment_Aggregate_Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-  visible?: InputMaybe<Order_By>;
-};
-
-/** select columns of table "article_public" */
-export enum Article_Public_Select_Column {
-  /** column name */
-  Abstract = "abstract",
-  /** column name */
-  Alias = "alias",
-  /** column name */
-  AuthorId = "authorId",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Title = "title",
-  /** column name */
-  Views = "views",
-  /** column name */
-  Visible = "visible",
-}
-
-/** input type for updating data in table "article_public" */
-export type Article_Public_Set_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Public_Stddev_Fields = {
-  __typename?: "article_public_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Public_Stddev_Pop_Fields = {
-  __typename?: "article_public_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Public_Stddev_Samp_Fields = {
-  __typename?: "article_public_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate sum on columns */
-export type Article_Public_Sum_Fields = {
-  __typename?: "article_public_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** aggregate var_pop on columns */
-export type Article_Public_Var_Pop_Fields = {
-  __typename?: "article_public_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Public_Var_Samp_Fields = {
-  __typename?: "article_public_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate variance on columns */
-export type Article_Public_Variance_Fields = {
-  __typename?: "article_public_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** select columns of table "article" */
-export enum Article_Select_Column {
-  /** column name */
-  Abstract = "abstract",
-  /** column name */
-  Alias = "alias",
-  /** column name */
-  AuthorId = "authorId",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  Views = "views",
-  /** column name */
-  Visible = "visible",
-}
-
-/** input type for updating data in table "article" */
-export type Article_Set_Input = {
-  abstract?: InputMaybe<Scalars["String"]["input"]>;
-  alias?: InputMaybe<Scalars["String"]["input"]>;
-  authorId?: InputMaybe<Scalars["String"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  views?: InputMaybe<Scalars["Int"]["input"]>;
-  visible?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Stddev_Fields = {
-  __typename?: "article_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "article" */
-export type Article_Stddev_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Stddev_Pop_Fields = {
-  __typename?: "article_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "article" */
-export type Article_Stddev_Pop_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Stddev_Samp_Fields = {
-  __typename?: "article_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "article" */
-export type Article_Stddev_Samp_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Article_Sum_Fields = {
-  __typename?: "article_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-  views?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "article" */
-export type Article_Sum_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** article - id 多对多映射表 */
-export type Article_Tag = {
-  __typename?: "article_tag";
-  /** An object relationship */
-  article: Article;
-  article_id: Scalars["Int"]["output"];
-  /** An object relationship */
-  tag: Tag;
-  tag_id: Scalars["uuid"]["output"];
-};
-
-/** aggregated selection of "article_tag" */
-export type Article_Tag_Aggregate = {
-  __typename?: "article_tag_aggregate";
-  aggregate?: Maybe<Article_Tag_Aggregate_Fields>;
-  nodes: Array<Article_Tag>;
-};
-
-/** aggregate fields of "article_tag" */
-export type Article_Tag_Aggregate_Fields = {
-  __typename?: "article_tag_aggregate_fields";
-  avg?: Maybe<Article_Tag_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Article_Tag_Max_Fields>;
-  min?: Maybe<Article_Tag_Min_Fields>;
-  stddev?: Maybe<Article_Tag_Stddev_Fields>;
-  stddev_pop?: Maybe<Article_Tag_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Article_Tag_Stddev_Samp_Fields>;
-  sum?: Maybe<Article_Tag_Sum_Fields>;
-  var_pop?: Maybe<Article_Tag_Var_Pop_Fields>;
-  var_samp?: Maybe<Article_Tag_Var_Samp_Fields>;
-  variance?: Maybe<Article_Tag_Variance_Fields>;
-};
-
-/** aggregate fields of "article_tag" */
-export type Article_Tag_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "article_tag" */
-export type Article_Tag_Aggregate_Order_By = {
-  avg?: InputMaybe<Article_Tag_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Article_Tag_Max_Order_By>;
-  min?: InputMaybe<Article_Tag_Min_Order_By>;
-  stddev?: InputMaybe<Article_Tag_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Article_Tag_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Article_Tag_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Article_Tag_Sum_Order_By>;
-  var_pop?: InputMaybe<Article_Tag_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Article_Tag_Var_Samp_Order_By>;
-  variance?: InputMaybe<Article_Tag_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "article_tag" */
-export type Article_Tag_Arr_Rel_Insert_Input = {
-  data: Array<Article_Tag_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Article_Tag_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Article_Tag_Avg_Fields = {
-  __typename?: "article_tag_avg_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "article_tag" */
-export type Article_Tag_Avg_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "article_tag". All fields are combined with a logical 'AND'. */
-export type Article_Tag_Bool_Exp = {
-  _and?: InputMaybe<Array<Article_Tag_Bool_Exp>>;
-  _not?: InputMaybe<Article_Tag_Bool_Exp>;
-  _or?: InputMaybe<Array<Article_Tag_Bool_Exp>>;
-  article?: InputMaybe<Article_Bool_Exp>;
-  article_id?: InputMaybe<Int_Comparison_Exp>;
-  tag?: InputMaybe<Tag_Bool_Exp>;
-  tag_id?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "article_tag" */
-export enum Article_Tag_Constraint {
-  /** unique or primary key constraint on columns "article_id", "tag_id" */
-  ArticleTagPkey = "article_tag_pkey",
-}
-
-/** input type for incrementing numeric columns in table "article_tag" */
-export type Article_Tag_Inc_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "article_tag" */
-export type Article_Tag_Insert_Input = {
-  article?: InputMaybe<Article_Obj_Rel_Insert_Input>;
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  tag?: InputMaybe<Tag_Obj_Rel_Insert_Input>;
-  tag_id?: InputMaybe<Scalars["uuid"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Article_Tag_Max_Fields = {
-  __typename?: "article_tag_max_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  tag_id?: Maybe<Scalars["uuid"]["output"]>;
-};
-
-/** order by max() on columns of table "article_tag" */
-export type Article_Tag_Max_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  tag_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Article_Tag_Min_Fields = {
-  __typename?: "article_tag_min_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  tag_id?: Maybe<Scalars["uuid"]["output"]>;
-};
-
-/** order by min() on columns of table "article_tag" */
-export type Article_Tag_Min_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  tag_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "article_tag" */
-export type Article_Tag_Mutation_Response = {
-  __typename?: "article_tag_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Article_Tag>;
-};
-
-/** on_conflict condition type for table "article_tag" */
-export type Article_Tag_On_Conflict = {
-  constraint: Article_Tag_Constraint;
-  update_columns?: Array<Article_Tag_Update_Column>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "article_tag". */
-export type Article_Tag_Order_By = {
-  article?: InputMaybe<Article_Order_By>;
-  article_id?: InputMaybe<Order_By>;
-  tag?: InputMaybe<Tag_Order_By>;
-  tag_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: article_tag */
-export type Article_Tag_Pk_Columns_Input = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-/** select columns of table "article_tag" */
-export enum Article_Tag_Select_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  TagId = "tag_id",
-}
-
-/** input type for updating data in table "article_tag" */
-export type Article_Tag_Set_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  tag_id?: InputMaybe<Scalars["uuid"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Article_Tag_Stddev_Fields = {
-  __typename?: "article_tag_stddev_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "article_tag" */
-export type Article_Tag_Stddev_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Article_Tag_Stddev_Pop_Fields = {
-  __typename?: "article_tag_stddev_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "article_tag" */
-export type Article_Tag_Stddev_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Article_Tag_Stddev_Samp_Fields = {
-  __typename?: "article_tag_stddev_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "article_tag" */
-export type Article_Tag_Stddev_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Article_Tag_Sum_Fields = {
-  __typename?: "article_tag_sum_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "article_tag" */
-export type Article_Tag_Sum_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "article_tag" */
-export enum Article_Tag_Update_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  TagId = "tag_id",
-}
-
-/** aggregate var_pop on columns */
-export type Article_Tag_Var_Pop_Fields = {
-  __typename?: "article_tag_var_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "article_tag" */
-export type Article_Tag_Var_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Tag_Var_Samp_Fields = {
-  __typename?: "article_tag_var_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "article_tag" */
-export type Article_Tag_Var_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Article_Tag_Variance_Fields = {
-  __typename?: "article_tag_variance_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "article_tag" */
-export type Article_Tag_Variance_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "article" */
-export enum Article_Update_Column {
-  /** column name */
-  Abstract = "abstract",
-  /** column name */
-  Alias = "alias",
-  /** column name */
-  AuthorId = "authorId",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  Views = "views",
-  /** column name */
-  Visible = "visible",
-}
-
-/** aggregate var_pop on columns */
-export type Article_Var_Pop_Fields = {
-  __typename?: "article_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "article" */
-export type Article_Var_Pop_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Article_Var_Samp_Fields = {
-  __typename?: "article_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "article" */
-export type Article_Var_Samp_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Article_Variance_Fields = {
-  __typename?: "article_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-  views?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "article" */
-export type Article_Variance_Order_By = {
-  id?: InputMaybe<Order_By>;
-  views?: InputMaybe<Order_By>;
+  __typename?: 'aid_application_variance_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 export type Bigint_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["bigint"]["input"]>;
-  _gt?: InputMaybe<Scalars["bigint"]["input"]>;
-  _gte?: InputMaybe<Scalars["bigint"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["bigint"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["bigint"]["input"]>;
-  _lte?: InputMaybe<Scalars["bigint"]["input"]>;
-  _neq?: InputMaybe<Scalars["bigint"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["bigint"]["input"]>>;
-};
-
-/** columns and relationships of "comment" */
-export type Comment = {
-  __typename?: "comment";
-  /** An object relationship */
-  article: Article;
-  article_id: Scalars["Int"]["output"];
-  content: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["uuid"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
-  /** An object relationship */
-  user: User;
-  user_id: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "comment" */
-export type Comment_Aggregate = {
-  __typename?: "comment_aggregate";
-  aggregate?: Maybe<Comment_Aggregate_Fields>;
-  nodes: Array<Comment>;
-};
-
-/** aggregate fields of "comment" */
-export type Comment_Aggregate_Fields = {
-  __typename?: "comment_aggregate_fields";
-  avg?: Maybe<Comment_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Comment_Max_Fields>;
-  min?: Maybe<Comment_Min_Fields>;
-  stddev?: Maybe<Comment_Stddev_Fields>;
-  stddev_pop?: Maybe<Comment_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Comment_Stddev_Samp_Fields>;
-  sum?: Maybe<Comment_Sum_Fields>;
-  var_pop?: Maybe<Comment_Var_Pop_Fields>;
-  var_samp?: Maybe<Comment_Var_Samp_Fields>;
-  variance?: Maybe<Comment_Variance_Fields>;
-};
-
-/** aggregate fields of "comment" */
-export type Comment_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Comment_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** order by aggregate values of table "comment" */
-export type Comment_Aggregate_Order_By = {
-  avg?: InputMaybe<Comment_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Comment_Max_Order_By>;
-  min?: InputMaybe<Comment_Min_Order_By>;
-  stddev?: InputMaybe<Comment_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Comment_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Comment_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Comment_Sum_Order_By>;
-  var_pop?: InputMaybe<Comment_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Comment_Var_Samp_Order_By>;
-  variance?: InputMaybe<Comment_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "comment" */
-export type Comment_Arr_Rel_Insert_Input = {
-  data: Array<Comment_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Comment_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Comment_Avg_Fields = {
-  __typename?: "comment_avg_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by avg() on columns of table "comment" */
-export type Comment_Avg_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "comment". All fields are combined with a logical 'AND'. */
-export type Comment_Bool_Exp = {
-  _and?: InputMaybe<Array<Comment_Bool_Exp>>;
-  _not?: InputMaybe<Comment_Bool_Exp>;
-  _or?: InputMaybe<Array<Comment_Bool_Exp>>;
-  article?: InputMaybe<Article_Bool_Exp>;
-  article_id?: InputMaybe<Int_Comparison_Exp>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "comment" */
-export enum Comment_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  CommentPkey = "comment_pkey",
-}
-
-/** input type for incrementing numeric columns in table "comment" */
-export type Comment_Inc_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "comment" */
-export type Comment_Insert_Input = {
-  article?: InputMaybe<Article_Obj_Rel_Insert_Input>;
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Comment_Max_Fields = {
-  __typename?: "comment_max_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by max() on columns of table "comment" */
-export type Comment_Max_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Comment_Min_Fields = {
-  __typename?: "comment_min_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** order by min() on columns of table "comment" */
-export type Comment_Min_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "comment" */
-export type Comment_Mutation_Response = {
-  __typename?: "comment_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Comment>;
-};
-
-/** on_conflict condition type for table "comment" */
-export type Comment_On_Conflict = {
-  constraint: Comment_Constraint;
-  update_columns?: Array<Comment_Update_Column>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "comment". */
-export type Comment_Order_By = {
-  article?: InputMaybe<Article_Order_By>;
-  article_id?: InputMaybe<Order_By>;
-  content?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: comment */
-export type Comment_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
-};
-
-/** select columns of table "comment" */
-export enum Comment_Select_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** input type for updating data in table "comment" */
-export type Comment_Set_Input = {
-  article_id?: InputMaybe<Scalars["Int"]["input"]>;
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Comment_Stddev_Fields = {
-  __typename?: "comment_stddev_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev() on columns of table "comment" */
-export type Comment_Stddev_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Comment_Stddev_Pop_Fields = {
-  __typename?: "comment_stddev_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_pop() on columns of table "comment" */
-export type Comment_Stddev_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Comment_Stddev_Samp_Fields = {
-  __typename?: "comment_stddev_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by stddev_samp() on columns of table "comment" */
-export type Comment_Stddev_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Comment_Sum_Fields = {
-  __typename?: "comment_sum_fields";
-  article_id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** order by sum() on columns of table "comment" */
-export type Comment_Sum_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "comment" */
-export enum Comment_Update_Column {
-  /** column name */
-  ArticleId = "article_id",
-  /** column name */
-  Content = "content",
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  UpdatedAt = "updated_at",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** aggregate var_pop on columns */
-export type Comment_Var_Pop_Fields = {
-  __typename?: "comment_var_pop_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_pop() on columns of table "comment" */
-export type Comment_Var_Pop_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Comment_Var_Samp_Fields = {
-  __typename?: "comment_var_samp_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by var_samp() on columns of table "comment" */
-export type Comment_Var_Samp_Order_By = {
-  article_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Comment_Variance_Fields = {
-  __typename?: "comment_variance_fields";
-  article_id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** order by variance() on columns of table "comment" */
-export type Comment_Variance_Order_By = {
-  article_id?: InputMaybe<Order_By>;
+  _eq?: InputMaybe<Scalars['bigint']['input']>;
+  _gt?: InputMaybe<Scalars['bigint']['input']>;
+  _gte?: InputMaybe<Scalars['bigint']['input']>;
+  _in?: InputMaybe<Array<Scalars['bigint']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['bigint']['input']>;
+  _lte?: InputMaybe<Scalars['bigint']['input']>;
+  _neq?: InputMaybe<Scalars['bigint']['input']>;
+  _nin?: InputMaybe<Array<Scalars['bigint']['input']>>;
 };
 
 /** columns and relationships of "contest" */
 export type Contest = {
-  __typename?: "contest";
-  contest_name: Scalars["String"]["output"];
-  contest_type: Scalars["String"]["output"];
-  description?: Maybe<Scalars["String"]["output"]>;
-  end_date: Scalars["timestamptz"]["output"];
-  id: Scalars["uuid"]["output"];
-  start_date: Scalars["timestamptz"]["output"];
-  status: Scalars["String"]["output"];
+  __typename?: 'contest';
+  contest_name: Scalars['String']['output'];
+  contest_type: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  end_date: Scalars['timestamptz']['output'];
+  id: Scalars['uuid']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  start_date: Scalars['timestamptz']['output'];
+  status: Scalars['String']['output'];
 };
 
 /** aggregated selection of "contest" */
 export type Contest_Aggregate = {
-  __typename?: "contest_aggregate";
+  __typename?: 'contest_aggregate';
   aggregate?: Maybe<Contest_Aggregate_Fields>;
   nodes: Array<Contest>;
 };
 
 /** aggregate fields of "contest" */
 export type Contest_Aggregate_Fields = {
-  __typename?: "contest_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'contest_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Max_Fields>;
   min?: Maybe<Contest_Min_Fields>;
 };
 
+
 /** aggregate fields of "contest" */
 export type Contest_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "contest". All fields are combined with a logical 'AND'. */
@@ -1991,60 +422,62 @@ export type Contest_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** columns and relationships of "contest_code" */
 export type Contest_Code = {
-  __typename?: "contest_code";
-  code1?: Maybe<Scalars["String"]["output"]>;
-  code1_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code2?: Maybe<Scalars["String"]["output"]>;
-  code2_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code3?: Maybe<Scalars["String"]["output"]>;
-  code3_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code4?: Maybe<Scalars["String"]["output"]>;
-  code4_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code5?: Maybe<Scalars["String"]["output"]>;
-  code5_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code6?: Maybe<Scalars["String"]["output"]>;
-  code6_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'contest_code';
+  code1?: Maybe<Scalars['String']['output']>;
+  code1_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code2?: Maybe<Scalars['String']['output']>;
+  code2_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code3?: Maybe<Scalars['String']['output']>;
+  code3_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code4?: Maybe<Scalars['String']['output']>;
+  code4_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code5?: Maybe<Scalars['String']['output']>;
+  code5_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code6?: Maybe<Scalars['String']['output']>;
+  code6_update_time?: Maybe<Scalars['timestamptz']['output']>;
   /** An object relationship */
   code_contest_id: Contest;
   /** An object relationship */
   code_team_id: Contest_Team;
-  code_type1?: Maybe<Scalars["String"]["output"]>;
-  code_type2?: Maybe<Scalars["String"]["output"]>;
-  code_type3?: Maybe<Scalars["String"]["output"]>;
-  code_type4?: Maybe<Scalars["String"]["output"]>;
-  code_type5?: Maybe<Scalars["String"]["output"]>;
-  code_type6?: Maybe<Scalars["String"]["output"]>;
-  contest_id: Scalars["uuid"]["output"];
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  team_id: Scalars["uuid"]["output"];
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  code_type1?: Maybe<Scalars['String']['output']>;
+  code_type2?: Maybe<Scalars['String']['output']>;
+  code_type3?: Maybe<Scalars['String']['output']>;
+  code_type4?: Maybe<Scalars['String']['output']>;
+  code_type5?: Maybe<Scalars['String']['output']>;
+  code_type6?: Maybe<Scalars['String']['output']>;
+  contest_id: Scalars['uuid']['output'];
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  team_id: Scalars['uuid']['output'];
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregated selection of "contest_code" */
 export type Contest_Code_Aggregate = {
-  __typename?: "contest_code_aggregate";
+  __typename?: 'contest_code_aggregate';
   aggregate?: Maybe<Contest_Code_Aggregate_Fields>;
   nodes: Array<Contest_Code>;
 };
 
 /** aggregate fields of "contest_code" */
 export type Contest_Code_Aggregate_Fields = {
-  __typename?: "contest_code_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'contest_code_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Code_Max_Fields>;
   min?: Maybe<Contest_Code_Min_Fields>;
 };
 
+
 /** aggregate fields of "contest_code" */
 export type Contest_Code_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "contest_code". All fields are combined with a logical 'AND'. */
@@ -2081,96 +514,96 @@ export type Contest_Code_Bool_Exp = {
 /** unique or primary key constraints on table "contest_code" */
 export enum Contest_Code_Constraint {
   /** unique or primary key constraint on columns "team_id" */
-  ContestCodePkey = "contest_code_pkey",
+  ContestCodePkey = 'contest_code_pkey'
 }
 
 /** input type for inserting data into table "contest_code" */
 export type Contest_Code_Insert_Input = {
-  code1?: InputMaybe<Scalars["String"]["input"]>;
-  code1_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code2?: InputMaybe<Scalars["String"]["input"]>;
-  code2_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code3?: InputMaybe<Scalars["String"]["input"]>;
-  code3_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code4?: InputMaybe<Scalars["String"]["input"]>;
-  code4_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code5?: InputMaybe<Scalars["String"]["input"]>;
-  code5_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code6?: InputMaybe<Scalars["String"]["input"]>;
-  code6_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  code1?: InputMaybe<Scalars['String']['input']>;
+  code1_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code2?: InputMaybe<Scalars['String']['input']>;
+  code2_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code3?: InputMaybe<Scalars['String']['input']>;
+  code3_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code4?: InputMaybe<Scalars['String']['input']>;
+  code4_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code5?: InputMaybe<Scalars['String']['input']>;
+  code5_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code6?: InputMaybe<Scalars['String']['input']>;
+  code6_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
   code_contest_id?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   code_team_id?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
-  code_type1?: InputMaybe<Scalars["String"]["input"]>;
-  code_type2?: InputMaybe<Scalars["String"]["input"]>;
-  code_type3?: InputMaybe<Scalars["String"]["input"]>;
-  code_type4?: InputMaybe<Scalars["String"]["input"]>;
-  code_type5?: InputMaybe<Scalars["String"]["input"]>;
-  code_type6?: InputMaybe<Scalars["String"]["input"]>;
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  code_type1?: InputMaybe<Scalars['String']['input']>;
+  code_type2?: InputMaybe<Scalars['String']['input']>;
+  code_type3?: InputMaybe<Scalars['String']['input']>;
+  code_type4?: InputMaybe<Scalars['String']['input']>;
+  code_type5?: InputMaybe<Scalars['String']['input']>;
+  code_type6?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Code_Max_Fields = {
-  __typename?: "contest_code_max_fields";
-  code1?: Maybe<Scalars["String"]["output"]>;
-  code1_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code2?: Maybe<Scalars["String"]["output"]>;
-  code2_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code3?: Maybe<Scalars["String"]["output"]>;
-  code3_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code4?: Maybe<Scalars["String"]["output"]>;
-  code4_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code5?: Maybe<Scalars["String"]["output"]>;
-  code5_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code6?: Maybe<Scalars["String"]["output"]>;
-  code6_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code_type1?: Maybe<Scalars["String"]["output"]>;
-  code_type2?: Maybe<Scalars["String"]["output"]>;
-  code_type3?: Maybe<Scalars["String"]["output"]>;
-  code_type4?: Maybe<Scalars["String"]["output"]>;
-  code_type5?: Maybe<Scalars["String"]["output"]>;
-  code_type6?: Maybe<Scalars["String"]["output"]>;
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'contest_code_max_fields';
+  code1?: Maybe<Scalars['String']['output']>;
+  code1_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code2?: Maybe<Scalars['String']['output']>;
+  code2_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code3?: Maybe<Scalars['String']['output']>;
+  code3_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code4?: Maybe<Scalars['String']['output']>;
+  code4_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code5?: Maybe<Scalars['String']['output']>;
+  code5_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code6?: Maybe<Scalars['String']['output']>;
+  code6_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code_type1?: Maybe<Scalars['String']['output']>;
+  code_type2?: Maybe<Scalars['String']['output']>;
+  code_type3?: Maybe<Scalars['String']['output']>;
+  code_type4?: Maybe<Scalars['String']['output']>;
+  code_type5?: Maybe<Scalars['String']['output']>;
+  code_type6?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Contest_Code_Min_Fields = {
-  __typename?: "contest_code_min_fields";
-  code1?: Maybe<Scalars["String"]["output"]>;
-  code1_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code2?: Maybe<Scalars["String"]["output"]>;
-  code2_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code3?: Maybe<Scalars["String"]["output"]>;
-  code3_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code4?: Maybe<Scalars["String"]["output"]>;
-  code4_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code5?: Maybe<Scalars["String"]["output"]>;
-  code5_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code6?: Maybe<Scalars["String"]["output"]>;
-  code6_update_time?: Maybe<Scalars["timestamptz"]["output"]>;
-  code_type1?: Maybe<Scalars["String"]["output"]>;
-  code_type2?: Maybe<Scalars["String"]["output"]>;
-  code_type3?: Maybe<Scalars["String"]["output"]>;
-  code_type4?: Maybe<Scalars["String"]["output"]>;
-  code_type5?: Maybe<Scalars["String"]["output"]>;
-  code_type6?: Maybe<Scalars["String"]["output"]>;
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'contest_code_min_fields';
+  code1?: Maybe<Scalars['String']['output']>;
+  code1_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code2?: Maybe<Scalars['String']['output']>;
+  code2_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code3?: Maybe<Scalars['String']['output']>;
+  code3_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code4?: Maybe<Scalars['String']['output']>;
+  code4_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code5?: Maybe<Scalars['String']['output']>;
+  code5_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code6?: Maybe<Scalars['String']['output']>;
+  code6_update_time?: Maybe<Scalars['timestamptz']['output']>;
+  code_type1?: Maybe<Scalars['String']['output']>;
+  code_type2?: Maybe<Scalars['String']['output']>;
+  code_type3?: Maybe<Scalars['String']['output']>;
+  code_type4?: Maybe<Scalars['String']['output']>;
+  code_type5?: Maybe<Scalars['String']['output']>;
+  code_type6?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "contest_code" */
 export type Contest_Code_Mutation_Response = {
-  __typename?: "contest_code_mutation_response";
+  __typename?: 'contest_code_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest_Code>;
 };
@@ -2212,170 +645,173 @@ export type Contest_Code_Order_By = {
 
 /** primary key columns input for table: contest_code */
 export type Contest_Code_Pk_Columns_Input = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "contest_code" */
 export enum Contest_Code_Select_Column {
   /** column name */
-  Code1 = "code1",
+  Code1 = 'code1',
   /** column name */
-  Code1UpdateTime = "code1_update_time",
+  Code1UpdateTime = 'code1_update_time',
   /** column name */
-  Code2 = "code2",
+  Code2 = 'code2',
   /** column name */
-  Code2UpdateTime = "code2_update_time",
+  Code2UpdateTime = 'code2_update_time',
   /** column name */
-  Code3 = "code3",
+  Code3 = 'code3',
   /** column name */
-  Code3UpdateTime = "code3_update_time",
+  Code3UpdateTime = 'code3_update_time',
   /** column name */
-  Code4 = "code4",
+  Code4 = 'code4',
   /** column name */
-  Code4UpdateTime = "code4_update_time",
+  Code4UpdateTime = 'code4_update_time',
   /** column name */
-  Code5 = "code5",
+  Code5 = 'code5',
   /** column name */
-  Code5UpdateTime = "code5_update_time",
+  Code5UpdateTime = 'code5_update_time',
   /** column name */
-  Code6 = "code6",
+  Code6 = 'code6',
   /** column name */
-  Code6UpdateTime = "code6_update_time",
+  Code6UpdateTime = 'code6_update_time',
   /** column name */
-  CodeType1 = "code_type1",
+  CodeType1 = 'code_type1',
   /** column name */
-  CodeType2 = "code_type2",
+  CodeType2 = 'code_type2',
   /** column name */
-  CodeType3 = "code_type3",
+  CodeType3 = 'code_type3',
   /** column name */
-  CodeType4 = "code_type4",
+  CodeType4 = 'code_type4',
   /** column name */
-  CodeType5 = "code_type5",
+  CodeType5 = 'code_type5',
   /** column name */
-  CodeType6 = "code_type6",
+  CodeType6 = 'code_type6',
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "contest_code" */
 export type Contest_Code_Set_Input = {
-  code1?: InputMaybe<Scalars["String"]["input"]>;
-  code1_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code2?: InputMaybe<Scalars["String"]["input"]>;
-  code2_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code3?: InputMaybe<Scalars["String"]["input"]>;
-  code3_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code4?: InputMaybe<Scalars["String"]["input"]>;
-  code4_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code5?: InputMaybe<Scalars["String"]["input"]>;
-  code5_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code6?: InputMaybe<Scalars["String"]["input"]>;
-  code6_update_time?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  code_type1?: InputMaybe<Scalars["String"]["input"]>;
-  code_type2?: InputMaybe<Scalars["String"]["input"]>;
-  code_type3?: InputMaybe<Scalars["String"]["input"]>;
-  code_type4?: InputMaybe<Scalars["String"]["input"]>;
-  code_type5?: InputMaybe<Scalars["String"]["input"]>;
-  code_type6?: InputMaybe<Scalars["String"]["input"]>;
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  code1?: InputMaybe<Scalars['String']['input']>;
+  code1_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code2?: InputMaybe<Scalars['String']['input']>;
+  code2_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code3?: InputMaybe<Scalars['String']['input']>;
+  code3_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code4?: InputMaybe<Scalars['String']['input']>;
+  code4_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code5?: InputMaybe<Scalars['String']['input']>;
+  code5_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code6?: InputMaybe<Scalars['String']['input']>;
+  code6_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  code_type1?: InputMaybe<Scalars['String']['input']>;
+  code_type2?: InputMaybe<Scalars['String']['input']>;
+  code_type3?: InputMaybe<Scalars['String']['input']>;
+  code_type4?: InputMaybe<Scalars['String']['input']>;
+  code_type5?: InputMaybe<Scalars['String']['input']>;
+  code_type6?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "contest_code" */
 export enum Contest_Code_Update_Column {
   /** column name */
-  Code1 = "code1",
+  Code1 = 'code1',
   /** column name */
-  Code1UpdateTime = "code1_update_time",
+  Code1UpdateTime = 'code1_update_time',
   /** column name */
-  Code2 = "code2",
+  Code2 = 'code2',
   /** column name */
-  Code2UpdateTime = "code2_update_time",
+  Code2UpdateTime = 'code2_update_time',
   /** column name */
-  Code3 = "code3",
+  Code3 = 'code3',
   /** column name */
-  Code3UpdateTime = "code3_update_time",
+  Code3UpdateTime = 'code3_update_time',
   /** column name */
-  Code4 = "code4",
+  Code4 = 'code4',
   /** column name */
-  Code4UpdateTime = "code4_update_time",
+  Code4UpdateTime = 'code4_update_time',
   /** column name */
-  Code5 = "code5",
+  Code5 = 'code5',
   /** column name */
-  Code5UpdateTime = "code5_update_time",
+  Code5UpdateTime = 'code5_update_time',
   /** column name */
-  Code6 = "code6",
+  Code6 = 'code6',
   /** column name */
-  Code6UpdateTime = "code6_update_time",
+  Code6UpdateTime = 'code6_update_time',
   /** column name */
-  CodeType1 = "code_type1",
+  CodeType1 = 'code_type1',
   /** column name */
-  CodeType2 = "code_type2",
+  CodeType2 = 'code_type2',
   /** column name */
-  CodeType3 = "code_type3",
+  CodeType3 = 'code_type3',
   /** column name */
-  CodeType4 = "code_type4",
+  CodeType4 = 'code_type4',
   /** column name */
-  CodeType5 = "code_type5",
+  CodeType5 = 'code_type5',
   /** column name */
-  CodeType6 = "code_type6",
+  CodeType6 = 'code_type6',
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at'
 }
 
 /** unique or primary key constraints on table "contest" */
 export enum Contest_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  ContestNameKey = 'contest_name_key',
   /** unique or primary key constraint on columns "id" */
-  ContestPkey = "contest_pkey",
+  ContestPkey = 'contest_pkey'
 }
 
 /** 比赛信息 */
 export type Contest_Info = {
-  __typename?: "contest_info";
-  content: Scalars["String"]["output"];
-  contest_id: Scalars["uuid"]["output"];
+  __typename?: 'contest_info';
+  content: Scalars['String']['output'];
+  contest_id: Scalars['uuid']['output'];
   /** An object relationship */
   contest_id_info: Contest;
-  created_at: Scalars["timestamptz"]["output"];
-  files?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["uuid"]["output"];
-  title: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  created_at: Scalars['timestamptz']['output'];
+  files?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  title: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
 };
 
 /** aggregated selection of "contest_info" */
 export type Contest_Info_Aggregate = {
-  __typename?: "contest_info_aggregate";
+  __typename?: 'contest_info_aggregate';
   aggregate?: Maybe<Contest_Info_Aggregate_Fields>;
   nodes: Array<Contest_Info>;
 };
 
 /** aggregate fields of "contest_info" */
 export type Contest_Info_Aggregate_Fields = {
-  __typename?: "contest_info_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'contest_info_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Info_Max_Fields>;
   min?: Maybe<Contest_Info_Min_Fields>;
 };
 
+
 /** aggregate fields of "contest_info" */
 export type Contest_Info_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "contest_info". All fields are combined with a logical 'AND'. */
@@ -2396,50 +832,50 @@ export type Contest_Info_Bool_Exp = {
 /** unique or primary key constraints on table "contest_info" */
 export enum Contest_Info_Constraint {
   /** unique or primary key constraint on columns "id" */
-  ContestInfoPkey = "contest_info_pkey",
+  ContestInfoPkey = 'contest_info_pkey'
 }
 
 /** input type for inserting data into table "contest_info" */
 export type Contest_Info_Insert_Input = {
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
   contest_id_info?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Info_Max_Fields = {
-  __typename?: "contest_info_max_fields";
-  content?: Maybe<Scalars["String"]["output"]>;
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  files?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'contest_info_max_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Contest_Info_Min_Fields = {
-  __typename?: "contest_info_min_fields";
-  content?: Maybe<Scalars["String"]["output"]>;
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  files?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'contest_info_min_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "contest_info" */
 export type Contest_Info_Mutation_Response = {
-  __typename?: "contest_info_mutation_response";
+  __typename?: 'contest_info_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest_Info>;
 };
@@ -2465,97 +901,102 @@ export type Contest_Info_Order_By = {
 
 /** primary key columns input for table: contest_info */
 export type Contest_Info_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "contest_info" */
 export enum Contest_Info_Select_Column {
   /** column name */
-  Content = "content",
+  Content = 'content',
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Files = "files",
+  Files = 'files',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Title = "title",
+  Title = 'title',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "contest_info" */
 export type Contest_Info_Set_Input = {
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "contest_info" */
 export enum Contest_Info_Update_Column {
   /** column name */
-  Content = "content",
+  Content = 'content',
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Files = "files",
+  Files = 'files',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Title = "title",
+  Title = 'title',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for inserting data into table "contest" */
 export type Contest_Insert_Input = {
-  contest_name?: InputMaybe<Scalars["String"]["input"]>;
-  contest_type?: InputMaybe<Scalars["String"]["input"]>;
-  description?: InputMaybe<Scalars["String"]["input"]>;
-  end_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  start_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
+  contest_name?: InputMaybe<Scalars['String']['input']>;
+  contest_type?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  start_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** 比赛管理员映射表 */
 export type Contest_Manager = {
-  __typename?: "contest_manager";
+  __typename?: 'contest_manager';
   /** An object relationship */
   contest: Contest;
-  contest_id: Scalars["uuid"]["output"];
+  contest_id: Scalars['uuid']['output'];
   /** An object relationship */
   user: User;
-  user_id: Scalars["String"]["output"];
+  /** An object relationship */
+  userByUserUuid?: Maybe<Users>;
+  user_id: Scalars['String']['output'];
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregated selection of "contest_manager" */
 export type Contest_Manager_Aggregate = {
-  __typename?: "contest_manager_aggregate";
+  __typename?: 'contest_manager_aggregate';
   aggregate?: Maybe<Contest_Manager_Aggregate_Fields>;
   nodes: Array<Contest_Manager>;
 };
 
 /** aggregate fields of "contest_manager" */
 export type Contest_Manager_Aggregate_Fields = {
-  __typename?: "contest_manager_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'contest_manager_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Manager_Max_Fields>;
   min?: Maybe<Contest_Manager_Min_Fields>;
 };
 
+
 /** aggregate fields of "contest_manager" */
 export type Contest_Manager_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Manager_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "contest_manager". All fields are combined with a logical 'AND'. */
@@ -2566,42 +1007,48 @@ export type Contest_Manager_Bool_Exp = {
   contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
   user?: InputMaybe<User_Bool_Exp>;
+  userByUserUuid?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "contest_manager" */
 export enum Contest_Manager_Constraint {
   /** unique or primary key constraint on columns "user_id", "contest_id" */
-  ContestManagerPkey = "contest_manager_pkey",
+  ContestManagerPkey = 'contest_manager_pkey'
 }
 
 /** input type for inserting data into table "contest_manager" */
 export type Contest_Manager_Insert_Input = {
   contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  userByUserUuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Manager_Max_Fields = {
-  __typename?: "contest_manager_max_fields";
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_manager_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
 export type Contest_Manager_Min_Fields = {
-  __typename?: "contest_manager_min_fields";
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_manager_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** response of any mutation on the table "contest_manager" */
 export type Contest_Manager_Mutation_Response = {
-  __typename?: "contest_manager_mutation_response";
+  __typename?: 'contest_manager_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest_Manager>;
 };
@@ -2618,66 +1065,75 @@ export type Contest_Manager_Order_By = {
   contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
   user?: InputMaybe<User_Order_By>;
+  userByUserUuid?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest_manager */
 export type Contest_Manager_Pk_Columns_Input = {
-  contest_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
 
 /** select columns of table "contest_manager" */
 export enum Contest_Manager_Select_Column {
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
+  /** column name */
+  UserUuid = 'user_uuid'
 }
 
 /** input type for updating data in table "contest_manager" */
 export type Contest_Manager_Set_Input = {
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "contest_manager" */
 export enum Contest_Manager_Update_Column {
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
+  /** column name */
+  UserUuid = 'user_uuid'
 }
 
 /** aggregate max on columns */
 export type Contest_Max_Fields = {
-  __typename?: "contest_max_fields";
-  contest_name?: Maybe<Scalars["String"]["output"]>;
-  contest_type?: Maybe<Scalars["String"]["output"]>;
-  description?: Maybe<Scalars["String"]["output"]>;
-  end_date?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  start_date?: Maybe<Scalars["timestamptz"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_max_fields';
+  contest_name?: Maybe<Scalars['String']['output']>;
+  contest_type?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  end_date?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  start_date?: Maybe<Scalars['timestamptz']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Contest_Min_Fields = {
-  __typename?: "contest_min_fields";
-  contest_name?: Maybe<Scalars["String"]["output"]>;
-  contest_type?: Maybe<Scalars["String"]["output"]>;
-  description?: Maybe<Scalars["String"]["output"]>;
-  end_date?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  start_date?: Maybe<Scalars["timestamptz"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_min_fields';
+  contest_name?: Maybe<Scalars['String']['output']>;
+  contest_type?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  end_date?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  start_date?: Maybe<Scalars['timestamptz']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "contest" */
 export type Contest_Mutation_Response = {
-  __typename?: "contest_mutation_response";
+  __typename?: 'contest_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest>;
 };
@@ -2703,60 +1159,63 @@ export type Contest_Order_By = {
   description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   start_date?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest */
 export type Contest_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** columns and relationships of "contest_room" */
 export type Contest_Room = {
-  __typename?: "contest_room";
-  contest_id: Scalars["uuid"]["output"];
+  __typename?: 'contest_room';
+  contest_id: Scalars['uuid']['output'];
   /** An array relationship */
   contest_room_teams: Array<Contest_Room_Team>;
   /** An aggregate relationship */
   contest_room_teams_aggregate: Contest_Room_Team_Aggregate;
-  created_at: Scalars["timestamptz"]["output"];
-  port?: Maybe<Scalars["Int"]["output"]>;
-  result?: Maybe<Scalars["String"]["output"]>;
-  room_id: Scalars["uuid"]["output"];
-  status: Scalars["Boolean"]["output"];
+  created_at: Scalars['timestamptz']['output'];
+  port?: Maybe<Scalars['Int']['output']>;
+  result?: Maybe<Scalars['String']['output']>;
+  room_id: Scalars['uuid']['output'];
+  status: Scalars['Boolean']['output'];
 };
+
 
 /** columns and relationships of "contest_room" */
 export type Contest_RoomContest_Room_TeamsArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
   where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
 };
 
+
 /** columns and relationships of "contest_room" */
 export type Contest_RoomContest_Room_Teams_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
   where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
 };
 
 /** aggregated selection of "contest_room" */
 export type Contest_Room_Aggregate = {
-  __typename?: "contest_room_aggregate";
+  __typename?: 'contest_room_aggregate';
   aggregate?: Maybe<Contest_Room_Aggregate_Fields>;
   nodes: Array<Contest_Room>;
 };
 
 /** aggregate fields of "contest_room" */
 export type Contest_Room_Aggregate_Fields = {
-  __typename?: "contest_room_aggregate_fields";
+  __typename?: 'contest_room_aggregate_fields';
   avg?: Maybe<Contest_Room_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Room_Max_Fields>;
   min?: Maybe<Contest_Room_Min_Fields>;
   stddev?: Maybe<Contest_Room_Stddev_Fields>;
@@ -2768,16 +1227,17 @@ export type Contest_Room_Aggregate_Fields = {
   variance?: Maybe<Contest_Room_Variance_Fields>;
 };
 
+
 /** aggregate fields of "contest_room" */
 export type Contest_Room_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Room_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Contest_Room_Avg_Fields = {
-  __typename?: "contest_room_avg_fields";
-  port?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'contest_room_avg_fields';
+  port?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "contest_room". All fields are combined with a logical 'AND'. */
@@ -2797,50 +1257,50 @@ export type Contest_Room_Bool_Exp = {
 /** unique or primary key constraints on table "contest_room" */
 export enum Contest_Room_Constraint {
   /** unique or primary key constraint on columns "room_id" */
-  ContestRoomPkey = "contest_room_pkey",
+  ContestRoomPkey = 'contest_room_pkey'
 }
 
 /** input type for incrementing numeric columns in table "contest_room" */
 export type Contest_Room_Inc_Input = {
-  port?: InputMaybe<Scalars["Int"]["input"]>;
+  port?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "contest_room" */
 export type Contest_Room_Insert_Input = {
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
   contest_room_teams?: InputMaybe<Contest_Room_Team_Arr_Rel_Insert_Input>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  port?: InputMaybe<Scalars["Int"]["input"]>;
-  result?: InputMaybe<Scalars["String"]["input"]>;
-  room_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  status?: InputMaybe<Scalars["Boolean"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  port?: InputMaybe<Scalars['Int']['input']>;
+  result?: InputMaybe<Scalars['String']['input']>;
+  room_id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Room_Max_Fields = {
-  __typename?: "contest_room_max_fields";
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  port?: Maybe<Scalars["Int"]["output"]>;
-  result?: Maybe<Scalars["String"]["output"]>;
-  room_id?: Maybe<Scalars["uuid"]["output"]>;
+  __typename?: 'contest_room_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  port?: Maybe<Scalars['Int']['output']>;
+  result?: Maybe<Scalars['String']['output']>;
+  room_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
 export type Contest_Room_Min_Fields = {
-  __typename?: "contest_room_min_fields";
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  port?: Maybe<Scalars["Int"]["output"]>;
-  result?: Maybe<Scalars["String"]["output"]>;
-  room_id?: Maybe<Scalars["uuid"]["output"]>;
+  __typename?: 'contest_room_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  port?: Maybe<Scalars['Int']['output']>;
+  result?: Maybe<Scalars['String']['output']>;
+  room_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** response of any mutation on the table "contest_room" */
 export type Contest_Room_Mutation_Response = {
-  __typename?: "contest_room_mutation_response";
+  __typename?: 'contest_room_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest_Room>;
 };
@@ -2872,89 +1332,90 @@ export type Contest_Room_Order_By = {
 
 /** primary key columns input for table: contest_room */
 export type Contest_Room_Pk_Columns_Input = {
-  room_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "contest_room" */
 export enum Contest_Room_Select_Column {
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Port = "port",
+  Port = 'port',
   /** column name */
-  Result = "result",
+  Result = 'result',
   /** column name */
-  RoomId = "room_id",
+  RoomId = 'room_id',
   /** column name */
-  Status = "status",
+  Status = 'status'
 }
 
 /** input type for updating data in table "contest_room" */
 export type Contest_Room_Set_Input = {
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  port?: InputMaybe<Scalars["Int"]["input"]>;
-  result?: InputMaybe<Scalars["String"]["input"]>;
-  room_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  status?: InputMaybe<Scalars["Boolean"]["input"]>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  port?: InputMaybe<Scalars['Int']['input']>;
+  result?: InputMaybe<Scalars['String']['input']>;
+  room_id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Contest_Room_Stddev_Fields = {
-  __typename?: "contest_room_stddev_fields";
-  port?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'contest_room_stddev_fields';
+  port?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Contest_Room_Stddev_Pop_Fields = {
-  __typename?: "contest_room_stddev_pop_fields";
-  port?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'contest_room_stddev_pop_fields';
+  port?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Contest_Room_Stddev_Samp_Fields = {
-  __typename?: "contest_room_stddev_samp_fields";
-  port?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'contest_room_stddev_samp_fields';
+  port?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Contest_Room_Sum_Fields = {
-  __typename?: "contest_room_sum_fields";
-  port?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'contest_room_sum_fields';
+  port?: Maybe<Scalars['Int']['output']>;
 };
 
 /** columns and relationships of "contest_room_team" */
 export type Contest_Room_Team = {
-  __typename?: "contest_room_team";
+  __typename?: 'contest_room_team';
   /** An object relationship */
   contest_room: Contest_Room;
   /** An object relationship */
   contest_team: Contest_Team;
-  room_id: Scalars["uuid"]["output"];
-  team_id: Scalars["uuid"]["output"];
+  room_id: Scalars['uuid']['output'];
+  team_id: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "contest_room_team" */
 export type Contest_Room_Team_Aggregate = {
-  __typename?: "contest_room_team_aggregate";
+  __typename?: 'contest_room_team_aggregate';
   aggregate?: Maybe<Contest_Room_Team_Aggregate_Fields>;
   nodes: Array<Contest_Room_Team>;
 };
 
 /** aggregate fields of "contest_room_team" */
 export type Contest_Room_Team_Aggregate_Fields = {
-  __typename?: "contest_room_team_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'contest_room_team_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Room_Team_Max_Fields>;
   min?: Maybe<Contest_Room_Team_Min_Fields>;
 };
 
+
 /** aggregate fields of "contest_room_team" */
 export type Contest_Room_Team_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "contest_room_team" */
@@ -2985,22 +1446,22 @@ export type Contest_Room_Team_Bool_Exp = {
 /** unique or primary key constraints on table "contest_room_team" */
 export enum Contest_Room_Team_Constraint {
   /** unique or primary key constraint on columns "room_id", "team_id" */
-  ContestRoomTeamPkey = "contest_room_team_pkey",
+  ContestRoomTeamPkey = 'contest_room_team_pkey'
 }
 
 /** input type for inserting data into table "contest_room_team" */
 export type Contest_Room_Team_Insert_Input = {
   contest_room?: InputMaybe<Contest_Room_Obj_Rel_Insert_Input>;
   contest_team?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
-  room_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
+  room_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Room_Team_Max_Fields = {
-  __typename?: "contest_room_team_max_fields";
-  room_id?: Maybe<Scalars["uuid"]["output"]>;
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
+  __typename?: 'contest_room_team_max_fields';
+  room_id?: Maybe<Scalars['uuid']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "contest_room_team" */
@@ -3011,9 +1472,9 @@ export type Contest_Room_Team_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Contest_Room_Team_Min_Fields = {
-  __typename?: "contest_room_team_min_fields";
-  room_id?: Maybe<Scalars["uuid"]["output"]>;
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
+  __typename?: 'contest_room_team_min_fields';
+  room_id?: Maybe<Scalars['uuid']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "contest_room_team" */
@@ -3024,9 +1485,9 @@ export type Contest_Room_Team_Min_Order_By = {
 
 /** response of any mutation on the table "contest_room_team" */
 export type Contest_Room_Team_Mutation_Response = {
-  __typename?: "contest_room_team_mutation_response";
+  __typename?: 'contest_room_team_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest_Room_Team>;
 };
@@ -3048,153 +1509,161 @@ export type Contest_Room_Team_Order_By = {
 
 /** primary key columns input for table: contest_room_team */
 export type Contest_Room_Team_Pk_Columns_Input = {
-  room_id: Scalars["uuid"]["input"];
-  team_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "contest_room_team" */
 export enum Contest_Room_Team_Select_Column {
   /** column name */
-  RoomId = "room_id",
+  RoomId = 'room_id',
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id'
 }
 
 /** input type for updating data in table "contest_room_team" */
 export type Contest_Room_Team_Set_Input = {
-  room_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
+  room_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "contest_room_team" */
 export enum Contest_Room_Team_Update_Column {
   /** column name */
-  RoomId = "room_id",
+  RoomId = 'room_id',
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id'
 }
 
 /** update columns of table "contest_room" */
 export enum Contest_Room_Update_Column {
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Port = "port",
+  Port = 'port',
   /** column name */
-  Result = "result",
+  Result = 'result',
   /** column name */
-  RoomId = "room_id",
+  RoomId = 'room_id',
   /** column name */
-  Status = "status",
+  Status = 'status'
 }
 
 /** aggregate var_pop on columns */
 export type Contest_Room_Var_Pop_Fields = {
-  __typename?: "contest_room_var_pop_fields";
-  port?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'contest_room_var_pop_fields';
+  port?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Contest_Room_Var_Samp_Fields = {
-  __typename?: "contest_room_var_samp_fields";
-  port?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'contest_room_var_samp_fields';
+  port?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Contest_Room_Variance_Fields = {
-  __typename?: "contest_room_variance_fields";
-  port?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'contest_room_variance_fields';
+  port?: Maybe<Scalars['Float']['output']>;
 };
 
 /** select columns of table "contest" */
 export enum Contest_Select_Column {
   /** column name */
-  ContestName = "contest_name",
+  ContestName = 'contest_name',
   /** column name */
-  ContestType = "contest_type",
+  ContestType = 'contest_type',
   /** column name */
-  Description = "description",
+  Description = 'description',
   /** column name */
-  EndDate = "end_date",
+  EndDate = 'end_date',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  StartDate = "start_date",
+  Name = 'name',
   /** column name */
-  Status = "status",
+  StartDate = 'start_date',
+  /** column name */
+  Status = 'status'
 }
 
 /** input type for updating data in table "contest" */
 export type Contest_Set_Input = {
-  contest_name?: InputMaybe<Scalars["String"]["input"]>;
-  contest_type?: InputMaybe<Scalars["String"]["input"]>;
-  description?: InputMaybe<Scalars["String"]["input"]>;
-  end_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  start_date?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
+  contest_name?: InputMaybe<Scalars['String']['input']>;
+  contest_type?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  start_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** 比赛队伍 */
 export type Contest_Team = {
-  __typename?: "contest_team";
-  contest_id: Scalars["uuid"]["output"];
-  contest_score?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_team';
+  contest_id: Scalars['uuid']['output'];
+  contest_score?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   contest_team_members: Array<Contest_Team_Member>;
   /** An aggregate relationship */
   contest_team_members_aggregate: Contest_Team_Member_Aggregate;
-  created_at: Scalars["timestamptz"]["output"];
-  invited_code?: Maybe<Scalars["String"]["output"]>;
+  created_at: Scalars['timestamptz']['output'];
+  invited_code?: Maybe<Scalars['String']['output']>;
   /** 已有人员数量 */
-  member_num: Scalars["Int"]["output"];
-  score?: Maybe<Scalars["String"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  status2?: Maybe<Scalars["String"]["output"]>;
-  submitted_code_num: Scalars["Int"]["output"];
+  member_num: Scalars['Int']['output'];
+  score?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  status2?: Maybe<Scalars['String']['output']>;
+  submitted_code_num: Scalars['Int']['output'];
   /** An object relationship */
   team_contest_id: Contest;
-  team_id: Scalars["uuid"]["output"];
-  team_intro?: Maybe<Scalars["String"]["output"]>;
-  team_leader?: Maybe<Scalars["String"]["output"]>;
+  team_id: Scalars['uuid']['output'];
+  team_intro?: Maybe<Scalars['String']['output']>;
+  team_leader?: Maybe<Scalars['String']['output']>;
+  /** An object relationship */
+  team_leader_byuuid?: Maybe<Users>;
   /** An object relationship */
   team_leader_id?: Maybe<User>;
-  team_name: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
+  team_name: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
 };
+
 
 /** 比赛队伍 */
 export type Contest_TeamContest_Team_MembersArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
 };
 
+
 /** 比赛队伍 */
 export type Contest_TeamContest_Team_Members_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
 };
 
 /** aggregated selection of "contest_team" */
 export type Contest_Team_Aggregate = {
-  __typename?: "contest_team_aggregate";
+  __typename?: 'contest_team_aggregate';
   aggregate?: Maybe<Contest_Team_Aggregate_Fields>;
   nodes: Array<Contest_Team>;
 };
 
 /** aggregate fields of "contest_team" */
 export type Contest_Team_Aggregate_Fields = {
-  __typename?: "contest_team_aggregate_fields";
+  __typename?: 'contest_team_aggregate_fields';
   avg?: Maybe<Contest_Team_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Team_Max_Fields>;
   min?: Maybe<Contest_Team_Min_Fields>;
   stddev?: Maybe<Contest_Team_Stddev_Fields>;
@@ -3206,18 +1675,19 @@ export type Contest_Team_Aggregate_Fields = {
   variance?: Maybe<Contest_Team_Variance_Fields>;
 };
 
+
 /** aggregate fields of "contest_team" */
 export type Contest_Team_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Team_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Contest_Team_Avg_Fields = {
-  __typename?: "contest_team_avg_fields";
+  __typename?: 'contest_team_avg_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Float"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Float"]["output"]>;
+  member_num?: Maybe<Scalars['Float']['output']>;
+  submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "contest_team". All fields are combined with a logical 'AND'. */
@@ -3239,7 +1709,9 @@ export type Contest_Team_Bool_Exp = {
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
   team_intro?: InputMaybe<String_Comparison_Exp>;
   team_leader?: InputMaybe<String_Comparison_Exp>;
+  team_leader_byuuid?: InputMaybe<Users_Bool_Exp>;
   team_leader_id?: InputMaybe<User_Bool_Exp>;
+  team_leader_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   team_name?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -3247,88 +1719,95 @@ export type Contest_Team_Bool_Exp = {
 /** unique or primary key constraints on table "contest_team" */
 export enum Contest_Team_Constraint {
   /** unique or primary key constraint on columns "team_id" */
-  ContestTeamPkey = "contest_team_pkey",
+  ContestTeamPkey = 'contest_team_pkey'
 }
 
 /** input type for incrementing numeric columns in table "contest_team" */
 export type Contest_Team_Inc_Input = {
   /** 已有人员数量 */
-  member_num?: InputMaybe<Scalars["Int"]["input"]>;
-  submitted_code_num?: InputMaybe<Scalars["Int"]["input"]>;
+  member_num?: InputMaybe<Scalars['Int']['input']>;
+  submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "contest_team" */
 export type Contest_Team_Insert_Input = {
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  contest_score?: InputMaybe<Scalars["String"]["input"]>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  contest_score?: InputMaybe<Scalars['String']['input']>;
   contest_team_members?: InputMaybe<Contest_Team_Member_Arr_Rel_Insert_Input>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  invited_code?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  invited_code?: InputMaybe<Scalars['String']['input']>;
   /** 已有人员数量 */
-  member_num?: InputMaybe<Scalars["Int"]["input"]>;
-  score?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  status2?: InputMaybe<Scalars["String"]["input"]>;
-  submitted_code_num?: InputMaybe<Scalars["Int"]["input"]>;
+  member_num?: InputMaybe<Scalars['Int']['input']>;
+  score?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  status2?: InputMaybe<Scalars['String']['input']>;
+  submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
   team_contest_id?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  team_intro?: InputMaybe<Scalars["String"]["input"]>;
-  team_leader?: InputMaybe<Scalars["String"]["input"]>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_intro?: InputMaybe<Scalars['String']['input']>;
+  team_leader?: InputMaybe<Scalars['String']['input']>;
+  team_leader_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   team_leader_id?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  team_name?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  team_name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Team_Max_Fields = {
-  __typename?: "contest_team_max_fields";
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  contest_score?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  invited_code?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_team_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  contest_score?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  invited_code?: Maybe<Scalars['String']['output']>;
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Int"]["output"]>;
-  score?: Maybe<Scalars["String"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  status2?: Maybe<Scalars["String"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Int"]["output"]>;
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
-  team_intro?: Maybe<Scalars["String"]["output"]>;
-  team_leader?: Maybe<Scalars["String"]["output"]>;
-  team_name?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  member_num?: Maybe<Scalars['Int']['output']>;
+  score?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  status2?: Maybe<Scalars['String']['output']>;
+  submitted_code_num?: Maybe<Scalars['Int']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+  team_intro?: Maybe<Scalars['String']['output']>;
+  team_leader?: Maybe<Scalars['String']['output']>;
+  team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
+  team_name?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** 队伍、成员映射表 */
 export type Contest_Team_Member = {
-  __typename?: "contest_team_member";
+  __typename?: 'contest_team_member';
   /** An object relationship */
   team_as_contest_team_member: Contest_Team;
-  team_id: Scalars["uuid"]["output"];
+  team_id: Scalars['uuid']['output'];
+  /** An object relationship */
+  user?: Maybe<Users>;
   /** An object relationship */
   user_as_contest_team_member: User;
-  user_id: Scalars["String"]["output"];
+  user_id: Scalars['String']['output'];
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregated selection of "contest_team_member" */
 export type Contest_Team_Member_Aggregate = {
-  __typename?: "contest_team_member_aggregate";
+  __typename?: 'contest_team_member_aggregate';
   aggregate?: Maybe<Contest_Team_Member_Aggregate_Fields>;
   nodes: Array<Contest_Team_Member>;
 };
 
 /** aggregate fields of "contest_team_member" */
 export type Contest_Team_Member_Aggregate_Fields = {
-  __typename?: "contest_team_member_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'contest_team_member_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Contest_Team_Member_Max_Fields>;
   min?: Maybe<Contest_Team_Member_Min_Fields>;
 };
 
+
 /** aggregate fields of "contest_team_member" */
 export type Contest_Team_Member_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "contest_team_member" */
@@ -3352,55 +1831,63 @@ export type Contest_Team_Member_Bool_Exp = {
   _or?: InputMaybe<Array<Contest_Team_Member_Bool_Exp>>;
   team_as_contest_team_member?: InputMaybe<Contest_Team_Bool_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
   user_as_contest_team_member?: InputMaybe<User_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "contest_team_member" */
 export enum Contest_Team_Member_Constraint {
   /** unique or primary key constraint on columns "user_id", "team_id" */
-  ContestTeamMemberPkey = "contest_team_member_pkey",
+  ContestTeamMemberPkey = 'contest_team_member_pkey'
 }
 
 /** input type for inserting data into table "contest_team_member" */
 export type Contest_Team_Member_Insert_Input = {
   team_as_contest_team_member?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_as_contest_team_member?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Team_Member_Max_Fields = {
-  __typename?: "contest_team_member_max_fields";
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_team_member_max_fields';
+  team_id?: Maybe<Scalars['uuid']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "contest_team_member" */
 export type Contest_Team_Member_Max_Order_By = {
   team_id?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Contest_Team_Member_Min_Fields = {
-  __typename?: "contest_team_member_min_fields";
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_team_member_min_fields';
+  team_id?: Maybe<Scalars['uuid']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "contest_team_member" */
 export type Contest_Team_Member_Min_Order_By = {
   team_id?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_team_member" */
 export type Contest_Team_Member_Mutation_Response = {
-  __typename?: "contest_team_member_mutation_response";
+  __typename?: 'contest_team_member_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest_Team_Member>;
 };
@@ -3416,63 +1903,71 @@ export type Contest_Team_Member_On_Conflict = {
 export type Contest_Team_Member_Order_By = {
   team_as_contest_team_member?: InputMaybe<Contest_Team_Order_By>;
   team_id?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
   user_as_contest_team_member?: InputMaybe<User_Order_By>;
   user_id?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest_team_member */
 export type Contest_Team_Member_Pk_Columns_Input = {
-  team_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  team_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
 
 /** select columns of table "contest_team_member" */
 export enum Contest_Team_Member_Select_Column {
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
+  /** column name */
+  UserUuid = 'user_uuid'
 }
 
 /** input type for updating data in table "contest_team_member" */
 export type Contest_Team_Member_Set_Input = {
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "contest_team_member" */
 export enum Contest_Team_Member_Update_Column {
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
+  /** column name */
+  UserUuid = 'user_uuid'
 }
 
 /** aggregate min on columns */
 export type Contest_Team_Min_Fields = {
-  __typename?: "contest_team_min_fields";
-  contest_id?: Maybe<Scalars["uuid"]["output"]>;
-  contest_score?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  invited_code?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'contest_team_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  contest_score?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  invited_code?: Maybe<Scalars['String']['output']>;
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Int"]["output"]>;
-  score?: Maybe<Scalars["String"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  status2?: Maybe<Scalars["String"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Int"]["output"]>;
-  team_id?: Maybe<Scalars["uuid"]["output"]>;
-  team_intro?: Maybe<Scalars["String"]["output"]>;
-  team_leader?: Maybe<Scalars["String"]["output"]>;
-  team_name?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  member_num?: Maybe<Scalars['Int']['output']>;
+  score?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  status2?: Maybe<Scalars['String']['output']>;
+  submitted_code_num?: Maybe<Scalars['Int']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+  team_intro?: Maybe<Scalars['String']['output']>;
+  team_leader?: Maybe<Scalars['String']['output']>;
+  team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
+  team_name?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "contest_team" */
 export type Contest_Team_Mutation_Response = {
-  __typename?: "contest_team_mutation_response";
+  __typename?: 'contest_team_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Contest_Team>;
 };
@@ -3507,380 +2002,220 @@ export type Contest_Team_Order_By = {
   team_id?: InputMaybe<Order_By>;
   team_intro?: InputMaybe<Order_By>;
   team_leader?: InputMaybe<Order_By>;
+  team_leader_byuuid?: InputMaybe<Users_Order_By>;
   team_leader_id?: InputMaybe<User_Order_By>;
+  team_leader_uuid?: InputMaybe<Order_By>;
   team_name?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest_team */
 export type Contest_Team_Pk_Columns_Input = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "contest_team" */
 export enum Contest_Team_Select_Column {
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  ContestScore = "contest_score",
+  ContestScore = 'contest_score',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  InvitedCode = "invited_code",
+  InvitedCode = 'invited_code',
   /** column name */
-  MemberNum = "member_num",
+  MemberNum = 'member_num',
   /** column name */
-  Score = "score",
+  Score = 'score',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  Status2 = "status2",
+  Status2 = 'status2',
   /** column name */
-  SubmittedCodeNum = "submitted_code_num",
+  SubmittedCodeNum = 'submitted_code_num',
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id',
   /** column name */
-  TeamIntro = "team_intro",
+  TeamIntro = 'team_intro',
   /** column name */
-  TeamLeader = "team_leader",
+  TeamLeader = 'team_leader',
   /** column name */
-  TeamName = "team_name",
+  TeamLeaderUuid = 'team_leader_uuid',
   /** column name */
-  UpdatedAt = "updated_at",
+  TeamName = 'team_name',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "contest_team" */
 export type Contest_Team_Set_Input = {
-  contest_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  contest_score?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  invited_code?: InputMaybe<Scalars["String"]["input"]>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  contest_score?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  invited_code?: InputMaybe<Scalars['String']['input']>;
   /** 已有人员数量 */
-  member_num?: InputMaybe<Scalars["Int"]["input"]>;
-  score?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  status2?: InputMaybe<Scalars["String"]["input"]>;
-  submitted_code_num?: InputMaybe<Scalars["Int"]["input"]>;
-  team_id?: InputMaybe<Scalars["uuid"]["input"]>;
-  team_intro?: InputMaybe<Scalars["String"]["input"]>;
-  team_leader?: InputMaybe<Scalars["String"]["input"]>;
-  team_name?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  member_num?: InputMaybe<Scalars['Int']['input']>;
+  score?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  status2?: InputMaybe<Scalars['String']['input']>;
+  submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_intro?: InputMaybe<Scalars['String']['input']>;
+  team_leader?: InputMaybe<Scalars['String']['input']>;
+  team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  team_name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Contest_Team_Stddev_Fields = {
-  __typename?: "contest_team_stddev_fields";
+  __typename?: 'contest_team_stddev_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Float"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Float"]["output"]>;
+  member_num?: Maybe<Scalars['Float']['output']>;
+  submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Contest_Team_Stddev_Pop_Fields = {
-  __typename?: "contest_team_stddev_pop_fields";
+  __typename?: 'contest_team_stddev_pop_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Float"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Float"]["output"]>;
+  member_num?: Maybe<Scalars['Float']['output']>;
+  submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Contest_Team_Stddev_Samp_Fields = {
-  __typename?: "contest_team_stddev_samp_fields";
+  __typename?: 'contest_team_stddev_samp_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Float"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Float"]["output"]>;
+  member_num?: Maybe<Scalars['Float']['output']>;
+  submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Contest_Team_Sum_Fields = {
-  __typename?: "contest_team_sum_fields";
+  __typename?: 'contest_team_sum_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Int"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Int"]["output"]>;
+  member_num?: Maybe<Scalars['Int']['output']>;
+  submitted_code_num?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "contest_team" */
 export enum Contest_Team_Update_Column {
   /** column name */
-  ContestId = "contest_id",
+  ContestId = 'contest_id',
   /** column name */
-  ContestScore = "contest_score",
+  ContestScore = 'contest_score',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  InvitedCode = "invited_code",
+  InvitedCode = 'invited_code',
   /** column name */
-  MemberNum = "member_num",
+  MemberNum = 'member_num',
   /** column name */
-  Score = "score",
+  Score = 'score',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  Status2 = "status2",
+  Status2 = 'status2',
   /** column name */
-  SubmittedCodeNum = "submitted_code_num",
+  SubmittedCodeNum = 'submitted_code_num',
   /** column name */
-  TeamId = "team_id",
+  TeamId = 'team_id',
   /** column name */
-  TeamIntro = "team_intro",
+  TeamIntro = 'team_intro',
   /** column name */
-  TeamLeader = "team_leader",
+  TeamLeader = 'team_leader',
   /** column name */
-  TeamName = "team_name",
+  TeamLeaderUuid = 'team_leader_uuid',
   /** column name */
-  UpdatedAt = "updated_at",
+  TeamName = 'team_name',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
 export type Contest_Team_Var_Pop_Fields = {
-  __typename?: "contest_team_var_pop_fields";
+  __typename?: 'contest_team_var_pop_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Float"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Float"]["output"]>;
+  member_num?: Maybe<Scalars['Float']['output']>;
+  submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Contest_Team_Var_Samp_Fields = {
-  __typename?: "contest_team_var_samp_fields";
+  __typename?: 'contest_team_var_samp_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Float"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Float"]["output"]>;
+  member_num?: Maybe<Scalars['Float']['output']>;
+  submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Contest_Team_Variance_Fields = {
-  __typename?: "contest_team_variance_fields";
+  __typename?: 'contest_team_variance_fields';
   /** 已有人员数量 */
-  member_num?: Maybe<Scalars["Float"]["output"]>;
-  submitted_code_num?: Maybe<Scalars["Float"]["output"]>;
+  member_num?: Maybe<Scalars['Float']['output']>;
+  submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
 /** update columns of table "contest" */
 export enum Contest_Update_Column {
   /** column name */
-  ContestName = "contest_name",
+  ContestName = 'contest_name',
   /** column name */
-  ContestType = "contest_type",
+  ContestType = 'contest_type',
   /** column name */
-  Description = "description",
+  Description = 'description',
   /** column name */
-  EndDate = "end_date",
+  EndDate = 'end_date',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  StartDate = "start_date",
+  Name = 'name',
   /** column name */
-  Status = "status",
+  StartDate = 'start_date',
+  /** column name */
+  Status = 'status'
 }
-
-/** 清华大学所设院系的名称 */
-export type Department = {
-  __typename?: "department";
-  id: Scalars["bigint"]["output"];
-  name: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "department" */
-export type Department_Aggregate = {
-  __typename?: "department_aggregate";
-  aggregate?: Maybe<Department_Aggregate_Fields>;
-  nodes: Array<Department>;
-};
-
-/** aggregate fields of "department" */
-export type Department_Aggregate_Fields = {
-  __typename?: "department_aggregate_fields";
-  avg?: Maybe<Department_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Department_Max_Fields>;
-  min?: Maybe<Department_Min_Fields>;
-  stddev?: Maybe<Department_Stddev_Fields>;
-  stddev_pop?: Maybe<Department_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Department_Stddev_Samp_Fields>;
-  sum?: Maybe<Department_Sum_Fields>;
-  var_pop?: Maybe<Department_Var_Pop_Fields>;
-  var_samp?: Maybe<Department_Var_Samp_Fields>;
-  variance?: Maybe<Department_Variance_Fields>;
-};
-
-/** aggregate fields of "department" */
-export type Department_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Department_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate avg on columns */
-export type Department_Avg_Fields = {
-  __typename?: "department_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Boolean expression to filter rows from the table "department". All fields are combined with a logical 'AND'. */
-export type Department_Bool_Exp = {
-  _and?: InputMaybe<Array<Department_Bool_Exp>>;
-  _not?: InputMaybe<Department_Bool_Exp>;
-  _or?: InputMaybe<Array<Department_Bool_Exp>>;
-  id?: InputMaybe<Bigint_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "department" */
-export enum Department_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  DepartmentPkey = "department_pkey",
-}
-
-/** input type for incrementing numeric columns in table "department" */
-export type Department_Inc_Input = {
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-};
-
-/** input type for inserting data into table "department" */
-export type Department_Insert_Input = {
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Department_Max_Fields = {
-  __typename?: "department_max_fields";
-  id?: Maybe<Scalars["bigint"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Department_Min_Fields = {
-  __typename?: "department_min_fields";
-  id?: Maybe<Scalars["bigint"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** response of any mutation on the table "department" */
-export type Department_Mutation_Response = {
-  __typename?: "department_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Department>;
-};
-
-/** on_conflict condition type for table "department" */
-export type Department_On_Conflict = {
-  constraint: Department_Constraint;
-  update_columns?: Array<Department_Update_Column>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "department". */
-export type Department_Order_By = {
-  id?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: department */
-export type Department_Pk_Columns_Input = {
-  id: Scalars["bigint"]["input"];
-};
-
-/** select columns of table "department" */
-export enum Department_Select_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  Name = "name",
-}
-
-/** input type for updating data in table "department" */
-export type Department_Set_Input = {
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Department_Stddev_Fields = {
-  __typename?: "department_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Department_Stddev_Pop_Fields = {
-  __typename?: "department_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Department_Stddev_Samp_Fields = {
-  __typename?: "department_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate sum on columns */
-export type Department_Sum_Fields = {
-  __typename?: "department_sum_fields";
-  id?: Maybe<Scalars["bigint"]["output"]>;
-};
-
-/** update columns of table "department" */
-export enum Department_Update_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  Name = "name",
-}
-
-/** aggregate var_pop on columns */
-export type Department_Var_Pop_Fields = {
-  __typename?: "department_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate var_samp on columns */
-export type Department_Var_Samp_Fields = {
-  __typename?: "department_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate variance on columns */
-export type Department_Variance_Fields = {
-  __typename?: "department_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
 
 /** columns and relationships of "honor_application" */
 export type Honor_Application = {
-  __typename?: "honor_application";
-  attachment_url?: Maybe<Scalars["String"]["output"]>;
-  created_at: Scalars["timestamptz"]["output"];
-  honor: Scalars["String"]["output"];
-  id: Scalars["uuid"]["output"];
-  statement: Scalars["String"]["output"];
-  status: Scalars["String"]["output"];
+  __typename?: 'honor_application';
+  attachment_url?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['timestamptz']['output'];
+  honor: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  statement: Scalars['String']['output'];
+  status: Scalars['String']['output'];
   /** An object relationship */
   student: User;
-  student_id: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  student_id: Scalars['String']['output'];
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  user?: Maybe<Users>;
 };
 
 /** aggregated selection of "honor_application" */
 export type Honor_Application_Aggregate = {
-  __typename?: "honor_application_aggregate";
+  __typename?: 'honor_application_aggregate';
   aggregate?: Maybe<Honor_Application_Aggregate_Fields>;
   nodes: Array<Honor_Application>;
 };
 
 /** aggregate fields of "honor_application" */
 export type Honor_Application_Aggregate_Fields = {
-  __typename?: "honor_application_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'honor_application_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Honor_Application_Max_Fields>;
   min?: Maybe<Honor_Application_Min_Fields>;
 };
 
+
 /** aggregate fields of "honor_application" */
 export type Honor_Application_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Honor_Application_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "honor_application". All fields are combined with a logical 'AND'. */
@@ -3896,59 +2231,65 @@ export type Honor_Application_Bool_Exp = {
   status?: InputMaybe<String_Comparison_Exp>;
   student?: InputMaybe<User_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
+  student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "honor_application" */
 export enum Honor_Application_Constraint {
   /** unique or primary key constraint on columns "id" */
-  HonorApplicationPkey1 = "honor_application_pkey1",
+  HonorApplicationPkey1 = 'honor_application_pkey1'
 }
 
 /** input type for inserting data into table "honor_application" */
 export type Honor_Application_Insert_Input = {
-  attachment_url?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  honor?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  statement?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
+  attachment_url?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  honor?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
   student?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Honor_Application_Max_Fields = {
-  __typename?: "honor_application_max_fields";
-  attachment_url?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  honor?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  statement?: Maybe<Scalars["String"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'honor_application_max_fields';
+  attachment_url?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  honor?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  statement?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Honor_Application_Min_Fields = {
-  __typename?: "honor_application_min_fields";
-  attachment_url?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  honor?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  statement?: Maybe<Scalars["String"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'honor_application_min_fields';
+  attachment_url?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  honor?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  statement?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "honor_application" */
 export type Honor_Application_Mutation_Response = {
-  __typename?: "honor_application_mutation_response";
+  __typename?: 'honor_application_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Honor_Application>;
 };
@@ -3970,97 +2311,105 @@ export type Honor_Application_Order_By = {
   status?: InputMaybe<Order_By>;
   student?: InputMaybe<User_Order_By>;
   student_id?: InputMaybe<Order_By>;
+  student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
 };
 
 /** primary key columns input for table: honor_application */
 export type Honor_Application_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "honor_application" */
 export enum Honor_Application_Select_Column {
   /** column name */
-  AttachmentUrl = "attachment_url",
+  AttachmentUrl = 'attachment_url',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Honor = "honor",
+  Honor = 'honor',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Statement = "statement",
+  Statement = 'statement',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  StudentId = "student_id",
+  StudentId = 'student_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  StudentUuid = 'student_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "honor_application" */
 export type Honor_Application_Set_Input = {
-  attachment_url?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  honor?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  statement?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  attachment_url?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  honor?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "honor_application" */
 export enum Honor_Application_Update_Column {
   /** column name */
-  AttachmentUrl = "attachment_url",
+  AttachmentUrl = 'attachment_url',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Honor = "honor",
+  Honor = 'honor',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Statement = "statement",
+  Statement = 'statement',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  StudentId = "student_id",
+  StudentId = 'student_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  StudentUuid = 'student_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** columns and relationships of "info_notice" */
 export type Info_Notice = {
-  __typename?: "info_notice";
-  content: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  files?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["uuid"]["output"];
-  notice_type: Scalars["String"]["output"];
-  title: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  __typename?: 'info_notice';
+  content: Scalars['String']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  files?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  notice_type: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
 };
 
 /** aggregated selection of "info_notice" */
 export type Info_Notice_Aggregate = {
-  __typename?: "info_notice_aggregate";
+  __typename?: 'info_notice_aggregate';
   aggregate?: Maybe<Info_Notice_Aggregate_Fields>;
   nodes: Array<Info_Notice>;
 };
 
 /** aggregate fields of "info_notice" */
 export type Info_Notice_Aggregate_Fields = {
-  __typename?: "info_notice_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'info_notice_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Info_Notice_Max_Fields>;
   min?: Maybe<Info_Notice_Min_Fields>;
 };
 
+
 /** aggregate fields of "info_notice" */
 export type Info_Notice_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Info_Notice_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "info_notice". All fields are combined with a logical 'AND'. */
@@ -4080,49 +2429,49 @@ export type Info_Notice_Bool_Exp = {
 /** unique or primary key constraints on table "info_notice" */
 export enum Info_Notice_Constraint {
   /** unique or primary key constraint on columns "id" */
-  NoticePkey = "notice_pkey",
+  NoticePkey = 'notice_pkey'
 }
 
 /** input type for inserting data into table "info_notice" */
 export type Info_Notice_Insert_Input = {
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  notice_type?: InputMaybe<Scalars["String"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  notice_type?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Info_Notice_Max_Fields = {
-  __typename?: "info_notice_max_fields";
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  files?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  notice_type?: Maybe<Scalars["String"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'info_notice_max_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  notice_type?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Info_Notice_Min_Fields = {
-  __typename?: "info_notice_min_fields";
-  content?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  files?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  notice_type?: Maybe<Scalars["String"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'info_notice_min_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  notice_type?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "info_notice" */
 export type Info_Notice_Mutation_Response = {
-  __typename?: "info_notice_mutation_response";
+  __typename?: 'info_notice_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Info_Notice>;
 };
@@ -4147,106 +2496,113 @@ export type Info_Notice_Order_By = {
 
 /** primary key columns input for table: info_notice */
 export type Info_Notice_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "info_notice" */
 export enum Info_Notice_Select_Column {
   /** column name */
-  Content = "content",
+  Content = 'content',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Files = "files",
+  Files = 'files',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  NoticeType = "notice_type",
+  NoticeType = 'notice_type',
   /** column name */
-  Title = "title",
+  Title = 'title',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "info_notice" */
 export type Info_Notice_Set_Input = {
-  content?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  notice_type?: InputMaybe<Scalars["String"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  notice_type?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "info_notice" */
 export enum Info_Notice_Update_Column {
   /** column name */
-  Content = "content",
+  Content = 'content',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Files = "files",
+  Files = 'files',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  NoticeType = "notice_type",
+  NoticeType = 'notice_type',
   /** column name */
-  Title = "title",
+  Title = 'title',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at'
 }
 
 /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
 export type Json_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["json"]["input"]>;
-  _gt?: InputMaybe<Scalars["json"]["input"]>;
-  _gte?: InputMaybe<Scalars["json"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["json"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["json"]["input"]>;
-  _lte?: InputMaybe<Scalars["json"]["input"]>;
-  _neq?: InputMaybe<Scalars["json"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["json"]["input"]>>;
+  _eq?: InputMaybe<Scalars['json']['input']>;
+  _gt?: InputMaybe<Scalars['json']['input']>;
+  _gte?: InputMaybe<Scalars['json']['input']>;
+  _in?: InputMaybe<Array<Scalars['json']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['json']['input']>;
+  _lte?: InputMaybe<Scalars['json']['input']>;
+  _neq?: InputMaybe<Scalars['json']['input']>;
+  _nin?: InputMaybe<Array<Scalars['json']['input']>>;
 };
 
 /** columns and relationships of "mentor_application" */
 export type Mentor_Application = {
-  __typename?: "mentor_application";
-  chat_status: Scalars["Boolean"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["uuid"]["output"];
+  __typename?: 'mentor_application';
+  chat_status: Scalars['Boolean']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  id: Scalars['uuid']['output'];
   /** An object relationship */
   mentor: User;
-  mentor_id: Scalars["String"]["output"];
-  statement: Scalars["String"]["output"];
+  /** An object relationship */
+  mentor_byuuid?: Maybe<Users>;
+  mentor_id: Scalars['String']['output'];
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  statement: Scalars['String']['output'];
   /** approved | submitted */
-  status: Scalars["String"]["output"];
+  status: Scalars['String']['output'];
   /** An object relationship */
   student: User;
-  student_id: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  /** An object relationship */
+  student_byuuid?: Maybe<Users>;
+  student_id: Scalars['String']['output'];
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
 };
 
 /** aggregated selection of "mentor_application" */
 export type Mentor_Application_Aggregate = {
-  __typename?: "mentor_application_aggregate";
+  __typename?: 'mentor_application_aggregate';
   aggregate?: Maybe<Mentor_Application_Aggregate_Fields>;
   nodes: Array<Mentor_Application>;
 };
 
 /** aggregate fields of "mentor_application" */
 export type Mentor_Application_Aggregate_Fields = {
-  __typename?: "mentor_application_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'mentor_application_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Mentor_Application_Max_Fields>;
   min?: Maybe<Mentor_Application_Min_Fields>;
 };
 
+
 /** aggregate fields of "mentor_application" */
 export type Mentor_Application_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "mentor_application" */
@@ -4272,46 +2628,56 @@ export type Mentor_Application_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   mentor?: InputMaybe<User_Bool_Exp>;
+  mentor_byuuid?: InputMaybe<Users_Bool_Exp>;
   mentor_id?: InputMaybe<String_Comparison_Exp>;
+  mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   statement?: InputMaybe<String_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   student?: InputMaybe<User_Bool_Exp>;
+  student_byuuid?: InputMaybe<Users_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
+  student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "mentor_application" */
 export enum Mentor_Application_Constraint {
   /** unique or primary key constraint on columns "id" */
-  MentorApplicationPkey1 = "mentor_application_pkey1",
+  MentorApplicationPkey1 = 'mentor_application_pkey1'
 }
 
 /** input type for inserting data into table "mentor_application" */
 export type Mentor_Application_Insert_Input = {
-  chat_status?: InputMaybe<Scalars["Boolean"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
+  chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
   mentor?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  mentor_id?: InputMaybe<Scalars["String"]["input"]>;
-  statement?: InputMaybe<Scalars["String"]["input"]>;
+  mentor_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  mentor_id?: InputMaybe<Scalars['String']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
   /** approved | submitted */
-  status?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<Scalars['String']['input']>;
   student?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  student_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Mentor_Application_Max_Fields = {
-  __typename?: "mentor_application_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  mentor_id?: Maybe<Scalars["String"]["output"]>;
-  statement?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'mentor_application_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  mentor_id?: Maybe<Scalars['String']['output']>;
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  statement?: Maybe<Scalars['String']['output']>;
   /** approved | submitted */
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by max() on columns of table "mentor_application" */
@@ -4319,24 +2685,28 @@ export type Mentor_Application_Max_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   mentor_id?: InputMaybe<Order_By>;
+  mentor_uuid?: InputMaybe<Order_By>;
   statement?: InputMaybe<Order_By>;
   /** approved | submitted */
   status?: InputMaybe<Order_By>;
   student_id?: InputMaybe<Order_By>;
+  student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Mentor_Application_Min_Fields = {
-  __typename?: "mentor_application_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  mentor_id?: Maybe<Scalars["String"]["output"]>;
-  statement?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'mentor_application_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  mentor_id?: Maybe<Scalars['String']['output']>;
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  statement?: Maybe<Scalars['String']['output']>;
   /** approved | submitted */
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by min() on columns of table "mentor_application" */
@@ -4344,18 +2714,20 @@ export type Mentor_Application_Min_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   mentor_id?: InputMaybe<Order_By>;
+  mentor_uuid?: InputMaybe<Order_By>;
   statement?: InputMaybe<Order_By>;
   /** approved | submitted */
   status?: InputMaybe<Order_By>;
   student_id?: InputMaybe<Order_By>;
+  student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "mentor_application" */
 export type Mentor_Application_Mutation_Response = {
-  __typename?: "mentor_application_mutation_response";
+  __typename?: 'mentor_application_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Mentor_Application>;
 };
@@ -4373,100 +2745,118 @@ export type Mentor_Application_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   mentor?: InputMaybe<User_Order_By>;
+  mentor_byuuid?: InputMaybe<Users_Order_By>;
   mentor_id?: InputMaybe<Order_By>;
+  mentor_uuid?: InputMaybe<Order_By>;
   statement?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   student?: InputMaybe<User_Order_By>;
+  student_byuuid?: InputMaybe<Users_Order_By>;
   student_id?: InputMaybe<Order_By>;
+  student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: mentor_application */
 export type Mentor_Application_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "mentor_application" */
 export enum Mentor_Application_Select_Column {
   /** column name */
-  ChatStatus = "chat_status",
+  ChatStatus = 'chat_status',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  MentorId = "mentor_id",
+  MentorId = 'mentor_id',
   /** column name */
-  Statement = "statement",
+  MentorUuid = 'mentor_uuid',
   /** column name */
-  Status = "status",
+  Statement = 'statement',
   /** column name */
-  StudentId = "student_id",
+  Status = 'status',
   /** column name */
-  UpdatedAt = "updated_at",
+  StudentId = 'student_id',
+  /** column name */
+  StudentUuid = 'student_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "mentor_application" */
 export type Mentor_Application_Set_Input = {
-  chat_status?: InputMaybe<Scalars["Boolean"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  mentor_id?: InputMaybe<Scalars["String"]["input"]>;
-  statement?: InputMaybe<Scalars["String"]["input"]>;
+  chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  mentor_id?: InputMaybe<Scalars['String']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
   /** approved | submitted */
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "mentor_application" */
 export enum Mentor_Application_Update_Column {
   /** column name */
-  ChatStatus = "chat_status",
+  ChatStatus = 'chat_status',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  MentorId = "mentor_id",
+  MentorId = 'mentor_id',
   /** column name */
-  Statement = "statement",
+  MentorUuid = 'mentor_uuid',
   /** column name */
-  Status = "status",
+  Statement = 'statement',
   /** column name */
-  StudentId = "student_id",
+  Status = 'status',
   /** column name */
-  UpdatedAt = "updated_at",
+  StudentId = 'student_id',
+  /** column name */
+  StudentUuid = 'student_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** columns and relationships of "mentor_available" */
 export type Mentor_Available = {
-  __typename?: "mentor_available";
-  available: Scalars["Boolean"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  mentor_id: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  __typename?: 'mentor_available';
+  available: Scalars['Boolean']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  mentor_byuuid?: Maybe<Users>;
+  mentor_id: Scalars['String']['output'];
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
 };
 
 /** aggregated selection of "mentor_available" */
 export type Mentor_Available_Aggregate = {
-  __typename?: "mentor_available_aggregate";
+  __typename?: 'mentor_available_aggregate';
   aggregate?: Maybe<Mentor_Available_Aggregate_Fields>;
   nodes: Array<Mentor_Available>;
 };
 
 /** aggregate fields of "mentor_available" */
 export type Mentor_Available_Aggregate_Fields = {
-  __typename?: "mentor_available_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'mentor_available_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Mentor_Available_Max_Fields>;
   min?: Maybe<Mentor_Available_Min_Fields>;
 };
 
+
 /** aggregate fields of "mentor_available" */
 export type Mentor_Available_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "mentor_available". All fields are combined with a logical 'AND'. */
@@ -4476,47 +2866,53 @@ export type Mentor_Available_Bool_Exp = {
   _or?: InputMaybe<Array<Mentor_Available_Bool_Exp>>;
   available?: InputMaybe<Boolean_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  mentor_byuuid?: InputMaybe<Users_Bool_Exp>;
   mentor_id?: InputMaybe<String_Comparison_Exp>;
+  mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "mentor_available" */
 export enum Mentor_Available_Constraint {
   /** unique or primary key constraint on columns "mentor_id" */
-  MentorAvailableMentorIdKey = "mentor_available_mentor_id_key",
+  MentorAvailableMentorIdKey = 'mentor_available_mentor_id_key',
   /** unique or primary key constraint on columns "mentor_id" */
-  MentorAvailablePkey = "mentor_available_pkey",
+  MentorAvailablePkey = 'mentor_available_pkey'
 }
 
 /** input type for inserting data into table "mentor_available" */
 export type Mentor_Available_Insert_Input = {
-  available?: InputMaybe<Scalars["Boolean"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  mentor_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  available?: InputMaybe<Scalars['Boolean']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  mentor_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  mentor_id?: InputMaybe<Scalars['String']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Mentor_Available_Max_Fields = {
-  __typename?: "mentor_available_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  mentor_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'mentor_available_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  mentor_id?: Maybe<Scalars['String']['output']>;
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Mentor_Available_Min_Fields = {
-  __typename?: "mentor_available_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  mentor_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'mentor_available_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  mentor_id?: Maybe<Scalars['String']['output']>;
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "mentor_available" */
 export type Mentor_Available_Mutation_Response = {
-  __typename?: "mentor_available_mutation_response";
+  __typename?: 'mentor_available_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Mentor_Available>;
 };
@@ -4539,84 +2935,95 @@ export type Mentor_Available_On_Conflict = {
 export type Mentor_Available_Order_By = {
   available?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  mentor_byuuid?: InputMaybe<Users_Order_By>;
   mentor_id?: InputMaybe<Order_By>;
+  mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: mentor_available */
 export type Mentor_Available_Pk_Columns_Input = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
 
 /** select columns of table "mentor_available" */
 export enum Mentor_Available_Select_Column {
   /** column name */
-  Available = "available",
+  Available = 'available',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  MentorId = "mentor_id",
+  MentorId = 'mentor_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  MentorUuid = 'mentor_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "mentor_available" */
 export type Mentor_Available_Set_Input = {
-  available?: InputMaybe<Scalars["Boolean"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  mentor_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  available?: InputMaybe<Scalars['Boolean']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  mentor_id?: InputMaybe<Scalars['String']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "mentor_available" */
 export enum Mentor_Available_Update_Column {
   /** column name */
-  Available = "available",
+  Available = 'available',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  MentorId = "mentor_id",
+  MentorId = 'mentor_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  MentorUuid = 'mentor_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** 新生导师信息 */
 export type Mentor_Info = {
-  __typename?: "mentor_info";
+  __typename?: 'mentor_info';
   /** 学术成果 */
-  achievement?: Maybe<Scalars["String"]["output"]>;
+  achievement?: Maybe<Scalars['String']['output']>;
   /** 教育背景 */
-  background?: Maybe<Scalars["String"]["output"]>;
-  created_at: Scalars["timestamptz"]["output"];
+  background?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['timestamptz']['output'];
   /** 研究领域 */
-  field?: Maybe<Scalars["String"]["output"]>;
+  field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
-  intro?: Maybe<Scalars["String"]["output"]>;
-  mentor_id: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  intro?: Maybe<Scalars['String']['output']>;
+  mentor_id: Scalars['String']['output'];
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   user: User;
+  /** An object relationship */
+  userByMentorUuid?: Maybe<Users>;
 };
 
 /** aggregated selection of "mentor_info" */
 export type Mentor_Info_Aggregate = {
-  __typename?: "mentor_info_aggregate";
+  __typename?: 'mentor_info_aggregate';
   aggregate?: Maybe<Mentor_Info_Aggregate_Fields>;
   nodes: Array<Mentor_Info>;
 };
 
 /** aggregate fields of "mentor_info" */
 export type Mentor_Info_Aggregate_Fields = {
-  __typename?: "mentor_info_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'mentor_info_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Mentor_Info_Max_Fields>;
   min?: Maybe<Mentor_Info_Min_Fields>;
 };
 
+
 /** aggregate fields of "mentor_info" */
 export type Mentor_Info_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "mentor_info" */
@@ -4644,46 +3051,51 @@ export type Mentor_Info_Bool_Exp = {
   field?: InputMaybe<String_Comparison_Exp>;
   intro?: InputMaybe<String_Comparison_Exp>;
   mentor_id?: InputMaybe<String_Comparison_Exp>;
+  mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<User_Bool_Exp>;
+  userByMentorUuid?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "mentor_info" */
 export enum Mentor_Info_Constraint {
   /** unique or primary key constraint on columns "mentor_id" */
-  MentorInfoPkey = "mentor_info_pkey",
+  MentorInfoPkey = 'mentor_info_pkey'
 }
 
 /** input type for inserting data into table "mentor_info" */
 export type Mentor_Info_Insert_Input = {
   /** 学术成果 */
-  achievement?: InputMaybe<Scalars["String"]["input"]>;
+  achievement?: InputMaybe<Scalars['String']['input']>;
   /** 教育背景 */
-  background?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  background?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 研究领域 */
-  field?: InputMaybe<Scalars["String"]["input"]>;
+  field?: InputMaybe<Scalars['String']['input']>;
   /** 简要信息：联系方式、职位等 */
-  intro?: InputMaybe<Scalars["String"]["input"]>;
-  mentor_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  intro?: InputMaybe<Scalars['String']['input']>;
+  mentor_id?: InputMaybe<Scalars['String']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
+  userByMentorUuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Mentor_Info_Max_Fields = {
-  __typename?: "mentor_info_max_fields";
+  __typename?: 'mentor_info_max_fields';
   /** 学术成果 */
-  achievement?: Maybe<Scalars["String"]["output"]>;
+  achievement?: Maybe<Scalars['String']['output']>;
   /** 教育背景 */
-  background?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  background?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 研究领域 */
-  field?: Maybe<Scalars["String"]["output"]>;
+  field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
-  intro?: Maybe<Scalars["String"]["output"]>;
-  mentor_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  intro?: Maybe<Scalars['String']['output']>;
+  mentor_id?: Maybe<Scalars['String']['output']>;
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by max() on columns of table "mentor_info" */
@@ -4698,23 +3110,25 @@ export type Mentor_Info_Max_Order_By = {
   /** 简要信息：联系方式、职位等 */
   intro?: InputMaybe<Order_By>;
   mentor_id?: InputMaybe<Order_By>;
+  mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Mentor_Info_Min_Fields = {
-  __typename?: "mentor_info_min_fields";
+  __typename?: 'mentor_info_min_fields';
   /** 学术成果 */
-  achievement?: Maybe<Scalars["String"]["output"]>;
+  achievement?: Maybe<Scalars['String']['output']>;
   /** 教育背景 */
-  background?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  background?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 研究领域 */
-  field?: Maybe<Scalars["String"]["output"]>;
+  field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
-  intro?: Maybe<Scalars["String"]["output"]>;
-  mentor_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  intro?: Maybe<Scalars['String']['output']>;
+  mentor_id?: Maybe<Scalars['String']['output']>;
+  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by min() on columns of table "mentor_info" */
@@ -4729,14 +3143,15 @@ export type Mentor_Info_Min_Order_By = {
   /** 简要信息：联系方式、职位等 */
   intro?: InputMaybe<Order_By>;
   mentor_id?: InputMaybe<Order_By>;
+  mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "mentor_info" */
 export type Mentor_Info_Mutation_Response = {
-  __typename?: "mentor_info_mutation_response";
+  __typename?: 'mentor_info_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Mentor_Info>;
 };
@@ -4756,100 +3171,114 @@ export type Mentor_Info_Order_By = {
   field?: InputMaybe<Order_By>;
   intro?: InputMaybe<Order_By>;
   mentor_id?: InputMaybe<Order_By>;
+  mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<User_Order_By>;
+  userByMentorUuid?: InputMaybe<Users_Order_By>;
 };
 
 /** primary key columns input for table: mentor_info */
 export type Mentor_Info_Pk_Columns_Input = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
 
 /** select columns of table "mentor_info" */
 export enum Mentor_Info_Select_Column {
   /** column name */
-  Achievement = "achievement",
+  Achievement = 'achievement',
   /** column name */
-  Background = "background",
+  Background = 'background',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Field = "field",
+  Field = 'field',
   /** column name */
-  Intro = "intro",
+  Intro = 'intro',
   /** column name */
-  MentorId = "mentor_id",
+  MentorId = 'mentor_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  MentorUuid = 'mentor_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "mentor_info" */
 export type Mentor_Info_Set_Input = {
   /** 学术成果 */
-  achievement?: InputMaybe<Scalars["String"]["input"]>;
+  achievement?: InputMaybe<Scalars['String']['input']>;
   /** 教育背景 */
-  background?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  background?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 研究领域 */
-  field?: InputMaybe<Scalars["String"]["input"]>;
+  field?: InputMaybe<Scalars['String']['input']>;
   /** 简要信息：联系方式、职位等 */
-  intro?: InputMaybe<Scalars["String"]["input"]>;
-  mentor_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  intro?: InputMaybe<Scalars['String']['input']>;
+  mentor_id?: InputMaybe<Scalars['String']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "mentor_info" */
 export enum Mentor_Info_Update_Column {
   /** column name */
-  Achievement = "achievement",
+  Achievement = 'achievement',
   /** column name */
-  Background = "background",
+  Background = 'background',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Field = "field",
+  Field = 'field',
   /** column name */
-  Intro = "intro",
+  Intro = 'intro',
   /** column name */
-  MentorId = "mentor_id",
+  MentorId = 'mentor_id',
   /** column name */
-  UpdatedAt = "updated_at",
+  MentorUuid = 'mentor_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** columns and relationships of "mentor_message" */
 export type Mentor_Message = {
-  __typename?: "mentor_message";
-  created_at: Scalars["timestamptz"]["output"];
-  from_id: Scalars["String"]["output"];
+  __typename?: 'mentor_message';
+  created_at: Scalars['timestamptz']['output'];
+  from_id: Scalars['String']['output'];
   /** An object relationship */
   from_user: User;
-  id: Scalars["uuid"]["output"];
-  payload: Scalars["String"]["output"];
-  to_id: Scalars["String"]["output"];
+  /** An object relationship */
+  from_userbyuuid?: Maybe<Users>;
+  from_uuid?: Maybe<Scalars['uuid']['output']>;
+  id: Scalars['uuid']['output'];
+  payload: Scalars['String']['output'];
+  to_id: Scalars['String']['output'];
   /** An object relationship */
   to_user: User;
-  updated_at: Scalars["timestamptz"]["output"];
+  /** An object relationship */
+  to_userbyuuid?: Maybe<Users>;
+  to_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
 };
 
 /** aggregated selection of "mentor_message" */
 export type Mentor_Message_Aggregate = {
-  __typename?: "mentor_message_aggregate";
+  __typename?: 'mentor_message_aggregate';
   aggregate?: Maybe<Mentor_Message_Aggregate_Fields>;
   nodes: Array<Mentor_Message>;
 };
 
 /** aggregate fields of "mentor_message" */
 export type Mentor_Message_Aggregate_Fields = {
-  __typename?: "mentor_message_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'mentor_message_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Mentor_Message_Max_Fields>;
   min?: Maybe<Mentor_Message_Min_Fields>;
 };
 
+
 /** aggregate fields of "mentor_message" */
 export type Mentor_Message_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Mentor_Message_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "mentor_message". All fields are combined with a logical 'AND'. */
@@ -4860,58 +3289,70 @@ export type Mentor_Message_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   from_id?: InputMaybe<String_Comparison_Exp>;
   from_user?: InputMaybe<User_Bool_Exp>;
+  from_userbyuuid?: InputMaybe<Users_Bool_Exp>;
+  from_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   payload?: InputMaybe<String_Comparison_Exp>;
   to_id?: InputMaybe<String_Comparison_Exp>;
   to_user?: InputMaybe<User_Bool_Exp>;
+  to_userbyuuid?: InputMaybe<Users_Bool_Exp>;
+  to_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "mentor_message" */
 export enum Mentor_Message_Constraint {
   /** unique or primary key constraint on columns "id" */
-  MentorMessagePkey1 = "mentor_message_pkey1",
+  MentorMessagePkey1 = 'mentor_message_pkey1'
 }
 
 /** input type for inserting data into table "mentor_message" */
 export type Mentor_Message_Insert_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  from_id?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  from_id?: InputMaybe<Scalars['String']['input']>;
   from_user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  payload?: InputMaybe<Scalars["String"]["input"]>;
-  to_id?: InputMaybe<Scalars["String"]["input"]>;
+  from_userbyuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  from_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  payload?: InputMaybe<Scalars['String']['input']>;
+  to_id?: InputMaybe<Scalars['String']['input']>;
   to_user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  to_userbyuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  to_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Mentor_Message_Max_Fields = {
-  __typename?: "mentor_message_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  from_id?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  payload?: Maybe<Scalars["String"]["output"]>;
-  to_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'mentor_message_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  from_id?: Maybe<Scalars['String']['output']>;
+  from_uuid?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  payload?: Maybe<Scalars['String']['output']>;
+  to_id?: Maybe<Scalars['String']['output']>;
+  to_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Mentor_Message_Min_Fields = {
-  __typename?: "mentor_message_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  from_id?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  payload?: Maybe<Scalars["String"]["output"]>;
-  to_id?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'mentor_message_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  from_id?: Maybe<Scalars['String']['output']>;
+  from_uuid?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  payload?: Maybe<Scalars['String']['output']>;
+  to_id?: Maybe<Scalars['String']['output']>;
+  to_uuid?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "mentor_message" */
 export type Mentor_Message_Mutation_Response = {
-  __typename?: "mentor_message_mutation_response";
+  __typename?: 'mentor_message_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Mentor_Message>;
 };
@@ -4928,85 +3369,81 @@ export type Mentor_Message_Order_By = {
   created_at?: InputMaybe<Order_By>;
   from_id?: InputMaybe<Order_By>;
   from_user?: InputMaybe<User_Order_By>;
+  from_userbyuuid?: InputMaybe<Users_Order_By>;
+  from_uuid?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   payload?: InputMaybe<Order_By>;
   to_id?: InputMaybe<Order_By>;
   to_user?: InputMaybe<User_Order_By>;
+  to_userbyuuid?: InputMaybe<Users_Order_By>;
+  to_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: mentor_message */
 export type Mentor_Message_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "mentor_message" */
 export enum Mentor_Message_Select_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  FromId = "from_id",
+  FromId = 'from_id',
   /** column name */
-  Id = "id",
+  FromUuid = 'from_uuid',
   /** column name */
-  Payload = "payload",
+  Id = 'id',
   /** column name */
-  ToId = "to_id",
+  Payload = 'payload',
   /** column name */
-  UpdatedAt = "updated_at",
+  ToId = 'to_id',
+  /** column name */
+  ToUuid = 'to_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "mentor_message" */
 export type Mentor_Message_Set_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  from_id?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  payload?: InputMaybe<Scalars["String"]["input"]>;
-  to_id?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  from_id?: InputMaybe<Scalars['String']['input']>;
+  from_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  payload?: InputMaybe<Scalars['String']['input']>;
+  to_id?: InputMaybe<Scalars['String']['input']>;
+  to_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "mentor_message" */
 export enum Mentor_Message_Update_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  FromId = "from_id",
+  FromId = 'from_id',
   /** column name */
-  Id = "id",
+  FromUuid = 'from_uuid',
   /** column name */
-  Payload = "payload",
+  Id = 'id',
   /** column name */
-  ToId = "to_id",
+  Payload = 'payload',
   /** column name */
-  UpdatedAt = "updated_at",
+  ToId = 'to_id',
+  /** column name */
+  ToUuid = 'to_uuid',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** mutation root */
 export type Mutation_Root = {
-  __typename?: "mutation_root";
+  __typename?: 'mutation_root';
   /** delete data from the table: "aid_application" */
   delete_aid_application?: Maybe<Aid_Application_Mutation_Response>;
   /** delete single row from the table: "aid_application" */
   delete_aid_application_by_pk?: Maybe<Aid_Application>;
-  /** delete data from the table: "article" */
-  delete_article?: Maybe<Article_Mutation_Response>;
-  /** delete single row from the table: "article" */
-  delete_article_by_pk?: Maybe<Article>;
-  /** delete data from the table: "article_liker" */
-  delete_article_liker?: Maybe<Article_Liker_Mutation_Response>;
-  /** delete single row from the table: "article_liker" */
-  delete_article_liker_by_pk?: Maybe<Article_Liker>;
-  /** delete data from the table: "article_public" */
-  delete_article_public?: Maybe<Article_Public_Mutation_Response>;
-  /** delete data from the table: "article_tag" */
-  delete_article_tag?: Maybe<Article_Tag_Mutation_Response>;
-  /** delete single row from the table: "article_tag" */
-  delete_article_tag_by_pk?: Maybe<Article_Tag>;
-  /** delete data from the table: "comment" */
-  delete_comment?: Maybe<Comment_Mutation_Response>;
-  /** delete single row from the table: "comment" */
-  delete_comment_by_pk?: Maybe<Comment>;
   /** delete data from the table: "contest" */
   delete_contest?: Maybe<Contest_Mutation_Response>;
   /** delete single row from the table: "contest" */
@@ -5039,10 +3476,6 @@ export type Mutation_Root = {
   delete_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** delete single row from the table: "contest_team_member" */
   delete_contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** delete data from the table: "department" */
-  delete_department?: Maybe<Department_Mutation_Response>;
-  /** delete single row from the table: "department" */
-  delete_department_by_pk?: Maybe<Department>;
   /** delete data from the table: "honor_application" */
   delete_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** delete single row from the table: "honor_application" */
@@ -5095,14 +3528,14 @@ export type Mutation_Root = {
   delete_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** delete single row from the table: "share_course" */
   delete_share_course_by_pk?: Maybe<Share_Course>;
-  /** delete data from the table: "tag" */
-  delete_tag?: Maybe<Tag_Mutation_Response>;
-  /** delete single row from the table: "tag" */
-  delete_tag_by_pk?: Maybe<Tag>;
   /** delete data from the table: "user" */
   delete_user?: Maybe<User_Mutation_Response>;
   /** delete single row from the table: "user" */
   delete_user_by_pk?: Maybe<User>;
+  /** delete data from the table: "users" */
+  delete_users?: Maybe<Users_Mutation_Response>;
+  /** delete single row from the table: "users" */
+  delete_users_by_pk?: Maybe<Users>;
   /** delete data from the table: "weekly" */
   delete_weekly?: Maybe<Weekly_Mutation_Response>;
   /** delete single row from the table: "weekly" */
@@ -5111,26 +3544,6 @@ export type Mutation_Root = {
   insert_aid_application?: Maybe<Aid_Application_Mutation_Response>;
   /** insert a single row into the table: "aid_application" */
   insert_aid_application_one?: Maybe<Aid_Application>;
-  /** insert data into the table: "article" */
-  insert_article?: Maybe<Article_Mutation_Response>;
-  /** insert data into the table: "article_liker" */
-  insert_article_liker?: Maybe<Article_Liker_Mutation_Response>;
-  /** insert a single row into the table: "article_liker" */
-  insert_article_liker_one?: Maybe<Article_Liker>;
-  /** insert a single row into the table: "article" */
-  insert_article_one?: Maybe<Article>;
-  /** insert data into the table: "article_public" */
-  insert_article_public?: Maybe<Article_Public_Mutation_Response>;
-  /** insert a single row into the table: "article_public" */
-  insert_article_public_one?: Maybe<Article_Public>;
-  /** insert data into the table: "article_tag" */
-  insert_article_tag?: Maybe<Article_Tag_Mutation_Response>;
-  /** insert a single row into the table: "article_tag" */
-  insert_article_tag_one?: Maybe<Article_Tag>;
-  /** insert data into the table: "comment" */
-  insert_comment?: Maybe<Comment_Mutation_Response>;
-  /** insert a single row into the table: "comment" */
-  insert_comment_one?: Maybe<Comment>;
   /** insert data into the table: "contest" */
   insert_contest?: Maybe<Contest_Mutation_Response>;
   /** insert data into the table: "contest_code" */
@@ -5163,10 +3576,6 @@ export type Mutation_Root = {
   insert_contest_team_member_one?: Maybe<Contest_Team_Member>;
   /** insert a single row into the table: "contest_team" */
   insert_contest_team_one?: Maybe<Contest_Team>;
-  /** insert data into the table: "department" */
-  insert_department?: Maybe<Department_Mutation_Response>;
-  /** insert a single row into the table: "department" */
-  insert_department_one?: Maybe<Department>;
   /** insert data into the table: "honor_application" */
   insert_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** insert a single row into the table: "honor_application" */
@@ -5219,14 +3628,14 @@ export type Mutation_Root = {
   insert_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** insert a single row into the table: "share_course" */
   insert_share_course_one?: Maybe<Share_Course>;
-  /** insert data into the table: "tag" */
-  insert_tag?: Maybe<Tag_Mutation_Response>;
-  /** insert a single row into the table: "tag" */
-  insert_tag_one?: Maybe<Tag>;
   /** insert data into the table: "user" */
   insert_user?: Maybe<User_Mutation_Response>;
   /** insert a single row into the table: "user" */
   insert_user_one?: Maybe<User>;
+  /** insert data into the table: "users" */
+  insert_users?: Maybe<Users_Mutation_Response>;
+  /** insert a single row into the table: "users" */
+  insert_users_one?: Maybe<Users>;
   /** insert data into the table: "weekly" */
   insert_weekly?: Maybe<Weekly_Mutation_Response>;
   /** insert a single row into the table: "weekly" */
@@ -5235,24 +3644,6 @@ export type Mutation_Root = {
   update_aid_application?: Maybe<Aid_Application_Mutation_Response>;
   /** update single row of the table: "aid_application" */
   update_aid_application_by_pk?: Maybe<Aid_Application>;
-  /** update data of the table: "article" */
-  update_article?: Maybe<Article_Mutation_Response>;
-  /** update single row of the table: "article" */
-  update_article_by_pk?: Maybe<Article>;
-  /** update data of the table: "article_liker" */
-  update_article_liker?: Maybe<Article_Liker_Mutation_Response>;
-  /** update single row of the table: "article_liker" */
-  update_article_liker_by_pk?: Maybe<Article_Liker>;
-  /** update data of the table: "article_public" */
-  update_article_public?: Maybe<Article_Public_Mutation_Response>;
-  /** update data of the table: "article_tag" */
-  update_article_tag?: Maybe<Article_Tag_Mutation_Response>;
-  /** update single row of the table: "article_tag" */
-  update_article_tag_by_pk?: Maybe<Article_Tag>;
-  /** update data of the table: "comment" */
-  update_comment?: Maybe<Comment_Mutation_Response>;
-  /** update single row of the table: "comment" */
-  update_comment_by_pk?: Maybe<Comment>;
   /** update data of the table: "contest" */
   update_contest?: Maybe<Contest_Mutation_Response>;
   /** update single row of the table: "contest" */
@@ -5285,10 +3676,6 @@ export type Mutation_Root = {
   update_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** update single row of the table: "contest_team_member" */
   update_contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** update data of the table: "department" */
-  update_department?: Maybe<Department_Mutation_Response>;
-  /** update single row of the table: "department" */
-  update_department_by_pk?: Maybe<Department>;
   /** update data of the table: "honor_application" */
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
@@ -5341,332 +3728,326 @@ export type Mutation_Root = {
   update_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** update single row of the table: "share_course" */
   update_share_course_by_pk?: Maybe<Share_Course>;
-  /** update data of the table: "tag" */
-  update_tag?: Maybe<Tag_Mutation_Response>;
-  /** update single row of the table: "tag" */
-  update_tag_by_pk?: Maybe<Tag>;
   /** update data of the table: "user" */
   update_user?: Maybe<User_Mutation_Response>;
   /** update single row of the table: "user" */
   update_user_by_pk?: Maybe<User>;
+  /** update data of the table: "users" */
+  update_users?: Maybe<Users_Mutation_Response>;
+  /** update single row of the table: "users" */
+  update_users_by_pk?: Maybe<Users>;
   /** update data of the table: "weekly" */
   update_weekly?: Maybe<Weekly_Mutation_Response>;
   /** update single row of the table: "weekly" */
   update_weekly_by_pk?: Maybe<Weekly>;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Aid_ApplicationArgs = {
   where: Aid_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Aid_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
-/** mutation root */
-export type Mutation_RootDelete_ArticleArgs = {
-  where: Article_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_LikerArgs = {
-  where: Article_Liker_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_Liker_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_PublicArgs = {
-  where: Article_Public_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_TagArgs = {
-  where: Article_Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Article_Tag_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_CommentArgs = {
-  where: Comment_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Comment_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
 
 /** mutation root */
 export type Mutation_RootDelete_ContestArgs = {
   where: Contest_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Contest_CodeArgs = {
   where: Contest_Code_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_Code_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Contest_InfoArgs = {
   where: Contest_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_Info_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Contest_ManagerArgs = {
   where: Contest_Manager_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_Manager_By_PkArgs = {
-  contest_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Contest_RoomArgs = {
   where: Contest_Room_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_Room_By_PkArgs = {
-  room_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Contest_Room_TeamArgs = {
   where: Contest_Room_Team_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_Room_Team_By_PkArgs = {
-  room_id: Scalars["uuid"]["input"];
-  team_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Contest_TeamArgs = {
   where: Contest_Team_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_Team_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Contest_Team_MemberArgs = {
   where: Contest_Team_Member_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Contest_Team_Member_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  team_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
 
-/** mutation root */
-export type Mutation_RootDelete_DepartmentArgs = {
-  where: Department_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Department_By_PkArgs = {
-  id: Scalars["bigint"]["input"];
-};
 
 /** mutation root */
 export type Mutation_RootDelete_Honor_ApplicationArgs = {
   where: Honor_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Honor_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Info_NoticeArgs = {
   where: Info_Notice_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Info_Notice_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Mentor_ApplicationArgs = {
   where: Mentor_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Mentor_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Mentor_AvailableArgs = {
   where: Mentor_Available_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Mentor_Available_By_PkArgs = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Mentor_InfoArgs = {
   where: Mentor_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Mentor_Info_By_PkArgs = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Mentor_MessageArgs = {
   where: Mentor_Message_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Mentor_Message_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_ApplicationArgs = {
   where: Postgraduate_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_Application_By_PkArgs = {
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_Application_HistoryArgs = {
   where: Postgraduate_Application_History_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_Application_History_By_PkArgs = {
-  created_at: Scalars["timestamptz"]["input"];
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  created_at: Scalars['timestamptz']['input'];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_Mentor_InfoArgs = {
   where: Postgraduate_Mentor_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_Mentor_Info_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_Mentor_Info_PendingArgs = {
   where: Postgraduate_Mentor_Info_Pending_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Postgraduate_Mentor_Info_Pending_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Scholarship_ApplicationArgs = {
   where: Scholarship_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Scholarship_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Scholarships_AidsArgs = {
   where: Scholarships_Aids_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Scholarships_Aids_By_PkArgs = {
-  code: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Share_CourseArgs = {
   where: Share_Course_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Share_Course_By_PkArgs = {
-  uuid: Scalars["uuid"]["input"];
+  uuid: Scalars['uuid']['input'];
 };
 
-/** mutation root */
-export type Mutation_RootDelete_TagArgs = {
-  where: Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Tag_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
 
 /** mutation root */
 export type Mutation_RootDelete_UserArgs = {
   where: User_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_By_PkArgs = {
-  _id: Scalars["String"]["input"];
+  _id: Scalars['String']['input'];
 };
+
+
+/** mutation root */
+export type Mutation_RootDelete_UsersArgs = {
+  where: Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Users_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
 
 /** mutation root */
 export type Mutation_RootDelete_WeeklyArgs = {
   where: Weekly_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Weekly_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Aid_ApplicationArgs = {
@@ -5674,69 +4055,13 @@ export type Mutation_RootInsert_Aid_ApplicationArgs = {
   on_conflict?: InputMaybe<Aid_Application_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Aid_Application_OneArgs = {
   object: Aid_Application_Insert_Input;
   on_conflict?: InputMaybe<Aid_Application_On_Conflict>;
 };
 
-/** mutation root */
-export type Mutation_RootInsert_ArticleArgs = {
-  objects: Array<Article_Insert_Input>;
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_LikerArgs = {
-  objects: Array<Article_Liker_Insert_Input>;
-  on_conflict?: InputMaybe<Article_Liker_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_Liker_OneArgs = {
-  object: Article_Liker_Insert_Input;
-  on_conflict?: InputMaybe<Article_Liker_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_OneArgs = {
-  object: Article_Insert_Input;
-  on_conflict?: InputMaybe<Article_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_PublicArgs = {
-  objects: Array<Article_Public_Insert_Input>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_Public_OneArgs = {
-  object: Article_Public_Insert_Input;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_TagArgs = {
-  objects: Array<Article_Tag_Insert_Input>;
-  on_conflict?: InputMaybe<Article_Tag_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Article_Tag_OneArgs = {
-  object: Article_Tag_Insert_Input;
-  on_conflict?: InputMaybe<Article_Tag_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_CommentArgs = {
-  objects: Array<Comment_Insert_Input>;
-  on_conflict?: InputMaybe<Comment_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Comment_OneArgs = {
-  object: Comment_Insert_Input;
-  on_conflict?: InputMaybe<Comment_On_Conflict>;
-};
 
 /** mutation root */
 export type Mutation_RootInsert_ContestArgs = {
@@ -5744,11 +4069,13 @@ export type Mutation_RootInsert_ContestArgs = {
   on_conflict?: InputMaybe<Contest_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_CodeArgs = {
   objects: Array<Contest_Code_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Code_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Contest_Code_OneArgs = {
@@ -5756,11 +4083,13 @@ export type Mutation_RootInsert_Contest_Code_OneArgs = {
   on_conflict?: InputMaybe<Contest_Code_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_InfoArgs = {
   objects: Array<Contest_Info_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Info_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Contest_Info_OneArgs = {
@@ -5768,11 +4097,13 @@ export type Mutation_RootInsert_Contest_Info_OneArgs = {
   on_conflict?: InputMaybe<Contest_Info_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_ManagerArgs = {
   objects: Array<Contest_Manager_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Manager_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Contest_Manager_OneArgs = {
@@ -5780,11 +4111,13 @@ export type Mutation_RootInsert_Contest_Manager_OneArgs = {
   on_conflict?: InputMaybe<Contest_Manager_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_OneArgs = {
   object: Contest_Insert_Input;
   on_conflict?: InputMaybe<Contest_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Contest_RoomArgs = {
@@ -5792,11 +4125,13 @@ export type Mutation_RootInsert_Contest_RoomArgs = {
   on_conflict?: InputMaybe<Contest_Room_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_Room_OneArgs = {
   object: Contest_Room_Insert_Input;
   on_conflict?: InputMaybe<Contest_Room_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Contest_Room_TeamArgs = {
@@ -5804,11 +4139,13 @@ export type Mutation_RootInsert_Contest_Room_TeamArgs = {
   on_conflict?: InputMaybe<Contest_Room_Team_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_Room_Team_OneArgs = {
   object: Contest_Room_Team_Insert_Input;
   on_conflict?: InputMaybe<Contest_Room_Team_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Contest_TeamArgs = {
@@ -5816,11 +4153,13 @@ export type Mutation_RootInsert_Contest_TeamArgs = {
   on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_Team_MemberArgs = {
   objects: Array<Contest_Team_Member_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Team_Member_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Contest_Team_Member_OneArgs = {
@@ -5828,23 +4167,13 @@ export type Mutation_RootInsert_Contest_Team_Member_OneArgs = {
   on_conflict?: InputMaybe<Contest_Team_Member_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Contest_Team_OneArgs = {
   object: Contest_Team_Insert_Input;
   on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
 };
 
-/** mutation root */
-export type Mutation_RootInsert_DepartmentArgs = {
-  objects: Array<Department_Insert_Input>;
-  on_conflict?: InputMaybe<Department_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Department_OneArgs = {
-  object: Department_Insert_Input;
-  on_conflict?: InputMaybe<Department_On_Conflict>;
-};
 
 /** mutation root */
 export type Mutation_RootInsert_Honor_ApplicationArgs = {
@@ -5852,11 +4181,13 @@ export type Mutation_RootInsert_Honor_ApplicationArgs = {
   on_conflict?: InputMaybe<Honor_Application_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Honor_Application_OneArgs = {
   object: Honor_Application_Insert_Input;
   on_conflict?: InputMaybe<Honor_Application_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Info_NoticeArgs = {
@@ -5864,11 +4195,13 @@ export type Mutation_RootInsert_Info_NoticeArgs = {
   on_conflict?: InputMaybe<Info_Notice_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Info_Notice_OneArgs = {
   object: Info_Notice_Insert_Input;
   on_conflict?: InputMaybe<Info_Notice_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Mentor_ApplicationArgs = {
@@ -5876,11 +4209,13 @@ export type Mutation_RootInsert_Mentor_ApplicationArgs = {
   on_conflict?: InputMaybe<Mentor_Application_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Mentor_Application_OneArgs = {
   object: Mentor_Application_Insert_Input;
   on_conflict?: InputMaybe<Mentor_Application_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Mentor_AvailableArgs = {
@@ -5888,11 +4223,13 @@ export type Mutation_RootInsert_Mentor_AvailableArgs = {
   on_conflict?: InputMaybe<Mentor_Available_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Mentor_Available_OneArgs = {
   object: Mentor_Available_Insert_Input;
   on_conflict?: InputMaybe<Mentor_Available_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Mentor_InfoArgs = {
@@ -5900,11 +4237,13 @@ export type Mutation_RootInsert_Mentor_InfoArgs = {
   on_conflict?: InputMaybe<Mentor_Info_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Mentor_Info_OneArgs = {
   object: Mentor_Info_Insert_Input;
   on_conflict?: InputMaybe<Mentor_Info_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Mentor_MessageArgs = {
@@ -5912,11 +4251,13 @@ export type Mutation_RootInsert_Mentor_MessageArgs = {
   on_conflict?: InputMaybe<Mentor_Message_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Mentor_Message_OneArgs = {
   object: Mentor_Message_Insert_Input;
   on_conflict?: InputMaybe<Mentor_Message_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_ApplicationArgs = {
@@ -5924,11 +4265,13 @@ export type Mutation_RootInsert_Postgraduate_ApplicationArgs = {
   on_conflict?: InputMaybe<Postgraduate_Application_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_Application_HistoryArgs = {
   objects: Array<Postgraduate_Application_History_Insert_Input>;
   on_conflict?: InputMaybe<Postgraduate_Application_History_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_Application_History_OneArgs = {
@@ -5936,11 +4279,13 @@ export type Mutation_RootInsert_Postgraduate_Application_History_OneArgs = {
   on_conflict?: InputMaybe<Postgraduate_Application_History_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_Application_OneArgs = {
   object: Postgraduate_Application_Insert_Input;
   on_conflict?: InputMaybe<Postgraduate_Application_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_Mentor_InfoArgs = {
@@ -5948,11 +4293,13 @@ export type Mutation_RootInsert_Postgraduate_Mentor_InfoArgs = {
   on_conflict?: InputMaybe<Postgraduate_Mentor_Info_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_Mentor_Info_OneArgs = {
   object: Postgraduate_Mentor_Info_Insert_Input;
   on_conflict?: InputMaybe<Postgraduate_Mentor_Info_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_Mentor_Info_PendingArgs = {
@@ -5960,11 +4307,13 @@ export type Mutation_RootInsert_Postgraduate_Mentor_Info_PendingArgs = {
   on_conflict?: InputMaybe<Postgraduate_Mentor_Info_Pending_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Postgraduate_Mentor_Info_Pending_OneArgs = {
   object: Postgraduate_Mentor_Info_Pending_Insert_Input;
   on_conflict?: InputMaybe<Postgraduate_Mentor_Info_Pending_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Scholarship_ApplicationArgs = {
@@ -5972,11 +4321,13 @@ export type Mutation_RootInsert_Scholarship_ApplicationArgs = {
   on_conflict?: InputMaybe<Scholarship_Application_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Scholarship_Application_OneArgs = {
   object: Scholarship_Application_Insert_Input;
   on_conflict?: InputMaybe<Scholarship_Application_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Scholarships_AidsArgs = {
@@ -5984,11 +4335,13 @@ export type Mutation_RootInsert_Scholarships_AidsArgs = {
   on_conflict?: InputMaybe<Scholarships_Aids_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Scholarships_Aids_OneArgs = {
   object: Scholarships_Aids_Insert_Input;
   on_conflict?: InputMaybe<Scholarships_Aids_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Share_CourseArgs = {
@@ -5996,23 +4349,13 @@ export type Mutation_RootInsert_Share_CourseArgs = {
   on_conflict?: InputMaybe<Share_Course_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Share_Course_OneArgs = {
   object: Share_Course_Insert_Input;
   on_conflict?: InputMaybe<Share_Course_On_Conflict>;
 };
 
-/** mutation root */
-export type Mutation_RootInsert_TagArgs = {
-  objects: Array<Tag_Insert_Input>;
-  on_conflict?: InputMaybe<Tag_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Tag_OneArgs = {
-  object: Tag_Insert_Input;
-  on_conflict?: InputMaybe<Tag_On_Conflict>;
-};
 
 /** mutation root */
 export type Mutation_RootInsert_UserArgs = {
@@ -6020,11 +4363,27 @@ export type Mutation_RootInsert_UserArgs = {
   on_conflict?: InputMaybe<User_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_OneArgs = {
   object: User_Insert_Input;
   on_conflict?: InputMaybe<User_On_Conflict>;
 };
+
+
+/** mutation root */
+export type Mutation_RootInsert_UsersArgs = {
+  objects: Array<Users_Insert_Input>;
+  on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Users_OneArgs = {
+  object: Users_Insert_Input;
+  on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
 
 /** mutation root */
 export type Mutation_RootInsert_WeeklyArgs = {
@@ -6032,11 +4391,13 @@ export type Mutation_RootInsert_WeeklyArgs = {
   on_conflict?: InputMaybe<Weekly_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Weekly_OneArgs = {
   object: Weekly_Insert_Input;
   on_conflict?: InputMaybe<Weekly_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Aid_ApplicationArgs = {
@@ -6045,6 +4406,7 @@ export type Mutation_RootUpdate_Aid_ApplicationArgs = {
   where: Aid_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Aid_Application_By_PkArgs = {
   _inc?: InputMaybe<Aid_Application_Inc_Input>;
@@ -6052,68 +4414,6 @@ export type Mutation_RootUpdate_Aid_Application_By_PkArgs = {
   pk_columns: Aid_Application_Pk_Columns_Input;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_ArticleArgs = {
-  _inc?: InputMaybe<Article_Inc_Input>;
-  _set?: InputMaybe<Article_Set_Input>;
-  where: Article_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_By_PkArgs = {
-  _inc?: InputMaybe<Article_Inc_Input>;
-  _set?: InputMaybe<Article_Set_Input>;
-  pk_columns: Article_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_LikerArgs = {
-  _inc?: InputMaybe<Article_Liker_Inc_Input>;
-  _set?: InputMaybe<Article_Liker_Set_Input>;
-  where: Article_Liker_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_Liker_By_PkArgs = {
-  _inc?: InputMaybe<Article_Liker_Inc_Input>;
-  _set?: InputMaybe<Article_Liker_Set_Input>;
-  pk_columns: Article_Liker_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_PublicArgs = {
-  _inc?: InputMaybe<Article_Public_Inc_Input>;
-  _set?: InputMaybe<Article_Public_Set_Input>;
-  where: Article_Public_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_TagArgs = {
-  _inc?: InputMaybe<Article_Tag_Inc_Input>;
-  _set?: InputMaybe<Article_Tag_Set_Input>;
-  where: Article_Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Article_Tag_By_PkArgs = {
-  _inc?: InputMaybe<Article_Tag_Inc_Input>;
-  _set?: InputMaybe<Article_Tag_Set_Input>;
-  pk_columns: Article_Tag_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_CommentArgs = {
-  _inc?: InputMaybe<Comment_Inc_Input>;
-  _set?: InputMaybe<Comment_Set_Input>;
-  where: Comment_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Comment_By_PkArgs = {
-  _inc?: InputMaybe<Comment_Inc_Input>;
-  _set?: InputMaybe<Comment_Set_Input>;
-  pk_columns: Comment_Pk_Columns_Input;
-};
 
 /** mutation root */
 export type Mutation_RootUpdate_ContestArgs = {
@@ -6121,11 +4421,13 @@ export type Mutation_RootUpdate_ContestArgs = {
   where: Contest_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_By_PkArgs = {
   _set?: InputMaybe<Contest_Set_Input>;
   pk_columns: Contest_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_CodeArgs = {
@@ -6133,11 +4435,13 @@ export type Mutation_RootUpdate_Contest_CodeArgs = {
   where: Contest_Code_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Code_By_PkArgs = {
   _set?: InputMaybe<Contest_Code_Set_Input>;
   pk_columns: Contest_Code_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_InfoArgs = {
@@ -6145,11 +4449,13 @@ export type Mutation_RootUpdate_Contest_InfoArgs = {
   where: Contest_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Info_By_PkArgs = {
   _set?: InputMaybe<Contest_Info_Set_Input>;
   pk_columns: Contest_Info_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_ManagerArgs = {
@@ -6157,11 +4463,13 @@ export type Mutation_RootUpdate_Contest_ManagerArgs = {
   where: Contest_Manager_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Manager_By_PkArgs = {
   _set?: InputMaybe<Contest_Manager_Set_Input>;
   pk_columns: Contest_Manager_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_RoomArgs = {
@@ -6170,6 +4478,7 @@ export type Mutation_RootUpdate_Contest_RoomArgs = {
   where: Contest_Room_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Room_By_PkArgs = {
   _inc?: InputMaybe<Contest_Room_Inc_Input>;
@@ -6177,17 +4486,20 @@ export type Mutation_RootUpdate_Contest_Room_By_PkArgs = {
   pk_columns: Contest_Room_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Room_TeamArgs = {
   _set?: InputMaybe<Contest_Room_Team_Set_Input>;
   where: Contest_Room_Team_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Room_Team_By_PkArgs = {
   _set?: InputMaybe<Contest_Room_Team_Set_Input>;
   pk_columns: Contest_Room_Team_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_TeamArgs = {
@@ -6196,6 +4508,7 @@ export type Mutation_RootUpdate_Contest_TeamArgs = {
   where: Contest_Team_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Team_By_PkArgs = {
   _inc?: InputMaybe<Contest_Team_Inc_Input>;
@@ -6203,11 +4516,13 @@ export type Mutation_RootUpdate_Contest_Team_By_PkArgs = {
   pk_columns: Contest_Team_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Team_MemberArgs = {
   _set?: InputMaybe<Contest_Team_Member_Set_Input>;
   where: Contest_Team_Member_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Team_Member_By_PkArgs = {
@@ -6215,19 +4530,6 @@ export type Mutation_RootUpdate_Contest_Team_Member_By_PkArgs = {
   pk_columns: Contest_Team_Member_Pk_Columns_Input;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_DepartmentArgs = {
-  _inc?: InputMaybe<Department_Inc_Input>;
-  _set?: InputMaybe<Department_Set_Input>;
-  where: Department_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Department_By_PkArgs = {
-  _inc?: InputMaybe<Department_Inc_Input>;
-  _set?: InputMaybe<Department_Set_Input>;
-  pk_columns: Department_Pk_Columns_Input;
-};
 
 /** mutation root */
 export type Mutation_RootUpdate_Honor_ApplicationArgs = {
@@ -6235,11 +4537,13 @@ export type Mutation_RootUpdate_Honor_ApplicationArgs = {
   where: Honor_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Honor_Application_By_PkArgs = {
   _set?: InputMaybe<Honor_Application_Set_Input>;
   pk_columns: Honor_Application_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Info_NoticeArgs = {
@@ -6247,11 +4551,13 @@ export type Mutation_RootUpdate_Info_NoticeArgs = {
   where: Info_Notice_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Info_Notice_By_PkArgs = {
   _set?: InputMaybe<Info_Notice_Set_Input>;
   pk_columns: Info_Notice_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_ApplicationArgs = {
@@ -6259,11 +4565,13 @@ export type Mutation_RootUpdate_Mentor_ApplicationArgs = {
   where: Mentor_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_Application_By_PkArgs = {
   _set?: InputMaybe<Mentor_Application_Set_Input>;
   pk_columns: Mentor_Application_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_AvailableArgs = {
@@ -6271,11 +4579,13 @@ export type Mutation_RootUpdate_Mentor_AvailableArgs = {
   where: Mentor_Available_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_Available_By_PkArgs = {
   _set?: InputMaybe<Mentor_Available_Set_Input>;
   pk_columns: Mentor_Available_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_InfoArgs = {
@@ -6283,11 +4593,13 @@ export type Mutation_RootUpdate_Mentor_InfoArgs = {
   where: Mentor_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_Info_By_PkArgs = {
   _set?: InputMaybe<Mentor_Info_Set_Input>;
   pk_columns: Mentor_Info_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_MessageArgs = {
@@ -6295,11 +4607,13 @@ export type Mutation_RootUpdate_Mentor_MessageArgs = {
   where: Mentor_Message_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_Message_By_PkArgs = {
   _set?: InputMaybe<Mentor_Message_Set_Input>;
   pk_columns: Mentor_Message_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_ApplicationArgs = {
@@ -6308,12 +4622,14 @@ export type Mutation_RootUpdate_Postgraduate_ApplicationArgs = {
   where: Postgraduate_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Application_By_PkArgs = {
   _inc?: InputMaybe<Postgraduate_Application_Inc_Input>;
   _set?: InputMaybe<Postgraduate_Application_Set_Input>;
   pk_columns: Postgraduate_Application_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Application_HistoryArgs = {
@@ -6322,12 +4638,14 @@ export type Mutation_RootUpdate_Postgraduate_Application_HistoryArgs = {
   where: Postgraduate_Application_History_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Application_History_By_PkArgs = {
   _inc?: InputMaybe<Postgraduate_Application_History_Inc_Input>;
   _set?: InputMaybe<Postgraduate_Application_History_Set_Input>;
   pk_columns: Postgraduate_Application_History_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Mentor_InfoArgs = {
@@ -6336,12 +4654,14 @@ export type Mutation_RootUpdate_Postgraduate_Mentor_InfoArgs = {
   where: Postgraduate_Mentor_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Mentor_Info_By_PkArgs = {
   _inc?: InputMaybe<Postgraduate_Mentor_Info_Inc_Input>;
   _set?: InputMaybe<Postgraduate_Mentor_Info_Set_Input>;
   pk_columns: Postgraduate_Mentor_Info_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Mentor_Info_PendingArgs = {
@@ -6350,12 +4670,14 @@ export type Mutation_RootUpdate_Postgraduate_Mentor_Info_PendingArgs = {
   where: Postgraduate_Mentor_Info_Pending_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Mentor_Info_Pending_By_PkArgs = {
   _inc?: InputMaybe<Postgraduate_Mentor_Info_Pending_Inc_Input>;
   _set?: InputMaybe<Postgraduate_Mentor_Info_Pending_Set_Input>;
   pk_columns: Postgraduate_Mentor_Info_Pending_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Scholarship_ApplicationArgs = {
@@ -6364,12 +4686,14 @@ export type Mutation_RootUpdate_Scholarship_ApplicationArgs = {
   where: Scholarship_Application_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Scholarship_Application_By_PkArgs = {
   _inc?: InputMaybe<Scholarship_Application_Inc_Input>;
   _set?: InputMaybe<Scholarship_Application_Set_Input>;
   pk_columns: Scholarship_Application_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Scholarships_AidsArgs = {
@@ -6378,12 +4702,14 @@ export type Mutation_RootUpdate_Scholarships_AidsArgs = {
   where: Scholarships_Aids_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Scholarships_Aids_By_PkArgs = {
   _inc?: InputMaybe<Scholarships_Aids_Inc_Input>;
   _set?: InputMaybe<Scholarships_Aids_Set_Input>;
   pk_columns: Scholarships_Aids_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Share_CourseArgs = {
@@ -6392,6 +4718,7 @@ export type Mutation_RootUpdate_Share_CourseArgs = {
   where: Share_Course_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
   _inc?: InputMaybe<Share_Course_Inc_Input>;
@@ -6399,17 +4726,6 @@ export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
   pk_columns: Share_Course_Pk_Columns_Input;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_TagArgs = {
-  _set?: InputMaybe<Tag_Set_Input>;
-  where: Tag_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Tag_By_PkArgs = {
-  _set?: InputMaybe<Tag_Set_Input>;
-  pk_columns: Tag_Pk_Columns_Input;
-};
 
 /** mutation root */
 export type Mutation_RootUpdate_UserArgs = {
@@ -6418,6 +4734,7 @@ export type Mutation_RootUpdate_UserArgs = {
   where: User_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_User_By_PkArgs = {
   _inc?: InputMaybe<User_Inc_Input>;
@@ -6425,12 +4742,28 @@ export type Mutation_RootUpdate_User_By_PkArgs = {
   pk_columns: User_Pk_Columns_Input;
 };
 
+
+/** mutation root */
+export type Mutation_RootUpdate_UsersArgs = {
+  _set?: InputMaybe<Users_Set_Input>;
+  where: Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Users_By_PkArgs = {
+  _set?: InputMaybe<Users_Set_Input>;
+  pk_columns: Users_Pk_Columns_Input;
+};
+
+
 /** mutation root */
 export type Mutation_RootUpdate_WeeklyArgs = {
   _inc?: InputMaybe<Weekly_Inc_Input>;
   _set?: InputMaybe<Weekly_Set_Input>;
   where: Weekly_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Weekly_By_PkArgs = {
@@ -6441,87 +4774,85 @@ export type Mutation_RootUpdate_Weekly_By_PkArgs = {
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["numeric"]["input"]>;
-  _gt?: InputMaybe<Scalars["numeric"]["input"]>;
-  _gte?: InputMaybe<Scalars["numeric"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["numeric"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["numeric"]["input"]>;
-  _lte?: InputMaybe<Scalars["numeric"]["input"]>;
-  _neq?: InputMaybe<Scalars["numeric"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["numeric"]["input"]>>;
+  _eq?: InputMaybe<Scalars['numeric']['input']>;
+  _gt?: InputMaybe<Scalars['numeric']['input']>;
+  _gte?: InputMaybe<Scalars['numeric']['input']>;
+  _in?: InputMaybe<Array<Scalars['numeric']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['numeric']['input']>;
+  _lte?: InputMaybe<Scalars['numeric']['input']>;
+  _neq?: InputMaybe<Scalars['numeric']['input']>;
+  _nin?: InputMaybe<Array<Scalars['numeric']['input']>>;
 };
 
 /** column ordering options */
 export enum Order_By {
   /** in ascending order, nulls last */
-  Asc = "asc",
+  Asc = 'asc',
   /** in ascending order, nulls first */
-  AscNullsFirst = "asc_nulls_first",
+  AscNullsFirst = 'asc_nulls_first',
   /** in ascending order, nulls last */
-  AscNullsLast = "asc_nulls_last",
+  AscNullsLast = 'asc_nulls_last',
   /** in descending order, nulls first */
-  Desc = "desc",
+  Desc = 'desc',
   /** in descending order, nulls first */
-  DescNullsFirst = "desc_nulls_first",
+  DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = "desc_nulls_last",
+  DescNullsLast = 'desc_nulls_last'
 }
 
 /** 学生填报保研申请信息（有意向、联络中、已确认） */
 export type Postgraduate_Application = {
-  __typename?: "postgraduate_application";
-  created_at: Scalars["timestamptz"]["output"];
+  __typename?: 'postgraduate_application';
+  created_at: Scalars['timestamptz']['output'];
   /** An array relationship */
   history: Array<Postgraduate_Application_History>;
   /** An aggregate relationship */
   history_aggregate: Postgraduate_Application_History_Aggregate;
   /** An object relationship */
   mentor: Postgraduate_Mentor_Info;
-  mentor_info_id: Scalars["Int"]["output"];
+  mentor_info_id: Scalars['Int']['output'];
   /** intend, in_contact, confirmed */
-  status: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  status: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   user: User;
-  user_id: Scalars["String"]["output"];
-  verified: Scalars["Boolean"]["output"];
+  user_id: Scalars['String']['output'];
+  verified: Scalars['Boolean']['output'];
 };
+
 
 /** 学生填报保研申请信息（有意向、联络中、已确认） */
 export type Postgraduate_ApplicationHistoryArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Application_History_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_History_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
 };
 
+
 /** 学生填报保研申请信息（有意向、联络中、已确认） */
 export type Postgraduate_ApplicationHistory_AggregateArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Application_History_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_History_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
 };
 
 /** aggregated selection of "postgraduate_application" */
 export type Postgraduate_Application_Aggregate = {
-  __typename?: "postgraduate_application_aggregate";
+  __typename?: 'postgraduate_application_aggregate';
   aggregate?: Maybe<Postgraduate_Application_Aggregate_Fields>;
   nodes: Array<Postgraduate_Application>;
 };
 
 /** aggregate fields of "postgraduate_application" */
 export type Postgraduate_Application_Aggregate_Fields = {
-  __typename?: "postgraduate_application_aggregate_fields";
+  __typename?: 'postgraduate_application_aggregate_fields';
   avg?: Maybe<Postgraduate_Application_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Postgraduate_Application_Max_Fields>;
   min?: Maybe<Postgraduate_Application_Min_Fields>;
   stddev?: Maybe<Postgraduate_Application_Stddev_Fields>;
@@ -6533,10 +4864,11 @@ export type Postgraduate_Application_Aggregate_Fields = {
   variance?: Maybe<Postgraduate_Application_Variance_Fields>;
 };
 
+
 /** aggregate fields of "postgraduate_application" */
 export type Postgraduate_Application_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "postgraduate_application" */
@@ -6563,8 +4895,8 @@ export type Postgraduate_Application_Arr_Rel_Insert_Input = {
 
 /** aggregate avg on columns */
 export type Postgraduate_Application_Avg_Fields = {
-  __typename?: "postgraduate_application_avg_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_avg_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "postgraduate_application" */
@@ -6591,36 +4923,36 @@ export type Postgraduate_Application_Bool_Exp = {
 /** unique or primary key constraints on table "postgraduate_application" */
 export enum Postgraduate_Application_Constraint {
   /** unique or primary key constraint on columns "user_id", "mentor_info_id" */
-  PostgraduateApplicationPkey = "postgraduate_application_pkey",
+  PostgraduateApplicationPkey = 'postgraduate_application_pkey'
 }
 
 /** 学生申请历史记录 */
 export type Postgraduate_Application_History = {
-  __typename?: "postgraduate_application_history";
-  created_at: Scalars["timestamptz"]["output"];
+  __typename?: 'postgraduate_application_history';
+  created_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   mentor: Postgraduate_Mentor_Info;
-  mentor_info_id: Scalars["Int"]["output"];
+  mentor_info_id: Scalars['Int']['output'];
   /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
-  status: Scalars["String"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  status: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   user: User;
-  user_id: Scalars["String"]["output"];
+  user_id: Scalars['String']['output'];
 };
 
 /** aggregated selection of "postgraduate_application_history" */
 export type Postgraduate_Application_History_Aggregate = {
-  __typename?: "postgraduate_application_history_aggregate";
+  __typename?: 'postgraduate_application_history_aggregate';
   aggregate?: Maybe<Postgraduate_Application_History_Aggregate_Fields>;
   nodes: Array<Postgraduate_Application_History>;
 };
 
 /** aggregate fields of "postgraduate_application_history" */
 export type Postgraduate_Application_History_Aggregate_Fields = {
-  __typename?: "postgraduate_application_history_aggregate_fields";
+  __typename?: 'postgraduate_application_history_aggregate_fields';
   avg?: Maybe<Postgraduate_Application_History_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Postgraduate_Application_History_Max_Fields>;
   min?: Maybe<Postgraduate_Application_History_Min_Fields>;
   stddev?: Maybe<Postgraduate_Application_History_Stddev_Fields>;
@@ -6632,10 +4964,11 @@ export type Postgraduate_Application_History_Aggregate_Fields = {
   variance?: Maybe<Postgraduate_Application_History_Variance_Fields>;
 };
 
+
 /** aggregate fields of "postgraduate_application_history" */
 export type Postgraduate_Application_History_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "postgraduate_application_history" */
@@ -6662,8 +4995,8 @@ export type Postgraduate_Application_History_Arr_Rel_Insert_Input = {
 
 /** aggregate avg on columns */
 export type Postgraduate_Application_History_Avg_Fields = {
-  __typename?: "postgraduate_application_history_avg_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_history_avg_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "postgraduate_application_history" */
@@ -6688,35 +5021,35 @@ export type Postgraduate_Application_History_Bool_Exp = {
 /** unique or primary key constraints on table "postgraduate_application_history" */
 export enum Postgraduate_Application_History_Constraint {
   /** unique or primary key constraint on columns "user_id", "mentor_info_id", "created_at" */
-  PostgraduateApplicationHistoryPkey = "postgraduate_application_history_pkey",
+  PostgraduateApplicationHistoryPkey = 'postgraduate_application_history_pkey'
 }
 
 /** input type for incrementing numeric columns in table "postgraduate_application_history" */
 export type Postgraduate_Application_History_Inc_Input = {
-  mentor_info_id?: InputMaybe<Scalars["Int"]["input"]>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "postgraduate_application_history" */
 export type Postgraduate_Application_History_Insert_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   mentor?: InputMaybe<Postgraduate_Mentor_Info_Obj_Rel_Insert_Input>;
-  mentor_info_id?: InputMaybe<Scalars["Int"]["input"]>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
   /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Postgraduate_Application_History_Max_Fields = {
-  __typename?: "postgraduate_application_history_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  mentor_info_id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_application_history_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  mentor_info_id?: Maybe<Scalars['Int']['output']>;
   /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
-  status?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  status?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "postgraduate_application_history" */
@@ -6731,13 +5064,13 @@ export type Postgraduate_Application_History_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Postgraduate_Application_History_Min_Fields = {
-  __typename?: "postgraduate_application_history_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  mentor_info_id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_application_history_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  mentor_info_id?: Maybe<Scalars['Int']['output']>;
   /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
-  status?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  status?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "postgraduate_application_history" */
@@ -6752,9 +5085,9 @@ export type Postgraduate_Application_History_Min_Order_By = {
 
 /** response of any mutation on the table "postgraduate_application_history" */
 export type Postgraduate_Application_History_Mutation_Response = {
-  __typename?: "postgraduate_application_history_mutation_response";
+  __typename?: 'postgraduate_application_history_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Postgraduate_Application_History>;
 };
@@ -6779,39 +5112,39 @@ export type Postgraduate_Application_History_Order_By = {
 
 /** primary key columns input for table: postgraduate_application_history */
 export type Postgraduate_Application_History_Pk_Columns_Input = {
-  created_at: Scalars["timestamptz"]["input"];
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  created_at: Scalars['timestamptz']['input'];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
 
 /** select columns of table "postgraduate_application_history" */
 export enum Postgraduate_Application_History_Select_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  MentorInfoId = "mentor_info_id",
+  MentorInfoId = 'mentor_info_id',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id'
 }
 
 /** input type for updating data in table "postgraduate_application_history" */
 export type Postgraduate_Application_History_Set_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  mentor_info_id?: InputMaybe<Scalars["Int"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
   /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Postgraduate_Application_History_Stddev_Fields = {
-  __typename?: "postgraduate_application_history_stddev_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_history_stddev_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "postgraduate_application_history" */
@@ -6821,8 +5154,8 @@ export type Postgraduate_Application_History_Stddev_Order_By = {
 
 /** aggregate stddev_pop on columns */
 export type Postgraduate_Application_History_Stddev_Pop_Fields = {
-  __typename?: "postgraduate_application_history_stddev_pop_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_history_stddev_pop_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "postgraduate_application_history" */
@@ -6832,8 +5165,8 @@ export type Postgraduate_Application_History_Stddev_Pop_Order_By = {
 
 /** aggregate stddev_samp on columns */
 export type Postgraduate_Application_History_Stddev_Samp_Fields = {
-  __typename?: "postgraduate_application_history_stddev_samp_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_history_stddev_samp_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "postgraduate_application_history" */
@@ -6843,8 +5176,8 @@ export type Postgraduate_Application_History_Stddev_Samp_Order_By = {
 
 /** aggregate sum on columns */
 export type Postgraduate_Application_History_Sum_Fields = {
-  __typename?: "postgraduate_application_history_sum_fields";
-  mentor_info_id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_application_history_sum_fields';
+  mentor_info_id?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "postgraduate_application_history" */
@@ -6855,21 +5188,21 @@ export type Postgraduate_Application_History_Sum_Order_By = {
 /** update columns of table "postgraduate_application_history" */
 export enum Postgraduate_Application_History_Update_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  MentorInfoId = "mentor_info_id",
+  MentorInfoId = 'mentor_info_id',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id'
 }
 
 /** aggregate var_pop on columns */
 export type Postgraduate_Application_History_Var_Pop_Fields = {
-  __typename?: "postgraduate_application_history_var_pop_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_history_var_pop_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "postgraduate_application_history" */
@@ -6879,8 +5212,8 @@ export type Postgraduate_Application_History_Var_Pop_Order_By = {
 
 /** aggregate var_samp on columns */
 export type Postgraduate_Application_History_Var_Samp_Fields = {
-  __typename?: "postgraduate_application_history_var_samp_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_history_var_samp_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "postgraduate_application_history" */
@@ -6890,8 +5223,8 @@ export type Postgraduate_Application_History_Var_Samp_Order_By = {
 
 /** aggregate variance on columns */
 export type Postgraduate_Application_History_Variance_Fields = {
-  __typename?: "postgraduate_application_history_variance_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_history_variance_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "postgraduate_application_history" */
@@ -6901,32 +5234,32 @@ export type Postgraduate_Application_History_Variance_Order_By = {
 
 /** input type for incrementing numeric columns in table "postgraduate_application" */
 export type Postgraduate_Application_Inc_Input = {
-  mentor_info_id?: InputMaybe<Scalars["Int"]["input"]>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "postgraduate_application" */
 export type Postgraduate_Application_Insert_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   history?: InputMaybe<Postgraduate_Application_History_Arr_Rel_Insert_Input>;
   mentor?: InputMaybe<Postgraduate_Mentor_Info_Obj_Rel_Insert_Input>;
-  mentor_info_id?: InputMaybe<Scalars["Int"]["input"]>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
   /** intend, in_contact, confirmed */
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-  verified?: InputMaybe<Scalars["Boolean"]["input"]>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate max on columns */
 export type Postgraduate_Application_Max_Fields = {
-  __typename?: "postgraduate_application_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  mentor_info_id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_application_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  mentor_info_id?: Maybe<Scalars['Int']['output']>;
   /** intend, in_contact, confirmed */
-  status?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  status?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "postgraduate_application" */
@@ -6941,13 +5274,13 @@ export type Postgraduate_Application_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Postgraduate_Application_Min_Fields = {
-  __typename?: "postgraduate_application_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  mentor_info_id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_application_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  mentor_info_id?: Maybe<Scalars['Int']['output']>;
   /** intend, in_contact, confirmed */
-  status?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  status?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "postgraduate_application" */
@@ -6962,9 +5295,9 @@ export type Postgraduate_Application_Min_Order_By = {
 
 /** response of any mutation on the table "postgraduate_application" */
 export type Postgraduate_Application_Mutation_Response = {
-  __typename?: "postgraduate_application_mutation_response";
+  __typename?: 'postgraduate_application_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Postgraduate_Application>;
 };
@@ -6991,41 +5324,41 @@ export type Postgraduate_Application_Order_By = {
 
 /** primary key columns input for table: postgraduate_application */
 export type Postgraduate_Application_Pk_Columns_Input = {
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
 
 /** select columns of table "postgraduate_application" */
 export enum Postgraduate_Application_Select_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  MentorInfoId = "mentor_info_id",
+  MentorInfoId = 'mentor_info_id',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
   /** column name */
-  Verified = "verified",
+  Verified = 'verified'
 }
 
 /** input type for updating data in table "postgraduate_application" */
 export type Postgraduate_Application_Set_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  mentor_info_id?: InputMaybe<Scalars["Int"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
   /** intend, in_contact, confirmed */
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-  verified?: InputMaybe<Scalars["Boolean"]["input"]>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Postgraduate_Application_Stddev_Fields = {
-  __typename?: "postgraduate_application_stddev_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_stddev_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "postgraduate_application" */
@@ -7035,8 +5368,8 @@ export type Postgraduate_Application_Stddev_Order_By = {
 
 /** aggregate stddev_pop on columns */
 export type Postgraduate_Application_Stddev_Pop_Fields = {
-  __typename?: "postgraduate_application_stddev_pop_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_stddev_pop_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "postgraduate_application" */
@@ -7046,8 +5379,8 @@ export type Postgraduate_Application_Stddev_Pop_Order_By = {
 
 /** aggregate stddev_samp on columns */
 export type Postgraduate_Application_Stddev_Samp_Fields = {
-  __typename?: "postgraduate_application_stddev_samp_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_stddev_samp_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "postgraduate_application" */
@@ -7057,8 +5390,8 @@ export type Postgraduate_Application_Stddev_Samp_Order_By = {
 
 /** aggregate sum on columns */
 export type Postgraduate_Application_Sum_Fields = {
-  __typename?: "postgraduate_application_sum_fields";
-  mentor_info_id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_application_sum_fields';
+  mentor_info_id?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "postgraduate_application" */
@@ -7069,23 +5402,23 @@ export type Postgraduate_Application_Sum_Order_By = {
 /** update columns of table "postgraduate_application" */
 export enum Postgraduate_Application_Update_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  MentorInfoId = "mentor_info_id",
+  MentorInfoId = 'mentor_info_id',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
   /** column name */
-  Verified = "verified",
+  Verified = 'verified'
 }
 
 /** aggregate var_pop on columns */
 export type Postgraduate_Application_Var_Pop_Fields = {
-  __typename?: "postgraduate_application_var_pop_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_var_pop_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "postgraduate_application" */
@@ -7095,8 +5428,8 @@ export type Postgraduate_Application_Var_Pop_Order_By = {
 
 /** aggregate var_samp on columns */
 export type Postgraduate_Application_Var_Samp_Fields = {
-  __typename?: "postgraduate_application_var_samp_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_var_samp_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "postgraduate_application" */
@@ -7106,8 +5439,8 @@ export type Postgraduate_Application_Var_Samp_Order_By = {
 
 /** aggregate variance on columns */
 export type Postgraduate_Application_Variance_Fields = {
-  __typename?: "postgraduate_application_variance_fields";
-  mentor_info_id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_application_variance_fields';
+  mentor_info_id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "postgraduate_application" */
@@ -7117,65 +5450,67 @@ export type Postgraduate_Application_Variance_Order_By = {
 
 /** 保研导师信息 */
 export type Postgraduate_Mentor_Info = {
-  __typename?: "postgraduate_mentor_info";
-  alternate_contact?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'postgraduate_mentor_info';
+  alternate_contact?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   applications: Array<Postgraduate_Application>;
   /** An aggregate relationship */
   applications_aggregate: Postgraduate_Application_Aggregate;
-  contact: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  detail_info?: Maybe<Scalars["String"]["output"]>;
+  contact: Scalars['String']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  detail_info?: Maybe<Scalars['String']['output']>;
   /** 修改者id */
-  editor: Scalars["String"]["output"];
-  field: Scalars["String"]["output"];
-  home_page?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["Int"]["output"];
-  mentor: Scalars["String"]["output"];
+  editor: Scalars['String']['output'];
+  field: Scalars['String']['output'];
+  home_page?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  mentor: Scalars['String']['output'];
   /** 固定名额 */
-  phd_quota: Scalars["numeric"]["output"];
+  phd_quota: Scalars['numeric']['output'];
   /** 非固定名额 */
-  phd_quota_unfixed: Scalars["numeric"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
+  phd_quota_unfixed: Scalars['numeric']['output'];
+  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   user: User;
   /** An object relationship */
   userEditor: User;
   /** 创建此信息用户id，有权更改 */
-  user_id: Scalars["String"]["output"];
-  verified: Scalars["Boolean"]["output"];
+  user_id: Scalars['String']['output'];
+  verified: Scalars['Boolean']['output'];
 };
+
 
 /** 保研导师信息 */
 export type Postgraduate_Mentor_InfoApplicationsArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_Bool_Exp>;
 };
 
+
 /** 保研导师信息 */
 export type Postgraduate_Mentor_InfoApplications_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_Bool_Exp>;
 };
 
 /** aggregated selection of "postgraduate_mentor_info" */
 export type Postgraduate_Mentor_Info_Aggregate = {
-  __typename?: "postgraduate_mentor_info_aggregate";
+  __typename?: 'postgraduate_mentor_info_aggregate';
   aggregate?: Maybe<Postgraduate_Mentor_Info_Aggregate_Fields>;
   nodes: Array<Postgraduate_Mentor_Info>;
 };
 
 /** aggregate fields of "postgraduate_mentor_info" */
 export type Postgraduate_Mentor_Info_Aggregate_Fields = {
-  __typename?: "postgraduate_mentor_info_aggregate_fields";
+  __typename?: 'postgraduate_mentor_info_aggregate_fields';
   avg?: Maybe<Postgraduate_Mentor_Info_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Postgraduate_Mentor_Info_Max_Fields>;
   min?: Maybe<Postgraduate_Mentor_Info_Min_Fields>;
   stddev?: Maybe<Postgraduate_Mentor_Info_Stddev_Fields>;
@@ -7187,20 +5522,21 @@ export type Postgraduate_Mentor_Info_Aggregate_Fields = {
   variance?: Maybe<Postgraduate_Mentor_Info_Variance_Fields>;
 };
 
+
 /** aggregate fields of "postgraduate_mentor_info" */
 export type Postgraduate_Mentor_Info_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Postgraduate_Mentor_Info_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Postgraduate_Mentor_Info_Avg_Fields = {
-  __typename?: "postgraduate_mentor_info_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_avg_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "postgraduate_mentor_info". All fields are combined with a logical 'AND'. */
@@ -7230,92 +5566,92 @@ export type Postgraduate_Mentor_Info_Bool_Exp = {
 /** unique or primary key constraints on table "postgraduate_mentor_info" */
 export enum Postgraduate_Mentor_Info_Constraint {
   /** unique or primary key constraint on columns "id" */
-  PostgraduateMentorInfoPkey = "postgraduate_mentor_info_pkey",
+  PostgraduateMentorInfoPkey = 'postgraduate_mentor_info_pkey'
 }
 
 /** input type for incrementing numeric columns in table "postgraduate_mentor_info" */
 export type Postgraduate_Mentor_Info_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
+  id?: InputMaybe<Scalars['Int']['input']>;
   /** 固定名额 */
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: InputMaybe<Scalars["numeric"]["input"]>;
+  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** input type for inserting data into table "postgraduate_mentor_info" */
 export type Postgraduate_Mentor_Info_Insert_Input = {
-  alternate_contact?: InputMaybe<Scalars["String"]["input"]>;
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
   applications?: InputMaybe<Postgraduate_Application_Arr_Rel_Insert_Input>;
-  contact?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  detail_info?: InputMaybe<Scalars["String"]["input"]>;
+  contact?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
   /** 修改者id */
-  editor?: InputMaybe<Scalars["String"]["input"]>;
-  field?: InputMaybe<Scalars["String"]["input"]>;
-  home_page?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  mentor?: InputMaybe<Scalars["String"]["input"]>;
+  editor?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  mentor?: InputMaybe<Scalars['String']['input']>;
   /** 固定名额 */
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: InputMaybe<Scalars["numeric"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userEditor?: InputMaybe<User_Obj_Rel_Insert_Input>;
   /** 创建此信息用户id，有权更改 */
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-  verified?: InputMaybe<Scalars["Boolean"]["input"]>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate max on columns */
 export type Postgraduate_Mentor_Info_Max_Fields = {
-  __typename?: "postgraduate_mentor_info_max_fields";
-  alternate_contact?: Maybe<Scalars["String"]["output"]>;
-  contact?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  detail_info?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_max_fields';
+  alternate_contact?: Maybe<Scalars['String']['output']>;
+  contact?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  detail_info?: Maybe<Scalars['String']['output']>;
   /** 修改者id */
-  editor?: Maybe<Scalars["String"]["output"]>;
-  field?: Maybe<Scalars["String"]["output"]>;
-  home_page?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  mentor?: Maybe<Scalars["String"]["output"]>;
+  editor?: Maybe<Scalars['String']['output']>;
+  field?: Maybe<Scalars['String']['output']>;
+  home_page?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  mentor?: Maybe<Scalars['String']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["numeric"]["output"]>;
+  phd_quota?: Maybe<Scalars['numeric']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["numeric"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['numeric']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 创建此信息用户id，有权更改 */
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Postgraduate_Mentor_Info_Min_Fields = {
-  __typename?: "postgraduate_mentor_info_min_fields";
-  alternate_contact?: Maybe<Scalars["String"]["output"]>;
-  contact?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  detail_info?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_min_fields';
+  alternate_contact?: Maybe<Scalars['String']['output']>;
+  contact?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  detail_info?: Maybe<Scalars['String']['output']>;
   /** 修改者id */
-  editor?: Maybe<Scalars["String"]["output"]>;
-  field?: Maybe<Scalars["String"]["output"]>;
-  home_page?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  mentor?: Maybe<Scalars["String"]["output"]>;
+  editor?: Maybe<Scalars['String']['output']>;
+  field?: Maybe<Scalars['String']['output']>;
+  home_page?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  mentor?: Maybe<Scalars['String']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["numeric"]["output"]>;
+  phd_quota?: Maybe<Scalars['numeric']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["numeric"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['numeric']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 创建此信息用户id，有权更改 */
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "postgraduate_mentor_info" */
 export type Postgraduate_Mentor_Info_Mutation_Response = {
-  __typename?: "postgraduate_mentor_info_mutation_response";
+  __typename?: 'postgraduate_mentor_info_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Postgraduate_Mentor_Info>;
 };
@@ -7357,34 +5693,34 @@ export type Postgraduate_Mentor_Info_Order_By = {
 
 /** columns and relationships of "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending = {
-  __typename?: "postgraduate_mentor_info_pending";
-  alternate_contact?: Maybe<Scalars["String"]["output"]>;
-  contact: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  detail_info?: Maybe<Scalars["String"]["output"]>;
-  home_page?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["Int"]["output"];
+  __typename?: 'postgraduate_mentor_info_pending';
+  alternate_contact?: Maybe<Scalars['String']['output']>;
+  contact: Scalars['String']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  detail_info?: Maybe<Scalars['String']['output']>;
+  home_page?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
   /** 展示的信息的id */
-  info_id: Scalars["Int"]["output"];
-  lab: Scalars["String"]["output"];
-  mentor: Scalars["String"]["output"];
-  phd_quota: Scalars["numeric"]["output"];
-  updated_at: Scalars["timestamptz"]["output"];
-  user_id: Scalars["String"]["output"];
+  info_id: Scalars['Int']['output'];
+  lab: Scalars['String']['output'];
+  mentor: Scalars['String']['output'];
+  phd_quota: Scalars['numeric']['output'];
+  updated_at: Scalars['timestamptz']['output'];
+  user_id: Scalars['String']['output'];
 };
 
 /** aggregated selection of "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending_Aggregate = {
-  __typename?: "postgraduate_mentor_info_pending_aggregate";
+  __typename?: 'postgraduate_mentor_info_pending_aggregate';
   aggregate?: Maybe<Postgraduate_Mentor_Info_Pending_Aggregate_Fields>;
   nodes: Array<Postgraduate_Mentor_Info_Pending>;
 };
 
 /** aggregate fields of "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending_Aggregate_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_aggregate_fields";
+  __typename?: 'postgraduate_mentor_info_pending_aggregate_fields';
   avg?: Maybe<Postgraduate_Mentor_Info_Pending_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Postgraduate_Mentor_Info_Pending_Max_Fields>;
   min?: Maybe<Postgraduate_Mentor_Info_Pending_Min_Fields>;
   stddev?: Maybe<Postgraduate_Mentor_Info_Pending_Stddev_Fields>;
@@ -7396,19 +5732,20 @@ export type Postgraduate_Mentor_Info_Pending_Aggregate_Fields = {
   variance?: Maybe<Postgraduate_Mentor_Info_Pending_Variance_Fields>;
 };
 
+
 /** aggregate fields of "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Postgraduate_Mentor_Info_Pending_Avg_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_avg_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Float"]["output"]>;
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  info_id?: Maybe<Scalars['Float']['output']>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "postgraduate_mentor_info_pending". All fields are combined with a logical 'AND'. */
@@ -7433,75 +5770,75 @@ export type Postgraduate_Mentor_Info_Pending_Bool_Exp = {
 /** unique or primary key constraints on table "postgraduate_mentor_info_pending" */
 export enum Postgraduate_Mentor_Info_Pending_Constraint {
   /** unique or primary key constraint on columns "id" */
-  PostgraduateMentorInfoPendingPkey = "postgraduate_mentor_info_pending_pkey",
+  PostgraduateMentorInfoPendingPkey = 'postgraduate_mentor_info_pending_pkey'
 }
 
 /** input type for incrementing numeric columns in table "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
+  id?: InputMaybe<Scalars['Int']['input']>;
   /** 展示的信息的id */
-  info_id?: InputMaybe<Scalars["Int"]["input"]>;
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
+  info_id?: InputMaybe<Scalars['Int']['input']>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** input type for inserting data into table "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending_Insert_Input = {
-  alternate_contact?: InputMaybe<Scalars["String"]["input"]>;
-  contact?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  detail_info?: InputMaybe<Scalars["String"]["input"]>;
-  home_page?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
   /** 展示的信息的id */
-  info_id?: InputMaybe<Scalars["Int"]["input"]>;
-  lab?: InputMaybe<Scalars["String"]["input"]>;
-  mentor?: InputMaybe<Scalars["String"]["input"]>;
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  info_id?: InputMaybe<Scalars['Int']['input']>;
+  lab?: InputMaybe<Scalars['String']['input']>;
+  mentor?: InputMaybe<Scalars['String']['input']>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Postgraduate_Mentor_Info_Pending_Max_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_max_fields";
-  alternate_contact?: Maybe<Scalars["String"]["output"]>;
-  contact?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  detail_info?: Maybe<Scalars["String"]["output"]>;
-  home_page?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_max_fields';
+  alternate_contact?: Maybe<Scalars['String']['output']>;
+  contact?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  detail_info?: Maybe<Scalars['String']['output']>;
+  home_page?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Int"]["output"]>;
-  lab?: Maybe<Scalars["String"]["output"]>;
-  mentor?: Maybe<Scalars["String"]["output"]>;
-  phd_quota?: Maybe<Scalars["numeric"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  info_id?: Maybe<Scalars['Int']['output']>;
+  lab?: Maybe<Scalars['String']['output']>;
+  mentor?: Maybe<Scalars['String']['output']>;
+  phd_quota?: Maybe<Scalars['numeric']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Postgraduate_Mentor_Info_Pending_Min_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_min_fields";
-  alternate_contact?: Maybe<Scalars["String"]["output"]>;
-  contact?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  detail_info?: Maybe<Scalars["String"]["output"]>;
-  home_page?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_min_fields';
+  alternate_contact?: Maybe<Scalars['String']['output']>;
+  contact?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  detail_info?: Maybe<Scalars['String']['output']>;
+  home_page?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Int"]["output"]>;
-  lab?: Maybe<Scalars["String"]["output"]>;
-  mentor?: Maybe<Scalars["String"]["output"]>;
-  phd_quota?: Maybe<Scalars["numeric"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
+  info_id?: Maybe<Scalars['Int']['output']>;
+  lab?: Maybe<Scalars['String']['output']>;
+  mentor?: Maybe<Scalars['String']['output']>;
+  phd_quota?: Maybe<Scalars['numeric']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending_Mutation_Response = {
-  __typename?: "postgraduate_mentor_info_pending_mutation_response";
+  __typename?: 'postgraduate_mentor_info_pending_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Postgraduate_Mentor_Info_Pending>;
 };
@@ -7531,342 +5868,314 @@ export type Postgraduate_Mentor_Info_Pending_Order_By = {
 
 /** primary key columns input for table: postgraduate_mentor_info_pending */
 export type Postgraduate_Mentor_Info_Pending_Pk_Columns_Input = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
 
 /** select columns of table "postgraduate_mentor_info_pending" */
 export enum Postgraduate_Mentor_Info_Pending_Select_Column {
   /** column name */
-  AlternateContact = "alternate_contact",
+  AlternateContact = 'alternate_contact',
   /** column name */
-  Contact = "contact",
+  Contact = 'contact',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  DetailInfo = "detail_info",
+  DetailInfo = 'detail_info',
   /** column name */
-  HomePage = "home_page",
+  HomePage = 'home_page',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  InfoId = "info_id",
+  InfoId = 'info_id',
   /** column name */
-  Lab = "lab",
+  Lab = 'lab',
   /** column name */
-  Mentor = "mentor",
+  Mentor = 'mentor',
   /** column name */
-  PhdQuota = "phd_quota",
+  PhdQuota = 'phd_quota',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id'
 }
 
 /** input type for updating data in table "postgraduate_mentor_info_pending" */
 export type Postgraduate_Mentor_Info_Pending_Set_Input = {
-  alternate_contact?: InputMaybe<Scalars["String"]["input"]>;
-  contact?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  detail_info?: InputMaybe<Scalars["String"]["input"]>;
-  home_page?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
   /** 展示的信息的id */
-  info_id?: InputMaybe<Scalars["Int"]["input"]>;
-  lab?: InputMaybe<Scalars["String"]["input"]>;
-  mentor?: InputMaybe<Scalars["String"]["input"]>;
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  info_id?: InputMaybe<Scalars['Int']['input']>;
+  lab?: InputMaybe<Scalars['String']['input']>;
+  mentor?: InputMaybe<Scalars['String']['input']>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Postgraduate_Mentor_Info_Pending_Stddev_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_stddev_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Float"]["output"]>;
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  info_id?: Maybe<Scalars['Float']['output']>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Postgraduate_Mentor_Info_Pending_Stddev_Pop_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Float"]["output"]>;
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  info_id?: Maybe<Scalars['Float']['output']>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Postgraduate_Mentor_Info_Pending_Stddev_Samp_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Float"]["output"]>;
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  info_id?: Maybe<Scalars['Float']['output']>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Postgraduate_Mentor_Info_Pending_Sum_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_sum_fields';
+  id?: Maybe<Scalars['Int']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Int"]["output"]>;
-  phd_quota?: Maybe<Scalars["numeric"]["output"]>;
+  info_id?: Maybe<Scalars['Int']['output']>;
+  phd_quota?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** update columns of table "postgraduate_mentor_info_pending" */
 export enum Postgraduate_Mentor_Info_Pending_Update_Column {
   /** column name */
-  AlternateContact = "alternate_contact",
+  AlternateContact = 'alternate_contact',
   /** column name */
-  Contact = "contact",
+  Contact = 'contact',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  DetailInfo = "detail_info",
+  DetailInfo = 'detail_info',
   /** column name */
-  HomePage = "home_page",
+  HomePage = 'home_page',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  InfoId = "info_id",
+  InfoId = 'info_id',
   /** column name */
-  Lab = "lab",
+  Lab = 'lab',
   /** column name */
-  Mentor = "mentor",
+  Mentor = 'mentor',
   /** column name */
-  PhdQuota = "phd_quota",
+  PhdQuota = 'phd_quota',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id'
 }
 
 /** aggregate var_pop on columns */
 export type Postgraduate_Mentor_Info_Pending_Var_Pop_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_var_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Float"]["output"]>;
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  info_id?: Maybe<Scalars['Float']['output']>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Postgraduate_Mentor_Info_Pending_Var_Samp_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_var_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Float"]["output"]>;
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  info_id?: Maybe<Scalars['Float']['output']>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Postgraduate_Mentor_Info_Pending_Variance_Fields = {
-  __typename?: "postgraduate_mentor_info_pending_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_pending_variance_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 展示的信息的id */
-  info_id?: Maybe<Scalars["Float"]["output"]>;
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  info_id?: Maybe<Scalars['Float']['output']>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
 /** primary key columns input for table: postgraduate_mentor_info */
 export type Postgraduate_Mentor_Info_Pk_Columns_Input = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
 
 /** select columns of table "postgraduate_mentor_info" */
 export enum Postgraduate_Mentor_Info_Select_Column {
   /** column name */
-  AlternateContact = "alternate_contact",
+  AlternateContact = 'alternate_contact',
   /** column name */
-  Contact = "contact",
+  Contact = 'contact',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  DetailInfo = "detail_info",
+  DetailInfo = 'detail_info',
   /** column name */
-  Editor = "editor",
+  Editor = 'editor',
   /** column name */
-  Field = "field",
+  Field = 'field',
   /** column name */
-  HomePage = "home_page",
+  HomePage = 'home_page',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Mentor = "mentor",
+  Mentor = 'mentor',
   /** column name */
-  PhdQuota = "phd_quota",
+  PhdQuota = 'phd_quota',
   /** column name */
-  PhdQuotaUnfixed = "phd_quota_unfixed",
+  PhdQuotaUnfixed = 'phd_quota_unfixed',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
   /** column name */
-  Verified = "verified",
+  Verified = 'verified'
 }
 
 /** input type for updating data in table "postgraduate_mentor_info" */
 export type Postgraduate_Mentor_Info_Set_Input = {
-  alternate_contact?: InputMaybe<Scalars["String"]["input"]>;
-  contact?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  detail_info?: InputMaybe<Scalars["String"]["input"]>;
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
   /** 修改者id */
-  editor?: InputMaybe<Scalars["String"]["input"]>;
-  field?: InputMaybe<Scalars["String"]["input"]>;
-  home_page?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  mentor?: InputMaybe<Scalars["String"]["input"]>;
+  editor?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  mentor?: InputMaybe<Scalars['String']['input']>;
   /** 固定名额 */
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: InputMaybe<Scalars["numeric"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 创建此信息用户id，有权更改 */
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-  verified?: InputMaybe<Scalars["Boolean"]["input"]>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Postgraduate_Mentor_Info_Stddev_Fields = {
-  __typename?: "postgraduate_mentor_info_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_stddev_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Postgraduate_Mentor_Info_Stddev_Pop_Fields = {
-  __typename?: "postgraduate_mentor_info_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Postgraduate_Mentor_Info_Stddev_Samp_Fields = {
-  __typename?: "postgraduate_mentor_info_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Postgraduate_Mentor_Info_Sum_Fields = {
-  __typename?: "postgraduate_mentor_info_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_sum_fields';
+  id?: Maybe<Scalars['Int']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["numeric"]["output"]>;
+  phd_quota?: Maybe<Scalars['numeric']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["numeric"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** update columns of table "postgraduate_mentor_info" */
 export enum Postgraduate_Mentor_Info_Update_Column {
   /** column name */
-  AlternateContact = "alternate_contact",
+  AlternateContact = 'alternate_contact',
   /** column name */
-  Contact = "contact",
+  Contact = 'contact',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  DetailInfo = "detail_info",
+  DetailInfo = 'detail_info',
   /** column name */
-  Editor = "editor",
+  Editor = 'editor',
   /** column name */
-  Field = "field",
+  Field = 'field',
   /** column name */
-  HomePage = "home_page",
+  HomePage = 'home_page',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Mentor = "mentor",
+  Mentor = 'mentor',
   /** column name */
-  PhdQuota = "phd_quota",
+  PhdQuota = 'phd_quota',
   /** column name */
-  PhdQuotaUnfixed = "phd_quota_unfixed",
+  PhdQuotaUnfixed = 'phd_quota_unfixed',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  UserId = "user_id",
+  UserId = 'user_id',
   /** column name */
-  Verified = "verified",
+  Verified = 'verified'
 }
 
 /** aggregate var_pop on columns */
 export type Postgraduate_Mentor_Info_Var_Pop_Fields = {
-  __typename?: "postgraduate_mentor_info_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_var_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Postgraduate_Mentor_Info_Var_Samp_Fields = {
-  __typename?: "postgraduate_mentor_info_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_var_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Postgraduate_Mentor_Info_Variance_Fields = {
-  __typename?: "postgraduate_mentor_info_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'postgraduate_mentor_info_variance_fields';
+  id?: Maybe<Scalars['Float']['output']>;
   /** 固定名额 */
-  phd_quota?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
-  phd_quota_unfixed?: Maybe<Scalars["Float"]["output"]>;
+  phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Query_Root = {
-  __typename?: "query_root";
+  __typename?: 'query_root';
   /** fetch data from the table: "aid_application" */
   aid_application: Array<Aid_Application>;
   /** fetch aggregated fields from the table: "aid_application" */
   aid_application_aggregate: Aid_Application_Aggregate;
   /** fetch data from the table: "aid_application" using primary key columns */
   aid_application_by_pk?: Maybe<Aid_Application>;
-  /** fetch data from the table: "article" */
-  article: Array<Article>;
-  /** fetch aggregated fields from the table: "article" */
-  article_aggregate: Article_Aggregate;
-  /** fetch data from the table: "article" using primary key columns */
-  article_by_pk?: Maybe<Article>;
-  /** fetch data from the table: "article_liker" */
-  article_liker: Array<Article_Liker>;
-  /** fetch aggregated fields from the table: "article_liker" */
-  article_liker_aggregate: Article_Liker_Aggregate;
-  /** fetch data from the table: "article_liker" using primary key columns */
-  article_liker_by_pk?: Maybe<Article_Liker>;
-  /** fetch data from the table: "article_public" */
-  article_public: Array<Article_Public>;
-  /** fetch aggregated fields from the table: "article_public" */
-  article_public_aggregate: Article_Public_Aggregate;
-  /** fetch data from the table: "article_tag" */
-  article_tag: Array<Article_Tag>;
-  /** fetch aggregated fields from the table: "article_tag" */
-  article_tag_aggregate: Article_Tag_Aggregate;
-  /** fetch data from the table: "article_tag" using primary key columns */
-  article_tag_by_pk?: Maybe<Article_Tag>;
-  /** fetch data from the table: "comment" */
-  comment: Array<Comment>;
-  /** fetch aggregated fields from the table: "comment" */
-  comment_aggregate: Comment_Aggregate;
-  /** fetch data from the table: "comment" using primary key columns */
-  comment_by_pk?: Maybe<Comment>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -7915,12 +6224,6 @@ export type Query_Root = {
   contest_team_member_aggregate: Contest_Team_Member_Aggregate;
   /** fetch data from the table: "contest_team_member" using primary key columns */
   contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** fetch data from the table: "department" */
-  department: Array<Department>;
-  /** fetch aggregated fields from the table: "department" */
-  department_aggregate: Department_Aggregate;
-  /** fetch data from the table: "department" using primary key columns */
-  department_by_pk?: Maybe<Department>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -7999,12 +6302,6 @@ export type Query_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "tag" */
-  tag: Array<Tag>;
-  /** fetch aggregated fields from the table: "tag" */
-  tag_aggregate: Tag_Aggregate;
-  /** fetch data from the table: "tag" using primary key columns */
-  tag_by_pk?: Maybe<Tag>;
   /** fetch data from the table: "user" */
   user: Array<User>;
   /** fetch aggregated fields from the table: "user" */
@@ -8012,6 +6309,12 @@ export type Query_Root = {
   /** fetch data from the table: "user" using primary key columns */
   user_by_pk?: Maybe<User>;
   user_by_role: Array<User_By_Role_User>;
+  /** fetch data from the table: "users" */
+  users: Array<Users>;
+  /** fetch aggregated fields from the table: "users" */
+  users_aggregate: Users_Aggregate;
+  /** fetch data from the table: "users" using primary key columns */
+  users_by_pk?: Maybe<Users>;
   /** fetch data from the table: "weekly" */
   weekly: Array<Weekly>;
   /** fetch aggregated fields from the table: "weekly" */
@@ -8020,672 +6323,625 @@ export type Query_Root = {
   weekly_by_pk?: Maybe<Weekly>;
 };
 
+
 export type Query_RootAid_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
   where?: InputMaybe<Aid_Application_Bool_Exp>;
 };
+
 
 export type Query_RootAid_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
   where?: InputMaybe<Aid_Application_Bool_Exp>;
 };
 
+
 export type Query_RootAid_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
-export type Query_RootArticleArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Query_RootArticle_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Query_RootArticle_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-export type Query_RootArticle_LikerArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Query_RootArticle_Liker_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Query_RootArticle_Liker_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-export type Query_RootArticle_PublicArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Query_RootArticle_Public_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Query_RootArticle_TagArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Query_RootArticle_Tag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Query_RootArticle_Tag_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-export type Query_RootCommentArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Query_RootComment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Query_RootComment_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
 
 export type Query_RootContestArgs = {
   distinct_on?: InputMaybe<Array<Contest_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Order_By>>;
   where?: InputMaybe<Contest_Bool_Exp>;
 };
+
 
 export type Query_RootContest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Order_By>>;
   where?: InputMaybe<Contest_Bool_Exp>;
 };
 
+
 export type Query_RootContest_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootContest_CodeArgs = {
   distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
   where?: InputMaybe<Contest_Code_Bool_Exp>;
 };
+
 
 export type Query_RootContest_Code_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
   where?: InputMaybe<Contest_Code_Bool_Exp>;
 };
 
+
 export type Query_RootContest_Code_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootContest_InfoArgs = {
   distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
   where?: InputMaybe<Contest_Info_Bool_Exp>;
 };
+
 
 export type Query_RootContest_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
   where?: InputMaybe<Contest_Info_Bool_Exp>;
 };
 
+
 export type Query_RootContest_Info_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootContest_ManagerArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Manager_Order_By>>;
   where?: InputMaybe<Contest_Manager_Bool_Exp>;
 };
+
 
 export type Query_RootContest_Manager_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Manager_Order_By>>;
   where?: InputMaybe<Contest_Manager_Bool_Exp>;
 };
 
+
 export type Query_RootContest_Manager_By_PkArgs = {
-  contest_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 export type Query_RootContest_RoomArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
   where?: InputMaybe<Contest_Room_Bool_Exp>;
 };
+
 
 export type Query_RootContest_Room_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
   where?: InputMaybe<Contest_Room_Bool_Exp>;
 };
 
+
 export type Query_RootContest_Room_By_PkArgs = {
-  room_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootContest_Room_TeamArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
   where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
 };
+
 
 export type Query_RootContest_Room_Team_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
   where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
 };
 
+
 export type Query_RootContest_Room_Team_By_PkArgs = {
-  room_id: Scalars["uuid"]["input"];
-  team_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootContest_TeamArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
   where?: InputMaybe<Contest_Team_Bool_Exp>;
 };
+
 
 export type Query_RootContest_Team_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
   where?: InputMaybe<Contest_Team_Bool_Exp>;
 };
 
+
 export type Query_RootContest_Team_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootContest_Team_MemberArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
 };
+
 
 export type Query_RootContest_Team_Member_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
 };
 
+
 export type Query_RootContest_Team_Member_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  team_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
 
-export type Query_RootDepartmentArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Query_RootDepartment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Query_RootDepartment_By_PkArgs = {
-  id: Scalars["bigint"]["input"];
-};
 
 export type Query_RootHonor_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Honor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Honor_Application_Order_By>>;
   where?: InputMaybe<Honor_Application_Bool_Exp>;
 };
+
 
 export type Query_RootHonor_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Honor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Honor_Application_Order_By>>;
   where?: InputMaybe<Honor_Application_Bool_Exp>;
 };
 
+
 export type Query_RootHonor_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootInfo_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Info_Notice_Order_By>>;
   where?: InputMaybe<Info_Notice_Bool_Exp>;
 };
+
 
 export type Query_RootInfo_Notice_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Info_Notice_Order_By>>;
   where?: InputMaybe<Info_Notice_Bool_Exp>;
 };
 
+
 export type Query_RootInfo_Notice_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootMentor_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
+
 
 export type Query_RootMentor_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
 
+
 export type Query_RootMentor_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootMentor_AvailableArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
   where?: InputMaybe<Mentor_Available_Bool_Exp>;
 };
+
 
 export type Query_RootMentor_Available_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
   where?: InputMaybe<Mentor_Available_Bool_Exp>;
 };
 
+
 export type Query_RootMentor_Available_By_PkArgs = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
+
 
 export type Query_RootMentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
   where?: InputMaybe<Mentor_Info_Bool_Exp>;
 };
+
 
 export type Query_RootMentor_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
   where?: InputMaybe<Mentor_Info_Bool_Exp>;
 };
 
+
 export type Query_RootMentor_Info_By_PkArgs = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
+
 
 export type Query_RootMentor_MessageArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Message_Order_By>>;
   where?: InputMaybe<Mentor_Message_Bool_Exp>;
 };
+
 
 export type Query_RootMentor_Message_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Message_Order_By>>;
   where?: InputMaybe<Mentor_Message_Bool_Exp>;
 };
 
+
 export type Query_RootMentor_Message_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootPostgraduate_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_Bool_Exp>;
 };
+
 
 export type Query_RootPostgraduate_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_Bool_Exp>;
 };
 
+
 export type Query_RootPostgraduate_Application_By_PkArgs = {
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 export type Query_RootPostgraduate_Application_HistoryArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Application_History_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_History_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
 };
+
 
 export type Query_RootPostgraduate_Application_History_AggregateArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Application_History_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_History_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
 };
 
+
 export type Query_RootPostgraduate_Application_History_By_PkArgs = {
-  created_at: Scalars["timestamptz"]["input"];
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  created_at: Scalars['timestamptz']['input'];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 export type Query_RootPostgraduate_Mentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Bool_Exp>;
 };
+
 
 export type Query_RootPostgraduate_Mentor_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Bool_Exp>;
 };
 
+
 export type Query_RootPostgraduate_Mentor_Info_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
+
 
 export type Query_RootPostgraduate_Mentor_Info_PendingArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Mentor_Info_Pending_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Pending_Bool_Exp>;
 };
+
 
 export type Query_RootPostgraduate_Mentor_Info_Pending_AggregateArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Mentor_Info_Pending_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Pending_Bool_Exp>;
 };
 
+
 export type Query_RootPostgraduate_Mentor_Info_Pending_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
+
 
 export type Query_RootScholarship_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
   where?: InputMaybe<Scholarship_Application_Bool_Exp>;
 };
+
 
 export type Query_RootScholarship_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
   where?: InputMaybe<Scholarship_Application_Bool_Exp>;
 };
 
+
 export type Query_RootScholarship_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootScholarships_AidsArgs = {
   distinct_on?: InputMaybe<Array<Scholarships_Aids_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarships_Aids_Order_By>>;
   where?: InputMaybe<Scholarships_Aids_Bool_Exp>;
 };
+
 
 export type Query_RootScholarships_Aids_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Scholarships_Aids_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarships_Aids_Order_By>>;
   where?: InputMaybe<Scholarships_Aids_Bool_Exp>;
 };
 
+
 export type Query_RootScholarships_Aids_By_PkArgs = {
-  code: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
 };
+
 
 export type Query_RootShare_CourseArgs = {
   distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Share_Course_Order_By>>;
   where?: InputMaybe<Share_Course_Bool_Exp>;
 };
+
 
 export type Query_RootShare_Course_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Share_Course_Order_By>>;
   where?: InputMaybe<Share_Course_Bool_Exp>;
 };
 
+
 export type Query_RootShare_Course_By_PkArgs = {
-  uuid: Scalars["uuid"]["input"];
+  uuid: Scalars['uuid']['input'];
 };
 
-export type Query_RootTagArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Query_RootTag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Query_RootTag_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
 
 export type Query_RootUserArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Order_By>>;
   where?: InputMaybe<User_Bool_Exp>;
 };
+
 
 export type Query_RootUser_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Order_By>>;
   where?: InputMaybe<User_Bool_Exp>;
 };
 
+
 export type Query_RootUser_By_PkArgs = {
-  _id: Scalars["String"]["input"];
+  _id: Scalars['String']['input'];
 };
 
+
 export type Query_RootUser_By_RoleArgs = {
-  role: Scalars["String"]["input"];
+  role: Scalars['String']['input'];
 };
+
+
+export type Query_RootUsersArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
+export type Query_RootUsers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
+export type Query_RootUsers_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
 
 export type Query_RootWeeklyArgs = {
   distinct_on?: InputMaybe<Array<Weekly_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Weekly_Order_By>>;
   where?: InputMaybe<Weekly_Bool_Exp>;
 };
+
 
 export type Query_RootWeekly_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Weekly_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Weekly_Order_By>>;
   where?: InputMaybe<Weekly_Bool_Exp>;
 };
 
+
 export type Query_RootWeekly_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
 
 /** columns and relationships of "scholarship_application" */
 export type Scholarship_Application = {
-  __typename?: "scholarship_application";
-  amount: Scalars["Int"]["output"];
-  code: Scalars["String"]["output"];
-  created_at: Scalars["timestamptz"]["output"];
-  form_url?: Maybe<Scalars["String"]["output"]>;
-  honor: Scalars["String"]["output"];
-  id: Scalars["uuid"]["output"];
-  scholarship: Scalars["String"]["output"];
-  status: Scalars["String"]["output"];
+  __typename?: 'scholarship_application';
+  amount: Scalars['Int']['output'];
+  code: Scalars['String']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  form_url?: Maybe<Scalars['String']['output']>;
+  honor: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  scholarship: Scalars['String']['output'];
+  status: Scalars['String']['output'];
   /** An object relationship */
   student: User;
-  student_id: Scalars["String"]["output"];
-  thank_letter?: Maybe<Scalars["String"]["output"]>;
-  updated_at: Scalars["timestamptz"]["output"];
+  /** An object relationship */
+  student_byuuid?: Maybe<Users>;
+  student_id: Scalars['String']['output'];
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  thank_letter?: Maybe<Scalars['String']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
 };
 
 /** aggregated selection of "scholarship_application" */
 export type Scholarship_Application_Aggregate = {
-  __typename?: "scholarship_application_aggregate";
+  __typename?: 'scholarship_application_aggregate';
   aggregate?: Maybe<Scholarship_Application_Aggregate_Fields>;
   nodes: Array<Scholarship_Application>;
 };
 
 /** aggregate fields of "scholarship_application" */
 export type Scholarship_Application_Aggregate_Fields = {
-  __typename?: "scholarship_application_aggregate_fields";
+  __typename?: 'scholarship_application_aggregate_fields';
   avg?: Maybe<Scholarship_Application_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Scholarship_Application_Max_Fields>;
   min?: Maybe<Scholarship_Application_Min_Fields>;
   stddev?: Maybe<Scholarship_Application_Stddev_Fields>;
@@ -8697,16 +6953,17 @@ export type Scholarship_Application_Aggregate_Fields = {
   variance?: Maybe<Scholarship_Application_Variance_Fields>;
 };
 
+
 /** aggregate fields of "scholarship_application" */
 export type Scholarship_Application_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Scholarship_Application_Avg_Fields = {
-  __typename?: "scholarship_application_avg_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarship_application_avg_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "scholarship_application". All fields are combined with a logical 'AND'. */
@@ -8723,7 +6980,9 @@ export type Scholarship_Application_Bool_Exp = {
   scholarship?: InputMaybe<String_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   student?: InputMaybe<User_Bool_Exp>;
+  student_byuuid?: InputMaybe<Users_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
+  student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   thank_letter?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -8731,67 +6990,71 @@ export type Scholarship_Application_Bool_Exp = {
 /** unique or primary key constraints on table "scholarship_application" */
 export enum Scholarship_Application_Constraint {
   /** unique or primary key constraint on columns "id" */
-  ScholarshipApplicationPkey1 = "scholarship_application_pkey1",
+  ScholarshipApplicationPkey1 = 'scholarship_application_pkey1'
 }
 
 /** input type for incrementing numeric columns in table "scholarship_application" */
 export type Scholarship_Application_Inc_Input = {
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "scholarship_application" */
 export type Scholarship_Application_Insert_Input = {
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  form_url?: InputMaybe<Scalars["String"]["input"]>;
-  honor?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  scholarship?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_url?: InputMaybe<Scalars['String']['input']>;
+  honor?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  scholarship?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
   student?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  thank_letter?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  student_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  thank_letter?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Scholarship_Application_Max_Fields = {
-  __typename?: "scholarship_application_max_fields";
-  amount?: Maybe<Scalars["Int"]["output"]>;
-  code?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  form_url?: Maybe<Scalars["String"]["output"]>;
-  honor?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  scholarship?: Maybe<Scalars["String"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  thank_letter?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'scholarship_application_max_fields';
+  amount?: Maybe<Scalars['Int']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_url?: Maybe<Scalars['String']['output']>;
+  honor?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  scholarship?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  thank_letter?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Scholarship_Application_Min_Fields = {
-  __typename?: "scholarship_application_min_fields";
-  amount?: Maybe<Scalars["Int"]["output"]>;
-  code?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  form_url?: Maybe<Scalars["String"]["output"]>;
-  honor?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  scholarship?: Maybe<Scalars["String"]["output"]>;
-  status?: Maybe<Scalars["String"]["output"]>;
-  student_id?: Maybe<Scalars["String"]["output"]>;
-  thank_letter?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+  __typename?: 'scholarship_application_min_fields';
+  amount?: Maybe<Scalars['Int']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  form_url?: Maybe<Scalars['String']['output']>;
+  honor?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  scholarship?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  student_id?: Maybe<Scalars['String']['output']>;
+  student_uuid?: Maybe<Scalars['uuid']['output']>;
+  thank_letter?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "scholarship_application" */
 export type Scholarship_Application_Mutation_Response = {
-  __typename?: "scholarship_application_mutation_response";
+  __typename?: 'scholarship_application_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Scholarship_Application>;
 };
@@ -8814,148 +7077,155 @@ export type Scholarship_Application_Order_By = {
   scholarship?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   student?: InputMaybe<User_Order_By>;
+  student_byuuid?: InputMaybe<Users_Order_By>;
   student_id?: InputMaybe<Order_By>;
+  student_uuid?: InputMaybe<Order_By>;
   thank_letter?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: scholarship_application */
 export type Scholarship_Application_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "scholarship_application" */
 export enum Scholarship_Application_Select_Column {
   /** column name */
-  Amount = "amount",
+  Amount = 'amount',
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  FormUrl = "form_url",
+  FormUrl = 'form_url',
   /** column name */
-  Honor = "honor",
+  Honor = 'honor',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Scholarship = "scholarship",
+  Scholarship = 'scholarship',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  StudentId = "student_id",
+  StudentId = 'student_id',
   /** column name */
-  ThankLetter = "thank_letter",
+  StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = "updated_at",
+  ThankLetter = 'thank_letter',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "scholarship_application" */
 export type Scholarship_Application_Set_Input = {
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  form_url?: InputMaybe<Scalars["String"]["input"]>;
-  honor?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  scholarship?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  student_id?: InputMaybe<Scalars["String"]["input"]>;
-  thank_letter?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  form_url?: InputMaybe<Scalars['String']['input']>;
+  honor?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  scholarship?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  student_id?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  thank_letter?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Scholarship_Application_Stddev_Fields = {
-  __typename?: "scholarship_application_stddev_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarship_application_stddev_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Scholarship_Application_Stddev_Pop_Fields = {
-  __typename?: "scholarship_application_stddev_pop_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarship_application_stddev_pop_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Scholarship_Application_Stddev_Samp_Fields = {
-  __typename?: "scholarship_application_stddev_samp_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarship_application_stddev_samp_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Scholarship_Application_Sum_Fields = {
-  __typename?: "scholarship_application_sum_fields";
-  amount?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'scholarship_application_sum_fields';
+  amount?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "scholarship_application" */
 export enum Scholarship_Application_Update_Column {
   /** column name */
-  Amount = "amount",
+  Amount = 'amount',
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  FormUrl = "form_url",
+  FormUrl = 'form_url',
   /** column name */
-  Honor = "honor",
+  Honor = 'honor',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Scholarship = "scholarship",
+  Scholarship = 'scholarship',
   /** column name */
-  Status = "status",
+  Status = 'status',
   /** column name */
-  StudentId = "student_id",
+  StudentId = 'student_id',
   /** column name */
-  ThankLetter = "thank_letter",
+  StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = "updated_at",
+  ThankLetter = 'thank_letter',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
 export type Scholarship_Application_Var_Pop_Fields = {
-  __typename?: "scholarship_application_var_pop_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarship_application_var_pop_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Scholarship_Application_Var_Samp_Fields = {
-  __typename?: "scholarship_application_var_samp_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarship_application_var_samp_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Scholarship_Application_Variance_Fields = {
-  __typename?: "scholarship_application_variance_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarship_application_variance_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "scholarships_aids" */
 export type Scholarships_Aids = {
-  __typename?: "scholarships_aids";
-  IsAids: Scalars["Boolean"]["output"];
-  amount: Scalars["Int"]["output"];
-  code: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
-  salutation?: Maybe<Scalars["String"]["output"]>;
-  type: Scalars["String"]["output"];
+  __typename?: 'scholarships_aids';
+  IsAids: Scalars['Boolean']['output'];
+  amount: Scalars['Int']['output'];
+  code: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  salutation?: Maybe<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
 };
 
 /** aggregated selection of "scholarships_aids" */
 export type Scholarships_Aids_Aggregate = {
-  __typename?: "scholarships_aids_aggregate";
+  __typename?: 'scholarships_aids_aggregate';
   aggregate?: Maybe<Scholarships_Aids_Aggregate_Fields>;
   nodes: Array<Scholarships_Aids>;
 };
 
 /** aggregate fields of "scholarships_aids" */
 export type Scholarships_Aids_Aggregate_Fields = {
-  __typename?: "scholarships_aids_aggregate_fields";
+  __typename?: 'scholarships_aids_aggregate_fields';
   avg?: Maybe<Scholarships_Aids_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Scholarships_Aids_Max_Fields>;
   min?: Maybe<Scholarships_Aids_Min_Fields>;
   stddev?: Maybe<Scholarships_Aids_Stddev_Fields>;
@@ -8967,16 +7237,17 @@ export type Scholarships_Aids_Aggregate_Fields = {
   variance?: Maybe<Scholarships_Aids_Variance_Fields>;
 };
 
+
 /** aggregate fields of "scholarships_aids" */
 export type Scholarships_Aids_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Scholarships_Aids_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Scholarships_Aids_Avg_Fields = {
-  __typename?: "scholarships_aids_avg_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarships_aids_avg_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "scholarships_aids". All fields are combined with a logical 'AND'. */
@@ -8995,49 +7266,49 @@ export type Scholarships_Aids_Bool_Exp = {
 /** unique or primary key constraints on table "scholarships_aids" */
 export enum Scholarships_Aids_Constraint {
   /** unique or primary key constraint on columns "code" */
-  ScholarshipsPkey = "scholarships_pkey",
+  ScholarshipsPkey = 'scholarships_pkey'
 }
 
 /** input type for incrementing numeric columns in table "scholarships_aids" */
 export type Scholarships_Aids_Inc_Input = {
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "scholarships_aids" */
 export type Scholarships_Aids_Insert_Input = {
-  IsAids?: InputMaybe<Scalars["Boolean"]["input"]>;
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  salutation?: InputMaybe<Scalars["String"]["input"]>;
-  type?: InputMaybe<Scalars["String"]["input"]>;
+  IsAids?: InputMaybe<Scalars['Boolean']['input']>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  salutation?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Scholarships_Aids_Max_Fields = {
-  __typename?: "scholarships_aids_max_fields";
-  amount?: Maybe<Scalars["Int"]["output"]>;
-  code?: Maybe<Scalars["String"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-  salutation?: Maybe<Scalars["String"]["output"]>;
-  type?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'scholarships_aids_max_fields';
+  amount?: Maybe<Scalars['Int']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  salutation?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Scholarships_Aids_Min_Fields = {
-  __typename?: "scholarships_aids_min_fields";
-  amount?: Maybe<Scalars["Int"]["output"]>;
-  code?: Maybe<Scalars["String"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-  salutation?: Maybe<Scalars["String"]["output"]>;
-  type?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'scholarships_aids_min_fields';
+  amount?: Maybe<Scalars['Int']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  salutation?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "scholarships_aids" */
 export type Scholarships_Aids_Mutation_Response = {
-  __typename?: "scholarships_aids_mutation_response";
+  __typename?: 'scholarships_aids_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Scholarships_Aids>;
 };
@@ -9061,119 +7332,119 @@ export type Scholarships_Aids_Order_By = {
 
 /** primary key columns input for table: scholarships_aids */
 export type Scholarships_Aids_Pk_Columns_Input = {
-  code: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
 };
 
 /** select columns of table "scholarships_aids" */
 export enum Scholarships_Aids_Select_Column {
   /** column name */
-  IsAids = "IsAids",
+  IsAids = 'IsAids',
   /** column name */
-  Amount = "amount",
+  Amount = 'amount',
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  Name = "name",
+  Name = 'name',
   /** column name */
-  Salutation = "salutation",
+  Salutation = 'salutation',
   /** column name */
-  Type = "type",
+  Type = 'type'
 }
 
 /** input type for updating data in table "scholarships_aids" */
 export type Scholarships_Aids_Set_Input = {
-  IsAids?: InputMaybe<Scalars["Boolean"]["input"]>;
-  amount?: InputMaybe<Scalars["Int"]["input"]>;
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  salutation?: InputMaybe<Scalars["String"]["input"]>;
-  type?: InputMaybe<Scalars["String"]["input"]>;
+  IsAids?: InputMaybe<Scalars['Boolean']['input']>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  salutation?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Scholarships_Aids_Stddev_Fields = {
-  __typename?: "scholarships_aids_stddev_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarships_aids_stddev_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Scholarships_Aids_Stddev_Pop_Fields = {
-  __typename?: "scholarships_aids_stddev_pop_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarships_aids_stddev_pop_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Scholarships_Aids_Stddev_Samp_Fields = {
-  __typename?: "scholarships_aids_stddev_samp_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarships_aids_stddev_samp_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Scholarships_Aids_Sum_Fields = {
-  __typename?: "scholarships_aids_sum_fields";
-  amount?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'scholarships_aids_sum_fields';
+  amount?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "scholarships_aids" */
 export enum Scholarships_Aids_Update_Column {
   /** column name */
-  IsAids = "IsAids",
+  IsAids = 'IsAids',
   /** column name */
-  Amount = "amount",
+  Amount = 'amount',
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  Name = "name",
+  Name = 'name',
   /** column name */
-  Salutation = "salutation",
+  Salutation = 'salutation',
   /** column name */
-  Type = "type",
+  Type = 'type'
 }
 
 /** aggregate var_pop on columns */
 export type Scholarships_Aids_Var_Pop_Fields = {
-  __typename?: "scholarships_aids_var_pop_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarships_aids_var_pop_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Scholarships_Aids_Var_Samp_Fields = {
-  __typename?: "scholarships_aids_var_samp_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarships_aids_var_samp_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Scholarships_Aids_Variance_Fields = {
-  __typename?: "scholarships_aids_variance_fields";
-  amount?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'scholarships_aids_variance_fields';
+  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** 所有电子系的课程，用于课程评测 */
 export type Share_Course = {
-  __typename?: "share_course";
-  code: Scalars["String"]["output"];
-  fullname: Scalars["String"]["output"];
-  language: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
-  professor: Scalars["String"]["output"];
-  semester: Scalars["String"]["output"];
-  type: Scalars["String"]["output"];
-  uuid: Scalars["uuid"]["output"];
-  year: Scalars["Int"]["output"];
+  __typename?: 'share_course';
+  code: Scalars['String']['output'];
+  fullname: Scalars['String']['output'];
+  language: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  professor: Scalars['String']['output'];
+  semester: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  uuid: Scalars['uuid']['output'];
+  year: Scalars['Int']['output'];
 };
 
 /** aggregated selection of "share_course" */
 export type Share_Course_Aggregate = {
-  __typename?: "share_course_aggregate";
+  __typename?: 'share_course_aggregate';
   aggregate?: Maybe<Share_Course_Aggregate_Fields>;
   nodes: Array<Share_Course>;
 };
 
 /** aggregate fields of "share_course" */
 export type Share_Course_Aggregate_Fields = {
-  __typename?: "share_course_aggregate_fields";
+  __typename?: 'share_course_aggregate_fields';
   avg?: Maybe<Share_Course_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Share_Course_Max_Fields>;
   min?: Maybe<Share_Course_Min_Fields>;
   stddev?: Maybe<Share_Course_Stddev_Fields>;
@@ -9185,16 +7456,17 @@ export type Share_Course_Aggregate_Fields = {
   variance?: Maybe<Share_Course_Variance_Fields>;
 };
 
+
 /** aggregate fields of "share_course" */
 export type Share_Course_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Share_Course_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Share_Course_Avg_Fields = {
-  __typename?: "share_course_avg_fields";
-  year?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'share_course_avg_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "share_course". All fields are combined with a logical 'AND'. */
@@ -9216,60 +7488,60 @@ export type Share_Course_Bool_Exp = {
 /** unique or primary key constraints on table "share_course" */
 export enum Share_Course_Constraint {
   /** unique or primary key constraint on columns "uuid" */
-  ShareCoursePkey = "share_course_pkey",
+  ShareCoursePkey = 'share_course_pkey'
 }
 
 /** input type for incrementing numeric columns in table "share_course" */
 export type Share_Course_Inc_Input = {
-  year?: InputMaybe<Scalars["Int"]["input"]>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "share_course" */
 export type Share_Course_Insert_Input = {
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  fullname?: InputMaybe<Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  professor?: InputMaybe<Scalars["String"]["input"]>;
-  semester?: InputMaybe<Scalars["String"]["input"]>;
-  type?: InputMaybe<Scalars["String"]["input"]>;
-  uuid?: InputMaybe<Scalars["uuid"]["input"]>;
-  year?: InputMaybe<Scalars["Int"]["input"]>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  professor?: InputMaybe<Scalars['String']['input']>;
+  semester?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
 export type Share_Course_Max_Fields = {
-  __typename?: "share_course_max_fields";
-  code?: Maybe<Scalars["String"]["output"]>;
-  fullname?: Maybe<Scalars["String"]["output"]>;
-  language?: Maybe<Scalars["String"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-  professor?: Maybe<Scalars["String"]["output"]>;
-  semester?: Maybe<Scalars["String"]["output"]>;
-  type?: Maybe<Scalars["String"]["output"]>;
-  uuid?: Maybe<Scalars["uuid"]["output"]>;
-  year?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'share_course_max_fields';
+  code?: Maybe<Scalars['String']['output']>;
+  fullname?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  professor?: Maybe<Scalars['String']['output']>;
+  semester?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate min on columns */
 export type Share_Course_Min_Fields = {
-  __typename?: "share_course_min_fields";
-  code?: Maybe<Scalars["String"]["output"]>;
-  fullname?: Maybe<Scalars["String"]["output"]>;
-  language?: Maybe<Scalars["String"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-  professor?: Maybe<Scalars["String"]["output"]>;
-  semester?: Maybe<Scalars["String"]["output"]>;
-  type?: Maybe<Scalars["String"]["output"]>;
-  uuid?: Maybe<Scalars["uuid"]["output"]>;
-  year?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'share_course_min_fields';
+  code?: Maybe<Scalars['String']['output']>;
+  fullname?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  professor?: Maybe<Scalars['String']['output']>;
+  semester?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** response of any mutation on the table "share_course" */
 export type Share_Course_Mutation_Response = {
-  __typename?: "share_course_mutation_response";
+  __typename?: 'share_course_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Share_Course>;
 };
@@ -9296,144 +7568,116 @@ export type Share_Course_Order_By = {
 
 /** primary key columns input for table: share_course */
 export type Share_Course_Pk_Columns_Input = {
-  uuid: Scalars["uuid"]["input"];
+  uuid: Scalars['uuid']['input'];
 };
 
 /** select columns of table "share_course" */
 export enum Share_Course_Select_Column {
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  Fullname = "fullname",
+  Fullname = 'fullname',
   /** column name */
-  Language = "language",
+  Language = 'language',
   /** column name */
-  Name = "name",
+  Name = 'name',
   /** column name */
-  Professor = "professor",
+  Professor = 'professor',
   /** column name */
-  Semester = "semester",
+  Semester = 'semester',
   /** column name */
-  Type = "type",
+  Type = 'type',
   /** column name */
-  Uuid = "uuid",
+  Uuid = 'uuid',
   /** column name */
-  Year = "year",
+  Year = 'year'
 }
 
 /** input type for updating data in table "share_course" */
 export type Share_Course_Set_Input = {
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  fullname?: InputMaybe<Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  professor?: InputMaybe<Scalars["String"]["input"]>;
-  semester?: InputMaybe<Scalars["String"]["input"]>;
-  type?: InputMaybe<Scalars["String"]["input"]>;
-  uuid?: InputMaybe<Scalars["uuid"]["input"]>;
-  year?: InputMaybe<Scalars["Int"]["input"]>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  professor?: InputMaybe<Scalars['String']['input']>;
+  semester?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Share_Course_Stddev_Fields = {
-  __typename?: "share_course_stddev_fields";
-  year?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'share_course_stddev_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Share_Course_Stddev_Pop_Fields = {
-  __typename?: "share_course_stddev_pop_fields";
-  year?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'share_course_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Share_Course_Stddev_Samp_Fields = {
-  __typename?: "share_course_stddev_samp_fields";
-  year?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'share_course_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Share_Course_Sum_Fields = {
-  __typename?: "share_course_sum_fields";
-  year?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'share_course_sum_fields';
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "share_course" */
 export enum Share_Course_Update_Column {
   /** column name */
-  Code = "code",
+  Code = 'code',
   /** column name */
-  Fullname = "fullname",
+  Fullname = 'fullname',
   /** column name */
-  Language = "language",
+  Language = 'language',
   /** column name */
-  Name = "name",
+  Name = 'name',
   /** column name */
-  Professor = "professor",
+  Professor = 'professor',
   /** column name */
-  Semester = "semester",
+  Semester = 'semester',
   /** column name */
-  Type = "type",
+  Type = 'type',
   /** column name */
-  Uuid = "uuid",
+  Uuid = 'uuid',
   /** column name */
-  Year = "year",
+  Year = 'year'
 }
 
 /** aggregate var_pop on columns */
 export type Share_Course_Var_Pop_Fields = {
-  __typename?: "share_course_var_pop_fields";
-  year?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'share_course_var_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Share_Course_Var_Samp_Fields = {
-  __typename?: "share_course_var_samp_fields";
-  year?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'share_course_var_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Share_Course_Variance_Fields = {
-  __typename?: "share_course_variance_fields";
-  year?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'share_course_variance_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Subscription_Root = {
-  __typename?: "subscription_root";
+  __typename?: 'subscription_root';
   /** fetch data from the table: "aid_application" */
   aid_application: Array<Aid_Application>;
   /** fetch aggregated fields from the table: "aid_application" */
   aid_application_aggregate: Aid_Application_Aggregate;
   /** fetch data from the table: "aid_application" using primary key columns */
   aid_application_by_pk?: Maybe<Aid_Application>;
-  /** fetch data from the table: "article" */
-  article: Array<Article>;
-  /** fetch aggregated fields from the table: "article" */
-  article_aggregate: Article_Aggregate;
-  /** fetch data from the table: "article" using primary key columns */
-  article_by_pk?: Maybe<Article>;
-  /** fetch data from the table: "article_liker" */
-  article_liker: Array<Article_Liker>;
-  /** fetch aggregated fields from the table: "article_liker" */
-  article_liker_aggregate: Article_Liker_Aggregate;
-  /** fetch data from the table: "article_liker" using primary key columns */
-  article_liker_by_pk?: Maybe<Article_Liker>;
-  /** fetch data from the table: "article_public" */
-  article_public: Array<Article_Public>;
-  /** fetch aggregated fields from the table: "article_public" */
-  article_public_aggregate: Article_Public_Aggregate;
-  /** fetch data from the table: "article_tag" */
-  article_tag: Array<Article_Tag>;
-  /** fetch aggregated fields from the table: "article_tag" */
-  article_tag_aggregate: Article_Tag_Aggregate;
-  /** fetch data from the table: "article_tag" using primary key columns */
-  article_tag_by_pk?: Maybe<Article_Tag>;
-  /** fetch data from the table: "comment" */
-  comment: Array<Comment>;
-  /** fetch aggregated fields from the table: "comment" */
-  comment_aggregate: Comment_Aggregate;
-  /** fetch data from the table: "comment" using primary key columns */
-  comment_by_pk?: Maybe<Comment>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -9482,12 +7726,6 @@ export type Subscription_Root = {
   contest_team_member_aggregate: Contest_Team_Member_Aggregate;
   /** fetch data from the table: "contest_team_member" using primary key columns */
   contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
-  /** fetch data from the table: "department" */
-  department: Array<Department>;
-  /** fetch aggregated fields from the table: "department" */
-  department_aggregate: Department_Aggregate;
-  /** fetch data from the table: "department" using primary key columns */
-  department_by_pk?: Maybe<Department>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -9566,18 +7804,18 @@ export type Subscription_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "tag" */
-  tag: Array<Tag>;
-  /** fetch aggregated fields from the table: "tag" */
-  tag_aggregate: Tag_Aggregate;
-  /** fetch data from the table: "tag" using primary key columns */
-  tag_by_pk?: Maybe<Tag>;
   /** fetch data from the table: "user" */
   user: Array<User>;
   /** fetch aggregated fields from the table: "user" */
   user_aggregate: User_Aggregate;
   /** fetch data from the table: "user" using primary key columns */
   user_by_pk?: Maybe<User>;
+  /** fetch data from the table: "users" */
+  users: Array<Users>;
+  /** fetch aggregated fields from the table: "users" */
+  users_aggregate: Users_Aggregate;
+  /** fetch data from the table: "users" using primary key columns */
+  users_by_pk?: Maybe<Users>;
   /** fetch data from the table: "weekly" */
   weekly: Array<Weekly>;
   /** fetch aggregated fields from the table: "weekly" */
@@ -9586,818 +7824,609 @@ export type Subscription_Root = {
   weekly_by_pk?: Maybe<Weekly>;
 };
 
+
 export type Subscription_RootAid_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
   where?: InputMaybe<Aid_Application_Bool_Exp>;
 };
+
 
 export type Subscription_RootAid_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
   where?: InputMaybe<Aid_Application_Bool_Exp>;
 };
 
+
 export type Subscription_RootAid_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
 
-export type Subscription_RootArticleArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-export type Subscription_RootArticle_LikerArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Liker_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Liker_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
-};
-
-export type Subscription_RootArticle_PublicArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Public_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Public_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Public_Order_By>>;
-  where?: InputMaybe<Article_Public_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_TagArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Tag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-export type Subscription_RootArticle_Tag_By_PkArgs = {
-  article_id: Scalars["Int"]["input"];
-  tag_id: Scalars["uuid"]["input"];
-};
-
-export type Subscription_RootCommentArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Subscription_RootComment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-export type Subscription_RootComment_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
 
 export type Subscription_RootContestArgs = {
   distinct_on?: InputMaybe<Array<Contest_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Order_By>>;
   where?: InputMaybe<Contest_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Order_By>>;
   where?: InputMaybe<Contest_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootContest_CodeArgs = {
   distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
   where?: InputMaybe<Contest_Code_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_Code_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
   where?: InputMaybe<Contest_Code_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_Code_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootContest_InfoArgs = {
   distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
   where?: InputMaybe<Contest_Info_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
   where?: InputMaybe<Contest_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_Info_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootContest_ManagerArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Manager_Order_By>>;
   where?: InputMaybe<Contest_Manager_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_Manager_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Manager_Order_By>>;
   where?: InputMaybe<Contest_Manager_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_Manager_By_PkArgs = {
-  contest_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootContest_RoomArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
   where?: InputMaybe<Contest_Room_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_Room_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
   where?: InputMaybe<Contest_Room_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_Room_By_PkArgs = {
-  room_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootContest_Room_TeamArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
   where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_Room_Team_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
   where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_Room_Team_By_PkArgs = {
-  room_id: Scalars["uuid"]["input"];
-  team_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootContest_TeamArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
   where?: InputMaybe<Contest_Team_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_Team_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
   where?: InputMaybe<Contest_Team_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_Team_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootContest_Team_MemberArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
 };
+
 
 export type Subscription_RootContest_Team_Member_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
 };
 
+
 export type Subscription_RootContest_Team_Member_By_PkArgs = {
-  team_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  team_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 };
 
-export type Subscription_RootDepartmentArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Subscription_RootDepartment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Department_Order_By>>;
-  where?: InputMaybe<Department_Bool_Exp>;
-};
-
-export type Subscription_RootDepartment_By_PkArgs = {
-  id: Scalars["bigint"]["input"];
-};
 
 export type Subscription_RootHonor_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Honor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Honor_Application_Order_By>>;
   where?: InputMaybe<Honor_Application_Bool_Exp>;
 };
+
 
 export type Subscription_RootHonor_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Honor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Honor_Application_Order_By>>;
   where?: InputMaybe<Honor_Application_Bool_Exp>;
 };
 
+
 export type Subscription_RootHonor_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootInfo_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Info_Notice_Order_By>>;
   where?: InputMaybe<Info_Notice_Bool_Exp>;
 };
+
 
 export type Subscription_RootInfo_Notice_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Info_Notice_Order_By>>;
   where?: InputMaybe<Info_Notice_Bool_Exp>;
 };
 
+
 export type Subscription_RootInfo_Notice_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootMentor_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
+
 
 export type Subscription_RootMentor_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
 
+
 export type Subscription_RootMentor_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootMentor_AvailableArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
   where?: InputMaybe<Mentor_Available_Bool_Exp>;
 };
+
 
 export type Subscription_RootMentor_Available_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
   where?: InputMaybe<Mentor_Available_Bool_Exp>;
 };
 
+
 export type Subscription_RootMentor_Available_By_PkArgs = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootMentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
   where?: InputMaybe<Mentor_Info_Bool_Exp>;
 };
+
 
 export type Subscription_RootMentor_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
   where?: InputMaybe<Mentor_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootMentor_Info_By_PkArgs = {
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootMentor_MessageArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Message_Order_By>>;
   where?: InputMaybe<Mentor_Message_Bool_Exp>;
 };
+
 
 export type Subscription_RootMentor_Message_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Message_Order_By>>;
   where?: InputMaybe<Mentor_Message_Bool_Exp>;
 };
 
+
 export type Subscription_RootMentor_Message_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootPostgraduate_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_Bool_Exp>;
 };
+
 
 export type Subscription_RootPostgraduate_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_Bool_Exp>;
 };
 
+
 export type Subscription_RootPostgraduate_Application_By_PkArgs = {
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootPostgraduate_Application_HistoryArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Application_History_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_History_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
 };
+
 
 export type Subscription_RootPostgraduate_Application_History_AggregateArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Application_History_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Application_History_Order_By>>;
   where?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
 };
 
+
 export type Subscription_RootPostgraduate_Application_History_By_PkArgs = {
-  created_at: Scalars["timestamptz"]["input"];
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  created_at: Scalars['timestamptz']['input'];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootPostgraduate_Mentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Bool_Exp>;
 };
+
 
 export type Subscription_RootPostgraduate_Mentor_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootPostgraduate_Mentor_Info_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
+
 
 export type Subscription_RootPostgraduate_Mentor_Info_PendingArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Mentor_Info_Pending_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Pending_Bool_Exp>;
 };
+
 
 export type Subscription_RootPostgraduate_Mentor_Info_Pending_AggregateArgs = {
-  distinct_on?: InputMaybe<
-    Array<Postgraduate_Mentor_Info_Pending_Select_Column>
-  >;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Postgraduate_Mentor_Info_Pending_Order_By>>;
   where?: InputMaybe<Postgraduate_Mentor_Info_Pending_Bool_Exp>;
 };
 
+
 export type Subscription_RootPostgraduate_Mentor_Info_Pending_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
+
 
 export type Subscription_RootScholarship_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
   where?: InputMaybe<Scholarship_Application_Bool_Exp>;
 };
+
 
 export type Subscription_RootScholarship_Application_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
   where?: InputMaybe<Scholarship_Application_Bool_Exp>;
 };
 
+
 export type Subscription_RootScholarship_Application_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootScholarships_AidsArgs = {
   distinct_on?: InputMaybe<Array<Scholarships_Aids_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarships_Aids_Order_By>>;
   where?: InputMaybe<Scholarships_Aids_Bool_Exp>;
 };
+
 
 export type Subscription_RootScholarships_Aids_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Scholarships_Aids_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Scholarships_Aids_Order_By>>;
   where?: InputMaybe<Scholarships_Aids_Bool_Exp>;
 };
 
+
 export type Subscription_RootScholarships_Aids_By_PkArgs = {
-  code: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootShare_CourseArgs = {
   distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Share_Course_Order_By>>;
   where?: InputMaybe<Share_Course_Bool_Exp>;
 };
+
 
 export type Subscription_RootShare_Course_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Share_Course_Order_By>>;
   where?: InputMaybe<Share_Course_Bool_Exp>;
 };
 
+
 export type Subscription_RootShare_Course_By_PkArgs = {
-  uuid: Scalars["uuid"]["input"];
+  uuid: Scalars['uuid']['input'];
 };
 
-export type Subscription_RootTagArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Subscription_RootTag_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Tag_Order_By>>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-export type Subscription_RootTag_By_PkArgs = {
-  id: Scalars["uuid"]["input"];
-};
 
 export type Subscription_RootUserArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Order_By>>;
   where?: InputMaybe<User_Bool_Exp>;
 };
+
 
 export type Subscription_RootUser_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Order_By>>;
   where?: InputMaybe<User_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_By_PkArgs = {
-  _id: Scalars["String"]["input"];
+  _id: Scalars['String']['input'];
 };
+
+
+export type Subscription_RootUsersArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootUsers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootUsers_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
 
 export type Subscription_RootWeeklyArgs = {
   distinct_on?: InputMaybe<Array<Weekly_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Weekly_Order_By>>;
   where?: InputMaybe<Weekly_Bool_Exp>;
 };
+
 
 export type Subscription_RootWeekly_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Weekly_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Weekly_Order_By>>;
   where?: InputMaybe<Weekly_Bool_Exp>;
 };
 
+
 export type Subscription_RootWeekly_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
-
-/** columns and relationships of "tag" */
-export type Tag = {
-  __typename?: "tag";
-  id: Scalars["uuid"]["output"];
-  /** An array relationship */
-  tag_articles: Array<Article_Tag>;
-  /** An aggregate relationship */
-  tag_articles_aggregate: Article_Tag_Aggregate;
-  tag_name: Scalars["String"]["output"];
-};
-
-/** columns and relationships of "tag" */
-export type TagTag_ArticlesArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** columns and relationships of "tag" */
-export type TagTag_Articles_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Tag_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Tag_Order_By>>;
-  where?: InputMaybe<Article_Tag_Bool_Exp>;
-};
-
-/** aggregated selection of "tag" */
-export type Tag_Aggregate = {
-  __typename?: "tag_aggregate";
-  aggregate?: Maybe<Tag_Aggregate_Fields>;
-  nodes: Array<Tag>;
-};
-
-/** aggregate fields of "tag" */
-export type Tag_Aggregate_Fields = {
-  __typename?: "tag_aggregate_fields";
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Tag_Max_Fields>;
-  min?: Maybe<Tag_Min_Fields>;
-};
-
-/** aggregate fields of "tag" */
-export type Tag_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Tag_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** Boolean expression to filter rows from the table "tag". All fields are combined with a logical 'AND'. */
-export type Tag_Bool_Exp = {
-  _and?: InputMaybe<Array<Tag_Bool_Exp>>;
-  _not?: InputMaybe<Tag_Bool_Exp>;
-  _or?: InputMaybe<Array<Tag_Bool_Exp>>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  tag_articles?: InputMaybe<Article_Tag_Bool_Exp>;
-  tag_name?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "tag" */
-export enum Tag_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  TagPkey = "tag_pkey",
-  /** unique or primary key constraint on columns "tag_name" */
-  TagTagKey = "tag_tag_key",
-}
-
-/** input type for inserting data into table "tag" */
-export type Tag_Insert_Input = {
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  tag_articles?: InputMaybe<Article_Tag_Arr_Rel_Insert_Input>;
-  tag_name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Tag_Max_Fields = {
-  __typename?: "tag_max_fields";
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  tag_name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Tag_Min_Fields = {
-  __typename?: "tag_min_fields";
-  id?: Maybe<Scalars["uuid"]["output"]>;
-  tag_name?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** response of any mutation on the table "tag" */
-export type Tag_Mutation_Response = {
-  __typename?: "tag_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Tag>;
-};
-
-/** input type for inserting object relation for remote table "tag" */
-export type Tag_Obj_Rel_Insert_Input = {
-  data: Tag_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Tag_On_Conflict>;
-};
-
-/** on_conflict condition type for table "tag" */
-export type Tag_On_Conflict = {
-  constraint: Tag_Constraint;
-  update_columns?: Array<Tag_Update_Column>;
-  where?: InputMaybe<Tag_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "tag". */
-export type Tag_Order_By = {
-  id?: InputMaybe<Order_By>;
-  tag_articles_aggregate?: InputMaybe<Article_Tag_Aggregate_Order_By>;
-  tag_name?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: tag */
-export type Tag_Pk_Columns_Input = {
-  id: Scalars["uuid"]["input"];
-};
-
-/** select columns of table "tag" */
-export enum Tag_Select_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  TagName = "tag_name",
-}
-
-/** input type for updating data in table "tag" */
-export type Tag_Set_Input = {
-  id?: InputMaybe<Scalars["uuid"]["input"]>;
-  tag_name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** update columns of table "tag" */
-export enum Tag_Update_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  TagName = "tag_name",
-}
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _gt?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _gte?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["timestamptz"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _lte?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _neq?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["timestamptz"]["input"]>>;
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
 };
 
 /** columns and relationships of "user" */
 export type User = {
-  __typename?: "user";
-  _id: Scalars["String"]["output"];
-  /** An array relationship */
-  articles: Array<Article>;
-  /** An aggregate relationship */
-  articles_aggregate: Article_Aggregate;
-  class?: Maybe<Scalars["String"]["output"]>;
-  /** An array relationship */
-  comments: Array<Comment>;
-  /** An aggregate relationship */
-  comments_aggregate: Comment_Aggregate;
-  created_at: Scalars["timestamptz"]["output"];
-  department?: Maybe<Scalars["String"]["output"]>;
-  email?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["bigint"]["output"]>;
-  /** An array relationship */
-  like_articles: Array<Article_Liker>;
-  /** An aggregate relationship */
-  like_articles_aggregate: Article_Liker_Aggregate;
+  __typename?: 'user';
+  _id: Scalars['String']['output'];
+  class?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['timestamptz']['output'];
+  department?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['bigint']['output']>;
   /** An array relationship */
   mentor_applications_mentor: Array<Mentor_Application>;
   /** An aggregate relationship */
@@ -10412,132 +8441,84 @@ export type User = {
   mentor_info: Array<Mentor_Info>;
   /** An aggregate relationship */
   mentor_info_aggregate: Mentor_Info_Aggregate;
-  name?: Maybe<Scalars["String"]["output"]>;
-  phone?: Maybe<Scalars["String"]["output"]>;
-  updated_at: Scalars["timestamptz"]["output"];
-  username?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
+  username?: Maybe<Scalars['String']['output']>;
 };
 
-/** columns and relationships of "user" */
-export type UserArticlesArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserArticles_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Order_By>>;
-  where?: InputMaybe<Article_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserCommentsArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserComments_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Comment_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Comment_Order_By>>;
-  where?: InputMaybe<Comment_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserLike_ArticlesArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
-
-/** columns and relationships of "user" */
-export type UserLike_Articles_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Article_Liker_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Article_Liker_Order_By>>;
-  where?: InputMaybe<Article_Liker_Bool_Exp>;
-};
 
 /** columns and relationships of "user" */
 export type UserMentor_Applications_MentorArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
+
 
 /** columns and relationships of "user" */
 export type UserMentor_Applications_Mentor_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
+
 
 /** columns and relationships of "user" */
 export type UserMentor_Applications_StudentArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
+
 
 /** columns and relationships of "user" */
 export type UserMentor_Applications_Student_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
   where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
 
+
 /** columns and relationships of "user" */
 export type UserMentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
   where?: InputMaybe<Mentor_Info_Bool_Exp>;
 };
 
+
 /** columns and relationships of "user" */
 export type UserMentor_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
   where?: InputMaybe<Mentor_Info_Bool_Exp>;
 };
 
 /** aggregated selection of "user" */
 export type User_Aggregate = {
-  __typename?: "user_aggregate";
+  __typename?: 'user_aggregate';
   aggregate?: Maybe<User_Aggregate_Fields>;
   nodes: Array<User>;
 };
 
 /** aggregate fields of "user" */
 export type User_Aggregate_Fields = {
-  __typename?: "user_aggregate_fields";
+  __typename?: 'user_aggregate_fields';
   avg?: Maybe<User_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<User_Max_Fields>;
   min?: Maybe<User_Min_Fields>;
   stddev?: Maybe<User_Stddev_Fields>;
@@ -10549,16 +8530,17 @@ export type User_Aggregate_Fields = {
   variance?: Maybe<User_Variance_Fields>;
 };
 
+
 /** aggregate fields of "user" */
 export type User_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type User_Avg_Fields = {
-  __typename?: "user_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'user_avg_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
@@ -10567,14 +8549,11 @@ export type User_Bool_Exp = {
   _id?: InputMaybe<String_Comparison_Exp>;
   _not?: InputMaybe<User_Bool_Exp>;
   _or?: InputMaybe<Array<User_Bool_Exp>>;
-  articles?: InputMaybe<Article_Bool_Exp>;
   class?: InputMaybe<String_Comparison_Exp>;
-  comments?: InputMaybe<Comment_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   department?: InputMaybe<String_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
-  like_articles?: InputMaybe<Article_Liker_Bool_Exp>;
   mentor_applications_mentor?: InputMaybe<Mentor_Application_Bool_Exp>;
   mentor_applications_student?: InputMaybe<Mentor_Application_Bool_Exp>;
   mentor_available?: InputMaybe<Mentor_Available_Bool_Exp>;
@@ -10586,86 +8565,83 @@ export type User_Bool_Exp = {
 };
 
 export type User_By_Role_User = {
-  __typename?: "user_by_role_user";
-  _id: Scalars["String"]["output"];
-  department: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
+  __typename?: 'user_by_role_user';
+  _id: Scalars['String']['output'];
+  department: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   user?: Maybe<User>;
 };
 
 /** unique or primary key constraints on table "user" */
 export enum User_Constraint {
   /** unique or primary key constraint on columns "_id" */
-  UserIdKey = "user_id_key",
+  UserIdKey = 'user_id_key',
   /** unique or primary key constraint on columns "_id" */
-  UserPkey = "user_pkey",
+  UserPkey = 'user_pkey',
   /** unique or primary key constraint on columns "id" */
-  UserStudentIdKey = "user_student_id_key",
+  UserStudentIdKey = 'user_student_id_key',
   /** unique or primary key constraint on columns "username" */
-  UserUsernameKey = "user_username_key",
+  UserUsernameKey = 'user_username_key'
 }
 
 /** input type for incrementing numeric columns in table "user" */
 export type User_Inc_Input = {
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
+  id?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "user" */
 export type User_Insert_Input = {
-  _id?: InputMaybe<Scalars["String"]["input"]>;
-  articles?: InputMaybe<Article_Arr_Rel_Insert_Input>;
-  class?: InputMaybe<Scalars["String"]["input"]>;
-  comments?: InputMaybe<Comment_Arr_Rel_Insert_Input>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  department?: InputMaybe<Scalars["String"]["input"]>;
-  email?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  like_articles?: InputMaybe<Article_Liker_Arr_Rel_Insert_Input>;
+  _id?: InputMaybe<Scalars['String']['input']>;
+  class?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['bigint']['input']>;
   mentor_applications_mentor?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
   mentor_applications_student?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
   mentor_available?: InputMaybe<Mentor_Available_Obj_Rel_Insert_Input>;
   mentor_info?: InputMaybe<Mentor_Info_Arr_Rel_Insert_Input>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  phone?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  username?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type User_Max_Fields = {
-  __typename?: "user_max_fields";
-  _id?: Maybe<Scalars["String"]["output"]>;
-  class?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  department?: Maybe<Scalars["String"]["output"]>;
-  email?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["bigint"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-  phone?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  username?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'user_max_fields';
+  _id?: Maybe<Scalars['String']['output']>;
+  class?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  department?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['bigint']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type User_Min_Fields = {
-  __typename?: "user_min_fields";
-  _id?: Maybe<Scalars["String"]["output"]>;
-  class?: Maybe<Scalars["String"]["output"]>;
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  department?: Maybe<Scalars["String"]["output"]>;
-  email?: Maybe<Scalars["String"]["output"]>;
-  id?: Maybe<Scalars["bigint"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
-  phone?: Maybe<Scalars["String"]["output"]>;
-  updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  username?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'user_min_fields';
+  _id?: Maybe<Scalars['String']['output']>;
+  class?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  department?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['bigint']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "user" */
 export type User_Mutation_Response = {
-  __typename?: "user_mutation_response";
+  __typename?: 'user_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<User>;
 };
@@ -10687,14 +8663,11 @@ export type User_On_Conflict = {
 /** Ordering options when selecting data from "user". */
 export type User_Order_By = {
   _id?: InputMaybe<Order_By>;
-  articles_aggregate?: InputMaybe<Article_Aggregate_Order_By>;
   class?: InputMaybe<Order_By>;
-  comments_aggregate?: InputMaybe<Comment_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   department?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  like_articles_aggregate?: InputMaybe<Article_Liker_Aggregate_Order_By>;
   mentor_applications_mentor_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
   mentor_applications_student_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
   mentor_available?: InputMaybe<Mentor_Available_Order_By>;
@@ -10707,152 +8680,432 @@ export type User_Order_By = {
 
 /** primary key columns input for table: user */
 export type User_Pk_Columns_Input = {
-  _id: Scalars["String"]["input"];
+  _id: Scalars['String']['input'];
 };
 
 /** select columns of table "user" */
 export enum User_Select_Column {
   /** column name */
-  _Id = "_id",
+  _Id = '_id',
   /** column name */
-  Class = "class",
+  Class = 'class',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Department = "department",
+  Department = 'department',
   /** column name */
-  Email = "email",
+  Email = 'email',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Name = "name",
+  Name = 'name',
   /** column name */
-  Phone = "phone",
+  Phone = 'phone',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  Username = "username",
+  Username = 'username'
 }
 
 /** input type for updating data in table "user" */
 export type User_Set_Input = {
-  _id?: InputMaybe<Scalars["String"]["input"]>;
-  class?: InputMaybe<Scalars["String"]["input"]>;
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  department?: InputMaybe<Scalars["String"]["input"]>;
-  email?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  phone?: InputMaybe<Scalars["String"]["input"]>;
-  updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  username?: InputMaybe<Scalars["String"]["input"]>;
+  _id?: InputMaybe<Scalars['String']['input']>;
+  class?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['bigint']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type User_Stddev_Fields = {
-  __typename?: "user_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'user_stddev_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type User_Stddev_Pop_Fields = {
-  __typename?: "user_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'user_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type User_Stddev_Samp_Fields = {
-  __typename?: "user_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'user_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type User_Sum_Fields = {
-  __typename?: "user_sum_fields";
-  id?: Maybe<Scalars["bigint"]["output"]>;
+  __typename?: 'user_sum_fields';
+  id?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "user" */
 export enum User_Update_Column {
   /** column name */
-  _Id = "_id",
+  _Id = '_id',
   /** column name */
-  Class = "class",
+  Class = 'class',
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Department = "department",
+  Department = 'department',
   /** column name */
-  Email = "email",
+  Email = 'email',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Name = "name",
+  Name = 'name',
   /** column name */
-  Phone = "phone",
+  Phone = 'phone',
   /** column name */
-  UpdatedAt = "updated_at",
+  UpdatedAt = 'updated_at',
   /** column name */
-  Username = "username",
+  Username = 'username'
 }
 
 /** aggregate var_pop on columns */
 export type User_Var_Pop_Fields = {
-  __typename?: "user_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'user_var_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type User_Var_Samp_Fields = {
-  __typename?: "user_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'user_var_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type User_Variance_Fields = {
-  __typename?: "user_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'user_variance_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
+
+/** columns and relationships of "users" */
+export type Users = {
+  __typename?: 'users';
+  class?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['timestamptz']['output'];
+  department?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  github_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  password: Scalars['String']['output'];
+  phone?: Maybe<Scalars['String']['output']>;
+  realname?: Maybe<Scalars['String']['output']>;
+  role: Scalars['String']['output'];
+  student_no?: Maybe<Scalars['String']['output']>;
+  tsinghua_email?: Maybe<Scalars['String']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
+  username?: Maybe<Scalars['String']['output']>;
+  uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "users" */
+export type Users_Aggregate = {
+  __typename?: 'users_aggregate';
+  aggregate?: Maybe<Users_Aggregate_Fields>;
+  nodes: Array<Users>;
+};
+
+/** aggregate fields of "users" */
+export type Users_Aggregate_Fields = {
+  __typename?: 'users_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Users_Max_Fields>;
+  min?: Maybe<Users_Min_Fields>;
+};
+
+
+/** aggregate fields of "users" */
+export type Users_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
+export type Users_Bool_Exp = {
+  _and?: InputMaybe<Array<Users_Bool_Exp>>;
+  _not?: InputMaybe<Users_Bool_Exp>;
+  _or?: InputMaybe<Array<Users_Bool_Exp>>;
+  class?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  department?: InputMaybe<String_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  github_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  password?: InputMaybe<String_Comparison_Exp>;
+  phone?: InputMaybe<String_Comparison_Exp>;
+  realname?: InputMaybe<String_Comparison_Exp>;
+  role?: InputMaybe<String_Comparison_Exp>;
+  student_no?: InputMaybe<String_Comparison_Exp>;
+  tsinghua_email?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  username?: InputMaybe<String_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "users" */
+export enum Users_Constraint {
+  /** unique or primary key constraint on columns "email" */
+  UsersEmailKey = 'users_email_key',
+  /** unique or primary key constraint on columns "github_id" */
+  UsersGithubIdKey = 'users_github_id_key',
+  /** unique or primary key constraint on columns "id" */
+  UsersIdKey = 'users_id_key',
+  /** unique or primary key constraint on columns "phone" */
+  UsersPhoneKey = 'users_phone_key',
+  /** unique or primary key constraint on columns "uuid" */
+  UsersPkey = 'users_pkey',
+  /** unique or primary key constraint on columns "student_no" */
+  UsersStudentNoKey = 'users_student_no_key',
+  /** unique or primary key constraint on columns "tsinghua_email" */
+  UsersTsinghuaEmailKey = 'users_tsinghua_email_key',
+  /** unique or primary key constraint on columns "username" */
+  UsersUsernameKey = 'users_username_key',
+  /** unique or primary key constraint on columns "uuid" */
+  UsersUuidKey = 'users_uuid_key'
+}
+
+/** input type for inserting data into table "users" */
+export type Users_Insert_Input = {
+  class?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  github_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  realname?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  tsinghua_email?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Users_Max_Fields = {
+  __typename?: 'users_max_fields';
+  class?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  department?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  github_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  realname?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  tsinghua_email?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Users_Min_Fields = {
+  __typename?: 'users_min_fields';
+  class?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  department?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  github_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  realname?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  tsinghua_email?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "users" */
+export type Users_Mutation_Response = {
+  __typename?: 'users_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Users>;
+};
+
+/** input type for inserting object relation for remote table "users" */
+export type Users_Obj_Rel_Insert_Input = {
+  data: Users_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
+/** on_conflict condition type for table "users" */
+export type Users_On_Conflict = {
+  constraint: Users_Constraint;
+  update_columns?: Array<Users_Update_Column>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "users". */
+export type Users_Order_By = {
+  class?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  department?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  github_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  password?: InputMaybe<Order_By>;
+  phone?: InputMaybe<Order_By>;
+  realname?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+  student_no?: InputMaybe<Order_By>;
+  tsinghua_email?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  username?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: users */
+export type Users_Pk_Columns_Input = {
+  uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "users" */
+export enum Users_Select_Column {
+  /** column name */
+  Class = 'class',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Department = 'department',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  GithubId = 'github_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Password = 'password',
+  /** column name */
+  Phone = 'phone',
+  /** column name */
+  Realname = 'realname',
+  /** column name */
+  Role = 'role',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  TsinghuaEmail = 'tsinghua_email',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Username = 'username',
+  /** column name */
+  Uuid = 'uuid'
+}
+
+/** input type for updating data in table "users" */
+export type Users_Set_Input = {
+  class?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  github_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  realname?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  tsinghua_email?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "users" */
+export enum Users_Update_Column {
+  /** column name */
+  Class = 'class',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Department = 'department',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  GithubId = 'github_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Password = 'password',
+  /** column name */
+  Phone = 'phone',
+  /** column name */
+  Realname = 'realname',
+  /** column name */
+  Role = 'role',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  TsinghuaEmail = 'tsinghua_email',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Username = 'username',
+  /** column name */
+  Uuid = 'uuid'
+}
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["uuid"]["input"]>;
-  _gt?: InputMaybe<Scalars["uuid"]["input"]>;
-  _gte?: InputMaybe<Scalars["uuid"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["uuid"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["uuid"]["input"]>;
-  _lte?: InputMaybe<Scalars["uuid"]["input"]>;
-  _neq?: InputMaybe<Scalars["uuid"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["uuid"]["input"]>>;
+  _eq?: InputMaybe<Scalars['uuid']['input']>;
+  _gt?: InputMaybe<Scalars['uuid']['input']>;
+  _gte?: InputMaybe<Scalars['uuid']['input']>;
+  _in?: InputMaybe<Array<Scalars['uuid']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['uuid']['input']>;
+  _lte?: InputMaybe<Scalars['uuid']['input']>;
+  _neq?: InputMaybe<Scalars['uuid']['input']>;
+  _nin?: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
 
 /** columns and relationships of "weekly" */
 export type Weekly = {
-  __typename?: "weekly";
-  id: Scalars["Int"]["output"];
-  tags?: Maybe<Scalars["json"]["output"]>;
-  title: Scalars["String"]["output"];
-  url: Scalars["String"]["output"];
+  __typename?: 'weekly';
+  id: Scalars['Int']['output'];
+  tags?: Maybe<Scalars['json']['output']>;
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
+
 
 /** columns and relationships of "weekly" */
 export type WeeklyTagsArgs = {
-  path?: InputMaybe<Scalars["String"]["input"]>;
+  path?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregated selection of "weekly" */
 export type Weekly_Aggregate = {
-  __typename?: "weekly_aggregate";
+  __typename?: 'weekly_aggregate';
   aggregate?: Maybe<Weekly_Aggregate_Fields>;
   nodes: Array<Weekly>;
 };
 
 /** aggregate fields of "weekly" */
 export type Weekly_Aggregate_Fields = {
-  __typename?: "weekly_aggregate_fields";
+  __typename?: 'weekly_aggregate_fields';
   avg?: Maybe<Weekly_Avg_Fields>;
-  count: Scalars["Int"]["output"];
+  count: Scalars['Int']['output'];
   max?: Maybe<Weekly_Max_Fields>;
   min?: Maybe<Weekly_Min_Fields>;
   stddev?: Maybe<Weekly_Stddev_Fields>;
@@ -10864,16 +9117,17 @@ export type Weekly_Aggregate_Fields = {
   variance?: Maybe<Weekly_Variance_Fields>;
 };
 
+
 /** aggregate fields of "weekly" */
 export type Weekly_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Weekly_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Weekly_Avg_Fields = {
-  __typename?: "weekly_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'weekly_avg_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "weekly". All fields are combined with a logical 'AND'. */
@@ -10890,43 +9144,43 @@ export type Weekly_Bool_Exp = {
 /** unique or primary key constraints on table "weekly" */
 export enum Weekly_Constraint {
   /** unique or primary key constraint on columns "id" */
-  WeeklyPkey = "weekly_pkey",
+  WeeklyPkey = 'weekly_pkey'
 }
 
 /** input type for incrementing numeric columns in table "weekly" */
 export type Weekly_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
+  id?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "weekly" */
 export type Weekly_Insert_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  tags?: InputMaybe<Scalars["json"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  url?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  tags?: InputMaybe<Scalars['json']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Weekly_Max_Fields = {
-  __typename?: "weekly_max_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'weekly_max_fields';
+  id?: Maybe<Scalars['Int']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Weekly_Min_Fields = {
-  __typename?: "weekly_min_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'weekly_min_fields';
+  id?: Maybe<Scalars['Int']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "weekly" */
 export type Weekly_Mutation_Response = {
-  __typename?: "weekly_mutation_response";
+  __typename?: 'weekly_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Weekly>;
 };
@@ -10948,2002 +9202,921 @@ export type Weekly_Order_By = {
 
 /** primary key columns input for table: weekly */
 export type Weekly_Pk_Columns_Input = {
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 };
 
 /** select columns of table "weekly" */
 export enum Weekly_Select_Column {
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Tags = "tags",
+  Tags = 'tags',
   /** column name */
-  Title = "title",
+  Title = 'title',
   /** column name */
-  Url = "url",
+  Url = 'url'
 }
 
 /** input type for updating data in table "weekly" */
 export type Weekly_Set_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  tags?: InputMaybe<Scalars["json"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  url?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  tags?: InputMaybe<Scalars['json']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Weekly_Stddev_Fields = {
-  __typename?: "weekly_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'weekly_stddev_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Weekly_Stddev_Pop_Fields = {
-  __typename?: "weekly_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'weekly_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Weekly_Stddev_Samp_Fields = {
-  __typename?: "weekly_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'weekly_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate sum on columns */
 export type Weekly_Sum_Fields = {
-  __typename?: "weekly_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
+  __typename?: 'weekly_sum_fields';
+  id?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "weekly" */
 export enum Weekly_Update_Column {
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  Tags = "tags",
+  Tags = 'tags',
   /** column name */
-  Title = "title",
+  Title = 'title',
   /** column name */
-  Url = "url",
+  Url = 'url'
 }
 
 /** aggregate var_pop on columns */
 export type Weekly_Var_Pop_Fields = {
-  __typename?: "weekly_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'weekly_var_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Weekly_Var_Samp_Fields = {
-  __typename?: "weekly_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'weekly_var_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Weekly_Variance_Fields = {
-  __typename?: "weekly_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  __typename?: 'weekly_variance_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 export type QueryContestManagerQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
+  contest_id: Scalars['uuid']['input'];
+  user_id?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type QueryContestManagerQuery = {
-  __typename?: "query_root";
-  contest_manager: Array<{ __typename?: "contest_manager"; user_id: string }>;
-};
+
+export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_id: string }> };
 
 export type InsertTeamMutationVariables = Exact<{
-  team_name: Scalars["String"]["input"];
-  team_intro?: InputMaybe<Scalars["String"]["input"]>;
-  team_leader: Scalars["String"]["input"];
-  invited_code: Scalars["String"]["input"];
-  contest_id: Scalars["uuid"]["input"];
+  team_name: Scalars['String']['input'];
+  team_intro?: InputMaybe<Scalars['String']['input']>;
+  team_leader: Scalars['String']['input'];
+  invited_code: Scalars['String']['input'];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type InsertTeamMutation = {
-  __typename?: "mutation_root";
-  insert_contest_team?: {
-    __typename?: "contest_team_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type InsertTeamMutation = { __typename?: 'mutation_root', insert_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
 
 export type IsTeamLeaderQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  contest_id: Scalars["uuid"]["input"];
+  _id: Scalars['String']['input'];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type IsTeamLeaderQuery = {
-  __typename?: "query_root";
-  contest_team: Array<{ __typename?: "contest_team"; team_id: any }>;
-};
+
+export type IsTeamLeaderQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any }> };
 
 export type IsTeamMemberQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  contest_id: Scalars["uuid"]["input"];
+  _id: Scalars['String']['input'];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type IsTeamMemberQuery = {
-  __typename?: "query_root";
-  contest_team_member: Array<{
-    __typename?: "contest_team_member";
-    team_id: any;
-  }>;
-};
+
+export type IsTeamMemberQuery = { __typename?: 'query_root', contest_team_member: Array<{ __typename?: 'contest_team_member', team_id: any }> };
 
 export type GetCodeUpdateTimeSubscriptionVariables = Exact<{
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 }>;
 
-export type GetCodeUpdateTimeSubscription = {
-  __typename?: "subscription_root";
-  contest_code: Array<{
-    __typename?: "contest_code";
-    code1_update_time?: any | null;
-    code2_update_time?: any | null;
-    code3_update_time?: any | null;
-    code4_update_time?: any | null;
-    code5_update_time?: any | null;
-    code6_update_time?: any | null;
-  }>;
-};
+
+export type GetCodeUpdateTimeSubscription = { __typename?: 'subscription_root', contest_code: Array<{ __typename?: 'contest_code', code1_update_time?: any | null, code2_update_time?: any | null, code3_update_time?: any | null, code4_update_time?: any | null, code5_update_time?: any | null, code6_update_time?: any | null }> };
 
 export type GetAllTeamInfoSubscriptionVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetAllTeamInfoSubscription = {
-  __typename?: "subscription_root";
-  contest_team: Array<{
-    __typename?: "contest_team";
-    team_name: string;
-    created_at: any;
-    invited_code?: string | null;
-    member_num: number;
-    score?: string | null;
-    status?: string | null;
-    status2?: string | null;
-    contest_score?: string | null;
-    team_id: any;
-    submitted_code_num: number;
-    team_intro?: string | null;
-    team_contest_id: { __typename?: "contest"; contest_name: string };
-    team_leader_id?: {
-      __typename?: "user";
-      _id: string;
-      class?: string | null;
-      email?: string | null;
-      name?: string | null;
-      phone?: string | null;
-    } | null;
-    contest_team_members: Array<{
-      __typename?: "contest_team_member";
-      user_as_contest_team_member: {
-        __typename?: "user";
-        _id: string;
-        class?: string | null;
-        email?: string | null;
-        name?: string | null;
-        phone?: string | null;
-      };
-    }>;
-  }>;
-};
+
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_id?: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetAllTeamInfo_ScoreQuery = {
-  __typename?: "query_root";
-  contest_team: Array<{
-    __typename?: "contest_team";
-    team_name: string;
-    created_at: any;
-    invited_code?: string | null;
-    member_num: number;
-    score?: string | null;
-    status?: string | null;
-    status2?: string | null;
-    contest_score?: string | null;
-    team_id: any;
-    submitted_code_num: number;
-    team_intro?: string | null;
-    team_contest_id: { __typename?: "contest"; contest_name: string };
-    team_leader_id?: {
-      __typename?: "user";
-      _id: string;
-      class?: string | null;
-      email?: string | null;
-      name?: string | null;
-      phone?: string | null;
-    } | null;
-    contest_team_members: Array<{
-      __typename?: "contest_team_member";
-      user_as_contest_team_member: {
-        __typename?: "user";
-        _id: string;
-        class?: string | null;
-        email?: string | null;
-        name?: string | null;
-        phone?: string | null;
-      };
-    }>;
-  }>;
-};
+
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_id?: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_CompileQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetAllTeamInfo_CompileQuery = {
-  __typename?: "query_root";
-  contest_team: Array<{
-    __typename?: "contest_team";
-    team_name: string;
-    score?: string | null;
-    status?: string | null;
-    status2?: string | null;
-    contest_score?: string | null;
-    team_id: any;
-  }>;
-};
+
+export type GetAllTeamInfo_CompileQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any }> };
 
 export type GetTeamInfoQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
-  team_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
 }>;
 
-export type GetTeamInfoQuery = {
-  __typename?: "query_root";
-  contest_team: Array<{
-    __typename?: "contest_team";
-    team_name: string;
-    created_at: any;
-    invited_code?: string | null;
-    member_num: number;
-    score?: string | null;
-    status?: string | null;
-    status2?: string | null;
-    contest_score?: string | null;
-    team_id: any;
-    submitted_code_num: number;
-    team_intro?: string | null;
-    team_contest_id: { __typename?: "contest"; contest_name: string };
-    team_leader_id?: {
-      __typename?: "user";
-      _id: string;
-      class?: string | null;
-      email?: string | null;
-      name?: string | null;
-      phone?: string | null;
-    } | null;
-    contest_team_members: Array<{
-      __typename?: "contest_team_member";
-      user_as_contest_team_member: {
-        __typename?: "user";
-        _id: string;
-        class?: string | null;
-        email?: string | null;
-        name?: string | null;
-        phone?: string | null;
-      };
-    }>;
-  }>;
-};
+
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_id?: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } }> }> };
 
 export type GetCompileStatusSubscriptionVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
-  team_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
 }>;
 
-export type GetCompileStatusSubscription = {
-  __typename?: "subscription_root";
-  contest_team: Array<{ __typename?: "contest_team"; status?: string | null }>;
-};
+
+export type GetCompileStatusSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', status?: string | null }> };
 
 export type InsertTeamMemberMutationVariables = Exact<{
-  team_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  team_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 }>;
 
-export type InsertTeamMemberMutation = {
-  __typename?: "mutation_root";
-  insert_contest_team_member?: {
-    __typename?: "contest_team_member_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type InsertTeamMemberMutation = { __typename?: 'mutation_root', insert_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
 
 export type UpdateTeamMutationVariables = Exact<{
-  team_id: Scalars["uuid"]["input"];
-  team_intro: Scalars["String"]["input"];
-  team_name: Scalars["String"]["input"];
+  team_id: Scalars['uuid']['input'];
+  team_intro: Scalars['String']['input'];
+  team_name: Scalars['String']['input'];
 }>;
 
-export type UpdateTeamMutation = {
-  __typename?: "mutation_root";
-  update_contest_team?: {
-    __typename?: "contest_team_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type UpdateTeamMutation = { __typename?: 'mutation_root', update_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
 
 export type GetMemberInfoQueryVariables = Exact<{
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 }>;
 
-export type GetMemberInfoQuery = {
-  __typename?: "query_root";
-  contest_team: Array<{
-    __typename?: "contest_team";
-    team_leader_id?: {
-      __typename?: "user";
-      name?: string | null;
-      id?: any | null;
-      _id: string;
-    } | null;
-  }>;
-  contest_team_member: Array<{
-    __typename?: "contest_team_member";
-    user_as_contest_team_member: {
-      __typename?: "user";
-      id?: any | null;
-      _id: string;
-      name?: string | null;
-    };
-  }>;
-};
+
+export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader_id?: { __typename?: 'user', name?: string | null, id?: any | null, _id: string } | null }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', id?: any | null, _id: string, name?: string | null } }> };
 
 export type DeleteTeamMutationVariables = Exact<{
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteTeamMutation = {
-  __typename?: "mutation_root";
-  delete_contest_team?: {
-    __typename?: "contest_team_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type DeleteTeamMutation = { __typename?: 'mutation_root', delete_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
 
 export type DeleteAllTeamMemberMutationVariables = Exact<{
-  team_id: Scalars["uuid"]["input"];
+  team_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteAllTeamMemberMutation = {
-  __typename?: "mutation_root";
-  delete_contest_team_member?: {
-    __typename?: "contest_team_member_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type DeleteAllTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
 
 export type DeleteTeamMemberMutationVariables = Exact<{
-  user_id: Scalars["String"]["input"];
-  team_id: Scalars["uuid"]["input"];
+  user_id: Scalars['String']['input'];
+  team_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteTeamMemberMutation = {
-  __typename?: "mutation_root";
-  delete_contest_team_member?: {
-    __typename?: "contest_team_member_mutation_response";
-    affected_rows: number;
-  } | null;
-};
 
-export type GetAllContestQueryVariables = Exact<{ [key: string]: never }>;
+export type DeleteTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
 
-export type GetAllContestQuery = {
-  __typename?: "query_root";
-  contest: Array<{
-    __typename?: "contest";
-    id: any;
-    contest_name: string;
-    description?: string | null;
-    start_date: any;
-    end_date: any;
-  }>;
-};
+export type GetAllContestQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllContestQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', id: any, contest_name: string, description?: string | null, start_date: any, end_date: any }> };
 
 export type GetContestInfoQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetContestInfoQuery = {
-  __typename?: "query_root";
-  contest: Array<{
-    __typename?: "contest";
-    contest_name: string;
-    contest_type: string;
-    description?: string | null;
-    start_date: any;
-    end_date: any;
-    status: string;
-  }>;
-};
 
-export type GetIntroContentQueryVariables = Exact<{
-  id: Scalars["Int"]["input"];
-}>;
-
-export type GetIntroContentQuery = {
-  __typename?: "query_root";
-  article: Array<{ __typename?: "article"; content: string }>;
-};
-
-export type UpdateIntroMutationVariables = Exact<{
-  id: Scalars["Int"]["input"];
-  content?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type UpdateIntroMutation = {
-  __typename?: "mutation_root";
-  update_article?: {
-    __typename?: "article_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+export type GetContestInfoQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, contest_type: string, description?: string | null, start_date: any, end_date: any, status: string }> };
 
 export type GetRoomInfoSubscriptionVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetRoomInfoSubscription = {
-  __typename?: "subscription_root";
-  contest_room: Array<{
-    __typename?: "contest_room";
-    created_at: any;
-    result?: string | null;
-    room_id: any;
-    status: boolean;
-    port?: number | null;
-    contest_room_teams: Array<{
-      __typename?: "contest_room_team";
-      contest_team: {
-        __typename?: "contest_team";
-        team_name: string;
-        team_id: any;
-      };
-    }>;
-  }>;
-};
+
+export type GetRoomInfoSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', created_at: any, result?: string | null, room_id: any, status: boolean, port?: number | null, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_name: string, team_id: any } }> }> };
 
 export type GetRoomInfo_StatusQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetRoomInfo_StatusQuery = {
-  __typename?: "query_root";
-  contest_room: Array<{
-    __typename?: "contest_room";
-    room_id: any;
-    status: boolean;
-    created_at: any;
-  }>;
-};
+
+export type GetRoomInfo_StatusQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: boolean, created_at: any }> };
 
 export type InsertRoomMutationVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
-  team1_id: Scalars["uuid"]["input"];
-  team2_id: Scalars["uuid"]["input"];
-  created_at: Scalars["timestamptz"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  team1_id: Scalars['uuid']['input'];
+  team2_id: Scalars['uuid']['input'];
+  created_at: Scalars['timestamptz']['input'];
 }>;
 
-export type InsertRoomMutation = {
-  __typename?: "mutation_root";
-  insert_contest_room_one?: {
-    __typename?: "contest_room";
-    room_id: any;
-  } | null;
-};
+
+export type InsertRoomMutation = { __typename?: 'mutation_root', insert_contest_room_one?: { __typename?: 'contest_room', room_id: any } | null };
 
 export type DeleteRoomMutationVariables = Exact<{
-  room_id: Scalars["uuid"]["input"];
+  room_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteRoomMutation = {
-  __typename?: "mutation_root";
-  delete_contest_room_team?: {
-    __typename?: "contest_room_team_mutation_response";
-    affected_rows: number;
-  } | null;
-  delete_contest_room?: {
-    __typename?: "contest_room_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type DeleteRoomMutation = { __typename?: 'mutation_root', delete_contest_room_team?: { __typename?: 'contest_room_team_mutation_response', affected_rows: number } | null, delete_contest_room?: { __typename?: 'contest_room_mutation_response', affected_rows: number } | null };
 
 export type UpsertCode1MutationVariables = Exact<{
-  code: Scalars["String"]["input"];
-  update_time: Scalars["timestamptz"]["input"];
-  team_id: Scalars["uuid"]["input"];
-  contest_id: Scalars["uuid"]["input"];
-  code_type: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
+  update_time: Scalars['timestamptz']['input'];
+  team_id: Scalars['uuid']['input'];
+  contest_id: Scalars['uuid']['input'];
+  code_type: Scalars['String']['input'];
 }>;
 
-export type UpsertCode1Mutation = {
-  __typename?: "mutation_root";
-  insert_contest_code_one?: {
-    __typename?: "contest_code";
-    code1_update_time?: any | null;
-  } | null;
-};
+
+export type UpsertCode1Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code1_update_time?: any | null } | null };
 
 export type UpsertCode2MutationVariables = Exact<{
-  code: Scalars["String"]["input"];
-  update_time: Scalars["timestamptz"]["input"];
-  team_id: Scalars["uuid"]["input"];
-  contest_id: Scalars["uuid"]["input"];
-  code_type: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
+  update_time: Scalars['timestamptz']['input'];
+  team_id: Scalars['uuid']['input'];
+  contest_id: Scalars['uuid']['input'];
+  code_type: Scalars['String']['input'];
 }>;
 
-export type UpsertCode2Mutation = {
-  __typename?: "mutation_root";
-  insert_contest_code_one?: {
-    __typename?: "contest_code";
-    code2_update_time?: any | null;
-  } | null;
-};
+
+export type UpsertCode2Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code2_update_time?: any | null } | null };
 
 export type UpsertCode3MutationVariables = Exact<{
-  code: Scalars["String"]["input"];
-  update_time: Scalars["timestamptz"]["input"];
-  team_id: Scalars["uuid"]["input"];
-  contest_id: Scalars["uuid"]["input"];
-  code_type: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
+  update_time: Scalars['timestamptz']['input'];
+  team_id: Scalars['uuid']['input'];
+  contest_id: Scalars['uuid']['input'];
+  code_type: Scalars['String']['input'];
 }>;
 
-export type UpsertCode3Mutation = {
-  __typename?: "mutation_root";
-  insert_contest_code_one?: {
-    __typename?: "contest_code";
-    code3_update_time?: any | null;
-  } | null;
-};
+
+export type UpsertCode3Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code3_update_time?: any | null } | null };
 
 export type UpsertCode4MutationVariables = Exact<{
-  code: Scalars["String"]["input"];
-  update_time: Scalars["timestamptz"]["input"];
-  team_id: Scalars["uuid"]["input"];
-  contest_id: Scalars["uuid"]["input"];
-  code_type: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
+  update_time: Scalars['timestamptz']['input'];
+  team_id: Scalars['uuid']['input'];
+  contest_id: Scalars['uuid']['input'];
+  code_type: Scalars['String']['input'];
 }>;
 
-export type UpsertCode4Mutation = {
-  __typename?: "mutation_root";
-  insert_contest_code_one?: {
-    __typename?: "contest_code";
-    code4_update_time?: any | null;
-  } | null;
-};
+
+export type UpsertCode4Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code4_update_time?: any | null } | null };
 
 export type UpsertCode5MutationVariables = Exact<{
-  code: Scalars["String"]["input"];
-  update_time: Scalars["timestamptz"]["input"];
-  team_id: Scalars["uuid"]["input"];
-  contest_id: Scalars["uuid"]["input"];
-  code_type: Scalars["String"]["input"];
+  code: Scalars['String']['input'];
+  update_time: Scalars['timestamptz']['input'];
+  team_id: Scalars['uuid']['input'];
+  contest_id: Scalars['uuid']['input'];
+  code_type: Scalars['String']['input'];
 }>;
 
-export type UpsertCode5Mutation = {
-  __typename?: "mutation_root";
-  insert_contest_code_one?: {
-    __typename?: "contest_code";
-    code5_update_time?: any | null;
-  } | null;
-};
+
+export type UpsertCode5Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code5_update_time?: any | null } | null };
 
 export type QueryTeamIdQueryVariables = Exact<{
-  team_name: Scalars["String"]["input"];
-  contest_id: Scalars["uuid"]["input"];
+  team_name: Scalars['String']['input'];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type QueryTeamIdQuery = {
-  __typename?: "query_root";
-  contest_team: Array<{
-    __typename?: "contest_team";
-    team_id: any;
-    status?: string | null;
-  }>;
-};
+
+export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
 
 export type UpdateContestStatusMutationVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
-  status: Scalars["String"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  status: Scalars['String']['input'];
 }>;
 
-export type UpdateContestStatusMutation = {
-  __typename?: "mutation_root";
-  update_contest?: {
-    __typename?: "contest_mutation_response";
-    returning: Array<{ __typename?: "contest"; status: string }>;
-  } | null;
-};
+
+export type UpdateContestStatusMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', status: string }> } | null };
 
 export type GetContestNoticesQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetContestNoticesQuery = {
-  __typename?: "query_root";
-  contest_info: Array<{
-    __typename?: "contest_info";
-    content: string;
-    created_at: any;
-    updated_at: any;
-    files?: string | null;
-    id: any;
-    title: string;
-  }>;
-};
+
+export type GetContestNoticesQuery = { __typename?: 'query_root', contest_info: Array<{ __typename?: 'contest_info', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
 
 export type UpdateContestNoticeMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  title: Scalars["String"]["input"];
-  content: Scalars["String"]["input"];
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  contest_id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type UpdateContestNoticeMutation = {
-  __typename?: "mutation_root";
-  update_contest_info?: {
-    __typename?: "contest_info_mutation_response";
-    returning: Array<{ __typename?: "contest_info"; id: any }>;
-  } | null;
-};
+
+export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
 
 export type AddContestNoticeMutationVariables = Exact<{
-  title: Scalars["String"]["input"];
-  content: Scalars["String"]["input"];
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  contest_id: Scalars["uuid"]["input"];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type AddContestNoticeMutation = {
-  __typename?: "mutation_root";
-  insert_contest_info?: {
-    __typename?: "contest_info_mutation_response";
-    returning: Array<{ __typename?: "contest_info"; id: any }>;
-  } | null;
-};
+
+export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
 
 export type DeleteContestNoticeMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteContestNoticeMutation = {
-  __typename?: "mutation_root";
-  delete_contest_info?: {
-    __typename?: "contest_info_mutation_response";
-    returning: Array<{ __typename?: "contest_info"; id: any }>;
-  } | null;
-};
 
-export type GetContestsQueryVariables = Exact<{ [key: string]: never }>;
+export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
 
-export type GetContestsQuery = {
-  __typename?: "query_root";
-  contest: Array<{
-    __typename?: "contest";
-    contest_name: string;
-    description?: string | null;
-    end_date: any;
-    id: any;
-    start_date: any;
-    contest_type: string;
-  }>;
-};
+export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
 
 export type AddContestMutationVariables = Exact<{
-  start_date: Scalars["timestamptz"]["input"];
-  end_date: Scalars["timestamptz"]["input"];
-  description?: InputMaybe<Scalars["String"]["input"]>;
-  contest_name: Scalars["String"]["input"];
-  contest_type: Scalars["String"]["input"];
+  start_date: Scalars['timestamptz']['input'];
+  end_date: Scalars['timestamptz']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  contest_name: Scalars['String']['input'];
+  contest_type: Scalars['String']['input'];
 }>;
 
-export type AddContestMutation = {
-  __typename?: "mutation_root";
-  insert_contest?: {
-    __typename?: "contest_mutation_response";
-    returning: Array<{ __typename?: "contest"; id: any }>;
-  } | null;
-};
+
+export type AddContestMutation = { __typename?: 'mutation_root', insert_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', id: any }> } | null };
 
 export type UpdateContestMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  description?: InputMaybe<Scalars["String"]["input"]>;
-  contest_name: Scalars["String"]["input"];
-  end_date: Scalars["timestamptz"]["input"];
-  start_date: Scalars["timestamptz"]["input"];
-  contest_type: Scalars["String"]["input"];
+  id: Scalars['uuid']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  contest_name: Scalars['String']['input'];
+  end_date: Scalars['timestamptz']['input'];
+  start_date: Scalars['timestamptz']['input'];
+  contest_type: Scalars['String']['input'];
 }>;
 
-export type UpdateContestMutation = {
-  __typename?: "mutation_root";
-  update_contest?: {
-    __typename?: "contest_mutation_response";
-    returning: Array<{ __typename?: "contest"; id: any }>;
-  } | null;
-};
+
+export type UpdateContestMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', id: any }> } | null };
 
 export type DeleteContestMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteContestMutation = {
-  __typename?: "mutation_root";
-  delete_contest?: {
-    __typename?: "contest_mutation_response";
-    affected_rows: number;
-    returning: Array<{ __typename?: "contest"; id: any }>;
-  } | null;
-};
+
+export type DeleteContestMutation = { __typename?: 'mutation_root', delete_contest?: { __typename?: 'contest_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'contest', id: any }> } | null };
 
 export type GetContestManagerQueryVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type GetContestManagerQuery = {
-  __typename?: "query_root";
-  contest_manager: Array<{
-    __typename?: "contest_manager";
-    user: {
-      __typename?: "user";
-      _id: string;
-      name?: string | null;
-      email?: string | null;
-    };
-  }>;
-};
+
+export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user: { __typename?: 'user', _id: string, name?: string | null, email?: string | null } }> };
 
 export type DeleteContestAllManagerMutationVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteContestAllManagerMutation = {
-  __typename?: "mutation_root";
-  delete_contest_manager?: {
-    __typename?: "contest_manager_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type DeleteContestAllManagerMutation = { __typename?: 'mutation_root', delete_contest_manager?: { __typename?: 'contest_manager_mutation_response', affected_rows: number } | null };
 
 export type AddContestManagerMutationVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
-  user_id: Scalars["String"]["input"];
+  contest_id: Scalars['uuid']['input'];
+  user_id: Scalars['String']['input'];
 }>;
 
-export type AddContestManagerMutation = {
-  __typename?: "mutation_root";
-  insert_contest_manager?: {
-    __typename?: "contest_manager_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type AddContestManagerMutation = { __typename?: 'mutation_root', insert_contest_manager?: { __typename?: 'contest_manager_mutation_response', affected_rows: number } | null };
 
 export type GetUser_IdQueryVariables = Exact<{
-  email: Scalars["String"]["input"];
-  name: Scalars["String"]["input"];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
 }>;
 
-export type GetUser_IdQuery = {
-  __typename?: "query_root";
-  user: Array<{ __typename?: "user"; _id: string }>;
-};
+
+export type GetUser_IdQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', _id: string }> };
 
 export type DeleteContestAllTeamsMutationVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteContestAllTeamsMutation = {
-  __typename?: "mutation_root";
-  delete_contest_team?: {
-    __typename?: "contest_team_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type DeleteContestAllTeamsMutation = { __typename?: 'mutation_root', delete_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
 
 export type DeleteContestAllInfoMutationVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteContestAllInfoMutation = {
-  __typename?: "mutation_root";
-  delete_contest_info?: {
-    __typename?: "contest_info_mutation_response";
-    affected_rows: number;
-  } | null;
-};
+
+export type DeleteContestAllInfoMutation = { __typename?: 'mutation_root', delete_contest_info?: { __typename?: 'contest_info_mutation_response', affected_rows: number } | null };
 
 export type DeleteContestAllRoomsMutationVariables = Exact<{
-  contest_id: Scalars["uuid"]["input"];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteContestAllRoomsMutation = {
-  __typename?: "mutation_root";
-  delete_contest_room?: {
-    __typename?: "contest_room_mutation_response";
-    affected_rows: number;
-  } | null;
-};
 
-export type GetAidListQueryVariables = Exact<{ [key: string]: never }>;
+export type DeleteContestAllRoomsMutation = { __typename?: 'mutation_root', delete_contest_room?: { __typename?: 'contest_room_mutation_response', affected_rows: number } | null };
 
-export type GetAidListQuery = {
-  __typename?: "query_root";
-  scholarships_aids: Array<{
-    __typename?: "scholarships_aids";
-    amount: number;
-    code: string;
-    name: string;
-    salutation?: string | null;
-    type: string;
-  }>;
-};
+export type GetAidListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAidListQuery = { __typename?: 'query_root', scholarships_aids: Array<{ __typename?: 'scholarships_aids', amount: number, code: string, name: string, salutation?: string | null, type: string }> };
 
 export type GetAidApplicationsQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  _gte: Scalars["timestamptz"]["input"];
+  _id: Scalars['String']['input'];
+  _gte: Scalars['timestamptz']['input'];
 }>;
 
-export type GetAidApplicationsQuery = {
-  __typename?: "query_root";
-  aid_application: Array<{
-    __typename?: "aid_application";
-    id: any;
-    aid: string;
-    amount: number;
-    code: string;
-    thank_letter?: string | null;
-    form_url?: string | null;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    student: {
-      __typename?: "user";
-      id?: any | null;
-      name?: string | null;
-      department?: string | null;
-      class?: string | null;
-    };
-  }>;
-};
 
-export type GetAidApplicationsForCounselorsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type GetAidApplicationsQuery = { __typename?: 'query_root', aid_application: Array<{ __typename?: 'aid_application', id: any, aid: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
 
-export type GetAidApplicationsForCounselorsQuery = {
-  __typename?: "query_root";
-  aid_application: Array<{
-    __typename?: "aid_application";
-    id: any;
-    aid: string;
-    amount: number;
-    code: string;
-    thank_letter?: string | null;
-    form_url?: string | null;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    student: {
-      __typename?: "user";
-      id?: any | null;
-      name?: string | null;
-      department?: string | null;
-      class?: string | null;
-    };
-  }>;
-};
+export type GetAidApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAidApplicationsForCounselorsQuery = { __typename?: 'query_root', aid_application: Array<{ __typename?: 'aid_application', id: any, aid: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
 
 export type AddAidApplicationMutationVariables = Exact<{
-  student_id: Scalars["String"]["input"];
-  aid: Scalars["String"]["input"];
-  amount: Scalars["Int"]["input"];
-  code: Scalars["String"]["input"];
+  student_id: Scalars['String']['input'];
+  aid: Scalars['String']['input'];
+  amount: Scalars['Int']['input'];
+  code: Scalars['String']['input'];
 }>;
 
-export type AddAidApplicationMutation = {
-  __typename?: "mutation_root";
-  insert_aid_application?: {
-    __typename?: "aid_application_mutation_response";
-    returning: Array<{ __typename?: "aid_application"; id: any }>;
-  } | null;
-};
+
+export type AddAidApplicationMutation = { __typename?: 'mutation_root', insert_aid_application?: { __typename?: 'aid_application_mutation_response', returning: Array<{ __typename?: 'aid_application', id: any }> } | null };
 
 export type UpdateAidApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  thank_letter?: InputMaybe<Scalars["String"]["input"]>;
-  form_url?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars['uuid']['input'];
+  thank_letter?: InputMaybe<Scalars['String']['input']>;
+  form_url?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type UpdateAidApplicationMutation = {
-  __typename?: "mutation_root";
-  update_aid_application?: {
-    __typename?: "aid_application_mutation_response";
-    returning: Array<{ __typename?: "aid_application"; id: any }>;
-  } | null;
-};
+
+export type UpdateAidApplicationMutation = { __typename?: 'mutation_root', update_aid_application?: { __typename?: 'aid_application_mutation_response', returning: Array<{ __typename?: 'aid_application', id: any }> } | null };
 
 export type DeleteAidApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteAidApplicationMutation = {
-  __typename?: "mutation_root";
-  delete_aid_application?: {
-    __typename?: "aid_application_mutation_response";
-    returning: Array<{ __typename?: "aid_application"; id: any }>;
-  } | null;
-};
+
+export type DeleteAidApplicationMutation = { __typename?: 'mutation_root', delete_aid_application?: { __typename?: 'aid_application_mutation_response', returning: Array<{ __typename?: 'aid_application', id: any }> } | null };
+
+export type GetIdByStudentNoQueryVariables = Exact<{
+  student_no: Scalars['String']['input'];
+}>;
+
+
+export type GetIdByStudentNoQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id?: string | null }> };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
+  _id: Scalars['String']['input'];
 }>;
 
-export type GetApprovedMentorApplicationsQuery = {
-  __typename?: "query_root";
-  mentor_application: Array<{
-    __typename?: "mentor_application";
-    id: any;
-    statement: string;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    student: { __typename?: "user"; _id: string; name?: string | null };
-    mentor: { __typename?: "user"; _id: string; name?: string | null };
-  }>;
-};
+
+export type GetApprovedMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', _id: string, name?: string | null }, mentor: { __typename?: 'user', _id: string, name?: string | null } }> };
 
 export type SubscribeToMessagesSubscriptionVariables = Exact<{
-  from_id: Scalars["String"]["input"];
-  to_id: Scalars["String"]["input"];
+  from_id: Scalars['String']['input'];
+  to_id: Scalars['String']['input'];
 }>;
 
-export type SubscribeToMessagesSubscription = {
-  __typename?: "subscription_root";
-  mentor_message: Array<{
-    __typename?: "mentor_message";
-    created_at: any;
-    from_id: string;
-    id: any;
-    payload: string;
-    to_id: string;
-  }>;
-};
+
+export type SubscribeToMessagesSubscription = { __typename?: 'subscription_root', mentor_message: Array<{ __typename?: 'mentor_message', created_at: any, from_id: string, id: any, payload: string, to_id: string }> };
 
 export type AddMessageMutationVariables = Exact<{
-  from_id: Scalars["String"]["input"];
-  to_id: Scalars["String"]["input"];
-  payload: Scalars["String"]["input"];
+  from_id: Scalars['String']['input'];
+  to_id: Scalars['String']['input'];
+  payload: Scalars['String']['input'];
 }>;
 
-export type AddMessageMutation = {
-  __typename?: "mutation_root";
-  insert_mentor_message?: {
-    __typename?: "mentor_message_mutation_response";
-    returning: Array<{ __typename?: "mentor_message"; id: any }>;
-  } | null;
-};
+
+export type AddMessageMutation = { __typename?: 'mutation_root', insert_mentor_message?: { __typename?: 'mentor_message_mutation_response', returning: Array<{ __typename?: 'mentor_message', id: any }> } | null };
 
 export type GetHonorApplicationsQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  _gte: Scalars["timestamptz"]["input"];
+  _id: Scalars['String']['input'];
+  _gte: Scalars['timestamptz']['input'];
 }>;
 
-export type GetHonorApplicationsQuery = {
-  __typename?: "query_root";
-  honor_application: Array<{
-    __typename?: "honor_application";
-    id: any;
-    honor: string;
-    statement: string;
-    attachment_url?: string | null;
-    status: string;
-    created_at: any;
-    updated_at: any;
-  }>;
-};
+
+export type GetHonorApplicationsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any }> };
 
 export type GetHonorApplicationsForCounselorsQueryVariables = Exact<{
-  _gte: Scalars["timestamptz"]["input"];
+  _gte: Scalars['timestamptz']['input'];
 }>;
 
-export type GetHonorApplicationsForCounselorsQuery = {
-  __typename?: "query_root";
-  honor_application: Array<{
-    __typename?: "honor_application";
-    id: any;
-    honor: string;
-    statement: string;
-    attachment_url?: string | null;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    student: {
-      __typename?: "user";
-      id?: any | null;
-      name?: string | null;
-      class?: string | null;
-    };
-  }>;
-};
+
+export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, class?: string | null } }> };
 
 export type AddHonorApplicationMutationVariables = Exact<{
-  student_id: Scalars["String"]["input"];
-  honor: Scalars["String"]["input"];
-  statement: Scalars["String"]["input"];
-  attachment_url?: InputMaybe<Scalars["String"]["input"]>;
+  student_id: Scalars['String']['input'];
+  honor: Scalars['String']['input'];
+  statement: Scalars['String']['input'];
+  attachment_url?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type AddHonorApplicationMutation = {
-  __typename?: "mutation_root";
-  insert_honor_application?: {
-    __typename?: "honor_application_mutation_response";
-    returning: Array<{ __typename?: "honor_application"; id: any }>;
-  } | null;
-};
+
+export type AddHonorApplicationMutation = { __typename?: 'mutation_root', insert_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type UpdateHonorApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  honor: Scalars["String"]["input"];
-  statement: Scalars["String"]["input"];
-  attachment_url?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars['uuid']['input'];
+  honor: Scalars['String']['input'];
+  statement: Scalars['String']['input'];
+  attachment_url?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type UpdateHonorApplicationMutation = {
-  __typename?: "mutation_root";
-  update_honor_application?: {
-    __typename?: "honor_application_mutation_response";
-    returning: Array<{ __typename?: "honor_application"; id: any }>;
-  } | null;
-};
+
+export type UpdateHonorApplicationMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type DeleteHonorApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteHonorApplicationMutation = {
-  __typename?: "mutation_root";
-  delete_honor_application?: {
-    __typename?: "honor_application_mutation_response";
-    returning: Array<{ __typename?: "honor_application"; id: any }>;
-  } | null;
-};
+
+export type DeleteHonorApplicationMutation = { __typename?: 'mutation_root', delete_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type UpdateHonorApplicationStatusMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  status: Scalars["String"]["input"];
+  id: Scalars['uuid']['input'];
+  status: Scalars['String']['input'];
 }>;
 
-export type UpdateHonorApplicationStatusMutation = {
-  __typename?: "mutation_root";
-  update_honor_application?: {
-    __typename?: "honor_application_mutation_response";
-    returning: Array<{
-      __typename?: "honor_application";
-      id: any;
-      status: string;
-    }>;
-  } | null;
-};
+
+export type UpdateHonorApplicationStatusMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any, status: string }> } | null };
 
 export type GetMentorApplicationsQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
+  _id: Scalars['String']['input'];
 }>;
 
-export type GetMentorApplicationsQuery = {
-  __typename?: "query_root";
-  mentor_application: Array<{
-    __typename?: "mentor_application";
-    id: any;
-    statement: string;
-    status: string;
-    chat_status: boolean;
-    created_at: any;
-    updated_at: any;
-    student: {
-      __typename?: "user";
-      name?: string | null;
-      department?: string | null;
-      email?: string | null;
-      phone?: string | null;
-    };
-    mentor: {
-      __typename?: "user";
-      name?: string | null;
-      department?: string | null;
-      mentor_available?: {
-        __typename?: "mentor_available";
-        available: boolean;
-      } | null;
-    };
-  }>;
-};
 
-export type GetMentorApplicationsForCounselorsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student: { __typename?: 'user', name?: string | null, department?: string | null, email?: string | null, phone?: string | null }, mentor: { __typename?: 'user', name?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } }> };
 
-export type GetMentorApplicationsForCounselorsQuery = {
-  __typename?: "query_root";
-  mentor_application: Array<{
-    __typename?: "mentor_application";
-    id: any;
-    statement: string;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    student: {
-      __typename?: "user";
-      id?: any | null;
-      name?: string | null;
-      class?: string | null;
-      department?: string | null;
-      email?: string | null;
-      phone?: string | null;
-    };
-    mentor: {
-      __typename?: "user";
-      name?: string | null;
-      department?: string | null;
-      mentor_available?: {
-        __typename?: "mentor_available";
-        available: boolean;
-      } | null;
-    };
-  }>;
-};
+export type GetMentorApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, class?: string | null, department?: string | null, email?: string | null, phone?: string | null }, mentor: { __typename?: 'user', name?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } }> };
 
 export type GetMentorAvailableQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
+  _id: Scalars['String']['input'];
 }>;
 
-export type GetMentorAvailableQuery = {
-  __typename?: "query_root";
-  mentor_available: Array<{
-    __typename?: "mentor_available";
-    available: boolean;
-  }>;
-};
+
+export type GetMentorAvailableQuery = { __typename?: 'query_root', mentor_available: Array<{ __typename?: 'mentor_available', available: boolean }> };
 
 export type ChangeMentorAvailableMutationVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  available: Scalars["Boolean"]["input"];
+  _id: Scalars['String']['input'];
+  available: Scalars['Boolean']['input'];
 }>;
 
-export type ChangeMentorAvailableMutation = {
-  __typename?: "mutation_root";
-  insert_mentor_available_one?: {
-    __typename?: "mentor_available";
-    mentor_id: string;
-    available: boolean;
-  } | null;
-};
+
+export type ChangeMentorAvailableMutation = { __typename?: 'mutation_root', insert_mentor_available_one?: { __typename?: 'mentor_available', mentor_id: string, available: boolean } | null };
 
 export type UpdateMentorApplicationStatusMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  status: Scalars["String"]["input"];
+  id: Scalars['uuid']['input'];
+  status: Scalars['String']['input'];
 }>;
 
-export type UpdateMentorApplicationStatusMutation = {
-  __typename?: "mutation_root";
-  update_mentor_application?: {
-    __typename?: "mentor_application_mutation_response";
-    returning: Array<{ __typename?: "mentor_application"; id: any }>;
-  } | null;
-};
+
+export type UpdateMentorApplicationStatusMutation = { __typename?: 'mutation_root', update_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
 
 export type UpdateMentorApplicationChatStatusMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  chat_status: Scalars["Boolean"]["input"];
+  id: Scalars['uuid']['input'];
+  chat_status: Scalars['Boolean']['input'];
 }>;
 
-export type UpdateMentorApplicationChatStatusMutation = {
-  __typename?: "mutation_root";
-  update_mentor_application?: {
-    __typename?: "mentor_application_mutation_response";
-    returning: Array<{ __typename?: "mentor_application"; id: any }>;
-  } | null;
-};
+
+export type UpdateMentorApplicationChatStatusMutation = { __typename?: 'mutation_root', update_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
 
 export type AddMentorApplicationMutationVariables = Exact<{
-  student_id: Scalars["String"]["input"];
-  mentor_id: Scalars["String"]["input"];
-  statement: Scalars["String"]["input"];
+  student_id: Scalars['String']['input'];
+  mentor_id: Scalars['String']['input'];
+  statement: Scalars['String']['input'];
 }>;
 
-export type AddMentorApplicationMutation = {
-  __typename?: "mutation_root";
-  insert_mentor_application?: {
-    __typename?: "mentor_application_mutation_response";
-    returning: Array<{ __typename?: "mentor_application"; id: any }>;
-  } | null;
-};
+
+export type AddMentorApplicationMutation = { __typename?: 'mutation_root', insert_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
 
 export type UpdateMentorApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  statement: Scalars["String"]["input"];
+  id: Scalars['uuid']['input'];
+  statement: Scalars['String']['input'];
 }>;
 
-export type UpdateMentorApplicationMutation = {
-  __typename?: "mutation_root";
-  update_mentor_application?: {
-    __typename?: "mentor_application_mutation_response";
-    returning: Array<{ __typename?: "mentor_application"; id: any }>;
-  } | null;
-};
+
+export type UpdateMentorApplicationMutation = { __typename?: 'mutation_root', update_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
 
 export type DeleteMentorApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteMentorApplicationMutation = {
-  __typename?: "mutation_root";
-  delete_mentor_application_by_pk?: {
-    __typename?: "mentor_application";
-    id: any;
-  } | null;
-};
+
+export type DeleteMentorApplicationMutation = { __typename?: 'mutation_root', delete_mentor_application_by_pk?: { __typename?: 'mentor_application', id: any } | null };
 
 export type GetMentorListQueryVariables = Exact<{
-  grade_time: Scalars["timestamptz"]["input"];
+  grade_time: Scalars['timestamptz']['input'];
 }>;
 
-export type GetMentorListQuery = {
-  __typename?: "query_root";
-  user_by_role: Array<{
-    __typename?: "user_by_role_user";
-    _id: string;
-    name: string;
-    department: string;
-    user?: {
-      __typename?: "user";
-      matched: {
-        __typename?: "mentor_application_aggregate";
-        aggregate?: {
-          __typename?: "mentor_application_aggregate_fields";
-          count: number;
-        } | null;
-      };
-      total: {
-        __typename?: "mentor_application_aggregate";
-        aggregate?: {
-          __typename?: "mentor_application_aggregate_fields";
-          count: number;
-        } | null;
-      };
-      total_for_grade: {
-        __typename?: "mentor_application_aggregate";
-        aggregate?: {
-          __typename?: "mentor_application_aggregate_fields";
-          count: number;
-        } | null;
-      };
-      mentor_available?: {
-        __typename?: "mentor_available";
-        available: boolean;
-      } | null;
-    } | null;
-  }>;
-};
+
+export type GetMentorListQuery = { __typename?: 'query_root', user_by_role: Array<{ __typename?: 'user_by_role_user', _id: string, name: string, department: string, user?: { __typename?: 'user', matched: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_grade: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
 export type UpsertMentorInfoMutationVariables = Exact<{
-  achievement?: InputMaybe<Scalars["String"]["input"]>;
-  background?: InputMaybe<Scalars["String"]["input"]>;
-  field?: InputMaybe<Scalars["String"]["input"]>;
-  intro?: InputMaybe<Scalars["String"]["input"]>;
-  mentor_id: Scalars["String"]["input"];
+  achievement?: InputMaybe<Scalars['String']['input']>;
+  background?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<Scalars['String']['input']>;
+  intro?: InputMaybe<Scalars['String']['input']>;
+  mentor_id: Scalars['String']['input'];
 }>;
 
-export type UpsertMentorInfoMutation = {
-  __typename?: "mutation_root";
-  insert_mentor_info_one?: {
-    __typename?: "mentor_info";
-    mentor_id: string;
-  } | null;
-};
+
+export type UpsertMentorInfoMutation = { __typename?: 'mutation_root', insert_mentor_info_one?: { __typename?: 'mentor_info', mentor_id: string } | null };
 
 export type GetMentorInfoQueryVariables = Exact<{
-  mentor_id: Scalars["String"]["input"];
+  mentor_id: Scalars['String']['input'];
 }>;
 
-export type GetMentorInfoQuery = {
-  __typename?: "query_root";
-  mentor_info_by_pk?: {
-    __typename?: "mentor_info";
-    achievement?: string | null;
-    background?: string | null;
-    field?: string | null;
-    intro?: string | null;
-    mentor_id: string;
-    user: { __typename?: "user"; name?: string | null; email?: string | null };
-  } | null;
-};
 
-export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never }>;
+export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_id: string, user: { __typename?: 'user', name?: string | null, email?: string | null } } | null };
 
-export type GetFreshmanListQuery = {
-  __typename?: "query_root";
-  user: Array<{
-    __typename?: "user";
-    _id: string;
-    id?: any | null;
-    mentor_applications_student: Array<{
-      __typename?: "mentor_application";
-      student_id: string;
-      mentor_id: string;
-      statement: string;
-    }>;
-  }>;
-};
+export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFreshmanListQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', _id: string, id?: any | null, mentor_applications_student: Array<{ __typename?: 'mentor_application', student_id: string, mentor_id: string, statement: string }> }> };
+
+export type GetIdByNameQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type GetIdByNameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id?: string | null }> };
 
 export type GetNoticesQueryVariables = Exact<{
-  notice_type?: InputMaybe<
-    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
-  >;
+  notice_type?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
 
-export type GetNoticesQuery = {
-  __typename?: "query_root";
-  info_notice: Array<{
-    __typename?: "info_notice";
-    id: any;
-    title: string;
-    content: string;
-    created_at: any;
-    updated_at: any;
-    files?: string | null;
-    notice_type: string;
-  }>;
-};
+
+export type GetNoticesQuery = { __typename?: 'query_root', info_notice: Array<{ __typename?: 'info_notice', id: any, title: string, content: string, created_at: any, updated_at: any, files?: string | null, notice_type: string }> };
 
 export type UpdateNoticeMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  title: Scalars["String"]["input"];
-  content: Scalars["String"]["input"];
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  notice_type: Scalars["String"]["input"];
+  id: Scalars['uuid']['input'];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+  notice_type: Scalars['String']['input'];
 }>;
 
-export type UpdateNoticeMutation = {
-  __typename?: "mutation_root";
-  update_info_notice?: {
-    __typename?: "info_notice_mutation_response";
-    returning: Array<{ __typename?: "info_notice"; id: any }>;
-  } | null;
-};
+
+export type UpdateNoticeMutation = { __typename?: 'mutation_root', update_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
 
 export type AddNoticeMutationVariables = Exact<{
-  title: Scalars["String"]["input"];
-  content: Scalars["String"]["input"];
-  files?: InputMaybe<Scalars["String"]["input"]>;
-  notice_type: Scalars["String"]["input"];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+  notice_type: Scalars['String']['input'];
 }>;
 
-export type AddNoticeMutation = {
-  __typename?: "mutation_root";
-  insert_info_notice?: {
-    __typename?: "info_notice_mutation_response";
-    returning: Array<{ __typename?: "info_notice"; id: any }>;
-  } | null;
-};
+
+export type AddNoticeMutation = { __typename?: 'mutation_root', insert_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
 
 export type DeleteNoticeMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteNoticeMutation = {
-  __typename?: "mutation_root";
-  delete_info_notice?: {
-    __typename?: "info_notice_mutation_response";
-    returning: Array<{ __typename?: "info_notice"; id: any }>;
-  } | null;
-};
 
-export type GetScholarshipListQueryVariables = Exact<{ [key: string]: never }>;
+export type DeleteNoticeMutation = { __typename?: 'mutation_root', delete_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
 
-export type GetScholarshipListQuery = {
-  __typename?: "query_root";
-  scholarships_aids: Array<{
-    __typename?: "scholarships_aids";
-    amount: number;
-    code: string;
-    name: string;
-    salutation?: string | null;
-    type: string;
-  }>;
-};
+export type GetScholarshipListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetScholarshipListQuery = { __typename?: 'query_root', scholarships_aids: Array<{ __typename?: 'scholarships_aids', amount: number, code: string, name: string, salutation?: string | null, type: string }> };
 
 export type GetScholarshipApplicationsQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  _gte: Scalars["timestamptz"]["input"];
+  _id: Scalars['String']['input'];
+  _gte: Scalars['timestamptz']['input'];
 }>;
 
-export type GetScholarshipApplicationsQuery = {
-  __typename?: "query_root";
-  scholarship_application: Array<{
-    __typename?: "scholarship_application";
-    id: any;
-    scholarship: string;
-    honor: string;
-    amount: number;
-    code: string;
-    thank_letter?: string | null;
-    form_url?: string | null;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    student: {
-      __typename?: "user";
-      id?: any | null;
-      name?: string | null;
-      department?: string | null;
-      class?: string | null;
-    };
-  }>;
-};
+
+export type GetScholarshipApplicationsQuery = { __typename?: 'query_root', scholarship_application: Array<{ __typename?: 'scholarship_application', id: any, scholarship: string, honor: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
 
 export type GetScholarshipApplicationsForCounselorsQueryVariables = Exact<{
-  _gte: Scalars["timestamptz"]["input"];
+  _gte: Scalars['timestamptz']['input'];
 }>;
 
-export type GetScholarshipApplicationsForCounselorsQuery = {
-  __typename?: "query_root";
-  scholarship_application: Array<{
-    __typename?: "scholarship_application";
-    id: any;
-    scholarship: string;
-    honor: string;
-    amount: number;
-    code: string;
-    thank_letter?: string | null;
-    form_url?: string | null;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    student: {
-      __typename?: "user";
-      id?: any | null;
-      name?: string | null;
-      department?: string | null;
-      class?: string | null;
-    };
-  }>;
-};
+
+export type GetScholarshipApplicationsForCounselorsQuery = { __typename?: 'query_root', scholarship_application: Array<{ __typename?: 'scholarship_application', id: any, scholarship: string, honor: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
 
 export type AddScholarshipApplicationMutationVariables = Exact<{
-  student_id: Scalars["String"]["input"];
-  scholarship: Scalars["String"]["input"];
-  honor: Scalars["String"]["input"];
-  amount: Scalars["Int"]["input"];
-  code: Scalars["String"]["input"];
+  student_id: Scalars['String']['input'];
+  scholarship: Scalars['String']['input'];
+  honor: Scalars['String']['input'];
+  amount: Scalars['Int']['input'];
+  code: Scalars['String']['input'];
 }>;
 
-export type AddScholarshipApplicationMutation = {
-  __typename?: "mutation_root";
-  insert_scholarship_application?: {
-    __typename?: "scholarship_application_mutation_response";
-    returning: Array<{ __typename?: "scholarship_application"; id: any }>;
-  } | null;
-};
+
+export type AddScholarshipApplicationMutation = { __typename?: 'mutation_root', insert_scholarship_application?: { __typename?: 'scholarship_application_mutation_response', returning: Array<{ __typename?: 'scholarship_application', id: any }> } | null };
 
 export type UpdateScholarshipApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
-  thank_letter?: InputMaybe<Scalars["String"]["input"]>;
-  form_url?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars['uuid']['input'];
+  thank_letter?: InputMaybe<Scalars['String']['input']>;
+  form_url?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type UpdateScholarshipApplicationMutation = {
-  __typename?: "mutation_root";
-  update_scholarship_application?: {
-    __typename?: "scholarship_application_mutation_response";
-    returning: Array<{ __typename?: "scholarship_application"; id: any }>;
-  } | null;
-};
+
+export type UpdateScholarshipApplicationMutation = { __typename?: 'mutation_root', update_scholarship_application?: { __typename?: 'scholarship_application_mutation_response', returning: Array<{ __typename?: 'scholarship_application', id: any }> } | null };
 
 export type DeleteScholarshipApplicationMutationVariables = Exact<{
-  id: Scalars["uuid"]["input"];
+  id: Scalars['uuid']['input'];
 }>;
 
-export type DeleteScholarshipApplicationMutation = {
-  __typename?: "mutation_root";
-  delete_scholarship_application?: {
-    __typename?: "scholarship_application_mutation_response";
-    returning: Array<{ __typename?: "scholarship_application"; id: any }>;
-  } | null;
-};
+
+export type DeleteScholarshipApplicationMutation = { __typename?: 'mutation_root', delete_scholarship_application?: { __typename?: 'scholarship_application_mutation_response', returning: Array<{ __typename?: 'scholarship_application', id: any }> } | null };
 
 export type GetPostgraduateFeedsQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetPostgraduateFeedsQuery = {
-  __typename?: "query_root";
-  postgraduate_mentor_info: Array<{
-    __typename?: "postgraduate_mentor_info";
-    id: number;
-    created_at: any;
-    updated_at: any;
-    mentor: string;
-    field: string;
-    phd_quota: any;
-    phd_quota_unfixed: any;
-    contact: string;
-    alternate_contact?: string | null;
-    home_page?: string | null;
-    detail_info?: string | null;
-    user_id: string;
-    intend: {
-      __typename?: "postgraduate_application_aggregate";
-      aggregate?: {
-        __typename?: "postgraduate_application_aggregate_fields";
-        count: number;
-        max?: {
-          __typename?: "postgraduate_application_max_fields";
-          updated_at?: any | null;
-        } | null;
-      } | null;
-    };
-    in_contact: {
-      __typename?: "postgraduate_application_aggregate";
-      aggregate?: {
-        __typename?: "postgraduate_application_aggregate_fields";
-        count: number;
-        max?: {
-          __typename?: "postgraduate_application_max_fields";
-          updated_at?: any | null;
-        } | null;
-      } | null;
-    };
-    confirmed: {
-      __typename?: "postgraduate_application_aggregate";
-      aggregate?: {
-        __typename?: "postgraduate_application_aggregate_fields";
-        count: number;
-        max?: {
-          __typename?: "postgraduate_application_max_fields";
-          updated_at?: any | null;
-        } | null;
-      } | null;
-    };
-  }>;
-  postgraduate_mentor_info_aggregate: {
-    __typename?: "postgraduate_mentor_info_aggregate";
-    aggregate?: {
-      __typename?: "postgraduate_mentor_info_aggregate_fields";
-      count: number;
-    } | null;
-  };
-};
+
+export type GetPostgraduateFeedsQuery = { __typename?: 'query_root', postgraduate_mentor_info: Array<{ __typename?: 'postgraduate_mentor_info', id: number, created_at: any, updated_at: any, mentor: string, field: string, phd_quota: any, phd_quota_unfixed: any, contact: string, alternate_contact?: string | null, home_page?: string | null, detail_info?: string | null, user_id: string, intend: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, in_contact: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, confirmed: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null } }>, postgraduate_mentor_info_aggregate: { __typename?: 'postgraduate_mentor_info_aggregate', aggregate?: { __typename?: 'postgraduate_mentor_info_aggregate_fields', count: number } | null } };
 
 export type GetUnverifiedMentorInfoQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetUnverifiedMentorInfoQuery = {
-  __typename?: "query_root";
-  postgraduate_mentor_info: Array<{
-    __typename?: "postgraduate_mentor_info";
-    id: number;
-    created_at: any;
-    updated_at: any;
-    mentor: string;
-    field: string;
-    phd_quota: any;
-    phd_quota_unfixed: any;
-    contact: string;
-    alternate_contact?: string | null;
-    home_page?: string | null;
-    detail_info?: string | null;
-    user_id: string;
-    userEditor: { __typename?: "user"; name?: string | null };
-    intend: {
-      __typename?: "postgraduate_application_aggregate";
-      aggregate?: {
-        __typename?: "postgraduate_application_aggregate_fields";
-        count: number;
-        max?: {
-          __typename?: "postgraduate_application_max_fields";
-          updated_at?: any | null;
-        } | null;
-      } | null;
-    };
-    in_contact: {
-      __typename?: "postgraduate_application_aggregate";
-      aggregate?: {
-        __typename?: "postgraduate_application_aggregate_fields";
-        count: number;
-        max?: {
-          __typename?: "postgraduate_application_max_fields";
-          updated_at?: any | null;
-        } | null;
-      } | null;
-    };
-    confirmed: {
-      __typename?: "postgraduate_application_aggregate";
-      aggregate?: {
-        __typename?: "postgraduate_application_aggregate_fields";
-        count: number;
-        max?: {
-          __typename?: "postgraduate_application_max_fields";
-          updated_at?: any | null;
-        } | null;
-      } | null;
-    };
-  }>;
-  postgraduate_mentor_info_aggregate: {
-    __typename?: "postgraduate_mentor_info_aggregate";
-    aggregate?: {
-      __typename?: "postgraduate_mentor_info_aggregate_fields";
-      count: number;
-    } | null;
-  };
-};
+
+export type GetUnverifiedMentorInfoQuery = { __typename?: 'query_root', postgraduate_mentor_info: Array<{ __typename?: 'postgraduate_mentor_info', id: number, created_at: any, updated_at: any, mentor: string, field: string, phd_quota: any, phd_quota_unfixed: any, contact: string, alternate_contact?: string | null, home_page?: string | null, detail_info?: string | null, user_id: string, userEditor: { __typename?: 'user', name?: string | null }, intend: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, in_contact: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, confirmed: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null } }>, postgraduate_mentor_info_aggregate: { __typename?: 'postgraduate_mentor_info_aggregate', aggregate?: { __typename?: 'postgraduate_mentor_info_aggregate_fields', count: number } | null } };
 
 export type InsertPostgraduateInfoMutationVariables = Exact<{
-  mentor: Scalars["String"]["input"];
-  field: Scalars["String"]["input"];
-  contact: Scalars["String"]["input"];
-  alternate_contact?: InputMaybe<Scalars["String"]["input"]>;
-  detail_info?: InputMaybe<Scalars["String"]["input"]>;
-  home_page?: InputMaybe<Scalars["String"]["input"]>;
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
-  phd_quota_unfixed?: InputMaybe<Scalars["numeric"]["input"]>;
-  user_id: Scalars["String"]["input"];
+  mentor: Scalars['String']['input'];
+  field: Scalars['String']['input'];
+  contact: Scalars['String']['input'];
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
+  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
+  user_id: Scalars['String']['input'];
 }>;
 
-export type InsertPostgraduateInfoMutation = {
-  __typename?: "mutation_root";
-  insert_postgraduate_mentor_info_one?: {
-    __typename?: "postgraduate_mentor_info";
-    id: number;
-  } | null;
-};
+
+export type InsertPostgraduateInfoMutation = { __typename?: 'mutation_root', insert_postgraduate_mentor_info_one?: { __typename?: 'postgraduate_mentor_info', id: number } | null };
 
 export type UpdatePostgraduateInfoMutationVariables = Exact<{
-  id: Scalars["Int"]["input"];
-  mentor: Scalars["String"]["input"];
-  field: Scalars["String"]["input"];
-  contact: Scalars["String"]["input"];
-  alternate_contact?: InputMaybe<Scalars["String"]["input"]>;
-  detail_info?: InputMaybe<Scalars["String"]["input"]>;
-  home_page?: InputMaybe<Scalars["String"]["input"]>;
-  phd_quota?: InputMaybe<Scalars["numeric"]["input"]>;
-  phd_quota_unfixed?: InputMaybe<Scalars["numeric"]["input"]>;
+  id: Scalars['Int']['input'];
+  mentor: Scalars['String']['input'];
+  field: Scalars['String']['input'];
+  contact: Scalars['String']['input'];
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
+  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
 }>;
 
-export type UpdatePostgraduateInfoMutation = {
-  __typename?: "mutation_root";
-  update_postgraduate_mentor_info_by_pk?: {
-    __typename?: "postgraduate_mentor_info";
-    id: number;
-  } | null;
-};
+
+export type UpdatePostgraduateInfoMutation = { __typename?: 'mutation_root', update_postgraduate_mentor_info_by_pk?: { __typename?: 'postgraduate_mentor_info', id: number } | null };
 
 export type DeletePostgraduateInfoMutationVariables = Exact<{
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 }>;
 
-export type DeletePostgraduateInfoMutation = {
-  __typename?: "mutation_root";
-  delete_postgraduate_mentor_info?: {
-    __typename?: "postgraduate_mentor_info_mutation_response";
-    returning: Array<{ __typename?: "postgraduate_mentor_info"; id: number }>;
-  } | null;
-};
+
+export type DeletePostgraduateInfoMutation = { __typename?: 'mutation_root', delete_postgraduate_mentor_info?: { __typename?: 'postgraduate_mentor_info_mutation_response', returning: Array<{ __typename?: 'postgraduate_mentor_info', id: number }> } | null };
 
 export type InsertApplicationMutationVariables = Exact<{
-  mentor_info_id: Scalars["Int"]["input"];
-  status: Scalars["String"]["input"];
-  user_id: Scalars["String"]["input"];
-  verified: Scalars["Boolean"]["input"];
+  mentor_info_id: Scalars['Int']['input'];
+  status: Scalars['String']['input'];
+  user_id: Scalars['String']['input'];
+  verified: Scalars['Boolean']['input'];
 }>;
 
-export type InsertApplicationMutation = {
-  __typename?: "mutation_root";
-  insert_postgraduate_application_one?: {
-    __typename?: "postgraduate_application";
-    status: string;
-  } | null;
-};
+
+export type InsertApplicationMutation = { __typename?: 'mutation_root', insert_postgraduate_application_one?: { __typename?: 'postgraduate_application', status: string } | null };
 
 export type VerifyMentorInfoMutationVariables = Exact<{
-  id: Scalars["Int"]["input"];
+  id: Scalars['Int']['input'];
 }>;
 
-export type VerifyMentorInfoMutation = {
-  __typename?: "mutation_root";
-  update_postgraduate_mentor_info_by_pk?: {
-    __typename?: "postgraduate_mentor_info";
-    id: number;
-  } | null;
-};
+
+export type VerifyMentorInfoMutation = { __typename?: 'mutation_root', update_postgraduate_mentor_info_by_pk?: { __typename?: 'postgraduate_mentor_info', id: number } | null };
 
 export type GetPostgraduateApplicationFeedsQueryVariables = Exact<{
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetPostgraduateApplicationFeedsQuery = {
-  __typename?: "query_root";
-  postgraduate_application_aggregate: {
-    __typename?: "postgraduate_application_aggregate";
-    aggregate?: {
-      __typename?: "postgraduate_application_aggregate_fields";
-      count: number;
-    } | null;
-  };
-  postgraduate_application: Array<{
-    __typename?: "postgraduate_application";
-    created_at: any;
-    mentor_info_id: number;
-    status: string;
-    updated_at: any;
-    user_id: string;
-    mentor: { __typename?: "postgraduate_mentor_info"; mentor: string };
-    user: { __typename?: "user"; name?: string | null; class?: string | null };
-  }>;
-};
+
+export type GetPostgraduateApplicationFeedsQuery = { __typename?: 'query_root', postgraduate_application_aggregate: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number } | null }, postgraduate_application: Array<{ __typename?: 'postgraduate_application', created_at: any, mentor_info_id: number, status: string, updated_at: any, user_id: string, mentor: { __typename?: 'postgraduate_mentor_info', mentor: string }, user: { __typename?: 'user', name?: string | null, class?: string | null } }> };
 
 export type GetSelfPostgraduateApplicationsQueryVariables = Exact<{
-  user_id: Scalars["String"]["input"];
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  user_id: Scalars['String']['input'];
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetSelfPostgraduateApplicationsQuery = {
-  __typename?: "query_root";
-  postgraduate_application: Array<{
-    __typename?: "postgraduate_application";
-    created_at: any;
-    mentor_info_id: number;
-    status: string;
-    updated_at: any;
-    user_id: string;
-    verified: boolean;
-    mentor: { __typename?: "postgraduate_mentor_info"; mentor: string };
-    history: Array<{
-      __typename?: "postgraduate_application_history";
-      status: string;
-    }>;
-  }>;
-  postgraduate_application_aggregate: {
-    __typename?: "postgraduate_application_aggregate";
-    aggregate?: {
-      __typename?: "postgraduate_application_aggregate_fields";
-      count: number;
-    } | null;
-  };
-};
+
+export type GetSelfPostgraduateApplicationsQuery = { __typename?: 'query_root', postgraduate_application: Array<{ __typename?: 'postgraduate_application', created_at: any, mentor_info_id: number, status: string, updated_at: any, user_id: string, verified: boolean, mentor: { __typename?: 'postgraduate_mentor_info', mentor: string }, history: Array<{ __typename?: 'postgraduate_application_history', status: string }> }>, postgraduate_application_aggregate: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number } | null } };
 
 export type GetSelfConfirmedApplicationQueryVariables = Exact<{
-  user_id: Scalars["String"]["input"];
+  user_id: Scalars['String']['input'];
 }>;
 
-export type GetSelfConfirmedApplicationQuery = {
-  __typename?: "query_root";
-  postgraduate_application: Array<{
-    __typename?: "postgraduate_application";
-    mentor_info_id: number;
-  }>;
-};
+
+export type GetSelfConfirmedApplicationQuery = { __typename?: 'query_root', postgraduate_application: Array<{ __typename?: 'postgraduate_application', mentor_info_id: number }> };
 
 export type VerifyPostgraduateApplicationMutationVariables = Exact<{
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 }>;
 
-export type VerifyPostgraduateApplicationMutation = {
-  __typename?: "mutation_root";
-  update_postgraduate_application_by_pk?: {
-    __typename?: "postgraduate_application";
-    verified: boolean;
-  } | null;
-};
+
+export type VerifyPostgraduateApplicationMutation = { __typename?: 'mutation_root', update_postgraduate_application_by_pk?: { __typename?: 'postgraduate_application', verified: boolean } | null };
 
 export type DeletePostgraduateApplicationMutationVariables = Exact<{
-  mentor_info_id: Scalars["Int"]["input"];
-  user_id: Scalars["String"]["input"];
+  mentor_info_id: Scalars['Int']['input'];
+  user_id: Scalars['String']['input'];
 }>;
 
-export type DeletePostgraduateApplicationMutation = {
-  __typename?: "mutation_root";
-  delete_postgraduate_application_by_pk?: {
-    __typename?: "postgraduate_application";
-    mentor_info_id: number;
-    user_id: string;
-  } | null;
-};
+
+export type DeletePostgraduateApplicationMutation = { __typename?: 'mutation_root', delete_postgraduate_application_by_pk?: { __typename?: 'postgraduate_application', mentor_info_id: number, user_id: string } | null };
 
 export type SetPostAppHistoryMutationVariables = Exact<{
-  user_id: Scalars["String"]["input"];
-  mentor_info_id: Scalars["Int"]["input"];
-  status: Scalars["String"]["input"];
+  user_id: Scalars['String']['input'];
+  mentor_info_id: Scalars['Int']['input'];
+  status: Scalars['String']['input'];
 }>;
 
-export type SetPostAppHistoryMutation = {
-  __typename?: "mutation_root";
-  insert_postgraduate_application_history_one?: {
-    __typename?: "postgraduate_application_history";
-    created_at: any;
-  } | null;
-};
+
+export type SetPostAppHistoryMutation = { __typename?: 'mutation_root', insert_postgraduate_application_history_one?: { __typename?: 'postgraduate_application_history', created_at: any } | null };
 
 export type GetPostAppHistoryQueryVariables = Exact<{
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetPostAppHistoryQuery = {
-  __typename?: "query_root";
-  postgraduate_application_history: Array<{
-    __typename?: "postgraduate_application_history";
-    created_at: any;
-    mentor_info_id: number;
-    status: string;
-    user_id: string;
-    updated_at: any;
-    mentor: { __typename?: "postgraduate_mentor_info"; mentor: string };
-    user: { __typename?: "user"; name?: string | null; class?: string | null };
-  }>;
-  postgraduate_application_history_aggregate: {
-    __typename?: "postgraduate_application_history_aggregate";
-    aggregate?: {
-      __typename?: "postgraduate_application_history_aggregate_fields";
-      count: number;
-    } | null;
-  };
-};
 
-export type GetCourseQueryVariables = Exact<{
-  code?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  year?: InputMaybe<Scalars["Int"]["input"]>;
-  semester?: InputMaybe<Scalars["String"]["input"]>;
-  professor?: InputMaybe<Scalars["String"]["input"]>;
-  type?: InputMaybe<Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
+export type GetPostAppHistoryQuery = { __typename?: 'query_root', postgraduate_application_history: Array<{ __typename?: 'postgraduate_application_history', created_at: any, mentor_info_id: number, status: string, user_id: string, updated_at: any, mentor: { __typename?: 'postgraduate_mentor_info', mentor: string }, user: { __typename?: 'user', name?: string | null, class?: string | null } }>, postgraduate_application_history_aggregate: { __typename?: 'postgraduate_application_history_aggregate', aggregate?: { __typename?: 'postgraduate_application_history_aggregate_fields', count: number } | null } };
+
+export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCourseQuery = { __typename?: 'query_root', share_course: Array<{ __typename?: 'share_course', code: string, fullname: string, language: string, name: string, professor: string, semester: string, type: string, uuid: any, year: number }> };
+
+export type GetWeeklyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetWeeklyQuery = { __typename?: 'query_root', weekly: Array<{ __typename?: 'weekly', id: number, title: string, url: string }> };
+
+export type GetProfileQueryVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
 }>;
 
-export type GetCourseQuery = {
-  __typename?: "query_root";
-  share_course: Array<{
-    __typename?: "share_course";
-    code: string;
-    fullname: string;
-    language: string;
-    name: string;
-    professor: string;
-    semester: string;
-    type: string;
-    uuid: any;
-    year: number;
-  }>;
-};
 
-export type GetUserQueryVariables = Exact<{
-  _id: Scalars["String"]["input"];
+export type GetProfileQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', username?: string | null, realname?: string | null, email: string, phone?: string | null, student_no?: string | null, department?: string | null, class?: string | null, created_at: any, updated_at: any, tsinghua_email?: string | null, github_id?: string | null } | null };
+
+export type UpdateProfileMutationVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+  class?: InputMaybe<Scalars['String']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  realname?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type GetUserQuery = {
-  __typename?: "query_root";
-  user: Array<{
-    __typename?: "user";
-    _id: string;
-    id?: any | null;
-    name?: string | null;
-    username?: string | null;
-    department?: string | null;
-    class?: string | null;
-    phone?: string | null;
-    email?: string | null;
-  }>;
-};
 
-export type GetUserByIdQueryVariables = Exact<{
-  id: Scalars["bigint"]["input"];
-}>;
+export type UpdateProfileMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', updated_at: any } | null };
 
-export type GetUserByIdQuery = {
-  __typename?: "query_root";
-  user: Array<{
-    __typename?: "user";
-    _id: string;
-    id?: any | null;
-    username?: string | null;
-    name?: string | null;
-  }>;
-};
-
-export type GetUserByNameQueryVariables = Exact<{
-  name: Scalars["String"]["input"];
-}>;
-
-export type GetUserByNameQuery = {
-  __typename?: "query_root";
-  user: Array<{ __typename?: "user"; _id: string }>;
-};
-
-export type UpdateUserMutationVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  id: Scalars["bigint"]["input"];
-  username?: InputMaybe<Scalars["String"]["input"]>;
-  phone?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  department?: InputMaybe<Scalars["String"]["input"]>;
-  class?: InputMaybe<Scalars["String"]["input"]>;
-  email?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type UpdateUserMutation = {
-  __typename?: "mutation_root";
-  update_user?: {
-    __typename?: "user_mutation_response";
-    affected_rows: number;
-  } | null;
-};
-
-export type UpdateUserForTeacherMutationVariables = Exact<{
-  _id: Scalars["String"]["input"];
-  id?: InputMaybe<Scalars["bigint"]["input"]>;
-  username?: InputMaybe<Scalars["String"]["input"]>;
-  phone?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  department?: InputMaybe<Scalars["String"]["input"]>;
-  class?: InputMaybe<Scalars["String"]["input"]>;
-  email?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type UpdateUserForTeacherMutation = {
-  __typename?: "mutation_root";
-  update_user?: {
-    __typename?: "user_mutation_response";
-    affected_rows: number;
-  } | null;
-};
-
-export type DeleteUserMutationVariables = Exact<{
-  _id: Scalars["String"]["input"];
-}>;
-
-export type DeleteUserMutation = {
-  __typename?: "mutation_root";
-  delete_user?: {
-    __typename?: "user_mutation_response";
-    affected_rows: number;
-  } | null;
-};
-
-export type GetWeeklyQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetWeeklyQuery = {
-  __typename?: "query_root";
-  weekly: Array<{
-    __typename?: "weekly";
-    id: number;
-    title: string;
-    url: string;
-  }>;
-};
 
 export const QueryContestManagerDocument = gql`
-  query QueryContestManager($contest_id: uuid!, $user_id: String = "") {
-    contest_manager(
-      where: { contest_id: { _eq: $contest_id }, user_id: { _eq: $user_id } }
-    ) {
-      user_id
-    }
+    query QueryContestManager($contest_id: uuid!, $user_id: String = "") {
+  contest_manager(
+    where: {contest_id: {_eq: $contest_id}, user_id: {_eq: $user_id}}
+  ) {
+    user_id
   }
-`;
+}
+    `;
 
 /**
  * __useQueryContestManagerQuery__
@@ -12962,80 +10135,32 @@ export const QueryContestManagerDocument = gql`
  *   },
  * });
  */
-export function useQueryContestManagerQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    QueryContestManagerQuery,
-    QueryContestManagerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    QueryContestManagerQuery,
-    QueryContestManagerQueryVariables
-  >(QueryContestManagerDocument, options);
-}
-export function useQueryContestManagerLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    QueryContestManagerQuery,
-    QueryContestManagerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    QueryContestManagerQuery,
-    QueryContestManagerQueryVariables
-  >(QueryContestManagerDocument, options);
-}
-export function useQueryContestManagerSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    QueryContestManagerQuery,
-    QueryContestManagerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    QueryContestManagerQuery,
-    QueryContestManagerQueryVariables
-  >(QueryContestManagerDocument, options);
-}
-export type QueryContestManagerQueryHookResult = ReturnType<
-  typeof useQueryContestManagerQuery
->;
-export type QueryContestManagerLazyQueryHookResult = ReturnType<
-  typeof useQueryContestManagerLazyQuery
->;
-export type QueryContestManagerSuspenseQueryHookResult = ReturnType<
-  typeof useQueryContestManagerSuspenseQuery
->;
-export type QueryContestManagerQueryResult = Apollo.QueryResult<
-  QueryContestManagerQuery,
-  QueryContestManagerQueryVariables
->;
-export const InsertTeamDocument = gql`
-  mutation InsertTeam(
-    $team_name: String!
-    $team_intro: String = ""
-    $team_leader: String!
-    $invited_code: String!
-    $contest_id: uuid!
-  ) {
-    insert_contest_team(
-      objects: {
-        team_name: $team_name
-        team_intro: $team_intro
-        team_leader: $team_leader
-        invited_code: $invited_code
-        contest_id: $contest_id
+export function useQueryContestManagerQuery(baseOptions: Apollo.QueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
       }
-    ) {
-      affected_rows
-    }
+export function useQueryContestManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
+        }
+export function useQueryContestManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
+        }
+export type QueryContestManagerQueryHookResult = ReturnType<typeof useQueryContestManagerQuery>;
+export type QueryContestManagerLazyQueryHookResult = ReturnType<typeof useQueryContestManagerLazyQuery>;
+export type QueryContestManagerSuspenseQueryHookResult = ReturnType<typeof useQueryContestManagerSuspenseQuery>;
+export type QueryContestManagerQueryResult = Apollo.QueryResult<QueryContestManagerQuery, QueryContestManagerQueryVariables>;
+export const InsertTeamDocument = gql`
+    mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader: String!, $invited_code: String!, $contest_id: uuid!) {
+  insert_contest_team(
+    objects: {team_name: $team_name, team_intro: $team_intro, team_leader: $team_leader, invited_code: $invited_code, contest_id: $contest_id}
+  ) {
+    affected_rows
   }
-`;
-export type InsertTeamMutationFn = Apollo.MutationFunction<
-  InsertTeamMutation,
-  InsertTeamMutationVariables
->;
+}
+    `;
+export type InsertTeamMutationFn = Apollo.MutationFunction<InsertTeamMutation, InsertTeamMutationVariables>;
 
 /**
  * __useInsertTeamMutation__
@@ -13058,39 +10183,22 @@ export type InsertTeamMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useInsertTeamMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    InsertTeamMutation,
-    InsertTeamMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<InsertTeamMutation, InsertTeamMutationVariables>(
-    InsertTeamDocument,
-    options,
-  );
-}
-export type InsertTeamMutationHookResult = ReturnType<
-  typeof useInsertTeamMutation
->;
-export type InsertTeamMutationResult =
-  Apollo.MutationResult<InsertTeamMutation>;
-export type InsertTeamMutationOptions = Apollo.BaseMutationOptions<
-  InsertTeamMutation,
-  InsertTeamMutationVariables
->;
-export const IsTeamLeaderDocument = gql`
-  query IsTeamLeader($_id: String!, $contest_id: uuid!) {
-    contest_team(
-      where: {
-        team_leader_id: { _id: { _eq: $_id } }
-        _and: { contest_id: { _eq: $contest_id } }
+export function useInsertTeamMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMutation, InsertTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertTeamMutation, InsertTeamMutationVariables>(InsertTeamDocument, options);
       }
-    ) {
-      team_id
-    }
+export type InsertTeamMutationHookResult = ReturnType<typeof useInsertTeamMutation>;
+export type InsertTeamMutationResult = Apollo.MutationResult<InsertTeamMutation>;
+export type InsertTeamMutationOptions = Apollo.BaseMutationOptions<InsertTeamMutation, InsertTeamMutationVariables>;
+export const IsTeamLeaderDocument = gql`
+    query IsTeamLeader($_id: String!, $contest_id: uuid!) {
+  contest_team(
+    where: {team_leader_id: {_id: {_eq: $_id}}, _and: {contest_id: {_eq: $contest_id}}}
+  ) {
+    team_id
   }
-`;
+}
+    `;
 
 /**
  * __useIsTeamLeaderQuery__
@@ -13109,69 +10217,31 @@ export const IsTeamLeaderDocument = gql`
  *   },
  * });
  */
-export function useIsTeamLeaderQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    IsTeamLeaderQuery,
-    IsTeamLeaderQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(
-    IsTeamLeaderDocument,
-    options,
-  );
-}
-export function useIsTeamLeaderLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    IsTeamLeaderQuery,
-    IsTeamLeaderQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(
-    IsTeamLeaderDocument,
-    options,
-  );
-}
-export function useIsTeamLeaderSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    IsTeamLeaderQuery,
-    IsTeamLeaderQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(
-    IsTeamLeaderDocument,
-    options,
-  );
-}
-export type IsTeamLeaderQueryHookResult = ReturnType<
-  typeof useIsTeamLeaderQuery
->;
-export type IsTeamLeaderLazyQueryHookResult = ReturnType<
-  typeof useIsTeamLeaderLazyQuery
->;
-export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<
-  typeof useIsTeamLeaderSuspenseQuery
->;
-export type IsTeamLeaderQueryResult = Apollo.QueryResult<
-  IsTeamLeaderQuery,
-  IsTeamLeaderQueryVariables
->;
-export const IsTeamMemberDocument = gql`
-  query IsTeamMember($_id: String!, $contest_id: uuid!) {
-    contest_team_member(
-      where: {
-        user_id: { _eq: $_id }
-        _and: {
-          team_as_contest_team_member: { contest_id: { _eq: $contest_id } }
-        }
+export function useIsTeamLeaderQuery(baseOptions: Apollo.QueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
       }
-    ) {
-      team_id
-    }
+export function useIsTeamLeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
+        }
+export function useIsTeamLeaderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
+        }
+export type IsTeamLeaderQueryHookResult = ReturnType<typeof useIsTeamLeaderQuery>;
+export type IsTeamLeaderLazyQueryHookResult = ReturnType<typeof useIsTeamLeaderLazyQuery>;
+export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<typeof useIsTeamLeaderSuspenseQuery>;
+export type IsTeamLeaderQueryResult = Apollo.QueryResult<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>;
+export const IsTeamMemberDocument = gql`
+    query IsTeamMember($_id: String!, $contest_id: uuid!) {
+  contest_team_member(
+    where: {user_id: {_eq: $_id}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_id}}}}
+  ) {
+    team_id
   }
-`;
+}
+    `;
 
 /**
  * __useIsTeamMemberQuery__
@@ -13190,67 +10260,34 @@ export const IsTeamMemberDocument = gql`
  *   },
  * });
  */
-export function useIsTeamMemberQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    IsTeamMemberQuery,
-    IsTeamMemberQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(
-    IsTeamMemberDocument,
-    options,
-  );
-}
-export function useIsTeamMemberLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    IsTeamMemberQuery,
-    IsTeamMemberQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(
-    IsTeamMemberDocument,
-    options,
-  );
-}
-export function useIsTeamMemberSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    IsTeamMemberQuery,
-    IsTeamMemberQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(
-    IsTeamMemberDocument,
-    options,
-  );
-}
-export type IsTeamMemberQueryHookResult = ReturnType<
-  typeof useIsTeamMemberQuery
->;
-export type IsTeamMemberLazyQueryHookResult = ReturnType<
-  typeof useIsTeamMemberLazyQuery
->;
-export type IsTeamMemberSuspenseQueryHookResult = ReturnType<
-  typeof useIsTeamMemberSuspenseQuery
->;
-export type IsTeamMemberQueryResult = Apollo.QueryResult<
-  IsTeamMemberQuery,
-  IsTeamMemberQueryVariables
->;
+export function useIsTeamMemberQuery(baseOptions: Apollo.QueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+      }
+export function useIsTeamMemberLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+        }
+export function useIsTeamMemberSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+        }
+export type IsTeamMemberQueryHookResult = ReturnType<typeof useIsTeamMemberQuery>;
+export type IsTeamMemberLazyQueryHookResult = ReturnType<typeof useIsTeamMemberLazyQuery>;
+export type IsTeamMemberSuspenseQueryHookResult = ReturnType<typeof useIsTeamMemberSuspenseQuery>;
+export type IsTeamMemberQueryResult = Apollo.QueryResult<IsTeamMemberQuery, IsTeamMemberQueryVariables>;
 export const GetCodeUpdateTimeDocument = gql`
-  subscription GetCodeUpdateTime($team_id: uuid!) {
-    contest_code(where: { team_id: { _eq: $team_id } }) {
-      code1_update_time
-      code2_update_time
-      code3_update_time
-      code4_update_time
-      code5_update_time
-      code6_update_time
-    }
+    subscription GetCodeUpdateTime($team_id: uuid!) {
+  contest_code(where: {team_id: {_eq: $team_id}}) {
+    code1_update_time
+    code2_update_time
+    code3_update_time
+    code4_update_time
+    code5_update_time
+    code6_update_time
   }
-`;
+}
+    `;
 
 /**
  * __useGetCodeUpdateTimeSubscription__
@@ -13268,59 +10305,48 @@ export const GetCodeUpdateTimeDocument = gql`
  *   },
  * });
  */
-export function useGetCodeUpdateTimeSubscription(
-  baseOptions: Apollo.SubscriptionHookOptions<
-    GetCodeUpdateTimeSubscription,
-    GetCodeUpdateTimeSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GetCodeUpdateTimeSubscription,
-    GetCodeUpdateTimeSubscriptionVariables
-  >(GetCodeUpdateTimeDocument, options);
-}
-export type GetCodeUpdateTimeSubscriptionHookResult = ReturnType<
-  typeof useGetCodeUpdateTimeSubscription
->;
-export type GetCodeUpdateTimeSubscriptionResult =
-  Apollo.SubscriptionResult<GetCodeUpdateTimeSubscription>;
-export const GetAllTeamInfoDocument = gql`
-  subscription GetAllTeamInfo($contest_id: uuid!) {
-    contest_team(where: { contest_id: { _eq: $contest_id } }) {
-      team_name
-      created_at
-      invited_code
-      member_num
-      score
-      status
-      status2
-      contest_score
-      team_id
-      submitted_code_num
-      team_contest_id {
-        contest_name
+export function useGetCodeUpdateTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>(GetCodeUpdateTimeDocument, options);
       }
-      team_intro
-      team_leader_id {
+export type GetCodeUpdateTimeSubscriptionHookResult = ReturnType<typeof useGetCodeUpdateTimeSubscription>;
+export type GetCodeUpdateTimeSubscriptionResult = Apollo.SubscriptionResult<GetCodeUpdateTimeSubscription>;
+export const GetAllTeamInfoDocument = gql`
+    subscription GetAllTeamInfo($contest_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}}) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    contest_score
+    team_id
+    submitted_code_num
+    team_contest_id {
+      contest_name
+    }
+    team_intro
+    team_leader_id {
+      _id
+      class
+      email
+      name
+      phone
+    }
+    contest_team_members {
+      user_as_contest_team_member {
         _id
         class
         email
         name
         phone
       }
-      contest_team_members {
-        user_as_contest_team_member {
-          _id
-          class
-          email
-          name
-          phone
-        }
-      }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetAllTeamInfoSubscription__
@@ -13338,63 +10364,50 @@ export const GetAllTeamInfoDocument = gql`
  *   },
  * });
  */
-export function useGetAllTeamInfoSubscription(
-  baseOptions: Apollo.SubscriptionHookOptions<
-    GetAllTeamInfoSubscription,
-    GetAllTeamInfoSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GetAllTeamInfoSubscription,
-    GetAllTeamInfoSubscriptionVariables
-  >(GetAllTeamInfoDocument, options);
-}
-export type GetAllTeamInfoSubscriptionHookResult = ReturnType<
-  typeof useGetAllTeamInfoSubscription
->;
-export type GetAllTeamInfoSubscriptionResult =
-  Apollo.SubscriptionResult<GetAllTeamInfoSubscription>;
+export function useGetAllTeamInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables>(GetAllTeamInfoDocument, options);
+      }
+export type GetAllTeamInfoSubscriptionHookResult = ReturnType<typeof useGetAllTeamInfoSubscription>;
+export type GetAllTeamInfoSubscriptionResult = Apollo.SubscriptionResult<GetAllTeamInfoSubscription>;
 export const GetAllTeamInfo_ScoreDocument = gql`
-  query GetAllTeamInfo_score($contest_id: uuid!) {
-    contest_team(
-      where: {
-        _and: { contest_id: { _eq: $contest_id }, score: { _is_null: false } }
-      }
-    ) {
-      team_name
-      created_at
-      invited_code
-      member_num
-      score
-      status
-      status2
-      contest_score
-      team_id
-      submitted_code_num
-      team_contest_id {
-        contest_name
-      }
-      team_intro
-      team_leader_id {
+    query GetAllTeamInfo_score($contest_id: uuid!) {
+  contest_team(
+    where: {_and: {contest_id: {_eq: $contest_id}, score: {_is_null: false}}}
+  ) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    contest_score
+    team_id
+    submitted_code_num
+    team_contest_id {
+      contest_name
+    }
+    team_intro
+    team_leader_id {
+      _id
+      class
+      email
+      name
+      phone
+    }
+    contest_team_members {
+      user_as_contest_team_member {
         _id
         class
         email
         name
         phone
       }
-      contest_team_members {
-        user_as_contest_team_member {
-          _id
-          class
-          email
-          name
-          phone
-        }
-      }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetAllTeamInfo_ScoreQuery__
@@ -13412,71 +10425,36 @@ export const GetAllTeamInfo_ScoreDocument = gql`
  *   },
  * });
  */
-export function useGetAllTeamInfo_ScoreQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetAllTeamInfo_ScoreQuery,
-    GetAllTeamInfo_ScoreQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetAllTeamInfo_ScoreQuery,
-    GetAllTeamInfo_ScoreQueryVariables
-  >(GetAllTeamInfo_ScoreDocument, options);
-}
-export function useGetAllTeamInfo_ScoreLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllTeamInfo_ScoreQuery,
-    GetAllTeamInfo_ScoreQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetAllTeamInfo_ScoreQuery,
-    GetAllTeamInfo_ScoreQueryVariables
-  >(GetAllTeamInfo_ScoreDocument, options);
-}
-export function useGetAllTeamInfo_ScoreSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetAllTeamInfo_ScoreQuery,
-    GetAllTeamInfo_ScoreQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetAllTeamInfo_ScoreQuery,
-    GetAllTeamInfo_ScoreQueryVariables
-  >(GetAllTeamInfo_ScoreDocument, options);
-}
-export type GetAllTeamInfo_ScoreQueryHookResult = ReturnType<
-  typeof useGetAllTeamInfo_ScoreQuery
->;
-export type GetAllTeamInfo_ScoreLazyQueryHookResult = ReturnType<
-  typeof useGetAllTeamInfo_ScoreLazyQuery
->;
-export type GetAllTeamInfo_ScoreSuspenseQueryHookResult = ReturnType<
-  typeof useGetAllTeamInfo_ScoreSuspenseQuery
->;
-export type GetAllTeamInfo_ScoreQueryResult = Apollo.QueryResult<
-  GetAllTeamInfo_ScoreQuery,
-  GetAllTeamInfo_ScoreQueryVariables
->;
-export const GetAllTeamInfo_CompileDocument = gql`
-  query GetAllTeamInfo_compile($contest_id: uuid!) {
-    contest_team(
-      where: {
-        _and: { contest_id: { _eq: $contest_id }, status: { _eq: "compiled" } }
+export function useGetAllTeamInfo_ScoreQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
       }
-    ) {
-      team_name
-      score
-      status
-      status2
-      contest_score
-      team_id
-    }
+export function useGetAllTeamInfo_ScoreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
+        }
+export function useGetAllTeamInfo_ScoreSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
+        }
+export type GetAllTeamInfo_ScoreQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreQuery>;
+export type GetAllTeamInfo_ScoreLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreLazyQuery>;
+export type GetAllTeamInfo_ScoreSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreSuspenseQuery>;
+export type GetAllTeamInfo_ScoreQueryResult = Apollo.QueryResult<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>;
+export const GetAllTeamInfo_CompileDocument = gql`
+    query GetAllTeamInfo_compile($contest_id: uuid!) {
+  contest_team(
+    where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: "compiled"}}}
+  ) {
+    team_name
+    score
+    status
+    status2
+    contest_score
+    team_id
   }
-`;
+}
+    `;
 
 /**
  * __useGetAllTeamInfo_CompileQuery__
@@ -13494,93 +10472,58 @@ export const GetAllTeamInfo_CompileDocument = gql`
  *   },
  * });
  */
-export function useGetAllTeamInfo_CompileQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetAllTeamInfo_CompileQuery,
-    GetAllTeamInfo_CompileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetAllTeamInfo_CompileQuery,
-    GetAllTeamInfo_CompileQueryVariables
-  >(GetAllTeamInfo_CompileDocument, options);
-}
-export function useGetAllTeamInfo_CompileLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllTeamInfo_CompileQuery,
-    GetAllTeamInfo_CompileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetAllTeamInfo_CompileQuery,
-    GetAllTeamInfo_CompileQueryVariables
-  >(GetAllTeamInfo_CompileDocument, options);
-}
-export function useGetAllTeamInfo_CompileSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetAllTeamInfo_CompileQuery,
-    GetAllTeamInfo_CompileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetAllTeamInfo_CompileQuery,
-    GetAllTeamInfo_CompileQueryVariables
-  >(GetAllTeamInfo_CompileDocument, options);
-}
-export type GetAllTeamInfo_CompileQueryHookResult = ReturnType<
-  typeof useGetAllTeamInfo_CompileQuery
->;
-export type GetAllTeamInfo_CompileLazyQueryHookResult = ReturnType<
-  typeof useGetAllTeamInfo_CompileLazyQuery
->;
-export type GetAllTeamInfo_CompileSuspenseQueryHookResult = ReturnType<
-  typeof useGetAllTeamInfo_CompileSuspenseQuery
->;
-export type GetAllTeamInfo_CompileQueryResult = Apollo.QueryResult<
-  GetAllTeamInfo_CompileQuery,
-  GetAllTeamInfo_CompileQueryVariables
->;
-export const GetTeamInfoDocument = gql`
-  query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
-    contest_team(
-      where: { contest_id: { _eq: $contest_id }, team_id: { _eq: $team_id } }
-    ) {
-      team_name
-      created_at
-      invited_code
-      member_num
-      score
-      status
-      status2
-      contest_score
-      team_id
-      submitted_code_num
-      team_contest_id {
-        contest_name
+export function useGetAllTeamInfo_CompileQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
       }
-      team_intro
-      team_leader_id {
+export function useGetAllTeamInfo_CompileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
+        }
+export function useGetAllTeamInfo_CompileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
+        }
+export type GetAllTeamInfo_CompileQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileQuery>;
+export type GetAllTeamInfo_CompileLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileLazyQuery>;
+export type GetAllTeamInfo_CompileSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileSuspenseQuery>;
+export type GetAllTeamInfo_CompileQueryResult = Apollo.QueryResult<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>;
+export const GetTeamInfoDocument = gql`
+    query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    contest_score
+    team_id
+    submitted_code_num
+    team_contest_id {
+      contest_name
+    }
+    team_intro
+    team_leader_id {
+      _id
+      class
+      email
+      name
+      phone
+    }
+    contest_team_members {
+      user_as_contest_team_member {
         _id
         class
         email
         name
         phone
       }
-      contest_team_members {
-        user_as_contest_team_member {
-          _id
-          class
-          email
-          name
-          phone
-        }
-      }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetTeamInfoQuery__
@@ -13599,62 +10542,29 @@ export const GetTeamInfoDocument = gql`
  *   },
  * });
  */
-export function useGetTeamInfoQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetTeamInfoQuery,
-    GetTeamInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(
-    GetTeamInfoDocument,
-    options,
-  );
-}
-export function useGetTeamInfoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTeamInfoQuery,
-    GetTeamInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(
-    GetTeamInfoDocument,
-    options,
-  );
-}
-export function useGetTeamInfoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetTeamInfoQuery,
-    GetTeamInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(
-    GetTeamInfoDocument,
-    options,
-  );
-}
+export function useGetTeamInfoQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+      }
+export function useGetTeamInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+        }
+export function useGetTeamInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+        }
 export type GetTeamInfoQueryHookResult = ReturnType<typeof useGetTeamInfoQuery>;
-export type GetTeamInfoLazyQueryHookResult = ReturnType<
-  typeof useGetTeamInfoLazyQuery
->;
-export type GetTeamInfoSuspenseQueryHookResult = ReturnType<
-  typeof useGetTeamInfoSuspenseQuery
->;
-export type GetTeamInfoQueryResult = Apollo.QueryResult<
-  GetTeamInfoQuery,
-  GetTeamInfoQueryVariables
->;
+export type GetTeamInfoLazyQueryHookResult = ReturnType<typeof useGetTeamInfoLazyQuery>;
+export type GetTeamInfoSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoSuspenseQuery>;
+export type GetTeamInfoQueryResult = Apollo.QueryResult<GetTeamInfoQuery, GetTeamInfoQueryVariables>;
 export const GetCompileStatusDocument = gql`
-  subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
-    contest_team(
-      where: { contest_id: { _eq: $contest_id }, team_id: { _eq: $team_id } }
-    ) {
-      status
-    }
+    subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
+    status
   }
-`;
+}
+    `;
 
 /**
  * __useGetCompileStatusSubscription__
@@ -13673,36 +10583,20 @@ export const GetCompileStatusDocument = gql`
  *   },
  * });
  */
-export function useGetCompileStatusSubscription(
-  baseOptions: Apollo.SubscriptionHookOptions<
-    GetCompileStatusSubscription,
-    GetCompileStatusSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GetCompileStatusSubscription,
-    GetCompileStatusSubscriptionVariables
-  >(GetCompileStatusDocument, options);
-}
-export type GetCompileStatusSubscriptionHookResult = ReturnType<
-  typeof useGetCompileStatusSubscription
->;
-export type GetCompileStatusSubscriptionResult =
-  Apollo.SubscriptionResult<GetCompileStatusSubscription>;
+export function useGetCompileStatusSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables>(GetCompileStatusDocument, options);
+      }
+export type GetCompileStatusSubscriptionHookResult = ReturnType<typeof useGetCompileStatusSubscription>;
+export type GetCompileStatusSubscriptionResult = Apollo.SubscriptionResult<GetCompileStatusSubscription>;
 export const InsertTeamMemberDocument = gql`
-  mutation InsertTeamMember($team_id: uuid!, $user_id: String!) {
-    insert_contest_team_member(
-      objects: { team_id: $team_id, user_id: $user_id }
-    ) {
-      affected_rows
-    }
+    mutation InsertTeamMember($team_id: uuid!, $user_id: String!) {
+  insert_contest_team_member(objects: {team_id: $team_id, user_id: $user_id}) {
+    affected_rows
   }
-`;
-export type InsertTeamMemberMutationFn = Apollo.MutationFunction<
-  InsertTeamMemberMutation,
-  InsertTeamMemberMutationVariables
->;
+}
+    `;
+export type InsertTeamMemberMutationFn = Apollo.MutationFunction<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
 
 /**
  * __useInsertTeamMemberMutation__
@@ -13722,45 +10616,24 @@ export type InsertTeamMemberMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useInsertTeamMemberMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    InsertTeamMemberMutation,
-    InsertTeamMemberMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    InsertTeamMemberMutation,
-    InsertTeamMemberMutationVariables
-  >(InsertTeamMemberDocument, options);
-}
-export type InsertTeamMemberMutationHookResult = ReturnType<
-  typeof useInsertTeamMemberMutation
->;
-export type InsertTeamMemberMutationResult =
-  Apollo.MutationResult<InsertTeamMemberMutation>;
-export type InsertTeamMemberMutationOptions = Apollo.BaseMutationOptions<
-  InsertTeamMemberMutation,
-  InsertTeamMemberMutationVariables
->;
+export function useInsertTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>(InsertTeamMemberDocument, options);
+      }
+export type InsertTeamMemberMutationHookResult = ReturnType<typeof useInsertTeamMemberMutation>;
+export type InsertTeamMemberMutationResult = Apollo.MutationResult<InsertTeamMemberMutation>;
+export type InsertTeamMemberMutationOptions = Apollo.BaseMutationOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
 export const UpdateTeamDocument = gql`
-  mutation UpdateTeam(
-    $team_id: uuid!
-    $team_intro: String!
-    $team_name: String!
+    mutation UpdateTeam($team_id: uuid!, $team_intro: String!, $team_name: String!) {
+  update_contest_team(
+    where: {team_id: {_eq: $team_id}}
+    _set: {team_intro: $team_intro, team_name: $team_name}
   ) {
-    update_contest_team(
-      where: { team_id: { _eq: $team_id } }
-      _set: { team_intro: $team_intro, team_name: $team_name }
-    ) {
-      affected_rows
-    }
+    affected_rows
   }
-`;
-export type UpdateTeamMutationFn = Apollo.MutationFunction<
-  UpdateTeamMutation,
-  UpdateTeamMutationVariables
->;
+}
+    `;
+export type UpdateTeamMutationFn = Apollo.MutationFunction<UpdateTeamMutation, UpdateTeamMutationVariables>;
 
 /**
  * __useUpdateTeamMutation__
@@ -13781,45 +10654,31 @@ export type UpdateTeamMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateTeamMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateTeamMutation,
-    UpdateTeamMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(
-    UpdateTeamDocument,
-    options,
-  );
-}
-export type UpdateTeamMutationHookResult = ReturnType<
-  typeof useUpdateTeamMutation
->;
-export type UpdateTeamMutationResult =
-  Apollo.MutationResult<UpdateTeamMutation>;
-export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<
-  UpdateTeamMutation,
-  UpdateTeamMutationVariables
->;
+export function useUpdateTeamMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamMutation, UpdateTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument, options);
+      }
+export type UpdateTeamMutationHookResult = ReturnType<typeof useUpdateTeamMutation>;
+export type UpdateTeamMutationResult = Apollo.MutationResult<UpdateTeamMutation>;
+export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<UpdateTeamMutation, UpdateTeamMutationVariables>;
 export const GetMemberInfoDocument = gql`
-  query GetMemberInfo($team_id: uuid!) {
-    contest_team(where: { team_id: { _eq: $team_id } }) {
-      team_leader_id {
-        name
-        id
-        _id
-      }
-    }
-    contest_team_member(where: { team_id: { _eq: $team_id } }) {
-      user_as_contest_team_member {
-        id
-        _id
-        name
-      }
+    query GetMemberInfo($team_id: uuid!) {
+  contest_team(where: {team_id: {_eq: $team_id}}) {
+    team_leader_id {
+      name
+      id
+      _id
     }
   }
-`;
+  contest_team_member(where: {team_id: {_eq: $team_id}}) {
+    user_as_contest_team_member {
+      id
+      _id
+      name
+    }
+  }
+}
+    `;
 
 /**
  * __useGetMemberInfoQuery__
@@ -13837,66 +10696,30 @@ export const GetMemberInfoDocument = gql`
  *   },
  * });
  */
-export function useGetMemberInfoQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMemberInfoQuery,
-    GetMemberInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(
-    GetMemberInfoDocument,
-    options,
-  );
-}
-export function useGetMemberInfoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMemberInfoQuery,
-    GetMemberInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(
-    GetMemberInfoDocument,
-    options,
-  );
-}
-export function useGetMemberInfoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetMemberInfoQuery,
-    GetMemberInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetMemberInfoQuery,
-    GetMemberInfoQueryVariables
-  >(GetMemberInfoDocument, options);
-}
-export type GetMemberInfoQueryHookResult = ReturnType<
-  typeof useGetMemberInfoQuery
->;
-export type GetMemberInfoLazyQueryHookResult = ReturnType<
-  typeof useGetMemberInfoLazyQuery
->;
-export type GetMemberInfoSuspenseQueryHookResult = ReturnType<
-  typeof useGetMemberInfoSuspenseQuery
->;
-export type GetMemberInfoQueryResult = Apollo.QueryResult<
-  GetMemberInfoQuery,
-  GetMemberInfoQueryVariables
->;
+export function useGetMemberInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
+      }
+export function useGetMemberInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
+        }
+export function useGetMemberInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
+        }
+export type GetMemberInfoQueryHookResult = ReturnType<typeof useGetMemberInfoQuery>;
+export type GetMemberInfoLazyQueryHookResult = ReturnType<typeof useGetMemberInfoLazyQuery>;
+export type GetMemberInfoSuspenseQueryHookResult = ReturnType<typeof useGetMemberInfoSuspenseQuery>;
+export type GetMemberInfoQueryResult = Apollo.QueryResult<GetMemberInfoQuery, GetMemberInfoQueryVariables>;
 export const DeleteTeamDocument = gql`
-  mutation DeleteTeam($team_id: uuid!) {
-    delete_contest_team(where: { team_id: { _eq: $team_id } }) {
-      affected_rows
-    }
+    mutation DeleteTeam($team_id: uuid!) {
+  delete_contest_team(where: {team_id: {_eq: $team_id}}) {
+    affected_rows
   }
-`;
-export type DeleteTeamMutationFn = Apollo.MutationFunction<
-  DeleteTeamMutation,
-  DeleteTeamMutationVariables
->;
+}
+    `;
+export type DeleteTeamMutationFn = Apollo.MutationFunction<DeleteTeamMutation, DeleteTeamMutationVariables>;
 
 /**
  * __useDeleteTeamMutation__
@@ -13915,38 +10738,21 @@ export type DeleteTeamMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteTeamMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteTeamMutation,
-    DeleteTeamMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(
-    DeleteTeamDocument,
-    options,
-  );
-}
-export type DeleteTeamMutationHookResult = ReturnType<
-  typeof useDeleteTeamMutation
->;
-export type DeleteTeamMutationResult =
-  Apollo.MutationResult<DeleteTeamMutation>;
-export type DeleteTeamMutationOptions = Apollo.BaseMutationOptions<
-  DeleteTeamMutation,
-  DeleteTeamMutationVariables
->;
+export function useDeleteTeamMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMutation, DeleteTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument, options);
+      }
+export type DeleteTeamMutationHookResult = ReturnType<typeof useDeleteTeamMutation>;
+export type DeleteTeamMutationResult = Apollo.MutationResult<DeleteTeamMutation>;
+export type DeleteTeamMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMutation, DeleteTeamMutationVariables>;
 export const DeleteAllTeamMemberDocument = gql`
-  mutation DeleteAllTeamMember($team_id: uuid!) {
-    delete_contest_team_member(where: { team_id: { _eq: $team_id } }) {
-      affected_rows
-    }
+    mutation DeleteAllTeamMember($team_id: uuid!) {
+  delete_contest_team_member(where: {team_id: {_eq: $team_id}}) {
+    affected_rows
   }
-`;
-export type DeleteAllTeamMemberMutationFn = Apollo.MutationFunction<
-  DeleteAllTeamMemberMutation,
-  DeleteAllTeamMemberMutationVariables
->;
+}
+    `;
+export type DeleteAllTeamMemberMutationFn = Apollo.MutationFunction<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
 
 /**
  * __useDeleteAllTeamMemberMutation__
@@ -13965,40 +10771,23 @@ export type DeleteAllTeamMemberMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteAllTeamMemberMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteAllTeamMemberMutation,
-    DeleteAllTeamMemberMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteAllTeamMemberMutation,
-    DeleteAllTeamMemberMutationVariables
-  >(DeleteAllTeamMemberDocument, options);
-}
-export type DeleteAllTeamMemberMutationHookResult = ReturnType<
-  typeof useDeleteAllTeamMemberMutation
->;
-export type DeleteAllTeamMemberMutationResult =
-  Apollo.MutationResult<DeleteAllTeamMemberMutation>;
-export type DeleteAllTeamMemberMutationOptions = Apollo.BaseMutationOptions<
-  DeleteAllTeamMemberMutation,
-  DeleteAllTeamMemberMutationVariables
->;
+export function useDeleteAllTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>(DeleteAllTeamMemberDocument, options);
+      }
+export type DeleteAllTeamMemberMutationHookResult = ReturnType<typeof useDeleteAllTeamMemberMutation>;
+export type DeleteAllTeamMemberMutationResult = Apollo.MutationResult<DeleteAllTeamMemberMutation>;
+export type DeleteAllTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
 export const DeleteTeamMemberDocument = gql`
-  mutation DeleteTeamMember($user_id: String!, $team_id: uuid!) {
-    delete_contest_team_member(
-      where: { user_id: { _eq: $user_id }, team_id: { _eq: $team_id } }
-    ) {
-      affected_rows
-    }
+    mutation DeleteTeamMember($user_id: String!, $team_id: uuid!) {
+  delete_contest_team_member(
+    where: {user_id: {_eq: $user_id}, team_id: {_eq: $team_id}}
+  ) {
+    affected_rows
   }
-`;
-export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<
-  DeleteTeamMemberMutation,
-  DeleteTeamMemberMutationVariables
->;
+}
+    `;
+export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
 
 /**
  * __useDeleteTeamMemberMutation__
@@ -14018,38 +10807,24 @@ export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteTeamMemberMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteTeamMemberMutation,
-    DeleteTeamMemberMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteTeamMemberMutation,
-    DeleteTeamMemberMutationVariables
-  >(DeleteTeamMemberDocument, options);
-}
-export type DeleteTeamMemberMutationHookResult = ReturnType<
-  typeof useDeleteTeamMemberMutation
->;
-export type DeleteTeamMemberMutationResult =
-  Apollo.MutationResult<DeleteTeamMemberMutation>;
-export type DeleteTeamMemberMutationOptions = Apollo.BaseMutationOptions<
-  DeleteTeamMemberMutation,
-  DeleteTeamMemberMutationVariables
->;
+export function useDeleteTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>(DeleteTeamMemberDocument, options);
+      }
+export type DeleteTeamMemberMutationHookResult = ReturnType<typeof useDeleteTeamMemberMutation>;
+export type DeleteTeamMemberMutationResult = Apollo.MutationResult<DeleteTeamMemberMutation>;
+export type DeleteTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
 export const GetAllContestDocument = gql`
-  query GetAllContest {
-    contest {
-      id
-      contest_name
-      description
-      start_date
-      end_date
-    }
+    query GetAllContest {
+  contest {
+    id
+    contest_name
+    description
+    start_date
+    end_date
   }
-`;
+}
+    `;
 
 /**
  * __useGetAllContestQuery__
@@ -14066,67 +10841,34 @@ export const GetAllContestDocument = gql`
  *   },
  * });
  */
-export function useGetAllContestQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetAllContestQuery,
-    GetAllContestQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetAllContestQuery, GetAllContestQueryVariables>(
-    GetAllContestDocument,
-    options,
-  );
-}
-export function useGetAllContestLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllContestQuery,
-    GetAllContestQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetAllContestQuery, GetAllContestQueryVariables>(
-    GetAllContestDocument,
-    options,
-  );
-}
-export function useGetAllContestSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetAllContestQuery,
-    GetAllContestQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetAllContestQuery,
-    GetAllContestQueryVariables
-  >(GetAllContestDocument, options);
-}
-export type GetAllContestQueryHookResult = ReturnType<
-  typeof useGetAllContestQuery
->;
-export type GetAllContestLazyQueryHookResult = ReturnType<
-  typeof useGetAllContestLazyQuery
->;
-export type GetAllContestSuspenseQueryHookResult = ReturnType<
-  typeof useGetAllContestSuspenseQuery
->;
-export type GetAllContestQueryResult = Apollo.QueryResult<
-  GetAllContestQuery,
-  GetAllContestQueryVariables
->;
+export function useGetAllContestQuery(baseOptions?: Apollo.QueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
+      }
+export function useGetAllContestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
+        }
+export function useGetAllContestSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
+        }
+export type GetAllContestQueryHookResult = ReturnType<typeof useGetAllContestQuery>;
+export type GetAllContestLazyQueryHookResult = ReturnType<typeof useGetAllContestLazyQuery>;
+export type GetAllContestSuspenseQueryHookResult = ReturnType<typeof useGetAllContestSuspenseQuery>;
+export type GetAllContestQueryResult = Apollo.QueryResult<GetAllContestQuery, GetAllContestQueryVariables>;
 export const GetContestInfoDocument = gql`
-  query GetContestInfo($contest_id: uuid!) {
-    contest(where: { id: { _eq: $contest_id } }) {
-      contest_name
-      contest_type
-      description
-      start_date
-      end_date
-      status
-    }
+    query GetContestInfo($contest_id: uuid!) {
+  contest(where: {id: {_eq: $contest_id}}) {
+    contest_name
+    contest_type
+    description
+    start_date
+    end_date
+    status
   }
-`;
+}
+    `;
 
 /**
  * __useGetContestInfoQuery__
@@ -14144,199 +10886,42 @@ export const GetContestInfoDocument = gql`
  *   },
  * });
  */
-export function useGetContestInfoQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetContestInfoQuery,
-    GetContestInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(
-    GetContestInfoDocument,
-    options,
-  );
-}
-export function useGetContestInfoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetContestInfoQuery,
-    GetContestInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(
-    GetContestInfoDocument,
-    options,
-  );
-}
-export function useGetContestInfoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetContestInfoQuery,
-    GetContestInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetContestInfoQuery,
-    GetContestInfoQueryVariables
-  >(GetContestInfoDocument, options);
-}
-export type GetContestInfoQueryHookResult = ReturnType<
-  typeof useGetContestInfoQuery
->;
-export type GetContestInfoLazyQueryHookResult = ReturnType<
-  typeof useGetContestInfoLazyQuery
->;
-export type GetContestInfoSuspenseQueryHookResult = ReturnType<
-  typeof useGetContestInfoSuspenseQuery
->;
-export type GetContestInfoQueryResult = Apollo.QueryResult<
-  GetContestInfoQuery,
-  GetContestInfoQueryVariables
->;
-export const GetIntroContentDocument = gql`
-  query GetIntroContent($id: Int!) {
-    article(where: { id: { _eq: $id } }) {
-      content
-    }
-  }
-`;
-
-/**
- * __useGetIntroContentQuery__
- *
- * To run a query within a React component, call `useGetIntroContentQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetIntroContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetIntroContentQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetIntroContentQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetIntroContentQuery, GetIntroContentQueryVariables>(
-    GetIntroContentDocument,
-    options,
-  );
-}
-export function useGetIntroContentLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >(GetIntroContentDocument, options);
-}
-export function useGetIntroContentSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetIntroContentQuery,
-    GetIntroContentQueryVariables
-  >(GetIntroContentDocument, options);
-}
-export type GetIntroContentQueryHookResult = ReturnType<
-  typeof useGetIntroContentQuery
->;
-export type GetIntroContentLazyQueryHookResult = ReturnType<
-  typeof useGetIntroContentLazyQuery
->;
-export type GetIntroContentSuspenseQueryHookResult = ReturnType<
-  typeof useGetIntroContentSuspenseQuery
->;
-export type GetIntroContentQueryResult = Apollo.QueryResult<
-  GetIntroContentQuery,
-  GetIntroContentQueryVariables
->;
-export const UpdateIntroDocument = gql`
-  mutation UpdateIntro($id: Int!, $content: String = "") {
-    update_article(where: { id: { _eq: $id } }, _set: { content: $content }) {
-      affected_rows
-    }
-  }
-`;
-export type UpdateIntroMutationFn = Apollo.MutationFunction<
-  UpdateIntroMutation,
-  UpdateIntroMutationVariables
->;
-
-/**
- * __useUpdateIntroMutation__
- *
- * To run a mutation, you first call `useUpdateIntroMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateIntroMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateIntroMutation, { data, loading, error }] = useUpdateIntroMutation({
- *   variables: {
- *      id: // value for 'id'
- *      content: // value for 'content'
- *   },
- * });
- */
-export function useUpdateIntroMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateIntroMutation,
-    UpdateIntroMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateIntroMutation, UpdateIntroMutationVariables>(
-    UpdateIntroDocument,
-    options,
-  );
-}
-export type UpdateIntroMutationHookResult = ReturnType<
-  typeof useUpdateIntroMutation
->;
-export type UpdateIntroMutationResult =
-  Apollo.MutationResult<UpdateIntroMutation>;
-export type UpdateIntroMutationOptions = Apollo.BaseMutationOptions<
-  UpdateIntroMutation,
-  UpdateIntroMutationVariables
->;
-export const GetRoomInfoDocument = gql`
-  subscription GetRoomInfo($contest_id: uuid!) {
-    contest_room(
-      where: { contest_id: { _eq: $contest_id } }
-      order_by: { created_at: desc }
-    ) {
-      created_at
-      result
-      room_id
-      status
-      port
-      contest_room_teams {
-        contest_team {
-          team_name
-          team_id
+export function useGetContestInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
+      }
+export function useGetContestInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
         }
+export function useGetContestInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
+        }
+export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQuery>;
+export type GetContestInfoLazyQueryHookResult = ReturnType<typeof useGetContestInfoLazyQuery>;
+export type GetContestInfoSuspenseQueryHookResult = ReturnType<typeof useGetContestInfoSuspenseQuery>;
+export type GetContestInfoQueryResult = Apollo.QueryResult<GetContestInfoQuery, GetContestInfoQueryVariables>;
+export const GetRoomInfoDocument = gql`
+    subscription GetRoomInfo($contest_id: uuid!) {
+  contest_room(
+    where: {contest_id: {_eq: $contest_id}}
+    order_by: {created_at: desc}
+  ) {
+    created_at
+    result
+    room_id
+    status
+    port
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_id
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetRoomInfoSubscription__
@@ -14354,40 +10939,23 @@ export const GetRoomInfoDocument = gql`
  *   },
  * });
  */
-export function useGetRoomInfoSubscription(
-  baseOptions: Apollo.SubscriptionHookOptions<
-    GetRoomInfoSubscription,
-    GetRoomInfoSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GetRoomInfoSubscription,
-    GetRoomInfoSubscriptionVariables
-  >(GetRoomInfoDocument, options);
-}
-export type GetRoomInfoSubscriptionHookResult = ReturnType<
-  typeof useGetRoomInfoSubscription
->;
-export type GetRoomInfoSubscriptionResult =
-  Apollo.SubscriptionResult<GetRoomInfoSubscription>;
-export const GetRoomInfo_StatusDocument = gql`
-  query GetRoomInfo_status($contest_id: uuid!) {
-    contest_room(
-      where: {
-        _and: {
-          contest_id: { _eq: $contest_id }
-          status: { _eq: false }
-          port: { _is_null: false }
-        }
+export function useGetRoomInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables>(GetRoomInfoDocument, options);
       }
-    ) {
-      room_id
-      status
-      created_at
-    }
+export type GetRoomInfoSubscriptionHookResult = ReturnType<typeof useGetRoomInfoSubscription>;
+export type GetRoomInfoSubscriptionResult = Apollo.SubscriptionResult<GetRoomInfoSubscription>;
+export const GetRoomInfo_StatusDocument = gql`
+    query GetRoomInfo_status($contest_id: uuid!) {
+  contest_room(
+    where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: false}, port: {_is_null: false}}}
+  ) {
+    room_id
+    status
+    created_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetRoomInfo_StatusQuery__
@@ -14405,79 +10973,32 @@ export const GetRoomInfo_StatusDocument = gql`
  *   },
  * });
  */
-export function useGetRoomInfo_StatusQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetRoomInfo_StatusQuery,
-    GetRoomInfo_StatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetRoomInfo_StatusQuery,
-    GetRoomInfo_StatusQueryVariables
-  >(GetRoomInfo_StatusDocument, options);
-}
-export function useGetRoomInfo_StatusLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRoomInfo_StatusQuery,
-    GetRoomInfo_StatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetRoomInfo_StatusQuery,
-    GetRoomInfo_StatusQueryVariables
-  >(GetRoomInfo_StatusDocument, options);
-}
-export function useGetRoomInfo_StatusSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetRoomInfo_StatusQuery,
-    GetRoomInfo_StatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetRoomInfo_StatusQuery,
-    GetRoomInfo_StatusQueryVariables
-  >(GetRoomInfo_StatusDocument, options);
-}
-export type GetRoomInfo_StatusQueryHookResult = ReturnType<
-  typeof useGetRoomInfo_StatusQuery
->;
-export type GetRoomInfo_StatusLazyQueryHookResult = ReturnType<
-  typeof useGetRoomInfo_StatusLazyQuery
->;
-export type GetRoomInfo_StatusSuspenseQueryHookResult = ReturnType<
-  typeof useGetRoomInfo_StatusSuspenseQuery
->;
-export type GetRoomInfo_StatusQueryResult = Apollo.QueryResult<
-  GetRoomInfo_StatusQuery,
-  GetRoomInfo_StatusQueryVariables
->;
-export const InsertRoomDocument = gql`
-  mutation InsertRoom(
-    $contest_id: uuid!
-    $team1_id: uuid!
-    $team2_id: uuid!
-    $created_at: timestamptz!
-  ) {
-    insert_contest_room_one(
-      object: {
-        contest_id: $contest_id
-        contest_room_teams: {
-          data: [{ team_id: $team1_id }, { team_id: $team2_id }]
-        }
-        created_at: $created_at
+export function useGetRoomInfo_StatusQuery(baseOptions: Apollo.QueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
       }
-    ) {
-      room_id
-    }
+export function useGetRoomInfo_StatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
+        }
+export function useGetRoomInfo_StatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
+        }
+export type GetRoomInfo_StatusQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusQuery>;
+export type GetRoomInfo_StatusLazyQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusLazyQuery>;
+export type GetRoomInfo_StatusSuspenseQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusSuspenseQuery>;
+export type GetRoomInfo_StatusQueryResult = Apollo.QueryResult<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>;
+export const InsertRoomDocument = gql`
+    mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!, $team2_id: uuid!, $created_at: timestamptz!) {
+  insert_contest_room_one(
+    object: {contest_id: $contest_id, contest_room_teams: {data: [{team_id: $team1_id}, {team_id: $team2_id}]}, created_at: $created_at}
+  ) {
+    room_id
   }
-`;
-export type InsertRoomMutationFn = Apollo.MutationFunction<
-  InsertRoomMutation,
-  InsertRoomMutationVariables
->;
+}
+    `;
+export type InsertRoomMutationFn = Apollo.MutationFunction<InsertRoomMutation, InsertRoomMutationVariables>;
 
 /**
  * __useInsertRoomMutation__
@@ -14499,41 +11020,24 @@ export type InsertRoomMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useInsertRoomMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    InsertRoomMutation,
-    InsertRoomMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<InsertRoomMutation, InsertRoomMutationVariables>(
-    InsertRoomDocument,
-    options,
-  );
-}
-export type InsertRoomMutationHookResult = ReturnType<
-  typeof useInsertRoomMutation
->;
-export type InsertRoomMutationResult =
-  Apollo.MutationResult<InsertRoomMutation>;
-export type InsertRoomMutationOptions = Apollo.BaseMutationOptions<
-  InsertRoomMutation,
-  InsertRoomMutationVariables
->;
+export function useInsertRoomMutation(baseOptions?: Apollo.MutationHookOptions<InsertRoomMutation, InsertRoomMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertRoomMutation, InsertRoomMutationVariables>(InsertRoomDocument, options);
+      }
+export type InsertRoomMutationHookResult = ReturnType<typeof useInsertRoomMutation>;
+export type InsertRoomMutationResult = Apollo.MutationResult<InsertRoomMutation>;
+export type InsertRoomMutationOptions = Apollo.BaseMutationOptions<InsertRoomMutation, InsertRoomMutationVariables>;
 export const DeleteRoomDocument = gql`
-  mutation DeleteRoom($room_id: uuid!) {
-    delete_contest_room_team(where: { room_id: { _eq: $room_id } }) {
-      affected_rows
-    }
-    delete_contest_room(where: { room_id: { _eq: $room_id } }) {
-      affected_rows
-    }
+    mutation DeleteRoom($room_id: uuid!) {
+  delete_contest_room_team(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
   }
-`;
-export type DeleteRoomMutationFn = Apollo.MutationFunction<
-  DeleteRoomMutation,
-  DeleteRoomMutationVariables
->;
+  delete_contest_room(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
+  }
+}
+    `;
+export type DeleteRoomMutationFn = Apollo.MutationFunction<DeleteRoomMutation, DeleteRoomMutationVariables>;
 
 /**
  * __useDeleteRoomMutation__
@@ -14552,56 +11056,24 @@ export type DeleteRoomMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteRoomMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteRoomMutation,
-    DeleteRoomMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(
-    DeleteRoomDocument,
-    options,
-  );
-}
-export type DeleteRoomMutationHookResult = ReturnType<
-  typeof useDeleteRoomMutation
->;
-export type DeleteRoomMutationResult =
-  Apollo.MutationResult<DeleteRoomMutation>;
-export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<
-  DeleteRoomMutation,
-  DeleteRoomMutationVariables
->;
+export function useDeleteRoomMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRoomMutation, DeleteRoomMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(DeleteRoomDocument, options);
+      }
+export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutation>;
+export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
+export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
 export const UpsertCode1Document = gql`
-  mutation UpsertCode1(
-    $code: String!
-    $update_time: timestamptz!
-    $team_id: uuid!
-    $contest_id: uuid!
-    $code_type: String!
+    mutation UpsertCode1($code: String!, $update_time: timestamptz!, $team_id: uuid!, $contest_id: uuid!, $code_type: String!) {
+  insert_contest_code_one(
+    object: {code1: $code, code1_update_time: $update_time, team_id: $team_id, contest_id: $contest_id, code_type1: $code_type}
+    on_conflict: {constraint: contest_code_pkey, update_columns: [code1, code1_update_time, code_type1]}
   ) {
-    insert_contest_code_one(
-      object: {
-        code1: $code
-        code1_update_time: $update_time
-        team_id: $team_id
-        contest_id: $contest_id
-        code_type1: $code_type
-      }
-      on_conflict: {
-        constraint: contest_code_pkey
-        update_columns: [code1, code1_update_time, code_type1]
-      }
-    ) {
-      code1_update_time
-    }
+    code1_update_time
   }
-`;
-export type UpsertCode1MutationFn = Apollo.MutationFunction<
-  UpsertCode1Mutation,
-  UpsertCode1MutationVariables
->;
+}
+    `;
+export type UpsertCode1MutationFn = Apollo.MutationFunction<UpsertCode1Mutation, UpsertCode1MutationVariables>;
 
 /**
  * __useUpsertCode1Mutation__
@@ -14624,56 +11096,24 @@ export type UpsertCode1MutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpsertCode1Mutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpsertCode1Mutation,
-    UpsertCode1MutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpsertCode1Mutation, UpsertCode1MutationVariables>(
-    UpsertCode1Document,
-    options,
-  );
-}
-export type UpsertCode1MutationHookResult = ReturnType<
-  typeof useUpsertCode1Mutation
->;
-export type UpsertCode1MutationResult =
-  Apollo.MutationResult<UpsertCode1Mutation>;
-export type UpsertCode1MutationOptions = Apollo.BaseMutationOptions<
-  UpsertCode1Mutation,
-  UpsertCode1MutationVariables
->;
+export function useUpsertCode1Mutation(baseOptions?: Apollo.MutationHookOptions<UpsertCode1Mutation, UpsertCode1MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertCode1Mutation, UpsertCode1MutationVariables>(UpsertCode1Document, options);
+      }
+export type UpsertCode1MutationHookResult = ReturnType<typeof useUpsertCode1Mutation>;
+export type UpsertCode1MutationResult = Apollo.MutationResult<UpsertCode1Mutation>;
+export type UpsertCode1MutationOptions = Apollo.BaseMutationOptions<UpsertCode1Mutation, UpsertCode1MutationVariables>;
 export const UpsertCode2Document = gql`
-  mutation UpsertCode2(
-    $code: String!
-    $update_time: timestamptz!
-    $team_id: uuid!
-    $contest_id: uuid!
-    $code_type: String!
+    mutation UpsertCode2($code: String!, $update_time: timestamptz!, $team_id: uuid!, $contest_id: uuid!, $code_type: String!) {
+  insert_contest_code_one(
+    object: {code2: $code, code2_update_time: $update_time, team_id: $team_id, contest_id: $contest_id, code_type2: $code_type}
+    on_conflict: {constraint: contest_code_pkey, update_columns: [code2, code2_update_time, code_type2]}
   ) {
-    insert_contest_code_one(
-      object: {
-        code2: $code
-        code2_update_time: $update_time
-        team_id: $team_id
-        contest_id: $contest_id
-        code_type2: $code_type
-      }
-      on_conflict: {
-        constraint: contest_code_pkey
-        update_columns: [code2, code2_update_time, code_type2]
-      }
-    ) {
-      code2_update_time
-    }
+    code2_update_time
   }
-`;
-export type UpsertCode2MutationFn = Apollo.MutationFunction<
-  UpsertCode2Mutation,
-  UpsertCode2MutationVariables
->;
+}
+    `;
+export type UpsertCode2MutationFn = Apollo.MutationFunction<UpsertCode2Mutation, UpsertCode2MutationVariables>;
 
 /**
  * __useUpsertCode2Mutation__
@@ -14696,56 +11136,24 @@ export type UpsertCode2MutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpsertCode2Mutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpsertCode2Mutation,
-    UpsertCode2MutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpsertCode2Mutation, UpsertCode2MutationVariables>(
-    UpsertCode2Document,
-    options,
-  );
-}
-export type UpsertCode2MutationHookResult = ReturnType<
-  typeof useUpsertCode2Mutation
->;
-export type UpsertCode2MutationResult =
-  Apollo.MutationResult<UpsertCode2Mutation>;
-export type UpsertCode2MutationOptions = Apollo.BaseMutationOptions<
-  UpsertCode2Mutation,
-  UpsertCode2MutationVariables
->;
+export function useUpsertCode2Mutation(baseOptions?: Apollo.MutationHookOptions<UpsertCode2Mutation, UpsertCode2MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertCode2Mutation, UpsertCode2MutationVariables>(UpsertCode2Document, options);
+      }
+export type UpsertCode2MutationHookResult = ReturnType<typeof useUpsertCode2Mutation>;
+export type UpsertCode2MutationResult = Apollo.MutationResult<UpsertCode2Mutation>;
+export type UpsertCode2MutationOptions = Apollo.BaseMutationOptions<UpsertCode2Mutation, UpsertCode2MutationVariables>;
 export const UpsertCode3Document = gql`
-  mutation UpsertCode3(
-    $code: String!
-    $update_time: timestamptz!
-    $team_id: uuid!
-    $contest_id: uuid!
-    $code_type: String!
+    mutation UpsertCode3($code: String!, $update_time: timestamptz!, $team_id: uuid!, $contest_id: uuid!, $code_type: String!) {
+  insert_contest_code_one(
+    object: {code3: $code, code3_update_time: $update_time, team_id: $team_id, contest_id: $contest_id, code_type3: $code_type}
+    on_conflict: {constraint: contest_code_pkey, update_columns: [code3, code3_update_time, code_type3]}
   ) {
-    insert_contest_code_one(
-      object: {
-        code3: $code
-        code3_update_time: $update_time
-        team_id: $team_id
-        contest_id: $contest_id
-        code_type3: $code_type
-      }
-      on_conflict: {
-        constraint: contest_code_pkey
-        update_columns: [code3, code3_update_time, code_type3]
-      }
-    ) {
-      code3_update_time
-    }
+    code3_update_time
   }
-`;
-export type UpsertCode3MutationFn = Apollo.MutationFunction<
-  UpsertCode3Mutation,
-  UpsertCode3MutationVariables
->;
+}
+    `;
+export type UpsertCode3MutationFn = Apollo.MutationFunction<UpsertCode3Mutation, UpsertCode3MutationVariables>;
 
 /**
  * __useUpsertCode3Mutation__
@@ -14768,56 +11176,24 @@ export type UpsertCode3MutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpsertCode3Mutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpsertCode3Mutation,
-    UpsertCode3MutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpsertCode3Mutation, UpsertCode3MutationVariables>(
-    UpsertCode3Document,
-    options,
-  );
-}
-export type UpsertCode3MutationHookResult = ReturnType<
-  typeof useUpsertCode3Mutation
->;
-export type UpsertCode3MutationResult =
-  Apollo.MutationResult<UpsertCode3Mutation>;
-export type UpsertCode3MutationOptions = Apollo.BaseMutationOptions<
-  UpsertCode3Mutation,
-  UpsertCode3MutationVariables
->;
+export function useUpsertCode3Mutation(baseOptions?: Apollo.MutationHookOptions<UpsertCode3Mutation, UpsertCode3MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertCode3Mutation, UpsertCode3MutationVariables>(UpsertCode3Document, options);
+      }
+export type UpsertCode3MutationHookResult = ReturnType<typeof useUpsertCode3Mutation>;
+export type UpsertCode3MutationResult = Apollo.MutationResult<UpsertCode3Mutation>;
+export type UpsertCode3MutationOptions = Apollo.BaseMutationOptions<UpsertCode3Mutation, UpsertCode3MutationVariables>;
 export const UpsertCode4Document = gql`
-  mutation UpsertCode4(
-    $code: String!
-    $update_time: timestamptz!
-    $team_id: uuid!
-    $contest_id: uuid!
-    $code_type: String!
+    mutation UpsertCode4($code: String!, $update_time: timestamptz!, $team_id: uuid!, $contest_id: uuid!, $code_type: String!) {
+  insert_contest_code_one(
+    object: {code4: $code, code4_update_time: $update_time, team_id: $team_id, contest_id: $contest_id, code_type4: $code_type}
+    on_conflict: {constraint: contest_code_pkey, update_columns: [code4, code4_update_time, code_type4]}
   ) {
-    insert_contest_code_one(
-      object: {
-        code4: $code
-        code4_update_time: $update_time
-        team_id: $team_id
-        contest_id: $contest_id
-        code_type4: $code_type
-      }
-      on_conflict: {
-        constraint: contest_code_pkey
-        update_columns: [code4, code4_update_time, code_type4]
-      }
-    ) {
-      code4_update_time
-    }
+    code4_update_time
   }
-`;
-export type UpsertCode4MutationFn = Apollo.MutationFunction<
-  UpsertCode4Mutation,
-  UpsertCode4MutationVariables
->;
+}
+    `;
+export type UpsertCode4MutationFn = Apollo.MutationFunction<UpsertCode4Mutation, UpsertCode4MutationVariables>;
 
 /**
  * __useUpsertCode4Mutation__
@@ -14840,56 +11216,24 @@ export type UpsertCode4MutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpsertCode4Mutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpsertCode4Mutation,
-    UpsertCode4MutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpsertCode4Mutation, UpsertCode4MutationVariables>(
-    UpsertCode4Document,
-    options,
-  );
-}
-export type UpsertCode4MutationHookResult = ReturnType<
-  typeof useUpsertCode4Mutation
->;
-export type UpsertCode4MutationResult =
-  Apollo.MutationResult<UpsertCode4Mutation>;
-export type UpsertCode4MutationOptions = Apollo.BaseMutationOptions<
-  UpsertCode4Mutation,
-  UpsertCode4MutationVariables
->;
+export function useUpsertCode4Mutation(baseOptions?: Apollo.MutationHookOptions<UpsertCode4Mutation, UpsertCode4MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertCode4Mutation, UpsertCode4MutationVariables>(UpsertCode4Document, options);
+      }
+export type UpsertCode4MutationHookResult = ReturnType<typeof useUpsertCode4Mutation>;
+export type UpsertCode4MutationResult = Apollo.MutationResult<UpsertCode4Mutation>;
+export type UpsertCode4MutationOptions = Apollo.BaseMutationOptions<UpsertCode4Mutation, UpsertCode4MutationVariables>;
 export const UpsertCode5Document = gql`
-  mutation UpsertCode5(
-    $code: String!
-    $update_time: timestamptz!
-    $team_id: uuid!
-    $contest_id: uuid!
-    $code_type: String!
+    mutation UpsertCode5($code: String!, $update_time: timestamptz!, $team_id: uuid!, $contest_id: uuid!, $code_type: String!) {
+  insert_contest_code_one(
+    object: {code5: $code, code5_update_time: $update_time, team_id: $team_id, contest_id: $contest_id, code_type5: $code_type}
+    on_conflict: {constraint: contest_code_pkey, update_columns: [code5, code5_update_time, code_type5]}
   ) {
-    insert_contest_code_one(
-      object: {
-        code5: $code
-        code5_update_time: $update_time
-        team_id: $team_id
-        contest_id: $contest_id
-        code_type5: $code_type
-      }
-      on_conflict: {
-        constraint: contest_code_pkey
-        update_columns: [code5, code5_update_time, code_type5]
-      }
-    ) {
-      code5_update_time
-    }
+    code5_update_time
   }
-`;
-export type UpsertCode5MutationFn = Apollo.MutationFunction<
-  UpsertCode5Mutation,
-  UpsertCode5MutationVariables
->;
+}
+    `;
+export type UpsertCode5MutationFn = Apollo.MutationFunction<UpsertCode5Mutation, UpsertCode5MutationVariables>;
 
 /**
  * __useUpsertCode5Mutation__
@@ -14912,40 +11256,23 @@ export type UpsertCode5MutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpsertCode5Mutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpsertCode5Mutation,
-    UpsertCode5MutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpsertCode5Mutation, UpsertCode5MutationVariables>(
-    UpsertCode5Document,
-    options,
-  );
-}
-export type UpsertCode5MutationHookResult = ReturnType<
-  typeof useUpsertCode5Mutation
->;
-export type UpsertCode5MutationResult =
-  Apollo.MutationResult<UpsertCode5Mutation>;
-export type UpsertCode5MutationOptions = Apollo.BaseMutationOptions<
-  UpsertCode5Mutation,
-  UpsertCode5MutationVariables
->;
-export const QueryTeamIdDocument = gql`
-  query QueryTeamID($team_name: String!, $contest_id: uuid!) {
-    contest_team(
-      where: {
-        team_name: { _eq: $team_name }
-        contest_id: { _eq: $contest_id }
+export function useUpsertCode5Mutation(baseOptions?: Apollo.MutationHookOptions<UpsertCode5Mutation, UpsertCode5MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertCode5Mutation, UpsertCode5MutationVariables>(UpsertCode5Document, options);
       }
-    ) {
-      team_id
-      status
-    }
+export type UpsertCode5MutationHookResult = ReturnType<typeof useUpsertCode5Mutation>;
+export type UpsertCode5MutationResult = Apollo.MutationResult<UpsertCode5Mutation>;
+export type UpsertCode5MutationOptions = Apollo.BaseMutationOptions<UpsertCode5Mutation, UpsertCode5MutationVariables>;
+export const QueryTeamIdDocument = gql`
+    query QueryTeamID($team_name: String!, $contest_id: uuid!) {
+  contest_team(
+    where: {team_name: {_eq: $team_name}, contest_id: {_eq: $contest_id}}
+  ) {
+    team_id
+    status
   }
-`;
+}
+    `;
 
 /**
  * __useQueryTeamIdQuery__
@@ -14964,69 +11291,32 @@ export const QueryTeamIdDocument = gql`
  *   },
  * });
  */
-export function useQueryTeamIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    QueryTeamIdQuery,
-    QueryTeamIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(
-    QueryTeamIdDocument,
-    options,
-  );
-}
-export function useQueryTeamIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    QueryTeamIdQuery,
-    QueryTeamIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(
-    QueryTeamIdDocument,
-    options,
-  );
-}
-export function useQueryTeamIdSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    QueryTeamIdQuery,
-    QueryTeamIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(
-    QueryTeamIdDocument,
-    options,
-  );
-}
-export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
-export type QueryTeamIdLazyQueryHookResult = ReturnType<
-  typeof useQueryTeamIdLazyQuery
->;
-export type QueryTeamIdSuspenseQueryHookResult = ReturnType<
-  typeof useQueryTeamIdSuspenseQuery
->;
-export type QueryTeamIdQueryResult = Apollo.QueryResult<
-  QueryTeamIdQuery,
-  QueryTeamIdQueryVariables
->;
-export const UpdateContestStatusDocument = gql`
-  mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
-    update_contest(
-      where: { id: { _eq: $contest_id } }
-      _set: { status: $status }
-    ) {
-      returning {
-        status
+export function useQueryTeamIdQuery(baseOptions: Apollo.QueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
       }
+export function useQueryTeamIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
+        }
+export function useQueryTeamIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
+        }
+export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
+export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
+export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
+export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
+export const UpdateContestStatusDocument = gql`
+    mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
+  update_contest(where: {id: {_eq: $contest_id}}, _set: {status: $status}) {
+    returning {
+      status
     }
   }
-`;
-export type UpdateContestStatusMutationFn = Apollo.MutationFunction<
-  UpdateContestStatusMutation,
-  UpdateContestStatusMutationVariables
->;
+}
+    `;
+export type UpdateContestStatusMutationFn = Apollo.MutationFunction<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
 
 /**
  * __useUpdateContestStatusMutation__
@@ -15046,42 +11336,28 @@ export type UpdateContestStatusMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateContestStatusMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateContestStatusMutation,
-    UpdateContestStatusMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateContestStatusMutation,
-    UpdateContestStatusMutationVariables
-  >(UpdateContestStatusDocument, options);
-}
-export type UpdateContestStatusMutationHookResult = ReturnType<
-  typeof useUpdateContestStatusMutation
->;
-export type UpdateContestStatusMutationResult =
-  Apollo.MutationResult<UpdateContestStatusMutation>;
-export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContestStatusMutation,
-  UpdateContestStatusMutationVariables
->;
+export function useUpdateContestStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>(UpdateContestStatusDocument, options);
+      }
+export type UpdateContestStatusMutationHookResult = ReturnType<typeof useUpdateContestStatusMutation>;
+export type UpdateContestStatusMutationResult = Apollo.MutationResult<UpdateContestStatusMutation>;
+export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
 export const GetContestNoticesDocument = gql`
-  query GetContestNotices($contest_id: uuid!) {
-    contest_info(
-      where: { contest_id: { _eq: $contest_id } }
-      order_by: { updated_at: desc }
-    ) {
-      content
-      created_at
-      updated_at
-      files
-      id
-      title
-    }
+    query GetContestNotices($contest_id: uuid!) {
+  contest_info(
+    where: {contest_id: {_eq: $contest_id}}
+    order_by: {updated_at: desc}
+  ) {
+    content
+    created_at
+    updated_at
+    files
+    id
+    title
   }
-`;
+}
+    `;
 
 /**
  * __useGetContestNoticesQuery__
@@ -15099,82 +11375,35 @@ export const GetContestNoticesDocument = gql`
  *   },
  * });
  */
-export function useGetContestNoticesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetContestNoticesQuery,
-    GetContestNoticesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetContestNoticesQuery,
-    GetContestNoticesQueryVariables
-  >(GetContestNoticesDocument, options);
-}
-export function useGetContestNoticesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetContestNoticesQuery,
-    GetContestNoticesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetContestNoticesQuery,
-    GetContestNoticesQueryVariables
-  >(GetContestNoticesDocument, options);
-}
-export function useGetContestNoticesSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetContestNoticesQuery,
-    GetContestNoticesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetContestNoticesQuery,
-    GetContestNoticesQueryVariables
-  >(GetContestNoticesDocument, options);
-}
-export type GetContestNoticesQueryHookResult = ReturnType<
-  typeof useGetContestNoticesQuery
->;
-export type GetContestNoticesLazyQueryHookResult = ReturnType<
-  typeof useGetContestNoticesLazyQuery
->;
-export type GetContestNoticesSuspenseQueryHookResult = ReturnType<
-  typeof useGetContestNoticesSuspenseQuery
->;
-export type GetContestNoticesQueryResult = Apollo.QueryResult<
-  GetContestNoticesQuery,
-  GetContestNoticesQueryVariables
->;
+export function useGetContestNoticesQuery(baseOptions: Apollo.QueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+      }
+export function useGetContestNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+        }
+export function useGetContestNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+        }
+export type GetContestNoticesQueryHookResult = ReturnType<typeof useGetContestNoticesQuery>;
+export type GetContestNoticesLazyQueryHookResult = ReturnType<typeof useGetContestNoticesLazyQuery>;
+export type GetContestNoticesSuspenseQueryHookResult = ReturnType<typeof useGetContestNoticesSuspenseQuery>;
+export type GetContestNoticesQueryResult = Apollo.QueryResult<GetContestNoticesQuery, GetContestNoticesQueryVariables>;
 export const UpdateContestNoticeDocument = gql`
-  mutation UpdateContestNotice(
-    $id: uuid!
-    $title: String!
-    $content: String!
-    $files: String
-    $contest_id: uuid!
+    mutation UpdateContestNotice($id: uuid!, $title: String!, $content: String!, $files: String, $contest_id: uuid!) {
+  update_contest_info(
+    where: {id: {_eq: $id}}
+    _set: {title: $title, content: $content, files: $files, contest_id: $contest_id}
   ) {
-    update_contest_info(
-      where: { id: { _eq: $id } }
-      _set: {
-        title: $title
-        content: $content
-        files: $files
-        contest_id: $contest_id
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type UpdateContestNoticeMutationFn = Apollo.MutationFunction<
-  UpdateContestNoticeMutation,
-  UpdateContestNoticeMutationVariables
->;
+}
+    `;
+export type UpdateContestNoticeMutationFn = Apollo.MutationFunction<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
 
 /**
  * __useUpdateContestNoticeMutation__
@@ -15197,52 +11426,25 @@ export type UpdateContestNoticeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateContestNoticeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateContestNoticeMutation,
-    UpdateContestNoticeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateContestNoticeMutation,
-    UpdateContestNoticeMutationVariables
-  >(UpdateContestNoticeDocument, options);
-}
-export type UpdateContestNoticeMutationHookResult = ReturnType<
-  typeof useUpdateContestNoticeMutation
->;
-export type UpdateContestNoticeMutationResult =
-  Apollo.MutationResult<UpdateContestNoticeMutation>;
-export type UpdateContestNoticeMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContestNoticeMutation,
-  UpdateContestNoticeMutationVariables
->;
+export function useUpdateContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>(UpdateContestNoticeDocument, options);
+      }
+export type UpdateContestNoticeMutationHookResult = ReturnType<typeof useUpdateContestNoticeMutation>;
+export type UpdateContestNoticeMutationResult = Apollo.MutationResult<UpdateContestNoticeMutation>;
+export type UpdateContestNoticeMutationOptions = Apollo.BaseMutationOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
 export const AddContestNoticeDocument = gql`
-  mutation AddContestNotice(
-    $title: String!
-    $content: String!
-    $files: String
-    $contest_id: uuid!
+    mutation AddContestNotice($title: String!, $content: String!, $files: String, $contest_id: uuid!) {
+  insert_contest_info(
+    objects: {title: $title, content: $content, files: $files, contest_id: $contest_id}
   ) {
-    insert_contest_info(
-      objects: {
-        title: $title
-        content: $content
-        files: $files
-        contest_id: $contest_id
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type AddContestNoticeMutationFn = Apollo.MutationFunction<
-  AddContestNoticeMutation,
-  AddContestNoticeMutationVariables
->;
+}
+    `;
+export type AddContestNoticeMutationFn = Apollo.MutationFunction<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
 
 /**
  * __useAddContestNoticeMutation__
@@ -15264,40 +11466,23 @@ export type AddContestNoticeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddContestNoticeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddContestNoticeMutation,
-    AddContestNoticeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    AddContestNoticeMutation,
-    AddContestNoticeMutationVariables
-  >(AddContestNoticeDocument, options);
-}
-export type AddContestNoticeMutationHookResult = ReturnType<
-  typeof useAddContestNoticeMutation
->;
-export type AddContestNoticeMutationResult =
-  Apollo.MutationResult<AddContestNoticeMutation>;
-export type AddContestNoticeMutationOptions = Apollo.BaseMutationOptions<
-  AddContestNoticeMutation,
-  AddContestNoticeMutationVariables
->;
-export const DeleteContestNoticeDocument = gql`
-  mutation DeleteContestNotice($id: uuid!) {
-    delete_contest_info(where: { id: { _eq: $id } }) {
-      returning {
-        id
+export function useAddContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestNoticeMutation, AddContestNoticeMutationVariables>(AddContestNoticeDocument, options);
       }
+export type AddContestNoticeMutationHookResult = ReturnType<typeof useAddContestNoticeMutation>;
+export type AddContestNoticeMutationResult = Apollo.MutationResult<AddContestNoticeMutation>;
+export type AddContestNoticeMutationOptions = Apollo.BaseMutationOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
+export const DeleteContestNoticeDocument = gql`
+    mutation DeleteContestNotice($id: uuid!) {
+  delete_contest_info(where: {id: {_eq: $id}}) {
+    returning {
+      id
     }
   }
-`;
-export type DeleteContestNoticeMutationFn = Apollo.MutationFunction<
-  DeleteContestNoticeMutation,
-  DeleteContestNoticeMutationVariables
->;
+}
+    `;
+export type DeleteContestNoticeMutationFn = Apollo.MutationFunction<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
 
 /**
  * __useDeleteContestNoticeMutation__
@@ -15316,39 +11501,25 @@ export type DeleteContestNoticeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteContestNoticeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteContestNoticeMutation,
-    DeleteContestNoticeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteContestNoticeMutation,
-    DeleteContestNoticeMutationVariables
-  >(DeleteContestNoticeDocument, options);
-}
-export type DeleteContestNoticeMutationHookResult = ReturnType<
-  typeof useDeleteContestNoticeMutation
->;
-export type DeleteContestNoticeMutationResult =
-  Apollo.MutationResult<DeleteContestNoticeMutation>;
-export type DeleteContestNoticeMutationOptions = Apollo.BaseMutationOptions<
-  DeleteContestNoticeMutation,
-  DeleteContestNoticeMutationVariables
->;
+export function useDeleteContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>(DeleteContestNoticeDocument, options);
+      }
+export type DeleteContestNoticeMutationHookResult = ReturnType<typeof useDeleteContestNoticeMutation>;
+export type DeleteContestNoticeMutationResult = Apollo.MutationResult<DeleteContestNoticeMutation>;
+export type DeleteContestNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
 export const GetContestsDocument = gql`
-  query GetContests {
-    contest(order_by: { start_date: desc }) {
-      contest_name
-      description
-      end_date
-      id
-      start_date
-      contest_type
-    }
+    query GetContests {
+  contest(order_by: {start_date: desc}) {
+    contest_name
+    description
+    end_date
+    id
+    start_date
+    contest_type
   }
-`;
+}
+    `;
 
 /**
  * __useGetContestsQuery__
@@ -15365,80 +11536,34 @@ export const GetContestsDocument = gql`
  *   },
  * });
  */
-export function useGetContestsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetContestsQuery,
-    GetContestsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetContestsQuery, GetContestsQueryVariables>(
-    GetContestsDocument,
-    options,
-  );
-}
-export function useGetContestsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetContestsQuery,
-    GetContestsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetContestsQuery, GetContestsQueryVariables>(
-    GetContestsDocument,
-    options,
-  );
-}
-export function useGetContestsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetContestsQuery,
-    GetContestsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetContestsQuery, GetContestsQueryVariables>(
-    GetContestsDocument,
-    options,
-  );
-}
+export function useGetContestsQuery(baseOptions?: Apollo.QueryHookOptions<GetContestsQuery, GetContestsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestsQuery, GetContestsQueryVariables>(GetContestsDocument, options);
+      }
+export function useGetContestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestsQuery, GetContestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestsQuery, GetContestsQueryVariables>(GetContestsDocument, options);
+        }
+export function useGetContestsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestsQuery, GetContestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestsQuery, GetContestsQueryVariables>(GetContestsDocument, options);
+        }
 export type GetContestsQueryHookResult = ReturnType<typeof useGetContestsQuery>;
-export type GetContestsLazyQueryHookResult = ReturnType<
-  typeof useGetContestsLazyQuery
->;
-export type GetContestsSuspenseQueryHookResult = ReturnType<
-  typeof useGetContestsSuspenseQuery
->;
-export type GetContestsQueryResult = Apollo.QueryResult<
-  GetContestsQuery,
-  GetContestsQueryVariables
->;
+export type GetContestsLazyQueryHookResult = ReturnType<typeof useGetContestsLazyQuery>;
+export type GetContestsSuspenseQueryHookResult = ReturnType<typeof useGetContestsSuspenseQuery>;
+export type GetContestsQueryResult = Apollo.QueryResult<GetContestsQuery, GetContestsQueryVariables>;
 export const AddContestDocument = gql`
-  mutation AddContest(
-    $start_date: timestamptz!
-    $end_date: timestamptz!
-    $description: String = ""
-    $contest_name: String!
-    $contest_type: String!
+    mutation AddContest($start_date: timestamptz!, $end_date: timestamptz!, $description: String = "", $contest_name: String!, $contest_type: String!) {
+  insert_contest(
+    objects: {contest_name: $contest_name, description: $description, end_date: $end_date, start_date: $start_date, contest_type: $contest_type}
   ) {
-    insert_contest(
-      objects: {
-        contest_name: $contest_name
-        description: $description
-        end_date: $end_date
-        start_date: $start_date
-        contest_type: $contest_type
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type AddContestMutationFn = Apollo.MutationFunction<
-  AddContestMutation,
-  AddContestMutationVariables
->;
+}
+    `;
+export type AddContestMutationFn = Apollo.MutationFunction<AddContestMutation, AddContestMutationVariables>;
 
 /**
  * __useAddContestMutation__
@@ -15461,56 +11586,26 @@ export type AddContestMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddContestMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddContestMutation,
-    AddContestMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<AddContestMutation, AddContestMutationVariables>(
-    AddContestDocument,
-    options,
-  );
-}
-export type AddContestMutationHookResult = ReturnType<
-  typeof useAddContestMutation
->;
-export type AddContestMutationResult =
-  Apollo.MutationResult<AddContestMutation>;
-export type AddContestMutationOptions = Apollo.BaseMutationOptions<
-  AddContestMutation,
-  AddContestMutationVariables
->;
+export function useAddContestMutation(baseOptions?: Apollo.MutationHookOptions<AddContestMutation, AddContestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestMutation, AddContestMutationVariables>(AddContestDocument, options);
+      }
+export type AddContestMutationHookResult = ReturnType<typeof useAddContestMutation>;
+export type AddContestMutationResult = Apollo.MutationResult<AddContestMutation>;
+export type AddContestMutationOptions = Apollo.BaseMutationOptions<AddContestMutation, AddContestMutationVariables>;
 export const UpdateContestDocument = gql`
-  mutation UpdateContest(
-    $id: uuid!
-    $description: String = ""
-    $contest_name: String!
-    $end_date: timestamptz!
-    $start_date: timestamptz!
-    $contest_type: String!
+    mutation UpdateContest($id: uuid!, $description: String = "", $contest_name: String!, $end_date: timestamptz!, $start_date: timestamptz!, $contest_type: String!) {
+  update_contest(
+    where: {id: {_eq: $id}}
+    _set: {contest_name: $contest_name, description: $description, end_date: $end_date, start_date: $start_date, contest_type: $contest_type}
   ) {
-    update_contest(
-      where: { id: { _eq: $id } }
-      _set: {
-        contest_name: $contest_name
-        description: $description
-        end_date: $end_date
-        start_date: $start_date
-        contest_type: $contest_type
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type UpdateContestMutationFn = Apollo.MutationFunction<
-  UpdateContestMutation,
-  UpdateContestMutationVariables
->;
+}
+    `;
+export type UpdateContestMutationFn = Apollo.MutationFunction<UpdateContestMutation, UpdateContestMutationVariables>;
 
 /**
  * __useUpdateContestMutation__
@@ -15534,41 +11629,24 @@ export type UpdateContestMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateContestMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateContestMutation,
-    UpdateContestMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateContestMutation,
-    UpdateContestMutationVariables
-  >(UpdateContestDocument, options);
-}
-export type UpdateContestMutationHookResult = ReturnType<
-  typeof useUpdateContestMutation
->;
-export type UpdateContestMutationResult =
-  Apollo.MutationResult<UpdateContestMutation>;
-export type UpdateContestMutationOptions = Apollo.BaseMutationOptions<
-  UpdateContestMutation,
-  UpdateContestMutationVariables
->;
-export const DeleteContestDocument = gql`
-  mutation DeleteContest($id: uuid!) {
-    delete_contest(where: { id: { _eq: $id } }) {
-      affected_rows
-      returning {
-        id
+export function useUpdateContestMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMutation, UpdateContestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestMutation, UpdateContestMutationVariables>(UpdateContestDocument, options);
       }
+export type UpdateContestMutationHookResult = ReturnType<typeof useUpdateContestMutation>;
+export type UpdateContestMutationResult = Apollo.MutationResult<UpdateContestMutation>;
+export type UpdateContestMutationOptions = Apollo.BaseMutationOptions<UpdateContestMutation, UpdateContestMutationVariables>;
+export const DeleteContestDocument = gql`
+    mutation DeleteContest($id: uuid!) {
+  delete_contest(where: {id: {_eq: $id}}) {
+    affected_rows
+    returning {
+      id
     }
   }
-`;
-export type DeleteContestMutationFn = Apollo.MutationFunction<
-  DeleteContestMutation,
-  DeleteContestMutationVariables
->;
+}
+    `;
+export type DeleteContestMutationFn = Apollo.MutationFunction<DeleteContestMutation, DeleteContestMutationVariables>;
 
 /**
  * __useDeleteContestMutation__
@@ -15587,38 +11665,24 @@ export type DeleteContestMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteContestMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteContestMutation,
-    DeleteContestMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteContestMutation,
-    DeleteContestMutationVariables
-  >(DeleteContestDocument, options);
-}
-export type DeleteContestMutationHookResult = ReturnType<
-  typeof useDeleteContestMutation
->;
-export type DeleteContestMutationResult =
-  Apollo.MutationResult<DeleteContestMutation>;
-export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<
-  DeleteContestMutation,
-  DeleteContestMutationVariables
->;
-export const GetContestManagerDocument = gql`
-  query GetContestManager($contest_id: uuid!) {
-    contest_manager(where: { contest_id: { _eq: $contest_id } }) {
-      user {
-        _id
-        name
-        email
+export function useDeleteContestMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestMutation, DeleteContestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestMutation, DeleteContestMutationVariables>(DeleteContestDocument, options);
       }
+export type DeleteContestMutationHookResult = ReturnType<typeof useDeleteContestMutation>;
+export type DeleteContestMutationResult = Apollo.MutationResult<DeleteContestMutation>;
+export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<DeleteContestMutation, DeleteContestMutationVariables>;
+export const GetContestManagerDocument = gql`
+    query GetContestManager($contest_id: uuid!) {
+  contest_manager(where: {contest_id: {_eq: $contest_id}}) {
+    user {
+      _id
+      name
+      email
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetContestManagerQuery__
@@ -15636,66 +11700,30 @@ export const GetContestManagerDocument = gql`
  *   },
  * });
  */
-export function useGetContestManagerQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetContestManagerQuery,
-    GetContestManagerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetContestManagerQuery,
-    GetContestManagerQueryVariables
-  >(GetContestManagerDocument, options);
-}
-export function useGetContestManagerLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetContestManagerQuery,
-    GetContestManagerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetContestManagerQuery,
-    GetContestManagerQueryVariables
-  >(GetContestManagerDocument, options);
-}
-export function useGetContestManagerSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetContestManagerQuery,
-    GetContestManagerQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetContestManagerQuery,
-    GetContestManagerQueryVariables
-  >(GetContestManagerDocument, options);
-}
-export type GetContestManagerQueryHookResult = ReturnType<
-  typeof useGetContestManagerQuery
->;
-export type GetContestManagerLazyQueryHookResult = ReturnType<
-  typeof useGetContestManagerLazyQuery
->;
-export type GetContestManagerSuspenseQueryHookResult = ReturnType<
-  typeof useGetContestManagerSuspenseQuery
->;
-export type GetContestManagerQueryResult = Apollo.QueryResult<
-  GetContestManagerQuery,
-  GetContestManagerQueryVariables
->;
+export function useGetContestManagerQuery(baseOptions: Apollo.QueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestManagerQuery, GetContestManagerQueryVariables>(GetContestManagerDocument, options);
+      }
+export function useGetContestManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestManagerQuery, GetContestManagerQueryVariables>(GetContestManagerDocument, options);
+        }
+export function useGetContestManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestManagerQuery, GetContestManagerQueryVariables>(GetContestManagerDocument, options);
+        }
+export type GetContestManagerQueryHookResult = ReturnType<typeof useGetContestManagerQuery>;
+export type GetContestManagerLazyQueryHookResult = ReturnType<typeof useGetContestManagerLazyQuery>;
+export type GetContestManagerSuspenseQueryHookResult = ReturnType<typeof useGetContestManagerSuspenseQuery>;
+export type GetContestManagerQueryResult = Apollo.QueryResult<GetContestManagerQuery, GetContestManagerQueryVariables>;
 export const DeleteContestAllManagerDocument = gql`
-  mutation DeleteContestAllManager($contest_id: uuid!) {
-    delete_contest_manager(where: { contest_id: { _eq: $contest_id } }) {
-      affected_rows
-    }
+    mutation DeleteContestAllManager($contest_id: uuid!) {
+  delete_contest_manager(where: {contest_id: {_eq: $contest_id}}) {
+    affected_rows
   }
-`;
-export type DeleteContestAllManagerMutationFn = Apollo.MutationFunction<
-  DeleteContestAllManagerMutation,
-  DeleteContestAllManagerMutationVariables
->;
+}
+    `;
+export type DeleteContestAllManagerMutationFn = Apollo.MutationFunction<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>;
 
 /**
  * __useDeleteContestAllManagerMutation__
@@ -15714,40 +11742,21 @@ export type DeleteContestAllManagerMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteContestAllManagerMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteContestAllManagerMutation,
-    DeleteContestAllManagerMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteContestAllManagerMutation,
-    DeleteContestAllManagerMutationVariables
-  >(DeleteContestAllManagerDocument, options);
-}
-export type DeleteContestAllManagerMutationHookResult = ReturnType<
-  typeof useDeleteContestAllManagerMutation
->;
-export type DeleteContestAllManagerMutationResult =
-  Apollo.MutationResult<DeleteContestAllManagerMutation>;
-export type DeleteContestAllManagerMutationOptions = Apollo.BaseMutationOptions<
-  DeleteContestAllManagerMutation,
-  DeleteContestAllManagerMutationVariables
->;
+export function useDeleteContestAllManagerMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>(DeleteContestAllManagerDocument, options);
+      }
+export type DeleteContestAllManagerMutationHookResult = ReturnType<typeof useDeleteContestAllManagerMutation>;
+export type DeleteContestAllManagerMutationResult = Apollo.MutationResult<DeleteContestAllManagerMutation>;
+export type DeleteContestAllManagerMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>;
 export const AddContestManagerDocument = gql`
-  mutation AddContestManager($contest_id: uuid!, $user_id: String!) {
-    insert_contest_manager(
-      objects: { contest_id: $contest_id, user_id: $user_id }
-    ) {
-      affected_rows
-    }
+    mutation AddContestManager($contest_id: uuid!, $user_id: String!) {
+  insert_contest_manager(objects: {contest_id: $contest_id, user_id: $user_id}) {
+    affected_rows
   }
-`;
-export type AddContestManagerMutationFn = Apollo.MutationFunction<
-  AddContestManagerMutation,
-  AddContestManagerMutationVariables
->;
+}
+    `;
+export type AddContestManagerMutationFn = Apollo.MutationFunction<AddContestManagerMutation, AddContestManagerMutationVariables>;
 
 /**
  * __useAddContestManagerMutation__
@@ -15767,34 +11776,20 @@ export type AddContestManagerMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddContestManagerMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddContestManagerMutation,
-    AddContestManagerMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    AddContestManagerMutation,
-    AddContestManagerMutationVariables
-  >(AddContestManagerDocument, options);
-}
-export type AddContestManagerMutationHookResult = ReturnType<
-  typeof useAddContestManagerMutation
->;
-export type AddContestManagerMutationResult =
-  Apollo.MutationResult<AddContestManagerMutation>;
-export type AddContestManagerMutationOptions = Apollo.BaseMutationOptions<
-  AddContestManagerMutation,
-  AddContestManagerMutationVariables
->;
+export function useAddContestManagerMutation(baseOptions?: Apollo.MutationHookOptions<AddContestManagerMutation, AddContestManagerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestManagerMutation, AddContestManagerMutationVariables>(AddContestManagerDocument, options);
+      }
+export type AddContestManagerMutationHookResult = ReturnType<typeof useAddContestManagerMutation>;
+export type AddContestManagerMutationResult = Apollo.MutationResult<AddContestManagerMutation>;
+export type AddContestManagerMutationOptions = Apollo.BaseMutationOptions<AddContestManagerMutation, AddContestManagerMutationVariables>;
 export const GetUser_IdDocument = gql`
-  query GetUser_Id($email: String!, $name: String!) {
-    user(where: { email: { _eq: $email }, name: { _eq: $name } }) {
-      _id
-    }
+    query GetUser_Id($email: String!, $name: String!) {
+  user(where: {email: {_eq: $email}, name: {_eq: $name}}) {
+    _id
   }
-`;
+}
+    `;
 
 /**
  * __useGetUser_IdQuery__
@@ -15813,64 +11808,30 @@ export const GetUser_IdDocument = gql`
  *   },
  * });
  */
-export function useGetUser_IdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUser_IdQuery,
-    GetUser_IdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(
-    GetUser_IdDocument,
-    options,
-  );
-}
-export function useGetUser_IdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUser_IdQuery,
-    GetUser_IdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(
-    GetUser_IdDocument,
-    options,
-  );
-}
-export function useGetUser_IdSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUser_IdQuery,
-    GetUser_IdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(
-    GetUser_IdDocument,
-    options,
-  );
-}
+export function useGetUser_IdQuery(baseOptions: Apollo.QueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+      }
+export function useGetUser_IdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+        }
+export function useGetUser_IdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+        }
 export type GetUser_IdQueryHookResult = ReturnType<typeof useGetUser_IdQuery>;
-export type GetUser_IdLazyQueryHookResult = ReturnType<
-  typeof useGetUser_IdLazyQuery
->;
-export type GetUser_IdSuspenseQueryHookResult = ReturnType<
-  typeof useGetUser_IdSuspenseQuery
->;
-export type GetUser_IdQueryResult = Apollo.QueryResult<
-  GetUser_IdQuery,
-  GetUser_IdQueryVariables
->;
+export type GetUser_IdLazyQueryHookResult = ReturnType<typeof useGetUser_IdLazyQuery>;
+export type GetUser_IdSuspenseQueryHookResult = ReturnType<typeof useGetUser_IdSuspenseQuery>;
+export type GetUser_IdQueryResult = Apollo.QueryResult<GetUser_IdQuery, GetUser_IdQueryVariables>;
 export const DeleteContestAllTeamsDocument = gql`
-  mutation DeleteContestAllTeams($contest_id: uuid!) {
-    delete_contest_team(where: { contest_id: { _eq: $contest_id } }) {
-      affected_rows
-    }
+    mutation DeleteContestAllTeams($contest_id: uuid!) {
+  delete_contest_team(where: {contest_id: {_eq: $contest_id}}) {
+    affected_rows
   }
-`;
-export type DeleteContestAllTeamsMutationFn = Apollo.MutationFunction<
-  DeleteContestAllTeamsMutation,
-  DeleteContestAllTeamsMutationVariables
->;
+}
+    `;
+export type DeleteContestAllTeamsMutationFn = Apollo.MutationFunction<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>;
 
 /**
  * __useDeleteContestAllTeamsMutation__
@@ -15889,38 +11850,21 @@ export type DeleteContestAllTeamsMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteContestAllTeamsMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteContestAllTeamsMutation,
-    DeleteContestAllTeamsMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteContestAllTeamsMutation,
-    DeleteContestAllTeamsMutationVariables
-  >(DeleteContestAllTeamsDocument, options);
-}
-export type DeleteContestAllTeamsMutationHookResult = ReturnType<
-  typeof useDeleteContestAllTeamsMutation
->;
-export type DeleteContestAllTeamsMutationResult =
-  Apollo.MutationResult<DeleteContestAllTeamsMutation>;
-export type DeleteContestAllTeamsMutationOptions = Apollo.BaseMutationOptions<
-  DeleteContestAllTeamsMutation,
-  DeleteContestAllTeamsMutationVariables
->;
+export function useDeleteContestAllTeamsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>(DeleteContestAllTeamsDocument, options);
+      }
+export type DeleteContestAllTeamsMutationHookResult = ReturnType<typeof useDeleteContestAllTeamsMutation>;
+export type DeleteContestAllTeamsMutationResult = Apollo.MutationResult<DeleteContestAllTeamsMutation>;
+export type DeleteContestAllTeamsMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>;
 export const DeleteContestAllInfoDocument = gql`
-  mutation DeleteContestAllInfo($contest_id: uuid!) {
-    delete_contest_info(where: { contest_id: { _eq: $contest_id } }) {
-      affected_rows
-    }
+    mutation DeleteContestAllInfo($contest_id: uuid!) {
+  delete_contest_info(where: {contest_id: {_eq: $contest_id}}) {
+    affected_rows
   }
-`;
-export type DeleteContestAllInfoMutationFn = Apollo.MutationFunction<
-  DeleteContestAllInfoMutation,
-  DeleteContestAllInfoMutationVariables
->;
+}
+    `;
+export type DeleteContestAllInfoMutationFn = Apollo.MutationFunction<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>;
 
 /**
  * __useDeleteContestAllInfoMutation__
@@ -15939,38 +11883,21 @@ export type DeleteContestAllInfoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteContestAllInfoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteContestAllInfoMutation,
-    DeleteContestAllInfoMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteContestAllInfoMutation,
-    DeleteContestAllInfoMutationVariables
-  >(DeleteContestAllInfoDocument, options);
-}
-export type DeleteContestAllInfoMutationHookResult = ReturnType<
-  typeof useDeleteContestAllInfoMutation
->;
-export type DeleteContestAllInfoMutationResult =
-  Apollo.MutationResult<DeleteContestAllInfoMutation>;
-export type DeleteContestAllInfoMutationOptions = Apollo.BaseMutationOptions<
-  DeleteContestAllInfoMutation,
-  DeleteContestAllInfoMutationVariables
->;
+export function useDeleteContestAllInfoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>(DeleteContestAllInfoDocument, options);
+      }
+export type DeleteContestAllInfoMutationHookResult = ReturnType<typeof useDeleteContestAllInfoMutation>;
+export type DeleteContestAllInfoMutationResult = Apollo.MutationResult<DeleteContestAllInfoMutation>;
+export type DeleteContestAllInfoMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>;
 export const DeleteContestAllRoomsDocument = gql`
-  mutation DeleteContestAllRooms($contest_id: uuid!) {
-    delete_contest_room(where: { contest_id: { _eq: $contest_id } }) {
-      affected_rows
-    }
+    mutation DeleteContestAllRooms($contest_id: uuid!) {
+  delete_contest_room(where: {contest_id: {_eq: $contest_id}}) {
+    affected_rows
   }
-`;
-export type DeleteContestAllRoomsMutationFn = Apollo.MutationFunction<
-  DeleteContestAllRoomsMutation,
-  DeleteContestAllRoomsMutationVariables
->;
+}
+    `;
+export type DeleteContestAllRoomsMutationFn = Apollo.MutationFunction<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>;
 
 /**
  * __useDeleteContestAllRoomsMutation__
@@ -15989,38 +11916,24 @@ export type DeleteContestAllRoomsMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteContestAllRoomsMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteContestAllRoomsMutation,
-    DeleteContestAllRoomsMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteContestAllRoomsMutation,
-    DeleteContestAllRoomsMutationVariables
-  >(DeleteContestAllRoomsDocument, options);
-}
-export type DeleteContestAllRoomsMutationHookResult = ReturnType<
-  typeof useDeleteContestAllRoomsMutation
->;
-export type DeleteContestAllRoomsMutationResult =
-  Apollo.MutationResult<DeleteContestAllRoomsMutation>;
-export type DeleteContestAllRoomsMutationOptions = Apollo.BaseMutationOptions<
-  DeleteContestAllRoomsMutation,
-  DeleteContestAllRoomsMutationVariables
->;
+export function useDeleteContestAllRoomsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>(DeleteContestAllRoomsDocument, options);
+      }
+export type DeleteContestAllRoomsMutationHookResult = ReturnType<typeof useDeleteContestAllRoomsMutation>;
+export type DeleteContestAllRoomsMutationResult = Apollo.MutationResult<DeleteContestAllRoomsMutation>;
+export type DeleteContestAllRoomsMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>;
 export const GetAidListDocument = gql`
-  query GetAidList {
-    scholarships_aids(where: { IsAids: { _eq: true } }) {
-      amount
-      code
-      name
-      salutation
-      type
-    }
+    query GetAidList {
+  scholarships_aids(where: {IsAids: {_eq: true}}) {
+    amount
+    code
+    name
+    salutation
+    type
   }
-`;
+}
+    `;
 
 /**
  * __useGetAidListQuery__
@@ -16037,81 +11950,46 @@ export const GetAidListDocument = gql`
  *   },
  * });
  */
-export function useGetAidListQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetAidListQuery,
-    GetAidListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetAidListQuery, GetAidListQueryVariables>(
-    GetAidListDocument,
-    options,
-  );
-}
-export function useGetAidListLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAidListQuery,
-    GetAidListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetAidListQuery, GetAidListQueryVariables>(
-    GetAidListDocument,
-    options,
-  );
-}
-export function useGetAidListSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetAidListQuery,
-    GetAidListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetAidListQuery, GetAidListQueryVariables>(
-    GetAidListDocument,
-    options,
-  );
-}
+export function useGetAidListQuery(baseOptions?: Apollo.QueryHookOptions<GetAidListQuery, GetAidListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAidListQuery, GetAidListQueryVariables>(GetAidListDocument, options);
+      }
+export function useGetAidListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAidListQuery, GetAidListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAidListQuery, GetAidListQueryVariables>(GetAidListDocument, options);
+        }
+export function useGetAidListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAidListQuery, GetAidListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAidListQuery, GetAidListQueryVariables>(GetAidListDocument, options);
+        }
 export type GetAidListQueryHookResult = ReturnType<typeof useGetAidListQuery>;
-export type GetAidListLazyQueryHookResult = ReturnType<
-  typeof useGetAidListLazyQuery
->;
-export type GetAidListSuspenseQueryHookResult = ReturnType<
-  typeof useGetAidListSuspenseQuery
->;
-export type GetAidListQueryResult = Apollo.QueryResult<
-  GetAidListQuery,
-  GetAidListQueryVariables
->;
+export type GetAidListLazyQueryHookResult = ReturnType<typeof useGetAidListLazyQuery>;
+export type GetAidListSuspenseQueryHookResult = ReturnType<typeof useGetAidListSuspenseQuery>;
+export type GetAidListQueryResult = Apollo.QueryResult<GetAidListQuery, GetAidListQueryVariables>;
 export const GetAidApplicationsDocument = gql`
-  query GetAidApplications($_id: String!, $_gte: timestamptz!) {
-    aid_application(
-      where: {
-        student_id: { _eq: $_id }
-        updated_at: { _gte: $_gte }
-        created_at: { _gte: $_gte }
-      }
-      order_by: { created_at: asc }
-    ) {
+    query GetAidApplications($_id: String!, $_gte: timestamptz!) {
+  aid_application(
+    where: {student_id: {_eq: $_id}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+    order_by: {created_at: asc}
+  ) {
+    id
+    student {
       id
-      student {
-        id
-        name
-        department
-        class
-      }
-      aid
-      amount
-      code
-      thank_letter
-      form_url
-      status
-      created_at
-      updated_at
+      name
+      department
+      class
     }
+    aid
+    amount
+    code
+    thank_letter
+    form_url
+    status
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetAidApplicationsQuery__
@@ -16130,76 +12008,43 @@ export const GetAidApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetAidApplicationsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetAidApplicationsQuery,
-    GetAidApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetAidApplicationsQuery,
-    GetAidApplicationsQueryVariables
-  >(GetAidApplicationsDocument, options);
-}
-export function useGetAidApplicationsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAidApplicationsQuery,
-    GetAidApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetAidApplicationsQuery,
-    GetAidApplicationsQueryVariables
-  >(GetAidApplicationsDocument, options);
-}
-export function useGetAidApplicationsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetAidApplicationsQuery,
-    GetAidApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetAidApplicationsQuery,
-    GetAidApplicationsQueryVariables
-  >(GetAidApplicationsDocument, options);
-}
-export type GetAidApplicationsQueryHookResult = ReturnType<
-  typeof useGetAidApplicationsQuery
->;
-export type GetAidApplicationsLazyQueryHookResult = ReturnType<
-  typeof useGetAidApplicationsLazyQuery
->;
-export type GetAidApplicationsSuspenseQueryHookResult = ReturnType<
-  typeof useGetAidApplicationsSuspenseQuery
->;
-export type GetAidApplicationsQueryResult = Apollo.QueryResult<
-  GetAidApplicationsQuery,
-  GetAidApplicationsQueryVariables
->;
-export const GetAidApplicationsForCounselorsDocument = gql`
-  query GetAidApplicationsForCounselors {
-    aid_application(order_by: { created_at: asc }) {
-      id
-      student {
-        id
-        name
-        department
-        class
+export function useGetAidApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>(GetAidApplicationsDocument, options);
       }
-      aid
-      amount
-      code
-      thank_letter
-      form_url
-      status
-      created_at
-      updated_at
+export function useGetAidApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>(GetAidApplicationsDocument, options);
+        }
+export function useGetAidApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>(GetAidApplicationsDocument, options);
+        }
+export type GetAidApplicationsQueryHookResult = ReturnType<typeof useGetAidApplicationsQuery>;
+export type GetAidApplicationsLazyQueryHookResult = ReturnType<typeof useGetAidApplicationsLazyQuery>;
+export type GetAidApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetAidApplicationsSuspenseQuery>;
+export type GetAidApplicationsQueryResult = Apollo.QueryResult<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>;
+export const GetAidApplicationsForCounselorsDocument = gql`
+    query GetAidApplicationsForCounselors {
+  aid_application(order_by: {created_at: asc}) {
+    id
+    student {
+      id
+      name
+      department
+      class
     }
+    aid
+    amount
+    code
+    thank_letter
+    form_url
+    status
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetAidApplicationsForCounselorsQuery__
@@ -16216,80 +12061,34 @@ export const GetAidApplicationsForCounselorsDocument = gql`
  *   },
  * });
  */
-export function useGetAidApplicationsForCounselorsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetAidApplicationsForCounselorsQuery,
-    GetAidApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetAidApplicationsForCounselorsQuery,
-    GetAidApplicationsForCounselorsQueryVariables
-  >(GetAidApplicationsForCounselorsDocument, options);
-}
-export function useGetAidApplicationsForCounselorsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAidApplicationsForCounselorsQuery,
-    GetAidApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetAidApplicationsForCounselorsQuery,
-    GetAidApplicationsForCounselorsQueryVariables
-  >(GetAidApplicationsForCounselorsDocument, options);
-}
-export function useGetAidApplicationsForCounselorsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetAidApplicationsForCounselorsQuery,
-    GetAidApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetAidApplicationsForCounselorsQuery,
-    GetAidApplicationsForCounselorsQueryVariables
-  >(GetAidApplicationsForCounselorsDocument, options);
-}
-export type GetAidApplicationsForCounselorsQueryHookResult = ReturnType<
-  typeof useGetAidApplicationsForCounselorsQuery
->;
-export type GetAidApplicationsForCounselorsLazyQueryHookResult = ReturnType<
-  typeof useGetAidApplicationsForCounselorsLazyQuery
->;
-export type GetAidApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<
-  typeof useGetAidApplicationsForCounselorsSuspenseQuery
->;
-export type GetAidApplicationsForCounselorsQueryResult = Apollo.QueryResult<
-  GetAidApplicationsForCounselorsQuery,
-  GetAidApplicationsForCounselorsQueryVariables
->;
+export function useGetAidApplicationsForCounselorsQuery(baseOptions?: Apollo.QueryHookOptions<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>(GetAidApplicationsForCounselorsDocument, options);
+      }
+export function useGetAidApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>(GetAidApplicationsForCounselorsDocument, options);
+        }
+export function useGetAidApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>(GetAidApplicationsForCounselorsDocument, options);
+        }
+export type GetAidApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetAidApplicationsForCounselorsQuery>;
+export type GetAidApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetAidApplicationsForCounselorsLazyQuery>;
+export type GetAidApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetAidApplicationsForCounselorsSuspenseQuery>;
+export type GetAidApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>;
 export const AddAidApplicationDocument = gql`
-  mutation AddAidApplication(
-    $student_id: String!
-    $aid: String!
-    $amount: Int!
-    $code: String!
+    mutation AddAidApplication($student_id: String!, $aid: String!, $amount: Int!, $code: String!) {
+  insert_aid_application(
+    objects: {student_id: $student_id, aid: $aid, amount: $amount, code: $code}
   ) {
-    insert_aid_application(
-      objects: {
-        student_id: $student_id
-        aid: $aid
-        amount: $amount
-        code: $code
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type AddAidApplicationMutationFn = Apollo.MutationFunction<
-  AddAidApplicationMutation,
-  AddAidApplicationMutationVariables
->;
+}
+    `;
+export type AddAidApplicationMutationFn = Apollo.MutationFunction<AddAidApplicationMutation, AddAidApplicationMutationVariables>;
 
 /**
  * __useAddAidApplicationMutation__
@@ -16311,47 +12110,26 @@ export type AddAidApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddAidApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddAidApplicationMutation,
-    AddAidApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    AddAidApplicationMutation,
-    AddAidApplicationMutationVariables
-  >(AddAidApplicationDocument, options);
-}
-export type AddAidApplicationMutationHookResult = ReturnType<
-  typeof useAddAidApplicationMutation
->;
-export type AddAidApplicationMutationResult =
-  Apollo.MutationResult<AddAidApplicationMutation>;
-export type AddAidApplicationMutationOptions = Apollo.BaseMutationOptions<
-  AddAidApplicationMutation,
-  AddAidApplicationMutationVariables
->;
-export const UpdateAidApplicationDocument = gql`
-  mutation UpdateAidApplication(
-    $id: uuid!
-    $thank_letter: String
-    $form_url: String
-  ) {
-    update_aid_application(
-      where: { id: { _eq: $id } }
-      _set: { thank_letter: $thank_letter, form_url: $form_url }
-    ) {
-      returning {
-        id
+export function useAddAidApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddAidApplicationMutation, AddAidApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddAidApplicationMutation, AddAidApplicationMutationVariables>(AddAidApplicationDocument, options);
       }
+export type AddAidApplicationMutationHookResult = ReturnType<typeof useAddAidApplicationMutation>;
+export type AddAidApplicationMutationResult = Apollo.MutationResult<AddAidApplicationMutation>;
+export type AddAidApplicationMutationOptions = Apollo.BaseMutationOptions<AddAidApplicationMutation, AddAidApplicationMutationVariables>;
+export const UpdateAidApplicationDocument = gql`
+    mutation UpdateAidApplication($id: uuid!, $thank_letter: String, $form_url: String) {
+  update_aid_application(
+    where: {id: {_eq: $id}}
+    _set: {thank_letter: $thank_letter, form_url: $form_url}
+  ) {
+    returning {
+      id
     }
   }
-`;
-export type UpdateAidApplicationMutationFn = Apollo.MutationFunction<
-  UpdateAidApplicationMutation,
-  UpdateAidApplicationMutationVariables
->;
+}
+    `;
+export type UpdateAidApplicationMutationFn = Apollo.MutationFunction<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>;
 
 /**
  * __useUpdateAidApplicationMutation__
@@ -16372,40 +12150,23 @@ export type UpdateAidApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateAidApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateAidApplicationMutation,
-    UpdateAidApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateAidApplicationMutation,
-    UpdateAidApplicationMutationVariables
-  >(UpdateAidApplicationDocument, options);
-}
-export type UpdateAidApplicationMutationHookResult = ReturnType<
-  typeof useUpdateAidApplicationMutation
->;
-export type UpdateAidApplicationMutationResult =
-  Apollo.MutationResult<UpdateAidApplicationMutation>;
-export type UpdateAidApplicationMutationOptions = Apollo.BaseMutationOptions<
-  UpdateAidApplicationMutation,
-  UpdateAidApplicationMutationVariables
->;
-export const DeleteAidApplicationDocument = gql`
-  mutation DeleteAidApplication($id: uuid!) {
-    delete_aid_application(where: { id: { _eq: $id } }) {
-      returning {
-        id
+export function useUpdateAidApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>(UpdateAidApplicationDocument, options);
       }
+export type UpdateAidApplicationMutationHookResult = ReturnType<typeof useUpdateAidApplicationMutation>;
+export type UpdateAidApplicationMutationResult = Apollo.MutationResult<UpdateAidApplicationMutation>;
+export type UpdateAidApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>;
+export const DeleteAidApplicationDocument = gql`
+    mutation DeleteAidApplication($id: uuid!) {
+  delete_aid_application(where: {id: {_eq: $id}}) {
+    returning {
+      id
     }
   }
-`;
-export type DeleteAidApplicationMutationFn = Apollo.MutationFunction<
-  DeleteAidApplicationMutation,
-  DeleteAidApplicationMutationVariables
->;
+}
+    `;
+export type DeleteAidApplicationMutationFn = Apollo.MutationFunction<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>;
 
 /**
  * __useDeleteAidApplicationMutation__
@@ -16424,54 +12185,75 @@ export type DeleteAidApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteAidApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteAidApplicationMutation,
-    DeleteAidApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteAidApplicationMutation,
-    DeleteAidApplicationMutationVariables
-  >(DeleteAidApplicationDocument, options);
-}
-export type DeleteAidApplicationMutationHookResult = ReturnType<
-  typeof useDeleteAidApplicationMutation
->;
-export type DeleteAidApplicationMutationResult =
-  Apollo.MutationResult<DeleteAidApplicationMutation>;
-export type DeleteAidApplicationMutationOptions = Apollo.BaseMutationOptions<
-  DeleteAidApplicationMutation,
-  DeleteAidApplicationMutationVariables
->;
-export const GetApprovedMentorApplicationsDocument = gql`
-  query GetApprovedMentorApplications($_id: String!) {
-    mentor_application(
-      where: {
-        _and: [
-          { _or: [{ student_id: { _eq: $_id } }, { mentor_id: { _eq: $_id } }] }
-          { status: { _eq: "approved" } }
-        ]
+export function useDeleteAidApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>(DeleteAidApplicationDocument, options);
       }
-      order_by: { created_at: asc }
-    ) {
-      id
-      student {
-        _id
-        name
-      }
-      mentor {
-        _id
-        name
-      }
-      statement
-      status
-      created_at
-      updated_at
-    }
+export type DeleteAidApplicationMutationHookResult = ReturnType<typeof useDeleteAidApplicationMutation>;
+export type DeleteAidApplicationMutationResult = Apollo.MutationResult<DeleteAidApplicationMutation>;
+export type DeleteAidApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>;
+export const GetIdByStudentNoDocument = gql`
+    query GetIdByStudentNo($student_no: String!) {
+  users(where: {student_no: {_eq: $student_no}}) {
+    id
   }
-`;
+}
+    `;
+
+/**
+ * __useGetIdByStudentNoQuery__
+ *
+ * To run a query within a React component, call `useGetIdByStudentNoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIdByStudentNoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIdByStudentNoQuery({
+ *   variables: {
+ *      student_no: // value for 'student_no'
+ *   },
+ * });
+ */
+export function useGetIdByStudentNoQuery(baseOptions: Apollo.QueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>(GetIdByStudentNoDocument, options);
+      }
+export function useGetIdByStudentNoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>(GetIdByStudentNoDocument, options);
+        }
+export function useGetIdByStudentNoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>(GetIdByStudentNoDocument, options);
+        }
+export type GetIdByStudentNoQueryHookResult = ReturnType<typeof useGetIdByStudentNoQuery>;
+export type GetIdByStudentNoLazyQueryHookResult = ReturnType<typeof useGetIdByStudentNoLazyQuery>;
+export type GetIdByStudentNoSuspenseQueryHookResult = ReturnType<typeof useGetIdByStudentNoSuspenseQuery>;
+export type GetIdByStudentNoQueryResult = Apollo.QueryResult<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>;
+export const GetApprovedMentorApplicationsDocument = gql`
+    query GetApprovedMentorApplications($_id: String!) {
+  mentor_application(
+    where: {_and: [{_or: [{student_id: {_eq: $_id}}, {mentor_id: {_eq: $_id}}]}, {status: {_eq: "approved"}}]}
+    order_by: {created_at: asc}
+  ) {
+    id
+    student {
+      _id
+      name
+    }
+    mentor {
+      _id
+      name
+    }
+    statement
+    status
+    created_at
+    updated_at
+  }
+}
+    `;
 
 /**
  * __useGetApprovedMentorApplicationsQuery__
@@ -16489,74 +12271,36 @@ export const GetApprovedMentorApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetApprovedMentorApplicationsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetApprovedMentorApplicationsQuery,
-    GetApprovedMentorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetApprovedMentorApplicationsQuery,
-    GetApprovedMentorApplicationsQueryVariables
-  >(GetApprovedMentorApplicationsDocument, options);
-}
-export function useGetApprovedMentorApplicationsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetApprovedMentorApplicationsQuery,
-    GetApprovedMentorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetApprovedMentorApplicationsQuery,
-    GetApprovedMentorApplicationsQueryVariables
-  >(GetApprovedMentorApplicationsDocument, options);
-}
-export function useGetApprovedMentorApplicationsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetApprovedMentorApplicationsQuery,
-    GetApprovedMentorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetApprovedMentorApplicationsQuery,
-    GetApprovedMentorApplicationsQueryVariables
-  >(GetApprovedMentorApplicationsDocument, options);
-}
-export type GetApprovedMentorApplicationsQueryHookResult = ReturnType<
-  typeof useGetApprovedMentorApplicationsQuery
->;
-export type GetApprovedMentorApplicationsLazyQueryHookResult = ReturnType<
-  typeof useGetApprovedMentorApplicationsLazyQuery
->;
-export type GetApprovedMentorApplicationsSuspenseQueryHookResult = ReturnType<
-  typeof useGetApprovedMentorApplicationsSuspenseQuery
->;
-export type GetApprovedMentorApplicationsQueryResult = Apollo.QueryResult<
-  GetApprovedMentorApplicationsQuery,
-  GetApprovedMentorApplicationsQueryVariables
->;
-export const SubscribeToMessagesDocument = gql`
-  subscription SubscribeToMessages($from_id: String!, $to_id: String!) {
-    mentor_message(
-      order_by: { created_at: asc }
-      where: {
-        _or: [
-          { _and: { from_id: { _eq: $from_id }, to_id: { _eq: $to_id } } }
-          { _and: { from_id: { _eq: $to_id }, to_id: { _eq: $from_id } } }
-        ]
+export function useGetApprovedMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
       }
-    ) {
-      created_at
-      from_id
-      id
-      payload
-      to_id
-    }
+export function useGetApprovedMentorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
+        }
+export function useGetApprovedMentorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
+        }
+export type GetApprovedMentorApplicationsQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsQuery>;
+export type GetApprovedMentorApplicationsLazyQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsLazyQuery>;
+export type GetApprovedMentorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsSuspenseQuery>;
+export type GetApprovedMentorApplicationsQueryResult = Apollo.QueryResult<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>;
+export const SubscribeToMessagesDocument = gql`
+    subscription SubscribeToMessages($from_id: String!, $to_id: String!) {
+  mentor_message(
+    order_by: {created_at: asc}
+    where: {_or: [{_and: {from_id: {_eq: $from_id}, to_id: {_eq: $to_id}}}, {_and: {from_id: {_eq: $to_id}, to_id: {_eq: $from_id}}}]}
+  ) {
+    created_at
+    from_id
+    id
+    payload
+    to_id
   }
-`;
+}
+    `;
 
 /**
  * __useSubscribeToMessagesSubscription__
@@ -16575,38 +12319,24 @@ export const SubscribeToMessagesDocument = gql`
  *   },
  * });
  */
-export function useSubscribeToMessagesSubscription(
-  baseOptions: Apollo.SubscriptionHookOptions<
-    SubscribeToMessagesSubscription,
-    SubscribeToMessagesSubscriptionVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    SubscribeToMessagesSubscription,
-    SubscribeToMessagesSubscriptionVariables
-  >(SubscribeToMessagesDocument, options);
-}
-export type SubscribeToMessagesSubscriptionHookResult = ReturnType<
-  typeof useSubscribeToMessagesSubscription
->;
-export type SubscribeToMessagesSubscriptionResult =
-  Apollo.SubscriptionResult<SubscribeToMessagesSubscription>;
-export const AddMessageDocument = gql`
-  mutation AddMessage($from_id: String!, $to_id: String!, $payload: String!) {
-    insert_mentor_message(
-      objects: { from_id: $from_id, to_id: $to_id, payload: $payload }
-    ) {
-      returning {
-        id
+export function useSubscribeToMessagesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables>(SubscribeToMessagesDocument, options);
       }
+export type SubscribeToMessagesSubscriptionHookResult = ReturnType<typeof useSubscribeToMessagesSubscription>;
+export type SubscribeToMessagesSubscriptionResult = Apollo.SubscriptionResult<SubscribeToMessagesSubscription>;
+export const AddMessageDocument = gql`
+    mutation AddMessage($from_id: String!, $to_id: String!, $payload: String!) {
+  insert_mentor_message(
+    objects: {from_id: $from_id, to_id: $to_id, payload: $payload}
+  ) {
+    returning {
+      id
     }
   }
-`;
-export type AddMessageMutationFn = Apollo.MutationFunction<
-  AddMessageMutation,
-  AddMessageMutationVariables
->;
+}
+    `;
+export type AddMessageMutationFn = Apollo.MutationFunction<AddMessageMutation, AddMessageMutationVariables>;
 
 /**
  * __useAddMessageMutation__
@@ -16627,47 +12357,29 @@ export type AddMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddMessageMutation,
-    AddMessageMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<AddMessageMutation, AddMessageMutationVariables>(
-    AddMessageDocument,
-    options,
-  );
-}
-export type AddMessageMutationHookResult = ReturnType<
-  typeof useAddMessageMutation
->;
-export type AddMessageMutationResult =
-  Apollo.MutationResult<AddMessageMutation>;
-export type AddMessageMutationOptions = Apollo.BaseMutationOptions<
-  AddMessageMutation,
-  AddMessageMutationVariables
->;
-export const GetHonorApplicationsDocument = gql`
-  query GetHonorApplications($_id: String!, $_gte: timestamptz!) {
-    honor_application(
-      where: {
-        student_id: { _eq: $_id }
-        updated_at: { _gte: $_gte }
-        created_at: { _gte: $_gte }
+export function useAddMessageMutation(baseOptions?: Apollo.MutationHookOptions<AddMessageMutation, AddMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMessageMutation, AddMessageMutationVariables>(AddMessageDocument, options);
       }
-      order_by: { created_at: asc }
-    ) {
-      id
-      honor
-      statement
-      attachment_url
-      status
-      created_at
-      updated_at
-    }
+export type AddMessageMutationHookResult = ReturnType<typeof useAddMessageMutation>;
+export type AddMessageMutationResult = Apollo.MutationResult<AddMessageMutation>;
+export type AddMessageMutationOptions = Apollo.BaseMutationOptions<AddMessageMutation, AddMessageMutationVariables>;
+export const GetHonorApplicationsDocument = gql`
+    query GetHonorApplications($_id: String!, $_gte: timestamptz!) {
+  honor_application(
+    where: {student_id: {_eq: $_id}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+    order_by: {created_at: asc}
+  ) {
+    id
+    honor
+    statement
+    attachment_url
+    status
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetHonorApplicationsQuery__
@@ -16686,76 +12398,43 @@ export const GetHonorApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetHonorApplicationsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetHonorApplicationsQuery,
-    GetHonorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetHonorApplicationsQuery,
-    GetHonorApplicationsQueryVariables
-  >(GetHonorApplicationsDocument, options);
-}
-export function useGetHonorApplicationsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetHonorApplicationsQuery,
-    GetHonorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetHonorApplicationsQuery,
-    GetHonorApplicationsQueryVariables
-  >(GetHonorApplicationsDocument, options);
-}
-export function useGetHonorApplicationsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetHonorApplicationsQuery,
-    GetHonorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetHonorApplicationsQuery,
-    GetHonorApplicationsQueryVariables
-  >(GetHonorApplicationsDocument, options);
-}
-export type GetHonorApplicationsQueryHookResult = ReturnType<
-  typeof useGetHonorApplicationsQuery
->;
-export type GetHonorApplicationsLazyQueryHookResult = ReturnType<
-  typeof useGetHonorApplicationsLazyQuery
->;
-export type GetHonorApplicationsSuspenseQueryHookResult = ReturnType<
-  typeof useGetHonorApplicationsSuspenseQuery
->;
-export type GetHonorApplicationsQueryResult = Apollo.QueryResult<
-  GetHonorApplicationsQuery,
-  GetHonorApplicationsQueryVariables
->;
-export const GetHonorApplicationsForCounselorsDocument = gql`
-  query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
-    honor_application(
-      order_by: { created_at: asc }
-      where: { updated_at: { _gte: $_gte }, created_at: { _gte: $_gte } }
-    ) {
-      id
-      honor
-      statement
-      attachment_url
-      status
-      student {
-        id
-        name
-        class
+export function useGetHonorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
       }
-      created_at
-      updated_at
+export function useGetHonorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
+        }
+export function useGetHonorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
+        }
+export type GetHonorApplicationsQueryHookResult = ReturnType<typeof useGetHonorApplicationsQuery>;
+export type GetHonorApplicationsLazyQueryHookResult = ReturnType<typeof useGetHonorApplicationsLazyQuery>;
+export type GetHonorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetHonorApplicationsSuspenseQuery>;
+export type GetHonorApplicationsQueryResult = Apollo.QueryResult<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>;
+export const GetHonorApplicationsForCounselorsDocument = gql`
+    query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
+  honor_application(
+    order_by: {created_at: asc}
+    where: {updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+  ) {
+    id
+    honor
+    statement
+    attachment_url
+    status
+    student {
+      id
+      name
+      class
     }
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetHonorApplicationsForCounselorsQuery__
@@ -16773,79 +12452,34 @@ export const GetHonorApplicationsForCounselorsDocument = gql`
  *   },
  * });
  */
-export function useGetHonorApplicationsForCounselorsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetHonorApplicationsForCounselorsQuery,
-    GetHonorApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetHonorApplicationsForCounselorsQuery,
-    GetHonorApplicationsForCounselorsQueryVariables
-  >(GetHonorApplicationsForCounselorsDocument, options);
-}
-export function useGetHonorApplicationsForCounselorsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetHonorApplicationsForCounselorsQuery,
-    GetHonorApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetHonorApplicationsForCounselorsQuery,
-    GetHonorApplicationsForCounselorsQueryVariables
-  >(GetHonorApplicationsForCounselorsDocument, options);
-}
-export function useGetHonorApplicationsForCounselorsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetHonorApplicationsForCounselorsQuery,
-    GetHonorApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetHonorApplicationsForCounselorsQuery,
-    GetHonorApplicationsForCounselorsQueryVariables
-  >(GetHonorApplicationsForCounselorsDocument, options);
-}
-export type GetHonorApplicationsForCounselorsQueryHookResult = ReturnType<
-  typeof useGetHonorApplicationsForCounselorsQuery
->;
-export type GetHonorApplicationsForCounselorsLazyQueryHookResult = ReturnType<
-  typeof useGetHonorApplicationsForCounselorsLazyQuery
->;
-export type GetHonorApplicationsForCounselorsSuspenseQueryHookResult =
-  ReturnType<typeof useGetHonorApplicationsForCounselorsSuspenseQuery>;
-export type GetHonorApplicationsForCounselorsQueryResult = Apollo.QueryResult<
-  GetHonorApplicationsForCounselorsQuery,
-  GetHonorApplicationsForCounselorsQueryVariables
->;
+export function useGetHonorApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
+      }
+export function useGetHonorApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
+        }
+export function useGetHonorApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
+        }
+export type GetHonorApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsQuery>;
+export type GetHonorApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsLazyQuery>;
+export type GetHonorApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsSuspenseQuery>;
+export type GetHonorApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>;
 export const AddHonorApplicationDocument = gql`
-  mutation AddHonorApplication(
-    $student_id: String!
-    $honor: String!
-    $statement: String!
-    $attachment_url: String
+    mutation AddHonorApplication($student_id: String!, $honor: String!, $statement: String!, $attachment_url: String) {
+  insert_honor_application(
+    objects: {student_id: $student_id, honor: $honor, statement: $statement, attachment_url: $attachment_url}
   ) {
-    insert_honor_application(
-      objects: {
-        student_id: $student_id
-        honor: $honor
-        statement: $statement
-        attachment_url: $attachment_url
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type AddHonorApplicationMutationFn = Apollo.MutationFunction<
-  AddHonorApplicationMutation,
-  AddHonorApplicationMutationVariables
->;
+}
+    `;
+export type AddHonorApplicationMutationFn = Apollo.MutationFunction<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>;
 
 /**
  * __useAddHonorApplicationMutation__
@@ -16867,52 +12501,26 @@ export type AddHonorApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddHonorApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddHonorApplicationMutation,
-    AddHonorApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    AddHonorApplicationMutation,
-    AddHonorApplicationMutationVariables
-  >(AddHonorApplicationDocument, options);
-}
-export type AddHonorApplicationMutationHookResult = ReturnType<
-  typeof useAddHonorApplicationMutation
->;
-export type AddHonorApplicationMutationResult =
-  Apollo.MutationResult<AddHonorApplicationMutation>;
-export type AddHonorApplicationMutationOptions = Apollo.BaseMutationOptions<
-  AddHonorApplicationMutation,
-  AddHonorApplicationMutationVariables
->;
+export function useAddHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>(AddHonorApplicationDocument, options);
+      }
+export type AddHonorApplicationMutationHookResult = ReturnType<typeof useAddHonorApplicationMutation>;
+export type AddHonorApplicationMutationResult = Apollo.MutationResult<AddHonorApplicationMutation>;
+export type AddHonorApplicationMutationOptions = Apollo.BaseMutationOptions<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>;
 export const UpdateHonorApplicationDocument = gql`
-  mutation UpdateHonorApplication(
-    $id: uuid!
-    $honor: String!
-    $statement: String!
-    $attachment_url: String
+    mutation UpdateHonorApplication($id: uuid!, $honor: String!, $statement: String!, $attachment_url: String) {
+  update_honor_application(
+    where: {id: {_eq: $id}}
+    _set: {honor: $honor, statement: $statement, attachment_url: $attachment_url}
   ) {
-    update_honor_application(
-      where: { id: { _eq: $id } }
-      _set: {
-        honor: $honor
-        statement: $statement
-        attachment_url: $attachment_url
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type UpdateHonorApplicationMutationFn = Apollo.MutationFunction<
-  UpdateHonorApplicationMutation,
-  UpdateHonorApplicationMutationVariables
->;
+}
+    `;
+export type UpdateHonorApplicationMutationFn = Apollo.MutationFunction<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>;
 
 /**
  * __useUpdateHonorApplicationMutation__
@@ -16934,40 +12542,23 @@ export type UpdateHonorApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateHonorApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateHonorApplicationMutation,
-    UpdateHonorApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateHonorApplicationMutation,
-    UpdateHonorApplicationMutationVariables
-  >(UpdateHonorApplicationDocument, options);
-}
-export type UpdateHonorApplicationMutationHookResult = ReturnType<
-  typeof useUpdateHonorApplicationMutation
->;
-export type UpdateHonorApplicationMutationResult =
-  Apollo.MutationResult<UpdateHonorApplicationMutation>;
-export type UpdateHonorApplicationMutationOptions = Apollo.BaseMutationOptions<
-  UpdateHonorApplicationMutation,
-  UpdateHonorApplicationMutationVariables
->;
-export const DeleteHonorApplicationDocument = gql`
-  mutation DeleteHonorApplication($id: uuid!) {
-    delete_honor_application(where: { id: { _eq: $id } }) {
-      returning {
-        id
+export function useUpdateHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>(UpdateHonorApplicationDocument, options);
       }
+export type UpdateHonorApplicationMutationHookResult = ReturnType<typeof useUpdateHonorApplicationMutation>;
+export type UpdateHonorApplicationMutationResult = Apollo.MutationResult<UpdateHonorApplicationMutation>;
+export type UpdateHonorApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>;
+export const DeleteHonorApplicationDocument = gql`
+    mutation DeleteHonorApplication($id: uuid!) {
+  delete_honor_application(where: {id: {_eq: $id}}) {
+    returning {
+      id
     }
   }
-`;
-export type DeleteHonorApplicationMutationFn = Apollo.MutationFunction<
-  DeleteHonorApplicationMutation,
-  DeleteHonorApplicationMutationVariables
->;
+}
+    `;
+export type DeleteHonorApplicationMutationFn = Apollo.MutationFunction<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>;
 
 /**
  * __useDeleteHonorApplicationMutation__
@@ -16986,44 +12577,24 @@ export type DeleteHonorApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteHonorApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteHonorApplicationMutation,
-    DeleteHonorApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteHonorApplicationMutation,
-    DeleteHonorApplicationMutationVariables
-  >(DeleteHonorApplicationDocument, options);
-}
-export type DeleteHonorApplicationMutationHookResult = ReturnType<
-  typeof useDeleteHonorApplicationMutation
->;
-export type DeleteHonorApplicationMutationResult =
-  Apollo.MutationResult<DeleteHonorApplicationMutation>;
-export type DeleteHonorApplicationMutationOptions = Apollo.BaseMutationOptions<
-  DeleteHonorApplicationMutation,
-  DeleteHonorApplicationMutationVariables
->;
-export const UpdateHonorApplicationStatusDocument = gql`
-  mutation UpdateHonorApplicationStatus($id: uuid!, $status: String!) {
-    update_honor_application(
-      where: { id: { _eq: $id } }
-      _set: { status: $status }
-    ) {
-      returning {
-        id
-        status
+export function useDeleteHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>(DeleteHonorApplicationDocument, options);
       }
+export type DeleteHonorApplicationMutationHookResult = ReturnType<typeof useDeleteHonorApplicationMutation>;
+export type DeleteHonorApplicationMutationResult = Apollo.MutationResult<DeleteHonorApplicationMutation>;
+export type DeleteHonorApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>;
+export const UpdateHonorApplicationStatusDocument = gql`
+    mutation UpdateHonorApplicationStatus($id: uuid!, $status: String!) {
+  update_honor_application(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    returning {
+      id
+      status
     }
   }
-`;
-export type UpdateHonorApplicationStatusMutationFn = Apollo.MutationFunction<
-  UpdateHonorApplicationStatusMutation,
-  UpdateHonorApplicationStatusMutationVariables
->;
+}
+    `;
+export type UpdateHonorApplicationStatusMutationFn = Apollo.MutationFunction<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
 
 /**
  * __useUpdateHonorApplicationStatusMutation__
@@ -17043,58 +12614,41 @@ export type UpdateHonorApplicationStatusMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateHonorApplicationStatusMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateHonorApplicationStatusMutation,
-    UpdateHonorApplicationStatusMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateHonorApplicationStatusMutation,
-    UpdateHonorApplicationStatusMutationVariables
-  >(UpdateHonorApplicationStatusDocument, options);
-}
-export type UpdateHonorApplicationStatusMutationHookResult = ReturnType<
-  typeof useUpdateHonorApplicationStatusMutation
->;
-export type UpdateHonorApplicationStatusMutationResult =
-  Apollo.MutationResult<UpdateHonorApplicationStatusMutation>;
-export type UpdateHonorApplicationStatusMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateHonorApplicationStatusMutation,
-    UpdateHonorApplicationStatusMutationVariables
-  >;
+export function useUpdateHonorApplicationStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>(UpdateHonorApplicationStatusDocument, options);
+      }
+export type UpdateHonorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateHonorApplicationStatusMutation>;
+export type UpdateHonorApplicationStatusMutationResult = Apollo.MutationResult<UpdateHonorApplicationStatusMutation>;
+export type UpdateHonorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
 export const GetMentorApplicationsDocument = gql`
-  query GetMentorApplications($_id: String!) {
-    mentor_application(
-      where: {
-        _or: [{ student_id: { _eq: $_id } }, { mentor_id: { _eq: $_id } }]
-      }
-      order_by: { created_at: asc }
-    ) {
-      id
-      student {
-        name
-        department
-        email
-        phone
-      }
-      mentor {
-        name
-        department
-        mentor_available {
-          available
-        }
-      }
-      statement
-      status
-      chat_status
-      created_at
-      updated_at
+    query GetMentorApplications($_id: String!) {
+  mentor_application(
+    where: {_or: [{student_id: {_eq: $_id}}, {mentor_id: {_eq: $_id}}]}
+    order_by: {created_at: asc}
+  ) {
+    id
+    student {
+      name
+      department
+      email
+      phone
     }
+    mentor {
+      name
+      department
+      mentor_available {
+        available
+      }
+    }
+    statement
+    status
+    chat_status
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetMentorApplicationsQuery__
@@ -17112,81 +12666,48 @@ export const GetMentorApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetMentorApplicationsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMentorApplicationsQuery,
-    GetMentorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetMentorApplicationsQuery,
-    GetMentorApplicationsQueryVariables
-  >(GetMentorApplicationsDocument, options);
-}
-export function useGetMentorApplicationsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMentorApplicationsQuery,
-    GetMentorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMentorApplicationsQuery,
-    GetMentorApplicationsQueryVariables
-  >(GetMentorApplicationsDocument, options);
-}
-export function useGetMentorApplicationsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetMentorApplicationsQuery,
-    GetMentorApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetMentorApplicationsQuery,
-    GetMentorApplicationsQueryVariables
-  >(GetMentorApplicationsDocument, options);
-}
-export type GetMentorApplicationsQueryHookResult = ReturnType<
-  typeof useGetMentorApplicationsQuery
->;
-export type GetMentorApplicationsLazyQueryHookResult = ReturnType<
-  typeof useGetMentorApplicationsLazyQuery
->;
-export type GetMentorApplicationsSuspenseQueryHookResult = ReturnType<
-  typeof useGetMentorApplicationsSuspenseQuery
->;
-export type GetMentorApplicationsQueryResult = Apollo.QueryResult<
-  GetMentorApplicationsQuery,
-  GetMentorApplicationsQueryVariables
->;
-export const GetMentorApplicationsForCounselorsDocument = gql`
-  query GetMentorApplicationsForCounselors {
-    mentor_application(order_by: { created_at: asc }) {
-      id
-      student {
-        id
-        name
-        class
-        department
-        email
-        phone
+export function useGetMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>(GetMentorApplicationsDocument, options);
       }
-      mentor {
-        name
-        department
-        mentor_available {
-          available
+export function useGetMentorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>(GetMentorApplicationsDocument, options);
         }
-      }
-      statement
-      status
-      created_at
-      updated_at
+export function useGetMentorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>(GetMentorApplicationsDocument, options);
+        }
+export type GetMentorApplicationsQueryHookResult = ReturnType<typeof useGetMentorApplicationsQuery>;
+export type GetMentorApplicationsLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsLazyQuery>;
+export type GetMentorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsSuspenseQuery>;
+export type GetMentorApplicationsQueryResult = Apollo.QueryResult<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>;
+export const GetMentorApplicationsForCounselorsDocument = gql`
+    query GetMentorApplicationsForCounselors {
+  mentor_application(order_by: {created_at: asc}) {
+    id
+    student {
+      id
+      name
+      class
+      department
+      email
+      phone
     }
+    mentor {
+      name
+      department
+      mentor_available {
+        available
+      }
+    }
+    statement
+    status
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetMentorApplicationsForCounselorsQuery__
@@ -17203,61 +12724,29 @@ export const GetMentorApplicationsForCounselorsDocument = gql`
  *   },
  * });
  */
-export function useGetMentorApplicationsForCounselorsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetMentorApplicationsForCounselorsQuery,
-    GetMentorApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetMentorApplicationsForCounselorsQuery,
-    GetMentorApplicationsForCounselorsQueryVariables
-  >(GetMentorApplicationsForCounselorsDocument, options);
-}
-export function useGetMentorApplicationsForCounselorsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMentorApplicationsForCounselorsQuery,
-    GetMentorApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMentorApplicationsForCounselorsQuery,
-    GetMentorApplicationsForCounselorsQueryVariables
-  >(GetMentorApplicationsForCounselorsDocument, options);
-}
-export function useGetMentorApplicationsForCounselorsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetMentorApplicationsForCounselorsQuery,
-    GetMentorApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetMentorApplicationsForCounselorsQuery,
-    GetMentorApplicationsForCounselorsQueryVariables
-  >(GetMentorApplicationsForCounselorsDocument, options);
-}
-export type GetMentorApplicationsForCounselorsQueryHookResult = ReturnType<
-  typeof useGetMentorApplicationsForCounselorsQuery
->;
-export type GetMentorApplicationsForCounselorsLazyQueryHookResult = ReturnType<
-  typeof useGetMentorApplicationsForCounselorsLazyQuery
->;
-export type GetMentorApplicationsForCounselorsSuspenseQueryHookResult =
-  ReturnType<typeof useGetMentorApplicationsForCounselorsSuspenseQuery>;
-export type GetMentorApplicationsForCounselorsQueryResult = Apollo.QueryResult<
-  GetMentorApplicationsForCounselorsQuery,
-  GetMentorApplicationsForCounselorsQueryVariables
->;
+export function useGetMentorApplicationsForCounselorsQuery(baseOptions?: Apollo.QueryHookOptions<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>(GetMentorApplicationsForCounselorsDocument, options);
+      }
+export function useGetMentorApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>(GetMentorApplicationsForCounselorsDocument, options);
+        }
+export function useGetMentorApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>(GetMentorApplicationsForCounselorsDocument, options);
+        }
+export type GetMentorApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetMentorApplicationsForCounselorsQuery>;
+export type GetMentorApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsForCounselorsLazyQuery>;
+export type GetMentorApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsForCounselorsSuspenseQuery>;
+export type GetMentorApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>;
 export const GetMentorAvailableDocument = gql`
-  query GetMentorAvailable($_id: String!) {
-    mentor_available(where: { mentor_id: { _eq: $_id } }) {
-      available
-    }
+    query GetMentorAvailable($_id: String!) {
+  mentor_available(where: {mentor_id: {_eq: $_id}}) {
+    available
   }
-`;
+}
+    `;
 
 /**
  * __useGetMentorAvailableQuery__
@@ -17275,73 +12764,34 @@ export const GetMentorAvailableDocument = gql`
  *   },
  * });
  */
-export function useGetMentorAvailableQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMentorAvailableQuery,
-    GetMentorAvailableQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetMentorAvailableQuery,
-    GetMentorAvailableQueryVariables
-  >(GetMentorAvailableDocument, options);
-}
-export function useGetMentorAvailableLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMentorAvailableQuery,
-    GetMentorAvailableQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMentorAvailableQuery,
-    GetMentorAvailableQueryVariables
-  >(GetMentorAvailableDocument, options);
-}
-export function useGetMentorAvailableSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetMentorAvailableQuery,
-    GetMentorAvailableQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetMentorAvailableQuery,
-    GetMentorAvailableQueryVariables
-  >(GetMentorAvailableDocument, options);
-}
-export type GetMentorAvailableQueryHookResult = ReturnType<
-  typeof useGetMentorAvailableQuery
->;
-export type GetMentorAvailableLazyQueryHookResult = ReturnType<
-  typeof useGetMentorAvailableLazyQuery
->;
-export type GetMentorAvailableSuspenseQueryHookResult = ReturnType<
-  typeof useGetMentorAvailableSuspenseQuery
->;
-export type GetMentorAvailableQueryResult = Apollo.QueryResult<
-  GetMentorAvailableQuery,
-  GetMentorAvailableQueryVariables
->;
-export const ChangeMentorAvailableDocument = gql`
-  mutation ChangeMentorAvailable($_id: String!, $available: Boolean!) {
-    insert_mentor_available_one(
-      object: { mentor_id: $_id, available: $available }
-      on_conflict: {
-        constraint: mentor_available_mentor_id_key
-        update_columns: available
+export function useGetMentorAvailableQuery(baseOptions: Apollo.QueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>(GetMentorAvailableDocument, options);
       }
-    ) {
-      mentor_id
-      available
-    }
+export function useGetMentorAvailableLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>(GetMentorAvailableDocument, options);
+        }
+export function useGetMentorAvailableSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>(GetMentorAvailableDocument, options);
+        }
+export type GetMentorAvailableQueryHookResult = ReturnType<typeof useGetMentorAvailableQuery>;
+export type GetMentorAvailableLazyQueryHookResult = ReturnType<typeof useGetMentorAvailableLazyQuery>;
+export type GetMentorAvailableSuspenseQueryHookResult = ReturnType<typeof useGetMentorAvailableSuspenseQuery>;
+export type GetMentorAvailableQueryResult = Apollo.QueryResult<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>;
+export const ChangeMentorAvailableDocument = gql`
+    mutation ChangeMentorAvailable($_id: String!, $available: Boolean!) {
+  insert_mentor_available_one(
+    object: {mentor_id: $_id, available: $available}
+    on_conflict: {constraint: mentor_available_mentor_id_key, update_columns: available}
+  ) {
+    mentor_id
+    available
   }
-`;
-export type ChangeMentorAvailableMutationFn = Apollo.MutationFunction<
-  ChangeMentorAvailableMutation,
-  ChangeMentorAvailableMutationVariables
->;
+}
+    `;
+export type ChangeMentorAvailableMutationFn = Apollo.MutationFunction<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>;
 
 /**
  * __useChangeMentorAvailableMutation__
@@ -17361,43 +12811,23 @@ export type ChangeMentorAvailableMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useChangeMentorAvailableMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ChangeMentorAvailableMutation,
-    ChangeMentorAvailableMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    ChangeMentorAvailableMutation,
-    ChangeMentorAvailableMutationVariables
-  >(ChangeMentorAvailableDocument, options);
-}
-export type ChangeMentorAvailableMutationHookResult = ReturnType<
-  typeof useChangeMentorAvailableMutation
->;
-export type ChangeMentorAvailableMutationResult =
-  Apollo.MutationResult<ChangeMentorAvailableMutation>;
-export type ChangeMentorAvailableMutationOptions = Apollo.BaseMutationOptions<
-  ChangeMentorAvailableMutation,
-  ChangeMentorAvailableMutationVariables
->;
-export const UpdateMentorApplicationStatusDocument = gql`
-  mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
-    update_mentor_application(
-      where: { id: { _eq: $id } }
-      _set: { status: $status }
-    ) {
-      returning {
-        id
+export function useChangeMentorAvailableMutation(baseOptions?: Apollo.MutationHookOptions<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>(ChangeMentorAvailableDocument, options);
       }
+export type ChangeMentorAvailableMutationHookResult = ReturnType<typeof useChangeMentorAvailableMutation>;
+export type ChangeMentorAvailableMutationResult = Apollo.MutationResult<ChangeMentorAvailableMutation>;
+export type ChangeMentorAvailableMutationOptions = Apollo.BaseMutationOptions<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>;
+export const UpdateMentorApplicationStatusDocument = gql`
+    mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
+  update_mentor_application(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    returning {
+      id
     }
   }
-`;
-export type UpdateMentorApplicationStatusMutationFn = Apollo.MutationFunction<
-  UpdateMentorApplicationStatusMutation,
-  UpdateMentorApplicationStatusMutationVariables
->;
+}
+    `;
+export type UpdateMentorApplicationStatusMutationFn = Apollo.MutationFunction<UpdateMentorApplicationStatusMutation, UpdateMentorApplicationStatusMutationVariables>;
 
 /**
  * __useUpdateMentorApplicationStatusMutation__
@@ -17417,48 +12847,26 @@ export type UpdateMentorApplicationStatusMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateMentorApplicationStatusMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateMentorApplicationStatusMutation,
-    UpdateMentorApplicationStatusMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateMentorApplicationStatusMutation,
-    UpdateMentorApplicationStatusMutationVariables
-  >(UpdateMentorApplicationStatusDocument, options);
-}
-export type UpdateMentorApplicationStatusMutationHookResult = ReturnType<
-  typeof useUpdateMentorApplicationStatusMutation
->;
-export type UpdateMentorApplicationStatusMutationResult =
-  Apollo.MutationResult<UpdateMentorApplicationStatusMutation>;
-export type UpdateMentorApplicationStatusMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateMentorApplicationStatusMutation,
-    UpdateMentorApplicationStatusMutationVariables
-  >;
-export const UpdateMentorApplicationChatStatusDocument = gql`
-  mutation UpdateMentorApplicationChatStatus(
-    $id: uuid!
-    $chat_status: Boolean!
-  ) {
-    update_mentor_application(
-      where: { id: { _eq: $id } }
-      _set: { chat_status: $chat_status }
-    ) {
-      returning {
-        id
+export function useUpdateMentorApplicationStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorApplicationStatusMutation, UpdateMentorApplicationStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMentorApplicationStatusMutation, UpdateMentorApplicationStatusMutationVariables>(UpdateMentorApplicationStatusDocument, options);
       }
+export type UpdateMentorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateMentorApplicationStatusMutation>;
+export type UpdateMentorApplicationStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationStatusMutation>;
+export type UpdateMentorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationStatusMutation, UpdateMentorApplicationStatusMutationVariables>;
+export const UpdateMentorApplicationChatStatusDocument = gql`
+    mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
+  update_mentor_application(
+    where: {id: {_eq: $id}}
+    _set: {chat_status: $chat_status}
+  ) {
+    returning {
+      id
     }
   }
-`;
-export type UpdateMentorApplicationChatStatusMutationFn =
-  Apollo.MutationFunction<
-    UpdateMentorApplicationChatStatusMutation,
-    UpdateMentorApplicationChatStatusMutationVariables
-  >;
+}
+    `;
+export type UpdateMentorApplicationChatStatusMutationFn = Apollo.MutationFunction<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>;
 
 /**
  * __useUpdateMentorApplicationChatStatusMutation__
@@ -17478,51 +12886,25 @@ export type UpdateMentorApplicationChatStatusMutationFn =
  *   },
  * });
  */
-export function useUpdateMentorApplicationChatStatusMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateMentorApplicationChatStatusMutation,
-    UpdateMentorApplicationChatStatusMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateMentorApplicationChatStatusMutation,
-    UpdateMentorApplicationChatStatusMutationVariables
-  >(UpdateMentorApplicationChatStatusDocument, options);
-}
-export type UpdateMentorApplicationChatStatusMutationHookResult = ReturnType<
-  typeof useUpdateMentorApplicationChatStatusMutation
->;
-export type UpdateMentorApplicationChatStatusMutationResult =
-  Apollo.MutationResult<UpdateMentorApplicationChatStatusMutation>;
-export type UpdateMentorApplicationChatStatusMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateMentorApplicationChatStatusMutation,
-    UpdateMentorApplicationChatStatusMutationVariables
-  >;
+export function useUpdateMentorApplicationChatStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>(UpdateMentorApplicationChatStatusDocument, options);
+      }
+export type UpdateMentorApplicationChatStatusMutationHookResult = ReturnType<typeof useUpdateMentorApplicationChatStatusMutation>;
+export type UpdateMentorApplicationChatStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationChatStatusMutation>;
+export type UpdateMentorApplicationChatStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>;
 export const AddMentorApplicationDocument = gql`
-  mutation AddMentorApplication(
-    $student_id: String!
-    $mentor_id: String!
-    $statement: String!
+    mutation AddMentorApplication($student_id: String!, $mentor_id: String!, $statement: String!) {
+  insert_mentor_application(
+    objects: {student_id: $student_id, mentor_id: $mentor_id, statement: $statement}
   ) {
-    insert_mentor_application(
-      objects: {
-        student_id: $student_id
-        mentor_id: $mentor_id
-        statement: $statement
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type AddMentorApplicationMutationFn = Apollo.MutationFunction<
-  AddMentorApplicationMutation,
-  AddMentorApplicationMutationVariables
->;
+}
+    `;
+export type AddMentorApplicationMutationFn = Apollo.MutationFunction<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>;
 
 /**
  * __useAddMentorApplicationMutation__
@@ -17543,43 +12925,26 @@ export type AddMentorApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddMentorApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddMentorApplicationMutation,
-    AddMentorApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    AddMentorApplicationMutation,
-    AddMentorApplicationMutationVariables
-  >(AddMentorApplicationDocument, options);
-}
-export type AddMentorApplicationMutationHookResult = ReturnType<
-  typeof useAddMentorApplicationMutation
->;
-export type AddMentorApplicationMutationResult =
-  Apollo.MutationResult<AddMentorApplicationMutation>;
-export type AddMentorApplicationMutationOptions = Apollo.BaseMutationOptions<
-  AddMentorApplicationMutation,
-  AddMentorApplicationMutationVariables
->;
-export const UpdateMentorApplicationDocument = gql`
-  mutation UpdateMentorApplication($id: uuid!, $statement: String!) {
-    update_mentor_application(
-      where: { id: { _eq: $id } }
-      _set: { statement: $statement }
-    ) {
-      returning {
-        id
+export function useAddMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>(AddMentorApplicationDocument, options);
       }
+export type AddMentorApplicationMutationHookResult = ReturnType<typeof useAddMentorApplicationMutation>;
+export type AddMentorApplicationMutationResult = Apollo.MutationResult<AddMentorApplicationMutation>;
+export type AddMentorApplicationMutationOptions = Apollo.BaseMutationOptions<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>;
+export const UpdateMentorApplicationDocument = gql`
+    mutation UpdateMentorApplication($id: uuid!, $statement: String!) {
+  update_mentor_application(
+    where: {id: {_eq: $id}}
+    _set: {statement: $statement}
+  ) {
+    returning {
+      id
     }
   }
-`;
-export type UpdateMentorApplicationMutationFn = Apollo.MutationFunction<
-  UpdateMentorApplicationMutation,
-  UpdateMentorApplicationMutationVariables
->;
+}
+    `;
+export type UpdateMentorApplicationMutationFn = Apollo.MutationFunction<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>;
 
 /**
  * __useUpdateMentorApplicationMutation__
@@ -17599,38 +12964,21 @@ export type UpdateMentorApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateMentorApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateMentorApplicationMutation,
-    UpdateMentorApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateMentorApplicationMutation,
-    UpdateMentorApplicationMutationVariables
-  >(UpdateMentorApplicationDocument, options);
-}
-export type UpdateMentorApplicationMutationHookResult = ReturnType<
-  typeof useUpdateMentorApplicationMutation
->;
-export type UpdateMentorApplicationMutationResult =
-  Apollo.MutationResult<UpdateMentorApplicationMutation>;
-export type UpdateMentorApplicationMutationOptions = Apollo.BaseMutationOptions<
-  UpdateMentorApplicationMutation,
-  UpdateMentorApplicationMutationVariables
->;
+export function useUpdateMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>(UpdateMentorApplicationDocument, options);
+      }
+export type UpdateMentorApplicationMutationHookResult = ReturnType<typeof useUpdateMentorApplicationMutation>;
+export type UpdateMentorApplicationMutationResult = Apollo.MutationResult<UpdateMentorApplicationMutation>;
+export type UpdateMentorApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>;
 export const DeleteMentorApplicationDocument = gql`
-  mutation DeleteMentorApplication($id: uuid!) {
-    delete_mentor_application_by_pk(id: $id) {
-      id
-    }
+    mutation DeleteMentorApplication($id: uuid!) {
+  delete_mentor_application_by_pk(id: $id) {
+    id
   }
-`;
-export type DeleteMentorApplicationMutationFn = Apollo.MutationFunction<
-  DeleteMentorApplicationMutation,
-  DeleteMentorApplicationMutationVariables
->;
+}
+    `;
+export type DeleteMentorApplicationMutationFn = Apollo.MutationFunction<DeleteMentorApplicationMutation, DeleteMentorApplicationMutationVariables>;
 
 /**
  * __useDeleteMentorApplicationMutation__
@@ -17649,60 +12997,46 @@ export type DeleteMentorApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteMentorApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteMentorApplicationMutation,
-    DeleteMentorApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteMentorApplicationMutation,
-    DeleteMentorApplicationMutationVariables
-  >(DeleteMentorApplicationDocument, options);
-}
-export type DeleteMentorApplicationMutationHookResult = ReturnType<
-  typeof useDeleteMentorApplicationMutation
->;
-export type DeleteMentorApplicationMutationResult =
-  Apollo.MutationResult<DeleteMentorApplicationMutation>;
-export type DeleteMentorApplicationMutationOptions = Apollo.BaseMutationOptions<
-  DeleteMentorApplicationMutation,
-  DeleteMentorApplicationMutationVariables
->;
+export function useDeleteMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMentorApplicationMutation, DeleteMentorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMentorApplicationMutation, DeleteMentorApplicationMutationVariables>(DeleteMentorApplicationDocument, options);
+      }
+export type DeleteMentorApplicationMutationHookResult = ReturnType<typeof useDeleteMentorApplicationMutation>;
+export type DeleteMentorApplicationMutationResult = Apollo.MutationResult<DeleteMentorApplicationMutation>;
+export type DeleteMentorApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteMentorApplicationMutation, DeleteMentorApplicationMutationVariables>;
 export const GetMentorListDocument = gql`
-  query GetMentorList($grade_time: timestamptz!) {
-    user_by_role(role: "teacher") {
-      _id
-      name
-      department
-      user {
-        matched: mentor_applications_mentor_aggregate(
-          where: { status: { _eq: "approved" } }
-        ) {
-          aggregate {
-            count
-          }
+    query GetMentorList($grade_time: timestamptz!) {
+  user_by_role(role: "teacher") {
+    _id
+    name
+    department
+    user {
+      matched: mentor_applications_mentor_aggregate(
+        where: {status: {_eq: "approved"}}
+      ) {
+        aggregate {
+          count
         }
-        total: mentor_applications_mentor_aggregate {
-          aggregate {
-            count
-          }
+      }
+      total: mentor_applications_mentor_aggregate {
+        aggregate {
+          count
         }
-        total_for_grade: mentor_applications_mentor_aggregate(
-          where: { created_at: { _gte: $grade_time } }
-        ) {
-          aggregate {
-            count
-          }
+      }
+      total_for_grade: mentor_applications_mentor_aggregate(
+        where: {created_at: {_gte: $grade_time}}
+      ) {
+        aggregate {
+          count
         }
-        mentor_available {
-          available
-        }
+      }
+      mentor_available {
+        available
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetMentorListQuery__
@@ -17720,84 +13054,33 @@ export const GetMentorListDocument = gql`
  *   },
  * });
  */
-export function useGetMentorListQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMentorListQuery,
-    GetMentorListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMentorListQuery, GetMentorListQueryVariables>(
-    GetMentorListDocument,
-    options,
-  );
-}
-export function useGetMentorListLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMentorListQuery,
-    GetMentorListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetMentorListQuery, GetMentorListQueryVariables>(
-    GetMentorListDocument,
-    options,
-  );
-}
-export function useGetMentorListSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetMentorListQuery,
-    GetMentorListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetMentorListQuery,
-    GetMentorListQueryVariables
-  >(GetMentorListDocument, options);
-}
-export type GetMentorListQueryHookResult = ReturnType<
-  typeof useGetMentorListQuery
->;
-export type GetMentorListLazyQueryHookResult = ReturnType<
-  typeof useGetMentorListLazyQuery
->;
-export type GetMentorListSuspenseQueryHookResult = ReturnType<
-  typeof useGetMentorListSuspenseQuery
->;
-export type GetMentorListQueryResult = Apollo.QueryResult<
-  GetMentorListQuery,
-  GetMentorListQueryVariables
->;
+export function useGetMentorListQuery(baseOptions: Apollo.QueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorListQuery, GetMentorListQueryVariables>(GetMentorListDocument, options);
+      }
+export function useGetMentorListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorListQuery, GetMentorListQueryVariables>(GetMentorListDocument, options);
+        }
+export function useGetMentorListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorListQuery, GetMentorListQueryVariables>(GetMentorListDocument, options);
+        }
+export type GetMentorListQueryHookResult = ReturnType<typeof useGetMentorListQuery>;
+export type GetMentorListLazyQueryHookResult = ReturnType<typeof useGetMentorListLazyQuery>;
+export type GetMentorListSuspenseQueryHookResult = ReturnType<typeof useGetMentorListSuspenseQuery>;
+export type GetMentorListQueryResult = Apollo.QueryResult<GetMentorListQuery, GetMentorListQueryVariables>;
 export const UpsertMentorInfoDocument = gql`
-  mutation UpsertMentorInfo(
-    $achievement: String = ""
-    $background: String = ""
-    $field: String = ""
-    $intro: String = ""
-    $mentor_id: String!
+    mutation UpsertMentorInfo($achievement: String = "", $background: String = "", $field: String = "", $intro: String = "", $mentor_id: String!) {
+  insert_mentor_info_one(
+    object: {achievement: $achievement, background: $background, field: $field, intro: $intro, mentor_id: $mentor_id}
+    on_conflict: {constraint: mentor_info_pkey, update_columns: [achievement, background, field, intro]}
   ) {
-    insert_mentor_info_one(
-      object: {
-        achievement: $achievement
-        background: $background
-        field: $field
-        intro: $intro
-        mentor_id: $mentor_id
-      }
-      on_conflict: {
-        constraint: mentor_info_pkey
-        update_columns: [achievement, background, field, intro]
-      }
-    ) {
-      mentor_id
-    }
+    mentor_id
   }
-`;
-export type UpsertMentorInfoMutationFn = Apollo.MutationFunction<
-  UpsertMentorInfoMutation,
-  UpsertMentorInfoMutationVariables
->;
+}
+    `;
+export type UpsertMentorInfoMutationFn = Apollo.MutationFunction<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>;
 
 /**
  * __useUpsertMentorInfoMutation__
@@ -17820,42 +13103,28 @@ export type UpsertMentorInfoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpsertMentorInfoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpsertMentorInfoMutation,
-    UpsertMentorInfoMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpsertMentorInfoMutation,
-    UpsertMentorInfoMutationVariables
-  >(UpsertMentorInfoDocument, options);
-}
-export type UpsertMentorInfoMutationHookResult = ReturnType<
-  typeof useUpsertMentorInfoMutation
->;
-export type UpsertMentorInfoMutationResult =
-  Apollo.MutationResult<UpsertMentorInfoMutation>;
-export type UpsertMentorInfoMutationOptions = Apollo.BaseMutationOptions<
-  UpsertMentorInfoMutation,
-  UpsertMentorInfoMutationVariables
->;
-export const GetMentorInfoDocument = gql`
-  query GetMentorInfo($mentor_id: String!) {
-    mentor_info_by_pk(mentor_id: $mentor_id) {
-      achievement
-      background
-      field
-      intro
-      mentor_id
-      user {
-        name
-        email
+export function useUpsertMentorInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>(UpsertMentorInfoDocument, options);
       }
+export type UpsertMentorInfoMutationHookResult = ReturnType<typeof useUpsertMentorInfoMutation>;
+export type UpsertMentorInfoMutationResult = Apollo.MutationResult<UpsertMentorInfoMutation>;
+export type UpsertMentorInfoMutationOptions = Apollo.BaseMutationOptions<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>;
+export const GetMentorInfoDocument = gql`
+    query GetMentorInfo($mentor_id: String!) {
+  mentor_info_by_pk(mentor_id: $mentor_id) {
+    achievement
+    background
+    field
+    intro
+    mentor_id
+    user {
+      name
+      email
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetMentorInfoQuery__
@@ -17873,68 +13142,35 @@ export const GetMentorInfoDocument = gql`
  *   },
  * });
  */
-export function useGetMentorInfoQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMentorInfoQuery,
-    GetMentorInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(
-    GetMentorInfoDocument,
-    options,
-  );
-}
-export function useGetMentorInfoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMentorInfoQuery,
-    GetMentorInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(
-    GetMentorInfoDocument,
-    options,
-  );
-}
-export function useGetMentorInfoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetMentorInfoQuery,
-    GetMentorInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetMentorInfoQuery,
-    GetMentorInfoQueryVariables
-  >(GetMentorInfoDocument, options);
-}
-export type GetMentorInfoQueryHookResult = ReturnType<
-  typeof useGetMentorInfoQuery
->;
-export type GetMentorInfoLazyQueryHookResult = ReturnType<
-  typeof useGetMentorInfoLazyQuery
->;
-export type GetMentorInfoSuspenseQueryHookResult = ReturnType<
-  typeof useGetMentorInfoSuspenseQuery
->;
-export type GetMentorInfoQueryResult = Apollo.QueryResult<
-  GetMentorInfoQuery,
-  GetMentorInfoQueryVariables
->;
-export const GetFreshmanListDocument = gql`
-  query GetFreshmanList {
-    user(where: { id: { _gt: "2022999999", _lte: "2023999999" } }) {
-      _id
-      id
-      mentor_applications_student(where: { status: { _eq: "approved" } }) {
-        student_id
-        mentor_id
-        statement
+export function useGetMentorInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(GetMentorInfoDocument, options);
       }
+export function useGetMentorInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(GetMentorInfoDocument, options);
+        }
+export function useGetMentorInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(GetMentorInfoDocument, options);
+        }
+export type GetMentorInfoQueryHookResult = ReturnType<typeof useGetMentorInfoQuery>;
+export type GetMentorInfoLazyQueryHookResult = ReturnType<typeof useGetMentorInfoLazyQuery>;
+export type GetMentorInfoSuspenseQueryHookResult = ReturnType<typeof useGetMentorInfoSuspenseQuery>;
+export type GetMentorInfoQueryResult = Apollo.QueryResult<GetMentorInfoQuery, GetMentorInfoQueryVariables>;
+export const GetFreshmanListDocument = gql`
+    query GetFreshmanList {
+  user(where: {id: {_gt: "2022999999", _lte: "2023999999"}}) {
+    _id
+    id
+    mentor_applications_student(where: {status: {_eq: "approved"}}) {
+      student_id
+      mentor_id
+      statement
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetFreshmanListQuery__
@@ -17951,71 +13187,78 @@ export const GetFreshmanListDocument = gql`
  *   },
  * });
  */
-export function useGetFreshmanListQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetFreshmanListQuery,
-    GetFreshmanListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetFreshmanListQuery, GetFreshmanListQueryVariables>(
-    GetFreshmanListDocument,
-    options,
-  );
-}
-export function useGetFreshmanListLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetFreshmanListQuery,
-    GetFreshmanListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetFreshmanListQuery,
-    GetFreshmanListQueryVariables
-  >(GetFreshmanListDocument, options);
-}
-export function useGetFreshmanListSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetFreshmanListQuery,
-    GetFreshmanListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetFreshmanListQuery,
-    GetFreshmanListQueryVariables
-  >(GetFreshmanListDocument, options);
-}
-export type GetFreshmanListQueryHookResult = ReturnType<
-  typeof useGetFreshmanListQuery
->;
-export type GetFreshmanListLazyQueryHookResult = ReturnType<
-  typeof useGetFreshmanListLazyQuery
->;
-export type GetFreshmanListSuspenseQueryHookResult = ReturnType<
-  typeof useGetFreshmanListSuspenseQuery
->;
-export type GetFreshmanListQueryResult = Apollo.QueryResult<
-  GetFreshmanListQuery,
-  GetFreshmanListQueryVariables
->;
-export const GetNoticesDocument = gql`
-  query GetNotices($notice_type: [String!]) {
-    info_notice(
-      where: { notice_type: { _in: $notice_type } }
-      order_by: { updated_at: desc }
-    ) {
-      id
-      title
-      content
-      created_at
-      updated_at
-      files
-      notice_type
-    }
+export function useGetFreshmanListQuery(baseOptions?: Apollo.QueryHookOptions<GetFreshmanListQuery, GetFreshmanListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFreshmanListQuery, GetFreshmanListQueryVariables>(GetFreshmanListDocument, options);
+      }
+export function useGetFreshmanListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFreshmanListQuery, GetFreshmanListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFreshmanListQuery, GetFreshmanListQueryVariables>(GetFreshmanListDocument, options);
+        }
+export function useGetFreshmanListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetFreshmanListQuery, GetFreshmanListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetFreshmanListQuery, GetFreshmanListQueryVariables>(GetFreshmanListDocument, options);
+        }
+export type GetFreshmanListQueryHookResult = ReturnType<typeof useGetFreshmanListQuery>;
+export type GetFreshmanListLazyQueryHookResult = ReturnType<typeof useGetFreshmanListLazyQuery>;
+export type GetFreshmanListSuspenseQueryHookResult = ReturnType<typeof useGetFreshmanListSuspenseQuery>;
+export type GetFreshmanListQueryResult = Apollo.QueryResult<GetFreshmanListQuery, GetFreshmanListQueryVariables>;
+export const GetIdByNameDocument = gql`
+    query GetIdByName($name: String!) {
+  users(where: {realname: {_eq: $name}}) {
+    id
   }
-`;
+}
+    `;
+
+/**
+ * __useGetIdByNameQuery__
+ *
+ * To run a query within a React component, call `useGetIdByNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIdByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIdByNameQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetIdByNameQuery(baseOptions: Apollo.QueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetIdByNameQuery, GetIdByNameQueryVariables>(GetIdByNameDocument, options);
+      }
+export function useGetIdByNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetIdByNameQuery, GetIdByNameQueryVariables>(GetIdByNameDocument, options);
+        }
+export function useGetIdByNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetIdByNameQuery, GetIdByNameQueryVariables>(GetIdByNameDocument, options);
+        }
+export type GetIdByNameQueryHookResult = ReturnType<typeof useGetIdByNameQuery>;
+export type GetIdByNameLazyQueryHookResult = ReturnType<typeof useGetIdByNameLazyQuery>;
+export type GetIdByNameSuspenseQueryHookResult = ReturnType<typeof useGetIdByNameSuspenseQuery>;
+export type GetIdByNameQueryResult = Apollo.QueryResult<GetIdByNameQuery, GetIdByNameQueryVariables>;
+export const GetNoticesDocument = gql`
+    query GetNotices($notice_type: [String!]) {
+  info_notice(
+    where: {notice_type: {_in: $notice_type}}
+    order_by: {updated_at: desc}
+  ) {
+    id
+    title
+    content
+    created_at
+    updated_at
+    files
+    notice_type
+  }
+}
+    `;
 
 /**
  * __useGetNoticesQuery__
@@ -18033,80 +13276,35 @@ export const GetNoticesDocument = gql`
  *   },
  * });
  */
-export function useGetNoticesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetNoticesQuery,
-    GetNoticesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetNoticesQuery, GetNoticesQueryVariables>(
-    GetNoticesDocument,
-    options,
-  );
-}
-export function useGetNoticesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetNoticesQuery,
-    GetNoticesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetNoticesQuery, GetNoticesQueryVariables>(
-    GetNoticesDocument,
-    options,
-  );
-}
-export function useGetNoticesSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetNoticesQuery,
-    GetNoticesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetNoticesQuery, GetNoticesQueryVariables>(
-    GetNoticesDocument,
-    options,
-  );
-}
+export function useGetNoticesQuery(baseOptions?: Apollo.QueryHookOptions<GetNoticesQuery, GetNoticesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNoticesQuery, GetNoticesQueryVariables>(GetNoticesDocument, options);
+      }
+export function useGetNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNoticesQuery, GetNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNoticesQuery, GetNoticesQueryVariables>(GetNoticesDocument, options);
+        }
+export function useGetNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetNoticesQuery, GetNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNoticesQuery, GetNoticesQueryVariables>(GetNoticesDocument, options);
+        }
 export type GetNoticesQueryHookResult = ReturnType<typeof useGetNoticesQuery>;
-export type GetNoticesLazyQueryHookResult = ReturnType<
-  typeof useGetNoticesLazyQuery
->;
-export type GetNoticesSuspenseQueryHookResult = ReturnType<
-  typeof useGetNoticesSuspenseQuery
->;
-export type GetNoticesQueryResult = Apollo.QueryResult<
-  GetNoticesQuery,
-  GetNoticesQueryVariables
->;
+export type GetNoticesLazyQueryHookResult = ReturnType<typeof useGetNoticesLazyQuery>;
+export type GetNoticesSuspenseQueryHookResult = ReturnType<typeof useGetNoticesSuspenseQuery>;
+export type GetNoticesQueryResult = Apollo.QueryResult<GetNoticesQuery, GetNoticesQueryVariables>;
 export const UpdateNoticeDocument = gql`
-  mutation UpdateNotice(
-    $id: uuid!
-    $title: String!
-    $content: String!
-    $files: String
-    $notice_type: String!
+    mutation UpdateNotice($id: uuid!, $title: String!, $content: String!, $files: String, $notice_type: String!) {
+  update_info_notice(
+    where: {id: {_eq: $id}}
+    _set: {title: $title, content: $content, files: $files, notice_type: $notice_type}
   ) {
-    update_info_notice(
-      where: { id: { _eq: $id } }
-      _set: {
-        title: $title
-        content: $content
-        files: $files
-        notice_type: $notice_type
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type UpdateNoticeMutationFn = Apollo.MutationFunction<
-  UpdateNoticeMutation,
-  UpdateNoticeMutationVariables
->;
+}
+    `;
+export type UpdateNoticeMutationFn = Apollo.MutationFunction<UpdateNoticeMutation, UpdateNoticeMutationVariables>;
 
 /**
  * __useUpdateNoticeMutation__
@@ -18129,52 +13327,25 @@ export type UpdateNoticeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateNoticeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateNoticeMutation,
-    UpdateNoticeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateNoticeMutation,
-    UpdateNoticeMutationVariables
-  >(UpdateNoticeDocument, options);
-}
-export type UpdateNoticeMutationHookResult = ReturnType<
-  typeof useUpdateNoticeMutation
->;
-export type UpdateNoticeMutationResult =
-  Apollo.MutationResult<UpdateNoticeMutation>;
-export type UpdateNoticeMutationOptions = Apollo.BaseMutationOptions<
-  UpdateNoticeMutation,
-  UpdateNoticeMutationVariables
->;
+export function useUpdateNoticeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateNoticeMutation, UpdateNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateNoticeMutation, UpdateNoticeMutationVariables>(UpdateNoticeDocument, options);
+      }
+export type UpdateNoticeMutationHookResult = ReturnType<typeof useUpdateNoticeMutation>;
+export type UpdateNoticeMutationResult = Apollo.MutationResult<UpdateNoticeMutation>;
+export type UpdateNoticeMutationOptions = Apollo.BaseMutationOptions<UpdateNoticeMutation, UpdateNoticeMutationVariables>;
 export const AddNoticeDocument = gql`
-  mutation AddNotice(
-    $title: String!
-    $content: String!
-    $files: String
-    $notice_type: String!
+    mutation AddNotice($title: String!, $content: String!, $files: String, $notice_type: String!) {
+  insert_info_notice(
+    objects: {title: $title, content: $content, files: $files, notice_type: $notice_type}
   ) {
-    insert_info_notice(
-      objects: {
-        title: $title
-        content: $content
-        files: $files
-        notice_type: $notice_type
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type AddNoticeMutationFn = Apollo.MutationFunction<
-  AddNoticeMutation,
-  AddNoticeMutationVariables
->;
+}
+    `;
+export type AddNoticeMutationFn = Apollo.MutationFunction<AddNoticeMutation, AddNoticeMutationVariables>;
 
 /**
  * __useAddNoticeMutation__
@@ -18196,39 +13367,23 @@ export type AddNoticeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddNoticeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddNoticeMutation,
-    AddNoticeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<AddNoticeMutation, AddNoticeMutationVariables>(
-    AddNoticeDocument,
-    options,
-  );
-}
-export type AddNoticeMutationHookResult = ReturnType<
-  typeof useAddNoticeMutation
->;
-export type AddNoticeMutationResult = Apollo.MutationResult<AddNoticeMutation>;
-export type AddNoticeMutationOptions = Apollo.BaseMutationOptions<
-  AddNoticeMutation,
-  AddNoticeMutationVariables
->;
-export const DeleteNoticeDocument = gql`
-  mutation DeleteNotice($id: uuid!) {
-    delete_info_notice(where: { id: { _eq: $id } }) {
-      returning {
-        id
+export function useAddNoticeMutation(baseOptions?: Apollo.MutationHookOptions<AddNoticeMutation, AddNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddNoticeMutation, AddNoticeMutationVariables>(AddNoticeDocument, options);
       }
+export type AddNoticeMutationHookResult = ReturnType<typeof useAddNoticeMutation>;
+export type AddNoticeMutationResult = Apollo.MutationResult<AddNoticeMutation>;
+export type AddNoticeMutationOptions = Apollo.BaseMutationOptions<AddNoticeMutation, AddNoticeMutationVariables>;
+export const DeleteNoticeDocument = gql`
+    mutation DeleteNotice($id: uuid!) {
+  delete_info_notice(where: {id: {_eq: $id}}) {
+    returning {
+      id
     }
   }
-`;
-export type DeleteNoticeMutationFn = Apollo.MutationFunction<
-  DeleteNoticeMutation,
-  DeleteNoticeMutationVariables
->;
+}
+    `;
+export type DeleteNoticeMutationFn = Apollo.MutationFunction<DeleteNoticeMutation, DeleteNoticeMutationVariables>;
 
 /**
  * __useDeleteNoticeMutation__
@@ -18247,38 +13402,24 @@ export type DeleteNoticeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteNoticeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteNoticeMutation,
-    DeleteNoticeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteNoticeMutation,
-    DeleteNoticeMutationVariables
-  >(DeleteNoticeDocument, options);
-}
-export type DeleteNoticeMutationHookResult = ReturnType<
-  typeof useDeleteNoticeMutation
->;
-export type DeleteNoticeMutationResult =
-  Apollo.MutationResult<DeleteNoticeMutation>;
-export type DeleteNoticeMutationOptions = Apollo.BaseMutationOptions<
-  DeleteNoticeMutation,
-  DeleteNoticeMutationVariables
->;
+export function useDeleteNoticeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteNoticeMutation, DeleteNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteNoticeMutation, DeleteNoticeMutationVariables>(DeleteNoticeDocument, options);
+      }
+export type DeleteNoticeMutationHookResult = ReturnType<typeof useDeleteNoticeMutation>;
+export type DeleteNoticeMutationResult = Apollo.MutationResult<DeleteNoticeMutation>;
+export type DeleteNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteNoticeMutation, DeleteNoticeMutationVariables>;
 export const GetScholarshipListDocument = gql`
-  query GetScholarshipList {
-    scholarships_aids(where: { IsAids: { _eq: false } }) {
-      amount
-      code
-      name
-      salutation
-      type
-    }
+    query GetScholarshipList {
+  scholarships_aids(where: {IsAids: {_eq: false}}) {
+    amount
+    code
+    name
+    salutation
+    type
   }
-`;
+}
+    `;
 
 /**
  * __useGetScholarshipListQuery__
@@ -18295,84 +13436,47 @@ export const GetScholarshipListDocument = gql`
  *   },
  * });
  */
-export function useGetScholarshipListQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetScholarshipListQuery,
-    GetScholarshipListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetScholarshipListQuery,
-    GetScholarshipListQueryVariables
-  >(GetScholarshipListDocument, options);
-}
-export function useGetScholarshipListLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetScholarshipListQuery,
-    GetScholarshipListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetScholarshipListQuery,
-    GetScholarshipListQueryVariables
-  >(GetScholarshipListDocument, options);
-}
-export function useGetScholarshipListSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetScholarshipListQuery,
-    GetScholarshipListQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetScholarshipListQuery,
-    GetScholarshipListQueryVariables
-  >(GetScholarshipListDocument, options);
-}
-export type GetScholarshipListQueryHookResult = ReturnType<
-  typeof useGetScholarshipListQuery
->;
-export type GetScholarshipListLazyQueryHookResult = ReturnType<
-  typeof useGetScholarshipListLazyQuery
->;
-export type GetScholarshipListSuspenseQueryHookResult = ReturnType<
-  typeof useGetScholarshipListSuspenseQuery
->;
-export type GetScholarshipListQueryResult = Apollo.QueryResult<
-  GetScholarshipListQuery,
-  GetScholarshipListQueryVariables
->;
+export function useGetScholarshipListQuery(baseOptions?: Apollo.QueryHookOptions<GetScholarshipListQuery, GetScholarshipListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetScholarshipListQuery, GetScholarshipListQueryVariables>(GetScholarshipListDocument, options);
+      }
+export function useGetScholarshipListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetScholarshipListQuery, GetScholarshipListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetScholarshipListQuery, GetScholarshipListQueryVariables>(GetScholarshipListDocument, options);
+        }
+export function useGetScholarshipListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetScholarshipListQuery, GetScholarshipListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetScholarshipListQuery, GetScholarshipListQueryVariables>(GetScholarshipListDocument, options);
+        }
+export type GetScholarshipListQueryHookResult = ReturnType<typeof useGetScholarshipListQuery>;
+export type GetScholarshipListLazyQueryHookResult = ReturnType<typeof useGetScholarshipListLazyQuery>;
+export type GetScholarshipListSuspenseQueryHookResult = ReturnType<typeof useGetScholarshipListSuspenseQuery>;
+export type GetScholarshipListQueryResult = Apollo.QueryResult<GetScholarshipListQuery, GetScholarshipListQueryVariables>;
 export const GetScholarshipApplicationsDocument = gql`
-  query GetScholarshipApplications($_id: String!, $_gte: timestamptz!) {
-    scholarship_application(
-      where: {
-        student_id: { _eq: $_id }
-        updated_at: { _gte: $_gte }
-        created_at: { _gte: $_gte }
-      }
-      order_by: { created_at: asc }
-    ) {
+    query GetScholarshipApplications($_id: String!, $_gte: timestamptz!) {
+  scholarship_application(
+    where: {student_id: {_eq: $_id}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+    order_by: {created_at: asc}
+  ) {
+    id
+    student {
       id
-      student {
-        id
-        name
-        department
-        class
-      }
-      scholarship
-      honor
-      amount
-      code
-      thank_letter
-      form_url
-      status
-      created_at
-      updated_at
+      name
+      department
+      class
     }
+    scholarship
+    honor
+    amount
+    code
+    thank_letter
+    form_url
+    status
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetScholarshipApplicationsQuery__
@@ -18391,80 +13495,47 @@ export const GetScholarshipApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetScholarshipApplicationsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetScholarshipApplicationsQuery,
-    GetScholarshipApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetScholarshipApplicationsQuery,
-    GetScholarshipApplicationsQueryVariables
-  >(GetScholarshipApplicationsDocument, options);
-}
-export function useGetScholarshipApplicationsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetScholarshipApplicationsQuery,
-    GetScholarshipApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetScholarshipApplicationsQuery,
-    GetScholarshipApplicationsQueryVariables
-  >(GetScholarshipApplicationsDocument, options);
-}
-export function useGetScholarshipApplicationsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetScholarshipApplicationsQuery,
-    GetScholarshipApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetScholarshipApplicationsQuery,
-    GetScholarshipApplicationsQueryVariables
-  >(GetScholarshipApplicationsDocument, options);
-}
-export type GetScholarshipApplicationsQueryHookResult = ReturnType<
-  typeof useGetScholarshipApplicationsQuery
->;
-export type GetScholarshipApplicationsLazyQueryHookResult = ReturnType<
-  typeof useGetScholarshipApplicationsLazyQuery
->;
-export type GetScholarshipApplicationsSuspenseQueryHookResult = ReturnType<
-  typeof useGetScholarshipApplicationsSuspenseQuery
->;
-export type GetScholarshipApplicationsQueryResult = Apollo.QueryResult<
-  GetScholarshipApplicationsQuery,
-  GetScholarshipApplicationsQueryVariables
->;
-export const GetScholarshipApplicationsForCounselorsDocument = gql`
-  query GetScholarshipApplicationsForCounselors($_gte: timestamptz!) {
-    scholarship_application(
-      order_by: { created_at: asc }
-      where: { updated_at: { _gte: $_gte }, created_at: { _gte: $_gte } }
-    ) {
-      id
-      student {
-        id
-        name
-        department
-        class
+export function useGetScholarshipApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>(GetScholarshipApplicationsDocument, options);
       }
-      scholarship
-      honor
-      amount
-      code
-      thank_letter
-      form_url
-      status
-      created_at
-      updated_at
+export function useGetScholarshipApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>(GetScholarshipApplicationsDocument, options);
+        }
+export function useGetScholarshipApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>(GetScholarshipApplicationsDocument, options);
+        }
+export type GetScholarshipApplicationsQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsQuery>;
+export type GetScholarshipApplicationsLazyQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsLazyQuery>;
+export type GetScholarshipApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsSuspenseQuery>;
+export type GetScholarshipApplicationsQueryResult = Apollo.QueryResult<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>;
+export const GetScholarshipApplicationsForCounselorsDocument = gql`
+    query GetScholarshipApplicationsForCounselors($_gte: timestamptz!) {
+  scholarship_application(
+    order_by: {created_at: asc}
+    where: {updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+  ) {
+    id
+    student {
+      id
+      name
+      department
+      class
     }
+    scholarship
+    honor
+    amount
+    code
+    thank_letter
+    form_url
+    status
+    created_at
+    updated_at
   }
-`;
+}
+    `;
 
 /**
  * __useGetScholarshipApplicationsForCounselorsQuery__
@@ -18482,81 +13553,34 @@ export const GetScholarshipApplicationsForCounselorsDocument = gql`
  *   },
  * });
  */
-export function useGetScholarshipApplicationsForCounselorsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetScholarshipApplicationsForCounselorsQuery,
-    GetScholarshipApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetScholarshipApplicationsForCounselorsQuery,
-    GetScholarshipApplicationsForCounselorsQueryVariables
-  >(GetScholarshipApplicationsForCounselorsDocument, options);
-}
-export function useGetScholarshipApplicationsForCounselorsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetScholarshipApplicationsForCounselorsQuery,
-    GetScholarshipApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetScholarshipApplicationsForCounselorsQuery,
-    GetScholarshipApplicationsForCounselorsQueryVariables
-  >(GetScholarshipApplicationsForCounselorsDocument, options);
-}
-export function useGetScholarshipApplicationsForCounselorsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetScholarshipApplicationsForCounselorsQuery,
-    GetScholarshipApplicationsForCounselorsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetScholarshipApplicationsForCounselorsQuery,
-    GetScholarshipApplicationsForCounselorsQueryVariables
-  >(GetScholarshipApplicationsForCounselorsDocument, options);
-}
-export type GetScholarshipApplicationsForCounselorsQueryHookResult = ReturnType<
-  typeof useGetScholarshipApplicationsForCounselorsQuery
->;
-export type GetScholarshipApplicationsForCounselorsLazyQueryHookResult =
-  ReturnType<typeof useGetScholarshipApplicationsForCounselorsLazyQuery>;
-export type GetScholarshipApplicationsForCounselorsSuspenseQueryHookResult =
-  ReturnType<typeof useGetScholarshipApplicationsForCounselorsSuspenseQuery>;
-export type GetScholarshipApplicationsForCounselorsQueryResult =
-  Apollo.QueryResult<
-    GetScholarshipApplicationsForCounselorsQuery,
-    GetScholarshipApplicationsForCounselorsQueryVariables
-  >;
+export function useGetScholarshipApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>(GetScholarshipApplicationsForCounselorsDocument, options);
+      }
+export function useGetScholarshipApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>(GetScholarshipApplicationsForCounselorsDocument, options);
+        }
+export function useGetScholarshipApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>(GetScholarshipApplicationsForCounselorsDocument, options);
+        }
+export type GetScholarshipApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsForCounselorsQuery>;
+export type GetScholarshipApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsForCounselorsLazyQuery>;
+export type GetScholarshipApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsForCounselorsSuspenseQuery>;
+export type GetScholarshipApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>;
 export const AddScholarshipApplicationDocument = gql`
-  mutation AddScholarshipApplication(
-    $student_id: String!
-    $scholarship: String!
-    $honor: String!
-    $amount: Int!
-    $code: String!
+    mutation AddScholarshipApplication($student_id: String!, $scholarship: String!, $honor: String!, $amount: Int!, $code: String!) {
+  insert_scholarship_application(
+    objects: {student_id: $student_id, scholarship: $scholarship, honor: $honor, amount: $amount, code: $code}
   ) {
-    insert_scholarship_application(
-      objects: {
-        student_id: $student_id
-        scholarship: $scholarship
-        honor: $honor
-        amount: $amount
-        code: $code
-      }
-    ) {
-      returning {
-        id
-      }
+    returning {
+      id
     }
   }
-`;
-export type AddScholarshipApplicationMutationFn = Apollo.MutationFunction<
-  AddScholarshipApplicationMutation,
-  AddScholarshipApplicationMutationVariables
->;
+}
+    `;
+export type AddScholarshipApplicationMutationFn = Apollo.MutationFunction<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>;
 
 /**
  * __useAddScholarshipApplicationMutation__
@@ -18579,48 +13603,26 @@ export type AddScholarshipApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddScholarshipApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddScholarshipApplicationMutation,
-    AddScholarshipApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    AddScholarshipApplicationMutation,
-    AddScholarshipApplicationMutationVariables
-  >(AddScholarshipApplicationDocument, options);
-}
-export type AddScholarshipApplicationMutationHookResult = ReturnType<
-  typeof useAddScholarshipApplicationMutation
->;
-export type AddScholarshipApplicationMutationResult =
-  Apollo.MutationResult<AddScholarshipApplicationMutation>;
-export type AddScholarshipApplicationMutationOptions =
-  Apollo.BaseMutationOptions<
-    AddScholarshipApplicationMutation,
-    AddScholarshipApplicationMutationVariables
-  >;
-export const UpdateScholarshipApplicationDocument = gql`
-  mutation UpdateScholarshipApplication(
-    $id: uuid!
-    $thank_letter: String
-    $form_url: String
-  ) {
-    update_scholarship_application(
-      where: { id: { _eq: $id } }
-      _set: { thank_letter: $thank_letter, form_url: $form_url }
-    ) {
-      returning {
-        id
+export function useAddScholarshipApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>(AddScholarshipApplicationDocument, options);
       }
+export type AddScholarshipApplicationMutationHookResult = ReturnType<typeof useAddScholarshipApplicationMutation>;
+export type AddScholarshipApplicationMutationResult = Apollo.MutationResult<AddScholarshipApplicationMutation>;
+export type AddScholarshipApplicationMutationOptions = Apollo.BaseMutationOptions<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>;
+export const UpdateScholarshipApplicationDocument = gql`
+    mutation UpdateScholarshipApplication($id: uuid!, $thank_letter: String, $form_url: String) {
+  update_scholarship_application(
+    where: {id: {_eq: $id}}
+    _set: {thank_letter: $thank_letter, form_url: $form_url}
+  ) {
+    returning {
+      id
     }
   }
-`;
-export type UpdateScholarshipApplicationMutationFn = Apollo.MutationFunction<
-  UpdateScholarshipApplicationMutation,
-  UpdateScholarshipApplicationMutationVariables
->;
+}
+    `;
+export type UpdateScholarshipApplicationMutationFn = Apollo.MutationFunction<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>;
 
 /**
  * __useUpdateScholarshipApplicationMutation__
@@ -18641,41 +13643,23 @@ export type UpdateScholarshipApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateScholarshipApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateScholarshipApplicationMutation,
-    UpdateScholarshipApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateScholarshipApplicationMutation,
-    UpdateScholarshipApplicationMutationVariables
-  >(UpdateScholarshipApplicationDocument, options);
-}
-export type UpdateScholarshipApplicationMutationHookResult = ReturnType<
-  typeof useUpdateScholarshipApplicationMutation
->;
-export type UpdateScholarshipApplicationMutationResult =
-  Apollo.MutationResult<UpdateScholarshipApplicationMutation>;
-export type UpdateScholarshipApplicationMutationOptions =
-  Apollo.BaseMutationOptions<
-    UpdateScholarshipApplicationMutation,
-    UpdateScholarshipApplicationMutationVariables
-  >;
-export const DeleteScholarshipApplicationDocument = gql`
-  mutation DeleteScholarshipApplication($id: uuid!) {
-    delete_scholarship_application(where: { id: { _eq: $id } }) {
-      returning {
-        id
+export function useUpdateScholarshipApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>(UpdateScholarshipApplicationDocument, options);
       }
+export type UpdateScholarshipApplicationMutationHookResult = ReturnType<typeof useUpdateScholarshipApplicationMutation>;
+export type UpdateScholarshipApplicationMutationResult = Apollo.MutationResult<UpdateScholarshipApplicationMutation>;
+export type UpdateScholarshipApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>;
+export const DeleteScholarshipApplicationDocument = gql`
+    mutation DeleteScholarshipApplication($id: uuid!) {
+  delete_scholarship_application(where: {id: {_eq: $id}}) {
+    returning {
+      id
     }
   }
-`;
-export type DeleteScholarshipApplicationMutationFn = Apollo.MutationFunction<
-  DeleteScholarshipApplicationMutation,
-  DeleteScholarshipApplicationMutationVariables
->;
+}
+    `;
+export type DeleteScholarshipApplicationMutationFn = Apollo.MutationFunction<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>;
 
 /**
  * __useDeleteScholarshipApplicationMutation__
@@ -18694,92 +13678,71 @@ export type DeleteScholarshipApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteScholarshipApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteScholarshipApplicationMutation,
-    DeleteScholarshipApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteScholarshipApplicationMutation,
-    DeleteScholarshipApplicationMutationVariables
-  >(DeleteScholarshipApplicationDocument, options);
-}
-export type DeleteScholarshipApplicationMutationHookResult = ReturnType<
-  typeof useDeleteScholarshipApplicationMutation
->;
-export type DeleteScholarshipApplicationMutationResult =
-  Apollo.MutationResult<DeleteScholarshipApplicationMutation>;
-export type DeleteScholarshipApplicationMutationOptions =
-  Apollo.BaseMutationOptions<
-    DeleteScholarshipApplicationMutation,
-    DeleteScholarshipApplicationMutationVariables
-  >;
+export function useDeleteScholarshipApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>(DeleteScholarshipApplicationDocument, options);
+      }
+export type DeleteScholarshipApplicationMutationHookResult = ReturnType<typeof useDeleteScholarshipApplicationMutation>;
+export type DeleteScholarshipApplicationMutationResult = Apollo.MutationResult<DeleteScholarshipApplicationMutation>;
+export type DeleteScholarshipApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>;
 export const GetPostgraduateFeedsDocument = gql`
-  query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
-    postgraduate_mentor_info(
-      where: { verified: { _eq: true } }
-      limit: $limit
-      order_by: { id: asc }
-      offset: $offset
+    query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
+  postgraduate_mentor_info(
+    where: {verified: {_eq: true}}
+    limit: $limit
+    order_by: {id: asc}
+    offset: $offset
+  ) {
+    id
+    created_at
+    updated_at
+    mentor
+    field
+    phd_quota
+    phd_quota_unfixed
+    contact
+    alternate_contact
+    home_page
+    detail_info
+    user_id
+    intend: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "intend"}}]}
     ) {
-      id
-      created_at
-      updated_at
-      mentor
-      field
-      phd_quota
-      phd_quota_unfixed
-      contact
-      alternate_contact
-      home_page
-      detail_info
-      user_id
-      intend: applications_aggregate(
-        where: {
-          _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
-        }
-      ) {
-        aggregate {
-          count
-          max {
-            updated_at
-          }
-        }
-      }
-      in_contact: applications_aggregate(
-        where: {
-          _and: [{ verified: { _eq: true } }, { status: { _eq: "in_contact" } }]
-        }
-      ) {
-        aggregate {
-          count
-          max {
-            updated_at
-          }
-        }
-      }
-      confirmed: applications_aggregate(
-        where: {
-          _and: [{ verified: { _eq: true } }, { status: { _eq: "confirmed" } }]
-        }
-      ) {
-        aggregate {
-          count
-          max {
-            updated_at
-          }
+      aggregate {
+        count
+        max {
+          updated_at
         }
       }
     }
-    postgraduate_mentor_info_aggregate {
+    in_contact: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "in_contact"}}]}
+    ) {
       aggregate {
         count
+        max {
+          updated_at
+        }
+      }
+    }
+    confirmed: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "confirmed"}}]}
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
       }
     }
   }
-`;
+  postgraduate_mentor_info_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
 
 /**
  * __useGetPostgraduateFeedsQuery__
@@ -18798,122 +13761,83 @@ export const GetPostgraduateFeedsDocument = gql`
  *   },
  * });
  */
-export function useGetPostgraduateFeedsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetPostgraduateFeedsQuery,
-    GetPostgraduateFeedsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetPostgraduateFeedsQuery,
-    GetPostgraduateFeedsQueryVariables
-  >(GetPostgraduateFeedsDocument, options);
-}
-export function useGetPostgraduateFeedsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetPostgraduateFeedsQuery,
-    GetPostgraduateFeedsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetPostgraduateFeedsQuery,
-    GetPostgraduateFeedsQueryVariables
-  >(GetPostgraduateFeedsDocument, options);
-}
-export function useGetPostgraduateFeedsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetPostgraduateFeedsQuery,
-    GetPostgraduateFeedsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetPostgraduateFeedsQuery,
-    GetPostgraduateFeedsQueryVariables
-  >(GetPostgraduateFeedsDocument, options);
-}
-export type GetPostgraduateFeedsQueryHookResult = ReturnType<
-  typeof useGetPostgraduateFeedsQuery
->;
-export type GetPostgraduateFeedsLazyQueryHookResult = ReturnType<
-  typeof useGetPostgraduateFeedsLazyQuery
->;
-export type GetPostgraduateFeedsSuspenseQueryHookResult = ReturnType<
-  typeof useGetPostgraduateFeedsSuspenseQuery
->;
-export type GetPostgraduateFeedsQueryResult = Apollo.QueryResult<
-  GetPostgraduateFeedsQuery,
-  GetPostgraduateFeedsQueryVariables
->;
+export function useGetPostgraduateFeedsQuery(baseOptions?: Apollo.QueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
+      }
+export function useGetPostgraduateFeedsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
+        }
+export function useGetPostgraduateFeedsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
+        }
+export type GetPostgraduateFeedsQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsQuery>;
+export type GetPostgraduateFeedsLazyQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsLazyQuery>;
+export type GetPostgraduateFeedsSuspenseQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsSuspenseQuery>;
+export type GetPostgraduateFeedsQueryResult = Apollo.QueryResult<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>;
 export const GetUnverifiedMentorInfoDocument = gql`
-  query GetUnverifiedMentorInfo($limit: Int = 10, $offset: Int = 0) {
-    postgraduate_mentor_info(
-      limit: $limit
-      order_by: { id: asc }
-      offset: $offset
-      where: { verified: { _eq: false } }
+    query GetUnverifiedMentorInfo($limit: Int = 10, $offset: Int = 0) {
+  postgraduate_mentor_info(
+    limit: $limit
+    order_by: {id: asc}
+    offset: $offset
+    where: {verified: {_eq: false}}
+  ) {
+    id
+    created_at
+    updated_at
+    mentor
+    field
+    phd_quota
+    phd_quota_unfixed
+    contact
+    alternate_contact
+    home_page
+    detail_info
+    user_id
+    userEditor {
+      name
+    }
+    intend: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "intend"}}]}
     ) {
-      id
-      created_at
-      updated_at
-      mentor
-      field
-      phd_quota
-      phd_quota_unfixed
-      contact
-      alternate_contact
-      home_page
-      detail_info
-      user_id
-      userEditor {
-        name
-      }
-      intend: applications_aggregate(
-        where: {
-          _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
-        }
-      ) {
-        aggregate {
-          count
-          max {
-            updated_at
-          }
-        }
-      }
-      in_contact: applications_aggregate(
-        where: {
-          _and: [{ verified: { _eq: true } }, { status: { _eq: "in_contact" } }]
-        }
-      ) {
-        aggregate {
-          count
-          max {
-            updated_at
-          }
-        }
-      }
-      confirmed: applications_aggregate(
-        where: {
-          _and: [{ verified: { _eq: true } }, { status: { _eq: "confirmed" } }]
-        }
-      ) {
-        aggregate {
-          count
-          max {
-            updated_at
-          }
+      aggregate {
+        count
+        max {
+          updated_at
         }
       }
     }
-    postgraduate_mentor_info_aggregate {
+    in_contact: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "in_contact"}}]}
+    ) {
       aggregate {
         count
+        max {
+          updated_at
+        }
+      }
+    }
+    confirmed: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "confirmed"}}]}
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
       }
     }
   }
-`;
+  postgraduate_mentor_info_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
 
 /**
  * __useGetUnverifiedMentorInfoQuery__
@@ -18932,89 +13856,32 @@ export const GetUnverifiedMentorInfoDocument = gql`
  *   },
  * });
  */
-export function useGetUnverifiedMentorInfoQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetUnverifiedMentorInfoQuery,
-    GetUnverifiedMentorInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetUnverifiedMentorInfoQuery,
-    GetUnverifiedMentorInfoQueryVariables
-  >(GetUnverifiedMentorInfoDocument, options);
-}
-export function useGetUnverifiedMentorInfoLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUnverifiedMentorInfoQuery,
-    GetUnverifiedMentorInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetUnverifiedMentorInfoQuery,
-    GetUnverifiedMentorInfoQueryVariables
-  >(GetUnverifiedMentorInfoDocument, options);
-}
-export function useGetUnverifiedMentorInfoSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUnverifiedMentorInfoQuery,
-    GetUnverifiedMentorInfoQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetUnverifiedMentorInfoQuery,
-    GetUnverifiedMentorInfoQueryVariables
-  >(GetUnverifiedMentorInfoDocument, options);
-}
-export type GetUnverifiedMentorInfoQueryHookResult = ReturnType<
-  typeof useGetUnverifiedMentorInfoQuery
->;
-export type GetUnverifiedMentorInfoLazyQueryHookResult = ReturnType<
-  typeof useGetUnverifiedMentorInfoLazyQuery
->;
-export type GetUnverifiedMentorInfoSuspenseQueryHookResult = ReturnType<
-  typeof useGetUnverifiedMentorInfoSuspenseQuery
->;
-export type GetUnverifiedMentorInfoQueryResult = Apollo.QueryResult<
-  GetUnverifiedMentorInfoQuery,
-  GetUnverifiedMentorInfoQueryVariables
->;
-export const InsertPostgraduateInfoDocument = gql`
-  mutation InsertPostgraduateInfo(
-    $mentor: String!
-    $field: String!
-    $contact: String!
-    $alternate_contact: String = ""
-    $detail_info: String = ""
-    $home_page: String = ""
-    $phd_quota: numeric = 0
-    $phd_quota_unfixed: numeric = 0
-    $user_id: String!
-  ) {
-    insert_postgraduate_mentor_info_one(
-      object: {
-        mentor: $mentor
-        field: $field
-        contact: $contact
-        alternate_contact: $alternate_contact
-        detail_info: $detail_info
-        home_page: $home_page
-        phd_quota: $phd_quota
-        phd_quota_unfixed: $phd_quota_unfixed
-        user_id: $user_id
-        verified: true
+export function useGetUnverifiedMentorInfoQuery(baseOptions?: Apollo.QueryHookOptions<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>(GetUnverifiedMentorInfoDocument, options);
       }
-    ) {
-      id
-    }
+export function useGetUnverifiedMentorInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>(GetUnverifiedMentorInfoDocument, options);
+        }
+export function useGetUnverifiedMentorInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>(GetUnverifiedMentorInfoDocument, options);
+        }
+export type GetUnverifiedMentorInfoQueryHookResult = ReturnType<typeof useGetUnverifiedMentorInfoQuery>;
+export type GetUnverifiedMentorInfoLazyQueryHookResult = ReturnType<typeof useGetUnverifiedMentorInfoLazyQuery>;
+export type GetUnverifiedMentorInfoSuspenseQueryHookResult = ReturnType<typeof useGetUnverifiedMentorInfoSuspenseQuery>;
+export type GetUnverifiedMentorInfoQueryResult = Apollo.QueryResult<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>;
+export const InsertPostgraduateInfoDocument = gql`
+    mutation InsertPostgraduateInfo($mentor: String!, $field: String!, $contact: String!, $alternate_contact: String = "", $detail_info: String = "", $home_page: String = "", $phd_quota: numeric = 0, $phd_quota_unfixed: numeric = 0, $user_id: String!) {
+  insert_postgraduate_mentor_info_one(
+    object: {mentor: $mentor, field: $field, contact: $contact, alternate_contact: $alternate_contact, detail_info: $detail_info, home_page: $home_page, phd_quota: $phd_quota, phd_quota_unfixed: $phd_quota_unfixed, user_id: $user_id, verified: true}
+  ) {
+    id
   }
-`;
-export type InsertPostgraduateInfoMutationFn = Apollo.MutationFunction<
-  InsertPostgraduateInfoMutation,
-  InsertPostgraduateInfoMutationVariables
->;
+}
+    `;
+export type InsertPostgraduateInfoMutationFn = Apollo.MutationFunction<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>;
 
 /**
  * __useInsertPostgraduateInfoMutation__
@@ -19041,61 +13908,24 @@ export type InsertPostgraduateInfoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useInsertPostgraduateInfoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    InsertPostgraduateInfoMutation,
-    InsertPostgraduateInfoMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    InsertPostgraduateInfoMutation,
-    InsertPostgraduateInfoMutationVariables
-  >(InsertPostgraduateInfoDocument, options);
-}
-export type InsertPostgraduateInfoMutationHookResult = ReturnType<
-  typeof useInsertPostgraduateInfoMutation
->;
-export type InsertPostgraduateInfoMutationResult =
-  Apollo.MutationResult<InsertPostgraduateInfoMutation>;
-export type InsertPostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<
-  InsertPostgraduateInfoMutation,
-  InsertPostgraduateInfoMutationVariables
->;
-export const UpdatePostgraduateInfoDocument = gql`
-  mutation UpdatePostgraduateInfo(
-    $id: Int!
-    $mentor: String!
-    $field: String!
-    $contact: String!
-    $alternate_contact: String = ""
-    $detail_info: String = ""
-    $home_page: String = ""
-    $phd_quota: numeric = 0
-    $phd_quota_unfixed: numeric = 0
-  ) {
-    update_postgraduate_mentor_info_by_pk(
-      pk_columns: { id: $id }
-      _set: {
-        mentor: $mentor
-        field: $field
-        contact: $contact
-        alternate_contact: $alternate_contact
-        detail_info: $detail_info
-        home_page: $home_page
-        phd_quota: $phd_quota
-        phd_quota_unfixed: $phd_quota_unfixed
-        verified: true
+export function useInsertPostgraduateInfoMutation(baseOptions?: Apollo.MutationHookOptions<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>(InsertPostgraduateInfoDocument, options);
       }
-    ) {
-      id
-    }
+export type InsertPostgraduateInfoMutationHookResult = ReturnType<typeof useInsertPostgraduateInfoMutation>;
+export type InsertPostgraduateInfoMutationResult = Apollo.MutationResult<InsertPostgraduateInfoMutation>;
+export type InsertPostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>;
+export const UpdatePostgraduateInfoDocument = gql`
+    mutation UpdatePostgraduateInfo($id: Int!, $mentor: String!, $field: String!, $contact: String!, $alternate_contact: String = "", $detail_info: String = "", $home_page: String = "", $phd_quota: numeric = 0, $phd_quota_unfixed: numeric = 0) {
+  update_postgraduate_mentor_info_by_pk(
+    pk_columns: {id: $id}
+    _set: {mentor: $mentor, field: $field, contact: $contact, alternate_contact: $alternate_contact, detail_info: $detail_info, home_page: $home_page, phd_quota: $phd_quota, phd_quota_unfixed: $phd_quota_unfixed, verified: true}
+  ) {
+    id
   }
-`;
-export type UpdatePostgraduateInfoMutationFn = Apollo.MutationFunction<
-  UpdatePostgraduateInfoMutation,
-  UpdatePostgraduateInfoMutationVariables
->;
+}
+    `;
+export type UpdatePostgraduateInfoMutationFn = Apollo.MutationFunction<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>;
 
 /**
  * __useUpdatePostgraduateInfoMutation__
@@ -19122,40 +13952,23 @@ export type UpdatePostgraduateInfoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdatePostgraduateInfoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdatePostgraduateInfoMutation,
-    UpdatePostgraduateInfoMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdatePostgraduateInfoMutation,
-    UpdatePostgraduateInfoMutationVariables
-  >(UpdatePostgraduateInfoDocument, options);
-}
-export type UpdatePostgraduateInfoMutationHookResult = ReturnType<
-  typeof useUpdatePostgraduateInfoMutation
->;
-export type UpdatePostgraduateInfoMutationResult =
-  Apollo.MutationResult<UpdatePostgraduateInfoMutation>;
-export type UpdatePostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<
-  UpdatePostgraduateInfoMutation,
-  UpdatePostgraduateInfoMutationVariables
->;
-export const DeletePostgraduateInfoDocument = gql`
-  mutation DeletePostgraduateInfo($id: Int!) {
-    delete_postgraduate_mentor_info(where: { id: { _eq: $id } }) {
-      returning {
-        id
+export function useUpdatePostgraduateInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>(UpdatePostgraduateInfoDocument, options);
       }
+export type UpdatePostgraduateInfoMutationHookResult = ReturnType<typeof useUpdatePostgraduateInfoMutation>;
+export type UpdatePostgraduateInfoMutationResult = Apollo.MutationResult<UpdatePostgraduateInfoMutation>;
+export type UpdatePostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>;
+export const DeletePostgraduateInfoDocument = gql`
+    mutation DeletePostgraduateInfo($id: Int!) {
+  delete_postgraduate_mentor_info(where: {id: {_eq: $id}}) {
+    returning {
+      id
     }
   }
-`;
-export type DeletePostgraduateInfoMutationFn = Apollo.MutationFunction<
-  DeletePostgraduateInfoMutation,
-  DeletePostgraduateInfoMutationVariables
->;
+}
+    `;
+export type DeletePostgraduateInfoMutationFn = Apollo.MutationFunction<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>;
 
 /**
  * __useDeletePostgraduateInfoMutation__
@@ -19174,54 +13987,24 @@ export type DeletePostgraduateInfoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeletePostgraduateInfoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeletePostgraduateInfoMutation,
-    DeletePostgraduateInfoMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeletePostgraduateInfoMutation,
-    DeletePostgraduateInfoMutationVariables
-  >(DeletePostgraduateInfoDocument, options);
-}
-export type DeletePostgraduateInfoMutationHookResult = ReturnType<
-  typeof useDeletePostgraduateInfoMutation
->;
-export type DeletePostgraduateInfoMutationResult =
-  Apollo.MutationResult<DeletePostgraduateInfoMutation>;
-export type DeletePostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<
-  DeletePostgraduateInfoMutation,
-  DeletePostgraduateInfoMutationVariables
->;
+export function useDeletePostgraduateInfoMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>(DeletePostgraduateInfoDocument, options);
+      }
+export type DeletePostgraduateInfoMutationHookResult = ReturnType<typeof useDeletePostgraduateInfoMutation>;
+export type DeletePostgraduateInfoMutationResult = Apollo.MutationResult<DeletePostgraduateInfoMutation>;
+export type DeletePostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>;
 export const InsertApplicationDocument = gql`
-  mutation InsertApplication(
-    $mentor_info_id: Int!
-    $status: String!
-    $user_id: String!
-    $verified: Boolean!
+    mutation InsertApplication($mentor_info_id: Int!, $status: String!, $user_id: String!, $verified: Boolean!) {
+  insert_postgraduate_application_one(
+    object: {mentor_info_id: $mentor_info_id, status: $status, user_id: $user_id, verified: $verified}
+    on_conflict: {constraint: postgraduate_application_pkey, update_columns: [status, updated_at, verified]}
   ) {
-    insert_postgraduate_application_one(
-      object: {
-        mentor_info_id: $mentor_info_id
-        status: $status
-        user_id: $user_id
-        verified: $verified
-      }
-      on_conflict: {
-        constraint: postgraduate_application_pkey
-        update_columns: [status, updated_at, verified]
-      }
-    ) {
-      status
-    }
+    status
   }
-`;
-export type InsertApplicationMutationFn = Apollo.MutationFunction<
-  InsertApplicationMutation,
-  InsertApplicationMutationVariables
->;
+}
+    `;
+export type InsertApplicationMutationFn = Apollo.MutationFunction<InsertApplicationMutation, InsertApplicationMutationVariables>;
 
 /**
  * __useInsertApplicationMutation__
@@ -19243,41 +14026,24 @@ export type InsertApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useInsertApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    InsertApplicationMutation,
-    InsertApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    InsertApplicationMutation,
-    InsertApplicationMutationVariables
-  >(InsertApplicationDocument, options);
-}
-export type InsertApplicationMutationHookResult = ReturnType<
-  typeof useInsertApplicationMutation
->;
-export type InsertApplicationMutationResult =
-  Apollo.MutationResult<InsertApplicationMutation>;
-export type InsertApplicationMutationOptions = Apollo.BaseMutationOptions<
-  InsertApplicationMutation,
-  InsertApplicationMutationVariables
->;
+export function useInsertApplicationMutation(baseOptions?: Apollo.MutationHookOptions<InsertApplicationMutation, InsertApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertApplicationMutation, InsertApplicationMutationVariables>(InsertApplicationDocument, options);
+      }
+export type InsertApplicationMutationHookResult = ReturnType<typeof useInsertApplicationMutation>;
+export type InsertApplicationMutationResult = Apollo.MutationResult<InsertApplicationMutation>;
+export type InsertApplicationMutationOptions = Apollo.BaseMutationOptions<InsertApplicationMutation, InsertApplicationMutationVariables>;
 export const VerifyMentorInfoDocument = gql`
-  mutation VerifyMentorInfo($id: Int!) {
-    update_postgraduate_mentor_info_by_pk(
-      pk_columns: { id: $id }
-      _set: { verified: true }
-    ) {
-      id
-    }
+    mutation VerifyMentorInfo($id: Int!) {
+  update_postgraduate_mentor_info_by_pk(
+    pk_columns: {id: $id}
+    _set: {verified: true}
+  ) {
+    id
   }
-`;
-export type VerifyMentorInfoMutationFn = Apollo.MutationFunction<
-  VerifyMentorInfoMutation,
-  VerifyMentorInfoMutationVariables
->;
+}
+    `;
+export type VerifyMentorInfoMutationFn = Apollo.MutationFunction<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>;
 
 /**
  * __useVerifyMentorInfoMutation__
@@ -19296,55 +14062,41 @@ export type VerifyMentorInfoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useVerifyMentorInfoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    VerifyMentorInfoMutation,
-    VerifyMentorInfoMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    VerifyMentorInfoMutation,
-    VerifyMentorInfoMutationVariables
-  >(VerifyMentorInfoDocument, options);
-}
-export type VerifyMentorInfoMutationHookResult = ReturnType<
-  typeof useVerifyMentorInfoMutation
->;
-export type VerifyMentorInfoMutationResult =
-  Apollo.MutationResult<VerifyMentorInfoMutation>;
-export type VerifyMentorInfoMutationOptions = Apollo.BaseMutationOptions<
-  VerifyMentorInfoMutation,
-  VerifyMentorInfoMutationVariables
->;
+export function useVerifyMentorInfoMutation(baseOptions?: Apollo.MutationHookOptions<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>(VerifyMentorInfoDocument, options);
+      }
+export type VerifyMentorInfoMutationHookResult = ReturnType<typeof useVerifyMentorInfoMutation>;
+export type VerifyMentorInfoMutationResult = Apollo.MutationResult<VerifyMentorInfoMutation>;
+export type VerifyMentorInfoMutationOptions = Apollo.BaseMutationOptions<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>;
 export const GetPostgraduateApplicationFeedsDocument = gql`
-  query GetPostgraduateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
-    postgraduate_application_aggregate(where: { verified: { _eq: false } }) {
-      aggregate {
-        count
-      }
-    }
-    postgraduate_application(
-      where: { verified: { _eq: false } }
-      order_by: { created_at: desc }
-      offset: $offset
-      limit: $limit
-    ) {
-      created_at
-      mentor_info_id
-      status
-      updated_at
-      user_id
-      mentor {
-        mentor
-      }
-      user {
-        name
-        class
-      }
+    query GetPostgraduateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
+  postgraduate_application_aggregate(where: {verified: {_eq: false}}) {
+    aggregate {
+      count
     }
   }
-`;
+  postgraduate_application(
+    where: {verified: {_eq: false}}
+    order_by: {created_at: desc}
+    offset: $offset
+    limit: $limit
+  ) {
+    created_at
+    mentor_info_id
+    status
+    updated_at
+    user_id
+    mentor {
+      mentor
+    }
+    user {
+      name
+      class
+    }
+  }
+}
+    `;
 
 /**
  * __useGetPostgraduateApplicationFeedsQuery__
@@ -19363,86 +14115,49 @@ export const GetPostgraduateApplicationFeedsDocument = gql`
  *   },
  * });
  */
-export function useGetPostgraduateApplicationFeedsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetPostgraduateApplicationFeedsQuery,
-    GetPostgraduateApplicationFeedsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetPostgraduateApplicationFeedsQuery,
-    GetPostgraduateApplicationFeedsQueryVariables
-  >(GetPostgraduateApplicationFeedsDocument, options);
-}
-export function useGetPostgraduateApplicationFeedsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetPostgraduateApplicationFeedsQuery,
-    GetPostgraduateApplicationFeedsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetPostgraduateApplicationFeedsQuery,
-    GetPostgraduateApplicationFeedsQueryVariables
-  >(GetPostgraduateApplicationFeedsDocument, options);
-}
-export function useGetPostgraduateApplicationFeedsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetPostgraduateApplicationFeedsQuery,
-    GetPostgraduateApplicationFeedsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetPostgraduateApplicationFeedsQuery,
-    GetPostgraduateApplicationFeedsQueryVariables
-  >(GetPostgraduateApplicationFeedsDocument, options);
-}
-export type GetPostgraduateApplicationFeedsQueryHookResult = ReturnType<
-  typeof useGetPostgraduateApplicationFeedsQuery
->;
-export type GetPostgraduateApplicationFeedsLazyQueryHookResult = ReturnType<
-  typeof useGetPostgraduateApplicationFeedsLazyQuery
->;
-export type GetPostgraduateApplicationFeedsSuspenseQueryHookResult = ReturnType<
-  typeof useGetPostgraduateApplicationFeedsSuspenseQuery
->;
-export type GetPostgraduateApplicationFeedsQueryResult = Apollo.QueryResult<
-  GetPostgraduateApplicationFeedsQuery,
-  GetPostgraduateApplicationFeedsQueryVariables
->;
+export function useGetPostgraduateApplicationFeedsQuery(baseOptions?: Apollo.QueryHookOptions<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>(GetPostgraduateApplicationFeedsDocument, options);
+      }
+export function useGetPostgraduateApplicationFeedsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>(GetPostgraduateApplicationFeedsDocument, options);
+        }
+export function useGetPostgraduateApplicationFeedsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>(GetPostgraduateApplicationFeedsDocument, options);
+        }
+export type GetPostgraduateApplicationFeedsQueryHookResult = ReturnType<typeof useGetPostgraduateApplicationFeedsQuery>;
+export type GetPostgraduateApplicationFeedsLazyQueryHookResult = ReturnType<typeof useGetPostgraduateApplicationFeedsLazyQuery>;
+export type GetPostgraduateApplicationFeedsSuspenseQueryHookResult = ReturnType<typeof useGetPostgraduateApplicationFeedsSuspenseQuery>;
+export type GetPostgraduateApplicationFeedsQueryResult = Apollo.QueryResult<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>;
 export const GetSelfPostgraduateApplicationsDocument = gql`
-  query GetSelfPostgraduateApplications(
-    $user_id: String!
-    $offset: Int = 0
-    $limit: Int = 10
+    query GetSelfPostgraduateApplications($user_id: String!, $offset: Int = 0, $limit: Int = 10) {
+  postgraduate_application(
+    where: {user_id: {_eq: $user_id}}
+    offset: $offset
+    limit: $limit
   ) {
-    postgraduate_application(
-      where: { user_id: { _eq: $user_id } }
-      offset: $offset
-      limit: $limit
-    ) {
-      created_at
-      mentor_info_id
-      mentor {
-        mentor
-      }
-      status
-      updated_at
-      user_id
-      verified
-      history(order_by: { created_at: desc }) {
-        status
-      }
+    created_at
+    mentor_info_id
+    mentor {
+      mentor
     }
-    postgraduate_application_aggregate(where: { user_id: { _eq: $user_id } }) {
-      aggregate {
-        count
-      }
+    status
+    updated_at
+    user_id
+    verified
+    history(order_by: {created_at: desc}) {
+      status
     }
   }
-`;
+  postgraduate_application_aggregate(where: {user_id: {_eq: $user_id}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
 
 /**
  * __useGetSelfPostgraduateApplicationsQuery__
@@ -19462,70 +14177,31 @@ export const GetSelfPostgraduateApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetSelfPostgraduateApplicationsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetSelfPostgraduateApplicationsQuery,
-    GetSelfPostgraduateApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetSelfPostgraduateApplicationsQuery,
-    GetSelfPostgraduateApplicationsQueryVariables
-  >(GetSelfPostgraduateApplicationsDocument, options);
-}
-export function useGetSelfPostgraduateApplicationsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSelfPostgraduateApplicationsQuery,
-    GetSelfPostgraduateApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSelfPostgraduateApplicationsQuery,
-    GetSelfPostgraduateApplicationsQueryVariables
-  >(GetSelfPostgraduateApplicationsDocument, options);
-}
-export function useGetSelfPostgraduateApplicationsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetSelfPostgraduateApplicationsQuery,
-    GetSelfPostgraduateApplicationsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetSelfPostgraduateApplicationsQuery,
-    GetSelfPostgraduateApplicationsQueryVariables
-  >(GetSelfPostgraduateApplicationsDocument, options);
-}
-export type GetSelfPostgraduateApplicationsQueryHookResult = ReturnType<
-  typeof useGetSelfPostgraduateApplicationsQuery
->;
-export type GetSelfPostgraduateApplicationsLazyQueryHookResult = ReturnType<
-  typeof useGetSelfPostgraduateApplicationsLazyQuery
->;
-export type GetSelfPostgraduateApplicationsSuspenseQueryHookResult = ReturnType<
-  typeof useGetSelfPostgraduateApplicationsSuspenseQuery
->;
-export type GetSelfPostgraduateApplicationsQueryResult = Apollo.QueryResult<
-  GetSelfPostgraduateApplicationsQuery,
-  GetSelfPostgraduateApplicationsQueryVariables
->;
-export const GetSelfConfirmedApplicationDocument = gql`
-  query GetSelfConfirmedApplication($user_id: String!) {
-    postgraduate_application(
-      where: {
-        _and: [
-          { user_id: { _eq: $user_id } }
-          { verified: { _eq: true } }
-          { status: { _eq: "confirmed" } }
-        ]
+export function useGetSelfPostgraduateApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>(GetSelfPostgraduateApplicationsDocument, options);
       }
-    ) {
-      mentor_info_id
-    }
+export function useGetSelfPostgraduateApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>(GetSelfPostgraduateApplicationsDocument, options);
+        }
+export function useGetSelfPostgraduateApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>(GetSelfPostgraduateApplicationsDocument, options);
+        }
+export type GetSelfPostgraduateApplicationsQueryHookResult = ReturnType<typeof useGetSelfPostgraduateApplicationsQuery>;
+export type GetSelfPostgraduateApplicationsLazyQueryHookResult = ReturnType<typeof useGetSelfPostgraduateApplicationsLazyQuery>;
+export type GetSelfPostgraduateApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetSelfPostgraduateApplicationsSuspenseQuery>;
+export type GetSelfPostgraduateApplicationsQueryResult = Apollo.QueryResult<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>;
+export const GetSelfConfirmedApplicationDocument = gql`
+    query GetSelfConfirmedApplication($user_id: String!) {
+  postgraduate_application(
+    where: {_and: [{user_id: {_eq: $user_id}}, {verified: {_eq: true}}, {status: {_eq: "confirmed"}}]}
+  ) {
+    mentor_info_id
   }
-`;
+}
+    `;
 
 /**
  * __useGetSelfConfirmedApplicationQuery__
@@ -19543,72 +14219,33 @@ export const GetSelfConfirmedApplicationDocument = gql`
  *   },
  * });
  */
-export function useGetSelfConfirmedApplicationQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetSelfConfirmedApplicationQuery,
-    GetSelfConfirmedApplicationQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetSelfConfirmedApplicationQuery,
-    GetSelfConfirmedApplicationQueryVariables
-  >(GetSelfConfirmedApplicationDocument, options);
-}
-export function useGetSelfConfirmedApplicationLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSelfConfirmedApplicationQuery,
-    GetSelfConfirmedApplicationQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetSelfConfirmedApplicationQuery,
-    GetSelfConfirmedApplicationQueryVariables
-  >(GetSelfConfirmedApplicationDocument, options);
-}
-export function useGetSelfConfirmedApplicationSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetSelfConfirmedApplicationQuery,
-    GetSelfConfirmedApplicationQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetSelfConfirmedApplicationQuery,
-    GetSelfConfirmedApplicationQueryVariables
-  >(GetSelfConfirmedApplicationDocument, options);
-}
-export type GetSelfConfirmedApplicationQueryHookResult = ReturnType<
-  typeof useGetSelfConfirmedApplicationQuery
->;
-export type GetSelfConfirmedApplicationLazyQueryHookResult = ReturnType<
-  typeof useGetSelfConfirmedApplicationLazyQuery
->;
-export type GetSelfConfirmedApplicationSuspenseQueryHookResult = ReturnType<
-  typeof useGetSelfConfirmedApplicationSuspenseQuery
->;
-export type GetSelfConfirmedApplicationQueryResult = Apollo.QueryResult<
-  GetSelfConfirmedApplicationQuery,
-  GetSelfConfirmedApplicationQueryVariables
->;
+export function useGetSelfConfirmedApplicationQuery(baseOptions: Apollo.QueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>(GetSelfConfirmedApplicationDocument, options);
+      }
+export function useGetSelfConfirmedApplicationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>(GetSelfConfirmedApplicationDocument, options);
+        }
+export function useGetSelfConfirmedApplicationSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>(GetSelfConfirmedApplicationDocument, options);
+        }
+export type GetSelfConfirmedApplicationQueryHookResult = ReturnType<typeof useGetSelfConfirmedApplicationQuery>;
+export type GetSelfConfirmedApplicationLazyQueryHookResult = ReturnType<typeof useGetSelfConfirmedApplicationLazyQuery>;
+export type GetSelfConfirmedApplicationSuspenseQueryHookResult = ReturnType<typeof useGetSelfConfirmedApplicationSuspenseQuery>;
+export type GetSelfConfirmedApplicationQueryResult = Apollo.QueryResult<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>;
 export const VerifyPostgraduateApplicationDocument = gql`
-  mutation VerifyPostgraduateApplication(
-    $mentor_info_id: Int!
-    $user_id: String!
+    mutation VerifyPostgraduateApplication($mentor_info_id: Int!, $user_id: String!) {
+  update_postgraduate_application_by_pk(
+    pk_columns: {mentor_info_id: $mentor_info_id, user_id: $user_id}
+    _set: {verified: true}
   ) {
-    update_postgraduate_application_by_pk(
-      pk_columns: { mentor_info_id: $mentor_info_id, user_id: $user_id }
-      _set: { verified: true }
-    ) {
-      verified
-    }
+    verified
   }
-`;
-export type VerifyPostgraduateApplicationMutationFn = Apollo.MutationFunction<
-  VerifyPostgraduateApplicationMutation,
-  VerifyPostgraduateApplicationMutationVariables
->;
+}
+    `;
+export type VerifyPostgraduateApplicationMutationFn = Apollo.MutationFunction<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>;
 
 /**
  * __useVerifyPostgraduateApplicationMutation__
@@ -19628,46 +14265,25 @@ export type VerifyPostgraduateApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useVerifyPostgraduateApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    VerifyPostgraduateApplicationMutation,
-    VerifyPostgraduateApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    VerifyPostgraduateApplicationMutation,
-    VerifyPostgraduateApplicationMutationVariables
-  >(VerifyPostgraduateApplicationDocument, options);
-}
-export type VerifyPostgraduateApplicationMutationHookResult = ReturnType<
-  typeof useVerifyPostgraduateApplicationMutation
->;
-export type VerifyPostgraduateApplicationMutationResult =
-  Apollo.MutationResult<VerifyPostgraduateApplicationMutation>;
-export type VerifyPostgraduateApplicationMutationOptions =
-  Apollo.BaseMutationOptions<
-    VerifyPostgraduateApplicationMutation,
-    VerifyPostgraduateApplicationMutationVariables
-  >;
+export function useVerifyPostgraduateApplicationMutation(baseOptions?: Apollo.MutationHookOptions<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>(VerifyPostgraduateApplicationDocument, options);
+      }
+export type VerifyPostgraduateApplicationMutationHookResult = ReturnType<typeof useVerifyPostgraduateApplicationMutation>;
+export type VerifyPostgraduateApplicationMutationResult = Apollo.MutationResult<VerifyPostgraduateApplicationMutation>;
+export type VerifyPostgraduateApplicationMutationOptions = Apollo.BaseMutationOptions<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>;
 export const DeletePostgraduateApplicationDocument = gql`
-  mutation DeletePostgraduateApplication(
-    $mentor_info_id: Int!
-    $user_id: String!
+    mutation DeletePostgraduateApplication($mentor_info_id: Int!, $user_id: String!) {
+  delete_postgraduate_application_by_pk(
+    mentor_info_id: $mentor_info_id
+    user_id: $user_id
   ) {
-    delete_postgraduate_application_by_pk(
-      mentor_info_id: $mentor_info_id
-      user_id: $user_id
-    ) {
-      mentor_info_id
-      user_id
-    }
+    mentor_info_id
+    user_id
   }
-`;
-export type DeletePostgraduateApplicationMutationFn = Apollo.MutationFunction<
-  DeletePostgraduateApplicationMutation,
-  DeletePostgraduateApplicationMutationVariables
->;
+}
+    `;
+export type DeletePostgraduateApplicationMutationFn = Apollo.MutationFunction<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>;
 
 /**
  * __useDeletePostgraduateApplicationMutation__
@@ -19687,53 +14303,24 @@ export type DeletePostgraduateApplicationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeletePostgraduateApplicationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeletePostgraduateApplicationMutation,
-    DeletePostgraduateApplicationMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeletePostgraduateApplicationMutation,
-    DeletePostgraduateApplicationMutationVariables
-  >(DeletePostgraduateApplicationDocument, options);
-}
-export type DeletePostgraduateApplicationMutationHookResult = ReturnType<
-  typeof useDeletePostgraduateApplicationMutation
->;
-export type DeletePostgraduateApplicationMutationResult =
-  Apollo.MutationResult<DeletePostgraduateApplicationMutation>;
-export type DeletePostgraduateApplicationMutationOptions =
-  Apollo.BaseMutationOptions<
-    DeletePostgraduateApplicationMutation,
-    DeletePostgraduateApplicationMutationVariables
-  >;
+export function useDeletePostgraduateApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>(DeletePostgraduateApplicationDocument, options);
+      }
+export type DeletePostgraduateApplicationMutationHookResult = ReturnType<typeof useDeletePostgraduateApplicationMutation>;
+export type DeletePostgraduateApplicationMutationResult = Apollo.MutationResult<DeletePostgraduateApplicationMutation>;
+export type DeletePostgraduateApplicationMutationOptions = Apollo.BaseMutationOptions<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>;
 export const SetPostAppHistoryDocument = gql`
-  mutation SetPostAppHistory(
-    $user_id: String!
-    $mentor_info_id: Int!
-    $status: String!
+    mutation SetPostAppHistory($user_id: String!, $mentor_info_id: Int!, $status: String!) {
+  insert_postgraduate_application_history_one(
+    object: {user_id: $user_id, mentor_info_id: $mentor_info_id, status: $status}
+    on_conflict: {constraint: postgraduate_application_history_pkey, update_columns: created_at}
   ) {
-    insert_postgraduate_application_history_one(
-      object: {
-        user_id: $user_id
-        mentor_info_id: $mentor_info_id
-        status: $status
-      }
-      on_conflict: {
-        constraint: postgraduate_application_history_pkey
-        update_columns: created_at
-      }
-    ) {
-      created_at
-    }
+    created_at
   }
-`;
-export type SetPostAppHistoryMutationFn = Apollo.MutationFunction<
-  SetPostAppHistoryMutation,
-  SetPostAppHistoryMutationVariables
->;
+}
+    `;
+export type SetPostAppHistoryMutationFn = Apollo.MutationFunction<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>;
 
 /**
  * __useSetPostAppHistoryMutation__
@@ -19754,71 +14341,45 @@ export type SetPostAppHistoryMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSetPostAppHistoryMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SetPostAppHistoryMutation,
-    SetPostAppHistoryMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SetPostAppHistoryMutation,
-    SetPostAppHistoryMutationVariables
-  >(SetPostAppHistoryDocument, options);
-}
-export type SetPostAppHistoryMutationHookResult = ReturnType<
-  typeof useSetPostAppHistoryMutation
->;
-export type SetPostAppHistoryMutationResult =
-  Apollo.MutationResult<SetPostAppHistoryMutation>;
-export type SetPostAppHistoryMutationOptions = Apollo.BaseMutationOptions<
-  SetPostAppHistoryMutation,
-  SetPostAppHistoryMutationVariables
->;
+export function useSetPostAppHistoryMutation(baseOptions?: Apollo.MutationHookOptions<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>(SetPostAppHistoryDocument, options);
+      }
+export type SetPostAppHistoryMutationHookResult = ReturnType<typeof useSetPostAppHistoryMutation>;
+export type SetPostAppHistoryMutationResult = Apollo.MutationResult<SetPostAppHistoryMutation>;
+export type SetPostAppHistoryMutationOptions = Apollo.BaseMutationOptions<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>;
 export const GetPostAppHistoryDocument = gql`
-  query GetPostAppHistory($offset: Int = 0, $limit: Int = 10) {
-    postgraduate_application_history(
-      offset: $offset
-      limit: $limit
-      order_by: { created_at: desc }
-      where: {
-        _and: [
-          { status: { _neq: "intend" } }
-          { status: { _neq: "in_contact" } }
-          { status: { _neq: "delete" } }
-        ]
-      }
-    ) {
-      created_at
-      mentor_info_id
-      status
-      user_id
-      updated_at
-      mentor {
-        mentor
-      }
-      user {
-        name
-        class
-      }
+    query GetPostAppHistory($offset: Int = 0, $limit: Int = 10) {
+  postgraduate_application_history(
+    offset: $offset
+    limit: $limit
+    order_by: {created_at: desc}
+    where: {_and: [{status: {_neq: "intend"}}, {status: {_neq: "in_contact"}}, {status: {_neq: "delete"}}]}
+  ) {
+    created_at
+    mentor_info_id
+    status
+    user_id
+    updated_at
+    mentor {
+      mentor
     }
-    postgraduate_application_history_aggregate(
-      offset: $offset
-      limit: $limit
-      where: {
-        _and: [
-          { status: { _neq: "intend" } }
-          { status: { _neq: "in_contact" } }
-          { status: { _neq: "delete" } }
-        ]
-      }
-    ) {
-      aggregate {
-        count
-      }
+    user {
+      name
+      class
     }
   }
-`;
+  postgraduate_application_history_aggregate(
+    offset: $offset
+    limit: $limit
+    where: {_and: [{status: {_neq: "intend"}}, {status: {_neq: "in_contact"}}, {status: {_neq: "delete"}}]}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
 
 /**
  * __useGetPostAppHistoryQuery__
@@ -19837,91 +14398,37 @@ export const GetPostAppHistoryDocument = gql`
  *   },
  * });
  */
-export function useGetPostAppHistoryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetPostAppHistoryQuery,
-    GetPostAppHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetPostAppHistoryQuery,
-    GetPostAppHistoryQueryVariables
-  >(GetPostAppHistoryDocument, options);
-}
-export function useGetPostAppHistoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetPostAppHistoryQuery,
-    GetPostAppHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetPostAppHistoryQuery,
-    GetPostAppHistoryQueryVariables
-  >(GetPostAppHistoryDocument, options);
-}
-export function useGetPostAppHistorySuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetPostAppHistoryQuery,
-    GetPostAppHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetPostAppHistoryQuery,
-    GetPostAppHistoryQueryVariables
-  >(GetPostAppHistoryDocument, options);
-}
-export type GetPostAppHistoryQueryHookResult = ReturnType<
-  typeof useGetPostAppHistoryQuery
->;
-export type GetPostAppHistoryLazyQueryHookResult = ReturnType<
-  typeof useGetPostAppHistoryLazyQuery
->;
-export type GetPostAppHistorySuspenseQueryHookResult = ReturnType<
-  typeof useGetPostAppHistorySuspenseQuery
->;
-export type GetPostAppHistoryQueryResult = Apollo.QueryResult<
-  GetPostAppHistoryQuery,
-  GetPostAppHistoryQueryVariables
->;
-export const GetCourseDocument = gql`
-  query GetCourse(
-    $code: String
-    $name: String
-    $year: Int
-    $semester: String
-    $professor: String
-    $type: String
-    $language: String
-  ) {
-    share_course(
-      order_by: { year: desc }
-      where: {
-        _and: [
-          { code: { _eq: $code } }
-          { name: { _eq: $name } }
-          { year: { _eq: $year } }
-          { semester: { _eq: $semester } }
-          { professor: { _eq: $professor } }
-          { type: { _eq: $type } }
-          { language: { _eq: $language } }
-        ]
+export function useGetPostAppHistoryQuery(baseOptions?: Apollo.QueryHookOptions<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>(GetPostAppHistoryDocument, options);
       }
-    ) {
-      code
-      fullname
-      language
-      name
-      professor
-      semester
-      type
-      uuid
-      year
-    }
+export function useGetPostAppHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>(GetPostAppHistoryDocument, options);
+        }
+export function useGetPostAppHistorySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>(GetPostAppHistoryDocument, options);
+        }
+export type GetPostAppHistoryQueryHookResult = ReturnType<typeof useGetPostAppHistoryQuery>;
+export type GetPostAppHistoryLazyQueryHookResult = ReturnType<typeof useGetPostAppHistoryLazyQuery>;
+export type GetPostAppHistorySuspenseQueryHookResult = ReturnType<typeof useGetPostAppHistorySuspenseQuery>;
+export type GetPostAppHistoryQueryResult = Apollo.QueryResult<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>;
+export const GetCourseDocument = gql`
+    query GetCourse {
+  share_course(order_by: {year: desc}) {
+    code
+    fullname
+    language
+    name
+    professor
+    semester
+    type
+    uuid
+    year
   }
-`;
+}
+    `;
 
 /**
  * __useGetCourseQuery__
@@ -19935,496 +14442,34 @@ export const GetCourseDocument = gql`
  * @example
  * const { data, loading, error } = useGetCourseQuery({
  *   variables: {
- *      code: // value for 'code'
- *      name: // value for 'name'
- *      year: // value for 'year'
- *      semester: // value for 'semester'
- *      professor: // value for 'professor'
- *      type: // value for 'type'
- *      language: // value for 'language'
  *   },
  * });
  */
-export function useGetCourseQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetCourseQuery,
-    GetCourseQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetCourseQuery, GetCourseQueryVariables>(
-    GetCourseDocument,
-    options,
-  );
-}
-export function useGetCourseLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCourseQuery,
-    GetCourseQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetCourseQuery, GetCourseQueryVariables>(
-    GetCourseDocument,
-    options,
-  );
-}
-export function useGetCourseSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetCourseQuery,
-    GetCourseQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetCourseQuery, GetCourseQueryVariables>(
-    GetCourseDocument,
-    options,
-  );
-}
+export function useGetCourseQuery(baseOptions?: Apollo.QueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, options);
+      }
+export function useGetCourseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, options);
+        }
+export function useGetCourseSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, options);
+        }
 export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
-export type GetCourseLazyQueryHookResult = ReturnType<
-  typeof useGetCourseLazyQuery
->;
-export type GetCourseSuspenseQueryHookResult = ReturnType<
-  typeof useGetCourseSuspenseQuery
->;
-export type GetCourseQueryResult = Apollo.QueryResult<
-  GetCourseQuery,
-  GetCourseQueryVariables
->;
-export const GetUserDocument = gql`
-  query GetUser($_id: String!) {
-    user(where: { _id: { _eq: $_id } }) {
-      _id
-      id
-      name
-      username
-      department
-      class
-      phone
-      email
-    }
-  }
-`;
-
-/**
- * __useGetUserQuery__
- *
- * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserQuery({
- *   variables: {
- *      _id: // value for '_id'
- *   },
- * });
- */
-export function useGetUserQuery(
-  baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
-export function useGetUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
-export function useGetUserSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
-export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
-export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserSuspenseQueryHookResult = ReturnType<
-  typeof useGetUserSuspenseQuery
->;
-export type GetUserQueryResult = Apollo.QueryResult<
-  GetUserQuery,
-  GetUserQueryVariables
->;
-export const GetUserByIdDocument = gql`
-  query GetUserById($id: bigint!) {
-    user(where: { id: { _eq: $id } }) {
-      _id
-      id
-      username
-      name
-    }
-  }
-`;
-
-/**
- * __useGetUserByIdQuery__
- *
- * To run a query within a React component, call `useGetUserByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetUserByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUserByIdQuery,
-    GetUserByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-    GetUserByIdDocument,
-    options,
-  );
-}
-export function useGetUserByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserByIdQuery,
-    GetUserByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-    GetUserByIdDocument,
-    options,
-  );
-}
-export function useGetUserByIdSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUserByIdQuery,
-    GetUserByIdQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-    GetUserByIdDocument,
-    options,
-  );
-}
-export type GetUserByIdQueryHookResult = ReturnType<typeof useGetUserByIdQuery>;
-export type GetUserByIdLazyQueryHookResult = ReturnType<
-  typeof useGetUserByIdLazyQuery
->;
-export type GetUserByIdSuspenseQueryHookResult = ReturnType<
-  typeof useGetUserByIdSuspenseQuery
->;
-export type GetUserByIdQueryResult = Apollo.QueryResult<
-  GetUserByIdQuery,
-  GetUserByIdQueryVariables
->;
-export const GetUserByNameDocument = gql`
-  query GetUserByName($name: String!) {
-    user(where: { name: { _eq: $name } }) {
-      _id
-    }
-  }
-`;
-
-/**
- * __useGetUserByNameQuery__
- *
- * To run a query within a React component, call `useGetUserByNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserByNameQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useGetUserByNameQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserByNameQuery, GetUserByNameQueryVariables>(
-    GetUserByNameDocument,
-    options,
-  );
-}
-export function useGetUserByNameLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserByNameQuery, GetUserByNameQueryVariables>(
-    GetUserByNameDocument,
-    options,
-  );
-}
-export function useGetUserByNameSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetUserByNameQuery,
-    GetUserByNameQueryVariables
-  >(GetUserByNameDocument, options);
-}
-export type GetUserByNameQueryHookResult = ReturnType<
-  typeof useGetUserByNameQuery
->;
-export type GetUserByNameLazyQueryHookResult = ReturnType<
-  typeof useGetUserByNameLazyQuery
->;
-export type GetUserByNameSuspenseQueryHookResult = ReturnType<
-  typeof useGetUserByNameSuspenseQuery
->;
-export type GetUserByNameQueryResult = Apollo.QueryResult<
-  GetUserByNameQuery,
-  GetUserByNameQueryVariables
->;
-export const UpdateUserDocument = gql`
-  mutation UpdateUser(
-    $_id: String!
-    $id: bigint!
-    $username: String
-    $phone: String
-    $name: String
-    $department: String
-    $class: String
-    $email: String
-  ) {
-    update_user(
-      where: { _id: { _eq: $_id } }
-      _set: {
-        id: $id
-        username: $username
-        phone: $phone
-        name: $name
-        department: $department
-        class: $class
-        email: $email
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-export type UpdateUserMutationFn = Apollo.MutationFunction<
-  UpdateUserMutation,
-  UpdateUserMutationVariables
->;
-
-/**
- * __useUpdateUserMutation__
- *
- * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
- *   variables: {
- *      _id: // value for '_id'
- *      id: // value for 'id'
- *      username: // value for 'username'
- *      phone: // value for 'phone'
- *      name: // value for 'name'
- *      department: // value for 'department'
- *      class: // value for 'class'
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useUpdateUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserMutation,
-    UpdateUserMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
-    UpdateUserDocument,
-    options,
-  );
-}
-export type UpdateUserMutationHookResult = ReturnType<
-  typeof useUpdateUserMutation
->;
-export type UpdateUserMutationResult =
-  Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserMutation,
-  UpdateUserMutationVariables
->;
-export const UpdateUserForTeacherDocument = gql`
-  mutation UpdateUserForTeacher(
-    $_id: String!
-    $id: bigint
-    $username: String
-    $phone: String
-    $name: String
-    $department: String
-    $class: String
-    $email: String
-  ) {
-    update_user(
-      where: { _id: { _eq: $_id } }
-      _set: {
-        id: $id
-        username: $username
-        phone: $phone
-        name: $name
-        department: $department
-        class: $class
-        email: $email
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-export type UpdateUserForTeacherMutationFn = Apollo.MutationFunction<
-  UpdateUserForTeacherMutation,
-  UpdateUserForTeacherMutationVariables
->;
-
-/**
- * __useUpdateUserForTeacherMutation__
- *
- * To run a mutation, you first call `useUpdateUserForTeacherMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserForTeacherMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserForTeacherMutation, { data, loading, error }] = useUpdateUserForTeacherMutation({
- *   variables: {
- *      _id: // value for '_id'
- *      id: // value for 'id'
- *      username: // value for 'username'
- *      phone: // value for 'phone'
- *      name: // value for 'name'
- *      department: // value for 'department'
- *      class: // value for 'class'
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useUpdateUserForTeacherMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserForTeacherMutation,
-    UpdateUserForTeacherMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateUserForTeacherMutation,
-    UpdateUserForTeacherMutationVariables
-  >(UpdateUserForTeacherDocument, options);
-}
-export type UpdateUserForTeacherMutationHookResult = ReturnType<
-  typeof useUpdateUserForTeacherMutation
->;
-export type UpdateUserForTeacherMutationResult =
-  Apollo.MutationResult<UpdateUserForTeacherMutation>;
-export type UpdateUserForTeacherMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserForTeacherMutation,
-  UpdateUserForTeacherMutationVariables
->;
-export const DeleteUserDocument = gql`
-  mutation DeleteUser($_id: String!) {
-    delete_user(where: { _id: { _eq: $_id } }) {
-      affected_rows
-    }
-  }
-`;
-export type DeleteUserMutationFn = Apollo.MutationFunction<
-  DeleteUserMutation,
-  DeleteUserMutationVariables
->;
-
-/**
- * __useDeleteUserMutation__
- *
- * To run a mutation, you first call `useDeleteUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
- *   variables: {
- *      _id: // value for '_id'
- *   },
- * });
- */
-export function useDeleteUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteUserMutation,
-    DeleteUserMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(
-    DeleteUserDocument,
-    options,
-  );
-}
-export type DeleteUserMutationHookResult = ReturnType<
-  typeof useDeleteUserMutation
->;
-export type DeleteUserMutationResult =
-  Apollo.MutationResult<DeleteUserMutation>;
-export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<
-  DeleteUserMutation,
-  DeleteUserMutationVariables
->;
+export type GetCourseLazyQueryHookResult = ReturnType<typeof useGetCourseLazyQuery>;
+export type GetCourseSuspenseQueryHookResult = ReturnType<typeof useGetCourseSuspenseQuery>;
+export type GetCourseQueryResult = Apollo.QueryResult<GetCourseQuery, GetCourseQueryVariables>;
 export const GetWeeklyDocument = gql`
-  query GetWeekly {
-    weekly {
-      id
-      title
-      url
-    }
+    query GetWeekly {
+  weekly {
+    id
+    title
+    url
   }
-`;
+}
+    `;
 
 /**
  * __useGetWeeklyQuery__
@@ -20441,50 +14486,111 @@ export const GetWeeklyDocument = gql`
  *   },
  * });
  */
-export function useGetWeeklyQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetWeeklyQuery,
-    GetWeeklyQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(
-    GetWeeklyDocument,
-    options,
-  );
-}
-export function useGetWeeklyLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetWeeklyQuery,
-    GetWeeklyQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(
-    GetWeeklyDocument,
-    options,
-  );
-}
-export function useGetWeeklySuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetWeeklyQuery,
-    GetWeeklyQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(
-    GetWeeklyDocument,
-    options,
-  );
-}
+export function useGetWeeklyQuery(baseOptions?: Apollo.QueryHookOptions<GetWeeklyQuery, GetWeeklyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(GetWeeklyDocument, options);
+      }
+export function useGetWeeklyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWeeklyQuery, GetWeeklyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(GetWeeklyDocument, options);
+        }
+export function useGetWeeklySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetWeeklyQuery, GetWeeklyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(GetWeeklyDocument, options);
+        }
 export type GetWeeklyQueryHookResult = ReturnType<typeof useGetWeeklyQuery>;
-export type GetWeeklyLazyQueryHookResult = ReturnType<
-  typeof useGetWeeklyLazyQuery
->;
-export type GetWeeklySuspenseQueryHookResult = ReturnType<
-  typeof useGetWeeklySuspenseQuery
->;
-export type GetWeeklyQueryResult = Apollo.QueryResult<
-  GetWeeklyQuery,
-  GetWeeklyQueryVariables
->;
+export type GetWeeklyLazyQueryHookResult = ReturnType<typeof useGetWeeklyLazyQuery>;
+export type GetWeeklySuspenseQueryHookResult = ReturnType<typeof useGetWeeklySuspenseQuery>;
+export type GetWeeklyQueryResult = Apollo.QueryResult<GetWeeklyQuery, GetWeeklyQueryVariables>;
+export const GetProfileDocument = gql`
+    query GetProfile($uuid: uuid!) {
+  users_by_pk(uuid: $uuid) {
+    username
+    realname
+    email
+    phone
+    student_no
+    department
+    class
+    created_at
+    updated_at
+    tsinghua_email
+    github_id
+  }
+}
+    `;
+
+/**
+ * __useGetProfileQuery__
+ *
+ * To run a query within a React component, call `useGetProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProfileQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useGetProfileQuery(baseOptions: Apollo.QueryHookOptions<GetProfileQuery, GetProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options);
+      }
+export function useGetProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProfileQuery, GetProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options);
+        }
+export function useGetProfileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProfileQuery, GetProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options);
+        }
+export type GetProfileQueryHookResult = ReturnType<typeof useGetProfileQuery>;
+export type GetProfileLazyQueryHookResult = ReturnType<typeof useGetProfileLazyQuery>;
+export type GetProfileSuspenseQueryHookResult = ReturnType<typeof useGetProfileSuspenseQuery>;
+export type GetProfileQueryResult = Apollo.QueryResult<GetProfileQuery, GetProfileQueryVariables>;
+export const UpdateProfileDocument = gql`
+    mutation UpdateProfile($uuid: uuid!, $class: String, $department: String, $phone: String, $realname: String, $student_no: String, $username: String) {
+  update_users_by_pk(
+    pk_columns: {uuid: $uuid}
+    _set: {class: $class, department: $department, username: $username, student_no: $student_no, realname: $realname, phone: $phone}
+  ) {
+    updated_at
+  }
+}
+    `;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      class: // value for 'class'
+ *      department: // value for 'department'
+ *      phone: // value for 'phone'
+ *      realname: // value for 'realname'
+ *      student_no: // value for 'student_no'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument, options);
+      }
+export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
+export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;

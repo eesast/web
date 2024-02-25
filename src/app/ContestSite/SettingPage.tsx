@@ -17,28 +17,13 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
-import {
-  QueryTeamID as QUERY_TEAM_ID,
-  GetContestInfo as GET_CONTEST_INFO,
-  QueryContestManager as QUERY_CONTEST_MANAGER,
-  UpdateContestStatus as UPDATE_CONTEST_STATUS,
-} from "../../api/contest.graphql";
-import {
-  QueryTeamID,
-  QueryTeamIDVariables,
-  GetContestInfo,
-  GetContestInfoVariables,
-  QueryContestManager,
-  QueryContestManagerVariables,
-  UpdateContestStatus,
-  UpdateContestStatusVariables,
-} from "../../api/types";
-import { useMutation, useQuery } from "@apollo/client";
 import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
-
+import * as graphql from "@/generated/graphql";
+import { MenuProps } from "antd/lib";
+/* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
-
+/* ---------------- 主页面 ---------------- */
 const SettingPage: React.FC = () => {
   //获取比赛ID
   const url = useUrl();
@@ -46,15 +31,13 @@ const SettingPage: React.FC = () => {
   //获取用户信息
   const userInfo = getUserInfo();
 
-  const { data: isContestManagerData, error: isContestManagerError } = useQuery<
-    QueryContestManager,
-    QueryContestManagerVariables
-  >(QUERY_CONTEST_MANAGER, {
-    variables: {
-      contest_id: Contest_id,
-      user_id: userInfo?._id,
-    },
-  });
+  const { data: isContestManagerData, error: isContestManagerError } =
+    graphql.useQueryContestManagerSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        user_id: userInfo?._id,
+      },
+    });
   useEffect(() => {
     if (isContestManagerError) {
       message.error("管理员加载失败");
@@ -70,7 +53,7 @@ const SettingPage: React.FC = () => {
     data: contestData,
     error: contestError,
     refetch: refetchContestData,
-  } = useQuery<GetContestInfo, GetContestInfoVariables>(GET_CONTEST_INFO, {
+  } = graphql.useGetContestInfoSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
@@ -82,11 +65,8 @@ const SettingPage: React.FC = () => {
     }
   }, [contestError]);
 
-  const [updateContestStatus, { error: updateStatusError }] = useMutation<
-    UpdateContestStatus,
-    UpdateContestStatusVariables
-  >(UPDATE_CONTEST_STATUS);
-
+  const [updateContestStatus, { error: updateStatusError }] =
+    graphql.useUpdateContestStatusMutation();
   useEffect(() => {
     if (updateStatusError) {
       message.error("比赛状态更新失败");
@@ -98,6 +78,7 @@ const SettingPage: React.FC = () => {
   const runContest = async (mode: Number) => {
     try {
       await axios.post("contest", {
+        contest_id: Contest_id,
         mode: mode,
       });
       message.info(
@@ -144,15 +125,13 @@ const SettingPage: React.FC = () => {
     useState<boolean>(false);
   const [battleForm] = Form.useForm();
 
-  const { error: queryTeamIDError, refetch: refetchTeamID } = useQuery<
-    QueryTeamID,
-    QueryTeamIDVariables
-  >(QUERY_TEAM_ID, {
-    variables: {
-      contest_id: Contest_id,
-      team_name: "",
-    },
-  });
+  const { error: queryTeamIDError, refetch: refetchTeamID } =
+    graphql.useQueryTeamIdSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+        team_name: "",
+      },
+    });
 
   useEffect(() => {
     if (queryTeamIDError) {
@@ -173,11 +152,11 @@ const SettingPage: React.FC = () => {
         team_name: values.team1,
       });
       if (team1Data.data.contest_team.length === 0) {
-        message.warn("队伍1名称有误，查询失败！");
+        message.warning("队伍1名称有误，查询失败！");
         return;
       }
       if (team1Data.data.contest_team[0].status !== "compiled") {
-        message.warn("队伍1未进行编译！");
+        message.warning("队伍1未进行编译！");
         return;
       }
       const team2Data = await refetchTeamID({
@@ -185,17 +164,18 @@ const SettingPage: React.FC = () => {
         team_name: values.team2,
       });
       if (team2Data.data.contest_team.length === 0) {
-        message.warn("队伍2名称有误，查询失败！");
+        message.warning("队伍2名称有误，查询失败！");
         return;
       }
       if (team2Data.data.contest_team[0].status !== "compiled") {
-        message.warn("队伍2未进行编译！");
+        message.warning("队伍2未进行编译！");
         return;
       }
       const team1ID = team1Data.data.contest_team[0].team_id;
       const team2ID = team2Data.data.contest_team[0].team_id;
 
       await axios.post("room/assign", {
+        contest_id: Contest_id,
         team_id1: team1ID,
         team_id2: team2ID,
       });
@@ -316,7 +296,7 @@ const SettingPage: React.FC = () => {
               margin-top: 15px;
             `}
           >
-            <Dropdown overlay={modeMenu} trigger={["click"]}>
+            <Dropdown menu={modeMenu as MenuProps} trigger={["click"]}>
               <Button
                 css={`
                   margin-top: 12px;
@@ -351,7 +331,7 @@ const SettingPage: React.FC = () => {
       </Row>
 
       <Modal
-        visible={isBattleModalVisible}
+        open={isBattleModalVisible}
         title="发起对战"
         centered
         okText="发起"

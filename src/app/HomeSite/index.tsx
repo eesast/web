@@ -1,82 +1,104 @@
-import React from "react";
-import { Layout, Menu } from "antd";
+import React, { Suspense, lazy } from "react";
+import { Layout, Menu, Spin } from "antd";
 import {
   SwitcherOutlined,
   ApartmentOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Link, Route, Navigate, Routes } from "react-router-dom";
 import NewsPage from "./NewsPage";
-import DivisionPage from "./DivisionPage";
-import ContestPage from "./ContestPage";
-import NotFoundPage from "../NotFoundPage";
+import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
+import { PageProps } from "..";
 
-const { Header, Content } = Layout;
-
-const StyledHeader = styled(Header)`
-  background-color: white;
-  display: flex;
-  flex-direction: row;
-  height: 48px;
-  z-index: 98;
-  border-bottom: 2px #eee solid;
-`;
-
-const StyledMenu = styled(Menu)`
-  &.ant-menu {
-    line-height: 46px;
-    border-bottom: unset;
-  }
-`;
-
-const HomeSite: React.FC = () => {
+const HomeSite: React.FC<PageProps> = ({ mode }) => {
   const url = useUrl();
+
+  const { Header, Content } = Layout;
+  const StyledHeader = styled(Header)`
+    display: flex;
+    align-items: center;
+    z-index: 99;
+    height: 48px;
+    width: 100%;
+    background-color: ${mode === "light" ? `white` : `#141414`};
+    border-bottom: 1px solid
+      ${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
+    position: fixed;
+    top: 72px;
+  `;
+
+  const StyledMenu = styled(Menu)`
+    &.ant-menu {
+      line-height: 48px;
+      border-bottom: unset;
+    }
+  `;
+
+  const StyledContent = styled(Content)`
+    margin-top: 48px;
+    width: 100%;
+  `;
+
+  const Container = styled.div`
+    height: calc(100vh - 120px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
+  const items = [
+    {
+      key: "news",
+      icon: <SwitcherOutlined />,
+      label: <Link to={url.link("news")}>动态</Link>,
+    },
+    {
+      key: "divisions",
+      icon: <ApartmentOutlined />,
+      label: <Link to={url.link("divisions")}>部门</Link>,
+    },
+    {
+      key: "contests",
+      icon: <TeamOutlined />,
+      label: <Link to={url.link("contests")}>比赛</Link>,
+    },
+  ];
+
+  const DivisionPage = lazy(() => import("./DivisionPage"));
+  const ContestPage = lazy(() => import("./ContestPage"));
 
   return (
     <Layout>
       <StyledHeader>
-        <StyledMenu theme="light" mode="horizontal" selectedKeys={[url.page]}>
-          <Menu.Item key="news">
-            <Link to={url.link("news")}>
-              <SwitcherOutlined />
-              动态
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="divisions">
-            <Link to={url.link("divisions")}>
-              <ApartmentOutlined />
-              部门
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="contests">
-            <Link to={url.link("contests")}>
-              <TeamOutlined />
-              比赛
-            </Link>
-          </Menu.Item>
-        </StyledMenu>
+        <StyledMenu
+          theme="light"
+          mode="horizontal"
+          selectedKeys={[url.page]}
+          items={items}
+        />
       </StyledHeader>
-      <Content>
-        <Switch>
-          <Route exact path={url.route("home", "site")}>
-            <Redirect to={url.link("news")} />
-          </Route>
-          <Route exact path={url.route("news")}>
-            <NewsPage />
-          </Route>
-          <Route exact path={url.route("divisions")}>
-            <DivisionPage />
-          </Route>
-          <Route exact path={url.route("contests")}>
-            <ContestPage />
-          </Route>
-          <Route>
-            <NotFoundPage />
-          </Route>
-        </Switch>
-      </Content>
+      <StyledContent>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Navigate to={url.link("news")} />} />
+            <Route path="news" element={<NewsPage />} />
+            <Route path="divisions" element={<DivisionPage />} />
+            <Route path="contests" element={<ContestPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </StyledContent>
     </Layout>
   );
 };

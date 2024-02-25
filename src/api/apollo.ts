@@ -1,18 +1,19 @@
 import { ApolloClient, HttpLink, InMemoryCache, split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
-import { WebSocketLink } from "@apollo/client/link/ws";
 import { setContext } from "@apollo/client/link/context";
-import axios from "axios";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL!;
-axios.defaults.headers.post["Content-Type"] = "application/json";
-axios.interceptors.request.use(function (config) {
+const auth = () => {
   const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = "Bearer " + token;
-  }
-  return config;
-});
+  return {
+    headers: {
+      ...(token && {
+        Authorization: `Bearer ${token}`,
+      }),
+    },
+  };
+};
 
 const httpLink = new HttpLink({
   uri:
@@ -21,38 +22,18 @@ const httpLink = new HttpLink({
       : process.env.REACT_APP_HASURA_DEV_HTTPLINK!,
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("token");
-  return {
-    headers: {
-      ...headers,
-      ...(token && {
-        authorization: `Bearer ${token}`,
-      }),
-    },
-  };
-});
+const authLink = setContext(auth).concat(httpLink);
 
-const wsLink = new WebSocketLink({
-  uri:
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_HASURA_WSSLINK!
-      : process.env.REACT_APP_HASURA_DEV_WSSLINK!,
-  options: {
-    reconnect: true,
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url:
+      process.env.NODE_ENV === "production"
+        ? process.env.REACT_APP_HASURA_WSLINK!
+        : process.env.REACT_APP_HASURA_DEV_WSLINK!,
     lazy: true,
-    connectionParams: () => {
-      const token = localStorage.getItem("token");
-      return {
-        headers: {
-          ...(token && {
-            authorization: `Bearer ${token}`,
-          }),
-        },
-      };
-    },
-  },
-});
+    connectionParams: auth,
+  }),
+);
 
 const splitLink = split(
   ({ query }) => {
@@ -63,7 +44,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  authLink.concat(httpLink),
+  authLink,
 );
 
 export const client = new ApolloClient({

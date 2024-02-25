@@ -1,43 +1,28 @@
-import { useEffect, useState } from "react";
-import { message, Layout } from "antd";
-import { GetContestInfo as GETCONTESTINFO } from "../../api/contest.graphql";
-import { GetContestInfoVariables, GetContestInfo } from "../../api/types";
-import { useQuery } from "@apollo/client";
-import md2wx from "md2wx";
+import { useEffect } from "react";
+import { message } from "antd";
 import { useUrl } from "../../api/hooks/url";
-
+import Markdown from "react-markdown";
+import * as graphql from "@/generated/graphql";
+/* ---------------- 主页面 ---------------- */
 const IntroPage = () => {
+  /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  const [contentHtml, setContentHtml] = useState("");
-  const { data: introData, error: introError } = useQuery<
-    GetContestInfo,
-    GetContestInfoVariables
-  >(GETCONTESTINFO, {
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  const { data: introData, error: introError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (introError) {
       message.error("简介加载失败");
     }
   }, [introError]);
-  useEffect(() => {
-    if (introData) {
-      var contest_intro = introData?.contest[0].description;
-      if (contest_intro) {
-        setContentHtml(md2wx.renderHtml(contest_intro));
-      } else {
-        setContentHtml(md2wx.renderHtml("NULL"));
-      }
-    }
-  }, [introData]);
-  return (
-    <Layout>
-      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-    </Layout>
-  );
+  /* ---------------- 页面组件 ---------------- */
+  return <Markdown>{introData?.contest[0].description}</Markdown>;
 };
 
 export default IntroPage;

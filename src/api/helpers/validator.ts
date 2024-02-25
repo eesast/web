@@ -20,7 +20,7 @@ export const validateEmail = (email: string, tsinghua: boolean = false) => {
  * Alphanumeric username
  */
 export const validateUsername = (username: string) => {
-  return /^[a-zA-Z0-9]*$/.test(username);
+  return /^[a-zA-Z][a-zA-Z0-9]*$/.test(username);
 };
 
 /**
@@ -31,6 +31,10 @@ export const validatePassword = (password: string) => {
   return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*:;'"]{8,}$/.test(
     password,
   );
+};
+
+export const validateNumber = (number: string) => {
+  return /^[0-9]*$/.test(number);
 };
 
 export const validateClass = (className: string) => {
