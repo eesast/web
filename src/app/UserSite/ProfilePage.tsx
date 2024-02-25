@@ -148,7 +148,7 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
       console.log(updateProfileError);
     }
   }, [updateProfileError]);
-  const handleEdit = (key: any, record: any) => {
+  const handleEdit = async (key: any, record: any) => {
     if (key === "email") {
       if (!validateEmail(record[key])) {
         message.error("请输入正确的邮箱格式");
@@ -200,9 +200,10 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
         return Promise.reject();
       }
     }
-    updateProfileMutation({
+    await updateProfileMutation({
       variables: {
         uuid: userInfo.uuid,
+        ...profileData.users_by_pk,
         ...record,
       },
     });
