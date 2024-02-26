@@ -55,12 +55,13 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
 
   useEffect(() => {
     if (
-      userInfo?.role === "user" ||
-      !user?.department ||
-      !user.email ||
-      !user.realname ||
-      !user.phone ||
-      ((!user.student_no || !user.class) && userInfo?.role !== "teacher")
+      user &&
+      (userInfo?.role === "user" ||
+        !user?.department ||
+        !user.email ||
+        !user.realname ||
+        !user.phone ||
+        ((!user.student_no || !user.class) && userInfo?.role !== "teacher"))
     ) {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
       navigate(url.link("user", "site"));

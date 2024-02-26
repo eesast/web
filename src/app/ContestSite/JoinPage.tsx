@@ -15,7 +15,7 @@ import {
 import { getUserInfo } from "../../api/helpers/auth";
 import type { TableProps } from "antd/lib/table";
 //导出excel
-import xlsx from "xlsx";
+import * as xlsx from "xlsx";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
