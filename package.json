@@ -115,7 +115,7 @@
     ]
   },
   "main": "build/electron.js",
-  "homepage": "./",
+  "homepage": "/",
   "build": {
     "productName": "EESAST",
     "appId": "eesast-web",
