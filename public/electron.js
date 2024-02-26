@@ -1,3 +1,4 @@
+// 这是 Electron（桌面端）应用的入口文件，网页端开发时请忽略
 const { app, BrowserWindow, ipc } = require("electron");
 const path = require("path");
 let mainWindow = null;
