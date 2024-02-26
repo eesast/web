@@ -30,6 +30,7 @@ const RegisterPage: React.FC<PageProps> = ({ mode }) => {
       localStorage.setItem("token", data.token);
       message.success("注册成功");
       navigate(url.link("profile"));
+      return navigate(0);
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {

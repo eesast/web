@@ -28,9 +28,10 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
         localStorage.setItem("token", data.token);
       }
       message.success("信息更新成功");
-      return navigate(
+      navigate(
         url.delete("email").delete("phone").delete("tsinghua").link("profile"),
       );
+      return navigate(0);
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -43,9 +44,11 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
         } else {
           message.error("验证码错误");
         }
-      } else if ((err.response?.data as string | undefined)?.includes(
+      } else if (
+        (err.response?.data as string | undefined)?.includes(
           "Uniqueness violation",
-        )) {
+        )
+      ) {
         message.error("该项已被其他用户使用");
       } else {
         console.log(err);
