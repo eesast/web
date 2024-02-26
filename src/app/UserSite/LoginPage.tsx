@@ -51,7 +51,7 @@ const LoginPage: React.FC<PageProps> = ({ mode }) => {
   };
 
   return (
-    <Background mode={mode}>
+    <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
       <Form onFinish={onFinish}>
         <Center>
           <img src="/logo.png" alt="Logo" height="256" />

@@ -4,7 +4,7 @@ import Center from "../../Components/Center";
 
 interface BackgroundProps {
   mode?: String;
-  imageIndex?: number;
+  imageIndex: number;
   children: React.ReactNode;
 }
 
@@ -45,10 +45,7 @@ const Background: React.FC<BackgroundProps> = ({
     `/backgrounds/signals.jpg`,
     `/backgrounds/cognition.jpg`,
   ];
-  const background =
-    imageIndex !== undefined
-      ? backgrounds[imageIndex]
-      : backgrounds[Math.floor(Math.random() * backgrounds.length)];
+  const background = backgrounds[Math.floor(imageIndex * backgrounds.length)];
 
   return (
     <Background url={background}>

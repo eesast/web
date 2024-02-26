@@ -49,7 +49,7 @@ const RegisterPage: React.FC<PageProps> = ({ mode }) => {
   });
 
   return (
-    <Background mode={mode} imageIndex={0}>
+    <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
       {email === "" && phone === "" ? (
         <Start
           title="填写注册信息"

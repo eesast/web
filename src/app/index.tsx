@@ -41,7 +41,6 @@ const App: React.FC = () => {
   const isMobile = userAgent.match(
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
-  const { width } = useWindowSize();
   const [mode, setMode] = useState<"light" | "dark">(
     (localStorage.getItem("theme") as "light" | "dark") || "light",
   );
@@ -158,6 +157,8 @@ const App: React.FC = () => {
         ),
       },
     ];
+
+    const { width } = useWindowSize();
     if (width > 888) {
       return (
         <Menu

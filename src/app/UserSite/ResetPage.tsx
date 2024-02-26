@@ -55,7 +55,7 @@ const ResetPage: React.FC<PageProps> = ({ mode }) => {
   });
 
   return (
-    <Background mode={mode} imageIndex={0}>
+    <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
       {email === "" && phone === "" ? (
         <Start
           title="已绑定的邮箱/手机号"

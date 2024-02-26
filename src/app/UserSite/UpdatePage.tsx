@@ -64,7 +64,7 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
   });
 
   return (
-    <Background mode={mode} imageIndex={0}>
+    <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
       <Verify
         title={email === "" ? "验证需绑定的手机" : "验证需绑定的邮箱"}
         email={email}
