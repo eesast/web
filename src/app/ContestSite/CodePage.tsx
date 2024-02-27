@@ -25,12 +25,7 @@ import {
   CodeOutlined,
 } from "@ant-design/icons";
 import { getUserInfo } from "../../api/helpers/auth";
-import {
-  uploadFile,
-  downloadFile,
-  deleteFile,
-  existFile,
-} from "../../api/helpers/cos";
+import { uploadFile, downloadFile, deleteFile, existFile } from "../../api/cos";
 import type { TableProps } from "antd/lib/table";
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";

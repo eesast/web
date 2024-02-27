@@ -26,7 +26,7 @@ import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type { UploadFile } from "antd/lib/upload/interface";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
-import { uploadFile, downloadFile, deleteFile } from "../../api/helpers/cos";
+import { uploadFile, downloadFile, deleteFile } from "../../api/cos";
 import { getUserInfo } from "../../api/helpers/auth";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
