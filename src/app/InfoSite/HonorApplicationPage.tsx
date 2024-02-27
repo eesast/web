@@ -24,9 +24,9 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getStatusText, getStatusValue } from "../../api/helpers/application";
 import get from "lodash.get";
-import { getUserInfo } from "../../api/helpers/auth";
 import { FilterConfirmProps } from "antd/lib/table/interface";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
 const param: FilterConfirmProps = {
   closeDropdown: true,
@@ -53,8 +53,7 @@ const exportSelectOptions = classes.map((_class) => (
   </Option>
 ));
 
-const HonorApplicationPage = () => {
-  const userInfo = getUserInfo();
+const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const [info, setInfo] = useState({
     honors: [""],
     honor: {
@@ -105,10 +104,10 @@ const HonorApplicationPage = () => {
     refetch: refetchApplications,
   } = graphql.useGetHonorApplicationsQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
       _gte: info.honor.start_A,
     },
-    skip: userInfo?.role === "counselor",
+    skip: user?.role === "counselor",
   });
 
   useEffect(() => {
@@ -164,7 +163,7 @@ const HonorApplicationPage = () => {
     } else {
       await addApplication({
         variables: {
-          student_id: userInfo?._id!,
+          student_id: user?.uuid!,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
@@ -207,7 +206,7 @@ const HonorApplicationPage = () => {
     refetch: refetchApplicationsForCounselors,
   } = graphql.useGetHonorApplicationsForCounselorsQuery({
     variables: { _gte: info.honor.start_A },
-    skip: userInfo?.role !== "counselor",
+    skip: user?.role !== "counselor",
   });
 
   useEffect(() => {
@@ -632,7 +631,7 @@ const HonorApplicationPage = () => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
-      {userInfo?.role !== "counselor" && (
+      {user?.role !== "counselor" && (
         <>
           <Button
             disabled={false}
@@ -784,7 +783,7 @@ const HonorApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userInfo?.role === "counselor" && (
+      {user?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

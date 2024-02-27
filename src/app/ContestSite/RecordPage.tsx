@@ -12,7 +12,6 @@ import {
   Typography,
 } from "antd";
 import { MinusOutlined, SearchOutlined } from "@ant-design/icons";
-import { getUserInfo } from "../../api/helpers/auth";
 //----根据队员信息查找队伍信息------
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
@@ -27,10 +26,10 @@ import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
+import { ContestProps } from ".";
 const { Text } = Typography;
 
-const RecordPage: React.FC = () => {
-  const userInfo = getUserInfo();
+const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
@@ -59,7 +58,7 @@ const RecordPage: React.FC = () => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: userInfo?._id,
+        user_id: user?.uuid,
       },
     });
   useEffect(() => {

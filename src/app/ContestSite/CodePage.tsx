@@ -24,7 +24,6 @@ import {
   QuestionOutlined,
   CodeOutlined,
 } from "@ant-design/icons";
-import { getUserInfo } from "../../api/helpers/auth";
 import { uploadFile, downloadFile, deleteFile, existFile } from "../../api/cos";
 import type { TableProps } from "antd/lib/table";
 import axios, { AxiosError } from "axios";
@@ -32,6 +31,7 @@ import FileSaver from "file-saver";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
+import { ContestProps } from ".";
 /* ---------------- 接口和类型定义 ---------------- */
 interface Playerprops {
   key: number;
@@ -41,9 +41,8 @@ interface Playerprops {
 }
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
-const userInfo = getUserInfo();
 /* ---------------- 主页面 ---------------- */
-const CodePage: React.FC = () => {
+const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const [codeRole, setCodeRole] = useState(1); // 代码对应角色
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);
@@ -64,13 +63,13 @@ const CodePage: React.FC = () => {
 
   const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
       contest_id: Contest_id,
     },
   });
   const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
       contest_id: Contest_id,
     },
   });

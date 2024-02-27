@@ -7,9 +7,9 @@ import Verify from "./Components/Verify";
 import Password from "./Components/Password";
 import { message } from "antd";
 import Start from "./Components/Start";
-import { PageProps } from "..";
+import { UserProps } from ".";
 
-const RegisterPage: React.FC<PageProps> = ({ mode }) => {
+const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const url = useUrl();
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const RegisterPage: React.FC<PageProps> = ({ mode }) => {
       };
       const response = await axios.post("/user/register", request);
       const data = response.data;
-      localStorage.setItem("token", data.token);
+      setUser(data.token);
       message.success("注册成功");
       navigate(url.link("profile"));
       return navigate(0);

@@ -7,9 +7,9 @@ import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
 import Start from "./Components/Start";
 import { useUrl } from "../../api/hooks/url";
-import { PageProps } from "..";
+import { UserProps } from ".";
 
-const ResetPage: React.FC<PageProps> = ({ mode }) => {
+const ResetPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const url = useUrl();
   const navigate = useNavigate();
 

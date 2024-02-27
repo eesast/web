@@ -21,7 +21,6 @@ import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 // import AidApplicationPage from "./AidApplicationPage";
 import PostgraduateMentorPage from "./PostgraduateMentorPage";
 import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
-import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import * as graphql from "@/generated/graphql";
@@ -40,28 +39,26 @@ const FixedSider = styled(Sider)`
   }
 `;
 
-const InfoSite: React.FC<PageProps> = ({ mode }) => {
+const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
 
   const navigate = useNavigate();
 
-  const userInfo = getUserInfo();
-
   const { data } = graphql.useGetProfileQuery({
-    variables: { uuid: userInfo?.uuid! },
+    variables: { uuid: user?.uuid! },
   });
 
-  const user = data?.users_by_pk;
+  const profile = data?.users_by_pk;
 
   useEffect(() => {
     if (
-      user &&
-      (userInfo?.role === "user" ||
-        !user?.department ||
-        !user.email ||
-        !user.realname ||
-        !user.phone ||
-        ((!user.student_no || !user.class) && userInfo?.role !== "teacher"))
+      profile &&
+      (user?.role === "user" ||
+        !profile?.department ||
+        !profile.email ||
+        !profile.realname ||
+        !profile.phone ||
+        ((!profile.student_no || !profile.class) && user?.role !== "teacher"))
     ) {
       message.warning("请先补全个人信息，并完成清华邮箱验证");
       navigate(url.link("user", "site"));
@@ -136,7 +133,7 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
                 博士生招生信息
               </Link>
             </Menu.Item>
-            {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
+            {["root", "counselor", "teacher"].includes(user?.role!) ? (
               <Menu.Item key="mentor-info-verify">
                 <Link to={url.link("mentor-info-verify")}>
                   <VerifiedOutlined />
@@ -144,7 +141,7 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
                 </Link>
               </Menu.Item>
             ) : null}
-            {["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
+            {["root", "counselor", "teacher"].includes(user?.role!) ? (
               <Menu.Item key="postgraduate-application">
                 <Link to={url.link("postgraduate-application")}>
                   <VerifiedOutlined />
@@ -163,23 +160,38 @@ const InfoSite: React.FC<PageProps> = ({ mode }) => {
       >
         <Routes>
           <Route path="/" element={<Navigate to={url.link("notices")} />} />
-          <Route path="notices" element={<NoticePage />} />
+          <Route
+            path="notices"
+            element={<NoticePage mode={mode} user={user} />}
+          />
           <Route
             path="mentor-applications"
-            element={<MentorApplicationPage />}
+            element={<MentorApplicationPage mode={mode} user={user} />}
           />
-          <Route path="mentor-chats" element={<MentorChatPage />} />
-          <Route path="honors" element={<HonorApplicationPage />} />
-          <Route path="scholarships" element={<ScholarshipApplicationPage />} />
-          {/* <Route path="financial-aid" element={<AidApplicationPage />} /> */}
+          <Route
+            path="mentor-chats"
+            element={<MentorChatPage mode={mode} user={user} />}
+          />
+          <Route
+            path="honors"
+            element={<HonorApplicationPage mode={mode} user={user} />}
+          />
+          <Route
+            path="scholarships"
+            element={<ScholarshipApplicationPage mode={mode} user={user} />}
+          />
+          {/* <Route path="financial-aid" element={<AidApplicationPage mode={mode} user={user} />} /> */}
           <Route
             path="postgraduate-mentor-info"
-            element={<PostgraduateMentorPage />}
+            element={<PostgraduateMentorPage mode={mode} user={user} />}
           />
-          <Route path="mentor-info-verify" element={<MentorInfoVerifyPage />} />
+          <Route
+            path="mentor-info-verify"
+            element={<MentorInfoVerifyPage mode={mode} user={user} />}
+          />
           <Route
             path="postgraduate-application"
-            element={<PostgraduateApplicationPage />}
+            element={<PostgraduateApplicationPage mode={mode} user={user} />}
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

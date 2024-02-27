@@ -22,9 +22,9 @@ import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
-import { getUserInfo } from "../../api/helpers/auth";
 import { FilterConfirmProps } from "antd/lib/table/interface";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
 const param: FilterConfirmProps = {
   closeDropdown: true,
@@ -51,8 +51,7 @@ const exportSelectOptions = ["全部", ...classes].map((_class) => (
   </Option>
 ));
 
-const AidApplicationPage = () => {
-  const userInfo = getUserInfo();
+const AidApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const [info, setInfo] = useState({
     aid: {
       start_A: new Date(),
@@ -116,10 +115,10 @@ const AidApplicationPage = () => {
     refetch: refetchApplications,
   } = graphql.useGetAidApplicationsQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
       _gte: info.aid.start_A,
     },
-    skip: userInfo?.role === "counselor",
+    skip: user?.role === "counselor",
   });
 
   useEffect(() => {
@@ -256,7 +255,7 @@ const AidApplicationPage = () => {
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
   } = graphql.useGetAidApplicationsForCounselorsQuery({
-    skip: userInfo?.role !== "counselor",
+    skip: user?.role !== "counselor",
   });
 
   useEffect(() => {
@@ -656,7 +655,7 @@ const AidApplicationPage = () => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>助学金</Typography.Title>
-      {userInfo?.role !== "counselor" && (
+      {user?.role !== "counselor" && (
         <>
           <List
             loading={applicationLoading}
@@ -788,7 +787,7 @@ const AidApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userInfo?.role === "counselor" && (
+      {user?.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button

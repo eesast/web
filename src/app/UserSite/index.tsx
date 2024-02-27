@@ -1,5 +1,4 @@
 import React from "react";
-import { getUserInfo } from "../../api/helpers/auth";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import Authenticate, { userRoles } from "../Components/Authenticate";
@@ -12,8 +11,11 @@ import UpdatePage from "./UpdatePage";
 import DeletePage from "./DeletePage";
 import { PageProps } from "..";
 
-const UserSite: React.FC<PageProps> = ({ mode }) => {
-  const userInfo = getUserInfo();
+export interface UserProps extends PageProps {
+  setUser: (token: string | null) => void;
+}
+
+const UserSite: React.FC<UserProps> = (props) => {
   const url = useUrl();
 
   return (
@@ -21,7 +23,7 @@ const UserSite: React.FC<PageProps> = ({ mode }) => {
       <Route
         path="/"
         element={
-          userInfo ? (
+          props.user ? (
             <Navigate to={url.link("profile")} />
           ) : (
             <Navigate to={url.link("login")} />
@@ -31,45 +33,45 @@ const UserSite: React.FC<PageProps> = ({ mode }) => {
       <Route
         path="profile"
         element={
-          <Authenticate role={userRoles}>
-            <ProfilePage mode={mode} />
+          <Authenticate role={userRoles} user={props.user}>
+            <ProfilePage {...props} />
           </Authenticate>
         }
       />
       <Route
         path="login"
         element={
-          userInfo ? (
+          props.user ? (
             <Navigate to={url.link("profile")} />
           ) : (
-            <LoginPage mode={mode} />
+            <LoginPage {...props} />
           )
         }
       />
       <Route
         path="register"
         element={
-          userInfo ? (
+          props.user ? (
             <Navigate to={url.link("profile")} />
           ) : (
-            <RegisterPage mode={mode} />
+            <RegisterPage {...props} />
           )
         }
       />
-      <Route path="reset" element={<ResetPage mode={mode} />} />
+      <Route path="reset" element={<ResetPage {...props} />} />
       <Route
         path="update"
         element={
-          <Authenticate role={userRoles}>
-            <UpdatePage mode={mode} />
+          <Authenticate role={userRoles} user={props.user}>
+            <UpdatePage {...props} />
           </Authenticate>
         }
       />
       <Route
         path="delete"
         element={
-          <Authenticate role={userRoles}>
-            <DeletePage mode={mode} />
+          <Authenticate role={userRoles} user={props.user}>
+            <DeletePage {...props} />
           </Authenticate>
         }
       />

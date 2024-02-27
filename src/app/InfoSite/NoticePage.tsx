@@ -32,10 +32,10 @@ import dayjs from "dayjs";
 import type { UploadFile } from "antd/lib/upload/interface";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, deleteFile } from "../../api/cos";
-import { getUserInfo } from "../../api/helpers/auth";
 import { RcFile } from "rc-upload/lib/interface";
 import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -45,9 +45,7 @@ interface File {
   url: string;
 }
 
-const NoticePage: React.FC = () => {
-  const userInfo = getUserInfo();
-
+const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
   const {
     data: noticeData,
     loading: noticeLoading,
@@ -210,7 +208,7 @@ const NoticePage: React.FC = () => {
         </Col>
         <Col>
           <Button
-            hidden={userInfo?.role !== "counselor" && userInfo?.role !== "root"}
+            hidden={user?.role !== "counselor" && user?.role !== "root"}
             onClick={() => setModalVisible(true)}
           >
             新公告
@@ -250,7 +248,7 @@ const NoticePage: React.FC = () => {
               margin-bottom: 24px;
             `}
             onEditPress={
-              userInfo?.role === "counselor" || userInfo?.role === "root"
+              user?.role === "counselor" || user?.role === "root"
                 ? () => {
                     setEditingNotice(item);
                     setFileList(
@@ -268,7 +266,7 @@ const NoticePage: React.FC = () => {
                 : undefined
             }
             onDeletePress={
-              userInfo?.role === "counselor" || userInfo?.role === "root"
+              user?.role === "counselor" || user?.role === "root"
                 ? () => {
                     handleNoticeDelete(item.id);
                   }

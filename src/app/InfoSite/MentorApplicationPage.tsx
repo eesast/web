@@ -33,22 +33,20 @@ import {
   DownloadOutlined,
 } from "@ant-design/icons";
 import { getStatusText } from "../../api/helpers/application";
-import { getUserInfo } from "../../api/helpers/auth";
 import { pick } from "../../api/helpers/pick";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, listFile } from "../../api/cos";
 import { FilterConfirmProps } from "antd/lib/table/interface";
 import { RcFile } from "rc-upload/lib/interface";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
 const param: FilterConfirmProps = {
   closeDropdown: true,
 };
 const { Text } = Typography;
 
-const MentorApplicationPage = () => {
-  const userInfo = getUserInfo();
-
+const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const [info, setInfo] = useState({
     mentor: {
       start_A: new Date(),
@@ -103,9 +101,9 @@ const MentorApplicationPage = () => {
     refetch: refetchApplications,
   } = graphql.useGetMentorApplicationsQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
     },
-    skip: userInfo?.role === "counselor",
+    skip: user?.role === "counselor",
   });
 
   const {
@@ -114,7 +112,7 @@ const MentorApplicationPage = () => {
     data: applicationForCounselorsData,
     // refetch: refetchApplicationsForCounselors,
   } = graphql.useGetMentorApplicationsForCounselorsQuery({
-    skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
+    skip: user?.role !== "counselor" && user?.role !== "root",
   });
 
   useEffect(() => {
@@ -130,9 +128,9 @@ const MentorApplicationPage = () => {
     refetch: refetchMentorAvailable,
   } = graphql.useGetMentorAvailableQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
     },
-    skip: userInfo?.role !== "teacher",
+    skip: user?.role !== "teacher",
   });
 
   useEffect(() => {
@@ -157,7 +155,7 @@ const MentorApplicationPage = () => {
 
   const handleMentorAvailableChange = async (checked: boolean) => {
     await changeMentorAvailable({
-      variables: { _id: userInfo?._id!, available: checked },
+      variables: { _id: user?.uuid!, available: checked },
     });
     await refetchMentorAvailable();
   };
@@ -234,7 +232,7 @@ const MentorApplicationPage = () => {
       await addApplication({
         variables: {
           statement: values.statement,
-          student_id: userInfo?._id!,
+          student_id: user?.uuid!,
           mentor_id: selectedMentor?._id!,
         },
       });
@@ -272,7 +270,7 @@ const MentorApplicationPage = () => {
     variables: {
       grade_time: info.mentor.start_C,
     },
-    skip: userInfo?.role === "teacher",
+    skip: user?.role === "teacher",
   });
 
   useEffect(() => {
@@ -595,7 +593,7 @@ const MentorApplicationPage = () => {
     error: freshmanListError,
     // refetch: refetchFreshmanList,
   } = graphql.useGetFreshmanListQuery({
-    skip: userInfo?.role !== "counselor" && userInfo?.role !== "root",
+    skip: user?.role !== "counselor" && user?.role !== "root",
   });
 
   useEffect(() => {
@@ -860,7 +858,7 @@ const MentorApplicationPage = () => {
     >
       <Typography.Title level={2}>关键时间点</Typography.Title>
       <Timeline>
-        {userInfo?.role === "teacher" && (
+        {user?.role === "teacher" && (
           <Timeline.Item
             color={
               new Date() >= info.mentor.start_A &&
@@ -929,7 +927,7 @@ const MentorApplicationPage = () => {
           </p>
         </Timeline.Item>
       </Timeline>
-      {userInfo?.role === "student" && (
+      {user?.role === "student" && (
         <>
           <Typography.Title level={2}>已申请</Typography.Title>
           <List
@@ -1051,7 +1049,7 @@ const MentorApplicationPage = () => {
           />
         </>
       )}
-      {userInfo?.role === "teacher" && (
+      {user?.role === "teacher" && (
         <>
           <Row align="middle">
             <Col span={4}>
@@ -1069,7 +1067,7 @@ const MentorApplicationPage = () => {
               <Button
                 type="primary"
                 onClick={() => {
-                  getMentorInfo({ variables: { mentor_id: userInfo._id! } });
+                  getMentorInfo({ variables: { mentor_id: user.uuid! } });
                   setShowMentorInfo(true);
                 }}
               >
@@ -1161,7 +1159,7 @@ const MentorApplicationPage = () => {
           />
         </>
       )}
-      {userInfo?.role === "student" && (
+      {user?.role === "student" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
           <Table
@@ -1214,7 +1212,7 @@ const MentorApplicationPage = () => {
           </Modal>
         </>
       )}
-      {userInfo?.role === "counselor" && (
+      {user?.role === "counselor" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
           <Row>
@@ -1323,7 +1321,7 @@ const MentorApplicationPage = () => {
           }
           column={1}
           extra={
-            ["teacher", "counselor"].includes(userInfo?.role!) ? (
+            ["teacher", "counselor"].includes(user?.role!) ? (
               <Tooltip title="更新信息">
                 <Button
                   type="primary"
@@ -1400,8 +1398,7 @@ const MentorApplicationPage = () => {
                   "achievement",
                 ]),
                 mentor_id:
-                  mentorInfoData?.mentor_info_by_pk?.mentor_id! ||
-                  userInfo?._id!,
+                  mentorInfoData?.mentor_info_by_pk?.mentor_id! || user?.uuid!,
               },
             });
             message.info(`信息更新成功`);

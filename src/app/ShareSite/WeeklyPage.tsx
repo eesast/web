@@ -14,7 +14,6 @@ import {
   message,
 } from "antd";
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../../api/helpers/auth";
 import * as graphql from "@/generated/graphql";
 import {
   PlusCircleOutlined,
@@ -22,14 +21,14 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import { PageProps } from "..";
 
-const WeeklyPage: React.FC = () => {
+const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
   const { Meta } = Card;
   const { Content, Footer } = Layout;
   const { Text } = Typography;
   const pageSizes = ["8", "12", "16", "20", "32"];
 
-  const userInfo = getUserInfo();
   const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
@@ -334,8 +333,7 @@ const WeeklyPage: React.FC = () => {
                   <Radio.Button
                     value="edit"
                     disabled={
-                      userInfo?.role !== "counselor" &&
-                      userInfo?.role !== "root"
+                      user?.role !== "counselor" && user?.role !== "root"
                     }
                   >
                     编辑模式

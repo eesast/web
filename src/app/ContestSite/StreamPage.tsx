@@ -8,13 +8,14 @@ import { Col, Layout, Row } from "antd";
 import Title from "antd/lib/typography/Title";
 import React from "react";
 import { useUrl } from "../../api/hooks/url";
+import { ContestProps } from ".";
 
 interface Loc {
   x: number;
   y: number;
 }
 
-const StreamPage: React.FC = () => {
+const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const [streamUrl, setStreamUrl] = useState<string>("https://api.eesast.com");
   if (url.query.get("url") !== null) {
