@@ -85,7 +85,7 @@ const App: React.FC = () => {
     return (
       <>
         <img
-          src="/logo.png"
+          src="./logo.png"
           alt="Logo"
           css={`
             display: inline-block;

@@ -1,7 +1,7 @@
 {
   "name": "eesast-web",
   "description": "EESAST Web App",
-  "version": "2024",
+  "version": "2024.0.0",
   "author": "EESAST",
   "private": true,
   "dependencies": {
@@ -65,8 +65,8 @@
     "webpackbar": "6.0.1"
   },
   "peerDependencies": {
-    "electron": "28.2.1",
-    "electron-builder": "24.9.1"
+    "electron": "29.0.1",
+    "electron-builder": "24.12.0"
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
@@ -115,7 +115,7 @@
     ]
   },
   "main": "build/electron.js",
-  "homepage": "/",
+  "homepage": "./",
   "build": {
     "productName": "EESAST",
     "appId": "eesast-web",
