@@ -38,7 +38,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   //     ISTEAMLEADER,
   //     {
   //     variables: {
-  //         _id: userInfo?._id!,
+  //         _id: user?.uuid!,
   //         contest_id: Contest_id,
   //     },
   //     }
@@ -47,7 +47,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   //     ISTEAMMEMBER,
   //     {
   //     variables: {
-  //         _id: userInfo?._id!,
+  //         _id: user?.uuid!,
   //         contest_id: Contest_id,
   //     },
   //     }
