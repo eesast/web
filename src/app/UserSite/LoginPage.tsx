@@ -12,6 +12,7 @@ import {
   validateUsername,
 } from "../../api/utils/validator";
 import { UserProps } from ".";
+import { subscribe } from "@/api/notification";
 
 const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const navigate = useNavigate();
@@ -29,7 +30,13 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       setUser(data.token);
       message.success("登录成功");
       setLoading(false);
-      return navigate(-1);
+      navigate(-1);
+      const subscription = localStorage.getItem("subscription");
+      if (subscription === null) {
+        const result = await subscribe();
+        localStorage.setItem("subscription", result);
+      }
+      return;
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
