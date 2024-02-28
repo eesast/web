@@ -22,7 +22,7 @@ import isUrl from "is-url";
 import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import type { ColumnProps, TableProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
-import { getStatusText, getStatusValue } from "../../api/helpers/application";
+import { getStatusText, getStatusValue } from "../../api/utils/application";
 import get from "lodash.get";
 import { FilterConfirmProps } from "antd/lib/table/interface";
 import * as graphql from "@/generated/graphql";

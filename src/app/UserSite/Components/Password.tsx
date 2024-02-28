@@ -3,7 +3,7 @@ import { Button, Form, Input } from "antd";
 import React, { useState } from "react";
 import Center from "../../Components/Center";
 import { useNavigate } from "react-router-dom";
-import { validatePassword } from "../../../api/helpers/validator";
+import { validatePassword } from "../../../api/utils/validator";
 
 interface PasswordProps {
   title: string;

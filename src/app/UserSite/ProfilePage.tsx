@@ -11,7 +11,7 @@ import {
   validateEmail,
   validateNumber,
   validateUsername,
-} from "../../api/helpers/validator";
+} from "../../api/utils/validator";
 import { UserProps } from ".";
 
 const roleMap: { [key: string]: string } = {

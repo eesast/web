@@ -32,8 +32,8 @@ import {
   UploadOutlined,
   DownloadOutlined,
 } from "@ant-design/icons";
-import { getStatusText } from "../../api/helpers/application";
-import { pick } from "../../api/helpers/pick";
+import { getStatusText } from "../../api/utils/application";
+import { pick } from "../../api/utils/pick";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { uploadFile, downloadFile, listFile } from "../../api/cos";
 import { FilterConfirmProps } from "antd/lib/table/interface";

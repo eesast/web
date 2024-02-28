@@ -10,7 +10,7 @@ import {
   validateEmail,
   validateNumber,
   validateUsername,
-} from "../../api/helpers/validator";
+} from "../../api/utils/validator";
 import { UserProps } from ".";
 
 const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {

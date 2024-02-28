@@ -17,7 +17,7 @@ import {
 } from "antd";
 import axios, { AxiosError } from "axios";
 import isUrl from "is-url";
-import { generateThankLetter } from "../../api/helpers/application";
+import { generateThankLetter } from "../../api/utils/application";
 import type { ColumnProps, TableProps } from "antd/lib/table";
 import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import get from "lodash.get";
