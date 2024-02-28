@@ -24,8 +24,7 @@ import { useWindowSize } from "../api/hooks/windowsize";
 import NotFoundPage from "./Components/NotFound";
 import Authenticate, { userRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
-import { useUser } from "@/api/hooks/user";
-import { JwtPayload } from "@/api/hooks/user";
+import { useUser, JwtPayload } from "../api/hooks/user";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
