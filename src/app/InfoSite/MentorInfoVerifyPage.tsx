@@ -14,12 +14,12 @@ import { TableProps, TablePaginationConfig } from "antd/lib/table";
 import Modal from "antd/lib/modal/Modal";
 import Center from "../Components/Center";
 import { Link } from "react-router-dom";
-import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
-const MentorInfoVerifyPage: React.FC = () => {
+const MentorInfoVerifyPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
   const [current, setCurrent] = useState(1);
   const [offset, setOffset] = useState(0);
@@ -32,8 +32,6 @@ const MentorInfoVerifyPage: React.FC = () => {
   const [form] = Form.useForm();
   const [showManage, setShowManage] = useState(false);
   const [infoId, setInfoId] = useState(0);
-
-  const userInfo = getUserInfo();
 
   const [updateInfo, { error: updateError }] =
     graphql.useUpdatePostgraduateInfoMutation();
@@ -102,9 +100,9 @@ const MentorInfoVerifyPage: React.FC = () => {
               }}
               hidden={
                 !(
-                  userInfo?.role === "counselor" ||
-                  userInfo?.role === "root" ||
-                  userInfo?.role === "teacher"
+                  user?.role === "counselor" ||
+                  user?.role === "root" ||
+                  user?.role === "teacher"
                 )
               }
               type="link"
@@ -120,10 +118,9 @@ const MentorInfoVerifyPage: React.FC = () => {
               danger
               hidden={
                 !(
-                  userInfo?.role === "counselor" ||
-                  userInfo?.role === "root" ||
-                  (userInfo?.role === "teacher" &&
-                    userInfo?._id === record.user_id)
+                  user?.role === "counselor" ||
+                  user?.role === "root" ||
+                  (user?.role === "teacher" && user?.uuid === record.user_id)
                 )
               }
             >
@@ -137,9 +134,9 @@ const MentorInfoVerifyPage: React.FC = () => {
               type="link"
               hidden={
                 !(
-                  userInfo?.role === "counselor" ||
-                  userInfo?.role === "root" ||
-                  userInfo?.role === "teacher"
+                  user?.role === "counselor" ||
+                  user?.role === "root" ||
+                  user?.role === "teacher"
                 )
               }
             >
@@ -245,9 +242,9 @@ const MentorInfoVerifyPage: React.FC = () => {
     refetchFeeds();
   };
 
-  return userInfo?.role === "counselor" ||
-    userInfo?.role === "root" ||
-    userInfo?.role === "teacher" ? (
+  return user?.role === "counselor" ||
+    user?.role === "root" ||
+    user?.role === "teacher" ? (
     <div>
       <PageHeader
         title="电子系推研信息平台"

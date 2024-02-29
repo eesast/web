@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  grpc-web:
+    image: grpc-web
+    volumes:
+      - ./proto:/usr/local/mnt/proto
+      - ./output:/usr/local/mnt/output

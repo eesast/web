@@ -40,10 +40,10 @@ const Background: React.FC<BackgroundProps> = ({
   `;
 
   const backgrounds = [
-    `/backgrounds/tsinghua-fall.jpg`,
-    `/backgrounds/integrated-circuits.jpg`,
-    `/backgrounds/signals.jpg`,
-    `/backgrounds/cognition.jpg`,
+    `./backgrounds/tsinghua-fall.jpg`,
+    `./backgrounds/integrated-circuits.jpg`,
+    `./backgrounds/signals.jpg`,
+    `./backgrounds/cognition.jpg`,
   ];
   const background = backgrounds[Math.floor(imageIndex * backgrounds.length)];
 

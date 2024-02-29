@@ -10,7 +10,6 @@ import {
   ExperimentOutlined,
   CodeOutlined,
 } from "@ant-design/icons";
-import { getUserInfo } from "../../api/helpers/auth";
 import { Menu, Layout, Typography, message } from "antd";
 //以下为子分页
 //import { contestProps } from "./index";
@@ -32,15 +31,14 @@ import NotFoundPage from "../Components/NotFound";
 import { isMobileOnly } from "react-device-detect";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
+import { ContestProps } from ".";
 
 //antd部件实例化
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
 const { Text } = Typography;
 
-const MenuPage: React.FC = () => {
-  const userInfo = getUserInfo();
-
+const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
@@ -48,7 +46,7 @@ const MenuPage: React.FC = () => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: userInfo?._id,
+        user_id: user?.uuid,
       },
     });
   useEffect(() => {
@@ -144,7 +142,7 @@ const MenuPage: React.FC = () => {
             </Menu.Item>
           </SubMenu>
 
-          {["root", "counselor"].includes(userInfo?.role!) ||
+          {["root", "counselor"].includes(user?.role!) ||
           isContestManagerData?.contest_manager.length === 1 ? (
             <SubMenu
               key="admin"
@@ -167,23 +165,56 @@ const MenuPage: React.FC = () => {
       </Sider>
       <Content>
         <Routes>
-          <Route path="intro" element={<IntroPage />} />
+          <Route path="intro" element={<IntroPage mode={mode} user={user} />} />
 
-          <Route path="notice" element={<NoticePage />} />
-          <Route path="team-register" element={<RegisterPage />} />
-          <Route path="team-join" element={<JoinPage />} />
-          <Route path="team-manage" element={<ManagePage />} />
+          <Route
+            path="notice"
+            element={<NoticePage mode={mode} user={user} />}
+          />
+          <Route
+            path="team-register"
+            element={<RegisterPage mode={mode} user={user} />}
+          />
+          <Route
+            path="team-join"
+            element={<JoinPage mode={mode} user={user} />}
+          />
+          <Route
+            path="team-manage"
+            element={<ManagePage mode={mode} user={user} />}
+          />
 
-          <Route path="arena-score" element={<ArenaPage />} />
-          <Route path="arena-record" element={<RecordPage />} />
-          <Route path="code" element={<CodePage />} />
+          <Route
+            path="arena-score"
+            element={<ArenaPage mode={mode} user={user} />}
+          />
+          <Route
+            path="arena-record"
+            element={<RecordPage mode={mode} user={user} />}
+          />
+          <Route path="code" element={<CodePage mode={mode} user={user} />} />
 
-          <Route path="playground" element={<PlaybackPage />} />
-          <Route path="stream" element={<StreamPage />} />
-          <Route path="playback" element={<PlaybackPage />} />
+          <Route
+            path="playground"
+            element={<PlaybackPage mode={mode} user={user} />}
+          />
+          <Route
+            path="stream"
+            element={<StreamPage mode={mode} user={user} />}
+          />
+          <Route
+            path="playback"
+            element={<PlaybackPage mode={mode} user={user} />}
+          />
 
-          <Route path="admin-manage" element={<ManageTeamsPage />} />
-          <Route path="admin-setting" element={<SettingPage />} />
+          <Route
+            path="admin-manage"
+            element={<ManageTeamsPage mode={mode} user={user} />}
+          />
+          <Route
+            path="admin-setting"
+            element={<SettingPage mode={mode} user={user} />}
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Content>

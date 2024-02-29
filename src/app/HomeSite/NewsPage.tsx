@@ -3,6 +3,7 @@ import { Carousel } from "antd";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import Picture from "../Components/Picture";
+import { PageProps } from "..";
 
 const news = [
   {
@@ -58,7 +59,7 @@ const Description = styled.div`
   text-shadow: 0px 0px 12px white;
 `;
 
-const NewsPage: React.FC = () => {
+const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
     <Carousel autoplay effect="fade">
       {news.map((news) => (

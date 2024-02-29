@@ -22,8 +22,9 @@ import { useNavigate } from "react-router-dom";
 import * as graphql from "@/generated/graphql";
 import { Suspense } from "react";
 import styled from "styled-components";
+import { ContestProps } from ".";
 
-const PlaybackPage: React.FC = () => {
+const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const room_id = url.query.get("room");

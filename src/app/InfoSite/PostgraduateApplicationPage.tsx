@@ -2,17 +2,15 @@ import React, { useState, useEffect } from "react";
 import { PageHeader } from "@ant-design/pro-components";
 import { Button, Table, message, Alert, Switch, Tag } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
-import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
-const PostgraduateApplicationPage: React.FC = () => {
+const PostgraduateApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const [current, setCurrent] = useState(1);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [history, setHistory] = useState(false);
-
-  const userInfo = getUserInfo();
 
   const [verifyApplication, { error: verifyError }] =
     graphql.useVerifyPostgraduateApplicationMutation();
@@ -278,7 +276,7 @@ const PostgraduateApplicationPage: React.FC = () => {
     onShowSizeChange: handlePageSizeChange,
   };
 
-  return !["root", "counselor", "teacher"].includes(userInfo?.role!) ? (
+  return !["root", "counselor", "teacher"].includes(user?.role!) ? (
     <>
       <Alert
         message="Warning"

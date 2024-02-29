@@ -9,7 +9,6 @@
 import React, { Suspense, useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getUserInfo } from "../../api/helpers/auth";
 import {
   Button,
   Card,
@@ -37,10 +36,10 @@ import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
+import { ContestProps } from ".";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
-const userInfo = getUserInfo();
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
@@ -51,7 +50,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 /* ---------------- 主页面 ---------------- */
-const ManageTeamsPage: React.FC = () => {
+const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const [editingTeamID, setEditingTeamID] = useState<string>();
   const url = useUrl();
@@ -62,7 +61,7 @@ const ManageTeamsPage: React.FC = () => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: userInfo?._id,
+        user_id: user?.uuid,
       },
     });
 
@@ -75,7 +74,7 @@ const ManageTeamsPage: React.FC = () => {
   }, [isContestManagerError]);
 
   /* ---------------- 页面组件 ---------------- */
-  return ["root", "counselor"].includes(userInfo?.role!) ||
+  return ["root", "counselor"].includes(user?.role!) ||
     isContestManagerData?.contest_manager.length === 1 ? (
     editingTeamID === undefined ? (
       <ListPage contest_id={Contest_id} setEditingTeamID={setEditingTeamID} />

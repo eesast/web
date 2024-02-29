@@ -3,7 +3,6 @@ import { ProDescriptions } from "@ant-design/pro-components";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect } from "react";
 import * as graphql from "@/generated/graphql";
-import { getUserInfo } from "../../api/helpers/auth";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import dayjs from "dayjs";
@@ -12,8 +11,8 @@ import {
   validateEmail,
   validateNumber,
   validateUsername,
-} from "../../api/helpers/validator";
-import { PageProps } from "..";
+} from "../../api/utils/validator";
+import { UserProps } from ".";
 
 const roleMap: { [key: string]: string } = {
   anonymous: "游客",
@@ -24,17 +23,16 @@ const roleMap: { [key: string]: string } = {
   admin: "管理员",
 };
 
-const ProfilePage: React.FC<PageProps> = ({ mode }) => {
+const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const url = useUrl();
   const navigate = useNavigate();
-  const userInfo = getUserInfo()!;
   const {
     data: profileData,
     error: getProfileError,
     refetch: getProfileRefetch,
   } = graphql.useGetProfileSuspenseQuery({
     variables: {
-      uuid: userInfo.uuid,
+      uuid: user!.uuid,
     },
   });
   useEffect(() => {
@@ -45,7 +43,7 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
   }, [getProfileError]);
 
   const handleQuit = () => {
-    localStorage.removeItem("token");
+    setUser(null);
     navigate(url.link("home", "site"));
   };
 
@@ -66,7 +64,7 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
     {
       key: "role",
       label: "用户组",
-      children: roleMap[userInfo.role],
+      children: roleMap[user!.role],
       editable: () => false,
     },
     {
@@ -202,7 +200,7 @@ const ProfilePage: React.FC<PageProps> = ({ mode }) => {
     }
     await updateProfileMutation({
       variables: {
-        uuid: userInfo.uuid,
+        uuid: user!.uuid,
         ...profileData.users_by_pk,
         ...record,
       },

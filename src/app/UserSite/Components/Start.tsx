@@ -1,7 +1,7 @@
 import { Button, Form, Input, Tooltip } from "antd";
 import React from "react";
 import Center from "../../Components/Center";
-import { validateEmail, validateNumber } from "@/api/helpers/validator";
+import { validateEmail, validateNumber } from "@/api/utils/validator";
 import { QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 

@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
-// import { getUserInfo } from "../../api/helpers/auth";
 import { Layout, Menu, Spin } from "antd";
 import RepoPage from "./RepoPage";
 import CoursePage from "./CoursePage";
@@ -10,9 +9,8 @@ import WeeklyPage from "./WeeklyPage";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 
-const ShareSite: React.FC<PageProps> = ({ mode }) => {
+const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
-  // const userInfo = getUserInfo();
 
   const { Header, Content } = Layout;
   const StyledHeader = styled(Header)`
@@ -91,10 +89,16 @@ const ShareSite: React.FC<PageProps> = ({ mode }) => {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<Navigate to={url.link("weekly")} />} />
-            <Route path="course" element={<CoursePage />} />
-            <Route path="repo" element={<RepoPage />} />
-            {/* <Route path="toturial"} element={<CoursePage />} /> */}
-            <Route path="weekly" element={<WeeklyPage />} />
+            <Route
+              path="course"
+              element={<CoursePage mode={mode} user={user} />}
+            />
+            <Route path="repo" element={<RepoPage mode={mode} user={user} />} />
+            {/* <Route path="toturial"} element={<CoursePage />} mode={mode} user={user} /> */}
+            <Route
+              path="weekly"
+              element={<WeeklyPage mode={mode} user={user} />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

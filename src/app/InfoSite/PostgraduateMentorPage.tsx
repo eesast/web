@@ -15,13 +15,13 @@ import {
   Tag,
 } from "antd";
 import { TableProps, TablePaginationConfig } from "antd/lib/table";
-import { getUserInfo } from "../../api/helpers/auth";
 import dayjs from "dayjs";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
 const { Text } = Typography;
 
-const PostgraduateMentorPage: React.FC = () => {
+const PostgraduateMentorPage: React.FC<PageProps> = ({ mode, user }) => {
   const [current, setCurrent] = useState(1);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -46,8 +46,6 @@ const PostgraduateMentorPage: React.FC = () => {
     pageSize: 10,
     selfApplications: [],
   });
-
-  const userInfo = getUserInfo();
 
   const [insertInfo, { error: insertError }] =
     graphql.useInsertPostgraduateInfoMutation();
@@ -148,9 +146,9 @@ const PostgraduateMentorPage: React.FC = () => {
               }}
               hidden={
                 !(
-                  userInfo?.role === "teacher" ||
-                  userInfo?.role === "counselor" ||
-                  userInfo?.role === "root"
+                  user?.role === "teacher" ||
+                  user?.role === "counselor" ||
+                  user?.role === "root"
                 )
               }
               type="link"
@@ -166,10 +164,9 @@ const PostgraduateMentorPage: React.FC = () => {
               danger
               hidden={
                 !(
-                  (userInfo?.role === "teacher" &&
-                    userInfo?._id === record.user_id) ||
-                  userInfo?.role === "counselor" ||
-                  userInfo?.role === "root"
+                  (user?.role === "teacher" && user?.uuid === record.user_id) ||
+                  user?.role === "counselor" ||
+                  user?.role === "root"
                 )
               }
             >
@@ -262,7 +259,7 @@ const PostgraduateMentorPage: React.FC = () => {
     refetch: refetchSelfApplications,
   } = graphql.useGetSelfPostgraduateApplicationsQuery({
     variables: {
-      user_id: userInfo?._id!,
+      user_id: user?.uuid!,
       limit: selfApplicationPagination.pageSize,
       offset: selfApplicationPagination.offset,
     },
@@ -274,7 +271,7 @@ const PostgraduateMentorPage: React.FC = () => {
     refetch: getSelfConfirmedApplication,
   } = graphql.useGetSelfConfirmedApplicationQuery({
     variables: {
-      user_id: userInfo?._id!,
+      user_id: user?.uuid!,
     },
   });
 
@@ -414,7 +411,7 @@ const PostgraduateMentorPage: React.FC = () => {
           alternate_contact: values["alternate_contact"],
           home_page: values["home_page"],
           detail_info: values["detail_info"],
-          user_id: userInfo?._id!,
+          user_id: user?.uuid!,
         },
       });
     }
@@ -438,7 +435,7 @@ const PostgraduateMentorPage: React.FC = () => {
               刷新
             </Button>
             <Button
-              hidden={!(userInfo?.role === "EEsenior")}
+              hidden={!(user?.role === "EEsenior")}
               onClick={() => {
                 setShowSelfApplications(true);
               }}
@@ -449,9 +446,9 @@ const PostgraduateMentorPage: React.FC = () => {
               type="primary"
               hidden={
                 !(
-                  userInfo?.role === "teacher" ||
-                  userInfo?.role === "counselor" ||
-                  userInfo?.role === "root"
+                  user?.role === "teacher" ||
+                  user?.role === "counselor" ||
+                  user?.role === "root"
                 )
               }
               onClick={() => {
@@ -543,7 +540,7 @@ const PostgraduateMentorPage: React.FC = () => {
             onSelect={(value: string) => {
               setApplicationStatus(value || "intend");
             }}
-            disabled={!(userInfo?.role === "EEsenior")}
+            disabled={!(user?.role === "EEsenior")}
           >
             <Select.Option value="intend">有意向</Select.Option>
             <Select.Option value="in_contact">联络中</Select.Option>
@@ -565,7 +562,7 @@ const PostgraduateMentorPage: React.FC = () => {
                     mentor_info_id:
                       selfConfirmedApplicationData?.postgraduate_application[0]
                         .mentor_info_id!,
-                    user_id: userInfo?._id!,
+                    user_id: user?.uuid!,
                   },
                 });
               }
@@ -573,7 +570,7 @@ const PostgraduateMentorPage: React.FC = () => {
               await insertApplication({
                 variables: {
                   mentor_info_id: detail?.id!,
-                  user_id: userInfo?._id!,
+                  user_id: user?.uuid!,
                   status: applicationStatus,
                   verified: applicationStatus === "confirmed" ? false : true,
                 },
@@ -581,7 +578,7 @@ const PostgraduateMentorPage: React.FC = () => {
               await setAppHistory({
                 variables: {
                   mentor_info_id: detail?.id!,
-                  user_id: userInfo?._id!,
+                  user_id: user?.uuid!,
                   status:
                     applicationStatus === "confirmed"
                       ? "confirmed_unverified"
@@ -593,7 +590,7 @@ const PostgraduateMentorPage: React.FC = () => {
                 ? message.info("已提交申请情况，请等待辅导员和老师审核")
                 : message.success("提交成功");
             }}
-            disabled={!(userInfo?.role === "EEsenior")}
+            disabled={!(user?.role === "EEsenior")}
           >
             提交申请
           </Button>

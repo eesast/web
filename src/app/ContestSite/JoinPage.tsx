@@ -12,15 +12,14 @@ import {
   Input,
   Spin,
 } from "antd";
-import { getUserInfo } from "../../api/helpers/auth";
 import type { TableProps } from "antd/lib/table";
 //导出excel
 import * as xlsx from "xlsx";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
+import { ContestProps } from ".";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const userInfo = getUserInfo();
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
   height: calc(100vh - 72px);
@@ -30,7 +29,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 /* ---------------- 主页面 ---------------- */
-const JoinPage: React.FC = () => {
+const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
@@ -42,7 +41,7 @@ const JoinPage: React.FC = () => {
   const { data: isleaderData, refetch: refetchisleader } =
     graphql.useIsTeamLeaderSuspenseQuery({
       variables: {
-        _id: userInfo?._id!,
+        _id: user?.uuid!,
         contest_id: Contest_id,
       },
     });
@@ -50,7 +49,7 @@ const JoinPage: React.FC = () => {
   const { data: ismemberData, refetch: refetchismember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        _id: userInfo?._id!,
+        _id: user?.uuid!,
         contest_id: Contest_id,
       },
     });
@@ -59,7 +58,7 @@ const JoinPage: React.FC = () => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: userInfo?._id,
+        user_id: user?.uuid,
       },
     });
 
@@ -150,7 +149,7 @@ const JoinPage: React.FC = () => {
         await insertteamMember({
           variables: {
             team_id: teamId,
-            user_id: userInfo?._id!!,
+            user_id: user?.uuid!,
           },
         });
         if (!insertError) {
@@ -290,7 +289,7 @@ const JoinPage: React.FC = () => {
             shape="round"
             disabled={
               !(
-                ["root", "counselor"].includes(userInfo?.role!) ||
+                ["root", "counselor"].includes(user?.role!) ||
                 isContestManagerData?.contest_manager.length === 1
               )
             }

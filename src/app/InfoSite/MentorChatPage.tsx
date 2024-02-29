@@ -14,15 +14,14 @@ import Center from "../Components/Center";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import Scrollbars from "react-custom-scrollbars";
-import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
+import { PageProps } from "..";
 
 const { TextArea } = Input;
 
-const MentorChatPage = () => {
+const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
-  const userInfo = getUserInfo();
 
   const {
     loading: approvedApplicationsLoading,
@@ -30,9 +29,9 @@ const MentorChatPage = () => {
     data: approvedApplicationsData,
   } = graphql.useGetApprovedMentorApplicationsQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
     },
-    skip: userInfo?.role === "counselor",
+    skip: user?.role === "counselor",
   });
 
   useEffect(() => {
@@ -68,8 +67,8 @@ const MentorChatPage = () => {
     students,
   ]);
 
-  const from = userInfo?._id;
-  const to = userInfo?.role === "student" ? mentor?._id : selectedStudent?._id;
+  const from = user?.uuid;
+  const to = user?.role === "student" ? mentor?._id : selectedStudent?._id;
 
   const [text, setText] = useState("");
 
@@ -109,9 +108,9 @@ const MentorChatPage = () => {
   }
 
   if (
-    (userInfo?.role !== "student" && userInfo?.role !== "teacher") ||
-    (userInfo?.role === "student" && !mentor) ||
-    (userInfo?.role === "teacher" && students?.length === 0)
+    (user?.role !== "student" && user?.role !== "teacher") ||
+    (user?.role === "student" && !mentor) ||
+    (user?.role === "teacher" && students?.length === 0)
   ) {
     return (
       <Result
@@ -133,18 +132,18 @@ const MentorChatPage = () => {
         width: 100%;
       `}
     >
-      {userInfo.role === "student" && (
+      {user.role === "student" && (
         <Typography.Title
           level={2}
         >{`与导师 ${mentor?.name} 的聊天`}</Typography.Title>
       )}
-      {userInfo.role === "teacher" && (
+      {user.role === "teacher" && (
         <Typography.Title
           level={2}
         >{`与学生 ${selectedStudent?.name} 的聊天`}</Typography.Title>
       )}
       <div>
-        {userInfo.role === "teacher" && (
+        {user.role === "teacher" && (
           <Menu
             mode="horizontal"
             selectedKeys={selectedStudent ? [selectedStudent._id] : undefined}
@@ -166,10 +165,8 @@ const MentorChatPage = () => {
             `}
           >
             <ChatFeed
-              from={userInfo._id!}
-              to={
-                userInfo.role === "student" ? mentor!._id : selectedStudent!._id
-              }
+              from={user.uuid!}
+              to={user.role === "student" ? mentor!._id : selectedStudent!._id}
             />
             <TextArea
               css={`

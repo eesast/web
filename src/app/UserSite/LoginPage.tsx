@@ -6,14 +6,15 @@ import Center from "../Components/Center";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
-import { PageProps } from "..";
 import {
   validateEmail,
   validateNumber,
   validateUsername,
-} from "../../api/helpers/validator";
+} from "../../api/utils/validator";
+import { UserProps } from ".";
+import { subscribe } from "@/api/notification";
 
-const LoginPage: React.FC<PageProps> = ({ mode }) => {
+const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const navigate = useNavigate();
   const url = useUrl();
   const [loading, setLoading] = useState(false);
@@ -26,10 +27,16 @@ const LoginPage: React.FC<PageProps> = ({ mode }) => {
       };
       const response = await axios.post("/user/login", request);
       const data = response.data;
-      localStorage.setItem("token", data.token);
+      setUser(data.token);
       message.success("登录成功");
       setLoading(false);
-      return navigate(-1);
+      navigate(-1);
+      const subscription = localStorage.getItem("subscription");
+      if (subscription === null) {
+        const result = await subscribe();
+        localStorage.setItem("subscription", result);
+      }
+      return;
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {

@@ -1,4 +1,6 @@
-const RepoPage: React.FC = () => {
+import { PageProps } from "..";
+
+const RepoPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
     <div>
       <h1>敬请期待！</h1>
