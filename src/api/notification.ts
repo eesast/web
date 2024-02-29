@@ -32,16 +32,46 @@ export const subscribe = async () => {
   const serviceWorker = await navigator.serviceWorker.ready;
   console.log("Service Worker is ready.");
   // register push notification, and send it to the server
-  const subscription = await serviceWorker.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: process.env.REACT_APP_PUSH_PUBLICKEY,
-  });
+  let subscription: PushSubscription;
+  try {
+    subscription = await serviceWorker.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: process.env.REACT_APP_PUSH_PUBLICKEY,
+    });
+  } catch (err) {
+    console.log("Failed to subscribe the user: ", err);
+    return "";
+  }
+  console.log("Subscribed to Push Notifications.");
   try {
     const response = await axios.post(`/notification/subscribe`, subscription);
     return response.data.index as string;
   } catch (err) {
     console.log(err);
     return "";
+  }
+};
+
+export const renew = async (index: string) => {
+  try {
+    const serviceWorker = await navigator.serviceWorker.ready;
+    const subscription = await serviceWorker.pushManager.getSubscription();
+    if (!subscription) throw new Error("Subscription not found");
+    const response = await axios.post(`/notification/check`, subscription);
+    if (!response.data.subscribed) {
+      await axios.post(`/notification/unsubscribe`, {
+        index: index,
+      });
+      const response = await axios.post(
+        `/notification/subscribe`,
+        subscription,
+      );
+      return response.data.index as string;
+    }
+    return index;
+  } catch (err) {
+    console.log(err);
+    return null;
   }
 };
 
