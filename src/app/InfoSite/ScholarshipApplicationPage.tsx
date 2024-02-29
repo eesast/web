@@ -880,7 +880,8 @@ const ScholarshipApplicationPage = () => {
             dataSource={applicationsForCounselors?.scholarship_application}
             columns={scholarshipColumnsForCounselor}
             rowKey="id"
-            expandedRowRender={(record) => (
+            expandable={{
+              expandedRowRender: record => (
               <Descriptions key={record.id} size="small">
                 <Descriptions.Item label="专用申请表" span={3}>
                   {record.form_url && isUrl(record.form_url) ? (
@@ -929,7 +930,7 @@ const ScholarshipApplicationPage = () => {
                   </Button>
                 </Descriptions.Item>
               </Descriptions>
-            )}
+            )}}
           />
           <Modal
             open={exportFormVisible}

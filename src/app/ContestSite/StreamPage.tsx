@@ -28,6 +28,10 @@ const StreamPage: React.FC = () => {
   const [student3Loc, setStudent3Loc] = useState<Loc>({ x: 0, y: 0 });
   const [student4Loc, setStudent4Loc] = useState<Loc>({ x: 0, y: 0 });
   const [trickerLoc, setTrickerLoc] = useState<Loc>({ x: 0, y: 0 });
+  const [mode] = useState<"light" | "dark">(
+    (localStorage.getItem("theme") as "light" | "dark") || "light",
+  );
+
   useEffect(() => {
     const client = new AvailableServiceClient(streamUrl + ":8879");
     const request = new Message2Server.IDMsg();
@@ -392,13 +396,13 @@ const StreamPage: React.FC = () => {
         `}
       >
         <Row>
-          <Title level={5}>Game Time: {gameTime / 1000} sec</Title>
+          <Title level={5} style={{color: mode === 'dark' ? 'white' : 'initial'}} >Game Time: {gameTime / 1000} sec</Title>
         </Row>
         <Row>
-          <Title level={5}>Student Score: {studentScore}</Title>
+          <Title level={5} style={{color: mode === 'dark' ? 'white' : 'initial'}} >Student Score: {studentScore}</Title>
         </Row>
         <Row>
-          <Title level={5}>Tricker Score: {trickerScore}</Title>
+          <Title level={5} style={{color: mode === 'dark' ? 'white' : 'initial'}} >Tricker Score: {trickerScore}</Title>
         </Row>
         <canvas
           ref={canvasRef}

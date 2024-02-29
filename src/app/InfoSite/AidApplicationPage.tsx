@@ -822,7 +822,8 @@ const AidApplicationPage = () => {
             dataSource={applicationsForCounselors?.aid_application}
             columns={aidColumnsForCounselor}
             rowKey="id"
-            expandedRowRender={(record) => (
+            expandable={{
+              expandedRowRender: record => (
               <Descriptions key={record.id} size="small">
                 <Descriptions.Item label="专用申请表" span={3}>
                   {record.form_url && isUrl(record.form_url) ? (
@@ -871,7 +872,7 @@ const AidApplicationPage = () => {
                   </Button>
                 </Descriptions.Item>
               </Descriptions>
-            )}
+            )}}
           />
           <Modal
             open={exportFormVisible}

@@ -28,7 +28,10 @@ const PlaybackPage: React.FC = () => {
   const Contest_id = url.query.get("contest");
   const room_id = url.query.get("room");
   const playback_speed = url.query.get("speed");
-
+  const [mode] = useState<"light" | "dark">(
+    (localStorage.getItem("theme") as "light" | "dark") || "light",
+  );
+  
   const {
     data: scoreteamListData,
     //loading: scoreteamListLoading,
@@ -195,7 +198,7 @@ const PlaybackPage: React.FC = () => {
       <Row>
         <Col span={20}>
           {isLoaded === false && (
-            <Row>
+            <Row style={{color: mode === 'dark' ? 'white' : 'initial'}}>
               Loading Application... {Math.round(loadingProgression * 100)}%
             </Row>
           )}

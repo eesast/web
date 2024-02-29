@@ -37,6 +37,10 @@ const WeeklyPage: React.FC = () => {
 
   const [associatedValue, setAssociatedValue] = useState("");
   const [filterParamList, setFilterParamList] = useState([]);
+  const [mode] = useState<"light" | "dark">(
+    (localStorage.getItem("theme") as "light" | "dark") || "light",
+  );
+
   useEffect(() => {
     let weekly_sorted: any;
     if (weekly_data) {
@@ -220,11 +224,11 @@ const WeeklyPage: React.FC = () => {
           }
           title="添加新推送到本条推送前"
           trigger="click"
-          visible={visibleInsert}
-          onVisibleChange={(newVisible: boolean) => {
+          open={visibleInsert}
+          onOpenChange={(newVisible: boolean) => {
             setVisibleInsert(newVisible);
           }}
-          arrowPointAtCenter
+          arrow={{ pointAtCenter: true }}
         >
           <PlusCircleOutlined
             onClick={() => {
@@ -239,11 +243,11 @@ const WeeklyPage: React.FC = () => {
           }
           title="删除本条推送"
           trigger="click"
-          visible={visibleDelete}
-          onVisibleChange={(newVisible: boolean) => {
+          open={visibleDelete}
+          onOpenChange={(newVisible: boolean) => {
             setVisibleDelete(newVisible);
           }}
-          arrowPointAtCenter
+          arrow={{ pointAtCenter: true }}
         >
           <MinusCircleOutlined
             onClick={() => {
@@ -277,7 +281,7 @@ const WeeklyPage: React.FC = () => {
           marginTop: 50,
           marginRight: 50,
           minHeight: 380,
-          background: "#fff",
+          background: mode === "light" ? `white` : `#141414`,
         }}
       >
         <Row>

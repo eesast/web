@@ -812,7 +812,8 @@ const HonorApplicationPage = () => {
             dataSource={applicationsForCounselors?.honor_application}
             columns={honorColumnsForCounselor}
             rowKey="id"
-            expandedRowRender={(record) => (
+            expandable={{
+              expandedRowRender: record => (
               <Descriptions key={record.id} size="small">
                 <Descriptions.Item label="申请陈述" span={3}>
                   <Text
@@ -838,7 +839,7 @@ const HonorApplicationPage = () => {
                   )}
                 </Descriptions.Item>
               </Descriptions>
-            )}
+            )}}
           />
           <Modal
             open={exportFormVisible}

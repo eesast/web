@@ -297,7 +297,7 @@ const MentorInfoVerifyPage: React.FC = () => {
       </Modal>
       <Modal
         title="添加/更新信息"
-        visible={showManage}
+        open={showManage}
         width="60%"
         footer={null}
         onCancel={() => {
