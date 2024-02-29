@@ -1,4 +1,4 @@
-FROM node:16.20.2
+FROM node:20.11.1
 
 WORKDIR /home/node/protoc
 RUN wget https://github.com/protocolbuffers/protobuf/releases/download/v24.4/protoc-24.4-linux-x86_64.zip && unzip protoc-24.4-linux-x86_64.zip
