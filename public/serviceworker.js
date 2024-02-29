@@ -1,18 +1,11 @@
 /* eslint-disable no-restricted-globals */
 const defaultOptions = {
   data: {
-    url: "https://www.eesast.com",
+    url: "https://eesast.com",
   },
   icon: "./logo.png",
-  image: "./logo.png",
   badge: "./logo.png",
   vibrate: [200, 100, 200],
-  actions: [
-    {
-      action: "Unsubscribe",
-      title: "You will be subscribed when re-visit the site.",
-    },
-  ],
 };
 
 function receivePushNotification(event) {
@@ -37,12 +30,6 @@ function openPushNotification(event) {
   );
 
   event.notification.close();
-
-  if (event.action === "Unsubscribe") {
-    // TODO: Unsubscribe user
-    console.log("Unsubscribe");
-    return;
-  }
 
   event.waitUntil(
     self.clients.matchAll({ type: "window" }).then((clientsArr) => {

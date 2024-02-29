@@ -10,10 +10,17 @@ import {
   Switch,
   Tour,
   TourProps,
+  message,
   theme,
 } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
-import { UserOutlined, MenuOutlined, ExportOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  MenuOutlined,
+  ExportOutlined,
+  NotificationTwoTone,
+  NotificationOutlined,
+} from "@ant-design/icons";
 import { Route, Link, Routes, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
@@ -25,6 +32,7 @@ import NotFoundPage from "./Components/NotFound";
 import Authenticate, { userRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
 import { useUser, JwtPayload } from "../api/hooks/user";
+import { subscribe, unsubscribe } from "@/api/notification";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -44,9 +52,6 @@ const App: React.FC = () => {
   );
   const [mode, setMode] = useState<"light" | "dark">(
     (localStorage.getItem("theme") as "light" | "dark") || "light",
-  );
-  const [open, setOpen] = useState<boolean>(
-    localStorage.getItem("tour") !== "true",
   );
   const homeRef = useRef(null);
   const contestRef = useRef(null);
@@ -210,6 +215,60 @@ const App: React.FC = () => {
     );
   };
 
+  const NotificationSwitch = () => {
+    const subscription = localStorage.getItem("subscription");
+    const [notification, setNotification] = useState<boolean>(
+      subscription !== null && subscription !== "",
+    );
+    const handleNotificationChange = async () => {
+      console.log("notification", notification);
+      const subscription = localStorage.getItem("subscription");
+      if (notification) {
+        await unsubscribe(subscription!);
+        localStorage.removeItem("subscription");
+        setNotification(false);
+        message.info("已取消订阅");
+      } else if (subscription === null) {
+        const result = await subscribe();
+        localStorage.setItem("subscription", result);
+        setNotification(true);
+        message.success("已订阅来自EESAST的消息");
+      } else {
+        message.warning("您的浏览器暂不支持消息推送或未开启推送权限");
+      }
+    };
+    return user ? (
+      <Button
+        type="link"
+        icon={
+          notification ? (
+            <NotificationTwoTone
+              style={{ fontSize: "20px" }}
+              twoToneColor="#52c41a"
+            />
+          ) : (
+            <NotificationOutlined style={{ fontSize: "20px" }} />
+          )
+        }
+        onClick={handleNotificationChange}
+        css={`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 32px;
+          width: 32px;
+          position: absolute;
+          right: 80px;
+          color: ${mode === "light"
+            ? `rgba(0, 0, 0, 0.88)`
+            : `rgba(255, 255, 255, 0.85)`};
+        `}
+      />
+    ) : (
+      <></>
+    );
+  };
+
   const User = () => {
     return (
       <Link
@@ -219,12 +278,16 @@ const App: React.FC = () => {
           align-items: center;
           justify-content: center;
           height: 32px;
-          width: 64px;
+          width: ${user ? `32px` : `64px`};
           position: absolute;
           right: 32px;
         `}
       >
-        {user ? <Button icon={<UserOutlined />} /> : <Button>登录</Button>}
+        {user ? (
+          <Button icon={<UserOutlined style={{ fontSize: "16px" }} />} />
+        ) : (
+          <Button>登录</Button>
+        )}
       </Link>
     );
   };
@@ -290,6 +353,22 @@ const App: React.FC = () => {
     },
   ];
 
+  const TourGuide = () => {
+    const [open, setOpen] = useState<boolean>(
+      localStorage.getItem("tour") !== "true",
+    );
+    return (
+      <Tour
+        open={open && !isMobile}
+        onClose={() => {
+          setOpen(false);
+          localStorage.setItem("tour", "true");
+        }}
+        steps={steps}
+      />
+    );
+  };
+
   const HomeSite = lazy(() => import("./HomeSite"));
   const ContestSite = lazy(() => import("./ContestSite"));
   const InfoSite = lazy(() => import("./InfoSite"));
@@ -304,19 +383,13 @@ const App: React.FC = () => {
           mode === "light" ? theme.defaultAlgorithm : theme.darkAlgorithm,
       }}
     >
-      <Tour
-        open={open && !isMobile}
-        onClose={() => {
-          setOpen(false);
-          localStorage.setItem("tour", "true");
-        }}
-        steps={steps}
-      />
+      <TourGuide />
       <Layout>
         <StyledHeader>
           <Home />
           <Navigation />
           <ThemeSwitch />
+          <NotificationSwitch />
           <User />
         </StyledHeader>
         <StyledContent>
