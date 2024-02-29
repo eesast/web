@@ -36,9 +36,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
 
   const [associatedValue, setAssociatedValue] = useState("");
   const [filterParamList, setFilterParamList] = useState([]);
-  const [mode] = useState<"light" | "dark">(
-    (localStorage.getItem("theme") as "light" | "dark") || "light",
-  );
 
   useEffect(() => {
     let weekly_sorted: any;
