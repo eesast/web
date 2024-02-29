@@ -196,7 +196,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       <Row>
         <Col span={20}>
           {isLoaded === false && (
-            <Row>
+            <Row style={{color: mode === 'dark' ? 'white' : 'initial'}}>
               Loading Application... {Math.round(loadingProgression * 100)}%
             </Row>
           )}

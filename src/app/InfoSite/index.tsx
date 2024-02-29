@@ -34,7 +34,7 @@ const FixedSider = styled(Sider)`
   position: fixed;
   left: 0;
   & .ant-menu-inline {
-    height: calc(100vh - 72px);
+    height: calc(100vh);
     padding-top: 72px;
   }
 `;

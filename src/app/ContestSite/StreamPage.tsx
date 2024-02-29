@@ -15,7 +15,6 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   if (url.query.get("url") !== null) {
     setStreamUrl("http://" + url.query.get("url"));
   }
-
   if (Contest_id === "211b9ac2-f004-489d-bd71-4bdde335b597")
     return <THUAI6 url={streamUrl} />;
 };
