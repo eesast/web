@@ -3,8 +3,9 @@ import { message } from "antd";
 import { useUrl } from "../../api/hooks/url";
 import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
+import { ContestProps } from ".";
 /* ---------------- 主页面 ---------------- */
-const IntroPage = () => {
+const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");

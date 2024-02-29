@@ -14,20 +14,19 @@ import {
   Spin,
 } from "antd"; //botton
 import { Layout } from "antd";
-import { getUserInfo } from "../../api/helpers/auth"; //更改：取消注释
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
+import { ContestProps } from ".";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
 const { Content } = Layout;
 const { confirm } = Modal;
 const { Text } = Typography;
-const userInfo = getUserInfo();
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
@@ -39,7 +38,7 @@ const Container = styled.div`
 `;
 
 /* ---------------- 主页面 ---------------- */
-const ManagePage: React.FC = () => {
+const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
@@ -47,7 +46,7 @@ const ManagePage: React.FC = () => {
   const { data: isleaderData, refetch: refetchLeader } =
     graphql.useIsTeamLeaderSuspenseQuery({
       variables: {
-        _id: userInfo?._id!,
+        _id: user?.uuid!,
         contest_id: Contest_id,
       },
     });
@@ -55,7 +54,7 @@ const ManagePage: React.FC = () => {
   const { data: ismemberData, refetch: refetchMember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        _id: userInfo?._id!,
+        _id: user?.uuid!,
         contest_id: Contest_id,
       },
     });
@@ -122,13 +121,13 @@ const ManagePage: React.FC = () => {
     ...teamData?.contest_team[0],
     leader_name: teamData?.contest_team[0]?.team_leader_id?.name,
   };
-  const isLeader = userInfo?._id === team.team_leader_id?._id;
+  const isLeader = user?.uuid === team.team_leader_id?._id;
 
-  if (!userInfo) {
+  if (!user) {
     return <Spin />;
   }
 
-  const userid = userInfo!._id!;
+  const userid = user!.uuid!;
 
   /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {

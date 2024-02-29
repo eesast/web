@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Link, Route, Routes, Navigate } from "react-router-dom";
-import { getUserInfo } from "../../api/helpers/auth";
 import Card, { CardProps } from "antd/lib/card";
 import {
   Button,
@@ -37,6 +36,10 @@ import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 
 /* ---------------- 接口和类型定义 ---------------- */
+export interface ContestProps extends PageProps {
+  // contest_uuid: string | null;
+}
+
 // 表单数据格式
 interface FormValues {
   contest_name: string;
@@ -60,7 +63,6 @@ const { Text } = Typography;
 const { confirm } = Modal;
 const RangePicker: any = DatePicker.RangePicker;
 const { Option } = Select;
-const userInfo = getUserInfo();
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
 
@@ -74,7 +76,7 @@ const Container = styled.div`
 `;
 
 /* ---------------- 主页面 ---------------- */
-const ContestSite: React.FC<PageProps> = ({ mode }) => {
+const ContestSite: React.FC<PageProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const [modalVisible, setModalVisible] = useState(false);
   const [editingContest, setEditingContest] = useState<boolean>(false); //编辑or添加比赛
@@ -347,7 +349,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
   const index = (
     <Layout>
       <br />
-      {(userInfo?.role === "counselor" || userInfo?.role === "root") && (
+      {(user?.role === "counselor" || user?.role === "root") && (
         <Row>
           <Col span={3}></Col>
           <Col span={18}>
@@ -367,8 +369,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
                   <ContestInfoCard
                     key={item.id}
                     onEditPress={
-                      userInfo?.role === "counselor" ||
-                      userInfo?.role === "root"
+                      user?.role === "counselor" || user?.role === "root"
                         ? async () => {
                             setEditingContest(true);
                             try {
@@ -397,8 +398,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
                         : undefined
                     }
                     onDeletePress={
-                      userInfo?.role === "counselor" ||
-                      userInfo?.role === "root"
+                      user?.role === "counselor" || user?.role === "root"
                         ? () => {
                             handleContestDelete(item.id);
                           }
@@ -546,7 +546,7 @@ const ContestSite: React.FC<PageProps> = ({ mode }) => {
       <Routes>
         <Route path="/" element={<Navigate to={url.link("list")} />} />
         <Route path="list" element={index} />
-        <Route path="*" element={<MenuPage />} />
+        <Route path="*" element={<MenuPage mode={mode} user={user} />} />
       </Routes>
     </>
   );

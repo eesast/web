@@ -17,25 +17,23 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
-import { getUserInfo } from "../../api/helpers/auth";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
+import { ContestProps } from ".";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
-const SettingPage: React.FC = () => {
+const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   //获取比赛ID
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  //获取用户信息
-  const userInfo = getUserInfo();
 
   const { data: isContestManagerData, error: isContestManagerError } =
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: userInfo?._id,
+        user_id: user?.uuid,
       },
     });
   useEffect(() => {
@@ -191,7 +189,7 @@ const SettingPage: React.FC = () => {
     setIsBattleModalVisible(false);
   };
 
-  return ["root", "counselor"].includes(userInfo?.role!) ||
+  return ["root", "counselor"].includes(user?.role!) ||
     isContestManagerData?.contest_manager.length === 1 ? (
     <Layout>
       <Row

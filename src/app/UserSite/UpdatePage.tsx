@@ -5,9 +5,9 @@ import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { PageProps } from "..";
+import { UserProps } from ".";
 
-const UpdatePage: React.FC<PageProps> = ({ mode }) => {
+const UpdatePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const email = url.query.get("email") ?? "";
@@ -25,7 +25,7 @@ const UpdatePage: React.FC<PageProps> = ({ mode }) => {
       const response = await axios.post("/user/edit-profile", request);
       if (isTsinghua) {
         const data = response.data;
-        localStorage.setItem("token", data.token);
+        setUser(data.token);
       }
       message.success("信息更新成功");
       navigate(

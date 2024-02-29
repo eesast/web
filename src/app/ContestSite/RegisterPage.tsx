@@ -2,10 +2,10 @@ import React from "react";
 import { Input, Card, Row, Col, Button, Form } from "antd"; //botton  修改:delete Result
 import { Layout, message } from "antd";
 import { Link } from "react-router-dom";
-import { getUserInfo } from "../../api/helpers/auth";
 //graphql的语句由Apollo生成ts句柄，在此import
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
+import { ContestProps } from ".";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -27,24 +27,22 @@ function randomString() {
   for (var i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
   return n;
 }
-const RegisterPage: React.FC = () => {
+const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  //获取user的信息，返回_id/email/role，_id为hasura和mongo通用
-  const userInfo = getUserInfo();
   // 查询此用户是否已有队伍，若有则不可再创建
 
   const { data: isleaderData, refetch: refetchisleader } =
     graphql.useIsTeamLeaderSuspenseQuery({
       variables: {
-        _id: userInfo?._id!,
+        _id: user?.uuid!,
         contest_id: Contest_id,
       },
     });
   const { data: ismemberData, refetch: refetchismember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        _id: userInfo?._id!,
+        _id: user?.uuid!,
         contest_id: Contest_id,
       },
     });
@@ -67,7 +65,7 @@ const RegisterPage: React.FC = () => {
       await insertTeam({
         variables: {
           ...values, //剩余参数
-          team_leader: userInfo?._id!,
+          team_leader: user?.uuid!,
           invited_code: InviteCode!,
           contest_id: Contest_id!,
         },

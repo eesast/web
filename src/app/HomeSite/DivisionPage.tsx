@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import styled from "styled-components";
 import Picture from "../Components/Picture";
+import { PageProps } from "..";
 
 const { TabPane } = Tabs;
 
@@ -26,7 +27,7 @@ const Italic = styled.p`
   font-style: italic;
 `;
 
-const DivisionPage: React.FC = () => {
+const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
     <Tabs
       tabBarStyle={{

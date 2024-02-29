@@ -4,8 +4,9 @@ import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { PageProps } from "..";
 
-const CoursesPage: React.FC = () => {
+const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
 

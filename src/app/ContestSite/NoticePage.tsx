@@ -26,14 +26,14 @@ import type { CardProps } from "antd/lib/card";
 import dayjs from "dayjs";
 import type { UploadFile } from "antd/lib/upload/interface";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
-import { uploadFile, downloadFile, deleteFile } from "../../api/helpers/cos";
-import { getUserInfo } from "../../api/helpers/auth";
+import { uploadFile, downloadFile, deleteFile } from "../../api/cos";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import { RcFile } from "rc-upload/lib/interface";
 import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
+import { ContestProps } from ".";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -43,8 +43,7 @@ interface File {
   url: string;
 }
 
-const NoticePage: React.FC = () => {
-  const userInfo = getUserInfo();
+const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
@@ -85,7 +84,7 @@ const NoticePage: React.FC = () => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: userInfo?._id,
+        user_id: user?.uuid,
       },
     });
 
@@ -259,7 +258,7 @@ const NoticePage: React.FC = () => {
           <Button
             hidden={
               !(
-                ["root", "counselor"].includes(userInfo?.role!) ||
+                ["root", "counselor"].includes(user?.role!) ||
                 isContestManagerData?.contest_manager.length === 1
               )
             }
@@ -280,7 +279,7 @@ const NoticePage: React.FC = () => {
                 <Content>
                   <NoticeCard
                     onEditPress={
-                      ["root", "counselor"].includes(userInfo?.role!) ||
+                      ["root", "counselor"].includes(user?.role!) ||
                       isContestManagerData?.contest_manager.length === 1
                         ? () => {
                             setEditingNotice(
@@ -300,7 +299,7 @@ const NoticePage: React.FC = () => {
                         : undefined
                     }
                     onDeletePress={
-                      ["root", "counselor"].includes(userInfo?.role!) ||
+                      ["root", "counselor"].includes(user?.role!) ||
                       isContestManagerData?.contest_manager.length === 1
                         ? () => {
                             handleNoticeDelete(item.id);

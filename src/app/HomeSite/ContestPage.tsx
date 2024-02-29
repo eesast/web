@@ -3,6 +3,7 @@ import { Tabs, Typography, Divider, Row, Col } from "antd";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import Picture from "../Components/Picture";
+import { PageProps } from "..";
 
 const { Title, Paragraph, Text } = Typography;
 const { TabPane } = Tabs;
@@ -17,7 +18,7 @@ const Image = styled(Picture)`
   max-height: 50vh;
 `;
 
-const ContestPage: React.FC = () => {
+const ContestPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
     <Tabs
       tabBarStyle={{

@@ -5,9 +5,9 @@ import axios, { AxiosError } from "axios";
 import { Button, Result, message } from "antd";
 import Background from "./Components/Background";
 import Verify from "./Components/Verify";
-import { PageProps } from "..";
+import { UserProps } from ".";
 
-const DeletePage: React.FC<PageProps> = ({ mode }) => {
+const DeletePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const navigate = useNavigate();
   const url = useUrl();
 
@@ -23,7 +23,7 @@ const DeletePage: React.FC<PageProps> = ({ mode }) => {
         verificationToken: localStorage.getItem("verificationToken"),
       };
       await axios.post("/user/delete", request);
-      localStorage.removeItem("token");
+      setUser(null);
       return setSuccess(true);
     } catch (e) {
       const err = e as AxiosError;
@@ -45,8 +45,7 @@ const DeletePage: React.FC<PageProps> = ({ mode }) => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token && otp) {
+    if (user && otp) {
       handleDelete();
     }
   });

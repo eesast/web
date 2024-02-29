@@ -13,7 +13,6 @@ import {
   Typography,
 } from "antd";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
-import { getUserInfo } from "../../api/helpers/auth";
 import type { TableProps } from "antd/lib/table";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -21,8 +20,8 @@ import { useUrl } from "../../api/hooks/url";
 import styled from "styled-components";
 import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
+import { ContestProps } from ".";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const userInfo = getUserInfo();
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
   height: calc(100vh - 72px);
@@ -32,7 +31,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 /* ---------------- 主页面 ---------------- */
-const ArenaPage: React.FC = () => {
+const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
@@ -60,14 +59,14 @@ const ArenaPage: React.FC = () => {
   //根据队长id查询队伍id
   const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
       contest_id: Contest_id,
     },
   });
   //根据队员id查询队伍id
   const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: userInfo?._id!,
+      _id: user?.uuid!,
       contest_id: Contest_id,
     },
   });

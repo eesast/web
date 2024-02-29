@@ -12,7 +12,7 @@ import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 
-const HomeSite: React.FC<PageProps> = ({ mode }) => {
+const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
 
   const { Header, Content } = Layout;
@@ -92,9 +92,15 @@ const HomeSite: React.FC<PageProps> = ({ mode }) => {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<Navigate to={url.link("news")} />} />
-            <Route path="news" element={<NewsPage />} />
-            <Route path="divisions" element={<DivisionPage />} />
-            <Route path="contests" element={<ContestPage />} />
+            <Route path="news" element={<NewsPage mode={mode} user={user} />} />
+            <Route
+              path="divisions"
+              element={<DivisionPage mode={mode} user={user} />}
+            />
+            <Route
+              path="contests"
+              element={<ContestPage mode={mode} user={user} />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

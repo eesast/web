@@ -24,7 +24,7 @@ import { useWindowSize } from "../api/hooks/windowsize";
 import NotFoundPage from "./Components/NotFound";
 import Authenticate, { userRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
-import { getUserInfo } from "../api/helpers/auth";
+import { useUser, JwtPayload } from "../api/hooks/user";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -32,11 +32,12 @@ dayjs.locale("zh-cn");
 
 export interface PageProps {
   mode: String;
+  user: JwtPayload | null;
 }
 
 const App: React.FC = () => {
   const url = useUrl();
-  const userInfo = getUserInfo();
+  const [user, setUser] = useUser();
   const userAgent = navigator.userAgent;
   const isMobile = userAgent.match(
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
@@ -83,7 +84,7 @@ const App: React.FC = () => {
     return (
       <>
         <img
-          src="/logo.png"
+          src="./logo.png"
           alt="Logo"
           css={`
             display: inline-block;
@@ -223,7 +224,7 @@ const App: React.FC = () => {
           right: 32px;
         `}
       >
-        {userInfo ? <Button icon={<UserOutlined />} /> : <Button>登录</Button>}
+        {user ? <Button icon={<UserOutlined />} /> : <Button>登录</Button>}
       </Link>
     );
   };
@@ -322,32 +323,38 @@ const App: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Navigate to="/home" />} />
-              <Route path="home/*" element={<HomeSite mode={mode} />} />
+              <Route
+                path="home/*"
+                element={<HomeSite mode={mode} user={user} />}
+              />
               <Route
                 path="contest/*"
                 element={
-                  <Authenticate role={userRoles}>
-                    <ContestSite mode={mode} />
+                  <Authenticate role={userRoles} user={user}>
+                    <ContestSite mode={mode} user={user} />
                   </Authenticate>
                 }
               />
               <Route
                 path="info/*"
                 element={
-                  <Authenticate role={userRoles}>
-                    <InfoSite mode={mode} />
+                  <Authenticate role={userRoles} user={user}>
+                    <InfoSite mode={mode} user={user} />
                   </Authenticate>
                 }
               />
               <Route
                 path="share/*"
                 element={
-                  <Authenticate role={userRoles}>
-                    <ShareSite mode={mode} />
+                  <Authenticate role={userRoles} user={user}>
+                    <ShareSite mode={mode} user={user} />
                   </Authenticate>
                 }
               />
-              <Route path="user/*" element={<UserSite mode={mode} />} />
+              <Route
+                path="user/*"
+                element={<UserSite mode={mode} user={user} setUser={setUser} />}
+              />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
