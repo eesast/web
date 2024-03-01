@@ -12,7 +12,7 @@ import {
   validateUsername,
 } from "../../api/utils/validator";
 import { UserProps } from ".";
-import { subscribe } from "@/api/notification";
+import { renew } from "@/api/notification";
 
 const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const navigate = useNavigate();
@@ -32,9 +32,13 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       setLoading(false);
       navigate(-1);
       const subscription = localStorage.getItem("subscription");
-      if (subscription === null) {
-        const result = await subscribe();
-        localStorage.setItem("subscription", result);
+      if (subscription !== null) {
+        const result = await renew(subscription!);
+        if (result) {
+          localStorage.setItem("subscription", result);
+        } else {
+          localStorage.removeItem("subscription");
+        }
       }
       return;
     } catch (e) {
