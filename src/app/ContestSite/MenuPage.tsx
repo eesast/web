@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import {
   HomeOutlined,
@@ -24,9 +24,8 @@ import {
   ReadOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Menu, Layout, message, Button, MenuProps } from "antd";
+import { Menu, Layout, message, Button, MenuProps, Spin } from "antd";
 //以下为子分页
-//import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
 import RegisterPage from "./RegisterPage";
@@ -45,11 +44,20 @@ import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
+import { styled } from "styled-components";
 
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 //antd部件实例化
 const { Sider, Content } = Layout;
 
-const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
+const MenuPage: React.FC<ContestProps> = (props) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
@@ -64,7 +72,7 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: user?.uuid,
+        user_id: props.user?.uuid,
       },
     });
   useEffect(() => {
@@ -208,6 +216,14 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
   //渲染页面,switch类似c，用以切换url
   return (
     <Layout>
@@ -225,7 +241,7 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
             css={`
               width: 100%;
               border-inline-end: 1px solid
-                ${mode === "light"
+                ${props.mode === "light"
                   ? `rgba(5, 5, 5, 0.06)`
                   : `rgba(253, 253, 253, 0.12)`};
             `}
@@ -254,7 +270,7 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
           openKeys={openKeys}
           onOpenChange={handleOpenChange}
           items={
-            ["root", "counselor"].includes(user?.role!) ||
+            ["root", "counselor"].includes(props.user?.role!) ||
             isContestManagerData?.contest_manager.length === 1
               ? items.concat(itemsAdmin)
               : items
@@ -269,59 +285,31 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
           margin-left: ${collapsed ? `50px` : `200px`};
         `}
       >
-        <Routes>
-          <Route path="intro" element={<IntroPage mode={mode} user={user} />} />
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="intro" element={<IntroPage {...props} />} />
 
-          <Route
-            path="notice"
-            element={<NoticePage mode={mode} user={user} />}
-          />
-          <Route
-            path="team-register"
-            element={<RegisterPage mode={mode} user={user} />}
-          />
-          <Route
-            path="team-join"
-            element={<JoinPage mode={mode} user={user} />}
-          />
-          <Route
-            path="team-manage"
-            element={<ManagePage mode={mode} user={user} />}
-          />
+            <Route path="notice" element={<NoticePage {...props} />} />
+            <Route path="team-register" element={<RegisterPage {...props} />} />
+            <Route path="team-join" element={<JoinPage {...props} />} />
+            <Route path="team-manage" element={<ManagePage {...props} />} />
 
-          <Route
-            path="arena-score"
-            element={<ArenaPage mode={mode} user={user} />}
-          />
-          <Route
-            path="arena-record"
-            element={<RecordPage mode={mode} user={user} />}
-          />
-          <Route path="code" element={<CodePage mode={mode} user={user} />} />
+            <Route path="arena-score" element={<ArenaPage {...props} />} />
+            <Route path="arena-record" element={<RecordPage {...props} />} />
+            <Route path="code" element={<CodePage {...props} />} />
 
-          <Route
-            path="playground"
-            element={<PlaybackPage mode={mode} user={user} />}
-          />
-          <Route
-            path="stream"
-            element={<StreamPage mode={mode} user={user} />}
-          />
-          <Route
-            path="playback"
-            element={<PlaybackPage mode={mode} user={user} />}
-          />
+            <Route path="playground" element={<PlaybackPage {...props} />} />
+            <Route path="stream" element={<StreamPage {...props} />} />
+            <Route path="playback" element={<PlaybackPage {...props} />} />
 
-          <Route
-            path="admin-manage"
-            element={<ManageTeamsPage mode={mode} user={user} />}
-          />
-          <Route
-            path="admin-setting"
-            element={<SettingPage mode={mode} user={user} />}
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+            <Route
+              path="admin-manage"
+              element={<ManageTeamsPage {...props} />}
+            />
+            <Route path="admin-setting" element={<SettingPage {...props} />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </Content>
     </Layout>
   );

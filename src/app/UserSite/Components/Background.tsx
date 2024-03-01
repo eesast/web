@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Center from "../../Components/Center";
 
 interface BackgroundProps {
-  mode?: String;
+  mode?: string;
   imageIndex: number;
   children: React.ReactNode;
 }

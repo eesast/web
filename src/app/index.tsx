@@ -39,7 +39,7 @@ dayjs.extend(calendar);
 dayjs.locale("zh-cn");
 
 export interface PageProps {
-  mode: String;
+  mode: string;
   user: JwtPayload | null;
 }
 

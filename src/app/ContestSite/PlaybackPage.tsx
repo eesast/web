@@ -53,7 +53,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     projectName = "JumpJump-Build";
   }
 
-  const handleCacheControl = (url: String) => {
+  const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.bundle/)) {
       return "must-revalidate";
     }
@@ -196,7 +196,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       <Row>
         <Col span={20}>
           {isLoaded === false && (
-            <Row style={{color: mode === 'dark' ? 'white' : 'initial'}}>
+            <Row style={{ color: mode === "dark" ? "white" : "initial" }}>
               Loading Application... {Math.round(loadingProgression * 100)}%
             </Row>
           )}

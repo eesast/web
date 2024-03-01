@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
-import { Button, Layout, Menu, MenuProps, message } from "antd";
+import { Button, Layout, Menu, MenuProps, Spin, message } from "antd";
 import {
   TrophyOutlined,
   ReadOutlined,
@@ -24,7 +24,16 @@ import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import * as graphql from "@/generated/graphql";
+import { styled } from "styled-components";
 
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 const { Content, Sider } = Layout;
 
 const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
@@ -147,6 +156,14 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
   return (
     <Layout>
       <Sider
@@ -203,43 +220,45 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
           padding: 50px;
         `}
       >
-        <Routes>
-          <Route path="/" element={<Navigate to={url.link("notices")} />} />
-          <Route
-            path="notices"
-            element={<NoticePage mode={mode} user={user} />}
-          />
-          <Route
-            path="mentor-applications"
-            element={<MentorApplicationPage mode={mode} user={user} />}
-          />
-          <Route
-            path="mentor-chats"
-            element={<MentorChatPage mode={mode} user={user} />}
-          />
-          <Route
-            path="honors"
-            element={<HonorApplicationPage mode={mode} user={user} />}
-          />
-          <Route
-            path="scholarships"
-            element={<ScholarshipApplicationPage mode={mode} user={user} />}
-          />
-          {/* <Route path="financial-aid" element={<AidApplicationPage mode={mode} user={user} />} /> */}
-          {/* <Route
-            path="postgraduate-mentor-info"
-            element={<PostgraduateMentorPage mode={mode} user={user} />}
-          />
-          <Route
-            path="mentor-info-verify"
-            element={<MentorInfoVerifyPage mode={mode} user={user} />}
-          />
-          <Route
-            path="postgraduate-application"
-            element={<PostgraduateApplicationPage mode={mode} user={user} />}
-          /> */}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Navigate to={url.link("notices")} />} />
+            <Route
+              path="notices"
+              element={<NoticePage mode={mode} user={user} />}
+            />
+            <Route
+              path="mentor-applications"
+              element={<MentorApplicationPage mode={mode} user={user} />}
+            />
+            <Route
+              path="mentor-chats"
+              element={<MentorChatPage mode={mode} user={user} />}
+            />
+            <Route
+              path="honors"
+              element={<HonorApplicationPage mode={mode} user={user} />}
+            />
+            <Route
+              path="scholarships"
+              element={<ScholarshipApplicationPage mode={mode} user={user} />}
+            />
+            {/* <Route path="financial-aid" element={<AidApplicationPage mode={mode} user={user} />} /> */}
+            {/* <Route
+              path="postgraduate-mentor-info"
+              element={<PostgraduateMentorPage mode={mode} user={user} />}
+            />
+            <Route
+              path="mentor-info-verify"
+              element={<MentorInfoVerifyPage mode={mode} user={user} />}
+            />
+            <Route
+              path="postgraduate-application"
+              element={<PostgraduateApplicationPage mode={mode} user={user} />}
+            /> */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </Content>
     </Layout>
   );
