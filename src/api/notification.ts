@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export interface Notification {
   title: string;
@@ -19,13 +19,13 @@ export const subscribe = async () => {
   // checks if Push notification and service workers are supported by your browser
   if (!("serviceWorker" in navigator && "PushManager" in window)) {
     console.log("Service Worker and Push are not supported");
-    return "";
+    return "Not Supported";
   }
   // asks user consent to receive push notifications and returns the response of the user, one of granted, default, denied
   const status = await Notification.requestPermission();
   if (status !== "granted") {
     console.log("Notification permission not granted");
-    return "";
+    return "Permission Denied";
   }
   // register service worker
   navigator.serviceWorker.register("./serviceworker.js");
@@ -40,19 +40,38 @@ export const subscribe = async () => {
     });
   } catch (err) {
     console.log("Failed to subscribe the user: ", err);
-    return "";
+    serviceWorker.unregister();
+    return "Failed to Subscribe";
   }
   console.log("Subscribed to Push Notifications.");
   try {
     const response = await axios.post(`/notification/subscribe`, subscription);
+    if (response.status !== 200) throw new Error("Server error");
     return response.data.index as string;
-  } catch (err) {
+  } catch (e) {
+    const err = e as AxiosError;
     console.log(err);
-    return "";
+    serviceWorker.unregister();
+    if (err.response?.status === 504) {
+      return "Timeout";
+    } else {
+      return "Failed to Subscribe";
+    }
   }
 };
 
 export const renew = async (index: string) => {
+  if (Notification.permission !== "granted") {
+    console.log("Notification permission not granted");
+    try {
+      await axios.post(`/notification/unsubscribe`, {
+        index: index,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  }
   try {
     const serviceWorker = await navigator.serviceWorker.ready;
     const subscription = await serviceWorker.pushManager.getSubscription();

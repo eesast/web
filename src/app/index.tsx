@@ -32,7 +32,7 @@ import NotFoundPage from "./Components/NotFound";
 import Authenticate, { userRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
 import { useUser, JwtPayload } from "../api/hooks/user";
-import { subscribe, unsubscribe } from "@/api/notification";
+import { subscribe, unsubscribe } from "../api/notification";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -216,32 +216,37 @@ const App: React.FC = () => {
   };
 
   const NotificationSwitch = () => {
-    const subscription = localStorage.getItem("subscription");
-    const [notification, setNotification] = useState<boolean>(
-      subscription !== null && subscription !== "",
+    const [isSubscribed, setIsSubscribed] = useState<boolean>(
+      !!localStorage.getItem("subscription"),
     );
     const handleNotificationChange = async () => {
-      console.log("notification", notification);
-      const subscription = localStorage.getItem("subscription");
-      if (notification) {
-        await unsubscribe(subscription!);
+      if (isSubscribed) {
+        await unsubscribe(localStorage.getItem("subscription")!);
         localStorage.removeItem("subscription");
-        setNotification(false);
+        setIsSubscribed(false);
         message.info("已取消订阅");
-      } else if (subscription === null) {
-        const result = await subscribe();
-        localStorage.setItem("subscription", result);
-        setNotification(true);
-        message.success("已订阅来自EESAST的消息");
       } else {
-        message.warning("您的浏览器暂不支持消息推送或未开启推送权限");
+        const result = await subscribe();
+        if (result === "Not Supported") {
+          message.warning("您的浏览器暂不支持消息推送");
+        } else if (result === "Permission Denied") {
+          message.warning("您的隐私设置阻止了消息推送，请在地址栏更改设置");
+        } else if (result === "Timeout") {
+          message.warning("订阅超时，暂不支持Google消息服务");
+        } else if (result === "Failed to Subscribe") {
+          message.error("订阅失败");
+        } else {
+          localStorage.setItem("subscription", result);
+          setIsSubscribed(true);
+          message.success("已订阅来自EESAST的消息");
+        }
       }
     };
     return user ? (
       <Button
         type="link"
         icon={
-          notification ? (
+          isSubscribed ? (
             <NotificationTwoTone
               style={{ fontSize: "20px" }}
               twoToneColor="#52c41a"

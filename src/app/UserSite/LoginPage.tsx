@@ -32,7 +32,7 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       setLoading(false);
       navigate(-1);
       const subscription = localStorage.getItem("subscription");
-      if (subscription !== null && subscription !== "") {
+      if (subscription !== null) {
         const result = await renew(subscription!);
         if (result) {
           localStorage.setItem("subscription", result);
