@@ -22,7 +22,7 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     background-color: ${mode === "light" ? `white` : `#141414`};
     border-bottom: 1px solid
       ${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
-    position: fixed;
+    position: sticky;
     top: 72px;
   `;
 
@@ -31,11 +31,6 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
       line-height: 48px;
       border-bottom: unset;
     }
-  `;
-
-  const StyledContent = styled(Content)`
-    margin-top: 48px;
-    width: 100%;
   `;
 
   const Container = styled.div`
@@ -85,7 +80,7 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
           items={items}
         />
       </StyledHeader>
-      <StyledContent>
+      <Content>
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<Navigate to={url.link("weekly")} />} />
@@ -102,7 +97,7 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
-      </StyledContent>
+      </Content>
     </Layout>
   );
 };
