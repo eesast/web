@@ -1,48 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
-import { Layout, Menu, message } from "antd";
+import { Button, Layout, Menu, MenuProps, message } from "antd";
 import {
-  NotificationOutlined,
-  TeamOutlined,
-  ContactsOutlined,
   TrophyOutlined,
   ReadOutlined,
-  // PayCircleOutlined,
-  // VerifiedOutlined,
+  MenuOutlined,
+  InfoCircleOutlined,
+  SolutionOutlined,
+  CommentOutlined,
+  BankOutlined,
+  CoffeeOutlined,
 } from "@ant-design/icons";
-import styled from "styled-components";
 import NoticePage from "./NoticePage";
 import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
-import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
+// import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
 import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../Components/NotFound";
 import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 // import AidApplicationPage from "./AidApplicationPage";
-import PostgraduateMentorPage from "./PostgraduateMentorPage";
-import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
+// import PostgraduateMentorPage from "./PostgraduateMentorPage";
+// import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import * as graphql from "@/generated/graphql";
 
 const { Content, Sider } = Layout;
 
-const FixedSider = styled(Sider)`
-  overflow: auto;
-  top: 0;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  & .ant-menu-inline {
-    height: calc(100vh);
-    padding-top: 72px;
-  }
-`;
-
 const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
-
   const navigate = useNavigate();
+
+  const userAgent = navigator.userAgent;
+  const isMobile = userAgent.match(
+    /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
+  );
+  const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
+  const [openKeys, setOpenKeys] = useState([""]);
 
   const { data } = graphql.useGetProfileQuery({
     variables: { uuid: user?.uuid! },
@@ -77,85 +71,136 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
   //   }
   // };
 
+  const items = [
+    {
+      key: "notices",
+      label: <Link to={url.link("notices")}>公告</Link>,
+      icon: <InfoCircleOutlined />,
+    },
+    {
+      key: "mentors",
+      label: "新生导师",
+      icon: <CoffeeOutlined />,
+      children: [
+        {
+          key: "mentor-applications",
+          label: <Link to={url.link("mentor-applications")}>导师申请</Link>,
+          icon: <SolutionOutlined />,
+        },
+        {
+          key: "mentor-chats",
+          label: <Link to={url.link("mentor-chats")}>导师交流</Link>,
+          icon: <CommentOutlined />,
+        },
+      ],
+    },
+    {
+      key: "honors-scholarships",
+      label: "奖助学金",
+      icon: <TrophyOutlined />,
+      children: [
+        {
+          key: "honors",
+          label: <Link to={url.link("honors")}>荣誉</Link>,
+          icon: <BankOutlined />,
+        },
+        {
+          key: "scholarships",
+          label: <Link to={url.link("scholarships")}>奖学金</Link>,
+          icon: <ReadOutlined />,
+        },
+        // {
+        //   key: "financial-aid",
+        //   label: <Link to={url.link("financial-aid")}>助学金</Link>,
+        // },
+      ],
+    },
+    // {
+    //   key: "postgraduate",
+    //   label: "推研信息",
+    //   icon: <ReadOutlined />,
+    //   children: [
+    //     {
+    //       key: "postgraduate-mentor-info",
+    //       label: <Link to={url.link("postgraduate-mentor-info")}>博士生招生信息</Link>,
+    //     },
+    //     {
+    //       key: "mentor-info-verify",
+    //       label: <Link to={url.link("mentor-info-verify")}>导师信息审核</Link>,
+    //     },
+    //     {
+    //       key: "postgraduate-application",
+    //       label: <Link to={url.link("postgraduate-application")}>学生申请审核</Link>,
+    //     },
+    //   ],
+    // },
+  ];
+
+  const submenuKeys = ["mentors", "honors-scholarships"];
+
+  const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (latestOpenKey && submenuKeys.indexOf(latestOpenKey!) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
   return (
     <Layout>
-      <FixedSider>
+      <Sider
+        theme="light"
+        breakpoint="lg"
+        onBreakpoint={(broken) => {
+          setCollapsed(broken);
+        }}
+        collapsible={true}
+        collapsed={collapsed}
+        collapsedWidth={50}
+        trigger={
+          <div
+            css={`
+              width: 100%;
+              border-inline-end: 1px solid
+                ${mode === "light"
+                  ? `rgba(5, 5, 5, 0.06)`
+                  : `rgba(253, 253, 253, 0.12)`};
+            `}
+          >
+            <Button
+              type="link"
+              icon={<MenuOutlined />}
+              onClick={() => {
+                setCollapsed(!collapsed);
+              }}
+            />
+          </div>
+        }
+        style={{
+          height: "100%",
+          position: "fixed",
+          left: 0,
+          top: "72px",
+          bottom: 0,
+        }}
+      >
         <Menu
-          theme="light"
           mode="inline"
-          defaultSelectedKeys={["notices"]}
           selectedKeys={[url.page]}
-        >
-          <Menu.Item key="notices">
-            <Link to={url.link("notices")}>
-              <NotificationOutlined />
-              公告
-            </Link>
-          </Menu.Item>
-          <Menu.ItemGroup key="mentors" title="新生导师">
-            <Menu.Item key="mentor-applications">
-              <Link to={url.link("mentor-applications")}>
-                <TeamOutlined />
-                导师申请
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="mentor-chats">
-              <Link to={url.link("mentor-chats")}>
-                <ContactsOutlined />
-                导师交流
-              </Link>
-            </Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup key="honors-scholarships" title="奖助学金">
-            <Menu.Item key="honors">
-              <Link to={url.link("honors")}>
-                <TrophyOutlined />
-                荣誉
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="scholarships">
-              <Link to={url.link("scholarships")}>
-                <ReadOutlined />
-                奖学金
-              </Link>
-            </Menu.Item>
-            {/* <Menu.Item key="financial-aid">
-              <Link to={url.link("financial-aid")}>
-                <PayCircleOutlined />
-                助学金
-              </Link>
-            </Menu.Item> */}
-          </Menu.ItemGroup>
-          {/* <Menu.ItemGroup key="postgraduate" title="推研信息">
-            <Menu.Item key="postgraduate-mentor-info" onClick={disclaimer}>
-              <Link to={url.link("postgraduate-mentor-info")}>
-                <TeamOutlined />
-                博士生招生信息
-              </Link>
-            </Menu.Item>
-            {["root", "counselor", "teacher"].includes(user?.role!) ? (
-              <Menu.Item key="mentor-info-verify">
-                <Link to={url.link("mentor-info-verify")}>
-                  <VerifiedOutlined />
-                  导师信息审核
-                </Link>
-              </Menu.Item>
-            ) : null}
-            {["root", "counselor", "teacher"].includes(user?.role!) ? (
-              <Menu.Item key="postgraduate-application">
-                <Link to={url.link("postgraduate-application")}>
-                  <VerifiedOutlined />
-                  学生申请审核
-                </Link>
-              </Menu.Item>
-            ) : null}
-          </Menu.ItemGroup> */}
-        </Menu>
-      </FixedSider>
+          defaultSelectedKeys={["notices"]}
+          openKeys={openKeys}
+          onOpenChange={handleOpenChange}
+          items={items}
+          css={`
+            height: 100%;
+          `}
+        />
+      </Sider>
       <Content
         css={`
-          margin-left: 200px;
-          padding: 48px 10vw;
+          margin-left: ${collapsed ? `50px` : `200px`};
+          padding: 50px;
         `}
       >
         <Routes>
@@ -181,7 +226,7 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
             element={<ScholarshipApplicationPage mode={mode} user={user} />}
           />
           {/* <Route path="financial-aid" element={<AidApplicationPage mode={mode} user={user} />} /> */}
-          <Route
+          {/* <Route
             path="postgraduate-mentor-info"
             element={<PostgraduateMentorPage mode={mode} user={user} />}
           />
@@ -192,7 +237,7 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
           <Route
             path="postgraduate-application"
             element={<PostgraduateApplicationPage mode={mode} user={user} />}
-          />
+          /> */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Content>

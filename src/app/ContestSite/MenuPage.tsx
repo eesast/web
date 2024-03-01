@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import {
   HomeOutlined,
@@ -24,7 +24,7 @@ import {
   ReadOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Menu, Layout, message, Button } from "antd";
+import { Menu, Layout, message, Button, MenuProps } from "antd";
 //以下为子分页
 //import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
@@ -58,6 +58,7 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
+  const [openKeys, setOpenKeys] = useState([""]);
 
   const { data: isContestManagerData, error: isContestManagerError } =
     graphql.useQueryContestManagerSuspenseQuery({
@@ -104,7 +105,7 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
       ],
     },
     {
-      key: "interface",
+      key: "game",
       label: "游玩时刻",
       icon: <FireOutlined />,
       children: [
@@ -196,6 +197,17 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   ];
 
+  const submenuKeys = ["home", "game", "team", "arena", "admin"];
+
+  const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (latestOpenKey && submenuKeys.indexOf(latestOpenKey!) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
   //渲染页面,switch类似c，用以切换url
   return (
     <Layout>
@@ -239,6 +251,8 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
           mode="inline"
           selectedKeys={[url.page]}
           defaultSelectedKeys={["back"]}
+          openKeys={openKeys}
+          onOpenChange={handleOpenChange}
           items={
             ["root", "counselor"].includes(user?.role!) ||
             isContestManagerData?.contest_manager.length === 1
