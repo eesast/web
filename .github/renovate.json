@@ -1,5 +1,6 @@
 {
   "extends": ["config:base"],
+  "ignorePaths": ["**/Dockerfile"],
   "automerge": true,
   "timezone": "Asia/Shanghai",
   "schedule": "after 2am and before 8am every friday",
