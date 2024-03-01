@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { RouterProvider, createHashRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import "./index.css";
 import App from "./app";
@@ -20,13 +20,12 @@ axios.interceptors.request.use((config) => {
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
+const router = createHashRouter([{ path: "*", element: <App /> }]);
 root.render(
   <React.StrictMode>
-    <HashRouter>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </HashRouter>
+    <ApolloProvider client={client}>
+      <RouterProvider router={router} />
+    </ApolloProvider>
   </React.StrictMode>,
 );
 

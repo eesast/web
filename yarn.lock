@@ -11190,6 +11190,11 @@ react-router-dom@6.22.2:
     "@remix-run/router" "1.15.2"
     react-router "6.22.2"
 
+react-router-prompt@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.npmmirror.com/react-router-prompt/-/react-router-prompt-0.7.0.tgz#cfde29a034b4c13563f8e9324e958e66a3038713"
+  integrity sha512-EI5atxnC2eAvCOYfVobSI7xOHG8ljcsrU5x6lrI/mbXxglUZk0JPwBLMdE/DioVkKd5zbk23KtIalKu4KrEXHQ==
+
 react-router@6.22.2:
   version "6.22.2"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.22.2.tgz#27e77e4c635a5697693b922d131d773451c98a5b"
