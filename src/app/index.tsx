@@ -77,8 +77,7 @@ const App: React.FC = () => {
   `;
 
   const StyledContent = styled(Content)`
-    height: 100%;
-    width: 100%;
+    min-height: calc(100vh - 72px);
     min-width: 465px;
   `;
 
