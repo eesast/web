@@ -572,7 +572,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
       ? "正在进行"
       : "未开始"
     : "已结束";
-  
+
   const [mode] = useState<"light" | "dark">(
     (localStorage.getItem("theme") as "light" | "dark") || "light",
   );
@@ -582,13 +582,12 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
       css={`
         padding: 20px;
         padding-bottom: 10px;
-        &.ant-card-bordered {
-          cursor: default;
-        }
+        background-color: ${mode === "light" ? `white` : `#141414`};
+        border: 1px solid
+          ${mode === "light"
+            ? `rgba(5, 5, 5, 0.06)`
+            : `rgba(253, 253, 253, 0.12)`};
       `}
-      style={{
-        backgroundColor: mode === "dark" ? "#141414" : "white"
-      }}
       title={
         <Text
           css={`
