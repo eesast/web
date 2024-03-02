@@ -1,18 +1,31 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import {
   HomeOutlined,
-  DatabaseOutlined,
   TeamOutlined,
   FireOutlined,
   LockOutlined,
-  DoubleLeftOutlined,
   ExperimentOutlined,
-  CodeOutlined,
+  FieldTimeOutlined,
+  ContactsOutlined,
+  BarsOutlined,
+  RocketOutlined,
+  UserSwitchOutlined,
+  UploadOutlined,
+  PlaySquareOutlined,
+  RadarChartOutlined,
+  HistoryOutlined,
+  InfoCircleOutlined,
+  BarChartOutlined,
+  TrophyOutlined,
+  ScheduleOutlined,
+  SolutionOutlined,
+  SettingOutlined,
+  ReadOutlined,
+  MenuOutlined,
 } from "@ant-design/icons";
-import { Menu, Layout, Typography, message } from "antd";
+import { Menu, Layout, message, Button, MenuProps, Spin } from "antd";
 //以下为子分页
-//import { contestProps } from "./index";
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
 import RegisterPage from "./RegisterPage";
@@ -28,25 +41,38 @@ import SettingPage from "./SettingPage";
 import NotFoundPage from "../Components/NotFound";
 // hasura查询
 //学长写好的api，用以没登陆会跳转到登陆页面
-import { isMobileOnly } from "react-device-detect";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
+import { styled } from "styled-components";
 
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 //antd部件实例化
 const { Sider, Content } = Layout;
-const { SubMenu } = Menu;
-const { Text } = Typography;
 
-const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
+const MenuPage: React.FC<ContestProps> = (props) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+
+  const userAgent = navigator.userAgent;
+  const isMobile = userAgent.match(
+    /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
+  );
+  const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
+  const [openKeys, setOpenKeys] = useState([""]);
 
   const { data: isContestManagerData, error: isContestManagerError } =
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: user?.uuid,
+        user_id: props.user?.uuid,
       },
     });
   useEffect(() => {
@@ -56,167 +82,235 @@ const MenuPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [isContestManagerError]);
 
+  const items = [
+    {
+      key: "back",
+      label: (
+        <Link to={url.delete("contest").link("contest", "site")}>返回</Link>
+      ),
+      icon: <HomeOutlined />,
+    },
+    {
+      key: "home",
+      label: "比赛详情",
+      icon: <InfoCircleOutlined />,
+      children: [
+        {
+          key: "intro",
+          label: <Link to={url.link("intro")}>设定介绍</Link>,
+          icon: <ReadOutlined />,
+        },
+        {
+          key: "timeline",
+          label: <Link to={url.link("timeline")}>时间节点</Link>,
+          icon: <ScheduleOutlined />,
+        },
+        {
+          key: "notice",
+          label: <Link to={url.link("notice")}>公告与资源</Link>,
+          icon: <BarsOutlined />,
+        },
+      ],
+    },
+    {
+      key: "game",
+      label: "游玩时刻",
+      icon: <FireOutlined />,
+      children: [
+        {
+          key: "playground",
+          label: <Link to={url.link("playground")}>试玩</Link>,
+          icon: <ExperimentOutlined />,
+        },
+        {
+          key: "stream",
+          label: <Link to={url.link("stream")}>直播</Link>,
+          icon: <PlaySquareOutlined />,
+        },
+        {
+          key: "playback",
+          label: <Link to={url.link("playback")}>回放</Link>,
+          icon: <HistoryOutlined />,
+        },
+      ],
+    },
+    {
+      key: "team",
+      label: "现在报名",
+      icon: <TeamOutlined />,
+      children: [
+        {
+          key: "team-register",
+          label: <Link to={url.link("team-register")}>创建队伍</Link>,
+          icon: <RocketOutlined />,
+        },
+        {
+          key: "team-join",
+          label: <Link to={url.link("team-join")}>加入队伍</Link>,
+          icon: <ContactsOutlined />,
+        },
+        {
+          key: "team-manage",
+          label: <Link to={url.link("team-manage")}>管理队伍</Link>,
+          icon: <UserSwitchOutlined />,
+        },
+      ],
+    },
+    {
+      key: "code",
+      label: <Link to={url.link("code")}>代码提交</Link>,
+      icon: <UploadOutlined />,
+    },
+    {
+      key: "arena",
+      label: "天梯试炼",
+      icon: <TrophyOutlined />,
+      children: [
+        {
+          key: "arena-score",
+          label: <Link to={url.link("arena-score")}>积分榜</Link>,
+          icon: <BarChartOutlined />,
+        },
+        {
+          key: "arena-record",
+          label: <Link to={url.link("arena-record")}>对战记录</Link>,
+          icon: <FieldTimeOutlined />,
+        },
+        {
+          key: "arena-analysis",
+          label: <Link to={url.link("arena-analysis")}>数据分析</Link>,
+          icon: <RadarChartOutlined />,
+        },
+      ],
+    },
+  ];
+
+  const itemsAdmin = [
+    {
+      key: "admin",
+      label: "管理员",
+      icon: <LockOutlined />,
+      children: [
+        {
+          key: "admin-manage",
+          label: <Link to={url.link("admin-manage")}>管理队伍</Link>,
+          icon: <SolutionOutlined />,
+        },
+        {
+          key: "admin-setting",
+          label: <Link to={url.link("admin-setting")}>比赛设置</Link>,
+          icon: <SettingOutlined />,
+        },
+      ],
+    },
+  ];
+
+  const submenuKeys = ["home", "game", "team", "arena", "admin"];
+
+  const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (latestOpenKey && submenuKeys.indexOf(latestOpenKey!) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
+  const Loading = () => {
+    return (
+      <Container>
+        <Spin size="large" />
+      </Container>
+    );
+  };
+
   //渲染页面,switch类似c，用以切换url
   return (
     <Layout>
       <Sider
         theme="light"
-        collapsedWidth={0}
+        breakpoint="lg"
+        onBreakpoint={(broken) => {
+          setCollapsed(broken);
+        }}
         collapsible={true}
-        defaultCollapsed={isMobileOnly}
+        collapsed={collapsed}
+        collapsedWidth={50}
+        trigger={
+          <div
+            css={`
+              width: 100%;
+              border-inline-end: 1px solid
+                ${props.mode === "light"
+                  ? `rgba(5, 5, 5, 0.06)`
+                  : `rgba(253, 253, 253, 0.12)`};
+            `}
+          >
+            <Button
+              type="link"
+              icon={<MenuOutlined />}
+              onClick={() => {
+                setCollapsed(!collapsed);
+              }}
+            />
+          </div>
+        }
+        style={{
+          height: "100%",
+          position: "fixed",
+          left: 0,
+          top: "72px",
+          bottom: 0,
+          zIndex: 99,
+        }}
       >
         <Menu
           mode="inline"
           selectedKeys={[url.page]}
           defaultSelectedKeys={["back"]}
-        >
-          <Menu.Item key="back">
-            <DoubleLeftOutlined />
-            <Link to={url.delete("contest").link("contest", "site")}>返回</Link>
-          </Menu.Item>
-          <Menu.Item key="intro">
-            <HomeOutlined />
-            <Link to={url.link("intro")}>介绍</Link>
-          </Menu.Item>
-          <Menu.Item key="notice">
-            <DatabaseOutlined />
-            <Link to={url.link("notice")}>公告与资源</Link>
-          </Menu.Item>
-          <SubMenu
-            key="team"
-            title={
-              <span>
-                <TeamOutlined />
-                队伍
-              </span>
-            }
-          >
-            <Menu.Item key="team-register">
-              <Link to={url.link("team-register")}>创建</Link>
-            </Menu.Item>
-            <Menu.Item key="team-join">
-              <Link to={url.link("team-join")}>加入</Link>
-            </Menu.Item>
-            <Menu.Item key="team-manage">
-              <Link to={url.link("team-manage")}>管理</Link>
-            </Menu.Item>
-          </SubMenu>
-          <Menu.Item key="code">
-            <CodeOutlined />
-            <Link to={url.link("code")}>代码</Link>
-          </Menu.Item>
-          <SubMenu
-            key="arena"
-            title={
-              <span>
-                <FireOutlined />
-                天梯
-              </span>
-            }
-          >
-            <Menu.Item key="arena-score">
-              <Link to={url.link("arena-score")}>积分榜</Link>
-            </Menu.Item>
-            <Menu.Item key="arena-record">
-              <Link to={url.link("arena-record")}>对战记录</Link>
-            </Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="lab"
-            title={
-              <span>
-                <ExperimentOutlined />
-                实验室
-                <Text disabled> beta</Text>
-              </span>
-            }
-          >
-            <Menu.Item key="playground">
-              <Link to={url.link("playground")}>试玩</Link>
-            </Menu.Item>
-            <Menu.Item key="stream">
-              <Link to={url.link("stream")}>直播</Link>
-            </Menu.Item>
-            <Menu.Item key="playback">
-              <Link to={url.link("playback")}>回放</Link>
-            </Menu.Item>
-          </SubMenu>
-
-          {["root", "counselor"].includes(user?.role!) ||
-          isContestManagerData?.contest_manager.length === 1 ? (
-            <SubMenu
-              key="admin"
-              title={
-                <span>
-                  <LockOutlined />
-                  管理员
-                </span>
-              }
-            >
-              <Menu.Item key="admin-manage">
-                <Link to={url.link("admin-manage")}>管理队伍</Link>
-              </Menu.Item>
-              <Menu.Item key="admin-setting">
-                <Link to={url.link("admin-setting")}>比赛设置</Link>
-              </Menu.Item>
-            </SubMenu>
-          ) : null}
-        </Menu>
+          openKeys={openKeys}
+          onOpenChange={handleOpenChange}
+          items={
+            ["root", "counselor"].includes(props.user?.role!) ||
+            isContestManagerData?.contest_manager.length === 1
+              ? items.concat(itemsAdmin)
+              : items
+          }
+          css={`
+            height: 100%;
+          `}
+        />
       </Sider>
-      <Content>
-        <Routes>
-          <Route path="intro" element={<IntroPage mode={mode} user={user} />} />
+      <Content
+        css={`
+          margin-left: ${collapsed ? `50px` : `200px`};
+        `}
+      >
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="intro" element={<IntroPage {...props} />} />
 
-          <Route
-            path="notice"
-            element={<NoticePage mode={mode} user={user} />}
-          />
-          <Route
-            path="team-register"
-            element={<RegisterPage mode={mode} user={user} />}
-          />
-          <Route
-            path="team-join"
-            element={<JoinPage mode={mode} user={user} />}
-          />
-          <Route
-            path="team-manage"
-            element={<ManagePage mode={mode} user={user} />}
-          />
+            <Route path="notice" element={<NoticePage {...props} />} />
+            <Route path="team-register" element={<RegisterPage {...props} />} />
+            <Route path="team-join" element={<JoinPage {...props} />} />
+            <Route path="team-manage" element={<ManagePage {...props} />} />
 
-          <Route
-            path="arena-score"
-            element={<ArenaPage mode={mode} user={user} />}
-          />
-          <Route
-            path="arena-record"
-            element={<RecordPage mode={mode} user={user} />}
-          />
-          <Route path="code" element={<CodePage mode={mode} user={user} />} />
+            <Route path="arena-score" element={<ArenaPage {...props} />} />
+            <Route path="arena-record" element={<RecordPage {...props} />} />
+            <Route path="code" element={<CodePage {...props} />} />
 
-          <Route
-            path="playground"
-            element={<PlaybackPage mode={mode} user={user} />}
-          />
-          <Route
-            path="stream"
-            element={<StreamPage mode={mode} user={user} />}
-          />
-          <Route
-            path="playback"
-            element={<PlaybackPage mode={mode} user={user} />}
-          />
+            <Route path="playground" element={<PlaybackPage {...props} />} />
+            <Route path="stream" element={<StreamPage {...props} />} />
+            <Route path="playback" element={<PlaybackPage {...props} />} />
 
-          <Route
-            path="admin-manage"
-            element={<ManageTeamsPage mode={mode} user={user} />}
-          />
-          <Route
-            path="admin-setting"
-            element={<SettingPage mode={mode} user={user} />}
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+            <Route
+              path="admin-manage"
+              element={<ManageTeamsPage {...props} />}
+            />
+            <Route path="admin-setting" element={<SettingPage {...props} />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </Content>
     </Layout>
   );

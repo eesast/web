@@ -39,7 +39,7 @@ dayjs.extend(calendar);
 dayjs.locale("zh-cn");
 
 export interface PageProps {
-  mode: String;
+  mode: string;
   user: JwtPayload | null;
 }
 
@@ -68,20 +68,21 @@ const App: React.FC = () => {
     z-index: 99;
     height: 72px;
     width: 100%;
+    min-width: 465px;
     background-color: ${mode === "light" ? `white` : `#141414`};
     border-bottom: 1px solid
       ${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
-    position: fixed;
+    position: sticky;
     top: 0;
   `;
 
   const StyledContent = styled(Content)`
-    margin-top: 72px;
     min-height: calc(100vh - 72px);
-    width: 100%;
+    min-width: 465px;
   `;
 
   const StyledFooter = styled(Footer)`
+    min-width: 465px;
     text-align: center;
   `;
 

@@ -6,7 +6,7 @@ import { JwtPayload } from "@/api/hooks/user";
 
 interface AuthenticateProps {
   user: JwtPayload | null;
-  role: String[];
+  role: string[];
   children: React.ReactNode;
   fallback?: React.ReactNode;
 }

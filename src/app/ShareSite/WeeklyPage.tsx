@@ -271,13 +271,11 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
     <Layout>
       <Content
-        className="site-layout"
         style={{
           marginLeft: 50,
           marginTop: 50,
           marginRight: 50,
           minHeight: 380,
-          background: mode === "light" ? `white` : `#141414`,
         }}
       >
         <Row>
