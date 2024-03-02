@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useHistory, Prompt } from "react-router-dom";
 import {
   Button,
   message,
@@ -23,6 +22,7 @@ import * as graphql from "@/generated/graphql";
 import { Suspense } from "react";
 import styled from "styled-components";
 import { ContestProps } from ".";
+import ReactRouterPrompt from "react-router-prompt";
 
 const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -53,7 +53,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     projectName = "JumpJump-Build";
   }
 
-  const handleCacheControl = (url: String) => {
+  const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.bundle/)) {
       return "must-revalidate";
     }
@@ -107,18 +107,14 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const handleQuit = async () => {
     try {
       await unload();
-      setIsPrompt(false);
-      // navigate(url.delete("room").delete("speed").link("playback"));
+      return;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const [isPrompt, setIsPrompt] = useState(true);
-
   useEffect(() => {
-    if (isLoaded && isPrompt) {
-      console.log("isLoaded: ", isLoaded);
+    if (isLoaded) {
       if (room_id === null) {
         sendMessage(
           "InputManager",
@@ -144,8 +140,10 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         );
       }
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded]);
 
+  const [jump, setJump] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -153,7 +151,8 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const handleRefresh = async () => {
     try {
       await form.validateFields();
-      if (isPrompt) {
+      if (isLoaded) {
+        setJump(true);
         await handleQuit();
       }
       const values = form.getFieldsValue();
@@ -196,7 +195,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       <Row>
         <Col span={20}>
           {isLoaded === false && (
-            <Row style={{color: mode === 'dark' ? 'white' : 'initial'}}>
+            <Row style={{ color: mode === "dark" ? "white" : "initial" }}>
               Loading Application... {Math.round(loadingProgression * 100)}%
             </Row>
           )}
@@ -242,7 +241,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <Modal
         open={modalVisible}
-        title={"又在玩新游戏啊"}
+        title="又在玩新游戏啊"
         centered
         okText="前往"
         onCancel={() => {
@@ -250,24 +249,20 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
           form.resetFields();
         }}
         onOk={handleRefresh}
-        // maskClosable={true}
-        // destroyOnClose
       >
-        <Form form={form} name="notice" onFinish={handleRefresh}>
-          <Form.Item
-            name="Student"
-            label="队伍1名称（学生）"
-            rules={[{ required: true, message: "请输入队伍1名称" }]}
-          >
-            <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading />}>
+          <Form form={form} name="notice" onFinish={handleRefresh}>
+            <Form.Item
+              name="Student"
+              label="队伍1名称（学生）"
+              rules={[{ required: true, message: "请输入队伍1名称" }]}
+            >
               <Select
                 showSearch
                 placeholder="队伍名称"
                 style={{ width: 200 }}
                 defaultActiveFirstOption={false}
-                //showArrow={true}
                 suffixIcon={null}
-                //loading={scoreteamListLoading}
                 optionFilterProp="children"
                 options={(scoreteamListData?.contest_team || []).map((d) => ({
                   value: d.team_id,
@@ -275,22 +270,18 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
                   children: d.team_name,
                 }))}
               />
-            </Suspense>
-          </Form.Item>
-          <Form.Item
-            name="Tricker"
-            label="队伍2名称（TRICKER）"
-            rules={[{ required: true, message: "请输入队伍2名称" }]}
-          >
-            <Suspense fallback={<Loading />}>
+            </Form.Item>
+            <Form.Item
+              name="Tricker"
+              label="队伍2名称（TRICKER）"
+              rules={[{ required: true, message: "请输入队伍2名称" }]}
+            >
               <Select
                 showSearch
                 placeholder="队伍名称"
                 style={{ width: 200 }}
                 defaultActiveFirstOption={false}
-                //showArrow={false}
                 suffixIcon={null}
-                //loading={scoreteamListLoading}
                 optionFilterProp="children"
                 options={(scoreteamListData?.contest_team || []).map((d) => ({
                   value: d.team_id,
@@ -298,59 +289,57 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
                   children: d.team_name,
                 }))}
               />
-            </Suspense>
-          </Form.Item>
-          <Form.Item
-            name="Map"
-            label="选择地图"
-            rules={[{ required: true, message: "请选择地图" }]}
-          >
-            <Select
-              placeholder="地图"
-              style={{ width: 120 }}
-              options={[
-                { value: "oldmap", label: "天梯地图" },
-                { value: "newmap", label: "决赛地图" },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item
-            name="Speed"
-            label="回放速度"
-            rules={[{ required: true, message: "请选择回放速度" }]}
-          >
-            <Select
-              placeholder="倍速"
-              style={{ width: 120 }}
-              options={[
-                { value: "1", label: "1x" },
-                { value: "2", label: "2x" },
-                { value: "3", label: "3x" },
-                { value: "4", label: "4x" },
-              ]}
-            />
-          </Form.Item>
-        </Form>
+            </Form.Item>
+            <Form.Item
+              name="Map"
+              label="选择地图"
+              rules={[{ required: true, message: "请选择地图" }]}
+            >
+              <Select
+                placeholder="地图"
+                style={{ width: 120 }}
+                options={[
+                  { value: "oldmap", label: "天梯地图" },
+                  { value: "newmap", label: "决赛地图" },
+                ]}
+              />
+            </Form.Item>
+            <Form.Item
+              name="Speed"
+              label="回放速度"
+              rules={[{ required: true, message: "请选择回放速度" }]}
+            >
+              <Select
+                placeholder="倍速"
+                style={{ width: 120 }}
+                options={[
+                  { value: "1", label: "1x" },
+                  { value: "2", label: "2x" },
+                  { value: "3", label: "3x" },
+                  { value: "4", label: "4x" },
+                ]}
+              />
+            </Form.Item>
+          </Form>
+        </Suspense>
       </Modal>
-      {/* <Prompt
-        when={isPrompt}
-        message={(location) => {
-          if (!isPrompt) {
-            return true;
-          }
-          Modal.confirm({
-            icon: <ExclamationCircleOutlined />,
-            content: "离开页面前，请先结束回放",
-            okText: "结束回放",
-            cancelText: "再看看",
-            onOk: () => {
-              handleQuit();
-            },
-            onCancel: () => {},
-          });
-          return false;
-        }}
-      /> */}
+      <ReactRouterPrompt when={isLoaded && !jump}>
+        {({ isActive, onConfirm, onCancel }) => (
+          <Modal
+            open={isActive}
+            cancelText="再看看"
+            centered={true}
+            okText="结束回放"
+            title="离开页面前，请先结束回放"
+            onOk={async () => {
+              await handleQuit();
+              onConfirm();
+            }}
+            onCancel={onCancel}
+            width={320}
+          />
+        )}
+      </ReactRouterPrompt>
     </Layout>
   );
 };
