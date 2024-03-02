@@ -200,6 +200,7 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
           left: 0,
           top: "72px",
           bottom: 0,
+          zIndex: 99,
         }}
       >
         <Menu
