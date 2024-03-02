@@ -1,7 +1,10 @@
 import COS from "cos-js-sdk-v5";
 import axios from "axios";
 
-let bucket = "eesast-1255334966";
+let bucket =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_COS_BUCKET!
+    : process.env.REACT_APP_COS_BUCKET_DEV!;
 let region = "ap-beijing";
 let path = "";
 const cos = new COS({
