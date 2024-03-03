@@ -148,8 +148,8 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       try {
         await insertteamMember({
           variables: {
-            team_id: teamId,
-            user_id: user?.uuid!,
+            team_uuid: teamId,
+            user_uuid: user?.uuid!,
           },
         });
         if (!insertError) {

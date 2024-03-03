@@ -512,8 +512,8 @@ const SubPage: React.FC<{
       }
       await insertteamMember({
         variables: {
-          team_id: props.team_id,
-          user_id: user_id,
+          team_uuid: props.team_id,
+          user_uuid: user_id,
         },
       });
       if (!insertError) {
@@ -561,7 +561,7 @@ const SubPage: React.FC<{
                         await DeleteTeamMember({
                           variables: {
                             team_id: props.team_id,
-                            user_id: item.user_as_contest_team_member._id,
+                            user_uuid: item.user_as_contest_team_member._id,
                           },
                         });
                         await refetchTeamInfo();
