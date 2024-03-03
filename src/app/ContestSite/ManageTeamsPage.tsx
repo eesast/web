@@ -128,8 +128,8 @@ const ListPage: React.FC<{
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: "",
-      contest_id: props.contest_id,
+      uuid: "",
+      contest_uuid: props.contest_id,
     },
   });
   const { error: userError, refetch: refetchUserId } =
@@ -187,8 +187,8 @@ const ListPage: React.FC<{
         contest_id: props.contest_id,
       });
       const isTeamMember = await refetchismember({
-        _id: leader_id,
-        contest_id: props.contest_id,
+        uuid: leader_id,
+        contest_uuid: props.contest_id,
       });
       if (
         isTeamLeader.data.contest_team.length !== 0 ||
@@ -425,8 +425,8 @@ const SubPage: React.FC<{
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: "",
-      contest_id: props.contest_id,
+      uuid: "",
+      contest_uuid: props.contest_id,
     },
   });
 
@@ -500,8 +500,8 @@ const SubPage: React.FC<{
         contest_id: props.contest_id,
       });
       const isTeamMember = await refetchismember({
-        _id: user_id,
-        contest_id: props.contest_id,
+        uuid: user_id,
+        contest_uuid: props.contest_id,
       });
       if (
         isTeamLeader.data.contest_team.length !== 0 ||
