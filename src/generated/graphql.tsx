@@ -1682,12 +1682,41 @@ export type Contest_Team_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "contest_team" */
+export type Contest_Team_Aggregate_Order_By = {
+  avg?: InputMaybe<Contest_Team_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Team_Max_Order_By>;
+  min?: InputMaybe<Contest_Team_Min_Order_By>;
+  stddev?: InputMaybe<Contest_Team_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Contest_Team_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Contest_Team_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Contest_Team_Sum_Order_By>;
+  var_pop?: InputMaybe<Contest_Team_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Contest_Team_Var_Samp_Order_By>;
+  variance?: InputMaybe<Contest_Team_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_team" */
+export type Contest_Team_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Team_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Contest_Team_Avg_Fields = {
   __typename?: 'contest_team_avg_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "contest_team" */
+export type Contest_Team_Avg_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "contest_team". All fields are combined with a logical 'AND'. */
@@ -1772,6 +1801,26 @@ export type Contest_Team_Max_Fields = {
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
   team_name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by max() on columns of table "contest_team" */
+export type Contest_Team_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  contest_score?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  invited_code?: InputMaybe<Order_By>;
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  status2?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+  team_intro?: InputMaybe<Order_By>;
+  team_leader?: InputMaybe<Order_By>;
+  team_leader_uuid?: InputMaybe<Order_By>;
+  team_name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** 队伍、成员映射表 */
@@ -1963,6 +2012,26 @@ export type Contest_Team_Min_Fields = {
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
+/** order by min() on columns of table "contest_team" */
+export type Contest_Team_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  contest_score?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  invited_code?: InputMaybe<Order_By>;
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  status2?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+  team_intro?: InputMaybe<Order_By>;
+  team_leader?: InputMaybe<Order_By>;
+  team_leader_uuid?: InputMaybe<Order_By>;
+  team_name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
 /** response of any mutation on the table "contest_team" */
 export type Contest_Team_Mutation_Response = {
   __typename?: 'contest_team_mutation_response';
@@ -2076,12 +2145,26 @@ export type Contest_Team_Stddev_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev() on columns of table "contest_team" */
+export type Contest_Team_Stddev_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Contest_Team_Stddev_Pop_Fields = {
   __typename?: 'contest_team_stddev_pop_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "contest_team" */
+export type Contest_Team_Stddev_Pop_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2092,12 +2175,26 @@ export type Contest_Team_Stddev_Samp_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_samp() on columns of table "contest_team" */
+export type Contest_Team_Stddev_Samp_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Contest_Team_Sum_Fields = {
   __typename?: 'contest_team_sum_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Int']['output']>;
   submitted_code_num?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "contest_team" */
+export type Contest_Team_Sum_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "contest_team" */
@@ -2142,6 +2239,13 @@ export type Contest_Team_Var_Pop_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_pop() on columns of table "contest_team" */
+export type Contest_Team_Var_Pop_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Contest_Team_Var_Samp_Fields = {
   __typename?: 'contest_team_var_samp_fields';
@@ -2150,12 +2254,26 @@ export type Contest_Team_Var_Samp_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_samp() on columns of table "contest_team" */
+export type Contest_Team_Var_Samp_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Contest_Team_Variance_Fields = {
   __typename?: 'contest_team_variance_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "contest_team" */
+export type Contest_Team_Variance_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "contest" */
@@ -2376,6 +2494,317 @@ export enum Honor_Application_Update_Column {
   StudentUuid = 'student_uuid',
   /** column name */
   UpdatedAt = 'updated_at'
+}
+
+/** 荣誉申请时间表 */
+export type Honor_Time = {
+  __typename?: 'honor_time';
+  activateIn: Scalars['Int']['output'];
+  end_A: Scalars['timestamptz']['output'];
+  end_B: Scalars['timestamptz']['output'];
+  start_A: Scalars['timestamptz']['output'];
+  start_B: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "honor_time" */
+export type Honor_Time_Aggregate = {
+  __typename?: 'honor_time_aggregate';
+  aggregate?: Maybe<Honor_Time_Aggregate_Fields>;
+  nodes: Array<Honor_Time>;
+};
+
+/** aggregate fields of "honor_time" */
+export type Honor_Time_Aggregate_Fields = {
+  __typename?: 'honor_time_aggregate_fields';
+  avg?: Maybe<Honor_Time_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Honor_Time_Max_Fields>;
+  min?: Maybe<Honor_Time_Min_Fields>;
+  stddev?: Maybe<Honor_Time_Stddev_Fields>;
+  stddev_pop?: Maybe<Honor_Time_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Honor_Time_Stddev_Samp_Fields>;
+  sum?: Maybe<Honor_Time_Sum_Fields>;
+  var_pop?: Maybe<Honor_Time_Var_Pop_Fields>;
+  var_samp?: Maybe<Honor_Time_Var_Samp_Fields>;
+  variance?: Maybe<Honor_Time_Variance_Fields>;
+};
+
+
+/** aggregate fields of "honor_time" */
+export type Honor_Time_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Honor_Time_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Honor_Time_Avg_Fields = {
+  __typename?: 'honor_time_avg_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "honor_time". All fields are combined with a logical 'AND'. */
+export type Honor_Time_Bool_Exp = {
+  _and?: InputMaybe<Array<Honor_Time_Bool_Exp>>;
+  _not?: InputMaybe<Honor_Time_Bool_Exp>;
+  _or?: InputMaybe<Array<Honor_Time_Bool_Exp>>;
+  activateIn?: InputMaybe<Int_Comparison_Exp>;
+  end_A?: InputMaybe<Timestamptz_Comparison_Exp>;
+  end_B?: InputMaybe<Timestamptz_Comparison_Exp>;
+  start_A?: InputMaybe<Timestamptz_Comparison_Exp>;
+  start_B?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "honor_time" */
+export enum Honor_Time_Constraint {
+  /** unique or primary key constraint on columns "activateIn" */
+  HonorTimeActivateInKey = 'honor_time_activateIn_key',
+  /** unique or primary key constraint on columns "activateIn" */
+  HonorTimePkey = 'honor_time_pkey'
+}
+
+/** input type for incrementing numeric columns in table "honor_time" */
+export type Honor_Time_Inc_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "honor_time" */
+export type Honor_Time_Insert_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+  end_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_B?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Honor_Time_Max_Fields = {
+  __typename?: 'honor_time_max_fields';
+  activateIn?: Maybe<Scalars['Int']['output']>;
+  end_A?: Maybe<Scalars['timestamptz']['output']>;
+  end_B?: Maybe<Scalars['timestamptz']['output']>;
+  start_A?: Maybe<Scalars['timestamptz']['output']>;
+  start_B?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregate min on columns */
+export type Honor_Time_Min_Fields = {
+  __typename?: 'honor_time_min_fields';
+  activateIn?: Maybe<Scalars['Int']['output']>;
+  end_A?: Maybe<Scalars['timestamptz']['output']>;
+  end_B?: Maybe<Scalars['timestamptz']['output']>;
+  start_A?: Maybe<Scalars['timestamptz']['output']>;
+  start_B?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** response of any mutation on the table "honor_time" */
+export type Honor_Time_Mutation_Response = {
+  __typename?: 'honor_time_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Honor_Time>;
+};
+
+/** on_conflict condition type for table "honor_time" */
+export type Honor_Time_On_Conflict = {
+  constraint: Honor_Time_Constraint;
+  update_columns?: Array<Honor_Time_Update_Column>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "honor_time". */
+export type Honor_Time_Order_By = {
+  activateIn?: InputMaybe<Order_By>;
+  end_A?: InputMaybe<Order_By>;
+  end_B?: InputMaybe<Order_By>;
+  start_A?: InputMaybe<Order_By>;
+  start_B?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: honor_time */
+export type Honor_Time_Pk_Columns_Input = {
+  activateIn: Scalars['Int']['input'];
+};
+
+/** select columns of table "honor_time" */
+export enum Honor_Time_Select_Column {
+  /** column name */
+  ActivateIn = 'activateIn',
+  /** column name */
+  EndA = 'end_A',
+  /** column name */
+  EndB = 'end_B',
+  /** column name */
+  StartA = 'start_A',
+  /** column name */
+  StartB = 'start_B'
+}
+
+/** input type for updating data in table "honor_time" */
+export type Honor_Time_Set_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+  end_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_B?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Honor_Time_Stddev_Fields = {
+  __typename?: 'honor_time_stddev_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Honor_Time_Stddev_Pop_Fields = {
+  __typename?: 'honor_time_stddev_pop_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Honor_Time_Stddev_Samp_Fields = {
+  __typename?: 'honor_time_stddev_samp_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Honor_Time_Sum_Fields = {
+  __typename?: 'honor_time_sum_fields';
+  activateIn?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "honor_time" */
+export enum Honor_Time_Update_Column {
+  /** column name */
+  ActivateIn = 'activateIn',
+  /** column name */
+  EndA = 'end_A',
+  /** column name */
+  EndB = 'end_B',
+  /** column name */
+  StartA = 'start_A',
+  /** column name */
+  StartB = 'start_B'
+}
+
+/** aggregate var_pop on columns */
+export type Honor_Time_Var_Pop_Fields = {
+  __typename?: 'honor_time_var_pop_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Honor_Time_Var_Samp_Fields = {
+  __typename?: 'honor_time_var_samp_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Honor_Time_Variance_Fields = {
+  __typename?: 'honor_time_variance_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** 荣誉类别 */
+export type Honor_Type = {
+  __typename?: 'honor_type';
+  type_name: Scalars['String']['output'];
+};
+
+/** aggregated selection of "honor_type" */
+export type Honor_Type_Aggregate = {
+  __typename?: 'honor_type_aggregate';
+  aggregate?: Maybe<Honor_Type_Aggregate_Fields>;
+  nodes: Array<Honor_Type>;
+};
+
+/** aggregate fields of "honor_type" */
+export type Honor_Type_Aggregate_Fields = {
+  __typename?: 'honor_type_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Honor_Type_Max_Fields>;
+  min?: Maybe<Honor_Type_Min_Fields>;
+};
+
+
+/** aggregate fields of "honor_type" */
+export type Honor_Type_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Honor_Type_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "honor_type". All fields are combined with a logical 'AND'. */
+export type Honor_Type_Bool_Exp = {
+  _and?: InputMaybe<Array<Honor_Type_Bool_Exp>>;
+  _not?: InputMaybe<Honor_Type_Bool_Exp>;
+  _or?: InputMaybe<Array<Honor_Type_Bool_Exp>>;
+  type_name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "honor_type" */
+export enum Honor_Type_Constraint {
+  /** unique or primary key constraint on columns "type_name" */
+  HonorTypePkey = 'honor_type_pkey'
+}
+
+/** input type for inserting data into table "honor_type" */
+export type Honor_Type_Insert_Input = {
+  type_name?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Honor_Type_Max_Fields = {
+  __typename?: 'honor_type_max_fields';
+  type_name?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Honor_Type_Min_Fields = {
+  __typename?: 'honor_type_min_fields';
+  type_name?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "honor_type" */
+export type Honor_Type_Mutation_Response = {
+  __typename?: 'honor_type_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Honor_Type>;
+};
+
+/** on_conflict condition type for table "honor_type" */
+export type Honor_Type_On_Conflict = {
+  constraint: Honor_Type_Constraint;
+  update_columns?: Array<Honor_Type_Update_Column>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "honor_type". */
+export type Honor_Type_Order_By = {
+  type_name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: honor_type */
+export type Honor_Type_Pk_Columns_Input = {
+  type_name: Scalars['String']['input'];
+};
+
+/** select columns of table "honor_type" */
+export enum Honor_Type_Select_Column {
+  /** column name */
+  TypeName = 'type_name'
+}
+
+/** input type for updating data in table "honor_type" */
+export type Honor_Type_Set_Input = {
+  type_name?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "honor_type" */
+export enum Honor_Type_Update_Column {
+  /** column name */
+  TypeName = 'type_name'
 }
 
 /** columns and relationships of "info_notice" */
@@ -3437,6 +3866,279 @@ export enum Mentor_Message_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
+/** 导师申请时间表 */
+export type Mentor_Time = {
+  __typename?: 'mentor_time';
+  activateIn: Scalars['Int']['output'];
+  end_A: Scalars['timestamptz']['output'];
+  end_B: Scalars['timestamptz']['output'];
+  end_C: Scalars['timestamptz']['output'];
+  end_D: Scalars['timestamptz']['output'];
+  end_E: Scalars['timestamptz']['output'];
+  start_A: Scalars['timestamptz']['output'];
+  start_B: Scalars['timestamptz']['output'];
+  start_C: Scalars['timestamptz']['output'];
+  start_D: Scalars['timestamptz']['output'];
+  start_E: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "mentor_time" */
+export type Mentor_Time_Aggregate = {
+  __typename?: 'mentor_time_aggregate';
+  aggregate?: Maybe<Mentor_Time_Aggregate_Fields>;
+  nodes: Array<Mentor_Time>;
+};
+
+/** aggregate fields of "mentor_time" */
+export type Mentor_Time_Aggregate_Fields = {
+  __typename?: 'mentor_time_aggregate_fields';
+  avg?: Maybe<Mentor_Time_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Mentor_Time_Max_Fields>;
+  min?: Maybe<Mentor_Time_Min_Fields>;
+  stddev?: Maybe<Mentor_Time_Stddev_Fields>;
+  stddev_pop?: Maybe<Mentor_Time_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Mentor_Time_Stddev_Samp_Fields>;
+  sum?: Maybe<Mentor_Time_Sum_Fields>;
+  var_pop?: Maybe<Mentor_Time_Var_Pop_Fields>;
+  var_samp?: Maybe<Mentor_Time_Var_Samp_Fields>;
+  variance?: Maybe<Mentor_Time_Variance_Fields>;
+};
+
+
+/** aggregate fields of "mentor_time" */
+export type Mentor_Time_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Mentor_Time_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Mentor_Time_Avg_Fields = {
+  __typename?: 'mentor_time_avg_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "mentor_time". All fields are combined with a logical 'AND'. */
+export type Mentor_Time_Bool_Exp = {
+  _and?: InputMaybe<Array<Mentor_Time_Bool_Exp>>;
+  _not?: InputMaybe<Mentor_Time_Bool_Exp>;
+  _or?: InputMaybe<Array<Mentor_Time_Bool_Exp>>;
+  activateIn?: InputMaybe<Int_Comparison_Exp>;
+  end_A?: InputMaybe<Timestamptz_Comparison_Exp>;
+  end_B?: InputMaybe<Timestamptz_Comparison_Exp>;
+  end_C?: InputMaybe<Timestamptz_Comparison_Exp>;
+  end_D?: InputMaybe<Timestamptz_Comparison_Exp>;
+  end_E?: InputMaybe<Timestamptz_Comparison_Exp>;
+  start_A?: InputMaybe<Timestamptz_Comparison_Exp>;
+  start_B?: InputMaybe<Timestamptz_Comparison_Exp>;
+  start_C?: InputMaybe<Timestamptz_Comparison_Exp>;
+  start_D?: InputMaybe<Timestamptz_Comparison_Exp>;
+  start_E?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "mentor_time" */
+export enum Mentor_Time_Constraint {
+  /** unique or primary key constraint on columns "activateIn" */
+  MentorTimePkey = 'mentor_time_pkey'
+}
+
+/** input type for incrementing numeric columns in table "mentor_time" */
+export type Mentor_Time_Inc_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "mentor_time" */
+export type Mentor_Time_Insert_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+  end_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_C?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_D?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_E?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_C?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_D?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_E?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Mentor_Time_Max_Fields = {
+  __typename?: 'mentor_time_max_fields';
+  activateIn?: Maybe<Scalars['Int']['output']>;
+  end_A?: Maybe<Scalars['timestamptz']['output']>;
+  end_B?: Maybe<Scalars['timestamptz']['output']>;
+  end_C?: Maybe<Scalars['timestamptz']['output']>;
+  end_D?: Maybe<Scalars['timestamptz']['output']>;
+  end_E?: Maybe<Scalars['timestamptz']['output']>;
+  start_A?: Maybe<Scalars['timestamptz']['output']>;
+  start_B?: Maybe<Scalars['timestamptz']['output']>;
+  start_C?: Maybe<Scalars['timestamptz']['output']>;
+  start_D?: Maybe<Scalars['timestamptz']['output']>;
+  start_E?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregate min on columns */
+export type Mentor_Time_Min_Fields = {
+  __typename?: 'mentor_time_min_fields';
+  activateIn?: Maybe<Scalars['Int']['output']>;
+  end_A?: Maybe<Scalars['timestamptz']['output']>;
+  end_B?: Maybe<Scalars['timestamptz']['output']>;
+  end_C?: Maybe<Scalars['timestamptz']['output']>;
+  end_D?: Maybe<Scalars['timestamptz']['output']>;
+  end_E?: Maybe<Scalars['timestamptz']['output']>;
+  start_A?: Maybe<Scalars['timestamptz']['output']>;
+  start_B?: Maybe<Scalars['timestamptz']['output']>;
+  start_C?: Maybe<Scalars['timestamptz']['output']>;
+  start_D?: Maybe<Scalars['timestamptz']['output']>;
+  start_E?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** response of any mutation on the table "mentor_time" */
+export type Mentor_Time_Mutation_Response = {
+  __typename?: 'mentor_time_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Mentor_Time>;
+};
+
+/** on_conflict condition type for table "mentor_time" */
+export type Mentor_Time_On_Conflict = {
+  constraint: Mentor_Time_Constraint;
+  update_columns?: Array<Mentor_Time_Update_Column>;
+  where?: InputMaybe<Mentor_Time_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "mentor_time". */
+export type Mentor_Time_Order_By = {
+  activateIn?: InputMaybe<Order_By>;
+  end_A?: InputMaybe<Order_By>;
+  end_B?: InputMaybe<Order_By>;
+  end_C?: InputMaybe<Order_By>;
+  end_D?: InputMaybe<Order_By>;
+  end_E?: InputMaybe<Order_By>;
+  start_A?: InputMaybe<Order_By>;
+  start_B?: InputMaybe<Order_By>;
+  start_C?: InputMaybe<Order_By>;
+  start_D?: InputMaybe<Order_By>;
+  start_E?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: mentor_time */
+export type Mentor_Time_Pk_Columns_Input = {
+  activateIn: Scalars['Int']['input'];
+};
+
+/** select columns of table "mentor_time" */
+export enum Mentor_Time_Select_Column {
+  /** column name */
+  ActivateIn = 'activateIn',
+  /** column name */
+  EndA = 'end_A',
+  /** column name */
+  EndB = 'end_B',
+  /** column name */
+  EndC = 'end_C',
+  /** column name */
+  EndD = 'end_D',
+  /** column name */
+  EndE = 'end_E',
+  /** column name */
+  StartA = 'start_A',
+  /** column name */
+  StartB = 'start_B',
+  /** column name */
+  StartC = 'start_C',
+  /** column name */
+  StartD = 'start_D',
+  /** column name */
+  StartE = 'start_E'
+}
+
+/** input type for updating data in table "mentor_time" */
+export type Mentor_Time_Set_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+  end_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_C?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_D?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_E?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_C?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_D?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_E?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Mentor_Time_Stddev_Fields = {
+  __typename?: 'mentor_time_stddev_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Mentor_Time_Stddev_Pop_Fields = {
+  __typename?: 'mentor_time_stddev_pop_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Mentor_Time_Stddev_Samp_Fields = {
+  __typename?: 'mentor_time_stddev_samp_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Mentor_Time_Sum_Fields = {
+  __typename?: 'mentor_time_sum_fields';
+  activateIn?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "mentor_time" */
+export enum Mentor_Time_Update_Column {
+  /** column name */
+  ActivateIn = 'activateIn',
+  /** column name */
+  EndA = 'end_A',
+  /** column name */
+  EndB = 'end_B',
+  /** column name */
+  EndC = 'end_C',
+  /** column name */
+  EndD = 'end_D',
+  /** column name */
+  EndE = 'end_E',
+  /** column name */
+  StartA = 'start_A',
+  /** column name */
+  StartB = 'start_B',
+  /** column name */
+  StartC = 'start_C',
+  /** column name */
+  StartD = 'start_D',
+  /** column name */
+  StartE = 'start_E'
+}
+
+/** aggregate var_pop on columns */
+export type Mentor_Time_Var_Pop_Fields = {
+  __typename?: 'mentor_time_var_pop_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Mentor_Time_Var_Samp_Fields = {
+  __typename?: 'mentor_time_var_samp_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Mentor_Time_Variance_Fields = {
+  __typename?: 'mentor_time_variance_fields';
+  activateIn?: Maybe<Scalars['Float']['output']>;
+};
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -3480,6 +4182,14 @@ export type Mutation_Root = {
   delete_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** delete single row from the table: "honor_application" */
   delete_honor_application_by_pk?: Maybe<Honor_Application>;
+  /** delete data from the table: "honor_time" */
+  delete_honor_time?: Maybe<Honor_Time_Mutation_Response>;
+  /** delete single row from the table: "honor_time" */
+  delete_honor_time_by_pk?: Maybe<Honor_Time>;
+  /** delete data from the table: "honor_type" */
+  delete_honor_type?: Maybe<Honor_Type_Mutation_Response>;
+  /** delete single row from the table: "honor_type" */
+  delete_honor_type_by_pk?: Maybe<Honor_Type>;
   /** delete data from the table: "info_notice" */
   delete_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** delete single row from the table: "info_notice" */
@@ -3500,6 +4210,10 @@ export type Mutation_Root = {
   delete_mentor_message?: Maybe<Mentor_Message_Mutation_Response>;
   /** delete single row from the table: "mentor_message" */
   delete_mentor_message_by_pk?: Maybe<Mentor_Message>;
+  /** delete data from the table: "mentor_time" */
+  delete_mentor_time?: Maybe<Mentor_Time_Mutation_Response>;
+  /** delete single row from the table: "mentor_time" */
+  delete_mentor_time_by_pk?: Maybe<Mentor_Time>;
   /** delete data from the table: "postgraduate_application" */
   delete_postgraduate_application?: Maybe<Postgraduate_Application_Mutation_Response>;
   /** delete single row from the table: "postgraduate_application" */
@@ -3580,6 +4294,14 @@ export type Mutation_Root = {
   insert_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** insert a single row into the table: "honor_application" */
   insert_honor_application_one?: Maybe<Honor_Application>;
+  /** insert data into the table: "honor_time" */
+  insert_honor_time?: Maybe<Honor_Time_Mutation_Response>;
+  /** insert a single row into the table: "honor_time" */
+  insert_honor_time_one?: Maybe<Honor_Time>;
+  /** insert data into the table: "honor_type" */
+  insert_honor_type?: Maybe<Honor_Type_Mutation_Response>;
+  /** insert a single row into the table: "honor_type" */
+  insert_honor_type_one?: Maybe<Honor_Type>;
   /** insert data into the table: "info_notice" */
   insert_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** insert a single row into the table: "info_notice" */
@@ -3600,6 +4322,10 @@ export type Mutation_Root = {
   insert_mentor_message?: Maybe<Mentor_Message_Mutation_Response>;
   /** insert a single row into the table: "mentor_message" */
   insert_mentor_message_one?: Maybe<Mentor_Message>;
+  /** insert data into the table: "mentor_time" */
+  insert_mentor_time?: Maybe<Mentor_Time_Mutation_Response>;
+  /** insert a single row into the table: "mentor_time" */
+  insert_mentor_time_one?: Maybe<Mentor_Time>;
   /** insert data into the table: "postgraduate_application" */
   insert_postgraduate_application?: Maybe<Postgraduate_Application_Mutation_Response>;
   /** insert data into the table: "postgraduate_application_history" */
@@ -3680,6 +4406,14 @@ export type Mutation_Root = {
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
   update_honor_application_by_pk?: Maybe<Honor_Application>;
+  /** update data of the table: "honor_time" */
+  update_honor_time?: Maybe<Honor_Time_Mutation_Response>;
+  /** update single row of the table: "honor_time" */
+  update_honor_time_by_pk?: Maybe<Honor_Time>;
+  /** update data of the table: "honor_type" */
+  update_honor_type?: Maybe<Honor_Type_Mutation_Response>;
+  /** update single row of the table: "honor_type" */
+  update_honor_type_by_pk?: Maybe<Honor_Type>;
   /** update data of the table: "info_notice" */
   update_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** update single row of the table: "info_notice" */
@@ -3700,6 +4434,10 @@ export type Mutation_Root = {
   update_mentor_message?: Maybe<Mentor_Message_Mutation_Response>;
   /** update single row of the table: "mentor_message" */
   update_mentor_message_by_pk?: Maybe<Mentor_Message>;
+  /** update data of the table: "mentor_time" */
+  update_mentor_time?: Maybe<Mentor_Time_Mutation_Response>;
+  /** update single row of the table: "mentor_time" */
+  update_mentor_time_by_pk?: Maybe<Mentor_Time>;
   /** update data of the table: "postgraduate_application" */
   update_postgraduate_application?: Maybe<Postgraduate_Application_Mutation_Response>;
   /** update single row of the table: "postgraduate_application" */
@@ -3867,6 +4605,30 @@ export type Mutation_RootDelete_Honor_Application_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Honor_TimeArgs = {
+  where: Honor_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Honor_Time_By_PkArgs = {
+  activateIn: Scalars['Int']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Honor_TypeArgs = {
+  where: Honor_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Honor_Type_By_PkArgs = {
+  type_name: Scalars['String']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Info_NoticeArgs = {
   where: Info_Notice_Bool_Exp;
 };
@@ -3923,6 +4685,18 @@ export type Mutation_RootDelete_Mentor_MessageArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Mentor_Message_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Mentor_TimeArgs = {
+  where: Mentor_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Mentor_Time_By_PkArgs = {
+  activateIn: Scalars['Int']['input'];
 };
 
 
@@ -4190,6 +4964,34 @@ export type Mutation_RootInsert_Honor_Application_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Honor_TimeArgs = {
+  objects: Array<Honor_Time_Insert_Input>;
+  on_conflict?: InputMaybe<Honor_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Honor_Time_OneArgs = {
+  object: Honor_Time_Insert_Input;
+  on_conflict?: InputMaybe<Honor_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Honor_TypeArgs = {
+  objects: Array<Honor_Type_Insert_Input>;
+  on_conflict?: InputMaybe<Honor_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Honor_Type_OneArgs = {
+  object: Honor_Type_Insert_Input;
+  on_conflict?: InputMaybe<Honor_Type_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Info_NoticeArgs = {
   objects: Array<Info_Notice_Insert_Input>;
   on_conflict?: InputMaybe<Info_Notice_On_Conflict>;
@@ -4256,6 +5058,20 @@ export type Mutation_RootInsert_Mentor_MessageArgs = {
 export type Mutation_RootInsert_Mentor_Message_OneArgs = {
   object: Mentor_Message_Insert_Input;
   on_conflict?: InputMaybe<Mentor_Message_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Mentor_TimeArgs = {
+  objects: Array<Mentor_Time_Insert_Input>;
+  on_conflict?: InputMaybe<Mentor_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Mentor_Time_OneArgs = {
+  object: Mentor_Time_Insert_Input;
+  on_conflict?: InputMaybe<Mentor_Time_On_Conflict>;
 };
 
 
@@ -4546,6 +5362,36 @@ export type Mutation_RootUpdate_Honor_Application_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Honor_TimeArgs = {
+  _inc?: InputMaybe<Honor_Time_Inc_Input>;
+  _set?: InputMaybe<Honor_Time_Set_Input>;
+  where: Honor_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Honor_Time_By_PkArgs = {
+  _inc?: InputMaybe<Honor_Time_Inc_Input>;
+  _set?: InputMaybe<Honor_Time_Set_Input>;
+  pk_columns: Honor_Time_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Honor_TypeArgs = {
+  _set?: InputMaybe<Honor_Type_Set_Input>;
+  where: Honor_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Honor_Type_By_PkArgs = {
+  _set?: InputMaybe<Honor_Type_Set_Input>;
+  pk_columns: Honor_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Info_NoticeArgs = {
   _set?: InputMaybe<Info_Notice_Set_Input>;
   where: Info_Notice_Bool_Exp;
@@ -4612,6 +5458,22 @@ export type Mutation_RootUpdate_Mentor_MessageArgs = {
 export type Mutation_RootUpdate_Mentor_Message_By_PkArgs = {
   _set?: InputMaybe<Mentor_Message_Set_Input>;
   pk_columns: Mentor_Message_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Mentor_TimeArgs = {
+  _inc?: InputMaybe<Mentor_Time_Inc_Input>;
+  _set?: InputMaybe<Mentor_Time_Set_Input>;
+  where: Mentor_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Mentor_Time_By_PkArgs = {
+  _inc?: InputMaybe<Mentor_Time_Inc_Input>;
+  _set?: InputMaybe<Mentor_Time_Set_Input>;
+  pk_columns: Mentor_Time_Pk_Columns_Input;
 };
 
 
@@ -6230,6 +7092,18 @@ export type Query_Root = {
   honor_application_aggregate: Honor_Application_Aggregate;
   /** fetch data from the table: "honor_application" using primary key columns */
   honor_application_by_pk?: Maybe<Honor_Application>;
+  /** fetch data from the table: "honor_time" */
+  honor_time: Array<Honor_Time>;
+  /** fetch aggregated fields from the table: "honor_time" */
+  honor_time_aggregate: Honor_Time_Aggregate;
+  /** fetch data from the table: "honor_time" using primary key columns */
+  honor_time_by_pk?: Maybe<Honor_Time>;
+  /** fetch data from the table: "honor_type" */
+  honor_type: Array<Honor_Type>;
+  /** fetch aggregated fields from the table: "honor_type" */
+  honor_type_aggregate: Honor_Type_Aggregate;
+  /** fetch data from the table: "honor_type" using primary key columns */
+  honor_type_by_pk?: Maybe<Honor_Type>;
   /** fetch data from the table: "info_notice" */
   info_notice: Array<Info_Notice>;
   /** fetch aggregated fields from the table: "info_notice" */
@@ -6260,6 +7134,12 @@ export type Query_Root = {
   mentor_message_aggregate: Mentor_Message_Aggregate;
   /** fetch data from the table: "mentor_message" using primary key columns */
   mentor_message_by_pk?: Maybe<Mentor_Message>;
+  /** fetch data from the table: "mentor_time" */
+  mentor_time: Array<Mentor_Time>;
+  /** fetch aggregated fields from the table: "mentor_time" */
+  mentor_time_aggregate: Mentor_Time_Aggregate;
+  /** fetch data from the table: "mentor_time" using primary key columns */
+  mentor_time_by_pk?: Maybe<Mentor_Time>;
   /** fetch data from the table: "postgraduate_application" */
   postgraduate_application: Array<Postgraduate_Application>;
   /** fetch aggregated fields from the table: "postgraduate_application" */
@@ -6557,6 +7437,52 @@ export type Query_RootHonor_Application_By_PkArgs = {
 };
 
 
+export type Query_RootHonor_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Time_By_PkArgs = {
+  activateIn: Scalars['Int']['input'];
+};
+
+
+export type Query_RootHonor_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Type_By_PkArgs = {
+  type_name: Scalars['String']['input'];
+};
+
+
 export type Query_RootInfo_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6669,6 +7595,29 @@ export type Query_RootMentor_Message_AggregateArgs = {
 
 export type Query_RootMentor_Message_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootMentor_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Mentor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Mentor_Time_Order_By>>;
+  where?: InputMaybe<Mentor_Time_Bool_Exp>;
+};
+
+
+export type Query_RootMentor_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Mentor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Mentor_Time_Order_By>>;
+  where?: InputMaybe<Mentor_Time_Bool_Exp>;
+};
+
+
+export type Query_RootMentor_Time_By_PkArgs = {
+  activateIn: Scalars['Int']['input'];
 };
 
 
@@ -7732,6 +8681,18 @@ export type Subscription_Root = {
   honor_application_aggregate: Honor_Application_Aggregate;
   /** fetch data from the table: "honor_application" using primary key columns */
   honor_application_by_pk?: Maybe<Honor_Application>;
+  /** fetch data from the table: "honor_time" */
+  honor_time: Array<Honor_Time>;
+  /** fetch aggregated fields from the table: "honor_time" */
+  honor_time_aggregate: Honor_Time_Aggregate;
+  /** fetch data from the table: "honor_time" using primary key columns */
+  honor_time_by_pk?: Maybe<Honor_Time>;
+  /** fetch data from the table: "honor_type" */
+  honor_type: Array<Honor_Type>;
+  /** fetch aggregated fields from the table: "honor_type" */
+  honor_type_aggregate: Honor_Type_Aggregate;
+  /** fetch data from the table: "honor_type" using primary key columns */
+  honor_type_by_pk?: Maybe<Honor_Type>;
   /** fetch data from the table: "info_notice" */
   info_notice: Array<Info_Notice>;
   /** fetch aggregated fields from the table: "info_notice" */
@@ -7762,6 +8723,12 @@ export type Subscription_Root = {
   mentor_message_aggregate: Mentor_Message_Aggregate;
   /** fetch data from the table: "mentor_message" using primary key columns */
   mentor_message_by_pk?: Maybe<Mentor_Message>;
+  /** fetch data from the table: "mentor_time" */
+  mentor_time: Array<Mentor_Time>;
+  /** fetch aggregated fields from the table: "mentor_time" */
+  mentor_time_aggregate: Mentor_Time_Aggregate;
+  /** fetch data from the table: "mentor_time" using primary key columns */
+  mentor_time_by_pk?: Maybe<Mentor_Time>;
   /** fetch data from the table: "postgraduate_application" */
   postgraduate_application: Array<Postgraduate_Application>;
   /** fetch aggregated fields from the table: "postgraduate_application" */
@@ -8058,6 +9025,52 @@ export type Subscription_RootHonor_Application_By_PkArgs = {
 };
 
 
+export type Subscription_RootHonor_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootHonor_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootHonor_Time_By_PkArgs = {
+  activateIn: Scalars['Int']['input'];
+};
+
+
+export type Subscription_RootHonor_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootHonor_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootHonor_Type_By_PkArgs = {
+  type_name: Scalars['String']['input'];
+};
+
+
 export type Subscription_RootInfo_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -8170,6 +9183,29 @@ export type Subscription_RootMentor_Message_AggregateArgs = {
 
 export type Subscription_RootMentor_Message_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootMentor_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Mentor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Mentor_Time_Order_By>>;
+  where?: InputMaybe<Mentor_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootMentor_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Mentor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Mentor_Time_Order_By>>;
+  where?: InputMaybe<Mentor_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootMentor_Time_By_PkArgs = {
+  activateIn: Scalars['Int']['input'];
 };
 
 
@@ -8423,6 +9459,14 @@ export type User = {
   __typename?: 'user';
   _id: Scalars['String']['output'];
   class?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  contest_team_members: Array<Contest_Team_Member>;
+  /** An aggregate relationship */
+  contest_team_members_aggregate: Contest_Team_Member_Aggregate;
+  /** An array relationship */
+  contest_teams: Array<Contest_Team>;
+  /** An aggregate relationship */
+  contest_teams_aggregate: Contest_Team_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   department?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
@@ -8445,6 +9489,46 @@ export type User = {
   phone?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   username?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** columns and relationships of "user" */
+export type UserContest_Team_MembersArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
+  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user" */
+export type UserContest_Team_Members_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
+  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user" */
+export type UserContest_TeamsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
+  where?: InputMaybe<Contest_Team_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user" */
+export type UserContest_Teams_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
+  where?: InputMaybe<Contest_Team_Bool_Exp>;
 };
 
 
@@ -8550,6 +9634,8 @@ export type User_Bool_Exp = {
   _not?: InputMaybe<User_Bool_Exp>;
   _or?: InputMaybe<Array<User_Bool_Exp>>;
   class?: InputMaybe<String_Comparison_Exp>;
+  contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+  contest_teams?: InputMaybe<Contest_Team_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   department?: InputMaybe<String_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
@@ -8593,6 +9679,8 @@ export type User_Inc_Input = {
 export type User_Insert_Input = {
   _id?: InputMaybe<Scalars['String']['input']>;
   class?: InputMaybe<Scalars['String']['input']>;
+  contest_team_members?: InputMaybe<Contest_Team_Member_Arr_Rel_Insert_Input>;
+  contest_teams?: InputMaybe<Contest_Team_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   department?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
@@ -8664,6 +9752,8 @@ export type User_On_Conflict = {
 export type User_Order_By = {
   _id?: InputMaybe<Order_By>;
   class?: InputMaybe<Order_By>;
+  contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Order_By>;
+  contest_teams_aggregate?: InputMaybe<Contest_Team_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   department?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
@@ -9281,11 +10371,11 @@ export type Weekly_Variance_Fields = {
 
 export type QueryContestManagerQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
-  user_id?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 }>;
 
 
-export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_id: string }> };
+export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid?: any | null }> };
 
 export type InsertTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
@@ -9593,7 +10683,7 @@ export type GetContestManagerQueryVariables = Exact<{
 }>;
 
 
-export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user: { __typename?: 'user', _id: string, name?: string | null, email?: string | null } }> };
+export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', userByUserUuid?: { __typename?: 'users', uuid: any, realname?: string | null, email: string } | null }> };
 
 export type DeleteContestAllManagerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -9604,7 +10694,7 @@ export type DeleteContestAllManagerMutation = { __typename?: 'mutation_root', de
 
 export type AddContestManagerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
-  user_id: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
 }>;
 
 
@@ -9616,7 +10706,7 @@ export type GetUser_IdQueryVariables = Exact<{
 }>;
 
 
-export type GetUser_IdQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', _id: string }> };
+export type GetUser_IdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
 export type DeleteContestAllTeamsMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -10109,11 +11199,11 @@ export type UpdateProfileMutation = { __typename?: 'mutation_root', update_users
 
 
 export const QueryContestManagerDocument = gql`
-    query QueryContestManager($contest_id: uuid!, $user_id: String = "") {
+    query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
   contest_manager(
-    where: {contest_id: {_eq: $contest_id}, user_id: {_eq: $user_id}}
+    where: {contest_id: {_eq: $contest_id}, user_uuid: {_eq: $user_uuid}}
   ) {
-    user_id
+    user_uuid
   }
 }
     `;
@@ -10131,11 +11221,11 @@ export const QueryContestManagerDocument = gql`
  * const { data, loading, error } = useQueryContestManagerQuery({
  *   variables: {
  *      contest_id: // value for 'contest_id'
- *      user_id: // value for 'user_id'
+ *      user_uuid: // value for 'user_uuid'
  *   },
  * });
  */
-export function useQueryContestManagerQuery(baseOptions: Apollo.QueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
+export function useQueryContestManagerQuery(baseOptions: Apollo.QueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables> & ({ variables: QueryContestManagerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
       }
@@ -10217,7 +11307,7 @@ export const IsTeamLeaderDocument = gql`
  *   },
  * });
  */
-export function useIsTeamLeaderQuery(baseOptions: Apollo.QueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
+export function useIsTeamLeaderQuery(baseOptions: Apollo.QueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables> & ({ variables: IsTeamLeaderQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
       }
@@ -10260,7 +11350,7 @@ export const IsTeamMemberDocument = gql`
  *   },
  * });
  */
-export function useIsTeamMemberQuery(baseOptions: Apollo.QueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+export function useIsTeamMemberQuery(baseOptions: Apollo.QueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables> & ({ variables: IsTeamMemberQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
       }
@@ -10305,7 +11395,7 @@ export const GetCodeUpdateTimeDocument = gql`
  *   },
  * });
  */
-export function useGetCodeUpdateTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>) {
+export function useGetCodeUpdateTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables> & ({ variables: GetCodeUpdateTimeSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>(GetCodeUpdateTimeDocument, options);
       }
@@ -10364,7 +11454,7 @@ export const GetAllTeamInfoDocument = gql`
  *   },
  * });
  */
-export function useGetAllTeamInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables>) {
+export function useGetAllTeamInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables> & ({ variables: GetAllTeamInfoSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables>(GetAllTeamInfoDocument, options);
       }
@@ -10425,7 +11515,7 @@ export const GetAllTeamInfo_ScoreDocument = gql`
  *   },
  * });
  */
-export function useGetAllTeamInfo_ScoreQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
+export function useGetAllTeamInfo_ScoreQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables> & ({ variables: GetAllTeamInfo_ScoreQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
       }
@@ -10472,7 +11562,7 @@ export const GetAllTeamInfo_CompileDocument = gql`
  *   },
  * });
  */
-export function useGetAllTeamInfo_CompileQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
+export function useGetAllTeamInfo_CompileQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables> & ({ variables: GetAllTeamInfo_CompileQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
       }
@@ -10542,7 +11632,7 @@ export const GetTeamInfoDocument = gql`
  *   },
  * });
  */
-export function useGetTeamInfoQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+export function useGetTeamInfoQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables> & ({ variables: GetTeamInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
       }
@@ -10583,7 +11673,7 @@ export const GetCompileStatusDocument = gql`
  *   },
  * });
  */
-export function useGetCompileStatusSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables>) {
+export function useGetCompileStatusSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables> & ({ variables: GetCompileStatusSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables>(GetCompileStatusDocument, options);
       }
@@ -10696,7 +11786,7 @@ export const GetMemberInfoDocument = gql`
  *   },
  * });
  */
-export function useGetMemberInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
+export function useGetMemberInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables> & ({ variables: GetMemberInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
       }
@@ -10886,7 +11976,7 @@ export const GetContestInfoDocument = gql`
  *   },
  * });
  */
-export function useGetContestInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
+export function useGetContestInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables> & ({ variables: GetContestInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
       }
@@ -10939,7 +12029,7 @@ export const GetRoomInfoDocument = gql`
  *   },
  * });
  */
-export function useGetRoomInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables>) {
+export function useGetRoomInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables> & ({ variables: GetRoomInfoSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables>(GetRoomInfoDocument, options);
       }
@@ -10973,7 +12063,7 @@ export const GetRoomInfo_StatusDocument = gql`
  *   },
  * });
  */
-export function useGetRoomInfo_StatusQuery(baseOptions: Apollo.QueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
+export function useGetRoomInfo_StatusQuery(baseOptions: Apollo.QueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables> & ({ variables: GetRoomInfo_StatusQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
       }
@@ -11291,7 +12381,7 @@ export const QueryTeamIdDocument = gql`
  *   },
  * });
  */
-export function useQueryTeamIdQuery(baseOptions: Apollo.QueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+export function useQueryTeamIdQuery(baseOptions: Apollo.QueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables> & ({ variables: QueryTeamIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
       }
@@ -11375,7 +12465,7 @@ export const GetContestNoticesDocument = gql`
  *   },
  * });
  */
-export function useGetContestNoticesQuery(baseOptions: Apollo.QueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+export function useGetContestNoticesQuery(baseOptions: Apollo.QueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables> & ({ variables: GetContestNoticesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
       }
@@ -11675,9 +12765,9 @@ export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<DeleteCont
 export const GetContestManagerDocument = gql`
     query GetContestManager($contest_id: uuid!) {
   contest_manager(where: {contest_id: {_eq: $contest_id}}) {
-    user {
-      _id
-      name
+    userByUserUuid {
+      uuid
+      realname
       email
     }
   }
@@ -11700,7 +12790,7 @@ export const GetContestManagerDocument = gql`
  *   },
  * });
  */
-export function useGetContestManagerQuery(baseOptions: Apollo.QueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables>) {
+export function useGetContestManagerQuery(baseOptions: Apollo.QueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables> & ({ variables: GetContestManagerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetContestManagerQuery, GetContestManagerQueryVariables>(GetContestManagerDocument, options);
       }
@@ -11750,8 +12840,10 @@ export type DeleteContestAllManagerMutationHookResult = ReturnType<typeof useDel
 export type DeleteContestAllManagerMutationResult = Apollo.MutationResult<DeleteContestAllManagerMutation>;
 export type DeleteContestAllManagerMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>;
 export const AddContestManagerDocument = gql`
-    mutation AddContestManager($contest_id: uuid!, $user_id: String!) {
-  insert_contest_manager(objects: {contest_id: $contest_id, user_id: $user_id}) {
+    mutation AddContestManager($contest_id: uuid!, $user_uuid: uuid!) {
+  insert_contest_manager(
+    objects: {contest_id: $contest_id, user_uuid: $user_uuid}
+  ) {
     affected_rows
   }
 }
@@ -11772,7 +12864,7 @@ export type AddContestManagerMutationFn = Apollo.MutationFunction<AddContestMana
  * const [addContestManagerMutation, { data, loading, error }] = useAddContestManagerMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
- *      user_id: // value for 'user_id'
+ *      user_uuid: // value for 'user_uuid'
  *   },
  * });
  */
@@ -11785,8 +12877,8 @@ export type AddContestManagerMutationResult = Apollo.MutationResult<AddContestMa
 export type AddContestManagerMutationOptions = Apollo.BaseMutationOptions<AddContestManagerMutation, AddContestManagerMutationVariables>;
 export const GetUser_IdDocument = gql`
     query GetUser_Id($email: String!, $name: String!) {
-  user(where: {email: {_eq: $email}, name: {_eq: $name}}) {
-    _id
+  users(where: {email: {_eq: $email}, realname: {_eq: $name}}) {
+    uuid
   }
 }
     `;
@@ -11808,7 +12900,7 @@ export const GetUser_IdDocument = gql`
  *   },
  * });
  */
-export function useGetUser_IdQuery(baseOptions: Apollo.QueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+export function useGetUser_IdQuery(baseOptions: Apollo.QueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables> & ({ variables: GetUser_IdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
       }
@@ -12008,7 +13100,7 @@ export const GetAidApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetAidApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>) {
+export function useGetAidApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables> & ({ variables: GetAidApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>(GetAidApplicationsDocument, options);
       }
@@ -12216,7 +13308,7 @@ export const GetIdByStudentNoDocument = gql`
  *   },
  * });
  */
-export function useGetIdByStudentNoQuery(baseOptions: Apollo.QueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>) {
+export function useGetIdByStudentNoQuery(baseOptions: Apollo.QueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables> & ({ variables: GetIdByStudentNoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>(GetIdByStudentNoDocument, options);
       }
@@ -12271,7 +13363,7 @@ export const GetApprovedMentorApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetApprovedMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
+export function useGetApprovedMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables> & ({ variables: GetApprovedMentorApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
       }
@@ -12319,7 +13411,7 @@ export const SubscribeToMessagesDocument = gql`
  *   },
  * });
  */
-export function useSubscribeToMessagesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables>) {
+export function useSubscribeToMessagesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables> & ({ variables: SubscribeToMessagesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables>(SubscribeToMessagesDocument, options);
       }
@@ -12398,7 +13490,7 @@ export const GetHonorApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetHonorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
+export function useGetHonorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables> & ({ variables: GetHonorApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
       }
@@ -12452,7 +13544,7 @@ export const GetHonorApplicationsForCounselorsDocument = gql`
  *   },
  * });
  */
-export function useGetHonorApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
+export function useGetHonorApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables> & ({ variables: GetHonorApplicationsForCounselorsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
       }
@@ -12666,7 +13758,7 @@ export const GetMentorApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>) {
+export function useGetMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables> & ({ variables: GetMentorApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>(GetMentorApplicationsDocument, options);
       }
@@ -12764,7 +13856,7 @@ export const GetMentorAvailableDocument = gql`
  *   },
  * });
  */
-export function useGetMentorAvailableQuery(baseOptions: Apollo.QueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>) {
+export function useGetMentorAvailableQuery(baseOptions: Apollo.QueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables> & ({ variables: GetMentorAvailableQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>(GetMentorAvailableDocument, options);
       }
@@ -13054,7 +14146,7 @@ export const GetMentorListDocument = gql`
  *   },
  * });
  */
-export function useGetMentorListQuery(baseOptions: Apollo.QueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables>) {
+export function useGetMentorListQuery(baseOptions: Apollo.QueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables> & ({ variables: GetMentorListQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMentorListQuery, GetMentorListQueryVariables>(GetMentorListDocument, options);
       }
@@ -13142,7 +14234,7 @@ export const GetMentorInfoDocument = gql`
  *   },
  * });
  */
-export function useGetMentorInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables>) {
+export function useGetMentorInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables> & ({ variables: GetMentorInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(GetMentorInfoDocument, options);
       }
@@ -13227,7 +14319,7 @@ export const GetIdByNameDocument = gql`
  *   },
  * });
  */
-export function useGetIdByNameQuery(baseOptions: Apollo.QueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables>) {
+export function useGetIdByNameQuery(baseOptions: Apollo.QueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables> & ({ variables: GetIdByNameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetIdByNameQuery, GetIdByNameQueryVariables>(GetIdByNameDocument, options);
       }
@@ -13495,7 +14587,7 @@ export const GetScholarshipApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetScholarshipApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>) {
+export function useGetScholarshipApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables> & ({ variables: GetScholarshipApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>(GetScholarshipApplicationsDocument, options);
       }
@@ -13553,7 +14645,7 @@ export const GetScholarshipApplicationsForCounselorsDocument = gql`
  *   },
  * });
  */
-export function useGetScholarshipApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>) {
+export function useGetScholarshipApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables> & ({ variables: GetScholarshipApplicationsForCounselorsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>(GetScholarshipApplicationsForCounselorsDocument, options);
       }
@@ -14177,7 +15269,7 @@ export const GetSelfPostgraduateApplicationsDocument = gql`
  *   },
  * });
  */
-export function useGetSelfPostgraduateApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>) {
+export function useGetSelfPostgraduateApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables> & ({ variables: GetSelfPostgraduateApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>(GetSelfPostgraduateApplicationsDocument, options);
       }
@@ -14219,7 +15311,7 @@ export const GetSelfConfirmedApplicationDocument = gql`
  *   },
  * });
  */
-export function useGetSelfConfirmedApplicationQuery(baseOptions: Apollo.QueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>) {
+export function useGetSelfConfirmedApplicationQuery(baseOptions: Apollo.QueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables> & ({ variables: GetSelfConfirmedApplicationQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>(GetSelfConfirmedApplicationDocument, options);
       }
@@ -14536,7 +15628,7 @@ export const GetProfileDocument = gql`
  *   },
  * });
  */
-export function useGetProfileQuery(baseOptions: Apollo.QueryHookOptions<GetProfileQuery, GetProfileQueryVariables>) {
+export function useGetProfileQuery(baseOptions: Apollo.QueryHookOptions<GetProfileQuery, GetProfileQueryVariables> & ({ variables: GetProfileQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options);
       }

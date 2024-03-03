@@ -61,7 +61,7 @@ const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: user?.uuid,
+        user_uuid: user?.uuid,
       },
     });
 
@@ -177,11 +177,11 @@ const ListPage: React.FC<{
         email: values.leader_email,
         name: values.leader_name,
       });
-      if (leaderData.data.user.length === 0) {
+      if (leaderData.data.users.length === 0) {
         message.warning("队长信息有误，查无此人！");
         return;
       }
-      const leader_id = leaderData.data.user[0]?._id;
+      const leader_id = leaderData.data.users[0]?.uuid;
       const isTeamLeader = await refetchisleader({
         _id: leader_id,
         contest_id: props.contest_id,
@@ -490,11 +490,11 @@ const SubPage: React.FC<{
         email: values.member_email,
         name: values.member_name,
       });
-      if (userData.data.user.length === 0) {
+      if (userData.data.users.length === 0) {
         message.warning("队长信息有误，查无此人！");
         return;
       }
-      const user_id = userData.data.user[0]._id;
+      const user_id = userData.data.users[0].uuid;
       const isTeamLeader = await refetchisleader({
         _id: user_id,
         contest_id: props.contest_id,
