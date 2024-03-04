@@ -1,19 +1,19 @@
-query GetMentorApplications($_id: String!) {
+query GetMentorApplications($uuid: uuid!) {
   mentor_application(
     where: {
-      _or: [{ student_id: { _eq: $_id } }, { mentor_id: { _eq: $_id } }]
+      _or: [{ student_uuid: { _eq: $uuid } }, { mentor_uuid: { _eq: $uuid } }]
     }
     order_by: { created_at: asc }
   ) {
     id
-    student {
-      name
+    student_byuuid {
+      realname
       department
       email
       phone
     }
-    mentor {
-      name
+    mentor_byuuid {
+      realname
       department
       mentor_available {
         available
@@ -30,16 +30,16 @@ query GetMentorApplications($_id: String!) {
 query GetMentorApplicationsForCounselors {
   mentor_application(order_by: { created_at: asc }) {
     id
-    student {
-      id
-      name
+    student_byuuid {
+      uuid
+      realname
       class
       department
       email
       phone
     }
-    mentor {
-      name
+    mentor_byuuid {
+      realname
       department
       mentor_available {
         available
@@ -52,21 +52,21 @@ query GetMentorApplicationsForCounselors {
   }
 }
 
-query GetMentorAvailable($_id: String!) {
-  mentor_available(where: { mentor_id: { _eq: $_id } }) {
+query GetMentorAvailable($uuid: uuid!) {
+  mentor_available(where: { mentor_uuid: { _eq: $uuid } }) {
     available
   }
 }
 
-mutation ChangeMentorAvailable($_id: String!, $available: Boolean!) {
+mutation ChangeMentorAvailable($uuid: uuid!, $available: Boolean!) {
   insert_mentor_available_one(
-    object: { mentor_id: $_id, available: $available }
+    object: { mentor_uuid: $uuid, available: $available }
     on_conflict: {
-      constraint: mentor_available_mentor_id_key
+      constraint: mentor_available_mentor_uuid_key
       update_columns: available
     }
   ) {
-    mentor_id
+    mentor_uuid
     available
   }
 }
@@ -94,14 +94,14 @@ mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
 }
 
 mutation AddMentorApplication(
-  $student_id: String!
-  $mentor_id: String!
+  $student_uuid: uuid!
+  $mentor_uuid: uuid!
   $statement: String!
 ) {
   insert_mentor_application(
     objects: {
-      student_id: $student_id
-      mentor_id: $mentor_id
+      student_uuid: $student_uuid
+      mentor_uuid: $mentor_uuid
       statement: $statement
     }
   ) {
@@ -128,34 +128,64 @@ mutation DeleteMentorApplication($id: uuid!) {
   }
 }
 
+# query GetMentorList($grade_time: timestamptz!) {
+#   user_by_role(role: "teacher") {
+#     _id
+#     name
+#     department
+#     user {
+#       matched: mentor_applications_mentor_aggregate(
+#         where: { status: { _eq: "approved" } }
+#       ) {
+#         aggregate {
+#           count
+#         }
+#       }
+#       total: mentor_applications_mentor_aggregate {
+#         aggregate {
+#           count
+#         }
+#       }
+#       total_for_grade: mentor_applications_mentor_aggregate(
+#         where: { created_at: { _gte: $grade_time } }
+#       ) {
+#         aggregate {
+#           count
+#         }
+#       }
+#       mentor_available {
+#         available
+#       }
+#     }
+#   }
+# }
+
 query GetMentorList($grade_time: timestamptz!) {
-  user_by_role(role: "teacher") {
-    _id
-    name
+  users(where: { role: { _eq: "teacher" } }) {
+    uuid
+    realname
     department
-    user {
-      matched: mentor_applications_mentor_aggregate(
-        where: { status: { _eq: "approved" } }
-      ) {
-        aggregate {
-          count
-        }
+    matched: mentor_application_mentors_aggregate(
+      where: { status: { _eq: "approved" } }
+    ) {
+      aggregate {
+        count
       }
-      total: mentor_applications_mentor_aggregate {
-        aggregate {
-          count
-        }
+    }
+    total: mentor_application_mentors_aggregate {
+      aggregate {
+        count
       }
-      total_for_grade: mentor_applications_mentor_aggregate(
-        where: { created_at: { _gte: $grade_time } }
-      ) {
-        aggregate {
-          count
-        }
+    }
+    total_for_grade: mentor_application_mentors_aggregate(
+      where: { created_at: { _gte: $grade_time } }
+    ) {
+      aggregate {
+        count
       }
-      mentor_available {
-        available
-      }
+    }
+    mentor_available {
+      available
     }
   }
 }
@@ -165,7 +195,7 @@ mutation UpsertMentorInfo(
   $background: String = ""
   $field: String = ""
   $intro: String = ""
-  $mentor_id: String!
+  $mentor_uuid: uuid!
 ) {
   insert_mentor_info_one(
     object: {
@@ -173,38 +203,38 @@ mutation UpsertMentorInfo(
       background: $background
       field: $field
       intro: $intro
-      mentor_id: $mentor_id
+      mentor_uuid: $mentor_uuid
     }
     on_conflict: {
       constraint: mentor_info_pkey
       update_columns: [achievement, background, field, intro]
     }
   ) {
-    mentor_id
+    mentor_uuid
   }
 }
 
-query GetMentorInfo($mentor_id: String!) {
-  mentor_info_by_pk(mentor_id: $mentor_id) {
+query GetMentorInfo($mentor_uuid: uuid!) {
+  mentor_info_by_pk(mentor_uuid: $mentor_uuid) {
     achievement
     background
     field
     intro
-    mentor_id
-    user {
-      name
+    mentor_uuid
+    userByMentorUuid {
+      realname
       email
     }
   }
 }
 
 query GetFreshmanList {
-  user(where: { id: { _gt: "2022999999", _lte: "2023999999" } }) {
-    _id
-    id
-    mentor_applications_student(where: { status: { _eq: "approved" } }) {
-      student_id
-      mentor_id
+  users(where: { student_no: { _gt: "2022999999", _lte: "2023999999" } }) {
+    uuid
+    student_no
+    mentor_application_students(where: { status: { _eq: "approved" } }) {
+      student_uuid
+      mentor_uuid
       statement
     }
   }
@@ -212,6 +242,6 @@ query GetFreshmanList {
 
 query GetIdByName($name: String!) {
   users(where: { realname: { _eq: $name } }) {
-    id
+    uuid
   }
 }

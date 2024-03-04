@@ -101,7 +101,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchApplications,
   } = graphql.useGetMentorApplicationsQuery({
     variables: {
-      _id: user?.uuid!,
+      uuid: user?.uuid!,
     },
     skip: user?.role === "counselor",
   });
@@ -128,7 +128,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchMentorAvailable,
   } = graphql.useGetMentorAvailableQuery({
     variables: {
-      _id: user?.uuid!,
+      uuid: user?.uuid!,
     },
     skip: user?.role !== "teacher",
   });
@@ -155,7 +155,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
   const handleMentorAvailableChange = async (checked: boolean) => {
     await changeMentorAvailable({
-      variables: { _id: user?.uuid!, available: checked },
+      variables: { uuid: user?.uuid!, available: checked },
     });
     await refetchMentorAvailable();
   };
@@ -232,8 +232,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       await addApplication({
         variables: {
           statement: values.statement,
-          student_id: user?.uuid!,
-          mentor_id: selectedMentor?._id!,
+          student_uuid: user?.uuid!,
+          mentor_uuid: selectedMentor?.uuid!,
         },
       });
     }
@@ -297,9 +297,9 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   };
 
   const getColumnSearchProps: (
-    dataIndex: keyof graphql.GetMentorListQuery["user_by_role"][0],
+    dataIndex: keyof graphql.GetMentorListQuery["users"][0],
     name: string,
-  ) => Partial<ColumnProps<graphql.GetMentorListQuery["user_by_role"][0]>> = (
+  ) => Partial<ColumnProps<graphql.GetMentorListQuery["users"][0]>> = (
     dataIndex,
     name,
   ) => ({
@@ -367,16 +367,16 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   });
 
   const [selectedMentor, setSelectedMentor] =
-    useState<graphql.GetMentorListQuery["user_by_role"][0]>();
+    useState<graphql.GetMentorListQuery["users"][0]>();
 
   const mentorListColumnsForStudents: TableProps<
-    graphql.GetMentorListQuery["user_by_role"][0]
+    graphql.GetMentorListQuery["users"][0]
   >["columns"] = [
     {
       title: "姓名",
-      dataIndex: "name",
-      key: "name",
-      ...getColumnSearchProps("name", "姓名"),
+      dataIndex: "realname",
+      key: "realname",
+      ...getColumnSearchProps("realname", "姓名"),
     },
     {
       title: "院系",
@@ -400,11 +400,11 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
     {
       title: "申请人数",
-      dataIndex: ["user", "total_for_grade", "aggregate", "count"],
+      dataIndex: ["total_for_grade", "aggregate", "count"],
       key: "totalApplicants",
       sorter: (a, b) =>
-        (a.user?.total_for_grade.aggregate?.count ?? 0) -
-        (b.user?.total_for_grade.aggregate?.count ?? 0),
+        (a.total_for_grade.aggregate?.count ?? 0) -
+        (b.total_for_grade.aggregate?.count ?? 0),
     },
     {
       title: "操作",
@@ -437,7 +437,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     applicationData.mentor_application.filter(
                       (i) => i.status === "submitted",
                     ).length === 1)) ||
-                !(record.user?.mentor_available?.available ?? false)
+                !(record.mentor_available?.available ?? false)
               }
             >
               申请
@@ -446,7 +446,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           <Col span={8}>
             <Button
               onClick={() => {
-                getMentorInfo({ variables: { mentor_id: record._id } });
+                getMentorInfo({ variables: { mentor_uuid: record.uuid } });
                 setShowMentorInfo(true);
               }}
             >
@@ -460,13 +460,13 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   ];
 
   const mentorListColumnsForCounselors: TableProps<
-    graphql.GetMentorListQuery["user_by_role"][0]
+    graphql.GetMentorListQuery["users"][0]
   >["columns"] = [
     {
       title: "姓名",
-      dataIndex: "name",
-      key: "name",
-      ...getColumnSearchProps("name", "姓名"),
+      dataIndex: "realname",
+      key: "realname",
+      ...getColumnSearchProps("realname", "姓名"),
     },
     {
       title: "院系",
@@ -490,19 +490,17 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
     {
       title: "申请人数",
-      dataIndex: ["user", "total", "aggregate", "count"],
+      dataIndex: ["total", "aggregate", "count"],
       key: "totalApplicants",
       sorter: (a, b) =>
-        (a.user?.total.aggregate?.count ?? 0) -
-        (b.user?.total.aggregate?.count ?? 0),
+        (a.total.aggregate?.count ?? 0) - (b.total.aggregate?.count ?? 0),
     },
     {
       title: "匹配人数",
-      dataIndex: ["user", "matched", "aggregate", "count"],
+      dataIndex: ["matched", "aggregate", "count"],
       key: "matched",
       sorter: (a, b) =>
-        (a.user?.matched.aggregate?.count ?? 0) -
-        (b.user?.matched.aggregate?.count ?? 0),
+        (a.matched.aggregate?.count ?? 0) - (b.matched.aggregate?.count ?? 0),
     },
     {
       title: "正在接收",
@@ -519,10 +517,9 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         },
       ],
       onFilter: (value, record) =>
-        (record.user?.mentor_available?.available ?? false).toString() ===
-        value,
+        (record.mentor_available?.available ?? false).toString() === value,
       render: (text, record) =>
-        record.user?.mentor_available?.available ?? false ? "是" : "否",
+        record.mentor_available?.available ?? false ? "是" : "否",
     },
     {
       title: "操作",
@@ -531,7 +528,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         <>
           <Button
             onClick={() => {
-              getMentorInfo({ variables: { mentor_id: record._id } });
+              getMentorInfo({ variables: { mentor_uuid: record.uuid } });
               setShowMentorInfo(true);
             }}
           >
@@ -553,11 +550,11 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
       const applications = applicationForCounselorsData!.mentor_application.map(
         (i) => [
-          i.student.id,
-          i.student.name,
-          i.student.class,
-          i.mentor.department,
-          i.mentor.name,
+          i.student_byuuid?.uuid,
+          i.student_byuuid?.realname,
+          i.student_byuuid?.class,
+          i.mentor_byuuid?.department,
+          i.mentor_byuuid?.realname,
           i.statement,
           getStatusText(i.status),
         ],
@@ -607,13 +604,13 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     setAttributing(true);
 
     try {
-      const freshmanToAttribute = freshmanList!.user.filter(
-        (item) => item.mentor_applications_student.length === 0,
+      const freshmanToAttribute = freshmanList!.users.filter(
+        (item) => item.mentor_application_students.length === 0,
       );
-      const teachersToAttribute = mentorList!.user_by_role.filter(
+      const teachersToAttribute = mentorList!.users.filter(
         (item) =>
-          item.user?.mentor_available?.available === true &&
-          (item.user?.matched.aggregate?.count ?? 0) < 5,
+          item.mentor_available?.available === true &&
+          (item.matched.aggregate?.count ?? 0) < 5,
       );
 
       if (teachersToAttribute.length === 0) {
@@ -631,11 +628,11 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
       const minCount = Math.min(
         ...teachersToAttribute.map(
-          (item) => item.user?.matched.aggregate?.count ?? 0,
+          (item) => item.matched.aggregate?.count ?? 0,
         ),
       );
       const teachersWithMinCount = teachersToAttribute.filter(
-        (item) => item.user?.matched.aggregate?.count === minCount,
+        (item) => item.matched.aggregate?.count === minCount,
       );
 
       const teacher =
@@ -643,8 +640,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
       const { data } = await addApplication({
         variables: {
-          student_id: student._id,
-          mentor_id: teacher._id,
+          student_uuid: student.uuid,
+          mentor_uuid: teacher.uuid,
           statement: "系统随机分配",
         },
       });
@@ -734,11 +731,11 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             console.log(`get user ${data}`);
 
             // _id in database
-            const id = data?.users[0].id;
+            const uuid = data?.users[0].uuid;
 
             const { errors } = await updateMentorInfo({
               variables: {
-                mentor_id: id!,
+                mentor_uuid: uuid!,
                 intro,
                 background,
                 field,
@@ -944,10 +941,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                   `}
                 >
                   <Descriptions.Item label="导师姓名" span={2}>
-                    {item.mentor.name}
+                    {item.mentor_byuuid?.realname}
                   </Descriptions.Item>
                   <Descriptions.Item label="导师院系">
-                    {item.mentor.department}
+                    {item.mentor_byuuid?.department}
                   </Descriptions.Item>
                   <Descriptions.Item label="申请时间" span={2}>
                     {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
@@ -1067,7 +1064,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               <Button
                 type="primary"
                 onClick={() => {
-                  getMentorInfo({ variables: { mentor_id: user.uuid! } });
+                  getMentorInfo({ variables: { mentor_uuid: user.uuid! } });
                   setShowMentorInfo(true);
                 }}
               >
@@ -1090,17 +1087,17 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                   `}
                 >
                   <Descriptions.Item label="学生姓名" span={2}>
-                    {item.student.name}
+                    {item.student_byuuid?.realname}
                   </Descriptions.Item>
                   <Descriptions.Item label="学生院系">
-                    {item.student.department}
+                    {item.student_byuuid?.department}
                   </Descriptions.Item>
                   <Descriptions.Item label="邮箱" span={2}>
-                    {item.student.email}
+                    {item.student_byuuid?.email}
                   </Descriptions.Item>
                   {item.status === "approved" && (
                     <Descriptions.Item label="手机">
-                      {item.student.phone}
+                      {item.student_byuuid?.phone}
                     </Descriptions.Item>
                   )}
                   <Descriptions.Item label="申请时间" span={2}>
@@ -1165,8 +1162,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           <Table
             rowKey="_id"
             loading={mentorListLoading}
-            dataSource={mentorList?.user_by_role.filter(
-              (item) => item.user?.mentor_available?.available,
+            dataSource={mentorList?.users.filter(
+              (item) => item.mentor_available?.available,
             )}
             columns={mentorListColumnsForStudents}
           />
@@ -1192,10 +1189,13 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               onFinish={handleApplicationEdit}
               initialValues={editingApplication}
             >
-              <Form.Item name={["mentor", "name"]} label="导师姓名">
+              <Form.Item name={["mentor_byuuid", "realname"]} label="导师姓名">
                 <Input readOnly />
               </Form.Item>
-              <Form.Item name={["mentor", "department"]} label="导师院系">
+              <Form.Item
+                name={["mentor_byuuid", "department"]}
+                label="导师院系"
+              >
                 <Input readOnly />
               </Form.Item>
               <Form.Item
@@ -1256,8 +1256,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
           <Table
             loading={mentorListLoading}
-            dataSource={mentorList?.user_by_role.filter(
-              (item) => item.user?.mentor_available?.available !== false,
+            dataSource={mentorList?.users.filter(
+              (item) => item.mentor_available?.available !== false,
             )}
             columns={mentorListColumnsForCounselors}
           />
@@ -1316,7 +1316,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         <Descriptions
           title={
             mentorInfoData?.mentor_info_by_pk
-              ? `${mentorInfoData?.mentor_info_by_pk?.user.name}的信息`
+              ? `${mentorInfoData?.mentor_info_by_pk?.userByMentorUuid.realname}的信息`
               : "老师信息未记录于数据库中"
           }
           column={1}
@@ -1369,13 +1369,13 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             {mentorInfoData?.mentor_info_by_pk?.achievement}
           </Descriptions.Item>
           <Descriptions.Item label="联系邮箱">
-            {mentorInfoData?.mentor_info_by_pk?.user.email}
+            {mentorInfoData?.mentor_info_by_pk?.userByMentorUuid.email}
           </Descriptions.Item>
         </Descriptions>
       </Modal>
       <Modal
         open={showUpdateInfo}
-        title={`更新${mentorInfoData?.mentor_info_by_pk?.user.name}信息`}
+        title={`更新${mentorInfoData?.mentor_info_by_pk?.userByMentorUuid.realname}信息`}
         centered
         destroyOnClose
         onCancel={() => {
@@ -1397,8 +1397,9 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                   "field",
                   "achievement",
                 ]),
-                mentor_id:
-                  mentorInfoData?.mentor_info_by_pk?.mentor_id! || user?.uuid!,
+                mentor_uuid:
+                  mentorInfoData?.mentor_info_by_pk?.mentor_uuid! ||
+                  user?.uuid!,
               },
             });
             message.info(`信息更新成功`);
