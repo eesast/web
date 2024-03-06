@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+  pull_request:
+    branches: [ master ]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: Get yarn cache path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Restore yarn cache
+        uses: actions/cache@v4
+        id: yarn-cache
+        with:
+          path: ${{steps.yarn-cache-dir-path.outputs.dir}}
+          key: ${{runner.os}}-yarn-${{hashFiles('**/yarn.lock')}}
+          restore-keys: |
+            ${{runner.os}}-yarn-
+
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
+          yarn playwright install --with-deps
+
+      - name: Check grammar
+        run: |
+          yarn lint
+          yarn typecheck
+
+      - name: Run Playwright tests
+        run: yarn playwright test
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
