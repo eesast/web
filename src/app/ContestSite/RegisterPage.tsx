@@ -35,14 +35,14 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: isleaderData, refetch: refetchisleader } =
     graphql.useIsTeamLeaderSuspenseQuery({
       variables: {
-        _id: user?.uuid!,
+        uuid: user?.uuid!,
         contest_id: Contest_id,
       },
     });
   const { data: ismemberData, refetch: refetchismember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        _id: user?.uuid!,
+        user_uuid: user?.uuid!,
         contest_id: Contest_id,
       },
     });

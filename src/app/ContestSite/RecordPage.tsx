@@ -38,7 +38,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   //     ISTEAMLEADER,
   //     {
   //     variables: {
-  //         _id: user?.uuid!,
+  //         uuid: users?.uuid!,
   //         contest_id: Contest_id,
   //     },
   //     }
@@ -47,7 +47,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   //     ISTEAMMEMBER,
   //     {
   //     variables: {
-  //         _id: user?.uuid!,
+  //         uuid: users?.uuid!,
   //         contest_id: Contest_id,
   //     },
   //     }
@@ -58,7 +58,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: user?.uuid,
+        user_uuid: user?.uuid,
       },
     });
   useEffect(() => {

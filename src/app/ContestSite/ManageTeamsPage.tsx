@@ -61,7 +61,7 @@ const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: user?.uuid,
+        user_uuid: user?.uuid,
       },
     });
 
@@ -122,13 +122,13 @@ const ListPage: React.FC<{
     graphql.useInsertTeamMutation();
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      _id: "",
+      uuid: "",
       contest_id: props.contest_id,
     },
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: "",
+      user_uuid: "",
       contest_id: props.contest_id,
     },
   });
@@ -136,7 +136,7 @@ const ListPage: React.FC<{
     graphql.useGetUser_IdSuspenseQuery({
       variables: {
         email: "",
-        name: "",
+        realname: "",
       },
     });
   //队伍一览表功能
@@ -175,19 +175,19 @@ const ListPage: React.FC<{
     try {
       const leaderData = await refetchUserId({
         email: values.leader_email,
-        name: values.leader_name,
+        realname: values.leader_name,
       });
-      if (leaderData.data.user.length === 0) {
+      if (leaderData.data.users.length === 0) {
         message.warning("队长信息有误，查无此人！");
         return;
       }
-      const leader_id = leaderData.data.user[0]?._id;
+      const leader_id = leaderData.data.users[0]?.uuid;
       const isTeamLeader = await refetchisleader({
-        _id: leader_id,
+        uuid: leader_id,
         contest_id: props.contest_id,
       });
       const isTeamMember = await refetchismember({
-        _id: leader_id,
+        user_uuid: leader_id,
         contest_id: props.contest_id,
       });
       if (
@@ -227,15 +227,13 @@ const ListPage: React.FC<{
     {
       title: "队长",
       key: "team_leader",
-      render: (text, record) => record.team_leader_id?.name,
+      render: (text, record) => record.team_leader_byuuid?.realname,
     },
     {
       title: "队员",
       key: "team_member",
       render: (text, record) =>
-        record.contest_team_members.map((i) => [
-          i.user_as_contest_team_member.name + "   ",
-        ]),
+        record.contest_team_members.map((i) => [i.user?.realname + "   "]),
     },
     /* {
       title: "已提交代码数",
@@ -419,13 +417,13 @@ const SubPage: React.FC<{
 
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      _id: "",
+      uuid: "",
       contest_id: props.contest_id,
     },
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: "",
+      user_uuid: "",
       contest_id: props.contest_id,
     },
   });
@@ -434,7 +432,7 @@ const SubPage: React.FC<{
     graphql.useGetUser_IdSuspenseQuery({
       variables: {
         email: "",
-        name: "",
+        realname: "",
       },
     });
 
@@ -488,19 +486,19 @@ const SubPage: React.FC<{
     try {
       const userData = await refetchUserId({
         email: values.member_email,
-        name: values.member_name,
+        realname: values.member_name,
       });
-      if (userData.data.user.length === 0) {
+      if (userData.data.users.length === 0) {
         message.warning("队长信息有误，查无此人！");
         return;
       }
-      const user_id = userData.data.user[0]._id;
+      const user_id = userData.data.users[0].uuid;
       const isTeamLeader = await refetchisleader({
-        _id: user_id,
+        uuid: user_id,
         contest_id: props.contest_id,
       });
       const isTeamMember = await refetchismember({
-        _id: user_id,
+        user_uuid: user_id,
         contest_id: props.contest_id,
       });
       if (
@@ -513,7 +511,7 @@ const SubPage: React.FC<{
       await insertteamMember({
         variables: {
           team_id: props.team_id,
-          user_id: user_id,
+          user_uuid: user_id,
         },
       });
       if (!insertError) {
@@ -537,7 +535,7 @@ const SubPage: React.FC<{
         <Text>{teamData?.contest_team[0].team_name}</Text>
         <br />
         <Text style={{ fontWeight: "700" }}>{"队长: "}</Text>
-        <Text>{teamData?.contest_team[0].team_leader_id?.name}</Text>
+        <Text>{teamData?.contest_team[0].team_leader_byuuid?.realname}</Text>
         <br />
         <Text style={{ fontWeight: "700" }}>{"队员: "}</Text>
         {teamData?.contest_team[0].contest_team_members.length === 0 ? (
@@ -550,7 +548,7 @@ const SubPage: React.FC<{
             dataSource={teamData?.contest_team[0].contest_team_members}
             renderItem={(item) => (
               <List.Item style={{ width: "100px" }}>
-                <Text>{item.user_as_contest_team_member.name}</Text>
+                <Text>{item.user?.realname}</Text>
                 <MinusCircleOutlined
                   onClick={() => {
                     Modal.confirm({
@@ -561,7 +559,7 @@ const SubPage: React.FC<{
                         await DeleteTeamMember({
                           variables: {
                             team_id: props.team_id,
-                            user_id: item.user_as_contest_team_member._id,
+                            user_uuid: item.user?.id,
                           },
                         });
                         await refetchTeamInfo();
