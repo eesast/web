@@ -39,6 +39,7 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install --frozen-lockfile
+          yarn playwright install --with-deps
 
       - name: Check grammar
         run: |
