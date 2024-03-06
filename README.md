@@ -104,4 +104,4 @@ docker-compose up -d
 
 ### Nginx
 
-监听`8080`端口，反向代理到`3000`端口
+server_name eesast.com, 反向代理到`27776`端口
