@@ -9881,19 +9881,23 @@ export type User_Variance_Fields = {
 export type Users = {
   __typename?: 'users';
   class?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  contest_team_members: Array<Contest_Team_Member>;
+  /** An aggregate relationship */
+  contest_team_members_aggregate: Contest_Team_Member_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   department?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   github_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
-  mentor_application_mentors: Array<Mentor_Application>;
+  mentor_application_as_mentor: Array<Mentor_Application>;
   /** An aggregate relationship */
-  mentor_application_mentors_aggregate: Mentor_Application_Aggregate;
+  mentor_application_as_mentor_aggregate: Mentor_Application_Aggregate;
   /** An array relationship */
-  mentor_application_students: Array<Mentor_Application>;
+  mentor_application_as_student: Array<Mentor_Application>;
   /** An aggregate relationship */
-  mentor_application_students_aggregate: Mentor_Application_Aggregate;
+  mentor_application_as_student_aggregate: Mentor_Application_Aggregate;
   /** An object relationship */
   mentor_available?: Maybe<Mentor_Available>;
   password: Scalars['String']['output'];
@@ -9909,7 +9913,27 @@ export type Users = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_MentorsArgs = {
+export type UsersContest_Team_MembersArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
+  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersContest_Team_Members_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
+  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersMentor_Application_As_MentorArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9919,7 +9943,7 @@ export type UsersMentor_Application_MentorsArgs = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_Mentors_AggregateArgs = {
+export type UsersMentor_Application_As_Mentor_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9929,7 +9953,7 @@ export type UsersMentor_Application_Mentors_AggregateArgs = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_StudentsArgs = {
+export type UsersMentor_Application_As_StudentArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9939,7 +9963,7 @@ export type UsersMentor_Application_StudentsArgs = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_Students_AggregateArgs = {
+export type UsersMentor_Application_As_Student_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9975,13 +9999,14 @@ export type Users_Bool_Exp = {
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
   class?: InputMaybe<String_Comparison_Exp>;
+  contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   department?: InputMaybe<String_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   github_id?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
-  mentor_application_mentors?: InputMaybe<Mentor_Application_Bool_Exp>;
-  mentor_application_students?: InputMaybe<Mentor_Application_Bool_Exp>;
+  mentor_application_as_mentor?: InputMaybe<Mentor_Application_Bool_Exp>;
+  mentor_application_as_student?: InputMaybe<Mentor_Application_Bool_Exp>;
   mentor_available?: InputMaybe<Mentor_Available_Bool_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
   phone?: InputMaybe<String_Comparison_Exp>;
@@ -10019,13 +10044,14 @@ export enum Users_Constraint {
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   class?: InputMaybe<Scalars['String']['input']>;
+  contest_team_members?: InputMaybe<Contest_Team_Member_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   department?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   github_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  mentor_application_mentors?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
-  mentor_application_students?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
+  mentor_application_as_mentor?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
+  mentor_application_as_student?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
   mentor_available?: InputMaybe<Mentor_Available_Obj_Rel_Insert_Input>;
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
@@ -10104,13 +10130,14 @@ export type Users_On_Conflict = {
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
   class?: InputMaybe<Order_By>;
+  contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   department?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   github_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  mentor_application_mentors_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
-  mentor_application_students_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
+  mentor_application_as_mentor_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
+  mentor_application_as_student_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
   mentor_available?: InputMaybe<Mentor_Available_Order_By>;
   password?: InputMaybe<Order_By>;
   phone?: InputMaybe<Order_By>;
@@ -10434,7 +10461,7 @@ export type QueryContestManagerQueryVariables = Exact<{
 }>;
 
 
-export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid?: any | null }> };
+export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid: any }> };
 
 export type InsertTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
@@ -10742,7 +10769,7 @@ export type GetContestManagerQueryVariables = Exact<{
 }>;
 
 
-export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', userByUserUuid?: { __typename?: 'users', uuid: any, realname?: string | null, email: string } | null }> };
+export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', userByUserUuid: { __typename?: 'users', uuid: any, realname?: string | null, email: string } }> };
 
 export type DeleteContestAllManagerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -11008,7 +11035,7 @@ export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?
 export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFreshmanListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, student_no?: string | null, mentor_application_students: Array<{ __typename?: 'mentor_application', student_uuid?: any | null, mentor_uuid?: any | null, statement: string }> }> };
+export type GetFreshmanListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, student_no?: string | null, mentor_application_as_student: Array<{ __typename?: 'mentor_application', student_uuid?: any | null, mentor_uuid?: any | null, statement: string }> }> };
 
 export type GetIdByNameQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -14163,19 +14190,19 @@ export const GetMentorListDocument = gql`
     uuid
     realname
     department
-    matched: mentor_application_mentors_aggregate(
+    matched: mentor_application_as_mentor_aggregate(
       where: {status: {_eq: "approved"}}
     ) {
       aggregate {
         count
       }
     }
-    total: mentor_application_mentors_aggregate {
+    total: mentor_application_as_mentor_aggregate {
       aggregate {
         count
       }
     }
-    total_for_grade: mentor_application_mentors_aggregate(
+    total_for_grade: mentor_application_as_mentor_aggregate(
       where: {created_at: {_gte: $grade_time}}
     ) {
       aggregate {
@@ -14314,7 +14341,7 @@ export const GetFreshmanListDocument = gql`
   users(where: {student_no: {_gt: "2022999999", _lte: "2023999999"}}) {
     uuid
     student_no
-    mentor_application_students(where: {status: {_eq: "approved"}}) {
+    mentor_application_as_student(where: {status: {_eq: "approved"}}) {
       student_uuid
       mentor_uuid
       statement

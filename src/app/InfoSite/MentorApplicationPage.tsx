@@ -605,7 +605,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
     try {
       const freshmanToAttribute = freshmanList!.users.filter(
-        (item) => item.mentor_application_students.length === 0,
+        (item) => item.mentor_application_as_student.length === 0,
       );
       const teachersToAttribute = mentorList!.users.filter(
         (item) =>
