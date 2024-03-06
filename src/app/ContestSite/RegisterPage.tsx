@@ -42,8 +42,8 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: ismemberData, refetch: refetchismember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        _id: user?.uuid!,
-        contest_id: Contest_id,
+        uuid: user?.uuid!,
+        contest_uuid: Contest_id,
       },
     });
   // TODO: 待修复：创建完队伍后会渲染一次
