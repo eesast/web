@@ -14,9 +14,10 @@ EESAST 网页前端
 
 ### 2. 编辑环境变量
 
-- `REACT_APP_API_URL`：后端地址（生产、测试通用），默认为 `https://api.eesast.com`
+- `REACT_APP_API_URL`：生产环境后端地址，默认为 `https://api.eesast.com`
+- `REACT_APP_API_DEV_URL`：测试环境后端地址，默认为 `https://api-dev.eesast.com`
 - `REACT_APP_HASURA_HTTPLINK`/`REACT_APP_HASURA_WSLINK`：生产环境`Hasura`数据库地址，默认为 `api.eesast.com/v1/graphql`
-- `REACT_APP_HASURA_DEV_HTTPLINK`/`REACT_APP_HASURA_DEV_WSLINK`：测试环境`Hasura`数据库`WebSocket`地址，默认为 `api.eesast.com/dev/v1/graphql`
+- `REACT_APP_HASURA_DEV_HTTPLINK`/`REACT_APP_HASURA_DEV_WSLINK`：测试环境`Hasura`数据库`WebSocket`地址，默认为 `api-dev.eesast.com/v1/graphql`
 - 若需使用`GraphQL CodeGen`，要创建`.env.local`文件，并添加`HASURA_GRAPHQL_ADMIN_SECRET`
 
 ### 3. 安装依赖和启动
@@ -103,4 +104,4 @@ docker-compose up -d
 
 ### Nginx
 
-监听`8080`端口，反向代理到`3000`端口
+server_name eesast.com, 反向代理到`27776`端口

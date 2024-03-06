@@ -41,7 +41,7 @@ interface FormValues {
   contest_type: string;
   description: string | undefined | null;
   time: Dayjs[];
-  managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["user"][];
+  managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["userByUserUuid"][];
 }
 
 interface ContestInfoCardProps extends CardProps {
@@ -249,12 +249,12 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
               email: item.email,
               name: item.name,
             });
-            const user_id = newUserData.data.user[0]?._id;
-            if (user_id) {
+            const user_uuid = newUserData.data.users[0]?.uuid;
+            if (user_uuid) {
               addContestManager({
                 variables: {
                   contest_id: contestID,
-                  user_id: user_id,
+                  user_uuid: user_uuid,
                 },
               });
             }
@@ -293,12 +293,12 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
               email: item.email,
               name: item.name,
             });
-            const user_id = newUserData.data.user[0]?._id;
-            if (user_id) {
+            const user_uuid = newUserData.data.users[0]?.uuid;
+            if (user_uuid) {
               addContestManager({
                 variables: {
                   contest_id: id,
-                  user_id: user_id,
+                  user_uuid: user_uuid,
                 },
               });
             }
@@ -383,7 +383,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
                                 managers_list:
                                   managerData.data.contest_manager.map(
                                     (value) =>
-                                      value.user as graphql.GetContestManagerQuery["contest_manager"][0]["user"],
+                                      value.userByUserUuid as graphql.GetContestManagerQuery["contest_manager"][0]["userByUserUuid"],
                                   ),
                               };
                               setContestID(item?.id);

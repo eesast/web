@@ -58,7 +58,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: user?.uuid,
+        user_uuid: user?.uuid,
       },
     });
   useEffect(() => {

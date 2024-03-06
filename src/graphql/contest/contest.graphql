@@ -1,9 +1,9 @@
 # 查询某ID用户是否为某比赛管理员
-query QueryContestManager($contest_id: uuid!, $user_id: String = "") {
+query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
   contest_manager(
-    where: { contest_id: { _eq: $contest_id }, user_id: { _eq: $user_id } }
+    where: { contest_id: { _eq: $contest_id }, user_uuid: { _eq: $user_uuid } }
   ) {
-    user_id
+    user_uuid
   }
 }
 
@@ -46,12 +46,12 @@ query IsTeamLeader($_id: String!, $contest_id: uuid!) {
   }
 }
 # 判断是否是member返回id
-query IsTeamMember($_id: String!, $contest_id: uuid!) {
+query IsTeamMember($uuid: uuid!, $contest_uuid: uuid!) {
   contest_team_member(
     where: {
-      user_id: { _eq: $_id }
+      user_uuid: { _eq: $uuid }
       _and: {
-        team_as_contest_team_member: { contest_id: { _eq: $contest_id } }
+        team_as_contest_team_member: { contest_id: { _eq: $contest_uuid } }
       }
     }
   ) {
@@ -209,9 +209,9 @@ subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
 }
 
 #插入队员
-mutation InsertTeamMember($team_id: uuid!, $user_id: String!) {
+mutation InsertTeamMember($team_uuid: uuid!, $user_uuid: uuid!) {
   insert_contest_team_member(
-    objects: { team_id: $team_id, user_id: $user_id }
+    objects: { team_id: $team_uuid, user_uuid: $user_uuid }
   ) {
     affected_rows
   }
@@ -263,9 +263,9 @@ mutation DeleteAllTeamMember($team_id: uuid!) {
 }
 
 #在team_member中删除指定队员信息
-mutation DeleteTeamMember($user_id: String!, $team_id: uuid!) {
+mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
   delete_contest_team_member(
-    where: { user_id: { _eq: $user_id }, team_id: { _eq: $team_id } }
+    where: { user_uuid: { _eq: $user_uuid }, team_id: { _eq: $team_id } }
   ) {
     affected_rows
   }

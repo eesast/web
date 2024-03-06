@@ -54,8 +54,8 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: ismemberData, refetch: refetchMember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        _id: user?.uuid!,
-        contest_id: Contest_id,
+        uuid: user?.uuid!,
+        contest_uuid: Contest_id,
       },
     });
 
@@ -149,7 +149,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
         await DeleteTeamMember({
-          variables: { user_id: user_id, team_id: teamid },
+          variables: { user_uuid: user_id, team_id: teamid },
         });
         Modal.success({
           title: "已退出队伍",
@@ -166,7 +166,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
         await DeleteTeamMember({
-          variables: { user_id: user_id, team_id: teamid },
+          variables: { user_uuid: user_id, team_id: teamid },
         });
         message.success("移除成功");
         //await refetchMember();

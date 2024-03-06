@@ -61,7 +61,7 @@ const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: user?.uuid,
+        user_uuid: user?.uuid,
       },
     });
 
@@ -128,8 +128,8 @@ const ListPage: React.FC<{
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: "",
-      contest_id: props.contest_id,
+      uuid: "",
+      contest_uuid: props.contest_id,
     },
   });
   const { error: userError, refetch: refetchUserId } =
@@ -177,18 +177,18 @@ const ListPage: React.FC<{
         email: values.leader_email,
         name: values.leader_name,
       });
-      if (leaderData.data.user.length === 0) {
+      if (leaderData.data.users.length === 0) {
         message.warning("队长信息有误，查无此人！");
         return;
       }
-      const leader_id = leaderData.data.user[0]?._id;
+      const leader_id = leaderData.data.users[0]?.uuid;
       const isTeamLeader = await refetchisleader({
         _id: leader_id,
         contest_id: props.contest_id,
       });
       const isTeamMember = await refetchismember({
-        _id: leader_id,
-        contest_id: props.contest_id,
+        uuid: leader_id,
+        contest_uuid: props.contest_id,
       });
       if (
         isTeamLeader.data.contest_team.length !== 0 ||
@@ -425,8 +425,8 @@ const SubPage: React.FC<{
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      _id: "",
-      contest_id: props.contest_id,
+      uuid: "",
+      contest_uuid: props.contest_id,
     },
   });
 
@@ -490,18 +490,18 @@ const SubPage: React.FC<{
         email: values.member_email,
         name: values.member_name,
       });
-      if (userData.data.user.length === 0) {
+      if (userData.data.users.length === 0) {
         message.warning("队长信息有误，查无此人！");
         return;
       }
-      const user_id = userData.data.user[0]._id;
+      const user_id = userData.data.users[0].uuid;
       const isTeamLeader = await refetchisleader({
         _id: user_id,
         contest_id: props.contest_id,
       });
       const isTeamMember = await refetchismember({
-        _id: user_id,
-        contest_id: props.contest_id,
+        uuid: user_id,
+        contest_uuid: props.contest_id,
       });
       if (
         isTeamLeader.data.contest_team.length !== 0 ||
@@ -512,8 +512,8 @@ const SubPage: React.FC<{
       }
       await insertteamMember({
         variables: {
-          team_id: props.team_id,
-          user_id: user_id,
+          team_uuid: props.team_id,
+          user_uuid: user_id,
         },
       });
       if (!insertError) {
@@ -561,7 +561,7 @@ const SubPage: React.FC<{
                         await DeleteTeamMember({
                           variables: {
                             team_id: props.team_id,
-                            user_id: item.user_as_contest_team_member._id,
+                            user_uuid: item.user_as_contest_team_member._id,
                           },
                         });
                         await refetchTeamInfo();
