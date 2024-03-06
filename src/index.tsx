@@ -8,7 +8,10 @@ import { client } from "./api/apollo";
 import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_API_URL
+    : process.env.REACT_APP_API_URL_DEV;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");

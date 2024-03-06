@@ -71,9 +71,9 @@ mutation DeleteContest($id: uuid!) {
 # 查询指定比赛的管理员
 query GetContestManager($contest_id: uuid!) {
   contest_manager(where: { contest_id: { _eq: $contest_id } }) {
-    user {
-      _id
-      name
+    userByUserUuid {
+      uuid
+      realname
       email
     }
   }
@@ -87,9 +87,9 @@ mutation DeleteContestAllManager($contest_id: uuid!) {
 }
 
 # 为比赛添加管理员
-mutation AddContestManager($contest_id: uuid!, $user_id: String!) {
+mutation AddContestManager($contest_id: uuid!, $user_uuid: uuid!) {
   insert_contest_manager(
-    objects: { contest_id: $contest_id, user_id: $user_id }
+    objects: { contest_id: $contest_id, user_uuid: $user_uuid }
   ) {
     affected_rows
   }
@@ -97,8 +97,8 @@ mutation AddContestManager($contest_id: uuid!, $user_id: String!) {
 
 # 根据user的name和email获得其_id
 query GetUser_Id($email: String!, $name: String!) {
-  user(where: { email: { _eq: $email }, name: { _eq: $name } }) {
-    _id
+  users(where: { email: { _eq: $email }, realname: { _eq: $name } }) {
+    uuid
   }
 }
 

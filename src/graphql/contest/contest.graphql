@@ -1,9 +1,9 @@
 # 查询某ID用户是否为某比赛管理员
-query QueryContestManager($contest_id: uuid!, $user_id: String = "") {
+query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
   contest_manager(
-    where: { contest_id: { _eq: $contest_id }, user_id: { _eq: $user_id } }
+    where: { contest_id: { _eq: $contest_id }, user_uuid: { _eq: $user_uuid } }
   ) {
-    user_id
+    user_uuid
   }
 }
 
