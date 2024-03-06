@@ -261,7 +261,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           left: 0,
           top: "72px",
           bottom: 0,
-          zIndex: 99,
+          zIndex: 98,
         }}
       >
         <Menu
