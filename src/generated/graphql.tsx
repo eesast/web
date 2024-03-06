@@ -10434,7 +10434,7 @@ export type QueryContestManagerQueryVariables = Exact<{
 }>;
 
 
-export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid: any }> };
+export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid?: any | null }> };
 
 export type InsertTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
@@ -10456,8 +10456,8 @@ export type IsTeamLeaderQueryVariables = Exact<{
 export type IsTeamLeaderQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any }> };
 
 export type IsTeamMemberQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
-  contest_id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
+  contest_uuid: Scalars['uuid']['input'];
 }>;
 
 
@@ -10508,8 +10508,8 @@ export type GetCompileStatusSubscriptionVariables = Exact<{
 export type GetCompileStatusSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', status?: string | null }> };
 
 export type InsertTeamMemberMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  user_id: Scalars['String']['input'];
+  team_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 }>;
 
 
@@ -10546,7 +10546,7 @@ export type DeleteAllTeamMemberMutationVariables = Exact<{
 export type DeleteAllTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
 
 export type DeleteTeamMemberMutationVariables = Exact<{
-  user_id: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
   team_id: Scalars['uuid']['input'];
 }>;
 
@@ -10742,7 +10742,7 @@ export type GetContestManagerQueryVariables = Exact<{
 }>;
 
 
-export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', userByUserUuid: { __typename?: 'users', uuid: any, realname?: string | null, email: string } }> };
+export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', userByUserUuid?: { __typename?: 'users', uuid: any, realname?: string | null, email: string } | null }> };
 
 export type DeleteContestAllManagerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -11383,9 +11383,9 @@ export type IsTeamLeaderLazyQueryHookResult = ReturnType<typeof useIsTeamLeaderL
 export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<typeof useIsTeamLeaderSuspenseQuery>;
 export type IsTeamLeaderQueryResult = Apollo.QueryResult<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>;
 export const IsTeamMemberDocument = gql`
-    query IsTeamMember($_id: String!, $contest_id: uuid!) {
+    query IsTeamMember($uuid: uuid!, $contest_uuid: uuid!) {
   contest_team_member(
-    where: {user_id: {_eq: $_id}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_id}}}}
+    where: {user_uuid: {_eq: $uuid}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_uuid}}}}
   ) {
     team_id
   }
@@ -11404,8 +11404,8 @@ export const IsTeamMemberDocument = gql`
  * @example
  * const { data, loading, error } = useIsTeamMemberQuery({
  *   variables: {
- *      _id: // value for '_id'
- *      contest_id: // value for 'contest_id'
+ *      uuid: // value for 'uuid'
+ *      contest_uuid: // value for 'contest_uuid'
  *   },
  * });
  */
@@ -11739,8 +11739,10 @@ export function useGetCompileStatusSubscription(baseOptions: Apollo.Subscription
 export type GetCompileStatusSubscriptionHookResult = ReturnType<typeof useGetCompileStatusSubscription>;
 export type GetCompileStatusSubscriptionResult = Apollo.SubscriptionResult<GetCompileStatusSubscription>;
 export const InsertTeamMemberDocument = gql`
-    mutation InsertTeamMember($team_id: uuid!, $user_id: String!) {
-  insert_contest_team_member(objects: {team_id: $team_id, user_id: $user_id}) {
+    mutation InsertTeamMember($team_uuid: uuid!, $user_uuid: uuid!) {
+  insert_contest_team_member(
+    objects: {team_id: $team_uuid, user_uuid: $user_uuid}
+  ) {
     affected_rows
   }
 }
@@ -11760,8 +11762,8 @@ export type InsertTeamMemberMutationFn = Apollo.MutationFunction<InsertTeamMembe
  * @example
  * const [insertTeamMemberMutation, { data, loading, error }] = useInsertTeamMemberMutation({
  *   variables: {
- *      team_id: // value for 'team_id'
- *      user_id: // value for 'user_id'
+ *      team_uuid: // value for 'team_uuid'
+ *      user_uuid: // value for 'user_uuid'
  *   },
  * });
  */
@@ -11928,9 +11930,9 @@ export type DeleteAllTeamMemberMutationHookResult = ReturnType<typeof useDeleteA
 export type DeleteAllTeamMemberMutationResult = Apollo.MutationResult<DeleteAllTeamMemberMutation>;
 export type DeleteAllTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
 export const DeleteTeamMemberDocument = gql`
-    mutation DeleteTeamMember($user_id: String!, $team_id: uuid!) {
+    mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
   delete_contest_team_member(
-    where: {user_id: {_eq: $user_id}, team_id: {_eq: $team_id}}
+    where: {user_uuid: {_eq: $user_uuid}, team_id: {_eq: $team_id}}
   ) {
     affected_rows
   }
@@ -11951,7 +11953,7 @@ export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<DeleteTeamMembe
  * @example
  * const [deleteTeamMemberMutation, { data, loading, error }] = useDeleteTeamMemberMutation({
  *   variables: {
- *      user_id: // value for 'user_id'
+ *      user_uuid: // value for 'user_uuid'
  *      team_id: // value for 'team_id'
  *   },
  * });
