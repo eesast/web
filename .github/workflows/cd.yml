@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    if: github.repository_owner == 'eesast'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to DockerHub
+        run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
+
+      - name: Build docker image
+        shell: bash
+        run: docker build -t eesast/web:latest .
+
+      - name: Push docker image
+        shell: bash
+        run: docker push eesast/web:latest
