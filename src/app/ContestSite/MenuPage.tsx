@@ -72,7 +72,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     graphql.useQueryContestManagerSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_id: props.user?.uuid,
+        user_uuid: props.user?.uuid,
       },
     });
   useEffect(() => {

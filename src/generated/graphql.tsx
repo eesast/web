@@ -10371,11 +10371,11 @@ export type Weekly_Variance_Fields = {
 
 export type QueryContestManagerQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
-  user_id?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 }>;
 
 
-export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_id: string }> };
+export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid?: any | null }> };
 
 export type InsertTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
@@ -10683,7 +10683,7 @@ export type GetContestManagerQueryVariables = Exact<{
 }>;
 
 
-export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user: { __typename?: 'user', _id: string, name?: string | null, email?: string | null } }> };
+export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', userByUserUuid?: { __typename?: 'users', uuid: any, realname?: string | null, email: string } | null }> };
 
 export type DeleteContestAllManagerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -10694,7 +10694,7 @@ export type DeleteContestAllManagerMutation = { __typename?: 'mutation_root', de
 
 export type AddContestManagerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
-  user_id: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
 }>;
 
 
@@ -10706,7 +10706,7 @@ export type GetUser_IdQueryVariables = Exact<{
 }>;
 
 
-export type GetUser_IdQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', _id: string }> };
+export type GetUser_IdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
 export type DeleteContestAllTeamsMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -11199,11 +11199,11 @@ export type UpdateProfileMutation = { __typename?: 'mutation_root', update_users
 
 
 export const QueryContestManagerDocument = gql`
-    query QueryContestManager($contest_id: uuid!, $user_id: String = "") {
+    query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
   contest_manager(
-    where: {contest_id: {_eq: $contest_id}, user_id: {_eq: $user_id}}
+    where: {contest_id: {_eq: $contest_id}, user_uuid: {_eq: $user_uuid}}
   ) {
-    user_id
+    user_uuid
   }
 }
     `;
@@ -11221,7 +11221,7 @@ export const QueryContestManagerDocument = gql`
  * const { data, loading, error } = useQueryContestManagerQuery({
  *   variables: {
  *      contest_id: // value for 'contest_id'
- *      user_id: // value for 'user_id'
+ *      user_uuid: // value for 'user_uuid'
  *   },
  * });
  */
@@ -12767,9 +12767,9 @@ export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<DeleteCont
 export const GetContestManagerDocument = gql`
     query GetContestManager($contest_id: uuid!) {
   contest_manager(where: {contest_id: {_eq: $contest_id}}) {
-    user {
-      _id
-      name
+    userByUserUuid {
+      uuid
+      realname
       email
     }
   }
@@ -12842,8 +12842,10 @@ export type DeleteContestAllManagerMutationHookResult = ReturnType<typeof useDel
 export type DeleteContestAllManagerMutationResult = Apollo.MutationResult<DeleteContestAllManagerMutation>;
 export type DeleteContestAllManagerMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>;
 export const AddContestManagerDocument = gql`
-    mutation AddContestManager($contest_id: uuid!, $user_id: String!) {
-  insert_contest_manager(objects: {contest_id: $contest_id, user_id: $user_id}) {
+    mutation AddContestManager($contest_id: uuid!, $user_uuid: uuid!) {
+  insert_contest_manager(
+    objects: {contest_id: $contest_id, user_uuid: $user_uuid}
+  ) {
     affected_rows
   }
 }
@@ -12864,7 +12866,7 @@ export type AddContestManagerMutationFn = Apollo.MutationFunction<AddContestMana
  * const [addContestManagerMutation, { data, loading, error }] = useAddContestManagerMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
- *      user_id: // value for 'user_id'
+ *      user_uuid: // value for 'user_uuid'
  *   },
  * });
  */
@@ -12877,8 +12879,8 @@ export type AddContestManagerMutationResult = Apollo.MutationResult<AddContestMa
 export type AddContestManagerMutationOptions = Apollo.BaseMutationOptions<AddContestManagerMutation, AddContestManagerMutationVariables>;
 export const GetUser_IdDocument = gql`
     query GetUser_Id($email: String!, $name: String!) {
-  user(where: {email: {_eq: $email}, name: {_eq: $name}}) {
-    _id
+  users(where: {email: {_eq: $email}, realname: {_eq: $name}}) {
+    uuid
   }
 }
     `;
