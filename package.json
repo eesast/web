@@ -78,7 +78,7 @@
     "reset": "rimraf node_modules && rimraf yarn.lock && yarn",
     "clean": "rimraf ./node_modules/.cache && rimraf build && rimraf electron",
     "start": "react-app-rewired start",
-    "test": "react-app-rewired test --transformIgnorePatterns \"node_modules/(?!antd|rc|axios)\"",
+    "test": "playwright test --ui",
     "build": "react-app-rewired build",
     "analyze": "cross-env ANALYZER=true yarn build",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
