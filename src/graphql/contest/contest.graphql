@@ -51,7 +51,7 @@ query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
     where: {
       user_uuid: { _eq: $user_uuid }
       _and: {
-        team_as_contest_team_member: { contest_id: { _eq: $contest_uuid } }
+        team_as_contest_team_member: { contest_id: { _eq: $contest_id } }
       }
     }
   ) {

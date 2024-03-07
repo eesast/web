@@ -4992,34 +4992,6 @@ export type Mutation_RootInsert_Honor_Type_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Honor_TimeArgs = {
-  objects: Array<Honor_Time_Insert_Input>;
-  on_conflict?: InputMaybe<Honor_Time_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Honor_Time_OneArgs = {
-  object: Honor_Time_Insert_Input;
-  on_conflict?: InputMaybe<Honor_Time_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Honor_TypeArgs = {
-  objects: Array<Honor_Type_Insert_Input>;
-  on_conflict?: InputMaybe<Honor_Type_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Honor_Type_OneArgs = {
-  object: Honor_Type_Insert_Input;
-  on_conflict?: InputMaybe<Honor_Type_On_Conflict>;
-};
-
-
-/** mutation root */
 export type Mutation_RootInsert_Info_NoticeArgs = {
   objects: Array<Info_Notice_Insert_Input>;
   on_conflict?: InputMaybe<Info_Notice_On_Conflict>;
@@ -7511,52 +7483,6 @@ export type Query_RootHonor_Type_By_PkArgs = {
 };
 
 
-export type Query_RootHonor_TimeArgs = {
-  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
-  where?: InputMaybe<Honor_Time_Bool_Exp>;
-};
-
-
-export type Query_RootHonor_Time_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
-  where?: InputMaybe<Honor_Time_Bool_Exp>;
-};
-
-
-export type Query_RootHonor_Time_By_PkArgs = {
-  activateIn: Scalars['Int']['input'];
-};
-
-
-export type Query_RootHonor_TypeArgs = {
-  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
-  where?: InputMaybe<Honor_Type_Bool_Exp>;
-};
-
-
-export type Query_RootHonor_Type_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
-  where?: InputMaybe<Honor_Type_Bool_Exp>;
-};
-
-
-export type Query_RootHonor_Type_By_PkArgs = {
-  type_name: Scalars['String']['input'];
-};
-
-
 export type Query_RootInfo_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -9850,7 +9776,7 @@ export type User_Pk_Columns_Input = {
 /** select columns of table "user" */
 export enum User_Select_Column {
   /** column name */
-  Id = '_id',
+  _Id = '_id',
   /** column name */
   Class = 'class',
   /** column name */
@@ -9912,7 +9838,7 @@ export type User_Sum_Fields = {
 /** update columns of table "user" */
 export enum User_Update_Column {
   /** column name */
-  Id = '_id',
+  _Id = '_id',
   /** column name */
   Class = 'class',
   /** column name */
@@ -10945,7 +10871,6 @@ export type GetApprovedMentorApplicationsQueryVariables = Exact<{
 }>;
 
 
-
 export type GetApprovedMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null, mentor_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null }> };
 
 export type SubscribeToMessagesSubscriptionVariables = Exact<{
@@ -11022,12 +10947,10 @@ export type GetMentorApplicationsQueryVariables = Exact<{
 
 export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
-
 export type GetMentorApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
-
 
 export type GetMentorAvailableQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -11043,7 +10966,6 @@ export type ChangeMentorAvailableMutationVariables = Exact<{
 
 
 export type ChangeMentorAvailableMutation = { __typename?: 'mutation_root', insert_mentor_available_one?: { __typename?: 'mentor_available', mentor_uuid: any, available: boolean } | null };
-
 
 export type UpdateMentorApplicationStatusMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -11103,7 +11025,6 @@ export type UpsertMentorInfoMutationVariables = Exact<{
 
 export type UpsertMentorInfoMutation = { __typename?: 'mutation_root', insert_mentor_info_one?: { __typename?: 'mentor_info', mentor_uuid: any } | null };
 
-
 export type GetMentorInfoQueryVariables = Exact<{
   mentor_uuid: Scalars['uuid']['input'];
 }>;
@@ -11111,12 +11032,10 @@ export type GetMentorInfoQueryVariables = Exact<{
 
 export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, userByMentorUuid: { __typename?: 'users', realname?: string | null, email: string } } | null };
 
-
 export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetFreshmanListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, student_no?: string | null, mentor_application_as_student: Array<{ __typename?: 'mentor_application', student_uuid?: any | null, mentor_uuid?: any | null, statement: string }> }> };
-
 
 export type GetIdByNameQueryVariables = Exact<{
   name: Scalars['String']['input'];
