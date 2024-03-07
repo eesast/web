@@ -142,7 +142,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     await refetchTeam();
   };
 
-  const deleteTeamMember = async (user_id: String) => {
+  const deleteTeamMember = async (user_id: string) => {
     confirm({
       title: "确定要退出队伍吗？",
       icon: <ExclamationCircleOutlined />,
