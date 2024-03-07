@@ -95,9 +95,9 @@ mutation AddContestManager($contest_id: uuid!, $user_uuid: uuid!) {
   }
 }
 
-# 根据user的name和email获得其_id
-query GetUser_Id($email: String!, $name: String!) {
-  users(where: { email: { _eq: $email }, realname: { _eq: $name } }) {
+# 根据users的name和email获得其uuid
+query GetUser_Id($email: String!, $realname: String!) {
+  users(where: { email: { _eq: $email }, realname: { _eq: $realname } }) {
     uuid
   }
 }

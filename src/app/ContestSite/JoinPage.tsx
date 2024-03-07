@@ -41,7 +41,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: isleaderData, refetch: refetchisleader } =
     graphql.useIsTeamLeaderSuspenseQuery({
       variables: {
-        _id: user?.uuid!,
+        uuid: user?.uuid!,
         contest_id: Contest_id,
       },
     });
@@ -49,8 +49,8 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: ismemberData, refetch: refetchismember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        uuid: user?.uuid!,
-        contest_uuid: Contest_id,
+        user_uuid: user?.uuid!,
+        contest_id: Contest_id,
       },
     });
 
@@ -118,17 +118,15 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
           [
             team.team_name,
             team.team_intro,
-            team.team_leader_id?.name,
-            team.team_leader_id?.email || "null",
-            team.team_leader_id?.phone || "null",
+            team.team_leader_byuuid?.realname,
+            team.team_leader_byuuid?.email || "null",
+            team.team_leader_byuuid?.phone || "null",
           ].concat(
             team.contest_team_members?.map(
               (member) =>
-                `${member.user_as_contest_team_member?.name}/ ${
-                  member.user_as_contest_team_member?._id
-                }/ ${
-                  member.user_as_contest_team_member?.email || "null"
-                }/ ${member.user_as_contest_team_member?.phone || "null"}`,
+                `${member.user?.realname}/ ${member.user?.id}/ ${
+                  member.user?.email || "null"
+                }/ ${member.user?.phone || "null"}`,
             ),
           ),
         ),
@@ -148,7 +146,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       try {
         await insertteamMember({
           variables: {
-            team_uuid: teamId,
+            team_id: teamId,
             user_uuid: user?.uuid!,
           },
         });
@@ -188,16 +186,14 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     {
       title: "队长",
       key: "team_leader",
-      render: (text, record) => record.team_leader_id?.name,
+      render: (text, record) => record.team_leader_byuuid?.realname,
     },
     {
       title: "队员",
       key: "team_member",
       render: (text, record, index) =>
-        record.contest_team_members.map((i) => [
-          i.user_as_contest_team_member.name + "   ",
-        ]),
-      //record.contest_team_members[0].user_as_contest_team_member.name,
+        record.contest_team_members.map((i) => [i.user?.realname + "   "]),
+      //record.contest_team_members[0].user.name,
     }, // TODO: 此处有误
     {
       title: "队伍简介",
