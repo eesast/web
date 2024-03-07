@@ -1,21 +1,26 @@
-query GetApprovedMentorApplications($_id: String!) {
+query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(
     where: {
       _and: [
-        { _or: [{ student_id: { _eq: $_id } }, { mentor_id: { _eq: $_id } }] }
+        {
+          _or: [
+            { student_uuid: { _eq: $uuid } }
+            { mentor_uuid: { _eq: $uuid } }
+          ]
+        }
         { status: { _eq: "approved" } }
       ]
     }
     order_by: { created_at: asc }
   ) {
     id
-    student {
-      _id
-      name
+    student_byuuid {
+      uuid
+      realname
     }
-    mentor {
-      _id
-      name
+    mentor_byuuid {
+      uuid
+      realname
     }
     statement
     status
@@ -24,27 +29,27 @@ query GetApprovedMentorApplications($_id: String!) {
   }
 }
 
-subscription SubscribeToMessages($from_id: String!, $to_id: String!) {
+subscription SubscribeToMessages($from_uuid: uuid!, $to_uuid: uuid!) {
   mentor_message(
     order_by: { created_at: asc }
     where: {
       _or: [
-        { _and: { from_id: { _eq: $from_id }, to_id: { _eq: $to_id } } }
-        { _and: { from_id: { _eq: $to_id }, to_id: { _eq: $from_id } } }
+        { _and: { from_uuid: { _eq: $from_uuid }, to_uuid: { _eq: $to_uuid } } }
+        { _and: { from_uuid: { _eq: $to_uuid }, to_uuid: { _eq: $from_uuid } } }
       ]
     }
   ) {
     created_at
-    from_id
+    from_uuid
     id
     payload
-    to_id
+    to_uuid
   }
 }
 
-mutation AddMessage($from_id: String!, $to_id: String!, $payload: String!) {
+mutation AddMessage($from_uuid: uuid!, $to_uuid: uuid!, $payload: String!) {
   insert_mentor_message(
-    objects: { from_id: $from_id, to_id: $to_id, payload: $payload }
+    objects: { from_uuid: $from_uuid, to_uuid: $to_uuid, payload: $payload }
   ) {
     returning {
       id

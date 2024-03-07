@@ -29,7 +29,7 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     data: approvedApplicationsData,
   } = graphql.useGetApprovedMentorApplicationsQuery({
     variables: {
-      _id: user?.uuid!,
+      uuid: user?.uuid!,
     },
     skip: user?.role === "counselor",
   });
@@ -40,16 +40,19 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [approvedApplicationsError]);
 
-  const mentor = approvedApplicationsData?.mentor_application?.[0]?.mentor;
+  const mentor =
+    approvedApplicationsData?.mentor_application?.[0]?.mentor_byuuid;
   const students = useMemo(
     () =>
-      approvedApplicationsData?.mentor_application.map((i) => i.student) ?? [],
+      approvedApplicationsData?.mentor_application.map(
+        (i) => i.student_byuuid,
+      ) ?? [],
     [approvedApplicationsData?.mentor_application],
   );
 
   const [selectedStudent, setSelectedStudent] =
     useState<
-      graphql.GetApprovedMentorApplicationsQuery["mentor_application"][0]["student"]
+      graphql.GetApprovedMentorApplicationsQuery["mentor_application"][0]["student_byuuid"]
     >();
 
   useEffect(() => {
@@ -68,7 +71,7 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
   ]);
 
   const from = user?.uuid;
-  const to = user?.role === "student" ? mentor?._id : selectedStudent?._id;
+  const to = user?.role === "student" ? mentor?.uuid : selectedStudent?.uuid;
 
   const [text, setText] = useState("");
 
@@ -88,8 +91,8 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
 
     await addMessage({
       variables: {
-        from_id: from!,
-        to_id: to!,
+        from_uuid: from!,
+        to_uuid: to!,
         payload: JSON.stringify({
           text: text.trim(),
         }),
@@ -135,24 +138,26 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
       {user.role === "student" && (
         <Typography.Title
           level={2}
-        >{`与导师 ${mentor?.name} 的聊天`}</Typography.Title>
+        >{`与导师 ${mentor?.realname} 的聊天`}</Typography.Title>
       )}
       {user.role === "teacher" && (
         <Typography.Title
           level={2}
-        >{`与学生 ${selectedStudent?.name} 的聊天`}</Typography.Title>
+        >{`与学生 ${selectedStudent?.realname} 的聊天`}</Typography.Title>
       )}
       <div>
         {user.role === "teacher" && (
           <Menu
             mode="horizontal"
-            selectedKeys={selectedStudent ? [selectedStudent._id] : undefined}
+            selectedKeys={selectedStudent ? [selectedStudent.uuid] : undefined}
             onClick={(e) => {
-              setSelectedStudent(students.find((item) => item._id === e.key)!);
+              setSelectedStudent(
+                students.find((item) => item?.uuid === e.key)!,
+              );
             }}
           >
             {students.map((item) => (
-              <Menu.Item key={item._id}>{item.name}</Menu.Item>
+              <Menu.Item key={item?.uuid}>{item?.realname}</Menu.Item>
             ))}
           </Menu>
         )}
@@ -166,7 +171,9 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
           >
             <ChatFeed
               from={user.uuid!}
-              to={user.role === "student" ? mentor!._id : selectedStudent!._id}
+              to={
+                user.role === "student" ? mentor!.uuid : selectedStudent!.uuid
+              }
             />
             <TextArea
               css={`
@@ -259,8 +266,8 @@ const ChatFeed: React.FC<{
 
   const { data, loading, error } = graphql.useSubscribeToMessagesSubscription({
     variables: {
-      from_id: from,
-      to_id: to,
+      from_uuid: from,
+      to_uuid: to,
     },
   });
 
@@ -307,7 +314,7 @@ const ChatFeed: React.FC<{
               `}
             >
               <ChatBubble
-                position={from === item.from_id ? "right" : "left"}
+                position={from === item.from_uuid ? "right" : "left"}
                 text={JSON.parse(item.payload).text}
                 date={item.created_at}
               />
