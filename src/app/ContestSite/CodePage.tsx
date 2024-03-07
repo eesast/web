@@ -63,14 +63,14 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      _id: user?.uuid!,
+      uuid: user?.uuid!,
       contest_id: Contest_id,
     },
   });
   const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      uuid: user?.uuid!,
-      contest_uuid: Contest_id,
+      user_uuid: user?.uuid!,
+      contest_id: Contest_id,
     },
   });
 

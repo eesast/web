@@ -11,7 +11,7 @@ query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
 mutation InsertTeam(
   $team_name: String!
   $team_intro: String = "" # 此处的intro可以为NULL
-  $team_leader: String! # team_leader的_id
+  $team_leader: String! # team_leader的uuid
   $invited_code: String!
   $contest_id: uuid! # 比赛名称是必填的项
 ) {
@@ -35,10 +35,10 @@ mutation InsertTeam(
 } #
 # 判断是否是某次比赛的leader并返回team_id#
 
-query IsTeamLeader($_id: String!, $contest_id: uuid!) {
+query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
   contest_team(
     where: {
-      team_leader_id: { _id: { _eq: $_id } }
+      team_leader_byuuid: { uuid: { _eq: $uuid } }
       _and: { contest_id: { _eq: $contest_id } }
     }
   ) {
@@ -46,12 +46,12 @@ query IsTeamLeader($_id: String!, $contest_id: uuid!) {
   }
 }
 # 判断是否是member返回id
-query IsTeamMember($uuid: uuid!, $contest_uuid: uuid!) {
+query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
   contest_team_member(
     where: {
-      user_uuid: { _eq: $uuid }
+      user_uuid: { _eq: $user_uuid }
       _and: {
-        team_as_contest_team_member: { contest_id: { _eq: $contest_uuid } }
+        team_as_contest_team_member: { contest_id: { _eq: $contest_id } }
       }
     }
   ) {
@@ -87,19 +87,19 @@ subscription GetAllTeamInfo($contest_id: uuid!) {
       contest_name
     }
     team_intro
-    team_leader_id {
-      _id
+    team_leader_byuuid {
+      uuid
       class
       email
-      name
+      realname
       phone
     }
     contest_team_members {
-      user_as_contest_team_member {
-        _id
+      user {
+        id
         class
         email
-        name
+        realname
         phone
       }
     }
@@ -127,19 +127,19 @@ query GetAllTeamInfo_score($contest_id: uuid!) {
       contest_name
     }
     team_intro
-    team_leader_id {
-      _id
+    team_leader_byuuid {
+      uuid
       class
       email
-      name
+      realname
       phone
     }
     contest_team_members {
-      user_as_contest_team_member {
-        _id
+      user {
+        id
         class
         email
-        name
+        realname
         phone
       }
     }
@@ -181,19 +181,19 @@ query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
       contest_name
     }
     team_intro
-    team_leader_id {
-      _id
+    team_leader_byuuid {
+      uuid
       class
       email
-      name
+      realname
       phone
     }
     contest_team_members {
-      user_as_contest_team_member {
-        _id
+      user {
+        id
         class
         email
-        name
+        realname
         phone
       }
     }
@@ -209,9 +209,9 @@ subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
 }
 
 #插入队员
-mutation InsertTeamMember($team_uuid: uuid!, $user_uuid: uuid!) {
+mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
   insert_contest_team_member(
-    objects: { team_id: $team_uuid, user_uuid: $user_uuid }
+    objects: { team_id: $team_id, user_uuid: $user_uuid }
   ) {
     affected_rows
   }
@@ -234,17 +234,17 @@ mutation UpdateTeam(
 #根据队伍id查询所有队员信息
 query GetMemberInfo($team_id: uuid!) {
   contest_team(where: { team_id: { _eq: $team_id } }) {
-    team_leader_id {
-      name
+    team_leader_byuuid {
+      realname
       id
-      _id
+      uuid
     }
   }
   contest_team_member(where: { team_id: { _eq: $team_id } }) {
-    user_as_contest_team_member {
+    user {
       id
-      _id
-      name
+      uuid
+      realname
     }
   }
 }
