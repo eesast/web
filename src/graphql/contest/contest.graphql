@@ -46,12 +46,12 @@ query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
   }
 }
 # 判断是否是member返回id
-query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
+query IsTeamMember($uuid: uuid!, $contest_uuid: uuid!) {
   contest_team_member(
     where: {
-      user_uuid: { _eq: $user_uuid }
+      user_uuid: { _eq: $uuid }
       _and: {
-        team_as_contest_team_member: { contest_id: { _eq: $contest_id } }
+        team_as_contest_team_member: { contest_id: { _eq: $contest_uuid } }
       }
     }
   ) {
@@ -209,9 +209,9 @@ subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
 }
 
 #插入队员
-mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
+mutation InsertTeamMember($team_uuid: uuid!, $user_uuid: uuid!) {
   insert_contest_team_member(
-    objects: { team_id: $team_id, user_uuid: $user_uuid }
+    objects: { team_id: $team_uuid, user_uuid: $user_uuid }
   ) {
     affected_rows
   }

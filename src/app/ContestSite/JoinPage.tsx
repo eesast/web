@@ -49,8 +49,8 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: ismemberData, refetch: refetchismember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        user_uuid: user?.uuid!,
-        contest_id: Contest_id,
+        uuid: user?.uuid!,
+        contest_uuid: Contest_id,
       },
     });
 
@@ -146,7 +146,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       try {
         await insertteamMember({
           variables: {
-            team_id: teamId,
+            team_uuid: teamId,
             user_uuid: user?.uuid!,
           },
         });

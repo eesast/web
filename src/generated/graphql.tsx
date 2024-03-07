@@ -4992,6 +4992,34 @@ export type Mutation_RootInsert_Honor_Type_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Honor_TimeArgs = {
+  objects: Array<Honor_Time_Insert_Input>;
+  on_conflict?: InputMaybe<Honor_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Honor_Time_OneArgs = {
+  object: Honor_Time_Insert_Input;
+  on_conflict?: InputMaybe<Honor_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Honor_TypeArgs = {
+  objects: Array<Honor_Type_Insert_Input>;
+  on_conflict?: InputMaybe<Honor_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Honor_Type_OneArgs = {
+  object: Honor_Type_Insert_Input;
+  on_conflict?: InputMaybe<Honor_Type_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Info_NoticeArgs = {
   objects: Array<Info_Notice_Insert_Input>;
   on_conflict?: InputMaybe<Info_Notice_On_Conflict>;
@@ -7483,6 +7511,52 @@ export type Query_RootHonor_Type_By_PkArgs = {
 };
 
 
+export type Query_RootHonor_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Time_Order_By>>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Time_By_PkArgs = {
+  activateIn: Scalars['Int']['input'];
+};
+
+
+export type Query_RootHonor_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Honor_Type_Order_By>>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
+};
+
+
+export type Query_RootHonor_Type_By_PkArgs = {
+  type_name: Scalars['String']['input'];
+};
+
+
 export type Query_RootInfo_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Info_Notice_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -9881,19 +9955,23 @@ export type User_Variance_Fields = {
 export type Users = {
   __typename?: 'users';
   class?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  contest_team_members: Array<Contest_Team_Member>;
+  /** An aggregate relationship */
+  contest_team_members_aggregate: Contest_Team_Member_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   department?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   github_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
-  mentor_application_mentors: Array<Mentor_Application>;
+  mentor_application_as_mentor: Array<Mentor_Application>;
   /** An aggregate relationship */
-  mentor_application_mentors_aggregate: Mentor_Application_Aggregate;
+  mentor_application_as_mentor_aggregate: Mentor_Application_Aggregate;
   /** An array relationship */
-  mentor_application_students: Array<Mentor_Application>;
+  mentor_application_as_student: Array<Mentor_Application>;
   /** An aggregate relationship */
-  mentor_application_students_aggregate: Mentor_Application_Aggregate;
+  mentor_application_as_student_aggregate: Mentor_Application_Aggregate;
   /** An object relationship */
   mentor_available?: Maybe<Mentor_Available>;
   password: Scalars['String']['output'];
@@ -9909,7 +9987,27 @@ export type Users = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_MentorsArgs = {
+export type UsersContest_Team_MembersArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
+  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersContest_Team_Members_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
+  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersMentor_Application_As_MentorArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9919,7 +10017,7 @@ export type UsersMentor_Application_MentorsArgs = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_Mentors_AggregateArgs = {
+export type UsersMentor_Application_As_Mentor_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9929,7 +10027,7 @@ export type UsersMentor_Application_Mentors_AggregateArgs = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_StudentsArgs = {
+export type UsersMentor_Application_As_StudentArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9939,7 +10037,7 @@ export type UsersMentor_Application_StudentsArgs = {
 
 
 /** columns and relationships of "users" */
-export type UsersMentor_Application_Students_AggregateArgs = {
+export type UsersMentor_Application_As_Student_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -9975,13 +10073,14 @@ export type Users_Bool_Exp = {
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
   class?: InputMaybe<String_Comparison_Exp>;
+  contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   department?: InputMaybe<String_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   github_id?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
-  mentor_application_mentors?: InputMaybe<Mentor_Application_Bool_Exp>;
-  mentor_application_students?: InputMaybe<Mentor_Application_Bool_Exp>;
+  mentor_application_as_mentor?: InputMaybe<Mentor_Application_Bool_Exp>;
+  mentor_application_as_student?: InputMaybe<Mentor_Application_Bool_Exp>;
   mentor_available?: InputMaybe<Mentor_Available_Bool_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
   phone?: InputMaybe<String_Comparison_Exp>;
@@ -10019,13 +10118,14 @@ export enum Users_Constraint {
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   class?: InputMaybe<Scalars['String']['input']>;
+  contest_team_members?: InputMaybe<Contest_Team_Member_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   department?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   github_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  mentor_application_mentors?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
-  mentor_application_students?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
+  mentor_application_as_mentor?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
+  mentor_application_as_student?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
   mentor_available?: InputMaybe<Mentor_Available_Obj_Rel_Insert_Input>;
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
@@ -10104,13 +10204,14 @@ export type Users_On_Conflict = {
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
   class?: InputMaybe<Order_By>;
+  contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   department?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   github_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  mentor_application_mentors_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
-  mentor_application_students_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
+  mentor_application_as_mentor_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
+  mentor_application_as_student_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
   mentor_available?: InputMaybe<Mentor_Available_Order_By>;
   password?: InputMaybe<Order_By>;
   phone?: InputMaybe<Order_By>;
@@ -10456,8 +10557,8 @@ export type IsTeamLeaderQueryVariables = Exact<{
 export type IsTeamLeaderQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any }> };
 
 export type IsTeamMemberQueryVariables = Exact<{
-  user_uuid: Scalars['uuid']['input'];
-  contest_id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
+  contest_uuid: Scalars['uuid']['input'];
 }>;
 
 
@@ -10508,7 +10609,7 @@ export type GetCompileStatusSubscriptionVariables = Exact<{
 export type GetCompileStatusSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', status?: string | null }> };
 
 export type InsertTeamMemberMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
+  team_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 }>;
 
@@ -10840,23 +10941,23 @@ export type GetIdByStudentNoQueryVariables = Exact<{
 export type GetIdByStudentNoQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id?: string | null }> };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type GetApprovedMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student?: { __typename?: 'user', _id: string, name?: string | null } | null, mentor?: { __typename?: 'user', _id: string, name?: string | null } | null }> };
+export type GetApprovedMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null, mentor_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null }> };
 
 export type SubscribeToMessagesSubscriptionVariables = Exact<{
-  from_id: Scalars['String']['input'];
-  to_id: Scalars['String']['input'];
+  from_uuid: Scalars['uuid']['input'];
+  to_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type SubscribeToMessagesSubscription = { __typename?: 'subscription_root', mentor_message: Array<{ __typename?: 'mentor_message', created_at: any, from_id?: string | null, id: any, payload: string, to_id?: string | null }> };
+export type SubscribeToMessagesSubscription = { __typename?: 'subscription_root', mentor_message: Array<{ __typename?: 'mentor_message', created_at: any, from_uuid?: any | null, id: any, payload: string, to_uuid?: any | null }> };
 
 export type AddMessageMutationVariables = Exact<{
-  from_id: Scalars['String']['input'];
-  to_id: Scalars['String']['input'];
+  from_uuid: Scalars['uuid']['input'];
+  to_uuid: Scalars['uuid']['input'];
   payload: Scalars['String']['input'];
 }>;
 
@@ -10914,31 +11015,31 @@ export type UpdateHonorApplicationStatusMutationVariables = Exact<{
 export type UpdateHonorApplicationStatusMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any, status: string }> } | null };
 
 export type GetMentorApplicationsQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student?: { __typename?: 'user', name?: string | null, department?: string | null, email?: string | null, phone?: string | null } | null, mentor?: { __typename?: 'user', name?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
+export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
 export type GetMentorApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student?: { __typename?: 'user', id?: any | null, name?: string | null, class?: string | null, department?: string | null, email?: string | null, phone?: string | null } | null, mentor?: { __typename?: 'user', name?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
+export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
 export type GetMentorAvailableQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
 }>;
 
 
 export type GetMentorAvailableQuery = { __typename?: 'query_root', mentor_available: Array<{ __typename?: 'mentor_available', available: boolean }> };
 
 export type ChangeMentorAvailableMutationVariables = Exact<{
-  _id: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
   available: Scalars['Boolean']['input'];
 }>;
 
 
-export type ChangeMentorAvailableMutation = { __typename?: 'mutation_root', insert_mentor_available_one?: { __typename?: 'mentor_available', mentor_id?: string | null, available: boolean } | null };
+export type ChangeMentorAvailableMutation = { __typename?: 'mutation_root', insert_mentor_available_one?: { __typename?: 'mentor_available', mentor_uuid: any, available: boolean } | null };
 
 export type UpdateMentorApplicationStatusMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -10957,8 +11058,8 @@ export type UpdateMentorApplicationChatStatusMutationVariables = Exact<{
 export type UpdateMentorApplicationChatStatusMutation = { __typename?: 'mutation_root', update_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
 
 export type AddMentorApplicationMutationVariables = Exact<{
-  student_id: Scalars['String']['input'];
-  mentor_id: Scalars['String']['input'];
+  student_uuid: Scalars['uuid']['input'];
+  mentor_uuid: Scalars['uuid']['input'];
   statement: Scalars['String']['input'];
 }>;
 
@@ -10985,37 +11086,37 @@ export type GetMentorListQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorListQuery = { __typename?: 'query_root', user_by_role: Array<{ __typename?: 'user_by_role_user', _id: string, name: string, department: string, user?: { __typename?: 'user', matched: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_grade: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
+export type GetMentorListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, realname?: string | null, department?: string | null, matched: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_grade: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null }> };
 
 export type UpsertMentorInfoMutationVariables = Exact<{
   achievement?: InputMaybe<Scalars['String']['input']>;
   background?: InputMaybe<Scalars['String']['input']>;
   field?: InputMaybe<Scalars['String']['input']>;
   intro?: InputMaybe<Scalars['String']['input']>;
-  mentor_id: Scalars['String']['input'];
+  mentor_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type UpsertMentorInfoMutation = { __typename?: 'mutation_root', insert_mentor_info_one?: { __typename?: 'mentor_info', mentor_id?: string | null } | null };
+export type UpsertMentorInfoMutation = { __typename?: 'mutation_root', insert_mentor_info_one?: { __typename?: 'mentor_info', mentor_uuid: any } | null };
 
 export type GetMentorInfoQueryVariables = Exact<{
   mentor_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, user?: { __typename?: 'user', name?: string | null, email?: string | null } | null } | null };
+export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, userByMentorUuid: { __typename?: 'users', realname?: string | null, email: string } } | null };
 
 export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFreshmanListQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', _id: string, id?: any | null, mentor_applications_student: Array<{ __typename?: 'mentor_application', student_id?: string | null, mentor_id?: string | null, statement: string }> }> };
+export type GetFreshmanListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, student_no?: string | null, mentor_application_as_student: Array<{ __typename?: 'mentor_application', student_uuid?: any | null, mentor_uuid?: any | null, statement: string }> }> };
 
 export type GetIdByNameQueryVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
 
 
-export type GetIdByNameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id?: string | null }> };
+export type GetIdByNameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
 export type GetNoticesQueryVariables = Exact<{
   notice_type?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -11383,9 +11484,9 @@ export type IsTeamLeaderLazyQueryHookResult = ReturnType<typeof useIsTeamLeaderL
 export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<typeof useIsTeamLeaderSuspenseQuery>;
 export type IsTeamLeaderQueryResult = Apollo.QueryResult<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>;
 export const IsTeamMemberDocument = gql`
-    query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
+    query IsTeamMember($uuid: uuid!, $contest_uuid: uuid!) {
   contest_team_member(
-    where: {user_uuid: {_eq: $user_uuid}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_id}}}}
+    where: {user_uuid: {_eq: $uuid}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_uuid}}}}
   ) {
     team_id
   }
@@ -11404,8 +11505,8 @@ export const IsTeamMemberDocument = gql`
  * @example
  * const { data, loading, error } = useIsTeamMemberQuery({
  *   variables: {
- *      user_uuid: // value for 'user_uuid'
- *      contest_id: // value for 'contest_id'
+ *      uuid: // value for 'uuid'
+ *      contest_uuid: // value for 'contest_uuid'
  *   },
  * });
  */
@@ -11739,8 +11840,10 @@ export function useGetCompileStatusSubscription(baseOptions: Apollo.Subscription
 export type GetCompileStatusSubscriptionHookResult = ReturnType<typeof useGetCompileStatusSubscription>;
 export type GetCompileStatusSubscriptionResult = Apollo.SubscriptionResult<GetCompileStatusSubscription>;
 export const InsertTeamMemberDocument = gql`
-    mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
-  insert_contest_team_member(objects: {team_id: $team_id, user_uuid: $user_uuid}) {
+    mutation InsertTeamMember($team_uuid: uuid!, $user_uuid: uuid!) {
+  insert_contest_team_member(
+    objects: {team_id: $team_uuid, user_uuid: $user_uuid}
+  ) {
     affected_rows
   }
 }
@@ -11760,7 +11863,7 @@ export type InsertTeamMemberMutationFn = Apollo.MutationFunction<InsertTeamMembe
  * @example
  * const [insertTeamMemberMutation, { data, loading, error }] = useInsertTeamMemberMutation({
  *   variables: {
- *      team_id: // value for 'team_id'
+ *      team_uuid: // value for 'team_uuid'
  *      user_uuid: // value for 'user_uuid'
  *   },
  * });
@@ -13384,19 +13487,19 @@ export type GetIdByStudentNoLazyQueryHookResult = ReturnType<typeof useGetIdBySt
 export type GetIdByStudentNoSuspenseQueryHookResult = ReturnType<typeof useGetIdByStudentNoSuspenseQuery>;
 export type GetIdByStudentNoQueryResult = Apollo.QueryResult<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
-    query GetApprovedMentorApplications($_id: String!) {
+    query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(
-    where: {_and: [{_or: [{student_id: {_eq: $_id}}, {mentor_id: {_eq: $_id}}]}, {status: {_eq: "approved"}}]}
+    where: {_and: [{_or: [{student_uuid: {_eq: $uuid}}, {mentor_uuid: {_eq: $uuid}}]}, {status: {_eq: "approved"}}]}
     order_by: {created_at: asc}
   ) {
     id
-    student {
-      _id
-      name
+    student_byuuid {
+      uuid
+      realname
     }
-    mentor {
-      _id
-      name
+    mentor_byuuid {
+      uuid
+      realname
     }
     statement
     status
@@ -13418,7 +13521,7 @@ export const GetApprovedMentorApplicationsDocument = gql`
  * @example
  * const { data, loading, error } = useGetApprovedMentorApplicationsQuery({
  *   variables: {
- *      _id: // value for '_id'
+ *      uuid: // value for 'uuid'
  *   },
  * });
  */
@@ -13439,16 +13542,16 @@ export type GetApprovedMentorApplicationsLazyQueryHookResult = ReturnType<typeof
 export type GetApprovedMentorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsSuspenseQuery>;
 export type GetApprovedMentorApplicationsQueryResult = Apollo.QueryResult<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>;
 export const SubscribeToMessagesDocument = gql`
-    subscription SubscribeToMessages($from_id: String!, $to_id: String!) {
+    subscription SubscribeToMessages($from_uuid: uuid!, $to_uuid: uuid!) {
   mentor_message(
     order_by: {created_at: asc}
-    where: {_or: [{_and: {from_id: {_eq: $from_id}, to_id: {_eq: $to_id}}}, {_and: {from_id: {_eq: $to_id}, to_id: {_eq: $from_id}}}]}
+    where: {_or: [{_and: {from_uuid: {_eq: $from_uuid}, to_uuid: {_eq: $to_uuid}}}, {_and: {from_uuid: {_eq: $to_uuid}, to_uuid: {_eq: $from_uuid}}}]}
   ) {
     created_at
-    from_id
+    from_uuid
     id
     payload
-    to_id
+    to_uuid
   }
 }
     `;
@@ -13465,8 +13568,8 @@ export const SubscribeToMessagesDocument = gql`
  * @example
  * const { data, loading, error } = useSubscribeToMessagesSubscription({
  *   variables: {
- *      from_id: // value for 'from_id'
- *      to_id: // value for 'to_id'
+ *      from_uuid: // value for 'from_uuid'
+ *      to_uuid: // value for 'to_uuid'
  *   },
  * });
  */
@@ -13477,9 +13580,9 @@ export function useSubscribeToMessagesSubscription(baseOptions: Apollo.Subscript
 export type SubscribeToMessagesSubscriptionHookResult = ReturnType<typeof useSubscribeToMessagesSubscription>;
 export type SubscribeToMessagesSubscriptionResult = Apollo.SubscriptionResult<SubscribeToMessagesSubscription>;
 export const AddMessageDocument = gql`
-    mutation AddMessage($from_id: String!, $to_id: String!, $payload: String!) {
+    mutation AddMessage($from_uuid: uuid!, $to_uuid: uuid!, $payload: String!) {
   insert_mentor_message(
-    objects: {from_id: $from_id, to_id: $to_id, payload: $payload}
+    objects: {from_uuid: $from_uuid, to_uuid: $to_uuid, payload: $payload}
   ) {
     returning {
       id
@@ -13502,8 +13605,8 @@ export type AddMessageMutationFn = Apollo.MutationFunction<AddMessageMutation, A
  * @example
  * const [addMessageMutation, { data, loading, error }] = useAddMessageMutation({
  *   variables: {
- *      from_id: // value for 'from_id'
- *      to_id: // value for 'to_id'
+ *      from_uuid: // value for 'from_uuid'
+ *      to_uuid: // value for 'to_uuid'
  *      payload: // value for 'payload'
  *   },
  * });
@@ -13773,20 +13876,20 @@ export type UpdateHonorApplicationStatusMutationHookResult = ReturnType<typeof u
 export type UpdateHonorApplicationStatusMutationResult = Apollo.MutationResult<UpdateHonorApplicationStatusMutation>;
 export type UpdateHonorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
 export const GetMentorApplicationsDocument = gql`
-    query GetMentorApplications($_id: String!) {
+    query GetMentorApplications($uuid: uuid!) {
   mentor_application(
-    where: {_or: [{student_id: {_eq: $_id}}, {mentor_id: {_eq: $_id}}]}
+    where: {_or: [{student_uuid: {_eq: $uuid}}, {mentor_uuid: {_eq: $uuid}}]}
     order_by: {created_at: asc}
   ) {
     id
-    student {
-      name
+    student_byuuid {
+      realname
       department
       email
       phone
     }
-    mentor {
-      name
+    mentor_byuuid {
+      realname
       department
       mentor_available {
         available
@@ -13813,7 +13916,7 @@ export const GetMentorApplicationsDocument = gql`
  * @example
  * const { data, loading, error } = useGetMentorApplicationsQuery({
  *   variables: {
- *      _id: // value for '_id'
+ *      uuid: // value for 'uuid'
  *   },
  * });
  */
@@ -13837,16 +13940,16 @@ export const GetMentorApplicationsForCounselorsDocument = gql`
     query GetMentorApplicationsForCounselors {
   mentor_application(order_by: {created_at: asc}) {
     id
-    student {
-      id
-      name
+    student_byuuid {
+      uuid
+      realname
       class
       department
       email
       phone
     }
-    mentor {
-      name
+    mentor_byuuid {
+      realname
       department
       mentor_available {
         available
@@ -13892,8 +13995,8 @@ export type GetMentorApplicationsForCounselorsLazyQueryHookResult = ReturnType<t
 export type GetMentorApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsForCounselorsSuspenseQuery>;
 export type GetMentorApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>;
 export const GetMentorAvailableDocument = gql`
-    query GetMentorAvailable($_id: String!) {
-  mentor_available(where: {mentor_id: {_eq: $_id}}) {
+    query GetMentorAvailable($uuid: uuid!) {
+  mentor_available(where: {mentor_uuid: {_eq: $uuid}}) {
     available
   }
 }
@@ -13911,7 +14014,7 @@ export const GetMentorAvailableDocument = gql`
  * @example
  * const { data, loading, error } = useGetMentorAvailableQuery({
  *   variables: {
- *      _id: // value for '_id'
+ *      uuid: // value for 'uuid'
  *   },
  * });
  */
@@ -13932,12 +14035,12 @@ export type GetMentorAvailableLazyQueryHookResult = ReturnType<typeof useGetMent
 export type GetMentorAvailableSuspenseQueryHookResult = ReturnType<typeof useGetMentorAvailableSuspenseQuery>;
 export type GetMentorAvailableQueryResult = Apollo.QueryResult<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>;
 export const ChangeMentorAvailableDocument = gql`
-    mutation ChangeMentorAvailable($_id: String!, $available: Boolean!) {
+    mutation ChangeMentorAvailable($uuid: uuid!, $available: Boolean!) {
   insert_mentor_available_one(
-    object: {mentor_id: $_id, available: $available}
-    on_conflict: {constraint: mentor_available_pkey, update_columns: available}
+    object: {mentor_uuid: $uuid, available: $available}
+    on_conflict: {constraint: mentor_available_mentor_uuid_key, update_columns: available}
   ) {
-    mentor_id
+    mentor_uuid
     available
   }
 }
@@ -13957,7 +14060,7 @@ export type ChangeMentorAvailableMutationFn = Apollo.MutationFunction<ChangeMent
  * @example
  * const [changeMentorAvailableMutation, { data, loading, error }] = useChangeMentorAvailableMutation({
  *   variables: {
- *      _id: // value for '_id'
+ *      uuid: // value for 'uuid'
  *      available: // value for 'available'
  *   },
  * });
@@ -14045,9 +14148,9 @@ export type UpdateMentorApplicationChatStatusMutationHookResult = ReturnType<typ
 export type UpdateMentorApplicationChatStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationChatStatusMutation>;
 export type UpdateMentorApplicationChatStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>;
 export const AddMentorApplicationDocument = gql`
-    mutation AddMentorApplication($student_id: String!, $mentor_id: String!, $statement: String!) {
+    mutation AddMentorApplication($student_uuid: uuid!, $mentor_uuid: uuid!, $statement: String!) {
   insert_mentor_application(
-    objects: {student_id: $student_id, mentor_id: $mentor_id, statement: $statement}
+    objects: {student_uuid: $student_uuid, mentor_uuid: $mentor_uuid, statement: $statement}
   ) {
     returning {
       id
@@ -14070,8 +14173,8 @@ export type AddMentorApplicationMutationFn = Apollo.MutationFunction<AddMentorAp
  * @example
  * const [addMentorApplicationMutation, { data, loading, error }] = useAddMentorApplicationMutation({
  *   variables: {
- *      student_id: // value for 'student_id'
- *      mentor_id: // value for 'mentor_id'
+ *      student_uuid: // value for 'student_uuid'
+ *      mentor_uuid: // value for 'mentor_uuid'
  *      statement: // value for 'statement'
  *   },
  * });
@@ -14157,33 +14260,31 @@ export type DeleteMentorApplicationMutationResult = Apollo.MutationResult<Delete
 export type DeleteMentorApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteMentorApplicationMutation, DeleteMentorApplicationMutationVariables>;
 export const GetMentorListDocument = gql`
     query GetMentorList($grade_time: timestamptz!) {
-  user_by_role(role: "teacher") {
-    _id
-    name
+  users(where: {role: {_eq: "teacher"}}) {
+    uuid
+    realname
     department
-    user {
-      matched: mentor_applications_mentor_aggregate(
-        where: {status: {_eq: "approved"}}
-      ) {
-        aggregate {
-          count
-        }
+    matched: mentor_application_as_mentor_aggregate(
+      where: {status: {_eq: "approved"}}
+    ) {
+      aggregate {
+        count
       }
-      total: mentor_applications_mentor_aggregate {
-        aggregate {
-          count
-        }
+    }
+    total: mentor_application_as_mentor_aggregate {
+      aggregate {
+        count
       }
-      total_for_grade: mentor_applications_mentor_aggregate(
-        where: {created_at: {_gte: $grade_time}}
-      ) {
-        aggregate {
-          count
-        }
+    }
+    total_for_grade: mentor_application_as_mentor_aggregate(
+      where: {created_at: {_gte: $grade_time}}
+    ) {
+      aggregate {
+        count
       }
-      mentor_available {
-        available
-      }
+    }
+    mentor_available {
+      available
     }
   }
 }
@@ -14222,12 +14323,12 @@ export type GetMentorListLazyQueryHookResult = ReturnType<typeof useGetMentorLis
 export type GetMentorListSuspenseQueryHookResult = ReturnType<typeof useGetMentorListSuspenseQuery>;
 export type GetMentorListQueryResult = Apollo.QueryResult<GetMentorListQuery, GetMentorListQueryVariables>;
 export const UpsertMentorInfoDocument = gql`
-    mutation UpsertMentorInfo($achievement: String = "", $background: String = "", $field: String = "", $intro: String = "", $mentor_id: String!) {
+    mutation UpsertMentorInfo($achievement: String = "", $background: String = "", $field: String = "", $intro: String = "", $mentor_uuid: uuid!) {
   insert_mentor_info_one(
-    object: {achievement: $achievement, background: $background, field: $field, intro: $intro, mentor_id: $mentor_id}
+    object: {achievement: $achievement, background: $background, field: $field, intro: $intro, mentor_uuid: $mentor_uuid}
     on_conflict: {constraint: mentor_info_pkey, update_columns: [achievement, background, field, intro]}
   ) {
-    mentor_id
+    mentor_uuid
   }
 }
     `;
@@ -14250,7 +14351,7 @@ export type UpsertMentorInfoMutationFn = Apollo.MutationFunction<UpsertMentorInf
  *      background: // value for 'background'
  *      field: // value for 'field'
  *      intro: // value for 'intro'
- *      mentor_id: // value for 'mentor_id'
+ *      mentor_uuid: // value for 'mentor_uuid'
  *   },
  * });
  */
@@ -14269,8 +14370,8 @@ export const GetMentorInfoDocument = gql`
     field
     intro
     mentor_uuid
-    user {
-      name
+    userByMentorUuid {
+      realname
       email
     }
   }
@@ -14311,12 +14412,12 @@ export type GetMentorInfoSuspenseQueryHookResult = ReturnType<typeof useGetMento
 export type GetMentorInfoQueryResult = Apollo.QueryResult<GetMentorInfoQuery, GetMentorInfoQueryVariables>;
 export const GetFreshmanListDocument = gql`
     query GetFreshmanList {
-  user(where: {id: {_gt: "2022999999", _lte: "2023999999"}}) {
-    _id
-    id
-    mentor_applications_student(where: {status: {_eq: "approved"}}) {
-      student_id
-      mentor_id
+  users(where: {student_no: {_gt: "2022999999", _lte: "2023999999"}}) {
+    uuid
+    student_no
+    mentor_application_as_student(where: {status: {_eq: "approved"}}) {
+      student_uuid
+      mentor_uuid
       statement
     }
   }
@@ -14357,7 +14458,7 @@ export type GetFreshmanListQueryResult = Apollo.QueryResult<GetFreshmanListQuery
 export const GetIdByNameDocument = gql`
     query GetIdByName($name: String!) {
   users(where: {realname: {_eq: $name}}) {
-    id
+    uuid
   }
 }
     `;
