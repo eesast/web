@@ -95,7 +95,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   } = graphql.useGetUser_IdSuspenseQuery({
     variables: {
       email: "",
-      name: "",
+      realname: "",
     },
   });
 
@@ -247,7 +247,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
           try {
             const newUserData = await refetchUserId({
               email: item.email,
-              name: item.name,
+              realname: item.name,
             });
             const user_uuid = newUserData.data.users[0]?.uuid;
             if (user_uuid) {
@@ -291,7 +291,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
           try {
             const newUserData = await refetchUserId({
               email: item.email,
-              name: item.name,
+              realname: item.name,
             });
             const user_uuid = newUserData.data.users[0]?.uuid;
             if (user_uuid) {
