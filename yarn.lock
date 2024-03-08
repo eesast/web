@@ -2552,7 +2552,7 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@playwright/test@^1.42.1":
+"@playwright/test@1.42.1":
   version "1.42.1"
   resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.42.1.tgz#9eff7417bcaa770e9e9a00439e078284b301f31c"
   integrity sha512-Gq9rmS54mjBL/7/MvBaNOBwbfnh7beHvS6oS4srqXFcQHpQCV1+c8JXWE8VLPyRDhgS3H8x8A7hztqI9VnwrAQ==
@@ -11001,9 +11001,9 @@ react-router-dom@6.22.2:
     "@remix-run/router" "1.15.2"
     react-router "6.22.2"
 
-react-router-prompt@^0.7.0:
+react-router-prompt@0.7.0:
   version "0.7.0"
-  resolved "https://registry.npmmirror.com/react-router-prompt/-/react-router-prompt-0.7.0.tgz#cfde29a034b4c13563f8e9324e958e66a3038713"
+  resolved "https://registry.yarnpkg.com/react-router-prompt/-/react-router-prompt-0.7.0.tgz#cfde29a034b4c13563f8e9324e958e66a3038713"
   integrity sha512-EI5atxnC2eAvCOYfVobSI7xOHG8ljcsrU5x6lrI/mbXxglUZk0JPwBLMdE/DioVkKd5zbk23KtIalKu4KrEXHQ==
 
 react-router@6.22.2:
