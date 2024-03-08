@@ -46,10 +46,10 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  let projectUrl = process.env.REACT_APP_STATIC_URL + "/public/WebGL/THUAI6/";
+  let projectUrl = process.env.REACT_APP_STATIC_URL! + "/public/WebGL/THUAI6/";
   let projectName = "THUAI6_WebGL";
   if (Contest_id === "jump") {
-    projectUrl = process.env.REACT_APP_STATIC_URL + "/public/WebGL/Jump/";
+    projectUrl = process.env.REACT_APP_STATIC_URL! + "/public/WebGL/Jump/";
     projectName = "JumpJump-Build";
   }
 
