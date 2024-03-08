@@ -361,7 +361,8 @@ const App: React.FC = () => {
 
   const TourGuide = () => {
     const [open, setOpen] = useState<boolean>(
-      localStorage.getItem("tour") !== "true",
+      localStorage.getItem("tour") !== "true" &&
+        process.env.NODE_ENV !== "development",
     );
     return (
       <Tour

@@ -9,7 +9,7 @@ import { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } from "web-vitals";
 import axios from "axios";
 
 axios.defaults.baseURL =
-  process.env.NODE_ENV! === "production"
+  process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_API_URL!
     : process.env.REACT_APP_API_DEV_URL!;
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -34,7 +34,7 @@ root.render(
 
 // Measuring performance in our app, pass a function
 // Learn more: https://github.com/GoogleChrome/web-vitals, https://bit.ly/CRA-vitals
-if (process.env.NODE_ENV! === "development") {
+if (process.env.NODE_ENV === "development") {
   onCLS(console.log); // Cumulative Layout Shift, https://web.dev/cls/
   onFID(console.log); // First Input Delay, https://web.dev/fid/
   onLCP(console.log); // Largest Contentful Paint, https://web.dev/lcp/
