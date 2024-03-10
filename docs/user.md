@@ -1,7 +1,6 @@
 ---
-layout: page
+layout: default
 permalink: /user
-theme: jekyll-theme-cayman
 ---
 
 ### 前后端接口
