@@ -154,7 +154,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     if (editingApplication) {
       await updateApplication({
         variables: {
-          uuid: editingApplication.id,
+          id: editingApplication.id,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
@@ -187,13 +187,13 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [deleteApplicationError]);
 
-  const handleApplicationDelete = async (uuid: string) => {
+  const handleApplicationDelete = async (id: string) => {
     confirm({
       title: "确定要删除此申请吗？",
       icon: <ExclamationCircleOutlined />,
       content: "此操作不可恢复。",
       onOk: async () => {
-        await deleteApplication({ variables: { uuid } });
+        await deleteApplication({ variables: { id } });
         await refetchApplications();
       },
     });
@@ -322,7 +322,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   ) => {
     await updateApplicationStatus({
       variables: {
-        uuid: item.id,
+        id: item.id,
         status: checked ? "approved" : "rejected",
       },
     });
@@ -421,7 +421,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         (application) =>
           application.honor === exportHonor &&
           exportClasses.some((_class) =>
-            application.student_byuuid.class?.includes(_class),
+            application.student_byuuid?.class?.includes(_class),
           ),
       )
       .map((i) => [
@@ -558,7 +558,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       await Promise.all(
         applications.map(async (application) => {
           try {
-            const uuid = application[0];
+            const id = application[0];
             const honor = application[4].toString().trim();
             const status = application[5].toString().trim();
 
@@ -571,7 +571,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
             updateApplicationStatus({
               variables: {
-                uuid,
+                id,
                 status: getStatusValue(status),
               },
             });
