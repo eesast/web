@@ -14,13 +14,13 @@ export const getStatusText = (status: string) =>
 export const getStatusValue = (text: string) =>
   text === "已提交" ? "submitted" : text === "未通过" ? "rejected" : "approved";
 
-const formatDate = (date: Date) => {
-  const month = "" + (date.getMonth() + 1),
-    day = "" + date.getDate(),
-    year = date.getFullYear();
+// const formatDate = (date: Date) => {
+//   const month = "" + (date.getMonth() + 1),
+//     day = "" + date.getDate(),
+//     year = date.getFullYear();
 
-  return year + "年" + month + "月" + day + "日";
-};
+//   return year + "年" + month + "月" + day + "日";
+// };
 
 // export const generateThankLetter = async (
 //   application:
