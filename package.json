@@ -141,5 +141,7 @@
       "build/**/*",
       "node_modules/**/*"
     ]
-  }
+  },
+  "repository": "https://github.com/VanellopeAsher/web.git",
+  "license": "MIT"
 }

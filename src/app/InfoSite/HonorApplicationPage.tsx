@@ -104,7 +104,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchApplications,
   } = graphql.useGetHonorApplicationsQuery({
     variables: {
-      _id: user?.uuid!,
+      uuid: user?.uuid!,
       _gte: info.honor.start_A,
     },
     skip: user?.role === "counselor",
@@ -154,7 +154,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     if (editingApplication) {
       await updateApplication({
         variables: {
-          id: editingApplication.id,
+          uuid: editingApplication.id,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
@@ -163,7 +163,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     } else {
       await addApplication({
         variables: {
-          student_id: user?.uuid!,
+          student_uuid: user?.uuid!,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
@@ -187,13 +187,13 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [deleteApplicationError]);
 
-  const handleApplicationDelete = async (id: string) => {
+  const handleApplicationDelete = async (uuid: string) => {
     confirm({
       title: "确定要删除此申请吗？",
       icon: <ExclamationCircleOutlined />,
       content: "此操作不可恢复。",
       onOk: async () => {
-        await deleteApplication({ variables: { id } });
+        await deleteApplication({ variables: { uuid } });
         await refetchApplications();
       },
     });
@@ -322,7 +322,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   ) => {
     await updateApplicationStatus({
       variables: {
-        id: item.id,
+        uuid: item.id,
         status: checked ? "approved" : "rejected",
       },
     });
@@ -342,19 +342,19 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       title: "学号",
       dataIndex: ["student", "id"],
       key: "student_id",
-      ...getColumnSearchProps(["student", "id"], "学号"),
+      ...getColumnSearchProps(["student_byuuid", "id"], "学号"),
     },
     {
       title: "姓名",
       dataIndex: ["student", "name"],
       key: "name",
-      ...getColumnSearchProps(["student", "name"], "姓名"),
+      ...getColumnSearchProps(["student_byuuid", "name"], "姓名"),
     },
     {
       title: "班级",
       dataIndex: ["student", "class"],
       key: "class",
-      ...getColumnSearchProps(["student", "class"], "班级"),
+      ...getColumnSearchProps(["student_byuuid", "class"], "班级"),
     },
     {
       title: "荣誉类型",
@@ -421,14 +421,14 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         (application) =>
           application.honor === exportHonor &&
           exportClasses.some((_class) =>
-            application.student.class?.includes(_class),
+            application.student_byuuid.class?.includes(_class),
           ),
       )
       .map((i) => [
         i.id,
-        i.student.id,
-        i.student.name,
-        i.student.class,
+        i.student_byuuid?.uuid,
+        i.student_byuuid?.realname,
+        i.student_byuuid?.class,
         exportHonor,
         getStatusText(i.status),
         i.statement,
@@ -471,9 +471,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     const applications = applicationsForCounselors!.honor_application.map(
       (i) => [
         i.id,
-        i.student.id,
-        i.student.name,
-        i.student.class,
+        i.student_byuuid?.uuid,
+        i.student_byuuid?.realname,
+        i.student_byuuid?.class,
         i.honor,
         getStatusText(i.status),
         i.statement,
@@ -558,7 +558,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       await Promise.all(
         applications.map(async (application) => {
           try {
-            const id = application[0];
+            const uuid = application[0];
             const honor = application[4].toString().trim();
             const status = application[5].toString().trim();
 
@@ -571,7 +571,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
             updateApplicationStatus({
               variables: {
-                id,
+                uuid,
                 status: getStatusValue(status),
               },
             });
@@ -812,33 +812,34 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             columns={honorColumnsForCounselor}
             rowKey="id"
             expandable={{
-              expandedRowRender: record => (
-              <Descriptions key={record.id} size="small">
-                <Descriptions.Item label="申请陈述" span={3}>
-                  <Text
-                    css={`
-                      word-wrap: break-word;
-                      white-space: pre-wrap;
-                    `}
-                  >
-                    {record.statement}
-                  </Text>
-                </Descriptions.Item>
-                <Descriptions.Item label="申请材料" span={3}>
-                  {record.attachment_url && isUrl(record.attachment_url) ? (
-                    <a
-                      href={record.attachment_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+              expandedRowRender: (record) => (
+                <Descriptions key={record.id} size="small">
+                  <Descriptions.Item label="申请陈述" span={3}>
+                    <Text
+                      css={`
+                        word-wrap: break-word;
+                        white-space: pre-wrap;
+                      `}
                     >
-                      {record.attachment_url}
-                    </a>
-                  ) : (
-                    record.attachment_url || "无"
-                  )}
-                </Descriptions.Item>
-              </Descriptions>
-            )}}
+                      {record.statement}
+                    </Text>
+                  </Descriptions.Item>
+                  <Descriptions.Item label="申请材料" span={3}>
+                    {record.attachment_url && isUrl(record.attachment_url) ? (
+                      <a
+                        href={record.attachment_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {record.attachment_url}
+                      </a>
+                    ) : (
+                      record.attachment_url || "无"
+                    )}
+                  </Descriptions.Item>
+                </Descriptions>
+              ),
+            }}
           />
           <Modal
             open={exportFormVisible}
