@@ -1,7 +1,7 @@
-query GetHonorApplications($_id: String!, $_gte: timestamptz!) {
+query GetHonorApplications($uuid: uuid!, $_gte: timestamptz!) {
   honor_application(
     where: {
-      student_id: { _eq: $_id }
+      student_uuid: { _eq: $uuid }
       updated_at: { _gte: $_gte }
       created_at: { _gte: $_gte }
     }
@@ -27,9 +27,9 @@ query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
     statement
     attachment_url
     status
-    student {
-      id
-      name
+    student_byuuid {
+      uuid
+      realname
       class
     }
     created_at
@@ -38,14 +38,14 @@ query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
 }
 
 mutation AddHonorApplication(
-  $student_id: String!
+  $student_uuid: uuid!
   $honor: String!
   $statement: String!
   $attachment_url: String
 ) {
   insert_honor_application(
     objects: {
-      student_id: $student_id
+      student_uuid: $uuid
       honor: $honor
       statement: $statement
       attachment_url: $attachment_url
@@ -58,13 +58,13 @@ mutation AddHonorApplication(
 }
 
 mutation UpdateHonorApplication(
-  $id: uuid!
+  $student_uuid: uuid!
   $honor: String!
   $statement: String!
   $attachment_url: String
 ) {
   update_honor_application(
-    where: { id: { _eq: $id } }
+    where: { student_uuid: { _eq: $uuid } }
     _set: {
       honor: $honor
       statement: $statement
@@ -77,21 +77,21 @@ mutation UpdateHonorApplication(
   }
 }
 
-mutation DeleteHonorApplication($id: uuid!) {
-  delete_honor_application(where: { id: { _eq: $id } }) {
+mutation DeleteHonorApplication($uuid: uuid!) {
+  delete_honor_application(where: { student_uuid: { _eq: $uuid } }) {
     returning {
-      id
+      uuid
     }
   }
 }
 
-mutation UpdateHonorApplicationStatus($id: uuid!, $status: String!) {
+mutation UpdateHonorApplicationStatus($uuid: uuid!, $status: String!) {
   update_honor_application(
-    where: { id: { _eq: $id } }
+    where: { student_uuid: { _eq: $uuid } }
     _set: { status: $status }
   ) {
     returning {
-      id
+      uuid
       status
     }
   }

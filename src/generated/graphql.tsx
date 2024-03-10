@@ -10891,7 +10891,7 @@ export type AddMessageMutationVariables = Exact<{
 export type AddMessageMutation = { __typename?: 'mutation_root', insert_mentor_message?: { __typename?: 'mentor_message_mutation_response', returning: Array<{ __typename?: 'mentor_message', id: any }> } | null };
 
 export type GetHonorApplicationsQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
+  uuid: Scalars['String']['input'];
   _gte: Scalars['timestamptz']['input'];
 }>;
 
@@ -10903,10 +10903,10 @@ export type GetHonorApplicationsForCounselorsQueryVariables = Exact<{
 }>;
 
 
-export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, class?: string | null } }> };
+export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student_byuuid: { __typename?: 'user', uuid?: any | null, realname?: string | null, class?: string | null } }> };
 
 export type AddHonorApplicationMutationVariables = Exact<{
-  student_id: Scalars['String']['input'];
+  student_uuid: Scalars['String']['input'];
   honor: Scalars['String']['input'];
   statement: Scalars['String']['input'];
   attachment_url?: InputMaybe<Scalars['String']['input']>;
@@ -10916,7 +10916,7 @@ export type AddHonorApplicationMutationVariables = Exact<{
 export type AddHonorApplicationMutation = { __typename?: 'mutation_root', insert_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type UpdateHonorApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
   honor: Scalars['String']['input'];
   statement: Scalars['String']['input'];
   attachment_url?: InputMaybe<Scalars['String']['input']>;
@@ -10926,14 +10926,14 @@ export type UpdateHonorApplicationMutationVariables = Exact<{
 export type UpdateHonorApplicationMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type DeleteHonorApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
 }>;
 
 
 export type DeleteHonorApplicationMutation = { __typename?: 'mutation_root', delete_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type UpdateHonorApplicationStatusMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
   status: Scalars['String']['input'];
 }>;
 
