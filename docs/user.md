@@ -1,6 +1,7 @@
 ---
 layout: page
 permalink: /user
+theme: jekyll-theme-cayman
 ---
 
 ### 前后端接口
