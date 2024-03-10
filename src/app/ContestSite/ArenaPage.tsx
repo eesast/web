@@ -59,15 +59,15 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   //根据队长id查询队伍id
   const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      _id: user?.uuid!,
+      uuid: user?.uuid!,
       contest_id: Contest_id,
     },
   });
   //根据队员id查询队伍id
   const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      uuid: user?.uuid!,
-      contest_uuid: Contest_id,
+      user_uuid: user?.uuid!,
+      contest_id: Contest_id,
     },
   });
 
@@ -133,7 +133,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         scoreteamListData?.contest_team.filter((item) => {
           return (
             item.team_name?.indexOf(associatedValue) !== -1 ||
-            item.team_leader_id?.name?.indexOf(associatedValue) !== -1
+            item.team_leader_byuuid?.realname?.indexOf(associatedValue) !== -1
           );
         }),
       );
@@ -191,16 +191,14 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "队长",
-      key: "team_leader_id",
-      render: (text, record) => record.team_leader_id?.name,
+      key: "team_leader_byuuid",
+      render: (text, record) => record.team_leader_byuuid?.realname,
     },
     {
       title: "队员",
       key: "team_member",
       render: (text, record) =>
-        record.contest_team_members.map((i) => [
-          i.user_as_contest_team_member.name + "   ",
-        ]),
+        record.contest_team_members.map((i) => [i.user?.realname + "   "]),
     },
     {
       title: "队伍简介",

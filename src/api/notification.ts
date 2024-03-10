@@ -36,7 +36,7 @@ export const subscribe = async () => {
   try {
     subscription = await serviceWorker.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: process.env.REACT_APP_PUSH_PUBLICKEY,
+      applicationServerKey: process.env.REACT_APP_PUSH_PUBLICKEY!,
     });
   } catch (err) {
     console.log("Failed to subscribe the user: ", err);

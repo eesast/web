@@ -47,7 +47,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
         <StyledTypography>
           <Typography.Title level={2}>软件部</Typography.Title>
           <Image
-            src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-software-group-photo-2023.jpg`}
+            src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-software-group-photo-2023.jpg`}
             alt="软件部集体照"
             width="900"
           />
@@ -70,13 +70,13 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           <Row justify="space-around" align="middle">
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-software-training-1.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-software-training-1.png`}
                 alt="软件部培训 1"
               />
             </Col>
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-software-training-2.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-software-training-2.png`}
                 alt="软件部培训 2"
               />
             </Col>
@@ -95,7 +95,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
         <StyledTypography>
           <Typography.Title level={2}>硬件部</Typography.Title>
           <Image
-            src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-hardware-group-photo.png`}
+            src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-hardware-group-photo.png`}
             alt="division-introduction-hardware-group"
           />
           <br />
@@ -112,13 +112,13 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           <Row justify="space-around" align="middle">
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-hardware-contest-1.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-hardware-contest-1.png`}
                 alt="硬件设计大赛 1"
               />
             </Col>
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-hardware-contest-2.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-hardware-contest-2.png`}
                 alt="硬件设计大赛 2"
               />
             </Col>
@@ -132,13 +132,13 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           <Row justify="space-around" align="middle">
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-edc-1.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-edc-1.png`}
                 alt="电子设计大赛 1"
               />
             </Col>
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-edc-2.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-edc-2.png`}
                 alt="电子设计大赛 2"
               />
             </Col>
@@ -170,13 +170,13 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           <Row justify="space-around" align="middle">
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-project-1.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-project-1.png`}
                 alt="项目部 1"
               />
             </Col>
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-project-2.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-project-2.png`}
                 alt="项目部 2"
               />
             </Col>
@@ -214,13 +214,13 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           <Row justify="space-around" align="middle">
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-knowledge-contest-1.jpg`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-knowledge-contest-1.jpg`}
                 alt="新生信息知识竞赛 1"
               />
             </Col>
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-knowledge-contest-2.jpg`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-knowledge-contest-2.jpg`}
                 alt="新生信息知识竞赛 2"
               />
             </Col>
@@ -266,7 +266,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           <Row justify="space-between" align="middle">
             <Col span={6}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-conference-1.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-conference-1.png`}
                 alt="科创年会 1"
                 style={{ marginRight: 24 }}
               />
@@ -294,13 +294,13 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           <Row justify="space-around" align="middle">
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-conference-2.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-conference-2.png`}
                 alt="科创年会 2"
               />
             </Col>
             <Col span={10}>
               <Image
-                src={`${process.env.REACT_APP_STATIC_URL}/public/images/division-introduction-conference-3.png`}
+                src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-conference-3.png`}
                 alt="科创年会 3"
               />
             </Col>

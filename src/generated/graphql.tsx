@@ -10475,7 +10475,7 @@ export type InsertTeamMutationVariables = Exact<{
 export type InsertTeamMutation = { __typename?: 'mutation_root', insert_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
 
 export type IsTeamLeaderQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
   contest_id: Scalars['uuid']['input'];
 }>;
 
@@ -10483,8 +10483,8 @@ export type IsTeamLeaderQueryVariables = Exact<{
 export type IsTeamLeaderQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any }> };
 
 export type IsTeamMemberQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-  contest_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
 
@@ -10502,14 +10502,14 @@ export type GetAllTeamInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_id?: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null }> }> };
 
 export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_id?: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null }> }> };
 
 export type GetAllTeamInfo_CompileQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -10524,7 +10524,7 @@ export type GetTeamInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_id?: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', _id: string, class?: string | null, email?: string | null, name?: string | null, phone?: string | null } }> }> };
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null }> }> };
 
 export type GetCompileStatusSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -10535,7 +10535,7 @@ export type GetCompileStatusSubscriptionVariables = Exact<{
 export type GetCompileStatusSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', status?: string | null }> };
 
 export type InsertTeamMemberMutationVariables = Exact<{
-  team_uuid: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 }>;
 
@@ -10556,7 +10556,7 @@ export type GetMemberInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader_id?: { __typename?: 'user', name?: string | null, id?: any | null, _id: string } | null }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user_as_contest_team_member: { __typename?: 'user', id?: any | null, _id: string, name?: string | null } }> };
+export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader_byuuid?: { __typename?: 'users', realname?: string | null, id?: string | null, uuid: any } | null }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, uuid: any, realname?: string | null } | null }> };
 
 export type DeleteTeamMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -10788,7 +10788,7 @@ export type AddContestManagerMutation = { __typename?: 'mutation_root', insert_c
 
 export type GetUser_IdQueryVariables = Exact<{
   email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
+  realname: Scalars['String']['input'];
 }>;
 
 
@@ -11367,9 +11367,9 @@ export type InsertTeamMutationHookResult = ReturnType<typeof useInsertTeamMutati
 export type InsertTeamMutationResult = Apollo.MutationResult<InsertTeamMutation>;
 export type InsertTeamMutationOptions = Apollo.BaseMutationOptions<InsertTeamMutation, InsertTeamMutationVariables>;
 export const IsTeamLeaderDocument = gql`
-    query IsTeamLeader($_id: String!, $contest_id: uuid!) {
+    query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
   contest_team(
-    where: {team_leader_id: {_id: {_eq: $_id}}, _and: {contest_id: {_eq: $contest_id}}}
+    where: {team_leader_byuuid: {uuid: {_eq: $uuid}}, _and: {contest_id: {_eq: $contest_id}}}
   ) {
     team_id
   }
@@ -11388,7 +11388,7 @@ export const IsTeamLeaderDocument = gql`
  * @example
  * const { data, loading, error } = useIsTeamLeaderQuery({
  *   variables: {
- *      _id: // value for '_id'
+ *      uuid: // value for 'uuid'
  *      contest_id: // value for 'contest_id'
  *   },
  * });
@@ -11410,9 +11410,9 @@ export type IsTeamLeaderLazyQueryHookResult = ReturnType<typeof useIsTeamLeaderL
 export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<typeof useIsTeamLeaderSuspenseQuery>;
 export type IsTeamLeaderQueryResult = Apollo.QueryResult<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>;
 export const IsTeamMemberDocument = gql`
-    query IsTeamMember($uuid: uuid!, $contest_uuid: uuid!) {
+    query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
   contest_team_member(
-    where: {user_uuid: {_eq: $uuid}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_uuid}}}}
+    where: {user_uuid: {_eq: $user_uuid}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_id}}}}
   ) {
     team_id
   }
@@ -11431,8 +11431,8 @@ export const IsTeamMemberDocument = gql`
  * @example
  * const { data, loading, error } = useIsTeamMemberQuery({
  *   variables: {
- *      uuid: // value for 'uuid'
- *      contest_uuid: // value for 'contest_uuid'
+ *      user_uuid: // value for 'user_uuid'
+ *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
@@ -11504,19 +11504,19 @@ export const GetAllTeamInfoDocument = gql`
       contest_name
     }
     team_intro
-    team_leader_id {
-      _id
+    team_leader_byuuid {
+      uuid
       class
       email
-      name
+      realname
       phone
     }
     contest_team_members {
-      user_as_contest_team_member {
-        _id
+      user {
+        id
         class
         email
-        name
+        realname
         phone
       }
     }
@@ -11565,19 +11565,19 @@ export const GetAllTeamInfo_ScoreDocument = gql`
       contest_name
     }
     team_intro
-    team_leader_id {
-      _id
+    team_leader_byuuid {
+      uuid
       class
       email
-      name
+      realname
       phone
     }
     contest_team_members {
-      user_as_contest_team_member {
-        _id
+      user {
+        id
         class
         email
-        name
+        realname
         phone
       }
     }
@@ -11681,19 +11681,19 @@ export const GetTeamInfoDocument = gql`
       contest_name
     }
     team_intro
-    team_leader_id {
-      _id
+    team_leader_byuuid {
+      uuid
       class
       email
-      name
+      realname
       phone
     }
     contest_team_members {
-      user_as_contest_team_member {
-        _id
+      user {
+        id
         class
         email
-        name
+        realname
         phone
       }
     }
@@ -11766,10 +11766,8 @@ export function useGetCompileStatusSubscription(baseOptions: Apollo.Subscription
 export type GetCompileStatusSubscriptionHookResult = ReturnType<typeof useGetCompileStatusSubscription>;
 export type GetCompileStatusSubscriptionResult = Apollo.SubscriptionResult<GetCompileStatusSubscription>;
 export const InsertTeamMemberDocument = gql`
-    mutation InsertTeamMember($team_uuid: uuid!, $user_uuid: uuid!) {
-  insert_contest_team_member(
-    objects: {team_id: $team_uuid, user_uuid: $user_uuid}
-  ) {
+    mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
+  insert_contest_team_member(objects: {team_id: $team_id, user_uuid: $user_uuid}) {
     affected_rows
   }
 }
@@ -11789,7 +11787,7 @@ export type InsertTeamMemberMutationFn = Apollo.MutationFunction<InsertTeamMembe
  * @example
  * const [insertTeamMemberMutation, { data, loading, error }] = useInsertTeamMemberMutation({
  *   variables: {
- *      team_uuid: // value for 'team_uuid'
+ *      team_id: // value for 'team_id'
  *      user_uuid: // value for 'user_uuid'
  *   },
  * });
@@ -11842,17 +11840,17 @@ export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<UpdateTeamMut
 export const GetMemberInfoDocument = gql`
     query GetMemberInfo($team_id: uuid!) {
   contest_team(where: {team_id: {_eq: $team_id}}) {
-    team_leader_id {
-      name
+    team_leader_byuuid {
+      realname
       id
-      _id
+      uuid
     }
   }
   contest_team_member(where: {team_id: {_eq: $team_id}}) {
-    user_as_contest_team_member {
+    user {
       id
-      _id
-      name
+      uuid
+      realname
     }
   }
 }
@@ -12964,8 +12962,8 @@ export type AddContestManagerMutationHookResult = ReturnType<typeof useAddContes
 export type AddContestManagerMutationResult = Apollo.MutationResult<AddContestManagerMutation>;
 export type AddContestManagerMutationOptions = Apollo.BaseMutationOptions<AddContestManagerMutation, AddContestManagerMutationVariables>;
 export const GetUser_IdDocument = gql`
-    query GetUser_Id($email: String!, $name: String!) {
-  users(where: {email: {_eq: $email}, realname: {_eq: $name}}) {
+    query GetUser_Id($email: String!, $realname: String!) {
+  users(where: {email: {_eq: $email}, realname: {_eq: $realname}}) {
     uuid
   }
 }
@@ -12984,7 +12982,7 @@ export const GetUser_IdDocument = gql`
  * const { data, loading, error } = useGetUser_IdQuery({
  *   variables: {
  *      email: // value for 'email'
- *      name: // value for 'name'
+ *      realname: // value for 'realname'
  *   },
  * });
  */

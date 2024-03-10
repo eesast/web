@@ -46,7 +46,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: isleaderData, refetch: refetchLeader } =
     graphql.useIsTeamLeaderSuspenseQuery({
       variables: {
-        _id: user?.uuid!,
+        uuid: user?.uuid!,
         contest_id: Contest_id,
       },
     });
@@ -54,8 +54,8 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { data: ismemberData, refetch: refetchMember } =
     graphql.useIsTeamMemberSuspenseQuery({
       variables: {
-        uuid: user?.uuid!,
-        contest_uuid: Contest_id,
+        user_uuid: user?.uuid!,
+        contest_id: Contest_id,
       },
     });
 
@@ -119,9 +119,9 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team = {
     ...teamData?.contest_team[0],
-    leader_name: teamData?.contest_team[0]?.team_leader_id?.name,
+    leader_name: teamData?.contest_team[0]?.team_leader_byuuid?.realname,
   };
-  const isLeader = user?.uuid === team.team_leader_id?._id;
+  const isLeader = user?.uuid === team.team_leader_byuuid?.uuid;
 
   if (!user) {
     return <Spin />;
@@ -207,12 +207,12 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     {
       title: "姓名",
       key: "name",
-      render: (text, record) => record.user_as_contest_team_member?.name,
+      render: (text, record) => record.user?.realname,
     },
     {
       title: "学号",
       key: "id",
-      render: (text, record) => record.user_as_contest_team_member?.id,
+      render: (text, record) => record.user?.id,
     },
     {
       title: "管理",
@@ -222,9 +222,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
           <Button
             // disabled={isleaderData?.contest_team.length === 0}
             onClick={async () => {
-              await deleteTeamMemberByLeader(
-                record.user_as_contest_team_member._id,
-              );
+              await deleteTeamMemberByLeader(record.user?.uuid);
               await refetchMemberInfo();
             }}
           >
@@ -322,7 +320,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                   <Text>{team.invited_code}</Text>
                 </Form.Item>
                 <Form.Item label="队长">
-                  <Text>{team.team_leader_id?.name}</Text>
+                  <Text>{team.team_leader_byuuid?.realname}</Text>
                 </Form.Item>
                 <Form.Item label="队员">
                   <Suspense fallback={<Loading />}>
@@ -332,9 +330,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                       dataSource={
                         teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
                       }
-                      rowKey={(record) =>
-                        record.user_as_contest_team_member._id
-                      }
+                      rowKey={(record) => record.user?.uuid}
                     />
                   </Suspense>
                 </Form.Item>

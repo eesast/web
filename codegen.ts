@@ -13,7 +13,7 @@ const config = {
     {
       [process.env.REACT_APP_HASURA_DEV_HTTPLINK!]: {
         headers: {
-          "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+          "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET!,
         },
       },
     },
