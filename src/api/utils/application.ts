@@ -1,26 +1,26 @@
-// import Docxtemplater from "docxtemplater";
-// import FileSaver from "file-saver";
-// import PizZip from "pizzip";
-// import PizZipUtils from "pizzip/utils/index.js";
-// import * as graphql from "@/generated/graphql";
+import Docxtemplater from "docxtemplater";
+import FileSaver from "file-saver";
+import PizZip from "pizzip";
+import PizZipUtils from "pizzip/utils/index.js";
+import * as graphql from "@/generated/graphql";
 
-// export const getStatusText = (status: string) =>
-//   status === "submitted"
-//     ? "已提交"
-//     : status === "rejected"
-//       ? "未通过"
-//       : "已通过";
+export const getStatusText = (status: string) =>
+  status === "submitted"
+    ? "已提交"
+    : status === "rejected"
+      ? "未通过"
+      : "已通过";
 
-// export const getStatusValue = (text: string) =>
-//   text === "已提交" ? "submitted" : text === "未通过" ? "rejected" : "approved";
+export const getStatusValue = (text: string) =>
+  text === "已提交" ? "submitted" : text === "未通过" ? "rejected" : "approved";
 
-// const formatDate = (date: Date) => {
-//   const month = "" + (date.getMonth() + 1),
-//     day = "" + date.getDate(),
-//     year = date.getFullYear();
+const formatDate = (date: Date) => {
+  const month = "" + (date.getMonth() + 1),
+    day = "" + date.getDate(),
+    year = date.getFullYear();
 
-//   return year + "年" + month + "月" + day + "日";
-// };
+  return year + "年" + month + "月" + day + "日";
+};
 
 // export const generateThankLetter = async (
 //   application:
