@@ -202,7 +202,7 @@ const ListPage: React.FC<{
         variables: {
           team_name: values.team_name,
           team_intro: values.team_intro,
-          team_leader: leader_id,
+          team_leader_uuid: leader_id,
           invited_code: InviteCode,
           contest_id: props.contest_id,
         },

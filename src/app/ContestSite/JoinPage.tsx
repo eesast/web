@@ -143,6 +143,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   const onclick = async () => {
     const values = await form.getFieldValue("invited_code");
     if (inviteCode === values) {
+      console.log(user?.uuid!);
       try {
         await insertteamMember({
           variables: {
