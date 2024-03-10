@@ -1,8 +1,8 @@
-import Docxtemplater from "docxtemplater";
-import FileSaver from "file-saver";
-import PizZip from "pizzip";
-import PizZipUtils from "pizzip/utils/index.js";
-import * as graphql from "@/generated/graphql";
+// import Docxtemplater from "docxtemplater";
+// import FileSaver from "file-saver";
+// import PizZip from "pizzip";
+// import PizZipUtils from "pizzip/utils/index.js";
+// import * as graphql from "@/generated/graphql";
 
 export const getStatusText = (status: string) =>
   status === "submitted"
