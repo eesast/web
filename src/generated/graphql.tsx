@@ -15,7 +15,6 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  bigint: { input: any; output: any; }
   json: { input: any; output: any; }
   numeric: { input: any; output: any; }
   timestamptz: { input: any; output: any; }
@@ -91,8 +90,6 @@ export type Aid_Application = {
   form_url?: Maybe<Scalars['String']['output']>;
   id: Scalars['uuid']['output'];
   status: Scalars['String']['output'];
-  /** An object relationship */
-  student: User;
   student_id: Scalars['String']['output'];
   student_uuid: Scalars['uuid']['output'];
   thank_letter?: Maybe<Scalars['String']['output']>;
@@ -149,7 +146,6 @@ export type Aid_Application_Bool_Exp = {
   form_url?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
-  student?: InputMaybe<User_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
   student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   thank_letter?: InputMaybe<String_Comparison_Exp>;
@@ -177,7 +173,6 @@ export type Aid_Application_Insert_Input = {
   form_url?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  student?: InputMaybe<User_Obj_Rel_Insert_Input>;
   student_id?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
   thank_letter?: InputMaybe<Scalars['String']['input']>;
@@ -242,7 +237,6 @@ export type Aid_Application_Order_By = {
   form_url?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
-  student?: InputMaybe<User_Order_By>;
   student_id?: InputMaybe<Order_By>;
   student_uuid?: InputMaybe<Order_By>;
   thank_letter?: InputMaybe<Order_By>;
@@ -362,19 +356,6 @@ export type Aid_Application_Var_Samp_Fields = {
 export type Aid_Application_Variance_Fields = {
   __typename?: 'aid_application_variance_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
-export type Bigint_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['bigint']['input']>;
-  _gt?: InputMaybe<Scalars['bigint']['input']>;
-  _gte?: InputMaybe<Scalars['bigint']['input']>;
-  _in?: InputMaybe<Array<Scalars['bigint']['input']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['bigint']['input']>;
-  _lte?: InputMaybe<Scalars['bigint']['input']>;
-  _neq?: InputMaybe<Scalars['bigint']['input']>;
-  _nin?: InputMaybe<Array<Scalars['bigint']['input']>>;
 };
 
 /** columns and relationships of "contest" */
@@ -970,8 +951,6 @@ export type Contest_Manager = {
   contest: Contest;
   contest_id: Scalars['uuid']['output'];
   /** An object relationship */
-  user?: Maybe<User>;
-  /** An object relationship */
   userByUserUuid: Users;
   user_id?: Maybe<Scalars['String']['output']>;
   user_uuid: Scalars['uuid']['output'];
@@ -1006,7 +985,6 @@ export type Contest_Manager_Bool_Exp = {
   _or?: InputMaybe<Array<Contest_Manager_Bool_Exp>>;
   contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
   userByUserUuid?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
@@ -1022,7 +1000,6 @@ export enum Contest_Manager_Constraint {
 export type Contest_Manager_Insert_Input = {
   contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userByUserUuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -1064,7 +1041,6 @@ export type Contest_Manager_On_Conflict = {
 export type Contest_Manager_Order_By = {
   contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
   userByUserUuid?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
@@ -1625,8 +1601,6 @@ export type Contest_Team = {
   team_leader?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   team_leader_byuuid?: Maybe<Users>;
-  /** An object relationship */
-  team_leader_id?: Maybe<User>;
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
   team_name: Scalars['String']['output'];
   updated_at: Scalars['timestamptz']['output'];
@@ -1682,41 +1656,12 @@ export type Contest_Team_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** order by aggregate values of table "contest_team" */
-export type Contest_Team_Aggregate_Order_By = {
-  avg?: InputMaybe<Contest_Team_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Contest_Team_Max_Order_By>;
-  min?: InputMaybe<Contest_Team_Min_Order_By>;
-  stddev?: InputMaybe<Contest_Team_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Contest_Team_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Contest_Team_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Contest_Team_Sum_Order_By>;
-  var_pop?: InputMaybe<Contest_Team_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Contest_Team_Var_Samp_Order_By>;
-  variance?: InputMaybe<Contest_Team_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "contest_team" */
-export type Contest_Team_Arr_Rel_Insert_Input = {
-  data: Array<Contest_Team_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
-};
-
 /** aggregate avg on columns */
 export type Contest_Team_Avg_Fields = {
   __typename?: 'contest_team_avg_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by avg() on columns of table "contest_team" */
-export type Contest_Team_Avg_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "contest_team". All fields are combined with a logical 'AND'. */
@@ -1739,7 +1684,6 @@ export type Contest_Team_Bool_Exp = {
   team_intro?: InputMaybe<String_Comparison_Exp>;
   team_leader?: InputMaybe<String_Comparison_Exp>;
   team_leader_byuuid?: InputMaybe<Users_Bool_Exp>;
-  team_leader_id?: InputMaybe<User_Bool_Exp>;
   team_leader_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   team_name?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -1776,7 +1720,6 @@ export type Contest_Team_Insert_Input = {
   team_intro?: InputMaybe<Scalars['String']['input']>;
   team_leader?: InputMaybe<Scalars['String']['input']>;
   team_leader_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  team_leader_id?: InputMaybe<User_Obj_Rel_Insert_Input>;
   team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
   team_name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -1803,26 +1746,6 @@ export type Contest_Team_Max_Fields = {
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
-/** order by max() on columns of table "contest_team" */
-export type Contest_Team_Max_Order_By = {
-  contest_id?: InputMaybe<Order_By>;
-  contest_score?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  invited_code?: InputMaybe<Order_By>;
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  score?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  status2?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-  team_id?: InputMaybe<Order_By>;
-  team_intro?: InputMaybe<Order_By>;
-  team_leader?: InputMaybe<Order_By>;
-  team_leader_uuid?: InputMaybe<Order_By>;
-  team_name?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
 /** 队伍、成员映射表 */
 export type Contest_Team_Member = {
   __typename?: 'contest_team_member';
@@ -1830,11 +1753,9 @@ export type Contest_Team_Member = {
   team_as_contest_team_member: Contest_Team;
   team_id: Scalars['uuid']['output'];
   /** An object relationship */
-  user?: Maybe<Users>;
-  /** An object relationship */
-  user_as_contest_team_member: User;
-  user_id: Scalars['String']['output'];
-  user_uuid?: Maybe<Scalars['uuid']['output']>;
+  user: Users;
+  user_id?: Maybe<Scalars['String']['output']>;
+  user_uuid: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "contest_team_member" */
@@ -1881,14 +1802,13 @@ export type Contest_Team_Member_Bool_Exp = {
   team_as_contest_team_member?: InputMaybe<Contest_Team_Bool_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
-  user_as_contest_team_member?: InputMaybe<User_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "contest_team_member" */
 export enum Contest_Team_Member_Constraint {
-  /** unique or primary key constraint on columns "user_id", "team_id" */
+  /** unique or primary key constraint on columns "user_uuid", "team_id" */
   ContestTeamMemberPkey = 'contest_team_member_pkey'
 }
 
@@ -1897,7 +1817,6 @@ export type Contest_Team_Member_Insert_Input = {
   team_as_contest_team_member?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_as_contest_team_member?: InputMaybe<User_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -1953,7 +1872,6 @@ export type Contest_Team_Member_Order_By = {
   team_as_contest_team_member?: InputMaybe<Contest_Team_Order_By>;
   team_id?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
-  user_as_contest_team_member?: InputMaybe<User_Order_By>;
   user_id?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
@@ -1961,7 +1879,7 @@ export type Contest_Team_Member_Order_By = {
 /** primary key columns input for table: contest_team_member */
 export type Contest_Team_Member_Pk_Columns_Input = {
   team_id: Scalars['uuid']['input'];
-  user_id: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 /** select columns of table "contest_team_member" */
@@ -2012,26 +1930,6 @@ export type Contest_Team_Min_Fields = {
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
-/** order by min() on columns of table "contest_team" */
-export type Contest_Team_Min_Order_By = {
-  contest_id?: InputMaybe<Order_By>;
-  contest_score?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  invited_code?: InputMaybe<Order_By>;
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  score?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  status2?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-  team_id?: InputMaybe<Order_By>;
-  team_intro?: InputMaybe<Order_By>;
-  team_leader?: InputMaybe<Order_By>;
-  team_leader_uuid?: InputMaybe<Order_By>;
-  team_name?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
 /** response of any mutation on the table "contest_team" */
 export type Contest_Team_Mutation_Response = {
   __typename?: 'contest_team_mutation_response';
@@ -2072,7 +1970,6 @@ export type Contest_Team_Order_By = {
   team_intro?: InputMaybe<Order_By>;
   team_leader?: InputMaybe<Order_By>;
   team_leader_byuuid?: InputMaybe<Users_Order_By>;
-  team_leader_id?: InputMaybe<User_Order_By>;
   team_leader_uuid?: InputMaybe<Order_By>;
   team_name?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -2145,26 +2042,12 @@ export type Contest_Team_Stddev_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by stddev() on columns of table "contest_team" */
-export type Contest_Team_Stddev_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
 /** aggregate stddev_pop on columns */
 export type Contest_Team_Stddev_Pop_Fields = {
   __typename?: 'contest_team_stddev_pop_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_pop() on columns of table "contest_team" */
-export type Contest_Team_Stddev_Pop_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2175,26 +2058,12 @@ export type Contest_Team_Stddev_Samp_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by stddev_samp() on columns of table "contest_team" */
-export type Contest_Team_Stddev_Samp_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
 /** aggregate sum on columns */
 export type Contest_Team_Sum_Fields = {
   __typename?: 'contest_team_sum_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Int']['output']>;
   submitted_code_num?: Maybe<Scalars['Int']['output']>;
-};
-
-/** order by sum() on columns of table "contest_team" */
-export type Contest_Team_Sum_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "contest_team" */
@@ -2239,13 +2108,6 @@ export type Contest_Team_Var_Pop_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by var_pop() on columns of table "contest_team" */
-export type Contest_Team_Var_Pop_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
 /** aggregate var_samp on columns */
 export type Contest_Team_Var_Samp_Fields = {
   __typename?: 'contest_team_var_samp_fields';
@@ -2254,26 +2116,12 @@ export type Contest_Team_Var_Samp_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by var_samp() on columns of table "contest_team" */
-export type Contest_Team_Var_Samp_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
 /** aggregate variance on columns */
 export type Contest_Team_Variance_Fields = {
   __typename?: 'contest_team_variance_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by variance() on columns of table "contest_team" */
-export type Contest_Team_Variance_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "contest" */
@@ -2306,12 +2154,10 @@ export type Honor_Application = {
   statement: Scalars['String']['output'];
   status: Scalars['String']['output'];
   /** An object relationship */
-  student: User;
-  student_id: Scalars['String']['output'];
+  student_byuuid?: Maybe<Users>;
+  student_id?: Maybe<Scalars['String']['output']>;
   student_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  user?: Maybe<Users>;
 };
 
 /** aggregated selection of "honor_application" */
@@ -2347,11 +2193,10 @@ export type Honor_Application_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   statement?: InputMaybe<String_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
-  student?: InputMaybe<User_Bool_Exp>;
+  student_byuuid?: InputMaybe<Users_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
   student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "honor_application" */
@@ -2368,11 +2213,10 @@ export type Honor_Application_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   statement?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  student?: InputMaybe<User_Obj_Rel_Insert_Input>;
+  student_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   student_id?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -2427,11 +2271,10 @@ export type Honor_Application_Order_By = {
   id?: InputMaybe<Order_By>;
   statement?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
-  student?: InputMaybe<User_Order_By>;
+  student_byuuid?: InputMaybe<Users_Order_By>;
   student_id?: InputMaybe<Order_By>;
   student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<Users_Order_By>;
 };
 
 /** primary key columns input for table: honor_application */
@@ -2995,16 +2838,12 @@ export type Mentor_Application = {
   created_at: Scalars['timestamptz']['output'];
   id: Scalars['uuid']['output'];
   /** An object relationship */
-  mentor?: Maybe<User>;
-  /** An object relationship */
   mentor_byuuid?: Maybe<Users>;
   mentor_id?: Maybe<Scalars['String']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   statement: Scalars['String']['output'];
   /** approved | submitted */
   status: Scalars['String']['output'];
-  /** An object relationship */
-  student?: Maybe<User>;
   /** An object relationship */
   student_byuuid?: Maybe<Users>;
   student_id?: Maybe<Scalars['String']['output']>;
@@ -3056,13 +2895,11 @@ export type Mentor_Application_Bool_Exp = {
   chat_status?: InputMaybe<Boolean_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  mentor?: InputMaybe<User_Bool_Exp>;
   mentor_byuuid?: InputMaybe<Users_Bool_Exp>;
   mentor_id?: InputMaybe<String_Comparison_Exp>;
   mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   statement?: InputMaybe<String_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
-  student?: InputMaybe<User_Bool_Exp>;
   student_byuuid?: InputMaybe<Users_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
   student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3080,14 +2917,12 @@ export type Mentor_Application_Insert_Input = {
   chat_status?: InputMaybe<Scalars['Boolean']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  mentor?: InputMaybe<User_Obj_Rel_Insert_Input>;
   mentor_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   mentor_id?: InputMaybe<Scalars['String']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   statement?: InputMaybe<Scalars['String']['input']>;
   /** approved | submitted */
   status?: InputMaybe<Scalars['String']['input']>;
-  student?: InputMaybe<User_Obj_Rel_Insert_Input>;
   student_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   student_id?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -3173,13 +3008,11 @@ export type Mentor_Application_Order_By = {
   chat_status?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  mentor?: InputMaybe<User_Order_By>;
   mentor_byuuid?: InputMaybe<Users_Order_By>;
   mentor_id?: InputMaybe<Order_By>;
   mentor_uuid?: InputMaybe<Order_By>;
   statement?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
-  student?: InputMaybe<User_Order_By>;
   student_byuuid?: InputMaybe<Users_Order_By>;
   student_id?: InputMaybe<Order_By>;
   student_uuid?: InputMaybe<Order_By>;
@@ -3428,8 +3261,6 @@ export type Mentor_Info = {
   mentor_uuid: Scalars['uuid']['output'];
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
-  user?: Maybe<User>;
-  /** An object relationship */
   userByMentorUuid: Users;
 };
 
@@ -3455,20 +3286,6 @@ export type Mentor_Info_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** order by aggregate values of table "mentor_info" */
-export type Mentor_Info_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Mentor_Info_Max_Order_By>;
-  min?: InputMaybe<Mentor_Info_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "mentor_info" */
-export type Mentor_Info_Arr_Rel_Insert_Input = {
-  data: Array<Mentor_Info_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Mentor_Info_On_Conflict>;
-};
-
 /** Boolean expression to filter rows from the table "mentor_info". All fields are combined with a logical 'AND'. */
 export type Mentor_Info_Bool_Exp = {
   _and?: InputMaybe<Array<Mentor_Info_Bool_Exp>>;
@@ -3482,7 +3299,6 @@ export type Mentor_Info_Bool_Exp = {
   mentor_id?: InputMaybe<String_Comparison_Exp>;
   mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
   userByMentorUuid?: InputMaybe<Users_Bool_Exp>;
 };
 
@@ -3506,7 +3322,6 @@ export type Mentor_Info_Insert_Input = {
   mentor_id?: InputMaybe<Scalars['String']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userByMentorUuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
 };
 
@@ -3527,22 +3342,6 @@ export type Mentor_Info_Max_Fields = {
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
-/** order by max() on columns of table "mentor_info" */
-export type Mentor_Info_Max_Order_By = {
-  /** 学术成果 */
-  achievement?: InputMaybe<Order_By>;
-  /** 教育背景 */
-  background?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  /** 研究领域 */
-  field?: InputMaybe<Order_By>;
-  /** 简要信息：联系方式、职位等 */
-  intro?: InputMaybe<Order_By>;
-  mentor_id?: InputMaybe<Order_By>;
-  mentor_uuid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
 /** aggregate min on columns */
 export type Mentor_Info_Min_Fields = {
   __typename?: 'mentor_info_min_fields';
@@ -3558,22 +3357,6 @@ export type Mentor_Info_Min_Fields = {
   mentor_id?: Maybe<Scalars['String']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** order by min() on columns of table "mentor_info" */
-export type Mentor_Info_Min_Order_By = {
-  /** 学术成果 */
-  achievement?: InputMaybe<Order_By>;
-  /** 教育背景 */
-  background?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  /** 研究领域 */
-  field?: InputMaybe<Order_By>;
-  /** 简要信息：联系方式、职位等 */
-  intro?: InputMaybe<Order_By>;
-  mentor_id?: InputMaybe<Order_By>;
-  mentor_uuid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "mentor_info" */
@@ -3602,7 +3385,6 @@ export type Mentor_Info_Order_By = {
   mentor_id?: InputMaybe<Order_By>;
   mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
   userByMentorUuid?: InputMaybe<Users_Order_By>;
 };
 
@@ -3673,15 +3455,11 @@ export type Mentor_Message = {
   created_at: Scalars['timestamptz']['output'];
   from_id?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
-  from_user?: Maybe<User>;
-  /** An object relationship */
   from_userbyuuid?: Maybe<Users>;
   from_uuid?: Maybe<Scalars['uuid']['output']>;
   id: Scalars['uuid']['output'];
   payload: Scalars['String']['output'];
   to_id?: Maybe<Scalars['String']['output']>;
-  /** An object relationship */
-  to_user?: Maybe<User>;
   /** An object relationship */
   to_userbyuuid?: Maybe<Users>;
   to_uuid?: Maybe<Scalars['uuid']['output']>;
@@ -3717,13 +3495,11 @@ export type Mentor_Message_Bool_Exp = {
   _or?: InputMaybe<Array<Mentor_Message_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   from_id?: InputMaybe<String_Comparison_Exp>;
-  from_user?: InputMaybe<User_Bool_Exp>;
   from_userbyuuid?: InputMaybe<Users_Bool_Exp>;
   from_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   payload?: InputMaybe<String_Comparison_Exp>;
   to_id?: InputMaybe<String_Comparison_Exp>;
-  to_user?: InputMaybe<User_Bool_Exp>;
   to_userbyuuid?: InputMaybe<Users_Bool_Exp>;
   to_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -3739,13 +3515,11 @@ export enum Mentor_Message_Constraint {
 export type Mentor_Message_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   from_id?: InputMaybe<Scalars['String']['input']>;
-  from_user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   from_userbyuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   from_uuid?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   payload?: InputMaybe<Scalars['String']['input']>;
   to_id?: InputMaybe<Scalars['String']['input']>;
-  to_user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   to_userbyuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   to_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -3797,13 +3571,11 @@ export type Mentor_Message_On_Conflict = {
 export type Mentor_Message_Order_By = {
   created_at?: InputMaybe<Order_By>;
   from_id?: InputMaybe<Order_By>;
-  from_user?: InputMaybe<User_Order_By>;
   from_userbyuuid?: InputMaybe<Users_Order_By>;
   from_uuid?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   payload?: InputMaybe<Order_By>;
   to_id?: InputMaybe<Order_By>;
-  to_user?: InputMaybe<User_Order_By>;
   to_userbyuuid?: InputMaybe<Users_Order_By>;
   to_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -4242,10 +4014,6 @@ export type Mutation_Root = {
   delete_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** delete single row from the table: "share_course" */
   delete_share_course_by_pk?: Maybe<Share_Course>;
-  /** delete data from the table: "user" */
-  delete_user?: Maybe<User_Mutation_Response>;
-  /** delete single row from the table: "user" */
-  delete_user_by_pk?: Maybe<User>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -4354,10 +4122,6 @@ export type Mutation_Root = {
   insert_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** insert a single row into the table: "share_course" */
   insert_share_course_one?: Maybe<Share_Course>;
-  /** insert data into the table: "user" */
-  insert_user?: Maybe<User_Mutation_Response>;
-  /** insert a single row into the table: "user" */
-  insert_user_one?: Maybe<User>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -4466,10 +4230,6 @@ export type Mutation_Root = {
   update_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** update single row of the table: "share_course" */
   update_share_course_by_pk?: Maybe<Share_Course>;
-  /** update data of the table: "user" */
-  update_user?: Maybe<User_Mutation_Response>;
-  /** update single row of the table: "user" */
-  update_user_by_pk?: Maybe<User>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -4588,7 +4348,7 @@ export type Mutation_RootDelete_Contest_Team_MemberArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Contest_Team_Member_By_PkArgs = {
   team_id: Scalars['uuid']['input'];
-  user_id: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -4784,18 +4544,6 @@ export type Mutation_RootDelete_Share_CourseArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Share_Course_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_UserArgs = {
-  where: User_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_User_By_PkArgs = {
-  _id: Scalars['String']['input'];
 };
 
 
@@ -5170,20 +4918,6 @@ export type Mutation_RootInsert_Share_CourseArgs = {
 export type Mutation_RootInsert_Share_Course_OneArgs = {
   object: Share_Course_Insert_Input;
   on_conflict?: InputMaybe<Share_Course_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_UserArgs = {
-  objects: Array<User_Insert_Input>;
-  on_conflict?: InputMaybe<User_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_User_OneArgs = {
-  object: User_Insert_Input;
-  on_conflict?: InputMaybe<User_On_Conflict>;
 };
 
 
@@ -5590,22 +5324,6 @@ export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_UserArgs = {
-  _inc?: InputMaybe<User_Inc_Input>;
-  _set?: InputMaybe<User_Set_Input>;
-  where: User_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_User_By_PkArgs = {
-  _inc?: InputMaybe<User_Inc_Input>;
-  _set?: InputMaybe<User_Set_Input>;
-  pk_columns: User_Pk_Columns_Input;
-};
-
-
-/** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
   _set?: InputMaybe<Users_Set_Input>;
   where: Users_Bool_Exp;
@@ -5677,8 +5395,6 @@ export type Postgraduate_Application = {
   /** intend, in_contact, confirmed */
   status: Scalars['String']['output'];
   updated_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  user: User;
   user_id: Scalars['String']['output'];
   verified: Scalars['Boolean']['output'];
 };
@@ -5777,7 +5493,6 @@ export type Postgraduate_Application_Bool_Exp = {
   mentor_info_id?: InputMaybe<Int_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
   verified?: InputMaybe<Boolean_Comparison_Exp>;
 };
@@ -5798,8 +5513,6 @@ export type Postgraduate_Application_History = {
   /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
   status: Scalars['String']['output'];
   updated_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  user: User;
   user_id: Scalars['String']['output'];
 };
 
@@ -5876,7 +5589,6 @@ export type Postgraduate_Application_History_Bool_Exp = {
   mentor_info_id?: InputMaybe<Int_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -5899,7 +5611,6 @@ export type Postgraduate_Application_History_Insert_Input = {
   /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
   status?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -5968,7 +5679,6 @@ export type Postgraduate_Application_History_Order_By = {
   mentor_info_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
   user_id?: InputMaybe<Order_By>;
 };
 
@@ -6108,7 +5818,6 @@ export type Postgraduate_Application_Insert_Input = {
   /** intend, in_contact, confirmed */
   status?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['String']['input']>;
   verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -6179,7 +5888,6 @@ export type Postgraduate_Application_Order_By = {
   mentor_info_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
   user_id?: InputMaybe<Order_By>;
   verified?: InputMaybe<Order_By>;
 };
@@ -6332,10 +6040,6 @@ export type Postgraduate_Mentor_Info = {
   /** 非固定名额 */
   phd_quota_unfixed: Scalars['numeric']['output'];
   updated_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  user: User;
-  /** An object relationship */
-  userEditor: User;
   /** 创建此信息用户id，有权更改 */
   user_id: Scalars['String']['output'];
   verified: Scalars['Boolean']['output'];
@@ -6419,8 +6123,6 @@ export type Postgraduate_Mentor_Info_Bool_Exp = {
   phd_quota?: InputMaybe<Numeric_Comparison_Exp>;
   phd_quota_unfixed?: InputMaybe<Numeric_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  userEditor?: InputMaybe<User_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
   verified?: InputMaybe<Boolean_Comparison_Exp>;
 };
@@ -6458,8 +6160,6 @@ export type Postgraduate_Mentor_Info_Insert_Input = {
   /** 非固定名额 */
   phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  userEditor?: InputMaybe<User_Obj_Rel_Insert_Input>;
   /** 创建此信息用户id，有权更改 */
   user_id?: InputMaybe<Scalars['String']['input']>;
   verified?: InputMaybe<Scalars['Boolean']['input']>;
@@ -6547,8 +6247,6 @@ export type Postgraduate_Mentor_Info_Order_By = {
   phd_quota?: InputMaybe<Order_By>;
   phd_quota_unfixed?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  userEditor?: InputMaybe<User_Order_By>;
   user_id?: InputMaybe<Order_By>;
   verified?: InputMaybe<Order_By>;
 };
@@ -7122,9 +6820,9 @@ export type Query_Root = {
   mentor_available_aggregate: Mentor_Available_Aggregate;
   /** fetch data from the table: "mentor_available" using primary key columns */
   mentor_available_by_pk?: Maybe<Mentor_Available>;
-  /** An array relationship */
+  /** fetch data from the table: "mentor_info" */
   mentor_info: Array<Mentor_Info>;
-  /** An aggregate relationship */
+  /** fetch aggregated fields from the table: "mentor_info" */
   mentor_info_aggregate: Mentor_Info_Aggregate;
   /** fetch data from the table: "mentor_info" using primary key columns */
   mentor_info_by_pk?: Maybe<Mentor_Info>;
@@ -7182,13 +6880,6 @@ export type Query_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "user" */
-  user: Array<User>;
-  /** fetch aggregated fields from the table: "user" */
-  user_aggregate: User_Aggregate;
-  /** fetch data from the table: "user" using primary key columns */
-  user_by_pk?: Maybe<User>;
-  user_by_role: Array<User_By_Role_User>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -7410,7 +7101,7 @@ export type Query_RootContest_Team_Member_AggregateArgs = {
 
 export type Query_RootContest_Team_Member_By_PkArgs = {
   team_id: Scalars['uuid']['input'];
-  user_id: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -7785,34 +7476,6 @@ export type Query_RootShare_Course_By_PkArgs = {
 };
 
 
-export type Query_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Query_RootUser_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Query_RootUser_By_PkArgs = {
-  _id: Scalars['String']['input'];
-};
-
-
-export type Query_RootUser_By_RoleArgs = {
-  role: Scalars['String']['input'];
-};
-
-
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -7870,8 +7533,6 @@ export type Scholarship_Application = {
   scholarship: Scalars['String']['output'];
   status: Scalars['String']['output'];
   /** An object relationship */
-  student: User;
-  /** An object relationship */
   student_byuuid?: Maybe<Users>;
   student_id: Scalars['String']['output'];
   student_uuid?: Maybe<Scalars['uuid']['output']>;
@@ -7928,7 +7589,6 @@ export type Scholarship_Application_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   scholarship?: InputMaybe<String_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
-  student?: InputMaybe<User_Bool_Exp>;
   student_byuuid?: InputMaybe<Users_Bool_Exp>;
   student_id?: InputMaybe<String_Comparison_Exp>;
   student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
@@ -7957,7 +7617,6 @@ export type Scholarship_Application_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   scholarship?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  student?: InputMaybe<User_Obj_Rel_Insert_Input>;
   student_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   student_id?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -8025,7 +7684,6 @@ export type Scholarship_Application_Order_By = {
   id?: InputMaybe<Order_By>;
   scholarship?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
-  student?: InputMaybe<User_Order_By>;
   student_byuuid?: InputMaybe<Users_Order_By>;
   student_id?: InputMaybe<Order_By>;
   student_uuid?: InputMaybe<Order_By>;
@@ -8711,9 +8369,9 @@ export type Subscription_Root = {
   mentor_available_aggregate: Mentor_Available_Aggregate;
   /** fetch data from the table: "mentor_available" using primary key columns */
   mentor_available_by_pk?: Maybe<Mentor_Available>;
-  /** An array relationship */
+  /** fetch data from the table: "mentor_info" */
   mentor_info: Array<Mentor_Info>;
-  /** An aggregate relationship */
+  /** fetch aggregated fields from the table: "mentor_info" */
   mentor_info_aggregate: Mentor_Info_Aggregate;
   /** fetch data from the table: "mentor_info" using primary key columns */
   mentor_info_by_pk?: Maybe<Mentor_Info>;
@@ -8771,12 +8429,6 @@ export type Subscription_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "user" */
-  user: Array<User>;
-  /** fetch aggregated fields from the table: "user" */
-  user_aggregate: User_Aggregate;
-  /** fetch data from the table: "user" using primary key columns */
-  user_by_pk?: Maybe<User>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -8998,7 +8650,7 @@ export type Subscription_RootContest_Team_Member_AggregateArgs = {
 
 export type Subscription_RootContest_Team_Member_By_PkArgs = {
   team_id: Scalars['uuid']['input'];
-  user_id: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -9373,29 +9025,6 @@ export type Subscription_RootShare_Course_By_PkArgs = {
 };
 
 
-export type Subscription_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_By_PkArgs = {
-  _id: Scalars['String']['input'];
-};
-
-
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -9452,429 +9081,6 @@ export type Timestamptz_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['timestamptz']['input']>;
   _neq?: InputMaybe<Scalars['timestamptz']['input']>;
   _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
-};
-
-/** columns and relationships of "user" */
-export type User = {
-  __typename?: 'user';
-  _id: Scalars['String']['output'];
-  class?: Maybe<Scalars['String']['output']>;
-  /** An array relationship */
-  contest_team_members: Array<Contest_Team_Member>;
-  /** An aggregate relationship */
-  contest_team_members_aggregate: Contest_Team_Member_Aggregate;
-  /** An array relationship */
-  contest_teams: Array<Contest_Team>;
-  /** An aggregate relationship */
-  contest_teams_aggregate: Contest_Team_Aggregate;
-  created_at: Scalars['timestamptz']['output'];
-  department?: Maybe<Scalars['String']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['bigint']['output']>;
-  /** An array relationship */
-  mentor_applications_mentor: Array<Mentor_Application>;
-  /** An aggregate relationship */
-  mentor_applications_mentor_aggregate: Mentor_Application_Aggregate;
-  /** An array relationship */
-  mentor_applications_student: Array<Mentor_Application>;
-  /** An aggregate relationship */
-  mentor_applications_student_aggregate: Mentor_Application_Aggregate;
-  /** An object relationship */
-  mentor_available?: Maybe<Mentor_Available>;
-  /** An array relationship */
-  mentor_info: Array<Mentor_Info>;
-  /** An aggregate relationship */
-  mentor_info_aggregate: Mentor_Info_Aggregate;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
-  updated_at: Scalars['timestamptz']['output'];
-  username?: Maybe<Scalars['String']['output']>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserContest_Team_MembersArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
-  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserContest_Team_Members_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
-  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserContest_TeamsArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
-  where?: InputMaybe<Contest_Team_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserContest_Teams_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
-  where?: InputMaybe<Contest_Team_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserMentor_Applications_MentorArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserMentor_Applications_Mentor_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserMentor_Applications_StudentArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserMentor_Applications_Student_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserMentor_InfoArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
-  where?: InputMaybe<Mentor_Info_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserMentor_Info_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Info_Order_By>>;
-  where?: InputMaybe<Mentor_Info_Bool_Exp>;
-};
-
-/** aggregated selection of "user" */
-export type User_Aggregate = {
-  __typename?: 'user_aggregate';
-  aggregate?: Maybe<User_Aggregate_Fields>;
-  nodes: Array<User>;
-};
-
-/** aggregate fields of "user" */
-export type User_Aggregate_Fields = {
-  __typename?: 'user_aggregate_fields';
-  avg?: Maybe<User_Avg_Fields>;
-  count: Scalars['Int']['output'];
-  max?: Maybe<User_Max_Fields>;
-  min?: Maybe<User_Min_Fields>;
-  stddev?: Maybe<User_Stddev_Fields>;
-  stddev_pop?: Maybe<User_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<User_Stddev_Samp_Fields>;
-  sum?: Maybe<User_Sum_Fields>;
-  var_pop?: Maybe<User_Var_Pop_Fields>;
-  var_samp?: Maybe<User_Var_Samp_Fields>;
-  variance?: Maybe<User_Variance_Fields>;
-};
-
-
-/** aggregate fields of "user" */
-export type User_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<User_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** aggregate avg on columns */
-export type User_Avg_Fields = {
-  __typename?: 'user_avg_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
-export type User_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Bool_Exp>>;
-  _id?: InputMaybe<String_Comparison_Exp>;
-  _not?: InputMaybe<User_Bool_Exp>;
-  _or?: InputMaybe<Array<User_Bool_Exp>>;
-  class?: InputMaybe<String_Comparison_Exp>;
-  contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
-  contest_teams?: InputMaybe<Contest_Team_Bool_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  department?: InputMaybe<String_Comparison_Exp>;
-  email?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Bigint_Comparison_Exp>;
-  mentor_applications_mentor?: InputMaybe<Mentor_Application_Bool_Exp>;
-  mentor_applications_student?: InputMaybe<Mentor_Application_Bool_Exp>;
-  mentor_available?: InputMaybe<Mentor_Available_Bool_Exp>;
-  mentor_info?: InputMaybe<Mentor_Info_Bool_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  phone?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  username?: InputMaybe<String_Comparison_Exp>;
-};
-
-export type User_By_Role_User = {
-  __typename?: 'user_by_role_user';
-  _id: Scalars['String']['output'];
-  department: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  user?: Maybe<User>;
-};
-
-/** unique or primary key constraints on table "user" */
-export enum User_Constraint {
-  /** unique or primary key constraint on columns "_id" */
-  UserIdKey = 'user_id_key',
-  /** unique or primary key constraint on columns "_id" */
-  UserPkey = 'user_pkey',
-  /** unique or primary key constraint on columns "id" */
-  UserStudentIdKey = 'user_student_id_key',
-  /** unique or primary key constraint on columns "username" */
-  UserUsernameKey = 'user_username_key'
-}
-
-/** input type for incrementing numeric columns in table "user" */
-export type User_Inc_Input = {
-  id?: InputMaybe<Scalars['bigint']['input']>;
-};
-
-/** input type for inserting data into table "user" */
-export type User_Insert_Input = {
-  _id?: InputMaybe<Scalars['String']['input']>;
-  class?: InputMaybe<Scalars['String']['input']>;
-  contest_team_members?: InputMaybe<Contest_Team_Member_Arr_Rel_Insert_Input>;
-  contest_teams?: InputMaybe<Contest_Team_Arr_Rel_Insert_Input>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  department?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['bigint']['input']>;
-  mentor_applications_mentor?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
-  mentor_applications_student?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
-  mentor_available?: InputMaybe<Mentor_Available_Obj_Rel_Insert_Input>;
-  mentor_info?: InputMaybe<Mentor_Info_Arr_Rel_Insert_Input>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** aggregate max on columns */
-export type User_Max_Fields = {
-  __typename?: 'user_max_fields';
-  _id?: Maybe<Scalars['String']['output']>;
-  class?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  department?: Maybe<Scalars['String']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['bigint']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  username?: Maybe<Scalars['String']['output']>;
-};
-
-/** aggregate min on columns */
-export type User_Min_Fields = {
-  __typename?: 'user_min_fields';
-  _id?: Maybe<Scalars['String']['output']>;
-  class?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  department?: Maybe<Scalars['String']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['bigint']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  username?: Maybe<Scalars['String']['output']>;
-};
-
-/** response of any mutation on the table "user" */
-export type User_Mutation_Response = {
-  __typename?: 'user_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<User>;
-};
-
-/** input type for inserting object relation for remote table "user" */
-export type User_Obj_Rel_Insert_Input = {
-  data: User_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<User_On_Conflict>;
-};
-
-/** on_conflict condition type for table "user" */
-export type User_On_Conflict = {
-  constraint: User_Constraint;
-  update_columns?: Array<User_Update_Column>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "user". */
-export type User_Order_By = {
-  _id?: InputMaybe<Order_By>;
-  class?: InputMaybe<Order_By>;
-  contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Order_By>;
-  contest_teams_aggregate?: InputMaybe<Contest_Team_Aggregate_Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  department?: InputMaybe<Order_By>;
-  email?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  mentor_applications_mentor_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
-  mentor_applications_student_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
-  mentor_available?: InputMaybe<Mentor_Available_Order_By>;
-  mentor_info_aggregate?: InputMaybe<Mentor_Info_Aggregate_Order_By>;
-  name?: InputMaybe<Order_By>;
-  phone?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  username?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: user */
-export type User_Pk_Columns_Input = {
-  _id: Scalars['String']['input'];
-};
-
-/** select columns of table "user" */
-export enum User_Select_Column {
-  /** column name */
-  _Id = '_id',
-  /** column name */
-  Class = 'class',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Department = 'department',
-  /** column name */
-  Email = 'email',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  Phone = 'phone',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  Username = 'username'
-}
-
-/** input type for updating data in table "user" */
-export type User_Set_Input = {
-  _id?: InputMaybe<Scalars['String']['input']>;
-  class?: InputMaybe<Scalars['String']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  department?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['bigint']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type User_Stddev_Fields = {
-  __typename?: 'user_stddev_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type User_Stddev_Pop_Fields = {
-  __typename?: 'user_stddev_pop_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type User_Stddev_Samp_Fields = {
-  __typename?: 'user_stddev_samp_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate sum on columns */
-export type User_Sum_Fields = {
-  __typename?: 'user_sum_fields';
-  id?: Maybe<Scalars['bigint']['output']>;
-};
-
-/** update columns of table "user" */
-export enum User_Update_Column {
-  /** column name */
-  _Id = '_id',
-  /** column name */
-  Class = 'class',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Department = 'department',
-  /** column name */
-  Email = 'email',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  Phone = 'phone',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  Username = 'username'
-}
-
-/** aggregate var_pop on columns */
-export type User_Var_Pop_Fields = {
-  __typename?: 'user_var_pop_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate var_samp on columns */
-export type User_Var_Samp_Fields = {
-  __typename?: 'user_var_samp_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate variance on columns */
-export type User_Variance_Fields = {
-  __typename?: 'user_variance_fields';
-  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "users" */
@@ -10502,14 +9708,14 @@ export type GetAllTeamInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null }> }> };
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null }> }> };
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_CompileQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -10524,7 +9730,7 @@ export type GetTeamInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null }> }> };
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetCompileStatusSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -10556,7 +9762,7 @@ export type GetMemberInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader_byuuid?: { __typename?: 'users', realname?: string | null, id?: string | null, uuid: any } | null }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user?: { __typename?: 'users', id?: string | null, uuid: any, realname?: string | null } | null }> };
+export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader_byuuid?: { __typename?: 'users', realname?: string | null, id?: string | null, uuid: any } | null }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, uuid: any, realname?: string | null } }> };
 
 export type DeleteTeamMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -10815,57 +10021,6 @@ export type DeleteContestAllRoomsMutationVariables = Exact<{
 
 export type DeleteContestAllRoomsMutation = { __typename?: 'mutation_root', delete_contest_room?: { __typename?: 'contest_room_mutation_response', affected_rows: number } | null };
 
-export type GetAidListQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAidListQuery = { __typename?: 'query_root', scholarships_aids: Array<{ __typename?: 'scholarships_aids', amount: number, code: string, name: string, salutation?: string | null, type: string }> };
-
-export type GetAidApplicationsQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
-  _gte: Scalars['timestamptz']['input'];
-}>;
-
-
-export type GetAidApplicationsQuery = { __typename?: 'query_root', aid_application: Array<{ __typename?: 'aid_application', id: any, aid: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
-
-export type GetAidApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAidApplicationsForCounselorsQuery = { __typename?: 'query_root', aid_application: Array<{ __typename?: 'aid_application', id: any, aid: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
-
-export type AddAidApplicationMutationVariables = Exact<{
-  student_id: Scalars['String']['input'];
-  aid: Scalars['String']['input'];
-  amount: Scalars['Int']['input'];
-  code: Scalars['String']['input'];
-}>;
-
-
-export type AddAidApplicationMutation = { __typename?: 'mutation_root', insert_aid_application?: { __typename?: 'aid_application_mutation_response', returning: Array<{ __typename?: 'aid_application', id: any }> } | null };
-
-export type UpdateAidApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  thank_letter?: InputMaybe<Scalars['String']['input']>;
-  form_url?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateAidApplicationMutation = { __typename?: 'mutation_root', update_aid_application?: { __typename?: 'aid_application_mutation_response', returning: Array<{ __typename?: 'aid_application', id: any }> } | null };
-
-export type DeleteAidApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteAidApplicationMutation = { __typename?: 'mutation_root', delete_aid_application?: { __typename?: 'aid_application_mutation_response', returning: Array<{ __typename?: 'aid_application', id: any }> } | null };
-
-export type GetIdByStudentNoQueryVariables = Exact<{
-  student_no: Scalars['String']['input'];
-}>;
-
-
-export type GetIdByStudentNoQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id?: string | null }> };
-
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
 }>;
@@ -10891,7 +10046,7 @@ export type AddMessageMutationVariables = Exact<{
 export type AddMessageMutation = { __typename?: 'mutation_root', insert_mentor_message?: { __typename?: 'mentor_message_mutation_response', returning: Array<{ __typename?: 'mentor_message', id: any }> } | null };
 
 export type GetHonorApplicationsQueryVariables = Exact<{
-  uuid: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
   _gte: Scalars['timestamptz']['input'];
 }>;
 
@@ -10903,10 +10058,10 @@ export type GetHonorApplicationsForCounselorsQueryVariables = Exact<{
 }>;
 
 
-export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student_byuuid: { __typename?: 'user', uuid?: any | null, realname?: string | null, class?: string | null } }> };
+export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null } | null }> };
 
 export type AddHonorApplicationMutationVariables = Exact<{
-  student_uuid: Scalars['String']['input'];
+  student_uuid: Scalars['uuid']['input'];
   honor: Scalars['String']['input'];
   statement: Scalars['String']['input'];
   attachment_url?: InputMaybe<Scalars['String']['input']>;
@@ -10916,7 +10071,7 @@ export type AddHonorApplicationMutationVariables = Exact<{
 export type AddHonorApplicationMutation = { __typename?: 'mutation_root', insert_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type UpdateHonorApplicationMutationVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
+  id: Scalars['uuid']['input'];
   honor: Scalars['String']['input'];
   statement: Scalars['String']['input'];
   attachment_url?: InputMaybe<Scalars['String']['input']>;
@@ -10926,14 +10081,14 @@ export type UpdateHonorApplicationMutationVariables = Exact<{
 export type UpdateHonorApplicationMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type DeleteHonorApplicationMutationVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
+  id: Scalars['uuid']['input'];
 }>;
 
 
 export type DeleteHonorApplicationMutation = { __typename?: 'mutation_root', delete_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
 
 export type UpdateHonorApplicationStatusMutationVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
+  id: Scalars['uuid']['input'];
   status: Scalars['String']['input'];
 }>;
 
@@ -11078,180 +10233,6 @@ export type DeleteNoticeMutationVariables = Exact<{
 
 
 export type DeleteNoticeMutation = { __typename?: 'mutation_root', delete_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
-
-export type GetScholarshipListQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetScholarshipListQuery = { __typename?: 'query_root', scholarships_aids: Array<{ __typename?: 'scholarships_aids', amount: number, code: string, name: string, salutation?: string | null, type: string }> };
-
-export type GetScholarshipApplicationsQueryVariables = Exact<{
-  _id: Scalars['String']['input'];
-  _gte: Scalars['timestamptz']['input'];
-}>;
-
-
-export type GetScholarshipApplicationsQuery = { __typename?: 'query_root', scholarship_application: Array<{ __typename?: 'scholarship_application', id: any, scholarship: string, honor: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
-
-export type GetScholarshipApplicationsForCounselorsQueryVariables = Exact<{
-  _gte: Scalars['timestamptz']['input'];
-}>;
-
-
-export type GetScholarshipApplicationsForCounselorsQuery = { __typename?: 'query_root', scholarship_application: Array<{ __typename?: 'scholarship_application', id: any, scholarship: string, honor: string, amount: number, code: string, thank_letter?: string | null, form_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'user', id?: any | null, name?: string | null, department?: string | null, class?: string | null } }> };
-
-export type AddScholarshipApplicationMutationVariables = Exact<{
-  student_id: Scalars['String']['input'];
-  scholarship: Scalars['String']['input'];
-  honor: Scalars['String']['input'];
-  amount: Scalars['Int']['input'];
-  code: Scalars['String']['input'];
-}>;
-
-
-export type AddScholarshipApplicationMutation = { __typename?: 'mutation_root', insert_scholarship_application?: { __typename?: 'scholarship_application_mutation_response', returning: Array<{ __typename?: 'scholarship_application', id: any }> } | null };
-
-export type UpdateScholarshipApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  thank_letter?: InputMaybe<Scalars['String']['input']>;
-  form_url?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateScholarshipApplicationMutation = { __typename?: 'mutation_root', update_scholarship_application?: { __typename?: 'scholarship_application_mutation_response', returning: Array<{ __typename?: 'scholarship_application', id: any }> } | null };
-
-export type DeleteScholarshipApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteScholarshipApplicationMutation = { __typename?: 'mutation_root', delete_scholarship_application?: { __typename?: 'scholarship_application_mutation_response', returning: Array<{ __typename?: 'scholarship_application', id: any }> } | null };
-
-export type GetPostgraduateFeedsQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type GetPostgraduateFeedsQuery = { __typename?: 'query_root', postgraduate_mentor_info: Array<{ __typename?: 'postgraduate_mentor_info', id: number, created_at: any, updated_at: any, mentor: string, field: string, phd_quota: any, phd_quota_unfixed: any, contact: string, alternate_contact?: string | null, home_page?: string | null, detail_info?: string | null, user_id: string, intend: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, in_contact: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, confirmed: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null } }>, postgraduate_mentor_info_aggregate: { __typename?: 'postgraduate_mentor_info_aggregate', aggregate?: { __typename?: 'postgraduate_mentor_info_aggregate_fields', count: number } | null } };
-
-export type GetUnverifiedMentorInfoQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type GetUnverifiedMentorInfoQuery = { __typename?: 'query_root', postgraduate_mentor_info: Array<{ __typename?: 'postgraduate_mentor_info', id: number, created_at: any, updated_at: any, mentor: string, field: string, phd_quota: any, phd_quota_unfixed: any, contact: string, alternate_contact?: string | null, home_page?: string | null, detail_info?: string | null, user_id: string, userEditor: { __typename?: 'user', name?: string | null }, intend: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, in_contact: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, confirmed: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null } }>, postgraduate_mentor_info_aggregate: { __typename?: 'postgraduate_mentor_info_aggregate', aggregate?: { __typename?: 'postgraduate_mentor_info_aggregate_fields', count: number } | null } };
-
-export type InsertPostgraduateInfoMutationVariables = Exact<{
-  mentor: Scalars['String']['input'];
-  field: Scalars['String']['input'];
-  contact: Scalars['String']['input'];
-  alternate_contact?: InputMaybe<Scalars['String']['input']>;
-  detail_info?: InputMaybe<Scalars['String']['input']>;
-  home_page?: InputMaybe<Scalars['String']['input']>;
-  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
-  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
-  user_id: Scalars['String']['input'];
-}>;
-
-
-export type InsertPostgraduateInfoMutation = { __typename?: 'mutation_root', insert_postgraduate_mentor_info_one?: { __typename?: 'postgraduate_mentor_info', id: number } | null };
-
-export type UpdatePostgraduateInfoMutationVariables = Exact<{
-  id: Scalars['Int']['input'];
-  mentor: Scalars['String']['input'];
-  field: Scalars['String']['input'];
-  contact: Scalars['String']['input'];
-  alternate_contact?: InputMaybe<Scalars['String']['input']>;
-  detail_info?: InputMaybe<Scalars['String']['input']>;
-  home_page?: InputMaybe<Scalars['String']['input']>;
-  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
-  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
-}>;
-
-
-export type UpdatePostgraduateInfoMutation = { __typename?: 'mutation_root', update_postgraduate_mentor_info_by_pk?: { __typename?: 'postgraduate_mentor_info', id: number } | null };
-
-export type DeletePostgraduateInfoMutationVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type DeletePostgraduateInfoMutation = { __typename?: 'mutation_root', delete_postgraduate_mentor_info?: { __typename?: 'postgraduate_mentor_info_mutation_response', returning: Array<{ __typename?: 'postgraduate_mentor_info', id: number }> } | null };
-
-export type InsertApplicationMutationVariables = Exact<{
-  mentor_info_id: Scalars['Int']['input'];
-  status: Scalars['String']['input'];
-  user_id: Scalars['String']['input'];
-  verified: Scalars['Boolean']['input'];
-}>;
-
-
-export type InsertApplicationMutation = { __typename?: 'mutation_root', insert_postgraduate_application_one?: { __typename?: 'postgraduate_application', status: string } | null };
-
-export type VerifyMentorInfoMutationVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type VerifyMentorInfoMutation = { __typename?: 'mutation_root', update_postgraduate_mentor_info_by_pk?: { __typename?: 'postgraduate_mentor_info', id: number } | null };
-
-export type GetPostgraduateApplicationFeedsQueryVariables = Exact<{
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type GetPostgraduateApplicationFeedsQuery = { __typename?: 'query_root', postgraduate_application_aggregate: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number } | null }, postgraduate_application: Array<{ __typename?: 'postgraduate_application', created_at: any, mentor_info_id: number, status: string, updated_at: any, user_id: string, mentor: { __typename?: 'postgraduate_mentor_info', mentor: string }, user: { __typename?: 'user', name?: string | null, class?: string | null } }> };
-
-export type GetSelfPostgraduateApplicationsQueryVariables = Exact<{
-  user_id: Scalars['String']['input'];
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type GetSelfPostgraduateApplicationsQuery = { __typename?: 'query_root', postgraduate_application: Array<{ __typename?: 'postgraduate_application', created_at: any, mentor_info_id: number, status: string, updated_at: any, user_id: string, verified: boolean, mentor: { __typename?: 'postgraduate_mentor_info', mentor: string }, history: Array<{ __typename?: 'postgraduate_application_history', status: string }> }>, postgraduate_application_aggregate: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number } | null } };
-
-export type GetSelfConfirmedApplicationQueryVariables = Exact<{
-  user_id: Scalars['String']['input'];
-}>;
-
-
-export type GetSelfConfirmedApplicationQuery = { __typename?: 'query_root', postgraduate_application: Array<{ __typename?: 'postgraduate_application', mentor_info_id: number }> };
-
-export type VerifyPostgraduateApplicationMutationVariables = Exact<{
-  mentor_info_id: Scalars['Int']['input'];
-  user_id: Scalars['String']['input'];
-}>;
-
-
-export type VerifyPostgraduateApplicationMutation = { __typename?: 'mutation_root', update_postgraduate_application_by_pk?: { __typename?: 'postgraduate_application', verified: boolean } | null };
-
-export type DeletePostgraduateApplicationMutationVariables = Exact<{
-  mentor_info_id: Scalars['Int']['input'];
-  user_id: Scalars['String']['input'];
-}>;
-
-
-export type DeletePostgraduateApplicationMutation = { __typename?: 'mutation_root', delete_postgraduate_application_by_pk?: { __typename?: 'postgraduate_application', mentor_info_id: number, user_id: string } | null };
-
-export type SetPostAppHistoryMutationVariables = Exact<{
-  user_id: Scalars['String']['input'];
-  mentor_info_id: Scalars['Int']['input'];
-  status: Scalars['String']['input'];
-}>;
-
-
-export type SetPostAppHistoryMutation = { __typename?: 'mutation_root', insert_postgraduate_application_history_one?: { __typename?: 'postgraduate_application_history', created_at: any } | null };
-
-export type GetPostAppHistoryQueryVariables = Exact<{
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type GetPostAppHistoryQuery = { __typename?: 'query_root', postgraduate_application_history: Array<{ __typename?: 'postgraduate_application_history', created_at: any, mentor_info_id: number, status: string, user_id: string, updated_at: any, mentor: { __typename?: 'postgraduate_mentor_info', mentor: string }, user: { __typename?: 'user', name?: string | null, class?: string | null } }>, postgraduate_application_history_aggregate: { __typename?: 'postgraduate_application_history_aggregate', aggregate?: { __typename?: 'postgraduate_application_history_aggregate_fields', count: number } | null } };
 
 export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -13101,315 +12082,6 @@ export function useDeleteContestAllRoomsMutation(baseOptions?: Apollo.MutationHo
 export type DeleteContestAllRoomsMutationHookResult = ReturnType<typeof useDeleteContestAllRoomsMutation>;
 export type DeleteContestAllRoomsMutationResult = Apollo.MutationResult<DeleteContestAllRoomsMutation>;
 export type DeleteContestAllRoomsMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>;
-export const GetAidListDocument = gql`
-    query GetAidList {
-  scholarships_aids(where: {IsAids: {_eq: true}}) {
-    amount
-    code
-    name
-    salutation
-    type
-  }
-}
-    `;
-
-/**
- * __useGetAidListQuery__
- *
- * To run a query within a React component, call `useGetAidListQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAidListQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAidListQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAidListQuery(baseOptions?: Apollo.QueryHookOptions<GetAidListQuery, GetAidListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAidListQuery, GetAidListQueryVariables>(GetAidListDocument, options);
-      }
-export function useGetAidListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAidListQuery, GetAidListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAidListQuery, GetAidListQueryVariables>(GetAidListDocument, options);
-        }
-export function useGetAidListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAidListQuery, GetAidListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAidListQuery, GetAidListQueryVariables>(GetAidListDocument, options);
-        }
-export type GetAidListQueryHookResult = ReturnType<typeof useGetAidListQuery>;
-export type GetAidListLazyQueryHookResult = ReturnType<typeof useGetAidListLazyQuery>;
-export type GetAidListSuspenseQueryHookResult = ReturnType<typeof useGetAidListSuspenseQuery>;
-export type GetAidListQueryResult = Apollo.QueryResult<GetAidListQuery, GetAidListQueryVariables>;
-export const GetAidApplicationsDocument = gql`
-    query GetAidApplications($_id: String!, $_gte: timestamptz!) {
-  aid_application(
-    where: {student_id: {_eq: $_id}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
-    order_by: {created_at: asc}
-  ) {
-    id
-    student {
-      id
-      name
-      department
-      class
-    }
-    aid
-    amount
-    code
-    thank_letter
-    form_url
-    status
-    created_at
-    updated_at
-  }
-}
-    `;
-
-/**
- * __useGetAidApplicationsQuery__
- *
- * To run a query within a React component, call `useGetAidApplicationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAidApplicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAidApplicationsQuery({
- *   variables: {
- *      _id: // value for '_id'
- *      _gte: // value for '_gte'
- *   },
- * });
- */
-export function useGetAidApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables> & ({ variables: GetAidApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>(GetAidApplicationsDocument, options);
-      }
-export function useGetAidApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>(GetAidApplicationsDocument, options);
-        }
-export function useGetAidApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>(GetAidApplicationsDocument, options);
-        }
-export type GetAidApplicationsQueryHookResult = ReturnType<typeof useGetAidApplicationsQuery>;
-export type GetAidApplicationsLazyQueryHookResult = ReturnType<typeof useGetAidApplicationsLazyQuery>;
-export type GetAidApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetAidApplicationsSuspenseQuery>;
-export type GetAidApplicationsQueryResult = Apollo.QueryResult<GetAidApplicationsQuery, GetAidApplicationsQueryVariables>;
-export const GetAidApplicationsForCounselorsDocument = gql`
-    query GetAidApplicationsForCounselors {
-  aid_application(order_by: {created_at: asc}) {
-    id
-    student {
-      id
-      name
-      department
-      class
-    }
-    aid
-    amount
-    code
-    thank_letter
-    form_url
-    status
-    created_at
-    updated_at
-  }
-}
-    `;
-
-/**
- * __useGetAidApplicationsForCounselorsQuery__
- *
- * To run a query within a React component, call `useGetAidApplicationsForCounselorsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAidApplicationsForCounselorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAidApplicationsForCounselorsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAidApplicationsForCounselorsQuery(baseOptions?: Apollo.QueryHookOptions<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>(GetAidApplicationsForCounselorsDocument, options);
-      }
-export function useGetAidApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>(GetAidApplicationsForCounselorsDocument, options);
-        }
-export function useGetAidApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>(GetAidApplicationsForCounselorsDocument, options);
-        }
-export type GetAidApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetAidApplicationsForCounselorsQuery>;
-export type GetAidApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetAidApplicationsForCounselorsLazyQuery>;
-export type GetAidApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetAidApplicationsForCounselorsSuspenseQuery>;
-export type GetAidApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetAidApplicationsForCounselorsQuery, GetAidApplicationsForCounselorsQueryVariables>;
-export const AddAidApplicationDocument = gql`
-    mutation AddAidApplication($student_id: String!, $aid: String!, $amount: Int!, $code: String!) {
-  insert_aid_application(
-    objects: {student_id: $student_id, aid: $aid, amount: $amount, code: $code}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddAidApplicationMutationFn = Apollo.MutationFunction<AddAidApplicationMutation, AddAidApplicationMutationVariables>;
-
-/**
- * __useAddAidApplicationMutation__
- *
- * To run a mutation, you first call `useAddAidApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddAidApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addAidApplicationMutation, { data, loading, error }] = useAddAidApplicationMutation({
- *   variables: {
- *      student_id: // value for 'student_id'
- *      aid: // value for 'aid'
- *      amount: // value for 'amount'
- *      code: // value for 'code'
- *   },
- * });
- */
-export function useAddAidApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddAidApplicationMutation, AddAidApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddAidApplicationMutation, AddAidApplicationMutationVariables>(AddAidApplicationDocument, options);
-      }
-export type AddAidApplicationMutationHookResult = ReturnType<typeof useAddAidApplicationMutation>;
-export type AddAidApplicationMutationResult = Apollo.MutationResult<AddAidApplicationMutation>;
-export type AddAidApplicationMutationOptions = Apollo.BaseMutationOptions<AddAidApplicationMutation, AddAidApplicationMutationVariables>;
-export const UpdateAidApplicationDocument = gql`
-    mutation UpdateAidApplication($id: uuid!, $thank_letter: String, $form_url: String) {
-  update_aid_application(
-    where: {id: {_eq: $id}}
-    _set: {thank_letter: $thank_letter, form_url: $form_url}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type UpdateAidApplicationMutationFn = Apollo.MutationFunction<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>;
-
-/**
- * __useUpdateAidApplicationMutation__
- *
- * To run a mutation, you first call `useUpdateAidApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateAidApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateAidApplicationMutation, { data, loading, error }] = useUpdateAidApplicationMutation({
- *   variables: {
- *      id: // value for 'id'
- *      thank_letter: // value for 'thank_letter'
- *      form_url: // value for 'form_url'
- *   },
- * });
- */
-export function useUpdateAidApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>(UpdateAidApplicationDocument, options);
-      }
-export type UpdateAidApplicationMutationHookResult = ReturnType<typeof useUpdateAidApplicationMutation>;
-export type UpdateAidApplicationMutationResult = Apollo.MutationResult<UpdateAidApplicationMutation>;
-export type UpdateAidApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateAidApplicationMutation, UpdateAidApplicationMutationVariables>;
-export const DeleteAidApplicationDocument = gql`
-    mutation DeleteAidApplication($id: uuid!) {
-  delete_aid_application(where: {id: {_eq: $id}}) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type DeleteAidApplicationMutationFn = Apollo.MutationFunction<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>;
-
-/**
- * __useDeleteAidApplicationMutation__
- *
- * To run a mutation, you first call `useDeleteAidApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAidApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteAidApplicationMutation, { data, loading, error }] = useDeleteAidApplicationMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteAidApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>(DeleteAidApplicationDocument, options);
-      }
-export type DeleteAidApplicationMutationHookResult = ReturnType<typeof useDeleteAidApplicationMutation>;
-export type DeleteAidApplicationMutationResult = Apollo.MutationResult<DeleteAidApplicationMutation>;
-export type DeleteAidApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteAidApplicationMutation, DeleteAidApplicationMutationVariables>;
-export const GetIdByStudentNoDocument = gql`
-    query GetIdByStudentNo($student_no: String!) {
-  users(where: {student_no: {_eq: $student_no}}) {
-    id
-  }
-}
-    `;
-
-/**
- * __useGetIdByStudentNoQuery__
- *
- * To run a query within a React component, call `useGetIdByStudentNoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetIdByStudentNoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetIdByStudentNoQuery({
- *   variables: {
- *      student_no: // value for 'student_no'
- *   },
- * });
- */
-export function useGetIdByStudentNoQuery(baseOptions: Apollo.QueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables> & ({ variables: GetIdByStudentNoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>(GetIdByStudentNoDocument, options);
-      }
-export function useGetIdByStudentNoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>(GetIdByStudentNoDocument, options);
-        }
-export function useGetIdByStudentNoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>(GetIdByStudentNoDocument, options);
-        }
-export type GetIdByStudentNoQueryHookResult = ReturnType<typeof useGetIdByStudentNoQuery>;
-export type GetIdByStudentNoLazyQueryHookResult = ReturnType<typeof useGetIdByStudentNoLazyQuery>;
-export type GetIdByStudentNoSuspenseQueryHookResult = ReturnType<typeof useGetIdByStudentNoSuspenseQuery>;
-export type GetIdByStudentNoQueryResult = Apollo.QueryResult<GetIdByStudentNoQuery, GetIdByStudentNoQueryVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
     query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(
@@ -13543,9 +12215,9 @@ export type AddMessageMutationHookResult = ReturnType<typeof useAddMessageMutati
 export type AddMessageMutationResult = Apollo.MutationResult<AddMessageMutation>;
 export type AddMessageMutationOptions = Apollo.BaseMutationOptions<AddMessageMutation, AddMessageMutationVariables>;
 export const GetHonorApplicationsDocument = gql`
-    query GetHonorApplications($_id: String!, $_gte: timestamptz!) {
+    query GetHonorApplications($uuid: uuid!, $_gte: timestamptz!) {
   honor_application(
-    where: {student_id: {_eq: $_id}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+    where: {student_uuid: {_eq: $uuid}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
     order_by: {created_at: asc}
   ) {
     id
@@ -13571,7 +12243,7 @@ export const GetHonorApplicationsDocument = gql`
  * @example
  * const { data, loading, error } = useGetHonorApplicationsQuery({
  *   variables: {
- *      _id: // value for '_id'
+ *      uuid: // value for 'uuid'
  *      _gte: // value for '_gte'
  *   },
  * });
@@ -13603,9 +12275,9 @@ export const GetHonorApplicationsForCounselorsDocument = gql`
     statement
     attachment_url
     status
-    student {
-      id
-      name
+    student_byuuid {
+      uuid
+      realname
       class
     }
     created_at
@@ -13647,9 +12319,9 @@ export type GetHonorApplicationsForCounselorsLazyQueryHookResult = ReturnType<ty
 export type GetHonorApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsSuspenseQuery>;
 export type GetHonorApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>;
 export const AddHonorApplicationDocument = gql`
-    mutation AddHonorApplication($student_id: String!, $honor: String!, $statement: String!, $attachment_url: String) {
+    mutation AddHonorApplication($student_uuid: uuid!, $honor: String!, $statement: String!, $attachment_url: String) {
   insert_honor_application(
-    objects: {student_id: $student_id, honor: $honor, statement: $statement, attachment_url: $attachment_url}
+    objects: {student_uuid: $student_uuid, honor: $honor, statement: $statement, attachment_url: $attachment_url}
   ) {
     returning {
       id
@@ -13672,7 +12344,7 @@ export type AddHonorApplicationMutationFn = Apollo.MutationFunction<AddHonorAppl
  * @example
  * const [addHonorApplicationMutation, { data, loading, error }] = useAddHonorApplicationMutation({
  *   variables: {
- *      student_id: // value for 'student_id'
+ *      student_uuid: // value for 'student_uuid'
  *      honor: // value for 'honor'
  *      statement: // value for 'statement'
  *      attachment_url: // value for 'attachment_url'
@@ -14585,1011 +13257,6 @@ export function useDeleteNoticeMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteNoticeMutationHookResult = ReturnType<typeof useDeleteNoticeMutation>;
 export type DeleteNoticeMutationResult = Apollo.MutationResult<DeleteNoticeMutation>;
 export type DeleteNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteNoticeMutation, DeleteNoticeMutationVariables>;
-export const GetScholarshipListDocument = gql`
-    query GetScholarshipList {
-  scholarships_aids(where: {IsAids: {_eq: false}}) {
-    amount
-    code
-    name
-    salutation
-    type
-  }
-}
-    `;
-
-/**
- * __useGetScholarshipListQuery__
- *
- * To run a query within a React component, call `useGetScholarshipListQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetScholarshipListQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetScholarshipListQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetScholarshipListQuery(baseOptions?: Apollo.QueryHookOptions<GetScholarshipListQuery, GetScholarshipListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetScholarshipListQuery, GetScholarshipListQueryVariables>(GetScholarshipListDocument, options);
-      }
-export function useGetScholarshipListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetScholarshipListQuery, GetScholarshipListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetScholarshipListQuery, GetScholarshipListQueryVariables>(GetScholarshipListDocument, options);
-        }
-export function useGetScholarshipListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetScholarshipListQuery, GetScholarshipListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetScholarshipListQuery, GetScholarshipListQueryVariables>(GetScholarshipListDocument, options);
-        }
-export type GetScholarshipListQueryHookResult = ReturnType<typeof useGetScholarshipListQuery>;
-export type GetScholarshipListLazyQueryHookResult = ReturnType<typeof useGetScholarshipListLazyQuery>;
-export type GetScholarshipListSuspenseQueryHookResult = ReturnType<typeof useGetScholarshipListSuspenseQuery>;
-export type GetScholarshipListQueryResult = Apollo.QueryResult<GetScholarshipListQuery, GetScholarshipListQueryVariables>;
-export const GetScholarshipApplicationsDocument = gql`
-    query GetScholarshipApplications($_id: String!, $_gte: timestamptz!) {
-  scholarship_application(
-    where: {student_id: {_eq: $_id}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
-    order_by: {created_at: asc}
-  ) {
-    id
-    student {
-      id
-      name
-      department
-      class
-    }
-    scholarship
-    honor
-    amount
-    code
-    thank_letter
-    form_url
-    status
-    created_at
-    updated_at
-  }
-}
-    `;
-
-/**
- * __useGetScholarshipApplicationsQuery__
- *
- * To run a query within a React component, call `useGetScholarshipApplicationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetScholarshipApplicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetScholarshipApplicationsQuery({
- *   variables: {
- *      _id: // value for '_id'
- *      _gte: // value for '_gte'
- *   },
- * });
- */
-export function useGetScholarshipApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables> & ({ variables: GetScholarshipApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>(GetScholarshipApplicationsDocument, options);
-      }
-export function useGetScholarshipApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>(GetScholarshipApplicationsDocument, options);
-        }
-export function useGetScholarshipApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>(GetScholarshipApplicationsDocument, options);
-        }
-export type GetScholarshipApplicationsQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsQuery>;
-export type GetScholarshipApplicationsLazyQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsLazyQuery>;
-export type GetScholarshipApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsSuspenseQuery>;
-export type GetScholarshipApplicationsQueryResult = Apollo.QueryResult<GetScholarshipApplicationsQuery, GetScholarshipApplicationsQueryVariables>;
-export const GetScholarshipApplicationsForCounselorsDocument = gql`
-    query GetScholarshipApplicationsForCounselors($_gte: timestamptz!) {
-  scholarship_application(
-    order_by: {created_at: asc}
-    where: {updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
-  ) {
-    id
-    student {
-      id
-      name
-      department
-      class
-    }
-    scholarship
-    honor
-    amount
-    code
-    thank_letter
-    form_url
-    status
-    created_at
-    updated_at
-  }
-}
-    `;
-
-/**
- * __useGetScholarshipApplicationsForCounselorsQuery__
- *
- * To run a query within a React component, call `useGetScholarshipApplicationsForCounselorsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetScholarshipApplicationsForCounselorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetScholarshipApplicationsForCounselorsQuery({
- *   variables: {
- *      _gte: // value for '_gte'
- *   },
- * });
- */
-export function useGetScholarshipApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables> & ({ variables: GetScholarshipApplicationsForCounselorsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>(GetScholarshipApplicationsForCounselorsDocument, options);
-      }
-export function useGetScholarshipApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>(GetScholarshipApplicationsForCounselorsDocument, options);
-        }
-export function useGetScholarshipApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>(GetScholarshipApplicationsForCounselorsDocument, options);
-        }
-export type GetScholarshipApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsForCounselorsQuery>;
-export type GetScholarshipApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsForCounselorsLazyQuery>;
-export type GetScholarshipApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetScholarshipApplicationsForCounselorsSuspenseQuery>;
-export type GetScholarshipApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetScholarshipApplicationsForCounselorsQuery, GetScholarshipApplicationsForCounselorsQueryVariables>;
-export const AddScholarshipApplicationDocument = gql`
-    mutation AddScholarshipApplication($student_id: String!, $scholarship: String!, $honor: String!, $amount: Int!, $code: String!) {
-  insert_scholarship_application(
-    objects: {student_id: $student_id, scholarship: $scholarship, honor: $honor, amount: $amount, code: $code}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddScholarshipApplicationMutationFn = Apollo.MutationFunction<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>;
-
-/**
- * __useAddScholarshipApplicationMutation__
- *
- * To run a mutation, you first call `useAddScholarshipApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddScholarshipApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addScholarshipApplicationMutation, { data, loading, error }] = useAddScholarshipApplicationMutation({
- *   variables: {
- *      student_id: // value for 'student_id'
- *      scholarship: // value for 'scholarship'
- *      honor: // value for 'honor'
- *      amount: // value for 'amount'
- *      code: // value for 'code'
- *   },
- * });
- */
-export function useAddScholarshipApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>(AddScholarshipApplicationDocument, options);
-      }
-export type AddScholarshipApplicationMutationHookResult = ReturnType<typeof useAddScholarshipApplicationMutation>;
-export type AddScholarshipApplicationMutationResult = Apollo.MutationResult<AddScholarshipApplicationMutation>;
-export type AddScholarshipApplicationMutationOptions = Apollo.BaseMutationOptions<AddScholarshipApplicationMutation, AddScholarshipApplicationMutationVariables>;
-export const UpdateScholarshipApplicationDocument = gql`
-    mutation UpdateScholarshipApplication($id: uuid!, $thank_letter: String, $form_url: String) {
-  update_scholarship_application(
-    where: {id: {_eq: $id}}
-    _set: {thank_letter: $thank_letter, form_url: $form_url}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type UpdateScholarshipApplicationMutationFn = Apollo.MutationFunction<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>;
-
-/**
- * __useUpdateScholarshipApplicationMutation__
- *
- * To run a mutation, you first call `useUpdateScholarshipApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateScholarshipApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateScholarshipApplicationMutation, { data, loading, error }] = useUpdateScholarshipApplicationMutation({
- *   variables: {
- *      id: // value for 'id'
- *      thank_letter: // value for 'thank_letter'
- *      form_url: // value for 'form_url'
- *   },
- * });
- */
-export function useUpdateScholarshipApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>(UpdateScholarshipApplicationDocument, options);
-      }
-export type UpdateScholarshipApplicationMutationHookResult = ReturnType<typeof useUpdateScholarshipApplicationMutation>;
-export type UpdateScholarshipApplicationMutationResult = Apollo.MutationResult<UpdateScholarshipApplicationMutation>;
-export type UpdateScholarshipApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateScholarshipApplicationMutation, UpdateScholarshipApplicationMutationVariables>;
-export const DeleteScholarshipApplicationDocument = gql`
-    mutation DeleteScholarshipApplication($id: uuid!) {
-  delete_scholarship_application(where: {id: {_eq: $id}}) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type DeleteScholarshipApplicationMutationFn = Apollo.MutationFunction<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>;
-
-/**
- * __useDeleteScholarshipApplicationMutation__
- *
- * To run a mutation, you first call `useDeleteScholarshipApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteScholarshipApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteScholarshipApplicationMutation, { data, loading, error }] = useDeleteScholarshipApplicationMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteScholarshipApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>(DeleteScholarshipApplicationDocument, options);
-      }
-export type DeleteScholarshipApplicationMutationHookResult = ReturnType<typeof useDeleteScholarshipApplicationMutation>;
-export type DeleteScholarshipApplicationMutationResult = Apollo.MutationResult<DeleteScholarshipApplicationMutation>;
-export type DeleteScholarshipApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteScholarshipApplicationMutation, DeleteScholarshipApplicationMutationVariables>;
-export const GetPostgraduateFeedsDocument = gql`
-    query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
-  postgraduate_mentor_info(
-    where: {verified: {_eq: true}}
-    limit: $limit
-    order_by: {id: asc}
-    offset: $offset
-  ) {
-    id
-    created_at
-    updated_at
-    mentor
-    field
-    phd_quota
-    phd_quota_unfixed
-    contact
-    alternate_contact
-    home_page
-    detail_info
-    user_id
-    intend: applications_aggregate(
-      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "intend"}}]}
-    ) {
-      aggregate {
-        count
-        max {
-          updated_at
-        }
-      }
-    }
-    in_contact: applications_aggregate(
-      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "in_contact"}}]}
-    ) {
-      aggregate {
-        count
-        max {
-          updated_at
-        }
-      }
-    }
-    confirmed: applications_aggregate(
-      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "confirmed"}}]}
-    ) {
-      aggregate {
-        count
-        max {
-          updated_at
-        }
-      }
-    }
-  }
-  postgraduate_mentor_info_aggregate {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetPostgraduateFeedsQuery__
- *
- * To run a query within a React component, call `useGetPostgraduateFeedsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPostgraduateFeedsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPostgraduateFeedsQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function useGetPostgraduateFeedsQuery(baseOptions?: Apollo.QueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
-      }
-export function useGetPostgraduateFeedsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
-        }
-export function useGetPostgraduateFeedsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
-        }
-export type GetPostgraduateFeedsQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsQuery>;
-export type GetPostgraduateFeedsLazyQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsLazyQuery>;
-export type GetPostgraduateFeedsSuspenseQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsSuspenseQuery>;
-export type GetPostgraduateFeedsQueryResult = Apollo.QueryResult<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>;
-export const GetUnverifiedMentorInfoDocument = gql`
-    query GetUnverifiedMentorInfo($limit: Int = 10, $offset: Int = 0) {
-  postgraduate_mentor_info(
-    limit: $limit
-    order_by: {id: asc}
-    offset: $offset
-    where: {verified: {_eq: false}}
-  ) {
-    id
-    created_at
-    updated_at
-    mentor
-    field
-    phd_quota
-    phd_quota_unfixed
-    contact
-    alternate_contact
-    home_page
-    detail_info
-    user_id
-    userEditor {
-      name
-    }
-    intend: applications_aggregate(
-      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "intend"}}]}
-    ) {
-      aggregate {
-        count
-        max {
-          updated_at
-        }
-      }
-    }
-    in_contact: applications_aggregate(
-      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "in_contact"}}]}
-    ) {
-      aggregate {
-        count
-        max {
-          updated_at
-        }
-      }
-    }
-    confirmed: applications_aggregate(
-      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "confirmed"}}]}
-    ) {
-      aggregate {
-        count
-        max {
-          updated_at
-        }
-      }
-    }
-  }
-  postgraduate_mentor_info_aggregate {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetUnverifiedMentorInfoQuery__
- *
- * To run a query within a React component, call `useGetUnverifiedMentorInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUnverifiedMentorInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUnverifiedMentorInfoQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function useGetUnverifiedMentorInfoQuery(baseOptions?: Apollo.QueryHookOptions<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>(GetUnverifiedMentorInfoDocument, options);
-      }
-export function useGetUnverifiedMentorInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>(GetUnverifiedMentorInfoDocument, options);
-        }
-export function useGetUnverifiedMentorInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>(GetUnverifiedMentorInfoDocument, options);
-        }
-export type GetUnverifiedMentorInfoQueryHookResult = ReturnType<typeof useGetUnverifiedMentorInfoQuery>;
-export type GetUnverifiedMentorInfoLazyQueryHookResult = ReturnType<typeof useGetUnverifiedMentorInfoLazyQuery>;
-export type GetUnverifiedMentorInfoSuspenseQueryHookResult = ReturnType<typeof useGetUnverifiedMentorInfoSuspenseQuery>;
-export type GetUnverifiedMentorInfoQueryResult = Apollo.QueryResult<GetUnverifiedMentorInfoQuery, GetUnverifiedMentorInfoQueryVariables>;
-export const InsertPostgraduateInfoDocument = gql`
-    mutation InsertPostgraduateInfo($mentor: String!, $field: String!, $contact: String!, $alternate_contact: String = "", $detail_info: String = "", $home_page: String = "", $phd_quota: numeric = 0, $phd_quota_unfixed: numeric = 0, $user_id: String!) {
-  insert_postgraduate_mentor_info_one(
-    object: {mentor: $mentor, field: $field, contact: $contact, alternate_contact: $alternate_contact, detail_info: $detail_info, home_page: $home_page, phd_quota: $phd_quota, phd_quota_unfixed: $phd_quota_unfixed, user_id: $user_id, verified: true}
-  ) {
-    id
-  }
-}
-    `;
-export type InsertPostgraduateInfoMutationFn = Apollo.MutationFunction<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>;
-
-/**
- * __useInsertPostgraduateInfoMutation__
- *
- * To run a mutation, you first call `useInsertPostgraduateInfoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertPostgraduateInfoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertPostgraduateInfoMutation, { data, loading, error }] = useInsertPostgraduateInfoMutation({
- *   variables: {
- *      mentor: // value for 'mentor'
- *      field: // value for 'field'
- *      contact: // value for 'contact'
- *      alternate_contact: // value for 'alternate_contact'
- *      detail_info: // value for 'detail_info'
- *      home_page: // value for 'home_page'
- *      phd_quota: // value for 'phd_quota'
- *      phd_quota_unfixed: // value for 'phd_quota_unfixed'
- *      user_id: // value for 'user_id'
- *   },
- * });
- */
-export function useInsertPostgraduateInfoMutation(baseOptions?: Apollo.MutationHookOptions<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>(InsertPostgraduateInfoDocument, options);
-      }
-export type InsertPostgraduateInfoMutationHookResult = ReturnType<typeof useInsertPostgraduateInfoMutation>;
-export type InsertPostgraduateInfoMutationResult = Apollo.MutationResult<InsertPostgraduateInfoMutation>;
-export type InsertPostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<InsertPostgraduateInfoMutation, InsertPostgraduateInfoMutationVariables>;
-export const UpdatePostgraduateInfoDocument = gql`
-    mutation UpdatePostgraduateInfo($id: Int!, $mentor: String!, $field: String!, $contact: String!, $alternate_contact: String = "", $detail_info: String = "", $home_page: String = "", $phd_quota: numeric = 0, $phd_quota_unfixed: numeric = 0) {
-  update_postgraduate_mentor_info_by_pk(
-    pk_columns: {id: $id}
-    _set: {mentor: $mentor, field: $field, contact: $contact, alternate_contact: $alternate_contact, detail_info: $detail_info, home_page: $home_page, phd_quota: $phd_quota, phd_quota_unfixed: $phd_quota_unfixed, verified: true}
-  ) {
-    id
-  }
-}
-    `;
-export type UpdatePostgraduateInfoMutationFn = Apollo.MutationFunction<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>;
-
-/**
- * __useUpdatePostgraduateInfoMutation__
- *
- * To run a mutation, you first call `useUpdatePostgraduateInfoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePostgraduateInfoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updatePostgraduateInfoMutation, { data, loading, error }] = useUpdatePostgraduateInfoMutation({
- *   variables: {
- *      id: // value for 'id'
- *      mentor: // value for 'mentor'
- *      field: // value for 'field'
- *      contact: // value for 'contact'
- *      alternate_contact: // value for 'alternate_contact'
- *      detail_info: // value for 'detail_info'
- *      home_page: // value for 'home_page'
- *      phd_quota: // value for 'phd_quota'
- *      phd_quota_unfixed: // value for 'phd_quota_unfixed'
- *   },
- * });
- */
-export function useUpdatePostgraduateInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>(UpdatePostgraduateInfoDocument, options);
-      }
-export type UpdatePostgraduateInfoMutationHookResult = ReturnType<typeof useUpdatePostgraduateInfoMutation>;
-export type UpdatePostgraduateInfoMutationResult = Apollo.MutationResult<UpdatePostgraduateInfoMutation>;
-export type UpdatePostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<UpdatePostgraduateInfoMutation, UpdatePostgraduateInfoMutationVariables>;
-export const DeletePostgraduateInfoDocument = gql`
-    mutation DeletePostgraduateInfo($id: Int!) {
-  delete_postgraduate_mentor_info(where: {id: {_eq: $id}}) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type DeletePostgraduateInfoMutationFn = Apollo.MutationFunction<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>;
-
-/**
- * __useDeletePostgraduateInfoMutation__
- *
- * To run a mutation, you first call `useDeletePostgraduateInfoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeletePostgraduateInfoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deletePostgraduateInfoMutation, { data, loading, error }] = useDeletePostgraduateInfoMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeletePostgraduateInfoMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>(DeletePostgraduateInfoDocument, options);
-      }
-export type DeletePostgraduateInfoMutationHookResult = ReturnType<typeof useDeletePostgraduateInfoMutation>;
-export type DeletePostgraduateInfoMutationResult = Apollo.MutationResult<DeletePostgraduateInfoMutation>;
-export type DeletePostgraduateInfoMutationOptions = Apollo.BaseMutationOptions<DeletePostgraduateInfoMutation, DeletePostgraduateInfoMutationVariables>;
-export const InsertApplicationDocument = gql`
-    mutation InsertApplication($mentor_info_id: Int!, $status: String!, $user_id: String!, $verified: Boolean!) {
-  insert_postgraduate_application_one(
-    object: {mentor_info_id: $mentor_info_id, status: $status, user_id: $user_id, verified: $verified}
-    on_conflict: {constraint: postgraduate_application_pkey, update_columns: [status, updated_at, verified]}
-  ) {
-    status
-  }
-}
-    `;
-export type InsertApplicationMutationFn = Apollo.MutationFunction<InsertApplicationMutation, InsertApplicationMutationVariables>;
-
-/**
- * __useInsertApplicationMutation__
- *
- * To run a mutation, you first call `useInsertApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertApplicationMutation, { data, loading, error }] = useInsertApplicationMutation({
- *   variables: {
- *      mentor_info_id: // value for 'mentor_info_id'
- *      status: // value for 'status'
- *      user_id: // value for 'user_id'
- *      verified: // value for 'verified'
- *   },
- * });
- */
-export function useInsertApplicationMutation(baseOptions?: Apollo.MutationHookOptions<InsertApplicationMutation, InsertApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertApplicationMutation, InsertApplicationMutationVariables>(InsertApplicationDocument, options);
-      }
-export type InsertApplicationMutationHookResult = ReturnType<typeof useInsertApplicationMutation>;
-export type InsertApplicationMutationResult = Apollo.MutationResult<InsertApplicationMutation>;
-export type InsertApplicationMutationOptions = Apollo.BaseMutationOptions<InsertApplicationMutation, InsertApplicationMutationVariables>;
-export const VerifyMentorInfoDocument = gql`
-    mutation VerifyMentorInfo($id: Int!) {
-  update_postgraduate_mentor_info_by_pk(
-    pk_columns: {id: $id}
-    _set: {verified: true}
-  ) {
-    id
-  }
-}
-    `;
-export type VerifyMentorInfoMutationFn = Apollo.MutationFunction<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>;
-
-/**
- * __useVerifyMentorInfoMutation__
- *
- * To run a mutation, you first call `useVerifyMentorInfoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useVerifyMentorInfoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [verifyMentorInfoMutation, { data, loading, error }] = useVerifyMentorInfoMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useVerifyMentorInfoMutation(baseOptions?: Apollo.MutationHookOptions<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>(VerifyMentorInfoDocument, options);
-      }
-export type VerifyMentorInfoMutationHookResult = ReturnType<typeof useVerifyMentorInfoMutation>;
-export type VerifyMentorInfoMutationResult = Apollo.MutationResult<VerifyMentorInfoMutation>;
-export type VerifyMentorInfoMutationOptions = Apollo.BaseMutationOptions<VerifyMentorInfoMutation, VerifyMentorInfoMutationVariables>;
-export const GetPostgraduateApplicationFeedsDocument = gql`
-    query GetPostgraduateApplicationFeeds($offset: Int = 0, $limit: Int = 10) {
-  postgraduate_application_aggregate(where: {verified: {_eq: false}}) {
-    aggregate {
-      count
-    }
-  }
-  postgraduate_application(
-    where: {verified: {_eq: false}}
-    order_by: {created_at: desc}
-    offset: $offset
-    limit: $limit
-  ) {
-    created_at
-    mentor_info_id
-    status
-    updated_at
-    user_id
-    mentor {
-      mentor
-    }
-    user {
-      name
-      class
-    }
-  }
-}
-    `;
-
-/**
- * __useGetPostgraduateApplicationFeedsQuery__
- *
- * To run a query within a React component, call `useGetPostgraduateApplicationFeedsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPostgraduateApplicationFeedsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPostgraduateApplicationFeedsQuery({
- *   variables: {
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useGetPostgraduateApplicationFeedsQuery(baseOptions?: Apollo.QueryHookOptions<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>(GetPostgraduateApplicationFeedsDocument, options);
-      }
-export function useGetPostgraduateApplicationFeedsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>(GetPostgraduateApplicationFeedsDocument, options);
-        }
-export function useGetPostgraduateApplicationFeedsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>(GetPostgraduateApplicationFeedsDocument, options);
-        }
-export type GetPostgraduateApplicationFeedsQueryHookResult = ReturnType<typeof useGetPostgraduateApplicationFeedsQuery>;
-export type GetPostgraduateApplicationFeedsLazyQueryHookResult = ReturnType<typeof useGetPostgraduateApplicationFeedsLazyQuery>;
-export type GetPostgraduateApplicationFeedsSuspenseQueryHookResult = ReturnType<typeof useGetPostgraduateApplicationFeedsSuspenseQuery>;
-export type GetPostgraduateApplicationFeedsQueryResult = Apollo.QueryResult<GetPostgraduateApplicationFeedsQuery, GetPostgraduateApplicationFeedsQueryVariables>;
-export const GetSelfPostgraduateApplicationsDocument = gql`
-    query GetSelfPostgraduateApplications($user_id: String!, $offset: Int = 0, $limit: Int = 10) {
-  postgraduate_application(
-    where: {user_id: {_eq: $user_id}}
-    offset: $offset
-    limit: $limit
-  ) {
-    created_at
-    mentor_info_id
-    mentor {
-      mentor
-    }
-    status
-    updated_at
-    user_id
-    verified
-    history(order_by: {created_at: desc}) {
-      status
-    }
-  }
-  postgraduate_application_aggregate(where: {user_id: {_eq: $user_id}}) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetSelfPostgraduateApplicationsQuery__
- *
- * To run a query within a React component, call `useGetSelfPostgraduateApplicationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSelfPostgraduateApplicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetSelfPostgraduateApplicationsQuery({
- *   variables: {
- *      user_id: // value for 'user_id'
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useGetSelfPostgraduateApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables> & ({ variables: GetSelfPostgraduateApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>(GetSelfPostgraduateApplicationsDocument, options);
-      }
-export function useGetSelfPostgraduateApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>(GetSelfPostgraduateApplicationsDocument, options);
-        }
-export function useGetSelfPostgraduateApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>(GetSelfPostgraduateApplicationsDocument, options);
-        }
-export type GetSelfPostgraduateApplicationsQueryHookResult = ReturnType<typeof useGetSelfPostgraduateApplicationsQuery>;
-export type GetSelfPostgraduateApplicationsLazyQueryHookResult = ReturnType<typeof useGetSelfPostgraduateApplicationsLazyQuery>;
-export type GetSelfPostgraduateApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetSelfPostgraduateApplicationsSuspenseQuery>;
-export type GetSelfPostgraduateApplicationsQueryResult = Apollo.QueryResult<GetSelfPostgraduateApplicationsQuery, GetSelfPostgraduateApplicationsQueryVariables>;
-export const GetSelfConfirmedApplicationDocument = gql`
-    query GetSelfConfirmedApplication($user_id: String!) {
-  postgraduate_application(
-    where: {_and: [{user_id: {_eq: $user_id}}, {verified: {_eq: true}}, {status: {_eq: "confirmed"}}]}
-  ) {
-    mentor_info_id
-  }
-}
-    `;
-
-/**
- * __useGetSelfConfirmedApplicationQuery__
- *
- * To run a query within a React component, call `useGetSelfConfirmedApplicationQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSelfConfirmedApplicationQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetSelfConfirmedApplicationQuery({
- *   variables: {
- *      user_id: // value for 'user_id'
- *   },
- * });
- */
-export function useGetSelfConfirmedApplicationQuery(baseOptions: Apollo.QueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables> & ({ variables: GetSelfConfirmedApplicationQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>(GetSelfConfirmedApplicationDocument, options);
-      }
-export function useGetSelfConfirmedApplicationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>(GetSelfConfirmedApplicationDocument, options);
-        }
-export function useGetSelfConfirmedApplicationSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>(GetSelfConfirmedApplicationDocument, options);
-        }
-export type GetSelfConfirmedApplicationQueryHookResult = ReturnType<typeof useGetSelfConfirmedApplicationQuery>;
-export type GetSelfConfirmedApplicationLazyQueryHookResult = ReturnType<typeof useGetSelfConfirmedApplicationLazyQuery>;
-export type GetSelfConfirmedApplicationSuspenseQueryHookResult = ReturnType<typeof useGetSelfConfirmedApplicationSuspenseQuery>;
-export type GetSelfConfirmedApplicationQueryResult = Apollo.QueryResult<GetSelfConfirmedApplicationQuery, GetSelfConfirmedApplicationQueryVariables>;
-export const VerifyPostgraduateApplicationDocument = gql`
-    mutation VerifyPostgraduateApplication($mentor_info_id: Int!, $user_id: String!) {
-  update_postgraduate_application_by_pk(
-    pk_columns: {mentor_info_id: $mentor_info_id, user_id: $user_id}
-    _set: {verified: true}
-  ) {
-    verified
-  }
-}
-    `;
-export type VerifyPostgraduateApplicationMutationFn = Apollo.MutationFunction<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>;
-
-/**
- * __useVerifyPostgraduateApplicationMutation__
- *
- * To run a mutation, you first call `useVerifyPostgraduateApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useVerifyPostgraduateApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [verifyPostgraduateApplicationMutation, { data, loading, error }] = useVerifyPostgraduateApplicationMutation({
- *   variables: {
- *      mentor_info_id: // value for 'mentor_info_id'
- *      user_id: // value for 'user_id'
- *   },
- * });
- */
-export function useVerifyPostgraduateApplicationMutation(baseOptions?: Apollo.MutationHookOptions<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>(VerifyPostgraduateApplicationDocument, options);
-      }
-export type VerifyPostgraduateApplicationMutationHookResult = ReturnType<typeof useVerifyPostgraduateApplicationMutation>;
-export type VerifyPostgraduateApplicationMutationResult = Apollo.MutationResult<VerifyPostgraduateApplicationMutation>;
-export type VerifyPostgraduateApplicationMutationOptions = Apollo.BaseMutationOptions<VerifyPostgraduateApplicationMutation, VerifyPostgraduateApplicationMutationVariables>;
-export const DeletePostgraduateApplicationDocument = gql`
-    mutation DeletePostgraduateApplication($mentor_info_id: Int!, $user_id: String!) {
-  delete_postgraduate_application_by_pk(
-    mentor_info_id: $mentor_info_id
-    user_id: $user_id
-  ) {
-    mentor_info_id
-    user_id
-  }
-}
-    `;
-export type DeletePostgraduateApplicationMutationFn = Apollo.MutationFunction<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>;
-
-/**
- * __useDeletePostgraduateApplicationMutation__
- *
- * To run a mutation, you first call `useDeletePostgraduateApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeletePostgraduateApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deletePostgraduateApplicationMutation, { data, loading, error }] = useDeletePostgraduateApplicationMutation({
- *   variables: {
- *      mentor_info_id: // value for 'mentor_info_id'
- *      user_id: // value for 'user_id'
- *   },
- * });
- */
-export function useDeletePostgraduateApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>(DeletePostgraduateApplicationDocument, options);
-      }
-export type DeletePostgraduateApplicationMutationHookResult = ReturnType<typeof useDeletePostgraduateApplicationMutation>;
-export type DeletePostgraduateApplicationMutationResult = Apollo.MutationResult<DeletePostgraduateApplicationMutation>;
-export type DeletePostgraduateApplicationMutationOptions = Apollo.BaseMutationOptions<DeletePostgraduateApplicationMutation, DeletePostgraduateApplicationMutationVariables>;
-export const SetPostAppHistoryDocument = gql`
-    mutation SetPostAppHistory($user_id: String!, $mentor_info_id: Int!, $status: String!) {
-  insert_postgraduate_application_history_one(
-    object: {user_id: $user_id, mentor_info_id: $mentor_info_id, status: $status}
-    on_conflict: {constraint: postgraduate_application_history_pkey, update_columns: created_at}
-  ) {
-    created_at
-  }
-}
-    `;
-export type SetPostAppHistoryMutationFn = Apollo.MutationFunction<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>;
-
-/**
- * __useSetPostAppHistoryMutation__
- *
- * To run a mutation, you first call `useSetPostAppHistoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSetPostAppHistoryMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [setPostAppHistoryMutation, { data, loading, error }] = useSetPostAppHistoryMutation({
- *   variables: {
- *      user_id: // value for 'user_id'
- *      mentor_info_id: // value for 'mentor_info_id'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useSetPostAppHistoryMutation(baseOptions?: Apollo.MutationHookOptions<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>(SetPostAppHistoryDocument, options);
-      }
-export type SetPostAppHistoryMutationHookResult = ReturnType<typeof useSetPostAppHistoryMutation>;
-export type SetPostAppHistoryMutationResult = Apollo.MutationResult<SetPostAppHistoryMutation>;
-export type SetPostAppHistoryMutationOptions = Apollo.BaseMutationOptions<SetPostAppHistoryMutation, SetPostAppHistoryMutationVariables>;
-export const GetPostAppHistoryDocument = gql`
-    query GetPostAppHistory($offset: Int = 0, $limit: Int = 10) {
-  postgraduate_application_history(
-    offset: $offset
-    limit: $limit
-    order_by: {created_at: desc}
-    where: {_and: [{status: {_neq: "intend"}}, {status: {_neq: "in_contact"}}, {status: {_neq: "delete"}}]}
-  ) {
-    created_at
-    mentor_info_id
-    status
-    user_id
-    updated_at
-    mentor {
-      mentor
-    }
-    user {
-      name
-      class
-    }
-  }
-  postgraduate_application_history_aggregate(
-    offset: $offset
-    limit: $limit
-    where: {_and: [{status: {_neq: "intend"}}, {status: {_neq: "in_contact"}}, {status: {_neq: "delete"}}]}
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetPostAppHistoryQuery__
- *
- * To run a query within a React component, call `useGetPostAppHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPostAppHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPostAppHistoryQuery({
- *   variables: {
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useGetPostAppHistoryQuery(baseOptions?: Apollo.QueryHookOptions<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>(GetPostAppHistoryDocument, options);
-      }
-export function useGetPostAppHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>(GetPostAppHistoryDocument, options);
-        }
-export function useGetPostAppHistorySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>(GetPostAppHistoryDocument, options);
-        }
-export type GetPostAppHistoryQueryHookResult = ReturnType<typeof useGetPostAppHistoryQuery>;
-export type GetPostAppHistoryLazyQueryHookResult = ReturnType<typeof useGetPostAppHistoryLazyQuery>;
-export type GetPostAppHistorySuspenseQueryHookResult = ReturnType<typeof useGetPostAppHistorySuspenseQuery>;
-export type GetPostAppHistoryQueryResult = Apollo.QueryResult<GetPostAppHistoryQuery, GetPostAppHistoryQueryVariables>;
 export const GetCourseDocument = gql`
     query GetCourse {
   share_course(order_by: {year: desc}) {

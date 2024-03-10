@@ -45,7 +45,7 @@ mutation AddHonorApplication(
 ) {
   insert_honor_application(
     objects: {
-      student_uuid: $uuid
+      student_uuid: $student_uuid
       honor: $honor
       statement: $statement
       attachment_url: $attachment_url
@@ -58,13 +58,13 @@ mutation AddHonorApplication(
 }
 
 mutation UpdateHonorApplication(
-  $student_uuid: uuid!
+  $id: uuid!
   $honor: String!
   $statement: String!
   $attachment_url: String
 ) {
   update_honor_application(
-    where: { student_uuid: { _eq: $uuid } }
+    where: { id: { _eq: $id } }
     _set: {
       honor: $honor
       statement: $statement
@@ -77,21 +77,21 @@ mutation UpdateHonorApplication(
   }
 }
 
-mutation DeleteHonorApplication($uuid: uuid!) {
-  delete_honor_application(where: { student_uuid: { _eq: $uuid } }) {
+mutation DeleteHonorApplication($id: uuid!) {
+  delete_honor_application(where: { id: { _eq: $id } }) {
     returning {
-      uuid
+      id
     }
   }
 }
 
-mutation UpdateHonorApplicationStatus($uuid: uuid!, $status: String!) {
+mutation UpdateHonorApplicationStatus($id: uuid!, $status: String!) {
   update_honor_application(
-    where: { student_uuid: { _eq: $uuid } }
+    where: { id: { _eq: $id } }
     _set: { status: $status }
   ) {
     returning {
-      uuid
+      id
       status
     }
   }
