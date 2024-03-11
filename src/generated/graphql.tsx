@@ -9672,7 +9672,7 @@ export type QueryContestManagerQuery = { __typename?: 'query_root', contest_mana
 export type InsertTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
   team_intro?: InputMaybe<Scalars['String']['input']>;
-  team_leader: Scalars['String']['input'];
+  team_leader_uuid: Scalars['uuid']['input'];
   invited_code: Scalars['String']['input'];
   contest_id: Scalars['uuid']['input'];
 }>;
@@ -10309,9 +10309,9 @@ export type QueryContestManagerLazyQueryHookResult = ReturnType<typeof useQueryC
 export type QueryContestManagerSuspenseQueryHookResult = ReturnType<typeof useQueryContestManagerSuspenseQuery>;
 export type QueryContestManagerQueryResult = Apollo.QueryResult<QueryContestManagerQuery, QueryContestManagerQueryVariables>;
 export const InsertTeamDocument = gql`
-    mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader: String!, $invited_code: String!, $contest_id: uuid!) {
+    mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
   insert_contest_team(
-    objects: {team_name: $team_name, team_intro: $team_intro, team_leader: $team_leader, invited_code: $invited_code, contest_id: $contest_id}
+    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id}
   ) {
     affected_rows
   }
@@ -10334,7 +10334,7 @@ export type InsertTeamMutationFn = Apollo.MutationFunction<InsertTeamMutation, I
  *   variables: {
  *      team_name: // value for 'team_name'
  *      team_intro: // value for 'team_intro'
- *      team_leader: // value for 'team_leader'
+ *      team_leader_uuid: // value for 'team_leader_uuid'
  *      invited_code: // value for 'invited_code'
  *      contest_id: // value for 'contest_id'
  *   },
