@@ -17,7 +17,7 @@ import MentorChatPage from "./MentorChatPage";
 // import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
 import HonorApplicationPage from "./HonorApplicationPage";
 import NotFoundPage from "../Components/NotFound";
-import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
+// import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
 // import AidApplicationPage from "./AidApplicationPage";
 // import PostgraduateMentorPage from "./PostgraduateMentorPage";
 // import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
@@ -240,10 +240,10 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
               path="honors"
               element={<HonorApplicationPage mode={mode} user={user} />}
             />
-            <Route
+            {/* <Route
               path="scholarships"
               element={<ScholarshipApplicationPage mode={mode} user={user} />}
-            />
+            /> */}
             {/* <Route path="financial-aid" element={<AidApplicationPage mode={mode} user={user} />} /> */}
             {/* <Route
               path="postgraduate-mentor-info"
