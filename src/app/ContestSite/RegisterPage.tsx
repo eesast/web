@@ -65,7 +65,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
       await insertTeam({
         variables: {
           ...values, //剩余参数
-          team_leader: user?.uuid!,
+          team_leader_uuid: user?.uuid!,
           invited_code: InviteCode!,
           contest_id: Contest_id!,
         },

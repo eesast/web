@@ -11,7 +11,7 @@ query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
 mutation InsertTeam(
   $team_name: String!
   $team_intro: String = "" # 此处的intro可以为NULL
-  $team_leader: String! # team_leader的uuid
+  $team_leader_uuid: uuid! # team_leader的uuid
   $invited_code: String!
   $contest_id: uuid! # 比赛名称是必填的项
 ) {
@@ -19,7 +19,7 @@ mutation InsertTeam(
     objects: {
       team_name: $team_name
       team_intro: $team_intro
-      team_leader: $team_leader
+      team_leader_uuid: $team_leader_uuid
       invited_code: $invited_code
       contest_id: $contest_id
     }
