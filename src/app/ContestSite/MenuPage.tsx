@@ -45,6 +45,8 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { styled } from "styled-components";
+import PlaygroundPage from "./PlaygroundPage";
+import NotImplementedPage from "./Components/NotImplemented";
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
@@ -289,19 +291,22 @@ const MenuPage: React.FC<ContestProps> = (props) => {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="intro" element={<IntroPage {...props} />} />
-
+            <Route path="timeline" element={<NotImplementedPage />} />
             <Route path="notice" element={<NoticePage {...props} />} />
+
+            <Route path="playground" element={<PlaygroundPage {...props} />} />
+            <Route path="stream" element={<StreamPage {...props} />} />
+            <Route path="playback" element={<PlaybackPage {...props} />} />
+
             <Route path="team-register" element={<RegisterPage {...props} />} />
             <Route path="team-join" element={<JoinPage {...props} />} />
             <Route path="team-manage" element={<ManagePage {...props} />} />
 
-            <Route path="arena-score" element={<ArenaPage {...props} />} />
-            <Route path="arena-record" element={<RecordPage {...props} />} />
             <Route path="code" element={<CodePage {...props} />} />
 
-            <Route path="playground" element={<PlaybackPage {...props} />} />
-            <Route path="stream" element={<StreamPage {...props} />} />
-            <Route path="playback" element={<PlaybackPage {...props} />} />
+            <Route path="arena-score" element={<ArenaPage {...props} />} />
+            <Route path="arena-record" element={<RecordPage {...props} />} />
+            <Route path="arena-analysis" element={<NotImplementedPage />} />
 
             <Route
               path="admin-manage"
