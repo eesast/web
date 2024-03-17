@@ -3,7 +3,7 @@ import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
 import { Button, Layout, Menu, MenuProps, Spin, message } from "antd";
 import {
   TrophyOutlined,
-  ReadOutlined,
+  // ReadOutlined,
   MenuOutlined,
   InfoCircleOutlined,
   SolutionOutlined,
