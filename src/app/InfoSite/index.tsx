@@ -105,7 +105,7 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
     },
     {
       key: "honors-scholarships",
-      label: "奖助学金",
+      label: "奖学金申请",
       icon: <TrophyOutlined />,
       children: [
         {
@@ -113,11 +113,11 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
           label: <Link to={url.link("honors")}>荣誉</Link>,
           icon: <BankOutlined />,
         },
-        {
-          key: "scholarships",
-          label: <Link to={url.link("scholarships")}>奖学金</Link>,
-          icon: <ReadOutlined />,
-        },
+        // {
+        //   key: "scholarships",
+        //   label: <Link to={url.link("scholarships")}>奖学金</Link>,
+        //   icon: <ReadOutlined />,
+        // },
         // {
         //   key: "financial-aid",
         //   label: <Link to={url.link("financial-aid")}>助学金</Link>,
