@@ -7,7 +7,7 @@ import * as Message2Server from "@/generated/grpc-web/THUAI6/Message2Server_pb";
 import { Col, Layout, Row } from "antd";
 import Title from "antd/lib/typography/Title";
 import React from "react";
-import { StreamProps } from "../StreamPage";
+import { StreamProps } from "../../StreamPage";
 
 interface Loc {
   x: number;
