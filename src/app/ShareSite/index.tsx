@@ -28,6 +28,7 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
 
   const StyledMenu = styled(Menu)`
     &.ant-menu {
+      width: 100%;
       line-height: 48px;
       border-bottom: unset;
     }
