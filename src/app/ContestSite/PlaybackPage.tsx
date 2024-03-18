@@ -10,10 +10,7 @@ import {
   Select,
   Spin,
 } from "antd";
-import {
-  ArrowsAltOutlined,
-  // ExclamationCircleOutlined,
-} from "@ant-design/icons";
+import { ArrowsAltOutlined } from "@ant-design/icons";
 
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { useUrl } from "../../api/hooks/url";
@@ -46,18 +43,31 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  let projectUrl = process.env.REACT_APP_STATIC_URL! + "/public/WebGL/THUAI6/";
-  let projectName = "THUAI6_WebGL";
-  if (Contest_id === "jump") {
-    projectUrl = process.env.REACT_APP_STATIC_URL! + "/public/WebGL/Jump/";
-    projectName = "JumpJump-Build";
-  }
+  const getWebGLPath = (contest: string | null) => {
+    // TODO: 这里应该改成数据库查询
+    const sharedUrl = process.env.REACT_APP_STATIC_URL! + "/public/WebGL/";
+    let projectUrl = sharedUrl + "THUAI6/";
+    let projectName = "THUAI6_WebGL";
+    if (contest === "19cece8f-3cfa-4098-9cbe-cbf2b5f50ebe") {
+      projectUrl = sharedUrl + "Jump/";
+      projectName = "JumpJump-Build";
+    }
+    if (contest === "f7b586ce-dffd-4fa0-9dc8-d3660423b7e6") {
+      projectUrl = sharedUrl + "THUAI7/";
+      projectName = "interface_localExecutable";
+    }
+    return { projectUrl, projectName };
+  };
+
+  const { projectUrl, projectName } = getWebGLPath(Contest_id);
 
   const handleCacheControl = (url: string) => {
-    if (url.match(/\.data/) || url.match(/\.bundle/)) {
+    if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
+      // 可变的资源
       return "must-revalidate";
     }
     if (url.match(/\.mp4/) || url.match(/\.wav/)) {
+      // 不变的静态资源
       return "immutable";
     }
     return "no-store";

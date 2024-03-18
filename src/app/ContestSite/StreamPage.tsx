@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from "react";
 import { useUrl } from "../../api/hooks/url";
 import { ContestProps } from ".";
-import THUAI6 from "./Stream/THUAI6";
+import THUAI6 from "./Components/THUAI6/StreamNative";
 
 export interface StreamProps {
   url: string;
