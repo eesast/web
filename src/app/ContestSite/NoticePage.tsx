@@ -256,12 +256,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={2}></Col>
         <Col span={20}>
           <Button
-            hidden={
-              !(
-                ["root", "counselor"].includes(user?.role!) ||
-                isContestManagerData?.contest_manager.length === 1
-              )
-            }
+            hidden={isContestManagerData?.contest_manager.length !== 1}
             onClick={() => setModalVisible(true)}
           >
             编辑新公告
@@ -279,7 +274,6 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Content>
                   <NoticeCard
                     onEditPress={
-                      ["root", "counselor"].includes(user?.role!) ||
                       isContestManagerData?.contest_manager.length === 1
                         ? () => {
                             setEditingNotice(
@@ -299,7 +293,6 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                         : undefined
                     }
                     onDeletePress={
-                      ["root", "counselor"].includes(user?.role!) ||
                       isContestManagerData?.contest_manager.length === 1
                         ? () => {
                             handleNoticeDelete(item.id);

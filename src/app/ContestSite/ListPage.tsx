@@ -345,14 +345,12 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   return (
     <Layout>
       <br />
-      {(user?.role === "counselor" || user?.role === "root") && (
-        <Row>
+      {/* <Row>
           <Col span={3}></Col>
           <Col span={18}>
             <Button onClick={() => setModalVisible(true)}>添加新比赛</Button>
           </Col>
-        </Row>
-      )}
+        </Row> */}
       <br />
       <Row>
         <Col span={3}></Col>

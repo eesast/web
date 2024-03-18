@@ -283,12 +283,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
             onClick={exportTeamsData}
             type="primary"
             shape="round"
-            disabled={
-              !(
-                ["root", "counselor"].includes(user?.role!) ||
-                isContestManagerData?.contest_manager.length === 1
-              )
-            }
+            disabled={isContestManagerData?.contest_manager.length !== 1}
             size="small"
           >
             导出队伍信息
