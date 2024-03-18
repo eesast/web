@@ -3385,6 +3385,158 @@ export type Contest_Team_Variance_Order_By = {
   submitted_code_num?: InputMaybe<Order_By>;
 };
 
+/** 比赛的时间线，仅作展示用 */
+export type Contest_Time = {
+  __typename?: 'contest_time';
+  /** An object relationship */
+  contest: Contest;
+  contest_id: Scalars['uuid']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  end: Scalars['timestamptz']['output'];
+  event: Scalars['String']['output'];
+  start: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "contest_time" */
+export type Contest_Time_Aggregate = {
+  __typename?: 'contest_time_aggregate';
+  aggregate?: Maybe<Contest_Time_Aggregate_Fields>;
+  nodes: Array<Contest_Time>;
+};
+
+/** aggregate fields of "contest_time" */
+export type Contest_Time_Aggregate_Fields = {
+  __typename?: 'contest_time_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Time_Max_Fields>;
+  min?: Maybe<Contest_Time_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_time" */
+export type Contest_Time_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "contest_time". All fields are combined with a logical 'AND'. */
+export type Contest_Time_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Time_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Time_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Time_Bool_Exp>>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
+  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  end?: InputMaybe<Timestamptz_Comparison_Exp>;
+  event?: InputMaybe<String_Comparison_Exp>;
+  start?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_time" */
+export enum Contest_Time_Constraint {
+  /** unique or primary key constraint on columns "event", "contest_id" */
+  ContestTimePkey = 'contest_time_pkey'
+}
+
+/** input type for inserting data into table "contest_time" */
+export type Contest_Time_Insert_Input = {
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<Scalars['timestamptz']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Time_Max_Fields = {
+  __typename?: 'contest_time_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  end?: Maybe<Scalars['timestamptz']['output']>;
+  event?: Maybe<Scalars['String']['output']>;
+  start?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregate min on columns */
+export type Contest_Time_Min_Fields = {
+  __typename?: 'contest_time_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  end?: Maybe<Scalars['timestamptz']['output']>;
+  event?: Maybe<Scalars['String']['output']>;
+  start?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** response of any mutation on the table "contest_time" */
+export type Contest_Time_Mutation_Response = {
+  __typename?: 'contest_time_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Time>;
+};
+
+/** on_conflict condition type for table "contest_time" */
+export type Contest_Time_On_Conflict = {
+  constraint: Contest_Time_Constraint;
+  update_columns?: Array<Contest_Time_Update_Column>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_time". */
+export type Contest_Time_Order_By = {
+  contest?: InputMaybe<Contest_Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  end?: InputMaybe<Order_By>;
+  event?: InputMaybe<Order_By>;
+  start?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_time */
+export type Contest_Time_Pk_Columns_Input = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
+};
+
+/** select columns of table "contest_time" */
+export enum Contest_Time_Select_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  End = 'end',
+  /** column name */
+  Event = 'event',
+  /** column name */
+  Start = 'start'
+}
+
+/** input type for updating data in table "contest_time" */
+export type Contest_Time_Set_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<Scalars['timestamptz']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "contest_time" */
+export enum Contest_Time_Update_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  End = 'end',
+  /** column name */
+  Event = 'event',
+  /** column name */
+  Start = 'start'
+}
+
 /** update columns of table "contest" */
 export enum Contest_Update_Column {
   /** column name */
@@ -5233,6 +5385,10 @@ export type Mutation_Root = {
   delete_contest_team_player?: Maybe<Contest_Team_Player_Mutation_Response>;
   /** delete single row from the table: "contest_team_player" */
   delete_contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** delete data from the table: "contest_time" */
+  delete_contest_time?: Maybe<Contest_Time_Mutation_Response>;
+  /** delete single row from the table: "contest_time" */
+  delete_contest_time_by_pk?: Maybe<Contest_Time>;
   /** delete data from the table: "honor_application" */
   delete_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** delete single row from the table: "honor_application" */
@@ -5353,6 +5509,10 @@ export type Mutation_Root = {
   insert_contest_team_player?: Maybe<Contest_Team_Player_Mutation_Response>;
   /** insert a single row into the table: "contest_team_player" */
   insert_contest_team_player_one?: Maybe<Contest_Team_Player>;
+  /** insert data into the table: "contest_time" */
+  insert_contest_time?: Maybe<Contest_Time_Mutation_Response>;
+  /** insert a single row into the table: "contest_time" */
+  insert_contest_time_one?: Maybe<Contest_Time>;
   /** insert data into the table: "honor_application" */
   insert_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** insert a single row into the table: "honor_application" */
@@ -5473,6 +5633,10 @@ export type Mutation_Root = {
   update_contest_team_player?: Maybe<Contest_Team_Player_Mutation_Response>;
   /** update single row of the table: "contest_team_player" */
   update_contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** update data of the table: "contest_time" */
+  update_contest_time?: Maybe<Contest_Time_Mutation_Response>;
+  /** update single row of the table: "contest_time" */
+  update_contest_time_by_pk?: Maybe<Contest_Time>;
   /** update data of the table: "honor_application" */
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
@@ -5694,6 +5858,19 @@ export type Mutation_RootDelete_Contest_Team_PlayerArgs = {
 export type Mutation_RootDelete_Contest_Team_Player_By_PkArgs = {
   player: Scalars['String']['input'];
   team_id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_TimeArgs = {
+  where: Contest_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Time_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
 };
 
 
@@ -6081,6 +6258,20 @@ export type Mutation_RootInsert_Contest_Team_PlayerArgs = {
 export type Mutation_RootInsert_Contest_Team_Player_OneArgs = {
   object: Contest_Team_Player_Insert_Input;
   on_conflict?: InputMaybe<Contest_Team_Player_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_TimeArgs = {
+  objects: Array<Contest_Time_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Time_OneArgs = {
+  object: Contest_Time_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Time_On_Conflict>;
 };
 
 
@@ -6511,6 +6702,20 @@ export type Mutation_RootUpdate_Contest_Team_PlayerArgs = {
 export type Mutation_RootUpdate_Contest_Team_Player_By_PkArgs = {
   _set?: InputMaybe<Contest_Team_Player_Set_Input>;
   pk_columns: Contest_Team_Player_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_TimeArgs = {
+  _set?: InputMaybe<Contest_Time_Set_Input>;
+  where: Contest_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Time_By_PkArgs = {
+  _set?: InputMaybe<Contest_Time_Set_Input>;
+  pk_columns: Contest_Time_Pk_Columns_Input;
 };
 
 
@@ -8235,6 +8440,12 @@ export type Query_Root = {
   contest_team_player_aggregate: Contest_Team_Player_Aggregate;
   /** fetch data from the table: "contest_team_player" using primary key columns */
   contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** fetch data from the table: "contest_time" */
+  contest_time: Array<Contest_Time>;
+  /** fetch aggregated fields from the table: "contest_time" */
+  contest_time_aggregate: Contest_Time_Aggregate;
+  /** fetch data from the table: "contest_time" using primary key columns */
+  contest_time_by_pk?: Maybe<Contest_Time>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -8624,6 +8835,30 @@ export type Query_RootContest_Team_Player_AggregateArgs = {
 export type Query_RootContest_Team_Player_By_PkArgs = {
   player: Scalars['String']['input'];
   team_id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootContest_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Time_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
 };
 
 
@@ -9873,6 +10108,12 @@ export type Subscription_Root = {
   contest_team_player_aggregate: Contest_Team_Player_Aggregate;
   /** fetch data from the table: "contest_team_player" using primary key columns */
   contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** fetch data from the table: "contest_time" */
+  contest_time: Array<Contest_Time>;
+  /** fetch aggregated fields from the table: "contest_time" */
+  contest_time_aggregate: Contest_Time_Aggregate;
+  /** fetch data from the table: "contest_time" using primary key columns */
+  contest_time_by_pk?: Maybe<Contest_Time>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -10262,6 +10503,30 @@ export type Subscription_RootContest_Team_Player_AggregateArgs = {
 export type Subscription_RootContest_Team_Player_By_PkArgs = {
   player: Scalars['String']['input'];
   team_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Time_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
 };
 
 
