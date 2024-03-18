@@ -74,7 +74,7 @@ subscription GetAllTeamInfo($contest_id: uuid!) {
     contest_score
     team_id
     submitted_code_num
-    team_contest_id {
+    contest {
       contest_name
     }
     team_intro
@@ -114,7 +114,7 @@ query GetAllTeamInfo_score($contest_id: uuid!) {
     contest_score
     team_id
     submitted_code_num
-    team_contest_id {
+    contest {
       contest_name
     }
     team_intro
@@ -168,7 +168,7 @@ query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
     contest_score
     team_id
     submitted_code_num
-    team_contest_id {
+    contest {
       contest_name
     }
     team_intro
