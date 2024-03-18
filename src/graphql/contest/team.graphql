@@ -29,7 +29,7 @@ mutation InsertTeam(
 query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
   contest_team(
     where: {
-      team_leader_byuuid: { uuid: { _eq: $uuid } }
+      team_leader: { uuid: { _eq: $uuid } }
       _and: { contest_id: { _eq: $contest_id } }
     }
   ) {
@@ -41,9 +41,7 @@ query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
   contest_team_member(
     where: {
       user_uuid: { _eq: $user_uuid }
-      _and: {
-        team_as_contest_team_member: { contest_id: { _eq: $contest_id } }
-      }
+      _and: { contest_team: { contest_id: { _eq: $contest_id } } }
     }
   ) {
     team_id
@@ -78,7 +76,7 @@ subscription GetAllTeamInfo($contest_id: uuid!) {
       contest_name
     }
     team_intro
-    team_leader_byuuid {
+    team_leader {
       uuid
       class
       email
@@ -118,7 +116,7 @@ query GetAllTeamInfo_score($contest_id: uuid!) {
       contest_name
     }
     team_intro
-    team_leader_byuuid {
+    team_leader {
       uuid
       class
       email
@@ -172,7 +170,7 @@ query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
       contest_name
     }
     team_intro
-    team_leader_byuuid {
+    team_leader {
       uuid
       class
       email
@@ -225,7 +223,7 @@ mutation UpdateTeam(
 #根据队伍id查询所有队员信息
 query GetMemberInfo($team_id: uuid!) {
   contest_team(where: { team_id: { _eq: $team_id } }) {
-    team_leader_byuuid {
+    team_leader {
       realname
       id
       uuid

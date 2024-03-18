@@ -227,7 +227,7 @@ const ListPage: React.FC<{
     {
       title: "队长",
       key: "team_leader",
-      render: (text, record) => record.team_leader_byuuid?.realname,
+      render: (text, record) => record.team_leader?.realname,
     },
     {
       title: "队员",
@@ -535,7 +535,7 @@ const SubPage: React.FC<{
         <Text>{teamData?.contest_team[0].team_name}</Text>
         <br />
         <Text style={{ fontWeight: "700" }}>{"队长: "}</Text>
-        <Text>{teamData?.contest_team[0].team_leader_byuuid?.realname}</Text>
+        <Text>{teamData?.contest_team[0].team_leader?.realname}</Text>
         <br />
         <Text style={{ fontWeight: "700" }}>{"队员: "}</Text>
         {teamData?.contest_team[0].contest_team_members.length === 0 ? (
