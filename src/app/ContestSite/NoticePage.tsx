@@ -122,7 +122,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] =
-    useState<graphql.GetContestNoticesQuery["contest_info"][0]>();
+    useState<graphql.GetContestNoticesQuery["contest_notice"][0]>();
   const [form] = Form.useForm();
 
   const handleNoticeEdit = async () => {
@@ -274,7 +274,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={20}>
           <Suspense fallback={<Loading />}>
             <List
-              dataSource={noticeData?.contest_info}
+              dataSource={noticeData?.contest_notice}
               renderItem={(item) => (
                 <Content>
                   <NoticeCard
@@ -283,7 +283,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                       isContestManagerData?.contest_manager.length === 1
                         ? () => {
                             setEditingNotice(
-                              item as graphql.GetContestNoticesQuery["contest_info"][0],
+                              item as graphql.GetContestNoticesQuery["contest_notice"][0],
                             );
                             setFileList(
                               JSON.parse(item.files ?? "[]").map((f: File) => ({

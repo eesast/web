@@ -759,179 +759,6 @@ export enum Contest_Constraint {
   ContestPkey = 'contest_pkey'
 }
 
-/** 比赛信息 */
-export type Contest_Info = {
-  __typename?: 'contest_info';
-  content: Scalars['String']['output'];
-  contest_id: Scalars['uuid']['output'];
-  /** An object relationship */
-  contest_id_info: Contest;
-  created_at: Scalars['timestamptz']['output'];
-  files?: Maybe<Scalars['String']['output']>;
-  id: Scalars['uuid']['output'];
-  title: Scalars['String']['output'];
-  updated_at: Scalars['timestamptz']['output'];
-};
-
-/** aggregated selection of "contest_info" */
-export type Contest_Info_Aggregate = {
-  __typename?: 'contest_info_aggregate';
-  aggregate?: Maybe<Contest_Info_Aggregate_Fields>;
-  nodes: Array<Contest_Info>;
-};
-
-/** aggregate fields of "contest_info" */
-export type Contest_Info_Aggregate_Fields = {
-  __typename?: 'contest_info_aggregate_fields';
-  count: Scalars['Int']['output'];
-  max?: Maybe<Contest_Info_Max_Fields>;
-  min?: Maybe<Contest_Info_Min_Fields>;
-};
-
-
-/** aggregate fields of "contest_info" */
-export type Contest_Info_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Boolean expression to filter rows from the table "contest_info". All fields are combined with a logical 'AND'. */
-export type Contest_Info_Bool_Exp = {
-  _and?: InputMaybe<Array<Contest_Info_Bool_Exp>>;
-  _not?: InputMaybe<Contest_Info_Bool_Exp>;
-  _or?: InputMaybe<Array<Contest_Info_Bool_Exp>>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
-  contest_id_info?: InputMaybe<Contest_Bool_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  files?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "contest_info" */
-export enum Contest_Info_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  ContestInfoPkey = 'contest_info_pkey'
-}
-
-/** input type for inserting data into table "contest_info" */
-export type Contest_Info_Insert_Input = {
-  content?: InputMaybe<Scalars['String']['input']>;
-  contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  contest_id_info?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  files?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate max on columns */
-export type Contest_Info_Max_Fields = {
-  __typename?: 'contest_info_max_fields';
-  content?: Maybe<Scalars['String']['output']>;
-  contest_id?: Maybe<Scalars['uuid']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  files?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** aggregate min on columns */
-export type Contest_Info_Min_Fields = {
-  __typename?: 'contest_info_min_fields';
-  content?: Maybe<Scalars['String']['output']>;
-  contest_id?: Maybe<Scalars['uuid']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  files?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** response of any mutation on the table "contest_info" */
-export type Contest_Info_Mutation_Response = {
-  __typename?: 'contest_info_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Contest_Info>;
-};
-
-/** on_conflict condition type for table "contest_info" */
-export type Contest_Info_On_Conflict = {
-  constraint: Contest_Info_Constraint;
-  update_columns?: Array<Contest_Info_Update_Column>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "contest_info". */
-export type Contest_Info_Order_By = {
-  content?: InputMaybe<Order_By>;
-  contest_id?: InputMaybe<Order_By>;
-  contest_id_info?: InputMaybe<Contest_Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  files?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: contest_info */
-export type Contest_Info_Pk_Columns_Input = {
-  id: Scalars['uuid']['input'];
-};
-
-/** select columns of table "contest_info" */
-export enum Contest_Info_Select_Column {
-  /** column name */
-  Content = 'content',
-  /** column name */
-  ContestId = 'contest_id',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Files = 'files',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "contest_info" */
-export type Contest_Info_Set_Input = {
-  content?: InputMaybe<Scalars['String']['input']>;
-  contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  files?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** update columns of table "contest_info" */
-export enum Contest_Info_Update_Column {
-  /** column name */
-  Content = 'content',
-  /** column name */
-  ContestId = 'contest_id',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Files = 'files',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
 /** input type for inserting data into table "contest" */
 export type Contest_Insert_Input = {
   contest_name?: InputMaybe<Scalars['String']['input']>;
@@ -1113,6 +940,179 @@ export type Contest_Mutation_Response = {
   /** data from the rows affected by the mutation */
   returning: Array<Contest>;
 };
+
+/** 比赛信息 */
+export type Contest_Notice = {
+  __typename?: 'contest_notice';
+  content: Scalars['String']['output'];
+  contest_id: Scalars['uuid']['output'];
+  /** An object relationship */
+  contest_id_info: Contest;
+  created_at: Scalars['timestamptz']['output'];
+  files?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  title: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "contest_notice" */
+export type Contest_Notice_Aggregate = {
+  __typename?: 'contest_notice_aggregate';
+  aggregate?: Maybe<Contest_Notice_Aggregate_Fields>;
+  nodes: Array<Contest_Notice>;
+};
+
+/** aggregate fields of "contest_notice" */
+export type Contest_Notice_Aggregate_Fields = {
+  __typename?: 'contest_notice_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Notice_Max_Fields>;
+  min?: Maybe<Contest_Notice_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_notice" */
+export type Contest_Notice_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "contest_notice". All fields are combined with a logical 'AND'. */
+export type Contest_Notice_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Notice_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Notice_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Notice_Bool_Exp>>;
+  content?: InputMaybe<String_Comparison_Exp>;
+  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  contest_id_info?: InputMaybe<Contest_Bool_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  files?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_notice" */
+export enum Contest_Notice_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ContestInfoPkey = 'contest_info_pkey'
+}
+
+/** input type for inserting data into table "contest_notice" */
+export type Contest_Notice_Insert_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  contest_id_info?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Notice_Max_Fields = {
+  __typename?: 'contest_notice_max_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregate min on columns */
+export type Contest_Notice_Min_Fields = {
+  __typename?: 'contest_notice_min_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** response of any mutation on the table "contest_notice" */
+export type Contest_Notice_Mutation_Response = {
+  __typename?: 'contest_notice_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Notice>;
+};
+
+/** on_conflict condition type for table "contest_notice" */
+export type Contest_Notice_On_Conflict = {
+  constraint: Contest_Notice_Constraint;
+  update_columns?: Array<Contest_Notice_Update_Column>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_notice". */
+export type Contest_Notice_Order_By = {
+  content?: InputMaybe<Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  contest_id_info?: InputMaybe<Contest_Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  files?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_notice */
+export type Contest_Notice_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "contest_notice" */
+export enum Contest_Notice_Select_Column {
+  /** column name */
+  Content = 'content',
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Files = 'files',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "contest_notice" */
+export type Contest_Notice_Set_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "contest_notice" */
+export enum Contest_Notice_Update_Column {
+  /** column name */
+  Content = 'content',
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Files = 'files',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
 
 /** input type for inserting object relation for remote table "contest" */
 export type Contest_Obj_Rel_Insert_Input = {
@@ -4336,14 +4336,14 @@ export type Mutation_Root = {
   delete_contest_code?: Maybe<Contest_Code_Mutation_Response>;
   /** delete single row from the table: "contest_code" */
   delete_contest_code_by_pk?: Maybe<Contest_Code>;
-  /** delete data from the table: "contest_info" */
-  delete_contest_info?: Maybe<Contest_Info_Mutation_Response>;
-  /** delete single row from the table: "contest_info" */
-  delete_contest_info_by_pk?: Maybe<Contest_Info>;
   /** delete data from the table: "contest_manager" */
   delete_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** delete single row from the table: "contest_manager" */
   delete_contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** delete data from the table: "contest_notice" */
+  delete_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
+  /** delete single row from the table: "contest_notice" */
+  delete_contest_notice_by_pk?: Maybe<Contest_Notice>;
   /** delete data from the table: "contest_room" */
   delete_contest_room?: Maybe<Contest_Room_Mutation_Response>;
   /** delete single row from the table: "contest_room" */
@@ -4450,14 +4450,14 @@ export type Mutation_Root = {
   insert_contest_code?: Maybe<Contest_Code_Mutation_Response>;
   /** insert a single row into the table: "contest_code" */
   insert_contest_code_one?: Maybe<Contest_Code>;
-  /** insert data into the table: "contest_info" */
-  insert_contest_info?: Maybe<Contest_Info_Mutation_Response>;
-  /** insert a single row into the table: "contest_info" */
-  insert_contest_info_one?: Maybe<Contest_Info>;
   /** insert data into the table: "contest_manager" */
   insert_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** insert a single row into the table: "contest_manager" */
   insert_contest_manager_one?: Maybe<Contest_Manager>;
+  /** insert data into the table: "contest_notice" */
+  insert_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
+  /** insert a single row into the table: "contest_notice" */
+  insert_contest_notice_one?: Maybe<Contest_Notice>;
   /** insert a single row into the table: "contest" */
   insert_contest_one?: Maybe<Contest>;
   /** insert data into the table: "contest_room" */
@@ -4568,14 +4568,14 @@ export type Mutation_Root = {
   update_contest_code?: Maybe<Contest_Code_Mutation_Response>;
   /** update single row of the table: "contest_code" */
   update_contest_code_by_pk?: Maybe<Contest_Code>;
-  /** update data of the table: "contest_info" */
-  update_contest_info?: Maybe<Contest_Info_Mutation_Response>;
-  /** update single row of the table: "contest_info" */
-  update_contest_info_by_pk?: Maybe<Contest_Info>;
   /** update data of the table: "contest_manager" */
   update_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** update single row of the table: "contest_manager" */
   update_contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** update data of the table: "contest_notice" */
+  update_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
+  /** update single row of the table: "contest_notice" */
+  update_contest_notice_by_pk?: Maybe<Contest_Notice>;
   /** update data of the table: "contest_room" */
   update_contest_room?: Maybe<Contest_Room_Mutation_Response>;
   /** update single row of the table: "contest_room" */
@@ -4712,18 +4712,6 @@ export type Mutation_RootDelete_Contest_Code_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootDelete_Contest_InfoArgs = {
-  where: Contest_Info_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Contest_Info_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
 export type Mutation_RootDelete_Contest_ManagerArgs = {
   where: Contest_Manager_Bool_Exp;
 };
@@ -4733,6 +4721,18 @@ export type Mutation_RootDelete_Contest_ManagerArgs = {
 export type Mutation_RootDelete_Contest_Manager_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_NoticeArgs = {
+  where: Contest_Notice_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Notice_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -5066,20 +5066,6 @@ export type Mutation_RootInsert_Contest_Code_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Contest_InfoArgs = {
-  objects: Array<Contest_Info_Insert_Input>;
-  on_conflict?: InputMaybe<Contest_Info_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Contest_Info_OneArgs = {
-  object: Contest_Info_Insert_Input;
-  on_conflict?: InputMaybe<Contest_Info_On_Conflict>;
-};
-
-
-/** mutation root */
 export type Mutation_RootInsert_Contest_ManagerArgs = {
   objects: Array<Contest_Manager_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Manager_On_Conflict>;
@@ -5090,6 +5076,20 @@ export type Mutation_RootInsert_Contest_ManagerArgs = {
 export type Mutation_RootInsert_Contest_Manager_OneArgs = {
   object: Contest_Manager_Insert_Input;
   on_conflict?: InputMaybe<Contest_Manager_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_NoticeArgs = {
+  objects: Array<Contest_Notice_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Notice_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Notice_OneArgs = {
+  object: Contest_Notice_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Notice_On_Conflict>;
 };
 
 
@@ -5481,20 +5481,6 @@ export type Mutation_RootUpdate_Contest_Code_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Contest_InfoArgs = {
-  _set?: InputMaybe<Contest_Info_Set_Input>;
-  where: Contest_Info_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Contest_Info_By_PkArgs = {
-  _set?: InputMaybe<Contest_Info_Set_Input>;
-  pk_columns: Contest_Info_Pk_Columns_Input;
-};
-
-
-/** mutation root */
 export type Mutation_RootUpdate_Contest_ManagerArgs = {
   _set?: InputMaybe<Contest_Manager_Set_Input>;
   where: Contest_Manager_Bool_Exp;
@@ -5505,6 +5491,20 @@ export type Mutation_RootUpdate_Contest_ManagerArgs = {
 export type Mutation_RootUpdate_Contest_Manager_By_PkArgs = {
   _set?: InputMaybe<Contest_Manager_Set_Input>;
   pk_columns: Contest_Manager_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_NoticeArgs = {
+  _set?: InputMaybe<Contest_Notice_Set_Input>;
+  where: Contest_Notice_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Notice_By_PkArgs = {
+  _set?: InputMaybe<Contest_Notice_Set_Input>;
+  pk_columns: Contest_Notice_Pk_Columns_Input;
 };
 
 
@@ -7263,18 +7263,18 @@ export type Query_Root = {
   contest_code_aggregate: Contest_Code_Aggregate;
   /** fetch data from the table: "contest_code" using primary key columns */
   contest_code_by_pk?: Maybe<Contest_Code>;
-  /** fetch data from the table: "contest_info" */
-  contest_info: Array<Contest_Info>;
-  /** fetch aggregated fields from the table: "contest_info" */
-  contest_info_aggregate: Contest_Info_Aggregate;
-  /** fetch data from the table: "contest_info" using primary key columns */
-  contest_info_by_pk?: Maybe<Contest_Info>;
   /** fetch data from the table: "contest_manager" */
   contest_manager: Array<Contest_Manager>;
   /** fetch aggregated fields from the table: "contest_manager" */
   contest_manager_aggregate: Contest_Manager_Aggregate;
   /** fetch data from the table: "contest_manager" using primary key columns */
   contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** fetch data from the table: "contest_notice" */
+  contest_notice: Array<Contest_Notice>;
+  /** fetch aggregated fields from the table: "contest_notice" */
+  contest_notice_aggregate: Contest_Notice_Aggregate;
+  /** fetch data from the table: "contest_notice" using primary key columns */
+  contest_notice_by_pk?: Maybe<Contest_Notice>;
   /** fetch data from the table: "contest_room" */
   contest_room: Array<Contest_Room>;
   /** fetch aggregated fields from the table: "contest_room" */
@@ -7491,29 +7491,6 @@ export type Query_RootContest_Code_By_PkArgs = {
 };
 
 
-export type Query_RootContest_InfoArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Query_RootContest_Info_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Query_RootContest_Info_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
 export type Query_RootContest_ManagerArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -7535,6 +7512,29 @@ export type Query_RootContest_Manager_AggregateArgs = {
 export type Query_RootContest_Manager_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootContest_NoticeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Notice_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Notice_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -8871,18 +8871,18 @@ export type Subscription_Root = {
   contest_code_aggregate: Contest_Code_Aggregate;
   /** fetch data from the table: "contest_code" using primary key columns */
   contest_code_by_pk?: Maybe<Contest_Code>;
-  /** fetch data from the table: "contest_info" */
-  contest_info: Array<Contest_Info>;
-  /** fetch aggregated fields from the table: "contest_info" */
-  contest_info_aggregate: Contest_Info_Aggregate;
-  /** fetch data from the table: "contest_info" using primary key columns */
-  contest_info_by_pk?: Maybe<Contest_Info>;
   /** fetch data from the table: "contest_manager" */
   contest_manager: Array<Contest_Manager>;
   /** fetch aggregated fields from the table: "contest_manager" */
   contest_manager_aggregate: Contest_Manager_Aggregate;
   /** fetch data from the table: "contest_manager" using primary key columns */
   contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** fetch data from the table: "contest_notice" */
+  contest_notice: Array<Contest_Notice>;
+  /** fetch aggregated fields from the table: "contest_notice" */
+  contest_notice_aggregate: Contest_Notice_Aggregate;
+  /** fetch data from the table: "contest_notice" using primary key columns */
+  contest_notice_by_pk?: Maybe<Contest_Notice>;
   /** fetch data from the table: "contest_room" */
   contest_room: Array<Contest_Room>;
   /** fetch aggregated fields from the table: "contest_room" */
@@ -9099,29 +9099,6 @@ export type Subscription_RootContest_Code_By_PkArgs = {
 };
 
 
-export type Subscription_RootContest_InfoArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Subscription_RootContest_Info_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Subscription_RootContest_Info_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
 export type Subscription_RootContest_ManagerArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -9143,6 +9120,29 @@ export type Subscription_RootContest_Manager_AggregateArgs = {
 export type Subscription_RootContest_Manager_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_NoticeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Notice_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Notice_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -10477,7 +10477,7 @@ export type DeleteContestAllInfoMutationVariables = Exact<{
 }>;
 
 
-export type DeleteContestAllInfoMutation = { __typename?: 'mutation_root', delete_contest_info?: { __typename?: 'contest_info_mutation_response', affected_rows: number } | null };
+export type DeleteContestAllInfoMutation = { __typename?: 'mutation_root', delete_contest_notice?: { __typename?: 'contest_notice_mutation_response', affected_rows: number } | null };
 
 export type DeleteContestAllRoomsMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -10491,7 +10491,7 @@ export type GetContestNoticesQueryVariables = Exact<{
 }>;
 
 
-export type GetContestNoticesQuery = { __typename?: 'query_root', contest_info: Array<{ __typename?: 'contest_info', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
+export type GetContestNoticesQuery = { __typename?: 'query_root', contest_notice: Array<{ __typename?: 'contest_notice', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
 
 export type UpdateContestNoticeMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -10502,7 +10502,7 @@ export type UpdateContestNoticeMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
+export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
 
 export type AddContestNoticeMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -10512,14 +10512,14 @@ export type AddContestNoticeMutationVariables = Exact<{
 }>;
 
 
-export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
+export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
 
 export type DeleteContestNoticeMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
+export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
 
 export type InsertTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
@@ -11688,7 +11688,7 @@ export type DeleteContestAllTeamsMutationResult = Apollo.MutationResult<DeleteCo
 export type DeleteContestAllTeamsMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>;
 export const DeleteContestAllInfoDocument = gql`
     mutation DeleteContestAllInfo($contest_id: uuid!) {
-  delete_contest_info(where: {contest_id: {_eq: $contest_id}}) {
+  delete_contest_notice(where: {contest_id: {_eq: $contest_id}}) {
     affected_rows
   }
 }
@@ -11754,7 +11754,7 @@ export type DeleteContestAllRoomsMutationResult = Apollo.MutationResult<DeleteCo
 export type DeleteContestAllRoomsMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>;
 export const GetContestNoticesDocument = gql`
     query GetContestNotices($contest_id: uuid!) {
-  contest_info(
+  contest_notice(
     where: {contest_id: {_eq: $contest_id}}
     order_by: {updated_at: desc}
   ) {
@@ -11802,7 +11802,7 @@ export type GetContestNoticesSuspenseQueryHookResult = ReturnType<typeof useGetC
 export type GetContestNoticesQueryResult = Apollo.QueryResult<GetContestNoticesQuery, GetContestNoticesQueryVariables>;
 export const UpdateContestNoticeDocument = gql`
     mutation UpdateContestNotice($id: uuid!, $title: String!, $content: String!, $files: String, $contest_id: uuid!) {
-  update_contest_info(
+  update_contest_notice(
     where: {id: {_eq: $id}}
     _set: {title: $title, content: $content, files: $files, contest_id: $contest_id}
   ) {
@@ -11844,7 +11844,7 @@ export type UpdateContestNoticeMutationResult = Apollo.MutationResult<UpdateCont
 export type UpdateContestNoticeMutationOptions = Apollo.BaseMutationOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
 export const AddContestNoticeDocument = gql`
     mutation AddContestNotice($title: String!, $content: String!, $files: String, $contest_id: uuid!) {
-  insert_contest_info(
+  insert_contest_notice(
     objects: {title: $title, content: $content, files: $files, contest_id: $contest_id}
   ) {
     returning {
@@ -11884,7 +11884,7 @@ export type AddContestNoticeMutationResult = Apollo.MutationResult<AddContestNot
 export type AddContestNoticeMutationOptions = Apollo.BaseMutationOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
 export const DeleteContestNoticeDocument = gql`
     mutation DeleteContestNotice($id: uuid!) {
-  delete_contest_info(where: {id: {_eq: $id}}) {
+  delete_contest_notice(where: {id: {_eq: $id}}) {
     returning {
       id
     }

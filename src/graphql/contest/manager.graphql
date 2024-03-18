@@ -111,9 +111,9 @@ mutation DeleteContestAllTeams($contest_id: uuid!) {
   }
 }
 
-# 根据contest_id删除contest_info
+# 根据contest_id删除contest_notice
 mutation DeleteContestAllInfo($contest_id: uuid!) {
-  delete_contest_info(where: { contest_id: { _eq: $contest_id } }) {
+  delete_contest_notice(where: { contest_id: { _eq: $contest_id } }) {
     affected_rows
   }
 }
