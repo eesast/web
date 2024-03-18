@@ -1,19 +1,19 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, Suspense } from "react";
 import { Link } from "react-router-dom";
 import Card, { CardProps } from "antd/lib/card";
 import {
   Button,
   Col,
-  DatePicker,
+  // DatePicker,
   Divider,
-  Form,
-  Input,
+  // Form,
+  // Input,
   List,
   message,
-  Modal,
+  // Modal,
   Layout,
   Row,
-  Select,
+  // Select,
   Space,
   Spin,
   Typography,
@@ -22,8 +22,8 @@ import {
   DeleteOutlined,
   EditOutlined,
   // ExclamationCircleOutlined,
-  MinusCircleOutlined,
-  PlusOutlined,
+  // MinusCircleOutlined,
+  // PlusOutlined,
 } from "@ant-design/icons";
 //以下为分页面，用以没登陆会跳转到登陆页面
 import dayjs from "dayjs";
@@ -57,8 +57,8 @@ interface ContestInfoCardProps extends CardProps {
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 // const { confirm } = Modal;
-const RangePicker: any = DatePicker.RangePicker;
-const { Option } = Select;
+// const RangePicker: any = DatePicker.RangePicker;
+// const { Option } = Select;
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
 
@@ -74,24 +74,24 @@ const Container = styled.div`
 /* ---------------- 主页面 ---------------- */
 const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editingContest, setEditingContest] = useState<boolean>(false); //编辑or添加比赛
-  const [contestID, setContestID] = useState<string>(); //编辑比赛时的比赛ID
-  const [form] = Form.useForm();
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const [editingContest, setEditingContest] = useState<boolean>(false); //编辑or添加比赛
+  // const [contestID, setContestID] = useState<string>(); //编辑比赛时的比赛ID
+  // const [form] = Form.useForm();
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const {
     data: contestData,
     //loading: contestLoading,
     error: contestError,
-    refetch: refetchContests,
+    // refetch: refetchContests,
   } = graphql.useGetContestsSuspenseQuery();
 
   const {
     /* data: userData,
     loading: userLoading, */
     error: userError,
-    refetch: refetchUserId,
+    // refetch: refetchUserId,
   } = graphql.useGetUser_IdSuspenseQuery({
     variables: {
       email: "",
@@ -108,13 +108,13 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //   variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
   // });
 
-  const [
-    updateContest,
-    { loading: contestUpdating, error: contestUpdatingError },
-  ] = graphql.useUpdateContestMutation();
+  // const [
+  //   updateContest,
+  //   { loading: contestUpdating, error: contestUpdatingError },
+  // ] = graphql.useUpdateContestMutation();
 
-  const [addContest, { loading: contestAdding, error: contestAddingError }] =
-    graphql.useAddContestMutation();
+  // const [addContest, { loading: contestAdding, error: contestAddingError }] =
+  //   graphql.useAddContestMutation();
 
   // const [deleteContest, { error: contestDeleteError }] =
   //   graphql.useDeleteContestMutation();
@@ -122,13 +122,13 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   // const [deleteContestTeams, { error: teamDeleteError }] =
   //   graphql.useDeleteContestAllTeamsMutation();
 
-  const [
-    addContestManager,
-    { /*loading: managerAdding,*/ error: managerAddError },
-  ] = graphql.useAddContestManagerMutation();
+  // const [
+  //   addContestManager,
+  //   { /*loading: managerAdding,*/ error: managerAddError },
+  // ] = graphql.useAddContestManagerMutation();
 
-  const [deleteContestManager, { error: managerDeleteError }] =
-    graphql.useDeleteContestAllManagerMutation();
+  // const [deleteContestManager, { error: managerDeleteError }] =
+  //   graphql.useDeleteContestAllManagerMutation();
 
   // const [deleteContestInfo, { error: infoDeleteError }] =
   //   graphql.useDeleteContestAllInfoMutation();
@@ -144,19 +144,19 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [contestError]);
 
-  useEffect(() => {
-    if (contestUpdatingError) {
-      message.error("比赛更新失败");
-      console.log(contestUpdatingError.message);
-    }
-  }, [contestUpdatingError]);
+  // useEffect(() => {
+  //   if (contestUpdatingError) {
+  //     message.error("比赛更新失败");
+  //     console.log(contestUpdatingError.message);
+  //   }
+  // }, [contestUpdatingError]);
 
-  useEffect(() => {
-    if (contestAddingError) {
-      message.error("比赛发布失败");
-      console.log(contestAddingError.message);
-    }
-  }, [contestAddingError]);
+  // useEffect(() => {
+  //   if (contestAddingError) {
+  //     message.error("比赛发布失败");
+  //     console.log(contestAddingError.message);
+  //   }
+  // }, [contestAddingError]);
 
   // useEffect(() => {
   //   if (contestDeleteError) {
@@ -165,19 +165,19 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //   }
   // }, [contestDeleteError]);
 
-  useEffect(() => {
-    if (managerAddError) {
-      message.error("管理员添加失败");
-      console.log(managerAddError.message);
-    }
-  }, [managerAddError]);
+  // useEffect(() => {
+  //   if (managerAddError) {
+  //     message.error("管理员添加失败");
+  //     console.log(managerAddError.message);
+  //   }
+  // }, [managerAddError]);
 
-  useEffect(() => {
-    if (managerDeleteError) {
-      message.error("管理员删除失败");
-      console.log(managerDeleteError.message);
-    }
-  }, [managerDeleteError]);
+  // useEffect(() => {
+  //   if (managerDeleteError) {
+  //     message.error("管理员删除失败");
+  //     console.log(managerDeleteError.message);
+  //   }
+  // }, [managerDeleteError]);
 
   // useEffect(() => {
   //   if (teamDeleteError) {
@@ -214,107 +214,107 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //   }
   // }, [contestManagerError]);
   /* ---------------- 业务逻辑函数 ---------------- */
-  const handleContestEdit = async () => {
-    try {
-      form.validateFields();
-    } catch {}
-    const values = form.getFieldsValue();
-    if (
-      values.contest_name === undefined ||
-      values.contest_name === "" ||
-      values.time === undefined ||
-      values.contest_type === undefined
-    ) {
-      return;
-    }
+  // const handleContestEdit = async () => {
+  //   try {
+  //     form.validateFields();
+  //   } catch {}
+  //   const values = form.getFieldsValue();
+  //   if (
+  //     values.contest_name === undefined ||
+  //     values.contest_name === "" ||
+  //     values.time === undefined ||
+  //     values.contest_type === undefined
+  //   ) {
+  //     return;
+  //   }
 
-    if (editingContest) {
-      await updateContest({
-        variables: {
-          id: contestID,
-          contest_name: values.contest_name,
-          contest_type: values.contest_type,
-          description: values.description ? values.description : "",
-          start_date: values.time[0],
-          end_date: values.time[1],
-        },
-      });
+  //   if (editingContest) {
+  //     await updateContest({
+  //       variables: {
+  //         id: contestID,
+  //         contest_name: values.contest_name,
+  //         contest_type: values.contest_type,
+  //         description: values.description ? values.description : "",
+  //         start_date: values.time[0],
+  //         end_date: values.time[1],
+  //       },
+  //     });
 
-      if (values?.managers_list?.length > 0) {
-        //已添加管理员
-        await deleteContestManager({ variables: { contest_id: contestID } });
-        values.managers_list.forEach(async (item: any) => {
-          try {
-            const newUserData = await refetchUserId({
-              email: item.email,
-              realname: item.name,
-            });
-            const user_uuid = newUserData.data.users[0]?.uuid;
-            if (user_uuid) {
-              addContestManager({
-                variables: {
-                  contest_id: contestID,
-                  user_uuid: user_uuid,
-                },
-              });
-            }
-          } catch (userError: any) {
-            if (userError) {
-              message.error("用户信息查询失败");
-              console.log(userError.message);
-            }
-          }
-        });
-      }
-      setContestID("");
-      setEditingContest(false);
-      if (!contestUpdatingError && !managerAddError) {
-        message.success("比赛修改成功");
-      }
-    } else {
-      //id:添加的比赛的id
-      const id = (
-        await addContest({
-          variables: {
-            contest_name: values.contest_name,
-            contest_type: values.contest_type,
-            description: values.description,
-            start_date: values.time[0],
-            end_date: values.time[1],
-          },
-        })
-      ).data?.insert_contest?.returning[0].id;
-      if (values?.managers_list?.length > 0) {
-        //已添加管理员
-        await deleteContestManager({ variables: { contest_id: id } });
-        values.managers_list.forEach(async (item: any) => {
-          try {
-            const newUserData = await refetchUserId({
-              email: item.email,
-              realname: item.name,
-            });
-            const user_uuid = newUserData.data.users[0]?.uuid;
-            if (user_uuid) {
-              addContestManager({
-                variables: {
-                  contest_id: id,
-                  user_uuid: user_uuid,
-                },
-              });
-            }
-          } catch {}
-        });
-      }
-      if (!contestAddingError && !managerAddError) {
-        message.success("比赛添加成功");
-      }
-    }
+  //     if (values?.managers_list?.length > 0) {
+  //       //已添加管理员
+  //       await deleteContestManager({ variables: { contest_id: contestID } });
+  //       values.managers_list.forEach(async (item: any) => {
+  //         try {
+  //           const newUserData = await refetchUserId({
+  //             email: item.email,
+  //             realname: item.name,
+  //           });
+  //           const user_uuid = newUserData.data.users[0]?.uuid;
+  //           if (user_uuid) {
+  //             addContestManager({
+  //               variables: {
+  //                 contest_id: contestID,
+  //                 user_uuid: user_uuid,
+  //               },
+  //             });
+  //           }
+  //         } catch (userError: any) {
+  //           if (userError) {
+  //             message.error("用户信息查询失败");
+  //             console.log(userError.message);
+  //           }
+  //         }
+  //       });
+  //     }
+  //     setContestID("");
+  //     setEditingContest(false);
+  //     if (!contestUpdatingError && !managerAddError) {
+  //       message.success("比赛修改成功");
+  //     }
+  //   } else {
+  //     //id:添加的比赛的id
+  //     const id = (
+  //       await addContest({
+  //         variables: {
+  //           contest_name: values.contest_name,
+  //           contest_type: values.contest_type,
+  //           description: values.description,
+  //           start_date: values.time[0],
+  //           end_date: values.time[1],
+  //         },
+  //       })
+  //     ).data?.insert_contest?.returning[0].id;
+  //     if (values?.managers_list?.length > 0) {
+  //       //已添加管理员
+  //       await deleteContestManager({ variables: { contest_id: id } });
+  //       values.managers_list.forEach(async (item: any) => {
+  //         try {
+  //           const newUserData = await refetchUserId({
+  //             email: item.email,
+  //             realname: item.name,
+  //           });
+  //           const user_uuid = newUserData.data.users[0]?.uuid;
+  //           if (user_uuid) {
+  //             addContestManager({
+  //               variables: {
+  //                 contest_id: id,
+  //                 user_uuid: user_uuid,
+  //               },
+  //             });
+  //           }
+  //         } catch {}
+  //       });
+  //     }
+  //     if (!contestAddingError && !managerAddError) {
+  //       message.success("比赛添加成功");
+  //     }
+  //   }
 
-    setModalVisible(false);
-    form.resetFields();
+  //   setModalVisible(false);
+  //   form.resetFields();
 
-    refetchContests();
-  };
+  //   refetchContests();
+  // };
 
   // const handleContestDelete = async (id: string) => {
   //   confirm({
@@ -414,7 +414,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Suspense>
         </Col>
       </Row>
-      <Modal
+      {/* <Modal
         open={modalVisible}
         title={editingContest ? "编辑比赛" : "新比赛"}
         centered
@@ -466,7 +466,6 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
           >
             <RangePicker />
           </Form.Item>
-          {/* 添加管理员 */}
           <Form.Item name="managers" label="管理员">
             <Form.List name="managers_list">
               {(fields, { add, remove }) => (
@@ -532,7 +531,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
             </Form.List>
           </Form.Item>
         </Form>
-      </Modal>
+      </Modal> */}
     </Layout>
   );
 };
