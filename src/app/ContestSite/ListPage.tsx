@@ -21,12 +21,12 @@ import {
 import {
   DeleteOutlined,
   EditOutlined,
-  ExclamationCircleOutlined,
+  // ExclamationCircleOutlined,
   MinusCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 //以下为分页面，用以没登陆会跳转到登陆页面
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 //import utc from 'dayjs/plugin/utc';
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
@@ -36,13 +36,13 @@ import { ContestProps } from ".";
 
 /* ---------------- 接口和类型定义 ---------------- */
 // 表单数据格式
-interface FormValues {
-  contest_name: string;
-  contest_type: string;
-  description: string | undefined | null;
-  time: Dayjs[];
-  managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["userByUserUuid"][];
-}
+// interface FormValues {
+//   contest_name: string;
+//   contest_type: string;
+//   description: string | undefined | null;
+//   time: Dayjs[];
+//   managers_list: graphql.GetContestManagerQuery["contest_manager"][0]["userByUserUuid"][];
+// }
 
 interface ContestInfoCardProps extends CardProps {
   name: string;
@@ -56,7 +56,7 @@ interface ContestInfoCardProps extends CardProps {
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
-const { confirm } = Modal;
+// const { confirm } = Modal;
 const RangePicker: any = DatePicker.RangePicker;
 const { Option } = Select;
 var utc = require("dayjs/plugin/utc");
@@ -99,14 +99,14 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
-  const {
-    /* data: contestManagerData,
-    loading: contestManagerLoading, */
-    error: contestManagerError,
-    refetch: refetchContestManager,
-  } = graphql.useGetContestManagerSuspenseQuery({
-    variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
-  });
+  // const {
+  //   /* data: contestManagerData,
+  //   loading: contestManagerLoading, */
+  //   error: contestManagerError,
+  //   refetch: refetchContestManager,
+  // } = graphql.useGetContestManagerSuspenseQuery({
+  //   variables: { contest_id: "3b74b9d3-1955-42d1-954a-ef86b25ca6b7" }, // TODO
+  // });
 
   const [
     updateContest,
@@ -116,11 +116,11 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [addContest, { loading: contestAdding, error: contestAddingError }] =
     graphql.useAddContestMutation();
 
-  const [deleteContest, { error: contestDeleteError }] =
-    graphql.useDeleteContestMutation();
+  // const [deleteContest, { error: contestDeleteError }] =
+  //   graphql.useDeleteContestMutation();
 
-  const [deleteContestTeams, { error: teamDeleteError }] =
-    graphql.useDeleteContestAllTeamsMutation();
+  // const [deleteContestTeams, { error: teamDeleteError }] =
+  //   graphql.useDeleteContestAllTeamsMutation();
 
   const [
     addContestManager,
@@ -130,11 +130,11 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [deleteContestManager, { error: managerDeleteError }] =
     graphql.useDeleteContestAllManagerMutation();
 
-  const [deleteContestInfo, { error: infoDeleteError }] =
-    graphql.useDeleteContestAllInfoMutation();
+  // const [deleteContestInfo, { error: infoDeleteError }] =
+  //   graphql.useDeleteContestAllInfoMutation();
 
-  const [deleteContestRooms, { error: roomsDeleteError }] =
-    graphql.useDeleteContestAllRoomsMutation();
+  // const [deleteContestRooms, { error: roomsDeleteError }] =
+  //   graphql.useDeleteContestAllRoomsMutation();
 
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
@@ -158,12 +158,12 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [contestAddingError]);
 
-  useEffect(() => {
-    if (contestDeleteError) {
-      message.error("比赛删除失败");
-      console.log(contestDeleteError.message);
-    }
-  }, [contestDeleteError]);
+  // useEffect(() => {
+  //   if (contestDeleteError) {
+  //     message.error("比赛删除失败");
+  //     console.log(contestDeleteError.message);
+  //   }
+  // }, [contestDeleteError]);
 
   useEffect(() => {
     if (managerAddError) {
@@ -179,26 +179,26 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [managerDeleteError]);
 
-  useEffect(() => {
-    if (teamDeleteError) {
-      message.error("比赛队伍删除失败");
-      console.log(teamDeleteError.message);
-    }
-  }, [teamDeleteError]);
+  // useEffect(() => {
+  //   if (teamDeleteError) {
+  //     message.error("比赛队伍删除失败");
+  //     console.log(teamDeleteError.message);
+  //   }
+  // }, [teamDeleteError]);
 
-  useEffect(() => {
-    if (infoDeleteError) {
-      message.error("比赛公告删除失败");
-      console.log(infoDeleteError.message);
-    }
-  }, [infoDeleteError]);
+  // useEffect(() => {
+  //   if (infoDeleteError) {
+  //     message.error("比赛公告删除失败");
+  //     console.log(infoDeleteError.message);
+  //   }
+  // }, [infoDeleteError]);
 
-  useEffect(() => {
-    if (roomsDeleteError) {
-      message.error("比赛房间删除失败");
-      console.log(roomsDeleteError.message);
-    }
-  }, [roomsDeleteError]);
+  // useEffect(() => {
+  //   if (roomsDeleteError) {
+  //     message.error("比赛房间删除失败");
+  //     console.log(roomsDeleteError.message);
+  //   }
+  // }, [roomsDeleteError]);
 
   useEffect(() => {
     if (userError) {
@@ -207,12 +207,12 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [userError]);
 
-  useEffect(() => {
-    if (contestManagerError) {
-      message.error("管理员加载失败");
-      console.log(contestManagerError.message);
-    }
-  }, [contestManagerError]);
+  // useEffect(() => {
+  //   if (contestManagerError) {
+  //     message.error("管理员加载失败");
+  //     console.log(contestManagerError.message);
+  //   }
+  // }, [contestManagerError]);
   /* ---------------- 业务逻辑函数 ---------------- */
   const handleContestEdit = async () => {
     try {
@@ -316,21 +316,21 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     refetchContests();
   };
 
-  const handleContestDelete = async (id: string) => {
-    confirm({
-      title: "确定要删除此比赛吗？",
-      icon: <ExclamationCircleOutlined />,
-      content: "这样做会删除此比赛的所有数据，此操作不可恢复。",
-      onOk: async () => {
-        await deleteContestInfo({ variables: { contest_id: id } });
-        await deleteContestTeams({ variables: { contest_id: id } });
-        await deleteContestRooms({ variables: { contest_id: id } });
-        await deleteContestManager({ variables: { contest_id: id } });
-        await deleteContest({ variables: { id } });
-        await refetchContests();
-      },
-    });
-  };
+  // const handleContestDelete = async (id: string) => {
+  //   confirm({
+  //     title: "确定要删除此比赛吗？",
+  //     icon: <ExclamationCircleOutlined />,
+  //     content: "这样做会删除此比赛的所有数据，此操作不可恢复。",
+  //     onOk: async () => {
+  //       await deleteContestInfo({ variables: { contest_id: id } });
+  //       await deleteContestTeams({ variables: { contest_id: id } });
+  //       await deleteContestRooms({ variables: { contest_id: id } });
+  //       await deleteContestManager({ variables: { contest_id: id } });
+  //       await deleteContest({ variables: { id } });
+  //       await refetchContests();
+  //     },
+  //   });
+  // };
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
   const Loading = () => {
@@ -364,42 +364,42 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Content>
                   <ContestInfoCard
                     key={item.id}
-                    onEditPress={
-                      user?.role === "counselor" || user?.role === "root"
-                        ? async () => {
-                            setEditingContest(true);
-                            try {
-                              const managerData = await refetchContestManager({
-                                contest_id: item.id,
-                              });
-                              const data: FormValues = {
-                                contest_name: item?.contest_name,
-                                contest_type: item?.contest_type,
-                                description: item?.description,
-                                time: [
-                                  dayjs(item?.start_date),
-                                  dayjs(item?.end_date),
-                                ],
-                                managers_list:
-                                  managerData.data.contest_manager.map(
-                                    (value) =>
-                                      value.userByUserUuid as graphql.GetContestManagerQuery["contest_manager"][0]["userByUserUuid"],
-                                  ),
-                              };
-                              setContestID(item?.id);
-                              form.setFieldsValue(data);
-                            } catch {}
-                            setModalVisible(true);
-                          }
-                        : undefined
-                    }
-                    onDeletePress={
-                      user?.role === "counselor" || user?.role === "root"
-                        ? () => {
-                            handleContestDelete(item.id);
-                          }
-                        : undefined
-                    }
+                    // onEditPress={
+                    //   user?.role === "counselor" || user?.role === "root"
+                    //     ? async () => {
+                    //         setEditingContest(true);
+                    //         try {
+                    //           const managerData = await refetchContestManager({
+                    //             contest_id: item.id,
+                    //           });
+                    //           const data: FormValues = {
+                    //             contest_name: item?.contest_name,
+                    //             contest_type: item?.contest_type,
+                    //             description: item?.description,
+                    //             time: [
+                    //               dayjs(item?.start_date),
+                    //               dayjs(item?.end_date),
+                    //             ],
+                    //             managers_list:
+                    //               managerData.data.contest_manager.map(
+                    //                 (value) =>
+                    //                   value.userByUserUuid as graphql.GetContestManagerQuery["contest_manager"][0]["userByUserUuid"],
+                    //               ),
+                    //           };
+                    //           setContestID(item?.id);
+                    //           form.setFieldsValue(data);
+                    //         } catch {}
+                    //         setModalVisible(true);
+                    //       }
+                    //     : undefined
+                    // }
+                    // onDeletePress={
+                    //   user?.role === "counselor" || user?.role === "root"
+                    //     ? () => {
+                    //         handleContestDelete(item.id);
+                    //       }
+                    //     : undefined
+                    // }
                     name={item.contest_name}
                     description={item.description as string | null}
                     startDate={item.start_date}

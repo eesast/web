@@ -78,15 +78,15 @@ mutation DeleteContest($id: uuid!) {
 }
 
 # 查询指定比赛的管理员
-query GetContestManager($contest_id: uuid!) {
-  contest_manager(where: { contest_id: { _eq: $contest_id } }) {
-    userByUserUuid {
-      uuid
-      realname
-      email
-    }
-  }
-}
+# query GetContestManager($contest_id: uuid!) {
+#   contest_manager(where: { contest_id: { _eq: $contest_id } }) {
+#     userByUserUuid {
+#       uuid
+#       realname
+#       email
+#     }
+#   }
+# }
 
 # 删除指定比赛的所有管理员
 mutation DeleteContestAllManager($contest_id: uuid!) {
