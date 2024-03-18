@@ -1,12 +1,21 @@
-# 查询所有的比赛
-query GetContests {
-  contest(order_by: { start_date: desc }) {
-    contest_name
-    description
-    end_date
-    id
-    start_date
-    contest_type
+# 查询某ID用户是否为某比赛管理员
+query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
+  contest_manager(
+    where: { contest_id: { _eq: $contest_id }, user_uuid: { _eq: $user_uuid } }
+  ) {
+    user_uuid
+  }
+}
+
+# 更新比赛状态
+mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
+  update_contest(
+    where: { id: { _eq: $contest_id } }
+    _set: { status: $status }
+  ) {
+    returning {
+      status
+    }
   }
 }
 
@@ -92,13 +101,6 @@ mutation AddContestManager($contest_id: uuid!, $user_uuid: uuid!) {
     objects: { contest_id: $contest_id, user_uuid: $user_uuid }
   ) {
     affected_rows
-  }
-}
-
-# 根据users的name和email获得其uuid
-query GetUser_Id($email: String!, $realname: String!) {
-  users(where: { email: { _eq: $email }, realname: { _eq: $realname } }) {
-    uuid
   }
 }
 

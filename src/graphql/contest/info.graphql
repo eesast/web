@@ -1,0 +1,34 @@
+# 获取所有比赛
+query GetAllContest {
+  contest {
+    id
+    contest_name
+    description
+    start_date
+    end_date
+  }
+}
+
+# 根据比赛id获取比赛信息
+query GetContestInfo($contest_id: uuid!) {
+  contest(where: { id: { _eq: $contest_id } }) {
+    contest_name
+    contest_type
+    description
+    start_date
+    end_date
+    status
+  }
+}
+
+# 查询所有的比赛
+query GetContests {
+  contest(order_by: { start_date: desc }) {
+    contest_name
+    description
+    end_date
+    id
+    start_date
+    contest_type
+  }
+}
