@@ -43,7 +43,7 @@
     "@types/lodash.get": "4.4.9",
     "@types/node": "20.11.27",
     "@types/pizzip": "3.0.5",
-    "@types/react": "18.2.66",
+    "@types/react": "18.2.67",
     "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.2.22",
     "@types/react-router-dom": "5.3.3",
