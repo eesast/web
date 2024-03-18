@@ -11906,6 +11906,56 @@ export type AddMessageMutationVariables = Exact<{
 
 export type AddMessageMutation = { __typename?: 'mutation_root', insert_mentor_message?: { __typename?: 'mentor_message_mutation_response', returning: Array<{ __typename?: 'mentor_message', id: any }> } | null };
 
+export type GetHonorApplicationsQueryVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+  _gte: Scalars['timestamptz']['input'];
+}>;
+
+
+export type GetHonorApplicationsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any }> };
+
+export type GetHonorApplicationsForCounselorsQueryVariables = Exact<{
+  _gte: Scalars['timestamptz']['input'];
+}>;
+
+
+export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null } | null }> };
+
+export type AddHonorApplicationMutationVariables = Exact<{
+  student_uuid: Scalars['uuid']['input'];
+  honor: Scalars['String']['input'];
+  statement: Scalars['String']['input'];
+  attachment_url?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type AddHonorApplicationMutation = { __typename?: 'mutation_root', insert_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
+
+export type UpdateHonorApplicationMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  honor: Scalars['String']['input'];
+  statement: Scalars['String']['input'];
+  attachment_url?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateHonorApplicationMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
+
+export type DeleteHonorApplicationMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteHonorApplicationMutation = { __typename?: 'mutation_root', delete_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
+
+export type UpdateHonorApplicationStatusMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  status: Scalars['String']['input'];
+}>;
+
+
+export type UpdateHonorApplicationStatusMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any, status: string }> } | null };
+
 export type GetMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
 }>;
@@ -13948,6 +13998,263 @@ export function useAddMessageMutation(baseOptions?: Apollo.MutationHookOptions<A
 export type AddMessageMutationHookResult = ReturnType<typeof useAddMessageMutation>;
 export type AddMessageMutationResult = Apollo.MutationResult<AddMessageMutation>;
 export type AddMessageMutationOptions = Apollo.BaseMutationOptions<AddMessageMutation, AddMessageMutationVariables>;
+export const GetHonorApplicationsDocument = gql`
+    query GetHonorApplications($uuid: uuid!, $_gte: timestamptz!) {
+  honor_application(
+    where: {student_uuid: {_eq: $uuid}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+    order_by: {created_at: asc}
+  ) {
+    id
+    honor
+    statement
+    attachment_url
+    status
+    created_at
+    updated_at
+  }
+}
+    `;
+
+/**
+ * __useGetHonorApplicationsQuery__
+ *
+ * To run a query within a React component, call `useGetHonorApplicationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetHonorApplicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetHonorApplicationsQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      _gte: // value for '_gte'
+ *   },
+ * });
+ */
+export function useGetHonorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables> & ({ variables: GetHonorApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
+      }
+export function useGetHonorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
+        }
+export function useGetHonorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
+        }
+export type GetHonorApplicationsQueryHookResult = ReturnType<typeof useGetHonorApplicationsQuery>;
+export type GetHonorApplicationsLazyQueryHookResult = ReturnType<typeof useGetHonorApplicationsLazyQuery>;
+export type GetHonorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetHonorApplicationsSuspenseQuery>;
+export type GetHonorApplicationsQueryResult = Apollo.QueryResult<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>;
+export const GetHonorApplicationsForCounselorsDocument = gql`
+    query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
+  honor_application(
+    order_by: {created_at: asc}
+    where: {updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+  ) {
+    id
+    honor
+    statement
+    attachment_url
+    status
+    student_byuuid {
+      uuid
+      realname
+      class
+    }
+    created_at
+    updated_at
+  }
+}
+    `;
+
+/**
+ * __useGetHonorApplicationsForCounselorsQuery__
+ *
+ * To run a query within a React component, call `useGetHonorApplicationsForCounselorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetHonorApplicationsForCounselorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetHonorApplicationsForCounselorsQuery({
+ *   variables: {
+ *      _gte: // value for '_gte'
+ *   },
+ * });
+ */
+export function useGetHonorApplicationsForCounselorsQuery(baseOptions: Apollo.QueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables> & ({ variables: GetHonorApplicationsForCounselorsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
+      }
+export function useGetHonorApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
+        }
+export function useGetHonorApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
+        }
+export type GetHonorApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsQuery>;
+export type GetHonorApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsLazyQuery>;
+export type GetHonorApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsSuspenseQuery>;
+export type GetHonorApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>;
+export const AddHonorApplicationDocument = gql`
+    mutation AddHonorApplication($student_uuid: uuid!, $honor: String!, $statement: String!, $attachment_url: String) {
+  insert_honor_application(
+    objects: {student_uuid: $student_uuid, honor: $honor, statement: $statement, attachment_url: $attachment_url}
+  ) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type AddHonorApplicationMutationFn = Apollo.MutationFunction<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>;
+
+/**
+ * __useAddHonorApplicationMutation__
+ *
+ * To run a mutation, you first call `useAddHonorApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddHonorApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addHonorApplicationMutation, { data, loading, error }] = useAddHonorApplicationMutation({
+ *   variables: {
+ *      student_uuid: // value for 'student_uuid'
+ *      honor: // value for 'honor'
+ *      statement: // value for 'statement'
+ *      attachment_url: // value for 'attachment_url'
+ *   },
+ * });
+ */
+export function useAddHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>(AddHonorApplicationDocument, options);
+      }
+export type AddHonorApplicationMutationHookResult = ReturnType<typeof useAddHonorApplicationMutation>;
+export type AddHonorApplicationMutationResult = Apollo.MutationResult<AddHonorApplicationMutation>;
+export type AddHonorApplicationMutationOptions = Apollo.BaseMutationOptions<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>;
+export const UpdateHonorApplicationDocument = gql`
+    mutation UpdateHonorApplication($id: uuid!, $honor: String!, $statement: String!, $attachment_url: String) {
+  update_honor_application(
+    where: {id: {_eq: $id}}
+    _set: {honor: $honor, statement: $statement, attachment_url: $attachment_url}
+  ) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type UpdateHonorApplicationMutationFn = Apollo.MutationFunction<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>;
+
+/**
+ * __useUpdateHonorApplicationMutation__
+ *
+ * To run a mutation, you first call `useUpdateHonorApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateHonorApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateHonorApplicationMutation, { data, loading, error }] = useUpdateHonorApplicationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      honor: // value for 'honor'
+ *      statement: // value for 'statement'
+ *      attachment_url: // value for 'attachment_url'
+ *   },
+ * });
+ */
+export function useUpdateHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>(UpdateHonorApplicationDocument, options);
+      }
+export type UpdateHonorApplicationMutationHookResult = ReturnType<typeof useUpdateHonorApplicationMutation>;
+export type UpdateHonorApplicationMutationResult = Apollo.MutationResult<UpdateHonorApplicationMutation>;
+export type UpdateHonorApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>;
+export const DeleteHonorApplicationDocument = gql`
+    mutation DeleteHonorApplication($id: uuid!) {
+  delete_honor_application(where: {id: {_eq: $id}}) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type DeleteHonorApplicationMutationFn = Apollo.MutationFunction<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>;
+
+/**
+ * __useDeleteHonorApplicationMutation__
+ *
+ * To run a mutation, you first call `useDeleteHonorApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteHonorApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteHonorApplicationMutation, { data, loading, error }] = useDeleteHonorApplicationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>(DeleteHonorApplicationDocument, options);
+      }
+export type DeleteHonorApplicationMutationHookResult = ReturnType<typeof useDeleteHonorApplicationMutation>;
+export type DeleteHonorApplicationMutationResult = Apollo.MutationResult<DeleteHonorApplicationMutation>;
+export type DeleteHonorApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>;
+export const UpdateHonorApplicationStatusDocument = gql`
+    mutation UpdateHonorApplicationStatus($id: uuid!, $status: String!) {
+  update_honor_application(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    returning {
+      id
+      status
+    }
+  }
+}
+    `;
+export type UpdateHonorApplicationStatusMutationFn = Apollo.MutationFunction<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
+
+/**
+ * __useUpdateHonorApplicationStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateHonorApplicationStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateHonorApplicationStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateHonorApplicationStatusMutation, { data, loading, error }] = useUpdateHonorApplicationStatusMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useUpdateHonorApplicationStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>(UpdateHonorApplicationStatusDocument, options);
+      }
+export type UpdateHonorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateHonorApplicationStatusMutation>;
+export type UpdateHonorApplicationStatusMutationResult = Apollo.MutationResult<UpdateHonorApplicationStatusMutation>;
+export type UpdateHonorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
 export const GetMentorApplicationsDocument = gql`
     query GetMentorApplications($uuid: uuid!) {
   mentor_application(
