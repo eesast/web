@@ -11,33 +11,33 @@ export interface JwtPayload {
   };
 }
 
+const parse = (token: string | null) => {
+  if (!token) {
+    return null;
+  }
+
+  try {
+    const payload = jwtDecode<(JwtPayload & { exp: number }) | null>(token);
+
+    if (!payload) {
+      return null;
+    }
+
+    const now = new Date().getTime() / 1000;
+    if (now > payload.exp) {
+      return null;
+    }
+
+    return payload as JwtPayload;
+  } catch {
+    return null;
+  }
+};
+
 export const useUser: () => [
   JwtPayload | null,
   (token: string | null) => void,
 ] = () => {
-  const parse = (token: string | null) => {
-    if (!token) {
-      return null;
-    }
-
-    try {
-      const payload = jwtDecode<(JwtPayload & { exp: number }) | null>(token);
-
-      if (!payload) {
-        return null;
-      }
-
-      const now = new Date().getTime() / 1000;
-      if (now > payload.exp) {
-        return null;
-      }
-
-      return payload as JwtPayload;
-    } catch {
-      return null;
-    }
-  };
-
   const [user, setUser] = useState<JwtPayload | null>(
     parse(localStorage.getItem("token")),
   );

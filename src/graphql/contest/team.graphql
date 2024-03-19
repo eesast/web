@@ -1,12 +1,3 @@
-# 查询某ID用户是否为某比赛管理员
-query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
-  contest_manager(
-    where: { contest_id: { _eq: $contest_id }, user_uuid: { _eq: $user_uuid } }
-  ) {
-    user_uuid
-  }
-}
-
 #插入队伍信息
 mutation InsertTeam(
   $team_name: String!
@@ -38,7 +29,7 @@ mutation InsertTeam(
 query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
   contest_team(
     where: {
-      team_leader_byuuid: { uuid: { _eq: $uuid } }
+      team_leader: { uuid: { _eq: $uuid } }
       _and: { contest_id: { _eq: $contest_id } }
     }
   ) {
@@ -50,9 +41,7 @@ query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
   contest_team_member(
     where: {
       user_uuid: { _eq: $user_uuid }
-      _and: {
-        team_as_contest_team_member: { contest_id: { _eq: $contest_id } }
-      }
+      _and: { contest_team: { contest_id: { _eq: $contest_id } } }
     }
   ) {
     team_id
@@ -83,11 +72,11 @@ subscription GetAllTeamInfo($contest_id: uuid!) {
     contest_score
     team_id
     submitted_code_num
-    team_contest_id {
+    contest {
       contest_name
     }
     team_intro
-    team_leader_byuuid {
+    team_leader {
       uuid
       class
       email
@@ -123,11 +112,11 @@ query GetAllTeamInfo_score($contest_id: uuid!) {
     contest_score
     team_id
     submitted_code_num
-    team_contest_id {
+    contest {
       contest_name
     }
     team_intro
-    team_leader_byuuid {
+    team_leader {
       uuid
       class
       email
@@ -177,11 +166,11 @@ query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
     contest_score
     team_id
     submitted_code_num
-    team_contest_id {
+    contest {
       contest_name
     }
     team_intro
-    team_leader_byuuid {
+    team_leader {
       uuid
       class
       email
@@ -234,7 +223,7 @@ mutation UpdateTeam(
 #根据队伍id查询所有队员信息
 query GetMemberInfo($team_id: uuid!) {
   contest_team(where: { team_id: { _eq: $team_id } }) {
-    team_leader_byuuid {
+    team_leader {
       realname
       id
       uuid
@@ -271,216 +260,6 @@ mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
   }
 }
 
-# 获取所有比赛
-query GetAllContest {
-  contest {
-    id
-    contest_name
-    description
-    start_date
-    end_date
-  }
-}
-
-# 根据比赛id获取比赛信息
-query GetContestInfo($contest_id: uuid!) {
-  contest(where: { id: { _eq: $contest_id } }) {
-    contest_name
-    contest_type
-    description
-    start_date
-    end_date
-    status
-  }
-}
-
-# get the contest room info
-subscription GetRoomInfo($contest_id: uuid!) {
-  contest_room(
-    where: { contest_id: { _eq: $contest_id } }
-    order_by: { created_at: desc }
-  ) {
-    created_at
-    result
-    room_id
-    status
-    port
-    contest_room_teams {
-      contest_team {
-        team_name
-        team_id
-      }
-    }
-  }
-}
-
-# 获取正在进行比赛的房间信息
-query GetRoomInfo_status($contest_id: uuid!) {
-  contest_room(
-    where: {
-      _and: {
-        contest_id: { _eq: $contest_id }
-        status: { _eq: false }
-        port: { _is_null: false }
-      }
-    }
-  ) {
-    room_id
-    status
-    created_at
-  }
-}
-
-mutation InsertRoom(
-  $contest_id: uuid!
-  $team1_id: uuid!
-  $team2_id: uuid!
-  $created_at: timestamptz!
-) {
-  insert_contest_room_one(
-    object: {
-      contest_id: $contest_id
-      contest_room_teams: {
-        data: [{ team_id: $team1_id }, { team_id: $team2_id }]
-      }
-      created_at: $created_at
-    }
-  ) {
-    room_id
-  }
-}
-
-# 删除指定对战记录
-mutation DeleteRoom($room_id: uuid!) {
-  delete_contest_room_team(where: { room_id: { _eq: $room_id } }) {
-    affected_rows
-  }
-  delete_contest_room(where: { room_id: { _eq: $room_id } }) {
-    affected_rows
-  }
-}
-
-#上传选手代码（原有：更新，无：插入）
-mutation UpsertCode1(
-  $code: String!
-  $update_time: timestamptz!
-  $team_id: uuid!
-  $contest_id: uuid!
-  $code_type: String!
-) {
-  insert_contest_code_one(
-    object: {
-      code1: $code
-      code1_update_time: $update_time
-      team_id: $team_id
-      contest_id: $contest_id
-      code_type1: $code_type
-    }
-    on_conflict: {
-      constraint: contest_code_pkey
-      update_columns: [code1, code1_update_time, code_type1]
-    }
-  ) {
-    code1_update_time
-  }
-}
-
-mutation UpsertCode2(
-  $code: String!
-  $update_time: timestamptz!
-  $team_id: uuid!
-  $contest_id: uuid!
-  $code_type: String!
-) {
-  insert_contest_code_one(
-    object: {
-      code2: $code
-      code2_update_time: $update_time
-      team_id: $team_id
-      contest_id: $contest_id
-      code_type2: $code_type
-    }
-    on_conflict: {
-      constraint: contest_code_pkey
-      update_columns: [code2, code2_update_time, code_type2]
-    }
-  ) {
-    code2_update_time
-  }
-}
-
-mutation UpsertCode3(
-  $code: String!
-  $update_time: timestamptz!
-  $team_id: uuid!
-  $contest_id: uuid!
-  $code_type: String!
-) {
-  insert_contest_code_one(
-    object: {
-      code3: $code
-      code3_update_time: $update_time
-      team_id: $team_id
-      contest_id: $contest_id
-      code_type3: $code_type
-    }
-    on_conflict: {
-      constraint: contest_code_pkey
-      update_columns: [code3, code3_update_time, code_type3]
-    }
-  ) {
-    code3_update_time
-  }
-}
-
-mutation UpsertCode4(
-  $code: String!
-  $update_time: timestamptz!
-  $team_id: uuid!
-  $contest_id: uuid!
-  $code_type: String!
-) {
-  insert_contest_code_one(
-    object: {
-      code4: $code
-      code4_update_time: $update_time
-      team_id: $team_id
-      contest_id: $contest_id
-      code_type4: $code_type
-    }
-    on_conflict: {
-      constraint: contest_code_pkey
-      update_columns: [code4, code4_update_time, code_type4]
-    }
-  ) {
-    code4_update_time
-  }
-}
-
-mutation UpsertCode5(
-  $code: String!
-  $update_time: timestamptz!
-  $team_id: uuid!
-  $contest_id: uuid!
-  $code_type: String!
-) {
-  insert_contest_code_one(
-    object: {
-      code5: $code
-      code5_update_time: $update_time
-      team_id: $team_id
-      contest_id: $contest_id
-      code_type5: $code_type
-    }
-    on_conflict: {
-      constraint: contest_code_pkey
-      update_columns: [code5, code5_update_time, code_type5]
-    }
-  ) {
-    code5_update_time
-  }
-}
-
 # 通过队伍名查询队伍ID
 query QueryTeamID($team_name: String!, $contest_id: uuid!) {
   contest_team(
@@ -488,17 +267,5 @@ query QueryTeamID($team_name: String!, $contest_id: uuid!) {
   ) {
     team_id
     status
-  }
-}
-
-# 更新比赛状态
-mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
-  update_contest(
-    where: { id: { _eq: $contest_id } }
-    _set: { status: $status }
-  ) {
-    returning {
-      status
-    }
   }
 }

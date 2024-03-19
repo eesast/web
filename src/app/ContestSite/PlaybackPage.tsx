@@ -52,7 +52,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       projectUrl = sharedUrl + "Jump/";
       projectName = "JumpJump-Build";
     }
-    if (contest === "f7b586ce-dffd-4fa0-9dc8-d3660423b7e6") {
+    if (contest === "b4e3f620-49f7-4883-ba0f-81cbfdcf6196") {
       projectUrl = sharedUrl + "THUAI7/";
       projectName = "interface_localExecutable";
     }

@@ -119,9 +119,9 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team = {
     ...teamData?.contest_team[0],
-    leader_name: teamData?.contest_team[0]?.team_leader_byuuid?.realname,
+    leader_name: teamData?.contest_team[0]?.team_leader?.realname,
   };
-  const isLeader = user?.uuid === team.team_leader_byuuid?.uuid;
+  const isLeader = user?.uuid === team.team_leader?.uuid;
 
   if (!user) {
     return <Spin />;
@@ -320,7 +320,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                   <Text>{team.invited_code}</Text>
                 </Form.Item>
                 <Form.Item label="队长">
-                  <Text>{team.team_leader_byuuid?.realname}</Text>
+                  <Text>{team.team_leader?.realname}</Text>
                 </Form.Item>
                 <Form.Item label="队员">
                   <Suspense fallback={<Loading />}>
