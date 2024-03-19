@@ -1,5 +1,5 @@
 query GetContestNotices($contest_id: uuid!) {
-  contest_info(
+  contest_notice(
     where: { contest_id: { _eq: $contest_id } }
     order_by: { updated_at: desc }
   ) {
@@ -19,7 +19,7 @@ mutation UpdateContestNotice(
   $files: String
   $contest_id: uuid!
 ) {
-  update_contest_info(
+  update_contest_notice(
     where: { id: { _eq: $id } }
     _set: {
       title: $title
@@ -40,7 +40,7 @@ mutation AddContestNotice(
   $files: String
   $contest_id: uuid!
 ) {
-  insert_contest_info(
+  insert_contest_notice(
     objects: {
       title: $title
       content: $content
@@ -55,7 +55,7 @@ mutation AddContestNotice(
 }
 
 mutation DeleteContestNotice($id: uuid!) {
-  delete_contest_info(where: { id: { _eq: $id } }) {
+  delete_contest_notice(where: { id: { _eq: $id } }) {
     returning {
       id
     }

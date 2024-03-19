@@ -74,8 +74,7 @@ const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [isContestManagerError]);
 
   /* ---------------- 页面组件 ---------------- */
-  return ["root", "counselor"].includes(user?.role!) ||
-    isContestManagerData?.contest_manager.length === 1 ? (
+  return isContestManagerData?.contest_manager.length === 1 ? (
     editingTeamID === undefined ? (
       <ListPage contest_id={Contest_id} setEditingTeamID={setEditingTeamID} />
     ) : (
@@ -227,7 +226,7 @@ const ListPage: React.FC<{
     {
       title: "队长",
       key: "team_leader",
-      render: (text, record) => record.team_leader_byuuid?.realname,
+      render: (text, record) => record.team_leader?.realname,
     },
     {
       title: "队员",
@@ -535,7 +534,7 @@ const SubPage: React.FC<{
         <Text>{teamData?.contest_team[0].team_name}</Text>
         <br />
         <Text style={{ fontWeight: "700" }}>{"队长: "}</Text>
-        <Text>{teamData?.contest_team[0].team_leader_byuuid?.realname}</Text>
+        <Text>{teamData?.contest_team[0].team_leader?.realname}</Text>
         <br />
         <Text style={{ fontWeight: "700" }}>{"队员: "}</Text>
         {teamData?.contest_team[0].contest_team_members.length === 0 ? (

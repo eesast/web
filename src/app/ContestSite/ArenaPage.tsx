@@ -133,7 +133,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         scoreteamListData?.contest_team.filter((item) => {
           return (
             item.team_name?.indexOf(associatedValue) !== -1 ||
-            item.team_leader_byuuid?.realname?.indexOf(associatedValue) !== -1
+            item.team_leader?.realname?.indexOf(associatedValue) !== -1
           );
         }),
       );
@@ -191,8 +191,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "队长",
-      key: "team_leader_byuuid",
-      render: (text, record) => record.team_leader_byuuid?.realname,
+      key: "team_leader",
+      render: (text, record) => record.team_leader?.realname,
     },
     {
       title: "队员",

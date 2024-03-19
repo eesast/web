@@ -1,0 +1,65 @@
+# get the contest room info
+subscription GetRoomInfo($contest_id: uuid!) {
+  contest_room(
+    where: { contest_id: { _eq: $contest_id } }
+    order_by: { created_at: desc }
+  ) {
+    created_at
+    result
+    room_id
+    status
+    port
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_id
+      }
+    }
+  }
+}
+
+# 获取正在进行比赛的房间信息
+query GetRoomInfo_status($contest_id: uuid!) {
+  contest_room(
+    where: {
+      _and: {
+        contest_id: { _eq: $contest_id }
+        status: { _eq: false }
+        port: { _is_null: false }
+      }
+    }
+  ) {
+    room_id
+    status
+    created_at
+  }
+}
+
+mutation InsertRoom(
+  $contest_id: uuid!
+  $team1_id: uuid!
+  $team2_id: uuid!
+  $created_at: timestamptz!
+) {
+  insert_contest_room_one(
+    object: {
+      contest_id: $contest_id
+      contest_room_teams: {
+        data: [{ team_id: $team1_id }, { team_id: $team2_id }]
+      }
+      created_at: $created_at
+    }
+  ) {
+    room_id
+  }
+}
+
+# 删除指定对战记录
+mutation DeleteRoom($room_id: uuid!) {
+  delete_contest_room_team(where: { room_id: { _eq: $room_id } }) {
+    affected_rows
+  }
+  delete_contest_room(where: { room_id: { _eq: $room_id } }) {
+    affected_rows
+  }
+}

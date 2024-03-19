@@ -118,9 +118,9 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
           [
             team.team_name,
             team.team_intro,
-            team.team_leader_byuuid?.realname,
-            team.team_leader_byuuid?.email || "null",
-            team.team_leader_byuuid?.phone || "null",
+            team.team_leader?.realname,
+            team.team_leader?.email || "null",
+            team.team_leader?.phone || "null",
           ].concat(
             team.contest_team_members?.map(
               (member) =>
@@ -186,7 +186,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     {
       title: "队长",
       key: "team_leader",
-      render: (text, record) => record.team_leader_byuuid?.realname,
+      render: (text, record) => record.team_leader?.realname,
     },
     {
       title: "队员",
@@ -283,12 +283,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
             onClick={exportTeamsData}
             type="primary"
             shape="round"
-            disabled={
-              !(
-                ["root", "counselor"].includes(user?.role!) ||
-                isContestManagerData?.contest_manager.length === 1
-              )
-            }
+            disabled={isContestManagerData?.contest_manager.length !== 1}
             size="small"
           >
             导出队伍信息

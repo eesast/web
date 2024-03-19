@@ -361,14 +361,139 @@ export type Aid_Application_Variance_Fields = {
 /** columns and relationships of "contest" */
 export type Contest = {
   __typename?: 'contest';
+  arena_switch: Scalars['Boolean']['output'];
+  code_upload_switch: Scalars['Boolean']['output'];
+  /** An array relationship */
+  contest_managers: Array<Contest_Manager>;
+  /** An aggregate relationship */
+  contest_managers_aggregate: Contest_Manager_Aggregate;
   contest_name: Scalars['String']['output'];
+  /** An array relationship */
+  contest_notices: Array<Contest_Notice>;
+  /** An aggregate relationship */
+  contest_notices_aggregate: Contest_Notice_Aggregate;
+  /** An array relationship */
+  contest_players: Array<Contest_Player>;
+  /** An aggregate relationship */
+  contest_players_aggregate: Contest_Player_Aggregate;
+  /** An array relationship */
+  contest_rooms: Array<Contest_Room>;
+  /** An aggregate relationship */
+  contest_rooms_aggregate: Contest_Room_Aggregate;
+  /** An array relationship */
+  contest_teams: Array<Contest_Team>;
+  /** An aggregate relationship */
+  contest_teams_aggregate: Contest_Team_Aggregate;
   contest_type: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
   end_date: Scalars['timestamptz']['output'];
   id: Scalars['uuid']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  playback_switch: Scalars['Boolean']['output'];
+  playground_switch: Scalars['Boolean']['output'];
   start_date: Scalars['timestamptz']['output'];
   status: Scalars['String']['output'];
+  stream_switch: Scalars['Boolean']['output'];
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_ManagersArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Manager_Order_By>>;
+  where?: InputMaybe<Contest_Manager_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Managers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Manager_Order_By>>;
+  where?: InputMaybe<Contest_Manager_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_NoticesArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Notices_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_PlayersArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Player_Order_By>>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Players_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Player_Order_By>>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_RoomsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
+  where?: InputMaybe<Contest_Room_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Rooms_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
+  where?: InputMaybe<Contest_Room_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_TeamsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
+  where?: InputMaybe<Contest_Team_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Teams_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
+  where?: InputMaybe<Contest_Team_Bool_Exp>;
 };
 
 /** aggregated selection of "contest" */
@@ -398,14 +523,24 @@ export type Contest_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Bool_Exp>>;
   _not?: InputMaybe<Contest_Bool_Exp>;
   _or?: InputMaybe<Array<Contest_Bool_Exp>>;
+  arena_switch?: InputMaybe<Boolean_Comparison_Exp>;
+  code_upload_switch?: InputMaybe<Boolean_Comparison_Exp>;
+  contest_managers?: InputMaybe<Contest_Manager_Bool_Exp>;
   contest_name?: InputMaybe<String_Comparison_Exp>;
+  contest_notices?: InputMaybe<Contest_Notice_Bool_Exp>;
+  contest_players?: InputMaybe<Contest_Player_Bool_Exp>;
+  contest_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
+  contest_teams?: InputMaybe<Contest_Team_Bool_Exp>;
   contest_type?: InputMaybe<String_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  playback_switch?: InputMaybe<Boolean_Comparison_Exp>;
+  playground_switch?: InputMaybe<Boolean_Comparison_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
+  stream_switch?: InputMaybe<Boolean_Comparison_Exp>;
 };
 
 /** columns and relationships of "contest_code" */
@@ -423,10 +558,6 @@ export type Contest_Code = {
   code5_update_time?: Maybe<Scalars['timestamptz']['output']>;
   code6?: Maybe<Scalars['String']['output']>;
   code6_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  /** An object relationship */
-  code_contest_id: Contest;
-  /** An object relationship */
-  code_team_id: Contest_Team;
   code_type1?: Maybe<Scalars['String']['output']>;
   code_type2?: Maybe<Scalars['String']['output']>;
   code_type3?: Maybe<Scalars['String']['output']>;
@@ -478,8 +609,6 @@ export type Contest_Code_Bool_Exp = {
   code5_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
   code6?: InputMaybe<String_Comparison_Exp>;
   code6_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
-  code_contest_id?: InputMaybe<Contest_Bool_Exp>;
-  code_team_id?: InputMaybe<Contest_Team_Bool_Exp>;
   code_type1?: InputMaybe<String_Comparison_Exp>;
   code_type2?: InputMaybe<String_Comparison_Exp>;
   code_type3?: InputMaybe<String_Comparison_Exp>;
@@ -512,8 +641,6 @@ export type Contest_Code_Insert_Input = {
   code5_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
   code6?: InputMaybe<Scalars['String']['input']>;
   code6_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code_contest_id?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
-  code_team_id?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
   code_type1?: InputMaybe<Scalars['String']['input']>;
   code_type2?: InputMaybe<Scalars['String']['input']>;
   code_type3?: InputMaybe<Scalars['String']['input']>;
@@ -610,8 +737,6 @@ export type Contest_Code_Order_By = {
   code5_update_time?: InputMaybe<Order_By>;
   code6?: InputMaybe<Order_By>;
   code6_update_time?: InputMaybe<Order_By>;
-  code_contest_id?: InputMaybe<Contest_Order_By>;
-  code_team_id?: InputMaybe<Contest_Team_Order_By>;
   code_type1?: InputMaybe<Order_By>;
   code_type2?: InputMaybe<Order_By>;
   code_type3?: InputMaybe<Order_By>;
@@ -759,189 +884,26 @@ export enum Contest_Constraint {
   ContestPkey = 'contest_pkey'
 }
 
-/** 比赛信息 */
-export type Contest_Info = {
-  __typename?: 'contest_info';
-  content: Scalars['String']['output'];
-  contest_id: Scalars['uuid']['output'];
-  /** An object relationship */
-  contest_id_info: Contest;
-  created_at: Scalars['timestamptz']['output'];
-  files?: Maybe<Scalars['String']['output']>;
-  id: Scalars['uuid']['output'];
-  title: Scalars['String']['output'];
-  updated_at: Scalars['timestamptz']['output'];
-};
-
-/** aggregated selection of "contest_info" */
-export type Contest_Info_Aggregate = {
-  __typename?: 'contest_info_aggregate';
-  aggregate?: Maybe<Contest_Info_Aggregate_Fields>;
-  nodes: Array<Contest_Info>;
-};
-
-/** aggregate fields of "contest_info" */
-export type Contest_Info_Aggregate_Fields = {
-  __typename?: 'contest_info_aggregate_fields';
-  count: Scalars['Int']['output'];
-  max?: Maybe<Contest_Info_Max_Fields>;
-  min?: Maybe<Contest_Info_Min_Fields>;
-};
-
-
-/** aggregate fields of "contest_info" */
-export type Contest_Info_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Boolean expression to filter rows from the table "contest_info". All fields are combined with a logical 'AND'. */
-export type Contest_Info_Bool_Exp = {
-  _and?: InputMaybe<Array<Contest_Info_Bool_Exp>>;
-  _not?: InputMaybe<Contest_Info_Bool_Exp>;
-  _or?: InputMaybe<Array<Contest_Info_Bool_Exp>>;
-  content?: InputMaybe<String_Comparison_Exp>;
-  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
-  contest_id_info?: InputMaybe<Contest_Bool_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  files?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "contest_info" */
-export enum Contest_Info_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  ContestInfoPkey = 'contest_info_pkey'
-}
-
-/** input type for inserting data into table "contest_info" */
-export type Contest_Info_Insert_Input = {
-  content?: InputMaybe<Scalars['String']['input']>;
-  contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  contest_id_info?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  files?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate max on columns */
-export type Contest_Info_Max_Fields = {
-  __typename?: 'contest_info_max_fields';
-  content?: Maybe<Scalars['String']['output']>;
-  contest_id?: Maybe<Scalars['uuid']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  files?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** aggregate min on columns */
-export type Contest_Info_Min_Fields = {
-  __typename?: 'contest_info_min_fields';
-  content?: Maybe<Scalars['String']['output']>;
-  contest_id?: Maybe<Scalars['uuid']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  files?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** response of any mutation on the table "contest_info" */
-export type Contest_Info_Mutation_Response = {
-  __typename?: 'contest_info_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Contest_Info>;
-};
-
-/** on_conflict condition type for table "contest_info" */
-export type Contest_Info_On_Conflict = {
-  constraint: Contest_Info_Constraint;
-  update_columns?: Array<Contest_Info_Update_Column>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "contest_info". */
-export type Contest_Info_Order_By = {
-  content?: InputMaybe<Order_By>;
-  contest_id?: InputMaybe<Order_By>;
-  contest_id_info?: InputMaybe<Contest_Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  files?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: contest_info */
-export type Contest_Info_Pk_Columns_Input = {
-  id: Scalars['uuid']['input'];
-};
-
-/** select columns of table "contest_info" */
-export enum Contest_Info_Select_Column {
-  /** column name */
-  Content = 'content',
-  /** column name */
-  ContestId = 'contest_id',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Files = 'files',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "contest_info" */
-export type Contest_Info_Set_Input = {
-  content?: InputMaybe<Scalars['String']['input']>;
-  contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  files?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** update columns of table "contest_info" */
-export enum Contest_Info_Update_Column {
-  /** column name */
-  Content = 'content',
-  /** column name */
-  ContestId = 'contest_id',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Files = 'files',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
 /** input type for inserting data into table "contest" */
 export type Contest_Insert_Input = {
+  arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  contest_managers?: InputMaybe<Contest_Manager_Arr_Rel_Insert_Input>;
   contest_name?: InputMaybe<Scalars['String']['input']>;
+  contest_notices?: InputMaybe<Contest_Notice_Arr_Rel_Insert_Input>;
+  contest_players?: InputMaybe<Contest_Player_Arr_Rel_Insert_Input>;
+  contest_rooms?: InputMaybe<Contest_Room_Arr_Rel_Insert_Input>;
+  contest_teams?: InputMaybe<Contest_Team_Arr_Rel_Insert_Input>;
   contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** 比赛管理员映射表 */
@@ -950,9 +912,6 @@ export type Contest_Manager = {
   /** An object relationship */
   contest: Contest;
   contest_id: Scalars['uuid']['output'];
-  /** An object relationship */
-  userByUserUuid: Users;
-  user_id?: Maybe<Scalars['String']['output']>;
   user_uuid: Scalars['uuid']['output'];
 };
 
@@ -978,6 +937,20 @@ export type Contest_Manager_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "contest_manager" */
+export type Contest_Manager_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Manager_Max_Order_By>;
+  min?: InputMaybe<Contest_Manager_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_manager" */
+export type Contest_Manager_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Manager_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Manager_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "contest_manager". All fields are combined with a logical 'AND'. */
 export type Contest_Manager_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Manager_Bool_Exp>>;
@@ -985,8 +958,6 @@ export type Contest_Manager_Bool_Exp = {
   _or?: InputMaybe<Array<Contest_Manager_Bool_Exp>>;
   contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
-  userByUserUuid?: InputMaybe<Users_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -1000,8 +971,6 @@ export enum Contest_Manager_Constraint {
 export type Contest_Manager_Insert_Input = {
   contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  userByUserUuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -1009,16 +978,26 @@ export type Contest_Manager_Insert_Input = {
 export type Contest_Manager_Max_Fields = {
   __typename?: 'contest_manager_max_fields';
   contest_id?: Maybe<Scalars['uuid']['output']>;
-  user_id?: Maybe<Scalars['String']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "contest_manager" */
+export type Contest_Manager_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Contest_Manager_Min_Fields = {
   __typename?: 'contest_manager_min_fields';
   contest_id?: Maybe<Scalars['uuid']['output']>;
-  user_id?: Maybe<Scalars['String']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "contest_manager" */
+export type Contest_Manager_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_manager" */
@@ -1041,8 +1020,6 @@ export type Contest_Manager_On_Conflict = {
 export type Contest_Manager_Order_By = {
   contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
-  userByUserUuid?: InputMaybe<Users_Order_By>;
-  user_id?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
 
@@ -1057,15 +1034,12 @@ export enum Contest_Manager_Select_Column {
   /** column name */
   ContestId = 'contest_id',
   /** column name */
-  UserId = 'user_id',
-  /** column name */
   UserUuid = 'user_uuid'
 }
 
 /** input type for updating data in table "contest_manager" */
 export type Contest_Manager_Set_Input = {
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  user_id?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -1073,8 +1047,6 @@ export type Contest_Manager_Set_Input = {
 export enum Contest_Manager_Update_Column {
   /** column name */
   ContestId = 'contest_id',
-  /** column name */
-  UserId = 'user_id',
   /** column name */
   UserUuid = 'user_uuid'
 }
@@ -1114,6 +1086,215 @@ export type Contest_Mutation_Response = {
   returning: Array<Contest>;
 };
 
+/** 比赛公告 */
+export type Contest_Notice = {
+  __typename?: 'contest_notice';
+  content: Scalars['String']['output'];
+  /** An object relationship */
+  contest: Contest;
+  contest_id: Scalars['uuid']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  files?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  title: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "contest_notice" */
+export type Contest_Notice_Aggregate = {
+  __typename?: 'contest_notice_aggregate';
+  aggregate?: Maybe<Contest_Notice_Aggregate_Fields>;
+  nodes: Array<Contest_Notice>;
+};
+
+/** aggregate fields of "contest_notice" */
+export type Contest_Notice_Aggregate_Fields = {
+  __typename?: 'contest_notice_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Notice_Max_Fields>;
+  min?: Maybe<Contest_Notice_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_notice" */
+export type Contest_Notice_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "contest_notice" */
+export type Contest_Notice_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Notice_Max_Order_By>;
+  min?: InputMaybe<Contest_Notice_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_notice" */
+export type Contest_Notice_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Notice_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Notice_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "contest_notice". All fields are combined with a logical 'AND'. */
+export type Contest_Notice_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Notice_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Notice_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Notice_Bool_Exp>>;
+  content?: InputMaybe<String_Comparison_Exp>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
+  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  files?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_notice" */
+export enum Contest_Notice_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ContestInfoPkey = 'contest_info_pkey'
+}
+
+/** input type for inserting data into table "contest_notice" */
+export type Contest_Notice_Insert_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Notice_Max_Fields = {
+  __typename?: 'contest_notice_max_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by max() on columns of table "contest_notice" */
+export type Contest_Notice_Max_Order_By = {
+  content?: InputMaybe<Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  files?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Contest_Notice_Min_Fields = {
+  __typename?: 'contest_notice_min_fields';
+  content?: Maybe<Scalars['String']['output']>;
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  files?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by min() on columns of table "contest_notice" */
+export type Contest_Notice_Min_Order_By = {
+  content?: InputMaybe<Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  files?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "contest_notice" */
+export type Contest_Notice_Mutation_Response = {
+  __typename?: 'contest_notice_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Notice>;
+};
+
+/** on_conflict condition type for table "contest_notice" */
+export type Contest_Notice_On_Conflict = {
+  constraint: Contest_Notice_Constraint;
+  update_columns?: Array<Contest_Notice_Update_Column>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_notice". */
+export type Contest_Notice_Order_By = {
+  content?: InputMaybe<Order_By>;
+  contest?: InputMaybe<Contest_Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  files?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_notice */
+export type Contest_Notice_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "contest_notice" */
+export enum Contest_Notice_Select_Column {
+  /** column name */
+  Content = 'content',
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Files = 'files',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "contest_notice" */
+export type Contest_Notice_Set_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "contest_notice" */
+export enum Contest_Notice_Update_Column {
+  /** column name */
+  Content = 'content',
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Files = 'files',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
 /** input type for inserting object relation for remote table "contest" */
 export type Contest_Obj_Rel_Insert_Input = {
   data: Contest_Insert_Input;
@@ -1130,19 +1311,317 @@ export type Contest_On_Conflict = {
 
 /** Ordering options when selecting data from "contest". */
 export type Contest_Order_By = {
+  arena_switch?: InputMaybe<Order_By>;
+  code_upload_switch?: InputMaybe<Order_By>;
+  contest_managers_aggregate?: InputMaybe<Contest_Manager_Aggregate_Order_By>;
   contest_name?: InputMaybe<Order_By>;
+  contest_notices_aggregate?: InputMaybe<Contest_Notice_Aggregate_Order_By>;
+  contest_players_aggregate?: InputMaybe<Contest_Player_Aggregate_Order_By>;
+  contest_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Order_By>;
+  contest_teams_aggregate?: InputMaybe<Contest_Team_Aggregate_Order_By>;
   contest_type?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  playback_switch?: InputMaybe<Order_By>;
+  playground_switch?: InputMaybe<Order_By>;
   start_date?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
+  stream_switch?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest */
 export type Contest_Pk_Columns_Input = {
   id: Scalars['uuid']['input'];
+};
+
+/** 记录每个比赛可以允许几队、每队有几个玩家、每个玩家可以选择哪些角色 */
+export type Contest_Player = {
+  __typename?: 'contest_player';
+  contest_id: Scalars['uuid']['output'];
+  player_num: Scalars['Int']['output'];
+  players_label: Scalars['String']['output'];
+  roles_available: Scalars['String']['output'];
+  team_label: Scalars['String']['output'];
+};
+
+/** aggregated selection of "contest_player" */
+export type Contest_Player_Aggregate = {
+  __typename?: 'contest_player_aggregate';
+  aggregate?: Maybe<Contest_Player_Aggregate_Fields>;
+  nodes: Array<Contest_Player>;
+};
+
+/** aggregate fields of "contest_player" */
+export type Contest_Player_Aggregate_Fields = {
+  __typename?: 'contest_player_aggregate_fields';
+  avg?: Maybe<Contest_Player_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Player_Max_Fields>;
+  min?: Maybe<Contest_Player_Min_Fields>;
+  stddev?: Maybe<Contest_Player_Stddev_Fields>;
+  stddev_pop?: Maybe<Contest_Player_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Contest_Player_Stddev_Samp_Fields>;
+  sum?: Maybe<Contest_Player_Sum_Fields>;
+  var_pop?: Maybe<Contest_Player_Var_Pop_Fields>;
+  var_samp?: Maybe<Contest_Player_Var_Samp_Fields>;
+  variance?: Maybe<Contest_Player_Variance_Fields>;
+};
+
+
+/** aggregate fields of "contest_player" */
+export type Contest_Player_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "contest_player" */
+export type Contest_Player_Aggregate_Order_By = {
+  avg?: InputMaybe<Contest_Player_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Player_Max_Order_By>;
+  min?: InputMaybe<Contest_Player_Min_Order_By>;
+  stddev?: InputMaybe<Contest_Player_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Contest_Player_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Contest_Player_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Contest_Player_Sum_Order_By>;
+  var_pop?: InputMaybe<Contest_Player_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Contest_Player_Var_Samp_Order_By>;
+  variance?: InputMaybe<Contest_Player_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_player" */
+export type Contest_Player_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Player_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Player_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Contest_Player_Avg_Fields = {
+  __typename?: 'contest_player_avg_fields';
+  player_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "contest_player" */
+export type Contest_Player_Avg_Order_By = {
+  player_num?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "contest_player". All fields are combined with a logical 'AND'. */
+export type Contest_Player_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Player_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Player_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Player_Bool_Exp>>;
+  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  player_num?: InputMaybe<Int_Comparison_Exp>;
+  players_label?: InputMaybe<String_Comparison_Exp>;
+  roles_available?: InputMaybe<String_Comparison_Exp>;
+  team_label?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_player" */
+export enum Contest_Player_Constraint {
+  /** unique or primary key constraint on columns "team_label", "contest_id" */
+  ContestPlayerPkey = 'contest_player_pkey'
+}
+
+/** input type for incrementing numeric columns in table "contest_player" */
+export type Contest_Player_Inc_Input = {
+  player_num?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "contest_player" */
+export type Contest_Player_Insert_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  player_num?: InputMaybe<Scalars['Int']['input']>;
+  players_label?: InputMaybe<Scalars['String']['input']>;
+  roles_available?: InputMaybe<Scalars['String']['input']>;
+  team_label?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Player_Max_Fields = {
+  __typename?: 'contest_player_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  player_num?: Maybe<Scalars['Int']['output']>;
+  players_label?: Maybe<Scalars['String']['output']>;
+  roles_available?: Maybe<Scalars['String']['output']>;
+  team_label?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by max() on columns of table "contest_player" */
+export type Contest_Player_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  player_num?: InputMaybe<Order_By>;
+  players_label?: InputMaybe<Order_By>;
+  roles_available?: InputMaybe<Order_By>;
+  team_label?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Contest_Player_Min_Fields = {
+  __typename?: 'contest_player_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  player_num?: Maybe<Scalars['Int']['output']>;
+  players_label?: Maybe<Scalars['String']['output']>;
+  roles_available?: Maybe<Scalars['String']['output']>;
+  team_label?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by min() on columns of table "contest_player" */
+export type Contest_Player_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  player_num?: InputMaybe<Order_By>;
+  players_label?: InputMaybe<Order_By>;
+  roles_available?: InputMaybe<Order_By>;
+  team_label?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "contest_player" */
+export type Contest_Player_Mutation_Response = {
+  __typename?: 'contest_player_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Player>;
+};
+
+/** on_conflict condition type for table "contest_player" */
+export type Contest_Player_On_Conflict = {
+  constraint: Contest_Player_Constraint;
+  update_columns?: Array<Contest_Player_Update_Column>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_player". */
+export type Contest_Player_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  player_num?: InputMaybe<Order_By>;
+  players_label?: InputMaybe<Order_By>;
+  roles_available?: InputMaybe<Order_By>;
+  team_label?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_player */
+export type Contest_Player_Pk_Columns_Input = {
+  contest_id: Scalars['uuid']['input'];
+  team_label: Scalars['String']['input'];
+};
+
+/** select columns of table "contest_player" */
+export enum Contest_Player_Select_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  PlayerNum = 'player_num',
+  /** column name */
+  PlayersLabel = 'players_label',
+  /** column name */
+  RolesAvailable = 'roles_available',
+  /** column name */
+  TeamLabel = 'team_label'
+}
+
+/** input type for updating data in table "contest_player" */
+export type Contest_Player_Set_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  player_num?: InputMaybe<Scalars['Int']['input']>;
+  players_label?: InputMaybe<Scalars['String']['input']>;
+  roles_available?: InputMaybe<Scalars['String']['input']>;
+  team_label?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Contest_Player_Stddev_Fields = {
+  __typename?: 'contest_player_stddev_fields';
+  player_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "contest_player" */
+export type Contest_Player_Stddev_Order_By = {
+  player_num?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Contest_Player_Stddev_Pop_Fields = {
+  __typename?: 'contest_player_stddev_pop_fields';
+  player_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "contest_player" */
+export type Contest_Player_Stddev_Pop_Order_By = {
+  player_num?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Contest_Player_Stddev_Samp_Fields = {
+  __typename?: 'contest_player_stddev_samp_fields';
+  player_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "contest_player" */
+export type Contest_Player_Stddev_Samp_Order_By = {
+  player_num?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Contest_Player_Sum_Fields = {
+  __typename?: 'contest_player_sum_fields';
+  player_num?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "contest_player" */
+export type Contest_Player_Sum_Order_By = {
+  player_num?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "contest_player" */
+export enum Contest_Player_Update_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  PlayerNum = 'player_num',
+  /** column name */
+  PlayersLabel = 'players_label',
+  /** column name */
+  RolesAvailable = 'roles_available',
+  /** column name */
+  TeamLabel = 'team_label'
+}
+
+/** aggregate var_pop on columns */
+export type Contest_Player_Var_Pop_Fields = {
+  __typename?: 'contest_player_var_pop_fields';
+  player_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "contest_player" */
+export type Contest_Player_Var_Pop_Order_By = {
+  player_num?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Contest_Player_Var_Samp_Fields = {
+  __typename?: 'contest_player_var_samp_fields';
+  player_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "contest_player" */
+export type Contest_Player_Var_Samp_Order_By = {
+  player_num?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Contest_Player_Variance_Fields = {
+  __typename?: 'contest_player_variance_fields';
+  player_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "contest_player" */
+export type Contest_Player_Variance_Order_By = {
+  player_num?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "contest_room" */
@@ -1210,10 +1689,37 @@ export type Contest_Room_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "contest_room" */
+export type Contest_Room_Aggregate_Order_By = {
+  avg?: InputMaybe<Contest_Room_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Room_Max_Order_By>;
+  min?: InputMaybe<Contest_Room_Min_Order_By>;
+  stddev?: InputMaybe<Contest_Room_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Contest_Room_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Contest_Room_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Contest_Room_Sum_Order_By>;
+  var_pop?: InputMaybe<Contest_Room_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Contest_Room_Var_Samp_Order_By>;
+  variance?: InputMaybe<Contest_Room_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_room" */
+export type Contest_Room_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Room_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Room_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Contest_Room_Avg_Fields = {
   __typename?: 'contest_room_avg_fields';
   port?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "contest_room" */
+export type Contest_Room_Avg_Order_By = {
+  port?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "contest_room". All fields are combined with a logical 'AND'. */
@@ -1262,6 +1768,15 @@ export type Contest_Room_Max_Fields = {
   room_id?: Maybe<Scalars['uuid']['output']>;
 };
 
+/** order by max() on columns of table "contest_room" */
+export type Contest_Room_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  port?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
+  room_id?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Contest_Room_Min_Fields = {
   __typename?: 'contest_room_min_fields';
@@ -1270,6 +1785,15 @@ export type Contest_Room_Min_Fields = {
   port?: Maybe<Scalars['Int']['output']>;
   result?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "contest_room" */
+export type Contest_Room_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  port?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
+  room_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_room" */
@@ -1343,10 +1867,20 @@ export type Contest_Room_Stddev_Fields = {
   port?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev() on columns of table "contest_room" */
+export type Contest_Room_Stddev_Order_By = {
+  port?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Contest_Room_Stddev_Pop_Fields = {
   __typename?: 'contest_room_stddev_pop_fields';
   port?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "contest_room" */
+export type Contest_Room_Stddev_Pop_Order_By = {
+  port?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1355,10 +1889,20 @@ export type Contest_Room_Stddev_Samp_Fields = {
   port?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_samp() on columns of table "contest_room" */
+export type Contest_Room_Stddev_Samp_Order_By = {
+  port?: InputMaybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Contest_Room_Sum_Fields = {
   __typename?: 'contest_room_sum_fields';
   port?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "contest_room" */
+export type Contest_Room_Sum_Order_By = {
+  port?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "contest_room_team" */
@@ -1368,7 +1912,9 @@ export type Contest_Room_Team = {
   contest_room: Contest_Room;
   /** An object relationship */
   contest_team: Contest_Team;
+  players?: Maybe<Scalars['String']['output']>;
   room_id: Scalars['uuid']['output'];
+  score?: Maybe<Scalars['Int']['output']>;
   team_id: Scalars['uuid']['output'];
 };
 
@@ -1382,9 +1928,17 @@ export type Contest_Room_Team_Aggregate = {
 /** aggregate fields of "contest_room_team" */
 export type Contest_Room_Team_Aggregate_Fields = {
   __typename?: 'contest_room_team_aggregate_fields';
+  avg?: Maybe<Contest_Room_Team_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Contest_Room_Team_Max_Fields>;
   min?: Maybe<Contest_Room_Team_Min_Fields>;
+  stddev?: Maybe<Contest_Room_Team_Stddev_Fields>;
+  stddev_pop?: Maybe<Contest_Room_Team_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Contest_Room_Team_Stddev_Samp_Fields>;
+  sum?: Maybe<Contest_Room_Team_Sum_Fields>;
+  var_pop?: Maybe<Contest_Room_Team_Var_Pop_Fields>;
+  var_samp?: Maybe<Contest_Room_Team_Var_Samp_Fields>;
+  variance?: Maybe<Contest_Room_Team_Variance_Fields>;
 };
 
 
@@ -1396,9 +1950,17 @@ export type Contest_Room_Team_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "contest_room_team" */
 export type Contest_Room_Team_Aggregate_Order_By = {
+  avg?: InputMaybe<Contest_Room_Team_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Contest_Room_Team_Max_Order_By>;
   min?: InputMaybe<Contest_Room_Team_Min_Order_By>;
+  stddev?: InputMaybe<Contest_Room_Team_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Contest_Room_Team_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Contest_Room_Team_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Contest_Room_Team_Sum_Order_By>;
+  var_pop?: InputMaybe<Contest_Room_Team_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Contest_Room_Team_Var_Samp_Order_By>;
+  variance?: InputMaybe<Contest_Room_Team_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "contest_room_team" */
@@ -1408,6 +1970,17 @@ export type Contest_Room_Team_Arr_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Contest_Room_Team_On_Conflict>;
 };
 
+/** aggregate avg on columns */
+export type Contest_Room_Team_Avg_Fields = {
+  __typename?: 'contest_room_team_avg_fields';
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Avg_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "contest_room_team". All fields are combined with a logical 'AND'. */
 export type Contest_Room_Team_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Room_Team_Bool_Exp>>;
@@ -1415,7 +1988,9 @@ export type Contest_Room_Team_Bool_Exp = {
   _or?: InputMaybe<Array<Contest_Room_Team_Bool_Exp>>;
   contest_room?: InputMaybe<Contest_Room_Bool_Exp>;
   contest_team?: InputMaybe<Contest_Team_Bool_Exp>;
+  players?: InputMaybe<String_Comparison_Exp>;
   room_id?: InputMaybe<Uuid_Comparison_Exp>;
+  score?: InputMaybe<Int_Comparison_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -1425,37 +2000,52 @@ export enum Contest_Room_Team_Constraint {
   ContestRoomTeamPkey = 'contest_room_team_pkey'
 }
 
+/** input type for incrementing numeric columns in table "contest_room_team" */
+export type Contest_Room_Team_Inc_Input = {
+  score?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** input type for inserting data into table "contest_room_team" */
 export type Contest_Room_Team_Insert_Input = {
   contest_room?: InputMaybe<Contest_Room_Obj_Rel_Insert_Input>;
   contest_team?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
+  players?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
+  score?: InputMaybe<Scalars['Int']['input']>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Room_Team_Max_Fields = {
   __typename?: 'contest_room_team_max_fields';
+  players?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
+  score?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "contest_room_team" */
 export type Contest_Room_Team_Max_Order_By = {
+  players?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Contest_Room_Team_Min_Fields = {
   __typename?: 'contest_room_team_min_fields';
+  players?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
+  score?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "contest_room_team" */
 export type Contest_Room_Team_Min_Order_By = {
+  players?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
 };
 
@@ -1479,7 +2069,9 @@ export type Contest_Room_Team_On_Conflict = {
 export type Contest_Room_Team_Order_By = {
   contest_room?: InputMaybe<Contest_Room_Order_By>;
   contest_team?: InputMaybe<Contest_Team_Order_By>;
+  players?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
 };
 
@@ -1492,24 +2084,111 @@ export type Contest_Room_Team_Pk_Columns_Input = {
 /** select columns of table "contest_room_team" */
 export enum Contest_Room_Team_Select_Column {
   /** column name */
+  Players = 'players',
+  /** column name */
   RoomId = 'room_id',
+  /** column name */
+  Score = 'score',
   /** column name */
   TeamId = 'team_id'
 }
 
 /** input type for updating data in table "contest_room_team" */
 export type Contest_Room_Team_Set_Input = {
+  players?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
+  score?: InputMaybe<Scalars['Int']['input']>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Contest_Room_Team_Stddev_Fields = {
+  __typename?: 'contest_room_team_stddev_fields';
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Stddev_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Contest_Room_Team_Stddev_Pop_Fields = {
+  __typename?: 'contest_room_team_stddev_pop_fields';
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Stddev_Pop_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Contest_Room_Team_Stddev_Samp_Fields = {
+  __typename?: 'contest_room_team_stddev_samp_fields';
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Stddev_Samp_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Contest_Room_Team_Sum_Fields = {
+  __typename?: 'contest_room_team_sum_fields';
+  score?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Sum_Order_By = {
+  score?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "contest_room_team" */
 export enum Contest_Room_Team_Update_Column {
   /** column name */
+  Players = 'players',
+  /** column name */
   RoomId = 'room_id',
+  /** column name */
+  Score = 'score',
   /** column name */
   TeamId = 'team_id'
 }
+
+/** aggregate var_pop on columns */
+export type Contest_Room_Team_Var_Pop_Fields = {
+  __typename?: 'contest_room_team_var_pop_fields';
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Var_Pop_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Contest_Room_Team_Var_Samp_Fields = {
+  __typename?: 'contest_room_team_var_samp_fields';
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Var_Samp_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Contest_Room_Team_Variance_Fields = {
+  __typename?: 'contest_room_team_variance_fields';
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "contest_room_team" */
+export type Contest_Room_Team_Variance_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
 
 /** update columns of table "contest_room" */
 export enum Contest_Room_Update_Column {
@@ -1533,10 +2212,20 @@ export type Contest_Room_Var_Pop_Fields = {
   port?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_pop() on columns of table "contest_room" */
+export type Contest_Room_Var_Pop_Order_By = {
+  port?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Contest_Room_Var_Samp_Fields = {
   __typename?: 'contest_room_var_samp_fields';
   port?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "contest_room" */
+export type Contest_Room_Var_Samp_Order_By = {
+  port?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -1545,8 +2234,17 @@ export type Contest_Room_Variance_Fields = {
   port?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by variance() on columns of table "contest_room" */
+export type Contest_Room_Variance_Order_By = {
+  port?: InputMaybe<Order_By>;
+};
+
 /** select columns of table "contest" */
 export enum Contest_Select_Column {
+  /** column name */
+  ArenaSwitch = 'arena_switch',
+  /** column name */
+  CodeUploadSwitch = 'code_upload_switch',
   /** column name */
   ContestName = 'contest_name',
   /** column name */
@@ -1560,32 +2258,57 @@ export enum Contest_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  PlaybackSwitch = 'playback_switch',
+  /** column name */
+  PlaygroundSwitch = 'playground_switch',
+  /** column name */
   StartDate = 'start_date',
   /** column name */
-  Status = 'status'
+  Status = 'status',
+  /** column name */
+  StreamSwitch = 'stream_switch'
 }
 
 /** input type for updating data in table "contest" */
 export type Contest_Set_Input = {
+  arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
   contest_name?: InputMaybe<Scalars['String']['input']>;
   contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** 比赛队伍 */
 export type Contest_Team = {
   __typename?: 'contest_team';
+  /** An object relationship */
+  contest: Contest;
   contest_id: Scalars['uuid']['output'];
   contest_score?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  contest_team_codes: Array<Contest_Team_Code>;
+  /** An aggregate relationship */
+  contest_team_codes_aggregate: Contest_Team_Code_Aggregate;
   /** An array relationship */
   contest_team_members: Array<Contest_Team_Member>;
   /** An aggregate relationship */
   contest_team_members_aggregate: Contest_Team_Member_Aggregate;
+  /** An array relationship */
+  contest_team_players: Array<Contest_Team_Player>;
+  /** An aggregate relationship */
+  contest_team_players_aggregate: Contest_Team_Player_Aggregate;
+  /** An array relationship */
+  contest_team_rooms: Array<Contest_Room_Team>;
+  /** An aggregate relationship */
+  contest_team_rooms_aggregate: Contest_Room_Team_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   invited_code?: Maybe<Scalars['String']['output']>;
   /** 已有人员数量 */
@@ -1594,16 +2317,33 @@ export type Contest_Team = {
   status?: Maybe<Scalars['String']['output']>;
   status2?: Maybe<Scalars['String']['output']>;
   submitted_code_num: Scalars['Int']['output'];
-  /** An object relationship */
-  team_contest_id: Contest;
   team_id: Scalars['uuid']['output'];
   team_intro?: Maybe<Scalars['String']['output']>;
-  team_leader?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
-  team_leader_byuuid?: Maybe<Users>;
-  team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
+  team_leader: Users;
+  team_leader_uuid: Scalars['uuid']['output'];
   team_name: Scalars['String']['output'];
   updated_at: Scalars['timestamptz']['output'];
+};
+
+
+/** 比赛队伍 */
+export type Contest_TeamContest_Team_CodesArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Code_Order_By>>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+};
+
+
+/** 比赛队伍 */
+export type Contest_TeamContest_Team_Codes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Code_Order_By>>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
 };
 
 
@@ -1624,6 +2364,46 @@ export type Contest_TeamContest_Team_Members_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+};
+
+
+/** 比赛队伍 */
+export type Contest_TeamContest_Team_PlayersArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Player_Order_By>>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+
+/** 比赛队伍 */
+export type Contest_TeamContest_Team_Players_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Player_Order_By>>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+
+/** 比赛队伍 */
+export type Contest_TeamContest_Team_RoomsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
+  where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
+};
+
+
+/** 比赛队伍 */
+export type Contest_TeamContest_Team_Rooms_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Team_Order_By>>;
+  where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
 };
 
 /** aggregated selection of "contest_team" */
@@ -1656,6 +2436,28 @@ export type Contest_Team_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "contest_team" */
+export type Contest_Team_Aggregate_Order_By = {
+  avg?: InputMaybe<Contest_Team_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Team_Max_Order_By>;
+  min?: InputMaybe<Contest_Team_Min_Order_By>;
+  stddev?: InputMaybe<Contest_Team_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Contest_Team_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Contest_Team_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Contest_Team_Sum_Order_By>;
+  var_pop?: InputMaybe<Contest_Team_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Contest_Team_Var_Samp_Order_By>;
+  variance?: InputMaybe<Contest_Team_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_team" */
+export type Contest_Team_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Team_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Contest_Team_Avg_Fields = {
   __typename?: 'contest_team_avg_fields';
@@ -1664,14 +2466,25 @@ export type Contest_Team_Avg_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by avg() on columns of table "contest_team" */
+export type Contest_Team_Avg_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "contest_team". All fields are combined with a logical 'AND'. */
 export type Contest_Team_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Team_Bool_Exp>>;
   _not?: InputMaybe<Contest_Team_Bool_Exp>;
   _or?: InputMaybe<Array<Contest_Team_Bool_Exp>>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
   contest_score?: InputMaybe<String_Comparison_Exp>;
+  contest_team_codes?: InputMaybe<Contest_Team_Code_Bool_Exp>;
   contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+  contest_team_players?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+  contest_team_rooms?: InputMaybe<Contest_Room_Team_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   invited_code?: InputMaybe<String_Comparison_Exp>;
   member_num?: InputMaybe<Int_Comparison_Exp>;
@@ -1679,15 +2492,216 @@ export type Contest_Team_Bool_Exp = {
   status?: InputMaybe<String_Comparison_Exp>;
   status2?: InputMaybe<String_Comparison_Exp>;
   submitted_code_num?: InputMaybe<Int_Comparison_Exp>;
-  team_contest_id?: InputMaybe<Contest_Bool_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
   team_intro?: InputMaybe<String_Comparison_Exp>;
-  team_leader?: InputMaybe<String_Comparison_Exp>;
-  team_leader_byuuid?: InputMaybe<Users_Bool_Exp>;
+  team_leader?: InputMaybe<Users_Bool_Exp>;
   team_leader_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   team_name?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
+
+/** 记录每个team上传的所有code，角色应从上传的code中选择一份。 */
+export type Contest_Team_Code = {
+  __typename?: 'contest_team_code';
+  code_id: Scalars['uuid']['output'];
+  code_name: Scalars['String']['output'];
+  compile_status: Scalars['String']['output'];
+  /** An object relationship */
+  contest_team: Contest_Team;
+  created_at: Scalars['timestamptz']['output'];
+  language: Scalars['String']['output'];
+  team_id: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "contest_team_code" */
+export type Contest_Team_Code_Aggregate = {
+  __typename?: 'contest_team_code_aggregate';
+  aggregate?: Maybe<Contest_Team_Code_Aggregate_Fields>;
+  nodes: Array<Contest_Team_Code>;
+};
+
+/** aggregate fields of "contest_team_code" */
+export type Contest_Team_Code_Aggregate_Fields = {
+  __typename?: 'contest_team_code_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Team_Code_Max_Fields>;
+  min?: Maybe<Contest_Team_Code_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_team_code" */
+export type Contest_Team_Code_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "contest_team_code" */
+export type Contest_Team_Code_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Team_Code_Max_Order_By>;
+  min?: InputMaybe<Contest_Team_Code_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_team_code" */
+export type Contest_Team_Code_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Team_Code_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Team_Code_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "contest_team_code". All fields are combined with a logical 'AND'. */
+export type Contest_Team_Code_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Team_Code_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Team_Code_Bool_Exp>>;
+  code_id?: InputMaybe<Uuid_Comparison_Exp>;
+  code_name?: InputMaybe<String_Comparison_Exp>;
+  compile_status?: InputMaybe<String_Comparison_Exp>;
+  contest_team?: InputMaybe<Contest_Team_Bool_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  language?: InputMaybe<String_Comparison_Exp>;
+  team_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_team_code" */
+export enum Contest_Team_Code_Constraint {
+  /** unique or primary key constraint on columns "code_id" */
+  ContestTeamCodePkey = 'contest_team_code_pkey'
+}
+
+/** input type for inserting data into table "contest_team_code" */
+export type Contest_Team_Code_Insert_Input = {
+  code_id?: InputMaybe<Scalars['uuid']['input']>;
+  code_name?: InputMaybe<Scalars['String']['input']>;
+  compile_status?: InputMaybe<Scalars['String']['input']>;
+  contest_team?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Team_Code_Max_Fields = {
+  __typename?: 'contest_team_code_max_fields';
+  code_id?: Maybe<Scalars['uuid']['output']>;
+  code_name?: Maybe<Scalars['String']['output']>;
+  compile_status?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "contest_team_code" */
+export type Contest_Team_Code_Max_Order_By = {
+  code_id?: InputMaybe<Order_By>;
+  code_name?: InputMaybe<Order_By>;
+  compile_status?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  language?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Contest_Team_Code_Min_Fields = {
+  __typename?: 'contest_team_code_min_fields';
+  code_id?: Maybe<Scalars['uuid']['output']>;
+  code_name?: Maybe<Scalars['String']['output']>;
+  compile_status?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "contest_team_code" */
+export type Contest_Team_Code_Min_Order_By = {
+  code_id?: InputMaybe<Order_By>;
+  code_name?: InputMaybe<Order_By>;
+  compile_status?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  language?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "contest_team_code" */
+export type Contest_Team_Code_Mutation_Response = {
+  __typename?: 'contest_team_code_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Team_Code>;
+};
+
+/** input type for inserting object relation for remote table "contest_team_code" */
+export type Contest_Team_Code_Obj_Rel_Insert_Input = {
+  data: Contest_Team_Code_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Team_Code_On_Conflict>;
+};
+
+/** on_conflict condition type for table "contest_team_code" */
+export type Contest_Team_Code_On_Conflict = {
+  constraint: Contest_Team_Code_Constraint;
+  update_columns?: Array<Contest_Team_Code_Update_Column>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_team_code". */
+export type Contest_Team_Code_Order_By = {
+  code_id?: InputMaybe<Order_By>;
+  code_name?: InputMaybe<Order_By>;
+  compile_status?: InputMaybe<Order_By>;
+  contest_team?: InputMaybe<Contest_Team_Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  language?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_team_code */
+export type Contest_Team_Code_Pk_Columns_Input = {
+  code_id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "contest_team_code" */
+export enum Contest_Team_Code_Select_Column {
+  /** column name */
+  CodeId = 'code_id',
+  /** column name */
+  CodeName = 'code_name',
+  /** column name */
+  CompileStatus = 'compile_status',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Language = 'language',
+  /** column name */
+  TeamId = 'team_id'
+}
+
+/** input type for updating data in table "contest_team_code" */
+export type Contest_Team_Code_Set_Input = {
+  code_id?: InputMaybe<Scalars['uuid']['input']>;
+  code_name?: InputMaybe<Scalars['String']['input']>;
+  compile_status?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "contest_team_code" */
+export enum Contest_Team_Code_Update_Column {
+  /** column name */
+  CodeId = 'code_id',
+  /** column name */
+  CodeName = 'code_name',
+  /** column name */
+  CompileStatus = 'compile_status',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Language = 'language',
+  /** column name */
+  TeamId = 'team_id'
+}
 
 /** unique or primary key constraints on table "contest_team" */
 export enum Contest_Team_Constraint {
@@ -1704,9 +2718,13 @@ export type Contest_Team_Inc_Input = {
 
 /** input type for inserting data into table "contest_team" */
 export type Contest_Team_Insert_Input = {
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
   contest_score?: InputMaybe<Scalars['String']['input']>;
+  contest_team_codes?: InputMaybe<Contest_Team_Code_Arr_Rel_Insert_Input>;
   contest_team_members?: InputMaybe<Contest_Team_Member_Arr_Rel_Insert_Input>;
+  contest_team_players?: InputMaybe<Contest_Team_Player_Arr_Rel_Insert_Input>;
+  contest_team_rooms?: InputMaybe<Contest_Room_Team_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   invited_code?: InputMaybe<Scalars['String']['input']>;
   /** 已有人员数量 */
@@ -1715,11 +2733,9 @@ export type Contest_Team_Insert_Input = {
   status?: InputMaybe<Scalars['String']['input']>;
   status2?: InputMaybe<Scalars['String']['input']>;
   submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
-  team_contest_id?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
   team_intro?: InputMaybe<Scalars['String']['input']>;
-  team_leader?: InputMaybe<Scalars['String']['input']>;
-  team_leader_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  team_leader?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
   team_name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -1740,21 +2756,38 @@ export type Contest_Team_Max_Fields = {
   submitted_code_num?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
   team_intro?: Maybe<Scalars['String']['output']>;
-  team_leader?: Maybe<Scalars['String']['output']>;
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
   team_name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by max() on columns of table "contest_team" */
+export type Contest_Team_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  contest_score?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  invited_code?: InputMaybe<Order_By>;
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  status2?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+  team_intro?: InputMaybe<Order_By>;
+  team_leader_uuid?: InputMaybe<Order_By>;
+  team_name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** 队伍、成员映射表 */
 export type Contest_Team_Member = {
   __typename?: 'contest_team_member';
   /** An object relationship */
-  team_as_contest_team_member: Contest_Team;
+  contest_team: Contest_Team;
   team_id: Scalars['uuid']['output'];
   /** An object relationship */
   user: Users;
-  user_id?: Maybe<Scalars['String']['output']>;
   user_uuid: Scalars['uuid']['output'];
 };
 
@@ -1799,10 +2832,9 @@ export type Contest_Team_Member_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Team_Member_Bool_Exp>>;
   _not?: InputMaybe<Contest_Team_Member_Bool_Exp>;
   _or?: InputMaybe<Array<Contest_Team_Member_Bool_Exp>>;
-  team_as_contest_team_member?: InputMaybe<Contest_Team_Bool_Exp>;
+  contest_team?: InputMaybe<Contest_Team_Bool_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -1814,10 +2846,9 @@ export enum Contest_Team_Member_Constraint {
 
 /** input type for inserting data into table "contest_team_member" */
 export type Contest_Team_Member_Insert_Input = {
-  team_as_contest_team_member?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
+  contest_team?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -1825,14 +2856,12 @@ export type Contest_Team_Member_Insert_Input = {
 export type Contest_Team_Member_Max_Fields = {
   __typename?: 'contest_team_member_max_fields';
   team_id?: Maybe<Scalars['uuid']['output']>;
-  user_id?: Maybe<Scalars['String']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "contest_team_member" */
 export type Contest_Team_Member_Max_Order_By = {
   team_id?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
 
@@ -1840,14 +2869,12 @@ export type Contest_Team_Member_Max_Order_By = {
 export type Contest_Team_Member_Min_Fields = {
   __typename?: 'contest_team_member_min_fields';
   team_id?: Maybe<Scalars['uuid']['output']>;
-  user_id?: Maybe<Scalars['String']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "contest_team_member" */
 export type Contest_Team_Member_Min_Order_By = {
   team_id?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
 
@@ -1869,10 +2896,9 @@ export type Contest_Team_Member_On_Conflict = {
 
 /** Ordering options when selecting data from "contest_team_member". */
 export type Contest_Team_Member_Order_By = {
-  team_as_contest_team_member?: InputMaybe<Contest_Team_Order_By>;
+  contest_team?: InputMaybe<Contest_Team_Order_By>;
   team_id?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
-  user_id?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
 
@@ -1887,15 +2913,12 @@ export enum Contest_Team_Member_Select_Column {
   /** column name */
   TeamId = 'team_id',
   /** column name */
-  UserId = 'user_id',
-  /** column name */
   UserUuid = 'user_uuid'
 }
 
 /** input type for updating data in table "contest_team_member" */
 export type Contest_Team_Member_Set_Input = {
   team_id?: InputMaybe<Scalars['uuid']['input']>;
-  user_id?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -1903,8 +2926,6 @@ export type Contest_Team_Member_Set_Input = {
 export enum Contest_Team_Member_Update_Column {
   /** column name */
   TeamId = 'team_id',
-  /** column name */
-  UserId = 'user_id',
   /** column name */
   UserUuid = 'user_uuid'
 }
@@ -1924,10 +2945,28 @@ export type Contest_Team_Min_Fields = {
   submitted_code_num?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
   team_intro?: Maybe<Scalars['String']['output']>;
-  team_leader?: Maybe<Scalars['String']['output']>;
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
   team_name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by min() on columns of table "contest_team" */
+export type Contest_Team_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  contest_score?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  invited_code?: InputMaybe<Order_By>;
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  status2?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+  team_intro?: InputMaybe<Order_By>;
+  team_leader_uuid?: InputMaybe<Order_By>;
+  team_name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_team" */
@@ -1955,9 +2994,13 @@ export type Contest_Team_On_Conflict = {
 
 /** Ordering options when selecting data from "contest_team". */
 export type Contest_Team_Order_By = {
+  contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
   contest_score?: InputMaybe<Order_By>;
+  contest_team_codes_aggregate?: InputMaybe<Contest_Team_Code_Aggregate_Order_By>;
   contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Order_By>;
+  contest_team_players_aggregate?: InputMaybe<Contest_Team_Player_Aggregate_Order_By>;
+  contest_team_rooms_aggregate?: InputMaybe<Contest_Room_Team_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   invited_code?: InputMaybe<Order_By>;
   member_num?: InputMaybe<Order_By>;
@@ -1965,11 +3008,9 @@ export type Contest_Team_Order_By = {
   status?: InputMaybe<Order_By>;
   status2?: InputMaybe<Order_By>;
   submitted_code_num?: InputMaybe<Order_By>;
-  team_contest_id?: InputMaybe<Contest_Order_By>;
   team_id?: InputMaybe<Order_By>;
   team_intro?: InputMaybe<Order_By>;
-  team_leader?: InputMaybe<Order_By>;
-  team_leader_byuuid?: InputMaybe<Users_Order_By>;
+  team_leader?: InputMaybe<Users_Order_By>;
   team_leader_uuid?: InputMaybe<Order_By>;
   team_name?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -1979,6 +3020,182 @@ export type Contest_Team_Order_By = {
 export type Contest_Team_Pk_Columns_Input = {
   team_id: Scalars['uuid']['input'];
 };
+
+/** 记录每个team的每个player选择了哪份code */
+export type Contest_Team_Player = {
+  __typename?: 'contest_team_player';
+  code_id?: Maybe<Scalars['uuid']['output']>;
+  /** An object relationship */
+  contest_team: Contest_Team;
+  player: Scalars['String']['output'];
+  /** An object relationship */
+  player_code?: Maybe<Contest_Team_Code>;
+  role?: Maybe<Scalars['String']['output']>;
+  team_id: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "contest_team_player" */
+export type Contest_Team_Player_Aggregate = {
+  __typename?: 'contest_team_player_aggregate';
+  aggregate?: Maybe<Contest_Team_Player_Aggregate_Fields>;
+  nodes: Array<Contest_Team_Player>;
+};
+
+/** aggregate fields of "contest_team_player" */
+export type Contest_Team_Player_Aggregate_Fields = {
+  __typename?: 'contest_team_player_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Team_Player_Max_Fields>;
+  min?: Maybe<Contest_Team_Player_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_team_player" */
+export type Contest_Team_Player_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "contest_team_player" */
+export type Contest_Team_Player_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Team_Player_Max_Order_By>;
+  min?: InputMaybe<Contest_Team_Player_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_team_player" */
+export type Contest_Team_Player_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Team_Player_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Team_Player_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "contest_team_player". All fields are combined with a logical 'AND'. */
+export type Contest_Team_Player_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Team_Player_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Team_Player_Bool_Exp>>;
+  code_id?: InputMaybe<Uuid_Comparison_Exp>;
+  contest_team?: InputMaybe<Contest_Team_Bool_Exp>;
+  player?: InputMaybe<String_Comparison_Exp>;
+  player_code?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+  role?: InputMaybe<String_Comparison_Exp>;
+  team_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_team_player" */
+export enum Contest_Team_Player_Constraint {
+  /** unique or primary key constraint on columns "player", "team_id" */
+  ContestTeamPlayerPkey = 'contest_team_player_pkey'
+}
+
+/** input type for inserting data into table "contest_team_player" */
+export type Contest_Team_Player_Insert_Input = {
+  code_id?: InputMaybe<Scalars['uuid']['input']>;
+  contest_team?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
+  player?: InputMaybe<Scalars['String']['input']>;
+  player_code?: InputMaybe<Contest_Team_Code_Obj_Rel_Insert_Input>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Team_Player_Max_Fields = {
+  __typename?: 'contest_team_player_max_fields';
+  code_id?: Maybe<Scalars['uuid']['output']>;
+  player?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "contest_team_player" */
+export type Contest_Team_Player_Max_Order_By = {
+  code_id?: InputMaybe<Order_By>;
+  player?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Contest_Team_Player_Min_Fields = {
+  __typename?: 'contest_team_player_min_fields';
+  code_id?: Maybe<Scalars['uuid']['output']>;
+  player?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  team_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "contest_team_player" */
+export type Contest_Team_Player_Min_Order_By = {
+  code_id?: InputMaybe<Order_By>;
+  player?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "contest_team_player" */
+export type Contest_Team_Player_Mutation_Response = {
+  __typename?: 'contest_team_player_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Team_Player>;
+};
+
+/** on_conflict condition type for table "contest_team_player" */
+export type Contest_Team_Player_On_Conflict = {
+  constraint: Contest_Team_Player_Constraint;
+  update_columns?: Array<Contest_Team_Player_Update_Column>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_team_player". */
+export type Contest_Team_Player_Order_By = {
+  code_id?: InputMaybe<Order_By>;
+  contest_team?: InputMaybe<Contest_Team_Order_By>;
+  player?: InputMaybe<Order_By>;
+  player_code?: InputMaybe<Contest_Team_Code_Order_By>;
+  role?: InputMaybe<Order_By>;
+  team_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_team_player */
+export type Contest_Team_Player_Pk_Columns_Input = {
+  player: Scalars['String']['input'];
+  team_id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "contest_team_player" */
+export enum Contest_Team_Player_Select_Column {
+  /** column name */
+  CodeId = 'code_id',
+  /** column name */
+  Player = 'player',
+  /** column name */
+  Role = 'role',
+  /** column name */
+  TeamId = 'team_id'
+}
+
+/** input type for updating data in table "contest_team_player" */
+export type Contest_Team_Player_Set_Input = {
+  code_id?: InputMaybe<Scalars['uuid']['input']>;
+  player?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "contest_team_player" */
+export enum Contest_Team_Player_Update_Column {
+  /** column name */
+  CodeId = 'code_id',
+  /** column name */
+  Player = 'player',
+  /** column name */
+  Role = 'role',
+  /** column name */
+  TeamId = 'team_id'
+}
 
 /** select columns of table "contest_team" */
 export enum Contest_Team_Select_Column {
@@ -2005,8 +3222,6 @@ export enum Contest_Team_Select_Column {
   /** column name */
   TeamIntro = 'team_intro',
   /** column name */
-  TeamLeader = 'team_leader',
-  /** column name */
   TeamLeaderUuid = 'team_leader_uuid',
   /** column name */
   TeamName = 'team_name',
@@ -2028,7 +3243,6 @@ export type Contest_Team_Set_Input = {
   submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
   team_intro?: InputMaybe<Scalars['String']['input']>;
-  team_leader?: InputMaybe<Scalars['String']['input']>;
   team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
   team_name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -2042,12 +3256,26 @@ export type Contest_Team_Stddev_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev() on columns of table "contest_team" */
+export type Contest_Team_Stddev_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Contest_Team_Stddev_Pop_Fields = {
   __typename?: 'contest_team_stddev_pop_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "contest_team" */
+export type Contest_Team_Stddev_Pop_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2058,12 +3286,26 @@ export type Contest_Team_Stddev_Samp_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_samp() on columns of table "contest_team" */
+export type Contest_Team_Stddev_Samp_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Contest_Team_Sum_Fields = {
   __typename?: 'contest_team_sum_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Int']['output']>;
   submitted_code_num?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "contest_team" */
+export type Contest_Team_Sum_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "contest_team" */
@@ -2091,8 +3333,6 @@ export enum Contest_Team_Update_Column {
   /** column name */
   TeamIntro = 'team_intro',
   /** column name */
-  TeamLeader = 'team_leader',
-  /** column name */
   TeamLeaderUuid = 'team_leader_uuid',
   /** column name */
   TeamName = 'team_name',
@@ -2108,12 +3348,26 @@ export type Contest_Team_Var_Pop_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_pop() on columns of table "contest_team" */
+export type Contest_Team_Var_Pop_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Contest_Team_Var_Samp_Fields = {
   __typename?: 'contest_team_var_samp_fields';
   /** 已有人员数量 */
   member_num?: Maybe<Scalars['Float']['output']>;
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "contest_team" */
+export type Contest_Team_Var_Samp_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -2124,8 +3378,171 @@ export type Contest_Team_Variance_Fields = {
   submitted_code_num?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by variance() on columns of table "contest_team" */
+export type Contest_Team_Variance_Order_By = {
+  /** 已有人员数量 */
+  member_num?: InputMaybe<Order_By>;
+  submitted_code_num?: InputMaybe<Order_By>;
+};
+
+/** 比赛的时间线，仅作展示用 */
+export type Contest_Time = {
+  __typename?: 'contest_time';
+  /** An object relationship */
+  contest: Contest;
+  contest_id: Scalars['uuid']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  end: Scalars['timestamptz']['output'];
+  event: Scalars['String']['output'];
+  start: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "contest_time" */
+export type Contest_Time_Aggregate = {
+  __typename?: 'contest_time_aggregate';
+  aggregate?: Maybe<Contest_Time_Aggregate_Fields>;
+  nodes: Array<Contest_Time>;
+};
+
+/** aggregate fields of "contest_time" */
+export type Contest_Time_Aggregate_Fields = {
+  __typename?: 'contest_time_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Time_Max_Fields>;
+  min?: Maybe<Contest_Time_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_time" */
+export type Contest_Time_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "contest_time". All fields are combined with a logical 'AND'. */
+export type Contest_Time_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Time_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Time_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Time_Bool_Exp>>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
+  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  end?: InputMaybe<Timestamptz_Comparison_Exp>;
+  event?: InputMaybe<String_Comparison_Exp>;
+  start?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_time" */
+export enum Contest_Time_Constraint {
+  /** unique or primary key constraint on columns "event", "contest_id" */
+  ContestTimePkey = 'contest_time_pkey'
+}
+
+/** input type for inserting data into table "contest_time" */
+export type Contest_Time_Insert_Input = {
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<Scalars['timestamptz']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Time_Max_Fields = {
+  __typename?: 'contest_time_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  end?: Maybe<Scalars['timestamptz']['output']>;
+  event?: Maybe<Scalars['String']['output']>;
+  start?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregate min on columns */
+export type Contest_Time_Min_Fields = {
+  __typename?: 'contest_time_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  end?: Maybe<Scalars['timestamptz']['output']>;
+  event?: Maybe<Scalars['String']['output']>;
+  start?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** response of any mutation on the table "contest_time" */
+export type Contest_Time_Mutation_Response = {
+  __typename?: 'contest_time_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Time>;
+};
+
+/** on_conflict condition type for table "contest_time" */
+export type Contest_Time_On_Conflict = {
+  constraint: Contest_Time_Constraint;
+  update_columns?: Array<Contest_Time_Update_Column>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_time". */
+export type Contest_Time_Order_By = {
+  contest?: InputMaybe<Contest_Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  end?: InputMaybe<Order_By>;
+  event?: InputMaybe<Order_By>;
+  start?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_time */
+export type Contest_Time_Pk_Columns_Input = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
+};
+
+/** select columns of table "contest_time" */
+export enum Contest_Time_Select_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  End = 'end',
+  /** column name */
+  Event = 'event',
+  /** column name */
+  Start = 'start'
+}
+
+/** input type for updating data in table "contest_time" */
+export type Contest_Time_Set_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<Scalars['timestamptz']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "contest_time" */
+export enum Contest_Time_Update_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  End = 'end',
+  /** column name */
+  Event = 'event',
+  /** column name */
+  Start = 'start'
+}
+
 /** update columns of table "contest" */
 export enum Contest_Update_Column {
+  /** column name */
+  ArenaSwitch = 'arena_switch',
+  /** column name */
+  CodeUploadSwitch = 'code_upload_switch',
   /** column name */
   ContestName = 'contest_name',
   /** column name */
@@ -2139,9 +3556,15 @@ export enum Contest_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  PlaybackSwitch = 'playback_switch',
+  /** column name */
+  PlaygroundSwitch = 'playground_switch',
+  /** column name */
   StartDate = 'start_date',
   /** column name */
-  Status = 'status'
+  Status = 'status',
+  /** column name */
+  StreamSwitch = 'stream_switch'
 }
 
 /** columns and relationships of "honor_application" */
@@ -3926,14 +5349,18 @@ export type Mutation_Root = {
   delete_contest_code?: Maybe<Contest_Code_Mutation_Response>;
   /** delete single row from the table: "contest_code" */
   delete_contest_code_by_pk?: Maybe<Contest_Code>;
-  /** delete data from the table: "contest_info" */
-  delete_contest_info?: Maybe<Contest_Info_Mutation_Response>;
-  /** delete single row from the table: "contest_info" */
-  delete_contest_info_by_pk?: Maybe<Contest_Info>;
   /** delete data from the table: "contest_manager" */
   delete_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** delete single row from the table: "contest_manager" */
   delete_contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** delete data from the table: "contest_notice" */
+  delete_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
+  /** delete single row from the table: "contest_notice" */
+  delete_contest_notice_by_pk?: Maybe<Contest_Notice>;
+  /** delete data from the table: "contest_player" */
+  delete_contest_player?: Maybe<Contest_Player_Mutation_Response>;
+  /** delete single row from the table: "contest_player" */
+  delete_contest_player_by_pk?: Maybe<Contest_Player>;
   /** delete data from the table: "contest_room" */
   delete_contest_room?: Maybe<Contest_Room_Mutation_Response>;
   /** delete single row from the table: "contest_room" */
@@ -3946,10 +5373,22 @@ export type Mutation_Root = {
   delete_contest_team?: Maybe<Contest_Team_Mutation_Response>;
   /** delete single row from the table: "contest_team" */
   delete_contest_team_by_pk?: Maybe<Contest_Team>;
+  /** delete data from the table: "contest_team_code" */
+  delete_contest_team_code?: Maybe<Contest_Team_Code_Mutation_Response>;
+  /** delete single row from the table: "contest_team_code" */
+  delete_contest_team_code_by_pk?: Maybe<Contest_Team_Code>;
   /** delete data from the table: "contest_team_member" */
   delete_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** delete single row from the table: "contest_team_member" */
   delete_contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
+  /** delete data from the table: "contest_team_player" */
+  delete_contest_team_player?: Maybe<Contest_Team_Player_Mutation_Response>;
+  /** delete single row from the table: "contest_team_player" */
+  delete_contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** delete data from the table: "contest_time" */
+  delete_contest_time?: Maybe<Contest_Time_Mutation_Response>;
+  /** delete single row from the table: "contest_time" */
+  delete_contest_time_by_pk?: Maybe<Contest_Time>;
   /** delete data from the table: "honor_application" */
   delete_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** delete single row from the table: "honor_application" */
@@ -4032,16 +5471,20 @@ export type Mutation_Root = {
   insert_contest_code?: Maybe<Contest_Code_Mutation_Response>;
   /** insert a single row into the table: "contest_code" */
   insert_contest_code_one?: Maybe<Contest_Code>;
-  /** insert data into the table: "contest_info" */
-  insert_contest_info?: Maybe<Contest_Info_Mutation_Response>;
-  /** insert a single row into the table: "contest_info" */
-  insert_contest_info_one?: Maybe<Contest_Info>;
   /** insert data into the table: "contest_manager" */
   insert_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** insert a single row into the table: "contest_manager" */
   insert_contest_manager_one?: Maybe<Contest_Manager>;
+  /** insert data into the table: "contest_notice" */
+  insert_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
+  /** insert a single row into the table: "contest_notice" */
+  insert_contest_notice_one?: Maybe<Contest_Notice>;
   /** insert a single row into the table: "contest" */
   insert_contest_one?: Maybe<Contest>;
+  /** insert data into the table: "contest_player" */
+  insert_contest_player?: Maybe<Contest_Player_Mutation_Response>;
+  /** insert a single row into the table: "contest_player" */
+  insert_contest_player_one?: Maybe<Contest_Player>;
   /** insert data into the table: "contest_room" */
   insert_contest_room?: Maybe<Contest_Room_Mutation_Response>;
   /** insert a single row into the table: "contest_room" */
@@ -4052,12 +5495,24 @@ export type Mutation_Root = {
   insert_contest_room_team_one?: Maybe<Contest_Room_Team>;
   /** insert data into the table: "contest_team" */
   insert_contest_team?: Maybe<Contest_Team_Mutation_Response>;
+  /** insert data into the table: "contest_team_code" */
+  insert_contest_team_code?: Maybe<Contest_Team_Code_Mutation_Response>;
+  /** insert a single row into the table: "contest_team_code" */
+  insert_contest_team_code_one?: Maybe<Contest_Team_Code>;
   /** insert data into the table: "contest_team_member" */
   insert_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** insert a single row into the table: "contest_team_member" */
   insert_contest_team_member_one?: Maybe<Contest_Team_Member>;
   /** insert a single row into the table: "contest_team" */
   insert_contest_team_one?: Maybe<Contest_Team>;
+  /** insert data into the table: "contest_team_player" */
+  insert_contest_team_player?: Maybe<Contest_Team_Player_Mutation_Response>;
+  /** insert a single row into the table: "contest_team_player" */
+  insert_contest_team_player_one?: Maybe<Contest_Team_Player>;
+  /** insert data into the table: "contest_time" */
+  insert_contest_time?: Maybe<Contest_Time_Mutation_Response>;
+  /** insert a single row into the table: "contest_time" */
+  insert_contest_time_one?: Maybe<Contest_Time>;
   /** insert data into the table: "honor_application" */
   insert_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** insert a single row into the table: "honor_application" */
@@ -4142,14 +5597,18 @@ export type Mutation_Root = {
   update_contest_code?: Maybe<Contest_Code_Mutation_Response>;
   /** update single row of the table: "contest_code" */
   update_contest_code_by_pk?: Maybe<Contest_Code>;
-  /** update data of the table: "contest_info" */
-  update_contest_info?: Maybe<Contest_Info_Mutation_Response>;
-  /** update single row of the table: "contest_info" */
-  update_contest_info_by_pk?: Maybe<Contest_Info>;
   /** update data of the table: "contest_manager" */
   update_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** update single row of the table: "contest_manager" */
   update_contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** update data of the table: "contest_notice" */
+  update_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
+  /** update single row of the table: "contest_notice" */
+  update_contest_notice_by_pk?: Maybe<Contest_Notice>;
+  /** update data of the table: "contest_player" */
+  update_contest_player?: Maybe<Contest_Player_Mutation_Response>;
+  /** update single row of the table: "contest_player" */
+  update_contest_player_by_pk?: Maybe<Contest_Player>;
   /** update data of the table: "contest_room" */
   update_contest_room?: Maybe<Contest_Room_Mutation_Response>;
   /** update single row of the table: "contest_room" */
@@ -4162,10 +5621,22 @@ export type Mutation_Root = {
   update_contest_team?: Maybe<Contest_Team_Mutation_Response>;
   /** update single row of the table: "contest_team" */
   update_contest_team_by_pk?: Maybe<Contest_Team>;
+  /** update data of the table: "contest_team_code" */
+  update_contest_team_code?: Maybe<Contest_Team_Code_Mutation_Response>;
+  /** update single row of the table: "contest_team_code" */
+  update_contest_team_code_by_pk?: Maybe<Contest_Team_Code>;
   /** update data of the table: "contest_team_member" */
   update_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** update single row of the table: "contest_team_member" */
   update_contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
+  /** update data of the table: "contest_team_player" */
+  update_contest_team_player?: Maybe<Contest_Team_Player_Mutation_Response>;
+  /** update single row of the table: "contest_team_player" */
+  update_contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** update data of the table: "contest_time" */
+  update_contest_time?: Maybe<Contest_Time_Mutation_Response>;
+  /** update single row of the table: "contest_time" */
+  update_contest_time_by_pk?: Maybe<Contest_Time>;
   /** update data of the table: "honor_application" */
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
@@ -4278,18 +5749,6 @@ export type Mutation_RootDelete_Contest_Code_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootDelete_Contest_InfoArgs = {
-  where: Contest_Info_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Contest_Info_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
 export type Mutation_RootDelete_Contest_ManagerArgs = {
   where: Contest_Manager_Bool_Exp;
 };
@@ -4299,6 +5758,31 @@ export type Mutation_RootDelete_Contest_ManagerArgs = {
 export type Mutation_RootDelete_Contest_Manager_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_NoticeArgs = {
+  where: Contest_Notice_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Notice_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_PlayerArgs = {
+  where: Contest_Player_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Player_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  team_label: Scalars['String']['input'];
 };
 
 
@@ -4340,6 +5824,18 @@ export type Mutation_RootDelete_Contest_Team_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Contest_Team_CodeArgs = {
+  where: Contest_Team_Code_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Team_Code_By_PkArgs = {
+  code_id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Contest_Team_MemberArgs = {
   where: Contest_Team_Member_Bool_Exp;
 };
@@ -4349,6 +5845,32 @@ export type Mutation_RootDelete_Contest_Team_MemberArgs = {
 export type Mutation_RootDelete_Contest_Team_Member_By_PkArgs = {
   team_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Team_PlayerArgs = {
+  where: Contest_Team_Player_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Team_Player_By_PkArgs = {
+  player: Scalars['String']['input'];
+  team_id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_TimeArgs = {
+  where: Contest_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Time_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
 };
 
 
@@ -4607,20 +6129,6 @@ export type Mutation_RootInsert_Contest_Code_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Contest_InfoArgs = {
-  objects: Array<Contest_Info_Insert_Input>;
-  on_conflict?: InputMaybe<Contest_Info_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Contest_Info_OneArgs = {
-  object: Contest_Info_Insert_Input;
-  on_conflict?: InputMaybe<Contest_Info_On_Conflict>;
-};
-
-
-/** mutation root */
 export type Mutation_RootInsert_Contest_ManagerArgs = {
   objects: Array<Contest_Manager_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Manager_On_Conflict>;
@@ -4635,9 +6143,37 @@ export type Mutation_RootInsert_Contest_Manager_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Contest_NoticeArgs = {
+  objects: Array<Contest_Notice_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Notice_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Notice_OneArgs = {
+  object: Contest_Notice_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Notice_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Contest_OneArgs = {
   object: Contest_Insert_Input;
   on_conflict?: InputMaybe<Contest_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_PlayerArgs = {
+  objects: Array<Contest_Player_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Player_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Player_OneArgs = {
+  object: Contest_Player_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Player_On_Conflict>;
 };
 
 
@@ -4677,6 +6213,20 @@ export type Mutation_RootInsert_Contest_TeamArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Contest_Team_CodeArgs = {
+  objects: Array<Contest_Team_Code_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Team_Code_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Team_Code_OneArgs = {
+  object: Contest_Team_Code_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Team_Code_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Contest_Team_MemberArgs = {
   objects: Array<Contest_Team_Member_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Team_Member_On_Conflict>;
@@ -4694,6 +6244,34 @@ export type Mutation_RootInsert_Contest_Team_Member_OneArgs = {
 export type Mutation_RootInsert_Contest_Team_OneArgs = {
   object: Contest_Team_Insert_Input;
   on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Team_PlayerArgs = {
+  objects: Array<Contest_Team_Player_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Team_Player_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Team_Player_OneArgs = {
+  object: Contest_Team_Player_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Team_Player_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_TimeArgs = {
+  objects: Array<Contest_Time_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Time_OneArgs = {
+  object: Contest_Time_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Time_On_Conflict>;
 };
 
 
@@ -4994,20 +6572,6 @@ export type Mutation_RootUpdate_Contest_Code_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Contest_InfoArgs = {
-  _set?: InputMaybe<Contest_Info_Set_Input>;
-  where: Contest_Info_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Contest_Info_By_PkArgs = {
-  _set?: InputMaybe<Contest_Info_Set_Input>;
-  pk_columns: Contest_Info_Pk_Columns_Input;
-};
-
-
-/** mutation root */
 export type Mutation_RootUpdate_Contest_ManagerArgs = {
   _set?: InputMaybe<Contest_Manager_Set_Input>;
   where: Contest_Manager_Bool_Exp;
@@ -5018,6 +6582,36 @@ export type Mutation_RootUpdate_Contest_ManagerArgs = {
 export type Mutation_RootUpdate_Contest_Manager_By_PkArgs = {
   _set?: InputMaybe<Contest_Manager_Set_Input>;
   pk_columns: Contest_Manager_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_NoticeArgs = {
+  _set?: InputMaybe<Contest_Notice_Set_Input>;
+  where: Contest_Notice_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Notice_By_PkArgs = {
+  _set?: InputMaybe<Contest_Notice_Set_Input>;
+  pk_columns: Contest_Notice_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_PlayerArgs = {
+  _inc?: InputMaybe<Contest_Player_Inc_Input>;
+  _set?: InputMaybe<Contest_Player_Set_Input>;
+  where: Contest_Player_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Player_By_PkArgs = {
+  _inc?: InputMaybe<Contest_Player_Inc_Input>;
+  _set?: InputMaybe<Contest_Player_Set_Input>;
+  pk_columns: Contest_Player_Pk_Columns_Input;
 };
 
 
@@ -5039,6 +6633,7 @@ export type Mutation_RootUpdate_Contest_Room_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Room_TeamArgs = {
+  _inc?: InputMaybe<Contest_Room_Team_Inc_Input>;
   _set?: InputMaybe<Contest_Room_Team_Set_Input>;
   where: Contest_Room_Team_Bool_Exp;
 };
@@ -5046,6 +6641,7 @@ export type Mutation_RootUpdate_Contest_Room_TeamArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Room_Team_By_PkArgs = {
+  _inc?: InputMaybe<Contest_Room_Team_Inc_Input>;
   _set?: InputMaybe<Contest_Room_Team_Set_Input>;
   pk_columns: Contest_Room_Team_Pk_Columns_Input;
 };
@@ -5068,6 +6664,20 @@ export type Mutation_RootUpdate_Contest_Team_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_Team_CodeArgs = {
+  _set?: InputMaybe<Contest_Team_Code_Set_Input>;
+  where: Contest_Team_Code_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Team_Code_By_PkArgs = {
+  _set?: InputMaybe<Contest_Team_Code_Set_Input>;
+  pk_columns: Contest_Team_Code_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_Team_MemberArgs = {
   _set?: InputMaybe<Contest_Team_Member_Set_Input>;
   where: Contest_Team_Member_Bool_Exp;
@@ -5078,6 +6688,34 @@ export type Mutation_RootUpdate_Contest_Team_MemberArgs = {
 export type Mutation_RootUpdate_Contest_Team_Member_By_PkArgs = {
   _set?: InputMaybe<Contest_Team_Member_Set_Input>;
   pk_columns: Contest_Team_Member_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Team_PlayerArgs = {
+  _set?: InputMaybe<Contest_Team_Player_Set_Input>;
+  where: Contest_Team_Player_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Team_Player_By_PkArgs = {
+  _set?: InputMaybe<Contest_Team_Player_Set_Input>;
+  pk_columns: Contest_Team_Player_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_TimeArgs = {
+  _set?: InputMaybe<Contest_Time_Set_Input>;
+  where: Contest_Time_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Time_By_PkArgs = {
+  _set?: InputMaybe<Contest_Time_Set_Input>;
+  pk_columns: Contest_Time_Pk_Columns_Input;
 };
 
 
@@ -6748,18 +8386,24 @@ export type Query_Root = {
   contest_code_aggregate: Contest_Code_Aggregate;
   /** fetch data from the table: "contest_code" using primary key columns */
   contest_code_by_pk?: Maybe<Contest_Code>;
-  /** fetch data from the table: "contest_info" */
-  contest_info: Array<Contest_Info>;
-  /** fetch aggregated fields from the table: "contest_info" */
-  contest_info_aggregate: Contest_Info_Aggregate;
-  /** fetch data from the table: "contest_info" using primary key columns */
-  contest_info_by_pk?: Maybe<Contest_Info>;
   /** fetch data from the table: "contest_manager" */
   contest_manager: Array<Contest_Manager>;
   /** fetch aggregated fields from the table: "contest_manager" */
   contest_manager_aggregate: Contest_Manager_Aggregate;
   /** fetch data from the table: "contest_manager" using primary key columns */
   contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** fetch data from the table: "contest_notice" */
+  contest_notice: Array<Contest_Notice>;
+  /** fetch aggregated fields from the table: "contest_notice" */
+  contest_notice_aggregate: Contest_Notice_Aggregate;
+  /** fetch data from the table: "contest_notice" using primary key columns */
+  contest_notice_by_pk?: Maybe<Contest_Notice>;
+  /** fetch data from the table: "contest_player" */
+  contest_player: Array<Contest_Player>;
+  /** fetch aggregated fields from the table: "contest_player" */
+  contest_player_aggregate: Contest_Player_Aggregate;
+  /** fetch data from the table: "contest_player" using primary key columns */
+  contest_player_by_pk?: Maybe<Contest_Player>;
   /** fetch data from the table: "contest_room" */
   contest_room: Array<Contest_Room>;
   /** fetch aggregated fields from the table: "contest_room" */
@@ -6778,12 +8422,30 @@ export type Query_Root = {
   contest_team_aggregate: Contest_Team_Aggregate;
   /** fetch data from the table: "contest_team" using primary key columns */
   contest_team_by_pk?: Maybe<Contest_Team>;
+  /** fetch data from the table: "contest_team_code" */
+  contest_team_code: Array<Contest_Team_Code>;
+  /** fetch aggregated fields from the table: "contest_team_code" */
+  contest_team_code_aggregate: Contest_Team_Code_Aggregate;
+  /** fetch data from the table: "contest_team_code" using primary key columns */
+  contest_team_code_by_pk?: Maybe<Contest_Team_Code>;
   /** fetch data from the table: "contest_team_member" */
   contest_team_member: Array<Contest_Team_Member>;
   /** fetch aggregated fields from the table: "contest_team_member" */
   contest_team_member_aggregate: Contest_Team_Member_Aggregate;
   /** fetch data from the table: "contest_team_member" using primary key columns */
   contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
+  /** fetch data from the table: "contest_team_player" */
+  contest_team_player: Array<Contest_Team_Player>;
+  /** fetch aggregated fields from the table: "contest_team_player" */
+  contest_team_player_aggregate: Contest_Team_Player_Aggregate;
+  /** fetch data from the table: "contest_team_player" using primary key columns */
+  contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** fetch data from the table: "contest_time" */
+  contest_time: Array<Contest_Time>;
+  /** fetch aggregated fields from the table: "contest_time" */
+  contest_time_aggregate: Contest_Time_Aggregate;
+  /** fetch data from the table: "contest_time" using primary key columns */
+  contest_time_by_pk?: Maybe<Contest_Time>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -6964,29 +8626,6 @@ export type Query_RootContest_Code_By_PkArgs = {
 };
 
 
-export type Query_RootContest_InfoArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Query_RootContest_Info_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Query_RootContest_Info_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
 export type Query_RootContest_ManagerArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -7008,6 +8647,53 @@ export type Query_RootContest_Manager_AggregateArgs = {
 export type Query_RootContest_Manager_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootContest_NoticeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Notice_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Notice_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootContest_PlayerArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Player_Order_By>>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Player_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Player_Order_By>>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Player_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  team_label: Scalars['String']['input'];
 };
 
 
@@ -7081,6 +8767,29 @@ export type Query_RootContest_Team_By_PkArgs = {
 };
 
 
+export type Query_RootContest_Team_CodeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Code_Order_By>>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Team_Code_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Code_Order_By>>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Team_Code_By_PkArgs = {
+  code_id: Scalars['uuid']['input'];
+};
+
+
 export type Query_RootContest_Team_MemberArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -7102,6 +8811,54 @@ export type Query_RootContest_Team_Member_AggregateArgs = {
 export type Query_RootContest_Team_Member_By_PkArgs = {
   team_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootContest_Team_PlayerArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Player_Order_By>>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Team_Player_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Player_Order_By>>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Team_Player_By_PkArgs = {
+  player: Scalars['String']['input'];
+  team_id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootContest_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Time_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
 };
 
 
@@ -8297,18 +10054,24 @@ export type Subscription_Root = {
   contest_code_aggregate: Contest_Code_Aggregate;
   /** fetch data from the table: "contest_code" using primary key columns */
   contest_code_by_pk?: Maybe<Contest_Code>;
-  /** fetch data from the table: "contest_info" */
-  contest_info: Array<Contest_Info>;
-  /** fetch aggregated fields from the table: "contest_info" */
-  contest_info_aggregate: Contest_Info_Aggregate;
-  /** fetch data from the table: "contest_info" using primary key columns */
-  contest_info_by_pk?: Maybe<Contest_Info>;
   /** fetch data from the table: "contest_manager" */
   contest_manager: Array<Contest_Manager>;
   /** fetch aggregated fields from the table: "contest_manager" */
   contest_manager_aggregate: Contest_Manager_Aggregate;
   /** fetch data from the table: "contest_manager" using primary key columns */
   contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** fetch data from the table: "contest_notice" */
+  contest_notice: Array<Contest_Notice>;
+  /** fetch aggregated fields from the table: "contest_notice" */
+  contest_notice_aggregate: Contest_Notice_Aggregate;
+  /** fetch data from the table: "contest_notice" using primary key columns */
+  contest_notice_by_pk?: Maybe<Contest_Notice>;
+  /** fetch data from the table: "contest_player" */
+  contest_player: Array<Contest_Player>;
+  /** fetch aggregated fields from the table: "contest_player" */
+  contest_player_aggregate: Contest_Player_Aggregate;
+  /** fetch data from the table: "contest_player" using primary key columns */
+  contest_player_by_pk?: Maybe<Contest_Player>;
   /** fetch data from the table: "contest_room" */
   contest_room: Array<Contest_Room>;
   /** fetch aggregated fields from the table: "contest_room" */
@@ -8327,12 +10090,30 @@ export type Subscription_Root = {
   contest_team_aggregate: Contest_Team_Aggregate;
   /** fetch data from the table: "contest_team" using primary key columns */
   contest_team_by_pk?: Maybe<Contest_Team>;
+  /** fetch data from the table: "contest_team_code" */
+  contest_team_code: Array<Contest_Team_Code>;
+  /** fetch aggregated fields from the table: "contest_team_code" */
+  contest_team_code_aggregate: Contest_Team_Code_Aggregate;
+  /** fetch data from the table: "contest_team_code" using primary key columns */
+  contest_team_code_by_pk?: Maybe<Contest_Team_Code>;
   /** fetch data from the table: "contest_team_member" */
   contest_team_member: Array<Contest_Team_Member>;
   /** fetch aggregated fields from the table: "contest_team_member" */
   contest_team_member_aggregate: Contest_Team_Member_Aggregate;
   /** fetch data from the table: "contest_team_member" using primary key columns */
   contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
+  /** fetch data from the table: "contest_team_player" */
+  contest_team_player: Array<Contest_Team_Player>;
+  /** fetch aggregated fields from the table: "contest_team_player" */
+  contest_team_player_aggregate: Contest_Team_Player_Aggregate;
+  /** fetch data from the table: "contest_team_player" using primary key columns */
+  contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** fetch data from the table: "contest_time" */
+  contest_time: Array<Contest_Time>;
+  /** fetch aggregated fields from the table: "contest_time" */
+  contest_time_aggregate: Contest_Time_Aggregate;
+  /** fetch data from the table: "contest_time" using primary key columns */
+  contest_time_by_pk?: Maybe<Contest_Time>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -8513,29 +10294,6 @@ export type Subscription_RootContest_Code_By_PkArgs = {
 };
 
 
-export type Subscription_RootContest_InfoArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Subscription_RootContest_Info_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Info_Order_By>>;
-  where?: InputMaybe<Contest_Info_Bool_Exp>;
-};
-
-
-export type Subscription_RootContest_Info_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
 export type Subscription_RootContest_ManagerArgs = {
   distinct_on?: InputMaybe<Array<Contest_Manager_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -8557,6 +10315,53 @@ export type Subscription_RootContest_Manager_AggregateArgs = {
 export type Subscription_RootContest_Manager_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_NoticeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Notice_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Notice_Order_By>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Notice_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_PlayerArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Player_Order_By>>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Player_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Player_Order_By>>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Player_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  team_label: Scalars['String']['input'];
 };
 
 
@@ -8630,6 +10435,29 @@ export type Subscription_RootContest_Team_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_Team_CodeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Code_Order_By>>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Team_Code_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Code_Order_By>>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Team_Code_By_PkArgs = {
+  code_id: Scalars['uuid']['input'];
+};
+
+
 export type Subscription_RootContest_Team_MemberArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -8651,6 +10479,54 @@ export type Subscription_RootContest_Team_Member_AggregateArgs = {
 export type Subscription_RootContest_Team_Member_By_PkArgs = {
   team_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_Team_PlayerArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Player_Order_By>>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Team_Player_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Team_Player_Order_By>>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Team_Player_By_PkArgs = {
+  player: Scalars['String']['input'];
+  team_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_TimeArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Time_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Time_By_PkArgs = {
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
 };
 
 
@@ -9661,143 +11537,6 @@ export type Weekly_Variance_Fields = {
   id?: Maybe<Scalars['Float']['output']>;
 };
 
-export type QueryContestManagerQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
-}>;
-
-
-export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid: any }> };
-
-export type InsertTeamMutationVariables = Exact<{
-  team_name: Scalars['String']['input'];
-  team_intro?: InputMaybe<Scalars['String']['input']>;
-  team_leader_uuid: Scalars['uuid']['input'];
-  invited_code: Scalars['String']['input'];
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type InsertTeamMutation = { __typename?: 'mutation_root', insert_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
-
-export type IsTeamLeaderQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type IsTeamLeaderQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any }> };
-
-export type IsTeamMemberQueryVariables = Exact<{
-  user_uuid: Scalars['uuid']['input'];
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type IsTeamMemberQuery = { __typename?: 'query_root', contest_team_member: Array<{ __typename?: 'contest_team_member', team_id: any }> };
-
-export type GetCodeUpdateTimeSubscriptionVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetCodeUpdateTimeSubscription = { __typename?: 'subscription_root', contest_code: Array<{ __typename?: 'contest_code', code1_update_time?: any | null, code2_update_time?: any | null, code3_update_time?: any | null, code4_update_time?: any | null, code5_update_time?: any | null, code6_update_time?: any | null }> };
-
-export type GetAllTeamInfoSubscriptionVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
-
-export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
-
-export type GetAllTeamInfo_CompileQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetAllTeamInfo_CompileQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any }> };
-
-export type GetTeamInfoQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, team_contest_id: { __typename?: 'contest', contest_name: string }, team_leader_byuuid?: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null } | null, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
-
-export type GetCompileStatusSubscriptionVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetCompileStatusSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', status?: string | null }> };
-
-export type InsertTeamMemberMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  user_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type InsertTeamMemberMutation = { __typename?: 'mutation_root', insert_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
-
-export type UpdateTeamMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  team_intro: Scalars['String']['input'];
-  team_name: Scalars['String']['input'];
-}>;
-
-
-export type UpdateTeamMutation = { __typename?: 'mutation_root', update_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
-
-export type GetMemberInfoQueryVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader_byuuid?: { __typename?: 'users', realname?: string | null, id?: string | null, uuid: any } | null }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, uuid: any, realname?: string | null } }> };
-
-export type DeleteTeamMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteTeamMutation = { __typename?: 'mutation_root', delete_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
-
-export type DeleteAllTeamMemberMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteAllTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
-
-export type DeleteTeamMemberMutationVariables = Exact<{
-  user_uuid: Scalars['uuid']['input'];
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
-
-export type GetAllContestQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAllContestQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', id: any, contest_name: string, description?: string | null, start_date: any, end_date: any }> };
-
-export type GetContestInfoQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetContestInfoQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, contest_type: string, description?: string | null, start_date: any, end_date: any, status: string }> };
-
 export type GetRoomInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
@@ -9884,13 +11623,30 @@ export type UpsertCode5MutationVariables = Exact<{
 
 export type UpsertCode5Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code5_update_time?: any | null } | null };
 
-export type QueryTeamIdQueryVariables = Exact<{
-  team_name: Scalars['String']['input'];
+export type GetAllContestQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllContestQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', id: any, contest_name: string, description?: string | null, start_date: any, end_date: any }> };
+
+export type GetContestInfoQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
+export type GetContestInfoQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, contest_type: string, description?: string | null, start_date: any, end_date: any, status: string }> };
+
+export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
+
+export type QueryContestManagerQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+}>;
+
+
+export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid: any }> };
 
 export type UpdateContestStatusMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -9899,46 +11655,6 @@ export type UpdateContestStatusMutationVariables = Exact<{
 
 
 export type UpdateContestStatusMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', status: string }> } | null };
-
-export type GetContestNoticesQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetContestNoticesQuery = { __typename?: 'query_root', contest_info: Array<{ __typename?: 'contest_info', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
-
-export type UpdateContestNoticeMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  title: Scalars['String']['input'];
-  content: Scalars['String']['input'];
-  files?: InputMaybe<Scalars['String']['input']>;
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
-
-export type AddContestNoticeMutationVariables = Exact<{
-  title: Scalars['String']['input'];
-  content: Scalars['String']['input'];
-  files?: InputMaybe<Scalars['String']['input']>;
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
-
-export type DeleteContestNoticeMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_info?: { __typename?: 'contest_info_mutation_response', returning: Array<{ __typename?: 'contest_info', id: any }> } | null };
-
-export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
 
 export type AddContestMutationVariables = Exact<{
   start_date: Scalars['timestamptz']['input'];
@@ -9963,63 +11679,165 @@ export type UpdateContestMutationVariables = Exact<{
 
 export type UpdateContestMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', id: any }> } | null };
 
-export type DeleteContestMutationVariables = Exact<{
+export type GetContestNoticesQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestNoticesQuery = { __typename?: 'query_root', contest_notice: Array<{ __typename?: 'contest_notice', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
+
+export type UpdateContestNoticeMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
+
+export type AddContestNoticeMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
+
+export type DeleteContestNoticeMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteContestMutation = { __typename?: 'mutation_root', delete_contest?: { __typename?: 'contest_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'contest', id: any }> } | null };
+export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
 
-export type GetContestManagerQueryVariables = Exact<{
+export type InsertTeamMutationVariables = Exact<{
+  team_name: Scalars['String']['input'];
+  team_intro?: InputMaybe<Scalars['String']['input']>;
+  team_leader_uuid: Scalars['uuid']['input'];
+  invited_code: Scalars['String']['input'];
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', userByUserUuid: { __typename?: 'users', uuid: any, realname?: string | null, email: string } }> };
+export type InsertTeamMutation = { __typename?: 'mutation_root', insert_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
 
-export type DeleteContestAllManagerMutationVariables = Exact<{
+export type IsTeamLeaderQueryVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteContestAllManagerMutation = { __typename?: 'mutation_root', delete_contest_manager?: { __typename?: 'contest_manager_mutation_response', affected_rows: number } | null };
+export type IsTeamLeaderQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any }> };
 
-export type AddContestManagerMutationVariables = Exact<{
+export type IsTeamMemberQueryVariables = Exact<{
+  user_uuid: Scalars['uuid']['input'];
   contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type IsTeamMemberQuery = { __typename?: 'query_root', contest_team_member: Array<{ __typename?: 'contest_team_member', team_id: any }> };
+
+export type GetCodeUpdateTimeSubscriptionVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCodeUpdateTimeSubscription = { __typename?: 'subscription_root', contest_code: Array<{ __typename?: 'contest_code', code1_update_time?: any | null, code2_update_time?: any | null, code3_update_time?: any | null, code4_update_time?: any | null, code5_update_time?: any | null, code6_update_time?: any | null }> };
+
+export type GetAllTeamInfoSubscriptionVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+
+export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+
+export type GetAllTeamInfo_CompileQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetAllTeamInfo_CompileQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any }> };
+
+export type GetTeamInfoQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+
+export type GetCompileStatusSubscriptionVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCompileStatusSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', status?: string | null }> };
+
+export type InsertTeamMemberMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type AddContestManagerMutation = { __typename?: 'mutation_root', insert_contest_manager?: { __typename?: 'contest_manager_mutation_response', affected_rows: number } | null };
+export type InsertTeamMemberMutation = { __typename?: 'mutation_root', insert_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
 
-export type GetUser_IdQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-  realname: Scalars['String']['input'];
+export type UpdateTeamMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  team_intro: Scalars['String']['input'];
+  team_name: Scalars['String']['input'];
 }>;
 
 
-export type GetUser_IdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+export type UpdateTeamMutation = { __typename?: 'mutation_root', update_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
 
-export type DeleteContestAllTeamsMutationVariables = Exact<{
+export type GetMemberInfoQueryVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader: { __typename?: 'users', realname?: string | null, id?: string | null, uuid: any } }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, uuid: any, realname?: string | null } }> };
+
+export type DeleteTeamMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteTeamMutation = { __typename?: 'mutation_root', delete_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
+
+export type DeleteAllTeamMemberMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteAllTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
+
+export type DeleteTeamMemberMutationVariables = Exact<{
+  user_uuid: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
+
+export type QueryTeamIdQueryVariables = Exact<{
+  team_name: Scalars['String']['input'];
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteContestAllTeamsMutation = { __typename?: 'mutation_root', delete_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
-
-export type DeleteContestAllInfoMutationVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteContestAllInfoMutation = { __typename?: 'mutation_root', delete_contest_info?: { __typename?: 'contest_info_mutation_response', affected_rows: number } | null };
-
-export type DeleteContestAllRoomsMutationVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteContestAllRoomsMutation = { __typename?: 'mutation_root', delete_contest_room?: { __typename?: 'contest_room_mutation_response', affected_rows: number } | null };
+export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -10264,801 +12082,15 @@ export type UpdateProfileMutationVariables = Exact<{
 
 export type UpdateProfileMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', updated_at: any } | null };
 
+export type GetUser_IdQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+  realname: Scalars['String']['input'];
+}>;
 
-export const QueryContestManagerDocument = gql`
-    query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
-  contest_manager(
-    where: {contest_id: {_eq: $contest_id}, user_uuid: {_eq: $user_uuid}}
-  ) {
-    user_uuid
-  }
-}
-    `;
 
-/**
- * __useQueryContestManagerQuery__
- *
- * To run a query within a React component, call `useQueryContestManagerQuery` and pass it any options that fit your needs.
- * When your component renders, `useQueryContestManagerQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useQueryContestManagerQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      user_uuid: // value for 'user_uuid'
- *   },
- * });
- */
-export function useQueryContestManagerQuery(baseOptions: Apollo.QueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables> & ({ variables: QueryContestManagerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
-      }
-export function useQueryContestManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
-        }
-export function useQueryContestManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
-        }
-export type QueryContestManagerQueryHookResult = ReturnType<typeof useQueryContestManagerQuery>;
-export type QueryContestManagerLazyQueryHookResult = ReturnType<typeof useQueryContestManagerLazyQuery>;
-export type QueryContestManagerSuspenseQueryHookResult = ReturnType<typeof useQueryContestManagerSuspenseQuery>;
-export type QueryContestManagerQueryResult = Apollo.QueryResult<QueryContestManagerQuery, QueryContestManagerQueryVariables>;
-export const InsertTeamDocument = gql`
-    mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
-  insert_contest_team(
-    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type InsertTeamMutationFn = Apollo.MutationFunction<InsertTeamMutation, InsertTeamMutationVariables>;
+export type GetUser_IdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
-/**
- * __useInsertTeamMutation__
- *
- * To run a mutation, you first call `useInsertTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertTeamMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertTeamMutation, { data, loading, error }] = useInsertTeamMutation({
- *   variables: {
- *      team_name: // value for 'team_name'
- *      team_intro: // value for 'team_intro'
- *      team_leader_uuid: // value for 'team_leader_uuid'
- *      invited_code: // value for 'invited_code'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useInsertTeamMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMutation, InsertTeamMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertTeamMutation, InsertTeamMutationVariables>(InsertTeamDocument, options);
-      }
-export type InsertTeamMutationHookResult = ReturnType<typeof useInsertTeamMutation>;
-export type InsertTeamMutationResult = Apollo.MutationResult<InsertTeamMutation>;
-export type InsertTeamMutationOptions = Apollo.BaseMutationOptions<InsertTeamMutation, InsertTeamMutationVariables>;
-export const IsTeamLeaderDocument = gql`
-    query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
-  contest_team(
-    where: {team_leader_byuuid: {uuid: {_eq: $uuid}}, _and: {contest_id: {_eq: $contest_id}}}
-  ) {
-    team_id
-  }
-}
-    `;
 
-/**
- * __useIsTeamLeaderQuery__
- *
- * To run a query within a React component, call `useIsTeamLeaderQuery` and pass it any options that fit your needs.
- * When your component renders, `useIsTeamLeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useIsTeamLeaderQuery({
- *   variables: {
- *      uuid: // value for 'uuid'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useIsTeamLeaderQuery(baseOptions: Apollo.QueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables> & ({ variables: IsTeamLeaderQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
-      }
-export function useIsTeamLeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
-        }
-export function useIsTeamLeaderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
-        }
-export type IsTeamLeaderQueryHookResult = ReturnType<typeof useIsTeamLeaderQuery>;
-export type IsTeamLeaderLazyQueryHookResult = ReturnType<typeof useIsTeamLeaderLazyQuery>;
-export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<typeof useIsTeamLeaderSuspenseQuery>;
-export type IsTeamLeaderQueryResult = Apollo.QueryResult<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>;
-export const IsTeamMemberDocument = gql`
-    query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
-  contest_team_member(
-    where: {user_uuid: {_eq: $user_uuid}, _and: {team_as_contest_team_member: {contest_id: {_eq: $contest_id}}}}
-  ) {
-    team_id
-  }
-}
-    `;
-
-/**
- * __useIsTeamMemberQuery__
- *
- * To run a query within a React component, call `useIsTeamMemberQuery` and pass it any options that fit your needs.
- * When your component renders, `useIsTeamMemberQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useIsTeamMemberQuery({
- *   variables: {
- *      user_uuid: // value for 'user_uuid'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useIsTeamMemberQuery(baseOptions: Apollo.QueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables> & ({ variables: IsTeamMemberQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
-      }
-export function useIsTeamMemberLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
-        }
-export function useIsTeamMemberSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
-        }
-export type IsTeamMemberQueryHookResult = ReturnType<typeof useIsTeamMemberQuery>;
-export type IsTeamMemberLazyQueryHookResult = ReturnType<typeof useIsTeamMemberLazyQuery>;
-export type IsTeamMemberSuspenseQueryHookResult = ReturnType<typeof useIsTeamMemberSuspenseQuery>;
-export type IsTeamMemberQueryResult = Apollo.QueryResult<IsTeamMemberQuery, IsTeamMemberQueryVariables>;
-export const GetCodeUpdateTimeDocument = gql`
-    subscription GetCodeUpdateTime($team_id: uuid!) {
-  contest_code(where: {team_id: {_eq: $team_id}}) {
-    code1_update_time
-    code2_update_time
-    code3_update_time
-    code4_update_time
-    code5_update_time
-    code6_update_time
-  }
-}
-    `;
-
-/**
- * __useGetCodeUpdateTimeSubscription__
- *
- * To run a query within a React component, call `useGetCodeUpdateTimeSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetCodeUpdateTimeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCodeUpdateTimeSubscription({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetCodeUpdateTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables> & ({ variables: GetCodeUpdateTimeSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>(GetCodeUpdateTimeDocument, options);
-      }
-export type GetCodeUpdateTimeSubscriptionHookResult = ReturnType<typeof useGetCodeUpdateTimeSubscription>;
-export type GetCodeUpdateTimeSubscriptionResult = Apollo.SubscriptionResult<GetCodeUpdateTimeSubscription>;
-export const GetAllTeamInfoDocument = gql`
-    subscription GetAllTeamInfo($contest_id: uuid!) {
-  contest_team(where: {contest_id: {_eq: $contest_id}}) {
-    team_name
-    created_at
-    invited_code
-    member_num
-    score
-    status
-    status2
-    contest_score
-    team_id
-    submitted_code_num
-    team_contest_id {
-      contest_name
-    }
-    team_intro
-    team_leader_byuuid {
-      uuid
-      class
-      email
-      realname
-      phone
-    }
-    contest_team_members {
-      user {
-        id
-        class
-        email
-        realname
-        phone
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetAllTeamInfoSubscription__
- *
- * To run a query within a React component, call `useGetAllTeamInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetAllTeamInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllTeamInfoSubscription({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetAllTeamInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables> & ({ variables: GetAllTeamInfoSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables>(GetAllTeamInfoDocument, options);
-      }
-export type GetAllTeamInfoSubscriptionHookResult = ReturnType<typeof useGetAllTeamInfoSubscription>;
-export type GetAllTeamInfoSubscriptionResult = Apollo.SubscriptionResult<GetAllTeamInfoSubscription>;
-export const GetAllTeamInfo_ScoreDocument = gql`
-    query GetAllTeamInfo_score($contest_id: uuid!) {
-  contest_team(
-    where: {_and: {contest_id: {_eq: $contest_id}, score: {_is_null: false}}}
-  ) {
-    team_name
-    created_at
-    invited_code
-    member_num
-    score
-    status
-    status2
-    contest_score
-    team_id
-    submitted_code_num
-    team_contest_id {
-      contest_name
-    }
-    team_intro
-    team_leader_byuuid {
-      uuid
-      class
-      email
-      realname
-      phone
-    }
-    contest_team_members {
-      user {
-        id
-        class
-        email
-        realname
-        phone
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetAllTeamInfo_ScoreQuery__
- *
- * To run a query within a React component, call `useGetAllTeamInfo_ScoreQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllTeamInfo_ScoreQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllTeamInfo_ScoreQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetAllTeamInfo_ScoreQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables> & ({ variables: GetAllTeamInfo_ScoreQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
-      }
-export function useGetAllTeamInfo_ScoreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
-        }
-export function useGetAllTeamInfo_ScoreSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
-        }
-export type GetAllTeamInfo_ScoreQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreQuery>;
-export type GetAllTeamInfo_ScoreLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreLazyQuery>;
-export type GetAllTeamInfo_ScoreSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreSuspenseQuery>;
-export type GetAllTeamInfo_ScoreQueryResult = Apollo.QueryResult<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>;
-export const GetAllTeamInfo_CompileDocument = gql`
-    query GetAllTeamInfo_compile($contest_id: uuid!) {
-  contest_team(
-    where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: "compiled"}}}
-  ) {
-    team_name
-    score
-    status
-    status2
-    contest_score
-    team_id
-  }
-}
-    `;
-
-/**
- * __useGetAllTeamInfo_CompileQuery__
- *
- * To run a query within a React component, call `useGetAllTeamInfo_CompileQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllTeamInfo_CompileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllTeamInfo_CompileQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetAllTeamInfo_CompileQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables> & ({ variables: GetAllTeamInfo_CompileQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
-      }
-export function useGetAllTeamInfo_CompileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
-        }
-export function useGetAllTeamInfo_CompileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
-        }
-export type GetAllTeamInfo_CompileQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileQuery>;
-export type GetAllTeamInfo_CompileLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileLazyQuery>;
-export type GetAllTeamInfo_CompileSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileSuspenseQuery>;
-export type GetAllTeamInfo_CompileQueryResult = Apollo.QueryResult<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>;
-export const GetTeamInfoDocument = gql`
-    query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
-  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
-    team_name
-    created_at
-    invited_code
-    member_num
-    score
-    status
-    status2
-    contest_score
-    team_id
-    submitted_code_num
-    team_contest_id {
-      contest_name
-    }
-    team_intro
-    team_leader_byuuid {
-      uuid
-      class
-      email
-      realname
-      phone
-    }
-    contest_team_members {
-      user {
-        id
-        class
-        email
-        realname
-        phone
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetTeamInfoQuery__
- *
- * To run a query within a React component, call `useGetTeamInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTeamInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTeamInfoQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetTeamInfoQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables> & ({ variables: GetTeamInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
-      }
-export function useGetTeamInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
-        }
-export function useGetTeamInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
-        }
-export type GetTeamInfoQueryHookResult = ReturnType<typeof useGetTeamInfoQuery>;
-export type GetTeamInfoLazyQueryHookResult = ReturnType<typeof useGetTeamInfoLazyQuery>;
-export type GetTeamInfoSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoSuspenseQuery>;
-export type GetTeamInfoQueryResult = Apollo.QueryResult<GetTeamInfoQuery, GetTeamInfoQueryVariables>;
-export const GetCompileStatusDocument = gql`
-    subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
-  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
-    status
-  }
-}
-    `;
-
-/**
- * __useGetCompileStatusSubscription__
- *
- * To run a query within a React component, call `useGetCompileStatusSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetCompileStatusSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCompileStatusSubscription({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetCompileStatusSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables> & ({ variables: GetCompileStatusSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables>(GetCompileStatusDocument, options);
-      }
-export type GetCompileStatusSubscriptionHookResult = ReturnType<typeof useGetCompileStatusSubscription>;
-export type GetCompileStatusSubscriptionResult = Apollo.SubscriptionResult<GetCompileStatusSubscription>;
-export const InsertTeamMemberDocument = gql`
-    mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
-  insert_contest_team_member(objects: {team_id: $team_id, user_uuid: $user_uuid}) {
-    affected_rows
-  }
-}
-    `;
-export type InsertTeamMemberMutationFn = Apollo.MutationFunction<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
-
-/**
- * __useInsertTeamMemberMutation__
- *
- * To run a mutation, you first call `useInsertTeamMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertTeamMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertTeamMemberMutation, { data, loading, error }] = useInsertTeamMemberMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *      user_uuid: // value for 'user_uuid'
- *   },
- * });
- */
-export function useInsertTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>(InsertTeamMemberDocument, options);
-      }
-export type InsertTeamMemberMutationHookResult = ReturnType<typeof useInsertTeamMemberMutation>;
-export type InsertTeamMemberMutationResult = Apollo.MutationResult<InsertTeamMemberMutation>;
-export type InsertTeamMemberMutationOptions = Apollo.BaseMutationOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
-export const UpdateTeamDocument = gql`
-    mutation UpdateTeam($team_id: uuid!, $team_intro: String!, $team_name: String!) {
-  update_contest_team(
-    where: {team_id: {_eq: $team_id}}
-    _set: {team_intro: $team_intro, team_name: $team_name}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type UpdateTeamMutationFn = Apollo.MutationFunction<UpdateTeamMutation, UpdateTeamMutationVariables>;
-
-/**
- * __useUpdateTeamMutation__
- *
- * To run a mutation, you first call `useUpdateTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTeamMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateTeamMutation, { data, loading, error }] = useUpdateTeamMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *      team_intro: // value for 'team_intro'
- *      team_name: // value for 'team_name'
- *   },
- * });
- */
-export function useUpdateTeamMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamMutation, UpdateTeamMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument, options);
-      }
-export type UpdateTeamMutationHookResult = ReturnType<typeof useUpdateTeamMutation>;
-export type UpdateTeamMutationResult = Apollo.MutationResult<UpdateTeamMutation>;
-export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<UpdateTeamMutation, UpdateTeamMutationVariables>;
-export const GetMemberInfoDocument = gql`
-    query GetMemberInfo($team_id: uuid!) {
-  contest_team(where: {team_id: {_eq: $team_id}}) {
-    team_leader_byuuid {
-      realname
-      id
-      uuid
-    }
-  }
-  contest_team_member(where: {team_id: {_eq: $team_id}}) {
-    user {
-      id
-      uuid
-      realname
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMemberInfoQuery__
- *
- * To run a query within a React component, call `useGetMemberInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMemberInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMemberInfoQuery({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetMemberInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables> & ({ variables: GetMemberInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
-      }
-export function useGetMemberInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
-        }
-export function useGetMemberInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
-        }
-export type GetMemberInfoQueryHookResult = ReturnType<typeof useGetMemberInfoQuery>;
-export type GetMemberInfoLazyQueryHookResult = ReturnType<typeof useGetMemberInfoLazyQuery>;
-export type GetMemberInfoSuspenseQueryHookResult = ReturnType<typeof useGetMemberInfoSuspenseQuery>;
-export type GetMemberInfoQueryResult = Apollo.QueryResult<GetMemberInfoQuery, GetMemberInfoQueryVariables>;
-export const DeleteTeamDocument = gql`
-    mutation DeleteTeam($team_id: uuid!) {
-  delete_contest_team(where: {team_id: {_eq: $team_id}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteTeamMutationFn = Apollo.MutationFunction<DeleteTeamMutation, DeleteTeamMutationVariables>;
-
-/**
- * __useDeleteTeamMutation__
- *
- * To run a mutation, you first call `useDeleteTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTeamMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteTeamMutation, { data, loading, error }] = useDeleteTeamMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useDeleteTeamMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMutation, DeleteTeamMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument, options);
-      }
-export type DeleteTeamMutationHookResult = ReturnType<typeof useDeleteTeamMutation>;
-export type DeleteTeamMutationResult = Apollo.MutationResult<DeleteTeamMutation>;
-export type DeleteTeamMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMutation, DeleteTeamMutationVariables>;
-export const DeleteAllTeamMemberDocument = gql`
-    mutation DeleteAllTeamMember($team_id: uuid!) {
-  delete_contest_team_member(where: {team_id: {_eq: $team_id}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteAllTeamMemberMutationFn = Apollo.MutationFunction<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
-
-/**
- * __useDeleteAllTeamMemberMutation__
- *
- * To run a mutation, you first call `useDeleteAllTeamMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAllTeamMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteAllTeamMemberMutation, { data, loading, error }] = useDeleteAllTeamMemberMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useDeleteAllTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>(DeleteAllTeamMemberDocument, options);
-      }
-export type DeleteAllTeamMemberMutationHookResult = ReturnType<typeof useDeleteAllTeamMemberMutation>;
-export type DeleteAllTeamMemberMutationResult = Apollo.MutationResult<DeleteAllTeamMemberMutation>;
-export type DeleteAllTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
-export const DeleteTeamMemberDocument = gql`
-    mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
-  delete_contest_team_member(
-    where: {user_uuid: {_eq: $user_uuid}, team_id: {_eq: $team_id}}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
-
-/**
- * __useDeleteTeamMemberMutation__
- *
- * To run a mutation, you first call `useDeleteTeamMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTeamMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteTeamMemberMutation, { data, loading, error }] = useDeleteTeamMemberMutation({
- *   variables: {
- *      user_uuid: // value for 'user_uuid'
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useDeleteTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>(DeleteTeamMemberDocument, options);
-      }
-export type DeleteTeamMemberMutationHookResult = ReturnType<typeof useDeleteTeamMemberMutation>;
-export type DeleteTeamMemberMutationResult = Apollo.MutationResult<DeleteTeamMemberMutation>;
-export type DeleteTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
-export const GetAllContestDocument = gql`
-    query GetAllContest {
-  contest {
-    id
-    contest_name
-    description
-    start_date
-    end_date
-  }
-}
-    `;
-
-/**
- * __useGetAllContestQuery__
- *
- * To run a query within a React component, call `useGetAllContestQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllContestQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllContestQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAllContestQuery(baseOptions?: Apollo.QueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
-      }
-export function useGetAllContestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
-        }
-export function useGetAllContestSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
-        }
-export type GetAllContestQueryHookResult = ReturnType<typeof useGetAllContestQuery>;
-export type GetAllContestLazyQueryHookResult = ReturnType<typeof useGetAllContestLazyQuery>;
-export type GetAllContestSuspenseQueryHookResult = ReturnType<typeof useGetAllContestSuspenseQuery>;
-export type GetAllContestQueryResult = Apollo.QueryResult<GetAllContestQuery, GetAllContestQueryVariables>;
-export const GetContestInfoDocument = gql`
-    query GetContestInfo($contest_id: uuid!) {
-  contest(where: {id: {_eq: $contest_id}}) {
-    contest_name
-    contest_type
-    description
-    start_date
-    end_date
-    status
-  }
-}
-    `;
-
-/**
- * __useGetContestInfoQuery__
- *
- * To run a query within a React component, call `useGetContestInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContestInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetContestInfoQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetContestInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables> & ({ variables: GetContestInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
-      }
-export function useGetContestInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
-        }
-export function useGetContestInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
-        }
-export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQuery>;
-export type GetContestInfoLazyQueryHookResult = ReturnType<typeof useGetContestInfoLazyQuery>;
-export type GetContestInfoSuspenseQueryHookResult = ReturnType<typeof useGetContestInfoSuspenseQuery>;
-export type GetContestInfoQueryResult = Apollo.QueryResult<GetContestInfoQuery, GetContestInfoQueryVariables>;
 export const GetRoomInfoDocument = gql`
     subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(
@@ -11420,251 +12452,94 @@ export function useUpsertCode5Mutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpsertCode5MutationHookResult = ReturnType<typeof useUpsertCode5Mutation>;
 export type UpsertCode5MutationResult = Apollo.MutationResult<UpsertCode5Mutation>;
 export type UpsertCode5MutationOptions = Apollo.BaseMutationOptions<UpsertCode5Mutation, UpsertCode5MutationVariables>;
-export const QueryTeamIdDocument = gql`
-    query QueryTeamID($team_name: String!, $contest_id: uuid!) {
-  contest_team(
-    where: {team_name: {_eq: $team_name}, contest_id: {_eq: $contest_id}}
-  ) {
-    team_id
+export const GetAllContestDocument = gql`
+    query GetAllContest {
+  contest {
+    id
+    contest_name
+    description
+    start_date
+    end_date
+  }
+}
+    `;
+
+/**
+ * __useGetAllContestQuery__
+ *
+ * To run a query within a React component, call `useGetAllContestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllContestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllContestQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllContestQuery(baseOptions?: Apollo.QueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
+      }
+export function useGetAllContestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
+        }
+export function useGetAllContestSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
+        }
+export type GetAllContestQueryHookResult = ReturnType<typeof useGetAllContestQuery>;
+export type GetAllContestLazyQueryHookResult = ReturnType<typeof useGetAllContestLazyQuery>;
+export type GetAllContestSuspenseQueryHookResult = ReturnType<typeof useGetAllContestSuspenseQuery>;
+export type GetAllContestQueryResult = Apollo.QueryResult<GetAllContestQuery, GetAllContestQueryVariables>;
+export const GetContestInfoDocument = gql`
+    query GetContestInfo($contest_id: uuid!) {
+  contest(where: {id: {_eq: $contest_id}}) {
+    contest_name
+    contest_type
+    description
+    start_date
+    end_date
     status
   }
 }
     `;
 
 /**
- * __useQueryTeamIdQuery__
+ * __useGetContestInfoQuery__
  *
- * To run a query within a React component, call `useQueryTeamIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useQueryTeamIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetContestInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useQueryTeamIdQuery({
+ * const { data, loading, error } = useGetContestInfoQuery({
  *   variables: {
- *      team_name: // value for 'team_name'
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useQueryTeamIdQuery(baseOptions: Apollo.QueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables> & ({ variables: QueryTeamIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetContestInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables> & ({ variables: GetContestInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
+        return Apollo.useQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
       }
-export function useQueryTeamIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+export function useGetContestInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
+          return Apollo.useLazyQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
         }
-export function useQueryTeamIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+export function useGetContestInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
+          return Apollo.useSuspenseQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
         }
-export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
-export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
-export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
-export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
-export const UpdateContestStatusDocument = gql`
-    mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
-  update_contest(where: {id: {_eq: $contest_id}}, _set: {status: $status}) {
-    returning {
-      status
-    }
-  }
-}
-    `;
-export type UpdateContestStatusMutationFn = Apollo.MutationFunction<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
-
-/**
- * __useUpdateContestStatusMutation__
- *
- * To run a mutation, you first call `useUpdateContestStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateContestStatusMutation, { data, loading, error }] = useUpdateContestStatusMutation({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useUpdateContestStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>(UpdateContestStatusDocument, options);
-      }
-export type UpdateContestStatusMutationHookResult = ReturnType<typeof useUpdateContestStatusMutation>;
-export type UpdateContestStatusMutationResult = Apollo.MutationResult<UpdateContestStatusMutation>;
-export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
-export const GetContestNoticesDocument = gql`
-    query GetContestNotices($contest_id: uuid!) {
-  contest_info(
-    where: {contest_id: {_eq: $contest_id}}
-    order_by: {updated_at: desc}
-  ) {
-    content
-    created_at
-    updated_at
-    files
-    id
-    title
-  }
-}
-    `;
-
-/**
- * __useGetContestNoticesQuery__
- *
- * To run a query within a React component, call `useGetContestNoticesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContestNoticesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetContestNoticesQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetContestNoticesQuery(baseOptions: Apollo.QueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables> & ({ variables: GetContestNoticesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
-      }
-export function useGetContestNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
-        }
-export function useGetContestNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
-        }
-export type GetContestNoticesQueryHookResult = ReturnType<typeof useGetContestNoticesQuery>;
-export type GetContestNoticesLazyQueryHookResult = ReturnType<typeof useGetContestNoticesLazyQuery>;
-export type GetContestNoticesSuspenseQueryHookResult = ReturnType<typeof useGetContestNoticesSuspenseQuery>;
-export type GetContestNoticesQueryResult = Apollo.QueryResult<GetContestNoticesQuery, GetContestNoticesQueryVariables>;
-export const UpdateContestNoticeDocument = gql`
-    mutation UpdateContestNotice($id: uuid!, $title: String!, $content: String!, $files: String, $contest_id: uuid!) {
-  update_contest_info(
-    where: {id: {_eq: $id}}
-    _set: {title: $title, content: $content, files: $files, contest_id: $contest_id}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type UpdateContestNoticeMutationFn = Apollo.MutationFunction<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
-
-/**
- * __useUpdateContestNoticeMutation__
- *
- * To run a mutation, you first call `useUpdateContestNoticeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestNoticeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateContestNoticeMutation, { data, loading, error }] = useUpdateContestNoticeMutation({
- *   variables: {
- *      id: // value for 'id'
- *      title: // value for 'title'
- *      content: // value for 'content'
- *      files: // value for 'files'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useUpdateContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>(UpdateContestNoticeDocument, options);
-      }
-export type UpdateContestNoticeMutationHookResult = ReturnType<typeof useUpdateContestNoticeMutation>;
-export type UpdateContestNoticeMutationResult = Apollo.MutationResult<UpdateContestNoticeMutation>;
-export type UpdateContestNoticeMutationOptions = Apollo.BaseMutationOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
-export const AddContestNoticeDocument = gql`
-    mutation AddContestNotice($title: String!, $content: String!, $files: String, $contest_id: uuid!) {
-  insert_contest_info(
-    objects: {title: $title, content: $content, files: $files, contest_id: $contest_id}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddContestNoticeMutationFn = Apollo.MutationFunction<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
-
-/**
- * __useAddContestNoticeMutation__
- *
- * To run a mutation, you first call `useAddContestNoticeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddContestNoticeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addContestNoticeMutation, { data, loading, error }] = useAddContestNoticeMutation({
- *   variables: {
- *      title: // value for 'title'
- *      content: // value for 'content'
- *      files: // value for 'files'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useAddContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddContestNoticeMutation, AddContestNoticeMutationVariables>(AddContestNoticeDocument, options);
-      }
-export type AddContestNoticeMutationHookResult = ReturnType<typeof useAddContestNoticeMutation>;
-export type AddContestNoticeMutationResult = Apollo.MutationResult<AddContestNoticeMutation>;
-export type AddContestNoticeMutationOptions = Apollo.BaseMutationOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
-export const DeleteContestNoticeDocument = gql`
-    mutation DeleteContestNotice($id: uuid!) {
-  delete_contest_info(where: {id: {_eq: $id}}) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type DeleteContestNoticeMutationFn = Apollo.MutationFunction<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
-
-/**
- * __useDeleteContestNoticeMutation__
- *
- * To run a mutation, you first call `useDeleteContestNoticeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteContestNoticeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteContestNoticeMutation, { data, loading, error }] = useDeleteContestNoticeMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>(DeleteContestNoticeDocument, options);
-      }
-export type DeleteContestNoticeMutationHookResult = ReturnType<typeof useDeleteContestNoticeMutation>;
-export type DeleteContestNoticeMutationResult = Apollo.MutationResult<DeleteContestNoticeMutation>;
-export type DeleteContestNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
+export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQuery>;
+export type GetContestInfoLazyQueryHookResult = ReturnType<typeof useGetContestInfoLazyQuery>;
+export type GetContestInfoSuspenseQueryHookResult = ReturnType<typeof useGetContestInfoSuspenseQuery>;
+export type GetContestInfoQueryResult = Apollo.QueryResult<GetContestInfoQuery, GetContestInfoQueryVariables>;
 export const GetContestsDocument = gql`
     query GetContests {
   contest(order_by: {start_date: desc}) {
@@ -11709,6 +12584,85 @@ export type GetContestsQueryHookResult = ReturnType<typeof useGetContestsQuery>;
 export type GetContestsLazyQueryHookResult = ReturnType<typeof useGetContestsLazyQuery>;
 export type GetContestsSuspenseQueryHookResult = ReturnType<typeof useGetContestsSuspenseQuery>;
 export type GetContestsQueryResult = Apollo.QueryResult<GetContestsQuery, GetContestsQueryVariables>;
+export const QueryContestManagerDocument = gql`
+    query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
+  contest_manager(
+    where: {contest_id: {_eq: $contest_id}, user_uuid: {_eq: $user_uuid}}
+  ) {
+    user_uuid
+  }
+}
+    `;
+
+/**
+ * __useQueryContestManagerQuery__
+ *
+ * To run a query within a React component, call `useQueryContestManagerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQueryContestManagerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQueryContestManagerQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      user_uuid: // value for 'user_uuid'
+ *   },
+ * });
+ */
+export function useQueryContestManagerQuery(baseOptions: Apollo.QueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables> & ({ variables: QueryContestManagerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
+      }
+export function useQueryContestManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
+        }
+export function useQueryContestManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
+        }
+export type QueryContestManagerQueryHookResult = ReturnType<typeof useQueryContestManagerQuery>;
+export type QueryContestManagerLazyQueryHookResult = ReturnType<typeof useQueryContestManagerLazyQuery>;
+export type QueryContestManagerSuspenseQueryHookResult = ReturnType<typeof useQueryContestManagerSuspenseQuery>;
+export type QueryContestManagerQueryResult = Apollo.QueryResult<QueryContestManagerQuery, QueryContestManagerQueryVariables>;
+export const UpdateContestStatusDocument = gql`
+    mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
+  update_contest(where: {id: {_eq: $contest_id}}, _set: {status: $status}) {
+    returning {
+      status
+    }
+  }
+}
+    `;
+export type UpdateContestStatusMutationFn = Apollo.MutationFunction<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
+
+/**
+ * __useUpdateContestStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestStatusMutation, { data, loading, error }] = useUpdateContestStatusMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useUpdateContestStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>(UpdateContestStatusDocument, options);
+      }
+export type UpdateContestStatusMutationHookResult = ReturnType<typeof useUpdateContestStatusMutation>;
+export type UpdateContestStatusMutationResult = Apollo.MutationResult<UpdateContestStatusMutation>;
+export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
 export const AddContestDocument = gql`
     mutation AddContest($start_date: timestamptz!, $end_date: timestamptz!, $description: String = "", $contest_name: String!, $contest_type: String!) {
   insert_contest(
@@ -11793,295 +12747,878 @@ export function useUpdateContestMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateContestMutationHookResult = ReturnType<typeof useUpdateContestMutation>;
 export type UpdateContestMutationResult = Apollo.MutationResult<UpdateContestMutation>;
 export type UpdateContestMutationOptions = Apollo.BaseMutationOptions<UpdateContestMutation, UpdateContestMutationVariables>;
-export const DeleteContestDocument = gql`
-    mutation DeleteContest($id: uuid!) {
-  delete_contest(where: {id: {_eq: $id}}) {
-    affected_rows
+export const GetContestNoticesDocument = gql`
+    query GetContestNotices($contest_id: uuid!) {
+  contest_notice(
+    where: {contest_id: {_eq: $contest_id}}
+    order_by: {updated_at: desc}
+  ) {
+    content
+    created_at
+    updated_at
+    files
+    id
+    title
+  }
+}
+    `;
+
+/**
+ * __useGetContestNoticesQuery__
+ *
+ * To run a query within a React component, call `useGetContestNoticesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestNoticesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestNoticesQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestNoticesQuery(baseOptions: Apollo.QueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables> & ({ variables: GetContestNoticesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+      }
+export function useGetContestNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+        }
+export function useGetContestNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+        }
+export type GetContestNoticesQueryHookResult = ReturnType<typeof useGetContestNoticesQuery>;
+export type GetContestNoticesLazyQueryHookResult = ReturnType<typeof useGetContestNoticesLazyQuery>;
+export type GetContestNoticesSuspenseQueryHookResult = ReturnType<typeof useGetContestNoticesSuspenseQuery>;
+export type GetContestNoticesQueryResult = Apollo.QueryResult<GetContestNoticesQuery, GetContestNoticesQueryVariables>;
+export const UpdateContestNoticeDocument = gql`
+    mutation UpdateContestNotice($id: uuid!, $title: String!, $content: String!, $files: String, $contest_id: uuid!) {
+  update_contest_notice(
+    where: {id: {_eq: $id}}
+    _set: {title: $title, content: $content, files: $files, contest_id: $contest_id}
+  ) {
     returning {
       id
     }
   }
 }
     `;
-export type DeleteContestMutationFn = Apollo.MutationFunction<DeleteContestMutation, DeleteContestMutationVariables>;
+export type UpdateContestNoticeMutationFn = Apollo.MutationFunction<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
 
 /**
- * __useDeleteContestMutation__
+ * __useUpdateContestNoticeMutation__
  *
- * To run a mutation, you first call `useDeleteContestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteContestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContestNoticeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestNoticeMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteContestMutation, { data, loading, error }] = useDeleteContestMutation({
+ * const [updateContestNoticeMutation, { data, loading, error }] = useUpdateContestNoticeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *      files: // value for 'files'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useUpdateContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>(UpdateContestNoticeDocument, options);
+      }
+export type UpdateContestNoticeMutationHookResult = ReturnType<typeof useUpdateContestNoticeMutation>;
+export type UpdateContestNoticeMutationResult = Apollo.MutationResult<UpdateContestNoticeMutation>;
+export type UpdateContestNoticeMutationOptions = Apollo.BaseMutationOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
+export const AddContestNoticeDocument = gql`
+    mutation AddContestNotice($title: String!, $content: String!, $files: String, $contest_id: uuid!) {
+  insert_contest_notice(
+    objects: {title: $title, content: $content, files: $files, contest_id: $contest_id}
+  ) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type AddContestNoticeMutationFn = Apollo.MutationFunction<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
+
+/**
+ * __useAddContestNoticeMutation__
+ *
+ * To run a mutation, you first call `useAddContestNoticeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddContestNoticeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addContestNoticeMutation, { data, loading, error }] = useAddContestNoticeMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *      files: // value for 'files'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useAddContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestNoticeMutation, AddContestNoticeMutationVariables>(AddContestNoticeDocument, options);
+      }
+export type AddContestNoticeMutationHookResult = ReturnType<typeof useAddContestNoticeMutation>;
+export type AddContestNoticeMutationResult = Apollo.MutationResult<AddContestNoticeMutation>;
+export type AddContestNoticeMutationOptions = Apollo.BaseMutationOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
+export const DeleteContestNoticeDocument = gql`
+    mutation DeleteContestNotice($id: uuid!) {
+  delete_contest_notice(where: {id: {_eq: $id}}) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type DeleteContestNoticeMutationFn = Apollo.MutationFunction<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
+
+/**
+ * __useDeleteContestNoticeMutation__
+ *
+ * To run a mutation, you first call `useDeleteContestNoticeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContestNoticeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteContestNoticeMutation, { data, loading, error }] = useDeleteContestNoticeMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeleteContestMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestMutation, DeleteContestMutationVariables>) {
+export function useDeleteContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteContestMutation, DeleteContestMutationVariables>(DeleteContestDocument, options);
+        return Apollo.useMutation<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>(DeleteContestNoticeDocument, options);
       }
-export type DeleteContestMutationHookResult = ReturnType<typeof useDeleteContestMutation>;
-export type DeleteContestMutationResult = Apollo.MutationResult<DeleteContestMutation>;
-export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<DeleteContestMutation, DeleteContestMutationVariables>;
-export const GetContestManagerDocument = gql`
-    query GetContestManager($contest_id: uuid!) {
-  contest_manager(where: {contest_id: {_eq: $contest_id}}) {
-    userByUserUuid {
+export type DeleteContestNoticeMutationHookResult = ReturnType<typeof useDeleteContestNoticeMutation>;
+export type DeleteContestNoticeMutationResult = Apollo.MutationResult<DeleteContestNoticeMutation>;
+export type DeleteContestNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
+export const InsertTeamDocument = gql`
+    mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
+  insert_contest_team(
+    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type InsertTeamMutationFn = Apollo.MutationFunction<InsertTeamMutation, InsertTeamMutationVariables>;
+
+/**
+ * __useInsertTeamMutation__
+ *
+ * To run a mutation, you first call `useInsertTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertTeamMutation, { data, loading, error }] = useInsertTeamMutation({
+ *   variables: {
+ *      team_name: // value for 'team_name'
+ *      team_intro: // value for 'team_intro'
+ *      team_leader_uuid: // value for 'team_leader_uuid'
+ *      invited_code: // value for 'invited_code'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useInsertTeamMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMutation, InsertTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertTeamMutation, InsertTeamMutationVariables>(InsertTeamDocument, options);
+      }
+export type InsertTeamMutationHookResult = ReturnType<typeof useInsertTeamMutation>;
+export type InsertTeamMutationResult = Apollo.MutationResult<InsertTeamMutation>;
+export type InsertTeamMutationOptions = Apollo.BaseMutationOptions<InsertTeamMutation, InsertTeamMutationVariables>;
+export const IsTeamLeaderDocument = gql`
+    query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
+  contest_team(
+    where: {team_leader: {uuid: {_eq: $uuid}}, _and: {contest_id: {_eq: $contest_id}}}
+  ) {
+    team_id
+  }
+}
+    `;
+
+/**
+ * __useIsTeamLeaderQuery__
+ *
+ * To run a query within a React component, call `useIsTeamLeaderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsTeamLeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsTeamLeaderQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useIsTeamLeaderQuery(baseOptions: Apollo.QueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables> & ({ variables: IsTeamLeaderQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
+      }
+export function useIsTeamLeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
+        }
+export function useIsTeamLeaderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
+        }
+export type IsTeamLeaderQueryHookResult = ReturnType<typeof useIsTeamLeaderQuery>;
+export type IsTeamLeaderLazyQueryHookResult = ReturnType<typeof useIsTeamLeaderLazyQuery>;
+export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<typeof useIsTeamLeaderSuspenseQuery>;
+export type IsTeamLeaderQueryResult = Apollo.QueryResult<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>;
+export const IsTeamMemberDocument = gql`
+    query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
+  contest_team_member(
+    where: {user_uuid: {_eq: $user_uuid}, _and: {contest_team: {contest_id: {_eq: $contest_id}}}}
+  ) {
+    team_id
+  }
+}
+    `;
+
+/**
+ * __useIsTeamMemberQuery__
+ *
+ * To run a query within a React component, call `useIsTeamMemberQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsTeamMemberQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsTeamMemberQuery({
+ *   variables: {
+ *      user_uuid: // value for 'user_uuid'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useIsTeamMemberQuery(baseOptions: Apollo.QueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables> & ({ variables: IsTeamMemberQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+      }
+export function useIsTeamMemberLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+        }
+export function useIsTeamMemberSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+        }
+export type IsTeamMemberQueryHookResult = ReturnType<typeof useIsTeamMemberQuery>;
+export type IsTeamMemberLazyQueryHookResult = ReturnType<typeof useIsTeamMemberLazyQuery>;
+export type IsTeamMemberSuspenseQueryHookResult = ReturnType<typeof useIsTeamMemberSuspenseQuery>;
+export type IsTeamMemberQueryResult = Apollo.QueryResult<IsTeamMemberQuery, IsTeamMemberQueryVariables>;
+export const GetCodeUpdateTimeDocument = gql`
+    subscription GetCodeUpdateTime($team_id: uuid!) {
+  contest_code(where: {team_id: {_eq: $team_id}}) {
+    code1_update_time
+    code2_update_time
+    code3_update_time
+    code4_update_time
+    code5_update_time
+    code6_update_time
+  }
+}
+    `;
+
+/**
+ * __useGetCodeUpdateTimeSubscription__
+ *
+ * To run a query within a React component, call `useGetCodeUpdateTimeSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetCodeUpdateTimeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCodeUpdateTimeSubscription({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetCodeUpdateTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables> & ({ variables: GetCodeUpdateTimeSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>(GetCodeUpdateTimeDocument, options);
+      }
+export type GetCodeUpdateTimeSubscriptionHookResult = ReturnType<typeof useGetCodeUpdateTimeSubscription>;
+export type GetCodeUpdateTimeSubscriptionResult = Apollo.SubscriptionResult<GetCodeUpdateTimeSubscription>;
+export const GetAllTeamInfoDocument = gql`
+    subscription GetAllTeamInfo($contest_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}}) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    contest_score
+    team_id
+    submitted_code_num
+    contest {
+      contest_name
+    }
+    team_intro
+    team_leader {
       uuid
-      realname
+      class
       email
+      realname
+      phone
+    }
+    contest_team_members {
+      user {
+        id
+        class
+        email
+        realname
+        phone
+      }
     }
   }
 }
     `;
 
 /**
- * __useGetContestManagerQuery__
+ * __useGetAllTeamInfoSubscription__
  *
- * To run a query within a React component, call `useGetContestManagerQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContestManagerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAllTeamInfoSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllTeamInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetContestManagerQuery({
+ * const { data, loading, error } = useGetAllTeamInfoSubscription({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useGetContestManagerQuery(baseOptions: Apollo.QueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables> & ({ variables: GetContestManagerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetAllTeamInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables> & ({ variables: GetAllTeamInfoSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetContestManagerQuery, GetContestManagerQueryVariables>(GetContestManagerDocument, options);
+        return Apollo.useSubscription<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables>(GetAllTeamInfoDocument, options);
       }
-export function useGetContestManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables>) {
+export type GetAllTeamInfoSubscriptionHookResult = ReturnType<typeof useGetAllTeamInfoSubscription>;
+export type GetAllTeamInfoSubscriptionResult = Apollo.SubscriptionResult<GetAllTeamInfoSubscription>;
+export const GetAllTeamInfo_ScoreDocument = gql`
+    query GetAllTeamInfo_score($contest_id: uuid!) {
+  contest_team(
+    where: {_and: {contest_id: {_eq: $contest_id}, score: {_is_null: false}}}
+  ) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    contest_score
+    team_id
+    submitted_code_num
+    contest {
+      contest_name
+    }
+    team_intro
+    team_leader {
+      uuid
+      class
+      email
+      realname
+      phone
+    }
+    contest_team_members {
+      user {
+        id
+        class
+        email
+        realname
+        phone
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllTeamInfo_ScoreQuery__
+ *
+ * To run a query within a React component, call `useGetAllTeamInfo_ScoreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllTeamInfo_ScoreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllTeamInfo_ScoreQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetAllTeamInfo_ScoreQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables> & ({ variables: GetAllTeamInfo_ScoreQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
+      }
+export function useGetAllTeamInfo_ScoreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetContestManagerQuery, GetContestManagerQueryVariables>(GetContestManagerDocument, options);
+          return Apollo.useLazyQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
         }
-export function useGetContestManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestManagerQuery, GetContestManagerQueryVariables>) {
+export function useGetAllTeamInfo_ScoreSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetContestManagerQuery, GetContestManagerQueryVariables>(GetContestManagerDocument, options);
+          return Apollo.useSuspenseQuery<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>(GetAllTeamInfo_ScoreDocument, options);
         }
-export type GetContestManagerQueryHookResult = ReturnType<typeof useGetContestManagerQuery>;
-export type GetContestManagerLazyQueryHookResult = ReturnType<typeof useGetContestManagerLazyQuery>;
-export type GetContestManagerSuspenseQueryHookResult = ReturnType<typeof useGetContestManagerSuspenseQuery>;
-export type GetContestManagerQueryResult = Apollo.QueryResult<GetContestManagerQuery, GetContestManagerQueryVariables>;
-export const DeleteContestAllManagerDocument = gql`
-    mutation DeleteContestAllManager($contest_id: uuid!) {
-  delete_contest_manager(where: {contest_id: {_eq: $contest_id}}) {
+export type GetAllTeamInfo_ScoreQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreQuery>;
+export type GetAllTeamInfo_ScoreLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreLazyQuery>;
+export type GetAllTeamInfo_ScoreSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_ScoreSuspenseQuery>;
+export type GetAllTeamInfo_ScoreQueryResult = Apollo.QueryResult<GetAllTeamInfo_ScoreQuery, GetAllTeamInfo_ScoreQueryVariables>;
+export const GetAllTeamInfo_CompileDocument = gql`
+    query GetAllTeamInfo_compile($contest_id: uuid!) {
+  contest_team(
+    where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: "compiled"}}}
+  ) {
+    team_name
+    score
+    status
+    status2
+    contest_score
+    team_id
+  }
+}
+    `;
+
+/**
+ * __useGetAllTeamInfo_CompileQuery__
+ *
+ * To run a query within a React component, call `useGetAllTeamInfo_CompileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllTeamInfo_CompileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllTeamInfo_CompileQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetAllTeamInfo_CompileQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables> & ({ variables: GetAllTeamInfo_CompileQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
+      }
+export function useGetAllTeamInfo_CompileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
+        }
+export function useGetAllTeamInfo_CompileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
+        }
+export type GetAllTeamInfo_CompileQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileQuery>;
+export type GetAllTeamInfo_CompileLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileLazyQuery>;
+export type GetAllTeamInfo_CompileSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileSuspenseQuery>;
+export type GetAllTeamInfo_CompileQueryResult = Apollo.QueryResult<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>;
+export const GetTeamInfoDocument = gql`
+    query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
+    team_name
+    created_at
+    invited_code
+    member_num
+    score
+    status
+    status2
+    contest_score
+    team_id
+    submitted_code_num
+    contest {
+      contest_name
+    }
+    team_intro
+    team_leader {
+      uuid
+      class
+      email
+      realname
+      phone
+    }
+    contest_team_members {
+      user {
+        id
+        class
+        email
+        realname
+        phone
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamInfoQuery__
+ *
+ * To run a query within a React component, call `useGetTeamInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamInfoQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamInfoQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables> & ({ variables: GetTeamInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+      }
+export function useGetTeamInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+        }
+export function useGetTeamInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+        }
+export type GetTeamInfoQueryHookResult = ReturnType<typeof useGetTeamInfoQuery>;
+export type GetTeamInfoLazyQueryHookResult = ReturnType<typeof useGetTeamInfoLazyQuery>;
+export type GetTeamInfoSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoSuspenseQuery>;
+export type GetTeamInfoQueryResult = Apollo.QueryResult<GetTeamInfoQuery, GetTeamInfoQueryVariables>;
+export const GetCompileStatusDocument = gql`
+    subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
+    status
+  }
+}
+    `;
+
+/**
+ * __useGetCompileStatusSubscription__
+ *
+ * To run a query within a React component, call `useGetCompileStatusSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetCompileStatusSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCompileStatusSubscription({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetCompileStatusSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables> & ({ variables: GetCompileStatusSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables>(GetCompileStatusDocument, options);
+      }
+export type GetCompileStatusSubscriptionHookResult = ReturnType<typeof useGetCompileStatusSubscription>;
+export type GetCompileStatusSubscriptionResult = Apollo.SubscriptionResult<GetCompileStatusSubscription>;
+export const InsertTeamMemberDocument = gql`
+    mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
+  insert_contest_team_member(objects: {team_id: $team_id, user_uuid: $user_uuid}) {
     affected_rows
   }
 }
     `;
-export type DeleteContestAllManagerMutationFn = Apollo.MutationFunction<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>;
+export type InsertTeamMemberMutationFn = Apollo.MutationFunction<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
 
 /**
- * __useDeleteContestAllManagerMutation__
+ * __useInsertTeamMemberMutation__
  *
- * To run a mutation, you first call `useDeleteContestAllManagerMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteContestAllManagerMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInsertTeamMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertTeamMemberMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteContestAllManagerMutation, { data, loading, error }] = useDeleteContestAllManagerMutation({
+ * const [insertTeamMemberMutation, { data, loading, error }] = useInsertTeamMemberMutation({
  *   variables: {
- *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
+ *      user_uuid: // value for 'user_uuid'
  *   },
  * });
  */
-export function useDeleteContestAllManagerMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>) {
+export function useInsertTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>(DeleteContestAllManagerDocument, options);
+        return Apollo.useMutation<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>(InsertTeamMemberDocument, options);
       }
-export type DeleteContestAllManagerMutationHookResult = ReturnType<typeof useDeleteContestAllManagerMutation>;
-export type DeleteContestAllManagerMutationResult = Apollo.MutationResult<DeleteContestAllManagerMutation>;
-export type DeleteContestAllManagerMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllManagerMutation, DeleteContestAllManagerMutationVariables>;
-export const AddContestManagerDocument = gql`
-    mutation AddContestManager($contest_id: uuid!, $user_uuid: uuid!) {
-  insert_contest_manager(
-    objects: {contest_id: $contest_id, user_uuid: $user_uuid}
+export type InsertTeamMemberMutationHookResult = ReturnType<typeof useInsertTeamMemberMutation>;
+export type InsertTeamMemberMutationResult = Apollo.MutationResult<InsertTeamMemberMutation>;
+export type InsertTeamMemberMutationOptions = Apollo.BaseMutationOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
+export const UpdateTeamDocument = gql`
+    mutation UpdateTeam($team_id: uuid!, $team_intro: String!, $team_name: String!) {
+  update_contest_team(
+    where: {team_id: {_eq: $team_id}}
+    _set: {team_intro: $team_intro, team_name: $team_name}
   ) {
     affected_rows
   }
 }
     `;
-export type AddContestManagerMutationFn = Apollo.MutationFunction<AddContestManagerMutation, AddContestManagerMutationVariables>;
+export type UpdateTeamMutationFn = Apollo.MutationFunction<UpdateTeamMutation, UpdateTeamMutationVariables>;
 
 /**
- * __useAddContestManagerMutation__
+ * __useUpdateTeamMutation__
  *
- * To run a mutation, you first call `useAddContestManagerMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddContestManagerMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTeamMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addContestManagerMutation, { data, loading, error }] = useAddContestManagerMutation({
+ * const [updateTeamMutation, { data, loading, error }] = useUpdateTeamMutation({
  *   variables: {
- *      contest_id: // value for 'contest_id'
- *      user_uuid: // value for 'user_uuid'
+ *      team_id: // value for 'team_id'
+ *      team_intro: // value for 'team_intro'
+ *      team_name: // value for 'team_name'
  *   },
  * });
  */
-export function useAddContestManagerMutation(baseOptions?: Apollo.MutationHookOptions<AddContestManagerMutation, AddContestManagerMutationVariables>) {
+export function useUpdateTeamMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamMutation, UpdateTeamMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddContestManagerMutation, AddContestManagerMutationVariables>(AddContestManagerDocument, options);
+        return Apollo.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument, options);
       }
-export type AddContestManagerMutationHookResult = ReturnType<typeof useAddContestManagerMutation>;
-export type AddContestManagerMutationResult = Apollo.MutationResult<AddContestManagerMutation>;
-export type AddContestManagerMutationOptions = Apollo.BaseMutationOptions<AddContestManagerMutation, AddContestManagerMutationVariables>;
-export const GetUser_IdDocument = gql`
-    query GetUser_Id($email: String!, $realname: String!) {
-  users(where: {email: {_eq: $email}, realname: {_eq: $realname}}) {
-    uuid
+export type UpdateTeamMutationHookResult = ReturnType<typeof useUpdateTeamMutation>;
+export type UpdateTeamMutationResult = Apollo.MutationResult<UpdateTeamMutation>;
+export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<UpdateTeamMutation, UpdateTeamMutationVariables>;
+export const GetMemberInfoDocument = gql`
+    query GetMemberInfo($team_id: uuid!) {
+  contest_team(where: {team_id: {_eq: $team_id}}) {
+    team_leader {
+      realname
+      id
+      uuid
+    }
+  }
+  contest_team_member(where: {team_id: {_eq: $team_id}}) {
+    user {
+      id
+      uuid
+      realname
+    }
   }
 }
     `;
 
 /**
- * __useGetUser_IdQuery__
+ * __useGetMemberInfoQuery__
  *
- * To run a query within a React component, call `useGetUser_IdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUser_IdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetMemberInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMemberInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUser_IdQuery({
+ * const { data, loading, error } = useGetMemberInfoQuery({
  *   variables: {
- *      email: // value for 'email'
- *      realname: // value for 'realname'
+ *      team_id: // value for 'team_id'
  *   },
  * });
  */
-export function useGetUser_IdQuery(baseOptions: Apollo.QueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables> & ({ variables: GetUser_IdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetMemberInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables> & ({ variables: GetMemberInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+        return Apollo.useQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
       }
-export function useGetUser_IdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+export function useGetMemberInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+          return Apollo.useLazyQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
         }
-export function useGetUser_IdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+export function useGetMemberInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+          return Apollo.useSuspenseQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
         }
-export type GetUser_IdQueryHookResult = ReturnType<typeof useGetUser_IdQuery>;
-export type GetUser_IdLazyQueryHookResult = ReturnType<typeof useGetUser_IdLazyQuery>;
-export type GetUser_IdSuspenseQueryHookResult = ReturnType<typeof useGetUser_IdSuspenseQuery>;
-export type GetUser_IdQueryResult = Apollo.QueryResult<GetUser_IdQuery, GetUser_IdQueryVariables>;
-export const DeleteContestAllTeamsDocument = gql`
-    mutation DeleteContestAllTeams($contest_id: uuid!) {
-  delete_contest_team(where: {contest_id: {_eq: $contest_id}}) {
+export type GetMemberInfoQueryHookResult = ReturnType<typeof useGetMemberInfoQuery>;
+export type GetMemberInfoLazyQueryHookResult = ReturnType<typeof useGetMemberInfoLazyQuery>;
+export type GetMemberInfoSuspenseQueryHookResult = ReturnType<typeof useGetMemberInfoSuspenseQuery>;
+export type GetMemberInfoQueryResult = Apollo.QueryResult<GetMemberInfoQuery, GetMemberInfoQueryVariables>;
+export const DeleteTeamDocument = gql`
+    mutation DeleteTeam($team_id: uuid!) {
+  delete_contest_team(where: {team_id: {_eq: $team_id}}) {
     affected_rows
   }
 }
     `;
-export type DeleteContestAllTeamsMutationFn = Apollo.MutationFunction<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>;
+export type DeleteTeamMutationFn = Apollo.MutationFunction<DeleteTeamMutation, DeleteTeamMutationVariables>;
 
 /**
- * __useDeleteContestAllTeamsMutation__
+ * __useDeleteTeamMutation__
  *
- * To run a mutation, you first call `useDeleteContestAllTeamsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteContestAllTeamsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTeamMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteContestAllTeamsMutation, { data, loading, error }] = useDeleteContestAllTeamsMutation({
+ * const [deleteTeamMutation, { data, loading, error }] = useDeleteTeamMutation({
  *   variables: {
- *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
  *   },
  * });
  */
-export function useDeleteContestAllTeamsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>) {
+export function useDeleteTeamMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMutation, DeleteTeamMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>(DeleteContestAllTeamsDocument, options);
+        return Apollo.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument, options);
       }
-export type DeleteContestAllTeamsMutationHookResult = ReturnType<typeof useDeleteContestAllTeamsMutation>;
-export type DeleteContestAllTeamsMutationResult = Apollo.MutationResult<DeleteContestAllTeamsMutation>;
-export type DeleteContestAllTeamsMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllTeamsMutation, DeleteContestAllTeamsMutationVariables>;
-export const DeleteContestAllInfoDocument = gql`
-    mutation DeleteContestAllInfo($contest_id: uuid!) {
-  delete_contest_info(where: {contest_id: {_eq: $contest_id}}) {
+export type DeleteTeamMutationHookResult = ReturnType<typeof useDeleteTeamMutation>;
+export type DeleteTeamMutationResult = Apollo.MutationResult<DeleteTeamMutation>;
+export type DeleteTeamMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMutation, DeleteTeamMutationVariables>;
+export const DeleteAllTeamMemberDocument = gql`
+    mutation DeleteAllTeamMember($team_id: uuid!) {
+  delete_contest_team_member(where: {team_id: {_eq: $team_id}}) {
     affected_rows
   }
 }
     `;
-export type DeleteContestAllInfoMutationFn = Apollo.MutationFunction<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>;
+export type DeleteAllTeamMemberMutationFn = Apollo.MutationFunction<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
 
 /**
- * __useDeleteContestAllInfoMutation__
+ * __useDeleteAllTeamMemberMutation__
  *
- * To run a mutation, you first call `useDeleteContestAllInfoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteContestAllInfoMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteAllTeamMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAllTeamMemberMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteContestAllInfoMutation, { data, loading, error }] = useDeleteContestAllInfoMutation({
+ * const [deleteAllTeamMemberMutation, { data, loading, error }] = useDeleteAllTeamMemberMutation({
  *   variables: {
- *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
  *   },
  * });
  */
-export function useDeleteContestAllInfoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>) {
+export function useDeleteAllTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>(DeleteContestAllInfoDocument, options);
+        return Apollo.useMutation<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>(DeleteAllTeamMemberDocument, options);
       }
-export type DeleteContestAllInfoMutationHookResult = ReturnType<typeof useDeleteContestAllInfoMutation>;
-export type DeleteContestAllInfoMutationResult = Apollo.MutationResult<DeleteContestAllInfoMutation>;
-export type DeleteContestAllInfoMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllInfoMutation, DeleteContestAllInfoMutationVariables>;
-export const DeleteContestAllRoomsDocument = gql`
-    mutation DeleteContestAllRooms($contest_id: uuid!) {
-  delete_contest_room(where: {contest_id: {_eq: $contest_id}}) {
+export type DeleteAllTeamMemberMutationHookResult = ReturnType<typeof useDeleteAllTeamMemberMutation>;
+export type DeleteAllTeamMemberMutationResult = Apollo.MutationResult<DeleteAllTeamMemberMutation>;
+export type DeleteAllTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
+export const DeleteTeamMemberDocument = gql`
+    mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
+  delete_contest_team_member(
+    where: {user_uuid: {_eq: $user_uuid}, team_id: {_eq: $team_id}}
+  ) {
     affected_rows
   }
 }
     `;
-export type DeleteContestAllRoomsMutationFn = Apollo.MutationFunction<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>;
+export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
 
 /**
- * __useDeleteContestAllRoomsMutation__
+ * __useDeleteTeamMemberMutation__
  *
- * To run a mutation, you first call `useDeleteContestAllRoomsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteContestAllRoomsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteTeamMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTeamMemberMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteContestAllRoomsMutation, { data, loading, error }] = useDeleteContestAllRoomsMutation({
+ * const [deleteTeamMemberMutation, { data, loading, error }] = useDeleteTeamMemberMutation({
  *   variables: {
+ *      user_uuid: // value for 'user_uuid'
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useDeleteTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>(DeleteTeamMemberDocument, options);
+      }
+export type DeleteTeamMemberMutationHookResult = ReturnType<typeof useDeleteTeamMemberMutation>;
+export type DeleteTeamMemberMutationResult = Apollo.MutationResult<DeleteTeamMemberMutation>;
+export type DeleteTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
+export const QueryTeamIdDocument = gql`
+    query QueryTeamID($team_name: String!, $contest_id: uuid!) {
+  contest_team(
+    where: {team_name: {_eq: $team_name}, contest_id: {_eq: $contest_id}}
+  ) {
+    team_id
+    status
+  }
+}
+    `;
+
+/**
+ * __useQueryTeamIdQuery__
+ *
+ * To run a query within a React component, call `useQueryTeamIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQueryTeamIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQueryTeamIdQuery({
+ *   variables: {
+ *      team_name: // value for 'team_name'
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useDeleteContestAllRoomsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>) {
+export function useQueryTeamIdQuery(baseOptions: Apollo.QueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables> & ({ variables: QueryTeamIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>(DeleteContestAllRoomsDocument, options);
+        return Apollo.useQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
       }
-export type DeleteContestAllRoomsMutationHookResult = ReturnType<typeof useDeleteContestAllRoomsMutation>;
-export type DeleteContestAllRoomsMutationResult = Apollo.MutationResult<DeleteContestAllRoomsMutation>;
-export type DeleteContestAllRoomsMutationOptions = Apollo.BaseMutationOptions<DeleteContestAllRoomsMutation, DeleteContestAllRoomsMutationVariables>;
+export function useQueryTeamIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
+        }
+export function useQueryTeamIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
+        }
+export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
+export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
+export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
+export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
     query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(
@@ -13437,3 +14974,44 @@ export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const GetUser_IdDocument = gql`
+    query GetUser_Id($email: String!, $realname: String!) {
+  users(where: {email: {_eq: $email}, realname: {_eq: $realname}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGetUser_IdQuery__
+ *
+ * To run a query within a React component, call `useGetUser_IdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUser_IdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUser_IdQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *      realname: // value for 'realname'
+ *   },
+ * });
+ */
+export function useGetUser_IdQuery(baseOptions: Apollo.QueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables> & ({ variables: GetUser_IdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+      }
+export function useGetUser_IdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+        }
+export function useGetUser_IdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
+        }
+export type GetUser_IdQueryHookResult = ReturnType<typeof useGetUser_IdQuery>;
+export type GetUser_IdLazyQueryHookResult = ReturnType<typeof useGetUser_IdLazyQuery>;
+export type GetUser_IdSuspenseQueryHookResult = ReturnType<typeof useGetUser_IdSuspenseQuery>;
+export type GetUser_IdQueryResult = Apollo.QueryResult<GetUser_IdQuery, GetUser_IdQueryVariables>;

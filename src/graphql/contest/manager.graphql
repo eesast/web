@@ -1,0 +1,126 @@
+# 查询某ID用户是否为某比赛管理员
+query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
+  contest_manager(
+    where: { contest_id: { _eq: $contest_id }, user_uuid: { _eq: $user_uuid } }
+  ) {
+    user_uuid
+  }
+}
+
+# 更新比赛状态
+mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
+  update_contest(
+    where: { id: { _eq: $contest_id } }
+    _set: { status: $status }
+  ) {
+    returning {
+      status
+    }
+  }
+}
+
+# 添加比赛
+mutation AddContest(
+  $start_date: timestamptz!
+  $end_date: timestamptz!
+  $description: String = ""
+  $contest_name: String!
+  $contest_type: String!
+) {
+  insert_contest(
+    objects: {
+      contest_name: $contest_name
+      description: $description
+      end_date: $end_date
+      start_date: $start_date
+      contest_type: $contest_type
+    }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+# 更新比赛信息
+mutation UpdateContest(
+  $id: uuid!
+  $description: String = ""
+  $contest_name: String!
+  $end_date: timestamptz!
+  $start_date: timestamptz!
+  $contest_type: String!
+) {
+  update_contest(
+    where: { id: { _eq: $id } }
+    _set: {
+      contest_name: $contest_name
+      description: $description
+      end_date: $end_date
+      start_date: $start_date
+      contest_type: $contest_type
+    }
+  ) {
+    returning {
+      id
+    }
+  }
+}
+
+# # 删除比赛
+# mutation DeleteContest($id: uuid!) {
+#   delete_contest(where: { id: { _eq: $id } }) {
+#     affected_rows
+#     returning {
+#       id
+#     }
+#   }
+# }
+
+# # 查询指定比赛的管理员
+# query GetContestManager($contest_id: uuid!) {
+#   contest_manager(where: { contest_id: { _eq: $contest_id } }) {
+#     userByUserUuid {
+#       uuid
+#       realname
+#       email
+#     }
+#   }
+# }
+
+# # 删除指定比赛的所有管理员
+# mutation DeleteContestAllManager($contest_id: uuid!) {
+#   delete_contest_manager(where: { contest_id: { _eq: $contest_id } }) {
+#     affected_rows
+#   }
+# }
+
+# # 为比赛添加管理员
+# mutation AddContestManager($contest_id: uuid!, $user_uuid: uuid!) {
+#   insert_contest_manager(
+#     objects: { contest_id: $contest_id, user_uuid: $user_uuid }
+#   ) {
+#     affected_rows
+#   }
+# }
+
+# # 根据contest_id删除contest_team
+# mutation DeleteContestAllTeams($contest_id: uuid!) {
+#   delete_contest_team(where: { contest_id: { _eq: $contest_id } }) {
+#     affected_rows
+#   }
+# }
+
+# # 根据contest_id删除contest_notice
+# mutation DeleteContestAllInfo($contest_id: uuid!) {
+#   delete_contest_notice(where: { contest_id: { _eq: $contest_id } }) {
+#     affected_rows
+#   }
+# }
+
+# # 根据contest_id删除contest_room
+# mutation DeleteContestAllRooms($contest_id: uuid!) {
+#   delete_contest_room(where: { contest_id: { _eq: $contest_id } }) {
+#     affected_rows
+#   }
+# }
