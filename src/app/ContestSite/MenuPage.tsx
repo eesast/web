@@ -273,7 +273,6 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           openKeys={openKeys}
           onOpenChange={handleOpenChange}
           items={
-            ["root", "counselor"].includes(props.user?.role!) ||
             isContestManagerData?.contest_manager.length === 1
               ? items.concat(itemsAdmin)
               : items

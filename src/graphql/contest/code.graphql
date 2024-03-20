@@ -1,0 +1,120 @@
+#上传选手代码（原有：更新，无：插入）
+mutation UpsertCode1(
+  $code: String!
+  $update_time: timestamptz!
+  $team_id: uuid!
+  $contest_id: uuid!
+  $code_type: String!
+) {
+  insert_contest_code_one(
+    object: {
+      code1: $code
+      code1_update_time: $update_time
+      team_id: $team_id
+      contest_id: $contest_id
+      code_type1: $code_type
+    }
+    on_conflict: {
+      constraint: contest_code_pkey
+      update_columns: [code1, code1_update_time, code_type1]
+    }
+  ) {
+    code1_update_time
+  }
+}
+
+mutation UpsertCode2(
+  $code: String!
+  $update_time: timestamptz!
+  $team_id: uuid!
+  $contest_id: uuid!
+  $code_type: String!
+) {
+  insert_contest_code_one(
+    object: {
+      code2: $code
+      code2_update_time: $update_time
+      team_id: $team_id
+      contest_id: $contest_id
+      code_type2: $code_type
+    }
+    on_conflict: {
+      constraint: contest_code_pkey
+      update_columns: [code2, code2_update_time, code_type2]
+    }
+  ) {
+    code2_update_time
+  }
+}
+
+mutation UpsertCode3(
+  $code: String!
+  $update_time: timestamptz!
+  $team_id: uuid!
+  $contest_id: uuid!
+  $code_type: String!
+) {
+  insert_contest_code_one(
+    object: {
+      code3: $code
+      code3_update_time: $update_time
+      team_id: $team_id
+      contest_id: $contest_id
+      code_type3: $code_type
+    }
+    on_conflict: {
+      constraint: contest_code_pkey
+      update_columns: [code3, code3_update_time, code_type3]
+    }
+  ) {
+    code3_update_time
+  }
+}
+
+mutation UpsertCode4(
+  $code: String!
+  $update_time: timestamptz!
+  $team_id: uuid!
+  $contest_id: uuid!
+  $code_type: String!
+) {
+  insert_contest_code_one(
+    object: {
+      code4: $code
+      code4_update_time: $update_time
+      team_id: $team_id
+      contest_id: $contest_id
+      code_type4: $code_type
+    }
+    on_conflict: {
+      constraint: contest_code_pkey
+      update_columns: [code4, code4_update_time, code_type4]
+    }
+  ) {
+    code4_update_time
+  }
+}
+
+mutation UpsertCode5(
+  $code: String!
+  $update_time: timestamptz!
+  $team_id: uuid!
+  $contest_id: uuid!
+  $code_type: String!
+) {
+  insert_contest_code_one(
+    object: {
+      code5: $code
+      code5_update_time: $update_time
+      team_id: $team_id
+      contest_id: $contest_id
+      code_type5: $code_type
+    }
+    on_conflict: {
+      constraint: contest_code_pkey
+      update_columns: [code5, code5_update_time, code_type5]
+    }
+  ) {
+    code5_update_time
+  }
+}

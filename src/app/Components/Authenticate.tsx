@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Forbidden from "./Forbidden";
 import { message } from "antd";
@@ -20,8 +20,13 @@ const Authenticate: React.FC<AuthenticateProps> = ({
   children,
   fallback,
 }) => {
+  useEffect(() => {
+    if (!user) {
+      message.info({ content: "请先登录", key: "loginMessage" });
+    }
+  });
+
   if (!user) {
-    message.info("请先登录");
     return <Navigate to="/user/login" />;
   }
 
