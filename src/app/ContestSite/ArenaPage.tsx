@@ -236,7 +236,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             teamid === record.team_id ||
             teamData?.contest_team[0].status !== "compiled" ||
             record.status !== "compiled" ||
-            contestData?.contest[0].status.slice(2, 3) !== "1"
+            contestData?.contest_by_pk?.status.slice(2, 3) !== "1"
           }
         >
           <Button
