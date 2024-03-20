@@ -33,7 +33,7 @@ import JoinPage from "./JoinPage";
 import ManagePage from "./ManagePage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
-import CodePage from "./CodePage";
+import CodePage from "./CodePage.old";
 import PlaybackPage from "./PlaybackPage";
 import StreamPage from "./StreamPage";
 import ManageTeamsPage from "./ManageTeamsPage";
