@@ -219,14 +219,14 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
             `}
           >
             <Checkbox
-              checked={contestData?.contest[0].status?.slice(0, 1) === "1"}
+              checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
               onChange={async (e) => {
                 await updateContestStatus({
                   variables: {
                     contest_id: Contest_id,
                     status:
                       (e.target.checked ? "1" : "0") +
-                      contestData?.contest[0].status?.slice(1, 3),
+                      contestData?.contest_by_pk?.status?.slice(1, 3),
                   },
                 });
                 refetchContestData();
@@ -244,15 +244,15 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
             `}
           >
             <Checkbox
-              checked={contestData?.contest[0].status?.slice(1, 2) === "1"}
+              checked={contestData?.contest_by_pk?.status?.slice(1, 2) === "1"}
               onChange={async (e) => {
                 await updateContestStatus({
                   variables: {
                     contest_id: Contest_id,
                     status:
-                      contestData?.contest[0].status?.slice(0, 1) +
+                      contestData?.contest_by_pk?.status?.slice(0, 1) +
                       (e.target.checked ? "1" : "0") +
-                      contestData?.contest[0].status?.slice(2, 3),
+                      contestData?.contest_by_pk?.status?.slice(2, 3),
                   },
                 });
                 refetchContestData();
@@ -270,13 +270,13 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
             `}
           >
             <Checkbox
-              checked={contestData?.contest[0].status?.slice(2, 3) === "1"}
+              checked={contestData?.contest_by_pk?.status?.slice(2, 3) === "1"}
               onChange={async (e) => {
                 await updateContestStatus({
                   variables: {
                     contest_id: Contest_id,
                     status:
-                      contestData?.contest[0].status?.slice(0, 2) +
+                      contestData?.contest_by_pk?.status?.slice(0, 2) +
                       (e.target.checked ? "1" : "0"),
                   },
                 });

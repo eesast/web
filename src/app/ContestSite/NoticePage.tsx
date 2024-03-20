@@ -166,7 +166,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
-      const url = `${contestData?.contest[0].contest_name}/notice/${
+      const url = `${contestData?.contest_by_pk?.contest_name}/notice/${
         (e.file as RcFile).name
       }`;
       const result = await uploadFile(e.file, url);
@@ -212,7 +212,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
       // else throw (Error("error"));
       if (file.response?.status === 200) {
         await deleteFile(
-          `${contestData?.contest[0].contest_name}/notice/${file.name}`,
+          `${contestData?.contest_by_pk?.contest_name}/notice/${file.name}`,
         );
       }
       // refetchNotices();
@@ -299,7 +299,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                           }
                         : undefined
                     }
-                    contest={contestData?.contest[0].contest_name!}
+                    contest={contestData?.contest_by_pk?.contest_name!}
                     title={item.title}
                     content={item.content}
                     updatedAt={item.updated_at}
