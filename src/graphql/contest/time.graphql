@@ -1,0 +1,58 @@
+# 主要操作对象：contest_time表
+
+# 增
+mutation AddEvent(
+  $contest_id: uuid!
+  $event: String!
+  $start: timestamptz!
+  $end: timestamptz!
+  $description: String
+) {
+  insert_contest_time_one(
+    object: {
+      contest_id: $contest_id
+      event: $event
+      start: $start
+      end: $end
+      description: $description
+    }
+  ) {
+    event
+  }
+}
+
+# 删
+mutation DeleteEvent($contest_id: uuid!, $event: String!) {
+  delete_contest_time_by_pk(contest_id: $contest_id, event: $event) {
+    event
+  }
+}
+
+# 改
+mutation UpdateEvent(
+  $contest_id: uuid!
+  $event: String!
+  $start: timestamptz!
+  $end: timestamptz!
+  $description: String
+) {
+  update_contest_time_by_pk(
+    pk_columns: { contest_id: $contest_id, event: $event }
+    _set: { start: $start, end: $end, description: $description }
+  ) {
+    event
+  }
+}
+
+# 查
+query GetEvents($contest_id: uuid!) {
+  contest_time(
+    order_by: { start: asc }
+    where: { contest_id: { _eq: $contest_id } }
+  ) {
+    event
+    start
+    end
+    description
+  }
+}
