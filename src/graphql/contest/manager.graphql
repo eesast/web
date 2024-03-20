@@ -1,3 +1,6 @@
+# TODO: To be deleted (The whole file)
+
+# TODO: 改为 GetContestManagers
 # 查询某ID用户是否为某比赛管理员
 query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
   contest_manager(
@@ -7,6 +10,7 @@ query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
   }
 }
 
+# TODO: 改为 UpdateContestSwitch
 # 更新比赛状态
 mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
   update_contest(
@@ -19,29 +23,30 @@ mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
   }
 }
 
-# 添加比赛
-mutation AddContest(
-  $start_date: timestamptz!
-  $end_date: timestamptz!
-  $description: String = ""
-  $contest_name: String!
-  $contest_type: String!
-) {
-  insert_contest(
-    objects: {
-      contest_name: $contest_name
-      description: $description
-      end_date: $end_date
-      start_date: $start_date
-      contest_type: $contest_type
-    }
-  ) {
-    returning {
-      id
-    }
-  }
-}
+# # 添加比赛
+# mutation AddContest(
+#   $start_date: timestamptz!
+#   $end_date: timestamptz!
+#   $description: String = ""
+#   $contest_name: String!
+#   $contest_type: String!
+# ) {
+#   insert_contest(
+#     objects: {
+#       contest_name: $contest_name
+#       description: $description
+#       end_date: $end_date
+#       start_date: $start_date
+#       contest_type: $contest_type
+#     }
+#   ) {
+#     returning {
+#       id
+#     }
+#   }
+# }
 
+# TODO: 改为 UpdateContestInfo
 # 更新比赛信息
 mutation UpdateContest(
   $id: uuid!

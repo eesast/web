@@ -25,12 +25,14 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [introError]);
   /* ---------------- 页面组件 ---------------- */
   return (
-    <div style={{ 
-      border: "0px solid #ccc", 
-      padding: "50px", 
-      color: mode === 'dark' ? 'white' : 'initial' 
-    }}>
-      <Markdown>{introData?.contest[0].description}</Markdown>
+    <div
+      style={{
+        border: "0px solid #ccc",
+        padding: "50px",
+        color: mode === "dark" ? "white" : "initial",
+      }}
+    >
+      <Markdown>{introData?.contest_by_pk?.description}</Markdown>
     </div>
   );
 };
