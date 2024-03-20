@@ -11623,22 +11623,156 @@ export type UpsertCode5MutationVariables = Exact<{
 
 export type UpsertCode5Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code5_update_time?: any | null } | null };
 
-export type GetAllContestQueryVariables = Exact<{ [key: string]: never; }>;
+export type AddCodeMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  code_name: Scalars['String']['input'];
+  language: Scalars['String']['input'];
+  compile_status?: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
-export type GetAllContestQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', id: any, contest_name: string, description?: string | null, start_date: any, end_date: any }> };
+export type AddCodeMutation = { __typename?: 'mutation_root', insert_contest_team_code_one?: { __typename?: 'contest_team_code', code_id: any } | null };
+
+export type DeleteCodeMutationVariables = Exact<{
+  code_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteCodeMutation = { __typename?: 'mutation_root', delete_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
+
+export type UpdateCodeNameMutationVariables = Exact<{
+  code_id: Scalars['uuid']['input'];
+  code_name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCodeNameMutation = { __typename?: 'mutation_root', update_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
+
+export type GetCodesSubscriptionVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCodesSubscription = { __typename?: 'subscription_root', contest_team_code: Array<{ __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, compile_status: string, created_at: any }> };
+
+export type AddTeamPlayerMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  player: Scalars['String']['input'];
+}>;
+
+
+export type AddTeamPlayerMutation = { __typename?: 'mutation_root', insert_contest_team_player_one?: { __typename?: 'contest_team_player', player: string } | null };
+
+export type UpdateTeamPlayerMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  player: Scalars['String']['input'];
+  code_id: Scalars['uuid']['input'];
+  role: Scalars['String']['input'];
+}>;
+
+
+export type UpdateTeamPlayerMutation = { __typename?: 'mutation_root', update_contest_team_player_by_pk?: { __typename?: 'contest_team_player', player: string } | null };
+
+export type GetTeamPlayersSubscriptionVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_name: string, language: string, created_at: any } | null }> };
+
+export type DeleteContestMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteContestMutation = { __typename?: 'mutation_root', delete_contest_by_pk?: { __typename?: 'contest', id: any } | null };
+
+export type UpdateContestInfoMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  contest_name: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  start_date: Scalars['timestamptz']['input'];
+  end_date: Scalars['timestamptz']['input'];
+}>;
+
+
+export type UpdateContestInfoMutation = { __typename?: 'mutation_root', update_contest_by_pk?: { __typename?: 'contest', id: any } | null };
+
+export type UpdateContestSwitchMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  code_upload_switch: Scalars['Boolean']['input'];
+  arena_switch: Scalars['Boolean']['input'];
+  playground_switch: Scalars['Boolean']['input'];
+  stream_switch: Scalars['Boolean']['input'];
+  playback_switch: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateContestSwitchMutation = { __typename?: 'mutation_root', update_contest_by_pk?: { __typename?: 'contest', id: any } | null };
+
+export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
 
 export type GetContestInfoQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestInfoQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, contest_type: string, description?: string | null, start_date: any, end_date: any, status: string }> };
+export type GetContestInfoQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_name: string, name: string, description?: string | null, start_date: any, end_date: any, status: string } | null };
 
-export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetContestSwitchSubscriptionVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
 
 
-export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
+export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
+
+export type AddContestPlayerMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  team_label: Scalars['String']['input'];
+  player_num: Scalars['Int']['input'];
+  players_label: Scalars['String']['input'];
+  roles_available: Scalars['String']['input'];
+}>;
+
+
+export type AddContestPlayerMutation = { __typename?: 'mutation_root', insert_contest_player_one?: { __typename?: 'contest_player', team_label: string } | null };
+
+export type DeleteContestPlayerMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  team_label: Scalars['String']['input'];
+}>;
+
+
+export type DeleteContestPlayerMutation = { __typename?: 'mutation_root', delete_contest_player_by_pk?: { __typename?: 'contest_player', team_label: string } | null };
+
+export type UpdateContestPlayerMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  team_label: Scalars['String']['input'];
+  player_num: Scalars['Int']['input'];
+  players_label: Scalars['String']['input'];
+  roles_available: Scalars['String']['input'];
+}>;
+
+
+export type UpdateContestPlayerMutation = { __typename?: 'mutation_root', update_contest_player_by_pk?: { __typename?: 'contest_player', team_label: string } | null };
+
+export type GetContestPlayersQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestPlayersQuery = { __typename?: 'query_root', contest_player: Array<{ __typename?: 'contest_player', team_label: string, player_num: number, players_label: string, roles_available: string }> };
+
+export type GetContestManagersQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestManagersQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_managers: Array<{ __typename?: 'contest_manager', user_uuid: any }> } | null };
 
 export type QueryContestManagerQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -11655,17 +11789,6 @@ export type UpdateContestStatusMutationVariables = Exact<{
 
 
 export type UpdateContestStatusMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', status: string }> } | null };
-
-export type AddContestMutationVariables = Exact<{
-  start_date: Scalars['timestamptz']['input'];
-  end_date: Scalars['timestamptz']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  contest_name: Scalars['String']['input'];
-  contest_type: Scalars['String']['input'];
-}>;
-
-
-export type AddContestMutation = { __typename?: 'mutation_root', insert_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', id: any }> } | null };
 
 export type UpdateContestMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -11838,6 +11961,43 @@ export type QueryTeamIdQueryVariables = Exact<{
 
 
 export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
+
+export type AddEventMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
+  start: Scalars['timestamptz']['input'];
+  end: Scalars['timestamptz']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type AddEventMutation = { __typename?: 'mutation_root', insert_contest_time_one?: { __typename?: 'contest_time', event: string } | null };
+
+export type DeleteEventMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
+}>;
+
+
+export type DeleteEventMutation = { __typename?: 'mutation_root', delete_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
+
+export type UpdateEventMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  event: Scalars['String']['input'];
+  start: Scalars['timestamptz']['input'];
+  end: Scalars['timestamptz']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateEventMutation = { __typename?: 'mutation_root', update_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
+
+export type GetEventsQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetEventsQuery = { __typename?: 'query_root', contest_time: Array<{ __typename?: 'contest_time', event: string, start: any, end: any, description?: string | null }> };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -12452,94 +12612,375 @@ export function useUpsertCode5Mutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpsertCode5MutationHookResult = ReturnType<typeof useUpsertCode5Mutation>;
 export type UpsertCode5MutationResult = Apollo.MutationResult<UpsertCode5Mutation>;
 export type UpsertCode5MutationOptions = Apollo.BaseMutationOptions<UpsertCode5Mutation, UpsertCode5MutationVariables>;
-export const GetAllContestDocument = gql`
-    query GetAllContest {
-  contest {
-    id
-    contest_name
-    description
-    start_date
-    end_date
+export const AddCodeDocument = gql`
+    mutation AddCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
+  insert_contest_team_code_one(
+    object: {team_id: $team_id, code_name: $code_name, language: $language, compile_status: $compile_status}
+  ) {
+    code_id
   }
 }
     `;
+export type AddCodeMutationFn = Apollo.MutationFunction<AddCodeMutation, AddCodeMutationVariables>;
 
 /**
- * __useGetAllContestQuery__
+ * __useAddCodeMutation__
  *
- * To run a query within a React component, call `useGetAllContestQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllContestQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useAddCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useGetAllContestQuery({
+ * const [addCodeMutation, { data, loading, error }] = useAddCodeMutation({
  *   variables: {
+ *      team_id: // value for 'team_id'
+ *      code_name: // value for 'code_name'
+ *      language: // value for 'language'
+ *      compile_status: // value for 'compile_status'
  *   },
  * });
  */
-export function useGetAllContestQuery(baseOptions?: Apollo.QueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
+export function useAddCodeMutation(baseOptions?: Apollo.MutationHookOptions<AddCodeMutation, AddCodeMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
+        return Apollo.useMutation<AddCodeMutation, AddCodeMutationVariables>(AddCodeDocument, options);
       }
-export function useGetAllContestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
-        }
-export function useGetAllContestSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllContestQuery, GetAllContestQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllContestQuery, GetAllContestQueryVariables>(GetAllContestDocument, options);
-        }
-export type GetAllContestQueryHookResult = ReturnType<typeof useGetAllContestQuery>;
-export type GetAllContestLazyQueryHookResult = ReturnType<typeof useGetAllContestLazyQuery>;
-export type GetAllContestSuspenseQueryHookResult = ReturnType<typeof useGetAllContestSuspenseQuery>;
-export type GetAllContestQueryResult = Apollo.QueryResult<GetAllContestQuery, GetAllContestQueryVariables>;
-export const GetContestInfoDocument = gql`
-    query GetContestInfo($contest_id: uuid!) {
-  contest(where: {id: {_eq: $contest_id}}) {
-    contest_name
-    contest_type
-    description
-    start_date
-    end_date
-    status
+export type AddCodeMutationHookResult = ReturnType<typeof useAddCodeMutation>;
+export type AddCodeMutationResult = Apollo.MutationResult<AddCodeMutation>;
+export type AddCodeMutationOptions = Apollo.BaseMutationOptions<AddCodeMutation, AddCodeMutationVariables>;
+export const DeleteCodeDocument = gql`
+    mutation DeleteCode($code_id: uuid!) {
+  delete_contest_team_code_by_pk(code_id: $code_id) {
+    code_id
+  }
+}
+    `;
+export type DeleteCodeMutationFn = Apollo.MutationFunction<DeleteCodeMutation, DeleteCodeMutationVariables>;
+
+/**
+ * __useDeleteCodeMutation__
+ *
+ * To run a mutation, you first call `useDeleteCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCodeMutation, { data, loading, error }] = useDeleteCodeMutation({
+ *   variables: {
+ *      code_id: // value for 'code_id'
+ *   },
+ * });
+ */
+export function useDeleteCodeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCodeMutation, DeleteCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCodeMutation, DeleteCodeMutationVariables>(DeleteCodeDocument, options);
+      }
+export type DeleteCodeMutationHookResult = ReturnType<typeof useDeleteCodeMutation>;
+export type DeleteCodeMutationResult = Apollo.MutationResult<DeleteCodeMutation>;
+export type DeleteCodeMutationOptions = Apollo.BaseMutationOptions<DeleteCodeMutation, DeleteCodeMutationVariables>;
+export const UpdateCodeNameDocument = gql`
+    mutation UpdateCodeName($code_id: uuid!, $code_name: String!) {
+  update_contest_team_code_by_pk(
+    pk_columns: {code_id: $code_id}
+    _set: {code_name: $code_name}
+  ) {
+    code_id
+  }
+}
+    `;
+export type UpdateCodeNameMutationFn = Apollo.MutationFunction<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>;
+
+/**
+ * __useUpdateCodeNameMutation__
+ *
+ * To run a mutation, you first call `useUpdateCodeNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCodeNameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCodeNameMutation, { data, loading, error }] = useUpdateCodeNameMutation({
+ *   variables: {
+ *      code_id: // value for 'code_id'
+ *      code_name: // value for 'code_name'
+ *   },
+ * });
+ */
+export function useUpdateCodeNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>(UpdateCodeNameDocument, options);
+      }
+export type UpdateCodeNameMutationHookResult = ReturnType<typeof useUpdateCodeNameMutation>;
+export type UpdateCodeNameMutationResult = Apollo.MutationResult<UpdateCodeNameMutation>;
+export type UpdateCodeNameMutationOptions = Apollo.BaseMutationOptions<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>;
+export const GetCodesDocument = gql`
+    subscription GetCodes($team_id: uuid!) {
+  contest_team_code(
+    order_by: {created_at: desc}
+    where: {team_id: {_eq: $team_id}}
+  ) {
+    code_id
+    code_name
+    language
+    compile_status
+    created_at
   }
 }
     `;
 
 /**
- * __useGetContestInfoQuery__
+ * __useGetCodesSubscription__
  *
- * To run a query within a React component, call `useGetContestInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContestInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCodesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetCodesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetContestInfoQuery({
+ * const { data, loading, error } = useGetCodesSubscription({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetCodesSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodesSubscription, GetCodesSubscriptionVariables> & ({ variables: GetCodesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetCodesSubscription, GetCodesSubscriptionVariables>(GetCodesDocument, options);
+      }
+export type GetCodesSubscriptionHookResult = ReturnType<typeof useGetCodesSubscription>;
+export type GetCodesSubscriptionResult = Apollo.SubscriptionResult<GetCodesSubscription>;
+export const AddTeamPlayerDocument = gql`
+    mutation AddTeamPlayer($team_id: uuid!, $player: String!) {
+  insert_contest_team_player_one(object: {team_id: $team_id, player: $player}) {
+    player
+  }
+}
+    `;
+export type AddTeamPlayerMutationFn = Apollo.MutationFunction<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>;
+
+/**
+ * __useAddTeamPlayerMutation__
+ *
+ * To run a mutation, you first call `useAddTeamPlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTeamPlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTeamPlayerMutation, { data, loading, error }] = useAddTeamPlayerMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *      player: // value for 'player'
+ *   },
+ * });
+ */
+export function useAddTeamPlayerMutation(baseOptions?: Apollo.MutationHookOptions<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>(AddTeamPlayerDocument, options);
+      }
+export type AddTeamPlayerMutationHookResult = ReturnType<typeof useAddTeamPlayerMutation>;
+export type AddTeamPlayerMutationResult = Apollo.MutationResult<AddTeamPlayerMutation>;
+export type AddTeamPlayerMutationOptions = Apollo.BaseMutationOptions<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>;
+export const UpdateTeamPlayerDocument = gql`
+    mutation UpdateTeamPlayer($team_id: uuid!, $player: String!, $code_id: uuid!, $role: String!) {
+  update_contest_team_player_by_pk(
+    pk_columns: {team_id: $team_id, player: $player}
+    _set: {code_id: $code_id, role: $role}
+  ) {
+    player
+  }
+}
+    `;
+export type UpdateTeamPlayerMutationFn = Apollo.MutationFunction<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>;
+
+/**
+ * __useUpdateTeamPlayerMutation__
+ *
+ * To run a mutation, you first call `useUpdateTeamPlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTeamPlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTeamPlayerMutation, { data, loading, error }] = useUpdateTeamPlayerMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *      player: // value for 'player'
+ *      code_id: // value for 'code_id'
+ *      role: // value for 'role'
+ *   },
+ * });
+ */
+export function useUpdateTeamPlayerMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>(UpdateTeamPlayerDocument, options);
+      }
+export type UpdateTeamPlayerMutationHookResult = ReturnType<typeof useUpdateTeamPlayerMutation>;
+export type UpdateTeamPlayerMutationResult = Apollo.MutationResult<UpdateTeamPlayerMutation>;
+export type UpdateTeamPlayerMutationOptions = Apollo.BaseMutationOptions<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>;
+export const GetTeamPlayersDocument = gql`
+    subscription GetTeamPlayers($team_id: uuid!) {
+  contest_team_player(where: {team_id: {_eq: $team_id}}) {
+    player
+    player_code {
+      code_name
+      language
+      created_at
+    }
+    role
+  }
+}
+    `;
+
+/**
+ * __useGetTeamPlayersSubscription__
+ *
+ * To run a query within a React component, call `useGetTeamPlayersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamPlayersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamPlayersSubscription({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamPlayersSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables> & ({ variables: GetTeamPlayersSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables>(GetTeamPlayersDocument, options);
+      }
+export type GetTeamPlayersSubscriptionHookResult = ReturnType<typeof useGetTeamPlayersSubscription>;
+export type GetTeamPlayersSubscriptionResult = Apollo.SubscriptionResult<GetTeamPlayersSubscription>;
+export const DeleteContestDocument = gql`
+    mutation DeleteContest($contest_id: uuid!) {
+  delete_contest_by_pk(id: $contest_id) {
+    id
+  }
+}
+    `;
+export type DeleteContestMutationFn = Apollo.MutationFunction<DeleteContestMutation, DeleteContestMutationVariables>;
+
+/**
+ * __useDeleteContestMutation__
+ *
+ * To run a mutation, you first call `useDeleteContestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteContestMutation, { data, loading, error }] = useDeleteContestMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useGetContestInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables> & ({ variables: GetContestInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useDeleteContestMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestMutation, DeleteContestMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
+        return Apollo.useMutation<DeleteContestMutation, DeleteContestMutationVariables>(DeleteContestDocument, options);
       }
-export function useGetContestInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
-        }
-export function useGetContestInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
-        }
-export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQuery>;
-export type GetContestInfoLazyQueryHookResult = ReturnType<typeof useGetContestInfoLazyQuery>;
-export type GetContestInfoSuspenseQueryHookResult = ReturnType<typeof useGetContestInfoSuspenseQuery>;
-export type GetContestInfoQueryResult = Apollo.QueryResult<GetContestInfoQuery, GetContestInfoQueryVariables>;
+export type DeleteContestMutationHookResult = ReturnType<typeof useDeleteContestMutation>;
+export type DeleteContestMutationResult = Apollo.MutationResult<DeleteContestMutation>;
+export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<DeleteContestMutation, DeleteContestMutationVariables>;
+export const UpdateContestInfoDocument = gql`
+    mutation UpdateContestInfo($contest_id: uuid!, $contest_name: String!, $name: String!, $description: String, $start_date: timestamptz!, $end_date: timestamptz!) {
+  update_contest_by_pk(
+    pk_columns: {id: $contest_id}
+    _set: {contest_name: $contest_name, name: $name, description: $description, start_date: $start_date, end_date: $end_date}
+  ) {
+    id
+  }
+}
+    `;
+export type UpdateContestInfoMutationFn = Apollo.MutationFunction<UpdateContestInfoMutation, UpdateContestInfoMutationVariables>;
+
+/**
+ * __useUpdateContestInfoMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestInfoMutation, { data, loading, error }] = useUpdateContestInfoMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      contest_name: // value for 'contest_name'
+ *      name: // value for 'name'
+ *      description: // value for 'description'
+ *      start_date: // value for 'start_date'
+ *      end_date: // value for 'end_date'
+ *   },
+ * });
+ */
+export function useUpdateContestInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestInfoMutation, UpdateContestInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestInfoMutation, UpdateContestInfoMutationVariables>(UpdateContestInfoDocument, options);
+      }
+export type UpdateContestInfoMutationHookResult = ReturnType<typeof useUpdateContestInfoMutation>;
+export type UpdateContestInfoMutationResult = Apollo.MutationResult<UpdateContestInfoMutation>;
+export type UpdateContestInfoMutationOptions = Apollo.BaseMutationOptions<UpdateContestInfoMutation, UpdateContestInfoMutationVariables>;
+export const UpdateContestSwitchDocument = gql`
+    mutation UpdateContestSwitch($contest_id: uuid!, $code_upload_switch: Boolean!, $arena_switch: Boolean!, $playground_switch: Boolean!, $stream_switch: Boolean!, $playback_switch: Boolean!) {
+  update_contest_by_pk(
+    pk_columns: {id: $contest_id}
+    _set: {code_upload_switch: $code_upload_switch, arena_switch: $arena_switch, playground_switch: $playground_switch, stream_switch: $stream_switch, playback_switch: $playback_switch}
+  ) {
+    id
+  }
+}
+    `;
+export type UpdateContestSwitchMutationFn = Apollo.MutationFunction<UpdateContestSwitchMutation, UpdateContestSwitchMutationVariables>;
+
+/**
+ * __useUpdateContestSwitchMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestSwitchMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestSwitchMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestSwitchMutation, { data, loading, error }] = useUpdateContestSwitchMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      code_upload_switch: // value for 'code_upload_switch'
+ *      arena_switch: // value for 'arena_switch'
+ *      playground_switch: // value for 'playground_switch'
+ *      stream_switch: // value for 'stream_switch'
+ *      playback_switch: // value for 'playback_switch'
+ *   },
+ * });
+ */
+export function useUpdateContestSwitchMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestSwitchMutation, UpdateContestSwitchMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestSwitchMutation, UpdateContestSwitchMutationVariables>(UpdateContestSwitchDocument, options);
+      }
+export type UpdateContestSwitchMutationHookResult = ReturnType<typeof useUpdateContestSwitchMutation>;
+export type UpdateContestSwitchMutationResult = Apollo.MutationResult<UpdateContestSwitchMutation>;
+export type UpdateContestSwitchMutationOptions = Apollo.BaseMutationOptions<UpdateContestSwitchMutation, UpdateContestSwitchMutationVariables>;
 export const GetContestsDocument = gql`
     query GetContests {
   contest(order_by: {start_date: desc}) {
@@ -12584,6 +13025,283 @@ export type GetContestsQueryHookResult = ReturnType<typeof useGetContestsQuery>;
 export type GetContestsLazyQueryHookResult = ReturnType<typeof useGetContestsLazyQuery>;
 export type GetContestsSuspenseQueryHookResult = ReturnType<typeof useGetContestsSuspenseQuery>;
 export type GetContestsQueryResult = Apollo.QueryResult<GetContestsQuery, GetContestsQueryVariables>;
+export const GetContestInfoDocument = gql`
+    query GetContestInfo($contest_id: uuid!) {
+  contest_by_pk(id: $contest_id) {
+    contest_name
+    name
+    description
+    start_date
+    end_date
+    status
+  }
+}
+    `;
+
+/**
+ * __useGetContestInfoQuery__
+ *
+ * To run a query within a React component, call `useGetContestInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestInfoQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables> & ({ variables: GetContestInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
+      }
+export function useGetContestInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
+        }
+export function useGetContestInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
+        }
+export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQuery>;
+export type GetContestInfoLazyQueryHookResult = ReturnType<typeof useGetContestInfoLazyQuery>;
+export type GetContestInfoSuspenseQueryHookResult = ReturnType<typeof useGetContestInfoSuspenseQuery>;
+export type GetContestInfoQueryResult = Apollo.QueryResult<GetContestInfoQuery, GetContestInfoQueryVariables>;
+export const GetContestSwitchDocument = gql`
+    subscription GetContestSwitch($contest_id: uuid!) {
+  contest_by_pk(id: $contest_id) {
+    code_upload_switch
+    arena_switch
+    playground_switch
+    stream_switch
+    playback_switch
+  }
+}
+    `;
+
+/**
+ * __useGetContestSwitchSubscription__
+ *
+ * To run a query within a React component, call `useGetContestSwitchSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestSwitchSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestSwitchSubscription({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestSwitchSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetContestSwitchSubscription, GetContestSwitchSubscriptionVariables> & ({ variables: GetContestSwitchSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetContestSwitchSubscription, GetContestSwitchSubscriptionVariables>(GetContestSwitchDocument, options);
+      }
+export type GetContestSwitchSubscriptionHookResult = ReturnType<typeof useGetContestSwitchSubscription>;
+export type GetContestSwitchSubscriptionResult = Apollo.SubscriptionResult<GetContestSwitchSubscription>;
+export const AddContestPlayerDocument = gql`
+    mutation AddContestPlayer($contest_id: uuid!, $team_label: String!, $player_num: Int!, $players_label: String!, $roles_available: String!) {
+  insert_contest_player_one(
+    object: {contest_id: $contest_id, team_label: $team_label, player_num: $player_num, players_label: $players_label, roles_available: $roles_available}
+  ) {
+    team_label
+  }
+}
+    `;
+export type AddContestPlayerMutationFn = Apollo.MutationFunction<AddContestPlayerMutation, AddContestPlayerMutationVariables>;
+
+/**
+ * __useAddContestPlayerMutation__
+ *
+ * To run a mutation, you first call `useAddContestPlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddContestPlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addContestPlayerMutation, { data, loading, error }] = useAddContestPlayerMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      team_label: // value for 'team_label'
+ *      player_num: // value for 'player_num'
+ *      players_label: // value for 'players_label'
+ *      roles_available: // value for 'roles_available'
+ *   },
+ * });
+ */
+export function useAddContestPlayerMutation(baseOptions?: Apollo.MutationHookOptions<AddContestPlayerMutation, AddContestPlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestPlayerMutation, AddContestPlayerMutationVariables>(AddContestPlayerDocument, options);
+      }
+export type AddContestPlayerMutationHookResult = ReturnType<typeof useAddContestPlayerMutation>;
+export type AddContestPlayerMutationResult = Apollo.MutationResult<AddContestPlayerMutation>;
+export type AddContestPlayerMutationOptions = Apollo.BaseMutationOptions<AddContestPlayerMutation, AddContestPlayerMutationVariables>;
+export const DeleteContestPlayerDocument = gql`
+    mutation DeleteContestPlayer($contest_id: uuid!, $team_label: String!) {
+  delete_contest_player_by_pk(contest_id: $contest_id, team_label: $team_label) {
+    team_label
+  }
+}
+    `;
+export type DeleteContestPlayerMutationFn = Apollo.MutationFunction<DeleteContestPlayerMutation, DeleteContestPlayerMutationVariables>;
+
+/**
+ * __useDeleteContestPlayerMutation__
+ *
+ * To run a mutation, you first call `useDeleteContestPlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContestPlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteContestPlayerMutation, { data, loading, error }] = useDeleteContestPlayerMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      team_label: // value for 'team_label'
+ *   },
+ * });
+ */
+export function useDeleteContestPlayerMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestPlayerMutation, DeleteContestPlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestPlayerMutation, DeleteContestPlayerMutationVariables>(DeleteContestPlayerDocument, options);
+      }
+export type DeleteContestPlayerMutationHookResult = ReturnType<typeof useDeleteContestPlayerMutation>;
+export type DeleteContestPlayerMutationResult = Apollo.MutationResult<DeleteContestPlayerMutation>;
+export type DeleteContestPlayerMutationOptions = Apollo.BaseMutationOptions<DeleteContestPlayerMutation, DeleteContestPlayerMutationVariables>;
+export const UpdateContestPlayerDocument = gql`
+    mutation UpdateContestPlayer($contest_id: uuid!, $team_label: String!, $player_num: Int!, $players_label: String!, $roles_available: String!) {
+  update_contest_player_by_pk(
+    pk_columns: {contest_id: $contest_id, team_label: $team_label}
+    _set: {player_num: $player_num, players_label: $players_label, roles_available: $roles_available}
+  ) {
+    team_label
+  }
+}
+    `;
+export type UpdateContestPlayerMutationFn = Apollo.MutationFunction<UpdateContestPlayerMutation, UpdateContestPlayerMutationVariables>;
+
+/**
+ * __useUpdateContestPlayerMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestPlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestPlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestPlayerMutation, { data, loading, error }] = useUpdateContestPlayerMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      team_label: // value for 'team_label'
+ *      player_num: // value for 'player_num'
+ *      players_label: // value for 'players_label'
+ *      roles_available: // value for 'roles_available'
+ *   },
+ * });
+ */
+export function useUpdateContestPlayerMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestPlayerMutation, UpdateContestPlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestPlayerMutation, UpdateContestPlayerMutationVariables>(UpdateContestPlayerDocument, options);
+      }
+export type UpdateContestPlayerMutationHookResult = ReturnType<typeof useUpdateContestPlayerMutation>;
+export type UpdateContestPlayerMutationResult = Apollo.MutationResult<UpdateContestPlayerMutation>;
+export type UpdateContestPlayerMutationOptions = Apollo.BaseMutationOptions<UpdateContestPlayerMutation, UpdateContestPlayerMutationVariables>;
+export const GetContestPlayersDocument = gql`
+    query GetContestPlayers($contest_id: uuid!) {
+  contest_player(where: {contest_id: {_eq: $contest_id}}) {
+    team_label
+    player_num
+    players_label
+    roles_available
+  }
+}
+    `;
+
+/**
+ * __useGetContestPlayersQuery__
+ *
+ * To run a query within a React component, call `useGetContestPlayersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestPlayersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestPlayersQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestPlayersQuery(baseOptions: Apollo.QueryHookOptions<GetContestPlayersQuery, GetContestPlayersQueryVariables> & ({ variables: GetContestPlayersQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestPlayersQuery, GetContestPlayersQueryVariables>(GetContestPlayersDocument, options);
+      }
+export function useGetContestPlayersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestPlayersQuery, GetContestPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestPlayersQuery, GetContestPlayersQueryVariables>(GetContestPlayersDocument, options);
+        }
+export function useGetContestPlayersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestPlayersQuery, GetContestPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestPlayersQuery, GetContestPlayersQueryVariables>(GetContestPlayersDocument, options);
+        }
+export type GetContestPlayersQueryHookResult = ReturnType<typeof useGetContestPlayersQuery>;
+export type GetContestPlayersLazyQueryHookResult = ReturnType<typeof useGetContestPlayersLazyQuery>;
+export type GetContestPlayersSuspenseQueryHookResult = ReturnType<typeof useGetContestPlayersSuspenseQuery>;
+export type GetContestPlayersQueryResult = Apollo.QueryResult<GetContestPlayersQuery, GetContestPlayersQueryVariables>;
+export const GetContestManagersDocument = gql`
+    query GetContestManagers($contest_id: uuid!) {
+  contest_by_pk(id: $contest_id) {
+    contest_managers {
+      user_uuid
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetContestManagersQuery__
+ *
+ * To run a query within a React component, call `useGetContestManagersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestManagersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestManagersQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestManagersQuery(baseOptions: Apollo.QueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables> & ({ variables: GetContestManagersQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
+      }
+export function useGetContestManagersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
+        }
+export function useGetContestManagersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
+        }
+export type GetContestManagersQueryHookResult = ReturnType<typeof useGetContestManagersQuery>;
+export type GetContestManagersLazyQueryHookResult = ReturnType<typeof useGetContestManagersLazyQuery>;
+export type GetContestManagersSuspenseQueryHookResult = ReturnType<typeof useGetContestManagersSuspenseQuery>;
+export type GetContestManagersQueryResult = Apollo.QueryResult<GetContestManagersQuery, GetContestManagersQueryVariables>;
 export const QueryContestManagerDocument = gql`
     query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
   contest_manager(
@@ -12663,47 +13381,6 @@ export function useUpdateContestStatusMutation(baseOptions?: Apollo.MutationHook
 export type UpdateContestStatusMutationHookResult = ReturnType<typeof useUpdateContestStatusMutation>;
 export type UpdateContestStatusMutationResult = Apollo.MutationResult<UpdateContestStatusMutation>;
 export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
-export const AddContestDocument = gql`
-    mutation AddContest($start_date: timestamptz!, $end_date: timestamptz!, $description: String = "", $contest_name: String!, $contest_type: String!) {
-  insert_contest(
-    objects: {contest_name: $contest_name, description: $description, end_date: $end_date, start_date: $start_date, contest_type: $contest_type}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddContestMutationFn = Apollo.MutationFunction<AddContestMutation, AddContestMutationVariables>;
-
-/**
- * __useAddContestMutation__
- *
- * To run a mutation, you first call `useAddContestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddContestMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addContestMutation, { data, loading, error }] = useAddContestMutation({
- *   variables: {
- *      start_date: // value for 'start_date'
- *      end_date: // value for 'end_date'
- *      description: // value for 'description'
- *      contest_name: // value for 'contest_name'
- *      contest_type: // value for 'contest_type'
- *   },
- * });
- */
-export function useAddContestMutation(baseOptions?: Apollo.MutationHookOptions<AddContestMutation, AddContestMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddContestMutation, AddContestMutationVariables>(AddContestDocument, options);
-      }
-export type AddContestMutationHookResult = ReturnType<typeof useAddContestMutation>;
-export type AddContestMutationResult = Apollo.MutationResult<AddContestMutation>;
-export type AddContestMutationOptions = Apollo.BaseMutationOptions<AddContestMutation, AddContestMutationVariables>;
 export const UpdateContestDocument = gql`
     mutation UpdateContest($id: uuid!, $description: String = "", $contest_name: String!, $end_date: timestamptz!, $start_date: timestamptz!, $contest_type: String!) {
   update_contest(
@@ -13619,6 +14296,162 @@ export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
 export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
 export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
 export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
+export const AddEventDocument = gql`
+    mutation AddEvent($contest_id: uuid!, $event: String!, $start: timestamptz!, $end: timestamptz!, $description: String) {
+  insert_contest_time_one(
+    object: {contest_id: $contest_id, event: $event, start: $start, end: $end, description: $description}
+  ) {
+    event
+  }
+}
+    `;
+export type AddEventMutationFn = Apollo.MutationFunction<AddEventMutation, AddEventMutationVariables>;
+
+/**
+ * __useAddEventMutation__
+ *
+ * To run a mutation, you first call `useAddEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addEventMutation, { data, loading, error }] = useAddEventMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      event: // value for 'event'
+ *      start: // value for 'start'
+ *      end: // value for 'end'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useAddEventMutation(baseOptions?: Apollo.MutationHookOptions<AddEventMutation, AddEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddEventMutation, AddEventMutationVariables>(AddEventDocument, options);
+      }
+export type AddEventMutationHookResult = ReturnType<typeof useAddEventMutation>;
+export type AddEventMutationResult = Apollo.MutationResult<AddEventMutation>;
+export type AddEventMutationOptions = Apollo.BaseMutationOptions<AddEventMutation, AddEventMutationVariables>;
+export const DeleteEventDocument = gql`
+    mutation DeleteEvent($contest_id: uuid!, $event: String!) {
+  delete_contest_time_by_pk(contest_id: $contest_id, event: $event) {
+    event
+  }
+}
+    `;
+export type DeleteEventMutationFn = Apollo.MutationFunction<DeleteEventMutation, DeleteEventMutationVariables>;
+
+/**
+ * __useDeleteEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      event: // value for 'event'
+ *   },
+ * });
+ */
+export function useDeleteEventMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEventMutation, DeleteEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, options);
+      }
+export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMutation>;
+export type DeleteEventMutationResult = Apollo.MutationResult<DeleteEventMutation>;
+export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
+export const UpdateEventDocument = gql`
+    mutation UpdateEvent($contest_id: uuid!, $event: String!, $start: timestamptz!, $end: timestamptz!, $description: String) {
+  update_contest_time_by_pk(
+    pk_columns: {contest_id: $contest_id, event: $event}
+    _set: {start: $start, end: $end, description: $description}
+  ) {
+    event
+  }
+}
+    `;
+export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation, UpdateEventMutationVariables>;
+
+/**
+ * __useUpdateEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      event: // value for 'event'
+ *      start: // value for 'start'
+ *      end: // value for 'end'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useUpdateEventMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventMutation, UpdateEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, options);
+      }
+export type UpdateEventMutationHookResult = ReturnType<typeof useUpdateEventMutation>;
+export type UpdateEventMutationResult = Apollo.MutationResult<UpdateEventMutation>;
+export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<UpdateEventMutation, UpdateEventMutationVariables>;
+export const GetEventsDocument = gql`
+    query GetEvents($contest_id: uuid!) {
+  contest_time(order_by: {start: asc}, where: {contest_id: {_eq: $contest_id}}) {
+    event
+    start
+    end
+    description
+  }
+}
+    `;
+
+/**
+ * __useGetEventsQuery__
+ *
+ * To run a query within a React component, call `useGetEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventsQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetEventsQuery(baseOptions: Apollo.QueryHookOptions<GetEventsQuery, GetEventsQueryVariables> & ({ variables: GetEventsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+      }
+export function useGetEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+        }
+export function useGetEventsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+        }
+export type GetEventsQueryHookResult = ReturnType<typeof useGetEventsQuery>;
+export type GetEventsLazyQueryHookResult = ReturnType<typeof useGetEventsLazyQuery>;
+export type GetEventsSuspenseQueryHookResult = ReturnType<typeof useGetEventsSuspenseQuery>;
+export type GetEventsQueryResult = Apollo.QueryResult<GetEventsQuery, GetEventsQueryVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
     query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(
