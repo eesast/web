@@ -7,7 +7,7 @@
   "dependencies": {
     "@ant-design/pro-components": "2.6.51",
     "@apollo/client": "3.9.8",
-    "antd": "5.15.2",
+    "antd": "5.15.3",
     "axios": "1.6.7",
     "cos-js-sdk-v5": "1.7.0",
     "dayjs": "1.11.10",
