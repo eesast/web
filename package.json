@@ -57,7 +57,7 @@
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
     "rimraf": "5.0.5",
-    "typescript": "5.4.2",
+    "typescript": "5.4.3",
     "web-vitals": "3.5.2",
     "webpack-bundle-analyzer": "4.10.1",
     "webpackbar": "6.0.1"
