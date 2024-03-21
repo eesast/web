@@ -1,4 +1,5 @@
 - [用户逻辑](https://eesast.github.io/web/user)
+- [COS存储桶访问路径约定](https://eesast.github.io/web/cos)
 - 代码提交逻辑（待补充）
 - 天梯逻辑（待补充）
 - 静态资源管理（待补充）
