@@ -9,17 +9,15 @@ permalink: /code
 ### 流程描述（分工）
 
 - 代码提交
-
   1. 选手在代码管理页面点击上传/拖入文件上传`AI.cpp`或`AI.py`
   2. 前端识别编程语言，并在数据库`contest_team_code`表插入新行，返回得`code_id`
   3. 前端根据`${code_id}.${lang}`重命名文件并上传至`cos`，上传路径见[COS存储桶访问路径约定](https://eesast.github.io/web/cos)
   4. 若语言为解释型语言(`py`)，则前端更改数据库`compile_status`为`No Need`（可与第二步合并）
-  5. 若语言为编译型语言(`cpp`)，则前端向后端发请求`/code/compile`（见后），使后端开始编译代码
+  5. 若语言为编译型语言(`cpp`)，则前端向后端发请求`/code/compile-start`（见后），使后端开始编译代码
   6. 后端下载`cos`上的代码文件，在服务器上启动编译`docker`，并在数据库中更新`compile_status`为`Compiling`
-  7. ``docker`完成编译后，请求后端`/code/finish`路由（见后）。若编译成功无报错，后端在数据库中更新`compile_status`为`Completed`；若编译出错，后端在数据库中更新`compile_status`为`Failed`
+  7. `docker`完成编译后，请求后端`/code/compile-finish`路由（见后）。若编译成功无报错，后端在数据库中更新`compile_status`为`Completed`；若编译出错，后端在数据库中更新`compile_status`为`Failed`
   8. 后端将可执行文件按`${code_id}`重命名、将`Compile log`按`${code_id}.log`重命名后上传至`cos`，同代码文件夹
   9. 前端通过`subscription`实时更新`compile_status`
-
 - 代码重命名
   - 前端页面上和数据库中的`code_name`是代码文件上传的原名，仅作展示和下载时的命名之用，与后端和`cos`没有关系。用户可以修改这个名字来做版本管理，仅需前端修改数据库`contest_team_code`表即可。
 - 编译日志获取
