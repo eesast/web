@@ -124,9 +124,9 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       render: (text, record) => {
         return (
           <Text>
-            {record.contest_room_teams[0].contest_team.team_name}
+            {record.contest_room_teams[0]?.contest_team.team_name}
             <br />
-            {record.contest_room_teams[1].contest_team.team_name}
+            {record.contest_room_teams[1]?.contest_team.team_name}
           </Text>
         );
       },
