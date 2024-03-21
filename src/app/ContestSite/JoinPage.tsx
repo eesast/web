@@ -58,7 +58,6 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useGetContestManagersSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        // user_uuid: user?.uuid,
       },
     });
 

@@ -80,11 +80,10 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [deleteNotice, { error: noticeDeleteError }] =
     graphql.useDeleteContestNoticeMutation();
 
-  const { data: isContestManagerData, error: isContestManagerError } =
-    graphql.useQueryContestManagerSuspenseQuery({
+  const { data: getContestManagersData, error: getContestManagersError } =
+    graphql.useGetContestManagersSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_uuid: user?.uuid,
       },
     });
 
@@ -114,11 +113,11 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [noticeDeleteError]);
 
   useEffect(() => {
-    if (isContestManagerError) {
+    if (getContestManagersError) {
       message.error("管理员加载失败");
-      console.log(isContestManagerError.message);
+      console.log(getContestManagersError.message);
     }
-  }, [isContestManagerError]);
+  }, [getContestManagersError]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingNotice, setEditingNotice] =
@@ -258,7 +257,9 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
           <Button
             style={{
               display:
-                isContestManagerData?.contest_manager.length !== 1
+                !getContestManagersData?.contest_by_pk?.contest_managers.some(
+                  (manager) => manager.user_uuid === user?.uuid,
+                )
                   ? "none"
                   : "inline-block",
             }}
@@ -279,7 +280,9 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Content>
                   <NoticeCard
                     onEditPress={
-                      isContestManagerData?.contest_manager.length === 1
+                      getContestManagersData?.contest_by_pk?.contest_managers.some(
+                        (manager) => manager.user_uuid === user?.uuid,
+                      )
                         ? () => {
                             setEditingNotice(
                               item as graphql.GetContestNoticesQuery["contest_notice"][0],
@@ -298,7 +301,9 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                         : undefined
                     }
                     onDeletePress={
-                      isContestManagerData?.contest_manager.length === 1
+                      getContestManagersData?.contest_by_pk?.contest_managers.some(
+                        (manager) => manager.user_uuid === user?.uuid,
+                      )
                         ? () => {
                             handleNoticeDelete(item.id);
                           }

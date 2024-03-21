@@ -57,24 +57,25 @@ const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
   const Contest_id = url.query.get("contest")!;
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
-  const { data: isContestManagerData, error: isContestManagerError } =
-    graphql.useQueryContestManagerSuspenseQuery({
+  const { data: getContestManagersData, error: getContestManagersError } =
+    graphql.useGetContestManagersSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_uuid: user?.uuid,
       },
     });
 
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
-    if (isContestManagerError) {
+    if (getContestManagersError) {
       message.error("管理员加载失败");
-      console.log(isContestManagerError.message);
+      console.log(getContestManagersError.message);
     }
-  }, [isContestManagerError]);
+  }, [getContestManagersError]);
 
   /* ---------------- 页面组件 ---------------- */
-  return isContestManagerData?.contest_manager.length === 1 ? (
+  return getContestManagersData?.contest_by_pk?.contest_managers.some(
+    (manager) => manager.user_uuid === user?.uuid,
+  ) ? (
     editingTeamID === undefined ? (
       <ListPage contest_id={Contest_id} setEditingTeamID={setEditingTeamID} />
     ) : (

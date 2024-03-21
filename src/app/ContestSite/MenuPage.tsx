@@ -70,19 +70,19 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
   const [openKeys, setOpenKeys] = useState([""]);
 
-  const { data: isContestManagerData, error: isContestManagerError } =
-    graphql.useQueryContestManagerSuspenseQuery({
+  const { data: getContestManagersData, error: getContestManagersError } =
+    graphql.useGetContestManagersSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_uuid: props.user?.uuid,
       },
     });
+
   useEffect(() => {
-    if (isContestManagerError) {
+    if (getContestManagersError) {
       message.error("管理员加载失败");
-      console.log(isContestManagerError.message);
+      console.log(getContestManagersError.message);
     }
-  }, [isContestManagerError]);
+  }, [getContestManagersError]);
 
   const items = [
     {
@@ -273,7 +273,9 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           openKeys={openKeys}
           onOpenChange={handleOpenChange}
           items={
-            isContestManagerData?.contest_manager.length === 1
+            getContestManagersData?.contest_by_pk?.contest_managers.some(
+              (manager) => manager.user_uuid === props.user?.uuid,
+            )
               ? items.concat(itemsAdmin)
               : items
           }

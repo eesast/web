@@ -29,19 +29,19 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
-  const { data: isContestManagerData, error: isContestManagerError } =
-    graphql.useQueryContestManagerSuspenseQuery({
+  const { data: getContestManagersData, error: getContestManagersError } =
+    graphql.useGetContestManagersSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_uuid: user?.uuid,
       },
     });
+
   useEffect(() => {
-    if (isContestManagerError) {
+    if (getContestManagersError) {
       message.error("管理员加载失败");
-      console.log(isContestManagerError.message);
+      console.log(getContestManagersError.message);
     }
-  }, [isContestManagerError]);
+  }, [getContestManagersError]);
 
   //设置状态:"1":open,"2":close
   //第一位:代码提交
@@ -189,7 +189,9 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
     setIsBattleModalVisible(false);
   };
 
-  return isContestManagerData?.contest_manager.length === 1 ? (
+  return getContestManagersData?.contest_by_pk?.contest_managers.some(
+    (manager) => manager.user_uuid === user?.uuid,
+  ) ? (
     <Layout>
       <Row
         justify="center"
