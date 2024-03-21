@@ -11,7 +11,7 @@
     "axios": "1.6.8",
     "cos-js-sdk-v5": "1.7.0",
     "dayjs": "1.11.10",
-    "docxtemplater": "3.46.0",
+    "docxtemplater": "3.46.1",
     "dotenv": "16.4.5",
     "file-saver": "2.0.5",
     "google-protobuf": "3.21.2",
