@@ -15,7 +15,7 @@ import {
 } from "antd"; //botton
 import { Layout } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
@@ -41,6 +41,7 @@ const Container = styled.div`
 const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
+  const navigate = useNavigate();
   const Contest_id = url.query.get("contest");
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: isleaderData, refetch: refetchLeader } =
@@ -252,15 +253,16 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Button
               type="primary"
               style={{ marginBottom: "20px", width: "180px", height: "40px" }}
+              onClick={() => navigate(url.link("team-join"))}
             >
-              <Link replace to={url.link("team-join")}>
-                加入队伍
-              </Link>
+              加入队伍
             </Button>
-            <Button type="primary" style={{ width: "180px", height: "40px" }}>
-              <Link replace to={url.link("team-register")}>
-                创建队伍
-              </Link>
+            <Button
+              type="primary"
+              style={{ marginBottom: "20px", width: "180px", height: "40px" }}
+              onClick={() => navigate(url.link("team-register"))}
+            >
+              创建队伍
             </Button>
           </div>
         }

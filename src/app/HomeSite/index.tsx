@@ -32,6 +32,7 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
   const StyledMenu = styled(Menu)`
     &.ant-menu {
       line-height: 48px;
+      width: 100%;
       border-bottom: unset;
     }
   `;

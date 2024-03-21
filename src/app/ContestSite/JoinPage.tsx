@@ -54,11 +54,10 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: isContestManagerData, error: isContestManagerError } =
-    graphql.useQueryContestManagerSuspenseQuery({
+  const { data: getContestManagersData, error: getContestManagersError } =
+    graphql.useGetContestManagersSuspenseQuery({
       variables: {
         contest_id: Contest_id,
-        user_uuid: user?.uuid,
       },
     });
 
@@ -89,11 +88,11 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [teamListError]);
 
   useEffect(() => {
-    if (isContestManagerError) {
+    if (getContestManagersError) {
       message.error("管理员加载失败");
-      console.log(isContestManagerError.message);
+      console.log(getContestManagersError.message);
     }
-  }, [isContestManagerError]);
+  }, [getContestManagersError]);
   /* ---------------- 业务逻辑函数 ---------------- */
   //点击加入
   const showModal = (
@@ -283,7 +282,11 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
             onClick={exportTeamsData}
             type="primary"
             shape="round"
-            disabled={isContestManagerData?.contest_manager.length !== 1}
+            disabled={
+              !getContestManagersData?.contest_by_pk?.contest_managers.some(
+                (manager) => manager.user_uuid === user?.uuid,
+              )
+            }
             size="small"
           >
             导出队伍信息

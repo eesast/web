@@ -208,7 +208,12 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
         </Col>
         <Col>
           <Button
-            hidden={user?.role !== "counselor" && user?.role !== "root"}
+            style={{
+              display:
+                user?.role !== "counselor" && user?.role !== "root"
+                  ? "none"
+                  : "inline-block",
+            }}
             onClick={() => setModalVisible(true)}
           >
             新公告
@@ -281,7 +286,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
         loading={noticeLoading}
       />
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         title={editingNotice ? "编辑公告" : "新公告"}
         centered
         okText="发布"
