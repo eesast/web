@@ -12,7 +12,7 @@ permalink: /code
 
   1. 选手在代码管理页面点击上传/拖入文件上传`AI.cpp`或`AI.py`
   2. 前端识别编程语言，并在数据库`contest_team_code`表插入新行，返回得`code_id`
-  3. 前端根据`${code_id}.${lang}`重命名文件并上传至`cos`，上传路径见`COS存储访问路径`
+  3. 前端根据`${code_id}.${lang}`重命名文件并上传至`cos`，上传路径见[COS存储桶访问路径约定](https://eesast.github.io/web/cos)
   4. 若语言为解释型语言(`py`)，则前端更改数据库`compile_status`为`No Need`（可与第二步合并）
   5. 若语言为编译型语言(`cpp`)，则前端向后端发请求`/code/compile`（见后），使后端开始编译代码
   6. 后端下载`cos`上的代码文件，在服务器上启动编译`docker`，并在数据库中更新`compile_status`为`Compiling`
