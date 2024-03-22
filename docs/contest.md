@@ -104,6 +104,10 @@ permalink: /contest
 
 ## 与赛事组的约定
 
+1. 一场比赛的对应一个`docker`容器。
+2. 队式应当关注上面的`/arena/finish`和`/competition/finish`路由参数信息。`docker`镜像启动时会设置环境变量`URL`（对应`/arena/finish`和`/competition/finish`）和`TOKEN`，编译完成后需要请求`URL`，请求时需要在header中加上`TOKEN`，在body中加上每个队的分数`result`。
+3. `docker`目录绑定：回放文件在`/usr/local/playback`下，地图文件在`/usr/local/map`下，队伍代码应在`/usr/local/team<xxx>`下，具体格式根据比赛规则商定。
+
 ## 附录
 
 数据结构定义
@@ -113,6 +117,7 @@ interface ContestResult {
    team_id: number;
    score: number;
 };
+
 interface TeamLabelBind{
    team_id: uuid;
    label: string;
