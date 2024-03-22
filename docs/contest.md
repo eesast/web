@@ -82,7 +82,7 @@ permalink: /contest
 
 - `/competition/create`：管理员专用。创建所有队伍间的循环赛，无需插入`room`。将比赛加入队列中。
   - 请求方法：`POST`
-  - 请求：`{contest_id: uuid, loop_mode: number, map_id: uuid}`。其中，0代表单循环赛，1代表双循环赛，2代表测试比赛。`TOKEN`包含`user_uuid`。
+  - 请求：`{contest_id: uuid, map_id: uuid}`。`TOKEN`包含`user_uuid`。
   - 响应：`200`：`Competition Created!`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
