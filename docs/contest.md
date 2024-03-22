@@ -24,7 +24,7 @@ permalink: /contest
 2. 前端向后端通信，后端首先对队伍进行检查——代码和队伍是否准备完成，若队伍角色未分配代码，或代码未编译，则报错。
 
    1. 后端首先要检查数据库上的代码编译状态和角色代码分配状态，都正常的情况下再继续下一步。
-   2. 选手代码的编译文件在`cos`中。后端需要从`cos`上临时下载队伍的代码或编译文件到服务器上。服务器存储空间有限，需要定期清理下载的队伍代码和文件。
+   2. 选手代码的编译文件在`cos`中。后端需要从`cos`上临时下载队伍的代码或编译文件到后端服务器上。后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。后端服务器与 Docker 服务器之间通过 NFS 进行文件共享，因此 Docker 服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
 
 3. 后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，并返回创建是否成功的结果。
 4. 创建`room`后，后端与 `docker` 服务器通信，创建比赛`docker`，开启比赛。
@@ -89,7 +89,7 @@ permalink: /contest
     - `500`：`undefined`，返回报错信息
 - `/competition/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果。
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult[]}` 。`TOKEN`包含的信息：`{room_id: uuid[]}`
+  - 请求：`{result: ContestResult[]}` 。`TOKEN`包含的信息：`{room_id: uuid}`
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 ## 附录
