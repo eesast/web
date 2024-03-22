@@ -1,0 +1,36 @@
+# 主要操作对象：contest_map表
+
+# 增
+mutation AddContestMap($contest_id: uuid!, $name: String!, $filename: String!) {
+  insert_contest_map_one(
+    object: { contest_id: $contest_id, name: $name, filename: $filename }
+  ) {
+    map_id
+  }
+}
+
+# 删
+mutation DeleteContestMap($map_id: uuid!) {
+  delete_contest_map_by_pk(map_id: $map_id) {
+    map_id
+  }
+}
+
+# 改
+mutation UpdateContestMapName($map_id: uuid!, $name: String!) {
+  update_contest_map_by_pk(
+    pk_columns: { map_id: $map_id }
+    _set: { name: $name }
+  ) {
+    map_id
+  }
+}
+
+# 查
+query GetContestMaps($contest_id: uuid!) {
+  contest_map(where: { contest_id: { _eq: $contest_id } }) {
+    map_id
+    name
+    filename
+  }
+}

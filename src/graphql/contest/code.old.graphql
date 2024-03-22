@@ -1,5 +1,17 @@
 # TODO: To be deleted
 
+# 借由team_id获取code的所有信息
+subscription GetCodeUpdateTime($team_id: uuid!) {
+  contest_code(where: { team_id: { _eq: $team_id } }) {
+    code1_update_time
+    code2_update_time
+    code3_update_time
+    code4_update_time
+    code5_update_time
+    code6_update_time
+  }
+}
+
 #上传选手代码（原有：更新，无：插入）
 mutation UpsertCode1(
   $code: String!
@@ -118,100 +130,5 @@ mutation UpsertCode5(
     }
   ) {
     code5_update_time
-  }
-}
-
-# 以下是新的代码管理接口，使用contest_team_code和contest_team_player表
-
-# 主要操作对象：contest_team_code表
-
-# 增
-mutation AddCode(
-  $team_id: uuid!
-  $code_name: String!
-  $language: String!
-  $compile_status: String
-) {
-  insert_contest_team_code_one(
-    object: {
-      team_id: $team_id
-      code_name: $code_name
-      language: $language
-      compile_status: $compile_status
-    }
-  ) {
-    code_id
-  }
-}
-
-# 删
-mutation DeleteCode($code_id: uuid!) {
-  delete_contest_team_code_by_pk(code_id: $code_id) {
-    code_id
-  }
-}
-
-# 改
-mutation UpdateCodeName($code_id: uuid!, $code_name: String!) {
-  update_contest_team_code_by_pk(
-    pk_columns: { code_id: $code_id }
-    _set: { code_name: $code_name }
-  ) {
-    code_id
-  }
-}
-
-# 查
-subscription GetCodes($team_id: uuid!) {
-  contest_team_code(
-    order_by: { created_at: desc }
-    where: { team_id: { _eq: $team_id } }
-  ) {
-    code_id
-    code_name
-    language
-    compile_status
-    created_at
-  }
-}
-
-# 主要操作对象：contest_team_player表
-
-# 增
-mutation AddTeamPlayer($team_id: uuid!, $player: String!) {
-  insert_contest_team_player_one(
-    object: { team_id: $team_id, player: $player }
-  ) {
-    player
-  }
-}
-
-# 删：删除队伍时级联删除
-
-# 改
-mutation UpdateTeamPlayer(
-  $team_id: uuid!
-  $player: String!
-  $code_id: uuid!
-  $role: String!
-) {
-  update_contest_team_player_by_pk(
-    pk_columns: { team_id: $team_id, player: $player }
-    _set: { code_id: $code_id, role: $role }
-  ) {
-    player
-  }
-}
-
-# 查
-subscription GetTeamPlayers($team_id: uuid!) {
-  contest_team_player(where: { team_id: { _eq: $team_id } }) {
-    player
-    player_code {
-      code_name
-      language
-      created_at
-    }
-    role
   }
 }

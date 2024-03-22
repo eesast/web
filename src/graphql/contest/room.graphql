@@ -1,3 +1,5 @@
+# 主要操作对象：contest_room和contest_room_team表
+
 # get the contest room info
 subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(
