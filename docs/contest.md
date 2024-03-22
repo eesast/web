@@ -80,17 +80,17 @@ permalink: /contest
 
 新版比赛接口的前缀为`/competition`。
 
-- `/competition/create`：管理员专用。按照`contest_round`中的顺序创建所有队伍间的比赛，然后将比赛加入队列中。后端可以按`contest_round`表中的顺序设置`room`发起对战，跟天梯逻辑完全一致，只需要在`contest_room`里加`round_id`标识即可。
+- `/competition/create`：管理员专用。后端可以按`contest_round`表中的信息设置所有队伍之间的完整比赛，全部队伍的比赛合起来称为一个`round`，对应一个`round_id`。设置`room`发起对战的流程跟天梯逻辑一致，只需要在`contest_room`里额外加`round_id`标识即可。
   - 请求方法：`POST`
-  - 请求：`{contest_id: uuid}`。`TOKEN`包含`user_uuid`。
+  - 请求：`{round_id: uuid}`。`TOKEN`包含`user_uuid`。
   - 响应：`200`：`Competition Created!`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `500`：`undefined`，返回报错信息
 
-- `/competition/assign`：管理员专用。发起一场特定的比赛，然后将比赛加入队列中。设置`room`发起对战的过程跟天梯逻辑完全一致，只需要在`contest_room`里加`round_id`标识即可。
+- `/competition/assign`：管理员专用。发起`round`中某一场特定的比赛，然后将比赛加入队列中。设置`room`发起对战的过程跟天梯逻辑一致，只需要在`contest_room`里额外加`round_id`标识即可。
   - 请求方法：`POST`
-  - 请求：`{contest_id: uuid, round_id: uuid}`。`TOKEN`包含`user_uuid`。
+  - 请求：`{team_label_bind: TeamLabelBind[], map_id: uuid, round_id: uuid}`。`TOKEN`包含`user_uuid`。
   - 响应：`200`：`Competition Created!`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
