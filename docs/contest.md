@@ -39,7 +39,7 @@ permalink: /contest
 
 - `/arena/create`：创建比赛。数据库中插入`room`，并将比赛加入队列中。
   - 请求方法：`POST`
-  - 请求：`body`中有`{contest_name: string, team_ids: uuid[], labels: string[], map_id: uuid}`，其中`contest_name`是数据库中的`name`、用于确定用于编译的镜像，`team_ids`为被宣战的队伍 id，`labels`表示队伍的标签（例如Student Team/Tricker Team），`map_id`代表选择的地图id。`TOKEN`中包含用户的`uuid`。
+  - 请求：`body`中有`{contest_name: string, team_ids: uuid[], labels: string[], map_id: uuid}`，其中`contest_name`是数据库中的`name`、用于确定用于编译的镜像，`team_ids`为参加比赛的队伍 id，`labels`表示队伍的标签（例如Student Team/Tricker Team），`map_id`代表选择的地图id。`TOKEN`中包含用户的`uuid`。
   - 响应：`200`: `Arena created!`。
   - 工作过程：
     1.  鉴权。检查登录状态，及用户是否在队伍中。
@@ -53,9 +53,9 @@ permalink: /contest
     - `403`：`403 Forbidden: User not in team`（用户不在队伍中）
     - `403`：`403 Forbidden: Team player not assigned `（队伍角色未分配代码）
     - `403`：`403 Forbidden: Team code not compiled`（代码未编译）
+    - `404`：`404 Not Found: Team code not found in cos `（`cos`上找不到文件）
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `423`：`423 Locked: Request arena too frequently`（比赛次数过多）
-    - `500`：`500 Internal Server Error: Team code not found in cos `（`cos`上找不到文件）
     - `500`：`undefined`（其他内部错误）
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果。
   - 请求方法：`POST`
