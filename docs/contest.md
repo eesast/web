@@ -23,7 +23,7 @@ permalink: /contest
 2. 前端向后端通信，后端首先对队伍进行检查——代码和队伍是否准备完成，若队伍角色未分配代码，或代码未编译，则报错。
 
    1. 后端首先要检查数据库上的代码编译状态和角色代码分配状态，都正常的情况下再继续下一步。
-   2. 选手代码的编译文件在`cos`中。后端需要从`cos`上临时下载队伍的代码或编译文件到后端服务器上。后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。后端服务器与 Docker 服务器之间通过 NFS 进行文件共享，因此 Docker 服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
+   2. 选手代码的编译文件在`cos`中。后端需要从`cos`上临时下载队伍的代码或编译文件到后端服务器上。后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。后端服务器与`docker`服务器之间通过`NFS`进行文件共享，因此`docker`服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
 
 3. 后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，这场比赛入队`docker_queue`，返回创建是否成功的结果。
 4. 创建`room`后，后端与 `docker` 服务器通信，创建比赛`docker`，开启比赛。
@@ -103,7 +103,7 @@ permalink: /contest
 
 ## 与赛事组的约定
 
-1. 一场比赛的对应一个`docker`容器。
+1. 一场比赛对应一个`docker`容器。
 2. 队式应当关注上面的`/arena/finish`和`/competition/finish`路由参数信息。`docker`镜像启动时会设置环境变量`URL`（对应`/arena/finish`和`/competition/finish`）和`TOKEN`，编译完成后需要请求`URL`，请求时需要在header中加上`TOKEN`，在body中加上每个队的分数`result`。
 3. `docker`目录绑定：回放文件在`/usr/local/playback`下，地图文件在`/usr/local/map`下，队伍代码应在`/usr/local/team<xxx>`下，具体格式根据比赛规则商定。
 
