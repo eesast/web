@@ -26,7 +26,7 @@ permalink: /contest
    1. 后端首先要检查数据库上的代码编译状态和角色代码分配状态，都正常的情况下再继续下一步。
    2. 选手代码的编译文件在`cos`中。后端需要从`cos`上临时下载队伍的代码或编译文件到后端服务器上。后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。后端服务器与 Docker 服务器之间通过 NFS 进行文件共享，因此 Docker 服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
 
-3. 后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，并返回创建是否成功的结果。
+3. 后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，这场比赛入队`docker_queue`，返回创建是否成功的结果。
 4. 创建`room`后，后端与 `docker` 服务器通信，创建比赛`docker`，开启比赛。
    1. 比赛状态显示。后端创建 `docker` 分为两步：第一步是将比赛放入队列`docker_queue`尾，此时`room` -> `status` 为 `Waiting`；第二步是`docker_cron` 定时程序从队列中抽取队首的比赛进行，如果比赛启动成功，此时`room` -> `status`为`Running`。前端应当根据`status`显示比赛状态。
    2. 比赛期间，用户可通过特定端口观看直播。后端在启动比赛的【第二步】时分配好一个端口。如果端口数量不足，则不启动比赛。如果成功分配端口并启动比赛，则应更新数据库`contest_room`表中的`port`字段，此时`status`字段已经更新为`Running`，则前端可以查看`port`字段并提供直播观看接口。
