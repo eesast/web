@@ -71,7 +71,7 @@ permalink: /contest
 
 比赛的流程就简洁多了。
 
-1. 管理员用户发起比赛。前端向后端通信。
+1. 管理员用户发起比赛。前端管理员点击启动之后，前端数据库`contest_round`里插一行，然后请求后端路由。
 2. 后端获取所有队伍数据。检查队伍代码是否完整，角色是否分配，如果不完整则跳过此队伍。
 3. 后端对于正常队伍开启循环赛，将比赛加入`docker_queue`中。
 4. `docker`比赛结束后向后端通信，后端在数据表上更新比赛分数`competition_score`。
@@ -80,18 +80,30 @@ permalink: /contest
 
 新版比赛接口的前缀为`/competition`。
 
-- `/competition/create`：管理员专用。创建所有队伍间的循环赛，无需插入`room`。将比赛加入队列中。
+- `/competition/create`：管理员专用。按照`contest_round`中的顺序创建所有队伍间的比赛，然后将比赛加入队列中。后端可以按`contest_round`表中的顺序设置`room`发起对战，跟天梯逻辑完全一致，只需要在`contest_room`里加`round_id`标识即可。
   - 请求方法：`POST`
-  - 请求：`{contest_id: uuid, map_id: uuid}`。`TOKEN`包含`user_uuid`。
+  - 请求：`{contest_id: uuid}`。`TOKEN`包含`user_uuid`。
   - 响应：`200`：`Competition Created!`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `500`：`undefined`，返回报错信息
+
+- `/competition/assign`：管理员专用。发起一场特定的比赛，然后将比赛加入队列中。设置`room`发起对战的过程跟天梯逻辑完全一致，只需要在`contest_room`里加`round_id`标识即可。
+  - 请求方法：`POST`
+  - 请求：`{contest_id: uuid, round_id: uuid}`。`TOKEN`包含`user_uuid`。
+  - 响应：`200`：`Competition Created!`
+  - 错误：
+    - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
+    - `500`：`undefined`，返回报错信息
+
 - `/competition/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果。
   - 请求方法：`POST`
   - 请求：`{result: ContestResult[]}` 。`TOKEN`包含的信息：`{room_id: uuid}`
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
+
+## 与赛事组的约定
+
 ## 附录
 
 数据结构定义
