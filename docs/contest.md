@@ -117,7 +117,7 @@ interface ContestResult {
    score: number;
 };
 
-interface TeamLabelBind{
+interface TeamLabelBind {
    team_id: uuid;
    label: string;
 }
