@@ -59,7 +59,7 @@ permalink: /contest
     - `500`：`undefined`（其他内部错误）
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果。
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult[]}`。`TOKEN`包含的信息：`{contest_id: uuid, room_id: uuid, team_ids: uuid[]}`
+  - 请求：`{result: ContestResult[]}`。`TOKEN`包含的信息：`{room_id: uuid}`
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 
@@ -89,7 +89,7 @@ permalink: /contest
     - `500`：`undefined`，返回报错信息
 - `/competition/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果。
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult[]}` 。`TOKEN`包含的信息：`{contest_id: uuid, team_ids: uuid[]}`
+  - 请求：`{result: ContestResult[]}` 。`TOKEN`包含的信息：`{room_id: uuid[]}`
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 ## 附录
