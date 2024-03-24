@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import {
   HomeOutlined,
   TeamOutlined,
@@ -24,7 +24,16 @@ import {
   ReadOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Menu, Layout, message, Button, MenuProps, Spin } from "antd";
+import {
+  Menu,
+  Layout,
+  message,
+  Button,
+  MenuProps,
+  Spin,
+  Tour,
+  TourProps,
+} from "antd";
 //以下为子分页
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
@@ -39,6 +48,7 @@ import StreamPage from "./StreamPage";
 import ManageTeamsPage from "./ManageTeamsPage";
 import SettingPage from "./SettingPage";
 import NotFoundPage from "../Components/NotFound";
+import AnalysisPage from "./AnalysisPage";
 // hasura查询
 //学长写好的api，用以没登陆会跳转到登陆页面
 import { useUrl } from "../../api/hooks/url";
@@ -62,7 +72,6 @@ const { Sider, Content } = Layout;
 const MenuPage: React.FC<ContestProps> = (props) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-
   const userAgent = navigator.userAgent;
   const isMobile = userAgent.match(
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
@@ -70,8 +79,22 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
   const [openKeys, setOpenKeys] = useState([""]);
 
+  const introRef = useRef(null);
+  const playRef = useRef(null);
+  const joinRef = useRef(null);
+  const codeRef = useRef(null);
+  const arenaRef = useRef(null);
+  const navigate = useNavigate();
+
   const { data: getContestManagersData, error: getContestManagersError } =
     graphql.useGetContestManagersSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+
+  const { data: contestData, error: contestError } =
+    graphql.useGetContestInfoSuspenseQuery({
       variables: {
         contest_id: Contest_id,
       },
@@ -84,6 +107,13 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     }
   }, [getContestManagersError]);
 
+  useEffect(() => {
+    if (contestError) {
+      message.error("比赛信息加载失败");
+      console.log(contestError.message);
+    }
+  }, [contestError]);
+
   const items = [
     {
       key: "back",
@@ -94,7 +124,11 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     },
     {
       key: "home",
-      label: "比赛详情",
+      label: (
+        <span>
+          <span ref={introRef}>比赛详情</span>
+        </span>
+      ),
       icon: <InfoCircleOutlined />,
       children: [
         {
@@ -116,7 +150,11 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     },
     {
       key: "game",
-      label: "游玩时刻",
+      label: (
+        <span>
+          <span ref={playRef}>游玩时刻</span>
+        </span>
+      ),
       icon: <FireOutlined />,
       children: [
         {
@@ -138,7 +176,11 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     },
     {
       key: "team",
-      label: "现在报名",
+      label: (
+        <span>
+          <span ref={joinRef}>现在报名</span>
+        </span>
+      ),
       icon: <TeamOutlined />,
       children: [
         {
@@ -160,12 +202,20 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     },
     {
       key: "code",
-      label: <Link to={url.link("code")}>代码提交</Link>,
+      label: (
+        <Link to={url.link("code")} ref={codeRef}>
+          代码提交
+        </Link>
+      ),
       icon: <UploadOutlined />,
     },
     {
       key: "arena",
-      label: "天梯试炼",
+      label: (
+        <span>
+          <span ref={arenaRef}>天梯试炼</span>
+        </span>
+      ),
       icon: <TrophyOutlined />,
       children: [
         {
@@ -190,7 +240,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   const itemsAdmin = [
     {
       key: "admin",
-      label: "管理员",
+      label: <span>管理员</span>,
       icon: <LockOutlined />,
       children: [
         {
@@ -226,9 +276,77 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     );
   };
 
+  const steps: TourProps["steps"] = [
+    {
+      title: contestData?.contest_by_pk?.contest_name,
+      description:
+        "欢迎参加" +
+        contestData?.contest_by_pk?.contest_name +
+        "比赛！下面让我来帮助你熟悉赛事互动页面，帮助你更好地参加比赛吧！",
+      target: null,
+      //cover: <img src="/backgrounds/2024new.jpg" alt="2024New" />,
+      mask: {
+        style: {
+          backdropFilter: "blur(8px)",
+        },
+      },
+    },
+    {
+      title: "比赛介绍",
+      description:
+        "在这里，你可以查看比赛的基本介绍、时间安排和比赛公告，请及时关注~",
+      placement: "right",
+      target: () => introRef.current,
+    },
+    {
+      title: "游玩时刻",
+      description:
+        "在这里，你可以试玩我们的游戏，还可以观看比赛直播和比赛回放！",
+      placement: "right",
+      target: () => playRef.current,
+    },
+    {
+      title: "现在报名",
+      description: "在这里，你可以选择自己创建队伍或者加入别人的队伍~",
+      placement: "right",
+      target: () => joinRef.current,
+    },
+    {
+      title: "代码提交",
+      description: "比赛的代码在这里提交~",
+      placement: "right",
+      target: () => codeRef.current,
+    },
+    {
+      title: "天梯试炼",
+      description:
+        "在这里，你可以查看比赛的积分榜，查看队伍的对战记录，甚至还有专属于你们队伍的数据分析！",
+      placement: "right",
+      target: () => arenaRef.current,
+    },
+  ];
+
+  const TourGuide = () => {
+    const [open, setOpen] = useState<boolean>(
+      localStorage.getItem("tour_contest") !== "true" &&
+        process.env.NODE_ENV !== "development",
+    );
+    return (
+      <Tour
+        open={open && !isMobile}
+        onClose={() => {
+          setOpen(false);
+          localStorage.setItem("tour_contest", "true");
+          navigate(url.link("playground"));
+        }}
+        steps={steps}
+      />
+    );
+  };
   //渲染页面,switch类似c，用以切换url
   return (
     <Layout>
+      <TourGuide />
       <Sider
         theme="light"
         breakpoint="lg"
@@ -307,7 +425,10 @@ const MenuPage: React.FC<ContestProps> = (props) => {
 
             <Route path="arena-score" element={<ArenaPage {...props} />} />
             <Route path="arena-record" element={<RecordPage {...props} />} />
-            <Route path="arena-analysis" element={<NotImplementedPage />} />
+            <Route
+              path="arena-analysis"
+              element={<AnalysisPage {...props} />}
+            />
 
             <Route
               path="admin-manage"
