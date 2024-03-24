@@ -5,13 +5,13 @@
   "author": "EESAST",
   "private": true,
   "dependencies": {
-    "@ant-design/pro-components": "2.6.49",
-    "@apollo/client": "3.9.7",
-    "antd": "5.15.2",
-    "axios": "1.6.7",
+    "@ant-design/pro-components": "2.6.51",
+    "@apollo/client": "3.9.8",
+    "antd": "5.15.3",
+    "axios": "1.6.8",
     "cos-js-sdk-v5": "1.7.0",
     "dayjs": "1.11.10",
-    "docxtemplater": "3.46.0",
+    "docxtemplater": "3.46.1",
     "dotenv": "16.4.5",
     "file-saver": "2.0.5",
     "google-protobuf": "3.21.2",
@@ -41,7 +41,7 @@
     "@types/file-saver": "2.0.7",
     "@types/is-url": "1.2.32",
     "@types/lodash.get": "4.4.9",
-    "@types/node": "20.11.27",
+    "@types/node": "20.11.30",
     "@types/pizzip": "3.0.5",
     "@types/react": "18.2.67",
     "@types/react-custom-scrollbars": "4.0.13",
@@ -57,13 +57,13 @@
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
     "rimraf": "5.0.5",
-    "typescript": "5.4.2",
+    "typescript": "5.4.3",
     "web-vitals": "3.5.2",
     "webpack-bundle-analyzer": "4.10.1",
     "webpackbar": "6.0.1"
   },
   "peerDependencies": {
-    "electron": "29.1.4",
+    "electron": "29.1.5",
     "electron-builder": "24.13.3"
   },
   "resolutions": {
