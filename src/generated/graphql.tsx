@@ -381,9 +381,17 @@ export type Contest = {
   /** An aggregate relationship */
   contest_rooms_aggregate: Contest_Room_Aggregate;
   /** An array relationship */
+  contest_rounds: Array<Contest_Round>;
+  /** An aggregate relationship */
+  contest_rounds_aggregate: Contest_Round_Aggregate;
+  /** An array relationship */
   contest_teams: Array<Contest_Team>;
   /** An aggregate relationship */
   contest_teams_aggregate: Contest_Team_Aggregate;
+  /** An array relationship */
+  contest_times: Array<Contest_Time>;
+  /** An aggregate relationship */
+  contest_times_aggregate: Contest_Time_Aggregate;
   contest_type: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
   end_date: Scalars['timestamptz']['output'];
@@ -478,6 +486,26 @@ export type ContestContest_Rooms_AggregateArgs = {
 
 
 /** columns and relationships of "contest" */
+export type ContestContest_RoundsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Round_Order_By>>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Rounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Round_Order_By>>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
 export type ContestContest_TeamsArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -494,6 +522,26 @@ export type ContestContest_Teams_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Order_By>>;
   where?: InputMaybe<Contest_Team_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_TimesArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Times_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Time_Order_By>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
 };
 
 /** aggregated selection of "contest" */
@@ -530,7 +578,9 @@ export type Contest_Bool_Exp = {
   contest_notices?: InputMaybe<Contest_Notice_Bool_Exp>;
   contest_players?: InputMaybe<Contest_Player_Bool_Exp>;
   contest_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
+  contest_rounds?: InputMaybe<Contest_Round_Bool_Exp>;
   contest_teams?: InputMaybe<Contest_Team_Bool_Exp>;
+  contest_times?: InputMaybe<Contest_Time_Bool_Exp>;
   contest_type?: InputMaybe<String_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -893,7 +943,9 @@ export type Contest_Insert_Input = {
   contest_notices?: InputMaybe<Contest_Notice_Arr_Rel_Insert_Input>;
   contest_players?: InputMaybe<Contest_Player_Arr_Rel_Insert_Input>;
   contest_rooms?: InputMaybe<Contest_Room_Arr_Rel_Insert_Input>;
+  contest_rounds?: InputMaybe<Contest_Round_Arr_Rel_Insert_Input>;
   contest_teams?: InputMaybe<Contest_Team_Arr_Rel_Insert_Input>;
+  contest_times?: InputMaybe<Contest_Time_Arr_Rel_Insert_Input>;
   contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -912,6 +964,8 @@ export type Contest_Manager = {
   /** An object relationship */
   contest: Contest;
   contest_id: Scalars['uuid']['output'];
+  /** An object relationship */
+  user: Users;
   user_uuid: Scalars['uuid']['output'];
 };
 
@@ -958,6 +1012,7 @@ export type Contest_Manager_Bool_Exp = {
   _or?: InputMaybe<Array<Contest_Manager_Bool_Exp>>;
   contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -971,6 +1026,7 @@ export enum Contest_Manager_Constraint {
 export type Contest_Manager_Insert_Input = {
   contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -1020,6 +1076,7 @@ export type Contest_Manager_On_Conflict = {
 export type Contest_Manager_Order_By = {
   contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
 
@@ -1049,6 +1106,191 @@ export enum Contest_Manager_Update_Column {
   ContestId = 'contest_id',
   /** column name */
   UserUuid = 'user_uuid'
+}
+
+/** 比赛用到的地图（文件） */
+export type Contest_Map = {
+  __typename?: 'contest_map';
+  /** An object relationship */
+  contest: Contest;
+  contest_id: Scalars['uuid']['output'];
+  /** An array relationship */
+  contest_map_rooms: Array<Contest_Room>;
+  /** An aggregate relationship */
+  contest_map_rooms_aggregate: Contest_Room_Aggregate;
+  filename: Scalars['String']['output'];
+  map_id: Scalars['uuid']['output'];
+  name: Scalars['String']['output'];
+  team_labels: Scalars['String']['output'];
+};
+
+
+/** 比赛用到的地图（文件） */
+export type Contest_MapContest_Map_RoomsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
+  where?: InputMaybe<Contest_Room_Bool_Exp>;
+};
+
+
+/** 比赛用到的地图（文件） */
+export type Contest_MapContest_Map_Rooms_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
+  where?: InputMaybe<Contest_Room_Bool_Exp>;
+};
+
+/** aggregated selection of "contest_map" */
+export type Contest_Map_Aggregate = {
+  __typename?: 'contest_map_aggregate';
+  aggregate?: Maybe<Contest_Map_Aggregate_Fields>;
+  nodes: Array<Contest_Map>;
+};
+
+/** aggregate fields of "contest_map" */
+export type Contest_Map_Aggregate_Fields = {
+  __typename?: 'contest_map_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Map_Max_Fields>;
+  min?: Maybe<Contest_Map_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_map" */
+export type Contest_Map_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "contest_map". All fields are combined with a logical 'AND'. */
+export type Contest_Map_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Map_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Map_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Map_Bool_Exp>>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
+  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  contest_map_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
+  filename?: InputMaybe<String_Comparison_Exp>;
+  map_id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  team_labels?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_map" */
+export enum Contest_Map_Constraint {
+  /** unique or primary key constraint on columns "map_id" */
+  ContestMapPkey = 'contest_map_pkey'
+}
+
+/** input type for inserting data into table "contest_map" */
+export type Contest_Map_Insert_Input = {
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  contest_map_rooms?: InputMaybe<Contest_Room_Arr_Rel_Insert_Input>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  map_id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  team_labels?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Map_Max_Fields = {
+  __typename?: 'contest_map_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  filename?: Maybe<Scalars['String']['output']>;
+  map_id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  team_labels?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Contest_Map_Min_Fields = {
+  __typename?: 'contest_map_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  filename?: Maybe<Scalars['String']['output']>;
+  map_id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  team_labels?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "contest_map" */
+export type Contest_Map_Mutation_Response = {
+  __typename?: 'contest_map_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Map>;
+};
+
+/** input type for inserting object relation for remote table "contest_map" */
+export type Contest_Map_Obj_Rel_Insert_Input = {
+  data: Contest_Map_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Map_On_Conflict>;
+};
+
+/** on_conflict condition type for table "contest_map" */
+export type Contest_Map_On_Conflict = {
+  constraint: Contest_Map_Constraint;
+  update_columns?: Array<Contest_Map_Update_Column>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_map". */
+export type Contest_Map_Order_By = {
+  contest?: InputMaybe<Contest_Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  contest_map_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Order_By>;
+  filename?: InputMaybe<Order_By>;
+  map_id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  team_labels?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_map */
+export type Contest_Map_Pk_Columns_Input = {
+  map_id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "contest_map" */
+export enum Contest_Map_Select_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Filename = 'filename',
+  /** column name */
+  MapId = 'map_id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  TeamLabels = 'team_labels'
+}
+
+/** input type for updating data in table "contest_map" */
+export type Contest_Map_Set_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  map_id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  team_labels?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "contest_map" */
+export enum Contest_Map_Update_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Filename = 'filename',
+  /** column name */
+  MapId = 'map_id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  TeamLabels = 'team_labels'
 }
 
 /** aggregate max on columns */
@@ -1318,7 +1560,9 @@ export type Contest_Order_By = {
   contest_notices_aggregate?: InputMaybe<Contest_Notice_Aggregate_Order_By>;
   contest_players_aggregate?: InputMaybe<Contest_Player_Aggregate_Order_By>;
   contest_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Order_By>;
+  contest_rounds_aggregate?: InputMaybe<Contest_Round_Aggregate_Order_By>;
   contest_teams_aggregate?: InputMaybe<Contest_Team_Aggregate_Order_By>;
+  contest_times_aggregate?: InputMaybe<Contest_Time_Aggregate_Order_By>;
   contest_type?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
@@ -1339,6 +1583,8 @@ export type Contest_Pk_Columns_Input = {
 /** 记录每个比赛可以允许几队、每队有几个玩家、每个玩家可以选择哪些角色 */
 export type Contest_Player = {
   __typename?: 'contest_player';
+  /** An object relationship */
+  contest: Contest;
   contest_id: Scalars['uuid']['output'];
   player_num: Scalars['Int']['output'];
   players_label: Scalars['String']['output'];
@@ -1414,6 +1660,7 @@ export type Contest_Player_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Player_Bool_Exp>>;
   _not?: InputMaybe<Contest_Player_Bool_Exp>;
   _or?: InputMaybe<Array<Contest_Player_Bool_Exp>>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
   player_num?: InputMaybe<Int_Comparison_Exp>;
   players_label?: InputMaybe<String_Comparison_Exp>;
@@ -1434,6 +1681,7 @@ export type Contest_Player_Inc_Input = {
 
 /** input type for inserting data into table "contest_player" */
 export type Contest_Player_Insert_Input = {
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
   player_num?: InputMaybe<Scalars['Int']['input']>;
   players_label?: InputMaybe<Scalars['String']['input']>;
@@ -1497,6 +1745,7 @@ export type Contest_Player_On_Conflict = {
 
 /** Ordering options when selecting data from "contest_player". */
 export type Contest_Player_Order_By = {
+  contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
   player_num?: InputMaybe<Order_By>;
   players_label?: InputMaybe<Order_By>;
@@ -1627,16 +1876,25 @@ export type Contest_Player_Variance_Order_By = {
 /** columns and relationships of "contest_room" */
 export type Contest_Room = {
   __typename?: 'contest_room';
+  /** An object relationship */
+  contest: Contest;
   contest_id: Scalars['uuid']['output'];
+  /** An object relationship */
+  contest_map?: Maybe<Contest_Map>;
   /** An array relationship */
   contest_room_teams: Array<Contest_Room_Team>;
   /** An aggregate relationship */
   contest_room_teams_aggregate: Contest_Room_Team_Aggregate;
+  /** An object relationship */
+  contest_round?: Maybe<Contest_Round>;
   created_at: Scalars['timestamptz']['output'];
+  map_id?: Maybe<Scalars['uuid']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
   result?: Maybe<Scalars['String']['output']>;
   room_id: Scalars['uuid']['output'];
-  status: Scalars['Boolean']['output'];
+  round_id?: Maybe<Scalars['uuid']['output']>;
+  status: Scalars['String']['output'];
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 
@@ -1727,13 +1985,19 @@ export type Contest_Room_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Room_Bool_Exp>>;
   _not?: InputMaybe<Contest_Room_Bool_Exp>;
   _or?: InputMaybe<Array<Contest_Room_Bool_Exp>>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  contest_map?: InputMaybe<Contest_Map_Bool_Exp>;
   contest_room_teams?: InputMaybe<Contest_Room_Team_Bool_Exp>;
+  contest_round?: InputMaybe<Contest_Round_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  map_id?: InputMaybe<Uuid_Comparison_Exp>;
   port?: InputMaybe<Int_Comparison_Exp>;
   result?: InputMaybe<String_Comparison_Exp>;
   room_id?: InputMaybe<Uuid_Comparison_Exp>;
-  status?: InputMaybe<Boolean_Comparison_Exp>;
+  round_id?: InputMaybe<Uuid_Comparison_Exp>;
+  status?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "contest_room" */
@@ -1749,13 +2013,19 @@ export type Contest_Room_Inc_Input = {
 
 /** input type for inserting data into table "contest_room" */
 export type Contest_Room_Insert_Input = {
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  contest_map?: InputMaybe<Contest_Map_Obj_Rel_Insert_Input>;
   contest_room_teams?: InputMaybe<Contest_Room_Team_Arr_Rel_Insert_Input>;
+  contest_round?: InputMaybe<Contest_Round_Obj_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  map_id?: InputMaybe<Scalars['uuid']['input']>;
   port?: InputMaybe<Scalars['Int']['input']>;
   result?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
-  status?: InputMaybe<Scalars['Boolean']['input']>;
+  round_id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
@@ -1763,18 +2033,26 @@ export type Contest_Room_Max_Fields = {
   __typename?: 'contest_room_max_fields';
   contest_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  map_id?: Maybe<Scalars['uuid']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
   result?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
+  round_id?: Maybe<Scalars['uuid']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by max() on columns of table "contest_room" */
 export type Contest_Room_Max_Order_By = {
   contest_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  map_id?: InputMaybe<Order_By>;
   port?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
+  round_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -1782,18 +2060,26 @@ export type Contest_Room_Min_Fields = {
   __typename?: 'contest_room_min_fields';
   contest_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  map_id?: Maybe<Scalars['uuid']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
   result?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
+  round_id?: Maybe<Scalars['uuid']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by min() on columns of table "contest_room" */
 export type Contest_Room_Min_Order_By = {
   contest_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  map_id?: InputMaybe<Order_By>;
   port?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
+  round_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_room" */
@@ -1821,13 +2107,19 @@ export type Contest_Room_On_Conflict = {
 
 /** Ordering options when selecting data from "contest_room". */
 export type Contest_Room_Order_By = {
+  contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
+  contest_map?: InputMaybe<Contest_Map_Order_By>;
   contest_room_teams_aggregate?: InputMaybe<Contest_Room_Team_Aggregate_Order_By>;
+  contest_round?: InputMaybe<Contest_Round_Order_By>;
   created_at?: InputMaybe<Order_By>;
+  map_id?: InputMaybe<Order_By>;
   port?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
+  round_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest_room */
@@ -1842,23 +2134,32 @@ export enum Contest_Room_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  MapId = 'map_id',
+  /** column name */
   Port = 'port',
   /** column name */
   Result = 'result',
   /** column name */
   RoomId = 'room_id',
   /** column name */
-  Status = 'status'
+  RoundId = 'round_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "contest_room" */
 export type Contest_Room_Set_Input = {
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  map_id?: InputMaybe<Scalars['uuid']['input']>;
   port?: InputMaybe<Scalars['Int']['input']>;
   result?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
-  status?: InputMaybe<Scalars['Boolean']['input']>;
+  round_id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate stddev on columns */
@@ -1912,10 +2213,12 @@ export type Contest_Room_Team = {
   contest_room: Contest_Room;
   /** An object relationship */
   contest_team: Contest_Team;
-  players?: Maybe<Scalars['String']['output']>;
+  player_codes?: Maybe<Scalars['String']['output']>;
+  player_roles?: Maybe<Scalars['String']['output']>;
   room_id: Scalars['uuid']['output'];
   score?: Maybe<Scalars['Int']['output']>;
   team_id: Scalars['uuid']['output'];
+  team_label: Scalars['String']['output'];
 };
 
 /** aggregated selection of "contest_room_team" */
@@ -1988,10 +2291,12 @@ export type Contest_Room_Team_Bool_Exp = {
   _or?: InputMaybe<Array<Contest_Room_Team_Bool_Exp>>;
   contest_room?: InputMaybe<Contest_Room_Bool_Exp>;
   contest_team?: InputMaybe<Contest_Team_Bool_Exp>;
-  players?: InputMaybe<String_Comparison_Exp>;
+  player_codes?: InputMaybe<String_Comparison_Exp>;
+  player_roles?: InputMaybe<String_Comparison_Exp>;
   room_id?: InputMaybe<Uuid_Comparison_Exp>;
   score?: InputMaybe<Int_Comparison_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
+  team_label?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "contest_room_team" */
@@ -2009,44 +2314,54 @@ export type Contest_Room_Team_Inc_Input = {
 export type Contest_Room_Team_Insert_Input = {
   contest_room?: InputMaybe<Contest_Room_Obj_Rel_Insert_Input>;
   contest_team?: InputMaybe<Contest_Team_Obj_Rel_Insert_Input>;
-  players?: InputMaybe<Scalars['String']['input']>;
+  player_codes?: InputMaybe<Scalars['String']['input']>;
+  player_roles?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
   score?: InputMaybe<Scalars['Int']['input']>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_label?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Contest_Room_Team_Max_Fields = {
   __typename?: 'contest_room_team_max_fields';
-  players?: Maybe<Scalars['String']['output']>;
+  player_codes?: Maybe<Scalars['String']['output']>;
+  player_roles?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
   score?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
+  team_label?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "contest_room_team" */
 export type Contest_Room_Team_Max_Order_By = {
-  players?: InputMaybe<Order_By>;
+  player_codes?: InputMaybe<Order_By>;
+  player_roles?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
   score?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
+  team_label?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Contest_Room_Team_Min_Fields = {
   __typename?: 'contest_room_team_min_fields';
-  players?: Maybe<Scalars['String']['output']>;
+  player_codes?: Maybe<Scalars['String']['output']>;
+  player_roles?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
   score?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
+  team_label?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "contest_room_team" */
 export type Contest_Room_Team_Min_Order_By = {
-  players?: InputMaybe<Order_By>;
+  player_codes?: InputMaybe<Order_By>;
+  player_roles?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
   score?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
+  team_label?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_room_team" */
@@ -2069,10 +2384,12 @@ export type Contest_Room_Team_On_Conflict = {
 export type Contest_Room_Team_Order_By = {
   contest_room?: InputMaybe<Contest_Room_Order_By>;
   contest_team?: InputMaybe<Contest_Team_Order_By>;
-  players?: InputMaybe<Order_By>;
+  player_codes?: InputMaybe<Order_By>;
+  player_roles?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
   score?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
+  team_label?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest_room_team */
@@ -2084,21 +2401,27 @@ export type Contest_Room_Team_Pk_Columns_Input = {
 /** select columns of table "contest_room_team" */
 export enum Contest_Room_Team_Select_Column {
   /** column name */
-  Players = 'players',
+  PlayerCodes = 'player_codes',
+  /** column name */
+  PlayerRoles = 'player_roles',
   /** column name */
   RoomId = 'room_id',
   /** column name */
   Score = 'score',
   /** column name */
-  TeamId = 'team_id'
+  TeamId = 'team_id',
+  /** column name */
+  TeamLabel = 'team_label'
 }
 
 /** input type for updating data in table "contest_room_team" */
 export type Contest_Room_Team_Set_Input = {
-  players?: InputMaybe<Scalars['String']['input']>;
+  player_codes?: InputMaybe<Scalars['String']['input']>;
+  player_roles?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
   score?: InputMaybe<Scalars['Int']['input']>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_label?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
@@ -2148,13 +2471,17 @@ export type Contest_Room_Team_Sum_Order_By = {
 /** update columns of table "contest_room_team" */
 export enum Contest_Room_Team_Update_Column {
   /** column name */
-  Players = 'players',
+  PlayerCodes = 'player_codes',
+  /** column name */
+  PlayerRoles = 'player_roles',
   /** column name */
   RoomId = 'room_id',
   /** column name */
   Score = 'score',
   /** column name */
-  TeamId = 'team_id'
+  TeamId = 'team_id',
+  /** column name */
+  TeamLabel = 'team_label'
 }
 
 /** aggregate var_pop on columns */
@@ -2197,13 +2524,19 @@ export enum Contest_Room_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  MapId = 'map_id',
+  /** column name */
   Port = 'port',
   /** column name */
   Result = 'result',
   /** column name */
   RoomId = 'room_id',
   /** column name */
-  Status = 'status'
+  RoundId = 'round_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
@@ -2238,6 +2571,210 @@ export type Contest_Room_Variance_Fields = {
 export type Contest_Room_Variance_Order_By = {
   port?: InputMaybe<Order_By>;
 };
+
+/** 正式比赛的每轮（初赛、决赛）信息 */
+export type Contest_Round = {
+  __typename?: 'contest_round';
+  /** An object relationship */
+  contest: Contest;
+  contest_id: Scalars['uuid']['output'];
+  /** An array relationship */
+  contest_round_rooms: Array<Contest_Room>;
+  /** An aggregate relationship */
+  contest_round_rooms_aggregate: Contest_Room_Aggregate;
+  maps: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  round_id: Scalars['uuid']['output'];
+};
+
+
+/** 正式比赛的每轮（初赛、决赛）信息 */
+export type Contest_RoundContest_Round_RoomsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
+  where?: InputMaybe<Contest_Room_Bool_Exp>;
+};
+
+
+/** 正式比赛的每轮（初赛、决赛）信息 */
+export type Contest_RoundContest_Round_Rooms_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Room_Order_By>>;
+  where?: InputMaybe<Contest_Room_Bool_Exp>;
+};
+
+/** aggregated selection of "contest_round" */
+export type Contest_Round_Aggregate = {
+  __typename?: 'contest_round_aggregate';
+  aggregate?: Maybe<Contest_Round_Aggregate_Fields>;
+  nodes: Array<Contest_Round>;
+};
+
+/** aggregate fields of "contest_round" */
+export type Contest_Round_Aggregate_Fields = {
+  __typename?: 'contest_round_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Contest_Round_Max_Fields>;
+  min?: Maybe<Contest_Round_Min_Fields>;
+};
+
+
+/** aggregate fields of "contest_round" */
+export type Contest_Round_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "contest_round" */
+export type Contest_Round_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Round_Max_Order_By>;
+  min?: InputMaybe<Contest_Round_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_round" */
+export type Contest_Round_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Round_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Round_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "contest_round". All fields are combined with a logical 'AND'. */
+export type Contest_Round_Bool_Exp = {
+  _and?: InputMaybe<Array<Contest_Round_Bool_Exp>>;
+  _not?: InputMaybe<Contest_Round_Bool_Exp>;
+  _or?: InputMaybe<Array<Contest_Round_Bool_Exp>>;
+  contest?: InputMaybe<Contest_Bool_Exp>;
+  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  contest_round_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
+  maps?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  round_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contest_round" */
+export enum Contest_Round_Constraint {
+  /** unique or primary key constraint on columns "round_id" */
+  ContestRoundPkey = 'contest_round_pkey'
+}
+
+/** input type for inserting data into table "contest_round" */
+export type Contest_Round_Insert_Input = {
+  contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  contest_round_rooms?: InputMaybe<Contest_Room_Arr_Rel_Insert_Input>;
+  maps?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  round_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Contest_Round_Max_Fields = {
+  __typename?: 'contest_round_max_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  maps?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  round_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "contest_round" */
+export type Contest_Round_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  maps?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  round_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Contest_Round_Min_Fields = {
+  __typename?: 'contest_round_min_fields';
+  contest_id?: Maybe<Scalars['uuid']['output']>;
+  maps?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  round_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "contest_round" */
+export type Contest_Round_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  maps?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  round_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "contest_round" */
+export type Contest_Round_Mutation_Response = {
+  __typename?: 'contest_round_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contest_Round>;
+};
+
+/** input type for inserting object relation for remote table "contest_round" */
+export type Contest_Round_Obj_Rel_Insert_Input = {
+  data: Contest_Round_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Round_On_Conflict>;
+};
+
+/** on_conflict condition type for table "contest_round" */
+export type Contest_Round_On_Conflict = {
+  constraint: Contest_Round_Constraint;
+  update_columns?: Array<Contest_Round_Update_Column>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contest_round". */
+export type Contest_Round_Order_By = {
+  contest?: InputMaybe<Contest_Order_By>;
+  contest_id?: InputMaybe<Order_By>;
+  contest_round_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Order_By>;
+  maps?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  round_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contest_round */
+export type Contest_Round_Pk_Columns_Input = {
+  round_id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "contest_round" */
+export enum Contest_Round_Select_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Maps = 'maps',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  RoundId = 'round_id'
+}
+
+/** input type for updating data in table "contest_round" */
+export type Contest_Round_Set_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  maps?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  round_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "contest_round" */
+export enum Contest_Round_Update_Column {
+  /** column name */
+  ContestId = 'contest_id',
+  /** column name */
+  Maps = 'maps',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  RoundId = 'round_id'
+}
 
 /** select columns of table "contest" */
 export enum Contest_Select_Column {
@@ -3419,6 +3956,20 @@ export type Contest_Time_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "contest_time" */
+export type Contest_Time_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Time_Max_Order_By>;
+  min?: InputMaybe<Contest_Time_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_time" */
+export type Contest_Time_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Time_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Time_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "contest_time". All fields are combined with a logical 'AND'. */
 export type Contest_Time_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Time_Bool_Exp>>;
@@ -3458,6 +4009,15 @@ export type Contest_Time_Max_Fields = {
   start?: Maybe<Scalars['timestamptz']['output']>;
 };
 
+/** order by max() on columns of table "contest_time" */
+export type Contest_Time_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  end?: InputMaybe<Order_By>;
+  event?: InputMaybe<Order_By>;
+  start?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Contest_Time_Min_Fields = {
   __typename?: 'contest_time_min_fields';
@@ -3466,6 +4026,15 @@ export type Contest_Time_Min_Fields = {
   end?: Maybe<Scalars['timestamptz']['output']>;
   event?: Maybe<Scalars['String']['output']>;
   start?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by min() on columns of table "contest_time" */
+export type Contest_Time_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  end?: InputMaybe<Order_By>;
+  event?: InputMaybe<Order_By>;
+  start?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_time" */
@@ -5353,6 +5922,10 @@ export type Mutation_Root = {
   delete_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** delete single row from the table: "contest_manager" */
   delete_contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** delete data from the table: "contest_map" */
+  delete_contest_map?: Maybe<Contest_Map_Mutation_Response>;
+  /** delete single row from the table: "contest_map" */
+  delete_contest_map_by_pk?: Maybe<Contest_Map>;
   /** delete data from the table: "contest_notice" */
   delete_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
   /** delete single row from the table: "contest_notice" */
@@ -5369,6 +5942,10 @@ export type Mutation_Root = {
   delete_contest_room_team?: Maybe<Contest_Room_Team_Mutation_Response>;
   /** delete single row from the table: "contest_room_team" */
   delete_contest_room_team_by_pk?: Maybe<Contest_Room_Team>;
+  /** delete data from the table: "contest_round" */
+  delete_contest_round?: Maybe<Contest_Round_Mutation_Response>;
+  /** delete single row from the table: "contest_round" */
+  delete_contest_round_by_pk?: Maybe<Contest_Round>;
   /** delete data from the table: "contest_team" */
   delete_contest_team?: Maybe<Contest_Team_Mutation_Response>;
   /** delete single row from the table: "contest_team" */
@@ -5475,6 +6052,10 @@ export type Mutation_Root = {
   insert_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** insert a single row into the table: "contest_manager" */
   insert_contest_manager_one?: Maybe<Contest_Manager>;
+  /** insert data into the table: "contest_map" */
+  insert_contest_map?: Maybe<Contest_Map_Mutation_Response>;
+  /** insert a single row into the table: "contest_map" */
+  insert_contest_map_one?: Maybe<Contest_Map>;
   /** insert data into the table: "contest_notice" */
   insert_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
   /** insert a single row into the table: "contest_notice" */
@@ -5493,6 +6074,10 @@ export type Mutation_Root = {
   insert_contest_room_team?: Maybe<Contest_Room_Team_Mutation_Response>;
   /** insert a single row into the table: "contest_room_team" */
   insert_contest_room_team_one?: Maybe<Contest_Room_Team>;
+  /** insert data into the table: "contest_round" */
+  insert_contest_round?: Maybe<Contest_Round_Mutation_Response>;
+  /** insert a single row into the table: "contest_round" */
+  insert_contest_round_one?: Maybe<Contest_Round>;
   /** insert data into the table: "contest_team" */
   insert_contest_team?: Maybe<Contest_Team_Mutation_Response>;
   /** insert data into the table: "contest_team_code" */
@@ -5601,6 +6186,10 @@ export type Mutation_Root = {
   update_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** update single row of the table: "contest_manager" */
   update_contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** update data of the table: "contest_map" */
+  update_contest_map?: Maybe<Contest_Map_Mutation_Response>;
+  /** update single row of the table: "contest_map" */
+  update_contest_map_by_pk?: Maybe<Contest_Map>;
   /** update data of the table: "contest_notice" */
   update_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
   /** update single row of the table: "contest_notice" */
@@ -5617,6 +6206,10 @@ export type Mutation_Root = {
   update_contest_room_team?: Maybe<Contest_Room_Team_Mutation_Response>;
   /** update single row of the table: "contest_room_team" */
   update_contest_room_team_by_pk?: Maybe<Contest_Room_Team>;
+  /** update data of the table: "contest_round" */
+  update_contest_round?: Maybe<Contest_Round_Mutation_Response>;
+  /** update single row of the table: "contest_round" */
+  update_contest_round_by_pk?: Maybe<Contest_Round>;
   /** update data of the table: "contest_team" */
   update_contest_team?: Maybe<Contest_Team_Mutation_Response>;
   /** update single row of the table: "contest_team" */
@@ -5762,6 +6355,18 @@ export type Mutation_RootDelete_Contest_Manager_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Contest_MapArgs = {
+  where: Contest_Map_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Map_By_PkArgs = {
+  map_id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Contest_NoticeArgs = {
   where: Contest_Notice_Bool_Exp;
 };
@@ -5808,6 +6413,18 @@ export type Mutation_RootDelete_Contest_Room_TeamArgs = {
 export type Mutation_RootDelete_Contest_Room_Team_By_PkArgs = {
   room_id: Scalars['uuid']['input'];
   team_id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_RoundArgs = {
+  where: Contest_Round_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contest_Round_By_PkArgs = {
+  round_id: Scalars['uuid']['input'];
 };
 
 
@@ -6143,6 +6760,20 @@ export type Mutation_RootInsert_Contest_Manager_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Contest_MapArgs = {
+  objects: Array<Contest_Map_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Map_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Map_OneArgs = {
+  object: Contest_Map_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Map_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Contest_NoticeArgs = {
   objects: Array<Contest_Notice_Insert_Input>;
   on_conflict?: InputMaybe<Contest_Notice_On_Conflict>;
@@ -6202,6 +6833,20 @@ export type Mutation_RootInsert_Contest_Room_TeamArgs = {
 export type Mutation_RootInsert_Contest_Room_Team_OneArgs = {
   object: Contest_Room_Team_Insert_Input;
   on_conflict?: InputMaybe<Contest_Room_Team_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_RoundArgs = {
+  objects: Array<Contest_Round_Insert_Input>;
+  on_conflict?: InputMaybe<Contest_Round_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contest_Round_OneArgs = {
+  object: Contest_Round_Insert_Input;
+  on_conflict?: InputMaybe<Contest_Round_On_Conflict>;
 };
 
 
@@ -6586,6 +7231,20 @@ export type Mutation_RootUpdate_Contest_Manager_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_MapArgs = {
+  _set?: InputMaybe<Contest_Map_Set_Input>;
+  where: Contest_Map_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Map_By_PkArgs = {
+  _set?: InputMaybe<Contest_Map_Set_Input>;
+  pk_columns: Contest_Map_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_NoticeArgs = {
   _set?: InputMaybe<Contest_Notice_Set_Input>;
   where: Contest_Notice_Bool_Exp;
@@ -6644,6 +7303,20 @@ export type Mutation_RootUpdate_Contest_Room_Team_By_PkArgs = {
   _inc?: InputMaybe<Contest_Room_Team_Inc_Input>;
   _set?: InputMaybe<Contest_Room_Team_Set_Input>;
   pk_columns: Contest_Room_Team_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_RoundArgs = {
+  _set?: InputMaybe<Contest_Round_Set_Input>;
+  where: Contest_Round_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Round_By_PkArgs = {
+  _set?: InputMaybe<Contest_Round_Set_Input>;
+  pk_columns: Contest_Round_Pk_Columns_Input;
 };
 
 
@@ -8392,6 +9065,12 @@ export type Query_Root = {
   contest_manager_aggregate: Contest_Manager_Aggregate;
   /** fetch data from the table: "contest_manager" using primary key columns */
   contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** fetch data from the table: "contest_map" */
+  contest_map: Array<Contest_Map>;
+  /** fetch aggregated fields from the table: "contest_map" */
+  contest_map_aggregate: Contest_Map_Aggregate;
+  /** fetch data from the table: "contest_map" using primary key columns */
+  contest_map_by_pk?: Maybe<Contest_Map>;
   /** fetch data from the table: "contest_notice" */
   contest_notice: Array<Contest_Notice>;
   /** fetch aggregated fields from the table: "contest_notice" */
@@ -8416,6 +9095,12 @@ export type Query_Root = {
   contest_room_team_aggregate: Contest_Room_Team_Aggregate;
   /** fetch data from the table: "contest_room_team" using primary key columns */
   contest_room_team_by_pk?: Maybe<Contest_Room_Team>;
+  /** fetch data from the table: "contest_round" */
+  contest_round: Array<Contest_Round>;
+  /** fetch aggregated fields from the table: "contest_round" */
+  contest_round_aggregate: Contest_Round_Aggregate;
+  /** fetch data from the table: "contest_round" using primary key columns */
+  contest_round_by_pk?: Maybe<Contest_Round>;
   /** fetch data from the table: "contest_team" */
   contest_team: Array<Contest_Team>;
   /** fetch aggregated fields from the table: "contest_team" */
@@ -8650,6 +9335,29 @@ export type Query_RootContest_Manager_By_PkArgs = {
 };
 
 
+export type Query_RootContest_MapArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Map_Order_By>>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Map_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Map_Order_By>>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Map_By_PkArgs = {
+  map_id: Scalars['uuid']['input'];
+};
+
+
 export type Query_RootContest_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -8741,6 +9449,29 @@ export type Query_RootContest_Room_Team_AggregateArgs = {
 export type Query_RootContest_Room_Team_By_PkArgs = {
   room_id: Scalars['uuid']['input'];
   team_id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootContest_RoundArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Round_Order_By>>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Round_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Round_Order_By>>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+
+export type Query_RootContest_Round_By_PkArgs = {
+  round_id: Scalars['uuid']['input'];
 };
 
 
@@ -10060,6 +10791,12 @@ export type Subscription_Root = {
   contest_manager_aggregate: Contest_Manager_Aggregate;
   /** fetch data from the table: "contest_manager" using primary key columns */
   contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** fetch data from the table: "contest_map" */
+  contest_map: Array<Contest_Map>;
+  /** fetch aggregated fields from the table: "contest_map" */
+  contest_map_aggregate: Contest_Map_Aggregate;
+  /** fetch data from the table: "contest_map" using primary key columns */
+  contest_map_by_pk?: Maybe<Contest_Map>;
   /** fetch data from the table: "contest_notice" */
   contest_notice: Array<Contest_Notice>;
   /** fetch aggregated fields from the table: "contest_notice" */
@@ -10084,6 +10821,12 @@ export type Subscription_Root = {
   contest_room_team_aggregate: Contest_Room_Team_Aggregate;
   /** fetch data from the table: "contest_room_team" using primary key columns */
   contest_room_team_by_pk?: Maybe<Contest_Room_Team>;
+  /** fetch data from the table: "contest_round" */
+  contest_round: Array<Contest_Round>;
+  /** fetch aggregated fields from the table: "contest_round" */
+  contest_round_aggregate: Contest_Round_Aggregate;
+  /** fetch data from the table: "contest_round" using primary key columns */
+  contest_round_by_pk?: Maybe<Contest_Round>;
   /** fetch data from the table: "contest_team" */
   contest_team: Array<Contest_Team>;
   /** fetch aggregated fields from the table: "contest_team" */
@@ -10318,6 +11061,29 @@ export type Subscription_RootContest_Manager_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_MapArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Map_Order_By>>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Map_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Map_Order_By>>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Map_By_PkArgs = {
+  map_id: Scalars['uuid']['input'];
+};
+
+
 export type Subscription_RootContest_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -10409,6 +11175,29 @@ export type Subscription_RootContest_Room_Team_AggregateArgs = {
 export type Subscription_RootContest_Room_Team_By_PkArgs = {
   room_id: Scalars['uuid']['input'];
   team_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_RoundArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Round_Order_By>>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Round_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Round_Order_By>>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Round_By_PkArgs = {
+  round_id: Scalars['uuid']['input'];
 };
 
 
@@ -11537,36 +12326,12 @@ export type Weekly_Variance_Fields = {
   id?: Maybe<Scalars['Float']['output']>;
 };
 
-export type GetRoomInfoSubscriptionVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
+export type GetCodeUpdateTimeSubscriptionVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetRoomInfoSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', created_at: any, result?: string | null, room_id: any, status: boolean, port?: number | null, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_name: string, team_id: any } }> }> };
-
-export type GetRoomInfo_StatusQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetRoomInfo_StatusQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: boolean, created_at: any }> };
-
-export type InsertRoomMutationVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  team1_id: Scalars['uuid']['input'];
-  team2_id: Scalars['uuid']['input'];
-  created_at: Scalars['timestamptz']['input'];
-}>;
-
-
-export type InsertRoomMutation = { __typename?: 'mutation_root', insert_contest_room_one?: { __typename?: 'contest_room', room_id: any } | null };
-
-export type DeleteRoomMutationVariables = Exact<{
-  room_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteRoomMutation = { __typename?: 'mutation_root', delete_contest_room_team?: { __typename?: 'contest_room_team_mutation_response', affected_rows: number } | null, delete_contest_room?: { __typename?: 'contest_room_mutation_response', affected_rows: number } | null };
+export type GetCodeUpdateTimeSubscription = { __typename?: 'subscription_root', contest_code: Array<{ __typename?: 'contest_code', code1_update_time?: any | null, code2_update_time?: any | null, code3_update_time?: any | null, code4_update_time?: any | null, code5_update_time?: any | null, code6_update_time?: any | null }> };
 
 export type UpsertCode1MutationVariables = Exact<{
   code: Scalars['String']['input'];
@@ -11623,63 +12388,6 @@ export type UpsertCode5MutationVariables = Exact<{
 
 export type UpsertCode5Mutation = { __typename?: 'mutation_root', insert_contest_code_one?: { __typename?: 'contest_code', code5_update_time?: any | null } | null };
 
-export type AddCodeMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  code_name: Scalars['String']['input'];
-  language: Scalars['String']['input'];
-  compile_status?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type AddCodeMutation = { __typename?: 'mutation_root', insert_contest_team_code_one?: { __typename?: 'contest_team_code', code_id: any } | null };
-
-export type DeleteCodeMutationVariables = Exact<{
-  code_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteCodeMutation = { __typename?: 'mutation_root', delete_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
-
-export type UpdateCodeNameMutationVariables = Exact<{
-  code_id: Scalars['uuid']['input'];
-  code_name: Scalars['String']['input'];
-}>;
-
-
-export type UpdateCodeNameMutation = { __typename?: 'mutation_root', update_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
-
-export type GetCodesSubscriptionVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetCodesSubscription = { __typename?: 'subscription_root', contest_team_code: Array<{ __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, compile_status: string, created_at: any }> };
-
-export type AddTeamPlayerMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  player: Scalars['String']['input'];
-}>;
-
-
-export type AddTeamPlayerMutation = { __typename?: 'mutation_root', insert_contest_team_player_one?: { __typename?: 'contest_team_player', player: string } | null };
-
-export type UpdateTeamPlayerMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  player: Scalars['String']['input'];
-  code_id: Scalars['uuid']['input'];
-  role: Scalars['String']['input'];
-}>;
-
-
-export type UpdateTeamPlayerMutation = { __typename?: 'mutation_root', update_contest_team_player_by_pk?: { __typename?: 'contest_team_player', player: string } | null };
-
-export type GetTeamPlayersSubscriptionVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_name: string, language: string, created_at: any } | null }> };
-
 export type DeleteContestMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
@@ -11730,6 +12438,98 @@ export type GetContestSwitchSubscriptionVariables = Exact<{
 
 export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
 
+export type UpdateContestMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  contest_name: Scalars['String']['input'];
+  end_date: Scalars['timestamptz']['input'];
+  start_date: Scalars['timestamptz']['input'];
+  contest_type: Scalars['String']['input'];
+}>;
+
+
+export type UpdateContestMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', id: any }> } | null };
+
+export type UpdateContestStatusMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  status: Scalars['String']['input'];
+}>;
+
+
+export type UpdateContestStatusMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', status: string }> } | null };
+
+export type GetContestManagersQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestManagersQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_managers: Array<{ __typename?: 'contest_manager', user_uuid: any }> } | null };
+
+export type AddContestMapMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  name: Scalars['String']['input'];
+  filename: Scalars['String']['input'];
+}>;
+
+
+export type AddContestMapMutation = { __typename?: 'mutation_root', insert_contest_map_one?: { __typename?: 'contest_map', map_id: any } | null };
+
+export type DeleteContestMapMutationVariables = Exact<{
+  map_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteContestMapMutation = { __typename?: 'mutation_root', delete_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
+
+export type UpdateContestMapNameMutationVariables = Exact<{
+  map_id: Scalars['uuid']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateContestMapNameMutation = { __typename?: 'mutation_root', update_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
+
+export type GetContestMapsQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestMapsQuery = { __typename?: 'query_root', contest_map: Array<{ __typename?: 'contest_map', map_id: any, name: string, filename: string }> };
+
+export type AddContestNoticeMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_notice_one?: { __typename?: 'contest_notice', id: any } | null };
+
+export type DeleteContestNoticeMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_notice_by_pk?: { __typename?: 'contest_notice', id: any } | null };
+
+export type UpdateContestNoticeMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  title: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  files?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_notice_by_pk?: { __typename?: 'contest_notice', id: any } | null };
+
+export type GetContestNoticesQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestNoticesQuery = { __typename?: 'query_root', contest_notice: Array<{ __typename?: 'contest_notice', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
+
 export type AddContestPlayerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   team_label: Scalars['String']['input'];
@@ -11767,75 +12567,67 @@ export type GetContestPlayersQueryVariables = Exact<{
 
 export type GetContestPlayersQuery = { __typename?: 'query_root', contest_player: Array<{ __typename?: 'contest_player', team_label: string, player_num: number, players_label: string, roles_available: string }> };
 
-export type GetContestManagersQueryVariables = Exact<{
+export type GetRoomInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestManagersQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_managers: Array<{ __typename?: 'contest_manager', user_uuid: any }> } | null };
+export type GetRoomInfoSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', created_at: any, result?: string | null, room_id: any, status: string, port?: number | null, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_name: string, team_id: any } }> }> };
 
-export type QueryContestManagerQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
-}>;
-
-
-export type QueryContestManagerQuery = { __typename?: 'query_root', contest_manager: Array<{ __typename?: 'contest_manager', user_uuid: any }> };
-
-export type UpdateContestStatusMutationVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  status: Scalars['String']['input'];
-}>;
-
-
-export type UpdateContestStatusMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', status: string }> } | null };
-
-export type UpdateContestMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  contest_name: Scalars['String']['input'];
-  end_date: Scalars['timestamptz']['input'];
-  start_date: Scalars['timestamptz']['input'];
-  contest_type: Scalars['String']['input'];
-}>;
-
-
-export type UpdateContestMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', id: any }> } | null };
-
-export type GetContestNoticesQueryVariables = Exact<{
+export type GetRoomInfo_StatusQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestNoticesQuery = { __typename?: 'query_root', contest_notice: Array<{ __typename?: 'contest_notice', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
+export type GetRoomInfo_StatusQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, created_at: any }> };
 
-export type UpdateContestNoticeMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  title: Scalars['String']['input'];
-  content: Scalars['String']['input'];
-  files?: InputMaybe<Scalars['String']['input']>;
+export type InsertRoomMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  team1_id: Scalars['uuid']['input'];
+  team2_id: Scalars['uuid']['input'];
+  created_at: Scalars['timestamptz']['input'];
+}>;
+
+
+export type InsertRoomMutation = { __typename?: 'mutation_root', insert_contest_room_one?: { __typename?: 'contest_room', room_id: any } | null };
+
+export type DeleteRoomMutationVariables = Exact<{
+  room_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteRoomMutation = { __typename?: 'mutation_root', delete_contest_room_team?: { __typename?: 'contest_room_team_mutation_response', affected_rows: number } | null, delete_contest_room?: { __typename?: 'contest_room_mutation_response', affected_rows: number } | null };
+
+export type AddContestRoundMutationVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  name: Scalars['String']['input'];
+  maps?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type AddContestRoundMutation = { __typename?: 'mutation_root', insert_contest_round_one?: { __typename?: 'contest_round', round_id: any } | null };
+
+export type DeleteContestRoundMutationVariables = Exact<{
+  round_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteContestRoundMutation = { __typename?: 'mutation_root', delete_contest_round_by_pk?: { __typename?: 'contest_round', round_id: any } | null };
+
+export type UpdateContestRoundNameMutationVariables = Exact<{
+  round_id: Scalars['uuid']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateContestRoundNameMutation = { __typename?: 'mutation_root', update_contest_round_by_pk?: { __typename?: 'contest_round', round_id: any } | null };
+
+export type GetContestRoundsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
-
-export type AddContestNoticeMutationVariables = Exact<{
-  title: Scalars['String']['input'];
-  content: Scalars['String']['input'];
-  files?: InputMaybe<Scalars['String']['input']>;
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
-
-export type DeleteContestNoticeMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_notice?: { __typename?: 'contest_notice_mutation_response', returning: Array<{ __typename?: 'contest_notice', id: any }> } | null };
+export type GetContestRoundsQuery = { __typename?: 'query_root', contest_round: Array<{ __typename?: 'contest_round', round_id: any, name: string, maps: string }> };
 
 export type InsertTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
@@ -11863,13 +12655,6 @@ export type IsTeamMemberQueryVariables = Exact<{
 
 
 export type IsTeamMemberQuery = { __typename?: 'query_root', contest_team_member: Array<{ __typename?: 'contest_team_member', team_id: any }> };
-
-export type GetCodeUpdateTimeSubscriptionVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetCodeUpdateTimeSubscription = { __typename?: 'subscription_root', contest_code: Array<{ __typename?: 'contest_code', code1_update_time?: any | null, code2_update_time?: any | null, code3_update_time?: any | null, code4_update_time?: any | null, code5_update_time?: any | null, code6_update_time?: any | null }> };
 
 export type GetAllTeamInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -11962,7 +12747,64 @@ export type QueryTeamIdQueryVariables = Exact<{
 
 export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
 
-export type AddEventMutationVariables = Exact<{
+export type AddTeamCodeMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  code_name: Scalars['String']['input'];
+  language: Scalars['String']['input'];
+  compile_status?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type AddTeamCodeMutation = { __typename?: 'mutation_root', insert_contest_team_code_one?: { __typename?: 'contest_team_code', code_id: any } | null };
+
+export type DeleteTeamCodeMutationVariables = Exact<{
+  code_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteTeamCodeMutation = { __typename?: 'mutation_root', delete_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
+
+export type UpdateTeamCodeNameMutationVariables = Exact<{
+  code_id: Scalars['uuid']['input'];
+  code_name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateTeamCodeNameMutation = { __typename?: 'mutation_root', update_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
+
+export type GetTeamCodesSubscriptionVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamCodesSubscription = { __typename?: 'subscription_root', contest_team_code: Array<{ __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, compile_status: string, created_at: any }> };
+
+export type AddTeamPlayerMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  player: Scalars['String']['input'];
+}>;
+
+
+export type AddTeamPlayerMutation = { __typename?: 'mutation_root', insert_contest_team_player_one?: { __typename?: 'contest_team_player', player: string } | null };
+
+export type UpdateTeamPlayerMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  player: Scalars['String']['input'];
+  code_id: Scalars['uuid']['input'];
+  role: Scalars['String']['input'];
+}>;
+
+
+export type UpdateTeamPlayerMutation = { __typename?: 'mutation_root', update_contest_team_player_by_pk?: { __typename?: 'contest_team_player', player: string } | null };
+
+export type GetTeamPlayersSubscriptionVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_name: string, language: string, created_at: any } | null }> };
+
+export type AddContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
   start: Scalars['timestamptz']['input'];
@@ -11971,17 +12813,17 @@ export type AddEventMutationVariables = Exact<{
 }>;
 
 
-export type AddEventMutation = { __typename?: 'mutation_root', insert_contest_time_one?: { __typename?: 'contest_time', event: string } | null };
+export type AddContestTimeMutation = { __typename?: 'mutation_root', insert_contest_time_one?: { __typename?: 'contest_time', event: string } | null };
 
-export type DeleteEventMutationVariables = Exact<{
+export type DeleteContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
 }>;
 
 
-export type DeleteEventMutation = { __typename?: 'mutation_root', delete_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
+export type DeleteContestTimeMutation = { __typename?: 'mutation_root', delete_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
 
-export type UpdateEventMutationVariables = Exact<{
+export type UpdateContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
   start: Scalars['timestamptz']['input'];
@@ -11990,14 +12832,14 @@ export type UpdateEventMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'mutation_root', update_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
+export type UpdateContestTimeMutation = { __typename?: 'mutation_root', update_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
 
-export type GetEventsQueryVariables = Exact<{
+export type GetContestTimesQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetEventsQuery = { __typename?: 'query_root', contest_time: Array<{ __typename?: 'contest_time', event: string, start: any, end: any, description?: string | null }> };
+export type GetContestTimesQuery = { __typename?: 'query_root', contest_time: Array<{ __typename?: 'contest_time', event: string, start: any, end: any, description?: string | null }> };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -12251,167 +13093,41 @@ export type GetUser_IdQueryVariables = Exact<{
 export type GetUser_IdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
 
-export const GetRoomInfoDocument = gql`
-    subscription GetRoomInfo($contest_id: uuid!) {
-  contest_room(
-    where: {contest_id: {_eq: $contest_id}}
-    order_by: {created_at: desc}
-  ) {
-    created_at
-    result
-    room_id
-    status
-    port
-    contest_room_teams {
-      contest_team {
-        team_name
-        team_id
-      }
-    }
+export const GetCodeUpdateTimeDocument = gql`
+    subscription GetCodeUpdateTime($team_id: uuid!) {
+  contest_code(where: {team_id: {_eq: $team_id}}) {
+    code1_update_time
+    code2_update_time
+    code3_update_time
+    code4_update_time
+    code5_update_time
+    code6_update_time
   }
 }
     `;
 
 /**
- * __useGetRoomInfoSubscription__
+ * __useGetCodeUpdateTimeSubscription__
  *
- * To run a query within a React component, call `useGetRoomInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetRoomInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCodeUpdateTimeSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetCodeUpdateTimeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRoomInfoSubscription({
+ * const { data, loading, error } = useGetCodeUpdateTimeSubscription({
  *   variables: {
- *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
  *   },
  * });
  */
-export function useGetRoomInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables> & ({ variables: GetRoomInfoSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetCodeUpdateTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables> & ({ variables: GetCodeUpdateTimeSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables>(GetRoomInfoDocument, options);
+        return Apollo.useSubscription<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>(GetCodeUpdateTimeDocument, options);
       }
-export type GetRoomInfoSubscriptionHookResult = ReturnType<typeof useGetRoomInfoSubscription>;
-export type GetRoomInfoSubscriptionResult = Apollo.SubscriptionResult<GetRoomInfoSubscription>;
-export const GetRoomInfo_StatusDocument = gql`
-    query GetRoomInfo_status($contest_id: uuid!) {
-  contest_room(
-    where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: false}, port: {_is_null: false}}}
-  ) {
-    room_id
-    status
-    created_at
-  }
-}
-    `;
-
-/**
- * __useGetRoomInfo_StatusQuery__
- *
- * To run a query within a React component, call `useGetRoomInfo_StatusQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRoomInfo_StatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetRoomInfo_StatusQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetRoomInfo_StatusQuery(baseOptions: Apollo.QueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables> & ({ variables: GetRoomInfo_StatusQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
-      }
-export function useGetRoomInfo_StatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
-        }
-export function useGetRoomInfo_StatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
-        }
-export type GetRoomInfo_StatusQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusQuery>;
-export type GetRoomInfo_StatusLazyQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusLazyQuery>;
-export type GetRoomInfo_StatusSuspenseQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusSuspenseQuery>;
-export type GetRoomInfo_StatusQueryResult = Apollo.QueryResult<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>;
-export const InsertRoomDocument = gql`
-    mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!, $team2_id: uuid!, $created_at: timestamptz!) {
-  insert_contest_room_one(
-    object: {contest_id: $contest_id, contest_room_teams: {data: [{team_id: $team1_id}, {team_id: $team2_id}]}, created_at: $created_at}
-  ) {
-    room_id
-  }
-}
-    `;
-export type InsertRoomMutationFn = Apollo.MutationFunction<InsertRoomMutation, InsertRoomMutationVariables>;
-
-/**
- * __useInsertRoomMutation__
- *
- * To run a mutation, you first call `useInsertRoomMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertRoomMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertRoomMutation, { data, loading, error }] = useInsertRoomMutation({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      team1_id: // value for 'team1_id'
- *      team2_id: // value for 'team2_id'
- *      created_at: // value for 'created_at'
- *   },
- * });
- */
-export function useInsertRoomMutation(baseOptions?: Apollo.MutationHookOptions<InsertRoomMutation, InsertRoomMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertRoomMutation, InsertRoomMutationVariables>(InsertRoomDocument, options);
-      }
-export type InsertRoomMutationHookResult = ReturnType<typeof useInsertRoomMutation>;
-export type InsertRoomMutationResult = Apollo.MutationResult<InsertRoomMutation>;
-export type InsertRoomMutationOptions = Apollo.BaseMutationOptions<InsertRoomMutation, InsertRoomMutationVariables>;
-export const DeleteRoomDocument = gql`
-    mutation DeleteRoom($room_id: uuid!) {
-  delete_contest_room_team(where: {room_id: {_eq: $room_id}}) {
-    affected_rows
-  }
-  delete_contest_room(where: {room_id: {_eq: $room_id}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteRoomMutationFn = Apollo.MutationFunction<DeleteRoomMutation, DeleteRoomMutationVariables>;
-
-/**
- * __useDeleteRoomMutation__
- *
- * To run a mutation, you first call `useDeleteRoomMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteRoomMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteRoomMutation, { data, loading, error }] = useDeleteRoomMutation({
- *   variables: {
- *      room_id: // value for 'room_id'
- *   },
- * });
- */
-export function useDeleteRoomMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRoomMutation, DeleteRoomMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(DeleteRoomDocument, options);
-      }
-export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutation>;
-export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
-export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
+export type GetCodeUpdateTimeSubscriptionHookResult = ReturnType<typeof useGetCodeUpdateTimeSubscription>;
+export type GetCodeUpdateTimeSubscriptionResult = Apollo.SubscriptionResult<GetCodeUpdateTimeSubscription>;
 export const UpsertCode1Document = gql`
     mutation UpsertCode1($code: String!, $update_time: timestamptz!, $team_id: uuid!, $contest_id: uuid!, $code_type: String!) {
   insert_contest_code_one(
@@ -12612,260 +13328,6 @@ export function useUpsertCode5Mutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpsertCode5MutationHookResult = ReturnType<typeof useUpsertCode5Mutation>;
 export type UpsertCode5MutationResult = Apollo.MutationResult<UpsertCode5Mutation>;
 export type UpsertCode5MutationOptions = Apollo.BaseMutationOptions<UpsertCode5Mutation, UpsertCode5MutationVariables>;
-export const AddCodeDocument = gql`
-    mutation AddCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
-  insert_contest_team_code_one(
-    object: {team_id: $team_id, code_name: $code_name, language: $language, compile_status: $compile_status}
-  ) {
-    code_id
-  }
-}
-    `;
-export type AddCodeMutationFn = Apollo.MutationFunction<AddCodeMutation, AddCodeMutationVariables>;
-
-/**
- * __useAddCodeMutation__
- *
- * To run a mutation, you first call `useAddCodeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddCodeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addCodeMutation, { data, loading, error }] = useAddCodeMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *      code_name: // value for 'code_name'
- *      language: // value for 'language'
- *      compile_status: // value for 'compile_status'
- *   },
- * });
- */
-export function useAddCodeMutation(baseOptions?: Apollo.MutationHookOptions<AddCodeMutation, AddCodeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddCodeMutation, AddCodeMutationVariables>(AddCodeDocument, options);
-      }
-export type AddCodeMutationHookResult = ReturnType<typeof useAddCodeMutation>;
-export type AddCodeMutationResult = Apollo.MutationResult<AddCodeMutation>;
-export type AddCodeMutationOptions = Apollo.BaseMutationOptions<AddCodeMutation, AddCodeMutationVariables>;
-export const DeleteCodeDocument = gql`
-    mutation DeleteCode($code_id: uuid!) {
-  delete_contest_team_code_by_pk(code_id: $code_id) {
-    code_id
-  }
-}
-    `;
-export type DeleteCodeMutationFn = Apollo.MutationFunction<DeleteCodeMutation, DeleteCodeMutationVariables>;
-
-/**
- * __useDeleteCodeMutation__
- *
- * To run a mutation, you first call `useDeleteCodeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCodeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCodeMutation, { data, loading, error }] = useDeleteCodeMutation({
- *   variables: {
- *      code_id: // value for 'code_id'
- *   },
- * });
- */
-export function useDeleteCodeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCodeMutation, DeleteCodeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCodeMutation, DeleteCodeMutationVariables>(DeleteCodeDocument, options);
-      }
-export type DeleteCodeMutationHookResult = ReturnType<typeof useDeleteCodeMutation>;
-export type DeleteCodeMutationResult = Apollo.MutationResult<DeleteCodeMutation>;
-export type DeleteCodeMutationOptions = Apollo.BaseMutationOptions<DeleteCodeMutation, DeleteCodeMutationVariables>;
-export const UpdateCodeNameDocument = gql`
-    mutation UpdateCodeName($code_id: uuid!, $code_name: String!) {
-  update_contest_team_code_by_pk(
-    pk_columns: {code_id: $code_id}
-    _set: {code_name: $code_name}
-  ) {
-    code_id
-  }
-}
-    `;
-export type UpdateCodeNameMutationFn = Apollo.MutationFunction<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>;
-
-/**
- * __useUpdateCodeNameMutation__
- *
- * To run a mutation, you first call `useUpdateCodeNameMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateCodeNameMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateCodeNameMutation, { data, loading, error }] = useUpdateCodeNameMutation({
- *   variables: {
- *      code_id: // value for 'code_id'
- *      code_name: // value for 'code_name'
- *   },
- * });
- */
-export function useUpdateCodeNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>(UpdateCodeNameDocument, options);
-      }
-export type UpdateCodeNameMutationHookResult = ReturnType<typeof useUpdateCodeNameMutation>;
-export type UpdateCodeNameMutationResult = Apollo.MutationResult<UpdateCodeNameMutation>;
-export type UpdateCodeNameMutationOptions = Apollo.BaseMutationOptions<UpdateCodeNameMutation, UpdateCodeNameMutationVariables>;
-export const GetCodesDocument = gql`
-    subscription GetCodes($team_id: uuid!) {
-  contest_team_code(
-    order_by: {created_at: desc}
-    where: {team_id: {_eq: $team_id}}
-  ) {
-    code_id
-    code_name
-    language
-    compile_status
-    created_at
-  }
-}
-    `;
-
-/**
- * __useGetCodesSubscription__
- *
- * To run a query within a React component, call `useGetCodesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetCodesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCodesSubscription({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetCodesSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodesSubscription, GetCodesSubscriptionVariables> & ({ variables: GetCodesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetCodesSubscription, GetCodesSubscriptionVariables>(GetCodesDocument, options);
-      }
-export type GetCodesSubscriptionHookResult = ReturnType<typeof useGetCodesSubscription>;
-export type GetCodesSubscriptionResult = Apollo.SubscriptionResult<GetCodesSubscription>;
-export const AddTeamPlayerDocument = gql`
-    mutation AddTeamPlayer($team_id: uuid!, $player: String!) {
-  insert_contest_team_player_one(object: {team_id: $team_id, player: $player}) {
-    player
-  }
-}
-    `;
-export type AddTeamPlayerMutationFn = Apollo.MutationFunction<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>;
-
-/**
- * __useAddTeamPlayerMutation__
- *
- * To run a mutation, you first call `useAddTeamPlayerMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddTeamPlayerMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addTeamPlayerMutation, { data, loading, error }] = useAddTeamPlayerMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *      player: // value for 'player'
- *   },
- * });
- */
-export function useAddTeamPlayerMutation(baseOptions?: Apollo.MutationHookOptions<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>(AddTeamPlayerDocument, options);
-      }
-export type AddTeamPlayerMutationHookResult = ReturnType<typeof useAddTeamPlayerMutation>;
-export type AddTeamPlayerMutationResult = Apollo.MutationResult<AddTeamPlayerMutation>;
-export type AddTeamPlayerMutationOptions = Apollo.BaseMutationOptions<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>;
-export const UpdateTeamPlayerDocument = gql`
-    mutation UpdateTeamPlayer($team_id: uuid!, $player: String!, $code_id: uuid!, $role: String!) {
-  update_contest_team_player_by_pk(
-    pk_columns: {team_id: $team_id, player: $player}
-    _set: {code_id: $code_id, role: $role}
-  ) {
-    player
-  }
-}
-    `;
-export type UpdateTeamPlayerMutationFn = Apollo.MutationFunction<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>;
-
-/**
- * __useUpdateTeamPlayerMutation__
- *
- * To run a mutation, you first call `useUpdateTeamPlayerMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTeamPlayerMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateTeamPlayerMutation, { data, loading, error }] = useUpdateTeamPlayerMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *      player: // value for 'player'
- *      code_id: // value for 'code_id'
- *      role: // value for 'role'
- *   },
- * });
- */
-export function useUpdateTeamPlayerMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>(UpdateTeamPlayerDocument, options);
-      }
-export type UpdateTeamPlayerMutationHookResult = ReturnType<typeof useUpdateTeamPlayerMutation>;
-export type UpdateTeamPlayerMutationResult = Apollo.MutationResult<UpdateTeamPlayerMutation>;
-export type UpdateTeamPlayerMutationOptions = Apollo.BaseMutationOptions<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>;
-export const GetTeamPlayersDocument = gql`
-    subscription GetTeamPlayers($team_id: uuid!) {
-  contest_team_player(where: {team_id: {_eq: $team_id}}) {
-    player
-    player_code {
-      code_name
-      language
-      created_at
-    }
-    role
-  }
-}
-    `;
-
-/**
- * __useGetTeamPlayersSubscription__
- *
- * To run a query within a React component, call `useGetTeamPlayersSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetTeamPlayersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTeamPlayersSubscription({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetTeamPlayersSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables> & ({ variables: GetTeamPlayersSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables>(GetTeamPlayersDocument, options);
-      }
-export type GetTeamPlayersSubscriptionHookResult = ReturnType<typeof useGetTeamPlayersSubscription>;
-export type GetTeamPlayersSubscriptionResult = Apollo.SubscriptionResult<GetTeamPlayersSubscription>;
 export const DeleteContestDocument = gql`
     mutation DeleteContest($contest_id: uuid!) {
   delete_contest_by_pk(id: $contest_id) {
@@ -13104,6 +13566,431 @@ export function useGetContestSwitchSubscription(baseOptions: Apollo.Subscription
       }
 export type GetContestSwitchSubscriptionHookResult = ReturnType<typeof useGetContestSwitchSubscription>;
 export type GetContestSwitchSubscriptionResult = Apollo.SubscriptionResult<GetContestSwitchSubscription>;
+export const UpdateContestDocument = gql`
+    mutation UpdateContest($id: uuid!, $description: String = "", $contest_name: String!, $end_date: timestamptz!, $start_date: timestamptz!, $contest_type: String!) {
+  update_contest(
+    where: {id: {_eq: $id}}
+    _set: {contest_name: $contest_name, description: $description, end_date: $end_date, start_date: $start_date, contest_type: $contest_type}
+  ) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type UpdateContestMutationFn = Apollo.MutationFunction<UpdateContestMutation, UpdateContestMutationVariables>;
+
+/**
+ * __useUpdateContestMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestMutation, { data, loading, error }] = useUpdateContestMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      description: // value for 'description'
+ *      contest_name: // value for 'contest_name'
+ *      end_date: // value for 'end_date'
+ *      start_date: // value for 'start_date'
+ *      contest_type: // value for 'contest_type'
+ *   },
+ * });
+ */
+export function useUpdateContestMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMutation, UpdateContestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestMutation, UpdateContestMutationVariables>(UpdateContestDocument, options);
+      }
+export type UpdateContestMutationHookResult = ReturnType<typeof useUpdateContestMutation>;
+export type UpdateContestMutationResult = Apollo.MutationResult<UpdateContestMutation>;
+export type UpdateContestMutationOptions = Apollo.BaseMutationOptions<UpdateContestMutation, UpdateContestMutationVariables>;
+export const UpdateContestStatusDocument = gql`
+    mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
+  update_contest(where: {id: {_eq: $contest_id}}, _set: {status: $status}) {
+    returning {
+      status
+    }
+  }
+}
+    `;
+export type UpdateContestStatusMutationFn = Apollo.MutationFunction<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
+
+/**
+ * __useUpdateContestStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestStatusMutation, { data, loading, error }] = useUpdateContestStatusMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useUpdateContestStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>(UpdateContestStatusDocument, options);
+      }
+export type UpdateContestStatusMutationHookResult = ReturnType<typeof useUpdateContestStatusMutation>;
+export type UpdateContestStatusMutationResult = Apollo.MutationResult<UpdateContestStatusMutation>;
+export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
+export const GetContestManagersDocument = gql`
+    query GetContestManagers($contest_id: uuid!) {
+  contest_by_pk(id: $contest_id) {
+    contest_managers {
+      user_uuid
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetContestManagersQuery__
+ *
+ * To run a query within a React component, call `useGetContestManagersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestManagersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestManagersQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestManagersQuery(baseOptions: Apollo.QueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables> & ({ variables: GetContestManagersQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
+      }
+export function useGetContestManagersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
+        }
+export function useGetContestManagersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
+        }
+export type GetContestManagersQueryHookResult = ReturnType<typeof useGetContestManagersQuery>;
+export type GetContestManagersLazyQueryHookResult = ReturnType<typeof useGetContestManagersLazyQuery>;
+export type GetContestManagersSuspenseQueryHookResult = ReturnType<typeof useGetContestManagersSuspenseQuery>;
+export type GetContestManagersQueryResult = Apollo.QueryResult<GetContestManagersQuery, GetContestManagersQueryVariables>;
+export const AddContestMapDocument = gql`
+    mutation AddContestMap($contest_id: uuid!, $name: String!, $filename: String!) {
+  insert_contest_map_one(
+    object: {contest_id: $contest_id, name: $name, filename: $filename}
+  ) {
+    map_id
+  }
+}
+    `;
+export type AddContestMapMutationFn = Apollo.MutationFunction<AddContestMapMutation, AddContestMapMutationVariables>;
+
+/**
+ * __useAddContestMapMutation__
+ *
+ * To run a mutation, you first call `useAddContestMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddContestMapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addContestMapMutation, { data, loading, error }] = useAddContestMapMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      name: // value for 'name'
+ *      filename: // value for 'filename'
+ *   },
+ * });
+ */
+export function useAddContestMapMutation(baseOptions?: Apollo.MutationHookOptions<AddContestMapMutation, AddContestMapMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestMapMutation, AddContestMapMutationVariables>(AddContestMapDocument, options);
+      }
+export type AddContestMapMutationHookResult = ReturnType<typeof useAddContestMapMutation>;
+export type AddContestMapMutationResult = Apollo.MutationResult<AddContestMapMutation>;
+export type AddContestMapMutationOptions = Apollo.BaseMutationOptions<AddContestMapMutation, AddContestMapMutationVariables>;
+export const DeleteContestMapDocument = gql`
+    mutation DeleteContestMap($map_id: uuid!) {
+  delete_contest_map_by_pk(map_id: $map_id) {
+    map_id
+  }
+}
+    `;
+export type DeleteContestMapMutationFn = Apollo.MutationFunction<DeleteContestMapMutation, DeleteContestMapMutationVariables>;
+
+/**
+ * __useDeleteContestMapMutation__
+ *
+ * To run a mutation, you first call `useDeleteContestMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContestMapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteContestMapMutation, { data, loading, error }] = useDeleteContestMapMutation({
+ *   variables: {
+ *      map_id: // value for 'map_id'
+ *   },
+ * });
+ */
+export function useDeleteContestMapMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestMapMutation, DeleteContestMapMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestMapMutation, DeleteContestMapMutationVariables>(DeleteContestMapDocument, options);
+      }
+export type DeleteContestMapMutationHookResult = ReturnType<typeof useDeleteContestMapMutation>;
+export type DeleteContestMapMutationResult = Apollo.MutationResult<DeleteContestMapMutation>;
+export type DeleteContestMapMutationOptions = Apollo.BaseMutationOptions<DeleteContestMapMutation, DeleteContestMapMutationVariables>;
+export const UpdateContestMapNameDocument = gql`
+    mutation UpdateContestMapName($map_id: uuid!, $name: String!) {
+  update_contest_map_by_pk(pk_columns: {map_id: $map_id}, _set: {name: $name}) {
+    map_id
+  }
+}
+    `;
+export type UpdateContestMapNameMutationFn = Apollo.MutationFunction<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>;
+
+/**
+ * __useUpdateContestMapNameMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestMapNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestMapNameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestMapNameMutation, { data, loading, error }] = useUpdateContestMapNameMutation({
+ *   variables: {
+ *      map_id: // value for 'map_id'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useUpdateContestMapNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>(UpdateContestMapNameDocument, options);
+      }
+export type UpdateContestMapNameMutationHookResult = ReturnType<typeof useUpdateContestMapNameMutation>;
+export type UpdateContestMapNameMutationResult = Apollo.MutationResult<UpdateContestMapNameMutation>;
+export type UpdateContestMapNameMutationOptions = Apollo.BaseMutationOptions<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>;
+export const GetContestMapsDocument = gql`
+    query GetContestMaps($contest_id: uuid!) {
+  contest_map(where: {contest_id: {_eq: $contest_id}}) {
+    map_id
+    name
+    filename
+  }
+}
+    `;
+
+/**
+ * __useGetContestMapsQuery__
+ *
+ * To run a query within a React component, call `useGetContestMapsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestMapsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestMapsQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestMapsQuery(baseOptions: Apollo.QueryHookOptions<GetContestMapsQuery, GetContestMapsQueryVariables> & ({ variables: GetContestMapsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestMapsQuery, GetContestMapsQueryVariables>(GetContestMapsDocument, options);
+      }
+export function useGetContestMapsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestMapsQuery, GetContestMapsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestMapsQuery, GetContestMapsQueryVariables>(GetContestMapsDocument, options);
+        }
+export function useGetContestMapsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestMapsQuery, GetContestMapsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestMapsQuery, GetContestMapsQueryVariables>(GetContestMapsDocument, options);
+        }
+export type GetContestMapsQueryHookResult = ReturnType<typeof useGetContestMapsQuery>;
+export type GetContestMapsLazyQueryHookResult = ReturnType<typeof useGetContestMapsLazyQuery>;
+export type GetContestMapsSuspenseQueryHookResult = ReturnType<typeof useGetContestMapsSuspenseQuery>;
+export type GetContestMapsQueryResult = Apollo.QueryResult<GetContestMapsQuery, GetContestMapsQueryVariables>;
+export const AddContestNoticeDocument = gql`
+    mutation AddContestNotice($title: String!, $content: String!, $files: String, $contest_id: uuid!) {
+  insert_contest_notice_one(
+    object: {title: $title, content: $content, files: $files, contest_id: $contest_id}
+  ) {
+    id
+  }
+}
+    `;
+export type AddContestNoticeMutationFn = Apollo.MutationFunction<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
+
+/**
+ * __useAddContestNoticeMutation__
+ *
+ * To run a mutation, you first call `useAddContestNoticeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddContestNoticeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addContestNoticeMutation, { data, loading, error }] = useAddContestNoticeMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *      files: // value for 'files'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useAddContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestNoticeMutation, AddContestNoticeMutationVariables>(AddContestNoticeDocument, options);
+      }
+export type AddContestNoticeMutationHookResult = ReturnType<typeof useAddContestNoticeMutation>;
+export type AddContestNoticeMutationResult = Apollo.MutationResult<AddContestNoticeMutation>;
+export type AddContestNoticeMutationOptions = Apollo.BaseMutationOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
+export const DeleteContestNoticeDocument = gql`
+    mutation DeleteContestNotice($id: uuid!) {
+  delete_contest_notice_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteContestNoticeMutationFn = Apollo.MutationFunction<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
+
+/**
+ * __useDeleteContestNoticeMutation__
+ *
+ * To run a mutation, you first call `useDeleteContestNoticeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContestNoticeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteContestNoticeMutation, { data, loading, error }] = useDeleteContestNoticeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>(DeleteContestNoticeDocument, options);
+      }
+export type DeleteContestNoticeMutationHookResult = ReturnType<typeof useDeleteContestNoticeMutation>;
+export type DeleteContestNoticeMutationResult = Apollo.MutationResult<DeleteContestNoticeMutation>;
+export type DeleteContestNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
+export const UpdateContestNoticeDocument = gql`
+    mutation UpdateContestNotice($id: uuid!, $title: String!, $content: String!, $files: String) {
+  update_contest_notice_by_pk(
+    pk_columns: {id: $id}
+    _set: {title: $title, content: $content, files: $files}
+  ) {
+    id
+  }
+}
+    `;
+export type UpdateContestNoticeMutationFn = Apollo.MutationFunction<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
+
+/**
+ * __useUpdateContestNoticeMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestNoticeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestNoticeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestNoticeMutation, { data, loading, error }] = useUpdateContestNoticeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *      files: // value for 'files'
+ *   },
+ * });
+ */
+export function useUpdateContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>(UpdateContestNoticeDocument, options);
+      }
+export type UpdateContestNoticeMutationHookResult = ReturnType<typeof useUpdateContestNoticeMutation>;
+export type UpdateContestNoticeMutationResult = Apollo.MutationResult<UpdateContestNoticeMutation>;
+export type UpdateContestNoticeMutationOptions = Apollo.BaseMutationOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
+export const GetContestNoticesDocument = gql`
+    query GetContestNotices($contest_id: uuid!) {
+  contest_notice(
+    where: {contest_id: {_eq: $contest_id}}
+    order_by: {updated_at: desc}
+  ) {
+    content
+    created_at
+    updated_at
+    files
+    id
+    title
+  }
+}
+    `;
+
+/**
+ * __useGetContestNoticesQuery__
+ *
+ * To run a query within a React component, call `useGetContestNoticesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestNoticesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestNoticesQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestNoticesQuery(baseOptions: Apollo.QueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables> & ({ variables: GetContestNoticesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+      }
+export function useGetContestNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+        }
+export function useGetContestNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+        }
+export type GetContestNoticesQueryHookResult = ReturnType<typeof useGetContestNoticesQuery>;
+export type GetContestNoticesLazyQueryHookResult = ReturnType<typeof useGetContestNoticesLazyQuery>;
+export type GetContestNoticesSuspenseQueryHookResult = ReturnType<typeof useGetContestNoticesSuspenseQuery>;
+export type GetContestNoticesQueryResult = Apollo.QueryResult<GetContestNoticesQuery, GetContestNoticesQueryVariables>;
 export const AddContestPlayerDocument = gql`
     mutation AddContestPlayer($contest_id: uuid!, $team_label: String!, $player_num: Int!, $players_label: String!, $roles_available: String!) {
   insert_contest_player_one(
@@ -13260,335 +14147,316 @@ export type GetContestPlayersQueryHookResult = ReturnType<typeof useGetContestPl
 export type GetContestPlayersLazyQueryHookResult = ReturnType<typeof useGetContestPlayersLazyQuery>;
 export type GetContestPlayersSuspenseQueryHookResult = ReturnType<typeof useGetContestPlayersSuspenseQuery>;
 export type GetContestPlayersQueryResult = Apollo.QueryResult<GetContestPlayersQuery, GetContestPlayersQueryVariables>;
-export const GetContestManagersDocument = gql`
-    query GetContestManagers($contest_id: uuid!) {
-  contest_by_pk(id: $contest_id) {
-    contest_managers {
-      user_uuid
-    }
-  }
-}
-    `;
-
-/**
- * __useGetContestManagersQuery__
- *
- * To run a query within a React component, call `useGetContestManagersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContestManagersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetContestManagersQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetContestManagersQuery(baseOptions: Apollo.QueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables> & ({ variables: GetContestManagersQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
-      }
-export function useGetContestManagersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
-        }
-export function useGetContestManagersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
-        }
-export type GetContestManagersQueryHookResult = ReturnType<typeof useGetContestManagersQuery>;
-export type GetContestManagersLazyQueryHookResult = ReturnType<typeof useGetContestManagersLazyQuery>;
-export type GetContestManagersSuspenseQueryHookResult = ReturnType<typeof useGetContestManagersSuspenseQuery>;
-export type GetContestManagersQueryResult = Apollo.QueryResult<GetContestManagersQuery, GetContestManagersQueryVariables>;
-export const QueryContestManagerDocument = gql`
-    query QueryContestManager($contest_id: uuid!, $user_uuid: uuid = "") {
-  contest_manager(
-    where: {contest_id: {_eq: $contest_id}, user_uuid: {_eq: $user_uuid}}
-  ) {
-    user_uuid
-  }
-}
-    `;
-
-/**
- * __useQueryContestManagerQuery__
- *
- * To run a query within a React component, call `useQueryContestManagerQuery` and pass it any options that fit your needs.
- * When your component renders, `useQueryContestManagerQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useQueryContestManagerQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      user_uuid: // value for 'user_uuid'
- *   },
- * });
- */
-export function useQueryContestManagerQuery(baseOptions: Apollo.QueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables> & ({ variables: QueryContestManagerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
-      }
-export function useQueryContestManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
-        }
-export function useQueryContestManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryContestManagerQuery, QueryContestManagerQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<QueryContestManagerQuery, QueryContestManagerQueryVariables>(QueryContestManagerDocument, options);
-        }
-export type QueryContestManagerQueryHookResult = ReturnType<typeof useQueryContestManagerQuery>;
-export type QueryContestManagerLazyQueryHookResult = ReturnType<typeof useQueryContestManagerLazyQuery>;
-export type QueryContestManagerSuspenseQueryHookResult = ReturnType<typeof useQueryContestManagerSuspenseQuery>;
-export type QueryContestManagerQueryResult = Apollo.QueryResult<QueryContestManagerQuery, QueryContestManagerQueryVariables>;
-export const UpdateContestStatusDocument = gql`
-    mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
-  update_contest(where: {id: {_eq: $contest_id}}, _set: {status: $status}) {
-    returning {
-      status
-    }
-  }
-}
-    `;
-export type UpdateContestStatusMutationFn = Apollo.MutationFunction<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
-
-/**
- * __useUpdateContestStatusMutation__
- *
- * To run a mutation, you first call `useUpdateContestStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateContestStatusMutation, { data, loading, error }] = useUpdateContestStatusMutation({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useUpdateContestStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>(UpdateContestStatusDocument, options);
-      }
-export type UpdateContestStatusMutationHookResult = ReturnType<typeof useUpdateContestStatusMutation>;
-export type UpdateContestStatusMutationResult = Apollo.MutationResult<UpdateContestStatusMutation>;
-export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
-export const UpdateContestDocument = gql`
-    mutation UpdateContest($id: uuid!, $description: String = "", $contest_name: String!, $end_date: timestamptz!, $start_date: timestamptz!, $contest_type: String!) {
-  update_contest(
-    where: {id: {_eq: $id}}
-    _set: {contest_name: $contest_name, description: $description, end_date: $end_date, start_date: $start_date, contest_type: $contest_type}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type UpdateContestMutationFn = Apollo.MutationFunction<UpdateContestMutation, UpdateContestMutationVariables>;
-
-/**
- * __useUpdateContestMutation__
- *
- * To run a mutation, you first call `useUpdateContestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateContestMutation, { data, loading, error }] = useUpdateContestMutation({
- *   variables: {
- *      id: // value for 'id'
- *      description: // value for 'description'
- *      contest_name: // value for 'contest_name'
- *      end_date: // value for 'end_date'
- *      start_date: // value for 'start_date'
- *      contest_type: // value for 'contest_type'
- *   },
- * });
- */
-export function useUpdateContestMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMutation, UpdateContestMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestMutation, UpdateContestMutationVariables>(UpdateContestDocument, options);
-      }
-export type UpdateContestMutationHookResult = ReturnType<typeof useUpdateContestMutation>;
-export type UpdateContestMutationResult = Apollo.MutationResult<UpdateContestMutation>;
-export type UpdateContestMutationOptions = Apollo.BaseMutationOptions<UpdateContestMutation, UpdateContestMutationVariables>;
-export const GetContestNoticesDocument = gql`
-    query GetContestNotices($contest_id: uuid!) {
-  contest_notice(
+export const GetRoomInfoDocument = gql`
+    subscription GetRoomInfo($contest_id: uuid!) {
+  contest_room(
     where: {contest_id: {_eq: $contest_id}}
-    order_by: {updated_at: desc}
+    order_by: {created_at: desc}
   ) {
-    content
     created_at
-    updated_at
-    files
-    id
-    title
+    result
+    room_id
+    status
+    port
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_id
+      }
+    }
   }
 }
     `;
 
 /**
- * __useGetContestNoticesQuery__
+ * __useGetRoomInfoSubscription__
  *
- * To run a query within a React component, call `useGetContestNoticesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetContestNoticesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetRoomInfoSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoomInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRoomInfoSubscription({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetRoomInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables> & ({ variables: GetRoomInfoSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetRoomInfoSubscription, GetRoomInfoSubscriptionVariables>(GetRoomInfoDocument, options);
+      }
+export type GetRoomInfoSubscriptionHookResult = ReturnType<typeof useGetRoomInfoSubscription>;
+export type GetRoomInfoSubscriptionResult = Apollo.SubscriptionResult<GetRoomInfoSubscription>;
+export const GetRoomInfo_StatusDocument = gql`
+    query GetRoomInfo_status($contest_id: uuid!) {
+  contest_room(
+    where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: "false"}, port: {_is_null: false}}}
+  ) {
+    room_id
+    status
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetRoomInfo_StatusQuery__
+ *
+ * To run a query within a React component, call `useGetRoomInfo_StatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoomInfo_StatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetContestNoticesQuery({
+ * const { data, loading, error } = useGetRoomInfo_StatusQuery({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useGetContestNoticesQuery(baseOptions: Apollo.QueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables> & ({ variables: GetContestNoticesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetRoomInfo_StatusQuery(baseOptions: Apollo.QueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables> & ({ variables: GetRoomInfo_StatusQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+        return Apollo.useQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
       }
-export function useGetContestNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+export function useGetRoomInfo_StatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+          return Apollo.useLazyQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
         }
-export function useGetContestNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+export function useGetRoomInfo_StatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
+          return Apollo.useSuspenseQuery<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>(GetRoomInfo_StatusDocument, options);
         }
-export type GetContestNoticesQueryHookResult = ReturnType<typeof useGetContestNoticesQuery>;
-export type GetContestNoticesLazyQueryHookResult = ReturnType<typeof useGetContestNoticesLazyQuery>;
-export type GetContestNoticesSuspenseQueryHookResult = ReturnType<typeof useGetContestNoticesSuspenseQuery>;
-export type GetContestNoticesQueryResult = Apollo.QueryResult<GetContestNoticesQuery, GetContestNoticesQueryVariables>;
-export const UpdateContestNoticeDocument = gql`
-    mutation UpdateContestNotice($id: uuid!, $title: String!, $content: String!, $files: String, $contest_id: uuid!) {
-  update_contest_notice(
-    where: {id: {_eq: $id}}
-    _set: {title: $title, content: $content, files: $files, contest_id: $contest_id}
+export type GetRoomInfo_StatusQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusQuery>;
+export type GetRoomInfo_StatusLazyQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusLazyQuery>;
+export type GetRoomInfo_StatusSuspenseQueryHookResult = ReturnType<typeof useGetRoomInfo_StatusSuspenseQuery>;
+export type GetRoomInfo_StatusQueryResult = Apollo.QueryResult<GetRoomInfo_StatusQuery, GetRoomInfo_StatusQueryVariables>;
+export const InsertRoomDocument = gql`
+    mutation InsertRoom($contest_id: uuid!, $team1_id: uuid!, $team2_id: uuid!, $created_at: timestamptz!) {
+  insert_contest_room_one(
+    object: {contest_id: $contest_id, contest_room_teams: {data: [{team_id: $team1_id}, {team_id: $team2_id}]}, created_at: $created_at}
   ) {
-    returning {
-      id
-    }
+    room_id
   }
 }
     `;
-export type UpdateContestNoticeMutationFn = Apollo.MutationFunction<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
+export type InsertRoomMutationFn = Apollo.MutationFunction<InsertRoomMutation, InsertRoomMutationVariables>;
 
 /**
- * __useUpdateContestNoticeMutation__
+ * __useInsertRoomMutation__
  *
- * To run a mutation, you first call `useUpdateContestNoticeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestNoticeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInsertRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertRoomMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContestNoticeMutation, { data, loading, error }] = useUpdateContestNoticeMutation({
+ * const [insertRoomMutation, { data, loading, error }] = useInsertRoomMutation({
  *   variables: {
- *      id: // value for 'id'
- *      title: // value for 'title'
- *      content: // value for 'content'
- *      files: // value for 'files'
+ *      contest_id: // value for 'contest_id'
+ *      team1_id: // value for 'team1_id'
+ *      team2_id: // value for 'team2_id'
+ *      created_at: // value for 'created_at'
+ *   },
+ * });
+ */
+export function useInsertRoomMutation(baseOptions?: Apollo.MutationHookOptions<InsertRoomMutation, InsertRoomMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertRoomMutation, InsertRoomMutationVariables>(InsertRoomDocument, options);
+      }
+export type InsertRoomMutationHookResult = ReturnType<typeof useInsertRoomMutation>;
+export type InsertRoomMutationResult = Apollo.MutationResult<InsertRoomMutation>;
+export type InsertRoomMutationOptions = Apollo.BaseMutationOptions<InsertRoomMutation, InsertRoomMutationVariables>;
+export const DeleteRoomDocument = gql`
+    mutation DeleteRoom($room_id: uuid!) {
+  delete_contest_room_team(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
+  }
+  delete_contest_room(where: {room_id: {_eq: $room_id}}) {
+    affected_rows
+  }
+}
+    `;
+export type DeleteRoomMutationFn = Apollo.MutationFunction<DeleteRoomMutation, DeleteRoomMutationVariables>;
+
+/**
+ * __useDeleteRoomMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoomMutation, { data, loading, error }] = useDeleteRoomMutation({
+ *   variables: {
+ *      room_id: // value for 'room_id'
+ *   },
+ * });
+ */
+export function useDeleteRoomMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRoomMutation, DeleteRoomMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(DeleteRoomDocument, options);
+      }
+export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutation>;
+export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
+export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
+export const AddContestRoundDocument = gql`
+    mutation AddContestRound($contest_id: uuid!, $name: String!, $maps: String) {
+  insert_contest_round_one(
+    object: {contest_id: $contest_id, name: $name, maps: $maps}
+  ) {
+    round_id
+  }
+}
+    `;
+export type AddContestRoundMutationFn = Apollo.MutationFunction<AddContestRoundMutation, AddContestRoundMutationVariables>;
+
+/**
+ * __useAddContestRoundMutation__
+ *
+ * To run a mutation, you first call `useAddContestRoundMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddContestRoundMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addContestRoundMutation, { data, loading, error }] = useAddContestRoundMutation({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      name: // value for 'name'
+ *      maps: // value for 'maps'
+ *   },
+ * });
+ */
+export function useAddContestRoundMutation(baseOptions?: Apollo.MutationHookOptions<AddContestRoundMutation, AddContestRoundMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddContestRoundMutation, AddContestRoundMutationVariables>(AddContestRoundDocument, options);
+      }
+export type AddContestRoundMutationHookResult = ReturnType<typeof useAddContestRoundMutation>;
+export type AddContestRoundMutationResult = Apollo.MutationResult<AddContestRoundMutation>;
+export type AddContestRoundMutationOptions = Apollo.BaseMutationOptions<AddContestRoundMutation, AddContestRoundMutationVariables>;
+export const DeleteContestRoundDocument = gql`
+    mutation DeleteContestRound($round_id: uuid!) {
+  delete_contest_round_by_pk(round_id: $round_id) {
+    round_id
+  }
+}
+    `;
+export type DeleteContestRoundMutationFn = Apollo.MutationFunction<DeleteContestRoundMutation, DeleteContestRoundMutationVariables>;
+
+/**
+ * __useDeleteContestRoundMutation__
+ *
+ * To run a mutation, you first call `useDeleteContestRoundMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContestRoundMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteContestRoundMutation, { data, loading, error }] = useDeleteContestRoundMutation({
+ *   variables: {
+ *      round_id: // value for 'round_id'
+ *   },
+ * });
+ */
+export function useDeleteContestRoundMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestRoundMutation, DeleteContestRoundMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteContestRoundMutation, DeleteContestRoundMutationVariables>(DeleteContestRoundDocument, options);
+      }
+export type DeleteContestRoundMutationHookResult = ReturnType<typeof useDeleteContestRoundMutation>;
+export type DeleteContestRoundMutationResult = Apollo.MutationResult<DeleteContestRoundMutation>;
+export type DeleteContestRoundMutationOptions = Apollo.BaseMutationOptions<DeleteContestRoundMutation, DeleteContestRoundMutationVariables>;
+export const UpdateContestRoundNameDocument = gql`
+    mutation UpdateContestRoundName($round_id: uuid!, $name: String!) {
+  update_contest_round_by_pk(
+    pk_columns: {round_id: $round_id}
+    _set: {name: $name}
+  ) {
+    round_id
+  }
+}
+    `;
+export type UpdateContestRoundNameMutationFn = Apollo.MutationFunction<UpdateContestRoundNameMutation, UpdateContestRoundNameMutationVariables>;
+
+/**
+ * __useUpdateContestRoundNameMutation__
+ *
+ * To run a mutation, you first call `useUpdateContestRoundNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestRoundNameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateContestRoundNameMutation, { data, loading, error }] = useUpdateContestRoundNameMutation({
+ *   variables: {
+ *      round_id: // value for 'round_id'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useUpdateContestRoundNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestRoundNameMutation, UpdateContestRoundNameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateContestRoundNameMutation, UpdateContestRoundNameMutationVariables>(UpdateContestRoundNameDocument, options);
+      }
+export type UpdateContestRoundNameMutationHookResult = ReturnType<typeof useUpdateContestRoundNameMutation>;
+export type UpdateContestRoundNameMutationResult = Apollo.MutationResult<UpdateContestRoundNameMutation>;
+export type UpdateContestRoundNameMutationOptions = Apollo.BaseMutationOptions<UpdateContestRoundNameMutation, UpdateContestRoundNameMutationVariables>;
+export const GetContestRoundsDocument = gql`
+    query GetContestRounds($contest_id: uuid!) {
+  contest_round(where: {contest_id: {_eq: $contest_id}}) {
+    round_id
+    name
+    maps
+  }
+}
+    `;
+
+/**
+ * __useGetContestRoundsQuery__
+ *
+ * To run a query within a React component, call `useGetContestRoundsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestRoundsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestRoundsQuery({
+ *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useUpdateContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>) {
+export function useGetContestRoundsQuery(baseOptions: Apollo.QueryHookOptions<GetContestRoundsQuery, GetContestRoundsQueryVariables> & ({ variables: GetContestRoundsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>(UpdateContestNoticeDocument, options);
+        return Apollo.useQuery<GetContestRoundsQuery, GetContestRoundsQueryVariables>(GetContestRoundsDocument, options);
       }
-export type UpdateContestNoticeMutationHookResult = ReturnType<typeof useUpdateContestNoticeMutation>;
-export type UpdateContestNoticeMutationResult = Apollo.MutationResult<UpdateContestNoticeMutation>;
-export type UpdateContestNoticeMutationOptions = Apollo.BaseMutationOptions<UpdateContestNoticeMutation, UpdateContestNoticeMutationVariables>;
-export const AddContestNoticeDocument = gql`
-    mutation AddContestNotice($title: String!, $content: String!, $files: String, $contest_id: uuid!) {
-  insert_contest_notice(
-    objects: {title: $title, content: $content, files: $files, contest_id: $contest_id}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddContestNoticeMutationFn = Apollo.MutationFunction<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
-
-/**
- * __useAddContestNoticeMutation__
- *
- * To run a mutation, you first call `useAddContestNoticeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddContestNoticeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addContestNoticeMutation, { data, loading, error }] = useAddContestNoticeMutation({
- *   variables: {
- *      title: // value for 'title'
- *      content: // value for 'content'
- *      files: // value for 'files'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useAddContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddContestNoticeMutation, AddContestNoticeMutationVariables>(AddContestNoticeDocument, options);
-      }
-export type AddContestNoticeMutationHookResult = ReturnType<typeof useAddContestNoticeMutation>;
-export type AddContestNoticeMutationResult = Apollo.MutationResult<AddContestNoticeMutation>;
-export type AddContestNoticeMutationOptions = Apollo.BaseMutationOptions<AddContestNoticeMutation, AddContestNoticeMutationVariables>;
-export const DeleteContestNoticeDocument = gql`
-    mutation DeleteContestNotice($id: uuid!) {
-  delete_contest_notice(where: {id: {_eq: $id}}) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type DeleteContestNoticeMutationFn = Apollo.MutationFunction<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
-
-/**
- * __useDeleteContestNoticeMutation__
- *
- * To run a mutation, you first call `useDeleteContestNoticeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteContestNoticeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteContestNoticeMutation, { data, loading, error }] = useDeleteContestNoticeMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteContestNoticeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>(DeleteContestNoticeDocument, options);
-      }
-export type DeleteContestNoticeMutationHookResult = ReturnType<typeof useDeleteContestNoticeMutation>;
-export type DeleteContestNoticeMutationResult = Apollo.MutationResult<DeleteContestNoticeMutation>;
-export type DeleteContestNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteContestNoticeMutation, DeleteContestNoticeMutationVariables>;
+export function useGetContestRoundsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestRoundsQuery, GetContestRoundsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestRoundsQuery, GetContestRoundsQueryVariables>(GetContestRoundsDocument, options);
+        }
+export function useGetContestRoundsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestRoundsQuery, GetContestRoundsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestRoundsQuery, GetContestRoundsQueryVariables>(GetContestRoundsDocument, options);
+        }
+export type GetContestRoundsQueryHookResult = ReturnType<typeof useGetContestRoundsQuery>;
+export type GetContestRoundsLazyQueryHookResult = ReturnType<typeof useGetContestRoundsLazyQuery>;
+export type GetContestRoundsSuspenseQueryHookResult = ReturnType<typeof useGetContestRoundsSuspenseQuery>;
+export type GetContestRoundsQueryResult = Apollo.QueryResult<GetContestRoundsQuery, GetContestRoundsQueryVariables>;
 export const InsertTeamDocument = gql`
     mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
   insert_contest_team(
@@ -13714,41 +14582,6 @@ export type IsTeamMemberQueryHookResult = ReturnType<typeof useIsTeamMemberQuery
 export type IsTeamMemberLazyQueryHookResult = ReturnType<typeof useIsTeamMemberLazyQuery>;
 export type IsTeamMemberSuspenseQueryHookResult = ReturnType<typeof useIsTeamMemberSuspenseQuery>;
 export type IsTeamMemberQueryResult = Apollo.QueryResult<IsTeamMemberQuery, IsTeamMemberQueryVariables>;
-export const GetCodeUpdateTimeDocument = gql`
-    subscription GetCodeUpdateTime($team_id: uuid!) {
-  contest_code(where: {team_id: {_eq: $team_id}}) {
-    code1_update_time
-    code2_update_time
-    code3_update_time
-    code4_update_time
-    code5_update_time
-    code6_update_time
-  }
-}
-    `;
-
-/**
- * __useGetCodeUpdateTimeSubscription__
- *
- * To run a query within a React component, call `useGetCodeUpdateTimeSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetCodeUpdateTimeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCodeUpdateTimeSubscription({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetCodeUpdateTimeSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables> & ({ variables: GetCodeUpdateTimeSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetCodeUpdateTimeSubscription, GetCodeUpdateTimeSubscriptionVariables>(GetCodeUpdateTimeDocument, options);
-      }
-export type GetCodeUpdateTimeSubscriptionHookResult = ReturnType<typeof useGetCodeUpdateTimeSubscription>;
-export type GetCodeUpdateTimeSubscriptionResult = Apollo.SubscriptionResult<GetCodeUpdateTimeSubscription>;
 export const GetAllTeamInfoDocument = gql`
     subscription GetAllTeamInfo($contest_id: uuid!) {
   contest_team(where: {contest_id: {_eq: $contest_id}}) {
@@ -14296,8 +15129,262 @@ export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
 export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
 export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
 export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
-export const AddEventDocument = gql`
-    mutation AddEvent($contest_id: uuid!, $event: String!, $start: timestamptz!, $end: timestamptz!, $description: String) {
+export const AddTeamCodeDocument = gql`
+    mutation AddTeamCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
+  insert_contest_team_code_one(
+    object: {team_id: $team_id, code_name: $code_name, language: $language, compile_status: $compile_status}
+  ) {
+    code_id
+  }
+}
+    `;
+export type AddTeamCodeMutationFn = Apollo.MutationFunction<AddTeamCodeMutation, AddTeamCodeMutationVariables>;
+
+/**
+ * __useAddTeamCodeMutation__
+ *
+ * To run a mutation, you first call `useAddTeamCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTeamCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTeamCodeMutation, { data, loading, error }] = useAddTeamCodeMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *      code_name: // value for 'code_name'
+ *      language: // value for 'language'
+ *      compile_status: // value for 'compile_status'
+ *   },
+ * });
+ */
+export function useAddTeamCodeMutation(baseOptions?: Apollo.MutationHookOptions<AddTeamCodeMutation, AddTeamCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddTeamCodeMutation, AddTeamCodeMutationVariables>(AddTeamCodeDocument, options);
+      }
+export type AddTeamCodeMutationHookResult = ReturnType<typeof useAddTeamCodeMutation>;
+export type AddTeamCodeMutationResult = Apollo.MutationResult<AddTeamCodeMutation>;
+export type AddTeamCodeMutationOptions = Apollo.BaseMutationOptions<AddTeamCodeMutation, AddTeamCodeMutationVariables>;
+export const DeleteTeamCodeDocument = gql`
+    mutation DeleteTeamCode($code_id: uuid!) {
+  delete_contest_team_code_by_pk(code_id: $code_id) {
+    code_id
+  }
+}
+    `;
+export type DeleteTeamCodeMutationFn = Apollo.MutationFunction<DeleteTeamCodeMutation, DeleteTeamCodeMutationVariables>;
+
+/**
+ * __useDeleteTeamCodeMutation__
+ *
+ * To run a mutation, you first call `useDeleteTeamCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTeamCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTeamCodeMutation, { data, loading, error }] = useDeleteTeamCodeMutation({
+ *   variables: {
+ *      code_id: // value for 'code_id'
+ *   },
+ * });
+ */
+export function useDeleteTeamCodeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamCodeMutation, DeleteTeamCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTeamCodeMutation, DeleteTeamCodeMutationVariables>(DeleteTeamCodeDocument, options);
+      }
+export type DeleteTeamCodeMutationHookResult = ReturnType<typeof useDeleteTeamCodeMutation>;
+export type DeleteTeamCodeMutationResult = Apollo.MutationResult<DeleteTeamCodeMutation>;
+export type DeleteTeamCodeMutationOptions = Apollo.BaseMutationOptions<DeleteTeamCodeMutation, DeleteTeamCodeMutationVariables>;
+export const UpdateTeamCodeNameDocument = gql`
+    mutation UpdateTeamCodeName($code_id: uuid!, $code_name: String!) {
+  update_contest_team_code_by_pk(
+    pk_columns: {code_id: $code_id}
+    _set: {code_name: $code_name}
+  ) {
+    code_id
+  }
+}
+    `;
+export type UpdateTeamCodeNameMutationFn = Apollo.MutationFunction<UpdateTeamCodeNameMutation, UpdateTeamCodeNameMutationVariables>;
+
+/**
+ * __useUpdateTeamCodeNameMutation__
+ *
+ * To run a mutation, you first call `useUpdateTeamCodeNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTeamCodeNameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTeamCodeNameMutation, { data, loading, error }] = useUpdateTeamCodeNameMutation({
+ *   variables: {
+ *      code_id: // value for 'code_id'
+ *      code_name: // value for 'code_name'
+ *   },
+ * });
+ */
+export function useUpdateTeamCodeNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamCodeNameMutation, UpdateTeamCodeNameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTeamCodeNameMutation, UpdateTeamCodeNameMutationVariables>(UpdateTeamCodeNameDocument, options);
+      }
+export type UpdateTeamCodeNameMutationHookResult = ReturnType<typeof useUpdateTeamCodeNameMutation>;
+export type UpdateTeamCodeNameMutationResult = Apollo.MutationResult<UpdateTeamCodeNameMutation>;
+export type UpdateTeamCodeNameMutationOptions = Apollo.BaseMutationOptions<UpdateTeamCodeNameMutation, UpdateTeamCodeNameMutationVariables>;
+export const GetTeamCodesDocument = gql`
+    subscription GetTeamCodes($team_id: uuid!) {
+  contest_team_code(
+    order_by: {created_at: desc}
+    where: {team_id: {_eq: $team_id}}
+  ) {
+    code_id
+    code_name
+    language
+    compile_status
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetTeamCodesSubscription__
+ *
+ * To run a query within a React component, call `useGetTeamCodesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamCodesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamCodesSubscription({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamCodesSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetTeamCodesSubscription, GetTeamCodesSubscriptionVariables> & ({ variables: GetTeamCodesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetTeamCodesSubscription, GetTeamCodesSubscriptionVariables>(GetTeamCodesDocument, options);
+      }
+export type GetTeamCodesSubscriptionHookResult = ReturnType<typeof useGetTeamCodesSubscription>;
+export type GetTeamCodesSubscriptionResult = Apollo.SubscriptionResult<GetTeamCodesSubscription>;
+export const AddTeamPlayerDocument = gql`
+    mutation AddTeamPlayer($team_id: uuid!, $player: String!) {
+  insert_contest_team_player_one(object: {team_id: $team_id, player: $player}) {
+    player
+  }
+}
+    `;
+export type AddTeamPlayerMutationFn = Apollo.MutationFunction<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>;
+
+/**
+ * __useAddTeamPlayerMutation__
+ *
+ * To run a mutation, you first call `useAddTeamPlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTeamPlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTeamPlayerMutation, { data, loading, error }] = useAddTeamPlayerMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *      player: // value for 'player'
+ *   },
+ * });
+ */
+export function useAddTeamPlayerMutation(baseOptions?: Apollo.MutationHookOptions<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>(AddTeamPlayerDocument, options);
+      }
+export type AddTeamPlayerMutationHookResult = ReturnType<typeof useAddTeamPlayerMutation>;
+export type AddTeamPlayerMutationResult = Apollo.MutationResult<AddTeamPlayerMutation>;
+export type AddTeamPlayerMutationOptions = Apollo.BaseMutationOptions<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>;
+export const UpdateTeamPlayerDocument = gql`
+    mutation UpdateTeamPlayer($team_id: uuid!, $player: String!, $code_id: uuid!, $role: String!) {
+  update_contest_team_player_by_pk(
+    pk_columns: {team_id: $team_id, player: $player}
+    _set: {code_id: $code_id, role: $role}
+  ) {
+    player
+  }
+}
+    `;
+export type UpdateTeamPlayerMutationFn = Apollo.MutationFunction<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>;
+
+/**
+ * __useUpdateTeamPlayerMutation__
+ *
+ * To run a mutation, you first call `useUpdateTeamPlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTeamPlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTeamPlayerMutation, { data, loading, error }] = useUpdateTeamPlayerMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *      player: // value for 'player'
+ *      code_id: // value for 'code_id'
+ *      role: // value for 'role'
+ *   },
+ * });
+ */
+export function useUpdateTeamPlayerMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>(UpdateTeamPlayerDocument, options);
+      }
+export type UpdateTeamPlayerMutationHookResult = ReturnType<typeof useUpdateTeamPlayerMutation>;
+export type UpdateTeamPlayerMutationResult = Apollo.MutationResult<UpdateTeamPlayerMutation>;
+export type UpdateTeamPlayerMutationOptions = Apollo.BaseMutationOptions<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>;
+export const GetTeamPlayersDocument = gql`
+    subscription GetTeamPlayers($team_id: uuid!) {
+  contest_team_player(where: {team_id: {_eq: $team_id}}) {
+    player
+    player_code {
+      code_name
+      language
+      created_at
+    }
+    role
+  }
+}
+    `;
+
+/**
+ * __useGetTeamPlayersSubscription__
+ *
+ * To run a query within a React component, call `useGetTeamPlayersSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamPlayersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamPlayersSubscription({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamPlayersSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables> & ({ variables: GetTeamPlayersSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables>(GetTeamPlayersDocument, options);
+      }
+export type GetTeamPlayersSubscriptionHookResult = ReturnType<typeof useGetTeamPlayersSubscription>;
+export type GetTeamPlayersSubscriptionResult = Apollo.SubscriptionResult<GetTeamPlayersSubscription>;
+export const AddContestTimeDocument = gql`
+    mutation AddContestTime($contest_id: uuid!, $event: String!, $start: timestamptz!, $end: timestamptz!, $description: String) {
   insert_contest_time_one(
     object: {contest_id: $contest_id, event: $event, start: $start, end: $end, description: $description}
   ) {
@@ -14305,20 +15392,20 @@ export const AddEventDocument = gql`
   }
 }
     `;
-export type AddEventMutationFn = Apollo.MutationFunction<AddEventMutation, AddEventMutationVariables>;
+export type AddContestTimeMutationFn = Apollo.MutationFunction<AddContestTimeMutation, AddContestTimeMutationVariables>;
 
 /**
- * __useAddEventMutation__
+ * __useAddContestTimeMutation__
  *
- * To run a mutation, you first call `useAddEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddEventMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddContestTimeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddContestTimeMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addEventMutation, { data, loading, error }] = useAddEventMutation({
+ * const [addContestTimeMutation, { data, loading, error }] = useAddContestTimeMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *      event: // value for 'event'
@@ -14328,49 +15415,49 @@ export type AddEventMutationFn = Apollo.MutationFunction<AddEventMutation, AddEv
  *   },
  * });
  */
-export function useAddEventMutation(baseOptions?: Apollo.MutationHookOptions<AddEventMutation, AddEventMutationVariables>) {
+export function useAddContestTimeMutation(baseOptions?: Apollo.MutationHookOptions<AddContestTimeMutation, AddContestTimeMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddEventMutation, AddEventMutationVariables>(AddEventDocument, options);
+        return Apollo.useMutation<AddContestTimeMutation, AddContestTimeMutationVariables>(AddContestTimeDocument, options);
       }
-export type AddEventMutationHookResult = ReturnType<typeof useAddEventMutation>;
-export type AddEventMutationResult = Apollo.MutationResult<AddEventMutation>;
-export type AddEventMutationOptions = Apollo.BaseMutationOptions<AddEventMutation, AddEventMutationVariables>;
-export const DeleteEventDocument = gql`
-    mutation DeleteEvent($contest_id: uuid!, $event: String!) {
+export type AddContestTimeMutationHookResult = ReturnType<typeof useAddContestTimeMutation>;
+export type AddContestTimeMutationResult = Apollo.MutationResult<AddContestTimeMutation>;
+export type AddContestTimeMutationOptions = Apollo.BaseMutationOptions<AddContestTimeMutation, AddContestTimeMutationVariables>;
+export const DeleteContestTimeDocument = gql`
+    mutation DeleteContestTime($contest_id: uuid!, $event: String!) {
   delete_contest_time_by_pk(contest_id: $contest_id, event: $event) {
     event
   }
 }
     `;
-export type DeleteEventMutationFn = Apollo.MutationFunction<DeleteEventMutation, DeleteEventMutationVariables>;
+export type DeleteContestTimeMutationFn = Apollo.MutationFunction<DeleteContestTimeMutation, DeleteContestTimeMutationVariables>;
 
 /**
- * __useDeleteEventMutation__
+ * __useDeleteContestTimeMutation__
  *
- * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteContestTimeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteContestTimeMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ * const [deleteContestTimeMutation, { data, loading, error }] = useDeleteContestTimeMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *      event: // value for 'event'
  *   },
  * });
  */
-export function useDeleteEventMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEventMutation, DeleteEventMutationVariables>) {
+export function useDeleteContestTimeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteContestTimeMutation, DeleteContestTimeMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, options);
+        return Apollo.useMutation<DeleteContestTimeMutation, DeleteContestTimeMutationVariables>(DeleteContestTimeDocument, options);
       }
-export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMutation>;
-export type DeleteEventMutationResult = Apollo.MutationResult<DeleteEventMutation>;
-export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
-export const UpdateEventDocument = gql`
-    mutation UpdateEvent($contest_id: uuid!, $event: String!, $start: timestamptz!, $end: timestamptz!, $description: String) {
+export type DeleteContestTimeMutationHookResult = ReturnType<typeof useDeleteContestTimeMutation>;
+export type DeleteContestTimeMutationResult = Apollo.MutationResult<DeleteContestTimeMutation>;
+export type DeleteContestTimeMutationOptions = Apollo.BaseMutationOptions<DeleteContestTimeMutation, DeleteContestTimeMutationVariables>;
+export const UpdateContestTimeDocument = gql`
+    mutation UpdateContestTime($contest_id: uuid!, $event: String!, $start: timestamptz!, $end: timestamptz!, $description: String) {
   update_contest_time_by_pk(
     pk_columns: {contest_id: $contest_id, event: $event}
     _set: {start: $start, end: $end, description: $description}
@@ -14379,20 +15466,20 @@ export const UpdateEventDocument = gql`
   }
 }
     `;
-export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation, UpdateEventMutationVariables>;
+export type UpdateContestTimeMutationFn = Apollo.MutationFunction<UpdateContestTimeMutation, UpdateContestTimeMutationVariables>;
 
 /**
- * __useUpdateEventMutation__
+ * __useUpdateContestTimeMutation__
  *
- * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContestTimeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestTimeMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ * const [updateContestTimeMutation, { data, loading, error }] = useUpdateContestTimeMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *      event: // value for 'event'
@@ -14402,15 +15489,15 @@ export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation,
  *   },
  * });
  */
-export function useUpdateEventMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventMutation, UpdateEventMutationVariables>) {
+export function useUpdateContestTimeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestTimeMutation, UpdateContestTimeMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, options);
+        return Apollo.useMutation<UpdateContestTimeMutation, UpdateContestTimeMutationVariables>(UpdateContestTimeDocument, options);
       }
-export type UpdateEventMutationHookResult = ReturnType<typeof useUpdateEventMutation>;
-export type UpdateEventMutationResult = Apollo.MutationResult<UpdateEventMutation>;
-export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<UpdateEventMutation, UpdateEventMutationVariables>;
-export const GetEventsDocument = gql`
-    query GetEvents($contest_id: uuid!) {
+export type UpdateContestTimeMutationHookResult = ReturnType<typeof useUpdateContestTimeMutation>;
+export type UpdateContestTimeMutationResult = Apollo.MutationResult<UpdateContestTimeMutation>;
+export type UpdateContestTimeMutationOptions = Apollo.BaseMutationOptions<UpdateContestTimeMutation, UpdateContestTimeMutationVariables>;
+export const GetContestTimesDocument = gql`
+    query GetContestTimes($contest_id: uuid!) {
   contest_time(order_by: {start: asc}, where: {contest_id: {_eq: $contest_id}}) {
     event
     start
@@ -14421,37 +15508,37 @@ export const GetEventsDocument = gql`
     `;
 
 /**
- * __useGetEventsQuery__
+ * __useGetContestTimesQuery__
  *
- * To run a query within a React component, call `useGetEventsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetContestTimesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestTimesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetEventsQuery({
+ * const { data, loading, error } = useGetContestTimesQuery({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useGetEventsQuery(baseOptions: Apollo.QueryHookOptions<GetEventsQuery, GetEventsQueryVariables> & ({ variables: GetEventsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetContestTimesQuery(baseOptions: Apollo.QueryHookOptions<GetContestTimesQuery, GetContestTimesQueryVariables> & ({ variables: GetContestTimesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+        return Apollo.useQuery<GetContestTimesQuery, GetContestTimesQueryVariables>(GetContestTimesDocument, options);
       }
-export function useGetEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+export function useGetContestTimesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestTimesQuery, GetContestTimesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+          return Apollo.useLazyQuery<GetContestTimesQuery, GetContestTimesQueryVariables>(GetContestTimesDocument, options);
         }
-export function useGetEventsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+export function useGetContestTimesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestTimesQuery, GetContestTimesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+          return Apollo.useSuspenseQuery<GetContestTimesQuery, GetContestTimesQueryVariables>(GetContestTimesDocument, options);
         }
-export type GetEventsQueryHookResult = ReturnType<typeof useGetEventsQuery>;
-export type GetEventsLazyQueryHookResult = ReturnType<typeof useGetEventsLazyQuery>;
-export type GetEventsSuspenseQueryHookResult = ReturnType<typeof useGetEventsSuspenseQuery>;
-export type GetEventsQueryResult = Apollo.QueryResult<GetEventsQuery, GetEventsQueryVariables>;
+export type GetContestTimesQueryHookResult = ReturnType<typeof useGetContestTimesQuery>;
+export type GetContestTimesLazyQueryHookResult = ReturnType<typeof useGetContestTimesLazyQuery>;
+export type GetContestTimesSuspenseQueryHookResult = ReturnType<typeof useGetContestTimesSuspenseQuery>;
+export type GetContestTimesQueryResult = Apollo.QueryResult<GetContestTimesQuery, GetContestTimesQueryVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
     query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(

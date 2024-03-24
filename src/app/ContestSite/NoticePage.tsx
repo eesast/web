@@ -141,7 +141,6 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
           title: values.title,
           content: values.content,
           files: JSON.stringify(files),
-          contest_id: Contest_id,
         },
       });
     } else {

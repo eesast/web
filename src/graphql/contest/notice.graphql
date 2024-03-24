@@ -1,3 +1,47 @@
+# 主要操作对象：contest_notice表
+
+# 增
+mutation AddContestNotice(
+  $title: String!
+  $content: String!
+  $files: String
+  $contest_id: uuid!
+) {
+  insert_contest_notice_one(
+    object: {
+      title: $title
+      content: $content
+      files: $files
+      contest_id: $contest_id
+    }
+  ) {
+    id
+  }
+}
+
+# 删
+mutation DeleteContestNotice($id: uuid!) {
+  delete_contest_notice_by_pk(id: $id) {
+    id
+  }
+}
+
+# 改
+mutation UpdateContestNotice(
+  $id: uuid!
+  $title: String!
+  $content: String!
+  $files: String
+) {
+  update_contest_notice_by_pk(
+    pk_columns: { id: $id }
+    _set: { title: $title, content: $content, files: $files }
+  ) {
+    id
+  }
+}
+
+# 查
 query GetContestNotices($contest_id: uuid!) {
   contest_notice(
     where: { contest_id: { _eq: $contest_id } }
@@ -9,55 +53,5 @@ query GetContestNotices($contest_id: uuid!) {
     files
     id
     title
-  }
-}
-
-mutation UpdateContestNotice(
-  $id: uuid!
-  $title: String!
-  $content: String!
-  $files: String
-  $contest_id: uuid!
-) {
-  update_contest_notice(
-    where: { id: { _eq: $id } }
-    _set: {
-      title: $title
-      content: $content
-      files: $files
-      contest_id: $contest_id
-    }
-  ) {
-    returning {
-      id
-    }
-  }
-}
-
-mutation AddContestNotice(
-  $title: String!
-  $content: String!
-  $files: String
-  $contest_id: uuid!
-) {
-  insert_contest_notice(
-    objects: {
-      title: $title
-      content: $content
-      files: $files
-      contest_id: $contest_id
-    }
-  ) {
-    returning {
-      id
-    }
-  }
-}
-
-mutation DeleteContestNotice($id: uuid!) {
-  delete_contest_notice(where: { id: { _eq: $id } }) {
-    returning {
-      id
-    }
   }
 }
