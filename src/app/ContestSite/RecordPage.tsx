@@ -171,12 +171,12 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Row>
           <Button
             onClick={() => download(record)}
-            disabled={record.status !== true}
+            disabled={record.status !== "true"}
           >
             下载
           </Button>
           <Col span={1} />
-          <Button disabled={record.status !== true}>
+          <Button disabled={record.status !== "true"}>
             <Link
               to={url
                 .append("room", record.room_id)

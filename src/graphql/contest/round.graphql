@@ -1,0 +1,36 @@
+# 主要操作对象：contest_round表
+
+# 增
+mutation AddContestRound($contest_id: uuid!, $name: String!, $maps: String) {
+  insert_contest_round_one(
+    object: { contest_id: $contest_id, name: $name, maps: $maps }
+  ) {
+    round_id
+  }
+}
+
+# 删
+mutation DeleteContestRound($round_id: uuid!) {
+  delete_contest_round_by_pk(round_id: $round_id) {
+    round_id
+  }
+}
+
+# 改
+mutation UpdateContestRoundName($round_id: uuid!, $name: String!) {
+  update_contest_round_by_pk(
+    pk_columns: { round_id: $round_id }
+    _set: { name: $name }
+  ) {
+    round_id
+  }
+}
+
+# 查
+query GetContestRounds($contest_id: uuid!) {
+  contest_round(where: { contest_id: { _eq: $contest_id } }) {
+    round_id
+    name
+    maps
+  }
+}
