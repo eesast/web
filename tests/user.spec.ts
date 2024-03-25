@@ -47,26 +47,26 @@ test.describe("Profile", () => {
         .locator("svg")
         .click();
       await page.getByText("电子系").click();
-      await page.getByTitle("医学院").locator("div").click();
+      await page.getByTitle("计算机系").locator("div").click();
       await page
-        .getByRole("row", { name: "院系 : 医学院 医学院 check close" })
+        .getByRole("row", { name: "院系 : 计算机系 计算机系 check close" })
         .locator("a")
         .first()
         .click();
-      await expect(page.getByRole("rowgroup")).toContainText("医学院");
+      await expect(page.locator("#root")).toContainText("计算机系");
     } else {
       await page
-        .getByRole("cell", { name: "医学院 edit" })
+        .getByRole("cell", { name: "计算机系 edit" })
         .locator("svg")
         .click();
-      await page.getByText("医学院").click();
+      await page.getByText("计算机系").click();
       await page.getByTitle("电子系").locator("div").click();
       await page
         .getByRole("row", { name: "院系 : 电子系 电子系 check close" })
         .locator("a")
         .first()
         .click();
-      await expect(page.getByRole("rowgroup")).toContainText("电子系");
+      await expect(page.locator("#root")).toContainText("电子系");
     }
   });
 });

@@ -367,6 +367,10 @@ export type Contest = {
   contest_managers: Array<Contest_Manager>;
   /** An aggregate relationship */
   contest_managers_aggregate: Contest_Manager_Aggregate;
+  /** An array relationship */
+  contest_maps: Array<Contest_Map>;
+  /** An aggregate relationship */
+  contest_maps_aggregate: Contest_Map_Aggregate;
   contest_name: Scalars['String']['output'];
   /** An array relationship */
   contest_notices: Array<Contest_Notice>;
@@ -422,6 +426,26 @@ export type ContestContest_Managers_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Manager_Order_By>>;
   where?: InputMaybe<Contest_Manager_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_MapsArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Map_Order_By>>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
+};
+
+
+/** columns and relationships of "contest" */
+export type ContestContest_Maps_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Contest_Map_Order_By>>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
 };
 
 
@@ -574,6 +598,7 @@ export type Contest_Bool_Exp = {
   arena_switch?: InputMaybe<Boolean_Comparison_Exp>;
   code_upload_switch?: InputMaybe<Boolean_Comparison_Exp>;
   contest_managers?: InputMaybe<Contest_Manager_Bool_Exp>;
+  contest_maps?: InputMaybe<Contest_Map_Bool_Exp>;
   contest_name?: InputMaybe<String_Comparison_Exp>;
   contest_notices?: InputMaybe<Contest_Notice_Bool_Exp>;
   contest_players?: InputMaybe<Contest_Player_Bool_Exp>;
@@ -939,6 +964,7 @@ export type Contest_Insert_Input = {
   arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
   code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
   contest_managers?: InputMaybe<Contest_Manager_Arr_Rel_Insert_Input>;
+  contest_maps?: InputMaybe<Contest_Map_Arr_Rel_Insert_Input>;
   contest_name?: InputMaybe<Scalars['String']['input']>;
   contest_notices?: InputMaybe<Contest_Notice_Arr_Rel_Insert_Input>;
   contest_players?: InputMaybe<Contest_Player_Arr_Rel_Insert_Input>;
@@ -1166,6 +1192,20 @@ export type Contest_Map_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "contest_map" */
+export type Contest_Map_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Contest_Map_Max_Order_By>;
+  min?: InputMaybe<Contest_Map_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "contest_map" */
+export type Contest_Map_Arr_Rel_Insert_Input = {
+  data: Array<Contest_Map_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Contest_Map_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "contest_map". All fields are combined with a logical 'AND'. */
 export type Contest_Map_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Map_Bool_Exp>>;
@@ -1207,6 +1247,15 @@ export type Contest_Map_Max_Fields = {
   team_labels?: Maybe<Scalars['String']['output']>;
 };
 
+/** order by max() on columns of table "contest_map" */
+export type Contest_Map_Max_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  filename?: InputMaybe<Order_By>;
+  map_id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  team_labels?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Contest_Map_Min_Fields = {
   __typename?: 'contest_map_min_fields';
@@ -1215,6 +1264,15 @@ export type Contest_Map_Min_Fields = {
   map_id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   team_labels?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by min() on columns of table "contest_map" */
+export type Contest_Map_Min_Order_By = {
+  contest_id?: InputMaybe<Order_By>;
+  filename?: InputMaybe<Order_By>;
+  map_id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  team_labels?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_map" */
@@ -1556,6 +1614,7 @@ export type Contest_Order_By = {
   arena_switch?: InputMaybe<Order_By>;
   code_upload_switch?: InputMaybe<Order_By>;
   contest_managers_aggregate?: InputMaybe<Contest_Manager_Aggregate_Order_By>;
+  contest_maps_aggregate?: InputMaybe<Contest_Map_Aggregate_Order_By>;
   contest_name?: InputMaybe<Order_By>;
   contest_notices_aggregate?: InputMaybe<Contest_Notice_Aggregate_Order_By>;
   contest_players_aggregate?: InputMaybe<Contest_Player_Aggregate_Order_By>;
@@ -2218,7 +2277,7 @@ export type Contest_Room_Team = {
   room_id: Scalars['uuid']['output'];
   score?: Maybe<Scalars['Int']['output']>;
   team_id: Scalars['uuid']['output'];
-  team_label: Scalars['String']['output'];
+  team_label?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregated selection of "contest_room_team" */
@@ -4136,6 +4195,108 @@ export enum Contest_Update_Column {
   StreamSwitch = 'stream_switch'
 }
 
+/** 院系类别，用于用户信息填写 */
+export type Department = {
+  __typename?: 'department';
+  name: Scalars['String']['output'];
+};
+
+/** aggregated selection of "department" */
+export type Department_Aggregate = {
+  __typename?: 'department_aggregate';
+  aggregate?: Maybe<Department_Aggregate_Fields>;
+  nodes: Array<Department>;
+};
+
+/** aggregate fields of "department" */
+export type Department_Aggregate_Fields = {
+  __typename?: 'department_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Department_Max_Fields>;
+  min?: Maybe<Department_Min_Fields>;
+};
+
+
+/** aggregate fields of "department" */
+export type Department_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Department_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "department". All fields are combined with a logical 'AND'. */
+export type Department_Bool_Exp = {
+  _and?: InputMaybe<Array<Department_Bool_Exp>>;
+  _not?: InputMaybe<Department_Bool_Exp>;
+  _or?: InputMaybe<Array<Department_Bool_Exp>>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "department" */
+export enum Department_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  DepartmentPkey = 'department_pkey'
+}
+
+/** input type for inserting data into table "department" */
+export type Department_Insert_Input = {
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Department_Max_Fields = {
+  __typename?: 'department_max_fields';
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Department_Min_Fields = {
+  __typename?: 'department_min_fields';
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "department" */
+export type Department_Mutation_Response = {
+  __typename?: 'department_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Department>;
+};
+
+/** on_conflict condition type for table "department" */
+export type Department_On_Conflict = {
+  constraint: Department_Constraint;
+  update_columns?: Array<Department_Update_Column>;
+  where?: InputMaybe<Department_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "department". */
+export type Department_Order_By = {
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: department */
+export type Department_Pk_Columns_Input = {
+  name: Scalars['String']['input'];
+};
+
+/** select columns of table "department" */
+export enum Department_Select_Column {
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "department" */
+export type Department_Set_Input = {
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "department" */
+export enum Department_Update_Column {
+  /** column name */
+  Name = 'name'
+}
+
 /** columns and relationships of "honor_application" */
 export type Honor_Application = {
   __typename?: 'honor_application';
@@ -5966,6 +6127,10 @@ export type Mutation_Root = {
   delete_contest_time?: Maybe<Contest_Time_Mutation_Response>;
   /** delete single row from the table: "contest_time" */
   delete_contest_time_by_pk?: Maybe<Contest_Time>;
+  /** delete data from the table: "department" */
+  delete_department?: Maybe<Department_Mutation_Response>;
+  /** delete single row from the table: "department" */
+  delete_department_by_pk?: Maybe<Department>;
   /** delete data from the table: "honor_application" */
   delete_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** delete single row from the table: "honor_application" */
@@ -6098,6 +6263,10 @@ export type Mutation_Root = {
   insert_contest_time?: Maybe<Contest_Time_Mutation_Response>;
   /** insert a single row into the table: "contest_time" */
   insert_contest_time_one?: Maybe<Contest_Time>;
+  /** insert data into the table: "department" */
+  insert_department?: Maybe<Department_Mutation_Response>;
+  /** insert a single row into the table: "department" */
+  insert_department_one?: Maybe<Department>;
   /** insert data into the table: "honor_application" */
   insert_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** insert a single row into the table: "honor_application" */
@@ -6230,6 +6399,10 @@ export type Mutation_Root = {
   update_contest_time?: Maybe<Contest_Time_Mutation_Response>;
   /** update single row of the table: "contest_time" */
   update_contest_time_by_pk?: Maybe<Contest_Time>;
+  /** update data of the table: "department" */
+  update_department?: Maybe<Department_Mutation_Response>;
+  /** update single row of the table: "department" */
+  update_department_by_pk?: Maybe<Department>;
   /** update data of the table: "honor_application" */
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
@@ -6488,6 +6661,18 @@ export type Mutation_RootDelete_Contest_TimeArgs = {
 export type Mutation_RootDelete_Contest_Time_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_DepartmentArgs = {
+  where: Department_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Department_By_PkArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -6917,6 +7102,20 @@ export type Mutation_RootInsert_Contest_TimeArgs = {
 export type Mutation_RootInsert_Contest_Time_OneArgs = {
   object: Contest_Time_Insert_Input;
   on_conflict?: InputMaybe<Contest_Time_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_DepartmentArgs = {
+  objects: Array<Department_Insert_Input>;
+  on_conflict?: InputMaybe<Department_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Department_OneArgs = {
+  object: Department_Insert_Input;
+  on_conflict?: InputMaybe<Department_On_Conflict>;
 };
 
 
@@ -7389,6 +7588,20 @@ export type Mutation_RootUpdate_Contest_TimeArgs = {
 export type Mutation_RootUpdate_Contest_Time_By_PkArgs = {
   _set?: InputMaybe<Contest_Time_Set_Input>;
   pk_columns: Contest_Time_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_DepartmentArgs = {
+  _set?: InputMaybe<Department_Set_Input>;
+  where: Department_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Department_By_PkArgs = {
+  _set?: InputMaybe<Department_Set_Input>;
+  pk_columns: Department_Pk_Columns_Input;
 };
 
 
@@ -9131,6 +9344,12 @@ export type Query_Root = {
   contest_time_aggregate: Contest_Time_Aggregate;
   /** fetch data from the table: "contest_time" using primary key columns */
   contest_time_by_pk?: Maybe<Contest_Time>;
+  /** fetch data from the table: "department" */
+  department: Array<Department>;
+  /** fetch aggregated fields from the table: "department" */
+  department_aggregate: Department_Aggregate;
+  /** fetch data from the table: "department" using primary key columns */
+  department_by_pk?: Maybe<Department>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -9590,6 +9809,29 @@ export type Query_RootContest_Time_AggregateArgs = {
 export type Query_RootContest_Time_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
+};
+
+
+export type Query_RootDepartmentArgs = {
+  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Department_Order_By>>;
+  where?: InputMaybe<Department_Bool_Exp>;
+};
+
+
+export type Query_RootDepartment_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Department_Order_By>>;
+  where?: InputMaybe<Department_Bool_Exp>;
+};
+
+
+export type Query_RootDepartment_By_PkArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -10857,6 +11099,12 @@ export type Subscription_Root = {
   contest_time_aggregate: Contest_Time_Aggregate;
   /** fetch data from the table: "contest_time" using primary key columns */
   contest_time_by_pk?: Maybe<Contest_Time>;
+  /** fetch data from the table: "department" */
+  department: Array<Department>;
+  /** fetch aggregated fields from the table: "department" */
+  department_aggregate: Department_Aggregate;
+  /** fetch data from the table: "department" using primary key columns */
+  department_by_pk?: Maybe<Department>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -11316,6 +11564,29 @@ export type Subscription_RootContest_Time_AggregateArgs = {
 export type Subscription_RootContest_Time_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootDepartmentArgs = {
+  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Department_Order_By>>;
+  where?: InputMaybe<Department_Bool_Exp>;
+};
+
+
+export type Subscription_RootDepartment_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Department_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Department_Order_By>>;
+  where?: InputMaybe<Department_Bool_Exp>;
+};
+
+
+export type Subscription_RootDepartment_By_PkArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -13083,6 +13354,11 @@ export type UpdateProfileMutationVariables = Exact<{
 
 
 export type UpdateProfileMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', updated_at: any } | null };
+
+export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDepartmentsQuery = { __typename?: 'query_root', department: Array<{ __typename?: 'department', name: string }> };
 
 export type GetUser_IdQueryVariables = Exact<{
   email: Scalars['String']['input'];
@@ -16894,6 +17170,45 @@ export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const GetDepartmentsDocument = gql`
+    query GetDepartments {
+  department {
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetDepartmentsQuery__
+ *
+ * To run a query within a React component, call `useGetDepartmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDepartmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDepartmentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetDepartmentsQuery(baseOptions?: Apollo.QueryHookOptions<GetDepartmentsQuery, GetDepartmentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDepartmentsQuery, GetDepartmentsQueryVariables>(GetDepartmentsDocument, options);
+      }
+export function useGetDepartmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDepartmentsQuery, GetDepartmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDepartmentsQuery, GetDepartmentsQueryVariables>(GetDepartmentsDocument, options);
+        }
+export function useGetDepartmentsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDepartmentsQuery, GetDepartmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDepartmentsQuery, GetDepartmentsQueryVariables>(GetDepartmentsDocument, options);
+        }
+export type GetDepartmentsQueryHookResult = ReturnType<typeof useGetDepartmentsQuery>;
+export type GetDepartmentsLazyQueryHookResult = ReturnType<typeof useGetDepartmentsLazyQuery>;
+export type GetDepartmentsSuspenseQueryHookResult = ReturnType<typeof useGetDepartmentsSuspenseQuery>;
+export type GetDepartmentsQueryResult = Apollo.QueryResult<GetDepartmentsQuery, GetDepartmentsQueryVariables>;
 export const GetUser_IdDocument = gql`
     query GetUser_Id($email: String!, $realname: String!) {
   users(where: {email: {_eq: $email}, realname: {_eq: $realname}}) {

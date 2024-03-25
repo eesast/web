@@ -87,17 +87,17 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     // refetch: refetchContests,
   } = graphql.useGetContestsSuspenseQuery();
 
-  const {
-    /* data: userData,
-    loading: userLoading, */
-    error: userError,
-    // refetch: refetchUserId,
-  } = graphql.useGetUser_IdSuspenseQuery({
-    variables: {
-      email: "",
-      realname: "",
-    },
-  });
+  // const {
+  //   /* data: userData,
+  //   loading: userLoading, */
+  //   error: userError,
+  //   refetch: refetchUserId,
+  // } = graphql.useGetUser_IdSuspenseQuery({
+  //   variables: {
+  //     email: "",
+  //     realname: "",
+  //   },
+  // });
 
   // const {
   //   /* data: contestManagerData,
@@ -200,12 +200,12 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //   }
   // }, [roomsDeleteError]);
 
-  useEffect(() => {
-    if (userError) {
-      message.error("用户信息查询失败");
-      console.log(userError.message);
-    }
-  }, [userError]);
+  // useEffect(() => {
+  //   if (userError) {
+  //     message.error("用户信息查询失败");
+  //     console.log(userError.message);
+  //   }
+  // }, [userError]);
 
   // useEffect(() => {
   //   if (contestManagerError) {

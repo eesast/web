@@ -42,6 +42,17 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     }
   }, [getProfileError]);
 
+  const { data: departmentsData, error: getDepartmentsError } =
+    graphql.useGetDepartmentsSuspenseQuery({
+      variables: {},
+    });
+  useEffect(() => {
+    if (getDepartmentsError) {
+      message.error("获取院系信息失败");
+      console.log(getDepartmentsError);
+    }
+  }, [getDepartmentsError]);
+
   const handleQuit = () => {
     setUser(null);
     navigate(url.link("home", "site"));
@@ -84,14 +95,13 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       label: "院系",
       children: profileData.users_by_pk?.department || "",
       editable: () => true,
-      valueEnum: {
-        电子系: {
-          text: "电子系",
+      valueEnum: departmentsData.department.reduce(
+        (target, key, _) => {
+          target[key.name] = key.name;
+          return target;
         },
-        医学院: {
-          text: "医学院",
-        },
-      },
+        {} as { [key: string]: any },
+      ),
     },
     {
       key: "class",
