@@ -1,3 +1,5 @@
+# 主要操作对象：contest_room和contest_room_team表
+
 # get the contest room info
 subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(
@@ -24,7 +26,7 @@ query GetRoomInfo_status($contest_id: uuid!) {
     where: {
       _and: {
         contest_id: { _eq: $contest_id }
-        status: { _eq: false }
+        status: { _eq: "false" }
         port: { _is_null: false }
       }
     }

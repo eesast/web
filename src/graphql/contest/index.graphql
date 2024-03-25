@@ -2,6 +2,29 @@
 
 # 增：管理员手动操作
 
+# # 添加比赛
+# mutation AddContest(
+#   $start_date: timestamptz!
+#   $end_date: timestamptz!
+#   $description: String = ""
+#   $contest_name: String!
+#   $contest_type: String!
+# ) {
+#   insert_contest(
+#     objects: {
+#       contest_name: $contest_name
+#       description: $description
+#       end_date: $end_date
+#       start_date: $start_date
+#       contest_type: $contest_type
+#     }
+#   ) {
+#     returning {
+#       id
+#     }
+#   }
+# }
+
 # 删
 mutation DeleteContest($contest_id: uuid!) {
   delete_contest_by_pk(id: $contest_id) {
@@ -89,83 +112,41 @@ subscription GetContestSwitch($contest_id: uuid!) {
   }
 }
 
-# 主要操作对象：contest_player表
-
-# 增
-mutation AddContestPlayer(
-  $contest_id: uuid!
-  $team_label: String!
-  $player_num: Int!
-  $players_label: String!
-  $roles_available: String!
+# TODO: 改为 UpdateContestInfo
+# 更新比赛信息
+mutation UpdateContest(
+  $id: uuid!
+  $description: String = ""
+  $contest_name: String!
+  $end_date: timestamptz!
+  $start_date: timestamptz!
+  $contest_type: String!
 ) {
-  insert_contest_player_one(
-    object: {
-      contest_id: $contest_id
-      team_label: $team_label
-      player_num: $player_num
-      players_label: $players_label
-      roles_available: $roles_available
-    }
-  ) {
-    team_label
-  }
-}
-
-# 删
-mutation DeleteContestPlayer($contest_id: uuid!, $team_label: String!) {
-  delete_contest_player_by_pk(
-    contest_id: $contest_id
-    team_label: $team_label
-  ) {
-    team_label
-  }
-}
-
-# 改
-mutation UpdateContestPlayer(
-  $contest_id: uuid!
-  $team_label: String!
-  $player_num: Int!
-  $players_label: String!
-  $roles_available: String!
-) {
-  update_contest_player_by_pk(
-    pk_columns: { contest_id: $contest_id, team_label: $team_label }
+  update_contest(
+    where: { id: { _eq: $id } }
     _set: {
-      player_num: $player_num
-      players_label: $players_label
-      roles_available: $roles_available
+      contest_name: $contest_name
+      description: $description
+      end_date: $end_date
+      start_date: $start_date
+      contest_type: $contest_type
     }
   ) {
-    team_label
+    returning {
+      id
+    }
   }
 }
 
-# 查
-query GetContestPlayers($contest_id: uuid!) {
-  contest_player(where: { contest_id: { _eq: $contest_id } }) {
-    team_label
-    player_num
-    players_label
-    roles_available
-  }
-}
-
-# 主要操作对象：contest_manager表
-
-# 增：管理员手动操作
-
-# 删：比赛删除时级联删除
-
-# 改：管理员手动操作
-
-# 查
-
-query GetContestManagers($contest_id: uuid!) {
-  contest_by_pk(id: $contest_id) {
-    contest_managers {
-      user_uuid
+# TODO: 改为 UpdateContestSwitch
+# 更新比赛状态
+mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
+  update_contest(
+    where: { id: { _eq: $contest_id } }
+    _set: { status: $status }
+  ) {
+    returning {
+      status
     }
   }
 }

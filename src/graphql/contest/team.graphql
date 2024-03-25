@@ -1,3 +1,5 @@
+# 主要操作对象：contest_team和contest_team_member表
+
 #插入队伍信息
 mutation InsertTeam(
   $team_name: String!
@@ -45,18 +47,6 @@ query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
     }
   ) {
     team_id
-  }
-}
-
-# 借由team_id获取code的所有信息
-subscription GetCodeUpdateTime($team_id: uuid!) {
-  contest_code(where: { team_id: { _eq: $team_id } }) {
-    code1_update_time
-    code2_update_time
-    code3_update_time
-    code4_update_time
-    code5_update_time
-    code6_update_time
   }
 }
 
