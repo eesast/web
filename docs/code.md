@@ -32,7 +32,7 @@ permalink: /code
 
 - `/code/compile-start`：下载代码文件并启动编译镜像。
   - 请求方法：`POST`
-  - 请求：`body`中有`{contest_name: string, code_id: uuid, language: string, path: string}`，其中`contest_name`是数据库中的`name`、用于确定用于编译的镜像，`code_id`用于更改数据库，`language`为编程语言（增加其他语言前固定为`cpp`，不用管），`path` 为可选参数，用于指定 `cos` 存储目录路径，默认为 `{contest_name}/code/${team_id}`
+  - 请求：`body`中有`{code_id: uuid}`
   - 响应：`200`：`200 OK: Create container success`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
@@ -45,7 +45,7 @@ permalink: /code
     - `500`：`undefined`（其他内部错误，返回报错信息）
 - `/code/compile-finish`：代码完成编译的`hook`，在`docker`结束前调用。更新编译状态并保存可执行文件和`log`。
   - 请求方法：`POST`
-  - 请求：`body`中有`{compile_status: string}`，`token`中有`{team_id: uuid, code_id: uuid, contest_name: string, cos_path: string}`（启动`docker`时传入）
+  - 请求：`body`中有`{compile_status: string}`，且将启动docker时传入的`token`传回
   - 响应：`200`：`200 OK: Update compile status success`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
@@ -57,5 +57,5 @@ permalink: /code
 ### 与赛事组的约定
 
 1. 编译代码的`docker`每次启动只编译一份代码，且只需考虑编译型语言（如`cpp`）的代码
-2. `docker`启动时代码文件绑定在`/usr/local/code`文件夹下，编译产生的可执行文件和`log`同样保存到`/usr/local/code`文件夹（命名与代码文件前缀相同）
-3. `docker`启动时会设置环境变量`URL`，`TOKEN`，`CODE_ID`，`LANG`（目前默认是 `cpp`），编译完成后需要请求`URL`（实际上是`/code/compile-finish`），请求时需要在`header`中加上`TOKEN`，请求的`body`中需包括代码编译的状态`compile_status: string`，取值为`Success`或`Failed`
+2. `docker`启动时代码文件绑定在`/usr/local/code`文件夹下，编译产生的可执行文件和`log`请保存到`/usr/local/output`文件夹（命名与代码文件前缀相同）
+3. `docker`启动时会设置环境变量`URL`，`TOKEN`，`LANG`（目前默认是 `cpp`），编译完成后需要请求`URL`（实际上是`/code/compile-finish`），请求时需要在`header`中加上`TOKEN`，请求的`body`中需包括代码编译的状态`compile_status: string`，取值为`Success`或`Failed`
