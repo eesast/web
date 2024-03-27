@@ -16,7 +16,7 @@ permalink: /code
   5. 若语言为编译型语言(`cpp`)，则前端向后端发请求`/code/compile-start`（见后），使后端开始编译代码
   6. 后端下载`cos`上的代码文件，在服务器上启动编译`docker`，并在数据库中更新`compile_status`为`Compiling`
   7. `docker`完成编译后，请求后端`/code/compile-finish`路由（见后）。若编译成功无报错，后端在数据库中更新`compile_status`为`Completed`；若编译出错，后端在数据库中更新`compile_status`为`Failed`
-  8. 后端将可执行文件按`${code_id}`重命名、将`Compile log`按`${code_id}.log`重命名后上传至`cos`，同代码文件夹
+  8. 后端将`docker`生成的可执行文件`${code_id}`与`${code_id}.log`上传至`cos`，同代码文件夹
   9. 前端通过`subscription`实时更新`compile_status`
 - 代码重命名
   - 前端页面上和数据库中的`code_name`是代码文件上传的原名，仅作展示和下载时的命名之用，与后端和`cos`没有关系。用户可以修改这个名字来做版本管理，仅需前端修改数据库`contest_team_code`表即可。
@@ -32,22 +32,30 @@ permalink: /code
 
 - `/code/compile-start`：下载代码文件并启动编译镜像。
   - 请求方法：`POST`
-  - 请求：`body`中有`{contest_name: string, path: string, code_id: uuid, language: string}`，其中`contest_name`是数据库中的`name`、用于确定用于编译的镜像，`path`为代码文件在`cos`上的绝对路径、用于下载，`code_id`用于更改数据库，`language`为编程语言（增加其他语言前固定为`cpp`，不用管）
-  - 响应：`200`：`Compiling...`
+  - 请求：`body`中有`{code_id: uuid}`
+  - 响应：`200`：`200 OK: Create container success`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `404`：`404 Not Found: Code unavailable`（无法成功下载代码）
-    - `400`：`400 Bad Request: Too many codes for a single team`（队伍代码数超出限额）
+    - `400`：`400 Bad Request: Interpreted language do not require compilation.`
+    - `400`：`400 Bad Request: Unsupported language.`
+    - `401`：`401 Unauthorized: User not in team.`
+    - `401`：`401 Unauthorized: User and code not in the same team.`
     - `409`：`409 Confilct: Code already in compilation`（代码正在或已编译）
     - `500`：`undefined`（其他内部错误，返回报错信息）
 - `/code/compile-finish`：代码完成编译的`hook`，在`docker`结束前调用。更新编译状态并保存可执行文件和`log`。
   - 请求方法：`POST`
-  - 请求：`body`中有`{compile_status: string}`，`token`中有`{path: string, code_id: uuid}`（启动`docker`时传入）
-  - 响应：`200`：`Compile status updated`
-  - 错误：`500`：`undefined`（返回报错信息）
+  - 请求：`body`中有`{compile_status: string}`，且将启动docker时传入的`token`传回
+  - 响应：`200`：`200 OK: Update compile status success`
+  - 错误：
+    - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
+    - `400`：`400 Bad Request: Invalid compile status.`
+    - `401`：`401 Unauthorized: Missing token.`
+    - `401`：`401 Unauthorized: Token expired or invalid.`
+    - `500`：`undefined`（返回报错信息）
 
 ### 与赛事组的约定
 
 1. 编译代码的`docker`每次启动只编译一份代码，且只需考虑编译型语言（如`cpp`）的代码
 2. `docker`启动时代码文件绑定在`/usr/local/code`文件夹下，编译产生的可执行文件和`log`请保存到`/usr/local/output`文件夹（命名与代码文件前缀相同）
-3. `docker`启动时会设置环境变量`URL`和`TOKEN`，编译完成后需要请求`URL`（实际上是`/code/compile-finish`），请求时需要在`header`中加上`TOKEN`，请求的`body`中需包括代码编译的状态`compile_status: string`，取值为`Success`或`Failed`
+3. `docker`启动时会设置环境变量`URL`，`TOKEN`，`LANG`（目前默认是 `cpp`），编译完成后需要请求`URL`（实际上是`/code/compile-finish`），请求时需要在`header`中加上`TOKEN`，请求的`body`中需包括代码编译的状态`compile_status: string`，取值为`Success`或`Failed`
