@@ -70,16 +70,16 @@
     rc-resize-observer "^1.0.0"
     rc-util "^5.4.0"
 
-"@ant-design/pro-components@2.6.51":
-  version "2.6.51"
-  resolved "https://registry.yarnpkg.com/@ant-design/pro-components/-/pro-components-2.6.51.tgz#645beb1b0fab8d48a464834794ac302ad926a231"
-  integrity sha512-8aLod11H/zkZ3NuDdL4EO74rG/L8p0cdBEIAIgBZc07S+U98e2e0uHG0m+7788Q9LWvCitSKcdLGNlT6e9U8UA==
+"@ant-design/pro-components@2.6.52":
+  version "2.6.52"
+  resolved "https://registry.yarnpkg.com/@ant-design/pro-components/-/pro-components-2.6.52.tgz#1523adb265aaeae6f86047084592ca499b3e2b62"
+  integrity sha512-TocUF5k5tjGRW65y/NAnS+gZxx5aconoOvENfjwrwPxJ9HP49FD8nMiH97xOqVI+6ew4Mr9+9+Acs+C/bw4glA==
   dependencies:
     "@ant-design/pro-card" "2.5.30"
     "@ant-design/pro-descriptions" "2.5.35"
     "@ant-design/pro-field" "2.14.8"
     "@ant-design/pro-form" "2.25.0"
-    "@ant-design/pro-layout" "7.17.20"
+    "@ant-design/pro-layout" "7.18.0"
     "@ant-design/pro-list" "2.5.50"
     "@ant-design/pro-provider" "2.14.0"
     "@ant-design/pro-skeleton" "2.1.11"
@@ -136,10 +136,10 @@
     rc-resize-observer "^1.1.0"
     rc-util "^5.0.6"
 
-"@ant-design/pro-layout@7.17.20":
-  version "7.17.20"
-  resolved "https://registry.yarnpkg.com/@ant-design/pro-layout/-/pro-layout-7.17.20.tgz#d12d419992bcb0c17b41bf52946495a28e569775"
-  integrity sha512-+5u2BMlVj7QX81iE4FQjvOERMgdNFSOP6ZT87AXMI6sIra3S42HgLDOdaZCcgcQ5lbF3zNqJc9rzPYIXKzOBfQ==
+"@ant-design/pro-layout@7.18.0":
+  version "7.18.0"
+  resolved "https://registry.yarnpkg.com/@ant-design/pro-layout/-/pro-layout-7.18.0.tgz#186255a1ea6d1907ea54efe77e304bad0806d024"
+  integrity sha512-Es/mQAif5RJVynC/rVM+DsX1Kvp3xkjlAgZta3Sak4GZmkq3lRMq80MPlsKLeIZMwOBE1k3CZ4i7VEdWTcXCgg==
   dependencies:
     "@ant-design/icons" "^5.0.0"
     "@ant-design/pro-provider" "2.14.0"
