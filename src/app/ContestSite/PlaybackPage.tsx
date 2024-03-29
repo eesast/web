@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   message,
   Layout,
   Row,
-  Col,
   Modal,
   Form,
   Select,
   Spin,
+  Progress,
+  FloatButton,
 } from "antd";
 import { ArrowsAltOutlined } from "@ant-design/icons";
-
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { useUrl } from "../../api/hooks/url";
 import { useNavigate } from "react-router-dom";
@@ -88,31 +87,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     streamingAssetsUrl: projectUrl,
     cacheControl: handleCacheControl,
   });
-
-  // We'll use a state to store the device pixel ratio.
-  const [devicePixelRatio, setDevicePixelRatio] = useState(
-    window.devicePixelRatio,
-  );
-
-  useEffect(() => {
-    // A function which will update the device pixel ratio of the Unity
-    // Application to match the device pixel ratio of the browser.
-    const updateDevicePixelRatio = function () {
-      setDevicePixelRatio(window.devicePixelRatio);
-    };
-    // A media matcher which watches for changes in the device pixel ratio.
-    const mediaMatcher = window.matchMedia(
-      `screen and (resolution: ${devicePixelRatio}dppx)`,
-    );
-    // Adding an event listener to the media matcher which will update the
-    // device pixel ratio of the Unity Application when the device pixel
-    // ratio changes.
-    mediaMatcher.addEventListener("change", updateDevicePixelRatio);
-    return function () {
-      // Removing the event listener when the component unmounts.
-      mediaMatcher.removeEventListener("change", updateDevicePixelRatio);
-    };
-  }, [devicePixelRatio]);
 
   const handleQuit = async () => {
     try {
@@ -200,55 +174,52 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Container>
     );
   };
+
   return (
     <Layout>
       <Row>
-        <Col span={20}>
-          {isLoaded === false && (
-            <Row style={{ color: mode === "dark" ? "white" : "initial" }}>
-              Loading Application... {Math.round(loadingProgression * 100)}%
-            </Row>
-          )}
-          <Unity
-            unityProvider={unityProvider}
-            css={`
-              width: 960px;
-              height: 540px;
-              margin: auto;
-              margin-top: 45px;
-              margin-left: 80px;
-              margin-right: 80px;
-              margin-bottom: 45px;
-            `}
-            devicePixelRatio={devicePixelRatio}
-            // disabledCanvasEvents={["dragstart", "scroll"]}
-          />
-        </Col>
-        <Col span={1}>
-          <Button
-            shape="circle"
-            css={`
-              margin-top: 25px;
-            `}
-            icon={<ArrowsAltOutlined />}
-            onClick={() => {
-              requestFullscreen(true);
-            }}
-          ></Button>
-        </Col>
-        <Col span={3}>
-          <Button
-            css={`
-              margin-top: 25px;
-            `}
-            onClick={() => {
-              setModalVisible(true);
-            }}
-          >
-            加载决赛回放
-          </Button>
-        </Col>
+        {isLoaded === false && (
+          <Container>
+            <Progress
+              type="circle"
+              percent={Math.min(
+                Math.round(((loadingProgression * 100) / 90) * 99),
+                100,
+              )}
+            />
+          </Container>
+        )}
+        <Unity
+          unityProvider={unityProvider}
+          css={`
+            width: 100%;
+            max-width: calc((100vh - 72px) / 9 * 16);
+            max-height: calc(100vh - 72px);
+            aspect-ratio: 16 / 9;
+            padding: 0.9vw 1.6vw;
+          `}
+          // disabledCanvasEvents={["dragstart", "scroll"]}
+        />
       </Row>
+      <FloatButton
+        icon={<ArrowsAltOutlined />}
+        style={{ right: 48 }}
+        type="primary"
+        onClick={() => {
+          requestFullscreen(true);
+        }}
+      />
+      {Contest_id === "19cece8f-3cfa-4098-9cbe-cbf2b5f50ebe" && (
+        <FloatButton
+          description="加载回放"
+          badge={{ dot: true }}
+          shape="square"
+          style={{ right: 112 }}
+          onClick={() => {
+            setModalVisible(true);
+          }}
+        />
+      )}
       <Modal
         open={modalVisible}
         title="又在玩新游戏啊"
