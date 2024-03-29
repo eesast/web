@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  date: { input: any; output: any; }
   json: { input: any; output: any; }
   numeric: { input: any; output: any; }
   timestamptz: { input: any; output: any; }
@@ -4195,6 +4196,19 @@ export enum Contest_Update_Column {
   StreamSwitch = 'stream_switch'
 }
 
+/** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+export type Date_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['date']['input']>;
+  _gt?: InputMaybe<Scalars['date']['input']>;
+  _gte?: InputMaybe<Scalars['date']['input']>;
+  _in?: InputMaybe<Array<Scalars['date']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['date']['input']>;
+  _lte?: InputMaybe<Scalars['date']['input']>;
+  _neq?: InputMaybe<Scalars['date']['input']>;
+  _nin?: InputMaybe<Array<Scalars['date']['input']>>;
+};
+
 /** 院系类别，用于用户信息填写 */
 export type Department = {
   __typename?: 'department';
@@ -6195,6 +6209,10 @@ export type Mutation_Root = {
   delete_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** delete single row from the table: "share_course" */
   delete_share_course_by_pk?: Maybe<Share_Course>;
+  /** delete data from the table: "test" */
+  delete_test?: Maybe<Test_Mutation_Response>;
+  /** delete single row from the table: "test" */
+  delete_test_by_pk?: Maybe<Test>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -6331,6 +6349,10 @@ export type Mutation_Root = {
   insert_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** insert a single row into the table: "share_course" */
   insert_share_course_one?: Maybe<Share_Course>;
+  /** insert data into the table: "test" */
+  insert_test?: Maybe<Test_Mutation_Response>;
+  /** insert a single row into the table: "test" */
+  insert_test_one?: Maybe<Test>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -6467,6 +6489,10 @@ export type Mutation_Root = {
   update_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** update single row of the table: "share_course" */
   update_share_course_by_pk?: Maybe<Share_Course>;
+  /** update data of the table: "test" */
+  update_test?: Maybe<Test_Mutation_Response>;
+  /** update single row of the table: "test" */
+  update_test_by_pk?: Maybe<Test>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -6868,6 +6894,18 @@ export type Mutation_RootDelete_Share_CourseArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Share_Course_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_TestArgs = {
+  where: Test_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Test_By_PkArgs = {
+  id: Scalars['Int']['input'];
 };
 
 
@@ -7340,6 +7378,20 @@ export type Mutation_RootInsert_Share_CourseArgs = {
 export type Mutation_RootInsert_Share_Course_OneArgs = {
   object: Share_Course_Insert_Input;
   on_conflict?: InputMaybe<Share_Course_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_TestArgs = {
+  objects: Array<Test_Insert_Input>;
+  on_conflict?: InputMaybe<Test_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Test_OneArgs = {
+  object: Test_Insert_Input;
+  on_conflict?: InputMaybe<Test_On_Conflict>;
 };
 
 
@@ -7844,6 +7896,22 @@ export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
   _inc?: InputMaybe<Share_Course_Inc_Input>;
   _set?: InputMaybe<Share_Course_Set_Input>;
   pk_columns: Share_Course_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_TestArgs = {
+  _inc?: InputMaybe<Test_Inc_Input>;
+  _set?: InputMaybe<Test_Set_Input>;
+  where: Test_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Test_By_PkArgs = {
+  _inc?: InputMaybe<Test_Inc_Input>;
+  _set?: InputMaybe<Test_Set_Input>;
+  pk_columns: Test_Pk_Columns_Input;
 };
 
 
@@ -9446,6 +9514,12 @@ export type Query_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
+  /** fetch data from the table: "test" */
+  test: Array<Test>;
+  /** fetch aggregated fields from the table: "test" */
+  test_aggregate: Test_Aggregate;
+  /** fetch data from the table: "test" using primary key columns */
+  test_by_pk?: Maybe<Test>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -10203,6 +10277,29 @@ export type Query_RootShare_Course_AggregateArgs = {
 
 export type Query_RootShare_Course_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootTestArgs = {
+  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Test_Order_By>>;
+  where?: InputMaybe<Test_Bool_Exp>;
+};
+
+
+export type Query_RootTest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Test_Order_By>>;
+  where?: InputMaybe<Test_Bool_Exp>;
+};
+
+
+export type Query_RootTest_By_PkArgs = {
+  id: Scalars['Int']['input'];
 };
 
 
@@ -11201,6 +11298,12 @@ export type Subscription_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
+  /** fetch data from the table: "test" */
+  test: Array<Test>;
+  /** fetch aggregated fields from the table: "test" */
+  test_aggregate: Test_Aggregate;
+  /** fetch data from the table: "test" using primary key columns */
+  test_by_pk?: Maybe<Test>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -11961,6 +12064,29 @@ export type Subscription_RootShare_Course_By_PkArgs = {
 };
 
 
+export type Subscription_RootTestArgs = {
+  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Test_Order_By>>;
+  where?: InputMaybe<Test_Bool_Exp>;
+};
+
+
+export type Subscription_RootTest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Test_Order_By>>;
+  where?: InputMaybe<Test_Bool_Exp>;
+};
+
+
+export type Subscription_RootTest_By_PkArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12004,6 +12130,202 @@ export type Subscription_RootWeekly_AggregateArgs = {
 
 export type Subscription_RootWeekly_By_PkArgs = {
   id: Scalars['Int']['input'];
+};
+
+/** columns and relationships of "test" */
+export type Test = {
+  __typename?: 'test';
+  date?: Maybe<Scalars['date']['output']>;
+  id: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+};
+
+/** aggregated selection of "test" */
+export type Test_Aggregate = {
+  __typename?: 'test_aggregate';
+  aggregate?: Maybe<Test_Aggregate_Fields>;
+  nodes: Array<Test>;
+};
+
+/** aggregate fields of "test" */
+export type Test_Aggregate_Fields = {
+  __typename?: 'test_aggregate_fields';
+  avg?: Maybe<Test_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Test_Max_Fields>;
+  min?: Maybe<Test_Min_Fields>;
+  stddev?: Maybe<Test_Stddev_Fields>;
+  stddev_pop?: Maybe<Test_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Test_Stddev_Samp_Fields>;
+  sum?: Maybe<Test_Sum_Fields>;
+  var_pop?: Maybe<Test_Var_Pop_Fields>;
+  var_samp?: Maybe<Test_Var_Samp_Fields>;
+  variance?: Maybe<Test_Variance_Fields>;
+};
+
+
+/** aggregate fields of "test" */
+export type Test_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Test_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Test_Avg_Fields = {
+  __typename?: 'test_avg_fields';
+  id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "test". All fields are combined with a logical 'AND'. */
+export type Test_Bool_Exp = {
+  _and?: InputMaybe<Array<Test_Bool_Exp>>;
+  _not?: InputMaybe<Test_Bool_Exp>;
+  _or?: InputMaybe<Array<Test_Bool_Exp>>;
+  date?: InputMaybe<Date_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  url?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "test" */
+export enum Test_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  TestPkey = 'test_pkey'
+}
+
+/** input type for incrementing numeric columns in table "test" */
+export type Test_Inc_Input = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "test" */
+export type Test_Insert_Input = {
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Test_Max_Fields = {
+  __typename?: 'test_max_fields';
+  date?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Test_Min_Fields = {
+  __typename?: 'test_min_fields';
+  date?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "test" */
+export type Test_Mutation_Response = {
+  __typename?: 'test_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Test>;
+};
+
+/** on_conflict condition type for table "test" */
+export type Test_On_Conflict = {
+  constraint: Test_Constraint;
+  update_columns?: Array<Test_Update_Column>;
+  where?: InputMaybe<Test_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "test". */
+export type Test_Order_By = {
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: test */
+export type Test_Pk_Columns_Input = {
+  id: Scalars['Int']['input'];
+};
+
+/** select columns of table "test" */
+export enum Test_Select_Column {
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  Url = 'url'
+}
+
+/** input type for updating data in table "test" */
+export type Test_Set_Input = {
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Test_Stddev_Fields = {
+  __typename?: 'test_stddev_fields';
+  id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Test_Stddev_Pop_Fields = {
+  __typename?: 'test_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Test_Stddev_Samp_Fields = {
+  __typename?: 'test_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Test_Sum_Fields = {
+  __typename?: 'test_sum_fields';
+  id?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "test" */
+export enum Test_Update_Column {
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  Url = 'url'
+}
+
+/** aggregate var_pop on columns */
+export type Test_Var_Pop_Fields = {
+  __typename?: 'test_var_pop_fields';
+  id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Test_Var_Samp_Fields = {
+  __typename?: 'test_var_samp_fields';
+  id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Test_Variance_Fields = {
+  __typename?: 'test_variance_fields';
+  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -12400,6 +12722,7 @@ export type Uuid_Comparison_Exp = {
 /** columns and relationships of "weekly" */
 export type Weekly = {
   __typename?: 'weekly';
+  date?: Maybe<Scalars['date']['output']>;
   id: Scalars['Int']['output'];
   tags?: Maybe<Scalars['json']['output']>;
   title: Scalars['String']['output'];
@@ -12453,6 +12776,7 @@ export type Weekly_Bool_Exp = {
   _and?: InputMaybe<Array<Weekly_Bool_Exp>>;
   _not?: InputMaybe<Weekly_Bool_Exp>;
   _or?: InputMaybe<Array<Weekly_Bool_Exp>>;
+  date?: InputMaybe<Date_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   tags?: InputMaybe<Json_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
@@ -12472,6 +12796,7 @@ export type Weekly_Inc_Input = {
 
 /** input type for inserting data into table "weekly" */
 export type Weekly_Insert_Input = {
+  date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   tags?: InputMaybe<Scalars['json']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -12481,6 +12806,7 @@ export type Weekly_Insert_Input = {
 /** aggregate max on columns */
 export type Weekly_Max_Fields = {
   __typename?: 'weekly_max_fields';
+  date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   url?: Maybe<Scalars['String']['output']>;
@@ -12489,6 +12815,7 @@ export type Weekly_Max_Fields = {
 /** aggregate min on columns */
 export type Weekly_Min_Fields = {
   __typename?: 'weekly_min_fields';
+  date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   url?: Maybe<Scalars['String']['output']>;
@@ -12512,6 +12839,7 @@ export type Weekly_On_Conflict = {
 
 /** Ordering options when selecting data from "weekly". */
 export type Weekly_Order_By = {
+  date?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   tags?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
@@ -12526,6 +12854,8 @@ export type Weekly_Pk_Columns_Input = {
 /** select columns of table "weekly" */
 export enum Weekly_Select_Column {
   /** column name */
+  Date = 'date',
+  /** column name */
   Id = 'id',
   /** column name */
   Tags = 'tags',
@@ -12537,6 +12867,7 @@ export enum Weekly_Select_Column {
 
 /** input type for updating data in table "weekly" */
 export type Weekly_Set_Input = {
+  date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   tags?: InputMaybe<Scalars['json']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -12569,6 +12900,8 @@ export type Weekly_Sum_Fields = {
 
 /** update columns of table "weekly" */
 export enum Weekly_Update_Column {
+  /** column name */
+  Date = 'date',
   /** column name */
   Id = 'id',
   /** column name */
@@ -13017,6 +13350,20 @@ export type QueryTeamIdQueryVariables = Exact<{
 
 
 export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
+
+export type GetTotalTeamNumQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTotalTeamNumQuery = { __typename?: 'query_root', contest_team_aggregate: { __typename?: 'contest_team_aggregate', aggregate?: { __typename?: 'contest_team_aggregate_fields', count: number } | null } };
+
+export type GetTotalMemberNumQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTotalMemberNumQuery = { __typename?: 'query_root', contest_team_member_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null } };
 
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -15405,6 +15752,92 @@ export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
 export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
 export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
 export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
+export const GetTotalTeamNumDocument = gql`
+    query getTotalTeamNum($contest_id: uuid!) {
+  contest_team_aggregate(where: {contest: {id: {_eq: $contest_id}}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTotalTeamNumQuery__
+ *
+ * To run a query within a React component, call `useGetTotalTeamNumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTotalTeamNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTotalTeamNumQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTotalTeamNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables> & ({ variables: GetTotalTeamNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+      }
+export function useGetTotalTeamNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+        }
+export function useGetTotalTeamNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+        }
+export type GetTotalTeamNumQueryHookResult = ReturnType<typeof useGetTotalTeamNumQuery>;
+export type GetTotalTeamNumLazyQueryHookResult = ReturnType<typeof useGetTotalTeamNumLazyQuery>;
+export type GetTotalTeamNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalTeamNumSuspenseQuery>;
+export type GetTotalTeamNumQueryResult = Apollo.QueryResult<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>;
+export const GetTotalMemberNumDocument = gql`
+    query getTotalMemberNum($contest_id: uuid!) {
+  contest_team_member_aggregate(
+    where: {contest_team: {contest: {id: {_eq: $contest_id}}}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTotalMemberNumQuery__
+ *
+ * To run a query within a React component, call `useGetTotalMemberNumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTotalMemberNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTotalMemberNumQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTotalMemberNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables> & ({ variables: GetTotalMemberNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+      }
+export function useGetTotalMemberNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+        }
+export function useGetTotalMemberNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+        }
+export type GetTotalMemberNumQueryHookResult = ReturnType<typeof useGetTotalMemberNumQuery>;
+export type GetTotalMemberNumLazyQueryHookResult = ReturnType<typeof useGetTotalMemberNumLazyQuery>;
+export type GetTotalMemberNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalMemberNumSuspenseQuery>;
+export type GetTotalMemberNumQueryResult = Apollo.QueryResult<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>;
 export const AddTeamCodeDocument = gql`
     mutation AddTeamCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
   insert_contest_team_code_one(
