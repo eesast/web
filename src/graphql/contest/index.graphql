@@ -102,6 +102,12 @@ query GetContestInfo($contest_id: uuid!) {
   }
 }
 
+query GetContestName($contest_id: uuid!) {
+  contest_by_pk(id: $contest_id) {
+    name
+  }
+}
+
 subscription GetContestSwitch($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
     code_upload_switch

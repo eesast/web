@@ -6209,10 +6209,6 @@ export type Mutation_Root = {
   delete_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** delete single row from the table: "share_course" */
   delete_share_course_by_pk?: Maybe<Share_Course>;
-  /** delete data from the table: "test" */
-  delete_test?: Maybe<Test_Mutation_Response>;
-  /** delete single row from the table: "test" */
-  delete_test_by_pk?: Maybe<Test>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -6349,10 +6345,6 @@ export type Mutation_Root = {
   insert_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** insert a single row into the table: "share_course" */
   insert_share_course_one?: Maybe<Share_Course>;
-  /** insert data into the table: "test" */
-  insert_test?: Maybe<Test_Mutation_Response>;
-  /** insert a single row into the table: "test" */
-  insert_test_one?: Maybe<Test>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -6489,10 +6481,6 @@ export type Mutation_Root = {
   update_share_course?: Maybe<Share_Course_Mutation_Response>;
   /** update single row of the table: "share_course" */
   update_share_course_by_pk?: Maybe<Share_Course>;
-  /** update data of the table: "test" */
-  update_test?: Maybe<Test_Mutation_Response>;
-  /** update single row of the table: "test" */
-  update_test_by_pk?: Maybe<Test>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -6894,18 +6882,6 @@ export type Mutation_RootDelete_Share_CourseArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Share_Course_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_TestArgs = {
-  where: Test_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Test_By_PkArgs = {
-  id: Scalars['Int']['input'];
 };
 
 
@@ -7378,20 +7354,6 @@ export type Mutation_RootInsert_Share_CourseArgs = {
 export type Mutation_RootInsert_Share_Course_OneArgs = {
   object: Share_Course_Insert_Input;
   on_conflict?: InputMaybe<Share_Course_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_TestArgs = {
-  objects: Array<Test_Insert_Input>;
-  on_conflict?: InputMaybe<Test_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Test_OneArgs = {
-  object: Test_Insert_Input;
-  on_conflict?: InputMaybe<Test_On_Conflict>;
 };
 
 
@@ -7896,22 +7858,6 @@ export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
   _inc?: InputMaybe<Share_Course_Inc_Input>;
   _set?: InputMaybe<Share_Course_Set_Input>;
   pk_columns: Share_Course_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_TestArgs = {
-  _inc?: InputMaybe<Test_Inc_Input>;
-  _set?: InputMaybe<Test_Set_Input>;
-  where: Test_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Test_By_PkArgs = {
-  _inc?: InputMaybe<Test_Inc_Input>;
-  _set?: InputMaybe<Test_Set_Input>;
-  pk_columns: Test_Pk_Columns_Input;
 };
 
 
@@ -9514,12 +9460,6 @@ export type Query_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "test" */
-  test: Array<Test>;
-  /** fetch aggregated fields from the table: "test" */
-  test_aggregate: Test_Aggregate;
-  /** fetch data from the table: "test" using primary key columns */
-  test_by_pk?: Maybe<Test>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -10277,29 +10217,6 @@ export type Query_RootShare_Course_AggregateArgs = {
 
 export type Query_RootShare_Course_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
-};
-
-
-export type Query_RootTestArgs = {
-  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Test_Order_By>>;
-  where?: InputMaybe<Test_Bool_Exp>;
-};
-
-
-export type Query_RootTest_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Test_Order_By>>;
-  where?: InputMaybe<Test_Bool_Exp>;
-};
-
-
-export type Query_RootTest_By_PkArgs = {
-  id: Scalars['Int']['input'];
 };
 
 
@@ -11298,12 +11215,6 @@ export type Subscription_Root = {
   share_course_aggregate: Share_Course_Aggregate;
   /** fetch data from the table: "share_course" using primary key columns */
   share_course_by_pk?: Maybe<Share_Course>;
-  /** fetch data from the table: "test" */
-  test: Array<Test>;
-  /** fetch aggregated fields from the table: "test" */
-  test_aggregate: Test_Aggregate;
-  /** fetch data from the table: "test" using primary key columns */
-  test_by_pk?: Maybe<Test>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -12064,29 +11975,6 @@ export type Subscription_RootShare_Course_By_PkArgs = {
 };
 
 
-export type Subscription_RootTestArgs = {
-  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Test_Order_By>>;
-  where?: InputMaybe<Test_Bool_Exp>;
-};
-
-
-export type Subscription_RootTest_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Test_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Test_Order_By>>;
-  where?: InputMaybe<Test_Bool_Exp>;
-};
-
-
-export type Subscription_RootTest_By_PkArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12130,202 +12018,6 @@ export type Subscription_RootWeekly_AggregateArgs = {
 
 export type Subscription_RootWeekly_By_PkArgs = {
   id: Scalars['Int']['input'];
-};
-
-/** columns and relationships of "test" */
-export type Test = {
-  __typename?: 'test';
-  date?: Maybe<Scalars['date']['output']>;
-  id: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
-  url: Scalars['String']['output'];
-};
-
-/** aggregated selection of "test" */
-export type Test_Aggregate = {
-  __typename?: 'test_aggregate';
-  aggregate?: Maybe<Test_Aggregate_Fields>;
-  nodes: Array<Test>;
-};
-
-/** aggregate fields of "test" */
-export type Test_Aggregate_Fields = {
-  __typename?: 'test_aggregate_fields';
-  avg?: Maybe<Test_Avg_Fields>;
-  count: Scalars['Int']['output'];
-  max?: Maybe<Test_Max_Fields>;
-  min?: Maybe<Test_Min_Fields>;
-  stddev?: Maybe<Test_Stddev_Fields>;
-  stddev_pop?: Maybe<Test_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Test_Stddev_Samp_Fields>;
-  sum?: Maybe<Test_Sum_Fields>;
-  var_pop?: Maybe<Test_Var_Pop_Fields>;
-  var_samp?: Maybe<Test_Var_Samp_Fields>;
-  variance?: Maybe<Test_Variance_Fields>;
-};
-
-
-/** aggregate fields of "test" */
-export type Test_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Test_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** aggregate avg on columns */
-export type Test_Avg_Fields = {
-  __typename?: 'test_avg_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** Boolean expression to filter rows from the table "test". All fields are combined with a logical 'AND'. */
-export type Test_Bool_Exp = {
-  _and?: InputMaybe<Array<Test_Bool_Exp>>;
-  _not?: InputMaybe<Test_Bool_Exp>;
-  _or?: InputMaybe<Array<Test_Bool_Exp>>;
-  date?: InputMaybe<Date_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  url?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "test" */
-export enum Test_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  TestPkey = 'test_pkey'
-}
-
-/** input type for incrementing numeric columns in table "test" */
-export type Test_Inc_Input = {
-  id?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** input type for inserting data into table "test" */
-export type Test_Insert_Input = {
-  date?: InputMaybe<Scalars['date']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  url?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** aggregate max on columns */
-export type Test_Max_Fields = {
-  __typename?: 'test_max_fields';
-  date?: Maybe<Scalars['date']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
-
-/** aggregate min on columns */
-export type Test_Min_Fields = {
-  __typename?: 'test_min_fields';
-  date?: Maybe<Scalars['date']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
-
-/** response of any mutation on the table "test" */
-export type Test_Mutation_Response = {
-  __typename?: 'test_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Test>;
-};
-
-/** on_conflict condition type for table "test" */
-export type Test_On_Conflict = {
-  constraint: Test_Constraint;
-  update_columns?: Array<Test_Update_Column>;
-  where?: InputMaybe<Test_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "test". */
-export type Test_Order_By = {
-  date?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  url?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: test */
-export type Test_Pk_Columns_Input = {
-  id: Scalars['Int']['input'];
-};
-
-/** select columns of table "test" */
-export enum Test_Select_Column {
-  /** column name */
-  Date = 'date',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  Url = 'url'
-}
-
-/** input type for updating data in table "test" */
-export type Test_Set_Input = {
-  date?: InputMaybe<Scalars['date']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  url?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Test_Stddev_Fields = {
-  __typename?: 'test_stddev_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Test_Stddev_Pop_Fields = {
-  __typename?: 'test_stddev_pop_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Test_Stddev_Samp_Fields = {
-  __typename?: 'test_stddev_samp_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate sum on columns */
-export type Test_Sum_Fields = {
-  __typename?: 'test_sum_fields';
-  id?: Maybe<Scalars['Int']['output']>;
-};
-
-/** update columns of table "test" */
-export enum Test_Update_Column {
-  /** column name */
-  Date = 'date',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  Url = 'url'
-}
-
-/** aggregate var_pop on columns */
-export type Test_Var_Pop_Fields = {
-  __typename?: 'test_var_pop_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate var_samp on columns */
-export type Test_Var_Samp_Fields = {
-  __typename?: 'test_var_samp_fields';
-  id?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate variance on columns */
-export type Test_Variance_Fields = {
-  __typename?: 'test_variance_fields';
-  id?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -13034,6 +12726,13 @@ export type GetContestInfoQueryVariables = Exact<{
 
 
 export type GetContestInfoQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_name: string, name: string, description?: string | null, start_date: any, end_date: any, status: string } | null };
+
+export type GetContestNameQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestNameQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', name: string } | null };
 
 export type GetContestSwitchSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -14155,6 +13854,46 @@ export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQ
 export type GetContestInfoLazyQueryHookResult = ReturnType<typeof useGetContestInfoLazyQuery>;
 export type GetContestInfoSuspenseQueryHookResult = ReturnType<typeof useGetContestInfoSuspenseQuery>;
 export type GetContestInfoQueryResult = Apollo.QueryResult<GetContestInfoQuery, GetContestInfoQueryVariables>;
+export const GetContestNameDocument = gql`
+    query GetContestName($contest_id: uuid!) {
+  contest_by_pk(id: $contest_id) {
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetContestNameQuery__
+ *
+ * To run a query within a React component, call `useGetContestNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestNameQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestNameQuery(baseOptions: Apollo.QueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables> & ({ variables: GetContestNameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
+      }
+export function useGetContestNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
+        }
+export function useGetContestNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
+        }
+export type GetContestNameQueryHookResult = ReturnType<typeof useGetContestNameQuery>;
+export type GetContestNameLazyQueryHookResult = ReturnType<typeof useGetContestNameLazyQuery>;
+export type GetContestNameSuspenseQueryHookResult = ReturnType<typeof useGetContestNameSuspenseQuery>;
+export type GetContestNameQueryResult = Apollo.QueryResult<GetContestNameQuery, GetContestNameQueryVariables>;
 export const GetContestSwitchDocument = gql`
     subscription GetContestSwitch($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
