@@ -19,12 +19,47 @@ import { Suspense } from "react";
 import styled from "styled-components";
 import { ContestProps } from ".";
 import ReactRouterPrompt from "react-router-prompt";
+import NotImplemented from "./Components/NotImplemented";
+
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const room_id = url.query.get("room");
   const playback_speed = url.query.get("speed");
+
+  const { data: contestNameData, error: contestNameError } =
+    graphql.useGetContestNameSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("获取比赛信息失败");
+      console.log(contestNameError.message);
+    }
+  });
+
+  const { data: contestSwitchData, error: contestSwitchError } =
+    graphql.useGetContestSwitchSubscription({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+  useEffect(() => {
+    if (contestSwitchError) {
+      message.error("获取比赛状态失败");
+      console.log(contestSwitchError.message);
+    }
+  });
 
   const {
     data: scoreteamListData,
@@ -42,23 +77,10 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  const getWebGLPath = (contest: string | null) => {
-    // TODO: 这里应该改成数据库查询
-    const sharedUrl = process.env.REACT_APP_STATIC_URL! + "/public/WebGL/";
-    let projectUrl = sharedUrl + "THUAI6/";
-    let projectName = "THUAI6_WebGL";
-    if (contest === "19cece8f-3cfa-4098-9cbe-cbf2b5f50ebe") {
-      projectUrl = sharedUrl + "Jump/";
-      projectName = "JumpJump-Build";
-    }
-    if (contest === "b4e3f620-49f7-4883-ba0f-81cbfdcf6196") {
-      projectUrl = sharedUrl + "THUAI7/";
-      projectName = "interface_localExecutable";
-    }
-    return { projectUrl, projectName };
-  };
-
-  const { projectUrl, projectName } = getWebGLPath(Contest_id);
+  const projectUrl =
+    process.env.REACT_APP_STATIC_URL! +
+    `/public/WebGL/${contestNameData?.contest_by_pk?.name ?? "Jump"}/`;
+  const projectName = "Playback";
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -159,14 +181,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
   const Loading = () => {
     return (
       <Container>
@@ -175,7 +189,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     );
   };
 
-  return (
+  return contestSwitchData?.contest_by_pk?.playback_switch ? (
     <Layout>
       <Row>
         {isLoaded === false && (
@@ -209,7 +223,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
           requestFullscreen(true);
         }}
       />
-      {Contest_id === "19cece8f-3cfa-4098-9cbe-cbf2b5f50ebe" && (
+      {contestNameData?.contest_by_pk?.name === "THUAI6" && (
         <FloatButton
           description="加载回放"
           badge={{ dot: true }}
@@ -322,6 +336,10 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         )}
       </ReactRouterPrompt>
     </Layout>
+  ) : (
+    <Container>
+      <NotImplemented />
+    </Container>
   );
 };
 

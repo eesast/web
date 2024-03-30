@@ -25,7 +25,6 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
-  console.log(totalTeamNumData);
   const { data: totalMemberNumData } =
     graphql.useGetTotalMemberNumSuspenseQuery({
       variables: {

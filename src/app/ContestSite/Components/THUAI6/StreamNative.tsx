@@ -24,7 +24,7 @@ const THUAI6: React.FC<StreamProps> = ({ url }) => {
   const [student4Loc, setStudent4Loc] = useState<Loc>({ x: 0, y: 0 });
   const [trickerLoc, setTrickerLoc] = useState<Loc>({ x: 0, y: 0 });
   useEffect(() => {
-    const client = new AvailableServiceClient(url + ":8879");
+    const client = new AvailableServiceClient(url);
     const request = new Message2Server.IDMsg();
     request.setPlayerId(99);
     client.tryConnection(
