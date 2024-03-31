@@ -31,7 +31,9 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
   RollbackOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
+import * as xlsx from "xlsx";
 import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
@@ -77,12 +79,17 @@ const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
     (manager) => manager.user_uuid === user?.uuid,
   ) ? (
     editingTeamID === undefined ? (
-      <ListPage contest_id={Contest_id} setEditingTeamID={setEditingTeamID} />
+      <ListPage
+        contest_id={Contest_id}
+        setEditingTeamID={setEditingTeamID}
+        user_uuid={user?.uuid}
+      />
     ) : (
       <SubPage
         contest_id={Contest_id}
         team_id={editingTeamID}
         setEditingTeamID={setEditingTeamID}
+        user_uuid={user?.uuid}
       />
     )
   ) : (
@@ -112,6 +119,7 @@ function randomString() {
 const ListPage: React.FC<{
   contest_id: string;
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
+  user_uuid: string | undefined;
 }> = (props) => {
   //添加新队伍功能
 
@@ -122,13 +130,13 @@ const ListPage: React.FC<{
     graphql.useInsertTeamMutation();
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      uuid: "",
+      uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      user_uuid: "",
+      user_uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
@@ -216,6 +224,38 @@ const ListPage: React.FC<{
     setIsModalVisible(false);
   };
 
+  const exportTeamsData = () => {
+    try {
+      const data: any = [];
+      const teamsData = data.concat(
+        // 函数concat 把队伍信息和成员信息连接起来
+        // eslint-disable-next-line
+        teamListData?.contest_team.map((team) =>
+          [
+            team.team_name,
+            team.team_intro,
+            team.team_leader?.realname,
+            team.team_leader?.email || "null",
+            team.team_leader?.phone || "null",
+          ].concat(
+            team.contest_team_members?.map(
+              (member) =>
+                `${member.user?.realname}/ ${member.user?.id}/ ${
+                  member.user?.email || "null"
+                }/ ${member.user?.phone || "null"}`,
+            ),
+          ),
+        ),
+      );
+      const workBook = xlsx.utils.book_new();
+      const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
+      xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
+      xlsx.writeFile(workBook, "队伍信息.xlsx");
+    } catch (error) {
+      message.error("队伍信息导出失败");
+    }
+  };
+
   const teamListColumns: TableProps<
     graphql.GetAllTeamInfoSubscription["contest_team"][0]
   >["columns"] = [
@@ -291,16 +331,24 @@ const ListPage: React.FC<{
 
   return (
     <Layout>
-      <Row
-        justify="center"
-        css={`
-          margin-top: 50px;
-        `}
-      >
+      <Row>
         <Card
           hoverable
+          style={{
+            padding: "2vh 1vw",
+          }}
+          title={
+            <Text
+              css={`
+                font-size: xx-large;
+                font-weight: bold;
+              `}
+            >
+              队伍管理
+            </Text>
+          }
           css={`
-            width: 80%;
+            width: 100%;
             padding-top: 24px;
             padding-bottom: 12px;
             &.ant-card-bordered {
@@ -325,8 +373,17 @@ const ListPage: React.FC<{
             `}
             icon={<PlusOutlined />}
             onClick={() => setIsModalVisible(true)}
+            type="primary"
           >
             添加新队伍
+          </Button>
+          <Button
+            style={{ marginLeft: "20px" }}
+            icon={<DownloadOutlined />}
+            onClick={exportTeamsData}
+            type="primary"
+          >
+            导出队伍信息
           </Button>
         </Card>
       </Row>
@@ -394,6 +451,7 @@ const SubPage: React.FC<{
   contest_id: string;
   team_id: string;
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
+  user_uuid: string | undefined;
 }> = (props) => {
   const [activeTabKey, setActiveTabKey] = useState("basic");
 
@@ -417,13 +475,13 @@ const SubPage: React.FC<{
 
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      uuid: "",
+      uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      user_uuid: "",
+      user_uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
@@ -634,14 +692,10 @@ const SubPage: React.FC<{
 
   return (
     <div>
-      <Row
-        justify="center"
-        css={`
-          margin-top: 50px;
-        `}
-      >
+      <Row>
         <Card
-          style={{ width: "80%" }}
+          bordered={false}
+          style={{ width: "100%" }}
           title={
             <Text
               css={`
@@ -663,7 +717,6 @@ const SubPage: React.FC<{
           onTabChange={(key) => {
             onTabChange(key);
           }}
-          hoverable
         >
           {contentList[activeTabKey as keyof typeof contentList]}
         </Card>
@@ -671,5 +724,4 @@ const SubPage: React.FC<{
     </div>
   );
 };
-
 export default ManageTeamsPage;

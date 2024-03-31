@@ -193,142 +193,137 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
     (manager) => manager.user_uuid === user?.uuid,
   ) ? (
     <Layout>
-      <Row
-        justify="center"
-        css={`
-          margin-top: 50px;
-        `}
+      <Card
+        hoverable
+        style={{
+          padding: "2vh 1vw",
+          height: "40vh",
+        }}
+        title={
+          <Text
+            css={`
+              font-size: xx-large;
+              font-weight: bold;
+            `}
+          >
+            比赛设置
+          </Text>
+        }
       >
-        <Card
-          hoverable
-          style={{ width: "50%" }}
-          title={
-            <Text
-              css={`
-                font-size: xx-large;
-                font-weight: bold;
-              `}
-            >
-              设置
-            </Text>
-          }
+        <Row
+          justify="start"
+          css={`
+            margin-top: 15px;
+            margin-left: 20px;
+          `}
         >
-          <Row
-            justify="start"
-            css={`
-              margin-top: 15px;
-              margin-left: 20px;
-            `}
+          <Checkbox
+            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
+            onChange={async (e) => {
+              await updateContestStatus({
+                variables: {
+                  contest_id: Contest_id,
+                  status:
+                    (e.target.checked ? "1" : "0") +
+                    contestData?.contest_by_pk?.status?.slice(1, 3),
+                },
+              });
+              refetchContestData();
+            }}
           >
-            <Checkbox
-              checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
-              onChange={async (e) => {
-                await updateContestStatus({
-                  variables: {
-                    contest_id: Contest_id,
-                    status:
-                      (e.target.checked ? "1" : "0") +
-                      contestData?.contest_by_pk?.status?.slice(1, 3),
-                  },
-                });
-                refetchContestData();
-              }}
-            >
-              上传代码
-            </Checkbox>
-          </Row>
+            上传代码
+          </Checkbox>
+        </Row>
 
-          <Row
-            justify="start"
-            css={`
-              margin-top: 15px;
-              margin-left: 20px;
-            `}
+        <Row
+          justify="start"
+          css={`
+            margin-top: 15px;
+            margin-left: 20px;
+          `}
+        >
+          <Checkbox
+            checked={contestData?.contest_by_pk?.status?.slice(1, 2) === "1"}
+            onChange={async (e) => {
+              await updateContestStatus({
+                variables: {
+                  contest_id: Contest_id,
+                  status:
+                    contestData?.contest_by_pk?.status?.slice(0, 1) +
+                    (e.target.checked ? "1" : "0") +
+                    contestData?.contest_by_pk?.status?.slice(2, 3),
+                },
+              });
+              refetchContestData();
+            }}
           >
-            <Checkbox
-              checked={contestData?.contest_by_pk?.status?.slice(1, 2) === "1"}
-              onChange={async (e) => {
-                await updateContestStatus({
-                  variables: {
-                    contest_id: Contest_id,
-                    status:
-                      contestData?.contest_by_pk?.status?.slice(0, 1) +
-                      (e.target.checked ? "1" : "0") +
-                      contestData?.contest_by_pk?.status?.slice(2, 3),
-                  },
-                });
-                refetchContestData();
-              }}
-            >
-              编译代码
-            </Checkbox>
-          </Row>
+            编译代码
+          </Checkbox>
+        </Row>
 
-          <Row
-            justify="start"
-            css={`
-              margin-top: 15px;
-              margin-left: 20px;
-            `}
+        <Row
+          justify="start"
+          css={`
+            margin-top: 15px;
+            margin-left: 20px;
+          `}
+        >
+          <Checkbox
+            checked={contestData?.contest_by_pk?.status?.slice(2, 3) === "1"}
+            onChange={async (e) => {
+              await updateContestStatus({
+                variables: {
+                  contest_id: Contest_id,
+                  status:
+                    contestData?.contest_by_pk?.status?.slice(0, 2) +
+                    (e.target.checked ? "1" : "0"),
+                },
+              });
+              refetchContestData();
+            }}
           >
-            <Checkbox
-              checked={contestData?.contest_by_pk?.status?.slice(2, 3) === "1"}
-              onChange={async (e) => {
-                await updateContestStatus({
-                  variables: {
-                    contest_id: Contest_id,
-                    status:
-                      contestData?.contest_by_pk?.status?.slice(0, 2) +
-                      (e.target.checked ? "1" : "0"),
-                  },
-                });
-                refetchContestData();
-              }}
-            >
-              天梯对战
-            </Checkbox>
-          </Row>
+            天梯对战
+          </Checkbox>
+        </Row>
 
-          <Row
-            justify="start"
-            css={`
-              margin-top: 15px;
-            `}
-          >
-            <Dropdown menu={modeMenu as MenuProps} trigger={["click"]}>
-              <Button
-                css={`
-                  margin-top: 12px;
-                  margin-left: 15px;
-                `}
-                icon={<ForwardOutlined />}
-              >
-                运行比赛
-              </Button>
-            </Dropdown>
-          </Row>
-          <Row
-            justify="start"
-            css={`
-              margin-top: 10px;
-            `}
-          >
+        <Row
+          justify="start"
+          css={`
+            margin-top: 15px;
+          `}
+        >
+          <Dropdown menu={modeMenu as MenuProps} trigger={["click"]}>
             <Button
               css={`
                 margin-top: 12px;
                 margin-left: 15px;
               `}
-              icon={<PlayCircleOutlined />}
-              onClick={() => {
-                setIsBattleModalVisible(true);
-              }}
+              icon={<ForwardOutlined />}
             >
-              发起对战
+              运行比赛
             </Button>
-          </Row>
-        </Card>
-      </Row>
-
+          </Dropdown>
+        </Row>
+        <Row
+          justify="start"
+          css={`
+            margin-top: 10px;
+          `}
+        >
+          <Button
+            css={`
+              margin-top: 12px;
+              margin-left: 15px;
+            `}
+            icon={<PlayCircleOutlined />}
+            onClick={() => {
+              setIsBattleModalVisible(true);
+            }}
+          >
+            发起对战
+          </Button>
+        </Row>
+      </Card>
       <Modal
         open={isBattleModalVisible}
         title="发起对战"

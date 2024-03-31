@@ -14,7 +14,6 @@ import {
 } from "antd";
 import type { TableProps } from "antd/lib/table";
 //导出excel
-import * as xlsx from "xlsx";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
@@ -54,12 +53,12 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: getContestManagersData, error: getContestManagersError } =
-    graphql.useGetContestManagersSuspenseQuery({
-      variables: {
-        contest_id: Contest_id,
-      },
-    });
+  // const { data: getContestManagersData, error: getContestManagersError } =
+  //   graphql.useGetContestManagersSuspenseQuery({
+  //     variables: {
+  //       contest_id: Contest_id,
+  //     },
+  //   });
 
   const {
     data: teamListData,
@@ -87,12 +86,12 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [teamListError]);
 
-  useEffect(() => {
-    if (getContestManagersError) {
-      message.error("管理员加载失败");
-      console.log(getContestManagersError.message);
-    }
-  }, [getContestManagersError]);
+  // useEffect(() => {
+  //   if (getContestManagersError) {
+  //     message.error("管理员加载失败");
+  //     console.log(getContestManagersError.message);
+  //   }
+  // }, [getContestManagersError]);
   /* ---------------- 业务逻辑函数 ---------------- */
   //点击加入
   const showModal = (
@@ -107,37 +106,6 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     setIsModalVisible(false);
   };
 
-  const exportTeamsData = () => {
-    try {
-      const data: any = [];
-      const teamsData = data.concat(
-        // 函数concat 把队伍信息和成员信息连接起来
-        // eslint-disable-next-line
-        teamListData?.contest_team.map((team) =>
-          [
-            team.team_name,
-            team.team_intro,
-            team.team_leader?.realname,
-            team.team_leader?.email || "null",
-            team.team_leader?.phone || "null",
-          ].concat(
-            team.contest_team_members?.map(
-              (member) =>
-                `${member.user?.realname}/ ${member.user?.id}/ ${
-                  member.user?.email || "null"
-                }/ ${member.user?.phone || "null"}`,
-            ),
-          ),
-        ),
-      );
-      const workBook = xlsx.utils.book_new();
-      const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
-      xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
-      xlsx.writeFile(workBook, "队伍信息.xlsx");
-    } catch (error) {
-      message.error("队伍信息导出失败");
-    }
-  };
   //点击加入
   const onclick = async () => {
     const values = await form.getFieldValue("invited_code");
@@ -277,20 +245,6 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
               rowKey={(record) => record.team_id}
             />
           </Suspense>
-          <Button
-            style={{ marginLeft: "20px" }}
-            onClick={exportTeamsData}
-            type="primary"
-            shape="round"
-            disabled={
-              !getContestManagersData?.contest_by_pk?.contest_managers.some(
-                (manager) => manager.user_uuid === user?.uuid,
-              )
-            }
-            size="small"
-          >
-            导出队伍信息
-          </Button>
         </Col>
       </Row>
     </Layout>
