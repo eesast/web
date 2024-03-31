@@ -259,3 +259,21 @@ query QueryTeamID($team_name: String!, $contest_id: uuid!) {
     status
   }
 }
+
+query getTotalTeamNum($contest_id: uuid!) {
+  contest_team_aggregate(where: { contest: { id: { _eq: $contest_id } } }) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query getTotalMemberNum($contest_id: uuid!) {
+  contest_team_member_aggregate(
+    where: { contest_team: { contest: { id: { _eq: $contest_id } } } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}

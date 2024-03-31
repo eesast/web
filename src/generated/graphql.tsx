@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  date: { input: any; output: any; }
   json: { input: any; output: any; }
   numeric: { input: any; output: any; }
   timestamptz: { input: any; output: any; }
@@ -4194,6 +4195,19 @@ export enum Contest_Update_Column {
   /** column name */
   StreamSwitch = 'stream_switch'
 }
+
+/** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+export type Date_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['date']['input']>;
+  _gt?: InputMaybe<Scalars['date']['input']>;
+  _gte?: InputMaybe<Scalars['date']['input']>;
+  _in?: InputMaybe<Array<Scalars['date']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['date']['input']>;
+  _lte?: InputMaybe<Scalars['date']['input']>;
+  _neq?: InputMaybe<Scalars['date']['input']>;
+  _nin?: InputMaybe<Array<Scalars['date']['input']>>;
+};
 
 /** 院系类别，用于用户信息填写 */
 export type Department = {
@@ -12400,6 +12414,7 @@ export type Uuid_Comparison_Exp = {
 /** columns and relationships of "weekly" */
 export type Weekly = {
   __typename?: 'weekly';
+  date?: Maybe<Scalars['date']['output']>;
   id: Scalars['Int']['output'];
   tags?: Maybe<Scalars['json']['output']>;
   title: Scalars['String']['output'];
@@ -12453,6 +12468,7 @@ export type Weekly_Bool_Exp = {
   _and?: InputMaybe<Array<Weekly_Bool_Exp>>;
   _not?: InputMaybe<Weekly_Bool_Exp>;
   _or?: InputMaybe<Array<Weekly_Bool_Exp>>;
+  date?: InputMaybe<Date_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   tags?: InputMaybe<Json_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
@@ -12472,6 +12488,7 @@ export type Weekly_Inc_Input = {
 
 /** input type for inserting data into table "weekly" */
 export type Weekly_Insert_Input = {
+  date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   tags?: InputMaybe<Scalars['json']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -12481,6 +12498,7 @@ export type Weekly_Insert_Input = {
 /** aggregate max on columns */
 export type Weekly_Max_Fields = {
   __typename?: 'weekly_max_fields';
+  date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   url?: Maybe<Scalars['String']['output']>;
@@ -12489,6 +12507,7 @@ export type Weekly_Max_Fields = {
 /** aggregate min on columns */
 export type Weekly_Min_Fields = {
   __typename?: 'weekly_min_fields';
+  date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   url?: Maybe<Scalars['String']['output']>;
@@ -12512,6 +12531,7 @@ export type Weekly_On_Conflict = {
 
 /** Ordering options when selecting data from "weekly". */
 export type Weekly_Order_By = {
+  date?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   tags?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
@@ -12526,6 +12546,8 @@ export type Weekly_Pk_Columns_Input = {
 /** select columns of table "weekly" */
 export enum Weekly_Select_Column {
   /** column name */
+  Date = 'date',
+  /** column name */
   Id = 'id',
   /** column name */
   Tags = 'tags',
@@ -12537,6 +12559,7 @@ export enum Weekly_Select_Column {
 
 /** input type for updating data in table "weekly" */
 export type Weekly_Set_Input = {
+  date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   tags?: InputMaybe<Scalars['json']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -12569,6 +12592,8 @@ export type Weekly_Sum_Fields = {
 
 /** update columns of table "weekly" */
 export enum Weekly_Update_Column {
+  /** column name */
+  Date = 'date',
   /** column name */
   Id = 'id',
   /** column name */
@@ -12701,6 +12726,13 @@ export type GetContestInfoQueryVariables = Exact<{
 
 
 export type GetContestInfoQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_name: string, name: string, description?: string | null, start_date: any, end_date: any, status: string } | null };
+
+export type GetContestNameQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetContestNameQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', name: string } | null };
 
 export type GetContestSwitchSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13017,6 +13049,20 @@ export type QueryTeamIdQueryVariables = Exact<{
 
 
 export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
+
+export type GetTotalTeamNumQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTotalTeamNumQuery = { __typename?: 'query_root', contest_team_aggregate: { __typename?: 'contest_team_aggregate', aggregate?: { __typename?: 'contest_team_aggregate_fields', count: number } | null } };
+
+export type GetTotalMemberNumQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTotalMemberNumQuery = { __typename?: 'query_root', contest_team_member_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null } };
 
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -13808,6 +13854,46 @@ export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQ
 export type GetContestInfoLazyQueryHookResult = ReturnType<typeof useGetContestInfoLazyQuery>;
 export type GetContestInfoSuspenseQueryHookResult = ReturnType<typeof useGetContestInfoSuspenseQuery>;
 export type GetContestInfoQueryResult = Apollo.QueryResult<GetContestInfoQuery, GetContestInfoQueryVariables>;
+export const GetContestNameDocument = gql`
+    query GetContestName($contest_id: uuid!) {
+  contest_by_pk(id: $contest_id) {
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetContestNameQuery__
+ *
+ * To run a query within a React component, call `useGetContestNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContestNameQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetContestNameQuery(baseOptions: Apollo.QueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables> & ({ variables: GetContestNameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
+      }
+export function useGetContestNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
+        }
+export function useGetContestNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
+        }
+export type GetContestNameQueryHookResult = ReturnType<typeof useGetContestNameQuery>;
+export type GetContestNameLazyQueryHookResult = ReturnType<typeof useGetContestNameLazyQuery>;
+export type GetContestNameSuspenseQueryHookResult = ReturnType<typeof useGetContestNameSuspenseQuery>;
+export type GetContestNameQueryResult = Apollo.QueryResult<GetContestNameQuery, GetContestNameQueryVariables>;
 export const GetContestSwitchDocument = gql`
     subscription GetContestSwitch($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
@@ -15405,6 +15491,92 @@ export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
 export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
 export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
 export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
+export const GetTotalTeamNumDocument = gql`
+    query getTotalTeamNum($contest_id: uuid!) {
+  contest_team_aggregate(where: {contest: {id: {_eq: $contest_id}}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTotalTeamNumQuery__
+ *
+ * To run a query within a React component, call `useGetTotalTeamNumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTotalTeamNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTotalTeamNumQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTotalTeamNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables> & ({ variables: GetTotalTeamNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+      }
+export function useGetTotalTeamNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+        }
+export function useGetTotalTeamNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+        }
+export type GetTotalTeamNumQueryHookResult = ReturnType<typeof useGetTotalTeamNumQuery>;
+export type GetTotalTeamNumLazyQueryHookResult = ReturnType<typeof useGetTotalTeamNumLazyQuery>;
+export type GetTotalTeamNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalTeamNumSuspenseQuery>;
+export type GetTotalTeamNumQueryResult = Apollo.QueryResult<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>;
+export const GetTotalMemberNumDocument = gql`
+    query getTotalMemberNum($contest_id: uuid!) {
+  contest_team_member_aggregate(
+    where: {contest_team: {contest: {id: {_eq: $contest_id}}}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTotalMemberNumQuery__
+ *
+ * To run a query within a React component, call `useGetTotalMemberNumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTotalMemberNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTotalMemberNumQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTotalMemberNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables> & ({ variables: GetTotalMemberNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+      }
+export function useGetTotalMemberNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+        }
+export function useGetTotalMemberNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+        }
+export type GetTotalMemberNumQueryHookResult = ReturnType<typeof useGetTotalMemberNumQuery>;
+export type GetTotalMemberNumLazyQueryHookResult = ReturnType<typeof useGetTotalMemberNumLazyQuery>;
+export type GetTotalMemberNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalMemberNumSuspenseQuery>;
+export type GetTotalMemberNumQueryResult = Apollo.QueryResult<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>;
 export const AddTeamCodeDocument = gql`
     mutation AddTeamCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
   insert_contest_team_code_one(

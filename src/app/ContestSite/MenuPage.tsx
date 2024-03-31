@@ -18,7 +18,6 @@ import {
   InfoCircleOutlined,
   BarChartOutlined,
   TrophyOutlined,
-  ScheduleOutlined,
   SolutionOutlined,
   SettingOutlined,
   ReadOutlined,
@@ -56,7 +55,6 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { styled } from "styled-components";
 import PlaygroundPage from "./PlaygroundPage";
-import NotImplementedPage from "./Components/NotImplemented";
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
@@ -126,20 +124,15 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       key: "home",
       label: (
         <span>
-          <span ref={introRef}>比赛详情</span>
+          <span ref={introRef}>带你了解</span>
         </span>
       ),
       icon: <InfoCircleOutlined />,
       children: [
         {
           key: "intro",
-          label: <Link to={url.link("intro")}>设定介绍</Link>,
+          label: <Link to={url.link("intro")}>比赛详情</Link>,
           icon: <ReadOutlined />,
-        },
-        {
-          key: "timeline",
-          label: <Link to={url.link("timeline")}>时间节点</Link>,
-          icon: <ScheduleOutlined />,
         },
         {
           key: "notice",
@@ -410,7 +403,6 @@ const MenuPage: React.FC<ContestProps> = (props) => {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="intro" element={<IntroPage {...props} />} />
-            <Route path="timeline" element={<NotImplementedPage />} />
             <Route path="notice" element={<NoticePage {...props} />} />
 
             <Route path="playground" element={<PlaygroundPage {...props} />} />
