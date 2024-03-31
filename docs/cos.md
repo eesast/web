@@ -14,7 +14,7 @@ permalink: /cos
 
 - 代码：`${name}/code/${team_id}/${code_id}/source/${code_id}.${suffix}`
 - 编译后的可执行文件：`${name}/code/${team_id}/${code_id}/output/${code_id}`
-- 编译产生的日志文件：`${name}/code/${team_id}/${code_id}/output/${code_id}.log`
+- 编译产生的日志文件：`${name}/code/${team_id}/${code_id}/output/${code_id}.log` 以及 `${name}/code/${team_id}/${code_id}/output/${code_id}.curl.log`
 - 公告文件：`${name}/notice/${notice_id}/${filename}`
 - 天梯回放：`${name}/arena/${room_id}/${filename}`
 - (选择性实现) 后台比赛回放：`${name}/competition/${round_id}/${filename}`
