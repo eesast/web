@@ -442,11 +442,21 @@ const App: React.FC = () => {
         <StyledFooter>
           <h2>友情链接</h2>
           <p>
-            <a href="https://docs.eesast.com">DOCS</a> <ExportOutlined />{" "}
+            <a href="https://docs.eesast.com">
+              DOCS <ExportOutlined />
+            </a>
             &nbsp;&nbsp;
-            <a href="https://overleaf.eesast.com">OVERLEAF</a>{" "}
-            <ExportOutlined /> &nbsp;&nbsp;
-            <a href="https://mc.eesast.com">MINECRAFT</a> <ExportOutlined />
+            <a href="https://overleaf.eesast.com">
+              OVERLEAF <ExportOutlined />
+            </a>
+            &nbsp;&nbsp;
+            <a href="https://mc.eesast.com">
+              MINECRAFT <ExportOutlined />
+            </a>
+            &nbsp;&nbsp;
+            <a href="https://space.bilibili.com/687960301">
+              BILIBILI <ExportOutlined />
+            </a>
           </p>
           <p>
             <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1</a> ©
