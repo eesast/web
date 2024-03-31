@@ -32,7 +32,7 @@ permalink: /code
 
 - `/code/compile-start`：下载代码文件并启动编译镜像。
   - 请求方法：`POST`
-  - 请求：`body`中有`{code_id: uuid}`，以及 `token`
+  - 请求：`body`中有`{code_id: uuid}`（携带个人信息`token`）
   - 响应：`200`：`200 OK: Create container success`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
