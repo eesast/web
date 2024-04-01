@@ -59,13 +59,16 @@ permalink: /contest
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `423`：`423 Locked: Request arena too frequently`（比赛次数过多）
     - `500`：`undefined`（其他内部错误）
+- `/arena/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有天梯分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
+  - 请求方法：`POST`
+  - 请求：`{team_id: uuid}`。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
+  - 响应：`{score: number}`。
+  - 错误：`500`：`undefined`，返回报错信息
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数，将比赛回放和日志文件上传至`COS`。
-
   - 请求方法：`POST`
   - 请求：`{result: ContestResult[]}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
-
 - `注意`：除此之外，后端需要在`docker_cron`中更新数据库比赛状态和端口信息（异步、非请求内）。
 
 ## 比赛逻辑
@@ -107,6 +110,11 @@ permalink: /contest
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `500`：`undefined`，返回报错信息
+- `/competition/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有比赛分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
+  - 请求方法：`POST`
+  - 请求：`{team_id: uuid}`。同时在`headers`里传回创建`docker`时设置的`TOKEN`（内部包含`round_id`）。
+  - 响应：`{score: number}`。
+  - 错误：`500`：`undefined`，返回报错信息
 - `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
   - 请求：`{result: ContestResult[]}` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
@@ -116,14 +124,17 @@ permalink: /contest
 ## 与赛事组的约定
 
 1. 一场比赛对应两个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
-2. 队式应当关注上面的`/arena/finish`和`/competition/finish-one`路由参数信息。
+2. 队式应当关注上面的`/arena/finish`、`/arena/get-score`和`/competition/finish-one`、`/competition/get-score`路由参数信息。
 
-   - `server`镜像启动时会设置环境变量`URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`和`ARENA_SCORE`，比赛结束后需要请求`URL`，请求时需要在`headers`中加上`TOKEN`。`ARENA_SCORE`记录的是两队在天梯/比赛中的现有分数（类型定义见下方附录`ContestResult`），`docker`应当根据此数据计算两队在本场比赛的得分（增量，而非更新后的总分），并在请求的`body`中传回`result`，前后端将直接将这一分数加到队伍已有分数上。
+   - `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`和`TEAM_LABELS`（`json`格式，类型为`TeamLabelBind[]`，定义见下方附录）。
+     - 比赛结束后先请求`SCORE_URL`，获取参战队伍在天梯/比赛中的现有分数，请求时需要在`headers`中加上`TOKEN`。
+     - 获得现有分数后，`docker`应当据此计算出本场对战的得分（增量，而非更新后的总分）
+     - 完成后再请求`FINISH_URL`，在请求的`body`中传回`result`（即上面计算出的得分），请求时需要在`headers`中加上`TOKEN`。
    - `client`镜像启动时会设置环境变量`TEAM_LABEL`，供容器得知该队比赛执方，类型定义见下方附录`TeamLabelBind`。
 
 3. `docker`目录绑定。
    - 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/playback`下，命名为`playback.thuaipb`。
-   - 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${code_id}.${suffix}`。
+   - 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。
 
 ## 附录
 
