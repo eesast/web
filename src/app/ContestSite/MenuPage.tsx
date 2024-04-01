@@ -48,7 +48,7 @@ import StreamPage from "./StreamPage";
 // import SettingPage from "./SettingPage";
 import NotFoundPage from "../Components/NotFound";
 import AnalysisPage from "./AnalysisPage";
-import ManagerPage from "./ManagerPage";
+import ManagerPage from "./ManagerPage/ManagerPage";
 // hasura查询
 //学长写好的api，用以没登陆会跳转到登陆页面
 import { useUrl } from "../../api/hooks/url";

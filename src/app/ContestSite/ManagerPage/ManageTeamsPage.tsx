@@ -35,10 +35,10 @@ import {
 } from "@ant-design/icons";
 import * as xlsx from "xlsx";
 import TextArea from "antd/lib/input/TextArea";
-import { useUrl } from "../../api/hooks/url";
+import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
-import { ContestProps } from ".";
+import { ContestProps } from "..";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
@@ -155,6 +155,19 @@ const ListPage: React.FC<{
       },
     });
 
+  const { data: contestInfoData, error: contestInfoError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: props.contest_id,
+      },
+    });
+
+  useEffect(() => {
+    if (contestInfoError) {
+      message.error("比赛信息加载失败");
+    }
+  }, [contestInfoError]);
+
   useEffect(() => {
     if (userError) {
       message.error("用户信息查询失败");
@@ -247,10 +260,11 @@ const ListPage: React.FC<{
           ),
         ),
       );
+      const contestName = contestInfoData?.contest_by_pk?.contest_name;
       const workBook = xlsx.utils.book_new();
       const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
       xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
-      xlsx.writeFile(workBook, "队伍信息.xlsx");
+      xlsx.writeFile(workBook, `${contestName}队伍信息.xlsx`);
     } catch (error) {
       message.error("队伍信息导出失败");
     }
@@ -525,10 +539,6 @@ const SubPage: React.FC<{
     {
       key: "code",
       tab: "查看代码",
-    },
-    {
-      key: "compile",
-      tab: "手动编译",
     },
   ];
 

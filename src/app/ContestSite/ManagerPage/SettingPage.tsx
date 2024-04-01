@@ -16,11 +16,11 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
-import { useUrl } from "../../api/hooks/url";
+import { ForwardOutlined } from "@ant-design/icons";
+import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
-import { ContestProps } from ".";
+import { ContestProps } from "..";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
@@ -197,7 +197,6 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         hoverable
         style={{
           padding: "2vh 1vw",
-          height: "40vh",
         }}
         title={
           <Text
@@ -243,6 +242,31 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           `}
         >
           <Checkbox
+            checked={contestData?.contest_by_pk?.status?.slice(2, 3) === "1"}
+            onChange={async (e) => {
+              await updateContestStatus({
+                variables: {
+                  contest_id: Contest_id,
+                  status:
+                    contestData?.contest_by_pk?.status?.slice(0, 2) +
+                    (e.target.checked ? "1" : "0"),
+                },
+              });
+              refetchContestData();
+            }}
+          >
+            天梯对战
+          </Checkbox>
+        </Row>
+
+        {/* <Row
+          justify="start"
+          css={`
+            margin-top: 15px;
+            margin-left: 20px;
+          `}
+        >
+          <Checkbox
             checked={contestData?.contest_by_pk?.status?.slice(1, 2) === "1"}
             onChange={async (e) => {
               await updateContestStatus({
@@ -259,6 +283,31 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           >
             编译代码
           </Checkbox>
+        </Row> */}
+
+        <Row
+          justify="start"
+          css={`
+            margin-top: 15px;
+            margin-left: 20px;
+          `}
+        >
+          <Checkbox
+            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
+            onChange={async (e) => {
+              await updateContestStatus({
+                variables: {
+                  contest_id: Contest_id,
+                  status:
+                    (e.target.checked ? "1" : "0") +
+                    contestData?.contest_by_pk?.status?.slice(1, 3),
+                },
+              });
+              refetchContestData();
+            }}
+          >
+            试玩模式
+          </Checkbox>
         </Row>
 
         <Row
@@ -269,20 +318,45 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           `}
         >
           <Checkbox
-            checked={contestData?.contest_by_pk?.status?.slice(2, 3) === "1"}
+            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
             onChange={async (e) => {
               await updateContestStatus({
                 variables: {
                   contest_id: Contest_id,
                   status:
-                    contestData?.contest_by_pk?.status?.slice(0, 2) +
-                    (e.target.checked ? "1" : "0"),
+                    (e.target.checked ? "1" : "0") +
+                    contestData?.contest_by_pk?.status?.slice(1, 3),
                 },
               });
               refetchContestData();
             }}
           >
-            天梯对战
+            直播模式
+          </Checkbox>
+        </Row>
+
+        <Row
+          justify="start"
+          css={`
+            margin-top: 15px;
+            margin-left: 20px;
+          `}
+        >
+          <Checkbox
+            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
+            onChange={async (e) => {
+              await updateContestStatus({
+                variables: {
+                  contest_id: Contest_id,
+                  status:
+                    (e.target.checked ? "1" : "0") +
+                    contestData?.contest_by_pk?.status?.slice(1, 3),
+                },
+              });
+              refetchContestData();
+            }}
+          >
+            回放模式
           </Checkbox>
         </Row>
 
@@ -309,20 +383,7 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           css={`
             margin-top: 10px;
           `}
-        >
-          <Button
-            css={`
-              margin-top: 12px;
-              margin-left: 15px;
-            `}
-            icon={<PlayCircleOutlined />}
-            onClick={() => {
-              setIsBattleModalVisible(true);
-            }}
-          >
-            发起对战
-          </Button>
-        </Row>
+        ></Row>
       </Card>
       <Modal
         open={isBattleModalVisible}
