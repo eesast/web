@@ -32,6 +32,7 @@ permalink: /contest
 6. `docker` 服务器结束比赛后请求后端`/arena/finish`路由。
    - 后端更新数据库，更新`contest_room`表中的`status`为`Finished`、删除`port`字段；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
    - 后端将比赛回放文件上传至 `cos`，具体路径参考[COS存储桶访问路径](https://eesast.github.io/web/cos)。
+   - 后端向参与这场比赛的队伍队员发送`Web Push`订阅通知（暂不急于实现）。
 7. 比赛结束后，前端提供下载和在线观看回放的功能，直接按照[COS存储桶访问路径](https://eesast.github.io/web/cos)中约定的路径从`cos`下载对应的文件即可。
 
 ### 接口描述
@@ -77,6 +78,7 @@ permalink: /contest
 - 后端需要对比赛队伍、队伍执方、地图进行全循环，每个循环体发起一场对战，对应天梯中的一场比赛。
 - 后端需要在插入`contest_room`表时额外写入`round_id`从而与天梯区分。
 - 比赛暂时默认不暴露端口，不需要更新`port`字段。
+- 比赛结束时不向选手发送`Web Push`订阅通知。
 
 具体流程如下：
 
