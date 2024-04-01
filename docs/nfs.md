@@ -14,18 +14,23 @@ permalink: /nfs
 
 NFS 服务器包提供运行 NFS 内核服务器所需的用户空间支持。要安装软件包，请运行：
 
+```bash
 sudo apt update
 sudo apt install nfs-kernel-server
+```
+
 安装完成后，NFS 服务将自动启动。
 
-在 Ubuntu 20.04 上，NFS 版本 2 被禁用。版本 3 和 4 已启用。cat您可以通过运行以下命令来验证 ：
+在 Ubuntu 20.04 上，NFS 版本 2 被禁用。版本 3 和 4 已启用。您可以通过运行以下命令来验证：
 
+```bash
 sudo cat /proc/fs/nfsd/versions
+(output) -2 +3 +4 +4.1 +4.2
+```
 
--2 +3 +4 +4.1 +4.2
 NFSv2 现在已经很老了，没有理由启用它。
 
-NFS 服务器配置在/etc/default/nfs-kernel-server和/etc/default/nfs-common文件中定义。对于大多数情况，默认设置就足够了。
+NFS 服务器配置在`/etc/default/nfs-kernel-server`和`/etc/default/nfs-common`文件中定义。对于大多数情况，默认设置就足够了。
 
 ### 建立文件夹并绑定
 
