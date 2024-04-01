@@ -61,7 +61,7 @@ permalink: /contest
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数。
 
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult[]}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`docker`。
+  - 请求：`{result: ContestResult[]}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 
@@ -114,7 +114,7 @@ permalink: /contest
 ## 与赛事组的约定
 
 1. 一场比赛对应两个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
-2. 队式应当关注上面的`/arena/finish`和`/competition/finish`路由参数信息。`server`镜像启动时会设置环境变量`URL`（即`/arena/finish`或`/competition/finish`）和`TOKEN`，比赛结束后需要请求`URL`，请求时需要在`headers`中加上`TOKEN`，在`body`中加上每个队的分数`result`。`clinet`镜像启动时会设置环境变量`LABEL`，供容器得知该队比赛执方。
+2. 队式应当关注上面的`/arena/finish`和`/competition/finish`路由参数信息。`server`镜像启动时会设置环境变量`URL`（即`/arena/finish`或`/competition/finish`）和`TOKEN`，比赛结束后需要请求`URL`，请求时需要在`headers`中加上`TOKEN`，在`body`中加上每个队的分数`result`。`client`镜像启动时会设置环境变量`LABEL`，供容器得知该队比赛执方。
 3. `docker`目录绑定：对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/playback`下，命名为`playback.thuaipb`；对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${code_id}.${suffix}`。
 
 ## 附录
