@@ -32,13 +32,14 @@ permalink: /code
 
 - `/code/compile-start`：下载代码文件并启动编译镜像。
   - 请求方法：`POST`
-  - 请求：`body`中有`{code_id: uuid}`
+  - 请求：`body`中有`{code_id: uuid}`（携带个人信息`token`）
   - 响应：`200`：`200 OK: Create container success`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `404`：`404 Not Found: Code unavailable`（无法成功下载代码）
     - `400`：`400 Bad Request: Interpreted language do not require compilation.`
     - `400`：`400 Bad Request: Unsupported language.`
+    - `400`：`400 Bad Request: Code already compiled.`
     - `401`：`401 Unauthorized: User not in team.`
     - `401`：`401 Unauthorized: User and code not in the same team.`
     - `409`：`409 Confilct: Code already in compilation`（代码正在或已编译）
