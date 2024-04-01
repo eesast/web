@@ -8,6 +8,8 @@ import styled from "styled-components";
 import WeeklyPage from "./WeeklyPage";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
+import IntroPage from "./IntroPage";
+import MinecraftPage from "./MinecraftPage";
 
 const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -52,15 +54,19 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
 
   const items = [
     {
-      key: "course",
-      label: <Link to={url.link("course")}>课程</Link>,
-      disabled: true,
+      key: "intro",
+      label: <Link to={url.link("intro")}>介绍</Link>,
     },
-    {
-      key: "repo",
-      label: <Link to={url.link("repo")}>仓库</Link>,
-      disabled: true,
-    },
+    // {
+    //   key: "course",
+    //   label: <Link to={url.link("course")}>课程</Link>,
+    //   disabled: true,
+    // },
+    // {
+    //   key: "repo",
+    //   label: <Link to={url.link("repo")}>仓库</Link>,
+    //   disabled: true,
+    // },
     // {
     //   key: "toturial",
     //   label: <Link to={url.link("toturial")}>教程</Link>,
@@ -68,6 +74,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     {
       key: "weekly",
       label: <Link to={url.link("weekly")}>推送</Link>,
+    },
+    {
+      key: "minecraft",
+      label: <Link to={url.link("minecraft")}>Minecraft</Link>,
     },
   ];
 
@@ -84,7 +94,11 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
       <Content>
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route path="/" element={<Navigate to={url.link("weekly")} />} />
+            <Route path="/" element={<Navigate to={url.link("intro")} />} />
+            <Route
+              path="intro"
+              element={<IntroPage mode={mode} user={user} />}
+            />
             <Route
               path="course"
               element={<CoursePage mode={mode} user={user} />}
@@ -94,6 +108,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             <Route
               path="weekly"
               element={<WeeklyPage mode={mode} user={user} />}
+            />
+            <Route
+              path="minecraft"
+              element={<MinecraftPage mode={mode} user={user} />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
