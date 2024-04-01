@@ -19,9 +19,9 @@ permalink: /contest
    - 后端也要检查，限制一支队伍的开战频率。
 2. 前端请求后端`/arena/create`路由
    - 前端需要检查数据库上的代码编译状态和角色代码分配状态，若队伍角色未分配代码，或代码未编译，则在页面报错而不请求路由。
-   - 后端也要检查数据库上的代码编译状态和角色代码分配状态，还要检查`contest`表中的`arnea_switch`是否为`true`，都正常的情况下再继续下一步。
-3. 后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，这场比赛入队`docker_queue`，返回创建是否成功的结果。
-4. 选手代码的编译文件在`cos`中，后端需要从`cos`上临时下载队伍的代码或编译文件到后端服务器上。
+   - 后端也要检查数据库上的代码编译状态和角色代码分配状态，还要检查`contest`表中的`arena_switch`是否为`true`，都正常的情况下再继续下一步。
+3. 后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`。
+4. 选手代码的编译文件在`cos`中，后端需要从`cos`上临时下载队伍的代码（如 python 代码）或编译文件（如 c++ 编译后的可执行文件）到后端服务器上。
    - 后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。
    - 后端服务器与`docker`服务器之间通过`NFS`进行文件共享，因此`docker`服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
 5. 前两步都执行成功的前提下，后端创建`docker`并入队`docker_queue`，向前端返回创建是否成功的结果。
@@ -30,7 +30,7 @@ permalink: /contest
    - 比赛期间，用户可通过特定端口观看直播。后端在上面所述启动比赛的【第二步】时分配好一个端口。如果端口数量不足，则不启动比赛。如果成功分配端口并启动比赛，则应同时更新数据库`contest_room`表中的`port`字段。
    - 前端应当使用`subscription`实时更新比赛状态和直播观看端口。
 6. `docker` 服务器结束比赛后请求后端`/arena/finish`路由。
-   - 后端更新数据库，更新`contest_room`表中的`status`为`Finished`、删除`port`字段；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
+   - 后端更新数据库，更新`contest_room`表中的`status`为`Finished`、更新`port`为`NULL`；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
    - 后端将比赛回放文件上传至 `cos`，具体路径参考[COS存储桶访问路径](https://eesast.github.io/web/cos)。
    - 后端向参与这场比赛的队伍队员发送`Web Push`订阅通知（暂不急于实现）。
 7. 比赛结束后，前端提供下载和在线观看回放的功能，直接按照[COS存储桶访问路径](https://eesast.github.io/web/cos)中约定的路径从`cos`下载对应的文件即可。
@@ -59,7 +59,7 @@ permalink: /contest
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `423`：`423 Locked: Request arena too frequently`（比赛次数过多）
     - `500`：`undefined`（其他内部错误）
-- `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数。
+- `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数，将比赛回放和日志文件上传至`COS`。
 
   - 请求方法：`POST`
   - 请求：`{result: ContestResult[]}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
@@ -74,8 +74,8 @@ permalink: /contest
 
 比赛的流程与天梯非常相近，几大区别在于：
 
-- 比赛由前端先写入数据库的`contest_round`表，用于记录这轮比赛的一些基本设置和`uuid`。
-- 后端需要对比赛队伍、队伍执方、地图进行全循环，每个循环体发起一场对战，对应天梯中的一场比赛。
+- 比赛由前端先写入数据库的`contest_round`表，用于记录这轮比赛的一些基本设置和`uuid`。一轮比赛（round）指的是所有队伍全循环一次的比赛之总和，一轮比赛包含多场对战。
+- 后端需要对比赛队伍、队伍执方、地图进行全循环，每个循环体发起一场对战，流程和天梯中的一场对战大致相同。
 - 后端需要在插入`contest_room`表时额外写入`round_id`从而与天梯区分。
 - 比赛暂时默认不暴露端口，不需要更新`port`字段。
 - 比赛结束时不向选手发送`Web Push`订阅通知。
@@ -107,7 +107,7 @@ permalink: /contest
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `500`：`undefined`，返回报错信息
-- `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数。
+- `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
   - 请求：`{result: ContestResult[]}` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
@@ -116,8 +116,15 @@ permalink: /contest
 ## 与赛事组的约定
 
 1. 一场比赛对应两个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
-2. 队式应当关注上面的`/arena/finish`和`/competition/finish`路由参数信息。`server`镜像启动时会设置环境变量`URL`（即`/arena/finish`或`/competition/finish`）和`TOKEN`，比赛结束后需要请求`URL`，请求时需要在`headers`中加上`TOKEN`，在`body`中加上每个队的分数`result`。`client`镜像启动时会设置环境变量`LABEL`，供容器得知该队比赛执方。
-3. `docker`目录绑定：对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/playback`下，命名为`playback.thuaipb`；对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${code_id}.${suffix}`。
+2. 队式应当关注上面的`/arena/finish`和`/competition/finish-one`路由参数信息。
+
+- `server`镜像启动时会设置环境变量`URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`和`ARENA_SCORE`，比赛结束后需要请求`URL`，请求时需要在`headers`中加上`TOKEN`。`ARENA_SCORE`记录的是两队在天梯/比赛中的现有分数（类型定义见下方附录`ContestResult`），`docker`应当根据此数据计算两队在本场比赛的得分，并在请求的`body`中传回`result`。
+- `client`镜像启动时会设置环境变量`TEAM_LABEL`，供容器得知该队比赛执方，类型定义见下方附录`TeamLabelBind`。
+
+3. `docker`目录绑定。
+
+- 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/playback`下，命名为`playback.thuaipb`。
+- 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${code_id}.${suffix}`。
 
 ## 附录
 
