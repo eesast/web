@@ -107,7 +107,7 @@ permalink: /contest
     - `500`：`undefined`，返回报错信息
 - `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数。
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult[]}` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`docker`。
+  - 请求：`{result: ContestResult[]}` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 
