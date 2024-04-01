@@ -1,5 +1,5 @@
 ---
-title: COS存储桶访问路径
+title: 队式比赛 NFS 绑定流程
 description: 网站开发技术文档
 permalink: /nfs
 ---
