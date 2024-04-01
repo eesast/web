@@ -118,7 +118,7 @@ permalink: /contest
 1. 一场比赛对应两个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
 2. 队式应当关注上面的`/arena/finish`和`/competition/finish-one`路由参数信息。
 
-   - `server`镜像启动时会设置环境变量`URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`和`ARENA_SCORE`，比赛结束后需要请求`URL`，请求时需要在`headers`中加上`TOKEN`。`ARENA_SCORE`记录的是两队在天梯/比赛中的现有分数（类型定义见下方附录`ContestResult`），`docker`应当根据此数据计算两队在本场比赛的得分，并在请求的`body`中传回`result`。
+   - `server`镜像启动时会设置环境变量`URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`和`ARENA_SCORE`，比赛结束后需要请求`URL`，请求时需要在`headers`中加上`TOKEN`。`ARENA_SCORE`记录的是两队在天梯/比赛中的现有分数（类型定义见下方附录`ContestResult`），`docker`应当根据此数据计算两队在本场比赛的得分（增量，而非更新后的总分），并在请求的`body`中传回`result`，前后端将直接将这一分数加到队伍已有分数上。
    - `client`镜像启动时会设置环境变量`TEAM_LABEL`，供容器得知该队比赛执方，类型定义见下方附录`TeamLabelBind`。
 
 3. `docker`目录绑定。
