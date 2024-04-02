@@ -148,13 +148,15 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteTeamMember({
+        const result = await DeleteTeamMember({
           variables: { user_uuid: user_id, team_id: teamid! },
         });
-        Modal.success({
-          title: "已退出队伍",
-          content: "请重新加入队伍",
-        });
+        if (!result.errors) {
+          Modal.success({
+            title: "已退出队伍",
+            content: "请重新加入队伍",
+          });
+        }
         await refetchMember();
         client.resetStore(); //清除缓存，刷新当前模块页面
       },
@@ -185,7 +187,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       content: "会移除队伍以及所有队伍成员，若不在队伍中无法参加比赛!",
       onOk: async () => {
         const result = await DeleteTeam({ variables: { team_id: teamid! } });
-        if (result.errors) {
+        if (!result.errors) {
           Modal.success({
             title: "队伍已解散",
             content: "请重新加入队伍",
