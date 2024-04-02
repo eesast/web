@@ -21,6 +21,9 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 import { ContestProps } from ".";
+import { UUID } from "crypto";
+import { client } from "@/api/apollo";
+import { gql } from "@apollo/client";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
@@ -133,7 +136,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {
     const newinfo = {
-      team_id: teamid,
+      team_id: teamid!,
       team_name: record.team_name,
       team_intro: record.team_intro,
     };
@@ -150,13 +153,14 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
         await DeleteTeamMember({
-          variables: { user_uuid: user_id, team_id: teamid },
+          variables: { user_uuid: user_id, team_id: teamid! },
         });
         Modal.success({
           title: "已退出队伍",
           content: "请重新加入队伍",
         });
         await refetchMember();
+        client.resetStore(); //清除缓存，刷新当前模块页面
       },
     });
   };
@@ -167,27 +171,30 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
         await DeleteTeamMember({
-          variables: { user_uuid: user_id, team_id: teamid },
+          variables: { user_uuid: user_id, team_id: teamid! },
         });
         message.success("移除成功");
         //await refetchMember();
         await refetchTeam();
+        client.resetStore(); //清除缓存，刷新当前模块页面
       },
     });
   };
-  const deleteWholeTeam = async (team_id: string) => {
+
+  const deleteWholeTeam = async (team_id: UUID) => {
     confirm({
       title: "确定要解散队伍吗？",
       icon: <ExclamationCircleOutlined />,
       content: "会移除队伍以及所有队伍成员，若不在队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteAllTeamMember({ variables: { team_id } });
-        await DeleteTeam({ variables: { team_id } });
+        //await console.log(DeleteAllTeamMember({ variables: { team_id:teamid } }));
+        await DeleteTeam({ variables: { team_id: teamid! } });
         Modal.success({
           title: "队伍已解散",
           content: "请重新加入队伍",
         });
         await refetchLeader();
+        client.resetStore(); //清除缓存，刷新当前模块页面
       },
     });
   };
@@ -226,6 +233,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
               await deleteTeamMemberByLeader(record.user?.uuid);
               await refetchMemberInfo();
             }}
+            disabled={!isLeader}
           >
             移除
           </Button>
@@ -253,16 +261,9 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Button
               type="primary"
               style={{ marginBottom: "20px", width: "180px", height: "40px" }}
-              onClick={() => navigate(url.link("team-join"))}
+              onClick={() => navigate(url.link("team-register-join"))}
             >
-              加入队伍
-            </Button>
-            <Button
-              type="primary"
-              style={{ marginBottom: "20px", width: "180px", height: "40px" }}
-              onClick={() => navigate(url.link("team-register"))}
-            >
-              创建队伍
+              加入或创建队伍
             </Button>
           </div>
         }

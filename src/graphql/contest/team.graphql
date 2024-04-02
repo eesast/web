@@ -179,6 +179,27 @@ query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
   }
 }
 
+#根据invited_code查询队伍信息
+query GetTeamInfoByInvitedCode($invited_code: String!) {
+  contest_team(where: { invited_code: { _eq: $invited_code } }) {
+    team_id
+    team_name
+    team_intro
+    team_leader {
+      realname
+      id
+      uuid
+    }
+    contest_team_members {
+      user {
+        id
+        uuid
+        realname
+      }
+    }
+  }
+}
+
 subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
   contest_team(
     where: { contest_id: { _eq: $contest_id }, team_id: { _eq: $team_id } }

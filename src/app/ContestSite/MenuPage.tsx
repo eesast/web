@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import {
   HomeOutlined,
   TeamOutlined,
@@ -36,8 +36,7 @@ import {
 //以下为子分页
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
-import RegisterPage from "./RegisterPage";
-import JoinPage from "./JoinPage";
+import RegisterAndJoinPage from "./RegisterAndJoinPage";
 import ManagePage from "./ManagePage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
@@ -75,7 +74,18 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
-  const [openKeys, setOpenKeys] = useState([""]);
+  const [openKeys, setOpenKeys] = useState(() => {
+    //从localStorage中获取openKeys
+    const keys = localStorage.getItem("openKeys");
+    if (keys) {
+      return JSON.parse(keys);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("openKeys", JSON.stringify(openKeys));
+  }, [openKeys]);
 
   const introRef = useRef(null);
   const playRef = useRef(null);
@@ -177,13 +187,10 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       icon: <TeamOutlined />,
       children: [
         {
-          key: "team-register",
-          label: <Link to={url.link("team-register")}>创建队伍</Link>,
-          icon: <RocketOutlined />,
-        },
-        {
-          key: "team-join",
-          label: <Link to={url.link("team-join")}>加入队伍</Link>,
+          key: "team-register-join",
+          label: (
+            <Link to={url.link("team-register-join")}>创建或加入队伍</Link>
+          ),
           icon: <ContactsOutlined />,
         },
         {
@@ -251,6 +258,15 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   ];
 
   const submenuKeys = ["home", "game", "team", "arena", "admin"];
+
+  // const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
+  //   const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+  //   if (latestOpenKey && submenuKeys.indexOf(latestOpenKey!) === -1) {
+  //     setOpenKeys(keys);
+  //   } else {
+  //     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+  //   }
+  // };
 
   const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -409,8 +425,10 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             <Route path="stream" element={<StreamPage {...props} />} />
             <Route path="playback" element={<PlaybackPage {...props} />} />
 
-            <Route path="team-register" element={<RegisterPage {...props} />} />
-            <Route path="team-join" element={<JoinPage {...props} />} />
+            <Route
+              path="team-register-join"
+              element={<RegisterAndJoinPage {...props} />}
+            />
             <Route path="team-manage" element={<ManagePage {...props} />} />
 
             <Route path="code" element={<CodePage {...props} />} />
