@@ -158,7 +158,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
           });
         }
         await refetchMember();
-        client.resetStore(); //清除缓存，刷新当前模块页面
+        navigate(0);
       },
     });
   };
