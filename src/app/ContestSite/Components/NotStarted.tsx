@@ -7,7 +7,7 @@ const NotStarted: React.FC = () => {
   return (
     <Result
       status="warning"
-      title="本赛事报名尚未开始报名"
+      title="本赛事尚未开始报名"
       extra={
         <Button type="primary" onClick={() => navigate(-1)}>
           返回上一页

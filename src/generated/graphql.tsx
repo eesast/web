@@ -13001,6 +13001,7 @@ export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<
 
 export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
   invited_code: Scalars['String']['input'];
+  contest_id: Scalars['uuid']['input'];
 }>;
 
 
@@ -15217,8 +15218,10 @@ export type GetTeamInfoLazyQueryHookResult = ReturnType<typeof useGetTeamInfoLaz
 export type GetTeamInfoSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoSuspenseQuery>;
 export type GetTeamInfoQueryResult = Apollo.QueryResult<GetTeamInfoQuery, GetTeamInfoQueryVariables>;
 export const GetTeamInfoByInvitedCodeDocument = gql`
-    query GetTeamInfoByInvitedCode($invited_code: String!) {
-  contest_team(where: {invited_code: {_eq: $invited_code}}) {
+    query GetTeamInfoByInvitedCode($invited_code: String!, $contest_id: uuid!) {
+  contest_team(
+    where: {invited_code: {_eq: $invited_code}, contest_id: {_eq: $contest_id}}
+  ) {
     team_id
     team_name
     team_intro
@@ -15251,6 +15254,7 @@ export const GetTeamInfoByInvitedCodeDocument = gql`
  * const { data, loading, error } = useGetTeamInfoByInvitedCodeQuery({
  *   variables: {
  *      invited_code: // value for 'invited_code'
+ *      contest_id: // value for 'contest_id'
  *   },
  * });
  */

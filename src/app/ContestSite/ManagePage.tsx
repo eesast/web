@@ -80,9 +80,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   //删除队伍信息
   const [DeleteTeam, { error: DeleteTeamError }] =
     graphql.useDeleteTeamMutation();
-  //删除所有队员
-  // const [DeleteAllTeamMember, { error: DeleteAllTeamMemberERROR }] =
-  //   graphql.useDeleteAllTeamMemberMutation();
 
   const [DeleteTeamMember, { error: DeleteTeamMemberError }] =
     graphql.useDeleteTeamMemberMutation();
@@ -114,11 +111,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [DeleteTeamMemberError]);
 
-  // useEffect(() => {
-  //   if (DeleteTeamError || DeleteAllTeamMemberERROR) {
-  //     message.error("解散队伍失败");
-  //   }
-  // }, [DeleteTeamError, DeleteAllTeamMemberERROR]);
   useEffect(() => {
     if (DeleteTeamError) {
       message.error("解散队伍失败");
@@ -174,13 +166,14 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteTeamMember({
+        const result = await DeleteTeamMember({
           variables: { user_uuid: user_id, team_id: teamid! },
         });
-        message.success("移除成功");
-        //await refetchMember();
+        if (!result.errors) {
+          message.success("移除成功");
+        }
         await refetchTeam();
-        client.resetStore(); //清除缓存，刷新当前模块页面
+        navigate(0);
       },
     });
   };
@@ -191,14 +184,15 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       icon: <ExclamationCircleOutlined />,
       content: "会移除队伍以及所有队伍成员，若不在队伍中无法参加比赛!",
       onOk: async () => {
-        //await console.log(DeleteAllTeamMember({ variables: { team_id:teamid } }));
-        await DeleteTeam({ variables: { team_id: teamid! } });
-        Modal.success({
-          title: "队伍已解散",
-          content: "请重新加入队伍",
-        });
+        const result = await DeleteTeam({ variables: { team_id: teamid! } });
+        if (result.errors) {
+          Modal.success({
+            title: "队伍已解散",
+            content: "请重新加入队伍",
+          });
+        }
         await refetchLeader();
-        client.resetStore(); //清除缓存，刷新当前模块页面
+        navigate(0);
       },
     });
   };

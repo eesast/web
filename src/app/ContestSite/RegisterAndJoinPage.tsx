@@ -55,7 +55,6 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   // })
 
   //这里添加unique约束，防止重复邀请码
-  //const InviteCode = randomString();
   //先randomString生成一个invitecode，再查询数据库是否已有，若有则重新生成
   const [InviteCode, setInviteCode] = useState<string | null>(null);
   useEffect(() => {
@@ -67,6 +66,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useGetTeamInfoByInvitedCodeQuery({
       variables: {
         invited_code: InviteCode!,
+        contest_id: Contest_id,
       },
     });
   useEffect(() => {
@@ -76,7 +76,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
       setInviteCode(randomString());
       refetchisUnique();
     }
-  }, [isUniqueData, refetchisUnique, InviteCode]);
+  }, [isUniqueData, refetchisUnique]);
 
   //获取表单信息#form为表单名字
   const [form] = Form.useForm();
@@ -84,13 +84,9 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const [insertTeam, { error: insertError }] = graphql.useInsertTeamMutation();
   //Register函数组件
-  const onFinish = async () => {
+  const onRegister = async () => {
     const values = await form.getFieldsValue(); //form表单里的信息
     try {
-      console.log("当前用户uuid：" + user?.uuid!);
-      console.log("当前邀请码：" + InviteCode);
-      console.log("当前比赛id：" + Contest_id);
-      console.log(values);
       await insertTeam({
         variables: {
           ...values, //剩余参数
@@ -105,7 +101,6 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
       }
     } catch (e) {
       message.error("创建失败,可能队名重复或网络问题");
-      //console.log("当前错误：" + e);
     }
     refetchisleader();
     refetchismember();
@@ -119,19 +114,28 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [insertteamMember] = graphql.useInsertTeamMemberMutation();
   //点击加入队伍按钮显示队伍信息
   const [isTeamInfoVisible, setIsTeamInfoVisible] = useState(false);
-  const [teamLeader, setTeamLeader] = useState<string | null>();
-  const [teamName, setTeamName] = useState<string | null>();
-  const [teamIntro, setTeamIntro] = useState<string | null>();
-  const [teamId, setTeamId] = useState<string | null>();
+  const [teamInfo, setTeamInfo] = useState<{
+    teamLeader: string | null;
+    teamName: string | null;
+    teamIntro: string | null;
+    teamId: string | null;
+  }>({
+    teamLeader: null,
+    teamName: null,
+    teamIntro: null,
+    teamId: null,
+  });
   const [getTeamInfo] = graphql.useGetTeamInfoByInvitedCodeLazyQuery({
     onCompleted: (data) => {
       if (data.contest_team.length > 0) {
         const teamInfo = data.contest_team[0];
-        setTeamLeader(teamInfo.team_leader?.realname);
-        setTeamName(teamInfo.team_name);
-        setTeamIntro(teamInfo.team_intro);
-        setTeamId(teamInfo.team_id);
         setIsTeamInfoVisible(true);
+        setTeamInfo({
+          teamLeader: teamInfo.team_leader.realname!,
+          teamName: teamInfo.team_name,
+          teamIntro: teamInfo.team_intro!,
+          teamId: teamInfo.team_id,
+        });
       } else {
         message.error("队伍不存在");
       }
@@ -142,6 +146,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
     getTeamInfo({
       variables: {
         invited_code: values,
+        contest_id: Contest_id,
       },
     });
   };
@@ -151,12 +156,11 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   };
   //点击确认加入队伍
   const onFinishJoin = async () => {
-    // const values = await form2.getFieldValue("invited_code");
     try {
       await insertteamMember({
         variables: {
           user_uuid: user?.uuid!,
-          team_id: teamId!,
+          team_id: teamInfo.teamId!,
         },
       });
       message.success("加入成功");
@@ -178,18 +182,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
           height: "80vh",
         }}
       >
-        <Card
-          hoverable
-          style={{ height: "60vh", width: "80%" }}
-          // css={`
-          //   width: 500px;
-          //   padding-top: 24px;
-          //   padding-bottom: 12px;
-          //   &.ant-card-bordered {
-          //     cursor: default;
-          //   }
-          // `}
-        >
+        <Card hoverable style={{ height: "60vh", width: "80%" }}>
           <Row justify="space-evenly">
             <Col className="gutter-row" xs={4} sm={4} md={6} lg={8} xl={10}>
               <Content>
@@ -198,7 +191,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
                   form={form} //表单名字绑定
                   layout="vertical"
                   initialValues={{ remember: true }}
-                  onFinish={onFinish}
+                  onFinish={onRegister}
                   onFinishFailed={onFinishFailed}
                 >
                   <Form.Item
@@ -295,9 +288,9 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
                             </Divider>
                             <ul style={{ textAlign: "left" }}>
                               <Space direction="vertical">
-                                <li>队长：{teamLeader}</li>
-                                <li>队名：{teamName}</li>
-                                <li>队伍简介：{teamIntro}</li>
+                                <li>队长：{teamInfo.teamLeader}</li>
+                                <li>队名：{teamInfo.teamName}</li>
+                                <li>队伍简介：{teamInfo.teamIntro}</li>
                               </Space>
                             </ul>
                           </Space>
