@@ -4,21 +4,24 @@ import {
   Card,
   Checkbox,
   Form,
-  Input,
+  //Input,
   Layout,
   //Menu,
   message,
   Modal,
   Result,
   Row,
+  Select,
   Typography,
 } from "antd";
 import { Link } from "react-router-dom";
-//import axios from "axios";
+import axios from "axios";
 import { ForwardOutlined } from "@ant-design/icons";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
+// import { sharing } from "webpack";
+// import { run } from "node:test";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
@@ -27,7 +30,8 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  //const [form] = Form.useForm();
+  const [battleForm] = Form.useForm();
+  const { Option } = Select;
 
   const { data: getContestManagersData, error: getContestManagersError } =
     graphql.useGetContestManagersSuspenseQuery({
@@ -57,6 +61,13 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   //   },
   // });
 
+  const { data: contestMapData, error: contestMapError } =
+    graphql.useGetContestMapsQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+
   const { data: contestSwitchData, error: contestSwitchError } =
     graphql.useGetContestSwitchSubscription({
       variables: {
@@ -67,6 +78,9 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [updateContestSwitch, { error: updateSwitchError }] =
     graphql.useUpdateContestSwitchMutation();
 
+  const [addContestRound, { error: addRoundError }] =
+    graphql.useAddContestRoundMutation();
+
   useEffect(() => {
     if (updateSwitchError) {
       message.error("比赛状态更新失败");
@@ -75,27 +89,69 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [updateSwitchError]);
 
   useEffect(() => {
+    if (addRoundError) {
+      message.error("比赛轮次添加失败");
+      console.log(addRoundError.message);
+    }
+  }, [addRoundError]);
+
+  useEffect(() => {
     if (contestSwitchError) {
       message.error("获取比赛状态失败");
       console.log(contestSwitchError.message);
     }
-  });
+  }, [contestSwitchError]);
+
+  useEffect(() => {
+    if (contestMapError) {
+      message.error("比赛地图加载失败");
+      console.log(contestMapError.message);
+    }
+  }, [contestMapError]);
+
   //运行比赛
-  // const runContest = async (mode: Number) => {
-  //   try {
-  //     await axios.post("contest", {
-  //       contest_id: Contest_id,
-  //       mode: mode,
-  //     });
-  //     message.info(
-  //       "正在运行比赛,模式:" +
-  //         (mode === 0 ? "单循环" : mode === 1 ? "双循环" : "测试"),
-  //     );
-  //   } catch (e) {
-  //     message.error("运行比赛失败!");
-  //     console.log(e);
-  //   }
-  // };
+  const runContest = async (mode: Number, map: string) => {
+    try {
+      const round_id = await addContestRound({
+        variables: {
+          contest_id: Contest_id,
+          name: mode === 0 ? "单循环赛" : mode === 1 ? "双循环赛" : "测试赛",
+          maps: map,
+        },
+      });
+
+      await axios.post("/competition/start-all", {
+        round_id: round_id,
+      });
+
+      message.info(
+        "正在运行比赛,模式:" +
+          (mode === 0 ? "单循环" : mode === 1 ? "双循环" : "测试"),
+      );
+    } catch (e) {
+      message.error("运行比赛失败!");
+      console.log(e);
+    }
+  };
+
+  const handleOk = () => {
+    battleForm
+      .validateFields()
+      .then((values) => {
+        const contestNumber =
+          values.contest_mode === "single"
+            ? 0
+            : values.contest_mode === "double"
+              ? 1
+              : 2;
+        const contestMap = values.map_name;
+        runContest(contestNumber, contestMap);
+        setIsModalVisible(false);
+      })
+      .catch((errorInfo) => {
+        console.log("Failed:", errorInfo);
+      });
+  };
 
   // const modeMenu = (
   //   <Menu>
@@ -442,13 +498,13 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         maskClosable={false}
         onCancel={() => {
           setIsModalVisible(false);
-          //battleForm.resetFields();
+          battleForm.resetFields();
         }}
-        //onOk={handleBattle}
+        onOk={handleOk}
         destroyOnClose
       >
         <Form
-          //form={battleForm}
+          form={battleForm}
           name="battle"
           //onFinish={handleBattle}
           onFinishFailed={(errorInfo: any) => {
@@ -457,21 +513,28 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           preserve={false}
         >
           <Form.Item
-            name="team1"
-            label="队伍1"
-            rules={[{ required: true, message: "请输入队伍1" }]}
+            name="contest_mode"
+            label="比赛模式"
+            rules={[{ required: true, message: "请选择比赛模式" }]}
           >
-            <Input placeholder="输入队伍1" allowClear />
+            <Select style={{ width: "40%" }} allowClear>
+              <Option value="single">单循环赛</Option>
+              <Option value="double">双循环赛</Option>
+              <Option value="test">测试赛</Option>
+            </Select>
           </Form.Item>
           <Form.Item
-            name="team2"
-            label="队伍2"
-            rules={[{ required: true, message: "请输入队伍2" }]}
+            name="map_name"
+            label="比赛地图"
+            rules={[{ required: true, message: "请选择比赛地图" }]}
           >
-            <Input placeholder="输入队伍2" allowClear />
-          </Form.Item>
-          <Form.Item name="remark">
-            <Text>PS: 队伍1为红方,队伍2为蓝方</Text>
+            <Select style={{ width: "40%" }} allowClear>
+              {contestMapData?.contest_map.map((map) => (
+                <Option key={map.map_id} value={map.name}>
+                  {map.name}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
         </Form>
       </Modal>
