@@ -1,33 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Input, Card, Row, Col, Button, Form, Divider, Space } from "antd"; //botton  修改:delete Result
 import { Layout, message } from "antd";
-import { Link } from "react-router-dom";
 //graphql的语句由Apollo生成ts句柄，在此import
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
-import Background from "../UserSite/Components/Background";
-import { QueryDocumentKeys } from "graphql/language/ast";
 import NotStarted from "./Components/NotStarted";
-
-const style: React.CSSProperties = {
-  background: "transparent",
-  padding: "0px 0",
-};
 
 const { Content } = Layout;
 const { TextArea } = Input;
-
-//css
-const tailLayout = {
-  wrapperCol: { offset: 20, span: 4 },
-};
-const headLayout = {
-  wrapperCol: { offset: 10, span: 4 },
-};
-const buttonLayout = {
-  wrapperCol: { offset: 10, span: 4 },
-};
 
 //生成邀请码，8位
 function randomString() {
@@ -45,7 +26,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   // 查询此用户是否已有队伍，若有则不可再创建
 
   //查询比赛是否开始报名
-  const { data: canStartRegister, refetch: refetchcanStartRegister } =
+  const { data: canStartRegister } =
     graphql.useGetStartRegisterOrNotSuspenseQuery({
       variables: {
         contest_id: Contest_id,
@@ -77,7 +58,6 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   //const InviteCode = randomString();
   //先randomString生成一个invitecode，再查询数据库是否已有，若有则重新生成
   const [InviteCode, setInviteCode] = useState<string | null>(null);
-  const [isUnique, setIsUnique] = useState<boolean>(false);
   useEffect(() => {
     if (InviteCode === null) {
       setInviteCode(randomString());
@@ -91,11 +71,12 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
     });
   useEffect(() => {
     if (isUniqueData?.contest_team.length === 0) {
-      setIsUnique(true);
+      //console.log("invite code is unique");
     } else {
       setInviteCode(randomString());
+      refetchisUnique();
     }
-  }, [isUniqueData]);
+  }, [isUniqueData, refetchisUnique, InviteCode]);
 
   //获取表单信息#form为表单名字
   const [form] = Form.useForm();
@@ -142,21 +123,20 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [teamName, setTeamName] = useState<string | null>();
   const [teamIntro, setTeamIntro] = useState<string | null>();
   const [teamId, setTeamId] = useState<string | null>();
-  const [getTeamInfo, { error: getTeamInfoError }] =
-    graphql.useGetTeamInfoByInvitedCodeLazyQuery({
-      onCompleted: (data) => {
-        if (data.contest_team.length > 0) {
-          const teamInfo = data.contest_team[0];
-          setTeamLeader(teamInfo.team_leader?.realname);
-          setTeamName(teamInfo.team_name);
-          setTeamIntro(teamInfo.team_intro);
-          setTeamId(teamInfo.team_id);
-          setIsTeamInfoVisible(true);
-        } else {
-          message.error("队伍不存在");
-        }
-      },
-    });
+  const [getTeamInfo] = graphql.useGetTeamInfoByInvitedCodeLazyQuery({
+    onCompleted: (data) => {
+      if (data.contest_team.length > 0) {
+        const teamInfo = data.contest_team[0];
+        setTeamLeader(teamInfo.team_leader?.realname);
+        setTeamName(teamInfo.team_name);
+        setTeamIntro(teamInfo.team_intro);
+        setTeamId(teamInfo.team_id);
+        setIsTeamInfoVisible(true);
+      } else {
+        message.error("队伍不存在");
+      }
+    },
+  });
   const onClickShowTeamInfo = async () => {
     const values = await form2.getFieldValue("invited_code");
     getTeamInfo({
@@ -171,7 +151,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
   };
   //点击确认加入队伍
   const onFinishJoin = async () => {
-    const values = await form2.getFieldValue("invited_code");
+    // const values = await form2.getFieldValue("invited_code");
     try {
       await insertteamMember({
         variables: {

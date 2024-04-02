@@ -23,7 +23,6 @@ import styled from "styled-components";
 import { ContestProps } from ".";
 import { UUID } from "crypto";
 import { client } from "@/api/apollo";
-import { gql } from "@apollo/client";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
@@ -82,8 +81,8 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [DeleteTeam, { error: DeleteTeamError }] =
     graphql.useDeleteTeamMutation();
   //删除所有队员
-  const [DeleteAllTeamMember, { error: DeleteAllTeamMemberERROR }] =
-    graphql.useDeleteAllTeamMemberMutation();
+  // const [DeleteAllTeamMember, { error: DeleteAllTeamMemberERROR }] =
+  //   graphql.useDeleteAllTeamMemberMutation();
 
   const [DeleteTeamMember, { error: DeleteTeamMemberError }] =
     graphql.useDeleteTeamMemberMutation();
@@ -115,11 +114,16 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [DeleteTeamMemberError]);
 
+  // useEffect(() => {
+  //   if (DeleteTeamError || DeleteAllTeamMemberERROR) {
+  //     message.error("解散队伍失败");
+  //   }
+  // }, [DeleteTeamError, DeleteAllTeamMemberERROR]);
   useEffect(() => {
-    if (DeleteTeamError || DeleteAllTeamMemberERROR) {
+    if (DeleteTeamError) {
       message.error("解散队伍失败");
     }
-  }, [DeleteTeamError, DeleteAllTeamMemberERROR]);
+  }, [DeleteTeamError]);
 
   const team = {
     ...teamData?.contest_team[0],

@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { Link, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import {
   HomeOutlined,
   TeamOutlined,
@@ -9,7 +9,6 @@ import {
   FieldTimeOutlined,
   ContactsOutlined,
   BarsOutlined,
-  RocketOutlined,
   UserSwitchOutlined,
   UploadOutlined,
   PlaySquareOutlined,
