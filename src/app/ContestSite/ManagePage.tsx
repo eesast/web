@@ -22,7 +22,6 @@ import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 import { ContestProps } from ".";
 import { UUID } from "crypto";
-import { client } from "@/api/apollo";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
