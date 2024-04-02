@@ -75,8 +75,8 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   );
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
   const [openKeys, setOpenKeys] = useState(() => {
-    //从localStorage中获取openKeys
-    const keys = localStorage.getItem("openKeys");
+    //从sessionStorage中获取openKeys
+    const keys = sessionStorage.getItem("openKeys");
     if (keys) {
       return JSON.parse(keys);
     }
@@ -84,7 +84,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   });
 
   useEffect(() => {
-    localStorage.setItem("openKeys", JSON.stringify(openKeys));
+    sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
   }, [openKeys]);
 
   const introRef = useRef(null);
