@@ -15,6 +15,7 @@ mutation InsertTeam(
       team_leader_uuid: $team_leader_uuid
       invited_code: $invited_code
       contest_id: $contest_id
+      contest_team_members: { data: { user_uuid: $team_leader_uuid } }
     }
   ) {
     # returning {
@@ -240,6 +241,7 @@ mutation UpdateTeam(
 query GetMemberInfo($team_id: uuid!) {
   contest_team(where: { team_id: { _eq: $team_id } }) {
     team_leader {
+      student_no
       realname
       id
       uuid
@@ -247,6 +249,7 @@ query GetMemberInfo($team_id: uuid!) {
   }
   contest_team_member(where: { team_id: { _eq: $team_id } }) {
     user {
+      student_no
       id
       uuid
       realname

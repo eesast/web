@@ -13037,7 +13037,7 @@ export type GetMemberInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader: { __typename?: 'users', realname?: string | null, id?: string | null, uuid: any } }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, uuid: any, realname?: string | null } }> };
+export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader: { __typename?: 'users', student_no?: string | null, realname?: string | null, id?: string | null, uuid: any } }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', student_no?: string | null, id?: string | null, uuid: any, realname?: string | null } }> };
 
 export type DeleteTeamMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -14848,7 +14848,7 @@ export type GetContestRoundsQueryResult = Apollo.QueryResult<GetContestRoundsQue
 export const InsertTeamDocument = gql`
     mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
   insert_contest_team(
-    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id}
+    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id, contest_team_members: {data: {user_uuid: $team_leader_uuid}}}
   ) {
     affected_rows
   }
@@ -15381,6 +15381,7 @@ export const GetMemberInfoDocument = gql`
     query GetMemberInfo($team_id: uuid!) {
   contest_team(where: {team_id: {_eq: $team_id}}) {
     team_leader {
+      student_no
       realname
       id
       uuid
@@ -15388,6 +15389,7 @@ export const GetMemberInfoDocument = gql`
   }
   contest_team_member(where: {team_id: {_eq: $team_id}}) {
     user {
+      student_no
       id
       uuid
       realname

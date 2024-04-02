@@ -219,7 +219,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     {
       title: "学号",
       key: "id",
-      render: (text, record) => record.user?.id,
+      render: (text, record) => record.user?.student_no,
     },
     {
       title: "管理",
@@ -232,7 +232,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
               await deleteTeamMemberByLeader(record.user?.uuid);
               await refetchMemberInfo();
             }}
-            disabled={!isLeader}
+            disabled={!isLeader || record.user?.uuid === user?.uuid}
           >
             移除
           </Button>
