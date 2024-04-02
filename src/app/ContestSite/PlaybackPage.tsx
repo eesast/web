@@ -54,6 +54,8 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+  console.log(contestSwitchData);
+
   useEffect(() => {
     if (contestSwitchError) {
       message.error("获取比赛状态失败");

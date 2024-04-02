@@ -345,12 +345,12 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   return (
     <Layout>
       <br />
-      <Row>
+      {/* <Row>
         <Col span={3}></Col>
         <Col span={18}>
           <Button>添加新比赛</Button>
         </Col>
-      </Row>
+      </Row> */}
       <br />
       <Row>
         <Col span={3}></Col>

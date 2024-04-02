@@ -3,11 +3,10 @@ import {
   Button,
   Card,
   Checkbox,
-  Dropdown,
   Form,
   Input,
   Layout,
-  Menu,
+  //Menu,
   message,
   Modal,
   Result,
@@ -15,11 +14,10 @@ import {
   Typography,
 } from "antd";
 import { Link } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
 import { ForwardOutlined } from "@ant-design/icons";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import { MenuProps } from "antd/lib";
 import { ContestProps } from "..";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
@@ -28,6 +26,8 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   //获取比赛ID
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  //const [form] = Form.useForm();
 
   const { data: getContestManagersData, error: getContestManagersError } =
     graphql.useGetContestManagersSuspenseQuery({
@@ -47,147 +47,155 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   //第一位:代码提交
   //第二位:编译
   //第三位:天梯对战
-  const {
-    data: contestData,
-    error: contestError,
-    refetch: refetchContestData,
-  } = graphql.useGetContestInfoSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
-  useEffect(() => {
-    if (contestError) {
-      message.error("比赛加载失败");
-      console.log(contestError.message);
-    }
-  }, [contestError]);
+  // const {
+  //   data: contestData,
+  //   error: contestError,
+  //   refetch: refetchContestData,
+  // } = graphql.useGetContestInfoSuspenseQuery({
+  //   variables: {
+  //     contest_id: Contest_id,
+  //   },
+  // });
 
-  const [updateContestStatus, { error: updateStatusError }] =
-    graphql.useUpdateContestStatusMutation();
-  useEffect(() => {
-    if (updateStatusError) {
-      message.error("比赛状态更新失败");
-      console.log(updateStatusError.message);
-    }
-  }, [updateStatusError]);
-
-  //运行比赛
-  const runContest = async (mode: Number) => {
-    try {
-      await axios.post("contest", {
-        contest_id: Contest_id,
-        mode: mode,
-      });
-      message.info(
-        "正在运行比赛,模式:" +
-          (mode === 0 ? "单循环" : mode === 1 ? "双循环" : "测试"),
-      );
-    } catch (e) {
-      message.error("运行比赛失败!");
-      console.log(e);
-    }
-  };
-
-  const modeMenu = (
-    <Menu>
-      <Menu.Item
-        key="1"
-        onClick={() => {
-          runContest(0);
-        }}
-      >
-        单循环
-      </Menu.Item>
-      <Menu.Item
-        key="2"
-        onClick={() => {
-          runContest(1);
-        }}
-      >
-        双循环
-      </Menu.Item>
-      <Menu.Item
-        key="3"
-        onClick={() => {
-          runContest(2);
-        }}
-      >
-        测试
-      </Menu.Item>
-    </Menu>
-  );
-
-  //发起对战
-  const [isBattleModalVisible, setIsBattleModalVisible] =
-    useState<boolean>(false);
-  const [battleForm] = Form.useForm();
-
-  const { error: queryTeamIDError, refetch: refetchTeamID } =
-    graphql.useQueryTeamIdSuspenseQuery({
+  const { data: contestSwitchData, error: contestSwitchError } =
+    graphql.useGetContestSwitchSubscription({
       variables: {
         contest_id: Contest_id,
-        team_name: "",
       },
     });
 
+  const [updateContestSwitch, { error: updateSwitchError }] =
+    graphql.useUpdateContestSwitchMutation();
+
   useEffect(() => {
-    if (queryTeamIDError) {
-      message.error("队伍加载失败");
-      console.log(queryTeamIDError);
+    if (updateSwitchError) {
+      message.error("比赛状态更新失败");
+      console.log(updateSwitchError.message);
     }
-  }, [queryTeamIDError]);
+  }, [updateSwitchError]);
 
-  const handleBattle = async () => {
-    const values = await battleForm.getFieldsValue();
-    if (values.team1 === undefined || values.team2 === undefined) {
-      return;
+  useEffect(() => {
+    if (contestSwitchError) {
+      message.error("获取比赛状态失败");
+      console.log(contestSwitchError.message);
     }
+  });
+  //运行比赛
+  // const runContest = async (mode: Number) => {
+  //   try {
+  //     await axios.post("contest", {
+  //       contest_id: Contest_id,
+  //       mode: mode,
+  //     });
+  //     message.info(
+  //       "正在运行比赛,模式:" +
+  //         (mode === 0 ? "单循环" : mode === 1 ? "双循环" : "测试"),
+  //     );
+  //   } catch (e) {
+  //     message.error("运行比赛失败!");
+  //     console.log(e);
+  //   }
+  // };
 
-    try {
-      const team1Data = await refetchTeamID({
-        contest_id: Contest_id,
-        team_name: values.team1,
-      });
-      if (team1Data.data.contest_team.length === 0) {
-        message.warning("队伍1名称有误，查询失败！");
-        return;
-      }
-      if (team1Data.data.contest_team[0].status !== "compiled") {
-        message.warning("队伍1未进行编译！");
-        return;
-      }
-      const team2Data = await refetchTeamID({
-        contest_id: Contest_id,
-        team_name: values.team2,
-      });
-      if (team2Data.data.contest_team.length === 0) {
-        message.warning("队伍2名称有误，查询失败！");
-        return;
-      }
-      if (team2Data.data.contest_team[0].status !== "compiled") {
-        message.warning("队伍2未进行编译！");
-        return;
-      }
-      const team1ID = team1Data.data.contest_team[0].team_id;
-      const team2ID = team2Data.data.contest_team[0].team_id;
+  // const modeMenu = (
+  //   <Menu>
+  //     <Menu.Item
+  //       key="1"
+  //       onClick={() => {
+  //         runContest(0);
+  //       }}
+  //     >
+  //       单循环
+  //     </Menu.Item>
+  //     <Menu.Item
+  //       key="2"
+  //       onClick={() => {
+  //         runContest(1);
+  //       }}
+  //     >
+  //       双循环
+  //     </Menu.Item>
+  //     <Menu.Item
+  //       key="3"
+  //       onClick={() => {
+  //         runContest(2);
+  //       }}
+  //     >
+  //       测试
+  //     </Menu.Item>
+  //   </Menu>
+  // );
 
-      await axios.post("room/assign", {
-        contest_id: Contest_id,
-        team_id1: team1ID,
-        team_id2: team2ID,
-      });
-      message.success(
-        "已成功发起对战: " + values.team1 + " VS " + values.team2,
-      );
-    } catch (e) {
-      message.error("发起对战失败");
-      console.log(e);
-    }
+  //发起对战
+  // const [isBattleModalVisible, setIsBattleModalVisible] =
+  //   useState<boolean>(false);
+  // const [battleForm] = Form.useForm();
 
-    battleForm.resetFields();
-    setIsBattleModalVisible(false);
-  };
+  // const { error: queryTeamIDError, refetch: refetchTeamID } =
+  //   graphql.useQueryTeamIdSuspenseQuery({
+  //     variables: {
+  //       contest_id: Contest_id,
+  //       team_name: "",
+  //     },
+  //   });
+
+  // useEffect(() => {
+  //   if (queryTeamIDError) {
+  //     message.error("队伍加载失败");
+  //     console.log(queryTeamIDError);
+  //   }
+  // }, [queryTeamIDError]);
+
+  // const handleBattle = async () => {
+  //   const values = await battleForm.getFieldsValue();
+  //   if (values.team1 === undefined || values.team2 === undefined) {
+  //     return;
+  //   }
+
+  //   try {
+  //     const team1Data = await refetchTeamID({
+  //       contest_id: Contest_id,
+  //       team_name: values.team1,
+  //     });
+  //     if (team1Data.data.contest_team.length === 0) {
+  //       message.warning("队伍1名称有误，查询失败！");
+  //       return;
+  //     }
+  //     if (team1Data.data.contest_team[0].status !== "compiled") {
+  //       message.warning("队伍1未进行编译！");
+  //       return;
+  //     }
+  //     const team2Data = await refetchTeamID({
+  //       contest_id: Contest_id,
+  //       team_name: values.team2,
+  //     });
+  //     if (team2Data.data.contest_team.length === 0) {
+  //       message.warning("队伍2名称有误，查询失败！");
+  //       return;
+  //     }
+  //     if (team2Data.data.contest_team[0].status !== "compiled") {
+  //       message.warning("队伍2未进行编译！");
+  //       return;
+  //     }
+  //     const team1ID = team1Data.data.contest_team[0].team_id;
+  //     const team2ID = team2Data.data.contest_team[0].team_id;
+
+  //     await axios.post("room/assign", {
+  //       contest_id: Contest_id,
+  //       team_id1: team1ID,
+  //       team_id2: team2ID,
+  //     });
+  //     message.success(
+  //       "已成功发起对战: " + values.team1 + " VS " + values.team2,
+  //     );
+  //   } catch (e) {
+  //     message.error("发起对战失败");
+  //     console.log(e);
+  //   }
+
+  //   battleForm.resetFields();
+  //   setIsBattleModalVisible(false);
+  // };
 
   return getContestManagersData?.contest_by_pk?.contest_managers.some(
     (manager) => manager.user_uuid === user?.uuid,
@@ -212,22 +220,30 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Row
           justify="start"
           css={`
-            margin-top: 15px;
+            margin-top: 30px;
             margin-left: 20px;
           `}
         >
           <Checkbox
-            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
+            checked={
+              contestSwitchData?.contest_by_pk?.code_upload_switch === true
+            }
             onChange={async (e) => {
-              await updateContestStatus({
+              await updateContestSwitch({
                 variables: {
                   contest_id: Contest_id,
-                  status:
-                    (e.target.checked ? "1" : "0") +
-                    contestData?.contest_by_pk?.status?.slice(1, 3),
+                  code_upload_switch: e.target.checked,
+                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
+                  playground_switch:
+                    contestSwitchData?.contest_by_pk?.playground_switch!,
+                  stream_switch:
+                    contestSwitchData?.contest_by_pk?.stream_switch!,
+                  playback_switch:
+                    contestSwitchData?.contest_by_pk?.playback_switch!,
+                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              refetchContestData();
+              //refetchContestS();
             }}
           >
             上传代码
@@ -237,73 +253,62 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Row
           justify="start"
           css={`
-            margin-top: 15px;
+            margin-top: 30px;
             margin-left: 20px;
           `}
         >
           <Checkbox
-            checked={contestData?.contest_by_pk?.status?.slice(2, 3) === "1"}
+            checked={contestSwitchData?.contest_by_pk?.arena_switch === true}
             onChange={async (e) => {
-              await updateContestStatus({
+              await updateContestSwitch({
                 variables: {
                   contest_id: Contest_id,
-                  status:
-                    contestData?.contest_by_pk?.status?.slice(0, 2) +
-                    (e.target.checked ? "1" : "0"),
+                  code_upload_switch:
+                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
+                  arena_switch: e.target.checked,
+                  playground_switch:
+                    contestSwitchData?.contest_by_pk?.playground_switch!,
+                  stream_switch:
+                    contestSwitchData?.contest_by_pk?.stream_switch!,
+                  playback_switch:
+                    contestSwitchData?.contest_by_pk?.playback_switch!,
+                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              refetchContestData();
+              //refetchContestS();
             }}
           >
             天梯对战
           </Checkbox>
         </Row>
 
-        {/* <Row
-          justify="start"
-          css={`
-            margin-top: 15px;
-            margin-left: 20px;
-          `}
-        >
-          <Checkbox
-            checked={contestData?.contest_by_pk?.status?.slice(1, 2) === "1"}
-            onChange={async (e) => {
-              await updateContestStatus({
-                variables: {
-                  contest_id: Contest_id,
-                  status:
-                    contestData?.contest_by_pk?.status?.slice(0, 1) +
-                    (e.target.checked ? "1" : "0") +
-                    contestData?.contest_by_pk?.status?.slice(2, 3),
-                },
-              });
-              refetchContestData();
-            }}
-          >
-            编译代码
-          </Checkbox>
-        </Row> */}
-
         <Row
           justify="start"
           css={`
-            margin-top: 15px;
+            margin-top: 30px;
             margin-left: 20px;
           `}
         >
           <Checkbox
-            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
+            checked={
+              contestSwitchData?.contest_by_pk?.playground_switch === true
+            }
             onChange={async (e) => {
-              await updateContestStatus({
+              await updateContestSwitch({
                 variables: {
                   contest_id: Contest_id,
-                  status:
-                    (e.target.checked ? "1" : "0") +
-                    contestData?.contest_by_pk?.status?.slice(1, 3),
+                  code_upload_switch:
+                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
+                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
+                  playground_switch: e.target.checked,
+                  stream_switch:
+                    contestSwitchData?.contest_by_pk?.stream_switch!,
+                  playback_switch:
+                    contestSwitchData?.contest_by_pk?.playback_switch!,
+                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              refetchContestData();
+              //refetchContestS();
             }}
           >
             试玩模式
@@ -313,22 +318,28 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Row
           justify="start"
           css={`
-            margin-top: 15px;
+            margin-top: 30px;
             margin-left: 20px;
           `}
         >
           <Checkbox
-            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
+            checked={contestSwitchData?.contest_by_pk?.stream_switch === true}
             onChange={async (e) => {
-              await updateContestStatus({
+              await updateContestSwitch({
                 variables: {
                   contest_id: Contest_id,
-                  status:
-                    (e.target.checked ? "1" : "0") +
-                    contestData?.contest_by_pk?.status?.slice(1, 3),
+                  code_upload_switch:
+                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
+                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
+                  playground_switch:
+                    contestSwitchData?.contest_by_pk?.playground_switch!,
+                  stream_switch: e.target.checked,
+                  playback_switch:
+                    contestSwitchData?.contest_by_pk?.playback_switch!,
+                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              refetchContestData();
+              //refetchContestS();
             }}
           >
             直播模式
@@ -338,22 +349,28 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Row
           justify="start"
           css={`
-            margin-top: 15px;
+            margin-top: 30px;
             margin-left: 20px;
           `}
         >
           <Checkbox
-            checked={contestData?.contest_by_pk?.status?.slice(0, 1) === "1"}
+            checked={contestSwitchData?.contest_by_pk?.playback_switch === true}
             onChange={async (e) => {
-              await updateContestStatus({
+              await updateContestSwitch({
                 variables: {
                   contest_id: Contest_id,
-                  status:
-                    (e.target.checked ? "1" : "0") +
-                    contestData?.contest_by_pk?.status?.slice(1, 3),
+                  code_upload_switch:
+                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
+                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
+                  playground_switch:
+                    contestSwitchData?.contest_by_pk?.playground_switch!,
+                  stream_switch:
+                    contestSwitchData?.contest_by_pk?.stream_switch!,
+                  playback_switch: e.target.checked,
+                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              refetchContestData();
+              //refetchContestS();
             }}
           >
             回放模式
@@ -363,20 +380,52 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Row
           justify="start"
           css={`
+            margin-top: 30px;
+            margin-left: 20px;
+          `}
+        >
+          <Checkbox
+            checked={contestSwitchData?.contest_by_pk?.team_switch === true}
+            onChange={async (e) => {
+              await updateContestSwitch({
+                variables: {
+                  contest_id: Contest_id,
+                  code_upload_switch:
+                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
+                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
+                  playground_switch:
+                    contestSwitchData?.contest_by_pk?.playground_switch!,
+                  stream_switch:
+                    contestSwitchData?.contest_by_pk?.stream_switch!,
+                  playback_switch:
+                    contestSwitchData?.contest_by_pk?.playback_switch!,
+                  team_switch: e.target.checked,
+                },
+              });
+              //refetchContestS();
+            }}
+          >
+            创建队伍
+          </Checkbox>
+        </Row>
+
+        <Row
+          justify="start"
+          css={`
             margin-top: 15px;
           `}
         >
-          <Dropdown menu={modeMenu as MenuProps} trigger={["click"]}>
-            <Button
-              css={`
-                margin-top: 12px;
-                margin-left: 15px;
-              `}
-              icon={<ForwardOutlined />}
-            >
-              运行比赛
-            </Button>
-          </Dropdown>
+          <Button
+            type="primary"
+            css={`
+              margin-top: 20px;
+              margin-left: 15px;
+            `}
+            icon={<ForwardOutlined />}
+            onClick={() => setIsModalVisible(true)}
+          >
+            运行比赛
+          </Button>
         </Row>
         <Row
           justify="start"
@@ -386,22 +435,22 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         ></Row>
       </Card>
       <Modal
-        open={isBattleModalVisible}
-        title="发起对战"
+        open={isModalVisible}
+        title="运行比赛"
         centered
-        okText="发起"
+        okText="运行"
         maskClosable={false}
         onCancel={() => {
-          setIsBattleModalVisible(false);
-          battleForm.resetFields();
+          setIsModalVisible(false);
+          //battleForm.resetFields();
         }}
-        onOk={handleBattle}
+        //onOk={handleBattle}
         destroyOnClose
       >
         <Form
-          form={battleForm}
+          //form={battleForm}
           name="battle"
-          onFinish={handleBattle}
+          //onFinish={handleBattle}
           onFinishFailed={(errorInfo: any) => {
             console.log("Failed:", errorInfo);
           }}

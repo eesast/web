@@ -62,6 +62,7 @@ mutation UpdateContestSwitch(
   $playground_switch: Boolean!
   $stream_switch: Boolean!
   $playback_switch: Boolean!
+  $team_switch: Boolean!
 ) {
   update_contest_by_pk(
     pk_columns: { id: $contest_id }
@@ -71,6 +72,7 @@ mutation UpdateContestSwitch(
       playground_switch: $playground_switch
       stream_switch: $stream_switch
       playback_switch: $playback_switch
+      team_switch: $team_switch
     }
   ) {
     id
@@ -115,6 +117,7 @@ subscription GetContestSwitch($contest_id: uuid!) {
     playground_switch
     stream_switch
     playback_switch
+    team_switch
   }
 }
 

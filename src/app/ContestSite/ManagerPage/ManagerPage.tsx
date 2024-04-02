@@ -36,7 +36,7 @@ import {
   Layout,
   // List,
   // message,
-  // Modal,
+  //Modal,
   // Menu,
   // Result,
   Row,
@@ -50,9 +50,9 @@ import {
 // import { TableProps } from "antd/lib/table";
 // import TextArea from "antd/lib/input/TextArea";
 // import { ForwardOutlined, PlayCircleOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import moment from "moment";
 // import { MenuProps } from "antd/lib";
 // import styled from "styled-components";
 import { ContestProps } from "..";
@@ -103,10 +103,10 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Col>
         </Row>
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={16}>
+          <Col span={8}>
             <CharacterPage mode={mode} user={user} />
           </Col>
-          <Col span={8}>
+          <Col span={16}>
             <ContestDataPage mode={mode} user={user} />
           </Col>
         </Row>
@@ -138,8 +138,8 @@ const EditInfoPage: React.FC<ContestProps> = ({ mode, user }) => {
     description: contestInfoData?.contest_by_pk?.description || "",
     // 注意: 时间范围选择器需要的是moment对象数组
     time: [
-      moment(contestInfoData?.contest_by_pk?.start_date, "YYYY-MM-DD"), // 加一天
-      moment(contestInfoData?.contest_by_pk?.end_date, "YYYY-MM-DD"), // 加一天
+      dayjs(contestInfoData?.contest_by_pk?.start_date, "YYYY-MM-DD"), // 加一天
+      dayjs(contestInfoData?.contest_by_pk?.end_date, "YYYY-MM-DD"), // 加一天
     ],
   };
 
@@ -219,7 +219,7 @@ const EditInfoPage: React.FC<ContestProps> = ({ mode, user }) => {
             className="form-item-description"
             rules={[{ required: false, message: "请输入比赛描述" }]}
           >
-            <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} allowClear />
+            <Input.TextArea autoSize={{ minRows: 6, maxRows: 6 }} allowClear />
           </Form.Item>
           <Form.Item
             name="time"

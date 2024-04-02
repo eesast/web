@@ -407,6 +407,7 @@ export type Contest = {
   start_date: Scalars['timestamptz']['output'];
   status: Scalars['String']['output'];
   stream_switch: Scalars['Boolean']['output'];
+  team_switch: Scalars['Boolean']['output'];
 };
 
 
@@ -617,6 +618,7 @@ export type Contest_Bool_Exp = {
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   stream_switch?: InputMaybe<Boolean_Comparison_Exp>;
+  team_switch?: InputMaybe<Boolean_Comparison_Exp>;
 };
 
 /** columns and relationships of "contest_code" */
@@ -983,6 +985,7 @@ export type Contest_Insert_Input = {
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  team_switch?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** 比赛管理员映射表 */
@@ -1633,6 +1636,7 @@ export type Contest_Order_By = {
   start_date?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   stream_switch?: InputMaybe<Order_By>;
+  team_switch?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest */
@@ -2863,7 +2867,9 @@ export enum Contest_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  StreamSwitch = 'stream_switch'
+  StreamSwitch = 'stream_switch',
+  /** column name */
+  TeamSwitch = 'team_switch'
 }
 
 /** input type for updating data in table "contest" */
@@ -2881,6 +2887,7 @@ export type Contest_Set_Input = {
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  team_switch?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** 比赛队伍 */
@@ -2907,7 +2914,7 @@ export type Contest_Team = {
   /** An aggregate relationship */
   contest_team_rooms_aggregate: Contest_Room_Team_Aggregate;
   created_at: Scalars['timestamptz']['output'];
-  invited_code?: Maybe<Scalars['String']['output']>;
+  invited_code: Scalars['String']['output'];
   /** 已有人员数量 */
   member_num: Scalars['Int']['output'];
   score?: Maybe<Scalars['String']['output']>;
@@ -3302,6 +3309,8 @@ export enum Contest_Team_Code_Update_Column {
 
 /** unique or primary key constraints on table "contest_team" */
 export enum Contest_Team_Constraint {
+  /** unique or primary key constraint on columns "invited_code" */
+  ContestTeamInvitedCodeKey = 'contest_team_invited_code_key',
   /** unique or primary key constraint on columns "team_id" */
   ContestTeamPkey = 'contest_team_pkey'
 }
@@ -4193,7 +4202,9 @@ export enum Contest_Update_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  StreamSwitch = 'stream_switch'
+  StreamSwitch = 'stream_switch',
+  /** column name */
+  TeamSwitch = 'team_switch'
 }
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -12710,6 +12721,7 @@ export type UpdateContestSwitchMutationVariables = Exact<{
   playground_switch: Scalars['Boolean']['input'];
   stream_switch: Scalars['Boolean']['input'];
   playback_switch: Scalars['Boolean']['input'];
+  team_switch: Scalars['Boolean']['input'];
 }>;
 
 
@@ -12739,7 +12751,7 @@ export type GetContestSwitchSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
+export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean, team_switch: boolean } | null };
 
 export type UpdateContestMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -12964,14 +12976,14 @@ export type GetAllTeamInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_CompileQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -12986,7 +12998,7 @@ export type GetTeamInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code?: string | null, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetCompileStatusSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13725,10 +13737,10 @@ export type UpdateContestInfoMutationHookResult = ReturnType<typeof useUpdateCon
 export type UpdateContestInfoMutationResult = Apollo.MutationResult<UpdateContestInfoMutation>;
 export type UpdateContestInfoMutationOptions = Apollo.BaseMutationOptions<UpdateContestInfoMutation, UpdateContestInfoMutationVariables>;
 export const UpdateContestSwitchDocument = gql`
-    mutation UpdateContestSwitch($contest_id: uuid!, $code_upload_switch: Boolean!, $arena_switch: Boolean!, $playground_switch: Boolean!, $stream_switch: Boolean!, $playback_switch: Boolean!) {
+    mutation UpdateContestSwitch($contest_id: uuid!, $code_upload_switch: Boolean!, $arena_switch: Boolean!, $playground_switch: Boolean!, $stream_switch: Boolean!, $playback_switch: Boolean!, $team_switch: Boolean!) {
   update_contest_by_pk(
     pk_columns: {id: $contest_id}
-    _set: {code_upload_switch: $code_upload_switch, arena_switch: $arena_switch, playground_switch: $playground_switch, stream_switch: $stream_switch, playback_switch: $playback_switch}
+    _set: {code_upload_switch: $code_upload_switch, arena_switch: $arena_switch, playground_switch: $playground_switch, stream_switch: $stream_switch, playback_switch: $playback_switch, team_switch: $team_switch}
   ) {
     id
   }
@@ -13755,6 +13767,7 @@ export type UpdateContestSwitchMutationFn = Apollo.MutationFunction<UpdateContes
  *      playground_switch: // value for 'playground_switch'
  *      stream_switch: // value for 'stream_switch'
  *      playback_switch: // value for 'playback_switch'
+ *      team_switch: // value for 'team_switch'
  *   },
  * });
  */
@@ -13902,6 +13915,7 @@ export const GetContestSwitchDocument = gql`
     playground_switch
     stream_switch
     playback_switch
+    team_switch
   }
 }
     `;
