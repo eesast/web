@@ -73,7 +73,7 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     // },
     {
       key: "weekly",
-      label: <Link to={url.link("weekly")}>推送</Link>,
+      label: <Link to={url.link("weekly")}>Weekly</Link>,
     },
     {
       key: "minecraft",

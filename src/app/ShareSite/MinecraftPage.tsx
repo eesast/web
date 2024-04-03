@@ -14,7 +14,11 @@ const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
     <Space
       direction="vertical"
-      style={{ margin: 0, padding: "1% 20%", backgroundColor: "white" }}
+      style={{
+        margin: 0,
+        padding: "20px 10%",
+        backgroundColor: mode === "light" ? `white` : `#141414`,
+      }}
     >
       <Typography>
         <Title level={1}>
