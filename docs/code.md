@@ -40,8 +40,8 @@ permalink: /code
     - `400`：`400 Bad Request: Interpreted language do not require compilation.`
     - `400`：`400 Bad Request: Unsupported language.`
     - `400`：`400 Bad Request: Code already compiled.`
-    - `401`：`401 Unauthorized: User not in team.`
-    - `401`：`401 Unauthorized: User and code not in the same team.`
+    - `403`：`403 Forbidden: User not in team`
+    - `403`：`403 Forbidden: User not in team`
     - `409`：`409 Confilct: Code already in compilation`（代码正在或已编译）
     - `500`：`undefined`（其他内部错误，返回报错信息）
 - `/code/compile-finish`：代码完成编译的`hook`，在`docker`结束前调用。更新编译状态并保存可执行文件和`log`。
