@@ -15,6 +15,8 @@ permalink: /code
   4. 若语言为解释型语言(`py`)，则前端更改数据库`compile_status`为`No Need`（可与第二步合并）
   5. 若语言为编译型语言(`cpp`)，则前端向后端发请求`/code/compile-start`（见后），使后端开始编译代码
   6. 后端下载`cos`上的代码文件，在服务器上启动编译`docker`，并在数据库中更新`compile_status`为`Compiling`
+     - 选手代码文件在`cos`中，后端需要从`cos`上临时下载队伍的代码到后端服务器上。后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。
+     - 后端服务器和`docker`服务器是分离的，`docker`服务器并不能直接获取队伍代码。因此，后端服务器与`docker`服务器之间通过[NFS](https://eesast.github.io/web/nfs)进行文件共享，`docker`服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
   7. `docker`完成编译后，请求后端`/code/compile-finish`路由（见后）。若编译成功无报错，后端在数据库中更新`compile_status`为`Completed`；若编译出错，后端在数据库中更新`compile_status`为`Failed`
   8. 后端将`docker`生成的可执行文件`${code_id}`与`${code_id}.log`上传至`cos`，同代码文件夹
   9. 前端通过`subscription`实时更新`compile_status`
@@ -32,7 +34,7 @@ permalink: /code
 
 - `/code/compile-start`：下载代码文件并启动编译镜像。
   - 请求方法：`POST`
-  - 请求：`body`中有`{code_id: uuid}`，以及 `token`
+  - 请求：`body`中有`{code_id: uuid}`（携带个人信息`token`）
   - 响应：`200`：`200 OK: Create container success`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
