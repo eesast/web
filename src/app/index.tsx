@@ -447,7 +447,7 @@ const App: React.FC = () => {
             </a>
             &nbsp;&nbsp;
             <a href="https://www.ee.tsinghua.edu.cn/">
-              电子系官网 <ExportOutlined />
+              电子工程系官网 <ExportOutlined />
             </a>
             &nbsp;&nbsp;
             <a href="https://github.com/eesast">
