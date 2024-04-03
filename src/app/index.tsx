@@ -442,20 +442,16 @@ const App: React.FC = () => {
         <StyledFooter>
           <h2>友情链接</h2>
           <p>
-            <a href="https://docs.eesast.com">
-              DOCS <ExportOutlined />
+            <a href="https://www.tsinghua.edu.cn/">
+              清华大学官网 <ExportOutlined />
             </a>
             &nbsp;&nbsp;
-            <a href="https://overleaf.eesast.com">
-              OVERLEAF <ExportOutlined />
+            <a href="https://www.ee.tsinghua.edu.cn/">
+              电子系官网 <ExportOutlined />
             </a>
             &nbsp;&nbsp;
-            <a href="https://mc.eesast.com">
-              MINECRAFT <ExportOutlined />
-            </a>
-            &nbsp;&nbsp;
-            <a href="https://space.bilibili.com/687960301">
-              BILIBILI <ExportOutlined />
+            <a href="https://github.com/eesast">
+              科协GitHub仓库 <ExportOutlined />
             </a>
           </p>
           <p>
