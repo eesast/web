@@ -1,6 +1,7 @@
 # 主要操作对象：contest表
 
 # 增：管理员手动操作
+
 # 删
 mutation DeleteContest($contest_id: uuid!) {
   delete_contest_by_pk(id: $contest_id) {
