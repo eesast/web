@@ -105,8 +105,8 @@ const SettingPage: React.FC<ContestProps> = (props) => {
       .validateFields()
       .then((values) => {
         const contestName = values.contest_name;
-        const contestMap = values.map_id;
-        runContest(contestName, contestMap);
+        const contestMapId = values.map_id;
+        runContest(contestName, contestMapId);
         setIsModalVisible(false);
       })
       .catch((errorInfo) => {
@@ -373,7 +373,7 @@ const SettingPage: React.FC<ContestProps> = (props) => {
             <Input allowClear />
           </Form.Item>
           <Form.Item
-            name="map_name"
+            name="map_id"
             label="比赛地图"
             rules={[{ required: true, message: "请选择比赛地图" }]}
           >
