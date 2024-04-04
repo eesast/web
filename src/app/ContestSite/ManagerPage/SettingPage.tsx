@@ -27,7 +27,7 @@ const SettingPage: React.FC<ContestProps> = (props) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [battleForm] = Form.useForm();
+  const [runForm] = Form.useForm();
   const { Option } = Select;
 
   const { data: contestMapData, error: contestMapError } =
@@ -85,7 +85,7 @@ const SettingPage: React.FC<ContestProps> = (props) => {
         variables: {
           contest_id: Contest_id,
           name: map_name,
-          maps: map_uuid,
+          map_id: map_uuid,
         },
       });
 
@@ -101,11 +101,11 @@ const SettingPage: React.FC<ContestProps> = (props) => {
   };
 
   const handleRunContest = () => {
-    battleForm
+    runForm
       .validateFields()
       .then((values) => {
         const contestName = values.contest_name;
-        const contestMap = values.map_name;
+        const contestMap = values.map_id;
         runContest(contestName, contestMap);
         setIsModalVisible(false);
       })
@@ -352,13 +352,13 @@ const SettingPage: React.FC<ContestProps> = (props) => {
         maskClosable={false}
         onCancel={() => {
           setIsModalVisible(false);
-          battleForm.resetFields();
+          runForm.resetFields();
         }}
         onOk={handleRunContest}
         destroyOnClose
       >
         <Form
-          form={battleForm}
+          form={runForm}
           name="battle"
           onFinishFailed={(errorInfo: any) => {
             console.log("Failed:", errorInfo);
