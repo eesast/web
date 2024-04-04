@@ -4,16 +4,14 @@
 mutation AddContestPlayer(
   $contest_id: uuid!
   $team_label: String!
-  $player_num: Int!
-  $players_label: String!
+  $player_label: String!
   $roles_available: String!
 ) {
   insert_contest_player_one(
     object: {
       contest_id: $contest_id
       team_label: $team_label
-      player_num: $player_num
-      players_label: $players_label
+      player_label: $player_label
       roles_available: $roles_available
     }
   ) {
@@ -22,10 +20,15 @@ mutation AddContestPlayer(
 }
 
 # 删
-mutation DeleteContestPlayer($contest_id: uuid!, $team_label: String!) {
+mutation DeleteContestPlayer(
+  $contest_id: uuid!
+  $team_label: String!
+  $player_label: String!
+) {
   delete_contest_player_by_pk(
     contest_id: $contest_id
     team_label: $team_label
+    player_label: $player_label
   ) {
     team_label
   }
@@ -35,17 +38,16 @@ mutation DeleteContestPlayer($contest_id: uuid!, $team_label: String!) {
 mutation UpdateContestPlayer(
   $contest_id: uuid!
   $team_label: String!
-  $player_num: Int!
-  $players_label: String!
+  $player_label: String!
   $roles_available: String!
 ) {
   update_contest_player_by_pk(
-    pk_columns: { contest_id: $contest_id, team_label: $team_label }
-    _set: {
-      player_num: $player_num
-      players_label: $players_label
-      roles_available: $roles_available
+    pk_columns: {
+      contest_id: $contest_id
+      team_label: $team_label
+      player_label: $player_label
     }
+    _set: { player_label: $player_label, roles_available: $roles_available }
   ) {
     team_label
   }
@@ -55,8 +57,7 @@ mutation UpdateContestPlayer(
 query GetContestPlayers($contest_id: uuid!) {
   contest_player(where: { contest_id: { _eq: $contest_id } }) {
     team_label
-    player_num
-    players_label
+    player_label
     roles_available
   }
 }

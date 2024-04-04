@@ -4,17 +4,14 @@ import {
   Card,
   Checkbox,
   Form,
-  //Input,
+  Input,
   Layout,
-  //Menu,
   message,
   Modal,
-  Result,
   Row,
   Select,
   Typography,
 } from "antd";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { ForwardOutlined } from "@ant-design/icons";
 import { useUrl } from "../../../api/hooks/url";
@@ -25,41 +22,13 @@ import { ContestProps } from "..";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
-const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
+const SettingPage: React.FC<ContestProps> = (props) => {
   //获取比赛ID
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [battleForm] = Form.useForm();
   const { Option } = Select;
-
-  const { data: getContestManagersData, error: getContestManagersError } =
-    graphql.useGetContestManagersSuspenseQuery({
-      variables: {
-        contest_id: Contest_id,
-      },
-    });
-
-  useEffect(() => {
-    if (getContestManagersError) {
-      message.error("管理员加载失败");
-      console.log(getContestManagersError.message);
-    }
-  }, [getContestManagersError]);
-
-  //设置状态:"1":open,"2":close
-  //第一位:代码提交
-  //第二位:编译
-  //第三位:天梯对战
-  // const {
-  //   data: contestData,
-  //   error: contestError,
-  //   refetch: refetchContestData,
-  // } = graphql.useGetContestInfoSuspenseQuery({
-  //   variables: {
-  //     contest_id: Contest_id,
-  //   },
-  // });
 
   const { data: contestMapData, error: contestMapError } =
     graphql.useGetContestMapsQuery({
@@ -110,13 +79,13 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [contestMapError]);
 
   //运行比赛
-  const runContest = async (mode: Number, map: string) => {
+  const runContest = async (map_name: string, map_uuid: string) => {
     try {
       const round_id = await addContestRound({
         variables: {
           contest_id: Contest_id,
-          name: mode === 0 ? "单循环赛" : mode === 1 ? "双循环赛" : "测试赛",
-          maps: map,
+          name: map_name,
+          maps: map_uuid,
         },
       });
 
@@ -124,28 +93,20 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         round_id: round_id,
       });
 
-      message.info(
-        "正在运行比赛,模式:" +
-          (mode === 0 ? "单循环" : mode === 1 ? "双循环" : "测试"),
-      );
+      message.info("正在运行比赛:" + map_name);
     } catch (e) {
       message.error("运行比赛失败!");
       console.log(e);
     }
   };
 
-  const handleOk = () => {
+  const handleRunContest = () => {
     battleForm
       .validateFields()
       .then((values) => {
-        const contestNumber =
-          values.contest_mode === "single"
-            ? 0
-            : values.contest_mode === "double"
-              ? 1
-              : 2;
+        const contestName = values.contest_name;
         const contestMap = values.map_name;
-        runContest(contestNumber, contestMap);
+        runContest(contestName, contestMap);
         setIsModalVisible(false);
       })
       .catch((errorInfo) => {
@@ -153,109 +114,7 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
       });
   };
 
-  // const modeMenu = (
-  //   <Menu>
-  //     <Menu.Item
-  //       key="1"
-  //       onClick={() => {
-  //         runContest(0);
-  //       }}
-  //     >
-  //       单循环
-  //     </Menu.Item>
-  //     <Menu.Item
-  //       key="2"
-  //       onClick={() => {
-  //         runContest(1);
-  //       }}
-  //     >
-  //       双循环
-  //     </Menu.Item>
-  //     <Menu.Item
-  //       key="3"
-  //       onClick={() => {
-  //         runContest(2);
-  //       }}
-  //     >
-  //       测试
-  //     </Menu.Item>
-  //   </Menu>
-  // );
-
-  //发起对战
-  // const [isBattleModalVisible, setIsBattleModalVisible] =
-  //   useState<boolean>(false);
-  // const [battleForm] = Form.useForm();
-
-  // const { error: queryTeamIDError, refetch: refetchTeamID } =
-  //   graphql.useQueryTeamIdSuspenseQuery({
-  //     variables: {
-  //       contest_id: Contest_id,
-  //       team_name: "",
-  //     },
-  //   });
-
-  // useEffect(() => {
-  //   if (queryTeamIDError) {
-  //     message.error("队伍加载失败");
-  //     console.log(queryTeamIDError);
-  //   }
-  // }, [queryTeamIDError]);
-
-  // const handleBattle = async () => {
-  //   const values = await battleForm.getFieldsValue();
-  //   if (values.team1 === undefined || values.team2 === undefined) {
-  //     return;
-  //   }
-
-  //   try {
-  //     const team1Data = await refetchTeamID({
-  //       contest_id: Contest_id,
-  //       team_name: values.team1,
-  //     });
-  //     if (team1Data.data.contest_team.length === 0) {
-  //       message.warning("队伍1名称有误，查询失败！");
-  //       return;
-  //     }
-  //     if (team1Data.data.contest_team[0].status !== "compiled") {
-  //       message.warning("队伍1未进行编译！");
-  //       return;
-  //     }
-  //     const team2Data = await refetchTeamID({
-  //       contest_id: Contest_id,
-  //       team_name: values.team2,
-  //     });
-  //     if (team2Data.data.contest_team.length === 0) {
-  //       message.warning("队伍2名称有误，查询失败！");
-  //       return;
-  //     }
-  //     if (team2Data.data.contest_team[0].status !== "compiled") {
-  //       message.warning("队伍2未进行编译！");
-  //       return;
-  //     }
-  //     const team1ID = team1Data.data.contest_team[0].team_id;
-  //     const team2ID = team2Data.data.contest_team[0].team_id;
-
-  //     await axios.post("room/assign", {
-  //       contest_id: Contest_id,
-  //       team_id1: team1ID,
-  //       team_id2: team2ID,
-  //     });
-  //     message.success(
-  //       "已成功发起对战: " + values.team1 + " VS " + values.team2,
-  //     );
-  //   } catch (e) {
-  //     message.error("发起对战失败");
-  //     console.log(e);
-  //   }
-
-  //   battleForm.resetFields();
-  //   setIsBattleModalVisible(false);
-  // };
-
-  return getContestManagersData?.contest_by_pk?.contest_managers.some(
-    (manager) => manager.user_uuid === user?.uuid,
-  ) ? (
+  return (
     <Layout>
       <Card
         hoverable
@@ -273,6 +132,38 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Text>
         }
       >
+        <Row
+          justify="start"
+          css={`
+            margin-top: 30px;
+            margin-left: 20px;
+          `}
+        >
+          <Checkbox
+            checked={contestSwitchData?.contest_by_pk?.team_switch === true}
+            onChange={async (e) => {
+              await updateContestSwitch({
+                variables: {
+                  contest_id: Contest_id,
+                  code_upload_switch:
+                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
+                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
+                  playground_switch:
+                    contestSwitchData?.contest_by_pk?.playground_switch!,
+                  stream_switch:
+                    contestSwitchData?.contest_by_pk?.stream_switch!,
+                  playback_switch:
+                    contestSwitchData?.contest_by_pk?.playback_switch!,
+                  team_switch: e.target.checked,
+                },
+              });
+              //refetchContestS();
+            }}
+          >
+            开放组队
+          </Checkbox>
+        </Row>
+
         <Row
           justify="start"
           css={`
@@ -299,7 +190,6 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
                   team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              //refetchContestS();
             }}
           >
             上传代码
@@ -331,7 +221,6 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
                   team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              //refetchContestS();
             }}
           >
             天梯对战
@@ -364,10 +253,9 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
                   team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              //refetchContestS();
             }}
           >
-            试玩模式
+            试玩功能
           </Checkbox>
         </Row>
 
@@ -395,10 +283,9 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
                   team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              //refetchContestS();
             }}
           >
-            直播模式
+            直播功能
           </Checkbox>
         </Row>
 
@@ -426,42 +313,9 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
                   team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
                 },
               });
-              //refetchContestS();
             }}
           >
-            回放模式
-          </Checkbox>
-        </Row>
-
-        <Row
-          justify="start"
-          css={`
-            margin-top: 30px;
-            margin-left: 20px;
-          `}
-        >
-          <Checkbox
-            checked={contestSwitchData?.contest_by_pk?.team_switch === true}
-            onChange={async (e) => {
-              await updateContestSwitch({
-                variables: {
-                  contest_id: Contest_id,
-                  code_upload_switch:
-                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
-                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
-                  playground_switch:
-                    contestSwitchData?.contest_by_pk?.playground_switch!,
-                  stream_switch:
-                    contestSwitchData?.contest_by_pk?.stream_switch!,
-                  playback_switch:
-                    contestSwitchData?.contest_by_pk?.playback_switch!,
-                  team_switch: e.target.checked,
-                },
-              });
-              //refetchContestS();
-            }}
-          >
-            创建队伍
+            回放功能
           </Checkbox>
         </Row>
 
@@ -500,28 +354,23 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           setIsModalVisible(false);
           battleForm.resetFields();
         }}
-        onOk={handleOk}
+        onOk={handleRunContest}
         destroyOnClose
       >
         <Form
           form={battleForm}
           name="battle"
-          //onFinish={handleBattle}
           onFinishFailed={(errorInfo: any) => {
             console.log("Failed:", errorInfo);
           }}
           preserve={false}
         >
           <Form.Item
-            name="contest_mode"
-            label="比赛模式"
-            rules={[{ required: true, message: "请选择比赛模式" }]}
+            name="contest_name"
+            label="比赛名称"
+            rules={[{ required: true, message: "请输入比赛名称" }]}
           >
-            <Select style={{ width: "40%" }} allowClear>
-              <Option value="single">单循环赛</Option>
-              <Option value="double">双循环赛</Option>
-              <Option value="test">测试赛</Option>
-            </Select>
+            <Input allowClear />
           </Form.Item>
           <Form.Item
             name="map_name"
@@ -530,7 +379,7 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
           >
             <Select style={{ width: "40%" }} allowClear>
               {contestMapData?.contest_map.map((map) => (
-                <Option key={map.map_id} value={map.name}>
+                <Option key={map.map_id} value={map.map_id}>
                   {map.name}
                 </Option>
               ))}
@@ -539,17 +388,6 @@ const SettingPage: React.FC<ContestProps> = ({ mode, user }) => {
         </Form>
       </Modal>
     </Layout>
-  ) : (
-    <Result
-      status="403"
-      title="403"
-      subTitle="Sorry, you are not authorized to access this page."
-      extra={
-        <Button type="primary">
-          <Link to={url.link("intro")}>Back To Contest Intro</Link>
-        </Button>
-      }
-    />
   );
 };
 

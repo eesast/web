@@ -1,30 +1,6 @@
 # 主要操作对象：contest表
 
 # 增：管理员手动操作
-
-# # 添加比赛
-# mutation AddContest(
-#   $start_date: timestamptz!
-#   $end_date: timestamptz!
-#   $description: String = ""
-#   $contest_name: String!
-#   $contest_type: String!
-# ) {
-#   insert_contest(
-#     objects: {
-#       contest_name: $contest_name
-#       description: $description
-#       end_date: $end_date
-#       start_date: $start_date
-#       contest_type: $contest_type
-#     }
-#   ) {
-#     returning {
-#       id
-#     }
-#   }
-# }
-
 # 删
 mutation DeleteContest($contest_id: uuid!) {
   delete_contest_by_pk(id: $contest_id) {
@@ -57,22 +33,22 @@ mutation UpdateContestInfo(
 
 mutation UpdateContestSwitch(
   $contest_id: uuid!
+  $team_switch: Boolean!
   $code_upload_switch: Boolean!
   $arena_switch: Boolean!
   $playground_switch: Boolean!
   $stream_switch: Boolean!
   $playback_switch: Boolean!
-  $team_switch: Boolean!
 ) {
   update_contest_by_pk(
     pk_columns: { id: $contest_id }
     _set: {
+      team_switch: $team_switch
       code_upload_switch: $code_upload_switch
       arena_switch: $arena_switch
       playground_switch: $playground_switch
       stream_switch: $stream_switch
       playback_switch: $playback_switch
-      team_switch: $team_switch
     }
   ) {
     id

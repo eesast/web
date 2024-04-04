@@ -35,7 +35,7 @@ import {
 } from "@ant-design/icons";
 import * as xlsx from "xlsx";
 import TextArea from "antd/lib/input/TextArea";
-import { useUrl } from "../../../api/hooks/url";
+import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 import { ContestProps } from "..";
@@ -182,6 +182,24 @@ const ListPage: React.FC<{
     }
   }, [teamListError]);
 
+  function cleanFileName(fileName: string) {
+    // 定义非法字符正则表达式
+    const illegalRe = /[/?<>\\:*|"]/g;
+    // 定义保留名称的正则表达式，如CON, PRN, AUX, NUL等
+    const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+    // 定义以点结束的正则表达式
+    const windowsTrailingRe = /[. ]+$/;
+    // 替换非法字符为空字符串
+    const cleaned = fileName
+      .replace(illegalRe, "")
+      .replace(windowsTrailingRe, "");
+    // 检查是否为Windows保留名称，如果是，添加前缀
+    if (windowsReservedRe.test(cleaned)) {
+      return `_${cleaned}`;
+    }
+    return cleaned;
+  }
+
   const handleTeamAdd = async () => {
     const values = await form.getFieldsValue();
     if (
@@ -260,11 +278,13 @@ const ListPage: React.FC<{
           ),
         ),
       );
-      const contestName = contestInfoData?.contest_by_pk?.contest_name;
+      const contestName = cleanFileName(
+        contestInfoData?.contest_by_pk?.contest_name!,
+      );
       const workBook = xlsx.utils.book_new();
       const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
       xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
-      xlsx.writeFile(workBook, `${contestName}队伍信息.xlsx`);
+      xlsx.writeFile(workBook, `队伍信息_${contestName}.xlsx`);
     } catch (error) {
       message.error("队伍信息导出失败");
     }

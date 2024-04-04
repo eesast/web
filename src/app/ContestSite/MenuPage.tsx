@@ -4,7 +4,7 @@ import {
   HomeOutlined,
   TeamOutlined,
   FireOutlined,
-  LockOutlined,
+  SettingOutlined,
   ExperimentOutlined,
   FieldTimeOutlined,
   ContactsOutlined,
@@ -48,7 +48,7 @@ import StreamPage from "./StreamPage";
 // import SettingPage from "./SettingPage";
 import NotFoundPage from "../Components/NotFound";
 import AnalysisPage from "./AnalysisPage";
-import ManagerPage from "./ManagerPage/ManagerPage";
+import ManagerPage from "./ManagerPage";
 // hasura查询
 //学长写好的api，用以没登陆会跳转到登陆页面
 import { useUrl } from "../../api/hooks/url";
@@ -235,7 +235,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     {
       key: "manager",
       label: <Link to={url.link("manager")}>管理员</Link>,
-      icon: <LockOutlined />,
+      icon: <SettingOutlined />,
       // children: [
       //   {
       //     key: "admin-manage",
