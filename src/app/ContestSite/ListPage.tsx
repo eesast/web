@@ -559,109 +559,104 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
     : "已结束";
 
   return (
-    <Card
-      css={`
-        padding: 20px;
-        padding-bottom: 10px;
-        background-color: ${mode === "light" ? `white` : `#141414`};
-        border: 1px solid
-          ${mode === "light"
-            ? `rgba(5, 5, 5, 0.06)`
-            : `rgba(253, 253, 253, 0.12)`};
-      `}
-      title={
-        <Text
-          css={`
-            font-size: x-large;
-            font-weight: bold;
-          `}
-        >
-          {name}
-        </Text>
-      }
-      hoverable
-      extra={
-        <p>
-          <Link to={url.append("contest", id).link("intro")}>
-            <Button size={"large"}>查看详情</Button>
-          </Link>
-        </p>
-      }
-      {...restProps}
-    >
-      {description && (
-        <>
+    <Link to={url.append("contest", id).link("intro")}>
+      <Card
+        css={`
+          padding: 20px;
+          padding-bottom: 10px;
+          background-color: ${mode === "light" ? `white` : `#141414`};
+          border: 1px solid
+            ${mode === "light"
+              ? `rgba(5, 5, 5, 0.06)`
+              : `rgba(253, 253, 253, 0.12)`};
+        `}
+        title={
           <Text
             css={`
-              margin: 12px 0 12px 0;
-              white-space: pre-wrap;
-              font-size: 15px;
+              font-size: x-large;
+              font-weight: bold;
             `}
           >
-            {description.replace(/#+ [^\r\n]*[\r\n]/g, "")}
+            {name}
           </Text>
-          <Divider />
-        </>
-      )}
-      <Row>
-        <Col span={6}>
-          <Text
-            css={`
-              margin-left: 5px;
-              font-style: italic;
-              font-size: 14px;
-            `}
-          >
-            {"开始时间:" + dayjs(startDate).format("YYYY-MM-DD")}
-          </Text>
-        </Col>
-        <Col span={6}>
-          <Text
-            css={`
-              margin-left: 5px;
-              font-style: italic;
-              font-size: 14px;
-            `}
-          >
-            {"结束时间:" + dayjs(endDate).format("YYYY-MM-DD")}
-          </Text>
-        </Col>
-        <Col span={6}>
-          <Text
-            css={`
-              margin-left: 5px;
-              font-style: italic;
-              font-size: 14px;
-            `}
-          >
-            状态:
-          </Text>
-          <Text
-            css={`
-              margin-left: 5px;
-              font-style: italic;
-              font-size: 14px;
-            `}
-            style={{
-              color:
-                state === "正在进行"
-                  ? "green"
-                  : state === "已结束"
-                    ? "red"
-                    : "black",
-            }}
-          >
-            {state}
-          </Text>
-        </Col>
-        <Col span={6}>
-          <Space size={"large"}>
-            {onEditPress && <EditOutlined onClick={onEditPress} />}
-            {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
-          </Space>
-        </Col>
-      </Row>
-    </Card>
+        }
+        hoverable
+        {...restProps}
+      >
+        {description && (
+          <>
+            <Text
+              css={`
+                margin: 12px 0 12px 0;
+                white-space: pre-wrap;
+                font-size: 15px;
+              `}
+            >
+              {description.replace(/#+ [^\r\n]*[\r\n]/g, "")}
+            </Text>
+            <Divider />
+          </>
+        )}
+        <Row>
+          <Col span={6}>
+            <Text
+              css={`
+                margin-left: 5px;
+                font-style: italic;
+                font-size: 14px;
+              `}
+            >
+              {"开始时间:" + dayjs(startDate).format("YYYY-MM-DD")}
+            </Text>
+          </Col>
+          <Col span={6}>
+            <Text
+              css={`
+                margin-left: 5px;
+                font-style: italic;
+                font-size: 14px;
+              `}
+            >
+              {"结束时间:" + dayjs(endDate).format("YYYY-MM-DD")}
+            </Text>
+          </Col>
+          <Col span={6}>
+            <Text
+              css={`
+                margin-left: 5px;
+                font-style: italic;
+                font-size: 14px;
+              `}
+            >
+              状态:
+            </Text>
+            <Text
+              css={`
+                margin-left: 5px;
+                font-style: italic;
+                font-size: 14px;
+              `}
+              style={{
+                color:
+                  state === "正在进行"
+                    ? "green"
+                    : state === "已结束"
+                      ? "red"
+                      : "black",
+              }}
+            >
+              {state}
+            </Text>
+          </Col>
+          <Col span={6}>
+            <Space size={"large"}>
+              {onEditPress && <EditOutlined onClick={onEditPress} />}
+              {onDeletePress && <DeleteOutlined onClick={onDeletePress} />}
+            </Space>
+          </Col>
+        </Row>
+      </Card>
+    </Link>
   );
 };
 
