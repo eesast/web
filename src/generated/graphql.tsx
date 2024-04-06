@@ -12663,7 +12663,7 @@ export type GetContestSwitchSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
+export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, team_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
 
 export type UpdateContestMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -13088,13 +13088,6 @@ export type GetContestTimesQueryVariables = Exact<{
 
 
 export type GetContestTimesQuery = { __typename?: 'query_root', contest_time: Array<{ __typename?: 'contest_time', event: string, start: any, end: any, description?: string | null }> };
-
-export type GetStartRegisterOrNotQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetStartRegisterOrNotQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', team_switch: boolean }> };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -13837,6 +13830,7 @@ export const GetContestSwitchDocument = gql`
     subscription GetContestSwitch($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
     code_upload_switch
+    team_switch
     arena_switch
     playground_switch
     stream_switch
@@ -15985,46 +15979,6 @@ export type GetContestTimesQueryHookResult = ReturnType<typeof useGetContestTime
 export type GetContestTimesLazyQueryHookResult = ReturnType<typeof useGetContestTimesLazyQuery>;
 export type GetContestTimesSuspenseQueryHookResult = ReturnType<typeof useGetContestTimesSuspenseQuery>;
 export type GetContestTimesQueryResult = Apollo.QueryResult<GetContestTimesQuery, GetContestTimesQueryVariables>;
-export const GetStartRegisterOrNotDocument = gql`
-    query GetStartRegisterOrNot($contest_id: uuid!) {
-  contest(where: {id: {_eq: $contest_id}}) {
-    team_switch
-  }
-}
-    `;
-
-/**
- * __useGetStartRegisterOrNotQuery__
- *
- * To run a query within a React component, call `useGetStartRegisterOrNotQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetStartRegisterOrNotQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetStartRegisterOrNotQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetStartRegisterOrNotQuery(baseOptions: Apollo.QueryHookOptions<GetStartRegisterOrNotQuery, GetStartRegisterOrNotQueryVariables> & ({ variables: GetStartRegisterOrNotQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetStartRegisterOrNotQuery, GetStartRegisterOrNotQueryVariables>(GetStartRegisterOrNotDocument, options);
-      }
-export function useGetStartRegisterOrNotLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStartRegisterOrNotQuery, GetStartRegisterOrNotQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetStartRegisterOrNotQuery, GetStartRegisterOrNotQueryVariables>(GetStartRegisterOrNotDocument, options);
-        }
-export function useGetStartRegisterOrNotSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetStartRegisterOrNotQuery, GetStartRegisterOrNotQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetStartRegisterOrNotQuery, GetStartRegisterOrNotQueryVariables>(GetStartRegisterOrNotDocument, options);
-        }
-export type GetStartRegisterOrNotQueryHookResult = ReturnType<typeof useGetStartRegisterOrNotQuery>;
-export type GetStartRegisterOrNotLazyQueryHookResult = ReturnType<typeof useGetStartRegisterOrNotLazyQuery>;
-export type GetStartRegisterOrNotSuspenseQueryHookResult = ReturnType<typeof useGetStartRegisterOrNotSuspenseQuery>;
-export type GetStartRegisterOrNotQueryResult = Apollo.QueryResult<GetStartRegisterOrNotQuery, GetStartRegisterOrNotQueryVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
     query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(

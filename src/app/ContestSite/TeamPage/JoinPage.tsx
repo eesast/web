@@ -29,12 +29,11 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   // 查询此用户是否已有队伍，若有则不可再创建
 
   //查询比赛是否开始报名
-  const { data: canStartRegister } =
-    graphql.useGetStartRegisterOrNotSuspenseQuery({
-      variables: {
-        contest_id: Contest_id,
-      },
-    });
+  const { data: contestSwitchData } = graphql.useGetContestSwitchSubscription({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
 
   const { data: isleaderData, refetch: refetchisleader } =
     graphql.useIsTeamLeaderSuspenseQuery({
@@ -177,7 +176,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     refetchisleader();
     refetchismember();
   };
-  return canStartRegister.contest[0].team_switch ? (
+  return contestSwitchData?.contest_by_pk?.team_switch ? (
     <>
       <div
         style={{
@@ -295,7 +294,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                       <div style={{ width: "100%" }}>
                         <Space
                           direction="vertical"
-                          //size="middle"
+                          size="middle"
                           style={{ width: "100%", height: "100%" }}
                         >
                           <Card
@@ -304,8 +303,16 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                               width: "100%",
                             }}
                           >
-                            <Space direction="vertical">
-                              <Divider style={{ border: "0.5px #1677ff" }}>
+                            <Space
+                              direction="vertical"
+                              style={{ width: "100%" }}
+                            >
+                              <Divider
+                                style={{
+                                  border: "0.5px #1677ff",
+                                  width: "100%",
+                                }}
+                              >
                                 队伍信息
                               </Divider>
                               <ul
@@ -315,8 +322,8 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                                 }}
                               >
                                 <Space direction="vertical">
-                                  <li>队长：{teamInfo.teamLeader}</li>
                                   <li>队名：{teamInfo.teamName}</li>
+                                  <li>队长：{teamInfo.teamLeader}</li>
                                   <li>队伍简介：{teamInfo.teamIntro}</li>
                                 </Space>
                               </ul>

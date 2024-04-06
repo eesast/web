@@ -56,10 +56,3 @@ query GetContestTimes($contest_id: uuid!) {
     description
   }
 }
-
-#获取比赛是否开始报名
-query GetStartRegisterOrNot($contest_id: uuid!) {
-  contest(where: { id: { _eq: $contest_id } }) {
-    team_switch
-  }
-}

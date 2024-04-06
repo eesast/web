@@ -225,7 +225,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       render: (_, record) => {
         return (
           <Button
-            // disabled={isleaderData?.contest_team.length === 0}
             onClick={async () => {
               await deleteTeamMemberByLeader(record.user?.uuid);
               await refetchMemberInfo();
@@ -300,7 +299,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Form.Item label="队员">
                   <Suspense fallback={<Loading />}>
                     <Table
-                      //loading={teamMemberLoading}
                       columns={memberListColumns}
                       dataSource={
                         teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
@@ -336,11 +334,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                   <Row justify="center">
                     <Col span={6}>
                       <Suspense fallback={<Loading />}>
-                        <Button
-                          type="primary"
-                          //loading={UpdatingTeamInfo}
-                          htmlType="submit"
-                        >
+                        <Button type="primary" htmlType="submit">
                           确认修改
                         </Button>
                       </Suspense>
