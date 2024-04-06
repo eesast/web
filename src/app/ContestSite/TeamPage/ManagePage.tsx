@@ -2,7 +2,6 @@ import React, { useEffect, Suspense } from "react";
 import {
   Input,
   Table,
-  Result,
   Card,
   Row,
   Col,
@@ -17,10 +16,10 @@ import { Layout } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
-import { useUrl } from "../../api/hooks/url";
+import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
-import { ContestProps } from ".";
+import { ContestProps } from "../.";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
@@ -242,32 +241,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   /* ---------------- 页面组件 ---------------- */
 
-  return !teamid ? (
-    <div>
-      <Result
-        status="warning"
-        title="您还没有加入任何队伍"
-        extra={
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Button
-              type="primary"
-              style={{ marginBottom: "20px", width: "180px", height: "40px" }}
-              onClick={() => navigate(url.link("team-join"))}
-            >
-              组建队伍
-            </Button>
-          </div>
-        }
-      />
-    </div>
-  ) : (
+  return (
     <Layout>
       <br />
       <br />

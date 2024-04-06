@@ -7,9 +7,7 @@ import {
   LockOutlined,
   ExperimentOutlined,
   FieldTimeOutlined,
-  ContactsOutlined,
   BarsOutlined,
-  UserSwitchOutlined,
   UploadOutlined,
   PlaySquareOutlined,
   RadarChartOutlined,
@@ -35,8 +33,7 @@ import {
 //以下为子分页
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
-import JoinPage from "./RegisterAndJoinPage";
-import ManagePage from "./ManagePage";
+import TeamPage from "./TeamPage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 import CodePage from "./CodePage.old";
@@ -179,23 +176,11 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     {
       key: "team",
       label: (
-        <span>
-          <span ref={joinRef}>现在报名</span>
-        </span>
+        <Link to={url.link("team")} ref={joinRef}>
+          我的队伍
+        </Link>
       ),
       icon: <TeamOutlined />,
-      children: [
-        {
-          key: "team-join",
-          label: <Link to={url.link("team-join")}>创建或加入队伍</Link>,
-          icon: <ContactsOutlined />,
-        },
-        {
-          key: "team-manage",
-          label: <Link to={url.link("team-manage")}>管理队伍</Link>,
-          icon: <UserSwitchOutlined />,
-        },
-      ],
     },
     {
       key: "code",
@@ -413,8 +398,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             <Route path="stream" element={<StreamPage {...props} />} />
             <Route path="playback" element={<PlaybackPage {...props} />} />
 
-            <Route path="team-join" element={<JoinPage {...props} />} />
-            <Route path="team-manage" element={<ManagePage {...props} />} />
+            <Route path="team" element={<TeamPage {...props} />} />
 
             <Route path="code" element={<CodePage {...props} />} />
 

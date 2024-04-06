@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Input, Card, Row, Col, Button, Form, Divider, Space } from "antd"; //botton  修改:delete Result
 import { Layout, message } from "antd";
 //graphql的语句由Apollo生成ts句柄，在此import
-import { useUrl } from "../../api/hooks/url";
+import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import { ContestProps } from ".";
-import NotStarted from "./Components/NotStarted";
+import { ContestProps } from "../.";
+import NotStarted from ".././Components/NotStarted";
+import { useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -19,7 +20,9 @@ function randomString() {
   for (var i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
   return n;
 }
-const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
+const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
+  const navigate = useNavigate();
+
   //register页面
   const url = useUrl();
   const Contest_id = url.query.get("contest");
@@ -98,6 +101,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
       if (!insertError) {
         message.success("创建成功");
         form.resetFields();
+        navigate(0);
       }
     } catch (e) {
       message.error("创建失败,可能队名重复或网络问题");
@@ -165,6 +169,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
       });
       message.success("加入成功");
       form.resetFields();
+      navigate(0);
     } catch (e) {
       message.error("加入失败,可能队伍不存在或网络问题");
       console.log("当前错误：" + e);
@@ -172,7 +177,7 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
     refetchisleader();
     refetchismember();
   };
-  return !canStartRegister.contest[0].team_switch ? (
+  return canStartRegister.contest[0].team_switch ? (
     <>
       <div
         style={{
@@ -241,12 +246,13 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
               ></div>
             </Col>
             <Col className="gutter-row" xs={4} sm={4} md={6} lg={8} xl={10}>
-              <Content>
+              <Content style={{ height: "100%" }}>
                 <Form
                   name="form2"
                   form={form2} //表单名字绑定
                   layout="vertical"
                   initialValues={{ remember: true }}
+                  style={{ height: "100%" }}
                 >
                   {!isTeamInfoVisible && (
                     <Space
@@ -275,45 +281,67 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
                   )}
 
                   {isTeamInfoVisible && (
-                    <Form.Item style={{ textAlign: "center" }}>
-                      <Space
-                        direction="vertical"
-                        size="middle"
-                        style={{ display: "flex" }}
-                      >
-                        <Card style={{ border: "1px solid #1677ff" }}>
-                          <Space direction="vertical">
-                            <Divider style={{ border: "0.5px #1677ff" }}>
-                              队伍信息
-                            </Divider>
-                            <ul style={{ textAlign: "left" }}>
-                              <Space direction="vertical">
-                                <li>队长：{teamInfo.teamLeader}</li>
-                                <li>队名：{teamInfo.teamName}</li>
-                                <li>队伍简介：{teamInfo.teamIntro}</li>
-                              </Space>
-                            </ul>
-                          </Space>
-                        </Card>
-                        <Space>
-                          <Button onClick={handleCancelShowTeamInfo}>
-                            取消
-                          </Button>
-                          <Button
-                            onClick={onFinishJoin}
-                            disabled={
-                              isleaderData?.contest_team.length !== 0 ||
-                              ismemberData?.contest_team_member.length !== 0
-                            }
+                    <Form.Item
+                      style={{
+                        textAlign: "center",
+                        height: "100%",
+                        width: "100%",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        display: "flex",
+                        alignItems: "stretch",
+                      }}
+                    >
+                      <div style={{ width: "100%" }}>
+                        <Space
+                          direction="vertical"
+                          //size="middle"
+                          style={{ width: "100%", height: "100%" }}
+                        >
+                          <Card
                             style={{
-                              backgroundColor: "#1677ff",
-                              color: "white",
+                              border: "1px solid #1677ff",
+                              width: "100%",
                             }}
                           >
-                            确认加入
-                          </Button>
+                            <Space direction="vertical">
+                              <Divider style={{ border: "0.5px #1677ff" }}>
+                                队伍信息
+                              </Divider>
+                              <ul
+                                style={{
+                                  textAlign: "left",
+                                  wordBreak: "break-all",
+                                }}
+                              >
+                                <Space direction="vertical">
+                                  <li>队长：{teamInfo.teamLeader}</li>
+                                  <li>队名：{teamInfo.teamName}</li>
+                                  <li>队伍简介：{teamInfo.teamIntro}</li>
+                                </Space>
+                              </ul>
+                            </Space>
+                          </Card>
+                          <Space>
+                            <Button onClick={handleCancelShowTeamInfo}>
+                              取消
+                            </Button>
+                            <Button
+                              onClick={onFinishJoin}
+                              disabled={
+                                isleaderData?.contest_team.length !== 0 ||
+                                ismemberData?.contest_team_member.length !== 0
+                              }
+                              style={{
+                                backgroundColor: "#1677ff",
+                                color: "white",
+                              }}
+                            >
+                              确认加入
+                            </Button>
+                          </Space>
                         </Space>
-                      </Space>
+                      </div>
                     </Form.Item>
                   )}
                 </Form>
@@ -327,4 +355,4 @@ const RegisterPage: React.FC<ContestProps> = ({ mode, user }) => {
     <NotStarted />
   );
 };
-export default RegisterPage;
+export default JoinPage;
