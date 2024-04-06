@@ -186,10 +186,8 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       icon: <TeamOutlined />,
       children: [
         {
-          key: "team-register-join",
-          label: (
-            <Link to={url.link("team-register-join")}>创建或加入队伍</Link>
-          ),
+          key: "team-join",
+          label: <Link to={url.link("team-join")}>创建或加入队伍</Link>,
           icon: <ContactsOutlined />,
         },
         {
@@ -415,10 +413,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             <Route path="stream" element={<StreamPage {...props} />} />
             <Route path="playback" element={<PlaybackPage {...props} />} />
 
-            <Route
-              path="team-register-join"
-              element={<JoinPage {...props} />}
-            />
+            <Route path="team-join" element={<JoinPage {...props} />} />
             <Route path="team-manage" element={<ManagePage {...props} />} />
 
             <Route path="code" element={<CodePage {...props} />} />
