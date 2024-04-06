@@ -259,7 +259,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Button
               type="primary"
               style={{ marginBottom: "20px", width: "180px", height: "40px" }}
-              onClick={() => navigate(url.link("team-register-join"))}
+              onClick={() => navigate(url.link("team-join"))}
             >
               组建队伍
             </Button>
