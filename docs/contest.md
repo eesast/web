@@ -25,7 +25,7 @@ permalink: /contest
    - 后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。
    - 后端服务器与`docker`服务器之间通过`NFS`进行文件共享，因此`docker`服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
 5. 前两步都执行成功的前提下，后端创建`docker`并入队`docker_queue`，向前端返回创建是否成功的结果。
-   - 对于一场比赛（两队参与为例），后端需要先后创建4个`docker`：一个`server`镜像对应的比赛逻辑服务器、两个`client`镜像对应的选手代码执行客户端（每队共用一个）。
+   - 对于一场比赛（两队参与为例），后端需要先后创建4个`docker`：一个`server`镜像对应的比赛逻辑服务器、两个`client`镜像对应的选手代码执行客户端（每队共用一个），一个`envoy`镜像对应的`grpc-web`与`grpc`转发服务器（用于前端直播，暂不急于实现）。
    - 比赛状态显示。后端创建 `docker` 分为两步：【第一步】是将比赛放入队列`docker_queue`尾，此时`room` -> `status` 为 `Waiting`；【第二步】是`docker_cron` 定时程序从队列中抽取队首的比赛进行，如果比赛启动成功，此时`room` -> `status`为`Running`。
    - 比赛期间，用户可通过特定端口观看直播。后端在上面所述启动比赛的【第二步】时分配好一个端口。如果端口数量不足，则不启动比赛。如果成功分配端口并启动比赛，则应同时更新数据库`contest_room`表中的`port`字段。
    - 前端应当使用`subscription`实时更新比赛状态和直播观看端口。
@@ -137,7 +137,7 @@ permalink: /contest
 
 ## 与赛事组的约定
 
-1. 一场比赛对应多个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用），一个`envoy`镜像对应的`grpc-web`与`grpc`转发服务器（用于前端直播，暂不急于实现）。
+1. 一场比赛对应多个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
 2. 队式应当关注上面的`/arena/finish`、`/arena/get-score`和`/competition/finish-one`、`/competition/get-score`路由参数信息。
 
    - `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`、`TEAM_LABELS`（`json`格式，类型为`TeamLabelBind[]`，定义见下方附录）。
