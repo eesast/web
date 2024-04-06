@@ -35,7 +35,7 @@ import {
 //以下为子分页
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
-import RegisterAndJoinPage from "./RegisterAndJoinPage";
+import JoinPage from "./RegisterAndJoinPage";
 import ManagePage from "./ManagePage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
@@ -258,15 +258,6 @@ const MenuPage: React.FC<ContestProps> = (props) => {
 
   const submenuKeys = ["home", "game", "team", "arena", "admin"];
 
-  // const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
-  //   const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-  //   if (latestOpenKey && submenuKeys.indexOf(latestOpenKey!) === -1) {
-  //     setOpenKeys(keys);
-  //   } else {
-  //     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-  //   }
-  // };
-
   const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (latestOpenKey && submenuKeys.indexOf(latestOpenKey!) === -1) {
@@ -426,7 +417,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
 
             <Route
               path="team-register-join"
-              element={<RegisterAndJoinPage {...props} />}
+              element={<JoinPage {...props} />}
             />
             <Route path="team-manage" element={<ManagePage {...props} />} />
 

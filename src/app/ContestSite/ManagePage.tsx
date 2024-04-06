@@ -21,7 +21,6 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 import { ContestProps } from ".";
-import { UUID } from "crypto";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
@@ -179,7 +178,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     });
   };
 
-  const deleteWholeTeam = async (team_id: UUID) => {
+  const deleteWholeTeam = async (team_id: string) => {
     confirm({
       title: "确定要解散队伍吗？",
       icon: <ExclamationCircleOutlined />,
@@ -262,7 +261,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
               style={{ marginBottom: "20px", width: "180px", height: "40px" }}
               onClick={() => navigate(url.link("team-register-join"))}
             >
-              加入或创建队伍
+              组建队伍
             </Button>
           </div>
         }

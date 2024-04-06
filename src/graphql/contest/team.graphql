@@ -193,12 +193,10 @@ query GetTeamInfoByInvitedCode($invited_code: String!, $contest_id: uuid!) {
     team_intro
     team_leader {
       realname
-      id
       uuid
     }
     contest_team_members {
       user {
-        id
         uuid
         realname
       }
