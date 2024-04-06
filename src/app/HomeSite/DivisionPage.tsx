@@ -1,12 +1,5 @@
 import React from "react";
 import { Tabs, Typography, Row, Col } from "antd";
-import {
-  BugOutlined,
-  ToolOutlined,
-  UnorderedListOutlined,
-  ReadOutlined,
-  DesktopOutlined,
-} from "@ant-design/icons";
 import styled from "styled-components";
 import Picture from "../Components/Picture";
 import { PageProps } from "..";
@@ -35,15 +28,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
       }}
       tabPosition="left"
     >
-      <TabPane
-        tab={
-          <span>
-            <BugOutlined />
-            软件部
-          </span>
-        }
-        key="software"
-      >
+      <TabPane tab="软件部" key="software">
         <StyledTypography>
           <Typography.Title level={2}>软件部</Typography.Title>
           <Image
@@ -83,15 +68,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           </Row>
         </StyledTypography>
       </TabPane>
-      <TabPane
-        tab={
-          <span>
-            <ToolOutlined />
-            硬件部
-          </span>
-        }
-        key="hardware"
-      >
+      <TabPane tab="硬件部" key="hardware">
         <StyledTypography>
           <Typography.Title level={2}>硬件部</Typography.Title>
           <Image
@@ -156,15 +133,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           </p>
         </StyledTypography>
       </TabPane>
-      <TabPane
-        tab={
-          <span>
-            <UnorderedListOutlined />
-            项目部
-          </span>
-        }
-        key="project"
-      >
+      <TabPane tab="项目部" key="project">
         <StyledTypography>
           <Typography.Title level={2}>项目部</Typography.Title>
           <Row justify="space-around" align="middle">
@@ -196,15 +165,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           </p>
         </StyledTypography>
       </TabPane>
-      <TabPane
-        tab={
-          <span>
-            <ReadOutlined />
-            学培部
-          </span>
-        }
-        key="training"
-      >
+      <TabPane tab="学培部" key="training">
         <StyledTypography>
           <Typography.Title level={2}>学培部</Typography.Title>
           <Italic>
@@ -252,15 +213,7 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
           </p>
         </StyledTypography>
       </TabPane>
-      <TabPane
-        tab={
-          <span>
-            <DesktopOutlined />
-            宣策部
-          </span>
-        }
-        key="publicity"
-      >
+      <TabPane tab="宣策部" key="publicity">
         <StyledTypography>
           <Typography.Title level={2}>宣策部</Typography.Title>
           <Row justify="space-between" align="middle">

@@ -12628,6 +12628,7 @@ export type UpdateContestInfoMutation = { __typename?: 'mutation_root', update_c
 
 export type UpdateContestSwitchMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
+  team_switch: Scalars['Boolean']['input'];
   code_upload_switch: Scalars['Boolean']['input'];
   arena_switch: Scalars['Boolean']['input'];
   playground_switch: Scalars['Boolean']['input'];
@@ -13662,10 +13663,10 @@ export type UpdateContestInfoMutationHookResult = ReturnType<typeof useUpdateCon
 export type UpdateContestInfoMutationResult = Apollo.MutationResult<UpdateContestInfoMutation>;
 export type UpdateContestInfoMutationOptions = Apollo.BaseMutationOptions<UpdateContestInfoMutation, UpdateContestInfoMutationVariables>;
 export const UpdateContestSwitchDocument = gql`
-    mutation UpdateContestSwitch($contest_id: uuid!, $code_upload_switch: Boolean!, $arena_switch: Boolean!, $playground_switch: Boolean!, $stream_switch: Boolean!, $playback_switch: Boolean!) {
+    mutation UpdateContestSwitch($contest_id: uuid!, $team_switch: Boolean!, $code_upload_switch: Boolean!, $arena_switch: Boolean!, $playground_switch: Boolean!, $stream_switch: Boolean!, $playback_switch: Boolean!) {
   update_contest_by_pk(
     pk_columns: {id: $contest_id}
-    _set: {code_upload_switch: $code_upload_switch, arena_switch: $arena_switch, playground_switch: $playground_switch, stream_switch: $stream_switch, playback_switch: $playback_switch}
+    _set: {team_switch: $team_switch, code_upload_switch: $code_upload_switch, arena_switch: $arena_switch, playground_switch: $playground_switch, stream_switch: $stream_switch, playback_switch: $playback_switch}
   ) {
     id
   }
@@ -13687,6 +13688,7 @@ export type UpdateContestSwitchMutationFn = Apollo.MutationFunction<UpdateContes
  * const [updateContestSwitchMutation, { data, loading, error }] = useUpdateContestSwitchMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
+ *      team_switch: // value for 'team_switch'
  *      code_upload_switch: // value for 'code_upload_switch'
  *      arena_switch: // value for 'arena_switch'
  *      playground_switch: // value for 'playground_switch'
