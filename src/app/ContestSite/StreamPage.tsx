@@ -4,7 +4,7 @@ import { useUrl } from "../../api/hooks/url";
 import { ContestProps } from ".";
 import THUAI6 from "./Components/THUAI6/StreamNative";
 import * as graphql from "@/generated/graphql";
-import { message } from "antd";
+import { Spin, message } from "antd";
 import styled from "styled-components";
 import NotImplemented from "./Components/NotImplemented";
 
@@ -19,6 +19,14 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const Loading = () => {
+  return (
+    <Container>
+      <Spin size="large" />
+    </Container>
+  );
+};
 
 const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -63,12 +71,16 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
     else return <NotImplemented />;
   };
 
-  return contestSwitchData?.contest_by_pk?.stream_switch ? (
-    <Stream url={streamUrl} />
+  return contestSwitchData ? (
+    contestSwitchData?.contest_by_pk?.stream_switch ? (
+      <Stream url={streamUrl} />
+    ) : (
+      <Container>
+        <NotImplemented />
+      </Container>
+    )
   ) : (
-    <Container>
-      <NotImplemented />
-    </Container>
+    <Loading />
   );
 };
 

@@ -6,7 +6,8 @@ import NotImplemented from "./Components/NotImplemented";
 import ReactRouterPrompt from "react-router-prompt";
 import styled from "styled-components";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import { message, Layout, Row, Modal, Progress } from "antd";
+import { message, Layout, Row, Modal, Progress, Spin } from "antd";
+
 const Container = styled.div`
   height: calc(100vh - 72px);
   width: 100%;
@@ -14,6 +15,14 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const Loading = () => {
+  return (
+    <Container>
+      <Spin size="large" />
+    </Container>
+  );
+};
 
 const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -81,53 +90,57 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  return contestSwitchData?.contest_by_pk?.playground_switch ? (
-    <Layout>
-      <Row>
-        {isLoaded === false && (
-          <Container>
-            <Progress
-              type="circle"
-              percent={Math.min(
-                Math.round(((loadingProgression * 100) / 90) * 99),
-                100,
-              )}
-            />
-          </Container>
-        )}
-        <Unity
-          unityProvider={unityProvider}
-          css={`
-            width: 100%;
-            max-width: calc((100vh - 72px) / 9 * 16);
-            max-height: calc(100vh - 72px);
-            aspect-ratio: 16 / 9;
-            padding: 0.9vw 1.6vw;
-          `}
-        />
-      </Row>
-      <ReactRouterPrompt when={isLoaded}>
-        {({ isActive, onConfirm, onCancel }) => (
-          <Modal
-            open={isActive}
-            cancelText="再看看"
-            centered={true}
-            okText="结束试玩"
-            title="离开页面前，请先结束试玩"
-            onOk={async () => {
-              await handleQuit();
-              onConfirm();
-            }}
-            onCancel={onCancel}
-            width={320}
+  return contestSwitchData ? (
+    contestSwitchData?.contest_by_pk?.playground_switch ? (
+      <Layout>
+        <Row>
+          {isLoaded === false && (
+            <Container>
+              <Progress
+                type="circle"
+                percent={Math.min(
+                  Math.round(((loadingProgression * 100) / 90) * 99),
+                  100,
+                )}
+              />
+            </Container>
+          )}
+          <Unity
+            unityProvider={unityProvider}
+            css={`
+              width: 100%;
+              max-width: calc((100vh - 72px) / 9 * 16);
+              max-height: calc(100vh - 72px);
+              aspect-ratio: 16 / 9;
+              padding: 0.9vw 1.6vw;
+            `}
           />
-        )}
-      </ReactRouterPrompt>
-    </Layout>
+        </Row>
+        <ReactRouterPrompt when={isLoaded}>
+          {({ isActive, onConfirm, onCancel }) => (
+            <Modal
+              open={isActive}
+              cancelText="再看看"
+              centered={true}
+              okText="结束试玩"
+              title="离开页面前，请先结束试玩"
+              onOk={async () => {
+                await handleQuit();
+                onConfirm();
+              }}
+              onCancel={onCancel}
+              width={320}
+            />
+          )}
+        </ReactRouterPrompt>
+      </Layout>
+    ) : (
+      <Container>
+        <NotImplemented />
+      </Container>
+    )
   ) : (
-    <Container>
-      <NotImplemented />
-    </Container>
+    <Loading />
   );
 };
 
