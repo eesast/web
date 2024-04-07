@@ -7,6 +7,15 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from "../.";
 import NotStarted from ".././Components/NotStarted";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -447,7 +456,9 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Layout>
     </>
   ) : (
-    <NotStarted />
+    <Container>
+      <NotStarted />
+    </Container>
   );
 };
 export default JoinPage;
