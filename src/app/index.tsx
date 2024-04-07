@@ -53,7 +53,6 @@ const App: React.FC = () => {
   const [mode, setMode] = useState<"light" | "dark">(
     (localStorage.getItem("theme") as "light" | "dark") || "light",
   );
-  const homeRef = useRef(null);
   const contestRef = useRef(null);
   const infoRef = useRef(null);
   const shareRef = useRef(null);
@@ -122,7 +121,6 @@ const App: React.FC = () => {
     return (
       <Link
         to={url.link("home", "site")}
-        ref={homeRef}
         css={`
           display: flex;
           align-items: center;
@@ -318,7 +316,7 @@ const App: React.FC = () => {
     {
       title: "2024 新版来袭！",
       description:
-        "科协官网全新改版，更现代的UI，更丰富的功能，更好的用户体验。新版官网分为主页和三个子站，下面让我们分别介绍它们：",
+        "科协官网全新改版，更现代的UI，更丰富的功能，更好的用户体验。新版官网分为三个子站，下面让我们分别介绍它们：",
       target: null,
       cover: <img src="/backgrounds/2024new.jpg" alt="2024New" />,
       mask: {
@@ -328,32 +326,29 @@ const App: React.FC = () => {
       },
     },
     {
-      title: "主页",
-      description: "（已有功能介绍+一些新特点）",
-      placement: "bottom",
-      target: () => homeRef.current,
-    },
-    {
       title: "赛事互动站",
-      description: "（已有功能介绍+一些新特点）",
+      description:
+        "新版官网致力于为所有选手和赛事组织者提供更好的参赛体验，包括试玩功能、数据透视功能、以及全新设计的页面布局，让您轻松上手，玩转比赛！",
       placement: "bottom",
       target: () => contestRef.current,
     },
     {
       title: "信息化平台",
-      description: "（已有功能介绍+一些新特点）",
+      description:
+        "信息化平台是与院系合作建设的学生操作平台，目前囊括了新生导师和奖学金申请功能，未来将覆盖学习生活的更多方面，敬请期待！",
       placement: "bottom",
       target: () => infoRef.current,
     },
     {
       title: "资源共享站",
-      description: "（已有功能介绍+一些新特点）",
+      description:
+        "资源共享站是新版官网整合而成的全新子站，希望为同学们接入更多有趣的资源，包括课程资料、技术分享、以及娱乐活动等，让您的大学生活更加丰富多彩！",
       placement: "bottom",
       target: () => shareRef.current,
     },
     {
       title: "暗色模式",
-      description: "还有炫酷的暗色模式，即护眼又极客，快来体验一下吧！",
+      description: "此外还有炫酷的暗色模式，即护眼又极客，快来体验一下吧！",
       placement: "bottom",
       target: () => themeRef.current,
     },
