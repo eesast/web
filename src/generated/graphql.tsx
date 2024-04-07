@@ -372,7 +372,6 @@ export type Contest = {
   contest_maps: Array<Contest_Map>;
   /** An aggregate relationship */
   contest_maps_aggregate: Contest_Map_Aggregate;
-  contest_name: Scalars['String']['output'];
   /** An array relationship */
   contest_notices: Array<Contest_Notice>;
   /** An aggregate relationship */
@@ -400,6 +399,7 @@ export type Contest = {
   contest_type: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
   end_date: Scalars['timestamptz']['output'];
+  fullname: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
   name: Scalars['String']['output'];
   playback_switch: Scalars['Boolean']['output'];
@@ -601,7 +601,6 @@ export type Contest_Bool_Exp = {
   code_upload_switch?: InputMaybe<Boolean_Comparison_Exp>;
   contest_managers?: InputMaybe<Contest_Manager_Bool_Exp>;
   contest_maps?: InputMaybe<Contest_Map_Bool_Exp>;
-  contest_name?: InputMaybe<String_Comparison_Exp>;
   contest_notices?: InputMaybe<Contest_Notice_Bool_Exp>;
   contest_players?: InputMaybe<Contest_Player_Bool_Exp>;
   contest_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
@@ -611,6 +610,7 @@ export type Contest_Bool_Exp = {
   contest_type?: InputMaybe<String_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
+  fullname?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   playback_switch?: InputMaybe<Boolean_Comparison_Exp>;
@@ -968,7 +968,6 @@ export type Contest_Insert_Input = {
   code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
   contest_managers?: InputMaybe<Contest_Manager_Arr_Rel_Insert_Input>;
   contest_maps?: InputMaybe<Contest_Map_Arr_Rel_Insert_Input>;
-  contest_name?: InputMaybe<Scalars['String']['input']>;
   contest_notices?: InputMaybe<Contest_Notice_Arr_Rel_Insert_Input>;
   contest_players?: InputMaybe<Contest_Player_Arr_Rel_Insert_Input>;
   contest_rooms?: InputMaybe<Contest_Room_Arr_Rel_Insert_Input>;
@@ -978,6 +977,7 @@ export type Contest_Insert_Input = {
   contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1385,10 +1385,10 @@ export enum Contest_Map_Update_Column {
 /** aggregate max on columns */
 export type Contest_Max_Fields = {
   __typename?: 'contest_max_fields';
-  contest_name?: Maybe<Scalars['String']['output']>;
   contest_type?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   end_date?: Maybe<Scalars['timestamptz']['output']>;
+  fullname?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
@@ -1398,10 +1398,10 @@ export type Contest_Max_Fields = {
 /** aggregate min on columns */
 export type Contest_Min_Fields = {
   __typename?: 'contest_min_fields';
-  contest_name?: Maybe<Scalars['String']['output']>;
   contest_type?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   end_date?: Maybe<Scalars['timestamptz']['output']>;
+  fullname?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
@@ -1646,7 +1646,6 @@ export type Contest_Order_By = {
   code_upload_switch?: InputMaybe<Order_By>;
   contest_managers_aggregate?: InputMaybe<Contest_Manager_Aggregate_Order_By>;
   contest_maps_aggregate?: InputMaybe<Contest_Map_Aggregate_Order_By>;
-  contest_name?: InputMaybe<Order_By>;
   contest_notices_aggregate?: InputMaybe<Contest_Notice_Aggregate_Order_By>;
   contest_players_aggregate?: InputMaybe<Contest_Player_Aggregate_Order_By>;
   contest_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Order_By>;
@@ -1656,6 +1655,7 @@ export type Contest_Order_By = {
   contest_type?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
+  fullname?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   playback_switch?: InputMaybe<Order_By>;
@@ -2758,13 +2758,13 @@ export enum Contest_Select_Column {
   /** column name */
   CodeUploadSwitch = 'code_upload_switch',
   /** column name */
-  ContestName = 'contest_name',
-  /** column name */
   ContestType = 'contest_type',
   /** column name */
   Description = 'description',
   /** column name */
   EndDate = 'end_date',
+  /** column name */
+  Fullname = 'fullname',
   /** column name */
   Id = 'id',
   /** column name */
@@ -2787,10 +2787,10 @@ export enum Contest_Select_Column {
 export type Contest_Set_Input = {
   arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
   code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
-  contest_name?: InputMaybe<Scalars['String']['input']>;
   contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4093,13 +4093,13 @@ export enum Contest_Update_Column {
   /** column name */
   CodeUploadSwitch = 'code_upload_switch',
   /** column name */
-  ContestName = 'contest_name',
-  /** column name */
   ContestType = 'contest_type',
   /** column name */
   Description = 'description',
   /** column name */
   EndDate = 'end_date',
+  /** column name */
+  Fullname = 'fullname',
   /** column name */
   Id = 'id',
   /** column name */
@@ -12616,7 +12616,7 @@ export type DeleteContestMutation = { __typename?: 'mutation_root', delete_conte
 
 export type UpdateContestInfoMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
-  contest_name: Scalars['String']['input'];
+  fullname: Scalars['String']['input'];
   name: Scalars['String']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
   start_date: Scalars['timestamptz']['input'];
@@ -12642,14 +12642,14 @@ export type UpdateContestSwitchMutation = { __typename?: 'mutation_root', update
 export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', contest_name: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
+export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', fullname: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
 
 export type GetContestInfoQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestInfoQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_name: string, name: string, description?: string | null, start_date: any, end_date: any, status: string } | null };
+export type GetContestInfoQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', fullname: string, name: string, description?: string | null, start_date: any, end_date: any, status: string } | null };
 
 export type GetContestNameQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -12664,26 +12664,6 @@ export type GetContestSwitchSubscriptionVariables = Exact<{
 
 
 export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, team_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
-
-export type UpdateContestMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  contest_name: Scalars['String']['input'];
-  end_date: Scalars['timestamptz']['input'];
-  start_date: Scalars['timestamptz']['input'];
-  contest_type: Scalars['String']['input'];
-}>;
-
-
-export type UpdateContestMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', id: any }> } | null };
-
-export type UpdateContestStatusMutationVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  status: Scalars['String']['input'];
-}>;
-
-
-export type UpdateContestStatusMutation = { __typename?: 'mutation_root', update_contest?: { __typename?: 'contest_mutation_response', returning: Array<{ __typename?: 'contest', status: string }> } | null };
 
 export type GetContestManagersQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -12887,14 +12867,14 @@ export type GetAllTeamInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_CompileQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -12909,7 +12889,7 @@ export type GetTeamInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
   invited_code: Scalars['String']['input'];
@@ -13615,10 +13595,10 @@ export type DeleteContestMutationHookResult = ReturnType<typeof useDeleteContest
 export type DeleteContestMutationResult = Apollo.MutationResult<DeleteContestMutation>;
 export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<DeleteContestMutation, DeleteContestMutationVariables>;
 export const UpdateContestInfoDocument = gql`
-    mutation UpdateContestInfo($contest_id: uuid!, $contest_name: String!, $name: String!, $description: String, $start_date: timestamptz!, $end_date: timestamptz!) {
+    mutation UpdateContestInfo($contest_id: uuid!, $fullname: String!, $name: String!, $description: String, $start_date: timestamptz!, $end_date: timestamptz!) {
   update_contest_by_pk(
     pk_columns: {id: $contest_id}
-    _set: {contest_name: $contest_name, name: $name, description: $description, start_date: $start_date, end_date: $end_date}
+    _set: {fullname: $fullname, name: $name, description: $description, start_date: $start_date, end_date: $end_date}
   ) {
     id
   }
@@ -13640,7 +13620,7 @@ export type UpdateContestInfoMutationFn = Apollo.MutationFunction<UpdateContestI
  * const [updateContestInfoMutation, { data, loading, error }] = useUpdateContestInfoMutation({
  *   variables: {
  *      contest_id: // value for 'contest_id'
- *      contest_name: // value for 'contest_name'
+ *      fullname: // value for 'fullname'
  *      name: // value for 'name'
  *      description: // value for 'description'
  *      start_date: // value for 'start_date'
@@ -13700,7 +13680,7 @@ export type UpdateContestSwitchMutationOptions = Apollo.BaseMutationOptions<Upda
 export const GetContestsDocument = gql`
     query GetContests {
   contest(order_by: {start_date: desc}) {
-    contest_name
+    fullname
     description
     end_date
     id
@@ -13744,7 +13724,7 @@ export type GetContestsQueryResult = Apollo.QueryResult<GetContestsQuery, GetCon
 export const GetContestInfoDocument = gql`
     query GetContestInfo($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
-    contest_name
+    fullname
     name
     description
     start_date
@@ -13861,85 +13841,6 @@ export function useGetContestSwitchSubscription(baseOptions: Apollo.Subscription
       }
 export type GetContestSwitchSubscriptionHookResult = ReturnType<typeof useGetContestSwitchSubscription>;
 export type GetContestSwitchSubscriptionResult = Apollo.SubscriptionResult<GetContestSwitchSubscription>;
-export const UpdateContestDocument = gql`
-    mutation UpdateContest($id: uuid!, $description: String = "", $contest_name: String!, $end_date: timestamptz!, $start_date: timestamptz!, $contest_type: String!) {
-  update_contest(
-    where: {id: {_eq: $id}}
-    _set: {contest_name: $contest_name, description: $description, end_date: $end_date, start_date: $start_date, contest_type: $contest_type}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type UpdateContestMutationFn = Apollo.MutationFunction<UpdateContestMutation, UpdateContestMutationVariables>;
-
-/**
- * __useUpdateContestMutation__
- *
- * To run a mutation, you first call `useUpdateContestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateContestMutation, { data, loading, error }] = useUpdateContestMutation({
- *   variables: {
- *      id: // value for 'id'
- *      description: // value for 'description'
- *      contest_name: // value for 'contest_name'
- *      end_date: // value for 'end_date'
- *      start_date: // value for 'start_date'
- *      contest_type: // value for 'contest_type'
- *   },
- * });
- */
-export function useUpdateContestMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMutation, UpdateContestMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestMutation, UpdateContestMutationVariables>(UpdateContestDocument, options);
-      }
-export type UpdateContestMutationHookResult = ReturnType<typeof useUpdateContestMutation>;
-export type UpdateContestMutationResult = Apollo.MutationResult<UpdateContestMutation>;
-export type UpdateContestMutationOptions = Apollo.BaseMutationOptions<UpdateContestMutation, UpdateContestMutationVariables>;
-export const UpdateContestStatusDocument = gql`
-    mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
-  update_contest(where: {id: {_eq: $contest_id}}, _set: {status: $status}) {
-    returning {
-      status
-    }
-  }
-}
-    `;
-export type UpdateContestStatusMutationFn = Apollo.MutationFunction<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
-
-/**
- * __useUpdateContestStatusMutation__
- *
- * To run a mutation, you first call `useUpdateContestStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateContestStatusMutation, { data, loading, error }] = useUpdateContestStatusMutation({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useUpdateContestStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>(UpdateContestStatusDocument, options);
-      }
-export type UpdateContestStatusMutationHookResult = ReturnType<typeof useUpdateContestStatusMutation>;
-export type UpdateContestStatusMutationResult = Apollo.MutationResult<UpdateContestStatusMutation>;
-export type UpdateContestStatusMutationOptions = Apollo.BaseMutationOptions<UpdateContestStatusMutation, UpdateContestStatusMutationVariables>;
 export const GetContestManagersDocument = gql`
     query GetContestManagers($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
@@ -14894,7 +14795,7 @@ export const GetAllTeamInfoDocument = gql`
     team_id
     submitted_code_num
     contest {
-      contest_name
+      name
     }
     team_intro
     team_leader {
@@ -14955,7 +14856,7 @@ export const GetAllTeamInfo_ScoreDocument = gql`
     team_id
     submitted_code_num
     contest {
-      contest_name
+      name
     }
     team_intro
     team_leader {
@@ -15071,7 +14972,7 @@ export const GetTeamInfoDocument = gql`
     team_id
     submitted_code_num
     contest {
-      contest_name
+      name
     }
     team_intro
     team_leader {
