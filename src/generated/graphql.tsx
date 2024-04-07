@@ -13835,7 +13835,6 @@ export const GetContestSwitchDocument = gql`
     playground_switch
     stream_switch
     playback_switch
-    team_switch
   }
 }
     `;

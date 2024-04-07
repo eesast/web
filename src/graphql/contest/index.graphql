@@ -95,7 +95,6 @@ subscription GetContestSwitch($contest_id: uuid!) {
     playground_switch
     stream_switch
     playback_switch
-    team_switch
   }
 }
 

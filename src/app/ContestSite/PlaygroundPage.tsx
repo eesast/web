@@ -1,22 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ContestProps } from ".";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import NotImplemented from "./Components/NotImplemented";
-//import { useNavigate } from "react-router-dom";
+import ReactRouterPrompt from "react-router-prompt";
 import styled from "styled-components";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import {
-  message,
-  Layout,
-  Row,
-  //Modal,
-  //Form,
-  //Select,
-  //Spin,
-  Progress,
-  //FloatButton,
-} from "antd";
+import { message, Layout, Row, Modal, Progress } from "antd";
 const Container = styled.div`
   height: calc(100vh - 72px);
   width: 100%;
@@ -58,7 +48,7 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
   const projectUrl =
     process.env.REACT_APP_STATIC_URL! +
     `/public/WebGL/${contestNameData?.contest_by_pk?.name ?? "Jump"}/`;
-  const projectName = "Playground";
+  const projectName = "playground";
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -72,30 +62,24 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
     return "no-store";
   };
 
-  const {
-    unityProvider,
-    //sendMessage,
-    isLoaded,
-    //unload,
-    //requestFullscreen,
-    loadingProgression,
-  } = useUnityContext({
-    loaderUrl: projectUrl + projectName + ".loader.js",
-    dataUrl: projectUrl + projectName + ".data",
-    frameworkUrl: projectUrl + projectName + ".framework.js",
-    codeUrl: projectUrl + projectName + ".wasm",
-    streamingAssetsUrl: projectUrl,
-    cacheControl: handleCacheControl,
-  });
+  const { unityProvider, isLoaded, unload, loadingProgression } =
+    useUnityContext({
+      loaderUrl: projectUrl + projectName + ".loader.js",
+      dataUrl: projectUrl + projectName + ".data",
+      frameworkUrl: projectUrl + projectName + ".framework.js",
+      codeUrl: projectUrl + projectName + ".wasm",
+      streamingAssetsUrl: projectUrl,
+      cacheControl: handleCacheControl,
+    });
 
-  // const handleQuit = async () => {
-  //   try {
-  //     await unload();
-  //     return;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const handleQuit = async () => {
+    try {
+      await unload();
+      return;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return contestSwitchData?.contest_by_pk?.playground_switch ? (
     // TODO: Copy from PlaybackPage.tsx
@@ -123,6 +107,23 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
           `}
         />
       </Row>
+      <ReactRouterPrompt when={isLoaded}>
+        {({ isActive, onConfirm, onCancel }) => (
+          <Modal
+            open={isActive}
+            cancelText="再看看"
+            centered={true}
+            okText="结束回放"
+            title="离开页面前，请先结束回放"
+            onOk={async () => {
+              await handleQuit();
+              onConfirm();
+            }}
+            onCancel={onCancel}
+            width={320}
+          />
+        )}
+      </ReactRouterPrompt>
     </Layout>
   ) : (
     <Container>
