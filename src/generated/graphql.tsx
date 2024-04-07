@@ -12844,7 +12844,7 @@ export type InsertTeamMutationVariables = Exact<{
 }>;
 
 
-export type InsertTeamMutation = { __typename?: 'mutation_root', insert_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
+export type InsertTeamMutation = { __typename?: 'mutation_root', insert_contest_team_one?: { __typename?: 'contest_team', team_id: any } | null };
 
 export type IsTeamLeaderQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -14658,10 +14658,10 @@ export type GetContestRoundsSuspenseQueryHookResult = ReturnType<typeof useGetCo
 export type GetContestRoundsQueryResult = Apollo.QueryResult<GetContestRoundsQuery, GetContestRoundsQueryVariables>;
 export const InsertTeamDocument = gql`
     mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
-  insert_contest_team(
-    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id, contest_team_members: {data: {user_uuid: $team_leader_uuid}}}
+  insert_contest_team_one(
+    object: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id, contest_team_members: {data: {user_uuid: $team_leader_uuid}}}
   ) {
-    affected_rows
+    team_id
   }
 }
     `;
