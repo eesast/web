@@ -2,25 +2,12 @@ import React, { useEffect } from "react";
 import {
   Button,
   Card,
-  //Checkbox,
-  //Col,
   DatePicker,
-  //Divider,
-  //Dropdown,
   Form,
   Input,
   message,
   Layout,
-  // List,
-  // message,
-  //Modal,
-  // Menu,
-  // Result,
-  //Row,
   Select,
-  //Space,
-  // Spin,
-  // Table,
   Typography,
 } from "antd";
 import dayjs from "dayjs";
@@ -50,7 +37,6 @@ const EditInfoPage: React.FC<{}> = (props) => {
     contest_name: contestInfoData?.contest_by_pk?.contest_name || "",
     contest_type: "THUAI",
     description: contestInfoData?.contest_by_pk?.description || "",
-    // 注意: 时间范围选择器需要的是moment对象数组
     time: [
       dayjs(contestInfoData?.contest_by_pk?.start_date, "YYYY-MM-DD"), // 加一天
       dayjs(contestInfoData?.contest_by_pk?.end_date, "YYYY-MM-DD"), // 加一天

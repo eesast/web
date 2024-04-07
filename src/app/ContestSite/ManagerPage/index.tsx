@@ -45,13 +45,6 @@ import Authenticate, { userRoles } from "@/app/Components/Authenticate";
 const { Text } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-// const Container = styled.div`
-//   height: calc(100vh - 72px);
-//   width: 100%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// `;
 
 const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */

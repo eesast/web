@@ -82,7 +82,6 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   return contestSwitchData?.contest_by_pk?.playground_switch ? (
-    // TODO: Copy from PlaybackPage.tsx
     <Layout>
       <Row>
         {isLoaded === false && (

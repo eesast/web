@@ -209,7 +209,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
             aspect-ratio: 16 / 9;
             padding: 0.9vw 1.6vw;
           `}
-          // disabledCanvasEvents={["dragstart", "scroll"]}
         />
       </Row>
       <FloatButton

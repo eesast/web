@@ -17,8 +17,6 @@ import { ForwardOutlined } from "@ant-design/icons";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
-// import { sharing } from "webpack";
-// import { run } from "node:test";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
