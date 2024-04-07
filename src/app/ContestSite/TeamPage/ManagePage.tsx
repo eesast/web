@@ -21,6 +21,7 @@ import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 import { ContestProps } from "../.";
 
+
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
 const { Content } = Layout;

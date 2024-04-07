@@ -346,11 +346,11 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
     <Layout>
       <br />
       {/* <Row>
-          <Col span={3}></Col>
-          <Col span={18}>
-            <Button onClick={() => setModalVisible(true)}>添加新比赛</Button>
-          </Col>
-        </Row> */}
+        <Col span={3}></Col>
+        <Col span={18}>
+          <Button>添加新比赛</Button>
+        </Col>
+      </Row> */}
       <br />
       <Row>
         <Col span={3}></Col>

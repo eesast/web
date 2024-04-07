@@ -4,7 +4,7 @@ import {
   HomeOutlined,
   TeamOutlined,
   FireOutlined,
-  LockOutlined,
+  SettingOutlined,
   ExperimentOutlined,
   FieldTimeOutlined,
   BarsOutlined,
@@ -15,8 +15,8 @@ import {
   InfoCircleOutlined,
   BarChartOutlined,
   TrophyOutlined,
-  SolutionOutlined,
-  SettingOutlined,
+  // SolutionOutlined,
+  // SettingOutlined,
   ReadOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
@@ -39,10 +39,11 @@ import RecordPage from "./RecordPage";
 import CodePage from "./CodePage.old";
 import PlaybackPage from "./PlaybackPage";
 import StreamPage from "./StreamPage";
-import ManageTeamsPage from "./ManageTeamsPage";
-import SettingPage from "./SettingPage";
+// import ManageTeamsPage from "./ManageTeamsPage";
+// import SettingPage from "./SettingPage";
 import NotFoundPage from "../Components/NotFound";
 import AnalysisPage from "./AnalysisPage";
+import ManagerPage from "./ManagerPage";
 // hasura查询
 //学长写好的api，用以没登陆会跳转到登陆页面
 import { useUrl } from "../../api/hooks/url";
@@ -235,25 +236,25 @@ const MenuPage: React.FC<ContestProps> = (props) => {
 
   const itemsAdmin = [
     {
-      key: "admin",
-      label: <span>管理员</span>,
-      icon: <LockOutlined />,
-      children: [
-        {
-          key: "admin-manage",
-          label: <Link to={url.link("admin-manage")}>管理队伍</Link>,
-          icon: <SolutionOutlined />,
-        },
-        {
-          key: "admin-setting",
-          label: <Link to={url.link("admin-setting")}>比赛设置</Link>,
-          icon: <SettingOutlined />,
-        },
-      ],
+      key: "manager",
+      label: <Link to={url.link("manager")}>管理员</Link>,
+      icon: <SettingOutlined />,
+      // children: [
+      //   {
+      //     key: "admin-manage",
+      //     label: <Link to={url.link("admin-manage")}>管理队伍</Link>,
+      //     icon: <SolutionOutlined />,
+      //   },
+      //   {
+      //     key: "admin-setting",
+      //     label: <Link to={url.link("admin-setting")}>比赛设置</Link>,
+      //     icon: <SettingOutlined />,
+      //   },
+      // ],
     },
   ];
 
-  const submenuKeys = ["home", "game", "team", "arena", "admin"];
+  const submenuKeys = ["home", "game", "team", "arena"];
 
   const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -288,7 +289,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       },
     },
     {
-      title: "比赛介绍",
+      title: "带你了解",
       description:
         "在这里，你可以查看比赛的基本介绍、时间安排和比赛公告，请及时关注~",
       placement: "right",
@@ -319,6 +320,12 @@ const MenuPage: React.FC<ContestProps> = (props) => {
         "在这里，你可以查看比赛的积分榜，查看队伍的对战记录，甚至还有专属于你们队伍的数据分析！",
       placement: "right",
       target: () => arenaRef.current,
+    },
+    {
+      title: "游玩时刻",
+      description: "下面让我们跳转到试玩界面一探究竟吧！",
+      placement: "right",
+      target: () => playRef.current,
     },
   ];
 
@@ -422,12 +429,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
               path="arena-analysis"
               element={<AnalysisPage {...props} />}
             />
-
-            <Route
-              path="admin-manage"
-              element={<ManageTeamsPage {...props} />}
-            />
-            <Route path="admin-setting" element={<SettingPage {...props} />} />
+            <Route path="manager" element={<ManagerPage {...props} />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
