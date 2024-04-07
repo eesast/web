@@ -54,7 +54,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
-
   useEffect(() => {
     if (contestSwitchError) {
       message.error("获取比赛状态失败");
@@ -62,15 +61,12 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  const {
-    data: scoreteamListData,
-    //loading: scoreteamListLoading,
-    error: scoreteamListError,
-  } = graphql.useGetAllTeamInfo_CompileSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
+  const { data: scoreteamListData, error: scoreteamListError } =
+    graphql.useGetAllTeamInfo_CompileSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
   useEffect(() => {
     if (scoreteamListError) {
       message.error("获取队伍列表失败");

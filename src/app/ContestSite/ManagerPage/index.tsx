@@ -37,9 +37,9 @@ import { ContestProps } from "..";
 import { Link } from "react-router-dom";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import SettingPage from "./SettingPage";
-import ManageTeamsPage from "./ManageTeamsPage";
-import EditInfoPage from "./EditInfoPage";
+import SettingPage from "./Setting";
+import ManageTeamsPage from "./ManageTeams";
+import EditInfoPage from "./EditInfo";
 import Authenticate, { userRoles } from "@/app/Components/Authenticate";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;

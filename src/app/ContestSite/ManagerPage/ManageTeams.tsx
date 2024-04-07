@@ -121,8 +121,6 @@ const ListPage: React.FC<{
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
   user_uuid: string | undefined;
 }> = (props) => {
-  //添加新队伍功能
-
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
 
@@ -147,6 +145,11 @@ const ListPage: React.FC<{
         realname: "",
       },
     });
+  const { data: roomInfoData, error: roomInfoError } =
+    graphql.useGetRoomInfoSubscription({
+      variables: { contest_id: props.contest_id },
+    });
+
   //队伍一览表功能
   const { data: teamListData, error: teamListError } =
     graphql.useGetAllTeamInfoSubscription({
@@ -161,6 +164,72 @@ const ListPage: React.FC<{
         contest_id: props.contest_id,
       },
     });
+
+  const ALL_CODES = 1;
+  const SUCCESS_CODES = 2;
+
+  const CodesCount = ({ teamId }: { teamId: string }) => {
+    const count = useCodesCount(teamId, ALL_CODES);
+    return <>{count}</>;
+  };
+  const CompiledCount = ({ teamId }: { teamId: string }) => {
+    const count = useCodesCount(teamId, SUCCESS_CODES);
+    return <>{count}</>;
+  };
+  const TotalScore = ({ teamId }: { teamId: string }) => {
+    const count = useTotalScore(teamId);
+    return <>{count}</>;
+  };
+  const CompetitionCount = ({ teamId }: { teamId: string }) => {
+    const count = useCompetitionCount(teamId);
+    return <>{count}</>;
+  };
+
+  function useCompetitionCount(teamId: string) {
+    const competitionCount = roomInfoData?.contest_room
+      .flatMap((room) => room.contest_room_teams)
+      .filter((team) => team.contest_team.team_id === teamId).length;
+
+    return competitionCount;
+  }
+
+  function useTotalScore(teamId: string) {
+    const totalScore = roomInfoData?.contest_room.reduce((acc, room) => {
+      // 找到与teamId匹配的队伍并累加它们的分数
+      const teamScore = room.contest_room_teams.find(
+        (team) => team.contest_team.team_id === teamId,
+      )?.contest_team.score;
+
+      return acc + (Number(teamScore) || 0);
+    }, 0);
+
+    return totalScore;
+  }
+
+  function useCodesCount(teamId: string, type: number) {
+    const { data: codeInfoData, error: codeInfoError } =
+      graphql.useGetTeamCodesSubscription({
+        variables: { team_id: teamId },
+      });
+
+    useEffect(() => {
+      if (codeInfoError) {
+        message.error("代码信息加载失败");
+      }
+    });
+
+    if (type === 1) return codeInfoData?.contest_team_code?.length;
+    else if (type === 2)
+      return codeInfoData?.contest_team_code?.filter(
+        (code) => code.compile_status === "Success",
+      ).length;
+  }
+
+  useEffect(() => {
+    if (roomInfoError) {
+      message.error("房间信息加载失败");
+    }
+  }, [roomInfoError]);
 
   useEffect(() => {
     if (contestInfoError) {
@@ -309,41 +378,34 @@ const ListPage: React.FC<{
       render: (text, record) =>
         record.contest_team_members.map((i) => [i.user?.realname + "   "]),
     },
-    /* {
+    {
       title: "已提交代码数",
       dataIndex: "submitted_code_num",
       key: "submitted_code_num",
-      render: (text, record) => record.submitted_code_num
-    }, */
+      render: (text, record) => <CodesCount teamId={record.team_id} />,
+    },
     {
-      title: "编译状态",
-      dataIndex: "compiled_status",
-      key: "compiled_status",
-      render: (text, record) => record.status,
-      filters: [
-        {
-          text: "已编译代码的队伍",
-          value: "compiled",
-        },
-      ],
-      onFilter: (value, record) => record.status === value,
+      title: "过编译代码数",
+      dataIndex: "submitted_code_num",
+      key: "compiled_code_num",
+      render: (text, record) => <CompiledCount teamId={record.team_id} />,
     },
     {
       title: "比赛次数",
       dataIndex: "contest_num",
       key: "contest_num",
-      render: (text, record) => record.status2,
+      render: (text, record) => <CompetitionCount teamId={record.team_id} />,
       sorter: (a, b) => Number(a.status2) - Number(b.status2),
     },
     {
-      title: "比赛分数",
+      title: "天梯总分数",
       dataIndex: "contest_score",
       key: "contest_score",
-      render: (text, record) => record.contest_score,
+      render: (text, record) => <TotalScore teamId={record.team_id} />,
       sorter: (a, b) => Number(a.contest_score) - Number(b.contest_score),
     },
     {
-      title: "操作",
+      title: "详情",
       key: "action",
       render: (text, record) => (
         <Button

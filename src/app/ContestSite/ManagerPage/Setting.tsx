@@ -367,7 +367,7 @@ const SettingPage: React.FC<ContestProps> = (props) => {
         >
           <Form.Item
             name="contest_name"
-            label="比赛名称"
+            label="本轮比赛名称"
             rules={[{ required: true, message: "请输入比赛名称" }]}
           >
             <Input allowClear />
