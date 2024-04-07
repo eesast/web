@@ -5,6 +5,7 @@ import { useUrl } from "../../api/hooks/url";
 import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
+import dayjs from "dayjs";
 
 const { Countdown } = Statistic;
 
@@ -34,12 +35,20 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   // TODO: 在这里插入获取时间线数据的代码
 
+  const { data: CountdownData } = graphql.useGetContestTimesQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+  const contestTimes = CountdownData?.contest_time || [];
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestInfoError) {
       message.error("简介加载失败");
     }
   }, [contestInfoError]);
+  console.log(contestTimes);
+
   /* ---------------- 页面组件 ---------------- */
   return (
     <Space
@@ -99,7 +108,43 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={8}>
           <Card bordered={false}>
             {/* TODO: 在这里插入时间线组件，相关设置详见 https://ant.design/components/timeline-cn */}
-            <Timeline />
+            <Timeline
+              items={contestTimes.map((contestTime) => {
+                // 检查比赛结束时间是否已经过去
+                const isCurrentEvent =
+                  dayjs().isAfter(dayjs(contestTime.start)) &&
+                  dayjs().isBefore(dayjs(contestTime.end));
+                const isPastEvent = dayjs().isAfter(dayjs(contestTime.end));
+
+                return {
+                  color: isCurrentEvent
+                    ? "green"
+                    : isPastEvent
+                      ? "grey"
+                      : "blue", // 如果比赛已经结束，设置颜色为灰色，否则为蓝色
+                  children: (
+                    <>
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: "larger",
+                          color: isPastEvent ? "grey" : "inherit",
+                        }}
+                      >
+                        {contestTime.event}
+                      </p>
+                      <p style={{ color: isPastEvent ? "grey" : "inherit" }}>
+                        {dayjs(contestTime.start).format("YYYY-MM-DD")} ~{" "}
+                        {dayjs(contestTime.end).format("YYYY-MM-DD")}
+                      </p>
+                      <p style={{ color: isPastEvent ? "grey" : "inherit" }}>
+                        {contestTime.description}
+                      </p>
+                    </>
+                  ),
+                };
+              })}
+            />
           </Card>
         </Col>
       </Row>
