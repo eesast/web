@@ -112,8 +112,8 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
             open={isActive}
             cancelText="再看看"
             centered={true}
-            okText="结束回放"
-            title="离开页面前，请先结束回放"
+            okText="结束试玩"
+            title="离开页面前，请先结束试玩"
             onOk={async () => {
               await handleQuit();
               onConfirm();
