@@ -12798,7 +12798,7 @@ export type GetRoomInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetRoomInfoSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', created_at: any, result?: string | null, room_id: any, status: string, port?: number | null, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_name: string, team_id: any } }> }> };
+export type GetRoomInfoSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', created_at: any, result?: string | null, room_id: any, status: string, port?: number | null, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_name: string, team_id: any, score?: string | null } }> }> };
 
 export type GetRoomInfo_StatusQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -14459,6 +14459,7 @@ export const GetRoomInfoDocument = gql`
       contest_team {
         team_name
         team_id
+        score
       }
     }
   }

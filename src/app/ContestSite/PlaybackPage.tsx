@@ -61,15 +61,12 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  const {
-    data: scoreteamListData,
-    //loading: scoreteamListLoading,
-    error: scoreteamListError,
-  } = graphql.useGetAllTeamInfo_CompileSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
+  const { data: scoreteamListData, error: scoreteamListError } =
+    graphql.useGetAllTeamInfo_CompileSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
   useEffect(() => {
     if (scoreteamListError) {
       message.error("获取队伍列表失败");
@@ -80,7 +77,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const projectUrl =
     process.env.REACT_APP_STATIC_URL! +
     `/public/WebGL/${contestNameData?.contest_by_pk?.name ?? "Jump"}/`;
-  const projectName = "Playback";
+  const projectName = "playback";
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -212,7 +209,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
             aspect-ratio: 16 / 9;
             padding: 0.9vw 1.6vw;
           `}
-          // disabledCanvasEvents={["dragstart", "scroll"]}
         />
       </Row>
       <FloatButton

@@ -31,12 +31,14 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
   RollbackOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
+import * as xlsx from "xlsx";
 import TextArea from "antd/lib/input/TextArea";
-import { useUrl } from "../../api/hooks/url";
+import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
-import { ContestProps } from ".";
+import { ContestProps } from "..";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
@@ -77,12 +79,17 @@ const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
     (manager) => manager.user_uuid === user?.uuid,
   ) ? (
     editingTeamID === undefined ? (
-      <ListPage contest_id={Contest_id} setEditingTeamID={setEditingTeamID} />
+      <ListPage
+        contest_id={Contest_id}
+        setEditingTeamID={setEditingTeamID}
+        user_uuid={user?.uuid}
+      />
     ) : (
       <SubPage
         contest_id={Contest_id}
         team_id={editingTeamID}
         setEditingTeamID={setEditingTeamID}
+        user_uuid={user?.uuid}
       />
     )
   ) : (
@@ -112,9 +119,8 @@ function randomString() {
 const ListPage: React.FC<{
   contest_id: string;
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
+  user_uuid: string | undefined;
 }> = (props) => {
-  //添加新队伍功能
-
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
 
@@ -122,13 +128,13 @@ const ListPage: React.FC<{
     graphql.useInsertTeamMutation();
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      uuid: "",
+      uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      user_uuid: "",
+      user_uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
@@ -139,6 +145,11 @@ const ListPage: React.FC<{
         realname: "",
       },
     });
+  const { data: roomInfoData, error: roomInfoError } =
+    graphql.useGetRoomInfoSubscription({
+      variables: { contest_id: props.contest_id },
+    });
+
   //队伍一览表功能
   const { data: teamListData, error: teamListError } =
     graphql.useGetAllTeamInfoSubscription({
@@ -146,6 +157,85 @@ const ListPage: React.FC<{
         contest_id: props.contest_id,
       },
     });
+
+  const { data: contestInfoData, error: contestInfoError } =
+    graphql.useGetContestInfoSuspenseQuery({
+      variables: {
+        contest_id: props.contest_id,
+      },
+    });
+
+  const ALL_CODES = 1;
+  const SUCCESS_CODES = 2;
+
+  const CodesCount = ({ teamId }: { teamId: string }) => {
+    const count = useCodesCount(teamId, ALL_CODES);
+    return <>{count}</>;
+  };
+  const CompiledCount = ({ teamId }: { teamId: string }) => {
+    const count = useCodesCount(teamId, SUCCESS_CODES);
+    return <>{count}</>;
+  };
+  const TotalScore = ({ teamId }: { teamId: string }) => {
+    const count = useTotalScore(teamId);
+    return <>{count}</>;
+  };
+  const CompetitionCount = ({ teamId }: { teamId: string }) => {
+    const count = useCompetitionCount(teamId);
+    return <>{count}</>;
+  };
+
+  function useCompetitionCount(teamId: string) {
+    const competitionCount = roomInfoData?.contest_room
+      .flatMap((room) => room.contest_room_teams)
+      .filter((team) => team.contest_team.team_id === teamId).length;
+
+    return competitionCount;
+  }
+
+  function useTotalScore(teamId: string) {
+    const totalScore = roomInfoData?.contest_room.reduce((acc, room) => {
+      // 找到与teamId匹配的队伍并累加它们的分数
+      const teamScore = room.contest_room_teams.find(
+        (team) => team.contest_team.team_id === teamId,
+      )?.contest_team.score;
+
+      return acc + (Number(teamScore) || 0);
+    }, 0);
+
+    return totalScore;
+  }
+
+  function useCodesCount(teamId: string, type: number) {
+    const { data: codeInfoData, error: codeInfoError } =
+      graphql.useGetTeamCodesSubscription({
+        variables: { team_id: teamId },
+      });
+
+    useEffect(() => {
+      if (codeInfoError) {
+        message.error("代码信息加载失败");
+      }
+    });
+
+    if (type === 1) return codeInfoData?.contest_team_code?.length;
+    else if (type === 2)
+      return codeInfoData?.contest_team_code?.filter(
+        (code) => code.compile_status === "Success",
+      ).length;
+  }
+
+  useEffect(() => {
+    if (roomInfoError) {
+      message.error("房间信息加载失败");
+    }
+  }, [roomInfoError]);
+
+  useEffect(() => {
+    if (contestInfoError) {
+      message.error("比赛信息加载失败");
+    }
+  }, [contestInfoError]);
 
   useEffect(() => {
     if (userError) {
@@ -160,6 +250,24 @@ const ListPage: React.FC<{
       console.log(teamListError.message);
     }
   }, [teamListError]);
+
+  function cleanFileName(fileName: string) {
+    // 定义非法字符正则表达式
+    const illegalRe = /[/?<>\\:*|"]/g;
+    // 定义保留名称的正则表达式，如CON, PRN, AUX, NUL等
+    const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+    // 定义以点结束的正则表达式
+    const windowsTrailingRe = /[. ]+$/;
+    // 替换非法字符为空字符串
+    const cleaned = fileName
+      .replace(illegalRe, "")
+      .replace(windowsTrailingRe, "");
+    // 检查是否为Windows保留名称，如果是，添加前缀
+    if (windowsReservedRe.test(cleaned)) {
+      return `_${cleaned}`;
+    }
+    return cleaned;
+  }
 
   const handleTeamAdd = async () => {
     const values = await form.getFieldsValue();
@@ -216,6 +324,41 @@ const ListPage: React.FC<{
     setIsModalVisible(false);
   };
 
+  const exportTeamsData = () => {
+    try {
+      const data: any = [];
+      const teamsData = data.concat(
+        // 函数concat 把队伍信息和成员信息连接起来
+        // eslint-disable-next-line
+        teamListData?.contest_team.map((team) =>
+          [
+            team.team_name,
+            team.team_intro,
+            team.team_leader?.realname,
+            team.team_leader?.email || "null",
+            team.team_leader?.phone || "null",
+          ].concat(
+            team.contest_team_members?.map(
+              (member) =>
+                `${member.user?.realname}/ ${member.user?.id}/ ${
+                  member.user?.email || "null"
+                }/ ${member.user?.phone || "null"}`,
+            ),
+          ),
+        ),
+      );
+      const contestName = cleanFileName(
+        contestInfoData?.contest_by_pk?.contest_name!,
+      );
+      const workBook = xlsx.utils.book_new();
+      const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
+      xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
+      xlsx.writeFile(workBook, `队伍信息_${contestName}.xlsx`);
+    } catch (error) {
+      message.error("队伍信息导出失败");
+    }
+  };
+
   const teamListColumns: TableProps<
     graphql.GetAllTeamInfoSubscription["contest_team"][0]
   >["columns"] = [
@@ -235,41 +378,34 @@ const ListPage: React.FC<{
       render: (text, record) =>
         record.contest_team_members.map((i) => [i.user?.realname + "   "]),
     },
-    /* {
+    {
       title: "已提交代码数",
       dataIndex: "submitted_code_num",
       key: "submitted_code_num",
-      render: (text, record) => record.submitted_code_num
-    }, */
+      render: (text, record) => <CodesCount teamId={record.team_id} />,
+    },
     {
-      title: "编译状态",
-      dataIndex: "compiled_status",
-      key: "compiled_status",
-      render: (text, record) => record.status,
-      filters: [
-        {
-          text: "已编译代码的队伍",
-          value: "compiled",
-        },
-      ],
-      onFilter: (value, record) => record.status === value,
+      title: "过编译代码数",
+      dataIndex: "submitted_code_num",
+      key: "compiled_code_num",
+      render: (text, record) => <CompiledCount teamId={record.team_id} />,
     },
     {
       title: "比赛次数",
       dataIndex: "contest_num",
       key: "contest_num",
-      render: (text, record) => record.status2,
+      render: (text, record) => <CompetitionCount teamId={record.team_id} />,
       sorter: (a, b) => Number(a.status2) - Number(b.status2),
     },
     {
-      title: "比赛分数",
+      title: "天梯总分数",
       dataIndex: "contest_score",
       key: "contest_score",
-      render: (text, record) => record.contest_score,
+      render: (text, record) => <TotalScore teamId={record.team_id} />,
       sorter: (a, b) => Number(a.contest_score) - Number(b.contest_score),
     },
     {
-      title: "操作",
+      title: "详情",
       key: "action",
       render: (text, record) => (
         <Button
@@ -291,16 +427,24 @@ const ListPage: React.FC<{
 
   return (
     <Layout>
-      <Row
-        justify="center"
-        css={`
-          margin-top: 50px;
-        `}
-      >
+      <Row>
         <Card
           hoverable
+          style={{
+            padding: "2vh 1vw",
+          }}
+          title={
+            <Text
+              css={`
+                font-size: xx-large;
+                font-weight: bold;
+              `}
+            >
+              队伍管理
+            </Text>
+          }
           css={`
-            width: 80%;
+            width: 100%;
             padding-top: 24px;
             padding-bottom: 12px;
             &.ant-card-bordered {
@@ -325,8 +469,17 @@ const ListPage: React.FC<{
             `}
             icon={<PlusOutlined />}
             onClick={() => setIsModalVisible(true)}
+            type="primary"
           >
             添加新队伍
+          </Button>
+          <Button
+            style={{ marginLeft: "20px" }}
+            icon={<DownloadOutlined />}
+            onClick={exportTeamsData}
+            type="primary"
+          >
+            导出队伍信息
           </Button>
         </Card>
       </Row>
@@ -394,6 +547,7 @@ const SubPage: React.FC<{
   contest_id: string;
   team_id: string;
   setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
+  user_uuid: string | undefined;
 }> = (props) => {
   const [activeTabKey, setActiveTabKey] = useState("basic");
 
@@ -417,13 +571,13 @@ const SubPage: React.FC<{
 
   const { refetch: refetchisleader } = graphql.useIsTeamLeaderSuspenseQuery({
     variables: {
-      uuid: "",
+      uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
   const { refetch: refetchismember } = graphql.useIsTeamMemberSuspenseQuery({
     variables: {
-      user_uuid: "",
+      user_uuid: props?.user_uuid,
       contest_id: props.contest_id,
     },
   });
@@ -467,10 +621,6 @@ const SubPage: React.FC<{
     {
       key: "code",
       tab: "查看代码",
-    },
-    {
-      key: "compile",
-      tab: "手动编译",
     },
   ];
 
@@ -634,14 +784,10 @@ const SubPage: React.FC<{
 
   return (
     <div>
-      <Row
-        justify="center"
-        css={`
-          margin-top: 50px;
-        `}
-      >
+      <Row>
         <Card
-          style={{ width: "80%" }}
+          bordered={false}
+          style={{ width: "100%" }}
           title={
             <Text
               css={`
@@ -663,7 +809,6 @@ const SubPage: React.FC<{
           onTabChange={(key) => {
             onTabChange(key);
           }}
-          hoverable
         >
           {contentList[activeTabKey as keyof typeof contentList]}
         </Card>
@@ -671,5 +816,4 @@ const SubPage: React.FC<{
     </div>
   );
 };
-
 export default ManageTeamsPage;
