@@ -275,10 +275,10 @@ const MenuPage: React.FC<ContestProps> = (props) => {
 
   const steps: TourProps["steps"] = [
     {
-      title: contestData?.contest_by_pk?.contest_name,
+      title: contestData?.contest_by_pk?.fullname,
       description:
         "欢迎参加" +
-        contestData?.contest_by_pk?.contest_name +
+        contestData?.contest_by_pk?.fullname +
         "比赛！下面让我来帮助你熟悉赛事互动页面，帮助你更好地参加比赛吧！",
       target: null,
       //cover: <img src="/backgrounds/2024new.jpg" alt="2024New" />,

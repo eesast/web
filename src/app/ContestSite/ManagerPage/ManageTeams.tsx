@@ -347,9 +347,7 @@ const ListPage: React.FC<{
           ),
         ),
       );
-      const contestName = cleanFileName(
-        contestInfoData?.contest_by_pk?.contest_name!,
-      );
+      const contestName = cleanFileName(contestInfoData?.contest_by_pk?.name!);
       const workBook = xlsx.utils.book_new();
       const workSheet = xlsx.utils.aoa_to_sheet(teamsData);
       xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");

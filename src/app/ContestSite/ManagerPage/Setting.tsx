@@ -77,12 +77,12 @@ const Setting: React.FC<ContestProps> = (props) => {
   }, [contestMapError]);
 
   //运行比赛
-  const runContest = async (map_name: string, map_uuid: string) => {
+  const runContest = async (round_name: string, map_uuid: string) => {
     try {
       const round_id = await addContestRound({
         variables: {
           contest_id: Contest_id,
-          name: map_name,
+          name: round_name,
           map_id: map_uuid,
         },
       });
@@ -91,7 +91,7 @@ const Setting: React.FC<ContestProps> = (props) => {
         round_id: round_id,
       });
 
-      message.info("正在运行比赛:" + map_name);
+      message.info("正在运行比赛:" + round_name);
     } catch (e) {
       message.error("运行比赛失败!");
       console.log(e);
@@ -102,9 +102,9 @@ const Setting: React.FC<ContestProps> = (props) => {
     runForm
       .validateFields()
       .then((values) => {
-        const contestName = values.contest_name;
+        const roundName = values.round_name;
         const contestMapId = values.map_id;
-        runContest(contestName, contestMapId);
+        runContest(roundName, contestMapId);
         setIsModalVisible(false);
       })
       .catch((errorInfo) => {
@@ -364,7 +364,7 @@ const Setting: React.FC<ContestProps> = (props) => {
           preserve={false}
         >
           <Form.Item
-            name="contest_name"
+            name="round_name"
             label="本轮比赛名称"
             rules={[{ required: true, message: "请输入比赛名称" }]}
           >

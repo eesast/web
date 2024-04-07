@@ -37,7 +37,7 @@ import { ContestProps } from ".";
 /* ---------------- 接口和类型定义 ---------------- */
 // 表单数据格式
 // interface FormValues {
-//   contest_name: string;
+//   fullname: string;
 //   contest_type: string;
 //   description: string | undefined | null;
 //   time: Dayjs[];
@@ -220,8 +220,8 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //   } catch {}
   //   const values = form.getFieldsValue();
   //   if (
-  //     values.contest_name === undefined ||
-  //     values.contest_name === "" ||
+  //     values.fullname === undefined ||
+  //     values.fullname === "" ||
   //     values.time === undefined ||
   //     values.contest_type === undefined
   //   ) {
@@ -232,7 +232,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //     await updateContest({
   //       variables: {
   //         id: contestID,
-  //         contest_name: values.contest_name,
+  //         fullname: values.fullname,
   //         contest_type: values.contest_type,
   //         description: values.description ? values.description : "",
   //         start_date: values.time[0],
@@ -247,7 +247,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //         try {
   //           const newUserData = await refetchUserId({
   //             email: item.email,
-  //             realname: item.name,
+  //             realname: item.fullname,
   //           });
   //           const user_uuid = newUserData.data.users[0]?.uuid;
   //           if (user_uuid) {
@@ -276,7 +276,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   //     const id = (
   //       await addContest({
   //         variables: {
-  //           contest_name: values.contest_name,
+  //           fullname: values.fullname,
   //           contest_type: values.contest_type,
   //           description: values.description,
   //           start_date: values.time[0],
@@ -371,7 +371,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
                     //             contest_id: item.id,
                     //           });
                     //           const data: FormValues = {
-                    //             contest_name: item?.contest_name,
+                    //             fullname: item?.fullname,
                     //             contest_type: item?.contest_type,
                     //             description: item?.description,
                     //             time: [
@@ -398,7 +398,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
                     //       }
                     //     : undefined
                     // }
-                    name={item.contest_name}
+                    name={item.fullname}
                     description={item.description as string | null}
                     startDate={item.start_date}
                     endDate={item.end_date}
@@ -436,7 +436,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
           preserve={false}
         >
           <Form.Item
-            name="contest_name"
+            name="fullname"
             label="名称"
             rules={[{ required: true, message: "请输入比赛名称" }]}
           >
