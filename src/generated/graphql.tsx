@@ -12617,7 +12617,6 @@ export type DeleteContestMutation = { __typename?: 'mutation_root', delete_conte
 export type UpdateContestInfoMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   fullname: Scalars['String']['input'];
-  name: Scalars['String']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
   start_date: Scalars['timestamptz']['input'];
   end_date: Scalars['timestamptz']['input'];
@@ -12974,6 +12973,13 @@ export type GetTotalMemberNumQueryVariables = Exact<{
 
 
 export type GetTotalMemberNumQuery = { __typename?: 'query_root', contest_team_member_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null } };
+
+export type GetTeamStatQueryVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamStatQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_members_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null }, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } } | null };
 
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -13595,10 +13601,10 @@ export type DeleteContestMutationHookResult = ReturnType<typeof useDeleteContest
 export type DeleteContestMutationResult = Apollo.MutationResult<DeleteContestMutation>;
 export type DeleteContestMutationOptions = Apollo.BaseMutationOptions<DeleteContestMutation, DeleteContestMutationVariables>;
 export const UpdateContestInfoDocument = gql`
-    mutation UpdateContestInfo($contest_id: uuid!, $fullname: String!, $name: String!, $description: String, $start_date: timestamptz!, $end_date: timestamptz!) {
+    mutation UpdateContestInfo($contest_id: uuid!, $fullname: String!, $description: String, $start_date: timestamptz!, $end_date: timestamptz!) {
   update_contest_by_pk(
     pk_columns: {id: $contest_id}
-    _set: {fullname: $fullname, name: $name, description: $description, start_date: $start_date, end_date: $end_date}
+    _set: {fullname: $fullname, description: $description, start_date: $start_date, end_date: $end_date}
   ) {
     id
   }
@@ -13621,7 +13627,6 @@ export type UpdateContestInfoMutationFn = Apollo.MutationFunction<UpdateContestI
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *      fullname: // value for 'fullname'
- *      name: // value for 'name'
  *      description: // value for 'description'
  *      start_date: // value for 'start_date'
  *      end_date: // value for 'end_date'
@@ -15471,6 +15476,63 @@ export type GetTotalMemberNumQueryHookResult = ReturnType<typeof useGetTotalMemb
 export type GetTotalMemberNumLazyQueryHookResult = ReturnType<typeof useGetTotalMemberNumLazyQuery>;
 export type GetTotalMemberNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalMemberNumSuspenseQuery>;
 export type GetTotalMemberNumQueryResult = Apollo.QueryResult<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>;
+export const GetTeamStatDocument = gql`
+    query getTeamStat($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    contest_team_members_aggregate {
+      aggregate {
+        count
+      }
+    }
+    contest_team_codes_aggregate {
+      aggregate {
+        count
+      }
+    }
+    contest_team_rooms_aggregate {
+      aggregate {
+        count
+        sum {
+          score
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamStatQuery__
+ *
+ * To run a query within a React component, call `useGetTeamStatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamStatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamStatQuery({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamStatQuery(baseOptions: Apollo.QueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables> & ({ variables: GetTeamStatQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
+      }
+export function useGetTeamStatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
+        }
+export function useGetTeamStatSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
+        }
+export type GetTeamStatQueryHookResult = ReturnType<typeof useGetTeamStatQuery>;
+export type GetTeamStatLazyQueryHookResult = ReturnType<typeof useGetTeamStatLazyQuery>;
+export type GetTeamStatSuspenseQueryHookResult = ReturnType<typeof useGetTeamStatSuspenseQuery>;
+export type GetTeamStatQueryResult = Apollo.QueryResult<GetTeamStatQuery, GetTeamStatQueryVariables>;
 export const AddTeamCodeDocument = gql`
     mutation AddTeamCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
   insert_contest_team_code_one(
