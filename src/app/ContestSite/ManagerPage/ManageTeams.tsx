@@ -52,7 +52,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 /* ---------------- 主页面 ---------------- */
-const ManageTeamsPage: React.FC<ContestProps> = ({ mode, user }) => {
+const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const [editingTeamID, setEditingTeamID] = useState<string>();
   const url = useUrl();
@@ -816,4 +816,4 @@ const SubPage: React.FC<{
     </div>
   );
 };
-export default ManageTeamsPage;
+export default ManageTeams;

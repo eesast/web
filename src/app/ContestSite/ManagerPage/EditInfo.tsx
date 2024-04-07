@@ -13,10 +13,11 @@ import {
 import dayjs from "dayjs";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
+import { ContestProps } from "..";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
-const EditInfoPage: React.FC<{}> = (props) => {
+const EditInfo: React.FC<ContestProps> = (props) => {
   const { Option } = Select;
   const [form] = Form.useForm();
   const RangePicker: any = DatePicker.RangePicker;
@@ -141,4 +142,4 @@ const EditInfoPage: React.FC<{}> = (props) => {
   );
 };
 
-export default EditInfoPage;
+export default EditInfo;

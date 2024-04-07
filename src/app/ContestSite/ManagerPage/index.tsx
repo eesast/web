@@ -37,9 +37,9 @@ import { ContestProps } from "..";
 import { Link } from "react-router-dom";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import SettingPage from "./Setting";
-import ManageTeamsPage from "./ManageTeams";
-import EditInfoPage from "./EditInfo";
+import Setting from "./Setting";
+import ManageTeams from "./ManageTeams";
+import EditInfo from "./EditInfo";
 import Authenticate, { userRoles } from "@/app/Components/Authenticate";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
@@ -80,23 +80,23 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
       >
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true} align="stretch">
           <Col span={16}>
-            <EditInfoPage />
+            <EditInfo mode={mode} user={user} />
           </Col>
           <Col span={8}>
-            <SettingPage mode={mode} user={user} />
+            <Setting mode={mode} user={user} />
           </Col>
         </Row>
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={24}>
-            <ManageTeamsPage mode={mode} user={user} />
+            <ManageTeams mode={mode} user={user} />
           </Col>
         </Row>
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={8}>
-            <CharacterPage mode={mode} user={user} />
+            <CharacterData mode={mode} user={user} />
           </Col>
           <Col span={16}>
-            <ContestDataPage mode={mode} user={user} />
+            <ContestData mode={mode} user={user} />
           </Col>
         </Row>
       </Space>
@@ -117,7 +117,7 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
   );
 };
 
-const CharacterPage: React.FC<ContestProps> = ({ mode, user }) => {
+const CharacterData: React.FC<ContestProps> = ({ mode, user }) => {
   return (
     <Layout>
       <Card
@@ -140,7 +140,7 @@ const CharacterPage: React.FC<ContestProps> = ({ mode, user }) => {
   );
 };
 
-const ContestDataPage: React.FC<ContestProps> = ({ mode, user }) => {
+const ContestData: React.FC<ContestProps> = ({ mode, user }) => {
   return (
     <Layout>
       <Card
