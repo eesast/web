@@ -35,6 +35,13 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
+  const { data: contestPlayersData } =
+    graphql.useGetContestPlayersSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+
   const { data: isleaderData, refetch: refetchisleader } =
     graphql.useIsTeamLeaderSuspenseQuery({
       variables: {
@@ -85,11 +92,13 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [form2] = Form.useForm();
 
   const [insertTeam, { error: insertError }] = graphql.useInsertTeamMutation();
+  const [addTeamPlayer, { error: addTeamPlayerError }] =
+    graphql.useAddTeamPlayerMutation();
   //Register函数组件
   const onRegister = async () => {
     const values = await form.getFieldsValue(); //form表单里的信息
     try {
-      await insertTeam({
+      const team = await insertTeam({
         variables: {
           ...values, //剩余参数
           team_leader_uuid: user?.uuid!,
@@ -97,13 +106,27 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
           contest_id: Contest_id!,
         },
       });
-      if (!insertError) {
-        message.success("创建成功");
-        form.resetFields();
-        navigate(0);
+      if (insertError) {
+        message.error("创建失败，队伍名称不合法");
+        throw insertError;
       }
+      contestPlayersData?.contest_player.forEach(async (player) => {
+        await addTeamPlayer({
+          variables: {
+            team_id: team?.data?.insert_contest_team_one?.team_id!,
+            player: player.player_label,
+          },
+        });
+      });
+      if (addTeamPlayerError) {
+        message.error("队伍初始化失败，请联系管理员");
+        throw addTeamPlayerError;
+      }
+      message.success("创建成功");
+      form.resetFields();
+      navigate(0);
     } catch (e) {
-      message.error("创建失败,可能队名重复或网络问题");
+      console.error(e);
     }
     refetchisleader();
     refetchismember();
