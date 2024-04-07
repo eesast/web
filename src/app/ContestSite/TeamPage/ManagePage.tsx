@@ -26,7 +26,7 @@ import { ContestProps } from "../.";
 const { TextArea } = Input;
 const { Content } = Layout;
 const { confirm } = Modal;
-const { Text } = Typography;
+const { Paragraph, Text } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
@@ -122,6 +122,10 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   const isLeader = user?.uuid === team.team_leader?.uuid;
 
   if (!user) {
+    return <Spin />;
+  }
+  if (!team.team_intro) {
+    //team_intro获取较慢，需要等待team_intro获取完毕
     return <Spin />;
   }
 
@@ -283,16 +287,16 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                   ]}
                 >
                   <Input
+                    defaultValue={team.team_name}
                     style={{ width: "30%" }}
                     disabled={false}
                     autoCapitalize="off"
                     autoCorrect="off"
                     autoComplete="on"
-                    placeholder={team.team_name}
                   />
                 </Form.Item>
                 <Form.Item name="invited_code" label="邀请码">
-                  <Text>{team.invited_code}</Text>
+                  <Paragraph copyable>{team.invited_code}</Paragraph>
                 </Form.Item>
                 <Form.Item label="队长">
                   <Text>{team.team_leader?.realname}</Text>
@@ -326,9 +330,9 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                   ]}
                 >
                   <TextArea
+                    defaultValue={team.team_intro!}
                     rows={6}
                     disabled={false}
-                    placeholder={team.team_intro!}
                   />
                 </Form.Item>
                 <Form.Item style={{ textAlign: "center" }}>

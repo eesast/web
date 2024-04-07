@@ -178,185 +178,250 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   };
   return contestSwitchData?.contest_by_pk?.team_switch ? (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "80vh",
-        }}
-      >
-        <Card hoverable style={{ height: "60vh", width: "80%" }}>
-          <Row justify="space-evenly">
-            <Col className="gutter-row" xs={4} sm={4} md={6} lg={8} xl={10}>
-              <Content>
-                <Form
-                  name="form"
-                  form={form} //表单名字绑定
-                  layout="vertical"
-                  initialValues={{ remember: true }}
-                  onFinish={onRegister}
-                  onFinishFailed={onFinishFailed}
-                >
-                  <Form.Item
-                    label="队伍名称"
-                    name="team_name"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input the team name!",
-                      },
-                    ]}
+      <Layout>
+        <br />
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Card hoverable style={{ height: "500px", width: "80%" }}>
+            <Row
+              justify="space-evenly"
+              style={{ height: "100%", width: "100%" }}
+            >
+              <Col
+                className="gutter-row"
+                xs={10}
+                sm={10}
+                md={10}
+                lg={10}
+                xl={10}
+                style={{ height: "100%", width: "100%" }}
+              >
+                <Content>
+                  <Form
+                    name="form"
+                    form={form} //表单名字绑定
+                    layout="vertical"
+                    initialValues={{ remember: true }}
+                    onFinish={onRegister}
+                    onFinishFailed={onFinishFailed}
                   >
-                    <Input placeholder="输入队名" />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="队伍简介"
-                    name="team_intro"
-                    rules={[
-                      { required: true, message: "Please input team detail!" },
-                    ]}
-                  >
-                    <TextArea placeholder="输入队伍简介" rows={6} />
-                  </Form.Item>
-                  <Form.Item style={{ textAlign: "center" }}>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      disabled={
-                        isleaderData?.contest_team.length !== 0 ||
-                        ismemberData?.contest_team_member.length !== 0
-                      }
-                    >
-                      创建队伍
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </Content>
-            </Col>
-            <Col className="gutter-row" xs={0} sm={1} md={1} lg={1} xl={1}>
-              <div
-                style={{
-                  borderLeft: "1px solid #1677ff",
-                  height: "100%",
-                  alignSelf: "center",
-                }}
-              ></div>
-            </Col>
-            <Col className="gutter-row" xs={4} sm={4} md={6} lg={8} xl={10}>
-              <Content style={{ height: "100%" }}>
-                <Form
-                  name="form2"
-                  form={form2} //表单名字绑定
-                  layout="vertical"
-                  initialValues={{ remember: true }}
-                  style={{ height: "100%" }}
-                >
-                  {!isTeamInfoVisible && (
-                    <Space
-                      direction="vertical"
-                      size="middle"
-                      style={{ display: "flex" }}
-                    >
-                      <Form.Item
-                        label="邀请码"
-                        name="invited_code"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input the invited code!",
-                          },
-                        ]}
-                      >
-                        <Input placeholder="输入邀请码" />
-                      </Form.Item>
-                      <Form.Item style={{ textAlign: "center" }}>
-                        <Button onClick={onClickShowTeamInfo}>
-                          <> 加入队伍</>
-                        </Button>
-                      </Form.Item>
-                    </Space>
-                  )}
-
-                  {isTeamInfoVisible && (
+                    <Form.Item name="title">
+                      <h1 style={{ textAlign: "center" }}>创建队伍</h1>
+                    </Form.Item>
                     <Form.Item
-                      style={{
-                        textAlign: "center",
-                        height: "100%",
-                        width: "100%",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        display: "flex",
-                        alignItems: "stretch",
-                      }}
+                      label="队伍名称"
+                      name="team_name"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input the team name!",
+                        },
+                      ]}
                     >
-                      <div style={{ width: "100%" }}>
-                        <Space
-                          direction="vertical"
-                          size="middle"
-                          style={{ width: "100%", height: "100%" }}
+                      <Input placeholder="输入队名" />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="队伍简介"
+                      name="team_intro"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input team detail!",
+                        },
+                      ]}
+                    >
+                      <TextArea placeholder="输入队伍简介" rows={6} />
+                    </Form.Item>
+                    <Form.Item style={{ textAlign: "center" }}>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        disabled={
+                          isleaderData?.contest_team.length !== 0 ||
+                          ismemberData?.contest_team_member.length !== 0
+                        }
+                      >
+                        创建队伍
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </Content>
+              </Col>
+              <Col className="gutter-row" xs={1} sm={1} md={1} lg={1} xl={1}>
+                <div
+                  style={{
+                    borderLeft: "1px solid #1677ff",
+                    height: "100%",
+                    alignSelf: "center",
+                  }}
+                ></div>
+              </Col>
+              <Col
+                className="gutter-row"
+                xs={10}
+                sm={10}
+                md={10}
+                lg={10}
+                xl={10}
+              >
+                <Content style={{ height: "100%", width: "100%" }}>
+                  <Form
+                    name="form2"
+                    form={form2} //表单名字绑定
+                    layout="vertical"
+                    initialValues={{ remember: true }}
+                    style={{ height: "100%", width: "100%" }}
+                  >
+                    {!isTeamInfoVisible && (
+                      <Space
+                        direction="vertical"
+                        size="middle"
+                        style={{ display: "flex" }}
+                      >
+                        <Form.Item name="title">
+                          <h1 style={{ textAlign: "center" }}>加入队伍</h1>
+                        </Form.Item>
+                        <Form.Item
+                          label="邀请码"
+                          name="invited_code"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please input the invited code!",
+                            },
+                          ]}
                         >
-                          <Card
-                            style={{
-                              border: "1px solid #1677ff",
-                              width: "100%",
-                            }}
+                          <Input placeholder="输入邀请码" />
+                        </Form.Item>
+                        <Form.Item style={{ textAlign: "center" }}>
+                          <Button
+                            onClick={onClickShowTeamInfo}
+                            disabled={
+                              isleaderData?.contest_team.length !== 0 ||
+                              ismemberData?.contest_team_member.length !== 0
+                            }
                           >
+                            <> 加入队伍</>
+                          </Button>
+                        </Form.Item>
+                      </Space>
+                    )}
+
+                    {isTeamInfoVisible && (
+                      <Space
+                        direction="vertical"
+                        size="middle"
+                        style={{ display: "flex" }}
+                      >
+                        <Form.Item name="title">
+                          <h1 style={{ textAlign: "center" }}>加入队伍</h1>
+                        </Form.Item>
+                        <Form.Item
+                          style={{
+                            textAlign: "center",
+                            height: "100%",
+                            width: "100%",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            display: "flex",
+                            alignItems: "stretch",
+                          }}
+                        >
+                          <div style={{ width: "90%" }}>
                             <Space
                               direction="vertical"
-                              style={{ width: "100%" }}
+                              size="middle"
+                              style={{ width: "100%", height: "100%" }}
                             >
-                              <Divider
+                              <Card
                                 style={{
-                                  border: "0.5px #1677ff",
+                                  border: "1px solid #1677ff",
                                   width: "100%",
                                 }}
                               >
-                                队伍信息
-                              </Divider>
-                              <ul
-                                style={{
-                                  textAlign: "left",
-                                  wordBreak: "break-all",
-                                }}
-                              >
-                                <Space direction="vertical">
-                                  <li>队名：{teamInfo.teamName}</li>
-                                  <li>队长：{teamInfo.teamLeader}</li>
-                                  <li>队伍简介：{teamInfo.teamIntro}</li>
+                                <Space
+                                  direction="vertical"
+                                  style={{ width: "100%" }}
+                                >
+                                  <Divider
+                                    style={{
+                                      border: "0.5px #1677ff",
+                                      width: "100%",
+                                      margin: "0",
+                                    }}
+                                  >
+                                    队伍信息
+                                  </Divider>
+                                  <ul
+                                    style={{
+                                      textAlign: "left",
+                                      wordBreak: "break-all",
+                                    }}
+                                  >
+                                    <Space direction="vertical">
+                                      <li>队名：{teamInfo.teamName}</li>
+                                      <li>队长：{teamInfo.teamLeader}</li>
+                                      <li>队伍简介：{teamInfo.teamIntro}</li>
+                                    </Space>
+                                  </ul>
                                 </Space>
-                              </ul>
+                              </Card>
+                              <Row
+                                gutter={16}
+                                style={{ justifyContent: "center" }}
+                              >
+                                <Col
+                                  xs={18}
+                                  sm={18}
+                                  md={12}
+                                  lg={10}
+                                  xl={10}
+                                  style={{ marginBottom: "10px" }}
+                                >
+                                  <Button
+                                    onClick={handleCancelShowTeamInfo}
+                                    block
+                                  >
+                                    取消
+                                  </Button>
+                                </Col>
+                                <Col xs={18} sm={18} md={12} lg={10} xl={10}>
+                                  <Button
+                                    onClick={onFinishJoin}
+                                    disabled={
+                                      isleaderData?.contest_team.length !== 0 ||
+                                      ismemberData?.contest_team_member
+                                        .length !== 0
+                                    }
+                                    style={{
+                                      backgroundColor: "#1677ff",
+                                      color: "white",
+                                    }}
+                                    block
+                                  >
+                                    确认加入
+                                  </Button>
+                                </Col>
+                              </Row>
                             </Space>
-                          </Card>
-                          <Space>
-                            <Button onClick={handleCancelShowTeamInfo}>
-                              取消
-                            </Button>
-                            <Button
-                              onClick={onFinishJoin}
-                              disabled={
-                                isleaderData?.contest_team.length !== 0 ||
-                                ismemberData?.contest_team_member.length !== 0
-                              }
-                              style={{
-                                backgroundColor: "#1677ff",
-                                color: "white",
-                              }}
-                            >
-                              确认加入
-                            </Button>
-                          </Space>
-                        </Space>
-                      </div>
-                    </Form.Item>
-                  )}
-                </Form>
-              </Content>
-            </Col>
-          </Row>
-        </Card>
-      </div>
+                          </div>
+                        </Form.Item>
+                      </Space>
+                    )}
+                  </Form>
+                </Content>
+              </Col>
+            </Row>
+          </Card>
+        </div>
+      </Layout>
     </>
   ) : (
     <NotStarted />

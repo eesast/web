@@ -84,6 +84,16 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
   }, [openKeys]);
 
+  //获取是否为某个队伍的成员
+  const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
+    variables: {
+      user_uuid: props.user?.uuid!,
+      contest_id: Contest_id,
+    },
+  });
+
+  const isMember = ismemberData?.contest_team_member[0];
+
   const introRef = useRef(null);
   const playRef = useRef(null);
   const joinRef = useRef(null);
@@ -176,9 +186,13 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     },
     {
       key: "team",
-      label: (
+      label: isMember ? (
         <Link to={url.link("team")} ref={joinRef}>
           我的队伍
+        </Link>
+      ) : (
+        <Link to={url.link("team")} ref={joinRef}>
+          现在报名
         </Link>
       ),
       icon: <TeamOutlined />,
