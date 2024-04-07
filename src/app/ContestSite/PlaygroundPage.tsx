@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ContestProps } from ".";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
