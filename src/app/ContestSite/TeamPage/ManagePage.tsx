@@ -93,20 +93,15 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     graphql.useDeleteTeamMemberMutation();
 
   //利用teamid查询team的信息储存在teamdata中
-  const { data: teamData, refetch: refetchTeam } = graphql.useGetTeamInfoQuery({
-    variables: {
-      team_id: teamid!,
-      contest_id: Contest_id,
-    },
-  });
+  const { data: teamData, refetch: refetchTeam } =
+    graphql.useGetTeamInfoSuspenseQuery({
+      variables: {
+        team_id: teamid!,
+        contest_id: Contest_id,
+      },
+    });
 
   /* ---------------- useEffect ---------------- */
-  useEffect(() => {
-    if (teamid) {
-      refetchMemberInfo();
-    }
-  });
-
   useEffect(() => {
     if (UpdateTeamData && !UpdateTeamError) {
       message.success("更新成功");
