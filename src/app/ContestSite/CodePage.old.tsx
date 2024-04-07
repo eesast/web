@@ -32,6 +32,8 @@ import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
+import styled from "styled-components";
+import NotImplemented from "./Components/NotImplemented";
 /* ---------------- 接口和类型定义 ---------------- */
 interface Playerprops {
   key: number;
@@ -41,6 +43,13 @@ interface Playerprops {
 }
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
+const Container = styled.div`
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 /* ---------------- 主页面 ---------------- */
 const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -548,7 +557,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   /* ---------------- 页面组件 ---------------- */
-  return (
+  return contestData?.contest_by_pk?.status.slice(1, 2) === "1" ? (
     <Layout>
       <br />
       <Row>
@@ -613,6 +622,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         </Col>
       </Row>
     </Layout>
+  ) : (
+    <Container>
+      <NotImplemented />
+    </Container>
   );
 };
 
