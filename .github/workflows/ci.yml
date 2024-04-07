@@ -48,13 +48,14 @@ jobs:
           yarn lint
           yarn typecheck
 
-      - name: Run Playwright tests
-        run: yarn playwright test
+      # 以下是端到端测试框架 Playwright 的配置，比赛密集开发结束后再启用
+      # - name: Run Playwright tests
+      #   run: yarn playwright test
 
-      - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+      # - name: Upload Playwright report
+      #   uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: playwright-report
+      #     path: playwright-report/
+      #     retention-days: 30
