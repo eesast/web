@@ -7,7 +7,6 @@ import {
   Input,
   message,
   Layout,
-  Select,
   Typography,
 } from "antd";
 import dayjs from "dayjs";
@@ -18,7 +17,6 @@ import { ContestProps } from "..";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 const EditInfo: React.FC<ContestProps> = (props) => {
-  const { Option } = Select;
   const [form] = Form.useForm();
   const RangePicker: any = DatePicker.RangePicker;
   const url = useUrl();
@@ -51,7 +49,6 @@ const EditInfo: React.FC<ContestProps> = (props) => {
     const newinfo = {
       contest_id: Contest_id,
       fullname: record.fullname,
-      name: record.name,
       description: record.description,
       start_date: record.time[0].format("YYYY-MM-DD"),
       end_date: record.time[1].format("YYYY-MM-DD"),
@@ -105,16 +102,6 @@ const EditInfo: React.FC<ContestProps> = (props) => {
             rules={[{ required: true, message: "请输入比赛名称" }]}
           >
             <Input allowClear />
-          </Form.Item>
-          <Form.Item
-            name="contest_type"
-            label="类型"
-            rules={[{ required: true, message: "请输入比赛类型" }]}
-          >
-            <Select style={{ width: "40%" }} allowClear>
-              <Option value="THUAI">THUAI</Option>
-              <Option value="Electronic-design">电子设计大赛</Option>
-            </Select>
           </Form.Item>
           <Form.Item
             name="description"
