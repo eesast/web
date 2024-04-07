@@ -25,13 +25,13 @@ permalink: /contest
    - 后端服务器存储空间有限，需要定期清理下载的队伍代码和文件。
    - 后端服务器与`docker`服务器之间通过`NFS`进行文件共享，因此`docker`服务器自动同步了队伍文件。（备注：建议提前服务器之间组内网减少流量费。）
 5. 前两步都执行成功的前提下，后端创建`docker`并入队`docker_queue`，向前端返回创建是否成功的结果。
-   - 对于一场比赛（两队参与为例），后端需要先后创建4个`docker`：一个`server`镜像对应的比赛逻辑服务器、两个`client`镜像对应的选手代码执行客户端（每队共用一个）、一个`envoy`镜像对应的`grpc-web`与`grpc`转发服务器（用于前端直播，暂不急于实现）。
+   - 对于一场比赛（两队参与为例），后端需要先后创建4个`docker`：一个`server`镜像对应的比赛逻辑服务器、两个`client`镜像对应的选手代码执行客户端（每队共用一个），一个`envoy`镜像对应的`grpc-web`与`grpc`转发服务器（用于前端直播，暂不急于实现）。
    - 比赛状态显示。后端创建 `docker` 分为两步：【第一步】是将比赛放入队列`docker_queue`尾，此时`room` -> `status` 为 `Waiting`；【第二步】是`docker_cron` 定时程序从队列中抽取队首的比赛进行，如果比赛启动成功，此时`room` -> `status`为`Running`。
    - 比赛期间，用户可通过特定端口观看直播。后端在上面所述启动比赛的【第二步】时分配好一个端口。如果端口数量不足，则不启动比赛。如果成功分配端口并启动比赛，则应同时更新数据库`contest_room`表中的`port`字段。
    - 前端应当使用`subscription`实时更新比赛状态和直播观看端口。
 6. `docker` 服务器结束比赛后请求后端`/arena/finish`路由。
    - 后端更新数据库，更新`contest_room`表中的`status`为`Finished`、更新`port`为`NULL`；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
-   - 后端将比赛回放文件上传至 `cos`，具体路径参考[COS存储桶访问路径](https://eesast.github.io/web/cos)。
+   - 后端将比赛回放文件以及日志文件（如有）上传至 `cos`，具体路径参考[COS存储桶访问路径](https://eesast.github.io/web/cos)。
    - 后端向参与这场比赛的队伍队员发送`Web Push`订阅通知（暂不急于实现）。
 7. 比赛结束后，前端提供下载和在线观看回放的功能，直接按照[COS存储桶访问路径](https://eesast.github.io/web/cos)中约定的路径从`cos`下载对应的文件即可。
 
@@ -51,11 +51,15 @@ permalink: /contest
     5.  后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，并返回创建是否成功的结果，以及`room_id`。
     6.  后端将比赛数据存入`docker_queue`中，等待`docker_cron`发起比赛。
   - 错误：
+    - `400`：`400 Bad Request: Contest not found`
+    - `400`：`400 Bad Request: Players_label not found`
     - `401`：`401 Unauthorized: Missing token`（未登录）
     - `403`：`403 Forbidden: User not in team`（用户不在队伍中）
+    - `403`：`403 Forbidden: Arena is not open`
     - `403`：`403 Forbidden: Team player not assigned `（队伍角色未分配代码）
     - `403`：`403 Forbidden: Team code not compiled`（代码未通过编译）
-    - `404`：`404 Not Found: Team code not found in cos `（`cos`上找不到文件）
+    - `403`：`403 Forbidden: Team code language not supported`
+    - `422`：`422 Unprocessable Entity: Duplicate team labels`（ `team labels` 不能重复的原因在于会与 docker 内文件命名规则冲突 ）
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
     - `423`：`423 Locked: Request arena too frequently`（比赛次数过多）
     - `500`：`undefined`（其他内部错误）
@@ -96,19 +100,28 @@ permalink: /contest
 
 新版比赛接口的前缀为`/competition`。
 
-- `/competition/start-all`：管理员专用。后端可以按`contest_round`表中的信息设置所有队伍之间的完整比赛，全部队伍的比赛合起来称为一个`round`，对应一个`round_id`。设置`room`发起对战的流程跟天梯逻辑一致，只需要在`contest_room`里额外加`round_id`标识即可。
+- `/competition/start-all`：管理员专用。后端可以按`contest_round`表中的信息设置所有队伍之间的完整比赛，全部队伍的比赛合起来称为一个`round`，对应一个`round_id`。设置`room`发起对战的流程跟天梯逻辑类似，需要在`contest_room`里额外加`round_id`标识。
   - 请求方法：`POST`
   - 请求：`{round_id: uuid}`。（请求同时携带了包含用户信息的`token`）
   - 响应：`200`：`Competition Created!`
   - 错误：
     - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
+    - `403`：`403 Forbidden: Not a manager`
     - `500`：`undefined`，返回报错信息
 - `/competition/start-one`：管理员专用，用于重新发起`round`中某一场特定的比赛。后端需要先删除这场比赛的已有记录（包括数据库中、`cos`中），然后将比赛加入队列中。设置`room`发起对战的过程跟天梯逻辑一致，只需要在`contest_room`里额外加`round_id`标识即可。
   - 请求方法：`POST`
-  - 请求：`{team_labels: TeamLabelBind[], map_id: uuid, round_id: uuid}`。（请求同时携带了包含用户信息的`token`）
+  - 请求：`{team_labels: TeamLabelBind[], round_id: uuid}`。（请求同时携带了包含用户信息的`token`）
   - 响应：`200`：`Room Created!`
   - 错误：
-    - `422`：`422 Unprocessable Entity: Missing credentials`（请求缺失参数）
+    - `400`：`400 Bad Request: Contest not found`
+    - `400`：`400 Bad Request: Players_label not found`
+    - `401`：`401 Unauthorized: Missing token`（未登录）
+    - `403`：`403 Forbidden: Not a manager`
+    - `403`：`403 Forbidden: Team player not assigned `（队伍角色未分配代码）
+    - `403`：`403 Forbidden: Team code not compiled`（代码未通过编译）
+    - `403`：`403 Forbidden: Team code language not supported`
+    - `422`：`422 Unprocessable Entity: Duplicate team labels`
+    - `422`：`422 Unprocessable Entity: Missing credentials`
     - `500`：`undefined`，返回报错信息
 - `/competition/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有比赛分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
   - 请求方法：`POST`
@@ -126,14 +139,14 @@ permalink: /contest
 1. 一场比赛对应两个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
 2. 队式应当关注上面的`/arena/finish`、`/arena/get-score`和`/competition/finish-one`、`/competition/get-score`路由参数信息。
 
-   - `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`和`TEAM_LABELS`（`json`格式，类型为`TeamLabelBind[]`，定义见下方附录）。
+   - `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`、`TEAM_LABELS`（`json`格式，类型为`TeamLabelBind[]`，定义见下方附录）。
      - 比赛结束后先请求`SCORE_URL`，获取参战队伍在天梯/比赛中的现有分数，请求时需要在`headers`中加上`TOKEN`。
      - 获得现有分数后，`docker`应当据此计算出本场对战的得分（增量，而非更新后的总分）
      - 完成后再请求`FINISH_URL`，在请求的`body`中传回`result`（即上面计算出的得分），请求时需要在`headers`中加上`TOKEN`。
    - `client`镜像启动时会设置环境变量`TEAM_LABEL`，供容器得知该队比赛执方，类型定义见下方附录`TeamLabelBind`。
 
 3. `docker`目录绑定。
-   - 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/playback`下，命名为`playback.thuaipb`。
+   - 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/output`下，命名为`playback.thuaipb`。如果需要上传日志文件，同样放在此目录下，命名为 `xxx.log` 。
    - 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。
 
 ## 附录

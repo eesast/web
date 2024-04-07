@@ -7,10 +7,7 @@ import {
   SettingOutlined,
   ExperimentOutlined,
   FieldTimeOutlined,
-  ContactsOutlined,
   BarsOutlined,
-  RocketOutlined,
-  UserSwitchOutlined,
   UploadOutlined,
   PlaySquareOutlined,
   RadarChartOutlined,
@@ -36,9 +33,7 @@ import {
 //以下为子分页
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
-import RegisterPage from "./RegisterPage";
-import JoinPage from "./TeamPage/JoinPage";
-import ManagePage from "./TeamPage/ManagePage";
+import TeamPage from "./TeamPage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 import CodePage from "./CodePage.old";
@@ -76,7 +71,18 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
-  const [openKeys, setOpenKeys] = useState([""]);
+  const [openKeys, setOpenKeys] = useState(() => {
+    //从sessionStorage中获取openKeys
+    const keys = sessionStorage.getItem("openKeys");
+    if (keys) {
+      return JSON.parse(keys);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
+  }, [openKeys]);
 
   const introRef = useRef(null);
   const playRef = useRef(null);
@@ -171,28 +177,11 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     {
       key: "team",
       label: (
-        <span>
-          <span ref={joinRef}>现在报名</span>
-        </span>
+        <Link to={url.link("team")} ref={joinRef}>
+          我的队伍
+        </Link>
       ),
       icon: <TeamOutlined />,
-      children: [
-        {
-          key: "team-register",
-          label: <Link to={url.link("team-register")}>创建队伍</Link>,
-          icon: <RocketOutlined />,
-        },
-        {
-          key: "team-join",
-          label: <Link to={url.link("team-join")}>加入队伍</Link>,
-          icon: <ContactsOutlined />,
-        },
-        {
-          key: "team-manage",
-          label: <Link to={url.link("team-manage")}>管理队伍</Link>,
-          icon: <UserSwitchOutlined />,
-        },
-      ],
     },
     {
       key: "code",
@@ -416,9 +405,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             <Route path="stream" element={<StreamPage {...props} />} />
             <Route path="playback" element={<PlaybackPage {...props} />} />
 
-            <Route path="team-register" element={<RegisterPage {...props} />} />
-            <Route path="team-join" element={<JoinPage {...props} />} />
-            <Route path="team-manage" element={<ManagePage {...props} />} />
+            <Route path="team" element={<TeamPage {...props} />} />
 
             <Route path="code" element={<CodePage {...props} />} />
 

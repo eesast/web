@@ -12663,7 +12663,7 @@ export type GetContestSwitchSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean, team_switch: boolean } | null };
+export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, team_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
 
 export type UpdateContestMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -12911,6 +12911,14 @@ export type GetTeamInfoQueryVariables = Exact<{
 
 export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', contest_name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
 
+export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
+  invited_code: Scalars['String']['input'];
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamInfoByInvitedCodeQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, uuid: any }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', uuid: any, realname?: string | null } }> }> };
+
 export type GetCompileStatusSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   team_id: Scalars['uuid']['input'];
@@ -12941,7 +12949,7 @@ export type GetMemberInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader: { __typename?: 'users', realname?: string | null, id?: string | null, uuid: any } }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, uuid: any, realname?: string | null } }> };
+export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader: { __typename?: 'users', student_no?: string | null, realname?: string | null, id?: string | null, uuid: any } }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', student_no?: string | null, id?: string | null, uuid: any, realname?: string | null } }> };
 
 export type DeleteTeamMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -13822,6 +13830,7 @@ export const GetContestSwitchDocument = gql`
     subscription GetContestSwitch($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
     code_upload_switch
+    team_switch
     arena_switch
     playground_switch
     stream_switch
@@ -14750,7 +14759,7 @@ export type GetContestRoundsQueryResult = Apollo.QueryResult<GetContestRoundsQue
 export const InsertTeamDocument = gql`
     mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
   insert_contest_team(
-    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id}
+    objects: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id, contest_team_members: {data: {user_uuid: $team_leader_uuid}}}
   ) {
     affected_rows
   }
@@ -15119,6 +15128,61 @@ export type GetTeamInfoQueryHookResult = ReturnType<typeof useGetTeamInfoQuery>;
 export type GetTeamInfoLazyQueryHookResult = ReturnType<typeof useGetTeamInfoLazyQuery>;
 export type GetTeamInfoSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoSuspenseQuery>;
 export type GetTeamInfoQueryResult = Apollo.QueryResult<GetTeamInfoQuery, GetTeamInfoQueryVariables>;
+export const GetTeamInfoByInvitedCodeDocument = gql`
+    query GetTeamInfoByInvitedCode($invited_code: String!, $contest_id: uuid!) {
+  contest_team(
+    where: {invited_code: {_eq: $invited_code}, contest_id: {_eq: $contest_id}}
+  ) {
+    team_id
+    team_name
+    team_intro
+    team_leader {
+      realname
+      uuid
+    }
+    contest_team_members {
+      user {
+        uuid
+        realname
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamInfoByInvitedCodeQuery__
+ *
+ * To run a query within a React component, call `useGetTeamInfoByInvitedCodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamInfoByInvitedCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamInfoByInvitedCodeQuery({
+ *   variables: {
+ *      invited_code: // value for 'invited_code'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTeamInfoByInvitedCodeQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables> & ({ variables: GetTeamInfoByInvitedCodeQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
+      }
+export function useGetTeamInfoByInvitedCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
+        }
+export function useGetTeamInfoByInvitedCodeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
+        }
+export type GetTeamInfoByInvitedCodeQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeQuery>;
+export type GetTeamInfoByInvitedCodeLazyQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeLazyQuery>;
+export type GetTeamInfoByInvitedCodeSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeSuspenseQuery>;
+export type GetTeamInfoByInvitedCodeQueryResult = Apollo.QueryResult<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>;
 export const GetCompileStatusDocument = gql`
     subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
   contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
@@ -15226,6 +15290,7 @@ export const GetMemberInfoDocument = gql`
     query GetMemberInfo($team_id: uuid!) {
   contest_team(where: {team_id: {_eq: $team_id}}) {
     team_leader {
+      student_no
       realname
       id
       uuid
@@ -15233,6 +15298,7 @@ export const GetMemberInfoDocument = gql`
   }
   contest_team_member(where: {team_id: {_eq: $team_id}}) {
     user {
+      student_no
       id
       uuid
       realname

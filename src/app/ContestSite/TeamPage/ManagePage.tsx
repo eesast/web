@@ -2,7 +2,6 @@ import React, { useEffect, Suspense } from "react";
 import {
   Input,
   Table,
-  Result,
   Card,
   Row,
   Col,
@@ -20,7 +19,8 @@ import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
-import { ContestProps } from "..";
+import { ContestProps } from "../.";
+
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
@@ -78,9 +78,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   //删除队伍信息
   const [DeleteTeam, { error: DeleteTeamError }] =
     graphql.useDeleteTeamMutation();
-  //删除所有队员
-  const [DeleteAllTeamMember, { error: DeleteAllTeamMemberERROR }] =
-    graphql.useDeleteAllTeamMemberMutation();
 
   const [DeleteTeamMember, { error: DeleteTeamMemberError }] =
     graphql.useDeleteTeamMemberMutation();
@@ -113,10 +110,10 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [DeleteTeamMemberError]);
 
   useEffect(() => {
-    if (DeleteTeamError || DeleteAllTeamMemberERROR) {
+    if (DeleteTeamError) {
       message.error("解散队伍失败");
     }
-  }, [DeleteTeamError, DeleteAllTeamMemberERROR]);
+  }, [DeleteTeamError]);
 
   const team = {
     ...teamData?.contest_team[0],
@@ -133,7 +130,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {
     const newinfo = {
-      team_id: teamid,
+      team_id: teamid!,
       team_name: record.team_name,
       team_intro: record.team_intro,
     };
@@ -149,14 +146,17 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteTeamMember({
-          variables: { user_uuid: user_id, team_id: teamid },
+        const result = await DeleteTeamMember({
+          variables: { user_uuid: user_id, team_id: teamid! },
         });
-        Modal.success({
-          title: "已退出队伍",
-          content: "请重新加入队伍",
-        });
+        if (!result.errors) {
+          Modal.success({
+            title: "已退出队伍",
+            content: "请重新加入队伍",
+          });
+        }
         await refetchMember();
+        navigate(0);
       },
     });
   };
@@ -166,28 +166,33 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteTeamMember({
-          variables: { user_uuid: user_id, team_id: teamid },
+        const result = await DeleteTeamMember({
+          variables: { user_uuid: user_id, team_id: teamid! },
         });
-        message.success("移除成功");
-        //await refetchMember();
+        if (!result.errors) {
+          message.success("移除成功");
+        }
         await refetchTeam();
+        navigate(0);
       },
     });
   };
+
   const deleteWholeTeam = async (team_id: string) => {
     confirm({
       title: "确定要解散队伍吗？",
       icon: <ExclamationCircleOutlined />,
       content: "会移除队伍以及所有队伍成员，若不在队伍中无法参加比赛!",
       onOk: async () => {
-        await DeleteAllTeamMember({ variables: { team_id } });
-        await DeleteTeam({ variables: { team_id } });
-        Modal.success({
-          title: "队伍已解散",
-          content: "请重新加入队伍",
-        });
+        const result = await DeleteTeam({ variables: { team_id: teamid! } });
+        if (!result.errors) {
+          Modal.success({
+            title: "队伍已解散",
+            content: "请重新加入队伍",
+          });
+        }
         await refetchLeader();
+        navigate(0);
       },
     });
   };
@@ -213,7 +218,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     {
       title: "学号",
       key: "id",
-      render: (text, record) => record.user?.id,
+      render: (text, record) => record.user?.student_no,
     },
     {
       title: "管理",
@@ -221,11 +226,11 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       render: (_, record) => {
         return (
           <Button
-            // disabled={isleaderData?.contest_team.length === 0}
             onClick={async () => {
               await deleteTeamMemberByLeader(record.user?.uuid);
               await refetchMemberInfo();
             }}
+            disabled={!isLeader || record.user?.uuid === user?.uuid}
           >
             移除
           </Button>
@@ -236,39 +241,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   /* ---------------- 页面组件 ---------------- */
 
-  return !teamid ? (
-    <div>
-      <Result
-        status="warning"
-        title="您还没有加入任何队伍"
-        extra={
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Button
-              type="primary"
-              style={{ marginBottom: "20px", width: "180px", height: "40px" }}
-              onClick={() => navigate(url.link("team-join"))}
-            >
-              加入队伍
-            </Button>
-            <Button
-              type="primary"
-              style={{ marginBottom: "20px", width: "180px", height: "40px" }}
-              onClick={() => navigate(url.link("team-register"))}
-            >
-              创建队伍
-            </Button>
-          </div>
-        }
-      />
-    </div>
-  ) : (
+  return (
     <Layout>
       <br />
       <br />
@@ -327,7 +300,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Form.Item label="队员">
                   <Suspense fallback={<Loading />}>
                     <Table
-                      //loading={teamMemberLoading}
                       columns={memberListColumns}
                       dataSource={
                         teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
@@ -363,11 +335,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                   <Row justify="center">
                     <Col span={6}>
                       <Suspense fallback={<Loading />}>
-                        <Button
-                          type="primary"
-                          //loading={UpdatingTeamInfo}
-                          htmlType="submit"
-                        >
+                        <Button type="primary" htmlType="submit">
                           确认修改
                         </Button>
                       </Suspense>
