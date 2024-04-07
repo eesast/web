@@ -185,13 +185,13 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     },
     {
       key: "team",
-      label: !isMember ? (
+      label: isMember ? (
         <Link to={url.link("team")} ref={joinRef}>
-          组建队伍
+          我的队伍
         </Link>
       ) : (
         <Link to={url.link("team")} ref={joinRef}>
-          加入队伍
+          现在报名
         </Link>
       ),
       icon: <TeamOutlined />,
