@@ -14,10 +14,10 @@ import {
 } from "antd";
 import type { TableProps } from "antd/lib/table";
 //导出excel
-import { useUrl } from "../../api/hooks/url";
+import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
-import { ContestProps } from ".";
+import { ContestProps } from "..";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`

@@ -37,8 +37,8 @@ import {
 import IntroPage from "./IntroPage";
 import NoticePage from "./NoticePage";
 import RegisterPage from "./RegisterPage";
-import JoinPage from "./JoinPage";
-import ManagePage from "./ManagePage";
+import JoinPage from "./TeamPage/JoinPage";
+import ManagePage from "./TeamPage/ManagePage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 import CodePage from "./CodePage.old";

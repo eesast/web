@@ -17,10 +17,10 @@ import { Layout } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
-import { useUrl } from "../../api/hooks/url";
+import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
-import { ContestProps } from ".";
+import { ContestProps } from "..";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
