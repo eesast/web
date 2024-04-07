@@ -13,7 +13,6 @@ mutation DeleteContest($contest_id: uuid!) {
 mutation UpdateContestInfo(
   $contest_id: uuid!
   $fullname: String!
-  $name: String!
   $description: String
   $start_date: timestamptz!
   $end_date: timestamptz!
@@ -22,7 +21,6 @@ mutation UpdateContestInfo(
     pk_columns: { id: $contest_id }
     _set: {
       fullname: $fullname
-      name: $name
       description: $description
       start_date: $start_date
       end_date: $end_date

@@ -20,7 +20,7 @@ import { ContestProps } from "..";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
-const SettingPage: React.FC<ContestProps> = (props) => {
+const Setting: React.FC<ContestProps> = (props) => {
   //获取比赛ID
   const url = useUrl();
   const Contest_id = url.query.get("contest");
@@ -389,4 +389,4 @@ const SettingPage: React.FC<ContestProps> = (props) => {
   );
 };
 
-export default SettingPage;
+export default Setting;

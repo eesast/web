@@ -186,156 +186,160 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     );
   };
 
-  return contestSwitchData?.contest_by_pk?.playback_switch ? (
-    <Layout>
-      <Row>
-        {isLoaded === false && (
-          <Container>
-            <Progress
-              type="circle"
-              percent={Math.min(
-                Math.round(((loadingProgression * 100) / 90) * 99),
-                100,
-              )}
-            />
-          </Container>
-        )}
-        <Unity
-          unityProvider={unityProvider}
-          css={`
-            width: 100%;
-            max-width: calc((100vh - 72px) / 9 * 16);
-            max-height: calc(100vh - 72px);
-            aspect-ratio: 16 / 9;
-            padding: 0.9vw 1.6vw;
-          `}
-        />
-      </Row>
-      <FloatButton
-        icon={<ArrowsAltOutlined />}
-        style={{ right: 48 }}
-        type="primary"
-        onClick={() => {
-          requestFullscreen(true);
-        }}
-      />
-      {contestNameData?.contest_by_pk?.name === "THUAI6" && (
+  return contestSwitchData ? (
+    contestSwitchData?.contest_by_pk?.playback_switch ? (
+      <Layout>
+        <Row>
+          {isLoaded === false && (
+            <Container>
+              <Progress
+                type="circle"
+                percent={Math.min(
+                  Math.round(((loadingProgression * 100) / 90) * 99),
+                  100,
+                )}
+              />
+            </Container>
+          )}
+          <Unity
+            unityProvider={unityProvider}
+            css={`
+              width: 100%;
+              max-width: calc((100vh - 72px) / 9 * 16);
+              max-height: calc(100vh - 72px);
+              aspect-ratio: 16 / 9;
+              padding: 0.9vw 1.6vw;
+            `}
+          />
+        </Row>
         <FloatButton
-          description="加载回放"
-          badge={{ dot: true }}
-          shape="square"
-          style={{ right: 112 }}
+          icon={<ArrowsAltOutlined />}
+          style={{ right: 48 }}
+          type="primary"
           onClick={() => {
-            setModalVisible(true);
+            requestFullscreen(true);
           }}
         />
-      )}
-      <Modal
-        open={modalVisible}
-        title="又在玩新游戏啊"
-        centered
-        okText="前往"
-        onCancel={() => {
-          setModalVisible(false);
-          form.resetFields();
-        }}
-        onOk={handleRefresh}
-      >
-        <Suspense fallback={<Loading />}>
-          <Form form={form} name="notice" onFinish={handleRefresh}>
-            <Form.Item
-              name="Student"
-              label="队伍1名称（学生）"
-              rules={[{ required: true, message: "请输入队伍1名称" }]}
-            >
-              <Select
-                showSearch
-                placeholder="队伍名称"
-                style={{ width: 200 }}
-                defaultActiveFirstOption={false}
-                suffixIcon={null}
-                optionFilterProp="children"
-                options={(scoreteamListData?.contest_team || []).map((d) => ({
-                  value: d.team_id,
-                  label: d.team_name,
-                  children: d.team_name,
-                }))}
-              />
-            </Form.Item>
-            <Form.Item
-              name="Tricker"
-              label="队伍2名称（TRICKER）"
-              rules={[{ required: true, message: "请输入队伍2名称" }]}
-            >
-              <Select
-                showSearch
-                placeholder="队伍名称"
-                style={{ width: 200 }}
-                defaultActiveFirstOption={false}
-                suffixIcon={null}
-                optionFilterProp="children"
-                options={(scoreteamListData?.contest_team || []).map((d) => ({
-                  value: d.team_id,
-                  label: d.team_name,
-                  children: d.team_name,
-                }))}
-              />
-            </Form.Item>
-            <Form.Item
-              name="Map"
-              label="选择地图"
-              rules={[{ required: true, message: "请选择地图" }]}
-            >
-              <Select
-                placeholder="地图"
-                style={{ width: 120 }}
-                options={[
-                  { value: "oldmap", label: "天梯地图" },
-                  { value: "newmap", label: "决赛地图" },
-                ]}
-              />
-            </Form.Item>
-            <Form.Item
-              name="Speed"
-              label="回放速度"
-              rules={[{ required: true, message: "请选择回放速度" }]}
-            >
-              <Select
-                placeholder="倍速"
-                style={{ width: 120 }}
-                options={[
-                  { value: "1", label: "1x" },
-                  { value: "2", label: "2x" },
-                  { value: "3", label: "3x" },
-                  { value: "4", label: "4x" },
-                ]}
-              />
-            </Form.Item>
-          </Form>
-        </Suspense>
-      </Modal>
-      <ReactRouterPrompt when={isLoaded && !jump}>
-        {({ isActive, onConfirm, onCancel }) => (
-          <Modal
-            open={isActive}
-            cancelText="再看看"
-            centered={true}
-            okText="结束回放"
-            title="离开页面前，请先结束回放"
-            onOk={async () => {
-              await handleQuit();
-              onConfirm();
+        {contestNameData?.contest_by_pk?.name === "THUAI6" && (
+          <FloatButton
+            description="加载回放"
+            badge={{ dot: true }}
+            shape="square"
+            style={{ right: 112 }}
+            onClick={() => {
+              setModalVisible(true);
             }}
-            onCancel={onCancel}
-            width={320}
           />
         )}
-      </ReactRouterPrompt>
-    </Layout>
+        <Modal
+          open={modalVisible}
+          title="又在玩新游戏啊"
+          centered
+          okText="前往"
+          onCancel={() => {
+            setModalVisible(false);
+            form.resetFields();
+          }}
+          onOk={handleRefresh}
+        >
+          <Suspense fallback={<Loading />}>
+            <Form form={form} name="notice" onFinish={handleRefresh}>
+              <Form.Item
+                name="Student"
+                label="队伍1名称（学生）"
+                rules={[{ required: true, message: "请输入队伍1名称" }]}
+              >
+                <Select
+                  showSearch
+                  placeholder="队伍名称"
+                  style={{ width: 200 }}
+                  defaultActiveFirstOption={false}
+                  suffixIcon={null}
+                  optionFilterProp="children"
+                  options={(scoreteamListData?.contest_team || []).map((d) => ({
+                    value: d.team_id,
+                    label: d.team_name,
+                    children: d.team_name,
+                  }))}
+                />
+              </Form.Item>
+              <Form.Item
+                name="Tricker"
+                label="队伍2名称（TRICKER）"
+                rules={[{ required: true, message: "请输入队伍2名称" }]}
+              >
+                <Select
+                  showSearch
+                  placeholder="队伍名称"
+                  style={{ width: 200 }}
+                  defaultActiveFirstOption={false}
+                  suffixIcon={null}
+                  optionFilterProp="children"
+                  options={(scoreteamListData?.contest_team || []).map((d) => ({
+                    value: d.team_id,
+                    label: d.team_name,
+                    children: d.team_name,
+                  }))}
+                />
+              </Form.Item>
+              <Form.Item
+                name="Map"
+                label="选择地图"
+                rules={[{ required: true, message: "请选择地图" }]}
+              >
+                <Select
+                  placeholder="地图"
+                  style={{ width: 120 }}
+                  options={[
+                    { value: "oldmap", label: "天梯地图" },
+                    { value: "newmap", label: "决赛地图" },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item
+                name="Speed"
+                label="回放速度"
+                rules={[{ required: true, message: "请选择回放速度" }]}
+              >
+                <Select
+                  placeholder="倍速"
+                  style={{ width: 120 }}
+                  options={[
+                    { value: "1", label: "1x" },
+                    { value: "2", label: "2x" },
+                    { value: "3", label: "3x" },
+                    { value: "4", label: "4x" },
+                  ]}
+                />
+              </Form.Item>
+            </Form>
+          </Suspense>
+        </Modal>
+        <ReactRouterPrompt when={isLoaded && !jump}>
+          {({ isActive, onConfirm, onCancel }) => (
+            <Modal
+              open={isActive}
+              cancelText="再看看"
+              centered={true}
+              okText="结束回放"
+              title="离开页面前，请先结束回放"
+              onOk={async () => {
+                await handleQuit();
+                onConfirm();
+              }}
+              onCancel={onCancel}
+              width={320}
+            />
+          )}
+        </ReactRouterPrompt>
+      </Layout>
+    ) : (
+      <Container>
+        <NotImplemented />
+      </Container>
+    )
   ) : (
-    <Container>
-      <NotImplemented />
-    </Container>
+    <Loading />
   );
 };
 
