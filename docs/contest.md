@@ -48,9 +48,8 @@ permalink: /contest
     2.  限制开战频率。同一队伍不能同时打多于6场的比赛。
     3.  接下来检查代码和队伍是否准备完成，若队伍角色未分配代码，或代码未编译，则报错。
     4.  后端需要从`cos`上临时下载队伍的代码或编译文件到服务器上。文件路径参考[COS存储桶访问路径](https://eesast.github.io/web/cos)。服务器存储空间有限，需要定期清理下载的队伍代码和文件。如果`cos`上找不到对应的编译文件，则报错。
-    5.  后端暂不提供地图检查和下载。
-    6.  后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，并返回创建是否成功的结果，以及`room_id`。
-    7.  后端将比赛数据存入`docker_queue`中，等待`docker_cron`发起比赛。
+    5.  后端在数据表`contest_room`中创建 `room`，更新`status`为`Waiting`，并在`contest_room_team`中绑定`room`和`team`，并返回创建是否成功的结果，以及`room_id`。
+    6.  后端将比赛数据存入`docker_queue`中，等待`docker_cron`发起比赛。
   - 错误：
     - `400`：`400 Bad Request: Contest not found`
     - `400`：`400 Bad Request: Players_label not found`
@@ -137,7 +136,7 @@ permalink: /contest
 
 ## 与赛事组的约定
 
-1. 一场比赛对应多个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
+1. 一场比赛对应两个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
 2. 队式应当关注上面的`/arena/finish`、`/arena/get-score`和`/competition/finish-one`、`/competition/get-score`路由参数信息。
 
    - `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`、`TEAM_LABELS`（`json`格式，类型为`TeamLabelBind[]`，定义见下方附录）。
