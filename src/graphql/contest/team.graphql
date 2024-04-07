@@ -298,3 +298,21 @@ query getTotalMemberNum($contest_id: uuid!) {
     }
   }
 }
+
+query getTeamStat($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    contest_team_codes_aggregate {
+      aggregate {
+        count
+      }
+    }
+    contest_team_rooms_aggregate {
+      aggregate {
+        count
+        sum {
+          score
+        }
+      }
+    }
+  }
+}

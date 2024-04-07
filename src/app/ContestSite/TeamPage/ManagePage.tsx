@@ -11,9 +11,15 @@ import {
   Modal,
   Typography,
   Spin,
+  Space,
+  Statistic,
 } from "antd"; //botton
-import { Layout } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  FireOutlined,
+  ArrowUpOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../../api/hooks/url";
@@ -21,12 +27,10 @@ import * as graphql from "@/generated/graphql";
 import styled from "styled-components";
 import { ContestProps } from "../.";
 
-
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
-const { Content } = Layout;
 const { confirm } = Modal;
-const { Paragraph, Text } = Typography;
+const { Paragraph, Title } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const Container = styled.div`
@@ -66,11 +70,17 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   //根据team_id查询所有队员信息
   const { data: teamMemberData, refetch: refetchMemberInfo } =
-    graphql.useGetMemberInfoQuery({
+    graphql.useGetMemberInfoSuspenseQuery({
       variables: {
         team_id: teamid!,
       },
     });
+
+  const { data: teamStatData } = graphql.useGetTeamStatSuspenseQuery({
+    variables: {
+      team_id: teamid!,
+    },
+  });
 
   //更新队伍信息
   const [UpdateTeam, { data: UpdateTeamData, error: UpdateTeamError }] =
@@ -115,20 +125,8 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [DeleteTeamError]);
 
-  const team = {
-    ...teamData?.contest_team[0],
-    leader_name: teamData?.contest_team[0]?.team_leader?.realname,
-  };
-  const isLeader = user?.uuid === team.team_leader?.uuid;
-
-  if (!user) {
-    return <Spin />;
-  }
-  if (!team.team_intro) {
-    //team_intro获取较慢，需要等待team_intro获取完毕
-    return <Spin />;
-  }
-
+  const team = teamData?.contest_team[0];
+  const isLeader = user?.uuid === team?.team_leader?.uuid;
   const userid = user!.uuid!;
 
   /* ---------------- 业务逻辑函数 ---------------- */
@@ -246,23 +244,65 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- 页面组件 ---------------- */
 
   return (
-    <Layout>
-      <br />
-      <br />
-      <Row>
-        <Col offset={7}>
-          <Card
-            hoverable
-            css={`
-              width: 500px;
-              padding-top: 24px;
-              padding-bottom: 12px;
-              &.ant-card-bordered {
-                cursor: default;
+    <Space
+      direction="vertical"
+      size="large"
+      style={{
+        display: "flex",
+        border: "0px solid #ccc",
+        padding: "4vh 4vw",
+        color: mode === "dark" ? "white" : "initial",
+      }}
+    >
+      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Col span={8}>
+          <Card bordered={false}>
+            <Statistic
+              title="已提交代码"
+              value={
+                teamStatData?.contest_team_by_pk?.contest_team_codes_aggregate
+                  ?.aggregate?.count || 0
               }
-            `}
-          >
-            <Content>
+              prefix={<UploadOutlined />}
+              suffix="份"
+            />
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card bordered={false}>
+            <Statistic
+              title="共参与了"
+              value={
+                teamStatData?.contest_team_by_pk?.contest_team_rooms_aggregate
+                  ?.aggregate?.count || 0
+              }
+              valueStyle={{ color: "#3f8600" }}
+              prefix={<ArrowUpOutlined />}
+              suffix="场对战"
+            />
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card bordered={false}>
+            <Statistic
+              title="天梯积分"
+              value={
+                teamStatData?.contest_team_by_pk?.contest_team_rooms_aggregate
+                  ?.aggregate?.sum?.score || 0
+              }
+              valueStyle={{ color: "#cf1322" }}
+              prefix={<FireOutlined />}
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Col span={8}>
+          <Card bordered={false}>
+            <Title level={3} style={{ margin: `0 0 24px` }}>
+              队伍信息
+            </Title>
+            <Suspense fallback={<Loading />}>
               <Form
                 name="form"
                 layout="vertical"
@@ -287,30 +327,10 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                   ]}
                 >
                   <Input
-                    defaultValue={team.team_name}
-                    style={{ width: "30%" }}
-                    disabled={false}
                     autoCapitalize="off"
                     autoCorrect="off"
                     autoComplete="on"
                   />
-                </Form.Item>
-                <Form.Item name="invited_code" label="邀请码">
-                  <Paragraph copyable>{team.invited_code}</Paragraph>
-                </Form.Item>
-                <Form.Item label="队长">
-                  <Text>{team.team_leader?.realname}</Text>
-                </Form.Item>
-                <Form.Item label="队员">
-                  <Suspense fallback={<Loading />}>
-                    <Table
-                      columns={memberListColumns}
-                      dataSource={
-                        teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
-                      }
-                      rowKey={(record) => record.user?.uuid}
-                    />
-                  </Suspense>
                 </Form.Item>
                 <Form.Item
                   name="team_intro"
@@ -329,42 +349,47 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                     }),
                   ]}
                 >
-                  <TextArea
-                    defaultValue={team.team_intro!}
-                    rows={6}
-                    disabled={false}
-                  />
+                  <TextArea rows={6} />
                 </Form.Item>
                 <Form.Item style={{ textAlign: "center" }}>
-                  <Row justify="center">
-                    <Col span={6}>
-                      <Suspense fallback={<Loading />}>
-                        <Button type="primary" htmlType="submit">
-                          确认修改
-                        </Button>
-                      </Suspense>
-                    </Col>
-                    <Col span={6}>
-                      <Button
-                        danger
-                        type="default"
-                        onClick={
-                          isLeader
-                            ? () => deleteWholeTeam(teamid)
-                            : () => deleteTeamMember(userid)
-                        }
-                      >
-                        {isLeader ? "解散队伍" : "退出队伍"}
-                      </Button>
-                    </Col>
-                  </Row>
+                  <Button type="primary" htmlType="submit">
+                    确认修改
+                  </Button>
                 </Form.Item>
               </Form>
-            </Content>
+            </Suspense>
+          </Card>
+        </Col>
+        <Col span={16}>
+          <Card bordered={false}>
+            <Title level={3} style={{ margin: `0 0 12px` }}>
+              成员管理
+            </Title>
+            <Title level={5}>邀请码</Title>
+            <Paragraph copyable>{team?.invited_code}</Paragraph>
+            <Suspense fallback={<Loading />}>
+              <Table
+                columns={memberListColumns}
+                dataSource={
+                  teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
+                }
+                rowKey={(record) => record.user?.uuid}
+              />
+            </Suspense>
+            <Button
+              danger
+              onClick={
+                isLeader
+                  ? () => deleteWholeTeam(teamid)
+                  : () => deleteTeamMember(userid)
+              }
+            >
+              {isLeader ? "解散队伍" : "退出队伍"}
+            </Button>
           </Card>
         </Col>
       </Row>
-    </Layout>
+    </Space>
   );
 };
 export default ManagePage;

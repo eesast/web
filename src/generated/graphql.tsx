@@ -12979,7 +12979,7 @@ export type GetTeamStatQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamStatQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_members_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null }, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } } | null };
+export type GetTeamStatQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } } | null };
 
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -15479,11 +15479,6 @@ export type GetTotalMemberNumQueryResult = Apollo.QueryResult<GetTotalMemberNumQ
 export const GetTeamStatDocument = gql`
     query getTeamStat($team_id: uuid!) {
   contest_team_by_pk(team_id: $team_id) {
-    contest_team_members_aggregate {
-      aggregate {
-        count
-      }
-    }
     contest_team_codes_aggregate {
       aggregate {
         count
