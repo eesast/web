@@ -12,7 +12,7 @@ mutation DeleteContest($contest_id: uuid!) {
 # 改
 mutation UpdateContestInfo(
   $contest_id: uuid!
-  $contest_name: String!
+  $fullname: String!
   $name: String!
   $description: String
   $start_date: timestamptz!
@@ -21,7 +21,7 @@ mutation UpdateContestInfo(
   update_contest_by_pk(
     pk_columns: { id: $contest_id }
     _set: {
-      contest_name: $contest_name
+      fullname: $fullname
       name: $name
       description: $description
       start_date: $start_date
@@ -60,7 +60,7 @@ mutation UpdateContestSwitch(
 
 query GetContests {
   contest(order_by: { start_date: desc }) {
-    contest_name
+    fullname
     description
     end_date
     id
@@ -71,7 +71,7 @@ query GetContests {
 
 query GetContestInfo($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
-    contest_name
+    fullname
     name
     description
     start_date
@@ -95,44 +95,5 @@ subscription GetContestSwitch($contest_id: uuid!) {
     playground_switch
     stream_switch
     playback_switch
-  }
-}
-
-# TODO: 改为 UpdateContestInfo
-# 更新比赛信息
-mutation UpdateContest(
-  $id: uuid!
-  $description: String = ""
-  $contest_name: String!
-  $end_date: timestamptz!
-  $start_date: timestamptz!
-  $contest_type: String!
-) {
-  update_contest(
-    where: { id: { _eq: $id } }
-    _set: {
-      contest_name: $contest_name
-      description: $description
-      end_date: $end_date
-      start_date: $start_date
-      contest_type: $contest_type
-    }
-  ) {
-    returning {
-      id
-    }
-  }
-}
-
-# TODO: 改为 UpdateContestSwitch
-# 更新比赛状态
-mutation UpdateContestStatus($contest_id: uuid!, $status: String!) {
-  update_contest(
-    where: { id: { _eq: $contest_id } }
-    _set: { status: $status }
-  ) {
-    returning {
-      status
-    }
   }
 }
