@@ -32,7 +32,7 @@ import EditInfo from "./EditInfo";
 import Forbidden from "@/app/Components/Forbidden";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Text } = Typography;
+const { Title } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 
@@ -104,17 +104,11 @@ const CharacterData: React.FC<ContestProps> = ({ mode, user }) => {
         style={{
           padding: "2vh 1vw",
         }}
-        title={
-          <Text
-            css={`
-              font-size: xx-large;
-              font-weight: bold;
-            `}
-          >
-            角色数据
-          </Text>
-        }
-      ></Card>
+      >
+        <Title level={2} style={{ margin: `0 0 24px` }}>
+          角色数据
+        </Title>
+      </Card>
     </Layout>
   );
 };
@@ -127,17 +121,11 @@ const ContestData: React.FC<ContestProps> = ({ mode, user }) => {
         style={{
           padding: "2vh 1vw",
         }}
-        title={
-          <Text
-            css={`
-              font-size: xx-large;
-              font-weight: bold;
-            `}
-          >
-            比赛数据
-          </Text>
-        }
-      ></Card>
+      >
+        <Title level={2} style={{ margin: `0 0 24px` }}>
+          比赛数据
+        </Title>
+      </Card>
     </Layout>
   );
 };
