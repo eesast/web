@@ -8,7 +8,6 @@ import {
   Layout,
   Row,
   Col,
-  Spin,
   Typography,
 } from "antd";
 import { MinusOutlined, SearchOutlined } from "@ant-design/icons";
@@ -25,8 +24,8 @@ import FileSaver from "file-saver";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import styled from "styled-components";
 import { ContestProps } from ".";
+import Loading from "../Components/Loading";
 const { Text } = Typography;
 
 const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
@@ -260,22 +259,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       setFilterParamList(roomListData?.contest_room);
     }
   }, [associatedValue, roomListData?.contest_room]);
-
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
 
   return (
     <Layout>

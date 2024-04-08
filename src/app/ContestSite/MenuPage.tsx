@@ -15,8 +15,6 @@ import {
   InfoCircleOutlined,
   BarChartOutlined,
   TrophyOutlined,
-  // SolutionOutlined,
-  // SettingOutlined,
   ReadOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
@@ -26,7 +24,6 @@ import {
   message,
   Button,
   MenuProps,
-  Spin,
   Tour,
   TourProps,
 } from "antd";
@@ -36,31 +33,20 @@ import NoticePage from "./NoticePage";
 import TeamPage from "./TeamPage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
-import CodePage from "./CodePage.old";
+// import CodePage from "./CodePage.old";
 import PlaybackPage from "./PlaybackPage";
 import StreamPage from "./StreamPage";
-// import ManageTeamsPage from "./ManageTeamsPage";
-// import SettingPage from "./SettingPage";
-import NotFoundPage from "../Components/NotFound";
+import NotFound from "../Components/NotFound";
 import AnalysisPage from "./AnalysisPage";
 import ManagerPage from "./ManagerPage";
-// hasura查询
-//学长写好的api，用以没登陆会跳转到登陆页面
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
-import { styled } from "styled-components";
 import PlaygroundPage from "./PlaygroundPage";
+import NotImplemented from "./Components/NotImplemented";
+import Loading from "../Components/Loading";
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-//antd部件实例化
 const { Sider, Content } = Layout;
 
 const MenuPage: React.FC<ContestProps> = (props) => {
@@ -85,14 +71,14 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   }, [openKeys]);
 
   //获取是否为某个队伍的成员
-  const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
+  const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
       user_uuid: props.user?.uuid!,
       contest_id: Contest_id,
     },
   });
 
-  const isMember = ismemberData?.contest_team_member[0];
+  const isMember = teamData?.contest_team_member?.length !== 0;
 
   const introRef = useRef(null);
   const playRef = useRef(null);
@@ -186,13 +172,9 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     },
     {
       key: "team",
-      label: isMember ? (
+      label: (
         <Link to={url.link("team")} ref={joinRef}>
-          我的队伍
-        </Link>
-      ) : (
-        <Link to={url.link("team")} ref={joinRef}>
-          现在报名
+          {isMember ? "我的队伍" : "现在报名"}
         </Link>
       ),
       icon: <TeamOutlined />,
@@ -239,18 +221,6 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       key: "manager",
       label: <Link to={url.link("manager")}>管理员</Link>,
       icon: <SettingOutlined />,
-      // children: [
-      //   {
-      //     key: "admin-manage",
-      //     label: <Link to={url.link("admin-manage")}>管理队伍</Link>,
-      //     icon: <SolutionOutlined />,
-      //   },
-      //   {
-      //     key: "admin-setting",
-      //     label: <Link to={url.link("admin-setting")}>比赛设置</Link>,
-      //     icon: <SettingOutlined />,
-      //   },
-      // ],
     },
   ];
 
@@ -265,14 +235,6 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     }
   };
 
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
-
   const steps: TourProps["steps"] = [
     {
       title: contestData?.contest_by_pk?.fullname,
@@ -281,7 +243,6 @@ const MenuPage: React.FC<ContestProps> = (props) => {
         contestData?.contest_by_pk?.fullname +
         "比赛！下面让我来帮助你熟悉赛事互动页面，帮助你更好地参加比赛吧！",
       target: null,
-      //cover: <img src="/backgrounds/2024new.jpg" alt="2024New" />,
       mask: {
         style: {
           backdropFilter: "blur(8px)",
@@ -421,7 +382,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
 
             <Route path="team" element={<TeamPage {...props} />} />
 
-            <Route path="code" element={<CodePage {...props} />} />
+            <Route path="code" element={<NotImplemented />} />
 
             <Route path="arena-score" element={<ArenaPage {...props} />} />
             <Route path="arena-record" element={<RecordPage {...props} />} />
@@ -430,7 +391,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
               element={<AnalysisPage {...props} />}
             />
             <Route path="manager" element={<ManagerPage {...props} />} />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </Content>

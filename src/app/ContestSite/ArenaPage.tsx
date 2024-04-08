@@ -9,7 +9,6 @@ import {
   Layout,
   Row,
   Col,
-  Spin,
   Typography,
 } from "antd";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
@@ -17,19 +16,12 @@ import type { TableProps } from "antd/lib/table";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
-import styled from "styled-components";
 import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
 import { ContestProps } from ".";
+import Loading from "../Components/Loading";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 /* ---------------- 主页面 ---------------- */
 const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -272,14 +264,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Menu.Item>
     </Menu>
   );
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
 
   /* ---------------- 页面组件 ---------------- */
 

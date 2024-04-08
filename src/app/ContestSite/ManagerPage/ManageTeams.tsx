@@ -8,7 +8,6 @@
 
 import React, { Suspense, useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -18,9 +17,7 @@ import {
   List,
   message,
   Modal,
-  Result,
   Row,
-  Spin,
   Table,
   Typography,
 } from "antd";
@@ -37,20 +34,13 @@ import * as xlsx from "xlsx";
 import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import styled from "styled-components";
 import { ContestProps } from "..";
+import Loading from "@/app/Components/Loading";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 /* ---------------- 主页面 ---------------- */
 const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -75,33 +65,18 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
   }, [getContestManagersError]);
 
   /* ---------------- 页面组件 ---------------- */
-  return getContestManagersData?.contest_by_pk?.contest_managers.some(
-    (manager) => manager.user_uuid === user?.uuid,
-  ) ? (
-    editingTeamID === undefined ? (
-      <ListPage
-        contest_id={Contest_id}
-        setEditingTeamID={setEditingTeamID}
-        user_uuid={user?.uuid}
-      />
-    ) : (
-      <SubPage
-        contest_id={Contest_id}
-        team_id={editingTeamID}
-        setEditingTeamID={setEditingTeamID}
-        user_uuid={user?.uuid}
-      />
-    )
+  return editingTeamID === undefined ? (
+    <ListPage
+      contest_id={Contest_id}
+      setEditingTeamID={setEditingTeamID}
+      user_uuid={user?.uuid}
+    />
   ) : (
-    <Result
-      status="403"
-      title="403"
-      subTitle="Sorry, you are not authorized to access this page."
-      extra={
-        <Button type="primary">
-          <Link to={url.link("intro")}>Back To Contest Intro</Link>
-        </Button>
-      }
+    <SubPage
+      contest_id={Contest_id}
+      team_id={editingTeamID}
+      setEditingTeamID={setEditingTeamID}
+      user_uuid={user?.uuid}
     />
   );
 };
@@ -414,14 +389,6 @@ const ListPage: React.FC<{
       ),
     },
   ];
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
 
   return (
     <Layout>

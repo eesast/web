@@ -1,39 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {
-  Input,
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  Divider,
-  Space,
-  Spin,
-} from "antd"; //botton  修改:delete Result
+import { Input, Card, Row, Col, Button, Form, Divider, Space } from "antd"; //botton  修改:delete Result
 import { Layout, message } from "antd";
 //graphql的语句由Apollo生成ts句柄，在此import
-import { useUrl } from "../../../api/hooks/url";
+import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from "../.";
 import NotStarted from ".././Components/NotStarted";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Loading = () => {
-  return (
-    <Container>
-      <Spin size="large" />
-    </Container>
-  );
-};
+import Loading from "@/app/Components/Loading";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -47,6 +21,7 @@ function randomString() {
   for (var i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
   return n;
 }
+
 const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
   const navigate = useNavigate();
 
@@ -476,9 +451,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
         </Layout>
       </>
     ) : (
-      <Container>
-        <NotStarted />
-      </Container>
+      <NotStarted />
     )
   ) : (
     <Loading />

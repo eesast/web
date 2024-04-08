@@ -6,7 +6,6 @@ import {
   Modal,
   Form,
   Select,
-  Spin,
   Progress,
   FloatButton,
 } from "antd";
@@ -20,6 +19,7 @@ import styled from "styled-components";
 import { ContestProps } from ".";
 import ReactRouterPrompt from "react-router-prompt";
 import NotImplemented from "./Components/NotImplemented";
+import Loading from "../Components/Loading";
 
 const Container = styled.div`
   height: calc(100vh - 72px);
@@ -28,14 +28,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-const Loading = () => {
-  return (
-    <Container>
-      <Spin size="large" />
-    </Container>
-  );
-};
 
 const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -334,9 +326,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         </ReactRouterPrompt>
       </Layout>
     ) : (
-      <Container>
-        <NotImplemented />
-      </Container>
+      <NotImplemented />
     )
   ) : (
     <Loading />

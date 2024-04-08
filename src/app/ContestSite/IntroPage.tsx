@@ -33,7 +33,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: CountdownData } = graphql.useGetContestTimesQuery({
+  const { data: CountdownData } = graphql.useGetContestTimesSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },

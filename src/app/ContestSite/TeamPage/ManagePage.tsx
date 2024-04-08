@@ -10,10 +10,9 @@ import {
   message,
   Modal,
   Typography,
-  Spin,
   Space,
   Statistic,
-} from "antd"; //botton
+} from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
   FireOutlined,
@@ -24,8 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import styled from "styled-components";
 import { ContestProps } from "../.";
+import Loading from "@/app/Components/Loading";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
@@ -33,14 +32,6 @@ const { confirm } = Modal;
 const { Paragraph, Title } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 /* ---------------- 主页面 ---------------- */
 const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -122,7 +113,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team = teamData?.contest_team[0];
   const isLeader = user?.uuid === team?.team_leader?.uuid;
-  const userid = user!.uuid!;
 
   /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {
@@ -192,14 +182,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
         navigate(0);
       },
     });
-  };
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
   };
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
@@ -376,7 +358,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
               onClick={
                 isLeader
                   ? () => deleteWholeTeam(teamid)
-                  : () => deleteTeamMember(userid)
+                  : () => deleteTeamMember(user?.uuid!)
               }
             >
               {isLeader ? "解散队伍" : "退出队伍"}

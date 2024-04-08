@@ -6,8 +6,9 @@ import NotImplemented from "./Components/NotImplemented";
 import ReactRouterPrompt from "react-router-prompt";
 import styled from "styled-components";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import { message, Layout, Row, Modal, Progress, Spin, FloatButton } from "antd";
+import { message, Layout, Row, Modal, Progress, FloatButton } from "antd";
 import { ArrowsAltOutlined } from "@ant-design/icons";
+import Loading from "../Components/Loading";
 
 const Container = styled.div`
   height: calc(100vh - 72px);
@@ -16,14 +17,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-const Loading = () => {
-  return (
-    <Container>
-      <Spin size="large" />
-    </Container>
-  );
-};
 
 const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -149,9 +142,7 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
         </ReactRouterPrompt>
       </Layout>
     ) : (
-      <Container>
-        <NotImplemented />
-      </Container>
+      <NotImplemented />
     )
   ) : (
     <Loading />

@@ -15,7 +15,6 @@ import {
   Row,
   // Select,
   Space,
-  Spin,
   Typography,
 } from "antd";
 import {
@@ -31,8 +30,8 @@ import dayjs from "dayjs";
 import { Content } from "antd/lib/layout/layout";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import styled from "styled-components";
 import { ContestProps } from ".";
+import Loading from "../Components/Loading";
 
 /* ---------------- 接口和类型定义 ---------------- */
 // 表单数据格式
@@ -63,13 +62,6 @@ var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 /* ---------------- 主页面 ---------------- */
 const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
@@ -333,13 +325,6 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
   // };
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
 
   /* ---------------- 页面组件 ---------------- */
   return (
