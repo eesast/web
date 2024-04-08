@@ -839,7 +839,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           : max;
       }).Key;
       message.info("开始下载");
-      downloadFile(url);
+      downloadFile(url).catch((e) => message.error("下载失败：" + e));
     } catch (err) {
       console.log(err);
       message.error(`下载失败`);
