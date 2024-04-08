@@ -322,14 +322,18 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
           url: `${contestData?.contest_by_pk?.name}/code/${teamid}/player${codeRole}.cpp`,
         };
         message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url);
+        downloadFile(codefile.url).catch((e) =>
+          message.error("下载失败：" + e),
+        );
       } else if (py_exist) {
         const codefile = {
           filename: `player${codeRole}.py`,
           url: `${contestData?.contest_by_pk?.name}/code/${teamid}/player${codeRole}.py`,
         };
         message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url);
+        downloadFile(codefile.url).catch((e) =>
+          message.error("下载失败：" + e),
+        );
       }
     } catch (err) {
       message.error("下载失败");

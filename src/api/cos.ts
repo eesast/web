@@ -51,7 +51,9 @@ const downloadByUrl = (url: string) => {
 };
 
 export const downloadFile = (url: string) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    if ((await existFile(url)) === false)
+      return reject("文件不存在，请检查路径");
     cos.getObjectUrl(
       {
         Bucket: bucket,
@@ -60,11 +62,15 @@ export const downloadFile = (url: string) => {
       },
       (err, data) => {
         if (err) return reject(err);
-        downloadByUrl(
-          data.Url +
-            (data.Url.indexOf("?") > -1 ? "&" : "?") +
-            "response-content-disposition=attachment;",
-        );
+        try {
+          downloadByUrl(
+            data.Url +
+              (data.Url.indexOf("?") > -1 ? "&" : "?") +
+              "response-content-disposition=attachment;",
+          );
+        } catch (err) {
+          return reject(err);
+        }
         return resolve(data);
       },
     );
