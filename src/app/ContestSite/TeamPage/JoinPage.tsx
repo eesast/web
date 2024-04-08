@@ -243,12 +243,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                       <Form.Item
                         label="队伍名称"
                         name="team_name"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input the team name!",
-                          },
-                        ]}
+                        rules={[{ required: true, message: "队伍名不能为空" }]}
                       >
                         <Input placeholder="输入队名" />
                       </Form.Item>
@@ -257,10 +252,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                         label="队伍简介"
                         name="team_intro"
                         rules={[
-                          {
-                            required: true,
-                            message: "Please input team detail!",
-                          },
+                          { required: true, message: "队伍简介不能为空" },
                         ]}
                       >
                         <TextArea placeholder="输入队伍简介" rows={6} />

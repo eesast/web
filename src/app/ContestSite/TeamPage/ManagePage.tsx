@@ -289,19 +289,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Form.Item
                   name="team_name"
                   label="队伍名称"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    () => ({
-                      validator(rule, value) {
-                        if (value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("队伍名不能为空");
-                      },
-                    }),
-                  ]}
+                  rules={[{ required: true, message: "队伍名不能为空" }]}
                 >
                   <Input
                     autoCapitalize="off"
@@ -312,19 +300,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Form.Item
                   name="team_intro"
                   label="队伍简介"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    () => ({
-                      validator(rule, value) {
-                        if (value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("队伍简介不能为空");
-                      },
-                    }),
-                  ]}
+                  rules={[{ required: true, message: "队伍简介不能为空" }]}
                 >
                   <TextArea rows={6} />
                 </Form.Item>
