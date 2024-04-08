@@ -2,7 +2,6 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import Authenticate, { userRoles } from "../Components/Authenticate";
-import { defaultPayload } from "@/api/hooks/user";
 import ProfilePage from "./ProfilePage";
 import NotFound from "../Components/NotFound";
 import LoginPage from "./LoginPage";
@@ -24,7 +23,7 @@ const UserSite: React.FC<UserProps> = (props) => {
       <Route
         path="/"
         element={
-          props.user.uuid !== defaultPayload.uuid ? (
+          props.user.isLoggedIn ? (
             <Navigate to={url.link("profile")} />
           ) : (
             <Navigate to={url.link("login")} />
@@ -42,7 +41,7 @@ const UserSite: React.FC<UserProps> = (props) => {
       <Route
         path="login"
         element={
-          props.user.uuid !== defaultPayload.uuid ? (
+          props.user.isLoggedIn ? (
             <Navigate to={url.link("profile")} />
           ) : (
             <LoginPage {...props} />
@@ -52,7 +51,7 @@ const UserSite: React.FC<UserProps> = (props) => {
       <Route
         path="register"
         element={
-          props.user.uuid !== defaultPayload.uuid ? (
+          props.user.isLoggedIn ? (
             <Navigate to={url.link("profile")} />
           ) : (
             <RegisterPage {...props} />

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Forbidden from "./Forbidden";
 import { message } from "antd";
-import { JwtPayload, defaultPayload } from "@/api/hooks/user";
+import { JwtPayload } from "@/api/hooks/user";
 
 interface AuthenticateProps {
   user: JwtPayload;
@@ -21,12 +21,12 @@ const Authenticate: React.FC<AuthenticateProps> = ({
   fallback,
 }) => {
   useEffect(() => {
-    if (user.uuid === defaultPayload.uuid) {
+    if (!user.isLoggedIn) {
       message.info({ content: "请先登录", key: "loginMessage" });
     }
   });
 
-  if (user.uuid === defaultPayload.uuid) {
+  if (!user.isLoggedIn) {
     return <Navigate to="/user/login" />;
   }
 
