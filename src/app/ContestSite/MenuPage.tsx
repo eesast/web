@@ -43,6 +43,7 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import PlaygroundPage from "./PlaygroundPage";
+import Authenticate, { userRoles } from "../Components/Authenticate";
 import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 
@@ -73,7 +74,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   //获取是否为某个队伍的成员
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
-      user_uuid: props.user?.uuid!,
+      user_uuid: props.user?.uuid ?? "00000000-0000-0000-0000-000000000000",
       contest_id: Contest_id,
     },
   });
@@ -380,11 +381,31 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             <Route path="stream" element={<StreamPage {...props} />} />
             <Route path="playback" element={<PlaybackPage {...props} />} />
 
-            <Route path="team" element={<TeamPage {...props} />} />
+            <Route
+              path="team"
+              element={
+                <Authenticate role={userRoles} user={props.user}>
+                  <TeamPage {...props} />
+                </Authenticate>
+              }
+            />
+            <Route
+              path="code"
+              element={
+                <Authenticate role={userRoles} user={props.user}>
+                  <NotImplemented />
+                </Authenticate>
+              }
+            />
 
-            <Route path="code" element={<NotImplemented />} />
-
-            <Route path="arena-score" element={<ArenaPage {...props} />} />
+            <Route
+              path="arena-score"
+              element={
+                <Authenticate role={userRoles} user={props.user}>
+                  <ArenaPage {...props} />
+                </Authenticate>
+              }
+            />
             <Route path="arena-record" element={<RecordPage {...props} />} />
             <Route
               path="arena-analysis"

@@ -1,9 +1,9 @@
-import { Button, Form, Input, Tooltip } from "antd";
-import React from "react";
+import { Button, Form, Input, Tooltip, message } from "antd";
 import Center from "../../Components/Center";
 import { validateEmail, validateNumber } from "@/api/utils/validator";
 import { QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import * as graphql from "@/generated/graphql";
 
 interface StartProps {
   title: string;
@@ -19,11 +19,32 @@ const Start: React.FC<StartProps> = ({
   hasTooltip,
 }) => {
   const navigate = useNavigate();
-  const handleFinish = (values: any) => {
-    if (values.user.includes("@")) {
-      setEmail(values.user);
-    } else {
-      setPhone(values.user);
+  const { refetch: refetchUserByEmail } = graphql.useGetUserByEmailQuery({
+    variables: { email: "" },
+  });
+  const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
+    variables: { phone: "" },
+  });
+  const handleFinish = async (values: any) => {
+    try {
+      if (values.user.includes("@")) {
+        const { data } = await refetchUserByEmail({ email: values.user });
+        if (data.users.length) {
+          message.error("邮箱已被注册");
+          return;
+        }
+        setEmail(values.user);
+      } else {
+        const { data } = await refetchUserByPhone({ phone: values.user });
+        if (data.users.length) {
+          message.error("手机号已被注册");
+          return;
+        }
+        setPhone(values.user);
+      }
+    } catch (e) {
+      message.error("未知错误");
+      console.log(e);
     }
     return;
   };

@@ -13291,6 +13291,20 @@ export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetDepartmentsQuery = { __typename?: 'query_root', department: Array<{ __typename?: 'department', name: string }> };
 
+export type GetUserByEmailQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+
+export type GetUserByPhoneQueryVariables = Exact<{
+  phone: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByPhoneQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+
 export type GetUser_IdQueryVariables = Exact<{
   email: Scalars['String']['input'];
   realname: Scalars['String']['input'];
@@ -17141,6 +17155,86 @@ export type GetDepartmentsQueryHookResult = ReturnType<typeof useGetDepartmentsQ
 export type GetDepartmentsLazyQueryHookResult = ReturnType<typeof useGetDepartmentsLazyQuery>;
 export type GetDepartmentsSuspenseQueryHookResult = ReturnType<typeof useGetDepartmentsSuspenseQuery>;
 export type GetDepartmentsQueryResult = Apollo.QueryResult<GetDepartmentsQuery, GetDepartmentsQueryVariables>;
+export const GetUserByEmailDocument = gql`
+    query GetUserByEmail($email: String!) {
+  users(where: {email: {_eq: $email}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGetUserByEmailQuery__
+ *
+ * To run a query within a React component, call `useGetUserByEmailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByEmailQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetUserByEmailQuery(baseOptions: Apollo.QueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables> & ({ variables: GetUserByEmailQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+      }
+export function useGetUserByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+        }
+export function useGetUserByEmailSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+        }
+export type GetUserByEmailQueryHookResult = ReturnType<typeof useGetUserByEmailQuery>;
+export type GetUserByEmailLazyQueryHookResult = ReturnType<typeof useGetUserByEmailLazyQuery>;
+export type GetUserByEmailSuspenseQueryHookResult = ReturnType<typeof useGetUserByEmailSuspenseQuery>;
+export type GetUserByEmailQueryResult = Apollo.QueryResult<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const GetUserByPhoneDocument = gql`
+    query GetUserByPhone($phone: String!) {
+  users(where: {phone: {_eq: $phone}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGetUserByPhoneQuery__
+ *
+ * To run a query within a React component, call `useGetUserByPhoneQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByPhoneQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByPhoneQuery({
+ *   variables: {
+ *      phone: // value for 'phone'
+ *   },
+ * });
+ */
+export function useGetUserByPhoneQuery(baseOptions: Apollo.QueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables> & ({ variables: GetUserByPhoneQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
+      }
+export function useGetUserByPhoneLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
+        }
+export function useGetUserByPhoneSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
+        }
+export type GetUserByPhoneQueryHookResult = ReturnType<typeof useGetUserByPhoneQuery>;
+export type GetUserByPhoneLazyQueryHookResult = ReturnType<typeof useGetUserByPhoneLazyQuery>;
+export type GetUserByPhoneSuspenseQueryHookResult = ReturnType<typeof useGetUserByPhoneSuspenseQuery>;
+export type GetUserByPhoneQueryResult = Apollo.QueryResult<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>;
 export const GetUser_IdDocument = gql`
     query GetUser_Id($email: String!, $realname: String!) {
   users(where: {email: {_eq: $email}, realname: {_eq: $realname}}) {

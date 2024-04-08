@@ -152,6 +152,14 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     graphql.useUpdateProfileMutation();
   useEffect(() => {
     if (updateProfileError) {
+      if (
+        updateProfileError.graphQLErrors.some((graphQLError) => {
+          return graphQLError.message.includes("Uniqueness violation");
+        })
+      ) {
+        message.error("该项已被其他用户使用");
+        return;
+      }
       message.error("更新用户信息失败");
       console.log(updateProfileError);
     }
