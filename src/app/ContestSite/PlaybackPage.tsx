@@ -29,6 +29,14 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+const Loading = () => {
+  return (
+    <Container>
+      <Spin size="large" />
+    </Container>
+  );
+};
+
 const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
@@ -176,14 +184,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         }
       }
     }
-  };
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
   };
 
   return contestSwitchData ? (

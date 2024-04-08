@@ -6,7 +6,8 @@ import NotImplemented from "./Components/NotImplemented";
 import ReactRouterPrompt from "react-router-prompt";
 import styled from "styled-components";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import { message, Layout, Row, Modal, Progress, Spin } from "antd";
+import { message, Layout, Row, Modal, Progress, Spin, FloatButton } from "antd";
+import { ArrowsAltOutlined } from "@ant-design/icons";
 
 const Container = styled.div`
   height: calc(100vh - 72px);
@@ -71,15 +72,20 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
     return "no-store";
   };
 
-  const { unityProvider, isLoaded, unload, loadingProgression } =
-    useUnityContext({
-      loaderUrl: projectUrl + projectName + ".loader.js",
-      dataUrl: projectUrl + projectName + ".data",
-      frameworkUrl: projectUrl + projectName + ".framework.js",
-      codeUrl: projectUrl + projectName + ".wasm",
-      streamingAssetsUrl: projectUrl,
-      cacheControl: handleCacheControl,
-    });
+  const {
+    unityProvider,
+    isLoaded,
+    unload,
+    loadingProgression,
+    requestFullscreen,
+  } = useUnityContext({
+    loaderUrl: projectUrl + projectName + ".loader.js",
+    dataUrl: projectUrl + projectName + ".data",
+    frameworkUrl: projectUrl + projectName + ".framework.js",
+    codeUrl: projectUrl + projectName + ".wasm",
+    streamingAssetsUrl: projectUrl,
+    cacheControl: handleCacheControl,
+  });
 
   const handleQuit = async () => {
     try {
@@ -116,6 +122,14 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
             `}
           />
         </Row>
+        <FloatButton
+          icon={<ArrowsAltOutlined />}
+          style={{ right: 48 }}
+          type="primary"
+          onClick={() => {
+            requestFullscreen(true);
+          }}
+        />
         <ReactRouterPrompt when={isLoaded}>
           {({ isActive, onConfirm, onCancel }) => (
             <Modal
