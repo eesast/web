@@ -13,7 +13,6 @@ import {
   Card,
   Form,
   Input,
-  Layout,
   List,
   message,
   Modal,
@@ -26,19 +25,17 @@ import {
   ArrowRightOutlined,
   ExclamationCircleOutlined,
   MinusCircleOutlined,
-  PlusOutlined,
   RollbackOutlined,
   DownloadOutlined,
 } from "@ant-design/icons";
 import * as xlsx from "xlsx";
-import TextArea from "antd/lib/input/TextArea";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
 import Loading from "@/app/Components/Loading";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 /* ---------------- 主页面 ---------------- */
@@ -341,12 +338,7 @@ const ListPage: React.FC<{
       key: "team_name",
     },
     {
-      title: "队长",
-      key: "team_leader",
-      render: (text, record) => record.team_leader?.realname,
-    },
-    {
-      title: "队员",
+      title: "成员",
       key: "team_member",
       render: (text, record) =>
         record.contest_team_members.map((i) => [i.user?.realname + "   "]),
@@ -391,120 +383,33 @@ const ListPage: React.FC<{
   ];
 
   return (
-    <Layout>
-      <Row>
-        <Card
-          hoverable
-          style={{
-            padding: "2vh 1vw",
-          }}
-          title={
-            <Text
-              css={`
-                font-size: xx-large;
-                font-weight: bold;
-              `}
-            >
-              队伍管理
-            </Text>
+    <Card
+      hoverable
+      style={{
+        padding: "2vh 1vw",
+        width: "100%",
+      }}
+    >
+      <Title level={2} style={{ margin: `0 0 24px` }}>
+        队伍管理
+      </Title>
+      <Suspense fallback={<Loading />}>
+        <Table
+          dataSource={
+            teamListData?.contest_team as graphql.GetAllTeamInfoSubscription["contest_team"]
           }
-          css={`
-            width: 100%;
-            padding-top: 24px;
-            padding-bottom: 12px;
-            &.ant-card-bordered {
-              cursor: default;
-            }
-          `}
-        >
-          <Suspense fallback={<Loading />}>
-            <Table
-              //loading={teamListLoading}
-              dataSource={
-                teamListData?.contest_team as graphql.GetAllTeamInfoSubscription["contest_team"]
-              }
-              columns={teamListColumns}
-              rowKey={(record) => record.team_id}
-            />
-          </Suspense>
-          <Button
-            css={`
-              width: 120px;
-              margin-top: 12px;
-            `}
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalVisible(true)}
-            type="primary"
-          >
-            添加新队伍
-          </Button>
-          <Button
-            style={{ marginLeft: "20px" }}
-            icon={<DownloadOutlined />}
-            onClick={exportTeamsData}
-            type="primary"
-          >
-            导出队伍信息
-          </Button>
-        </Card>
-      </Row>
-      <Modal
-        open={isModalVisible}
-        title="添加新队伍"
-        centered
-        okText="提交"
-        maskClosable={false}
-        confirmLoading={teamAdding}
-        onCancel={() => {
-          setIsModalVisible(false);
-          form.resetFields();
-        }}
-        onOk={handleTeamAdd}
-        destroyOnClose
+          columns={teamListColumns}
+          rowKey={(record) => record.team_id}
+        />
+      </Suspense>
+      <Button
+        icon={<DownloadOutlined />}
+        onClick={exportTeamsData}
+        type="primary"
       >
-        <Form
-          form={form}
-          name="teamAdd"
-          onFinish={handleTeamAdd}
-          onFinishFailed={(errorInfo: any) => {
-            console.log("Failed:", errorInfo);
-          }}
-          preserve={false}
-        >
-          <Form.Item
-            name="leader_name"
-            label="队长姓名"
-            rules={[{ required: true, message: "请输入队长姓名" }]}
-          >
-            <Input placeholder="输入队长姓名" allowClear />
-          </Form.Item>
-          <Form.Item
-            name="leader_email"
-            label="队长邮箱"
-            rules={[
-              { required: true, message: "请输入队长邮箱" },
-              { type: "email", message: "请输入合法邮箱" },
-            ]}
-          >
-            <Input placeholder="输入队长邮箱" allowClear />
-          </Form.Item>
-          <Form.Item
-            name="team_name"
-            label="队伍名称"
-            rules={[{ required: true, message: "请输入队伍名称" }]}
-          >
-            <Input placeholder="输入队伍名称" allowClear />
-          </Form.Item>
-          <Form.Item
-            label="队伍简介"
-            name="team_intro"
-            rules={[{ required: true, message: "Please input team detail!" }]}
-          >
-            <TextArea placeholder="输入队伍简介" rows={3} allowClear />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </Layout>
+        导出队伍信息
+      </Button>
+    </Card>
   );
 };
 
@@ -748,37 +653,33 @@ const SubPage: React.FC<{
   };
 
   return (
-    <div>
-      <Row>
-        <Card
-          bordered={false}
-          style={{ width: "100%" }}
-          title={
-            <Text
-              css={`
-                font-size: xx-large;
-                font-weight: bold;
-              `}
-            >
-              {teamData?.contest_team[0].team_name}
-            </Text>
-          }
-          extra={
-            <Button
-              icon={<RollbackOutlined />}
-              onClick={() => props.setEditingTeamID(undefined)}
-            />
-          }
-          tabList={tabList}
-          activeTabKey={activeTabKey}
-          onTabChange={(key) => {
-            onTabChange(key);
-          }}
+    <Card
+      bordered={false}
+      style={{ width: "100%" }}
+      title={
+        <Text
+          css={`
+            font-size: xx-large;
+            font-weight: bold;
+          `}
         >
-          {contentList[activeTabKey as keyof typeof contentList]}
-        </Card>
-      </Row>
-    </div>
+          {teamData?.contest_team[0].team_name}
+        </Text>
+      }
+      extra={
+        <Button
+          icon={<RollbackOutlined />}
+          onClick={() => props.setEditingTeamID(undefined)}
+        />
+      }
+      tabList={tabList}
+      activeTabKey={activeTabKey}
+      onTabChange={(key) => {
+        onTabChange(key);
+      }}
+    >
+      {contentList[activeTabKey as keyof typeof contentList]}
+    </Card>
   );
 };
 export default ManageTeams;

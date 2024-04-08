@@ -6,7 +6,6 @@ import {
   Form,
   Input,
   message,
-  Layout,
   Typography,
 } from "antd";
 import dayjs from "dayjs";
@@ -15,7 +14,7 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Text } = Typography;
+const { Title } = Typography;
 const EditInfo: React.FC<ContestProps> = (props) => {
   const [form] = Form.useForm();
   const RangePicker: any = DatePicker.RangePicker;
@@ -78,54 +77,45 @@ const EditInfo: React.FC<ContestProps> = (props) => {
     }
   }, [UpdateContestInfoError]);
   return (
-    <Layout>
-      <Card
-        hoverable
-        style={{
-          padding: "2vh 1vw",
-        }}
-        title={
-          <Text
-            css={`
-              font-size: xx-large;
-              font-weight: bold;
-            `}
-          >
-            比赛信息编辑
-          </Text>
-        }
-      >
-        <Form form={form} name="contest" onFinish={onFinish} preserve={false}>
-          <Form.Item
-            name="fullname"
-            label="名称"
-            rules={[{ required: true, message: "请输入比赛名称" }]}
-          >
-            <Input allowClear />
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="描述"
-            className="form-item-description"
-            rules={[{ required: false, message: "请输入比赛描述" }]}
-          >
-            <Input.TextArea autoSize={{ minRows: 6, maxRows: 6 }} allowClear />
-          </Form.Item>
-          <Form.Item
-            name="time"
-            label="比赛时间"
-            rules={[{ required: true, message: "请输入比赛时间" }]}
-          >
-            <RangePicker />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              确认
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    </Layout>
+    <Card
+      hoverable
+      style={{
+        padding: "2vh 1vw",
+      }}
+    >
+      <Title level={2} style={{ margin: `0 0 24px` }}>
+        比赛信息编辑
+      </Title>
+      <Form form={form} name="contest" onFinish={onFinish} preserve={false}>
+        <Form.Item
+          name="fullname"
+          label="名称"
+          rules={[{ required: true, message: "请输入比赛名称" }]}
+        >
+          <Input allowClear />
+        </Form.Item>
+        <Form.Item
+          name="description"
+          label="描述"
+          className="form-item-description"
+          rules={[{ required: false, message: "请输入比赛描述" }]}
+        >
+          <Input.TextArea autoSize={{ minRows: 6, maxRows: 6 }} allowClear />
+        </Form.Item>
+        <Form.Item
+          name="time"
+          label="比赛时间"
+          rules={[{ required: true, message: "请输入比赛时间" }]}
+        >
+          <RangePicker />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            确认
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   );
 };
 

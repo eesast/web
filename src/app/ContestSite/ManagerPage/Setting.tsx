@@ -5,11 +5,10 @@ import {
   Checkbox,
   Form,
   Input,
-  Layout,
   message,
   Modal,
-  Row,
   Select,
+  Space,
   Typography,
 } from "antd";
 import axios from "axios";
@@ -18,7 +17,7 @@ import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Text } = Typography;
+const { Title } = Typography;
 /* ---------------- 主页面 ---------------- */
 const Setting: React.FC<ContestProps> = (props) => {
   //获取比赛ID
@@ -113,235 +112,110 @@ const Setting: React.FC<ContestProps> = (props) => {
   };
 
   return (
-    <Layout>
-      <Card
-        hoverable
-        style={{
-          padding: "2vh 1vw",
-        }}
-        title={
-          <Text
-            css={`
-              font-size: xx-large;
-              font-weight: bold;
-            `}
-          >
-            比赛设置
-          </Text>
-        }
-      >
-        <Row
-          justify="start"
-          css={`
-            margin-top: 30px;
-            margin-left: 20px;
-          `}
+    <Card
+      hoverable
+      style={{
+        padding: "2vh 1vw",
+      }}
+    >
+      <Title level={2} style={{ margin: `0 0 36px` }}>
+        比赛设置
+      </Title>
+      <Space direction="vertical" size="large">
+        <Checkbox
+          checked={contestSwitchData?.contest_by_pk?.team_switch === true}
+          onChange={async (e) => {
+            await updateContestSwitch({
+              variables: {
+                contest_id: Contest_id,
+                ...contestSwitchData?.contest_by_pk!,
+                team_switch: e.target.checked,
+              },
+            });
+          }}
         >
-          <Checkbox
-            checked={contestSwitchData?.contest_by_pk?.team_switch === true}
-            onChange={async (e) => {
-              await updateContestSwitch({
-                variables: {
-                  contest_id: Contest_id,
-                  code_upload_switch:
-                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
-                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
-                  playground_switch:
-                    contestSwitchData?.contest_by_pk?.playground_switch!,
-                  stream_switch:
-                    contestSwitchData?.contest_by_pk?.stream_switch!,
-                  playback_switch:
-                    contestSwitchData?.contest_by_pk?.playback_switch!,
-                  team_switch: e.target.checked,
-                },
-              });
-              //refetchContestS();
-            }}
-          >
-            开放组队
-          </Checkbox>
-        </Row>
-
-        <Row
-          justify="start"
-          css={`
-            margin-top: 30px;
-            margin-left: 20px;
-          `}
+          开放组队
+        </Checkbox>
+        <Checkbox
+          checked={
+            contestSwitchData?.contest_by_pk?.code_upload_switch === true
+          }
+          onChange={async (e) => {
+            await updateContestSwitch({
+              variables: {
+                contest_id: Contest_id,
+                ...contestSwitchData?.contest_by_pk!,
+                code_upload_switch: e.target.checked,
+              },
+            });
+          }}
         >
-          <Checkbox
-            checked={
-              contestSwitchData?.contest_by_pk?.code_upload_switch === true
-            }
-            onChange={async (e) => {
-              await updateContestSwitch({
-                variables: {
-                  contest_id: Contest_id,
-                  code_upload_switch: e.target.checked,
-                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
-                  playground_switch:
-                    contestSwitchData?.contest_by_pk?.playground_switch!,
-                  stream_switch:
-                    contestSwitchData?.contest_by_pk?.stream_switch!,
-                  playback_switch:
-                    contestSwitchData?.contest_by_pk?.playback_switch!,
-                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
-                },
-              });
-            }}
-          >
-            上传代码
-          </Checkbox>
-        </Row>
-
-        <Row
-          justify="start"
-          css={`
-            margin-top: 30px;
-            margin-left: 20px;
-          `}
+          上传代码
+        </Checkbox>
+        <Checkbox
+          checked={contestSwitchData?.contest_by_pk?.arena_switch === true}
+          onChange={async (e) => {
+            await updateContestSwitch({
+              variables: {
+                contest_id: Contest_id,
+                ...contestSwitchData?.contest_by_pk!,
+                arena_switch: e.target.checked,
+              },
+            });
+          }}
         >
-          <Checkbox
-            checked={contestSwitchData?.contest_by_pk?.arena_switch === true}
-            onChange={async (e) => {
-              await updateContestSwitch({
-                variables: {
-                  contest_id: Contest_id,
-                  code_upload_switch:
-                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
-                  arena_switch: e.target.checked,
-                  playground_switch:
-                    contestSwitchData?.contest_by_pk?.playground_switch!,
-                  stream_switch:
-                    contestSwitchData?.contest_by_pk?.stream_switch!,
-                  playback_switch:
-                    contestSwitchData?.contest_by_pk?.playback_switch!,
-                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
-                },
-              });
-            }}
-          >
-            天梯对战
-          </Checkbox>
-        </Row>
-
-        <Row
-          justify="start"
-          css={`
-            margin-top: 30px;
-            margin-left: 20px;
-          `}
+          天梯对战
+        </Checkbox>
+        <Checkbox
+          checked={contestSwitchData?.contest_by_pk?.playground_switch === true}
+          onChange={async (e) => {
+            await updateContestSwitch({
+              variables: {
+                contest_id: Contest_id,
+                ...contestSwitchData?.contest_by_pk!,
+                playground_switch: e.target.checked,
+              },
+            });
+          }}
         >
-          <Checkbox
-            checked={
-              contestSwitchData?.contest_by_pk?.playground_switch === true
-            }
-            onChange={async (e) => {
-              await updateContestSwitch({
-                variables: {
-                  contest_id: Contest_id,
-                  code_upload_switch:
-                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
-                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
-                  playground_switch: e.target.checked,
-                  stream_switch:
-                    contestSwitchData?.contest_by_pk?.stream_switch!,
-                  playback_switch:
-                    contestSwitchData?.contest_by_pk?.playback_switch!,
-                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
-                },
-              });
-            }}
-          >
-            试玩功能
-          </Checkbox>
-        </Row>
-
-        <Row
-          justify="start"
-          css={`
-            margin-top: 30px;
-            margin-left: 20px;
-          `}
+          试玩功能
+        </Checkbox>
+        <Checkbox
+          checked={contestSwitchData?.contest_by_pk?.stream_switch === true}
+          onChange={async (e) => {
+            await updateContestSwitch({
+              variables: {
+                contest_id: Contest_id,
+                ...contestSwitchData?.contest_by_pk!,
+                stream_switch: e.target.checked,
+              },
+            });
+          }}
         >
-          <Checkbox
-            checked={contestSwitchData?.contest_by_pk?.stream_switch === true}
-            onChange={async (e) => {
-              await updateContestSwitch({
-                variables: {
-                  contest_id: Contest_id,
-                  code_upload_switch:
-                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
-                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
-                  playground_switch:
-                    contestSwitchData?.contest_by_pk?.playground_switch!,
-                  stream_switch: e.target.checked,
-                  playback_switch:
-                    contestSwitchData?.contest_by_pk?.playback_switch!,
-                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
-                },
-              });
-            }}
-          >
-            直播功能
-          </Checkbox>
-        </Row>
-
-        <Row
-          justify="start"
-          css={`
-            margin-top: 30px;
-            margin-left: 20px;
-          `}
+          直播功能
+        </Checkbox>
+        <Checkbox
+          checked={contestSwitchData?.contest_by_pk?.playback_switch === true}
+          onChange={async (e) => {
+            await updateContestSwitch({
+              variables: {
+                contest_id: Contest_id,
+                ...contestSwitchData?.contest_by_pk!,
+                playback_switch: e.target.checked,
+              },
+            });
+          }}
         >
-          <Checkbox
-            checked={contestSwitchData?.contest_by_pk?.playback_switch === true}
-            onChange={async (e) => {
-              await updateContestSwitch({
-                variables: {
-                  contest_id: Contest_id,
-                  code_upload_switch:
-                    contestSwitchData?.contest_by_pk?.code_upload_switch!,
-                  arena_switch: contestSwitchData?.contest_by_pk?.arena_switch!,
-                  playground_switch:
-                    contestSwitchData?.contest_by_pk?.playground_switch!,
-                  stream_switch:
-                    contestSwitchData?.contest_by_pk?.stream_switch!,
-                  playback_switch: e.target.checked,
-                  team_switch: contestSwitchData?.contest_by_pk?.team_switch!,
-                },
-              });
-            }}
-          >
-            回放功能
-          </Checkbox>
-        </Row>
-
-        <Row
-          justify="start"
-          css={`
-            margin-top: 15px;
-          `}
+          回放功能
+        </Checkbox>
+        <Button
+          type="primary"
+          icon={<ForwardOutlined />}
+          onClick={() => setIsModalVisible(true)}
         >
-          <Button
-            type="primary"
-            css={`
-              margin-top: 20px;
-              margin-left: 15px;
-            `}
-            icon={<ForwardOutlined />}
-            onClick={() => setIsModalVisible(true)}
-          >
-            运行比赛
-          </Button>
-        </Row>
-        <Row
-          justify="start"
-          css={`
-            margin-top: 10px;
-          `}
-        ></Row>
-      </Card>
+          运行比赛
+        </Button>
+      </Space>
       <Modal
         open={isModalVisible}
         title="运行比赛"
@@ -385,7 +259,7 @@ const Setting: React.FC<ContestProps> = (props) => {
           </Form.Item>
         </Form>
       </Modal>
-    </Layout>
+    </Card>
   );
 };
 
