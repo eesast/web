@@ -10,7 +10,7 @@ import {
   Col,
   Typography,
 } from "antd";
-import { MinusOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 //----根据队员信息查找队伍信息------
 //----天梯队伍信息------
 import type { TableProps } from "antd/lib/table";
@@ -32,51 +32,21 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
-  // //-----------------根据队员id查询队伍id------------------
-  // const { data: isleaderData } = useQuery<IsTeamLeader, IsTeamLeaderVariables>(
-  //     ISTEAMLEADER,
-  //     {
-  //     variables: {
-  //         uuid: users?.uuid!,
-  //         contest_id: Contest_id,
-  //     },
-  //     }
-  // );
-  // const { data: ismemberData } = useQuery<IsTeamMember, IsTeamMemberVariables>(
-  //     ISTEAMMEMBER,
-  //     {
-  //     variables: {
-  //         uuid: users?.uuid!,
-  //         contest_id: Contest_id,
-  //     },
-  //     }
-  // );
+  const { data: teamData } = graphql.useGetTeamQuery({
+    variables: {
+      user_uuid: user?.uuid,
+      contest_id: Contest_id,
+    },
+  });
 
-  // ----------------获取比赛管理员---------------
-  const { data: getContestManagersData, error: getContestManagersError } =
-    graphql.useGetContestManagersSuspenseQuery({
+  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
+
+  const { data: roomListData, error: teamListError } =
+    graphql.useGetRoomInfoSubscription({
       variables: {
         contest_id: Contest_id,
       },
     });
-
-  useEffect(() => {
-    if (getContestManagersError) {
-      message.error("管理员加载失败");
-      console.log(getContestManagersError.message);
-    }
-  }, [getContestManagersError]);
-
-  const {
-    data: roomListData,
-    //loading: roomListLoading,
-    error: teamListError,
-    // refetch: refetchRoomList,
-  } = graphql.useGetRoomInfoSubscription({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
   useEffect(() => {
     if (teamListError) {
       message.error("获取对战信息失败");
@@ -84,42 +54,23 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  // ----------------删除room--------------------
-  const [deleteRoom, { error: DeleteRoomError }] =
-    graphql.useDeleteRoomMutation();
-  useEffect(() => {
-    if (DeleteRoomError) {
-      message.error("删除对战记录失败");
-      console.log(DeleteRoomError.message);
-    }
-  });
-
-  // const teamid =
-  //     isleaderData?.contest_team[0]?.team_id ||
-  //     ismemberData?.contest_team_member[0]?.team_id;
-  // //利用teamid查询team的信息储存在teamdata中
-  // const { data: teamData } = useQuery<GetTeamInfo, GetTeamInfoVariables>(
-  //     GETTEAMINFO,
-  //     {
-  //     variables: {
-  //         contest_id: Contest_id,
-  //         team_id: teamid!,
-  //     },
-  //     }
-  // );
-
-  // const teamName = teamData?.contest_team[0]?.team_name || "null";
   const roomListColumns: TableProps<
     graphql.GetRoomInfoSubscription["contest_room"][0]
   >["columns"] = [
     {
       title: "对战双方",
       key: "team_name",
-      // filters: [{
-      //     text: '只看自己',
-      //     value: teamName,
-      // }],
-      // onFilter: (value, record) => (record.contest_room_teams[0].contest_team.team_name === value) || (record.contest_room_teams[1].contest_team.team_name === value),
+      filters: team_id
+        ? [
+            {
+              text: "只看自己",
+              value: team_id,
+            },
+          ]
+        : [],
+      onFilter: (value, record) =>
+        record.contest_room_teams[0].contest_team.team_id === value ||
+        record.contest_room_teams[1].contest_team.team_id === value,
       render: (text, record) => {
         return (
           <Text>
@@ -188,26 +139,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         </Row>
       ),
     },
-    {
-      title: "",
-      key: "delete",
-      render: (text, record) =>
-        getContestManagersData?.contest_by_pk?.contest_managers.some(
-          (manager) => manager.user_uuid === user?.uuid,
-        ) ? (
-          <Button
-            shape="circle"
-            icon={<MinusOutlined />}
-            type="dashed"
-            size="small"
-            onClick={() => {
-              handleDeleteRoom(record.room_id);
-            }}
-          ></Button>
-        ) : (
-          <div />
-        ),
-    },
   ];
 
   const download = async (
@@ -225,14 +156,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       } else {
         message.error("未知错误");
       }
-    }
-  };
-
-  const handleDeleteRoom = async (Room_id: string) => {
-    await deleteRoom({ variables: { room_id: Room_id } });
-    // await refetchRoomList();
-    if (!DeleteRoomError) {
-      message.success("已移除此对战记录");
     }
   };
 
@@ -305,7 +228,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={20}>
           <Suspense fallback={<Loading />}>
             <Table
-              //loading={roomListLoading}
               dataSource={
                 filterParamList as graphql.GetRoomInfoSubscription["contest_room"]
               }
