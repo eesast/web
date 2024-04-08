@@ -12834,7 +12834,7 @@ export type GetContestRoundsQueryVariables = Exact<{
 
 export type GetContestRoundsQuery = { __typename?: 'query_root', contest_round: Array<{ __typename?: 'contest_round', round_id: any, name: string, map_id?: any | null }> };
 
-export type InsertTeamMutationVariables = Exact<{
+export type AddTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
   team_intro?: InputMaybe<Scalars['String']['input']>;
   team_leader_uuid: Scalars['uuid']['input'];
@@ -12843,23 +12843,90 @@ export type InsertTeamMutationVariables = Exact<{
 }>;
 
 
-export type InsertTeamMutation = { __typename?: 'mutation_root', insert_contest_team_one?: { __typename?: 'contest_team', team_id: any } | null };
+export type AddTeamMutation = { __typename?: 'mutation_root', insert_contest_team_one?: { __typename?: 'contest_team', team_id: any } | null };
 
-export type IsTeamLeaderQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-  contest_id: Scalars['uuid']['input'];
+export type AddTeamMemberMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type IsTeamLeaderQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any }> };
+export type AddTeamMemberMutation = { __typename?: 'mutation_root', insert_contest_team_member_one?: { __typename?: 'contest_team_member', team_id: any } | null };
 
-export type IsTeamMemberQueryVariables = Exact<{
+export type DeleteTeamMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteTeamMutation = { __typename?: 'mutation_root', delete_contest_team_by_pk?: { __typename?: 'contest_team', team_id: any } | null };
+
+export type DeleteTeamMemberMutationVariables = Exact<{
+  user_uuid: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member_by_pk?: { __typename?: 'contest_team_member', team_id: any } | null };
+
+export type UpdateTeamMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  team_name: Scalars['String']['input'];
+  team_intro: Scalars['String']['input'];
+}>;
+
+
+export type UpdateTeamMutation = { __typename?: 'mutation_root', update_contest_team_by_pk?: { __typename?: 'contest_team', team_id: any } | null };
+
+export type GetTeamQueryVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type IsTeamMemberQuery = { __typename?: 'query_root', contest_team_member: Array<{ __typename?: 'contest_team_member', team_id: any }> };
+export type GetTeamQuery = { __typename?: 'query_root', contest_team_member: Array<{ __typename?: 'contest_team_member', contest_team: { __typename?: 'contest_team', team_id: any } }> };
+
+export type GetTeamInfoQueryVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', team_name: string, team_intro?: string | null, invited_code: string, team_leader: { __typename?: 'users', uuid: any, realname?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', uuid: any, realname?: string | null, student_no?: string | null } }> } | null };
+
+export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
+  invited_code: Scalars['String']['input'];
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamInfoByInvitedCodeQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null } }> };
+
+export type GetTeamStatQueryVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamStatQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } } | null };
+
+export type GetTotalTeamNumQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTotalTeamNumQuery = { __typename?: 'query_root', contest_team_aggregate: { __typename?: 'contest_team_aggregate', aggregate?: { __typename?: 'contest_team_aggregate_fields', count: number } | null } };
+
+export type GetTotalMemberNumQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTotalMemberNumQuery = { __typename?: 'query_root', contest_team_member_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null } };
+
+export type GetTeamsQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } }> };
 
 export type GetAllTeamInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -12881,105 +12948,6 @@ export type GetAllTeamInfo_CompileQueryVariables = Exact<{
 
 
 export type GetAllTeamInfo_CompileQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any }> };
-
-export type GetTeamInfoQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
-
-export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
-  invited_code: Scalars['String']['input'];
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetTeamInfoByInvitedCodeQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, uuid: any }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', uuid: any, realname?: string | null } }> }> };
-
-export type GetCompileStatusSubscriptionVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetCompileStatusSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', status?: string | null }> };
-
-export type InsertTeamMemberMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  user_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type InsertTeamMemberMutation = { __typename?: 'mutation_root', insert_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
-
-export type UpdateTeamMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-  team_intro: Scalars['String']['input'];
-  team_name: Scalars['String']['input'];
-}>;
-
-
-export type UpdateTeamMutation = { __typename?: 'mutation_root', update_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
-
-export type GetMemberInfoQueryVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetMemberInfoQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_leader: { __typename?: 'users', student_no?: string | null, realname?: string | null, id?: string | null, uuid: any } }>, contest_team_member: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', student_no?: string | null, id?: string | null, uuid: any, realname?: string | null } }> };
-
-export type DeleteTeamMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteTeamMutation = { __typename?: 'mutation_root', delete_contest_team?: { __typename?: 'contest_team_mutation_response', affected_rows: number } | null };
-
-export type DeleteAllTeamMemberMutationVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteAllTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
-
-export type DeleteTeamMemberMutationVariables = Exact<{
-  user_uuid: Scalars['uuid']['input'];
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member?: { __typename?: 'contest_team_member_mutation_response', affected_rows: number } | null };
-
-export type QueryTeamIdQueryVariables = Exact<{
-  team_name: Scalars['String']['input'];
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type QueryTeamIdQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, status?: string | null }> };
-
-export type GetTotalTeamNumQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetTotalTeamNumQuery = { __typename?: 'query_root', contest_team_aggregate: { __typename?: 'contest_team_aggregate', aggregate?: { __typename?: 'contest_team_aggregate_fields', count: number } | null } };
-
-export type GetTotalMemberNumQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetTotalMemberNumQuery = { __typename?: 'query_root', contest_team_member_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null } };
-
-export type GetTeamStatQueryVariables = Exact<{
-  team_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetTeamStatQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } } | null };
 
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -14661,8 +14629,8 @@ export type GetContestRoundsQueryHookResult = ReturnType<typeof useGetContestRou
 export type GetContestRoundsLazyQueryHookResult = ReturnType<typeof useGetContestRoundsLazyQuery>;
 export type GetContestRoundsSuspenseQueryHookResult = ReturnType<typeof useGetContestRoundsSuspenseQuery>;
 export type GetContestRoundsQueryResult = Apollo.QueryResult<GetContestRoundsQuery, GetContestRoundsQueryVariables>;
-export const InsertTeamDocument = gql`
-    mutation InsertTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
+export const AddTeamDocument = gql`
+    mutation AddTeam($team_name: String!, $team_intro: String = "", $team_leader_uuid: uuid!, $invited_code: String!, $contest_id: uuid!) {
   insert_contest_team_one(
     object: {team_name: $team_name, team_intro: $team_intro, team_leader_uuid: $team_leader_uuid, invited_code: $invited_code, contest_id: $contest_id, contest_team_members: {data: {user_uuid: $team_leader_uuid}}}
   ) {
@@ -14670,20 +14638,20 @@ export const InsertTeamDocument = gql`
   }
 }
     `;
-export type InsertTeamMutationFn = Apollo.MutationFunction<InsertTeamMutation, InsertTeamMutationVariables>;
+export type AddTeamMutationFn = Apollo.MutationFunction<AddTeamMutation, AddTeamMutationVariables>;
 
 /**
- * __useInsertTeamMutation__
+ * __useAddTeamMutation__
  *
- * To run a mutation, you first call `useInsertTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertTeamMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTeamMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [insertTeamMutation, { data, loading, error }] = useInsertTeamMutation({
+ * const [addTeamMutation, { data, loading, error }] = useAddTeamMutation({
  *   variables: {
  *      team_name: // value for 'team_name'
  *      team_intro: // value for 'team_intro'
@@ -14693,99 +14661,505 @@ export type InsertTeamMutationFn = Apollo.MutationFunction<InsertTeamMutation, I
  *   },
  * });
  */
-export function useInsertTeamMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMutation, InsertTeamMutationVariables>) {
+export function useAddTeamMutation(baseOptions?: Apollo.MutationHookOptions<AddTeamMutation, AddTeamMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertTeamMutation, InsertTeamMutationVariables>(InsertTeamDocument, options);
+        return Apollo.useMutation<AddTeamMutation, AddTeamMutationVariables>(AddTeamDocument, options);
       }
-export type InsertTeamMutationHookResult = ReturnType<typeof useInsertTeamMutation>;
-export type InsertTeamMutationResult = Apollo.MutationResult<InsertTeamMutation>;
-export type InsertTeamMutationOptions = Apollo.BaseMutationOptions<InsertTeamMutation, InsertTeamMutationVariables>;
-export const IsTeamLeaderDocument = gql`
-    query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
-  contest_team(
-    where: {team_leader: {uuid: {_eq: $uuid}}, _and: {contest_id: {_eq: $contest_id}}}
+export type AddTeamMutationHookResult = ReturnType<typeof useAddTeamMutation>;
+export type AddTeamMutationResult = Apollo.MutationResult<AddTeamMutation>;
+export type AddTeamMutationOptions = Apollo.BaseMutationOptions<AddTeamMutation, AddTeamMutationVariables>;
+export const AddTeamMemberDocument = gql`
+    mutation AddTeamMember($team_id: uuid!, $user_uuid: uuid!) {
+  insert_contest_team_member_one(
+    object: {team_id: $team_id, user_uuid: $user_uuid}
   ) {
     team_id
   }
 }
     `;
+export type AddTeamMemberMutationFn = Apollo.MutationFunction<AddTeamMemberMutation, AddTeamMemberMutationVariables>;
 
 /**
- * __useIsTeamLeaderQuery__
+ * __useAddTeamMemberMutation__
  *
- * To run a query within a React component, call `useIsTeamLeaderQuery` and pass it any options that fit your needs.
- * When your component renders, `useIsTeamLeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useAddTeamMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTeamMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useIsTeamLeaderQuery({
+ * const [addTeamMemberMutation, { data, loading, error }] = useAddTeamMemberMutation({
  *   variables: {
- *      uuid: // value for 'uuid'
- *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
+ *      user_uuid: // value for 'user_uuid'
  *   },
  * });
  */
-export function useIsTeamLeaderQuery(baseOptions: Apollo.QueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables> & ({ variables: IsTeamLeaderQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useAddTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<AddTeamMemberMutation, AddTeamMemberMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
+        return Apollo.useMutation<AddTeamMemberMutation, AddTeamMemberMutationVariables>(AddTeamMemberDocument, options);
       }
-export function useIsTeamLeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
-        }
-export function useIsTeamLeaderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>(IsTeamLeaderDocument, options);
-        }
-export type IsTeamLeaderQueryHookResult = ReturnType<typeof useIsTeamLeaderQuery>;
-export type IsTeamLeaderLazyQueryHookResult = ReturnType<typeof useIsTeamLeaderLazyQuery>;
-export type IsTeamLeaderSuspenseQueryHookResult = ReturnType<typeof useIsTeamLeaderSuspenseQuery>;
-export type IsTeamLeaderQueryResult = Apollo.QueryResult<IsTeamLeaderQuery, IsTeamLeaderQueryVariables>;
-export const IsTeamMemberDocument = gql`
-    query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
-  contest_team_member(
-    where: {user_uuid: {_eq: $user_uuid}, _and: {contest_team: {contest_id: {_eq: $contest_id}}}}
+export type AddTeamMemberMutationHookResult = ReturnType<typeof useAddTeamMemberMutation>;
+export type AddTeamMemberMutationResult = Apollo.MutationResult<AddTeamMemberMutation>;
+export type AddTeamMemberMutationOptions = Apollo.BaseMutationOptions<AddTeamMemberMutation, AddTeamMemberMutationVariables>;
+export const DeleteTeamDocument = gql`
+    mutation DeleteTeam($team_id: uuid!) {
+  delete_contest_team_by_pk(team_id: $team_id) {
+    team_id
+  }
+}
+    `;
+export type DeleteTeamMutationFn = Apollo.MutationFunction<DeleteTeamMutation, DeleteTeamMutationVariables>;
+
+/**
+ * __useDeleteTeamMutation__
+ *
+ * To run a mutation, you first call `useDeleteTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTeamMutation, { data, loading, error }] = useDeleteTeamMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useDeleteTeamMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMutation, DeleteTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument, options);
+      }
+export type DeleteTeamMutationHookResult = ReturnType<typeof useDeleteTeamMutation>;
+export type DeleteTeamMutationResult = Apollo.MutationResult<DeleteTeamMutation>;
+export type DeleteTeamMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMutation, DeleteTeamMutationVariables>;
+export const DeleteTeamMemberDocument = gql`
+    mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
+  delete_contest_team_member_by_pk(user_uuid: $user_uuid, team_id: $team_id) {
+    team_id
+  }
+}
+    `;
+export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
+
+/**
+ * __useDeleteTeamMemberMutation__
+ *
+ * To run a mutation, you first call `useDeleteTeamMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTeamMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTeamMemberMutation, { data, loading, error }] = useDeleteTeamMemberMutation({
+ *   variables: {
+ *      user_uuid: // value for 'user_uuid'
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useDeleteTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>(DeleteTeamMemberDocument, options);
+      }
+export type DeleteTeamMemberMutationHookResult = ReturnType<typeof useDeleteTeamMemberMutation>;
+export type DeleteTeamMemberMutationResult = Apollo.MutationResult<DeleteTeamMemberMutation>;
+export type DeleteTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
+export const UpdateTeamDocument = gql`
+    mutation UpdateTeam($team_id: uuid!, $team_name: String!, $team_intro: String!) {
+  update_contest_team_by_pk(
+    pk_columns: {team_id: $team_id}
+    _set: {team_name: $team_name, team_intro: $team_intro}
   ) {
     team_id
   }
 }
     `;
+export type UpdateTeamMutationFn = Apollo.MutationFunction<UpdateTeamMutation, UpdateTeamMutationVariables>;
 
 /**
- * __useIsTeamMemberQuery__
+ * __useUpdateTeamMutation__
  *
- * To run a query within a React component, call `useIsTeamMemberQuery` and pass it any options that fit your needs.
- * When your component renders, `useIsTeamMemberQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a mutation, you first call `useUpdateTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTeamMutation, { data, loading, error }] = useUpdateTeamMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *      team_name: // value for 'team_name'
+ *      team_intro: // value for 'team_intro'
+ *   },
+ * });
+ */
+export function useUpdateTeamMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamMutation, UpdateTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument, options);
+      }
+export type UpdateTeamMutationHookResult = ReturnType<typeof useUpdateTeamMutation>;
+export type UpdateTeamMutationResult = Apollo.MutationResult<UpdateTeamMutation>;
+export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<UpdateTeamMutation, UpdateTeamMutationVariables>;
+export const GetTeamDocument = gql`
+    query GetTeam($user_uuid: uuid!, $contest_id: uuid!) {
+  contest_team_member(
+    where: {user_uuid: {_eq: $user_uuid}, contest_team: {contest_id: {_eq: $contest_id}}}
+  ) {
+    contest_team {
+      team_id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamQuery__
+ *
+ * To run a query within a React component, call `useGetTeamQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useIsTeamMemberQuery({
+ * const { data, loading, error } = useGetTeamQuery({
  *   variables: {
  *      user_uuid: // value for 'user_uuid'
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useIsTeamMemberQuery(baseOptions: Apollo.QueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables> & ({ variables: IsTeamMemberQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetTeamQuery(baseOptions: Apollo.QueryHookOptions<GetTeamQuery, GetTeamQueryVariables> & ({ variables: GetTeamQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+        return Apollo.useQuery<GetTeamQuery, GetTeamQueryVariables>(GetTeamDocument, options);
       }
-export function useIsTeamMemberLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+export function useGetTeamLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamQuery, GetTeamQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+          return Apollo.useLazyQuery<GetTeamQuery, GetTeamQueryVariables>(GetTeamDocument, options);
         }
-export function useIsTeamMemberSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsTeamMemberQuery, IsTeamMemberQueryVariables>) {
+export function useGetTeamSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamQuery, GetTeamQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<IsTeamMemberQuery, IsTeamMemberQueryVariables>(IsTeamMemberDocument, options);
+          return Apollo.useSuspenseQuery<GetTeamQuery, GetTeamQueryVariables>(GetTeamDocument, options);
         }
-export type IsTeamMemberQueryHookResult = ReturnType<typeof useIsTeamMemberQuery>;
-export type IsTeamMemberLazyQueryHookResult = ReturnType<typeof useIsTeamMemberLazyQuery>;
-export type IsTeamMemberSuspenseQueryHookResult = ReturnType<typeof useIsTeamMemberSuspenseQuery>;
-export type IsTeamMemberQueryResult = Apollo.QueryResult<IsTeamMemberQuery, IsTeamMemberQueryVariables>;
+export type GetTeamQueryHookResult = ReturnType<typeof useGetTeamQuery>;
+export type GetTeamLazyQueryHookResult = ReturnType<typeof useGetTeamLazyQuery>;
+export type GetTeamSuspenseQueryHookResult = ReturnType<typeof useGetTeamSuspenseQuery>;
+export type GetTeamQueryResult = Apollo.QueryResult<GetTeamQuery, GetTeamQueryVariables>;
+export const GetTeamInfoDocument = gql`
+    query GetTeamInfo($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    team_name
+    team_intro
+    invited_code
+    team_leader {
+      uuid
+      realname
+    }
+    contest_team_members {
+      user {
+        uuid
+        realname
+        student_no
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamInfoQuery__
+ *
+ * To run a query within a React component, call `useGetTeamInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamInfoQuery({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamInfoQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables> & ({ variables: GetTeamInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+      }
+export function useGetTeamInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+        }
+export function useGetTeamInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
+        }
+export type GetTeamInfoQueryHookResult = ReturnType<typeof useGetTeamInfoQuery>;
+export type GetTeamInfoLazyQueryHookResult = ReturnType<typeof useGetTeamInfoLazyQuery>;
+export type GetTeamInfoSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoSuspenseQuery>;
+export type GetTeamInfoQueryResult = Apollo.QueryResult<GetTeamInfoQuery, GetTeamInfoQueryVariables>;
+export const GetTeamInfoByInvitedCodeDocument = gql`
+    query GetTeamInfoByInvitedCode($invited_code: String!, $contest_id: uuid!) {
+  contest_team(
+    where: {invited_code: {_eq: $invited_code}, contest_id: {_eq: $contest_id}}
+  ) {
+    team_id
+    team_name
+    team_intro
+    team_leader {
+      realname
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamInfoByInvitedCodeQuery__
+ *
+ * To run a query within a React component, call `useGetTeamInfoByInvitedCodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamInfoByInvitedCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamInfoByInvitedCodeQuery({
+ *   variables: {
+ *      invited_code: // value for 'invited_code'
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTeamInfoByInvitedCodeQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables> & ({ variables: GetTeamInfoByInvitedCodeQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
+      }
+export function useGetTeamInfoByInvitedCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
+        }
+export function useGetTeamInfoByInvitedCodeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
+        }
+export type GetTeamInfoByInvitedCodeQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeQuery>;
+export type GetTeamInfoByInvitedCodeLazyQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeLazyQuery>;
+export type GetTeamInfoByInvitedCodeSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeSuspenseQuery>;
+export type GetTeamInfoByInvitedCodeQueryResult = Apollo.QueryResult<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>;
+export const GetTeamStatDocument = gql`
+    query getTeamStat($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    contest_team_codes_aggregate {
+      aggregate {
+        count
+      }
+    }
+    contest_team_rooms_aggregate {
+      aggregate {
+        count
+        sum {
+          score
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamStatQuery__
+ *
+ * To run a query within a React component, call `useGetTeamStatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamStatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamStatQuery({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamStatQuery(baseOptions: Apollo.QueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables> & ({ variables: GetTeamStatQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
+      }
+export function useGetTeamStatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
+        }
+export function useGetTeamStatSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
+        }
+export type GetTeamStatQueryHookResult = ReturnType<typeof useGetTeamStatQuery>;
+export type GetTeamStatLazyQueryHookResult = ReturnType<typeof useGetTeamStatLazyQuery>;
+export type GetTeamStatSuspenseQueryHookResult = ReturnType<typeof useGetTeamStatSuspenseQuery>;
+export type GetTeamStatQueryResult = Apollo.QueryResult<GetTeamStatQuery, GetTeamStatQueryVariables>;
+export const GetTotalTeamNumDocument = gql`
+    query getTotalTeamNum($contest_id: uuid!) {
+  contest_team_aggregate(where: {contest: {id: {_eq: $contest_id}}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTotalTeamNumQuery__
+ *
+ * To run a query within a React component, call `useGetTotalTeamNumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTotalTeamNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTotalTeamNumQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTotalTeamNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables> & ({ variables: GetTotalTeamNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+      }
+export function useGetTotalTeamNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+        }
+export function useGetTotalTeamNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
+        }
+export type GetTotalTeamNumQueryHookResult = ReturnType<typeof useGetTotalTeamNumQuery>;
+export type GetTotalTeamNumLazyQueryHookResult = ReturnType<typeof useGetTotalTeamNumLazyQuery>;
+export type GetTotalTeamNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalTeamNumSuspenseQuery>;
+export type GetTotalTeamNumQueryResult = Apollo.QueryResult<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>;
+export const GetTotalMemberNumDocument = gql`
+    query getTotalMemberNum($contest_id: uuid!) {
+  contest_team_member_aggregate(
+    where: {contest_team: {contest: {id: {_eq: $contest_id}}}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTotalMemberNumQuery__
+ *
+ * To run a query within a React component, call `useGetTotalMemberNumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTotalMemberNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTotalMemberNumQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTotalMemberNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables> & ({ variables: GetTotalMemberNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+      }
+export function useGetTotalMemberNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+        }
+export function useGetTotalMemberNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
+        }
+export type GetTotalMemberNumQueryHookResult = ReturnType<typeof useGetTotalMemberNumQuery>;
+export type GetTotalMemberNumLazyQueryHookResult = ReturnType<typeof useGetTotalMemberNumLazyQuery>;
+export type GetTotalMemberNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalMemberNumSuspenseQuery>;
+export type GetTotalMemberNumQueryResult = Apollo.QueryResult<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>;
+export const GetTeamsDocument = gql`
+    query getTeams($contest_id: uuid!) {
+  contest_team(where: {contest_id: {_eq: $contest_id}}) {
+    team_id
+    team_name
+    team_intro
+    team_leader {
+      realname
+      student_no
+      class
+    }
+    contest_team_members {
+      user {
+        realname
+        student_no
+        class
+      }
+    }
+    contest_team_codes_aggregate(where: {compile_status: {_eq: "Success"}}) {
+      aggregate {
+        count
+      }
+    }
+    contest_team_rooms_aggregate {
+      aggregate {
+        count
+        sum {
+          score
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamsQuery__
+ *
+ * To run a query within a React component, call `useGetTeamsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamsQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetTeamsQuery(baseOptions: Apollo.QueryHookOptions<GetTeamsQuery, GetTeamsQueryVariables> & ({ variables: GetTeamsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamsQuery, GetTeamsQueryVariables>(GetTeamsDocument, options);
+      }
+export function useGetTeamsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamsQuery, GetTeamsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamsQuery, GetTeamsQueryVariables>(GetTeamsDocument, options);
+        }
+export function useGetTeamsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamsQuery, GetTeamsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamsQuery, GetTeamsQueryVariables>(GetTeamsDocument, options);
+        }
+export type GetTeamsQueryHookResult = ReturnType<typeof useGetTeamsQuery>;
+export type GetTeamsLazyQueryHookResult = ReturnType<typeof useGetTeamsLazyQuery>;
+export type GetTeamsSuspenseQueryHookResult = ReturnType<typeof useGetTeamsSuspenseQuery>;
+export type GetTeamsQueryResult = Apollo.QueryResult<GetTeamsQuery, GetTeamsQueryVariables>;
 export const GetAllTeamInfoDocument = gql`
     subscription GetAllTeamInfo($contest_id: uuid!) {
   contest_team(where: {contest_id: {_eq: $contest_id}}) {
@@ -14963,571 +15337,6 @@ export type GetAllTeamInfo_CompileQueryHookResult = ReturnType<typeof useGetAllT
 export type GetAllTeamInfo_CompileLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileLazyQuery>;
 export type GetAllTeamInfo_CompileSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileSuspenseQuery>;
 export type GetAllTeamInfo_CompileQueryResult = Apollo.QueryResult<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>;
-export const GetTeamInfoDocument = gql`
-    query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
-  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
-    team_name
-    created_at
-    invited_code
-    member_num
-    score
-    status
-    status2
-    contest_score
-    team_id
-    submitted_code_num
-    contest {
-      name
-    }
-    team_intro
-    team_leader {
-      uuid
-      class
-      email
-      realname
-      phone
-    }
-    contest_team_members {
-      user {
-        id
-        class
-        email
-        realname
-        phone
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetTeamInfoQuery__
- *
- * To run a query within a React component, call `useGetTeamInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTeamInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTeamInfoQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetTeamInfoQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables> & ({ variables: GetTeamInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
-      }
-export function useGetTeamInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
-        }
-export function useGetTeamInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
-        }
-export type GetTeamInfoQueryHookResult = ReturnType<typeof useGetTeamInfoQuery>;
-export type GetTeamInfoLazyQueryHookResult = ReturnType<typeof useGetTeamInfoLazyQuery>;
-export type GetTeamInfoSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoSuspenseQuery>;
-export type GetTeamInfoQueryResult = Apollo.QueryResult<GetTeamInfoQuery, GetTeamInfoQueryVariables>;
-export const GetTeamInfoByInvitedCodeDocument = gql`
-    query GetTeamInfoByInvitedCode($invited_code: String!, $contest_id: uuid!) {
-  contest_team(
-    where: {invited_code: {_eq: $invited_code}, contest_id: {_eq: $contest_id}}
-  ) {
-    team_id
-    team_name
-    team_intro
-    team_leader {
-      realname
-      uuid
-    }
-    contest_team_members {
-      user {
-        uuid
-        realname
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetTeamInfoByInvitedCodeQuery__
- *
- * To run a query within a React component, call `useGetTeamInfoByInvitedCodeQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTeamInfoByInvitedCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTeamInfoByInvitedCodeQuery({
- *   variables: {
- *      invited_code: // value for 'invited_code'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetTeamInfoByInvitedCodeQuery(baseOptions: Apollo.QueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables> & ({ variables: GetTeamInfoByInvitedCodeQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
-      }
-export function useGetTeamInfoByInvitedCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
-        }
-export function useGetTeamInfoByInvitedCodeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
-        }
-export type GetTeamInfoByInvitedCodeQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeQuery>;
-export type GetTeamInfoByInvitedCodeLazyQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeLazyQuery>;
-export type GetTeamInfoByInvitedCodeSuspenseQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeSuspenseQuery>;
-export type GetTeamInfoByInvitedCodeQueryResult = Apollo.QueryResult<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>;
-export const GetCompileStatusDocument = gql`
-    subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
-  contest_team(where: {contest_id: {_eq: $contest_id}, team_id: {_eq: $team_id}}) {
-    status
-  }
-}
-    `;
-
-/**
- * __useGetCompileStatusSubscription__
- *
- * To run a query within a React component, call `useGetCompileStatusSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetCompileStatusSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCompileStatusSubscription({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetCompileStatusSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables> & ({ variables: GetCompileStatusSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetCompileStatusSubscription, GetCompileStatusSubscriptionVariables>(GetCompileStatusDocument, options);
-      }
-export type GetCompileStatusSubscriptionHookResult = ReturnType<typeof useGetCompileStatusSubscription>;
-export type GetCompileStatusSubscriptionResult = Apollo.SubscriptionResult<GetCompileStatusSubscription>;
-export const InsertTeamMemberDocument = gql`
-    mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
-  insert_contest_team_member(objects: {team_id: $team_id, user_uuid: $user_uuid}) {
-    affected_rows
-  }
-}
-    `;
-export type InsertTeamMemberMutationFn = Apollo.MutationFunction<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
-
-/**
- * __useInsertTeamMemberMutation__
- *
- * To run a mutation, you first call `useInsertTeamMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertTeamMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertTeamMemberMutation, { data, loading, error }] = useInsertTeamMemberMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *      user_uuid: // value for 'user_uuid'
- *   },
- * });
- */
-export function useInsertTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>(InsertTeamMemberDocument, options);
-      }
-export type InsertTeamMemberMutationHookResult = ReturnType<typeof useInsertTeamMemberMutation>;
-export type InsertTeamMemberMutationResult = Apollo.MutationResult<InsertTeamMemberMutation>;
-export type InsertTeamMemberMutationOptions = Apollo.BaseMutationOptions<InsertTeamMemberMutation, InsertTeamMemberMutationVariables>;
-export const UpdateTeamDocument = gql`
-    mutation UpdateTeam($team_id: uuid!, $team_intro: String!, $team_name: String!) {
-  update_contest_team(
-    where: {team_id: {_eq: $team_id}}
-    _set: {team_intro: $team_intro, team_name: $team_name}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type UpdateTeamMutationFn = Apollo.MutationFunction<UpdateTeamMutation, UpdateTeamMutationVariables>;
-
-/**
- * __useUpdateTeamMutation__
- *
- * To run a mutation, you first call `useUpdateTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateTeamMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateTeamMutation, { data, loading, error }] = useUpdateTeamMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *      team_intro: // value for 'team_intro'
- *      team_name: // value for 'team_name'
- *   },
- * });
- */
-export function useUpdateTeamMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeamMutation, UpdateTeamMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument, options);
-      }
-export type UpdateTeamMutationHookResult = ReturnType<typeof useUpdateTeamMutation>;
-export type UpdateTeamMutationResult = Apollo.MutationResult<UpdateTeamMutation>;
-export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<UpdateTeamMutation, UpdateTeamMutationVariables>;
-export const GetMemberInfoDocument = gql`
-    query GetMemberInfo($team_id: uuid!) {
-  contest_team(where: {team_id: {_eq: $team_id}}) {
-    team_leader {
-      student_no
-      realname
-      id
-      uuid
-    }
-  }
-  contest_team_member(where: {team_id: {_eq: $team_id}}) {
-    user {
-      student_no
-      id
-      uuid
-      realname
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMemberInfoQuery__
- *
- * To run a query within a React component, call `useGetMemberInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMemberInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMemberInfoQuery({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetMemberInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables> & ({ variables: GetMemberInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
-      }
-export function useGetMemberInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
-        }
-export function useGetMemberInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberInfoQuery, GetMemberInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMemberInfoQuery, GetMemberInfoQueryVariables>(GetMemberInfoDocument, options);
-        }
-export type GetMemberInfoQueryHookResult = ReturnType<typeof useGetMemberInfoQuery>;
-export type GetMemberInfoLazyQueryHookResult = ReturnType<typeof useGetMemberInfoLazyQuery>;
-export type GetMemberInfoSuspenseQueryHookResult = ReturnType<typeof useGetMemberInfoSuspenseQuery>;
-export type GetMemberInfoQueryResult = Apollo.QueryResult<GetMemberInfoQuery, GetMemberInfoQueryVariables>;
-export const DeleteTeamDocument = gql`
-    mutation DeleteTeam($team_id: uuid!) {
-  delete_contest_team(where: {team_id: {_eq: $team_id}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteTeamMutationFn = Apollo.MutationFunction<DeleteTeamMutation, DeleteTeamMutationVariables>;
-
-/**
- * __useDeleteTeamMutation__
- *
- * To run a mutation, you first call `useDeleteTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTeamMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteTeamMutation, { data, loading, error }] = useDeleteTeamMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useDeleteTeamMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMutation, DeleteTeamMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument, options);
-      }
-export type DeleteTeamMutationHookResult = ReturnType<typeof useDeleteTeamMutation>;
-export type DeleteTeamMutationResult = Apollo.MutationResult<DeleteTeamMutation>;
-export type DeleteTeamMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMutation, DeleteTeamMutationVariables>;
-export const DeleteAllTeamMemberDocument = gql`
-    mutation DeleteAllTeamMember($team_id: uuid!) {
-  delete_contest_team_member(where: {team_id: {_eq: $team_id}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteAllTeamMemberMutationFn = Apollo.MutationFunction<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
-
-/**
- * __useDeleteAllTeamMemberMutation__
- *
- * To run a mutation, you first call `useDeleteAllTeamMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAllTeamMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteAllTeamMemberMutation, { data, loading, error }] = useDeleteAllTeamMemberMutation({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useDeleteAllTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>(DeleteAllTeamMemberDocument, options);
-      }
-export type DeleteAllTeamMemberMutationHookResult = ReturnType<typeof useDeleteAllTeamMemberMutation>;
-export type DeleteAllTeamMemberMutationResult = Apollo.MutationResult<DeleteAllTeamMemberMutation>;
-export type DeleteAllTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteAllTeamMemberMutation, DeleteAllTeamMemberMutationVariables>;
-export const DeleteTeamMemberDocument = gql`
-    mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
-  delete_contest_team_member(
-    where: {user_uuid: {_eq: $user_uuid}, team_id: {_eq: $team_id}}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteTeamMemberMutationFn = Apollo.MutationFunction<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
-
-/**
- * __useDeleteTeamMemberMutation__
- *
- * To run a mutation, you first call `useDeleteTeamMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTeamMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteTeamMemberMutation, { data, loading, error }] = useDeleteTeamMemberMutation({
- *   variables: {
- *      user_uuid: // value for 'user_uuid'
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useDeleteTeamMemberMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>(DeleteTeamMemberDocument, options);
-      }
-export type DeleteTeamMemberMutationHookResult = ReturnType<typeof useDeleteTeamMemberMutation>;
-export type DeleteTeamMemberMutationResult = Apollo.MutationResult<DeleteTeamMemberMutation>;
-export type DeleteTeamMemberMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>;
-export const QueryTeamIdDocument = gql`
-    query QueryTeamID($team_name: String!, $contest_id: uuid!) {
-  contest_team(
-    where: {team_name: {_eq: $team_name}, contest_id: {_eq: $contest_id}}
-  ) {
-    team_id
-    status
-  }
-}
-    `;
-
-/**
- * __useQueryTeamIdQuery__
- *
- * To run a query within a React component, call `useQueryTeamIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useQueryTeamIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useQueryTeamIdQuery({
- *   variables: {
- *      team_name: // value for 'team_name'
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useQueryTeamIdQuery(baseOptions: Apollo.QueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables> & ({ variables: QueryTeamIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
-      }
-export function useQueryTeamIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
-        }
-export function useQueryTeamIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryTeamIdQuery, QueryTeamIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<QueryTeamIdQuery, QueryTeamIdQueryVariables>(QueryTeamIdDocument, options);
-        }
-export type QueryTeamIdQueryHookResult = ReturnType<typeof useQueryTeamIdQuery>;
-export type QueryTeamIdLazyQueryHookResult = ReturnType<typeof useQueryTeamIdLazyQuery>;
-export type QueryTeamIdSuspenseQueryHookResult = ReturnType<typeof useQueryTeamIdSuspenseQuery>;
-export type QueryTeamIdQueryResult = Apollo.QueryResult<QueryTeamIdQuery, QueryTeamIdQueryVariables>;
-export const GetTotalTeamNumDocument = gql`
-    query getTotalTeamNum($contest_id: uuid!) {
-  contest_team_aggregate(where: {contest: {id: {_eq: $contest_id}}}) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetTotalTeamNumQuery__
- *
- * To run a query within a React component, call `useGetTotalTeamNumQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTotalTeamNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTotalTeamNumQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetTotalTeamNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables> & ({ variables: GetTotalTeamNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
-      }
-export function useGetTotalTeamNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
-        }
-export function useGetTotalTeamNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
-        }
-export type GetTotalTeamNumQueryHookResult = ReturnType<typeof useGetTotalTeamNumQuery>;
-export type GetTotalTeamNumLazyQueryHookResult = ReturnType<typeof useGetTotalTeamNumLazyQuery>;
-export type GetTotalTeamNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalTeamNumSuspenseQuery>;
-export type GetTotalTeamNumQueryResult = Apollo.QueryResult<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>;
-export const GetTotalMemberNumDocument = gql`
-    query getTotalMemberNum($contest_id: uuid!) {
-  contest_team_member_aggregate(
-    where: {contest_team: {contest: {id: {_eq: $contest_id}}}}
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetTotalMemberNumQuery__
- *
- * To run a query within a React component, call `useGetTotalMemberNumQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTotalMemberNumQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTotalMemberNumQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetTotalMemberNumQuery(baseOptions: Apollo.QueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables> & ({ variables: GetTotalMemberNumQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
-      }
-export function useGetTotalMemberNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
-        }
-export function useGetTotalMemberNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
-        }
-export type GetTotalMemberNumQueryHookResult = ReturnType<typeof useGetTotalMemberNumQuery>;
-export type GetTotalMemberNumLazyQueryHookResult = ReturnType<typeof useGetTotalMemberNumLazyQuery>;
-export type GetTotalMemberNumSuspenseQueryHookResult = ReturnType<typeof useGetTotalMemberNumSuspenseQuery>;
-export type GetTotalMemberNumQueryResult = Apollo.QueryResult<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>;
-export const GetTeamStatDocument = gql`
-    query getTeamStat($team_id: uuid!) {
-  contest_team_by_pk(team_id: $team_id) {
-    contest_team_codes_aggregate {
-      aggregate {
-        count
-      }
-    }
-    contest_team_rooms_aggregate {
-      aggregate {
-        count
-        sum {
-          score
-        }
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetTeamStatQuery__
- *
- * To run a query within a React component, call `useGetTeamStatQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTeamStatQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTeamStatQuery({
- *   variables: {
- *      team_id: // value for 'team_id'
- *   },
- * });
- */
-export function useGetTeamStatQuery(baseOptions: Apollo.QueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables> & ({ variables: GetTeamStatQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
-      }
-export function useGetTeamStatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
-        }
-export function useGetTeamStatSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
-        }
-export type GetTeamStatQueryHookResult = ReturnType<typeof useGetTeamStatQuery>;
-export type GetTeamStatLazyQueryHookResult = ReturnType<typeof useGetTeamStatLazyQuery>;
-export type GetTeamStatSuspenseQueryHookResult = ReturnType<typeof useGetTeamStatSuspenseQuery>;
-export type GetTeamStatQueryResult = Apollo.QueryResult<GetTeamStatQuery, GetTeamStatQueryVariables>;
 export const AddTeamCodeDocument = gql`
     mutation AddTeamCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
   insert_contest_team_code_one(

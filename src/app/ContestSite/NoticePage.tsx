@@ -10,7 +10,6 @@ import {
   Form,
   Upload,
   Space,
-  Spin,
   Layout,
   Col,
   Row,
@@ -32,8 +31,8 @@ import { useUrl } from "../../api/hooks/url";
 import { RcFile } from "rc-upload/lib/interface";
 import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
-import styled from "styled-components";
 import { ContestProps } from ".";
+import Loading from "../Components/Loading";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -229,22 +228,6 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
         await refetchNotices();
       },
     });
-  };
-
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
   };
 
   return (

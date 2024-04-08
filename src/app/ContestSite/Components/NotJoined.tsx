@@ -2,6 +2,7 @@ import React from "react";
 import { Result, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useUrl } from "@/api/hooks/url";
 
 const Container = styled.div`
   height: calc(100vh - 72px);
@@ -11,16 +12,17 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const NotImplemented: React.FC = () => {
+const NotJoined: React.FC = () => {
   const navigate = useNavigate();
+  const url = useUrl();
   return (
     <Container>
       <Result
         status="warning"
-        title="本赛事尚不支持此功能"
+        title="您尚未加入队伍"
         extra={
-          <Button type="primary" onClick={() => navigate(-1)}>
-            返回上一页
+          <Button type="primary" onClick={() => navigate(url.link("team"))}>
+            前往组建队伍
           </Button>
         }
       />
@@ -28,4 +30,4 @@ const NotImplemented: React.FC = () => {
   );
 };
 
-export default NotImplemented;
+export default NotJoined;

@@ -1,8 +1,7 @@
 import React from "react";
-import { Carousel } from "antd";
+import { Carousel, Image } from "antd";
 import styled from "styled-components";
 import Center from "../Components/Center";
-import Picture from "../Components/Picture";
 import { PageProps } from "..";
 
 const news = [
@@ -44,14 +43,6 @@ const Background = styled.div`
   filter: opacity(0.7) blur(12px);
 `;
 
-const Image = styled(Picture)`
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
 const Description = styled.div`
   position: absolute;
   left: 48px;
@@ -70,7 +61,7 @@ const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
             }}
           />
           <Center>
-            <Image src={news.image} alt={news.title} />
+            <Image src={news.image} alt={news.title} preview={false} />
           </Center>
           <Description>
             <h2>{news.title}</h2>

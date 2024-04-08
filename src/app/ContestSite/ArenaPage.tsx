@@ -9,7 +9,6 @@ import {
   Layout,
   Row,
   Col,
-  Spin,
   Typography,
 } from "antd";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
@@ -17,19 +16,12 @@ import type { TableProps } from "antd/lib/table";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
-import styled from "styled-components";
 import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
 import { ContestProps } from ".";
+import Loading from "../Components/Loading";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 /* ---------------- 主页面 ---------------- */
 const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -56,33 +48,16 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
-  //根据队长id查询队伍id
-  const { data: isleaderData } = graphql.useIsTeamLeaderSuspenseQuery({
+
+  const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
-      uuid: user?.uuid!,
-      contest_id: Contest_id,
-    },
-  });
-  //根据队员id查询队伍id
-  const { data: ismemberData } = graphql.useIsTeamMemberSuspenseQuery({
-    variables: {
-      user_uuid: user?.uuid!,
+      user_uuid: user?.uuid,
       contest_id: Contest_id,
     },
   });
 
-  const teamid =
-    isleaderData?.contest_team[0]?.team_id ||
-    ismemberData?.contest_team_member[0]?.team_id;
-  //根据队伍id获得队伍数据
-  const { data: teamData } = teamid
-    ? graphql.useGetTeamInfoSuspenseQuery({
-        variables: {
-          contest_id: Contest_id,
-          team_id: teamid!,
-        },
-      })
-    : { data: undefined };
+  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
+
   //获取正在比赛的room信息
   const {
     data: roomStatusData,
@@ -159,7 +134,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         const roomId = await insertRoom({
           variables: {
             contest_id: Contest_id,
-            team1_id: teamid,
+            team1_id: team_id,
             team2_id: opponentTeamId,
             created_at: dayjs()!,
           },
@@ -233,8 +208,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           menu={map_menu as MenuProps}
           trigger={["click"]}
           disabled={
-            teamid === record.team_id ||
-            teamData?.contest_team[0].status !== "compiled" ||
+            team_id === record.team_id ||
             record.status !== "compiled" ||
             contestData?.contest_by_pk?.status.slice(2, 3) !== "1"
           }
@@ -272,14 +246,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Menu.Item>
     </Menu>
   );
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
 
   /* ---------------- 页面组件 ---------------- */
 

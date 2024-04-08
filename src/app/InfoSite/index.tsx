@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
-import { Button, Layout, Menu, MenuProps, Spin, message } from "antd";
+import { Button, Layout, Menu, MenuProps, message } from "antd";
 import {
   TrophyOutlined,
   // ReadOutlined,
@@ -24,16 +24,9 @@ import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import * as graphql from "@/generated/graphql";
-import { styled } from "styled-components";
+import Loading from "../Components/Loading";
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 const { Content, Sider } = Layout;
 
 const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
@@ -154,14 +147,6 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
-  };
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
   };
 
   return (

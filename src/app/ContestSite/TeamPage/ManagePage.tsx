@@ -10,22 +10,21 @@ import {
   message,
   Modal,
   Typography,
-  Spin,
   Space,
   Statistic,
-} from "antd"; //botton
+} from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
   FireOutlined,
   ArrowUpOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import { TableProps } from "antd/lib/table";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import styled from "styled-components";
-import { ContestProps } from "../.";
+import { TeamProps } from ".";
+import Loading from "@/app/Components/Loading";
+import NotJoined from "../Components/NotJoined";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
@@ -33,55 +32,12 @@ const { confirm } = Modal;
 const { Paragraph, Title } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
-const Container = styled.div`
-  height: calc(100vh - 72px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 /* ---------------- 主页面 ---------------- */
-const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
+const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
-  const navigate = useNavigate();
   const Contest_id = url.query.get("contest");
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
-  const { data: isleaderData, refetch: refetchLeader } =
-    graphql.useIsTeamLeaderSuspenseQuery({
-      variables: {
-        uuid: user?.uuid!,
-        contest_id: Contest_id,
-      },
-    });
-
-  const { data: ismemberData, refetch: refetchMember } =
-    graphql.useIsTeamMemberSuspenseQuery({
-      variables: {
-        user_uuid: user?.uuid!,
-        contest_id: Contest_id,
-      },
-    });
-
-  const teamid =
-    isleaderData?.contest_team[0]?.team_id ||
-    ismemberData?.contest_team_member[0]?.team_id;
-
-  //根据team_id查询所有队员信息
-  const { data: teamMemberData, refetch: refetchMemberInfo } =
-    graphql.useGetMemberInfoSuspenseQuery({
-      variables: {
-        team_id: teamid!,
-      },
-    });
-
-  const { data: teamStatData } = graphql.useGetTeamStatSuspenseQuery({
-    variables: {
-      team_id: teamid!,
-    },
-  });
-
   //更新队伍信息
   const [UpdateTeam, { data: UpdateTeamData, error: UpdateTeamError }] =
     graphql.useUpdateTeamMutation();
@@ -91,15 +47,6 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const [DeleteTeamMember, { error: DeleteTeamMemberError }] =
     graphql.useDeleteTeamMemberMutation();
-
-  //利用teamid查询team的信息储存在teamdata中
-  const { data: teamData, refetch: refetchTeam } =
-    graphql.useGetTeamInfoSuspenseQuery({
-      variables: {
-        team_id: teamid!,
-        contest_id: Contest_id,
-      },
-    });
 
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
@@ -120,21 +67,45 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [DeleteTeamError]);
 
-  const team = teamData?.contest_team[0];
+  const { data: teamData } = graphql.useGetTeamQuery({
+    variables: {
+      user_uuid: user?.uuid,
+      contest_id: Contest_id,
+    },
+  });
+
+  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
+  if (!team_id) {
+    return <NotJoined />;
+  }
+
+  const { data: teamInfoData, refetch: refetchTeamInfo } =
+    graphql.useGetTeamInfoSuspenseQuery({
+      variables: {
+        team_id: team_id,
+      },
+    });
+
+  const { data: teamStatData } = graphql.useGetTeamStatSuspenseQuery({
+    variables: {
+      team_id: team_id,
+    },
+  });
+
+  const team = teamInfoData?.contest_team_by_pk;
   const isLeader = user?.uuid === team?.team_leader?.uuid;
-  const userid = user!.uuid!;
 
   /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {
     const newinfo = {
-      team_id: teamid!,
+      team_id: team_id,
       team_name: record.team_name,
       team_intro: record.team_intro,
     };
     await UpdateTeam({
       variables: newinfo,
     });
-    await refetchTeam();
+    await refetchTeamInfo();
   };
 
   const deleteTeamMember = async (user_id: string) => {
@@ -144,16 +115,15 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
         const result = await DeleteTeamMember({
-          variables: { user_uuid: user_id, team_id: teamid! },
+          variables: { user_uuid: user_id, team_id: team_id },
         });
         if (!result.errors) {
           Modal.success({
             title: "已退出队伍",
             content: "请重新加入队伍",
           });
+          return refresh();
         }
-        await refetchMember();
-        navigate(0);
       },
     });
   };
@@ -164,13 +134,12 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       content: "若不在任何队伍中无法参加比赛!",
       onOk: async () => {
         const result = await DeleteTeamMember({
-          variables: { user_uuid: user_id, team_id: teamid! },
+          variables: { user_uuid: user_id, team_id: team_id },
         });
         if (!result.errors) {
           message.success("移除成功");
+          return refetchTeamInfo();
         }
-        await refetchTeam();
-        navigate(0);
       },
     });
   };
@@ -181,32 +150,21 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
       icon: <ExclamationCircleOutlined />,
       content: "会移除队伍以及所有队伍成员，若不在队伍中无法参加比赛!",
       onOk: async () => {
-        const result = await DeleteTeam({ variables: { team_id: teamid! } });
+        const result = await DeleteTeam({ variables: { team_id: team_id } });
         if (!result.errors) {
           Modal.success({
             title: "队伍已解散",
             content: "请重新加入队伍",
           });
+          return refresh();
         }
-        await refetchLeader();
-        navigate(0);
       },
     });
   };
 
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
-
   /* ---------------- 随渲染刷新的组件 ---------------- */
 
-  const memberListColumns: TableProps<
-    graphql.GetMemberInfoQuery["contest_team_member"][0]
-  >["columns"] = [
+  const memberListColumns: TableProps["columns"] = [
     {
       title: "姓名",
       key: "name",
@@ -225,7 +183,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
           <Button
             onClick={async () => {
               await deleteTeamMemberByLeader(record.user?.uuid);
-              await refetchMemberInfo();
+              await refetchTeamInfo();
             }}
             disabled={!isLeader || record.user?.uuid === user?.uuid}
           >
@@ -301,25 +259,13 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
               <Form
                 name="form"
                 layout="vertical"
-                initialValues={team}
+                initialValues={team!}
                 onFinish={onFinish}
               >
                 <Form.Item
                   name="team_name"
                   label="队伍名称"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    () => ({
-                      validator(rule, value) {
-                        if (value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("队伍名不能为空");
-                      },
-                    }),
-                  ]}
+                  rules={[{ required: true, message: "队伍名不能为空" }]}
                 >
                   <Input
                     autoCapitalize="off"
@@ -330,19 +276,7 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <Form.Item
                   name="team_intro"
                   label="队伍简介"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                    () => ({
-                      validator(rule, value) {
-                        if (value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject("队伍简介不能为空");
-                      },
-                    }),
-                  ]}
+                  rules={[{ required: true, message: "队伍简介不能为空" }]}
                 >
                   <TextArea rows={6} />
                 </Form.Item>
@@ -366,21 +300,25 @@ const ManagePage: React.FC<ContestProps> = ({ mode, user }) => {
               <Table
                 columns={memberListColumns}
                 dataSource={
-                  teamMemberData?.contest_team_member as graphql.GetMemberInfoQuery["contest_team_member"]
+                  (teamInfoData as graphql.GetTeamInfoQuery)?.contest_team_by_pk
+                    ?.contest_team_members
                 }
                 rowKey={(record) => record.user?.uuid}
               />
             </Suspense>
-            <Button
-              danger
-              onClick={
-                isLeader
-                  ? () => deleteWholeTeam(teamid)
-                  : () => deleteTeamMember(userid)
-              }
-            >
-              {isLeader ? "解散队伍" : "退出队伍"}
-            </Button>
+            <Row justify="end">
+              <Button
+                danger
+                style={{ marginRight: "12px" }}
+                onClick={
+                  isLeader
+                    ? () => deleteWholeTeam(team_id)
+                    : () => deleteTeamMember(user?.uuid!)
+                }
+              >
+                {isLeader ? "解散队伍" : "退出队伍"}
+              </Button>
+            </Row>
           </Card>
         </Col>
       </Row>

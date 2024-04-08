@@ -1,8 +1,7 @@
 import React from "react";
-import { Tabs, Typography, Divider, Row, Col } from "antd";
+import { Tabs, Typography, Divider, Row, Col, Image } from "antd";
 import styled from "styled-components";
 import Center from "../Components/Center";
-import Picture from "../Components/Picture";
 import { PageProps } from "..";
 
 const { Title, Paragraph, Text } = Typography;
@@ -10,12 +9,6 @@ const { TabPane } = Tabs;
 
 const StyledTypography = styled(Typography)`
   padding: 48px 10vw;
-`;
-
-const Image = styled(Picture)`
-  margin: 24px auto 6px auto;
-  max-width: 70%;
-  max-height: 50vh;
 `;
 
 const ContestPage: React.FC<PageProps> = ({ mode, user }) => {

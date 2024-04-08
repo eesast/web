@@ -1,19 +1,12 @@
 import React from "react";
-import { Tabs, Typography, Row, Col } from "antd";
+import { Tabs, Typography, Row, Col, Image } from "antd";
 import styled from "styled-components";
-import Picture from "../Components/Picture";
 import { PageProps } from "..";
 
 const { TabPane } = Tabs;
 
 const StyledTypography = styled(Typography)`
   padding: 48px 10vw;
-`;
-
-const Image = styled(Picture)`
-  margin: 24px auto;
-  max-width: 70%;
-  max-height: 50vh;
 `;
 
 const Italic = styled.p`

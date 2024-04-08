@@ -22,25 +22,15 @@
 // 3. 在线提交WebGL，同时更改是否允许试玩、回放、直播的开关
 // 4. 加入在线地图编辑器
 import React, { useEffect } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  message,
-  Layout,
-  Result,
-  Row,
-  Space,
-  Typography,
-} from "antd";
+import { Card, Col, message, Layout, Row, Space, Typography } from "antd";
 import { ContestProps } from "..";
-import { Link } from "react-router-dom";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import Setting from "./Setting";
 import ManageTeams from "./ManageTeams";
 import EditInfo from "./EditInfo";
-import Authenticate, { userRoles } from "@/app/Components/Authenticate";
+import Forbidden from "@/app/Components/Forbidden";
+
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Text } = Typography;
 
@@ -102,18 +92,7 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Space>
     </Layout>
   ) : (
-    <Result
-      status="403"
-      title="403"
-      subTitle="Sorry, you are not authorized to access this page."
-      extra={
-        <Authenticate role={userRoles} user={user}>
-          <Button type="primary">
-            <Link to={url.link("intro")}>Back To Contest Intro</Link>
-          </Button>
-        </Authenticate>
-      }
-    />
+    <Forbidden />
   );
 };
 
