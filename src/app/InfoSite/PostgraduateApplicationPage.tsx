@@ -276,7 +276,7 @@
 //     onShowSizeChange: handlePageSizeChange,
 //   };
 
-//   return !["root", "counselor", "teacher"].includes(user?.role!) ? (
+//   return !["root", "counselor", "teacher"].includes(user.role!) ? (
 //     <>
 //       <Alert
 //         message="Warning"

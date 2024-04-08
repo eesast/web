@@ -101,9 +101,9 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchApplications,
   } = graphql.useGetMentorApplicationsQuery({
     variables: {
-      uuid: user?.uuid!,
+      uuid: user.uuid!,
     },
-    skip: user?.role === "counselor",
+    skip: user.role === "counselor",
   });
 
   const {
@@ -112,7 +112,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     data: applicationForCounselorsData,
     // refetch: refetchApplicationsForCounselors,
   } = graphql.useGetMentorApplicationsForCounselorsQuery({
-    skip: user?.role !== "counselor" && user?.role !== "root",
+    skip: user.role !== "counselor" && user.role !== "root",
   });
 
   useEffect(() => {
@@ -128,9 +128,9 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchMentorAvailable,
   } = graphql.useGetMentorAvailableQuery({
     variables: {
-      uuid: user?.uuid!,
+      uuid: user.uuid!,
     },
-    skip: user?.role !== "teacher",
+    skip: user.role !== "teacher",
   });
 
   useEffect(() => {
@@ -155,7 +155,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
   const handleMentorAvailableChange = async (checked: boolean) => {
     await changeMentorAvailable({
-      variables: { uuid: user?.uuid!, available: checked },
+      variables: { uuid: user.uuid!, available: checked },
     });
     await refetchMentorAvailable();
   };
@@ -232,7 +232,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       await addApplication({
         variables: {
           statement: values.statement,
-          student_uuid: user?.uuid!,
+          student_uuid: user.uuid!,
           mentor_uuid: selectedMentor?.uuid!,
         },
       });
@@ -270,7 +270,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     variables: {
       grade_time: info.mentor.start_C,
     },
-    skip: user?.role === "teacher",
+    skip: user.role === "teacher",
   });
 
   useEffect(() => {
@@ -590,7 +590,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     error: freshmanListError,
     // refetch: refetchFreshmanList,
   } = graphql.useGetFreshmanListQuery({
-    skip: user?.role !== "counselor" && user?.role !== "root",
+    skip: user.role !== "counselor" && user.role !== "root",
   });
 
   useEffect(() => {
@@ -855,7 +855,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     >
       <Typography.Title level={2}>关键时间点</Typography.Title>
       <Timeline>
-        {user?.role === "teacher" && (
+        {user.role === "teacher" && (
           <Timeline.Item
             color={
               new Date() >= info.mentor.start_A &&
@@ -924,7 +924,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           </p>
         </Timeline.Item>
       </Timeline>
-      {user?.role === "student" && (
+      {user.role === "student" && (
         <>
           <Typography.Title level={2}>已申请</Typography.Title>
           <List
@@ -1046,7 +1046,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           />
         </>
       )}
-      {user?.role === "teacher" && (
+      {user.role === "teacher" && (
         <>
           <Row align="middle">
             <Col span={4}>
@@ -1156,7 +1156,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           />
         </>
       )}
-      {user?.role === "student" && (
+      {user.role === "student" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
           <Table
@@ -1212,7 +1212,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           </Modal>
         </>
       )}
-      {user?.role === "counselor" && (
+      {user.role === "counselor" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
           <Row>
@@ -1321,7 +1321,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           }
           column={1}
           extra={
-            ["teacher", "counselor"].includes(user?.role!) ? (
+            ["teacher", "counselor"].includes(user.role!) ? (
               <Tooltip title="更新信息">
                 <Button
                   type="primary"
@@ -1398,8 +1398,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                   "achievement",
                 ]),
                 mentor_uuid:
-                  mentorInfoData?.mentor_info_by_pk?.mentor_uuid! ||
-                  user?.uuid!,
+                  mentorInfoData?.mentor_info_by_pk?.mentor_uuid! || user.uuid!,
               },
             });
             message.info(`信息更新成功`);

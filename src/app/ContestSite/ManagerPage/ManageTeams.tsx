@@ -98,7 +98,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
           ].concat(
             team.contest_team_members?.map(
               (member) =>
-                `${member.user?.realname} (${member.user?.class}, ${member.user?.student_no})`,
+                `${member.user.realname} (${member.user.class}, ${member.user.student_no})`,
             ),
           ),
         ),
@@ -126,7 +126,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       key: "team_member",
       render: (text, record) =>
         record.contest_team_members.map((i) => [
-          `${i.user?.realname} (${i.user?.class}, ${i.user?.student_no})   `,
+          `${i.user.realname} (${i.user.class}, ${i.user.student_no})   `,
         ]),
     },
     {

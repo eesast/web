@@ -32,7 +32,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     refetch: getProfileRefetch,
   } = graphql.useGetProfileSuspenseQuery({
     variables: {
-      uuid: user!.uuid,
+      uuid: user.uuid,
     },
   });
   useEffect(() => {
@@ -75,7 +75,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     {
       key: "role",
       label: "用户组",
-      children: roleMap[user!.role],
+      children: roleMap[user.role],
       editable: () => false,
     },
     {
@@ -218,7 +218,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     }
     await updateProfileMutation({
       variables: {
-        uuid: user!.uuid,
+        uuid: user.uuid,
         ...profileData.users_by_pk,
         ...record,
       },

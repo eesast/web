@@ -41,7 +41,7 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
   const [openKeys, setOpenKeys] = useState([""]);
 
   const { data } = graphql.useGetProfileQuery({
-    variables: { uuid: user?.uuid! },
+    variables: { uuid: user.uuid! },
   });
 
   const profile = data?.users_by_pk;
@@ -49,12 +49,12 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
   useEffect(() => {
     if (
       profile &&
-      (user?.role === "user" ||
+      (user.role === "user" ||
         !profile?.department ||
         !profile.email ||
         !profile.realname ||
         !profile.phone ||
-        ((!profile.student_no || !profile.class) && user?.role !== "teacher"))
+        ((!profile.student_no || !profile.class) && user.role !== "teacher"))
     ) {
       message.warning({
         content: "请先补全个人信息，并完成清华邮箱验证",

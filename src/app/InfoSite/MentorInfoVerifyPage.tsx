@@ -100,9 +100,9 @@
 //               }}
 //               hidden={
 //                 !(
-//                   user?.role === "counselor" ||
-//                   user?.role === "root" ||
-//                   user?.role === "teacher"
+//                   user.role === "counselor" ||
+//                   user.role === "root" ||
+//                   user.role === "teacher"
 //                 )
 //               }
 //               type="link"
@@ -118,9 +118,9 @@
 //               danger
 //               hidden={
 //                 !(
-//                   user?.role === "counselor" ||
-//                   user?.role === "root" ||
-//                   (user?.role === "teacher" && user?.uuid === record.user_id)
+//                   user.role === "counselor" ||
+//                   user.role === "root" ||
+//                   (user.role === "teacher" && user.uuid === record.user_id)
 //                 )
 //               }
 //             >
@@ -134,9 +134,9 @@
 //               type="link"
 //               hidden={
 //                 !(
-//                   user?.role === "counselor" ||
-//                   user?.role === "root" ||
-//                   user?.role === "teacher"
+//                   user.role === "counselor" ||
+//                   user.role === "root" ||
+//                   user.role === "teacher"
 //                 )
 //               }
 //             >
@@ -242,9 +242,9 @@
 //     refetchFeeds();
 //   };
 
-//   return user?.role === "counselor" ||
-//     user?.role === "root" ||
-//     user?.role === "teacher" ? (
+//   return user.role === "counselor" ||
+//     user.role === "root" ||
+//     user.role === "teacher" ? (
 //     <div>
 //       <PageHeader
 //         title="电子系推研信息平台"

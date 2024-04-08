@@ -357,7 +357,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           onOpenChange={handleOpenChange}
           items={
             getContestManagersData?.contest_by_pk?.contest_managers.some(
-              (manager) => manager.user_uuid === props.user?.uuid,
+              (manager) => manager.user_uuid === props.user.uuid,
             )
               ? items.concat(itemsAdmin)
               : items

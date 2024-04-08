@@ -17,7 +17,7 @@ const IndexPage: React.FC<ContestProps> = ({ mode, user }) => {
   //获取是否为某个队伍的成员
   const { data: teamData, refetch: refetchTeam } = graphql.useGetTeamQuery({
     variables: {
-      user_uuid: user?.uuid!,
+      user_uuid: user.uuid!,
       contest_id: Contest_id,
     },
   });

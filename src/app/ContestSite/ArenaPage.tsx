@@ -51,7 +51,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
-      user_uuid: user?.uuid,
+      user_uuid: user.uuid,
       contest_id: Contest_id,
     },
   });
@@ -173,7 +173,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       title: "队员",
       key: "team_member",
       render: (text, record) =>
-        record.contest_team_members.map((i) => [i.user?.realname + "   "]),
+        record.contest_team_members.map((i) => [i.user.realname + "   "]),
     },
     {
       title: "队伍简介",

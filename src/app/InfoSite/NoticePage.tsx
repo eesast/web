@@ -210,7 +210,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
           <Button
             style={{
               display:
-                user?.role !== "counselor" && user?.role !== "root"
+                user.role !== "counselor" && user.role !== "root"
                   ? "none"
                   : "inline-block",
             }}
@@ -253,7 +253,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
               margin-bottom: 24px;
             `}
             onEditPress={
-              user?.role === "counselor" || user?.role === "root"
+              user.role === "counselor" || user.role === "root"
                 ? () => {
                     setEditingNotice(item);
                     setFileList(
@@ -271,7 +271,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
                 : undefined
             }
             onDeletePress={
-              user?.role === "counselor" || user?.role === "root"
+              user.role === "counselor" || user.role === "root"
                 ? () => {
                     handleNoticeDelete(item.id);
                   }

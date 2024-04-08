@@ -146,9 +146,9 @@
 //               }}
 //               hidden={
 //                 !(
-//                   user?.role === "teacher" ||
-//                   user?.role === "counselor" ||
-//                   user?.role === "root"
+//                   user.role === "teacher" ||
+//                   user.role === "counselor" ||
+//                   user.role === "root"
 //                 )
 //               }
 //               type="link"
@@ -164,9 +164,9 @@
 //               danger
 //               hidden={
 //                 !(
-//                   (user?.role === "teacher" && user?.uuid === record.user_id) ||
-//                   user?.role === "counselor" ||
-//                   user?.role === "root"
+//                   (user.role === "teacher" && user.uuid === record.user_id) ||
+//                   user.role === "counselor" ||
+//                   user.role === "root"
 //                 )
 //               }
 //             >
@@ -259,7 +259,7 @@
 //     refetch: refetchSelfApplications,
 //   } = graphql.useGetSelfPostgraduateApplicationsQuery({
 //     variables: {
-//       user_id: user?.uuid!,
+//       user_id: user.uuid!,
 //       limit: selfApplicationPagination.pageSize,
 //       offset: selfApplicationPagination.offset,
 //     },
@@ -271,7 +271,7 @@
 //     refetch: getSelfConfirmedApplication,
 //   } = graphql.useGetSelfConfirmedApplicationQuery({
 //     variables: {
-//       user_id: user?.uuid!,
+//       user_id: user.uuid!,
 //     },
 //   });
 
@@ -411,7 +411,7 @@
 //           alternate_contact: values["alternate_contact"],
 //           home_page: values["home_page"],
 //           detail_info: values["detail_info"],
-//           user_id: user?.uuid!,
+//           user_id: user.uuid!,
 //         },
 //       });
 //     }
@@ -435,7 +435,7 @@
 //               刷新
 //             </Button>
 //             <Button
-//               hidden={!(user?.role === "EEsenior")}
+//               hidden={!(user.role === "EEsenior")}
 //               onClick={() => {
 //                 setShowSelfApplications(true);
 //               }}
@@ -446,9 +446,9 @@
 //               type="primary"
 //               hidden={
 //                 !(
-//                   user?.role === "teacher" ||
-//                   user?.role === "counselor" ||
-//                   user?.role === "root"
+//                   user.role === "teacher" ||
+//                   user.role === "counselor" ||
+//                   user.role === "root"
 //                 )
 //               }
 //               onClick={() => {
@@ -540,7 +540,7 @@
 //             onSelect={(value: string) => {
 //               setApplicationStatus(value || "intend");
 //             }}
-//             disabled={!(user?.role === "EEsenior")}
+//             disabled={!(user.role === "EEsenior")}
 //           >
 //             <Select.Option value="intend">有意向</Select.Option>
 //             <Select.Option value="in_contact">联络中</Select.Option>
@@ -562,7 +562,7 @@
 //                     mentor_info_id:
 //                       selfConfirmedApplicationData?.postgraduate_application[0]
 //                         .mentor_info_id!,
-//                     user_id: user?.uuid!,
+//                     user_id: user.uuid!,
 //                   },
 //                 });
 //               }
@@ -570,7 +570,7 @@
 //               await insertApplication({
 //                 variables: {
 //                   mentor_info_id: detail?.id!,
-//                   user_id: user?.uuid!,
+//                   user_id: user.uuid!,
 //                   status: applicationStatus,
 //                   verified: applicationStatus === "confirmed" ? false : true,
 //                 },
@@ -578,7 +578,7 @@
 //               await setAppHistory({
 //                 variables: {
 //                   mentor_info_id: detail?.id!,
-//                   user_id: user?.uuid!,
+//                   user_id: user.uuid!,
 //                   status:
 //                     applicationStatus === "confirmed"
 //                       ? "confirmed_unverified"
@@ -590,7 +590,7 @@
 //                 ? message.info("已提交申请情况，请等待辅导员和老师审核")
 //                 : message.success("提交成功");
 //             }}
-//             disabled={!(user?.role === "EEsenior")}
+//             disabled={!(user.role === "EEsenior")}
 //           >
 //             提交申请
 //           </Button>

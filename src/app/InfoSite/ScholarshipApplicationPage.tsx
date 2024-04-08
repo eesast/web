@@ -123,10 +123,10 @@
 //     refetch: refetchApplications,
 //   } = graphql.useGetScholarshipApplicationsQuery({
 //     variables: {
-//       _id: user?.uuid!,
+//       _id: user.uuid!,
 //       _gte: info.scholarship.start_A,
 //     },
-//     skip: user?.role === "counselor",
+//     skip: user.role === "counselor",
 //   });
 
 //   useEffect(() => {
@@ -270,7 +270,7 @@
 //     refetch: refetchApplicationsForCounselors,
 //   } = graphql.useGetScholarshipApplicationsForCounselorsQuery({
 //     variables: { _gte: "2020-09-29" },
-//     skip: user?.role !== "counselor",
+//     skip: user.role !== "counselor",
 //   });
 
 //   useEffect(() => {
@@ -707,7 +707,7 @@
 //         </Timeline.Item>
 //       </Timeline>
 //       <Typography.Title level={2}>奖学金</Typography.Title>
-//       {user?.role !== "counselor" && (
+//       {user.role !== "counselor" && (
 //         <>
 //           <List
 //             loading={applicationLoading}
@@ -845,7 +845,7 @@
 //           </Modal>
 //         </>
 //       )}
-//       {user?.role === "counselor" && (
+//       {user.role === "counselor" && (
 //         <>
 //           <Space direction="horizontal">
 //             <Button

@@ -331,9 +331,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
                   <Radio.Button value="browse">浏览模式</Radio.Button>
                   <Radio.Button
                     value="edit"
-                    disabled={
-                      user?.role !== "counselor" && user?.role !== "root"
-                    }
+                    disabled={user.role !== "counselor" && user.role !== "root"}
                   >
                     编辑模式
                   </Radio.Button>

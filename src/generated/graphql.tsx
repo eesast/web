@@ -11966,7 +11966,7 @@ export type Users = {
   contest_team_members_aggregate: Contest_Team_Member_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   department?: Maybe<Scalars['String']['output']>;
-  email: Scalars['String']['output'];
+  email?: Maybe<Scalars['String']['output']>;
   github_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
@@ -12933,14 +12933,14 @@ export type GetAllTeamInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_CompileQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13122,12 +13122,12 @@ export type GetMentorApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
+export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, email?: string | null, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
 export type GetMentorApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
+export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, department?: string | null, email?: string | null, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
 export type GetMentorAvailableQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -13207,7 +13207,7 @@ export type GetMentorInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, userByMentorUuid: { __typename?: 'users', realname?: string | null, email: string } } | null };
+export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, userByMentorUuid: { __typename?: 'users', realname?: string | null, email?: string | null } } | null };
 
 export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -13271,7 +13271,7 @@ export type GetProfileQueryVariables = Exact<{
 }>;
 
 
-export type GetProfileQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', username?: string | null, realname?: string | null, email: string, phone?: string | null, student_no?: string | null, department?: string | null, class?: string | null, created_at: any, updated_at: any, tsinghua_email?: string | null, github_id?: string | null } | null };
+export type GetProfileQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', username?: string | null, realname?: string | null, email?: string | null, phone?: string | null, student_no?: string | null, department?: string | null, class?: string | null, created_at: any, updated_at: any, tsinghua_email?: string | null, github_id?: string | null } | null };
 
 export type UpdateProfileMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];

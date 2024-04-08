@@ -348,7 +348,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
                   <ContestInfoCard
                     key={item.id}
                     // onEditPress={
-                    //   user?.role === "counselor" || user?.role === "root"
+                    //   user.role === "counselor" || user.role === "root"
                     //     ? async () => {
                     //         setEditingContest(true);
                     //         try {
@@ -377,7 +377,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
                     //     : undefined
                     // }
                     // onDeletePress={
-                    //   user?.role === "counselor" || user?.role === "root"
+                    //   user.role === "counselor" || user.role === "root"
                     //     ? () => {
                     //         handleContestDelete(item.id);
                     //       }

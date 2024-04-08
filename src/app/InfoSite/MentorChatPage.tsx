@@ -29,9 +29,9 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     data: approvedApplicationsData,
   } = graphql.useGetApprovedMentorApplicationsQuery({
     variables: {
-      uuid: user?.uuid!,
+      uuid: user.uuid!,
     },
-    skip: user?.role === "counselor",
+    skip: user.role === "counselor",
   });
 
   useEffect(() => {
@@ -70,8 +70,8 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     students,
   ]);
 
-  const from = user?.uuid;
-  const to = user?.role === "student" ? mentor?.uuid : selectedStudent?.uuid;
+  const from = user.uuid;
+  const to = user.role === "student" ? mentor?.uuid : selectedStudent?.uuid;
 
   const [text, setText] = useState("");
 
@@ -111,9 +111,9 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
   }
 
   if (
-    (user?.role !== "student" && user?.role !== "teacher") ||
-    (user?.role === "student" && !mentor) ||
-    (user?.role === "teacher" && students?.length === 0)
+    (user.role !== "student" && user.role !== "teacher") ||
+    (user.role === "student" && !mentor) ||
+    (user.role === "teacher" && students?.length === 0)
   ) {
     return (
       <Result

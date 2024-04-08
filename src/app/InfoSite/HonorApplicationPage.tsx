@@ -104,10 +104,10 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchApplications,
   } = graphql.useGetHonorApplicationsQuery({
     variables: {
-      uuid: user?.uuid!,
+      uuid: user.uuid!,
       _gte: info.honor.start_A,
     },
-    skip: user?.role === "counselor",
+    skip: user.role === "counselor",
   });
 
   useEffect(() => {
@@ -163,7 +163,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     } else {
       await addApplication({
         variables: {
-          student_uuid: user?.uuid!,
+          student_uuid: user.uuid!,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
@@ -206,7 +206,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchApplicationsForCounselors,
   } = graphql.useGetHonorApplicationsForCounselorsQuery({
     variables: { _gte: info.honor.start_A },
-    skip: user?.role !== "counselor",
+    skip: user.role !== "counselor",
   });
 
   useEffect(() => {
@@ -631,7 +631,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
-      {user?.role !== "counselor" && (
+      {user.role !== "counselor" && (
         <>
           <Button
             disabled={false}
@@ -783,7 +783,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           </Modal>
         </>
       )}
-      {user?.role === "counselor" && (
+      {user.role === "counselor" && (
         <>
           <Space direction="horizontal">
             <Button
