@@ -138,7 +138,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
         });
         if (!result.errors) {
           message.success("移除成功");
-          return refresh();
+          return refetchTeamInfo();
         }
       },
     });
