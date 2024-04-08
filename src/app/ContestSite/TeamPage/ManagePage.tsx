@@ -306,16 +306,19 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
                 rowKey={(record) => record.user?.uuid}
               />
             </Suspense>
-            <Button
-              danger
-              onClick={
-                isLeader
-                  ? () => deleteWholeTeam(team_id)
-                  : () => deleteTeamMember(user?.uuid!)
-              }
-            >
-              {isLeader ? "解散队伍" : "退出队伍"}
-            </Button>
+            <Row justify="end">
+              <Button
+                danger
+                style={{ marginRight: "12px" }}
+                onClick={
+                  isLeader
+                    ? () => deleteWholeTeam(team_id)
+                    : () => deleteTeamMember(user?.uuid!)
+                }
+              >
+                {isLeader ? "解散队伍" : "退出队伍"}
+              </Button>
+            </Row>
           </Card>
         </Col>
       </Row>
