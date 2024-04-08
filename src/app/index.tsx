@@ -40,7 +40,7 @@ dayjs.locale("zh-cn");
 
 export interface PageProps {
   mode: string;
-  user: JwtPayload | null;
+  user: JwtPayload;
 }
 
 const App: React.FC = () => {
@@ -404,11 +404,7 @@ const App: React.FC = () => {
               />
               <Route
                 path="contest/*"
-                element={
-                  <Authenticate role={userRoles} user={user}>
-                    <ContestSite mode={mode} user={user} />
-                  </Authenticate>
-                }
+                element={<ContestSite mode={mode} user={user} />}
               />
               <Route
                 path="info/*"
@@ -420,11 +416,7 @@ const App: React.FC = () => {
               />
               <Route
                 path="share/*"
-                element={
-                  <Authenticate role={userRoles} user={user}>
-                    <ShareSite mode={mode} user={user} />
-                  </Authenticate>
-                }
+                element={<ShareSite mode={mode} user={user} />}
               />
               <Route
                 path="user/*"

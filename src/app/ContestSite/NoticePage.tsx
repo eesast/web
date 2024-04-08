@@ -240,7 +240,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
             style={{
               display:
                 !getContestManagersData?.contest_by_pk?.contest_managers.some(
-                  (manager) => manager.user_uuid === user?.uuid,
+                  (manager) => manager.user_uuid === user.uuid,
                 )
                   ? "none"
                   : "inline-block",
@@ -263,7 +263,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                   <NoticeCard
                     onEditPress={
                       getContestManagersData?.contest_by_pk?.contest_managers.some(
-                        (manager) => manager.user_uuid === user?.uuid,
+                        (manager) => manager.user_uuid === user.uuid,
                       )
                         ? () => {
                             setEditingNotice(
@@ -284,7 +284,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
                     }
                     onDeletePress={
                       getContestManagersData?.contest_by_pk?.contest_managers.some(
-                        (manager) => manager.user_uuid === user?.uuid,
+                        (manager) => manager.user_uuid === user.uuid,
                       )
                         ? () => {
                             handleNoticeDelete(item.id);

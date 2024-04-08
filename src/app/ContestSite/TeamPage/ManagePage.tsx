@@ -69,12 +69,12 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
 
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
-      user_uuid: user?.uuid,
+      user_uuid: user.uuid,
       contest_id: Contest_id,
     },
   });
 
-  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
+  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id;
   if (!team_id) {
     return <NotJoined />;
   }
@@ -93,7 +93,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   });
 
   const team = teamInfoData?.contest_team_by_pk;
-  const isLeader = user?.uuid === team?.team_leader?.uuid;
+  const isLeader = user.uuid === team?.team_leader?.uuid;
 
   /* ---------------- 业务逻辑函数 ---------------- */
   const onFinish = async (record: any) => {
@@ -168,12 +168,12 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     {
       title: "姓名",
       key: "name",
-      render: (text, record) => record.user?.realname,
+      render: (text, record) => record.user.realname,
     },
     {
       title: "学号",
       key: "id",
-      render: (text, record) => record.user?.student_no,
+      render: (text, record) => record.user.student_no,
     },
     {
       title: "管理",
@@ -182,10 +182,10 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
         return (
           <Button
             onClick={async () => {
-              await deleteTeamMemberByLeader(record.user?.uuid);
+              await deleteTeamMemberByLeader(record.user.uuid);
               await refetchTeamInfo();
             }}
-            disabled={!isLeader || record.user?.uuid === user?.uuid}
+            disabled={!isLeader || record.user.uuid === user.uuid}
           >
             移除
           </Button>
@@ -303,7 +303,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
                   (teamInfoData as graphql.GetTeamInfoQuery)?.contest_team_by_pk
                     ?.contest_team_members
                 }
-                rowKey={(record) => record.user?.uuid}
+                rowKey={(record) => record.user.uuid}
               />
             </Suspense>
             <Row justify="end">
@@ -313,7 +313,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
                 onClick={
                   isLeader
                     ? () => deleteWholeTeam(team_id)
-                    : () => deleteTeamMember(user?.uuid!)
+                    : () => deleteTeamMember(user.uuid!)
                 }
               >
                 {isLeader ? "解散队伍" : "退出队伍"}

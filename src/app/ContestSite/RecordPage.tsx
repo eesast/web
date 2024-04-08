@@ -34,7 +34,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
-      user_uuid: user?.uuid,
+      user_uuid: user.uuid,
       contest_id: Contest_id,
     },
   });

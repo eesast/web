@@ -59,7 +59,7 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [getContestManagersError]);
 
   return getContestManagersData?.contest_by_pk?.contest_managers.some(
-    (manager) => manager.user_uuid === user?.uuid,
+    (manager) => manager.user_uuid === user.uuid,
   ) ? (
     <Layout>
       <Space

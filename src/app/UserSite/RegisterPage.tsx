@@ -35,6 +35,8 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
         message.error("验证码错误");
+      } else if (err.response?.status === 409) {
+        message.error("用户已存在，若忘记密码可转至登录页点击右下角找回");
       } else {
         console.log(err);
         message.error("未知错误");
@@ -55,7 +57,7 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           title="填写注册信息"
           setEmail={setEmail}
           setPhone={setPhone}
-          hasTooltip={true}
+          isRegister={true}
         />
       ) : otp === "" ? (
         <Verify

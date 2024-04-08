@@ -11966,7 +11966,7 @@ export type Users = {
   contest_team_members_aggregate: Contest_Team_Member_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   department?: Maybe<Scalars['String']['output']>;
-  email: Scalars['String']['output'];
+  email?: Maybe<Scalars['String']['output']>;
   github_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
@@ -12933,14 +12933,14 @@ export type GetAllTeamInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_ScoreQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email: string, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email: string, realname?: string | null, phone?: string | null } }> }> };
+export type GetAllTeamInfo_ScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null } }> }> };
 
 export type GetAllTeamInfo_CompileQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13122,12 +13122,12 @@ export type GetMentorApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
+export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, email?: string | null, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
 export type GetMentorApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, department?: string | null, email: string, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
+export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, department?: string | null, email?: string | null, phone?: string | null } | null, mentor_byuuid?: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } | null }> };
 
 export type GetMentorAvailableQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -13207,7 +13207,7 @@ export type GetMentorInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, userByMentorUuid: { __typename?: 'users', realname?: string | null, email: string } } | null };
+export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, userByMentorUuid: { __typename?: 'users', realname?: string | null, email?: string | null } } | null };
 
 export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -13271,7 +13271,7 @@ export type GetProfileQueryVariables = Exact<{
 }>;
 
 
-export type GetProfileQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', username?: string | null, realname?: string | null, email: string, phone?: string | null, student_no?: string | null, department?: string | null, class?: string | null, created_at: any, updated_at: any, tsinghua_email?: string | null, github_id?: string | null } | null };
+export type GetProfileQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', username?: string | null, realname?: string | null, email?: string | null, phone?: string | null, student_no?: string | null, department?: string | null, class?: string | null, created_at: any, updated_at: any, tsinghua_email?: string | null, github_id?: string | null } | null };
 
 export type UpdateProfileMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -13290,6 +13290,20 @@ export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetDepartmentsQuery = { __typename?: 'query_root', department: Array<{ __typename?: 'department', name: string }> };
+
+export type GetUserByEmailQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+
+export type GetUserByPhoneQueryVariables = Exact<{
+  phone: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByPhoneQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
 export type GetUser_IdQueryVariables = Exact<{
   email: Scalars['String']['input'];
@@ -17141,6 +17155,86 @@ export type GetDepartmentsQueryHookResult = ReturnType<typeof useGetDepartmentsQ
 export type GetDepartmentsLazyQueryHookResult = ReturnType<typeof useGetDepartmentsLazyQuery>;
 export type GetDepartmentsSuspenseQueryHookResult = ReturnType<typeof useGetDepartmentsSuspenseQuery>;
 export type GetDepartmentsQueryResult = Apollo.QueryResult<GetDepartmentsQuery, GetDepartmentsQueryVariables>;
+export const GetUserByEmailDocument = gql`
+    query GetUserByEmail($email: String!) {
+  users(where: {email: {_eq: $email}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGetUserByEmailQuery__
+ *
+ * To run a query within a React component, call `useGetUserByEmailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByEmailQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetUserByEmailQuery(baseOptions: Apollo.QueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables> & ({ variables: GetUserByEmailQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+      }
+export function useGetUserByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+        }
+export function useGetUserByEmailSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+        }
+export type GetUserByEmailQueryHookResult = ReturnType<typeof useGetUserByEmailQuery>;
+export type GetUserByEmailLazyQueryHookResult = ReturnType<typeof useGetUserByEmailLazyQuery>;
+export type GetUserByEmailSuspenseQueryHookResult = ReturnType<typeof useGetUserByEmailSuspenseQuery>;
+export type GetUserByEmailQueryResult = Apollo.QueryResult<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const GetUserByPhoneDocument = gql`
+    query GetUserByPhone($phone: String!) {
+  users(where: {phone: {_eq: $phone}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGetUserByPhoneQuery__
+ *
+ * To run a query within a React component, call `useGetUserByPhoneQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByPhoneQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByPhoneQuery({
+ *   variables: {
+ *      phone: // value for 'phone'
+ *   },
+ * });
+ */
+export function useGetUserByPhoneQuery(baseOptions: Apollo.QueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables> & ({ variables: GetUserByPhoneQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
+      }
+export function useGetUserByPhoneLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
+        }
+export function useGetUserByPhoneSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
+        }
+export type GetUserByPhoneQueryHookResult = ReturnType<typeof useGetUserByPhoneQuery>;
+export type GetUserByPhoneLazyQueryHookResult = ReturnType<typeof useGetUserByPhoneLazyQuery>;
+export type GetUserByPhoneSuspenseQueryHookResult = ReturnType<typeof useGetUserByPhoneSuspenseQuery>;
+export type GetUserByPhoneQueryResult = Apollo.QueryResult<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>;
 export const GetUser_IdDocument = gql`
     query GetUser_Id($email: String!, $realname: String!) {
   users(where: {email: {_eq: $email}, realname: {_eq: $realname}}) {

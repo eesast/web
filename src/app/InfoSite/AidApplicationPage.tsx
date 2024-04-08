@@ -115,10 +115,10 @@
 //     refetch: refetchApplications,
 //   } = graphql.useGetAidApplicationsQuery({
 //     variables: {
-//       _id: user?.uuid!,
+//       _id: user.uuid!,
 //       _gte: info.aid.start_A,
 //     },
-//     skip: user?.role === "counselor",
+//     skip: user.role === "counselor",
 //   });
 
 //   useEffect(() => {
@@ -255,7 +255,7 @@
 //     data: applicationsForCounselors,
 //     refetch: refetchApplicationsForCounselors,
 //   } = graphql.useGetAidApplicationsForCounselorsQuery({
-//     skip: user?.role !== "counselor",
+//     skip: user.role !== "counselor",
 //   });
 
 //   useEffect(() => {
@@ -655,7 +655,7 @@
 //         </Timeline.Item>
 //       </Timeline>
 //       <Typography.Title level={2}>助学金</Typography.Title>
-//       {user?.role !== "counselor" && (
+//       {user.role !== "counselor" && (
 //         <>
 //           <List
 //             loading={applicationLoading}
@@ -787,7 +787,7 @@
 //           </Modal>
 //         </>
 //       )}
-//       {user?.role === "counselor" && (
+//       {user.role === "counselor" && (
 //         <>
 //           <Space direction="horizontal">
 //             <Button

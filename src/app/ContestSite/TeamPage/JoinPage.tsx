@@ -39,7 +39,7 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
 
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
-      user_uuid: user?.uuid!,
+      user_uuid: user.uuid!,
       contest_id: Contest_id,
     },
   });
@@ -77,7 +77,7 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       const team = await addTeam({
         variables: {
           ...values, //剩余参数
-          team_leader_uuid: user?.uuid!,
+          team_leader_uuid: user.uuid!,
           invited_code: InviteCode!,
           contest_id: Contest_id!,
         },
@@ -152,7 +152,7 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     try {
       await addteamMember({
         variables: {
-          user_uuid: user?.uuid!,
+          user_uuid: user.uuid!,
           team_id: teamInfo.teamId!,
         },
       });

@@ -44,6 +44,18 @@ query GetDepartments {
   }
 }
 
+query GetUserByEmail($email: String!) {
+  users(where: { email: { _eq: $email } }) {
+    uuid
+  }
+}
+
+query GetUserByPhone($phone: String!) {
+  users(where: { phone: { _eq: $phone } }) {
+    uuid
+  }
+}
+
 # TODO: To br deleted
 # 根据users的name和email获得其uuid
 query GetUser_Id($email: String!, $realname: String!) {
