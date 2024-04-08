@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Input, Card, Row, Col, Button, Form, Divider, Space } from "antd"; //botton  修改:delete Result
+import { Input, Card, Row, Col, Button, Form, Divider, Space } from "antd";
 import { Layout, message } from "antd";
-//graphql的语句由Apollo生成ts句柄，在此import
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import { ContestProps } from "../.";
+import { TeamProps } from ".";
 import NotStarted from ".././Components/NotStarted";
-import { useNavigate } from "react-router-dom";
 import Loading from "@/app/Components/Loading";
 
 const { Content } = Layout;
@@ -22,13 +20,9 @@ function randomString() {
   return n;
 }
 
-const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
-  const navigate = useNavigate();
-
-  //register页面
+const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  // 查询此用户是否已有队伍，若有则不可再创建
 
   //查询比赛是否开始报名
   const { data: contestSwitchData } = graphql.useGetContestSwitchSubscription({
@@ -44,63 +38,44 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: isleaderData, refetch: refetchisleader } =
-    graphql.useIsTeamLeaderSuspenseQuery({
-      variables: {
-        uuid: user?.uuid!,
-        contest_id: Contest_id,
-      },
-    });
-  const { data: ismemberData, refetch: refetchismember } =
-    graphql.useIsTeamMemberSuspenseQuery({
-      variables: {
-        user_uuid: user?.uuid!,
-        contest_id: Contest_id,
-      },
-    });
-  // TODO: 待修复：创建完队伍后会渲染一次
-  // useEffect(() => {
-  //   if (isleaderData?.contest_team.length !== 0 ||
-  //     ismemberData?.contest_team_member.length !== 0)
-  //     message.warning("您已在队伍中，不可再创建队伍！");
-  // })
+  const { data: teamData } = graphql.useGetTeamQuery({
+    variables: {
+      user_uuid: user?.uuid!,
+      contest_id: Contest_id,
+    },
+  });
+
+  const isMember = teamData?.contest_team_member?.length !== 0;
 
   //这里添加unique约束，防止重复邀请码
   //先randomString生成一个invitecode，再查询数据库是否已有，若有则重新生成
-  const [InviteCode, setInviteCode] = useState<string | null>(null);
-  useEffect(() => {
-    if (InviteCode === null) {
-      setInviteCode(randomString());
-    }
-  }, [InviteCode]);
+  const [InviteCode, setInviteCode] = useState(randomString());
   const { data: isUniqueData, refetch: refetchisUnique } =
     graphql.useGetTeamInfoByInvitedCodeQuery({
       variables: {
-        invited_code: InviteCode!,
+        invited_code: InviteCode,
         contest_id: Contest_id,
       },
     });
   useEffect(() => {
-    if (isUniqueData?.contest_team.length === 0) {
-      //console.log("invite code is unique");
-    } else {
+    if (isUniqueData?.contest_team.length !== 0) {
       setInviteCode(randomString());
       refetchisUnique();
     }
   }, [isUniqueData, refetchisUnique]);
 
   //获取表单信息#form为表单名字
-  const [form] = Form.useForm();
-  const [form2] = Form.useForm();
+  const [registerForm] = Form.useForm();
+  const [joinForm] = Form.useForm();
 
-  const [insertTeam, { error: insertError }] = graphql.useInsertTeamMutation();
+  const [addTeam, { error: addTeamError }] = graphql.useAddTeamMutation();
   const [addTeamPlayer, { error: addTeamPlayerError }] =
     graphql.useAddTeamPlayerMutation();
   //Register函数组件
   const onRegister = async () => {
-    const values = await form.getFieldsValue(); //form表单里的信息
+    const values = await registerForm.getFieldsValue(); //form表单里的信息
     try {
-      const team = await insertTeam({
+      const team = await addTeam({
         variables: {
           ...values, //剩余参数
           team_leader_uuid: user?.uuid!,
@@ -108,9 +83,9 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
           contest_id: Contest_id!,
         },
       });
-      if (insertError) {
+      if (addTeamError) {
         message.error("创建失败，队伍名称不合法");
-        throw insertError;
+        throw addTeamError;
       }
       contestPlayersData?.contest_player.forEach(async (player) => {
         await addTeamPlayer({
@@ -125,21 +100,16 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
         throw addTeamPlayerError;
       }
       message.success("创建成功");
-      form.resetFields();
-      navigate(0);
+      return refresh();
     } catch (e) {
       console.error(e);
     }
-    refetchisleader();
-    refetchismember();
-  };
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
   };
 
   //Join函数组件
   // 队员插入
-  const [insertteamMember] = graphql.useInsertTeamMemberMutation();
+  const [addteamMember, { error: addTeamMemberError }] =
+    graphql.useAddTeamMemberMutation();
   //点击加入队伍按钮显示队伍信息
   const [isTeamInfoVisible, setIsTeamInfoVisible] = useState(false);
   const [teamInfo, setTeamInfo] = useState<{
@@ -170,7 +140,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
   const onClickShowTeamInfo = async () => {
-    const values = await form2.getFieldValue("invited_code");
+    const values = await joinForm.getFieldValue("invited_code");
     getTeamInfo({
       variables: {
         invited_code: values,
@@ -178,28 +148,25 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
   };
-  //点击取消加入队伍
-  const handleCancelShowTeamInfo = () => {
-    setIsTeamInfoVisible(false);
-  };
   //点击确认加入队伍
   const onFinishJoin = async () => {
     try {
-      await insertteamMember({
+      await addteamMember({
         variables: {
           user_uuid: user?.uuid!,
           team_id: teamInfo.teamId!,
         },
       });
+      if (addTeamMemberError) {
+        message.error("加入失败");
+        throw addTeamMemberError;
+      }
       message.success("加入成功");
-      form.resetFields();
-      navigate(0);
+      return refresh();
     } catch (e) {
-      message.error("加入失败,可能队伍不存在或网络问题");
-      console.log("当前错误：" + e);
+      console.error(e);
+      joinForm.resetFields();
     }
-    refetchisleader();
-    refetchismember();
   };
   return contestSwitchData ? (
     contestSwitchData?.contest_by_pk?.team_switch ? (
@@ -230,12 +197,11 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                 >
                   <Content>
                     <Form
-                      name="form"
-                      form={form} //表单名字绑定
+                      name="registerForm"
+                      form={registerForm} //表单名字绑定
                       layout="vertical"
                       initialValues={{ remember: true }}
                       onFinish={onRegister}
-                      onFinishFailed={onFinishFailed}
                     >
                       <Form.Item name="title">
                         <h1 style={{ textAlign: "center" }}>创建队伍</h1>
@@ -261,10 +227,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                         <Button
                           type="primary"
                           htmlType="submit"
-                          disabled={
-                            isleaderData?.contest_team.length !== 0 ||
-                            ismemberData?.contest_team_member.length !== 0
-                          }
+                          disabled={isMember}
                         >
                           创建队伍
                         </Button>
@@ -291,8 +254,8 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                 >
                   <Content style={{ height: "100%", width: "100%" }}>
                     <Form
-                      name="form2"
-                      form={form2} //表单名字绑定
+                      name="joinForm"
+                      form={joinForm} //表单名字绑定
                       layout="vertical"
                       initialValues={{ remember: true }}
                       style={{ height: "100%", width: "100%" }}
@@ -316,10 +279,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                           <Form.Item style={{ textAlign: "center" }}>
                             <Button
                               onClick={onClickShowTeamInfo}
-                              disabled={
-                                isleaderData?.contest_team.length !== 0 ||
-                                ismemberData?.contest_team_member.length !== 0
-                              }
+                              disabled={isMember}
                             >
                               <> 加入队伍</>
                             </Button>
@@ -399,7 +359,9 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                                     style={{ marginBottom: "10px" }}
                                   >
                                     <Button
-                                      onClick={handleCancelShowTeamInfo}
+                                      onClick={() =>
+                                        setIsTeamInfoVisible(false)
+                                      }
                                       block
                                     >
                                       取消
@@ -408,12 +370,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                                   <Col xs={18} sm={18} md={12} lg={10} xl={10}>
                                     <Button
                                       onClick={onFinishJoin}
-                                      disabled={
-                                        isleaderData?.contest_team.length !==
-                                          0 ||
-                                        ismemberData?.contest_team_member
-                                          .length !== 0
-                                      }
+                                      disabled={isMember}
                                       style={{
                                         backgroundColor: "#1677ff",
                                         color: "white",

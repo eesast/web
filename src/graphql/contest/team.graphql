@@ -1,7 +1,7 @@
-# 主要操作对象：contest_team和contest_team_member表
+# 主要操作对象：contest_team 和 contest_team_member表
 
-#插入队伍信息
-mutation InsertTeam(
+# 增
+mutation AddTeam(
   $team_name: String!
   $team_intro: String = "" # 此处的intro可以为NULL
   $team_leader_uuid: uuid! # team_leader的uuid
@@ -20,31 +20,164 @@ mutation InsertTeam(
   ) {
     team_id
   }
-} #
-# 判断是否是某次比赛的leader并返回team_id#
+}
 
-query IsTeamLeader($uuid: uuid!, $contest_id: uuid!) {
-  contest_team(
-    where: {
-      team_leader: { uuid: { _eq: $uuid } }
-      _and: { contest_id: { _eq: $contest_id } }
-    }
+mutation AddTeamMember($team_id: uuid!, $user_uuid: uuid!) {
+  insert_contest_team_member_one(
+    object: { team_id: $team_id, user_uuid: $user_uuid }
   ) {
     team_id
   }
 }
-# 判断是否是member返回id
-query IsTeamMember($user_uuid: uuid!, $contest_id: uuid!) {
+
+# 删
+mutation DeleteTeam($team_id: uuid!) {
+  delete_contest_team_by_pk(team_id: $team_id) {
+    team_id
+  }
+}
+
+mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
+  delete_contest_team_member_by_pk(user_uuid: $user_uuid, team_id: $team_id) {
+    team_id
+  }
+}
+
+# 改
+mutation UpdateTeam(
+  $team_id: uuid!
+  $team_name: String!
+  $team_intro: String!
+) {
+  update_contest_team_by_pk(
+    pk_columns: { team_id: $team_id }
+    _set: { team_name: $team_name, team_intro: $team_intro }
+  ) {
+    team_id
+  }
+}
+
+# 查
+query GetTeam($user_uuid: uuid!, $contest_id: uuid!) {
   contest_team_member(
     where: {
       user_uuid: { _eq: $user_uuid }
-      _and: { contest_team: { contest_id: { _eq: $contest_id } } }
+      contest_team: { contest_id: { _eq: $contest_id } }
     }
   ) {
-    team_id
+    contest_team {
+      team_id
+    }
   }
 }
 
+query GetTeamInfo($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    team_name
+    team_intro
+    invited_code
+    team_leader {
+      uuid
+      realname
+    }
+    contest_team_members {
+      user {
+        uuid
+        realname
+        student_no
+      }
+    }
+  }
+}
+
+query GetTeamInfoByInvitedCode($invited_code: String!, $contest_id: uuid!) {
+  contest_team(
+    where: {
+      invited_code: { _eq: $invited_code }
+      contest_id: { _eq: $contest_id }
+    }
+  ) {
+    team_id
+    team_name
+    team_intro
+    team_leader {
+      realname
+    }
+  }
+}
+
+query getTeamStat($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    contest_team_codes_aggregate {
+      aggregate {
+        count
+      }
+    }
+    contest_team_rooms_aggregate {
+      aggregate {
+        count
+        sum {
+          score
+        }
+      }
+    }
+  }
+}
+
+query getTotalTeamNum($contest_id: uuid!) {
+  contest_team_aggregate(where: { contest: { id: { _eq: $contest_id } } }) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query getTotalMemberNum($contest_id: uuid!) {
+  contest_team_member_aggregate(
+    where: { contest_team: { contest: { id: { _eq: $contest_id } } } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query getTeams($contest_id: uuid!) {
+  contest_team(where: { contest_id: { _eq: $contest_id } }) {
+    team_id
+    team_name
+    team_intro
+    team_leader {
+      realname
+      student_no
+      class
+    }
+    contest_team_members {
+      user {
+        realname
+        student_no
+        class
+      }
+    }
+    contest_team_codes_aggregate(
+      where: { compile_status: { _eq: "Success" } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    contest_team_rooms_aggregate {
+      aggregate {
+        count
+        sum {
+          score
+        }
+      }
+    }
+  }
+}
+
+# TODO: 重写，废弃
 subscription GetAllTeamInfo($contest_id: uuid!) {
   contest_team(where: { contest_id: { _eq: $contest_id } }) {
     team_name
@@ -80,7 +213,7 @@ subscription GetAllTeamInfo($contest_id: uuid!) {
   }
 }
 
-# 查询有分数的队伍的信息
+# TODO: 重写，废弃
 query GetAllTeamInfo_score($contest_id: uuid!) {
   contest_team(
     where: {
@@ -120,7 +253,7 @@ query GetAllTeamInfo_score($contest_id: uuid!) {
   }
 }
 
-# 查询有分数的队伍的信息
+# TODO: 重写，废弃
 query GetAllTeamInfo_compile($contest_id: uuid!) {
   contest_team(
     where: {
@@ -133,186 +266,5 @@ query GetAllTeamInfo_compile($contest_id: uuid!) {
     status2
     contest_score
     team_id
-  }
-}
-
-# 查询某只队伍的信息
-query GetTeamInfo($contest_id: uuid!, $team_id: uuid!) {
-  contest_team(
-    where: { contest_id: { _eq: $contest_id }, team_id: { _eq: $team_id } }
-  ) {
-    team_name
-    created_at
-    invited_code
-    member_num
-    score
-    status
-    status2
-    contest_score
-    team_id
-    submitted_code_num
-    contest {
-      name
-    }
-    team_intro
-    team_leader {
-      uuid
-      class
-      email
-      realname
-      phone
-    }
-    contest_team_members {
-      user {
-        id
-        class
-        email
-        realname
-        phone
-      }
-    }
-  }
-}
-
-#根据invited_code查询队伍信息
-query GetTeamInfoByInvitedCode($invited_code: String!, $contest_id: uuid!) {
-  contest_team(
-    where: {
-      invited_code: { _eq: $invited_code }
-      contest_id: { _eq: $contest_id }
-    }
-  ) {
-    team_id
-    team_name
-    team_intro
-    team_leader {
-      realname
-      uuid
-    }
-    contest_team_members {
-      user {
-        uuid
-        realname
-      }
-    }
-  }
-}
-
-subscription GetCompileStatus($contest_id: uuid!, $team_id: uuid!) {
-  contest_team(
-    where: { contest_id: { _eq: $contest_id }, team_id: { _eq: $team_id } }
-  ) {
-    status
-  }
-}
-
-#插入队员
-mutation InsertTeamMember($team_id: uuid!, $user_uuid: uuid!) {
-  insert_contest_team_member(
-    objects: { team_id: $team_id, user_uuid: $user_uuid }
-  ) {
-    affected_rows
-  }
-}
-
-#更新队伍信息
-mutation UpdateTeam(
-  $team_id: uuid!
-  $team_intro: String!
-  $team_name: String!
-) {
-  update_contest_team(
-    where: { team_id: { _eq: $team_id } }
-    _set: { team_intro: $team_intro, team_name: $team_name }
-  ) {
-    affected_rows
-  }
-}
-
-#根据队伍id查询所有队员信息
-query GetMemberInfo($team_id: uuid!) {
-  contest_team(where: { team_id: { _eq: $team_id } }) {
-    team_leader {
-      student_no
-      realname
-      id
-      uuid
-    }
-  }
-  contest_team_member(where: { team_id: { _eq: $team_id } }) {
-    user {
-      student_no
-      id
-      uuid
-      realname
-    }
-  }
-}
-
-#在contest_team中删除队伍
-mutation DeleteTeam($team_id: uuid!) {
-  delete_contest_team(where: { team_id: { _eq: $team_id } }) {
-    affected_rows
-  }
-}
-#在team_member中删除所有队员信息
-mutation DeleteAllTeamMember($team_id: uuid!) {
-  delete_contest_team_member(where: { team_id: { _eq: $team_id } }) {
-    affected_rows
-  }
-}
-
-#在team_member中删除指定队员信息
-mutation DeleteTeamMember($user_uuid: uuid!, $team_id: uuid!) {
-  delete_contest_team_member(
-    where: { user_uuid: { _eq: $user_uuid }, team_id: { _eq: $team_id } }
-  ) {
-    affected_rows
-  }
-}
-
-# 通过队伍名查询队伍ID
-query QueryTeamID($team_name: String!, $contest_id: uuid!) {
-  contest_team(
-    where: { team_name: { _eq: $team_name }, contest_id: { _eq: $contest_id } }
-  ) {
-    team_id
-    status
-  }
-}
-
-query getTotalTeamNum($contest_id: uuid!) {
-  contest_team_aggregate(where: { contest: { id: { _eq: $contest_id } } }) {
-    aggregate {
-      count
-    }
-  }
-}
-
-query getTotalMemberNum($contest_id: uuid!) {
-  contest_team_member_aggregate(
-    where: { contest_team: { contest: { id: { _eq: $contest_id } } } }
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-
-query getTeamStat($team_id: uuid!) {
-  contest_team_by_pk(team_id: $team_id) {
-    contest_team_codes_aggregate {
-      aggregate {
-        count
-      }
-    }
-    contest_team_rooms_aggregate {
-      aggregate {
-        count
-        sum {
-          score
-        }
-      }
-    }
   }
 }
