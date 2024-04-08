@@ -12,20 +12,15 @@ import { useEffect } from "react";
 import {
   Button,
   Card,
-  List,
+  Drawer,
+  Layout,
   message,
-  Modal,
   Space,
   Table,
   Typography,
 } from "antd";
 import { TableProps } from "antd/lib/table";
-import {
-  ExclamationCircleOutlined,
-  MinusCircleOutlined,
-  RollbackOutlined,
-  DownloadOutlined,
-} from "@ant-design/icons";
+import { DownloadOutlined } from "@ant-design/icons";
 import * as xlsx from "xlsx";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
@@ -33,7 +28,7 @@ import { ContestProps } from "..";
 import Loading from "@/app/Components/Loading";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Text, Title } = Typography;
+const { Title } = Typography;
 const cleanFileName = (fileName: string) => {
   // 定义非法字符正则表达式
   const illegalRe = /[/?<>\\:*|"]/g;
@@ -55,36 +50,16 @@ const cleanFileName = (fileName: string) => {
 /* ---------------- 主页面 ---------------- */
 const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
-  const [editingTeamID, setEditingTeamID] = useState<string>();
   const url = useUrl();
-  const Contest_id = url.query.get("contest")!;
+  const contest_id = url.query.get("contest")!;
 
-  /* ---------------- 页面组件 ---------------- */
-  return editingTeamID === undefined ? (
-    <ListPage
-      contest_id={Contest_id}
-      setEditingTeamID={setEditingTeamID}
-      user_uuid={user?.uuid}
-    />
-  ) : (
-    <SubPage
-      contest_id={Contest_id}
-      team_id={editingTeamID}
-      setEditingTeamID={setEditingTeamID}
-      user_uuid={user?.uuid}
-    />
-  );
-};
+  const [showTeamInfo, setShowTeamInfo] = useState(false);
+  const [showTeamCode, setShowTeamCode] = useState(false);
 
-const ListPage: React.FC<{
-  contest_id: string;
-  setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
-  user_uuid: string | undefined;
-}> = (props) => {
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
       variables: {
-        contest_id: props.contest_id,
+        contest_id: contest_id,
       },
     });
 
@@ -97,7 +72,7 @@ const ListPage: React.FC<{
   const { data: teamsData, error: getTeamsError } =
     graphql.useGetTeamsSuspenseQuery({
       variables: {
-        contest_id: props.contest_id,
+        contest_id: contest_id,
       },
     });
 
@@ -186,194 +161,67 @@ const ListPage: React.FC<{
       key: "action",
       render: (text, record) => (
         <Space size="small">
-          <a onClick={() => props.setEditingTeamID(record.team_id)}>队伍主页</a>
-          <a onClick={() => props.setEditingTeamID(record.team_id)}>队伍代码</a>
+          <a onClick={() => setShowTeamInfo(true)}>队伍主页</a>
+          <a onClick={() => setShowTeamCode(true)}>队伍代码</a>
         </Space>
       ),
     },
   ];
 
+  /* ---------------- 页面组件 ---------------- */
   return (
-    <Card
-      hoverable
-      style={{
-        padding: "2vh 1vw",
-        width: "100%",
-      }}
-    >
-      <Title level={2} style={{ margin: `0 0 24px` }}>
-        队伍管理
-      </Title>
-      <Suspense fallback={<Loading />}>
-        <Table
-          dataSource={(teamsData as graphql.GetTeamsQuery)?.contest_team}
-          columns={teamListColumns}
-          rowKey={(record) => record.team_id}
-        />
-      </Suspense>
-      <Button
-        icon={<DownloadOutlined />}
-        onClick={exportTeamsData}
-        type="primary"
+    <Layout>
+      <Card
+        hoverable
+        style={{
+          padding: "2vh 1vw",
+          width: "100%",
+        }}
       >
-        导出队伍信息
-      </Button>
-    </Card>
-  );
-};
-
-const SubPage: React.FC<{
-  contest_id: string;
-  team_id: string;
-  setEditingTeamID: React.Dispatch<React.SetStateAction<string | undefined>>;
-  user_uuid: string | undefined;
-}> = (props) => {
-  const [activeTabKey, setActiveTabKey] = useState("basic");
-
-  const {
-    data: teamData,
-    error: getTeamInfoError,
-    refetch: refetchTeamInfo,
-  } = graphql.useGetTeamInfoSuspenseQuery({
-    variables: {
-      team_id: props.team_id,
-    },
-  });
-
-  useEffect(() => {
-    if (getTeamInfoError) {
-      message.error("队伍信息加载失败");
-      console.log(getTeamInfoError.message);
-    }
-  }, [getTeamInfoError]);
-
-  const { error: userError } = graphql.useGetUser_IdSuspenseQuery({
-    variables: {
-      email: "",
-      realname: "",
-    },
-  });
-
-  const [DeleteTeamMember, { error: DeleteTeamMemberError }] =
-    graphql.useDeleteTeamMemberMutation();
-
-  useEffect(() => {
-    if (userError) {
-      message.error("用户信息查询失败");
-      console.log(userError.message);
-    }
-  }, [userError]);
-
-  useEffect(() => {
-    if (DeleteTeamMemberError) {
-      message.error("删除成员失败");
-    }
-  }, [DeleteTeamMemberError]);
-
-  const tabList = [
-    {
-      key: "basic",
-      tab: "基础信息",
-    },
-    {
-      key: "addMember",
-      tab: "添加成员",
-    },
-    {
-      key: "code",
-      tab: "查看代码",
-    },
-  ];
-
-  const onTabChange = (key: any) => {
-    setActiveTabKey(key);
-  };
-
-  const contentList = (
-    <div
-      style={{
-        fontSize: "large",
-        lineHeight: "30px",
-      }}
-    >
-      <Text style={{ fontWeight: "700" }}>{"队名: "}</Text>
-      <Text>{teamData?.contest_team_by_pk?.team_name}</Text>
-      <br />
-      <Text style={{ fontWeight: "700" }}>{"队长: "}</Text>
-      <Text>{teamData?.contest_team_by_pk?.team_leader?.realname}</Text>
-      <br />
-      <Text style={{ fontWeight: "700" }}>{"队员: "}</Text>
-      {teamData?.contest_team_by_pk?.contest_team_members.length === 0 ? (
-        <>
-          <Text>无</Text>
-          <br />
-        </>
-      ) : (
-        <List
-          dataSource={teamData?.contest_team_by_pk?.contest_team_members}
-          renderItem={(item) => (
-            <List.Item style={{ width: "100px" }}>
-              <Text>{item.user?.realname}</Text>
-              <MinusCircleOutlined
-                onClick={() => {
-                  Modal.confirm({
-                    title: "确定要移除该成员吗？",
-                    icon: <ExclamationCircleOutlined />,
-                    content: "若不在任何队伍中无法参加比赛!",
-                    onOk: async () => {
-                      await DeleteTeamMember({
-                        variables: {
-                          team_id: props.team_id,
-                          user_uuid: item.user?.uuid,
-                        },
-                      });
-                      await refetchTeamInfo();
-                      if (!DeleteTeamMemberError) {
-                        message.success("成功移除该成员");
-                      }
-                    },
-                  });
-                }}
-              />
-            </List.Item>
-          )}
-        />
-      )}
-
-      <Text style={{ fontWeight: "700" }}>{"队伍描述: "}</Text>
-      <br />
-      <Text>{teamData?.contest_team_by_pk?.team_intro}</Text>
-    </div>
-  );
-
-  return (
-    <Card
-      bordered={false}
-      style={{ width: "100%" }}
-      title={
-        <Text
-          css={`
-            font-size: xx-large;
-            font-weight: bold;
-          `}
-        >
-          {teamData?.contest_team_by_pk?.team_name}
-        </Text>
-      }
-      extra={
+        <Title level={2} style={{ margin: `0 0 24px` }}>
+          队伍管理
+        </Title>
+        <Suspense fallback={<Loading />}>
+          <Table
+            dataSource={(teamsData as graphql.GetTeamsQuery)?.contest_team}
+            columns={teamListColumns}
+            rowKey={(record) => record.team_id}
+          />
+        </Suspense>
         <Button
-          icon={<RollbackOutlined />}
-          onClick={() => props.setEditingTeamID(undefined)}
-        />
-      }
-      tabList={tabList}
-      activeTabKey={activeTabKey}
-      onTabChange={(key) => {
-        onTabChange(key);
-      }}
-    >
-      {contentList}
-    </Card>
+          icon={<DownloadOutlined />}
+          onClick={exportTeamsData}
+          type="primary"
+        >
+          导出队伍信息
+        </Button>
+      </Card>
+      <Drawer
+        title="队伍主页"
+        placement="right"
+        closable={false}
+        open={showTeamInfo}
+        onClose={() => setShowTeamInfo(false)}
+        key="team_info"
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer>
+      <Drawer
+        title="队伍代码"
+        placement="right"
+        closable={false}
+        open={showTeamCode}
+        onClose={() => setShowTeamCode(false)}
+        key="team_code"
+      >
+        <p>Some code...</p>
+        <p>Some code...</p>
+        <p>Some code...</p>
+      </Drawer>
+    </Layout>
   );
 };
+
 export default ManageTeams;
