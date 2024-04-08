@@ -423,7 +423,11 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
               shape="round"
               icon={<DownloadOutlined />}
               size="small"
-              onClick={() => downloadFile(file.url)}
+              onClick={() =>
+                downloadFile(file.url).catch((e) =>
+                  message.error("下载失败：" + e),
+                )
+              }
             >
               {file.filename}
             </Button>
