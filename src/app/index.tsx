@@ -241,7 +241,7 @@ const App: React.FC = () => {
         }
       }
     };
-    return user ? (
+    return user.isLoggedIn ? (
       <Button
         type="link"
         icon={
@@ -282,12 +282,12 @@ const App: React.FC = () => {
           align-items: center;
           justify-content: center;
           height: 32px;
-          width: ${user ? `32px` : `64px`};
+          width: ${user.isLoggedIn ? `32px` : `64px`};
           position: absolute;
           right: 32px;
         `}
       >
-        {user ? (
+        {user.isLoggedIn ? (
           <Button icon={<UserOutlined style={{ fontSize: "16px" }} />} />
         ) : (
           <Button>登录</Button>

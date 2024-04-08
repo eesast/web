@@ -9,11 +9,13 @@ export interface JwtPayload {
     "x-hasura-default-role": string;
     "x-hasura-user-id": string;
   };
+  isLoggedIn: boolean;
 }
 
 export const defaultPayload: JwtPayload = {
   uuid: "00000000-0000-0000-0000-000000000000",
   role: "anonymous",
+  isLoggedIn: false,
 };
 
 const parse = (token: string | null) => {
@@ -33,6 +35,7 @@ const parse = (token: string | null) => {
       return null;
     }
 
+    payload.isLoggedIn = true;
     return payload as JwtPayload;
   } catch {
     return null;
