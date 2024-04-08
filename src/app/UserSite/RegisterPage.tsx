@@ -57,7 +57,7 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           title="填写注册信息"
           setEmail={setEmail}
           setPhone={setPhone}
-          hasTooltip={true}
+          isRegister={true}
         />
       ) : otp === "" ? (
         <Verify

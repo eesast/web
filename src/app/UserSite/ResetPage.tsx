@@ -61,7 +61,7 @@ const ResetPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           title="已绑定的邮箱/手机号"
           setEmail={setEmail}
           setPhone={setPhone}
-          hasTooltip={false}
+          isRegister={false}
         />
       ) : otp === "" ? (
         <Verify
