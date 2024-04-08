@@ -56,7 +56,10 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
         !profile.phone ||
         ((!profile.student_no || !profile.class) && user?.role !== "teacher"))
     ) {
-      message.warning("请先补全个人信息，并完成清华邮箱验证");
+      message.warning({
+        content: "请先补全个人信息，并完成清华邮箱验证",
+        key: "profileMessage",
+      });
       navigate(url.link("user", "site"));
     }
   });

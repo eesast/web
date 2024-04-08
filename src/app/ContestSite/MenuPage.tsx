@@ -74,7 +74,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   //获取是否为某个队伍的成员
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
-      user_uuid: props.user?.uuid ?? "00000000-0000-0000-0000-000000000000",
+      user_uuid: props.user.uuid,
       contest_id: Contest_id,
     },
   });
@@ -389,23 +389,9 @@ const MenuPage: React.FC<ContestProps> = (props) => {
                 </Authenticate>
               }
             />
-            <Route
-              path="code"
-              element={
-                <Authenticate role={userRoles} user={props.user}>
-                  <NotImplemented />
-                </Authenticate>
-              }
-            />
+            <Route path="code" element={<NotImplemented />} />
 
-            <Route
-              path="arena-score"
-              element={
-                <Authenticate role={userRoles} user={props.user}>
-                  <ArenaPage {...props} />
-                </Authenticate>
-              }
-            />
+            <Route path="arena-score" element={<ArenaPage {...props} />} />
             <Route path="arena-record" element={<RecordPage {...props} />} />
             <Route
               path="arena-analysis"

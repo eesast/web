@@ -4,12 +4,17 @@ import { jwtDecode } from "jwt-decode";
 export interface JwtPayload {
   uuid: string;
   role: string;
-  "https://hasura.io/jwt/claims": {
+  "https://hasura.io/jwt/claims"?: {
     "x-hasura-allowed-roles": string[];
     "x-hasura-default-role": string;
     "x-hasura-user-id": string;
   };
 }
+
+export const defaultPayload: JwtPayload = {
+  uuid: "00000000-0000-0000-0000-000000000000",
+  role: "anonymous",
+};
 
 const parse = (token: string | null) => {
   if (!token) {
@@ -35,20 +40,20 @@ const parse = (token: string | null) => {
 };
 
 export const useUser: () => [
-  JwtPayload | null,
+  JwtPayload,
   (token: string | null) => void,
 ] = () => {
-  const [user, setUser] = useState<JwtPayload | null>(
-    parse(localStorage.getItem("token")),
+  const [user, setUser] = useState<JwtPayload>(
+    parse(localStorage.getItem("token")) ?? defaultPayload,
   );
   const setter = (token: string | null) => {
     if (!token) {
       localStorage.removeItem("token");
-      setUser(null);
+      setUser(defaultPayload);
       return;
     }
     localStorage.setItem("token", token);
-    setUser(parse(token));
+    setUser(parse(token) ?? defaultPayload);
     return;
   };
   return [user, setter];

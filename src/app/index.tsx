@@ -40,7 +40,7 @@ dayjs.locale("zh-cn");
 
 export interface PageProps {
   mode: string;
-  user: JwtPayload | null;
+  user: JwtPayload;
 }
 
 const App: React.FC = () => {

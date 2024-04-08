@@ -74,7 +74,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     },
   });
 
-  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
+  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id;
   if (!team_id) {
     return <NotJoined />;
   }
