@@ -309,12 +309,7 @@ const JoinPage: React.FC<ContestProps> = ({ mode, user }) => {
                           <Form.Item
                             label="邀请码"
                             name="invited_code"
-                            rules={[
-                              {
-                                required: true,
-                                message: "Please input the invited code!",
-                              },
-                            ]}
+                            rules={[{ required: true, message: "邀请码为空" }]}
                           >
                             <Input placeholder="输入邀请码" />
                           </Form.Item>
