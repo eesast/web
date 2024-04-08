@@ -30,6 +30,10 @@ import Setting from "./Setting";
 import ManageTeams from "./ManageTeams";
 import EditInfo from "./EditInfo";
 import Forbidden from "@/app/Components/Forbidden";
+import Competition from "./Competition";
+import EditPlayer from "./EditPlayer";
+import UploadMap from "./UploadMap";
+import UploadWebGL from "./UploadWebGL";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;
@@ -83,9 +87,25 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
         </Row>
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={8}>
+            <EditPlayer mode={mode} user={user} />
+          </Col>
+          <Col span={8}>
+            <UploadMap mode={mode} user={user} />
+          </Col>
+          <Col span={8}>
+            <UploadWebGL mode={mode} user={user} />
+          </Col>
+        </Row>
+        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+          <Col span={24}>
+            <Competition mode={mode} user={user} />
+          </Col>
+        </Row>
+        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+          <Col span={12}>
             <CharacterData mode={mode} user={user} />
           </Col>
-          <Col span={16}>
+          <Col span={12}>
             <ContestData mode={mode} user={user} />
           </Col>
         </Row>
@@ -106,7 +126,7 @@ const CharacterData: React.FC<ContestProps> = ({ mode, user }) => {
         }}
       >
         <Title level={2} style={{ margin: `0 0 24px` }}>
-          角色数据
+          角色数据分析
         </Title>
       </Card>
     </Layout>
@@ -123,7 +143,7 @@ const ContestData: React.FC<ContestProps> = ({ mode, user }) => {
         }}
       >
         <Title level={2} style={{ margin: `0 0 24px` }}>
-          比赛数据
+          比赛数据分析
         </Title>
       </Card>
     </Layout>
