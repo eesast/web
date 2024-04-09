@@ -23,3 +23,8 @@ jobs:
       - name: Push docker image
         shell: bash
         run: docker push eesast/web:latest
+
+      - name: Trigger watchtower on server
+        run: |
+          curl "http://eesast.com:6543/v1/update?image=eesast%2Fweb" \
+               -H "Authorization: Bearer ${{ secrets.WATCHTOWER_HTTP_API_TOKEN }}" \
