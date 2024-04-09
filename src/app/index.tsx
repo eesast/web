@@ -29,7 +29,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
 import { useWindowSize } from "../api/hooks/windowsize";
 import NotFoundPage from "./Components/NotFound";
-import Authenticate, { userRoles } from "./Components/Authenticate";
+import Authenticate, { tsinghuaRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
 import { useUser, JwtPayload } from "../api/hooks/user";
 import { subscribe, unsubscribe } from "../api/notification";
@@ -409,7 +409,7 @@ const App: React.FC = () => {
               <Route
                 path="info/*"
                 element={
-                  <Authenticate role={userRoles} user={user}>
+                  <Authenticate role={tsinghuaRoles} user={user}>
                     <InfoSite mode={mode} user={user} />
                   </Authenticate>
                 }
