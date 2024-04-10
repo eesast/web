@@ -8,7 +8,7 @@ let bucket =
 let region = "ap-beijing";
 let path = "";
 const cos = new COS({
-  //getAuthorization会在每次使用cos时调用
+  //getAuthorization的调用规范：https://cloud.tencent.com/document/product/436/11459
   getAuthorization: async (
     options: COS.GetAuthorizationOptions,
     callback: Function,
@@ -23,6 +23,7 @@ const cos = new COS({
           SecurityToken: response.data.credentials.sessionToken,
           StartTime: response.data.startTime,
           ExpiredTime: response.data.expiredTime,
+          ScopeLimit: true, // 细粒度控制权限需要设为 true，会限制密钥只在相同请求时重复使用
         });
       } else throw Error(response.data);
     } catch (err) {
