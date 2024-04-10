@@ -105,6 +105,7 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
           filename: uploadProps.fileList![0].name,
         },
       });
+      if (addContestMapError) throw new Error(addContestMapError.message);
       message.success("地图添加成功");
       refetchContestMaps();
       addMapForm.resetFields();
