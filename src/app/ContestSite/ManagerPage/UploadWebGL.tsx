@@ -65,10 +65,11 @@ const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
   const handleDownload = async (filename: string) => {
     try {
       if (uploadProps.fileList?.some((file) => file.name === `${filename}`)) {
-        message.loading(`即将下载${filename}`);
-        (await downloadFile(`public/WebGL/${contestName}/${filename}`)) as any;
+        message.loading(`即将下载 ${filename}`);
+        await downloadFile(`public/WebGL/${contestName}/${filename}`);
       }
     } catch (err) {
+      message.error(`${filename} 下载失败`);
       console.log(err);
     }
   };
@@ -84,26 +85,31 @@ const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
       <List
         size="small"
         dataSource={suffixes}
-        renderItem={(suffix) => (
-          <List.Item
-            style={{ padding: "8px" }}
-            onClick={() => {
-              handleDownload(`${projectName}${suffix}`);
-            }}
-          >
-            <Typography.Text>
-              {projectName}
-              {suffix}
-            </Typography.Text>
-            {uploadProps.fileList?.some(
-              (file) => file.name === `${projectName}${suffix}`,
-            ) ? (
+        renderItem={(suffix) => {
+          return uploadProps.fileList?.some(
+            (file) => file.name === `${projectName}${suffix}`,
+          ) ? (
+            <List.Item style={{ padding: "8px" }}>
+              <Typography.Link
+                onClick={() => {
+                  handleDownload(`${projectName}${suffix}`);
+                }}
+              >
+                {projectName}
+                {suffix}
+              </Typography.Link>
               <CheckOutlined style={{ color: "#3f8600" }} />
-            ) : (
+            </List.Item>
+          ) : (
+            <List.Item style={{ padding: "8px" }}>
+              <Typography.Text>
+                {projectName}
+                {suffix}
+              </Typography.Text>
               <CloudUploadOutlined style={{ color: "#cf1322" }} />
-            )}
-          </List.Item>
-        )}
+            </List.Item>
+          );
+        }}
       />
     );
   };
@@ -136,7 +142,7 @@ const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
       style: panelStyle,
     },
   ];
-  const [activeKey, setActiveKey] = useState<string | string[]>(["playground"]);
+  const [activeKey, setActiveKey] = useState<string | string[]>([]);
   const currentProject = webGLprojects.find((i) => i.key === activeKey[0]);
 
   return (
