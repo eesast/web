@@ -12687,20 +12687,22 @@ export type DeleteContestMapMutationVariables = Exact<{
 
 export type DeleteContestMapMutation = { __typename?: 'mutation_root', delete_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
 
-export type UpdateContestMapNameMutationVariables = Exact<{
+export type UpdateContestMapMutationVariables = Exact<{
   map_id: Scalars['uuid']['input'];
   name: Scalars['String']['input'];
+  filename: Scalars['String']['input'];
+  team_labels: Scalars['String']['input'];
 }>;
 
 
-export type UpdateContestMapNameMutation = { __typename?: 'mutation_root', update_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
+export type UpdateContestMapMutation = { __typename?: 'mutation_root', update_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
 
 export type GetContestMapsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestMapsQuery = { __typename?: 'query_root', contest_map: Array<{ __typename?: 'contest_map', map_id: any, name: string, filename: string }> };
+export type GetContestMapsQuery = { __typename?: 'query_root', contest_map: Array<{ __typename?: 'contest_map', map_id: any, name: string, filename: string, team_labels: string }> };
 
 export type AddContestNoticeMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -13947,46 +13949,52 @@ export function useDeleteContestMapMutation(baseOptions?: Apollo.MutationHookOpt
 export type DeleteContestMapMutationHookResult = ReturnType<typeof useDeleteContestMapMutation>;
 export type DeleteContestMapMutationResult = Apollo.MutationResult<DeleteContestMapMutation>;
 export type DeleteContestMapMutationOptions = Apollo.BaseMutationOptions<DeleteContestMapMutation, DeleteContestMapMutationVariables>;
-export const UpdateContestMapNameDocument = gql`
-    mutation UpdateContestMapName($map_id: uuid!, $name: String!) {
-  update_contest_map_by_pk(pk_columns: {map_id: $map_id}, _set: {name: $name}) {
+export const UpdateContestMapDocument = gql`
+    mutation UpdateContestMap($map_id: uuid!, $name: String!, $filename: String!, $team_labels: String!) {
+  update_contest_map_by_pk(
+    pk_columns: {map_id: $map_id}
+    _set: {name: $name, filename: $filename, team_labels: $team_labels}
+  ) {
     map_id
   }
 }
     `;
-export type UpdateContestMapNameMutationFn = Apollo.MutationFunction<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>;
+export type UpdateContestMapMutationFn = Apollo.MutationFunction<UpdateContestMapMutation, UpdateContestMapMutationVariables>;
 
 /**
- * __useUpdateContestMapNameMutation__
+ * __useUpdateContestMapMutation__
  *
- * To run a mutation, you first call `useUpdateContestMapNameMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestMapNameMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContestMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestMapMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContestMapNameMutation, { data, loading, error }] = useUpdateContestMapNameMutation({
+ * const [updateContestMapMutation, { data, loading, error }] = useUpdateContestMapMutation({
  *   variables: {
  *      map_id: // value for 'map_id'
  *      name: // value for 'name'
+ *      filename: // value for 'filename'
+ *      team_labels: // value for 'team_labels'
  *   },
  * });
  */
-export function useUpdateContestMapNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>) {
+export function useUpdateContestMapMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMapMutation, UpdateContestMapMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>(UpdateContestMapNameDocument, options);
+        return Apollo.useMutation<UpdateContestMapMutation, UpdateContestMapMutationVariables>(UpdateContestMapDocument, options);
       }
-export type UpdateContestMapNameMutationHookResult = ReturnType<typeof useUpdateContestMapNameMutation>;
-export type UpdateContestMapNameMutationResult = Apollo.MutationResult<UpdateContestMapNameMutation>;
-export type UpdateContestMapNameMutationOptions = Apollo.BaseMutationOptions<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>;
+export type UpdateContestMapMutationHookResult = ReturnType<typeof useUpdateContestMapMutation>;
+export type UpdateContestMapMutationResult = Apollo.MutationResult<UpdateContestMapMutation>;
+export type UpdateContestMapMutationOptions = Apollo.BaseMutationOptions<UpdateContestMapMutation, UpdateContestMapMutationVariables>;
 export const GetContestMapsDocument = gql`
     query GetContestMaps($contest_id: uuid!) {
   contest_map(where: {contest_id: {_eq: $contest_id}}) {
     map_id
     name
     filename
+    team_labels
   }
 }
     `;

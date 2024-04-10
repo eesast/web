@@ -1,9 +1,19 @@
 # 主要操作对象：contest_map表
 
 # 增
-mutation AddContestMap($contest_id: uuid!, $name: String!, $filename: String!) {
+mutation AddContestMap(
+  $contest_id: uuid!
+  $name: String!
+  $filename: String!
+  $team_labels: String!
+) {
   insert_contest_map_one(
-    object: { contest_id: $contest_id, name: $name, filename: $filename }
+    object: {
+      contest_id: $contest_id
+      name: $name
+      filename: $filename
+      team_labels: $team_labels
+    }
   ) {
     map_id
   }
@@ -17,10 +27,15 @@ mutation DeleteContestMap($map_id: uuid!) {
 }
 
 # 改
-mutation UpdateContestMapName($map_id: uuid!, $name: String!) {
+mutation UpdateContestMap(
+  $map_id: uuid!
+  $name: String!
+  $filename: String!
+  $team_labels: String!
+) {
   update_contest_map_by_pk(
     pk_columns: { map_id: $map_id }
-    _set: { name: $name }
+    _set: { name: $name, filename: $filename, team_labels: $team_labels }
   ) {
     map_id
   }
@@ -32,5 +47,6 @@ query GetContestMaps($contest_id: uuid!) {
     map_id
     name
     filename
+    team_labels
   }
 }
