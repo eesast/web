@@ -28,8 +28,8 @@ export const useUploadProps = (url: string, fetchFiles: boolean) => {
   }, [fetchFiles, url]);
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
+    const file = e.file as File;
     try {
-      const file = e.file as File;
       message.info(`正在上传 ${file.name}`);
       const existed = await existFile(`${url}/${file.name}`);
       if (existed) {
@@ -48,6 +48,8 @@ export const useUploadProps = (url: string, fetchFiles: boolean) => {
         },
       ]);
     } catch (err) {
+      message.error(`${file.name} 上传失败`);
+      if (uploadErrorCallback) uploadErrorCallback();
       console.log(err);
     } finally {
       if (fetchFiles) return await fetchFileList(url);
@@ -61,6 +63,8 @@ export const useUploadProps = (url: string, fetchFiles: boolean) => {
       message.success(`${file.name} 删除成功`);
       setFileList(fileList.filter((item) => item.uid !== file.uid));
     } catch (err) {
+      message.error(`${file.name} 删除失败`);
+      if (removeErrorCallback) removeErrorCallback();
       console.log(err);
     } finally {
       if (fetchFiles) return await fetchFileList(url);
