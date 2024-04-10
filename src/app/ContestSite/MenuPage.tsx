@@ -17,6 +17,7 @@ import {
   TrophyOutlined,
   ReadOutlined,
   MenuOutlined,
+  RocketOutlined,
 } from "@ant-design/icons";
 import {
   Menu,
@@ -116,6 +117,8 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     }
   }, [contestError]);
 
+  const linkToRule = `https://docs.eesast.com/docs/contests/${contestData.contest_by_pk?.name}`;
+
   const items = [
     {
       key: "back",
@@ -131,11 +134,20 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           <span ref={introRef}>带你了解</span>
         </span>
       ),
-      icon: <InfoCircleOutlined />,
+      icon: <RocketOutlined />,
       children: [
         {
           key: "intro",
-          label: <Link to={url.link("intro")}>比赛详情</Link>,
+          label: <Link to={url.link("intro")}>赛事详情</Link>,
+          icon: <InfoCircleOutlined />,
+        },
+        {
+          key: "rule",
+          label: (
+            <a href={linkToRule} target="_blank" rel="noreferrer">
+              比赛规则
+            </a>
+          ),
           icon: <ReadOutlined />,
         },
         {

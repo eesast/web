@@ -12687,20 +12687,22 @@ export type DeleteContestMapMutationVariables = Exact<{
 
 export type DeleteContestMapMutation = { __typename?: 'mutation_root', delete_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
 
-export type UpdateContestMapNameMutationVariables = Exact<{
+export type UpdateContestMapMutationVariables = Exact<{
   map_id: Scalars['uuid']['input'];
   name: Scalars['String']['input'];
+  filename: Scalars['String']['input'];
+  team_labels: Scalars['String']['input'];
 }>;
 
 
-export type UpdateContestMapNameMutation = { __typename?: 'mutation_root', update_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
+export type UpdateContestMapMutation = { __typename?: 'mutation_root', update_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
 
 export type GetContestMapsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestMapsQuery = { __typename?: 'query_root', contest_map: Array<{ __typename?: 'contest_map', map_id: any, name: string, filename: string }> };
+export type GetContestMapsQuery = { __typename?: 'query_root', contest_map: Array<{ __typename?: 'contest_map', map_id: any, name: string, filename: string, team_labels: string }> };
 
 export type AddContestNoticeMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -12772,6 +12774,20 @@ export type GetContestPlayersQueryVariables = Exact<{
 
 export type GetContestPlayersQuery = { __typename?: 'query_root', contest_player: Array<{ __typename?: 'contest_player', team_label: string, player_label: string, roles_available: string }> };
 
+export type GetRoomsSubscriptionVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
+
+export type GetRunningRoomsQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetRunningRoomsQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', status: string, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_id: any } }> }> };
+
 export type GetRoomInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
@@ -12795,13 +12811,6 @@ export type InsertRoomMutationVariables = Exact<{
 
 
 export type InsertRoomMutation = { __typename?: 'mutation_root', insert_contest_room_one?: { __typename?: 'contest_room', room_id: any } | null };
-
-export type DeleteRoomMutationVariables = Exact<{
-  room_id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteRoomMutation = { __typename?: 'mutation_root', delete_contest_room_team?: { __typename?: 'contest_room_team_mutation_response', affected_rows: number } | null, delete_contest_room?: { __typename?: 'contest_room_mutation_response', affected_rows: number } | null };
 
 export type AddContestRoundMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13940,46 +13949,52 @@ export function useDeleteContestMapMutation(baseOptions?: Apollo.MutationHookOpt
 export type DeleteContestMapMutationHookResult = ReturnType<typeof useDeleteContestMapMutation>;
 export type DeleteContestMapMutationResult = Apollo.MutationResult<DeleteContestMapMutation>;
 export type DeleteContestMapMutationOptions = Apollo.BaseMutationOptions<DeleteContestMapMutation, DeleteContestMapMutationVariables>;
-export const UpdateContestMapNameDocument = gql`
-    mutation UpdateContestMapName($map_id: uuid!, $name: String!) {
-  update_contest_map_by_pk(pk_columns: {map_id: $map_id}, _set: {name: $name}) {
+export const UpdateContestMapDocument = gql`
+    mutation UpdateContestMap($map_id: uuid!, $name: String!, $filename: String!, $team_labels: String!) {
+  update_contest_map_by_pk(
+    pk_columns: {map_id: $map_id}
+    _set: {name: $name, filename: $filename, team_labels: $team_labels}
+  ) {
     map_id
   }
 }
     `;
-export type UpdateContestMapNameMutationFn = Apollo.MutationFunction<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>;
+export type UpdateContestMapMutationFn = Apollo.MutationFunction<UpdateContestMapMutation, UpdateContestMapMutationVariables>;
 
 /**
- * __useUpdateContestMapNameMutation__
+ * __useUpdateContestMapMutation__
  *
- * To run a mutation, you first call `useUpdateContestMapNameMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateContestMapNameMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateContestMapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateContestMapMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateContestMapNameMutation, { data, loading, error }] = useUpdateContestMapNameMutation({
+ * const [updateContestMapMutation, { data, loading, error }] = useUpdateContestMapMutation({
  *   variables: {
  *      map_id: // value for 'map_id'
  *      name: // value for 'name'
+ *      filename: // value for 'filename'
+ *      team_labels: // value for 'team_labels'
  *   },
  * });
  */
-export function useUpdateContestMapNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>) {
+export function useUpdateContestMapMutation(baseOptions?: Apollo.MutationHookOptions<UpdateContestMapMutation, UpdateContestMapMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>(UpdateContestMapNameDocument, options);
+        return Apollo.useMutation<UpdateContestMapMutation, UpdateContestMapMutationVariables>(UpdateContestMapDocument, options);
       }
-export type UpdateContestMapNameMutationHookResult = ReturnType<typeof useUpdateContestMapNameMutation>;
-export type UpdateContestMapNameMutationResult = Apollo.MutationResult<UpdateContestMapNameMutation>;
-export type UpdateContestMapNameMutationOptions = Apollo.BaseMutationOptions<UpdateContestMapNameMutation, UpdateContestMapNameMutationVariables>;
+export type UpdateContestMapMutationHookResult = ReturnType<typeof useUpdateContestMapMutation>;
+export type UpdateContestMapMutationResult = Apollo.MutationResult<UpdateContestMapMutation>;
+export type UpdateContestMapMutationOptions = Apollo.BaseMutationOptions<UpdateContestMapMutation, UpdateContestMapMutationVariables>;
 export const GetContestMapsDocument = gql`
     query GetContestMaps($contest_id: uuid!) {
   contest_map(where: {contest_id: {_eq: $contest_id}}) {
     map_id
     name
     filename
+    team_labels
   }
 }
     `;
@@ -14332,6 +14347,101 @@ export type GetContestPlayersQueryHookResult = ReturnType<typeof useGetContestPl
 export type GetContestPlayersLazyQueryHookResult = ReturnType<typeof useGetContestPlayersLazyQuery>;
 export type GetContestPlayersSuspenseQueryHookResult = ReturnType<typeof useGetContestPlayersSuspenseQuery>;
 export type GetContestPlayersQueryResult = Apollo.QueryResult<GetContestPlayersQuery, GetContestPlayersQueryVariables>;
+export const GetRoomsDocument = gql`
+    subscription GetRooms($contest_id: uuid!) {
+  contest_room(
+    where: {contest_id: {_eq: $contest_id}}
+    order_by: {created_at: desc}
+  ) {
+    room_id
+    status
+    port
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_leader {
+          realname
+        }
+      }
+      score
+      team_label
+      player_roles
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRoomsSubscription__
+ *
+ * To run a query within a React component, call `useGetRoomsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoomsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRoomsSubscription({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetRoomsSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetRoomsSubscription, GetRoomsSubscriptionVariables> & ({ variables: GetRoomsSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetRoomsSubscription, GetRoomsSubscriptionVariables>(GetRoomsDocument, options);
+      }
+export type GetRoomsSubscriptionHookResult = ReturnType<typeof useGetRoomsSubscription>;
+export type GetRoomsSubscriptionResult = Apollo.SubscriptionResult<GetRoomsSubscription>;
+export const GetRunningRoomsDocument = gql`
+    query GetRunningRooms($contest_id: uuid!) {
+  contest_room(
+    where: {_and: {contest_id: {_eq: $contest_id}, status: {_in: ["Waiting", "Running"]}}}
+  ) {
+    status
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_id
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRunningRoomsQuery__
+ *
+ * To run a query within a React component, call `useGetRunningRoomsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRunningRoomsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRunningRoomsQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *   },
+ * });
+ */
+export function useGetRunningRoomsQuery(baseOptions: Apollo.QueryHookOptions<GetRunningRoomsQuery, GetRunningRoomsQueryVariables> & ({ variables: GetRunningRoomsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>(GetRunningRoomsDocument, options);
+      }
+export function useGetRunningRoomsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>(GetRunningRoomsDocument, options);
+        }
+export function useGetRunningRoomsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>(GetRunningRoomsDocument, options);
+        }
+export type GetRunningRoomsQueryHookResult = ReturnType<typeof useGetRunningRoomsQuery>;
+export type GetRunningRoomsLazyQueryHookResult = ReturnType<typeof useGetRunningRoomsLazyQuery>;
+export type GetRunningRoomsSuspenseQueryHookResult = ReturnType<typeof useGetRunningRoomsSuspenseQuery>;
+export type GetRunningRoomsQueryResult = Apollo.QueryResult<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>;
 export const GetRoomInfoDocument = gql`
     subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(
@@ -14458,42 +14568,6 @@ export function useInsertRoomMutation(baseOptions?: Apollo.MutationHookOptions<I
 export type InsertRoomMutationHookResult = ReturnType<typeof useInsertRoomMutation>;
 export type InsertRoomMutationResult = Apollo.MutationResult<InsertRoomMutation>;
 export type InsertRoomMutationOptions = Apollo.BaseMutationOptions<InsertRoomMutation, InsertRoomMutationVariables>;
-export const DeleteRoomDocument = gql`
-    mutation DeleteRoom($room_id: uuid!) {
-  delete_contest_room_team(where: {room_id: {_eq: $room_id}}) {
-    affected_rows
-  }
-  delete_contest_room(where: {room_id: {_eq: $room_id}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteRoomMutationFn = Apollo.MutationFunction<DeleteRoomMutation, DeleteRoomMutationVariables>;
-
-/**
- * __useDeleteRoomMutation__
- *
- * To run a mutation, you first call `useDeleteRoomMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteRoomMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteRoomMutation, { data, loading, error }] = useDeleteRoomMutation({
- *   variables: {
- *      room_id: // value for 'room_id'
- *   },
- * });
- */
-export function useDeleteRoomMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRoomMutation, DeleteRoomMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(DeleteRoomDocument, options);
-      }
-export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutation>;
-export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
-export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
 export const AddContestRoundDocument = gql`
     mutation AddContestRound($contest_id: uuid!, $name: String!, $map_id: uuid) {
   insert_contest_round_one(

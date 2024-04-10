@@ -1,6 +1,55 @@
 # 主要操作对象：contest_room和contest_room_team表
 
-# get the contest room info
+# 增：由后端自动创建
+
+# 删：暂不提供
+
+# 改：暂不提供
+
+# 查
+subscription GetRooms($contest_id: uuid!) {
+  contest_room(
+    where: { contest_id: { _eq: $contest_id } }
+    order_by: { created_at: desc }
+  ) {
+    room_id
+    status
+    port
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_leader {
+          realname
+        }
+      }
+      score
+      team_label
+      player_roles
+    }
+  }
+}
+
+query GetRunningRooms($contest_id: uuid!) {
+  contest_room(
+    where: {
+      _and: {
+        contest_id: { _eq: $contest_id }
+        status: { _in: ["Waiting", "Running"] }
+      }
+    }
+  ) {
+    status
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_id
+      }
+    }
+  }
+}
+
+# TODO：迁移到GetRooms
 subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(
     where: { contest_id: { _eq: $contest_id } }
@@ -21,7 +70,7 @@ subscription GetRoomInfo($contest_id: uuid!) {
   }
 }
 
-# 获取正在进行比赛的房间信息
+# TODO：迁移到GetRunningRooms
 query GetRoomInfo_status($contest_id: uuid!) {
   contest_room(
     where: {
@@ -38,6 +87,7 @@ query GetRoomInfo_status($contest_id: uuid!) {
   }
 }
 
+# TODO：计划废弃
 mutation InsertRoom(
   $contest_id: uuid!
   $team1_id: uuid!
@@ -54,15 +104,5 @@ mutation InsertRoom(
     }
   ) {
     room_id
-  }
-}
-
-# 删除指定对战记录
-mutation DeleteRoom($room_id: uuid!) {
-  delete_contest_room_team(where: { room_id: { _eq: $room_id } }) {
-    affected_rows
-  }
-  delete_contest_room(where: { room_id: { _eq: $room_id } }) {
-    affected_rows
   }
 }

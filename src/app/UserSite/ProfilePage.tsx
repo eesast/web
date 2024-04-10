@@ -75,6 +75,8 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     {
       key: "role",
       label: "用户组",
+      tooltip:
+        "新用户注册后默认为【用户】，添加清华邮箱后升级为【学生】。信息化平台要求用户组为【学生】。【教师】、【辅导员】身份请联系网站管理员认证。",
       children: roleMap[user.role],
       editable: () => false,
     },
@@ -249,6 +251,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
             ellipsis={true}
             editable={item.editable}
             valueEnum={item.valueEnum}
+            tooltip={item.tooltip}
           >
             {item.children}
           </ProDescriptions.Item>

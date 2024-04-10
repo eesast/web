@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* 本页面需要实现的功能：
  * 1、创建队伍
  * 2、将学生添加至指定队伍
@@ -20,7 +19,7 @@ import {
   Typography,
 } from "antd";
 import { TableProps } from "antd/lib/table";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, CloudDownloadOutlined } from "@ant-design/icons";
 import * as xlsx from "xlsx";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
@@ -161,8 +160,12 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       key: "action",
       render: (text, record) => (
         <Space size="small">
-          <a onClick={() => setShowTeamInfo(true)}>队伍主页</a>
-          <a onClick={() => setShowTeamCode(true)}>队伍代码</a>
+          <Typography.Link onClick={() => setShowTeamInfo(true)}>
+            队伍主页
+          </Typography.Link>
+          <Typography.Link onClick={() => setShowTeamCode(true)}>
+            队伍代码
+          </Typography.Link>
         </Space>
       ),
     },
@@ -217,8 +220,11 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
         key="team_code"
       >
         <p>Some code...</p>
+        <CloudDownloadOutlined />
         <p>Some code...</p>
+        <CloudDownloadOutlined />
         <p>Some code...</p>
+        <CloudDownloadOutlined />
       </Drawer>
     </Layout>
   );
