@@ -3,7 +3,12 @@ import { UploadFile, UploadProps, message } from "antd";
 import { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { deleteFile, existFile, listFile, uploadFile } from "@/api/cos";
 
-export const useUploadProps = (url: string, fetchFiles: boolean) => {
+export const useUploadProps = (
+  url: string,
+  fetchFiles: boolean,
+  uploadErrorCallback?: () => void,
+  removeErrorCallback?: () => void,
+) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const fetchFileList = async (url: string) => {
