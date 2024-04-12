@@ -38,28 +38,30 @@ const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [getContestPlayersError]);
 
-  const [addContestPlayer, { error: addPlayerError }] =
-    graphql.useAddContestPlayerMutation();
-  useEffect(() => {
-    if (addPlayerError) {
-      message.error("添加角色失败");
-    }
-  }, [addPlayerError]);
+  // const [addContestPlayer, { error: addPlayerError }] =
+  //   graphql.useAddContestPlayerMutation();
+  // useEffect(() => {
+  //   if (addPlayerError) {
+  //     message.error("添加角色失败");
+  //   }
+  // }, [addPlayerError]);
 
   const handleAdd = async () => {
     try {
-      const values = await addPlayerForm.validateFields();
-      await addContestPlayer({
-        variables: {
-          contest_id: Contest_id,
-          team_label: values.team_label,
-          player_label: values.player_label,
-          roles_available: values.roles_available,
-        },
-      });
-      if (addPlayerError) throw new Error(addPlayerError.message);
-      message.success("角色添加成功");
+      message.warning("暂不支持添加角色");
+      // const values = await addPlayerForm.validateFields();
+      // await addContestPlayer({
+      //   variables: {
+      //     contest_id: Contest_id,
+      //     team_label: values.team_label,
+      //     player_label: values.player_label,
+      //     roles_available: values.roles_available,
+      //   },
+      // });
+      // if (addPlayerError) throw new Error(addPlayerError.message);
+      // message.success("角色添加成功");
       refetchContestPlayers();
+      setIsModalVisible(false);
       addPlayerForm.resetFields();
     } catch (e) {
       console.log(e);
