@@ -22,7 +22,7 @@
 // 3. 在线提交WebGL，同时更改是否允许试玩、回放、直播的开关
 // 4. 加入在线地图编辑器
 import React, { useEffect } from "react";
-import { Card, Col, message, Layout, Row, Space, Typography } from "antd";
+import { Col, message, Layout, Row, Space } from "antd";
 import { ContestProps } from "..";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
@@ -34,9 +34,9 @@ import Competition from "./Competition";
 import EditPlayer from "./EditPlayer";
 import UploadMap from "./UploadMap";
 import UploadWebGL from "./UploadWebGL";
+import EditTimeline from "./EditTimeline";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Title } = Typography;
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 
@@ -81,19 +81,24 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Col>
         </Row>
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+          <Col span={12}>
+            <EditTimeline mode={mode} user={user} />
+          </Col>
+          <Col span={12}>
+            <UploadWebGL mode={mode} user={user} />
+          </Col>
+        </Row>
+        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={24}>
             <ManageTeams mode={mode} user={user} />
           </Col>
         </Row>
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={8}>
+          <Col span={12}>
             <EditPlayer mode={mode} user={user} />
           </Col>
-          <Col span={8}>
+          <Col span={12}>
             <UploadMap mode={mode} user={user} />
-          </Col>
-          <Col span={8}>
-            <UploadWebGL mode={mode} user={user} />
           </Col>
         </Row>
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
@@ -101,52 +106,10 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
             <Competition mode={mode} user={user} />
           </Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={12}>
-            <CharacterData mode={mode} user={user} />
-          </Col>
-          <Col span={12}>
-            <ContestData mode={mode} user={user} />
-          </Col>
-        </Row>
       </Space>
     </Layout>
   ) : (
     <Forbidden />
-  );
-};
-
-const CharacterData: React.FC<ContestProps> = ({ mode, user }) => {
-  return (
-    <Layout>
-      <Card
-        hoverable
-        style={{
-          padding: "2vh 1vw",
-        }}
-      >
-        <Title level={2} style={{ margin: `0 0 24px` }}>
-          角色数据分析
-        </Title>
-      </Card>
-    </Layout>
-  );
-};
-
-const ContestData: React.FC<ContestProps> = ({ mode, user }) => {
-  return (
-    <Layout>
-      <Card
-        hoverable
-        style={{
-          padding: "2vh 1vw",
-        }}
-      >
-        <Title level={2} style={{ margin: `0 0 24px` }}>
-          比赛数据分析
-        </Title>
-      </Card>
-    </Layout>
   );
 };
 
