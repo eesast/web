@@ -12675,6 +12675,7 @@ export type AddContestMapMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   name: Scalars['String']['input'];
   filename: Scalars['String']['input'];
+  team_labels: Scalars['String']['input'];
 }>;
 
 
@@ -13880,9 +13881,9 @@ export type GetContestManagersLazyQueryHookResult = ReturnType<typeof useGetCont
 export type GetContestManagersSuspenseQueryHookResult = ReturnType<typeof useGetContestManagersSuspenseQuery>;
 export type GetContestManagersQueryResult = Apollo.QueryResult<GetContestManagersQuery, GetContestManagersQueryVariables>;
 export const AddContestMapDocument = gql`
-    mutation AddContestMap($contest_id: uuid!, $name: String!, $filename: String!) {
+    mutation AddContestMap($contest_id: uuid!, $name: String!, $filename: String!, $team_labels: String!) {
   insert_contest_map_one(
-    object: {contest_id: $contest_id, name: $name, filename: $filename}
+    object: {contest_id: $contest_id, name: $name, filename: $filename, team_labels: $team_labels}
   ) {
     map_id
   }
@@ -13906,6 +13907,7 @@ export type AddContestMapMutationFn = Apollo.MutationFunction<AddContestMapMutat
  *      contest_id: // value for 'contest_id'
  *      name: // value for 'name'
  *      filename: // value for 'filename'
+ *      team_labels: // value for 'team_labels'
  *   },
  * });
  */
