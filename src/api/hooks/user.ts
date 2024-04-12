@@ -46,9 +46,11 @@ export const useUser: () => [
   JwtPayload,
   (token: string | null) => void,
 ] = () => {
-  const [user, setUser] = useState<JwtPayload>(
-    parse(localStorage.getItem("token")) ?? defaultPayload,
-  );
+  const payload = parse(localStorage.getItem("token"));
+  const [user, setUser] = useState<JwtPayload>(payload ?? defaultPayload);
+  if (payload === null) {
+    localStorage.removeItem("token");
+  }
   const setter = (token: string | null) => {
     if (!token) {
       localStorage.removeItem("token");

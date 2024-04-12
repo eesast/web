@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Collapse,
+  DatePicker,
   Form,
   Input,
   Layout,
@@ -12,6 +13,7 @@ import {
   message,
   theme,
 } from "antd";
+import dayjs from "dayjs";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { ContestProps } from "..";
 import { useUrl } from "@/api/hooks/url";
@@ -19,57 +21,57 @@ import * as graphql from "@/generated/graphql";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;
+const RangePicker: any = DatePicker.RangePicker;
 
-const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
+const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const {
-    data: contestPlayersData,
-    error: getContestPlayersError,
-    refetch: refetchContestPlayers,
-  } = graphql.useGetContestPlayersSuspenseQuery({
+    data: contestTimesData,
+    error: getContestTimesError,
+    refetch: refetchContestTimes,
+  } = graphql.useGetContestTimesSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
   useEffect(() => {
-    if (getContestPlayersError) {
+    if (getContestTimesError) {
       message.error("比赛加载失败");
     }
-  }, [getContestPlayersError]);
+  }, [getContestTimesError]);
 
-  // const [addContestPlayer, { error: addPlayerError }] =
-  //   graphql.useAddContestPlayerMutation();
-  // useEffect(() => {
-  //   if (addPlayerError) {
-  //     message.error("添加角色失败");
-  //   }
-  // }, [addPlayerError]);
+  const [addContestTime, { error: addContestTimeError }] =
+    graphql.useAddContestTimeMutation();
+  useEffect(() => {
+    if (addContestTimeError) {
+      message.error("添加事件失败");
+    }
+  }, [addContestTimeError]);
 
   const handleAdd = async () => {
     try {
-      message.warning("暂不支持添加角色");
-      // const values = await addPlayerForm.validateFields();
-      // await addContestPlayer({
-      //   variables: {
-      //     contest_id: Contest_id,
-      //     team_label: values.team_label,
-      //     player_label: values.player_label,
-      //     roles_available: values.roles_available,
-      //   },
-      // });
-      // if (addPlayerError) throw new Error(addPlayerError.message);
-      // message.success("角色添加成功");
-      refetchContestPlayers();
+      const values = await addEventForm.validateFields();
+      await addContestTime({
+        variables: {
+          contest_id: Contest_id,
+          event: values.event,
+          start: values.time[0].format("YYYY-MM-DD"),
+          end: values.time[1].format("YYYY-MM-DD"),
+        },
+      });
+      if (addContestTimeError) throw new Error(addContestTimeError.message);
+      message.success("事件添加成功");
+      refetchContestTimes();
       setIsModalVisible(false);
-      addPlayerForm.resetFields();
+      addEventForm.resetFields();
     } catch (e) {
       console.log(e);
     }
   };
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [addPlayerForm] = Form.useForm();
+  const [addEventForm] = Form.useForm();
 
   const { token } = theme.useToken();
   const panelStyle: React.CSSProperties = {
@@ -79,11 +81,18 @@ const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
     border: "none",
   };
 
-  const players = contestPlayersData?.contest_player.map((item) => ({
-    key: item.team_label + " / " + item.player_label,
-    label: item.team_label + " / " + item.player_label,
+  const players = contestTimesData?.contest_time.map((item) => ({
+    key: item.event,
+    label: item.event,
     style: panelStyle,
-    children: <>可选属性：{item.roles_available}</>,
+    children: (
+      <>
+        时间：{dayjs(item.start).format("YYYY-MM-DD")} -{" "}
+        {dayjs(item.end).format("YYYY-MM-DD")}
+        <br />
+        描述：{item.description}
+      </>
+    ),
   }));
 
   return (
@@ -95,7 +104,7 @@ const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
         }}
       >
         <Title level={2} style={{ margin: `0 0 24px` }}>
-          战队角色编辑
+          时间线编辑
         </Title>
         <Collapse
           accordion
@@ -114,42 +123,38 @@ const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
           }}
         >
           <Button type="primary" onClick={() => setIsModalVisible(true)}>
-            添加新角色
+            添加新事件
           </Button>
         </Row>
       </Card>
       <Modal
         open={isModalVisible}
-        title="添加新角色"
+        title="添加新事件"
         centered
         onCancel={() => {
           setIsModalVisible(false);
-          addPlayerForm.resetFields();
+          addEventForm.resetFields();
         }}
         onOk={handleAdd}
         destroyOnClose
       >
-        <Form form={addPlayerForm} name="addMap" preserve={false}>
+        <Form form={addEventForm} name="addMap" preserve={false}>
           <Form.Item
-            name="team_label"
-            label="战队名称"
-            rules={[{ required: true, message: "请输入战队名称" }]}
+            name="event"
+            label="事件名称"
+            rules={[{ required: true, message: "请输入事件名称" }]}
           >
-            <Input allowClear placeholder="例：Tricker" />
+            <Input allowClear placeholder="例：复赛" />
           </Form.Item>
           <Form.Item
-            name="player_label"
-            label="角色名称"
-            rules={[{ required: true, message: "请输入角色名称" }]}
+            name="time"
+            label="起止时间"
+            rules={[{ required: true, message: "请选择时间" }]}
           >
-            <Input allowClear placeholder="例：Ship1" />
+            <RangePicker />
           </Form.Item>
-          <Form.Item
-            name="roles_available"
-            label="可选属性"
-            rules={[{ required: true, message: "请输入可选属性" }]}
-          >
-            <Input allowClear placeholder='例：["Attacker", "Healer"]' />
+          <Form.Item name="description" label="事件描述（或推送链接）">
+            <Input allowClear />
           </Form.Item>
         </Form>
       </Modal>
@@ -157,4 +162,4 @@ const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
   );
 };
 
-export default EditPlayer;
+export default EditTimeline;

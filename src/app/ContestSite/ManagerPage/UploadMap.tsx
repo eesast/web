@@ -89,7 +89,10 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [deleteContestMapError]);
 
-  const { uploadProps } = useUploadProps(`${contestName}/map`, false);
+  const { uploadProps, setFileList } = useUploadProps(
+    `${contestName}/map`,
+    false,
+  );
   const [addMapForm] = Form.useForm();
   const handleAdd = async () => {
     try {
@@ -103,18 +106,25 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
           contest_id: Contest_id,
           name: values.name,
           filename: uploadProps.fileList![0].name,
+          team_labels: values.team_labels,
         },
       });
       if (addContestMapError) throw new Error(addContestMapError.message);
       message.success("地图添加成功");
       refetchContestMaps();
+      setIsModalVisible(false);
       addMapForm.resetFields();
+      setFileList([]);
     } catch (e) {
       console.log(e);
     }
   };
 
   const prepareFile = (file: File) => {
+    if (uploadProps.fileList?.length !== 0) {
+      message.warning("每次只能上传一份地图，请先删除已上传的文件");
+      return false;
+    }
     const filenameSplit = file.name.split(".");
     const suffix = filenameSplit.pop();
     if (suffix !== "txt") {
@@ -148,6 +158,7 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
         },
       });
       if (deleteContestMapError) throw new Error(deleteContestMapError.message);
+      refetchContestMaps();
       message.success("地图删除成功");
     } catch (e) {
       message.error("地图删除失败");
@@ -266,14 +277,12 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
           >
             <Input allowClear placeholder='例：["Student", "Tricker"]' />
           </Form.Item>
-          <Dragger maxCount={1} beforeUpload={prepareFile} {...uploadProps}>
+          <Dragger beforeUpload={prepareFile} {...uploadProps}>
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
             </p>
             <p className="ant-upload-text">拖拽上传地图文件</p>
-            <p className="ant-upload-hint">
-              只上传一份最新的文件，默认覆盖旧文件
-            </p>
+            <p className="ant-upload-hint">同时支持点击选择文件上传</p>
           </Dragger>
         </Form>
       </Modal>

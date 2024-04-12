@@ -33,7 +33,6 @@ const EditInfo: React.FC<ContestProps> = (props) => {
 
   const initialValues = {
     fullname: contestInfoData?.contest_by_pk?.fullname || "",
-    contest_type: "THUAI",
     description: contestInfoData?.contest_by_pk?.description || "",
     time: [
       dayjs(contestInfoData?.contest_by_pk?.start_date, "YYYY-MM-DD"), // 加一天
