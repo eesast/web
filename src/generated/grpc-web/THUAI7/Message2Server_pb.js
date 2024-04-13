@@ -459,13 +459,14 @@ proto.protobuf.IDMsg.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getTeamId();
-  if (f !== 0) {
-    writer.writeInt64(
-      2,
-      f
-    );
-  }
+  // 下面的注释不是自动生成的，如果解注会报错，且这个函数我们用不上
+  // f = message.getTeamId();
+  // if (f !== 0) {
+  //   writer.writeInt64(
+  //     2,
+  //     f
+  //   );
+  // }
 };
 
 
