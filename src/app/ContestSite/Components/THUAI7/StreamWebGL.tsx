@@ -116,8 +116,8 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
               console.log("Game Ended.");
             }
             sendMessage(
-              "InputManager",
-              "AfterInputPlaySpeed",
+              "UpdateManager",
+              "UpdateMessageByJson",
               JSON.stringify(response.toObject()),
             );
           });
