@@ -49,12 +49,6 @@ export class PlayerMsg extends jspb.Message {
   getShipType(): MessageType_pb.ShipType;
   setShipType(value: MessageType_pb.ShipType): PlayerMsg;
 
-  getX(): number;
-  setX(value: number): PlayerMsg;
-
-  getY(): number;
-  setY(value: number): PlayerMsg;
-
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PlayerMsg.AsObject;
   static toObject(includeInstance: boolean, msg: PlayerMsg): PlayerMsg.AsObject;
@@ -68,8 +62,6 @@ export namespace PlayerMsg {
     playerId: number,
     teamId: number,
     shipType: MessageType_pb.ShipType,
-    x: number,
-    y: number,
   }
 }
 
@@ -252,17 +244,14 @@ export namespace InstallMsg {
 }
 
 export class BuildShipMsg extends jspb.Message {
-  getX(): number;
-  setX(value: number): BuildShipMsg;
-
-  getY(): number;
-  setY(value: number): BuildShipMsg;
-
   getShipType(): MessageType_pb.ShipType;
   setShipType(value: MessageType_pb.ShipType): BuildShipMsg;
 
   getTeamId(): number;
   setTeamId(value: number): BuildShipMsg;
+
+  getBirthpointIndex(): number;
+  setBirthpointIndex(value: number): BuildShipMsg;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): BuildShipMsg.AsObject;
@@ -274,10 +263,9 @@ export class BuildShipMsg extends jspb.Message {
 
 export namespace BuildShipMsg {
   export type AsObject = {
-    x: number,
-    y: number,
     shipType: MessageType_pb.ShipType,
     teamId: number,
+    birthpointIndex: number,
   }
 }
 
