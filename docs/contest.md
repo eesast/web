@@ -147,7 +147,19 @@ permalink: /contest
 
 3. `docker`目录绑定。
    - 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/output`下，命名为`playback.thuaipb`。如果需要上传日志文件，同样放在此目录下，命名为 `xxx.log` 。
-   - 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。
+   - 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。对于 `suffix` 的说明：对于 `python` 代码，`suffix` 为 `py`；对于 `cpp` 代码，没有 `suffix`，文件命名就是 `${player_label}`。
+4. 后端提供的环境变量说明。
+   - 客户端：
+     - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明比赛 docker 是客户端还是服务器。
+     - `TEAM_LABEL`: 客户端使用。本场比赛的队伍标签。格式是`${team_id}:${team_label}`。
+     - `TEAM_SEQ_ID`: 客户端使用，标示这是加入比赛的第几支队伍。序号从0开始。与服务端 `TEAM_LABELS` 的顺序一致。
+   - 服务端：
+     - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明比赛 docker 是客户端还是服务器。
+     - `TIME`: 比赛持续的时间，单位为秒。
+     - `MAP_ID`: 地图 id。
+     - `SCORE_URL`: 获取当前天梯分数的接口。
+     - `FINISH_URL`: 结束比赛时更新分数的接口。
+     - `TEAM_LABELS`: 服务端使用。本场比赛的队伍标签列表。格式是`${team_id1}:${team_label1}:${team_id2}:${team_label2}:...`，队伍列表的顺序与 `TEAM_SEQ_ID` 中的一致。
 
 ## 附录
 
