@@ -35,6 +35,7 @@ import TeamPage from "./TeamPage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 // import CodePage from "./CodePage.old";
+import CodePage from "./CodePagesource";
 import PlaybackPage from "./PlaybackPage";
 import StreamPage from "./StreamPage";
 import NotFound from "../Components/NotFound";
@@ -401,7 +402,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
                 </Authenticate>
               }
             />
-            <Route path="code" element={<NotImplemented />} />
+            <Route path="code" element={<CodePage {...props} />} />
 
             <Route path="arena-score" element={<ArenaPage {...props} />} />
             <Route path="arena-record" element={<RecordPage {...props} />} />
