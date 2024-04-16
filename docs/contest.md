@@ -155,12 +155,12 @@ permalink: /contest
 
 - 客户端：
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明比赛 docker 是客户端还是服务器。
-  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段。顺序与服务端 `TOKEN` 变量的 `ServerToken.team_label_binds` 列表的顺序一致。
+  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段。顺序与服务端 `TOKEN` 变量的 `TOKEN.team_label_binds` 列表的顺序一致。
   - `TEAM_SEQ_ID`: 客户端使用，当前客户端的队伍序号，编号从 0 开始，与 `TEAM_LABELS` 的顺序对应。可据此查询到自己是 `TEAM_LABELS` 中的哪一个。客户端可据`TEAM_LABELS` 和 `TEAM_SEQ_ID` 解出自己的 `-t` 参数。
 - 服务端：
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明比赛 docker 是客户端还是服务器。
   - `TOKEN`: 服务端 jwt token。包含信息见附录`ServerToken`。
-  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段。顺序与服务端 `TOKEN` 变量的 `ServerToken.team_label_binds` 列表的顺序一致。服务器可以根据这个变量解出每个队伍的 `-t` 参数。
+  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段。顺序与服务端 `TOKEN` 变量的 `TOKEN.team_label_binds` 列表的顺序一致。服务器可以根据这个变量解出每个队伍的 `-t` 参数。
   - `TIME`: 比赛持续的时间，单位为秒。
   - `MAP_ID`: 地图 id。
   - `SCORE_URL`: 获取当前天梯分数的 url 路径。请求时需带上 `TOKEN`。
