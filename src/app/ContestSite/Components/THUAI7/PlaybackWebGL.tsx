@@ -1,16 +1,11 @@
-import { useEffect } from "react";
-import { RpcError } from "grpc-web";
-import { AvailableServiceClient } from "@/generated/grpc-web/THUAI7/ServicesServiceClientPb";
-import * as MessageType from "@/generated/grpc-web/THUAI7/MessageType_pb";
-import * as Message2Clients from "@/generated/grpc-web/THUAI7/Message2Clients_pb";
-import * as Message2Server from "@/generated/grpc-web/THUAI7/Message2Server_pb";
-import { FloatButton, Layout, Modal, Progress, Row } from "antd";
-import { ArrowsAltOutlined } from "@ant-design/icons";
 import React from "react";
-import { StreamProps } from "../../StreamPage";
+import { FloatButton, Layout, Modal, Progress, Row, message } from "antd";
+import { ArrowsAltOutlined } from "@ant-design/icons";
+import { useUrl } from "@/api/hooks/url";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import ReactRouterPrompt from "react-router-prompt";
 import styled from "styled-components";
+import NotImplemented from "../NotImplemented";
 
 const Container = styled.div`
   height: calc(100vh - 72px);
@@ -20,10 +15,14 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
+const THUAI7: React.FC = () => {
+  const url = useUrl();
+  const isPWA = url.query.get("pwa");
+  const openLocalFile = isPWA === "true";
+
   const projectUrl =
     process.env.REACT_APP_STATIC_URL! + "/public/WebGL/THUAI7/";
-  const projectName = "stream";
+  const projectName = "playback";
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -39,7 +38,7 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
 
   const {
     unityProvider,
-    sendMessage,
+    // sendMessage,
     isLoaded,
     unload,
     requestFullscreen,
@@ -62,46 +61,31 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
     }
   };
 
-  useEffect(() => {
-    const client = new AvailableServiceClient(streamUrl);
-    const request = new Message2Server.IDMsg();
-    request.setPlayerId(99);
-    client.tryConnection(
-      request,
-      {},
-      (error: RpcError, response: Message2Clients.BoolRes) => {
-        if (!error) {
-          console.log("Success making gRPC call:", response.toObject());
-          const spectator = new Message2Server.PlayerMsg();
-          spectator.setPlayerId(2024);
-          const stream = client.addPlayer(spectator, {});
-          stream.on("data", (response) => {
-            console.log("Received message from server:", response.toObject());
-            if (response.getGameState() === MessageType.GameState.GAME_END) {
-              stream.cancel();
-              console.log("Game Ended.");
-            }
-            sendMessage(
-              "UpdateManager",
-              "UpdateMessageByJson",
-              JSON.stringify(response.toObject()),
-            );
-          });
-          stream.on("status", (status) => {
-            console.log("Received status from server:", status);
-          });
-          stream.on("error", (error) => {
-            console.error("Error making gRPC call:", error);
-          });
-          stream.on("end", () => {
-            console.log("Server ended streaming connection.");
-          });
+  if (openLocalFile) {
+    if ("launchQueue" in window) {
+      console.log("File Handling API is supported!");
+      (window.launchQueue as any).setConsumer(async (launchParams: any) => {
+        const files = launchParams.files as FileSystemFileHandle[];
+        const fileHandle = files[0];
+        if (
+          fileHandle &&
+          fileHandle.name.endsWith(".thuaipb") &&
+          fileHandle.kind === "file"
+        ) {
+          const file = await fileHandle.getFile();
+          console.log(file);
         } else {
-          console.error("Error making gRPC call:", error);
+          message.error("不支持的文件类型");
+          console.error("Invalid file type!");
+          return <NotImplemented />;
         }
-      },
-    );
-  });
+      });
+      return <NotImplemented />;
+    } else {
+      console.error("File Handling API is not supported!");
+      return <NotImplemented />;
+    }
+  }
 
   return (
     <Layout>
@@ -142,8 +126,8 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
             open={isActive}
             cancelText="再看看"
             centered={true}
-            okText="结束直播"
-            title="离开页面前，请先结束直播"
+            okText="结束回放"
+            title="离开页面前，请先结束回放"
             onOk={async () => {
               await handleQuit();
               onConfirm();
