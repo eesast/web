@@ -69,8 +69,8 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
           ]
         : [],
       onFilter: (value, record) =>
-        record.contest_room_teams[0].contest_team.team_id === value ||
-        record.contest_room_teams[1].contest_team.team_id === value,
+        record.contest_room_teams[0]?.contest_team.team_id === value ||
+        record.contest_room_teams[1]?.contest_team.team_id === value,
       render: (text, record) => {
         return (
           <Text>
