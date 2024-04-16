@@ -66,7 +66,7 @@ permalink: /contest
 - `/arena/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有天梯分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
   - 请求方法：`POST`
   - 请求：在`headers`里传回创建`docker`时设置的`TOKEN`。
-  - 响应：`{result: ContestResult[]}`。
+  - 响应：`{result: ContestResult[]}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
   - 错误：`500`：`undefined`，返回报错信息
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
@@ -126,7 +126,7 @@ permalink: /contest
 - `/competition/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有比赛分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
   - 请求方法：`POST`
   - 请求：在`headers`里传回创建`docker`时设置的`TOKEN`（内部包含`round_id`）。
-  - 响应：`{result: ContestResult[]}`。
+  - 响应：`{result: ContestResult[]}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
   - 错误：`500`：`undefined`，返回报错信息
 - `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
@@ -141,25 +141,26 @@ permalink: /contest
 
 - `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`。
   - 比赛结束后先请求`SCORE_URL`，获取参战队伍在天梯/比赛中的现有分数，请求时需要在`headers`中加上`TOKEN`。
-  - 获得现有分数后，`docker`应当据此计算出本场对战的得分（增量，而非更新后的总分）
+  - 获得现有分数后，`docker` 应当据此计算出本场对战的得分（增量，而非更新后的总分）
   - 完成后再请求`FINISH_URL`，在请求的`body`中传回`result`（即上面计算出的得分），请求时需要在`headers`中加上`TOKEN`。
-- `client`镜像启动时会设置环境变量`TEAM_LABEL` 和 `TEAM_SEQ_ID`，供容器得知该队比赛执方和序号。
+- `client`镜像启动时会设置环境变量`TEAM_LABELS` 和 `TEAM_SEQ_ID`，供容器得知该队比赛执方和序号。
 - 队式 docker 不需要关注 `team_uuid`，这对于队式而言是不可见的，队式 docker 可见的只有 `TEAM_LABEL` 和 `TEAM_SEQ_ID`。
 
 3. `docker`目录绑定。
 
-- 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/output`下，命名为`playback.thuaipb`。如果需要上传日志文件，同样放在此目录下，命名为 `xxx.log` 。
-- 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。对于 `suffix` 的说明：对于 `python` 代码，`suffix` 为 `py`；对于 `cpp` 代码，没有 `suffix`，文件命名就是 `${player_label}`。
+- 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/output`下，命名为`playback.thuaipb`。如果需要上传日志文件，同样放在此目录下，命名为 `xxx.log` 。`TEAM_LABELS`中传入了所有队伍的`label`。
+- 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。对于 `suffix` 的说明：对于 `python` 代码，`suffix` 为 `py`；对于 `cpp` 代码，没有 `suffix`，文件命名就是 `${player_label}`。`TEAM_LABELS`中传入了所有队伍的`label`，`TEAM_SEQ_ID`是当前队伍的序号， `client` 镜像可据此查询到自己是`TEAM_LABELS`中的哪一个，并分配 `-t` 参数。
 
 4. 后端提供的环境变量说明。
 
 - 客户端：
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明比赛 docker 是客户端还是服务器。
-  - `TEAM_LABEL`: 客户端使用。本场比赛的队伍标签。对应 `TeamLabelBind` 中的 `label` 字段。
-  - `TEAM_SEQ_ID`: 客户端使用，标示这是加入比赛的第几支队伍。序号从0开始，对应 `TeamLabelBind` 中的 `label` 字段。
+  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段。顺序与服务端 `TOKEN` 变量的 `ServerToken.team_label_binds` 列表的顺序一致。
+  - `TEAM_SEQ_ID`: 客户端使用，当前客户端的队伍序号，编号从 0 开始，与 `TEAM_LABELS` 的顺序对应。可据此查询到自己是 `TEAM_LABELS` 中的哪一个。客户端可据`TEAM_LABELS` 和 `TEAM_SEQ_ID` 解出自己的 `-t` 参数。
 - 服务端：
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明比赛 docker 是客户端还是服务器。
   - `TOKEN`: 服务端 jwt token。包含信息见附录`ServerToken`。
+  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段。顺序与服务端 `TOKEN` 变量的 `ServerToken.team_label_binds` 列表的顺序一致。服务器可以根据这个变量解出每个队伍的 `-t` 参数。
   - `TIME`: 比赛持续的时间，单位为秒。
   - `MAP_ID`: 地图 id。
   - `SCORE_URL`: 获取当前天梯分数的 url 路径。请求时需带上 `TOKEN`。
@@ -167,16 +168,14 @@ permalink: /contest
 
 ## 附录
 
-#### 数据结构定义
+### 数据结构定义
 
 ```javascript
 interface ContestResult {
-  team_seq_id: number; // 队伍序号，从 0 开始
-  score: number;
+  score: number; // 最新的 score
 };
 
 interface TeamLabelBind {
-  team_seq_id: number;
   team_id: uuid;
   label: string;
 }
