@@ -277,6 +277,9 @@ export class MessageOfWormhole extends jspb.Message {
   getHp(): number;
   setHp(value: number): MessageOfWormhole;
 
+  getId(): number;
+  setId(value: number): MessageOfWormhole;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MessageOfWormhole.AsObject;
   static toObject(includeInstance: boolean, msg: MessageOfWormhole): MessageOfWormhole.AsObject;
@@ -290,6 +293,7 @@ export namespace MessageOfWormhole {
     x: number,
     y: number,
     hp: number,
+    id: number,
   }
 }
 
@@ -408,8 +412,8 @@ export class MessageOfTeam extends jspb.Message {
   getScore(): number;
   setScore(value: number): MessageOfTeam;
 
-  getMoney(): number;
-  setMoney(value: number): MessageOfTeam;
+  getEnergy(): number;
+  setEnergy(value: number): MessageOfTeam;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MessageOfTeam.AsObject;
@@ -424,7 +428,7 @@ export namespace MessageOfTeam {
     teamId: number,
     playerId: number,
     score: number,
-    money: number,
+    energy: number,
   }
 }
 
@@ -542,6 +546,18 @@ export class MessageOfAll extends jspb.Message {
   getBlueTeamScore(): number;
   setBlueTeamScore(value: number): MessageOfAll;
 
+  getRedTeamEnergy(): number;
+  setRedTeamEnergy(value: number): MessageOfAll;
+
+  getBlueTeamEnergy(): number;
+  setBlueTeamEnergy(value: number): MessageOfAll;
+
+  getRedHomeHp(): number;
+  setRedHomeHp(value: number): MessageOfAll;
+
+  getBlueHomeHp(): number;
+  setBlueHomeHp(value: number): MessageOfAll;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MessageOfAll.AsObject;
   static toObject(includeInstance: boolean, msg: MessageOfAll): MessageOfAll.AsObject;
@@ -555,6 +571,10 @@ export namespace MessageOfAll {
     gameTime: number,
     redTeamScore: number,
     blueTeamScore: number,
+    redTeamEnergy: number,
+    blueTeamEnergy: number,
+    redHomeHp: number,
+    blueHomeHp: number,
   }
 }
 
@@ -611,6 +631,28 @@ export namespace MoveRes {
     actualSpeed: number,
     actualAngle: number,
     actSuccess: boolean,
+  }
+}
+
+export class BuildShipRes extends jspb.Message {
+  getActSuccess(): boolean;
+  setActSuccess(value: boolean): BuildShipRes;
+
+  getPlayerId(): number;
+  setPlayerId(value: number): BuildShipRes;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BuildShipRes.AsObject;
+  static toObject(includeInstance: boolean, msg: BuildShipRes): BuildShipRes.AsObject;
+  static serializeBinaryToWriter(message: BuildShipRes, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BuildShipRes;
+  static deserializeBinaryFromReader(message: BuildShipRes, reader: jspb.BinaryReader): BuildShipRes;
+}
+
+export namespace BuildShipRes {
+  export type AsObject = {
+    actSuccess: boolean,
+    playerId: number,
   }
 }
 
@@ -685,6 +727,9 @@ export class MessageOfNews extends jspb.Message {
   getToId(): number;
   setToId(value: number): MessageOfNews;
 
+  getTeamId(): number;
+  setTeamId(value: number): MessageOfNews;
+
   getNewsCase(): MessageOfNews.NewsCase;
 
   serializeBinary(): Uint8Array;
@@ -701,12 +746,13 @@ export namespace MessageOfNews {
     binaryMessage: Uint8Array | string,
     fromId: number,
     toId: number,
+    teamId: number,
   }
 
   export enum NewsCase { 
     NEWS_NOT_SET = 0,
     TEXT_MESSAGE = 1,
-    BINARY_MESSAGE = 4,
+    BINARY_MESSAGE = 2,
   }
 }
 
