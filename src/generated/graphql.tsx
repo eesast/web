@@ -12775,19 +12775,27 @@ export type GetContestPlayersQueryVariables = Exact<{
 
 export type GetContestPlayersQuery = { __typename?: 'query_root', contest_player: Array<{ __typename?: 'contest_player', team_label: string, player_label: string, roles_available: string }> };
 
-export type GetRoomsSubscriptionVariables = Exact<{
+export type GetArenaRoomsSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
+export type GetArenaRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
 
-export type GetRunningRoomsQueryVariables = Exact<{
+export type GetRunningArenaRoomsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetRunningRoomsQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', status: string, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_id: any } }> }> };
+export type GetRunningArenaRoomsQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', status: string, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_id: any } }> }> };
+
+export type GetCompetitionRoomsQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  round_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCompetitionRoomsQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
 
 export type GetRoomInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -14359,10 +14367,10 @@ export type GetContestPlayersQueryHookResult = ReturnType<typeof useGetContestPl
 export type GetContestPlayersLazyQueryHookResult = ReturnType<typeof useGetContestPlayersLazyQuery>;
 export type GetContestPlayersSuspenseQueryHookResult = ReturnType<typeof useGetContestPlayersSuspenseQuery>;
 export type GetContestPlayersQueryResult = Apollo.QueryResult<GetContestPlayersQuery, GetContestPlayersQueryVariables>;
-export const GetRoomsDocument = gql`
-    subscription GetRooms($contest_id: uuid!) {
+export const GetArenaRoomsDocument = gql`
+    subscription GetArenaRooms($contest_id: uuid!) {
   contest_room(
-    where: {contest_id: {_eq: $contest_id}}
+    where: {_and: {contest_id: {_eq: $contest_id}, round_id: {_is_null: true}}}
     order_by: {created_at: desc}
   ) {
     room_id
@@ -14385,31 +14393,31 @@ export const GetRoomsDocument = gql`
     `;
 
 /**
- * __useGetRoomsSubscription__
+ * __useGetArenaRoomsSubscription__
  *
- * To run a query within a React component, call `useGetRoomsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetRoomsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetArenaRoomsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetArenaRoomsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRoomsSubscription({
+ * const { data, loading, error } = useGetArenaRoomsSubscription({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useGetRoomsSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetRoomsSubscription, GetRoomsSubscriptionVariables> & ({ variables: GetRoomsSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetArenaRoomsSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetArenaRoomsSubscription, GetArenaRoomsSubscriptionVariables> & ({ variables: GetArenaRoomsSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetRoomsSubscription, GetRoomsSubscriptionVariables>(GetRoomsDocument, options);
+        return Apollo.useSubscription<GetArenaRoomsSubscription, GetArenaRoomsSubscriptionVariables>(GetArenaRoomsDocument, options);
       }
-export type GetRoomsSubscriptionHookResult = ReturnType<typeof useGetRoomsSubscription>;
-export type GetRoomsSubscriptionResult = Apollo.SubscriptionResult<GetRoomsSubscription>;
-export const GetRunningRoomsDocument = gql`
-    query GetRunningRooms($contest_id: uuid!) {
+export type GetArenaRoomsSubscriptionHookResult = ReturnType<typeof useGetArenaRoomsSubscription>;
+export type GetArenaRoomsSubscriptionResult = Apollo.SubscriptionResult<GetArenaRoomsSubscription>;
+export const GetRunningArenaRoomsDocument = gql`
+    query GetRunningArenaRooms($contest_id: uuid!) {
   contest_room(
-    where: {_and: {contest_id: {_eq: $contest_id}, status: {_in: ["Waiting", "Running"]}}}
+    where: {_and: {contest_id: {_eq: $contest_id}, round_id: {_is_null: true}, status: {_in: ["Waiting", "Running"]}}}
   ) {
     status
     created_at
@@ -14423,37 +14431,95 @@ export const GetRunningRoomsDocument = gql`
     `;
 
 /**
- * __useGetRunningRoomsQuery__
+ * __useGetRunningArenaRoomsQuery__
  *
- * To run a query within a React component, call `useGetRunningRoomsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRunningRoomsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetRunningArenaRoomsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRunningArenaRoomsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRunningRoomsQuery({
+ * const { data, loading, error } = useGetRunningArenaRoomsQuery({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useGetRunningRoomsQuery(baseOptions: Apollo.QueryHookOptions<GetRunningRoomsQuery, GetRunningRoomsQueryVariables> & ({ variables: GetRunningRoomsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetRunningArenaRoomsQuery(baseOptions: Apollo.QueryHookOptions<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables> & ({ variables: GetRunningArenaRoomsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>(GetRunningRoomsDocument, options);
+        return Apollo.useQuery<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>(GetRunningArenaRoomsDocument, options);
       }
-export function useGetRunningRoomsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>) {
+export function useGetRunningArenaRoomsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>(GetRunningRoomsDocument, options);
+          return Apollo.useLazyQuery<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>(GetRunningArenaRoomsDocument, options);
         }
-export function useGetRunningRoomsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>) {
+export function useGetRunningArenaRoomsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>(GetRunningRoomsDocument, options);
+          return Apollo.useSuspenseQuery<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>(GetRunningArenaRoomsDocument, options);
         }
-export type GetRunningRoomsQueryHookResult = ReturnType<typeof useGetRunningRoomsQuery>;
-export type GetRunningRoomsLazyQueryHookResult = ReturnType<typeof useGetRunningRoomsLazyQuery>;
-export type GetRunningRoomsSuspenseQueryHookResult = ReturnType<typeof useGetRunningRoomsSuspenseQuery>;
-export type GetRunningRoomsQueryResult = Apollo.QueryResult<GetRunningRoomsQuery, GetRunningRoomsQueryVariables>;
+export type GetRunningArenaRoomsQueryHookResult = ReturnType<typeof useGetRunningArenaRoomsQuery>;
+export type GetRunningArenaRoomsLazyQueryHookResult = ReturnType<typeof useGetRunningArenaRoomsLazyQuery>;
+export type GetRunningArenaRoomsSuspenseQueryHookResult = ReturnType<typeof useGetRunningArenaRoomsSuspenseQuery>;
+export type GetRunningArenaRoomsQueryResult = Apollo.QueryResult<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>;
+export const GetCompetitionRoomsDocument = gql`
+    query GetCompetitionRooms($contest_id: uuid!, $round_id: uuid!) {
+  contest_room(
+    where: {_and: {contest_id: {_eq: $contest_id}, round_id: {_eq: $round_id}}}
+    order_by: {created_at: desc}
+  ) {
+    room_id
+    status
+    port
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_leader {
+          realname
+        }
+      }
+      score
+      team_label
+      player_roles
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCompetitionRoomsQuery__
+ *
+ * To run a query within a React component, call `useGetCompetitionRoomsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCompetitionRoomsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCompetitionRoomsQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      round_id: // value for 'round_id'
+ *   },
+ * });
+ */
+export function useGetCompetitionRoomsQuery(baseOptions: Apollo.QueryHookOptions<GetCompetitionRoomsQuery, GetCompetitionRoomsQueryVariables> & ({ variables: GetCompetitionRoomsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCompetitionRoomsQuery, GetCompetitionRoomsQueryVariables>(GetCompetitionRoomsDocument, options);
+      }
+export function useGetCompetitionRoomsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCompetitionRoomsQuery, GetCompetitionRoomsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCompetitionRoomsQuery, GetCompetitionRoomsQueryVariables>(GetCompetitionRoomsDocument, options);
+        }
+export function useGetCompetitionRoomsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCompetitionRoomsQuery, GetCompetitionRoomsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCompetitionRoomsQuery, GetCompetitionRoomsQueryVariables>(GetCompetitionRoomsDocument, options);
+        }
+export type GetCompetitionRoomsQueryHookResult = ReturnType<typeof useGetCompetitionRoomsQuery>;
+export type GetCompetitionRoomsLazyQueryHookResult = ReturnType<typeof useGetCompetitionRoomsLazyQuery>;
+export type GetCompetitionRoomsSuspenseQueryHookResult = ReturnType<typeof useGetCompetitionRoomsSuspenseQuery>;
+export type GetCompetitionRoomsQueryResult = Apollo.QueryResult<GetCompetitionRoomsQuery, GetCompetitionRoomsQueryVariables>;
 export const GetRoomInfoDocument = gql`
     subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(
