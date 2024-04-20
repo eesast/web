@@ -5,13 +5,13 @@
   "author": "EESAST",
   "private": true,
   "dependencies": {
-    "@ant-design/pro-components": "2.7.0",
+    "@ant-design/pro-components": "2.7.1",
     "@apollo/client": "3.9.11",
-    "antd": "5.16.1",
+    "antd": "5.16.2",
     "axios": "1.6.8",
-    "cos-js-sdk-v5": "1.7.0",
+    "cos-js-sdk-v5": "1.7.1",
     "dayjs": "1.11.10",
-    "docxtemplater": "3.46.2",
+    "docxtemplater": "3.47.0",
     "dotenv": "16.4.5",
     "file-saver": "2.0.5",
     "google-protobuf": "3.21.2",
@@ -37,13 +37,13 @@
     "@graphql-codegen/cli": "5.0.2",
     "@graphql-codegen/typescript-operations": "4.2.0",
     "@graphql-codegen/typescript-react-apollo": "4.3.0",
-    "@playwright/test": "1.43.0",
+    "@playwright/test": "1.43.1",
     "@types/file-saver": "2.0.7",
     "@types/is-url": "1.2.32",
     "@types/lodash.get": "4.4.9",
     "@types/node": "20.12.7",
     "@types/pizzip": "3.0.5",
-    "@types/react": "18.2.76",
+    "@types/react": "18.2.79",
     "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.2.25",
     "@types/react-router-dom": "5.3.3",
@@ -63,7 +63,7 @@
     "webpackbar": "6.0.1"
   },
   "peerDependencies": {
-    "electron": "29.3.0",
+    "electron": "30.0.1",
     "electron-builder": "24.13.3"
   },
   "resolutions": {
