@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { RpcError } from "grpc-web";
-import { AvailableServiceClient } from "@/generated/grpc-web/THUAI7/ServicesServiceClientPb";
-import * as MessageType from "@/generated/grpc-web/THUAI7/MessageType_pb";
-import * as Message2Clients from "@/generated/grpc-web/THUAI7/Message2Clients_pb";
-import * as Message2Server from "@/generated/grpc-web/THUAI7/Message2Server_pb";
+import { AvailableServiceClient } from "@/generated/grpc-web/THUAI6/ServicesServiceClientPb";
+import * as MessageType from "@/generated/grpc-web/THUAI6/MessageType_pb";
+import * as Message2Clients from "@/generated/grpc-web/THUAI6/Message2Clients_pb";
+import * as Message2Server from "@/generated/grpc-web/THUAI6/Message2Server_pb";
 import { FloatButton, Layout, Modal, Progress, Row } from "antd";
 import { ArrowsAltOutlined } from "@ant-design/icons";
 import React from "react";
@@ -62,6 +62,8 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
     }
   };
 
+  const [message, setMessage] = React.useState<string>("");
+
   useEffect(() => {
     const client = new AvailableServiceClient(streamUrl);
     const request = new Message2Server.IDMsg();
@@ -76,16 +78,12 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
           spectator.setPlayerId(2024);
           const stream = client.addPlayer(spectator, {});
           stream.on("data", (response) => {
-            console.log("Received message from server:", response.toObject());
             if (response.getGameState() === MessageType.GameState.GAME_END) {
               stream.cancel();
               console.log("Game Ended.");
             }
-            sendMessage(
-              "UpdateManager",
-              "UpdateMessageByJson",
-              JSON.stringify(response.toObject()),
-            );
+            setMessage(JSON.stringify(response.toObject()));
+            console.log("Received data from server");
           });
           stream.on("status", (status) => {
             console.log("Received status from server:", status);
@@ -101,6 +99,13 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
         }
       },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded && message.length > 0) {
+      sendMessage("UpdateManager", "UpdateMessageByJson", message);
+    }
   });
 
   return (
