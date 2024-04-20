@@ -12657,12 +12657,12 @@ export type GetContestNameQueryVariables = Exact<{
 
 export type GetContestNameQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', name: string } | null };
 
-export type GetContestSwitchSubscriptionVariables = Exact<{
+export type GetContestSwitchQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestSwitchSubscription = { __typename?: 'subscription_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, team_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
+export type GetContestSwitchQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, team_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
 
 export type GetContestManagersQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13804,7 +13804,7 @@ export type GetContestNameLazyQueryHookResult = ReturnType<typeof useGetContestN
 export type GetContestNameSuspenseQueryHookResult = ReturnType<typeof useGetContestNameSuspenseQuery>;
 export type GetContestNameQueryResult = Apollo.QueryResult<GetContestNameQuery, GetContestNameQueryVariables>;
 export const GetContestSwitchDocument = gql`
-    subscription GetContestSwitch($contest_id: uuid!) {
+    query GetContestSwitch($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {
     code_upload_switch
     team_switch
@@ -13817,27 +13817,37 @@ export const GetContestSwitchDocument = gql`
     `;
 
 /**
- * __useGetContestSwitchSubscription__
+ * __useGetContestSwitchQuery__
  *
- * To run a query within a React component, call `useGetContestSwitchSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetContestSwitchSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetContestSwitchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContestSwitchQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetContestSwitchSubscription({
+ * const { data, loading, error } = useGetContestSwitchQuery({
  *   variables: {
  *      contest_id: // value for 'contest_id'
  *   },
  * });
  */
-export function useGetContestSwitchSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetContestSwitchSubscription, GetContestSwitchSubscriptionVariables> & ({ variables: GetContestSwitchSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetContestSwitchQuery(baseOptions: Apollo.QueryHookOptions<GetContestSwitchQuery, GetContestSwitchQueryVariables> & ({ variables: GetContestSwitchQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetContestSwitchSubscription, GetContestSwitchSubscriptionVariables>(GetContestSwitchDocument, options);
+        return Apollo.useQuery<GetContestSwitchQuery, GetContestSwitchQueryVariables>(GetContestSwitchDocument, options);
       }
-export type GetContestSwitchSubscriptionHookResult = ReturnType<typeof useGetContestSwitchSubscription>;
-export type GetContestSwitchSubscriptionResult = Apollo.SubscriptionResult<GetContestSwitchSubscription>;
+export function useGetContestSwitchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContestSwitchQuery, GetContestSwitchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContestSwitchQuery, GetContestSwitchQueryVariables>(GetContestSwitchDocument, options);
+        }
+export function useGetContestSwitchSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestSwitchQuery, GetContestSwitchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContestSwitchQuery, GetContestSwitchQueryVariables>(GetContestSwitchDocument, options);
+        }
+export type GetContestSwitchQueryHookResult = ReturnType<typeof useGetContestSwitchQuery>;
+export type GetContestSwitchLazyQueryHookResult = ReturnType<typeof useGetContestSwitchLazyQuery>;
+export type GetContestSwitchSuspenseQueryHookResult = ReturnType<typeof useGetContestSwitchSuspenseQuery>;
+export type GetContestSwitchQueryResult = Apollo.QueryResult<GetContestSwitchQuery, GetContestSwitchQueryVariables>;
 export const GetContestManagersDocument = gql`
     query GetContestManagers($contest_id: uuid!) {
   contest_by_pk(id: $contest_id) {

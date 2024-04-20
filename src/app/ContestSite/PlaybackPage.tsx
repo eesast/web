@@ -26,7 +26,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   });
 
   const { data: contestSwitchData, error: contestSwitchError } =
-    graphql.useGetContestSwitchSubscription({
+    graphql.useGetContestSwitchQuery({
       variables: {
         contest_id: Contest_id,
       },
