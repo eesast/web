@@ -82,7 +82,8 @@ const THUAI6: React.FC<StreamProps> = ({ streamUrl }) => {
         }
       },
     );
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const canvasRef = React.useRef(null);
   const h = 50;
