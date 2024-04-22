@@ -26,7 +26,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   });
 
   const { data: contestSwitchData, error: contestSwitchError } =
-    graphql.useGetContestSwitchSubscription({
+    graphql.useGetContestSwitchQuery({
       variables: {
         contest_id: Contest_id,
       },
@@ -39,10 +39,12 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   });
 
   const Playback = () => {
-    if (contestNameData?.contest_by_pk?.name === "THUAI6") return <THUAI6 />;
-    else if (contestNameData?.contest_by_pk?.name === "THUAI7")
+    const contestName = contestNameData?.contest_by_pk?.name;
+    if (contestName === "THUAI6") {
+      return <THUAI6 />;
+    } else if (contestName === "THUAI7") {
       return <THUAI7 />;
-    else return <NotImplemented />;
+    } else return <NotImplemented />;
   };
 
   return contestSwitchData ? (
