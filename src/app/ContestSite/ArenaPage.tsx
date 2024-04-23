@@ -1,13 +1,9 @@
 import React, { useEffect, useState, Suspense } from "react";
 import {
-  Table,
   Tooltip,
-  Button,
   message,
   Divider,
-  Dropdown,
   Form,
-  Menu,
   Modal,
   Input,
   Layout,
@@ -16,18 +12,13 @@ import {
   Card,
   Col,
   Select,
-  Spin,
   Typography,
 } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import { DownOutlined, SearchOutlined } from "@ant-design/icons";
-import type { TableProps } from "antd/lib/table";
+import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
-import dayjs from "dayjs";
-import styled from "styled-components";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import { MenuProps } from "antd/lib";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
