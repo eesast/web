@@ -20,7 +20,7 @@ permalink: /cos
 - 天梯日志：`${name}/arena/${room_id}/${room_id}.log`
 - 后台比赛回放：`${name}/competition/${round_id}/${room_id}/${room_id}.thuaipb`
 - 后台比赛日志：`${name}/competition/${round_id}/${room_id}/${room_id}.log`
-- 地图：`${name}/map/${map_id}/${map_id}.txt`
+- 地图：`${name}/map/${map_id}.txt`
 
 ### Info页面相关文件
 
