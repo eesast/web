@@ -155,6 +155,7 @@ permalink: /contest
   - `PORT`: 服务器开放的端口，客户端需通过此端口加入服务器的比赛。
 - 服务端：
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
+  - `MODE`: 判断当前比赛是天梯还是最终比赛。取值为 `ARENA` （天梯）或者 `COMPETITION`（决赛）。
   - `TOKEN`: 服务端验证身份的 token。发送请求时需带上。
   - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段，位序对应客户端 `TEAM_SEQ_ID` 的顺序，也对应 `SCORE_URL` 和 `FINISH_URL` 的分数信息 `ContestResult[]` 的顺序。
   - `TIME`: 比赛持续的时间，单位为秒。
