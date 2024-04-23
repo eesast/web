@@ -1,32 +1,50 @@
 import React, { useEffect, useState, Suspense } from "react";
 import {
   Table,
+  Tooltip,
   Button,
   message,
+  Divider,
   Dropdown,
+  Form,
   Menu,
+  Modal,
   Input,
   Layout,
+  List,
   Row,
+  Card,
   Col,
+  Select,
+  Spin,
   Typography,
 } from "antd";
+import { Content } from "antd/lib/layout/layout";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import type { TableProps } from "antd/lib/table";
 import axios from "axios";
 import dayjs from "dayjs";
+import styled from "styled-components";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { MenuProps } from "antd/lib";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
+interface TeamLabelBind {
+  team_id: string;
+  label: string;
+}
+const { Option } = Select;
+
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 /* ---------------- 主页面 ---------------- */
 const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  const [runForm] = Form.useForm();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [opponentTeamId, setOpponentTeamId] = useState("");
   const [associatedValue, setAssociatedValue] = useState("");
   const [filterParamList, setFilterParamList] = useState<
@@ -49,7 +67,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: teamData } = graphql.useGetTeamQuery({
+  const { data: teamData, error: teamDataError } = graphql.useGetTeamQuery({
     variables: {
       user_uuid: user.uuid,
       contest_id: Contest_id,
@@ -68,9 +86,21 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
+
+  const { data: contestMapData, error: contestMapError } =
+    graphql.useGetContestMapsQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+
+  const rawTeamLabels = contestMapData?.contest_map[0]?.team_labels;
+  // 将JSON字符串转换为数组
+  const teamLabels = rawTeamLabels ? JSON.parse(rawTeamLabels) : [];
+
   //开启对战
-  const [insertRoom, { error: insertRoomError }] =
-    graphql.useInsertRoomMutation();
+  //const [insertRoom, { error: insertRoomError }] =
+  // graphql.useInsertRoomMutation();
 
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
@@ -94,12 +124,26 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
+  // useEffect(() => {
+  //   if (insertRoomError) {
+  //     message.error("发起对战失败");
+  //     console.log(insertRoomError.message);
+  //   }
+  // });
+
   useEffect(() => {
-    if (insertRoomError) {
-      message.error("发起对战失败");
-      console.log(insertRoomError.message);
+    if (teamDataError) {
+      message.error("队伍信息获取失败");
+      console.log(teamDataError.message);
     }
   });
+
+  useEffect(() => {
+    if (contestMapError) {
+      message.error("比赛地图加载失败");
+      console.log(contestMapError.message);
+    }
+  }, [contestMapError]);
   //搜索模块
   useEffect(() => {
     if (associatedValue !== "") {
@@ -119,33 +163,45 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   /* ---------------- 业务逻辑函数 ---------------- */
   //开启对战逻辑
-  const fight = (map: number, team: boolean) => {
+  const fight = (label_us: string, label_opponent: string, map_id: string) => {
+    const teamLabels: TeamLabelBind[] = [
+      {
+        team_id: team_id,
+        label: label_us,
+      },
+      {
+        team_id: opponentTeamId,
+        label: label_opponent,
+      },
+    ];
     roomStatusRefetch();
     console.log("Room Number:", roomStatusData?.contest_room.length);
     if (
       roomStatusData?.contest_room.length &&
-      roomStatusData?.contest_room.length >= 10
+      roomStatusData?.contest_room.length >= 6
     ) {
       message.warning("当前正在进行的比赛过多，请稍后再试");
       return;
     }
     (async () => {
       try {
-        const roomId = await insertRoom({
-          variables: {
-            contest_id: Contest_id,
-            team1_id: team_id,
-            team2_id: opponentTeamId,
-            created_at: dayjs()!,
-          },
+        //  await insertRoom({
+        //   variables: {
+        //     contest_id: Contest_id,
+        //     team1_id: team_id,
+        //     team2_id: opponentTeamId,
+        //     created_at: dayjs()!,
+        //   },
+        // });
+        await axios.post("/arena/create", {
+          contest_name: contestData?.contest_by_pk?.name,
+          team_labels: teamLabels,
+          map_id: map_id,
+          //room_id: roomId.data?.insert_contest_room_one?.room_id,
+          //team_seq: team, // 一个是红队还是蓝队的标记
+          //exposed: 1,
         });
-        await axios.post("room", {
-          contest_id: Contest_id,
-          map: map,
-          room_id: roomId.data?.insert_contest_room_one?.room_id,
-          team_seq: team, // 一个是红队还是蓝队的标记
-          exposed: 1,
-        });
+
         message.success("已发起对战！");
         message.info("如需观战，可查看记录页面的端口号");
       } catch (e) {
@@ -156,99 +212,32 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
-  const teamListColumns: TableProps<
-    graphql.GetAllTeamInfoSubscription["contest_team"][0]
-  >["columns"] = [
-    {
-      title: "队名",
-      dataIndex: "team_name",
-      key: "team_name",
-    },
-    {
-      title: "队长",
-      key: "team_leader",
-      render: (text, record) => record.team_leader?.realname,
-    },
-    {
-      title: "队员",
-      key: "team_member",
-      render: (text, record) =>
-        record.contest_team_members.map((i) => [i.user.realname + "   "]),
-    },
-    {
-      title: "队伍简介",
-      dataIndex: "team_intro",
-      key: "team_intro",
-      ellipsis: true,
-    },
-    {
-      title: "分数",
-      dataIndex: "score",
-      key: "score",
-      sorter: (a, b) =>
-        a.status === "compiled"
-          ? b.status === "compiled"
-            ? Number(a.score) - Number(b.score)
-            : 1
-          : -1,
-      defaultSortOrder: "descend",
-    },
-    {
-      title: "对战",
-      key: "fight",
-      filters: [
-        {
-          text: "已编译代码的队伍",
-          value: "compiled",
-        },
-      ],
-      onFilter: (value, record) => record.status === value,
-      render: (text, record) => (
-        <Dropdown
-          menu={map_menu as MenuProps}
-          trigger={["click"]}
-          disabled={
-            team_id === record.team_id ||
-            record.status !== "compiled" ||
-            contestData?.contest_by_pk?.status.slice(2, 3) !== "1"
-          }
-        >
-          <Button
-            className="ant-dropdown-link"
-            onClick={() => {
-              setOpponentTeamId(record.team_id);
-            }}
-          >
-            开战！ <DownOutlined />
-          </Button>
-        </Dropdown>
-      ),
-    },
-  ];
-
-  const map_menu = (
-    <Menu>
-      <Menu.Item
-        key="0"
-        onClick={() => {
-          fight(0, false);
-        }}
-      >
-        我选学生
-      </Menu.Item>
-      <Menu.Item
-        key="1"
-        onClick={() => {
-          fight(0, true);
-        }}
-      >
-        我选TRICKER
-      </Menu.Item>
-    </Menu>
-  );
-
   /* ---------------- 页面组件 ---------------- */
 
+  const getColorByRank = (rank: number) => {
+    switch (rank) {
+      case 1:
+        return "#FFD700"; // 金色
+      case 2:
+        return "#C0C0C0"; // 银色
+      case 3:
+        return "#CD7F32"; // 铜色
+      default:
+        return "#E6E1E1"; // 默认颜色，例如黑色
+    }
+  };
+  const getSizeByRank = (rank: number) => {
+    switch (rank) {
+      case 1:
+        return "120px";
+      case 2:
+        return "105px";
+      case 3:
+        return "90px";
+      default:
+        return "75px";
+    }
+  };
   return (
     <Layout>
       <br />
@@ -275,7 +264,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             onChange={(e) => {
               setAssociatedValue(e.target.value?.trim());
             }}
-            placeholder="  队伍名称 / 队长"
+            placeholder="队伍名称 / 队长"
             allowClear
             prefix={<SearchOutlined />}
           ></Input>
@@ -286,17 +275,185 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={2}></Col>
         <Col span={20}>
           <Suspense fallback={<Loading />}>
-            <Table
-              //loading={scoreteamListLoading}
+            <List
+              itemLayout="horizontal"
               dataSource={
                 filterParamList as graphql.GetAllTeamInfoSubscription["contest_team"]
               }
-              columns={teamListColumns}
-              rowKey={(record) => record.team_id}
-            ></Table>
+              renderItem={(item, index) => (
+                <Content style={{ marginBottom: "20px" }}>
+                  <Tooltip title="点击开战" placement="topRight">
+                    <Card
+                      style={{ width: "100%", height: "150px" }}
+                      styles={{
+                        body: { paddingTop: "30px" },
+                      }}
+                      hoverable
+                      onClick={() => {
+                        setIsModalVisible(true);
+                        setOpponentTeamId(item.team_id);
+                      }}
+                    >
+                      <Row
+                        gutter={4}
+                        align="middle"
+                        style={{ width: "100%", height: "100%" }}
+                      >
+                        <Col span={3}>
+                          <Typography.Text
+                            style={{
+                              display: "block",
+                              fontFamily: "Roboto",
+                              fontSize: getSizeByRank(index + 1), //文本大小
+                              fontWeight: "bold",
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                              textOverflow: "ellipsis",
+                              color: getColorByRank(index + 1), // 文本颜色
+                              lineHeight: "90px",
+                              textShadow: "5px 5px 0 #666, 7px 7px 0 #eee",
+                              textAlign: "center",
+                              opacity: 0.9,
+                            }}
+                          >
+                            {index + 1}
+                          </Typography.Text>
+                        </Col>
+                        <Col span={14}>
+                          <Row style={{ marginBottom: "20px" }} gutter={4}>
+                            <Col
+                              span={9}
+                              style={{
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              <Typography.Text
+                                style={{ fontSize: "20px", fontWeight: "bold" }}
+                              >
+                                队名：{item.team_name}
+                              </Typography.Text>
+                            </Col>
+                            <Col
+                              span={8}
+                              style={{
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              <Typography.Text
+                                style={{ fontSize: "20px", fontWeight: "bold" }}
+                              >
+                                队员：
+                                {[
+                                  ...new Set([
+                                    item.team_leader?.realname,
+                                    ...item.contest_team_members.map(
+                                      (i) => i.user?.realname,
+                                    ),
+                                  ]),
+                                ]
+                                  .filter(Boolean)
+                                  .join(", ")}
+                              </Typography.Text>
+                            </Col>
+                          </Row>
+                          <Divider />
+                          <Row gutter={4} style={{ marginBottom: "0px" }}>
+                            <Col
+                              span={14}
+                              style={{
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              <Typography.Text style={{ fontSize: "16px" }}>
+                                队伍简介：{item.team_intro}
+                              </Typography.Text>
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col span={6}>
+                          <Typography.Text
+                            style={{
+                              display: "block",
+                              fontSize: "30px",
+                              fontWeight: "bold",
+                              textAlign: "center",
+                            }}
+                          >
+                            分数：{item.score}
+                          </Typography.Text>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </Tooltip>
+                </Content>
+              )}
+            />
           </Suspense>
         </Col>
       </Row>
+      <Modal
+        open={isModalVisible}
+        title="发起对战"
+        centered
+        okText="对战！"
+        maskClosable={false}
+        onCancel={() => {
+          setIsModalVisible(false);
+          runForm.resetFields();
+        }}
+        onOk={() => {
+          const player = runForm.getFieldValue("round_player");
+          const mapId = runForm.getFieldValue("map_id");
+          const otherPlayers = teamLabels.filter(
+            (label: string) => label !== player,
+          );
+          const opponent = otherPlayers.length > 0 ? otherPlayers[0] : null; // Take the first available player as opponent
+          fight(player, opponent, mapId);
+        }}
+        destroyOnClose
+      >
+        <Form
+          form={runForm}
+          name="battle"
+          onFinishFailed={(errorInfo: any) => {
+            console.log("Failed:", errorInfo);
+          }}
+          preserve={false}
+        >
+          <Form.Item
+            name="map_id"
+            label="比赛地图"
+            rules={[{ required: true, message: "请选择比赛地图" }]}
+          >
+            <Select style={{ width: "40%" }} allowClear>
+              {contestMapData?.contest_map.map((map) => (
+                <Option key={map.map_id} value={map.map_id}>
+                  {map.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="round_player"
+            label="比赛角色"
+            rules={[{ required: true, message: "请选择比赛角色" }]}
+          >
+            <Select style={{ width: "40%" }} allowClear>
+              {teamLabels?.map((label: string, index: number) => (
+                <Option key={index} value={label}>
+                  {label}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
     </Layout>
   );
 };
