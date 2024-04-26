@@ -67,6 +67,24 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
 
+  const { data: teamCodesData, error: teamCodesError } =
+    graphql.useGetTeamCodesSubscription({
+      variables: {
+        team_id: team_id,
+      },
+    });
+
+  const { data: contestPlayersData } = graphql.useGetContestPlayersQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+
+  const { data: teamPlayersData } = graphql.useGetTeamPlayersSubscription({
+    variables: {
+      team_id: team_id,
+    },
+  });
   //获取正在比赛的room信息
   const {
     data: roomStatusData,
@@ -85,6 +103,19 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
+  // const { data: teamCodesDataOpp } = graphql.useGetTeamCodesSubscription({
+  //   variables:{
+  //     team_id: opponentTeamId,
+  //   }
+  // })
+  // const { data: teamPlayersDataOpp } = graphql.useGetTeamPlayersSubscription({
+  //   variables:{
+  //     team_id: opponentTeamId,
+  //   }
+  // })
+  const [updataPlayerCodes, { error: updatePlayerError }] =
+    graphql.useUpdateTeamPlayerMutation();
+
   const rawTeamLabels = contestMapData?.contest_map[0]?.team_labels;
   // 将JSON字符串转换为数组
   const teamLabels = rawTeamLabels ? JSON.parse(rawTeamLabels) : [];
@@ -94,6 +125,13 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   // graphql.useInsertRoomMutation();
 
   /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (updatePlayerError) {
+      message.error("角色代码更新失败");
+      console.log(updatePlayerError.message);
+    }
+  });
+
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
@@ -115,13 +153,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  // useEffect(() => {
-  //   if (insertRoomError) {
-  //     message.error("发起对战失败");
-  //     console.log(insertRoomError.message);
-  //   }
-  // });
-
   useEffect(() => {
     if (teamDataError) {
       message.error("队伍信息获取失败");
@@ -130,11 +161,29 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   });
 
   useEffect(() => {
+    if (teamCodesError) {
+      message.error("队伍代码加载失败");
+      console.log(teamCodesError.message);
+    }
+  }, [teamCodesError]);
+
+  useEffect(() => {
     if (contestMapError) {
       message.error("比赛地图加载失败");
       console.log(contestMapError.message);
     }
   }, [contestMapError]);
+
+  const initialValues: { [key: string]: string } = {};
+  contestPlayersData?.contest_player.forEach((player) => {
+    const defaultCode = teamPlayersData?.contest_team_player.find(
+      (code) => code.player === player.player_label,
+    );
+    if (defaultCode && defaultCode.player_code) {
+      initialValues[`code_version_${player.player_label}`] =
+        defaultCode.player_code.code_id;
+    }
+  });
   //搜索模块
   useEffect(() => {
     if (associatedValue !== "") {
@@ -153,6 +202,22 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [associatedValue, scoreteamListData?.contest_team]);
 
   /* ---------------- 业务逻辑函数 ---------------- */
+  //检查对手队伍是否满足对战条件
+  // const checkCodesCompiled=()=>{
+  //   if(!teamPlayersDataOpp?.contest_team_player||teamPlayersDataOpp.contest_team_player.length<5)
+  //     return false
+  //   if(!teamCodesDataOpp?.contest_team_code)
+  //     return false
+  //   teamPlayersDataOpp?.contest_team_player.forEach(player => {
+  //     const code_id = player?.player_code?.code_id;
+  //     if(!code_id)
+  //       return false;
+  //     if(!(teamCodesDataOpp?.contest_team_code.find(code => code.code_id === code_id)?.compile_status === "No Need"||"Waiting")){
+  //       return false;
+  //     }
+  //   })
+  //   return true;
+  // }
   //开启对战逻辑
   const fight = (label_us: string, label_opponent: string, map_id: string) => {
     const teamLabels: TeamLabelBind[] = [
@@ -176,23 +241,11 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
     (async () => {
       try {
-        //  await insertRoom({
-        //   variables: {
-        //     contest_id: Contest_id,
-        //     team1_id: team_id,
-        //     team2_id: opponentTeamId,
-        //     created_at: dayjs()!,
-        //   },
-        // });
         await axios.post("/arena/create", {
           contest_name: contestData?.contest_by_pk?.name,
           team_labels: teamLabels,
           map_id: map_id,
-          //room_id: roomId.data?.insert_contest_room_one?.room_id,
-          //team_seq: team, // 一个是红队还是蓝队的标记
-          //exposed: 1,
         });
-
         message.success("已发起对战！");
         message.info("如需观战，可查看记录页面的端口号");
       } catch (e) {
@@ -229,6 +282,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         return "75px";
     }
   };
+
   return (
     <Layout>
       <br />
@@ -281,8 +335,15 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                       }}
                       hoverable
                       onClick={() => {
-                        setIsModalVisible(true);
                         setOpponentTeamId(item.team_id);
+                        if (1) {
+                          setIsModalVisible(true);
+                        } else {
+                          message.info(
+                            "该队伍代码未编译通过或角色未分配代码，请选择其他队伍",
+                          );
+                        }
+                        runForm.setFieldsValue(initialValues);
                       }}
                     >
                       <Row
@@ -310,7 +371,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                             {index + 1}
                           </Typography.Text>
                         </Col>
-                        <Col span={14}>
+                        <Col span={15}>
                           <Row style={{ marginBottom: "20px" }} gutter={4}>
                             <Col
                               span={9}
@@ -367,7 +428,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                             </Col>
                           </Row>
                         </Col>
-                        <Col span={6}>
+                        <Col span={5}>
                           <Typography.Text
                             style={{
                               display: "block",
@@ -399,23 +460,44 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           runForm.resetFields();
         }}
         onOk={() => {
-          const player = runForm.getFieldValue("round_player");
-          const mapId = runForm.getFieldValue("map_id");
-          const otherPlayers = teamLabels.filter(
-            (label: string) => label !== player,
-          );
-          const opponent = otherPlayers.length > 0 ? otherPlayers[0] : null; // Take the first available player as opponent
-          fight(player, opponent, mapId);
+          runForm.submit();
         }}
         destroyOnClose
       >
         <Form
           form={runForm}
           name="battle"
+          onFinish={(values) => {
+            const player = runForm.getFieldValue("round_player");
+            const mapId = runForm.getFieldValue("map_id");
+            const otherPlayers = teamLabels.filter(
+              (label: string) => label !== player,
+            );
+            const opponent = otherPlayers.length > 0 ? otherPlayers[0] : null; // Take the first available player as opponent
+            contestPlayersData?.contest_player.forEach((player) => {
+              const code_id = runForm.getFieldValue(
+                `code_version_${player.player_label}`,
+              );
+              if (code_id) {
+                updataPlayerCodes({
+                  variables: {
+                    team_id: team_id,
+                    player: player.player_label,
+                    code_id: teamCodesData?.contest_team_code?.find(
+                      (code) => code.code_id === code_id,
+                    )?.code_id!,
+                    role: teamPlayersData?.contest_team_player?.find(
+                      (code) => code.player === player.player_label,
+                    )?.role!,
+                  },
+                });
+              }
+            });
+            fight(player, opponent, mapId);
+          }}
           onFinishFailed={(errorInfo: any) => {
             console.log("Failed:", errorInfo);
           }}
-          preserve={false}
         >
           <Form.Item
             name="map_id"
@@ -443,6 +525,28 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
               ))}
             </Select>
           </Form.Item>
+          {contestPlayersData?.contest_player.map((player, index) => (
+            <Form.Item
+              key={index}
+              name={`code_version_${player.player_label}`}
+              label={`为 ${player.player_label} 选择代码`}
+              rules={[
+                {
+                  required: true,
+                  message: `为 ${player.player_label} 选择代码`,
+                },
+              ]}
+            >
+              <Select allowClear>
+                {teamCodesData?.contest_team_code.map((code, idx) => (
+                  <Option
+                    key={idx}
+                    value={code.code_id}
+                  >{`${code.code_name}`}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+          ))}
         </Form>
       </Modal>
     </Layout>
