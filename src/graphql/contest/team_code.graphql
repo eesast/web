@@ -85,6 +85,7 @@ subscription GetTeamPlayers($team_id: uuid!) {
   contest_team_player(where: { team_id: { _eq: $team_id } }) {
     player
     player_code {
+      code_id
       code_name
       language
       created_at

@@ -13022,7 +13022,7 @@ export type GetTeamPlayersSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_name: string, language: string, created_at: any } | null }> };
+export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, created_at: any } | null }> };
 
 export type AddContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -15716,6 +15716,7 @@ export const GetTeamPlayersDocument = gql`
   contest_team_player(where: {team_id: {_eq: $team_id}}) {
     player
     player_code {
+      code_id
       code_name
       language
       created_at
