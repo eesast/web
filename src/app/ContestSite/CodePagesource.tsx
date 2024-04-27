@@ -9,7 +9,7 @@ import {
   Button,
   message,
   Upload,
-  Tag,
+  // Tag,
   Layout,
   Row,
   Col,
@@ -21,32 +21,32 @@ import type { GetRef, InputRef } from "antd";
 import {
   UploadOutlined,
   DownloadOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  LoadingOutlined,
-  QuestionOutlined,
+  // CheckCircleOutlined,
+  // CloseCircleOutlined,
+  // LoadingOutlined,
+  // QuestionOutlined,
   CodeOutlined,
 } from "@ant-design/icons";
 import { uploadFile, downloadFile, deleteFile, existFile } from "../../api/cos";
 import type { TableProps } from "antd/lib/table";
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-import dayjs from "dayjs";
+//import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { __InputValue } from "graphql";
-import { ColumnType } from "antd/es/table";
+//import { ColumnType } from "antd/es/table";
 import { FormInstance } from "antd/lib";
 /* ---------------- 接口和类型定义 ---------------- */
-interface Playerprops {
-  key: number;
-  name: string;
-  updatetime: string;
-  filelist: UploadFile[];
-}
+// interface Playerprops {
+//   key: number;
+//   name: string;
+//   updatetime: string;
+//   filelist: UploadFile[];
+// }
 /* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Text } = Typography;
+//const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
 const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -86,8 +86,8 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
 
   //linqiushi:修改后的数据库
   const [AddTeamCode, { error: codeError }] = graphql.useAddTeamCodeMutation();
-  const [UpdateTeamCodeName, { error: update_codeerror }] =
-    graphql.useUpdateTeamCodeNameMutation();
+  // const [UpdateTeamCodeName, { error: update_codeerror }] =
+  //   graphql.useUpdateTeamCodeNameMutation();
   //linqiushi 查询
   const { data: GetTeamCodes } = graphql.useGetTeamCodesSubscription({
     variables: {
@@ -213,10 +213,10 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
   const [dataSource, setDataSource] = useState<datatype[]>([]);
   const [count, setCount] = useState(0);
-  const handleDelete = (key: React.Key) => {
-    const newData = dataSource?.filter((item: any) => item.key !== key);
-    setDataSource(newData);
-  };
+  // const handleDelete = (key: React.Key) => {
+  //   const newData = dataSource?.filter((item: any) => item.key !== key);
+  //   setDataSource(newData);
+  // };
   const components = {
     body: {
       row: EditableRow,
@@ -310,9 +310,9 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     });
   };
   const handleOnchange = async (info: any) => {
-    if (info.file.status == "done") {
+    if (info.file.status === "done") {
       message.success("上传成功");
-    } else if (info.file.status == "error") {
+    } else if (info.file.status === "error") {
       message.error(`${info.file.name} 上传失败`);
     }
   };
@@ -325,7 +325,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
           responseType: "blob",
         },
       );
-      let codeTime: string;
+      //let codeTime: string;
 
       FileSaver.saveAs(
         response.data,
