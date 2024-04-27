@@ -152,19 +152,22 @@ permalink: /contest
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
   - `TEAM_LABEL`: 客户端队伍标签。对应 `TeamLabelBind` 中的 `label` 字段。
   - `TEAM_SEQ_ID`: 客户端使用，当前客户端的队伍序号，所有队伍从 0 开始顺序编号，与服务端 `TEAM_LABELS` 的顺序对应。
+  - `PORT`: 服务器开放的端口，客户端需通过此端口加入服务器的比赛。
 - 服务端：
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
+  - `MODE`: 判断当前比赛是天梯还是最终比赛。取值为 `ARENA` （天梯）或者 `COMPETITION`（决赛）。
   - `TOKEN`: 服务端验证身份的 token。发送请求时需带上。
   - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段，位序对应客户端 `TEAM_SEQ_ID` 的顺序，也对应 `SCORE_URL` 和 `FINISH_URL` 的分数信息 `ContestResult[]` 的顺序。
   - `TIME`: 比赛持续的时间，单位为秒。
   - `MAP_ID`: 地图 id。
   - `SCORE_URL`: 获取当前天梯分数的 url 路径。请求时需带上 `TOKEN`。
   - `FINISH_URL`: 结束比赛时更新分数的 url 路径。请求时需带上 `TOKEN`。
+  - `EXPOSED`: 决定是否开放端口的环境变量，`1` 表示开放，`0` 表示不开放。
 
 4. `docker`目录绑定。
 
 - 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/output`下，命名为`playback.thuaipb`。如果需要上传日志文件，同样放在此目录下，命名为 `xxx.log` 。`TEAM_LABELS`中传入了所有队伍的`label`。
-- 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。对于 `suffix` 的说明：对于 `python` 代码，`suffix` 为 `py`；对于 `cpp` 代码，没有 `suffix`，文件命名就是 `${player_label}`。`TEAM_LABEL` 中传入了当前队伍的`label`，`TEAM_SEQ_ID`是当前队伍的序号，编号从 0 开始。
+- 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。对于 `suffix` 的说明：对于 `python` 代码，`suffix` 为 `py`；对于 `cpp` 代码，没有 `suffix`，文件命名就是 `${player_label}`。日志文件可以放在`/usr/local/output`下，命名为 `xxx.log`。`TEAM_LABEL` 中传入了当前队伍的`label`，`TEAM_SEQ_ID`是当前队伍的序号，编号从 0 开始。
 
 ## 附录
 
