@@ -46,7 +46,7 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import PlaygroundPage from "./PlaygroundPage";
 import Authenticate, { userRoles } from "../Components/Authenticate";
-import NotImplemented from "./Components/NotImplemented";
+//import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
