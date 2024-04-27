@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import type { UploadFile } from "antd/lib/upload/interface";
+//import type { UploadFile } from "antd/lib/upload/interface";
 import {
   UploadRequestOption as RcCustomRequestOptions,
   RcFile,
@@ -17,7 +17,8 @@ import {
   Input,
   Form,
 } from "antd";
-import type { GetRef, InputRef } from "antd";
+//import type { GetRef, InputRef } from "antd";
+import type { InputRef } from "antd";
 import {
   UploadOutlined,
   DownloadOutlined,
@@ -27,7 +28,8 @@ import {
   // QuestionOutlined,
   CodeOutlined,
 } from "@ant-design/icons";
-import { uploadFile, downloadFile, deleteFile, existFile } from "../../api/cos";
+//import { uploadFile, downloadFile, deleteFile, existFile } from "../../api/cos";
+import { uploadFile, downloadFile, existFile } from "../../api/cos";
 import type { TableProps } from "antd/lib/table";
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
@@ -211,7 +213,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   }
   type EditableTableProps = Parameters<typeof Table>[0];
   type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
-  const [dataSource, setDataSource] = useState<datatype[]>([]);
+  //const [dataSource, setDataSource] = useState<datatype[]>([]);
   const [count, setCount] = useState(0);
   // const handleDelete = (key: React.Key) => {
   //   const newData = dataSource?.filter((item: any) => item.key !== key);
