@@ -578,6 +578,49 @@ export class AvailableServiceClient {
     this.methodDescriptorBuildShip);
   }
 
+  methodDescriptorBuildShipRID = new grpcWeb.MethodDescriptor(
+    '/protobuf.AvailableService/BuildShipRID',
+    grpcWeb.MethodType.UNARY,
+    Message2Server_pb.BuildShipMsg,
+    Message2Clients_pb.BuildShipRes,
+    (request: Message2Server_pb.BuildShipMsg) => {
+      return request.serializeBinary();
+    },
+    Message2Clients_pb.BuildShipRes.deserializeBinary
+  );
+
+  buildShipRID(
+    request: Message2Server_pb.BuildShipMsg,
+    metadata: grpcWeb.Metadata | null): Promise<Message2Clients_pb.BuildShipRes>;
+
+  buildShipRID(
+    request: Message2Server_pb.BuildShipMsg,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: Message2Clients_pb.BuildShipRes) => void): grpcWeb.ClientReadableStream<Message2Clients_pb.BuildShipRes>;
+
+  buildShipRID(
+    request: Message2Server_pb.BuildShipMsg,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: Message2Clients_pb.BuildShipRes) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/protobuf.AvailableService/BuildShipRID',
+        request,
+        metadata || {},
+        this.methodDescriptorBuildShipRID,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/protobuf.AvailableService/BuildShipRID',
+    request,
+    metadata || {},
+    this.methodDescriptorBuildShipRID);
+  }
+
   methodDescriptorEndAllAction = new grpcWeb.MethodDescriptor(
     '/protobuf.AvailableService/EndAllAction',
     grpcWeb.MethodType.UNARY,

@@ -459,13 +459,14 @@ proto.protobuf.IDMsg.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getTeamId();
-  if (f !== 0) {
-    writer.writeInt64(
-      2,
-      f
-    );
-  }
+  // 下面的注释不是自动生成的，如果解注会报错，且这个函数我们用不上
+  // f = message.getTeamId();
+  // if (f !== 0) {
+  //   writer.writeInt64(
+  //     2,
+  //     f
+  //   );
+  // }
 };
 
 
@@ -539,9 +540,7 @@ proto.protobuf.PlayerMsg.toObject = function(includeInstance, msg) {
   var f, obj = {
     playerId: jspb.Message.getFieldWithDefault(msg, 1, 0),
     teamId: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    shipType: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    x: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    y: jspb.Message.getFieldWithDefault(msg, 5, 0)
+    shipType: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -590,14 +589,6 @@ proto.protobuf.PlayerMsg.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {!proto.protobuf.ShipType} */ (reader.readEnum());
       msg.setShipType(value);
       break;
-    case 4:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setX(value);
-      break;
-    case 5:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setY(value);
-      break;
     default:
       reader.skipField();
       break;
@@ -645,20 +636,6 @@ proto.protobuf.PlayerMsg.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeEnum(
       3,
-      f
-    );
-  }
-  f = message.getX();
-  if (f !== 0) {
-    writer.writeInt32(
-      4,
-      f
-    );
-  }
-  f = message.getY();
-  if (f !== 0) {
-    writer.writeInt32(
-      5,
       f
     );
   }
@@ -716,42 +693,6 @@ proto.protobuf.PlayerMsg.prototype.getShipType = function() {
  */
 proto.protobuf.PlayerMsg.prototype.setShipType = function(value) {
   return jspb.Message.setProto3EnumField(this, 3, value);
-};
-
-
-/**
- * optional int32 x = 4;
- * @return {number}
- */
-proto.protobuf.PlayerMsg.prototype.getX = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.protobuf.PlayerMsg} returns this
- */
-proto.protobuf.PlayerMsg.prototype.setX = function(value) {
-  return jspb.Message.setProto3IntField(this, 4, value);
-};
-
-
-/**
- * optional int32 y = 5;
- * @return {number}
- */
-proto.protobuf.PlayerMsg.prototype.getY = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.protobuf.PlayerMsg} returns this
- */
-proto.protobuf.PlayerMsg.prototype.setY = function(value) {
-  return jspb.Message.setProto3IntField(this, 5, value);
 };
 
 
@@ -2103,10 +2044,9 @@ proto.protobuf.BuildShipMsg.prototype.toObject = function(opt_includeInstance) {
  */
 proto.protobuf.BuildShipMsg.toObject = function(includeInstance, msg) {
   var f, obj = {
-    x: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    y: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    shipType: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    teamId: jspb.Message.getFieldWithDefault(msg, 4, 0)
+    shipType: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    teamId: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    birthpointIndex: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -2144,20 +2084,16 @@ proto.protobuf.BuildShipMsg.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setX(value);
-      break;
-    case 2:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setY(value);
-      break;
-    case 3:
       var value = /** @type {!proto.protobuf.ShipType} */ (reader.readEnum());
       msg.setShipType(value);
       break;
-    case 4:
+    case 2:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setTeamId(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setBirthpointIndex(value);
       break;
     default:
       reader.skipField();
@@ -2188,31 +2124,24 @@ proto.protobuf.BuildShipMsg.prototype.serializeBinary = function() {
  */
 proto.protobuf.BuildShipMsg.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getX();
-  if (f !== 0) {
-    writer.writeInt32(
-      1,
-      f
-    );
-  }
-  f = message.getY();
-  if (f !== 0) {
-    writer.writeInt32(
-      2,
-      f
-    );
-  }
   f = message.getShipType();
   if (f !== 0.0) {
     writer.writeEnum(
-      3,
+      1,
       f
     );
   }
   f = message.getTeamId();
   if (f !== 0) {
     writer.writeInt64(
-      4,
+      2,
+      f
+    );
+  }
+  f = message.getBirthpointIndex();
+  if (f !== 0) {
+    writer.writeInt32(
+      3,
       f
     );
   }
@@ -2220,47 +2149,11 @@ proto.protobuf.BuildShipMsg.serializeBinaryToWriter = function(message, writer) 
 
 
 /**
- * optional int32 x = 1;
- * @return {number}
- */
-proto.protobuf.BuildShipMsg.prototype.getX = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.protobuf.BuildShipMsg} returns this
- */
-proto.protobuf.BuildShipMsg.prototype.setX = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
-};
-
-
-/**
- * optional int32 y = 2;
- * @return {number}
- */
-proto.protobuf.BuildShipMsg.prototype.getY = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.protobuf.BuildShipMsg} returns this
- */
-proto.protobuf.BuildShipMsg.prototype.setY = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional ShipType ship_type = 3;
+ * optional ShipType ship_type = 1;
  * @return {!proto.protobuf.ShipType}
  */
 proto.protobuf.BuildShipMsg.prototype.getShipType = function() {
-  return /** @type {!proto.protobuf.ShipType} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+  return /** @type {!proto.protobuf.ShipType} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
@@ -2269,16 +2162,16 @@ proto.protobuf.BuildShipMsg.prototype.getShipType = function() {
  * @return {!proto.protobuf.BuildShipMsg} returns this
  */
 proto.protobuf.BuildShipMsg.prototype.setShipType = function(value) {
-  return jspb.Message.setProto3EnumField(this, 3, value);
+  return jspb.Message.setProto3EnumField(this, 1, value);
 };
 
 
 /**
- * optional int64 team_id = 4;
+ * optional int64 team_id = 2;
  * @return {number}
  */
 proto.protobuf.BuildShipMsg.prototype.getTeamId = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
@@ -2287,7 +2180,25 @@ proto.protobuf.BuildShipMsg.prototype.getTeamId = function() {
  * @return {!proto.protobuf.BuildShipMsg} returns this
  */
 proto.protobuf.BuildShipMsg.prototype.setTeamId = function(value) {
-  return jspb.Message.setProto3IntField(this, 4, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional int32 birthpoint_index = 3;
+ * @return {number}
+ */
+proto.protobuf.BuildShipMsg.prototype.getBirthpointIndex = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.protobuf.BuildShipMsg} returns this
+ */
+proto.protobuf.BuildShipMsg.prototype.setBirthpointIndex = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 

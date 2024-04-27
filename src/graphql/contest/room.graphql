@@ -7,9 +7,11 @@
 # 改：暂不提供
 
 # 查
-subscription GetRooms($contest_id: uuid!) {
+subscription GetArenaRooms($contest_id: uuid!) {
   contest_room(
-    where: { contest_id: { _eq: $contest_id } }
+    where: {
+      _and: { contest_id: { _eq: $contest_id }, round_id: { _is_null: true } }
+    }
     order_by: { created_at: desc }
   ) {
     room_id
@@ -30,11 +32,12 @@ subscription GetRooms($contest_id: uuid!) {
   }
 }
 
-query GetRunningRooms($contest_id: uuid!) {
+query GetRunningArenaRooms($contest_id: uuid!) {
   contest_room(
     where: {
       _and: {
         contest_id: { _eq: $contest_id }
+        round_id: { _is_null: true }
         status: { _in: ["Waiting", "Running"] }
       }
     }
@@ -49,7 +52,32 @@ query GetRunningRooms($contest_id: uuid!) {
   }
 }
 
-# TODO：迁移到GetRooms
+subscription GetCompetitionRooms($contest_id: uuid!, $round_id: uuid!) {
+  contest_room(
+    where: {
+      _and: { contest_id: { _eq: $contest_id }, round_id: { _eq: $round_id } }
+    }
+    order_by: { created_at: desc }
+  ) {
+    room_id
+    status
+    port
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_name
+        team_leader {
+          realname
+        }
+      }
+      score
+      team_label
+      player_roles
+    }
+  }
+}
+
+# TODO：迁移到GetArenaRooms
 subscription GetRoomInfo($contest_id: uuid!) {
   contest_room(
     where: { contest_id: { _eq: $contest_id } }
@@ -70,7 +98,7 @@ subscription GetRoomInfo($contest_id: uuid!) {
   }
 }
 
-# TODO：迁移到GetRunningRooms
+# TODO：迁移到GetRunningArenaRooms
 query GetRoomInfo_status($contest_id: uuid!) {
   contest_room(
     where: {

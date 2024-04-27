@@ -14,7 +14,7 @@ interface Loc {
   y: number;
 }
 
-const THUAI6: React.FC<StreamProps> = ({ url }) => {
+const THUAI6: React.FC<StreamProps> = ({ streamUrl }) => {
   const [gameTime, setGameTime] = useState(0);
   const [studentScore, setStudentScore] = useState(0);
   const [trickerScore, setTrickerScore] = useState(0);
@@ -24,7 +24,7 @@ const THUAI6: React.FC<StreamProps> = ({ url }) => {
   const [student4Loc, setStudent4Loc] = useState<Loc>({ x: 0, y: 0 });
   const [trickerLoc, setTrickerLoc] = useState<Loc>({ x: 0, y: 0 });
   useEffect(() => {
-    const client = new AvailableServiceClient(url);
+    const client = new AvailableServiceClient(streamUrl);
     const request = new Message2Server.IDMsg();
     request.setPlayerId(99);
     client.tryConnection(
@@ -82,7 +82,8 @@ const THUAI6: React.FC<StreamProps> = ({ url }) => {
         }
       },
     );
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const canvasRef = React.useRef(null);
   const h = 50;
