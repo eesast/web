@@ -1,44 +1,14 @@
 {
-  "short_name": "EESΛST",
-  "name": "EESΛST",
+  "short_name": "EESΛST 2024",
+  "name": "EESΛST for THUAI7",
   "description": "Home for Tsinghua EE Students",
   "categories": ["productivity", "utilities"],
-  "start_url": "/?source=pwa",
+  "start_url": "/#/contest/intro?contest=b4e3f620-49f7-4883-ba0f-81cbfdcf6196",
   "display": "standalone",
   "icons": [
     {
       "type": "image/png",
       "sizes": "192x192",
-      "src": "/android-chrome-192x192.png"
-    },
-    {
-      "type": "image/png",
-      "sizes": "48x48",
-      "src": "/android-chrome-192x192.png"
-    },
-    {
-      "type": "image/png",
-      "sizes": "72x72",
-      "src": "/android-chrome-192x192.png"
-    },
-    {
-      "type": "image/png",
-      "sizes": "128x128",
-      "src": "/android-chrome-192x192.png"
-    },
-    {
-      "type": "image/png",
-      "sizes": "384x384",
-      "src": "/android-chrome-192x192.png"
-    },
-    {
-      "type": "image/png",
-      "sizes": "512x512",
-      "src": "/android-chrome-192x192.png"
-    },
-    {
-      "type": "image/png",
-      "sizes": "96x96",
       "src": "/android-chrome-192x192.png"
     },
     {
@@ -52,10 +22,10 @@
   "background_color": "#282c34",
   "shortcuts": [
     {
-      "name": "Contest Site",
-      "short_name": "Contest",
-      "description": "All you need to know about contests",
-      "url": "/contest/?mode=day",
+      "name": "Info Site",
+      "short_name": "Info",
+      "description": "Information front desk for EE Department",
+      "url": "/#/info",
       "icons": [
         {
           "type": "image/png",
@@ -67,8 +37,8 @@
     {
       "name": "Share Site",
       "short_name": "Share",
-      "description": "All you need to know about courses",
-      "url": "/share/?source=pwa",
+      "description": "Open, Share and Growth",
+      "url": "/#/share",
       "icons": [
         {
           "type": "image/png",
@@ -80,7 +50,7 @@
   ],
   "file_handlers": [
     {
-      "action": "/open-thuaipb",
+      "action": "/#/contest/playback?contest=b4e3f620-49f7-4883-ba0f-81cbfdcf6196&pwa=true",
       "accept": {
         "application/octet-stream": [".thuaipb"]
       },

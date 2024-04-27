@@ -24,7 +24,7 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   const Contest_id = url.query.get("contest");
 
   //查询比赛是否开始报名
-  const { data: contestSwitchData } = graphql.useGetContestSwitchSubscription({
+  const { data: contestSwitchData } = graphql.useGetContestSwitchQuery({
     variables: {
       contest_id: Contest_id,
     },

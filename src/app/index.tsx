@@ -6,7 +6,6 @@ import {
   Layout,
   Menu,
   Popover,
-  Spin,
   Switch,
   Tour,
   TourProps,
@@ -33,6 +32,7 @@ import Authenticate, { tsinghuaRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
 import { useUser, JwtPayload } from "../api/hooks/user";
 import { subscribe, unsubscribe } from "../api/notification";
+import Loading from "./Components/Loading";
 
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -42,6 +42,12 @@ export interface PageProps {
   mode: string;
   user: JwtPayload;
 }
+
+const HomeSite = lazy(() => import("./HomeSite"));
+const ContestSite = lazy(() => import("./ContestSite"));
+const InfoSite = lazy(() => import("./InfoSite"));
+const ShareSite = lazy(() => import("./ShareSite"));
+const UserSite = lazy(() => import("./UserSite"));
 
 const App: React.FC = () => {
   const url = useUrl();
@@ -296,22 +302,6 @@ const App: React.FC = () => {
     );
   };
 
-  const Container = styled.div`
-    height: calc(100vh - 72px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
-
   const steps: TourProps["steps"] = [
     {
       title: "2024 新版来袭！",
@@ -370,12 +360,6 @@ const App: React.FC = () => {
       />
     );
   };
-
-  const HomeSite = lazy(() => import("./HomeSite"));
-  const ContestSite = lazy(() => import("./ContestSite"));
-  const InfoSite = lazy(() => import("./InfoSite"));
-  const ShareSite = lazy(() => import("./ShareSite"));
-  const UserSite = lazy(() => import("./UserSite"));
 
   return (
     <ConfigProvider

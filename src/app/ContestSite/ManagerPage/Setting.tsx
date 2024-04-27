@@ -11,12 +11,15 @@ const Setting: React.FC<ContestProps> = (props) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
-  const { data: contestSwitchData, error: contestSwitchError } =
-    graphql.useGetContestSwitchSubscription({
-      variables: {
-        contest_id: Contest_id,
-      },
-    });
+  const {
+    data: contestSwitchData,
+    error: contestSwitchError,
+    refetch: refetchContestSwitch,
+  } = graphql.useGetContestSwitchQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
 
   const [updateContestSwitch, { error: updateSwitchError }] =
     graphql.useUpdateContestSwitchMutation();
@@ -57,6 +60,7 @@ const Setting: React.FC<ContestProps> = (props) => {
                 team_switch: e.target.checked,
               },
             });
+            refetchContestSwitch();
           }}
         >
           开放组队
@@ -73,6 +77,7 @@ const Setting: React.FC<ContestProps> = (props) => {
                 code_upload_switch: e.target.checked,
               },
             });
+            refetchContestSwitch();
           }}
         >
           上传代码
@@ -87,6 +92,7 @@ const Setting: React.FC<ContestProps> = (props) => {
                 arena_switch: e.target.checked,
               },
             });
+            refetchContestSwitch();
           }}
         >
           天梯对战
@@ -101,6 +107,7 @@ const Setting: React.FC<ContestProps> = (props) => {
                 playground_switch: e.target.checked,
               },
             });
+            refetchContestSwitch();
           }}
         >
           试玩功能
@@ -115,6 +122,7 @@ const Setting: React.FC<ContestProps> = (props) => {
                 stream_switch: e.target.checked,
               },
             });
+            refetchContestSwitch();
           }}
         >
           直播功能
@@ -129,6 +137,7 @@ const Setting: React.FC<ContestProps> = (props) => {
                 playback_switch: e.target.checked,
               },
             });
+            refetchContestSwitch();
           }}
         >
           回放功能

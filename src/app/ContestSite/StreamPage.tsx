@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import React from "react";
 import { useUrl } from "../../api/hooks/url";
 import { ContestProps } from ".";
-import THUAI6 from "./Components/THUAI6/StreamNative";
 import * as graphql from "@/generated/graphql";
 import { message } from "antd";
 import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
+import THUAI6 from "./Components/THUAI6/StreamNative";
+import THUAI7 from "./Components/THUAI7/StreamWebGL";
 
 export interface StreamProps {
-  url: string;
+  streamUrl: string;
 }
 
 const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
@@ -30,7 +31,7 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   });
 
   const { data: contestSwitchData, error: contestSwitchError } =
-    graphql.useGetContestSwitchSubscription({
+    graphql.useGetContestSwitchQuery({
       variables: {
         contest_id: contest,
       },
@@ -42,22 +43,23 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  const [streamUrl, setStreamUrl] = useState<string>(
-    "https://api.eesast.com:8879",
-  );
-  if (url.query.get("url") !== null) {
-    setStreamUrl("http://" + url.query.get("url"));
-  }
+  const url_dev = url.query.get("url");
+  const streamUrl = url_dev
+    ? `http://${url_dev}`
+    : "https://api.eesast.com:8879";
 
-  const Stream = (props: StreamProps) => {
-    if (contestNameData?.contest_by_pk?.name === "THUAI6")
-      return <THUAI6 url={props.url} />;
-    else return <NotImplemented />;
+  const Stream = () => {
+    const contestName = contestNameData?.contest_by_pk?.name;
+    if (contestName === "THUAI6") {
+      return <THUAI6 streamUrl={streamUrl} />;
+    } else if (contestName === "THUAI7") {
+      return <THUAI7 streamUrl={streamUrl} />;
+    } else return <NotImplemented />;
   };
 
   return contestSwitchData ? (
     contestSwitchData?.contest_by_pk?.stream_switch ? (
-      <Stream url={streamUrl} />
+      <Stream />
     ) : (
       <NotImplemented />
     )
