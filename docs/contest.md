@@ -30,9 +30,10 @@ permalink: /contest
    - 比赛期间，用户可通过特定端口观看直播。后端在上面所述启动比赛的【第二步】时分配好一个端口。如果端口数量不足，则不启动比赛。如果成功分配端口并启动比赛，则应同时更新数据库`contest_room`表中的`port`字段。
    - 前端应当使用`subscription`实时更新比赛状态和直播观看端口。
 6. `docker` 服务器结束比赛后请求后端`/arena/finish`路由。
-   - 后端更新数据库，更新`contest_room`表中的`status`为`Finished`、更新`port`为`NULL`；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
+   - 后端更新数据库，更新`contest_room`表中的`status`为`Finished` 或 `Crashed` 、更新`port`为`NULL`；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
    - 后端将比赛回放文件以及日志文件（如有）上传至 `cos`，具体路径参考[COS存储桶访问路径](https://eesast.github.io/web/cos)。
    - 后端向参与这场比赛的队伍队员发送`Web Push`订阅通知（暂不急于实现）。
+   - 后端会设置最大运行时间（位于数据库内，每届比赛有不同的运行时间），若超过最大运行时间，则后端会强制停止所有相关容器的运行，并更新 `room` 状态为 `Crashed`，释放 `port`。
 7. 比赛结束后，前端提供下载和在线观看回放的功能，直接按照[COS存储桶访问路径](https://eesast.github.io/web/cos)中约定的路径从`cos`下载对应的文件即可。
 
 ### 接口描述
@@ -70,7 +71,7 @@ permalink: /contest
   - 错误：`500`：`undefined`，返回报错信息
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult[]}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
+  - 请求：`{result: ContestResult}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。如果 `docker` 未能正常运行比赛，`ContestResult.status` 设置为 `Crashed`，不会更新分数；否则 `ContestResult.status` 设置为 `Finish`，正常更新分数。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 - `注意`：除此之外，后端需要在`docker_cron`中更新数据库比赛状态和端口信息（异步、非请求内）。
@@ -128,9 +129,9 @@ permalink: /contest
   - 请求：在`headers`里传回创建`docker`时设置的`TOKEN`（内部包含`round_id`）。
   - 响应：`{result: ContestResult[]}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
   - 错误：`500`：`undefined`，返回报错信息
-- `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。
+- `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。如果 `docker` 未能正常运行比赛，`ContestResult.status` 设置为 `Crashed`，不会更新分数；否则 `ContestResult.status` 设置为 `Finish`，正常更新分数。
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult[]}` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
+  - 请求：`{result: ContestResult}` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 
@@ -158,7 +159,7 @@ permalink: /contest
   - `MODE`: 判断当前比赛是天梯还是最终比赛。取值为 `ARENA` （天梯）或者 `COMPETITION`（决赛）。
   - `TOKEN`: 服务端验证身份的 token。发送请求时需带上。
   - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段，位序对应客户端 `TEAM_SEQ_ID` 的顺序，也对应 `SCORE_URL` 和 `FINISH_URL` 的分数信息 `ContestResult[]` 的顺序。
-  - `TIME`: 比赛持续的时间，单位为秒。
+  - `GAME_TIME`: 比赛持续的时间，单位为秒。若超过这个时间，后端会强制停止所有相关容器。
   - `MAP_ID`: 地图 id。
   - `SCORE_URL`: 获取当前天梯分数的 url 路径。请求时需带上 `TOKEN`。
   - `FINISH_URL`: 结束比赛时更新分数的 url 路径。请求时需带上 `TOKEN`。
@@ -175,7 +176,8 @@ permalink: /contest
 
 ```javascript
 interface ContestResult {
-  score: number; // 最新的 score
+  status: string; // `Crashed` 或 `Finished`。
+  scores: number[]; // 每个队伍的分数，顺序与 TEAM_LABELS 一致。
 };
 
 interface TeamLabelBind {
