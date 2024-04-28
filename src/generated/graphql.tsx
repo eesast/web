@@ -13024,6 +13024,13 @@ export type GetTeamPlayersSubscriptionVariables = Exact<{
 
 export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, created_at: any } | null }> };
 
+export type GetTeamStatusQueryVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamStatusQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null }, contest: { __typename?: 'contest', contest_players_aggregate: { __typename?: 'contest_player_aggregate', aggregate?: { __typename?: 'contest_player_aggregate_fields', count: number } | null } } } | null };
+
 export type AddContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
@@ -15748,6 +15755,59 @@ export function useGetTeamPlayersSubscription(baseOptions: Apollo.SubscriptionHo
       }
 export type GetTeamPlayersSubscriptionHookResult = ReturnType<typeof useGetTeamPlayersSubscription>;
 export type GetTeamPlayersSubscriptionResult = Apollo.SubscriptionResult<GetTeamPlayersSubscription>;
+export const GetTeamStatusDocument = gql`
+    query GetTeamStatus($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    contest_team_players_aggregate(
+      where: {player_code: {compile_status: {_in: ["No Need", "Completed"]}}}
+    ) {
+      aggregate {
+        count
+      }
+    }
+    contest {
+      contest_players_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamStatusQuery__
+ *
+ * To run a query within a React component, call `useGetTeamStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamStatusQuery({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamStatusQuery(baseOptions: Apollo.QueryHookOptions<GetTeamStatusQuery, GetTeamStatusQueryVariables> & ({ variables: GetTeamStatusQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamStatusQuery, GetTeamStatusQueryVariables>(GetTeamStatusDocument, options);
+      }
+export function useGetTeamStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamStatusQuery, GetTeamStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamStatusQuery, GetTeamStatusQueryVariables>(GetTeamStatusDocument, options);
+        }
+export function useGetTeamStatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamStatusQuery, GetTeamStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamStatusQuery, GetTeamStatusQueryVariables>(GetTeamStatusDocument, options);
+        }
+export type GetTeamStatusQueryHookResult = ReturnType<typeof useGetTeamStatusQuery>;
+export type GetTeamStatusLazyQueryHookResult = ReturnType<typeof useGetTeamStatusLazyQuery>;
+export type GetTeamStatusSuspenseQueryHookResult = ReturnType<typeof useGetTeamStatusSuspenseQuery>;
+export type GetTeamStatusQueryResult = Apollo.QueryResult<GetTeamStatusQuery, GetTeamStatusQueryVariables>;
 export const AddContestTimeDocument = gql`
     mutation AddContestTime($contest_id: uuid!, $event: String!, $start: timestamptz!, $end: timestamptz!, $description: String) {
   insert_contest_time_one(

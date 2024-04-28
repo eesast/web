@@ -39,7 +39,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [opponentTeamId, setOpponentTeamId] = useState("");
   const [associatedValue, setAssociatedValue] = useState("");
   const [filterParamList, setFilterParamList] = useState<
-    graphql.GetAllTeamInfo_ScoreQuery["contest_team"]
+    graphql.GetTeamsQuery["contest_team"]
   >([]);
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
@@ -52,7 +52,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     });
   //获取天梯队伍信息
   const { data: scoreteamListData, error: scoreteamListError } =
-    graphql.useGetAllTeamInfo_ScoreSuspenseQuery({
+    graphql.useGetTeamsSuspenseQuery({
       variables: {
         contest_id: Contest_id,
       },
@@ -85,12 +85,20 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       team_id: team_id,
     },
   });
+
+  const { data: teamStatusData, refetch: teamStatusRefetch } =
+    graphql.useGetTeamStatusQuery({
+      variables: {
+        team_id: opponentTeamId,
+      },
+    });
+
   //获取正在比赛的room信息
   const {
     data: roomStatusData,
     error: roomStatusError,
     refetch: roomStatusRefetch,
-  } = graphql.useGetRoomInfo_StatusSuspenseQuery({
+  } = graphql.useGetRunningArenaRoomsSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
@@ -103,26 +111,12 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  // const { data: teamCodesDataOpp } = graphql.useGetTeamCodesSubscription({
-  //   variables:{
-  //     team_id: opponentTeamId,
-  //   }
-  // })
-  // const { data: teamPlayersDataOpp } = graphql.useGetTeamPlayersSubscription({
-  //   variables:{
-  //     team_id: opponentTeamId,
-  //   }
-  // })
   const [updataPlayerCodes, { error: updatePlayerError }] =
     graphql.useUpdateTeamPlayerMutation();
 
   const rawTeamLabels = contestMapData?.contest_map[0]?.team_labels;
   // 将JSON字符串转换为数组
   const teamLabels = rawTeamLabels ? JSON.parse(rawTeamLabels) : [];
-
-  //开启对战
-  //const [insertRoom, { error: insertRoomError }] =
-  // graphql.useInsertRoomMutation();
 
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
@@ -174,15 +168,22 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [contestMapError]);
 
-  const initialValues: { [key: string]: string } = {};
-  contestPlayersData?.contest_player.forEach((player) => {
-    const defaultCode = teamPlayersData?.contest_team_player.find(
-      (code) => code.player === player.player_label,
-    );
-    if (defaultCode && defaultCode.player_code) {
-      initialValues[`code_version_${player.player_label}`] =
-        defaultCode.player_code.code_id;
-    }
+  //角色代码初始化
+  // const initialValues: { [key: string]: string } = {};
+  // contestPlayersData?.contest_player.forEach((player) => {
+  //   const defaultCode = teamPlayersData?.contest_team_player.find(
+  //     (code) => code.player === player.player_label,
+  //   );
+  //   if (defaultCode && defaultCode.player_code) {
+  //     initialValues[`code_version_${player.player_label}`] =
+  //       defaultCode.player_code.code_id;
+  //   }
+  // });
+
+  const sortedTeams = [...filterParamList].sort((a, b) => {
+    const scoreA = a.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
+    const scoreB = b.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
+    return scoreB - scoreA;
   });
   //搜索模块
   useEffect(() => {
@@ -203,21 +204,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   /* ---------------- 业务逻辑函数 ---------------- */
   //检查对手队伍是否满足对战条件
-  // const checkCodesCompiled=()=>{
-  //   if(!teamPlayersDataOpp?.contest_team_player||teamPlayersDataOpp.contest_team_player.length<5)
-  //     return false
-  //   if(!teamCodesDataOpp?.contest_team_code)
-  //     return false
-  //   teamPlayersDataOpp?.contest_team_player.forEach(player => {
-  //     const code_id = player?.player_code?.code_id;
-  //     if(!code_id)
-  //       return false;
-  //     if(!(teamCodesDataOpp?.contest_team_code.find(code => code.code_id === code_id)?.compile_status === "No Need"||"Waiting")){
-  //       return false;
-  //     }
-  //   })
-  //   return true;
-  // }
+
   //开启对战逻辑
   const fight = (label_us: string, label_opponent: string, map_id: string) => {
     const teamLabels: TeamLabelBind[] = [
@@ -322,9 +309,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           <Suspense fallback={<Loading />}>
             <List
               itemLayout="horizontal"
-              dataSource={
-                filterParamList as graphql.GetAllTeamInfoSubscription["contest_team"]
-              }
+              dataSource={sortedTeams as graphql.GetTeamsQuery["contest_team"]}
               renderItem={(item, index) => (
                 <Content style={{ marginBottom: "20px" }}>
                   <Tooltip title="点击开战" placement="topRight">
@@ -336,14 +321,24 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                       hoverable
                       onClick={() => {
                         setOpponentTeamId(item.team_id);
-                        if (1) {
-                          setIsModalVisible(true);
-                        } else {
+                        console.log(opponentTeamId);
+                        teamStatusRefetch();
+                        if (opponentTeamId === team_id) {
+                          message.info("不能和自己的队伍对战");
+                        } else if (
+                          teamStatusData?.contest_team_by_pk
+                            ?.contest_team_players_aggregate.aggregate
+                            ?.count !==
+                          teamStatusData?.contest_team_by_pk?.contest
+                            .contest_players_aggregate.aggregate?.count
+                        ) {
                           message.info(
                             "该队伍代码未编译通过或角色未分配代码，请选择其他队伍",
                           );
+                        } else {
+                          setIsModalVisible(true);
                         }
-                        runForm.setFieldsValue(initialValues);
+                        // runForm.setFieldsValue(initialValues);
                       }}
                     >
                       <Row
@@ -374,7 +369,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                         <Col span={15}>
                           <Row style={{ marginBottom: "20px" }} gutter={4}>
                             <Col
-                              span={9}
+                              span={8}
                               style={{
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
@@ -415,7 +410,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                           <Divider />
                           <Row gutter={4} style={{ marginBottom: "0px" }}>
                             <Col
-                              span={14}
+                              span={16}
                               style={{
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
@@ -437,7 +432,9 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                               textAlign: "center",
                             }}
                           >
-                            分数：{item.score}
+                            积分：
+                            {item.contest_team_rooms_aggregate.aggregate?.sum
+                              ?.score ?? 0}
                           </Typography.Text>
                         </Col>
                       </Row>
@@ -525,7 +522,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
               ))}
             </Select>
           </Form.Item>
-          {contestPlayersData?.contest_player.map((player, index) => (
+          {/* {contestPlayersData?.contest_player.map((player, index) => (
             <Form.Item
               key={index}
               name={`code_version_${player.player_label}`}
@@ -546,7 +543,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                 ))}
               </Select>
             </Form.Item>
-          ))}
+          ))} */}
         </Form>
       </Modal>
     </Layout>
