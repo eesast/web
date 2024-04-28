@@ -93,3 +93,25 @@ subscription GetTeamPlayers($team_id: uuid!) {
     role
   }
 }
+
+# 查编译状态
+query GetTeamStatus($team_id: uuid!) {
+  contest_team_by_pk(team_id: $team_id) {
+    contest_team_players_aggregate(
+      where: {
+        player_code: { compile_status: { _in: ["No Need", "Completed"] } }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    contest {
+      contest_players_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}
