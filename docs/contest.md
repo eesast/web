@@ -1,4 +1,4 @@
-aaqaqqqqqqqqqqqqqqqqqqqqAqw   a---
+---
 title: 天梯和比赛逻辑
 description: 网站开发接口文档
 permalink: /contest
