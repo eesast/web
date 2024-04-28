@@ -321,7 +321,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                       hoverable
                       onClick={() => {
                         setOpponentTeamId(item.team_id);
-                        console.log(opponentTeamId);
                         teamStatusRefetch();
                         if (opponentTeamId === team_id) {
                           message.info("不能和自己的队伍对战");
