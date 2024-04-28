@@ -35,6 +35,7 @@ import TeamPage from "./TeamPage";
 import ArenaPage from "./ArenaPage";
 import RecordPage from "./RecordPage";
 // import CodePage from "./CodePage.old";
+import CodePage from "./CodePagesource";
 import PlaybackPage from "./PlaybackPage";
 import StreamPage from "./StreamPage";
 import NotFound from "../Components/NotFound";
@@ -45,7 +46,7 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import PlaygroundPage from "./PlaygroundPage";
 import Authenticate, { userRoles } from "../Components/Authenticate";
-import NotImplemented from "./Components/NotImplemented";
+//import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
@@ -401,7 +402,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
                 </Authenticate>
               }
             />
-            <Route path="code" element={<NotImplemented />} />
+            <Route path="code" element={<CodePage {...props} />} />
 
             <Route path="arena-score" element={<ArenaPage {...props} />} />
             <Route path="arena-record" element={<RecordPage {...props} />} />
