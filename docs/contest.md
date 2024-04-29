@@ -71,7 +71,7 @@ permalink: /contest
   - 错误：`500`：`undefined`，返回报错信息
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
-  - 请求：`{result: ContestResult}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。如果 `docker` 未能正常运行比赛，`ContestResult.status` 设置为 `Crashed`，不会更新分数；否则 `ContestResult.status` 设置为 `Finish`，正常更新分数。
+  - 请求：`{result: ContestResult}`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。如果 `docker` 未能正常运行比赛，`ContestResult.status` 设置为 `Crashed`，不会更新分数；否则 `ContestResult.status` 设置为 `Finished`，正常更新分数。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
 - `注意`：除此之外，后端需要在`docker_cron`中更新数据库比赛状态和端口信息（异步、非请求内）。
@@ -129,7 +129,7 @@ permalink: /contest
   - 请求：在`headers`里传回创建`docker`时设置的`TOKEN`（内部包含`round_id`）。
   - 响应：`{result: ContestResult}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
   - 错误：`500`：`undefined`，返回报错信息
-- `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。如果 `docker` 未能正常运行比赛，`ContestResult.status` 设置为 `Crashed`，不会更新分数；否则 `ContestResult.status` 设置为 `Finish`，正常更新分数。
+- `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。如果 `docker` 未能正常运行比赛，`ContestResult.status` 设置为 `Crashed`，不会更新分数；否则 `ContestResult.status` 设置为 `Finished`，正常更新分数。
   - 请求方法：`POST`
   - 请求：`{result: ContestResult}` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
