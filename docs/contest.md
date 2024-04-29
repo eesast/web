@@ -1,4 +1,4 @@
-aaqaqqqqqqqqqqqqqqqqqqqqAqw   a---
+---
 title: 天梯和比赛逻辑
 description: 网站开发接口文档
 permalink: /contest
@@ -67,7 +67,7 @@ permalink: /contest
 - `/arena/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有天梯分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
   - 请求方法：`POST`
   - 请求：在`headers`里传回创建`docker`时设置的`TOKEN`。
-  - 响应：`{result: ContestResult[]}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
+  - 响应：`{result: ContestResult}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
   - 错误：`500`：`undefined`，返回报错信息
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
@@ -127,7 +127,7 @@ permalink: /contest
 - `/competition/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有比赛分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
   - 请求方法：`POST`
   - 请求：在`headers`里传回创建`docker`时设置的`TOKEN`（内部包含`round_id`）。
-  - 响应：`{result: ContestResult[]}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
+  - 响应：`{result: ContestResult}`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
   - 错误：`500`：`undefined`，返回报错信息
 - `/competition/finish-one`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新比赛分数，将比赛回放和日志文件上传至`COS`。如果 `docker` 未能正常运行比赛，`ContestResult.status` 设置为 `Crashed`，不会更新分数；否则 `ContestResult.status` 设置为 `Finished`，正常更新分数。
   - 请求方法：`POST`
@@ -158,8 +158,8 @@ permalink: /contest
   - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
   - `MODE`: 判断当前比赛是天梯还是最终比赛。取值为 `ARENA` （天梯）或者 `COMPETITION`（决赛）。
   - `TOKEN`: 服务端验证身份的 token。发送请求时需带上。
-  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段，位序对应客户端 `TEAM_SEQ_ID` 的顺序，也对应 `SCORE_URL` 和 `FINISH_URL` 的分数信息 `ContestResult[]` 的顺序。
-  - `GAME_TIME`: 比赛持续的时间，单位为秒。若超过这个时间，后端会强制停止所有相关容器。
+  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段，位序对应客户端 `TEAM_SEQ_ID` 的顺序，也对应 `SCORE_URL` 和 `FINISH_URL` 的分数信息 `ContestResult.scores` 的顺序。
+  - `MAX_GAME_TIME`: 比赛持续的时间，单位为秒。若超过这个时间，后端会强制停止所有相关容器。
   - `MAP_ID`: 地图 id。
   - `SCORE_URL`: 获取当前天梯分数的 url 路径。请求时需带上 `TOKEN`。
   - `FINISH_URL`: 结束比赛时更新分数的 url 路径。请求时需带上 `TOKEN`。
