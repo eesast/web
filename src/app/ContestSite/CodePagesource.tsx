@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-//import type { UploadFile } from "antd/lib/upload/interface";
 import {
   UploadRequestOption as RcCustomRequestOptions,
   RcFile,
@@ -9,46 +8,34 @@ import {
   Button,
   message,
   Upload,
-  // Tag,
   Layout,
   Row,
   Col,
   Typography,
   Input,
   Form,
+  Space,
 } from "antd";
-//import type { GetRef, InputRef } from "antd";
 import type { InputRef } from "antd";
 import {
   UploadOutlined,
   DownloadOutlined,
-  // CheckCircleOutlined,
-  // CloseCircleOutlined,
-  // LoadingOutlined,
-  // QuestionOutlined,
+  DeleteOutlined,
+  CheckCircleTwoTone,
+  SmileTwoTone,
+  LoadingOutlined,
+  SyncOutlined,
+  FrownTwoTone,
   CodeOutlined,
 } from "@ant-design/icons";
-//import { uploadFile, downloadFile, deleteFile, existFile } from "../../api/cos";
-import { uploadFile, downloadFile, existFile } from "../../api/cos";
+import { uploadFile, downloadFile, existFile, deleteFile } from "../../api/cos";
 import type { TableProps } from "antd/lib/table";
 import axios, { AxiosError } from "axios";
 import FileSaver from "file-saver";
-//import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
-import { __InputValue } from "graphql";
-//import { ColumnType } from "antd/es/table";
 import { FormInstance } from "antd/lib";
-/* ---------------- 接口和类型定义 ---------------- */
-// interface Playerprops {
-//   key: number;
-//   name: string;
-//   updatetime: string;
-//   filelist: UploadFile[];
-// }
-/* ---------------- 不随渲染刷新的常量 ---------------- */
-//const { Text } = Typography;
 /* ---------------- 主页面 ---------------- */
 const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -207,90 +194,66 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   };
   interface datatype {
     key: React.Key;
-    // num:string;
     codename: string;
     updatetime: string;
   }
   type EditableTableProps = Parameters<typeof Table>[0];
   type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
-  //const [dataSource, setDataSource] = useState<datatype[]>([]);
-  const [count, setCount] = useState(0);
-  // const handleDelete = (key: React.Key) => {
-  //   const newData = dataSource?.filter((item: any) => item.key !== key);
-  //   setDataSource(newData);
-  // };
   const components = {
     body: {
       row: EditableRow,
       cell: EditableCell,
     },
   };
-  // useEffect(()=>{
-  //   const newdata:datatype={
-  //     key:count,
-  //     num:`${count}`,
-  //     codename:GetTeamCodes?.contest_team_code[count]?.code_name??"未定义",
-  //     updatetime:GetTeamCodes?.contest_team_code[count]?.created_at??"未定义"
-  //   }
-  //   setDataSource([...dataSource, newdata]);
-  // }, [GetTeamCodes])
-  const handleAdd = () => {
-    message.success(count);
-
-    setCount(count + 1);
-  };
   const handleUpload = async (e: RcCustomRequestOptions) => {
     const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
     const codeName = (e.file as RcFile).name;
     try {
-      if (lang === "cpp") {
-        handleCodeChange(lang, codeName);
-        const url = `${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].code_id}.cpp`;
-        const result = await uploadFile(e.file, url);
+      if (lang === "cpp" || lang === "py") {
+        const code_id = await handleCodeChange(lang, codeName);
+        const codeUrl = `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.${lang}`;
+        const result = await uploadFile(e.file, codeUrl);
         const xhr = new XMLHttpRequest();
         e.onSuccess!(result, xhr);
-      } else if (lang === "py") {
-        handleCodeChange(lang, codeName);
-        message.info(`${contestData?.contest_by_pk?.name}/code/${teamid}.py`);
-        const url = `${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].code_id}.py`;
 
-        //result这个上传有问题
-
-        const result = await uploadFile(e.file, url);
-        console.log(result);
-        const xhr = new XMLHttpRequest();
-        e.onSuccess!(result, xhr);
+        //上传成功后发送编译请求
+        if (lang === "cpp") {
+          await axios.post("code/compile-start", {
+            contest_name: contestData?.contest_by_pk?.name,
+            code_id: code_id,
+            language: lang,
+            path: `${contestData?.contest_by_pk?.name}/code/${teamid}`,
+          });
+        }
       } else {
         e.onError!(new Error("不支持的文件类型"));
       }
     } catch (err) {
       e.onError!(new Error("上传失败"));
     }
-    handleAdd();
   };
-  const handleDownload = async () => {
+  const handleDownload = async (code_name: string, code_id: string) => {
     try {
       const cpp_exist = await existFile(
-        `${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].code_id}.cpp`,
+        `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.cpp`,
       );
-      message.info("lalala");
       const py_exist = await existFile(
-        `${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].code_id}.py`,
+        `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.py`,
       );
       if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
         message.error("文件管理错误");
       }
       if (cpp_exist) {
         const codefile = {
-          filename: `${GetTeamCodes?.contest_team_code[0].code_name}.cpp`,
-          url: `${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].code_id}.cpp`,
+          filename: code_name,
+          url: `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.cpp`,
         };
         message.info("开始下载:" + codefile.filename);
         downloadFile(codefile.url);
       } else if (py_exist) {
         const codefile = {
-          filename: `${GetTeamCodes?.contest_team_code[0].code_name}.py`,
-          url: `${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].code_id}.py`,
+          filename: code_name,
+          url: `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.py`,
         };
         message.info("开始下载:" + codefile.filename);
         downloadFile(codefile.url);
@@ -300,16 +263,56 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(err);
     }
   };
+
+  const [deleteTeamCode] = graphql.useDeleteTeamCodeMutation();
+  const handleDelete = async (code_id: string) => {
+    try {
+      const cpp_exist = await existFile(
+        `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.cpp`,
+      );
+      const py_exist = await existFile(
+        `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.py`,
+      );
+      if ((cpp_exist && py_exist) || (!cpp_exist && !py_exist)) {
+        message.error("文件管理错误");
+      } else {
+        if (cpp_exist) {
+          await deleteFile(
+            `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.cpp`,
+          );
+        } else if (py_exist) {
+          await deleteFile(
+            `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.py`,
+          );
+        }
+        await deleteFile(
+          `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.log`,
+        );
+
+        await deleteTeamCode({
+          variables: {
+            code_id: code_id,
+          },
+        });
+
+        message.success("删除成功");
+      }
+    } catch (err) {
+      message.error("删除失败");
+      console.log(err);
+    }
+  };
+
   const handleCodeChange = async (lang: string, codeName: string) => {
-    AddTeamCode({
+    const response = await AddTeamCode({
       variables: {
         team_id: teamid!,
         code_name: codeName,
         language: lang,
-        //compile_status:`${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].compile_status}` ?? 'Waiting',
-        compile_status: "Waiting",
+        compile_status: lang === "py" ? "No Need" : "Waiting",
       },
     });
+    return response.data?.insert_contest_team_code_one?.code_id;
   };
   const handleOnchange = async (info: any) => {
     if (info.file.status === "done") {
@@ -319,15 +322,14 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const downloadCompile = async () => {
+  const downloadCompile = async (code_id: string) => {
     try {
       const response = await axios.get(
-        `${contestData?.contest_by_pk?.name}/code/${teamid}/${GetTeamCodes?.contest_team_code[0].code_id}.log}`,
+        `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.log}`,
         {
           responseType: "blob",
         },
       );
-      //let codeTime: string;
 
       FileSaver.saveAs(
         response.data,
@@ -349,22 +351,147 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
+  const [updateTeamCodeName] = graphql.useUpdateTeamCodeNameMutation();
+
+  const resetCodeName = async (
+    newName: string,
+    code_id: string,
+    lang: string,
+  ) => {
+    try {
+      await updateTeamCodeName({
+        variables: {
+          code_id: code_id,
+          code_name: newName + "." + lang,
+        },
+      });
+      message.success("修改成功");
+    } catch (err) {
+      message.error("修改失败");
+    }
+  };
+
+  const { Paragraph } = Typography;
+
   const columns: ColumnsType<datatype> = [
     {
-      title: "代码名",
+      title: "代码编号",
+      dataIndex: "codeindex",
+    },
+    {
+      title: "代码名（点击修改）",
       dataIndex: "codename",
+      render: (item: any) => {
+        const [filename, lang] = item.code_name.split(".");
+        return (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Paragraph
+              editable={{
+                onChange: (newName) => {
+                  //检测文件名是否合法
+                  if (newName === "") {
+                    message.warning("文件名不能为空");
+                    return;
+                  }
+                  const reg = /^[a-zA-Z0-9_]+$/;
+                  if (!reg.test(newName)) {
+                    message.warning("文件名只能包含字母、数字和下划线");
+                    return;
+                  }
+                  resetCodeName(newName, item.code_id, lang);
+                },
+                triggerType: ["text"],
+              }}
+              code
+            >
+              {filename}
+            </Paragraph>
+            <Paragraph>.{lang}</Paragraph>
+          </div>
+        );
+      },
     },
 
     {
       title: "代码更新时间",
       dataIndex: "updatetime",
+      render: (updatetime: string) =>
+        new Date(updatetime).toLocaleString("zh-CN", {
+          hour12: false,
+        }),
+    },
+    {
+      title: "编译状态",
+      dataIndex: "compile_status",
+      render: (compile_status: string) => {
+        function Status(compile_status: string) {
+          switch (compile_status) {
+            case "Completed":
+              return (
+                <Space>
+                  <CheckCircleTwoTone twoToneColor="#52c41a" />
+                  {compile_status}
+                </Space>
+              );
+            case "No Need":
+              return (
+                <Space>
+                  <SmileTwoTone twoToneColor="#52c41a" />
+                  {compile_status}
+                </Space>
+              );
+            case "Failed":
+              return (
+                <Space>
+                  <FrownTwoTone twoToneColor="red" />
+                  {compile_status}
+                </Space>
+              );
+            case "Waiting":
+              return (
+                <Space>
+                  <SyncOutlined spin />
+                  {compile_status}
+                </Space>
+              );
+            case "Compiling":
+              return (
+                <Space>
+                  <LoadingOutlined spin />
+                  {compile_status}
+                </Space>
+              );
+          }
+        }
+
+        return Status(compile_status);
+      },
+    },
+    {
+      title: "编译信息",
+      dataIndex: "compile_info",
+      render: (item: any) => (
+        <Row justify="start">
+          <Button
+            onClick={() => {
+              message.info(`下载代码${item.code_name}的编译信息`);
+              downloadCompile(item.code_id).catch((e) => {
+                message.error("下载失败");
+              });
+            }}
+          >
+            <CodeOutlined />
+            获取
+          </Button>
+        </Row>
+      ),
     },
     {
       title: "下载代码",
       dataIndex: "download",
-      render: (text, record) => (
+      render: (item: any) => (
         <Row justify="start">
-          <Button onClick={handleDownload}>
+          <Button onClick={() => handleDownload(item.code_name, item.code_id)}>
             <DownloadOutlined />
             下载
           </Button>
@@ -372,22 +499,13 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       ),
     },
     {
-      title: "编译信息",
-      key: "compile_info",
-      render: (text, record) => (
+      title: "删除代码",
+      dataIndex: "delete",
+      render: (code_id: string) => (
         <Row justify="start">
-          <Button
-            onClick={() => {
-              message.info(
-                `下载代码${GetTeamCodes?.contest_team_code[count].code_name}的编译信息`,
-              );
-              downloadCompile().catch((e) => {
-                message.error("下载失败");
-              });
-            }}
-          >
-            <CodeOutlined />
-            获取
+          <Button onClick={() => handleDelete(code_id)} type="primary" danger>
+            <DeleteOutlined />
+            删除
           </Button>
         </Row>
       ),
@@ -433,6 +551,8 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
                 <UploadOutlined /> 上传
               </Button>
             </Upload>
+            <br />
+            <br />
 
             <Table
               components={components}
@@ -441,8 +561,13 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
               dataSource={GetTeamCodes?.contest_team_code.map((item, index) => {
                 return {
                   key: index,
-                  codename: item.code_name,
+                  codeindex: index + 1,
+                  codename: item as any,
                   updatetime: item.created_at,
+                  compile_status: item.compile_status,
+                  compile_info: item,
+                  download: item,
+                  delete: item.code_id,
                 } as datatype;
               })}
               columns={columns as ColumnTypes}
