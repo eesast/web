@@ -37,8 +37,6 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { FormInstance } from "antd/lib";
-const { Option } = Select;
-const { Paragraph } = Typography;
 
 /* ---------------- 主页面 ---------------- */
 const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
@@ -46,15 +44,14 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
 
   //linqiushi
   const url = useUrl();
+  const { Option } = Select;
+  const { Paragraph } = Typography;
   const Contest_id = url.query.get("contest");
   const [selectedCodeId, setSelectedCodeId] = useState("");
   const [editingKey, setEditingKey] = useState("");
 
-  const isEditing = (record: any) => record.key === editingKey;
-  const edit = (record: any) => {
-    setEditingKey(record.key);
-  };
   type ColumnsType<T> = TableProps<T>["columns"];
+
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
 
@@ -65,6 +62,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
+
   const teamid = teamData?.contest_team_member[0]?.contest_team.team_id!;
 
   const { data: GetTeamInfo } = graphql.useGetTeamInfoQuery({
@@ -103,14 +101,6 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
 
   //linqiushi:修改后的数据库
   const [AddTeamCode, { error: codeError }] = graphql.useAddTeamCodeMutation();
-  // const [UpdateTeamCodeName, { error: update_codeerror }] =
-  //   graphql.useUpdateTeamCodeNameMutation();
-  //linqiushi 查询
-  const { data: GetTeamCodes } = graphql.useGetTeamCodesSubscription({
-    variables: {
-      team_id: teamid!,
-    },
-  });
 
   const [updatePlayerCodes, { error: updatePlayerError }] =
     graphql.useUpdateTeamPlayerMutation();
@@ -246,6 +236,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     player_name: string;
     code_index: number;
     code_name: string;
+    updatetime: string;
     operation: string;
   }
   interface datatype {
@@ -261,6 +252,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       cell: EditableCell,
     },
   };
+
   const handleUpload = async (e: RcCustomRequestOptions) => {
     const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
     const codeName = (e.file as RcFile).name;
@@ -288,6 +280,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       e.onError!(new Error("上传失败"));
     }
   };
+
   const handleDownload = async (code_name: string, code_id: string) => {
     try {
       const cpp_exist = await existFile(
@@ -393,7 +386,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
           "",
         ) +
           "_" +
-          GetTeamCodes?.contest_team_code[0].code_name +
+          teamCodesData?.contest_team_code[0].code_name +
           "_compile_log.txt",
       );
     } catch (e) {
@@ -424,13 +417,17 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const save = async (key: string, code_id: string) => {
+  const isEditing = (record: any) => record.key === editingKey;
+  const edit = (record: any) => {
+    setEditingKey(record.key);
+  };
+
+  const handlePlayerCodesChange = async (key: string, code_id: string) => {
     try {
-      // 这里你需要调用 API 或执行相应的逻辑来更新数据
       await updatePlayerCodes({
         variables: {
           team_id: teamid,
-          player: key, // 假设 key 是玩家的标识
+          player: key,
           code_id: code_id,
           role: teamPlayersData?.contest_team_player?.find(
             (code) => code.player === key,
@@ -438,14 +435,14 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
         },
       });
       message.success("角色代码更新成功");
-      setEditingKey(""); // 结束编辑状态
+      setEditingKey("");
     } catch (error) {
       message.error("更新失败，请重试");
     }
   };
 
   const codeIndexMap = new Map();
-  GetTeamCodes?.contest_team_code.forEach((code, index) => {
+  teamCodesData?.contest_team_code.forEach((code, index) => {
     codeIndexMap.set(code.code_id, index + 1); // 存储 code_name 到 codeindex 的映射
   });
 
@@ -453,48 +450,48 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     ? [...contestPlayersData?.contest_player]
         .sort((a, b) => a.player_label.localeCompare(b.player_label))
         ?.map((item, index) => {
+          const code = teamPlayersData?.contest_team_player.find(
+            (code) => code.player === item.player_label,
+          )?.player_code;
           return {
             key: item.player_label,
-            code_index: codeIndexMap.get(
-              teamPlayersData?.contest_team_player.find(
-                (code) => code.player === item.player_label,
-              )?.player_code?.code_id,
-            ),
-            code_name: teamPlayersData?.contest_team_player.find(
-              (code) => code.player === item.player_label,
-            )?.player_code?.code_name,
+            code_index: codeIndexMap.get(code?.code_id),
+            code_name: code?.code_name,
             player_name: item.player_label,
+            updatetime: code?.created_at,
           } as playertype;
         })
     : [];
 
-  const dataSourceCodes = GetTeamCodes?.contest_team_code.map((item, index) => {
-    return {
-      key: index,
-      codeindex: index + 1,
-      codename: item as any,
-      updatetime: item.created_at,
-      compile_status: item.compile_status,
-      compile_info: item,
-      download: item,
-      delete: item.code_id,
-    } as datatype;
-  });
+  const dataSourceCodes = teamCodesData?.contest_team_code.map(
+    (item, index) => {
+      return {
+        key: index,
+        codeindex: index + 1,
+        codename: item as any,
+        updatetime: item.created_at,
+        compile_status: item.compile_status,
+        compile_info: item,
+        download: item,
+        delete: item.code_id,
+      } as datatype;
+    },
+  );
 
   const columnsPlayer: ColumnsType<playertype> = [
     {
       title: "角色",
-      width: "25%",
+      width: "20%",
       dataIndex: "player_name",
     },
     {
-      title: "代码编号（与上表一致）",
-      width: "25%",
+      title: "代码编号（与下表一致）",
+      width: "20%",
       dataIndex: "code_index",
     },
     {
       title: "代码名",
-      width: "25%",
+      width: "20%",
       dataIndex: "code_name",
       render: (text, record) => {
         if (isEditing(record)) {
@@ -525,8 +522,16 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       },
     },
     {
+      title: "代码更新时间",
+      dataIndex: "updatetime",
+      render: (updatetime: string) =>
+        new Date(updatetime).toLocaleString("zh-CN", {
+          hour12: false,
+        }),
+    },
+    {
       title: "操作",
-      width: "25%",
+      width: "20%",
       dataIndex: "operation",
       render: (_, record) => {
         const editable = isEditing(record);
@@ -535,7 +540,9 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
             <Button
               type="primary"
               style={{ marginRight: "20px" }}
-              onClick={() => save(record.key, selectedCodeId)}
+              onClick={() =>
+                handlePlayerCodesChange(record.key, selectedCodeId)
+              }
             >
               保存
             </Button>
@@ -692,6 +699,34 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
+          <Typography.Title level={2}>角色代码管理</Typography.Title>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <Typography.Text mark>
+            你可以给任意角色分配代码库中的任意编译成功的代码
+          </Typography.Text>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <br />
+          <br />
+          <Table
+            components={components}
+            rowClassName={() => "editable-row"}
+            bordered
+            dataSource={dataSourcePlayer}
+            columns={columnsPlayer as ColumnTypes}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
           <Typography.Title level={2}>代码库管理</Typography.Title>
         </Col>
       </Row>
@@ -723,7 +758,8 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
             >
               <Button>
                 添加新代码
-                <UploadOutlined /> 上传
+                <UploadOutlined />
+                上传
               </Button>
             </Upload>
             <br />
@@ -736,34 +772,6 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
               columns={columnsCodes as ColumnTypes}
             />
           </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Title level={2}>角色代码管理</Typography.Title>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Text mark>
-            你可以给任意角色分配代码库中的任意编译成功的代码
-          </Typography.Text>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <br />
-          <br />
-          <Table
-            components={components}
-            rowClassName={() => "editable-row"}
-            bordered
-            dataSource={dataSourcePlayer}
-            columns={columnsPlayer as ColumnTypes}
-          />
         </Col>
       </Row>
     </Layout>
