@@ -523,6 +523,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "代码更新时间",
+      width: "20%",
       dataIndex: "updatetime",
       render: (updatetime: string) =>
         new Date(updatetime).toLocaleString("zh-CN", {
@@ -558,10 +559,12 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   const columnsCodes: ColumnsType<datatype> = [
     {
       title: "代码编号",
+      width: "10%",
       dataIndex: "codeindex",
     },
     {
       title: "代码名（点击修改）",
+      width: "15%",
       dataIndex: "codename",
       render: (item: any) => {
         const [filename, lang] = item.code_name.split(".");
@@ -596,6 +599,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
 
     {
       title: "代码更新时间",
+      width: "15%",
       dataIndex: "updatetime",
       render: (updatetime: string) =>
         new Date(updatetime).toLocaleString("zh-CN", {
@@ -604,6 +608,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "编译状态",
+      width: "15%",
       dataIndex: "compile_status",
       render: (compile_status: string) => {
         function Status(compile_status: string) {
@@ -651,6 +656,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "编译信息",
+      width: "15%",
       dataIndex: "compile_info",
       render: (item: any) => (
         <Row justify="start">
@@ -670,6 +676,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "下载代码",
+      width: "15%",
       dataIndex: "download",
       render: (item: any) => (
         <Row justify="start">
@@ -682,6 +689,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "删除代码",
+      width: "15%",
       dataIndex: "delete",
       render: (code_id: string) => (
         <Row justify="start">
