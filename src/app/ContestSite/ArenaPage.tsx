@@ -319,8 +319,10 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                         body: { paddingTop: "30px" },
                       }}
                       hoverable
-                      onClick={() => {
+                      onMouseEnter={() => {
                         setOpponentTeamId(item.team_id);
+                      }}
+                      onClick={() => {
                         teamStatusRefetch();
                         if (opponentTeamId === team_id) {
                           message.info("不能和自己的队伍对战");
@@ -457,6 +459,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         }}
         onOk={() => {
           runForm.submit();
+          setIsModalVisible(false);
         }}
         destroyOnClose
       >
@@ -521,28 +524,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
               ))}
             </Select>
           </Form.Item>
-          {/* {contestPlayersData?.contest_player.map((player, index) => (
-            <Form.Item
-              key={index}
-              name={`code_version_${player.player_label}`}
-              label={`为 ${player.player_label} 选择代码`}
-              rules={[
-                {
-                  required: true,
-                  message: `为 ${player.player_label} 选择代码`,
-                },
-              ]}
-            >
-              <Select allowClear>
-                {teamCodesData?.contest_team_code.map((code, idx) => (
-                  <Option
-                    key={idx}
-                    value={code.code_id}
-                  >{`${code.code_name}`}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-          ))} */}
         </Form>
       </Modal>
     </Layout>

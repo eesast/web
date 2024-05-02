@@ -14,6 +14,7 @@ import {
   Typography,
   Input,
   Form,
+  Select,
   Space,
 } from "antd";
 import type { InputRef } from "antd";
@@ -36,6 +37,9 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { FormInstance } from "antd/lib";
+const { Option } = Select;
+const { Paragraph } = Typography;
+
 /* ---------------- 主页面 ---------------- */
 const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -43,7 +47,13 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   //linqiushi
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  const [selectedCodeId, setSelectedCodeId] = useState("");
+  const [editingKey, setEditingKey] = useState("");
 
+  const isEditing = (record: any) => record.key === editingKey;
+  const edit = (record: any) => {
+    setEditingKey(record.key);
+  };
   type ColumnsType<T> = TableProps<T>["columns"];
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
@@ -71,6 +81,24 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
+  const { data: teamCodesData, error: teamCodesError } =
+    graphql.useGetTeamCodesSubscription({
+      variables: {
+        team_id: teamid,
+      },
+    });
+
+  const { data: contestPlayersData } = graphql.useGetContestPlayersQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+
+  const { data: teamPlayersData } = graphql.useGetTeamPlayersSubscription({
+    variables: {
+      team_id: teamid,
+    },
+  });
   // 上传代码 换数据库要修改
 
   //linqiushi:修改后的数据库
@@ -84,6 +112,13 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
+  const [updatePlayerCodes, { error: updatePlayerError }] =
+    graphql.useUpdateTeamPlayerMutation();
+
+  const [deleteTeamCode] = graphql.useDeleteTeamCodeMutation();
+
+  const [updateTeamCodeName] = graphql.useUpdateTeamCodeNameMutation();
+
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestError) {
@@ -96,6 +131,20 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   useEffect(() => {
     if (codeError) {
       message.error("上传代码失败");
+    }
+  });
+
+  useEffect(() => {
+    if (teamCodesError) {
+      message.error("队伍代码加载失败");
+      console.log(teamCodesError.message);
+    }
+  }, [teamCodesError]);
+
+  useEffect(() => {
+    if (updatePlayerError) {
+      message.error("角色代码更新失败");
+      console.log(updatePlayerError.message);
     }
   });
 
@@ -192,6 +241,13 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
 
     return <td {...restProps}>{childNode}</td>;
   };
+  interface playertype {
+    key: string;
+    player_name: string;
+    code_index: number;
+    code_name: string;
+    operation: string;
+  }
   interface datatype {
     key: React.Key;
     codename: string;
@@ -264,7 +320,6 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const [deleteTeamCode] = graphql.useDeleteTeamCodeMutation();
   const handleDelete = async (code_id: string) => {
     try {
       const cpp_exist = await existFile(
@@ -351,8 +406,6 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const [updateTeamCodeName] = graphql.useUpdateTeamCodeNameMutation();
-
   const resetCodeName = async (
     newName: string,
     code_id: string,
@@ -371,9 +424,131 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const { Paragraph } = Typography;
+  const save = async (key: string, code_id: string) => {
+    try {
+      // 这里你需要调用 API 或执行相应的逻辑来更新数据
+      await updatePlayerCodes({
+        variables: {
+          team_id: teamid,
+          player: key, // 假设 key 是玩家的标识
+          code_id: code_id,
+          role: teamPlayersData?.contest_team_player?.find(
+            (code) => code.player === key,
+          )?.role!,
+        },
+      });
+      message.success("角色代码更新成功");
+      setEditingKey(""); // 结束编辑状态
+    } catch (error) {
+      message.error("更新失败，请重试");
+    }
+  };
 
-  const columns: ColumnsType<datatype> = [
+  const codeIndexMap = new Map();
+  GetTeamCodes?.contest_team_code.forEach((code, index) => {
+    codeIndexMap.set(code.code_id, index + 1); // 存储 code_name 到 codeindex 的映射
+  });
+
+  const dataSourcePlayer = contestPlayersData?.contest_player
+    ? [...contestPlayersData?.contest_player]
+        .sort((a, b) => a.player_label.localeCompare(b.player_label))
+        ?.map((item, index) => {
+          return {
+            key: item.player_label,
+            code_index: codeIndexMap.get(
+              teamPlayersData?.contest_team_player.find(
+                (code) => code.player === item.player_label,
+              )?.player_code?.code_id,
+            ),
+            code_name: teamPlayersData?.contest_team_player.find(
+              (code) => code.player === item.player_label,
+            )?.player_code?.code_name,
+            player_name: item.player_label,
+          } as playertype;
+        })
+    : [];
+
+  const dataSourceCodes = GetTeamCodes?.contest_team_code.map((item, index) => {
+    return {
+      key: index,
+      codeindex: index + 1,
+      codename: item as any,
+      updatetime: item.created_at,
+      compile_status: item.compile_status,
+      compile_info: item,
+      download: item,
+      delete: item.code_id,
+    } as datatype;
+  });
+
+  const columnsPlayer: ColumnsType<playertype> = [
+    {
+      title: "角色",
+      width: "25%",
+      dataIndex: "player_name",
+    },
+    {
+      title: "代码编号（与上表一致）",
+      width: "25%",
+      dataIndex: "code_index",
+    },
+    {
+      title: "代码名",
+      width: "25%",
+      dataIndex: "code_name",
+      render: (text, record) => {
+        if (isEditing(record)) {
+          return (
+            <Select
+              allowClear
+              style={{ width: "100%" }}
+              defaultValue={text}
+              onChange={(value) => setSelectedCodeId(value)}
+            >
+              {teamCodesData?.contest_team_code
+                .filter((item) => {
+                  return (
+                    item.compile_status === "No Need" ||
+                    item.compile_status === "Completed"
+                  );
+                })
+                .map((code, idx) => (
+                  <Option
+                    key={idx}
+                    value={code.code_id}
+                  >{`代码${codeIndexMap.get(code.code_id)} : ${code.code_name}`}</Option>
+                ))}
+            </Select>
+          );
+        }
+        return text;
+      },
+    },
+    {
+      title: "操作",
+      width: "25%",
+      dataIndex: "operation",
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <div>
+            <Button
+              type="primary"
+              style={{ marginRight: "20px" }}
+              onClick={() => save(record.key, selectedCodeId)}
+            >
+              保存
+            </Button>
+            <Button onClick={() => setEditingKey("")}>取消</Button>
+          </div>
+        ) : (
+          <Button onClick={() => edit(record)}>选择代码</Button>
+        );
+      },
+    },
+  ];
+
+  const columnsCodes: ColumnsType<datatype> = [
     {
       title: "代码编号",
       dataIndex: "codeindex",
@@ -532,7 +707,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
             <Typography.Text code style={{ color: "black" }}>
               AI.py
             </Typography.Text>
-            ）都在这里，你可以给任意角色分配代码库中的任意编译成功的代码
+            ）都在这里
           </Typography.Text>
         </Col>
       </Row>
@@ -553,26 +728,42 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
             </Upload>
             <br />
             <br />
-
             <Table
               components={components}
               rowClassName={() => "editable-row"}
               bordered
-              dataSource={GetTeamCodes?.contest_team_code.map((item, index) => {
-                return {
-                  key: index,
-                  codeindex: index + 1,
-                  codename: item as any,
-                  updatetime: item.created_at,
-                  compile_status: item.compile_status,
-                  compile_info: item,
-                  download: item,
-                  delete: item.code_id,
-                } as datatype;
-              })}
-              columns={columns as ColumnTypes}
+              dataSource={dataSourceCodes}
+              columns={columnsCodes as ColumnTypes}
             />
           </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <Typography.Title level={2}>角色代码管理</Typography.Title>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <Typography.Text mark>
+            你可以给任意角色分配代码库中的任意编译成功的代码
+          </Typography.Text>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <br />
+          <br />
+          <Table
+            components={components}
+            rowClassName={() => "editable-row"}
+            bordered
+            dataSource={dataSourcePlayer}
+            columns={columnsPlayer as ColumnTypes}
+          />
         </Col>
       </Row>
     </Layout>
