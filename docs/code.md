@@ -61,4 +61,4 @@ permalink: /code
 
 1. 编译代码的`docker`每次启动只编译一份代码，且只需考虑编译型语言（如`cpp`）的代码
 2. `docker`启动时代码文件绑定在`/usr/local/code`文件夹下，编译产生的可执行文件和`log`请保存到`/usr/local/output`文件夹（命名与代码文件前缀相同）
-3. `docker`启动时会设置环境变量`URL`，`TOKEN`，`LANG`（目前默认是 `cpp`），编译完成后需要请求`URL`（实际上是`/code/compile-finish`），请求时需要在`header`中加上`TOKEN`，请求的`body`中需包括代码编译的状态`compile_status: string`，取值为`Success`或`Failed`
+3. `docker`启动时会设置环境变量`URL`，`TOKEN`，`LANG`（目前默认是 `cpp`），编译完成后需要请求`URL`（实际上是`/code/compile-finish`），请求时需要在`header`中加上`TOKEN`，请求的`body`中需包括代码编译的状态`compile_status: string`，取值为`Completed`或`Failed`
