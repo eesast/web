@@ -51,7 +51,7 @@ const downloadByUrl = (url: string) => {
   document.body.removeChild(element);
 };
 
-export const downloadFile = (url: string) => {
+export const downloadFile = (url: string, filename?: string) => {
   return new Promise(async (resolve, reject) => {
     if ((await existFile(url)) === false)
       return reject("文件不存在，请检查路径");
@@ -64,10 +64,16 @@ export const downloadFile = (url: string) => {
       (err, data) => {
         if (err) return reject(err);
         try {
+          // downloadByUrl(
+          //   data.Url +
+          //     (data.Url.indexOf("?") > -1 ? "&" : "?") +
+          //     "response-content-disposition=attachment;"+(filename ? "filename="+encodeURIComponent(filename.replace(".","_")+".txt") : ""),
+          // );
           downloadByUrl(
             data.Url +
               (data.Url.indexOf("?") > -1 ? "&" : "?") +
-              "response-content-disposition=attachment;",
+              "response-content-disposition=attachment;" +
+              (filename ? "filename=" + encodeURIComponent(filename) : ""),
           );
         } catch (err) {
           return reject(err);
