@@ -10,7 +10,7 @@
     "antd": "5.16.5",
     "axios": "1.6.8",
     "cos-js-sdk-v5": "1.7.1",
-    "dayjs": "1.11.10",
+    "dayjs": "1.11.11",
     "docxtemplater": "3.47.1",
     "dotenv": "16.4.5",
     "file-saver": "2.0.5",
