@@ -363,6 +363,7 @@ export type Aid_Application_Variance_Fields = {
 export type Contest = {
   __typename?: 'contest';
   arena_switch: Scalars['Boolean']['output'];
+  client_memory_limit?: Maybe<Scalars['numeric']['output']>;
   code_upload_switch: Scalars['Boolean']['output'];
   /** An array relationship */
   contest_managers: Array<Contest_Manager>;
@@ -401,9 +402,11 @@ export type Contest = {
   end_date: Scalars['timestamptz']['output'];
   fullname: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
+  max_game_time?: Maybe<Scalars['numeric']['output']>;
   name: Scalars['String']['output'];
   playback_switch: Scalars['Boolean']['output'];
   playground_switch: Scalars['Boolean']['output'];
+  server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date: Scalars['timestamptz']['output'];
   status: Scalars['String']['output'];
   stream_switch: Scalars['Boolean']['output'];
@@ -580,9 +583,17 @@ export type Contest_Aggregate = {
 /** aggregate fields of "contest" */
 export type Contest_Aggregate_Fields = {
   __typename?: 'contest_aggregate_fields';
+  avg?: Maybe<Contest_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Contest_Max_Fields>;
   min?: Maybe<Contest_Min_Fields>;
+  stddev?: Maybe<Contest_Stddev_Fields>;
+  stddev_pop?: Maybe<Contest_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Contest_Stddev_Samp_Fields>;
+  sum?: Maybe<Contest_Sum_Fields>;
+  var_pop?: Maybe<Contest_Var_Pop_Fields>;
+  var_samp?: Maybe<Contest_Var_Samp_Fields>;
+  variance?: Maybe<Contest_Variance_Fields>;
 };
 
 
@@ -592,12 +603,21 @@ export type Contest_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** aggregate avg on columns */
+export type Contest_Avg_Fields = {
+  __typename?: 'contest_avg_fields';
+  client_memory_limit?: Maybe<Scalars['Float']['output']>;
+  max_game_time?: Maybe<Scalars['Float']['output']>;
+  server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
+
 /** Boolean expression to filter rows from the table "contest". All fields are combined with a logical 'AND'. */
 export type Contest_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Bool_Exp>>;
   _not?: InputMaybe<Contest_Bool_Exp>;
   _or?: InputMaybe<Array<Contest_Bool_Exp>>;
   arena_switch?: InputMaybe<Boolean_Comparison_Exp>;
+  client_memory_limit?: InputMaybe<Numeric_Comparison_Exp>;
   code_upload_switch?: InputMaybe<Boolean_Comparison_Exp>;
   contest_managers?: InputMaybe<Contest_Manager_Bool_Exp>;
   contest_maps?: InputMaybe<Contest_Map_Bool_Exp>;
@@ -612,9 +632,11 @@ export type Contest_Bool_Exp = {
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   fullname?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  max_game_time?: InputMaybe<Numeric_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   playback_switch?: InputMaybe<Boolean_Comparison_Exp>;
   playground_switch?: InputMaybe<Boolean_Comparison_Exp>;
+  server_memory_limit?: InputMaybe<Numeric_Comparison_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   stream_switch?: InputMaybe<Boolean_Comparison_Exp>;
@@ -962,9 +984,17 @@ export enum Contest_Constraint {
   ContestPkey = 'contest_pkey'
 }
 
+/** input type for incrementing numeric columns in table "contest" */
+export type Contest_Inc_Input = {
+  client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
+  max_game_time?: InputMaybe<Scalars['numeric']['input']>;
+  server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
+};
+
 /** input type for inserting data into table "contest" */
 export type Contest_Insert_Input = {
   arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
   contest_managers?: InputMaybe<Contest_Manager_Arr_Rel_Insert_Input>;
   contest_maps?: InputMaybe<Contest_Map_Arr_Rel_Insert_Input>;
@@ -979,9 +1009,11 @@ export type Contest_Insert_Input = {
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   fullname?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  max_game_time?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
   playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1385,12 +1417,15 @@ export enum Contest_Map_Update_Column {
 /** aggregate max on columns */
 export type Contest_Max_Fields = {
   __typename?: 'contest_max_fields';
+  client_memory_limit?: Maybe<Scalars['numeric']['output']>;
   contest_type?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   end_date?: Maybe<Scalars['timestamptz']['output']>;
   fullname?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  max_game_time?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
   status?: Maybe<Scalars['String']['output']>;
 };
@@ -1398,12 +1433,15 @@ export type Contest_Max_Fields = {
 /** aggregate min on columns */
 export type Contest_Min_Fields = {
   __typename?: 'contest_min_fields';
+  client_memory_limit?: Maybe<Scalars['numeric']['output']>;
   contest_type?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   end_date?: Maybe<Scalars['timestamptz']['output']>;
   fullname?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  max_game_time?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
   status?: Maybe<Scalars['String']['output']>;
 };
@@ -1643,6 +1681,7 @@ export type Contest_On_Conflict = {
 /** Ordering options when selecting data from "contest". */
 export type Contest_Order_By = {
   arena_switch?: InputMaybe<Order_By>;
+  client_memory_limit?: InputMaybe<Order_By>;
   code_upload_switch?: InputMaybe<Order_By>;
   contest_managers_aggregate?: InputMaybe<Contest_Manager_Aggregate_Order_By>;
   contest_maps_aggregate?: InputMaybe<Contest_Map_Aggregate_Order_By>;
@@ -1657,9 +1696,11 @@ export type Contest_Order_By = {
   end_date?: InputMaybe<Order_By>;
   fullname?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  max_game_time?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   playback_switch?: InputMaybe<Order_By>;
   playground_switch?: InputMaybe<Order_By>;
+  server_memory_limit?: InputMaybe<Order_By>;
   start_date?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   stream_switch?: InputMaybe<Order_By>;
@@ -2756,6 +2797,8 @@ export enum Contest_Select_Column {
   /** column name */
   ArenaSwitch = 'arena_switch',
   /** column name */
+  ClientMemoryLimit = 'client_memory_limit',
+  /** column name */
   CodeUploadSwitch = 'code_upload_switch',
   /** column name */
   ContestType = 'contest_type',
@@ -2768,11 +2811,15 @@ export enum Contest_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MaxGameTime = 'max_game_time',
+  /** column name */
   Name = 'name',
   /** column name */
   PlaybackSwitch = 'playback_switch',
   /** column name */
   PlaygroundSwitch = 'playground_switch',
+  /** column name */
+  ServerMemoryLimit = 'server_memory_limit',
   /** column name */
   StartDate = 'start_date',
   /** column name */
@@ -2786,19 +2833,54 @@ export enum Contest_Select_Column {
 /** input type for updating data in table "contest" */
 export type Contest_Set_Input = {
   arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
   contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   fullname?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  max_game_time?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
   playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
   team_switch?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Contest_Stddev_Fields = {
+  __typename?: 'contest_stddev_fields';
+  client_memory_limit?: Maybe<Scalars['Float']['output']>;
+  max_game_time?: Maybe<Scalars['Float']['output']>;
+  server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Contest_Stddev_Pop_Fields = {
+  __typename?: 'contest_stddev_pop_fields';
+  client_memory_limit?: Maybe<Scalars['Float']['output']>;
+  max_game_time?: Maybe<Scalars['Float']['output']>;
+  server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Contest_Stddev_Samp_Fields = {
+  __typename?: 'contest_stddev_samp_fields';
+  client_memory_limit?: Maybe<Scalars['Float']['output']>;
+  max_game_time?: Maybe<Scalars['Float']['output']>;
+  server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Contest_Sum_Fields = {
+  __typename?: 'contest_sum_fields';
+  client_memory_limit?: Maybe<Scalars['numeric']['output']>;
+  max_game_time?: Maybe<Scalars['numeric']['output']>;
+  server_memory_limit?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** 比赛队伍 */
@@ -4091,6 +4173,8 @@ export enum Contest_Update_Column {
   /** column name */
   ArenaSwitch = 'arena_switch',
   /** column name */
+  ClientMemoryLimit = 'client_memory_limit',
+  /** column name */
   CodeUploadSwitch = 'code_upload_switch',
   /** column name */
   ContestType = 'contest_type',
@@ -4103,11 +4187,15 @@ export enum Contest_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MaxGameTime = 'max_game_time',
+  /** column name */
   Name = 'name',
   /** column name */
   PlaybackSwitch = 'playback_switch',
   /** column name */
   PlaygroundSwitch = 'playground_switch',
+  /** column name */
+  ServerMemoryLimit = 'server_memory_limit',
   /** column name */
   StartDate = 'start_date',
   /** column name */
@@ -4117,6 +4205,30 @@ export enum Contest_Update_Column {
   /** column name */
   TeamSwitch = 'team_switch'
 }
+
+/** aggregate var_pop on columns */
+export type Contest_Var_Pop_Fields = {
+  __typename?: 'contest_var_pop_fields';
+  client_memory_limit?: Maybe<Scalars['Float']['output']>;
+  max_game_time?: Maybe<Scalars['Float']['output']>;
+  server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Contest_Var_Samp_Fields = {
+  __typename?: 'contest_var_samp_fields';
+  client_memory_limit?: Maybe<Scalars['Float']['output']>;
+  max_game_time?: Maybe<Scalars['Float']['output']>;
+  server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Contest_Variance_Fields = {
+  __typename?: 'contest_variance_fields';
+  client_memory_limit?: Maybe<Scalars['Float']['output']>;
+  max_game_time?: Maybe<Scalars['Float']['output']>;
+  server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
 export type Date_Comparison_Exp = {
@@ -7326,6 +7438,7 @@ export type Mutation_RootUpdate_Aid_Application_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_ContestArgs = {
+  _inc?: InputMaybe<Contest_Inc_Input>;
   _set?: InputMaybe<Contest_Set_Input>;
   where: Contest_Bool_Exp;
 };
@@ -7333,6 +7446,7 @@ export type Mutation_RootUpdate_ContestArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_By_PkArgs = {
+  _inc?: InputMaybe<Contest_Inc_Input>;
   _set?: InputMaybe<Contest_Set_Input>;
   pk_columns: Contest_Pk_Columns_Input;
 };
@@ -13022,7 +13136,7 @@ export type GetTeamPlayersSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, created_at: any } | null }> };
+export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_name: string, language: string, created_at: any } | null }> };
 
 export type GetTeamStatusQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -15723,7 +15837,6 @@ export const GetTeamPlayersDocument = gql`
   contest_team_player(where: {team_id: {_eq: $team_id}}) {
     player
     player_code {
-      code_id
       code_name
       language
       created_at
