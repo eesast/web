@@ -64,6 +64,7 @@ export const downloadFile = (url: string, filename?: string) => {
       (err, data) => {
         if (err) return reject(err);
         try {
+          //备选，下载的文件后缀为.cpp/.py或.txt
           // downloadByUrl(
           //   data.Url +
           //     (data.Url.indexOf("?") > -1 ? "&" : "?") +
