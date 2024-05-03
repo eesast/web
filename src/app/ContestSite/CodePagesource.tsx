@@ -32,7 +32,6 @@ import {
 import { uploadFile, downloadFile, existFile, deleteFile } from "../../api/cos";
 import type { TableProps } from "antd/lib/table";
 import axios, { AxiosError } from "axios";
-import FileSaver from "file-saver";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
