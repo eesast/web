@@ -38,11 +38,14 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [opponentTeamId, setOpponentTeamId] = useState("");
   const [associatedValue, setAssociatedValue] = useState("");
-  const [filterParamList, setFilterParamList] = useState<
-    graphql.GetTeamsQuery["contest_team"]
-  >([]);
-
+  type VisibleContestTeam = graphql.GetTeamsQuery["contest_team"][0] & {
+    isVisible: boolean;
+  };
+  const [filterParamList, setFilterParamList] = useState<VisibleContestTeam[]>(
+    [],
+  );
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+
   //获取比赛状态
   const { data: contestData, error: contestError } =
     graphql.useGetContestInfoSuspenseQuery({
@@ -50,6 +53,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+
   //获取天梯队伍信息
   const { data: scoreteamListData, error: scoreteamListError } =
     graphql.useGetTeamsSuspenseQuery({
@@ -58,27 +62,22 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: teamData, error: teamDataError } = graphql.useGetTeamQuery({
-    variables: {
-      user_uuid: user.uuid,
-      contest_id: Contest_id,
-    },
-  });
-
-  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
-
-  const { data: teamCodesData, error: teamCodesError } =
-    graphql.useGetTeamCodesSubscription({
+  const { data: teamData, error: teamDataError } =
+    graphql.useGetTeamSuspenseQuery({
       variables: {
-        team_id: team_id,
+        user_uuid: user.uuid,
+        contest_id: Contest_id,
       },
     });
 
-  const { data: contestPlayersData } = graphql.useGetContestPlayersQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
+  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
+
+  const { data: contestPlayersData } =
+    graphql.useGetContestPlayersSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
 
   const { data: teamPlayersData } = graphql.useGetTeamPlayersSubscription({
     variables: {
@@ -86,12 +85,19 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
-  const { data: teamStatusData, refetch: teamStatusRefetch } =
-    graphql.useGetTeamStatusQuery({
-      variables: {
-        team_id: opponentTeamId,
-      },
-    });
+  const { data: teamStatusOurData } = graphql.useGetTeamStatusSuspenseQuery({
+    variables: {
+      team_id: team_id ? team_id : "",
+    },
+    skip: true,
+  });
+
+  const { refetch: teamStatusRefetch } = graphql.useGetTeamStatusSuspenseQuery({
+    variables: {
+      team_id: "",
+    },
+    skip: true,
+  });
 
   //获取正在比赛的room信息
   const {
@@ -154,54 +160,46 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  useEffect(() => {
-    if (teamCodesError) {
-      message.error("队伍代码加载失败");
-      console.log(teamCodesError.message);
-    }
-  }, [teamCodesError]);
+  // useEffect(() => {
+  //   if (teamCodesError) {
+  //     message.error("队伍代码加载失败");
+  //     console.log(teamCodesError.message);
+  //   }
+  // }, [teamCodesError]);
 
   useEffect(() => {
     if (contestMapError) {
-      message.error("比赛地图加载失败");
       console.log(contestMapError.message);
     }
   }, [contestMapError]);
 
-  //角色代码初始化
-  // const initialValues: { [key: string]: string } = {};
-  // contestPlayersData?.contest_player.forEach((player) => {
-  //   const defaultCode = teamPlayersData?.contest_team_player.find(
-  //     (code) => code.player === player.player_label,
-  //   );
-  //   if (defaultCode && defaultCode.player_code) {
-  //     initialValues[`code_version_${player.player_label}`] =
-  //       defaultCode.player_code.code_id;
-  //   }
-  // });
+  //搜索模块
+  useEffect(() => {
+    if (associatedValue !== "") {
+      setFilterParamList(
+        scoreteamListData?.contest_team.map((item) => ({
+          ...item,
+          isVisible:
+            item.team_name?.includes(associatedValue) ||
+            item.team_leader?.realname?.includes(associatedValue) ||
+            false,
+        })) || [],
+      );
+    } else {
+      setFilterParamList(
+        scoreteamListData?.contest_team.map((item) => ({
+          ...item,
+          isVisible: true,
+        })),
+      );
+    }
+  }, [associatedValue, scoreteamListData?.contest_team]);
 
-  const sortedTeams = [...filterParamList].sort((a, b) => {
+  const sortedTeams = [...filterParamList]?.sort((a, b) => {
     const scoreA = a.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
     const scoreB = b.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
     return scoreB - scoreA;
   });
-  //搜索模块
-  useEffect(() => {
-    if (associatedValue !== "") {
-      setFilterParamList([]);
-      setFilterParamList(
-        scoreteamListData?.contest_team.filter((item) => {
-          return (
-            item.team_name?.indexOf(associatedValue) !== -1 ||
-            item.team_leader?.realname?.indexOf(associatedValue) !== -1
-          );
-        }),
-      );
-    } else {
-      setFilterParamList(scoreteamListData?.contest_team);
-    }
-  }, [associatedValue, scoreteamListData?.contest_team]);
-
   /* ---------------- 业务逻辑函数 ---------------- */
   //检查对手队伍是否满足对战条件
 
@@ -309,140 +307,165 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           <Suspense fallback={<Loading />}>
             <List
               itemLayout="horizontal"
-              dataSource={sortedTeams as graphql.GetTeamsQuery["contest_team"]}
-              renderItem={(item, index) => (
-                <Content style={{ marginBottom: "20px" }}>
-                  <Tooltip title="点击开战" placement="topRight">
-                    <Card
-                      style={{ width: "100%", height: "150px" }}
-                      styles={{
-                        body: { paddingTop: "30px" },
-                      }}
-                      hoverable
-                      onMouseEnter={() => {
-                        setOpponentTeamId(item.team_id);
-                      }}
-                      onClick={() => {
-                        teamStatusRefetch();
-                        if (opponentTeamId === team_id) {
-                          message.info("不能和自己的队伍对战");
-                        } else if (
-                          teamStatusData?.contest_team_by_pk
-                            ?.contest_team_players_aggregate.aggregate
-                            ?.count !==
-                          teamStatusData?.contest_team_by_pk?.contest
-                            .contest_players_aggregate.aggregate?.count
-                        ) {
-                          message.info(
-                            "该队伍代码未编译通过或角色未分配代码，请选择其他队伍",
-                          );
-                        } else {
-                          setIsModalVisible(true);
-                        }
-                        // runForm.setFieldsValue(initialValues);
-                      }}
-                    >
-                      <Row
-                        gutter={4}
-                        align="middle"
-                        style={{ width: "100%", height: "100%" }}
+              dataSource={sortedTeams}
+              renderItem={(item, index) =>
+                item.isVisible && (
+                  <Content style={{ marginBottom: "20px" }}>
+                    <Tooltip title="点击开战" placement="topRight">
+                      <Card
+                        style={{ width: "100%", height: "150px" }}
+                        styles={{
+                          body: { paddingTop: "30px" },
+                        }}
+                        hoverable
+                        onClick={() => {
+                          if (!team_id) {
+                            message.info("您尚未加入队伍，请先加入队伍");
+                          } else if (
+                            teamStatusOurData?.contest_team_by_pk
+                              ?.contest_team_players_aggregate.aggregate
+                              ?.count !==
+                            teamStatusOurData?.contest_team_by_pk?.contest
+                              .contest_players_aggregate.aggregate?.count
+                          ) {
+                            message.info(
+                              "您的队伍代码未编译通过或角色未分配代码",
+                            );
+                          } else {
+                            teamStatusRefetch({ team_id: item.team_id }).then(
+                              (result) => {
+                                const playersCount =
+                                  result.data.contest_team_by_pk
+                                    ?.contest_team_players_aggregate.aggregate
+                                    ?.count;
+                                const requiredPlayersCount =
+                                  result.data.contest_team_by_pk?.contest
+                                    .contest_players_aggregate.aggregate?.count;
+                                if (playersCount !== requiredPlayersCount) {
+                                  message.info(
+                                    "该队伍代码未编译通过或角色未分配代码，请选择其他队伍",
+                                  );
+                                } else {
+                                  if (item.team_id === team_id) {
+                                    message.info("不能和自己的队伍对战");
+                                  } else {
+                                    setOpponentTeamId(item.team_id);
+                                    setIsModalVisible(true);
+                                  }
+                                }
+                              },
+                            );
+                          }
+                        }}
                       >
-                        <Col span={3}>
-                          <Typography.Text
-                            style={{
-                              display: "block",
-                              fontFamily: "Roboto",
-                              fontSize: getSizeByRank(index + 1), //文本大小
-                              fontWeight: "bold",
-                              overflow: "hidden",
-                              whiteSpace: "nowrap",
-                              textOverflow: "ellipsis",
-                              color: getColorByRank(index + 1), // 文本颜色
-                              lineHeight: "90px",
-                              textShadow: "5px 5px 0 #666, 7px 7px 0 #eee",
-                              textAlign: "center",
-                              opacity: 0.9,
-                            }}
-                          >
-                            {index + 1}
-                          </Typography.Text>
-                        </Col>
-                        <Col span={15}>
-                          <Row style={{ marginBottom: "20px" }} gutter={4}>
-                            <Col
-                              span={8}
+                        <Row
+                          gutter={4}
+                          align="middle"
+                          style={{ width: "100%", height: "100%" }}
+                        >
+                          <Col span={3}>
+                            <Typography.Text
                               style={{
+                                display: "block",
+                                fontFamily: "Roboto",
+                                fontSize: getSizeByRank(index + 1), //文本大小
+                                fontWeight: "bold",
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
                                 textOverflow: "ellipsis",
+                                color: getColorByRank(index + 1), // 文本颜色
+                                lineHeight: "90px",
+                                textShadow: "5px 5px 0 #666, 7px 7px 0 #eee",
+                                textAlign: "center",
+                                opacity: 0.9,
                               }}
                             >
-                              <Typography.Text
-                                style={{ fontSize: "20px", fontWeight: "bold" }}
+                              {index + 1}
+                            </Typography.Text>
+                          </Col>
+                          <Col span={15}>
+                            <Row style={{ marginBottom: "20px" }} gutter={4}>
+                              <Col
+                                span={8}
+                                style={{
+                                  overflow: "hidden",
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                }}
                               >
-                                队名：{item.team_name}
-                              </Typography.Text>
-                            </Col>
-                            <Col
-                              span={8}
-                              style={{
-                                overflow: "hidden",
-                                whiteSpace: "nowrap",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              <Typography.Text
-                                style={{ fontSize: "20px", fontWeight: "bold" }}
+                                <Typography.Text
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  队名：{item.team_name}
+                                </Typography.Text>
+                              </Col>
+                              <Col
+                                span={8}
+                                style={{
+                                  overflow: "hidden",
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                }}
                               >
-                                队员：
-                                {[
-                                  ...new Set([
-                                    item.team_leader?.realname,
-                                    ...item.contest_team_members.map(
-                                      (i) => i.user?.realname,
-                                    ),
-                                  ]),
-                                ]
-                                  .filter(Boolean)
-                                  .join(", ")}
-                              </Typography.Text>
-                            </Col>
-                          </Row>
-                          <Divider />
-                          <Row gutter={4} style={{ marginBottom: "0px" }}>
-                            <Col
-                              span={16}
+                                <Typography.Text
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  队员：
+                                  {[
+                                    ...new Set([
+                                      item.team_leader?.realname,
+                                      ...item.contest_team_members.map(
+                                        (i) => i.user?.realname,
+                                      ),
+                                    ]),
+                                  ]
+                                    .filter(Boolean)
+                                    .join(", ")}
+                                </Typography.Text>
+                              </Col>
+                            </Row>
+                            <Divider />
+                            <Row gutter={4} style={{ marginBottom: "0px" }}>
+                              <Col
+                                span={16}
+                                style={{
+                                  overflow: "hidden",
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                <Typography.Text style={{ fontSize: "16px" }}>
+                                  队伍简介：{item.team_intro}
+                                </Typography.Text>
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col span={5}>
+                            <Typography.Text
                               style={{
-                                overflow: "hidden",
-                                whiteSpace: "nowrap",
-                                textOverflow: "ellipsis",
+                                display: "block",
+                                fontSize: "30px",
+                                fontWeight: "bold",
+                                textAlign: "center",
                               }}
                             >
-                              <Typography.Text style={{ fontSize: "16px" }}>
-                                队伍简介：{item.team_intro}
-                              </Typography.Text>
-                            </Col>
-                          </Row>
-                        </Col>
-                        <Col span={5}>
-                          <Typography.Text
-                            style={{
-                              display: "block",
-                              fontSize: "30px",
-                              fontWeight: "bold",
-                              textAlign: "center",
-                            }}
-                          >
-                            积分：
-                            {item.contest_team_rooms_aggregate.aggregate?.sum
-                              ?.score ?? 0}
-                          </Typography.Text>
-                        </Col>
-                      </Row>
-                    </Card>
-                  </Tooltip>
-                </Content>
-              )}
+                              积分：
+                              {item.contest_team_rooms_aggregate.aggregate?.sum
+                                ?.score ?? 0}
+                            </Typography.Text>
+                          </Col>
+                        </Row>
+                      </Card>
+                    </Tooltip>
+                  </Content>
+                )
+              }
             />
           </Suspense>
         </Col>
@@ -482,9 +505,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                   variables: {
                     team_id: team_id,
                     player: player.player_label,
-                    code_id: teamCodesData?.contest_team_code?.find(
-                      (code) => code.code_id === code_id,
-                    )?.code_id!,
+                    code_id: code_id,
                     role: teamPlayersData?.contest_team_player?.find(
                       (code) => code.player === player.player_label,
                     )?.role!,

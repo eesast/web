@@ -11,6 +11,7 @@ import {
   Layout,
   Row,
   Col,
+  Tooltip,
   Typography,
   Input,
   Form,
@@ -37,7 +38,8 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { FormInstance } from "antd/lib";
-
+import { useNavigate } from "react-router-dom";
+import Loading from "@/app/Components/Loading";
 /* ---------------- 主页面 ---------------- */
 const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -46,9 +48,12 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const { Option } = Select;
   const { Paragraph } = Typography;
+  const navigate = useNavigate();
   const Contest_id = url.query.get("contest");
   const [selectedCodeId, setSelectedCodeId] = useState("");
-  const [editingKey, setEditingKey] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [editingCodeKey, setEditingCodeKey] = useState("");
+  const [editingRoleKey, setEditingRoleKey] = useState("");
 
   type ColumnsType<T> = TableProps<T>["columns"];
 
@@ -65,9 +70,38 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
 
   const teamid = teamData?.contest_team_member[0]?.contest_team.team_id!;
 
+  const handleNavigate = async () => {
+    try {
+      message.info({ content: "请先加入队伍", key: "teamMessage" });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      navigate(url.link("team"));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (!teamid) {
+      handleNavigate();
+    }
+  });
+
   const { data: GetTeamInfo } = graphql.useGetTeamInfoQuery({
     variables: {
       team_id: teamid!,
+    },
+  });
+
+  const { data: teamCodesData, error: teamCodesError } =
+    graphql.useGetTeamCodesSubscription({
+      variables: {
+        team_id: teamid,
+      },
+    });
+
+  const { data: teamPlayersData } = graphql.useGetTeamPlayersSubscription({
+    variables: {
+      team_id: teamid,
     },
   });
 
@@ -79,31 +113,16 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: teamCodesData, error: teamCodesError } =
-    graphql.useGetTeamCodesSubscription({
-      variables: {
-        team_id: teamid,
-      },
-    });
-
   const { data: contestPlayersData } = graphql.useGetContestPlayersQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
 
-  const { data: teamPlayersData } = graphql.useGetTeamPlayersSubscription({
-    variables: {
-      team_id: teamid,
-    },
-  });
-  // 上传代码 换数据库要修改
-
   //linqiushi:修改后的数据库
   const [AddTeamCode, { error: codeError }] = graphql.useAddTeamCodeMutation();
 
-  const [updatePlayerCodes, { error: updatePlayerError }] =
-    graphql.useUpdateTeamPlayerMutation();
+  const [updatePlayerCodes] = graphql.useUpdateTeamPlayerMutation();
 
   const [deleteTeamCode] = graphql.useDeleteTeamCodeMutation();
 
@@ -112,7 +131,6 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestError) {
-      message.error("比赛加载失败");
       console.log(contestError.message);
     }
   }, [contestError]);
@@ -120,21 +138,13 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   //linqiushi
   useEffect(() => {
     if (codeError) {
-      message.error("上传代码失败");
+      console.log(codeError.message);
     }
   });
 
   useEffect(() => {
     if (teamCodesError) {
-      message.error("队伍代码加载失败");
       console.log(teamCodesError.message);
-    }
-  }, [teamCodesError]);
-
-  useEffect(() => {
-    if (updatePlayerError) {
-      message.error("角色代码更新失败");
-      console.log(updatePlayerError.message);
     }
   });
 
@@ -238,6 +248,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     code_name: string;
     updatetime: string;
     operation: string;
+    role: string;
   }
   interface datatype {
     key: React.Key;
@@ -417,9 +428,33 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const isEditing = (record: any) => record.key === editingKey;
-  const edit = (record: any) => {
-    setEditingKey(record.key);
+  const isEditingCode = (record: any) => record.key === editingCodeKey;
+  const editCode = (record: any) => {
+    setEditingCodeKey(record.key);
+  };
+
+  const isEditingRole = (record: any) => record.key === editingRoleKey;
+  const editRole = (record: any) => {
+    setEditingRoleKey(record.key);
+  };
+
+  const handlePlayerRoleChange = async (key: string, role: string) => {
+    try {
+      await updatePlayerCodes({
+        variables: {
+          team_id: teamid,
+          player: key,
+          code_id: teamPlayersData?.contest_team_player?.find(
+            (code) => code.player === key,
+          )?.player_code?.code_id!,
+          role: role,
+        },
+      });
+      message.success("角色属性更新成功");
+      setEditingRoleKey("");
+    } catch (error) {
+      message.error("更新失败，请重试");
+    }
   };
 
   const handlePlayerCodesChange = async (key: string, code_id: string) => {
@@ -435,7 +470,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
         },
       });
       message.success("角色代码更新成功");
-      setEditingKey("");
+      setEditingCodeKey("");
     } catch (error) {
       message.error("更新失败，请重试");
     }
@@ -452,13 +487,14 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
         ?.map((item, index) => {
           const code = teamPlayersData?.contest_team_player.find(
             (code) => code.player === item.player_label,
-          )?.player_code;
+          );
           return {
             key: item.player_label,
-            code_index: codeIndexMap.get(code?.code_id),
-            code_name: code?.code_name,
+            code_index: codeIndexMap.get(code?.player_code?.code_id),
+            code_name: code?.player_code?.code_name,
             player_name: item.player_label,
-            updatetime: code?.created_at,
+            updatetime: code?.player_code?.created_at,
+            role: code?.role,
           } as playertype;
         })
     : [];
@@ -481,20 +517,50 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
   const columnsPlayer: ColumnsType<playertype> = [
     {
       title: "角色",
-      width: "20%",
+      width: "13%",
       dataIndex: "player_name",
     },
     {
+      title: <Tooltip title="仅作统计用，不影响比赛结果">属性</Tooltip>,
+      width: "13%",
+      dataIndex: "role",
+      render: (text, record) => {
+        if (isEditingRole(record)) {
+          const rolesJson = contestPlayersData?.contest_player?.find(
+            (item) => item?.player_label === record?.player_name,
+          )?.roles_available;
+          const roles = rolesJson ? JSON.parse(rolesJson) : [];
+          return (
+            <Tooltip title="仅作统计用，不影响比赛结果">
+              <Select
+                allowClear
+                style={{ width: "100%" }}
+                defaultValue={text}
+                onChange={(value) => setSelectedRole(value)}
+              >
+                {roles.map((role: string, idx: string) => (
+                  <Option key={idx} value={role}>
+                    {role}
+                  </Option>
+                ))}
+              </Select>
+            </Tooltip>
+          );
+        }
+        return <Tooltip title="仅作统计用，不影响比赛结果">{text}</Tooltip>;
+      },
+    },
+    {
       title: "代码编号（与下表一致）",
-      width: "20%",
+      width: "13%",
       dataIndex: "code_index",
     },
     {
       title: "代码名",
-      width: "20%",
+      width: "15%",
       dataIndex: "code_name",
       render: (text, record) => {
-        if (isEditing(record)) {
+        if (isEditingCode(record)) {
           return (
             <Select
               allowClear
@@ -522,20 +588,22 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       },
     },
     {
-      title: "代码更新时间",
-      width: "20%",
+      title: "代码上传时间",
+      width: "15%",
       dataIndex: "updatetime",
       render: (updatetime: string) =>
-        new Date(updatetime).toLocaleString("zh-CN", {
-          hour12: false,
-        }),
+        updatetime
+          ? new Date(updatetime).toLocaleString("zh-CN", {
+              hour12: false,
+            })
+          : "",
     },
     {
-      title: "操作",
-      width: "20%",
-      dataIndex: "operation",
+      title: "选择代码",
+      width: "15%",
+      dataIndex: "selectcode",
       render: (_, record) => {
-        const editable = isEditing(record);
+        const editable = isEditingCode(record);
         return editable ? (
           <div>
             <Button
@@ -547,10 +615,32 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
             >
               保存
             </Button>
-            <Button onClick={() => setEditingKey("")}>取消</Button>
+            <Button onClick={() => setEditingCodeKey("")}>取消</Button>
           </div>
         ) : (
-          <Button onClick={() => edit(record)}>选择代码</Button>
+          <Button onClick={() => editCode(record)}>选择代码</Button>
+        );
+      },
+    },
+    {
+      title: "选择属性",
+      width: "15%",
+      dataIndex: "selectrole",
+      render: (_, record) => {
+        const editable = isEditingRole(record);
+        return editable ? (
+          <div>
+            <Button
+              type="primary"
+              style={{ marginRight: "20px" }}
+              onClick={() => handlePlayerRoleChange(record.key, selectedRole)}
+            >
+              保存
+            </Button>
+            <Button onClick={() => setEditingRoleKey("")}>取消</Button>
+          </div>
+        ) : (
+          <Button onClick={() => editRole(record)}>选择属性</Button>
         );
       },
     },
@@ -598,7 +688,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     },
 
     {
-      title: "代码更新时间",
+      title: "代码上传时间",
       width: "15%",
       dataIndex: "updatetime",
       render: (updatetime: string) =>
@@ -701,21 +791,14 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       ),
     },
   ];
-  return (
+
+  return teamid ? (
     <Layout>
       <br />
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
-          <Typography.Title level={2}>角色代码管理</Typography.Title>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Text mark>
-            你可以给任意角色分配代码库中的任意编译成功的代码
-          </Typography.Text>
+          <Typography.Title level={2}>角色代码选择</Typography.Title>
         </Col>
       </Row>
       <Row>
@@ -735,23 +818,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
-          <Typography.Title level={2}>代码库管理</Typography.Title>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Text mark>
-            这里是代码库，你的所有代码（
-            <Typography.Text code style={{ color: "black" }}>
-              AI.cpp
-            </Typography.Text>
-            或
-            <Typography.Text code style={{ color: "black" }}>
-              AI.py
-            </Typography.Text>
-            ）都在这里
-          </Typography.Text>
+          <Typography.Title level={2}>我的代码库</Typography.Title>
         </Col>
       </Row>
       <br />
@@ -765,9 +832,8 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
               onChange={handleOnchange}
             >
               <Button>
-                添加新代码
                 <UploadOutlined />
-                上传
+                上传代码
               </Button>
             </Upload>
             <br />
@@ -783,6 +849,8 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
         </Col>
       </Row>
     </Layout>
+  ) : (
+    <Loading />
   );
 };
 export default CodePagesource;
