@@ -16,11 +16,6 @@ export interface JwtPayload {
 export const defaultPayload: JwtPayload = {
   uuid: "00000000-0000-0000-0000-000000000000",
   role: "anonymous",
-  "https://hasura.io/jwt/claims": {
-    "x-hasura-allowed-roles": ["anonymous"],
-    "x-hasura-default-role": "anonymous",
-    "x-hasura-user-id": "00000000-0000-0000-0000-000000000000",
-  },
   isLoggedIn: false,
 };
 
