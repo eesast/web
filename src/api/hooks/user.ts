@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 export interface JwtPayload {
   uuid: string;
@@ -35,7 +36,7 @@ const parse = (token: string | null) => {
       return null;
     }
 
-    payload.isLoggedIn = true;
+    payload.isLoggedIn = payload.uuid === defaultPayload.uuid ? false : true;
     return payload as JwtPayload;
   } catch {
     return null;
@@ -48,18 +49,24 @@ export const useUser: () => [
 ] = () => {
   const payload = parse(localStorage.getItem("token"));
   const [user, setUser] = useState<JwtPayload>(payload ?? defaultPayload);
+  const getDefaultUser = () => {
+    axios.get("/user/anonymous").then((response) => {
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      setUser(parse(token) as JwtPayload);
+    });
+  };
   if (payload === null) {
-    localStorage.removeItem("token");
+    getDefaultUser();
   }
   const setter = (token: string | null) => {
-    if (!token) {
-      localStorage.removeItem("token");
-      setUser(defaultPayload);
-      return;
+    const payload = parse(token);
+    if (payload) {
+      localStorage.setItem("token", token as string);
+      setUser(payload);
+    } else {
+      getDefaultUser();
     }
-    localStorage.setItem("token", token);
-    setUser(parse(token) ?? defaultPayload);
-    return;
   };
   return [user, setter];
 };
