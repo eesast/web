@@ -38,7 +38,6 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { FormInstance } from "antd/lib";
 import NotJoined from "./Components/NotJoined";
-import NotImplemented from "./Components/NotImplemented";
 
 /* ---------------- 主页面 ---------------- */
 const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
@@ -138,6 +137,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   if (!teamid) {
     return <NotJoined />;
   }
+
+  const open = contestSwitchData.contest_by_pk?.code_upload_switch;
+
   /* ---------------- 业务逻辑函数 ---------------- */
   // 编译代码
   const EditableContext = React.createContext<FormInstance<any> | null>(null);
@@ -255,6 +257,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
     const lang = (e.file as RcFile).name.split(".").slice(-1).join("");
     const codeName = (e.file as RcFile).name;
     try {
@@ -312,6 +318,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   const handleDelete = async (code_id: string) => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
     try {
       const cpp_exist = await existFile(
         `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.cpp`,
@@ -358,6 +368,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   const handleCodeChange = async (lang: string, codeName: string) => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
     const response = await AddTeamCode({
       variables: {
         team_id: teamid!,
@@ -369,6 +383,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     return response.data?.insert_contest_team_code_one?.code_id;
   };
   const handleOnchange = async (info: any) => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
     if (info.file.status === "done") {
       message.success("上传成功");
     } else if (info.file.status === "error") {
@@ -413,6 +431,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     code_id: string,
     lang: string,
   ) => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
     try {
       await updateTeamCodeName({
         variables: {
@@ -431,6 +453,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const isEditingRole = (record: any) => record.key === editingRoleKey;
 
   const handlePlayerRoleChange = async (key: string, role: string) => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
     try {
       await updatePlayerCodes({
         variables: {
@@ -453,6 +479,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     key: string,
     code_id: string | undefined | null,
   ) => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
     try {
       await updatePlayerCodes({
         variables: {
@@ -614,7 +644,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Button onClick={() => setEditingCodeKey("")}>取消</Button>
           </div>
         ) : (
-          <Button onClick={() => setEditingCodeKey(record.key)}>
+          <Button
+            disabled={!open}
+            onClick={() => setEditingCodeKey(record.key)}
+          >
             选择代码
           </Button>
         );
@@ -638,7 +671,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Button onClick={() => setEditingRoleKey("")}>取消</Button>
           </div>
         ) : (
-          <Button onClick={() => setEditingRoleKey(record.key)}>
+          <Button
+            disabled={!open}
+            onClick={() => setEditingRoleKey(record.key)}
+          >
             选择属性
           </Button>
         );
@@ -661,22 +697,24 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <Paragraph
-              editable={{
-                onChange: (newName) => {
-                  //检测文件名是否合法
-                  if (newName === "") {
-                    message.warning("文件名不能为空");
-                    return;
-                  }
-                  const reg = /^[a-zA-Z0-9_]+$/;
-                  if (!reg.test(newName)) {
-                    message.warning("文件名只能包含字母、数字和下划线");
-                    return;
-                  }
-                  resetCodeName(newName, item.code_id, lang);
-                },
-                triggerType: ["text"],
-              }}
+              editable={
+                open && {
+                  onChange: (newName) => {
+                    //检测文件名是否合法
+                    if (newName === "") {
+                      message.warning("文件名不能为空");
+                      return;
+                    }
+                    const reg = /^[a-zA-Z0-9_]+$/;
+                    if (!reg.test(newName)) {
+                      message.warning("文件名只能包含字母、数字和下划线");
+                      return;
+                    }
+                    resetCodeName(newName, item.code_id, lang);
+                  },
+                  triggerType: ["text"],
+                }
+              }
               code
             >
               {filename}
@@ -786,7 +824,12 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       dataIndex: "delete",
       render: (code_id: string) => (
         <Row justify="start">
-          <Button onClick={() => handleDelete(code_id)} type="primary" danger>
+          <Button
+            disabled={!open}
+            onClick={() => handleDelete(code_id)}
+            type="primary"
+            danger
+          >
             <DeleteOutlined />
             删除
           </Button>
@@ -794,8 +837,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       ),
     },
   ];
-  if (!contestSwitchData.contest_by_pk?.code_upload_switch)
-    return <NotImplemented />;
 
   return (
     <Layout>
@@ -832,12 +873,13 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={20}>
           <div>
             <Upload
+              disabled={!open}
               accept=".cpp,.py"
               customRequest={handleUpload}
               onChange={handleOnchange}
               showUploadList={false}
             >
-              <Button>
+              <Button disabled={!open}>
                 <UploadOutlined />
                 上传代码
               </Button>
