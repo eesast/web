@@ -54,6 +54,13 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
+  const roomStatusLabels: { [key: string]: string } = {
+    Finished: "已结束",
+    Crashed: "非正常退出",
+    Running: "进行中",
+    Waiting: "排队等待中",
+  };
+
   const roomListColumns: TableProps<
     graphql.GetArenaRoomsSubscription["contest_room"][0]
   >["columns"] = [
@@ -95,14 +102,13 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       title: "状态",
       dataIndex: "status",
       key: "status",
-      render: (text, record) => (record.status ? "已结束" : "正在进行"),
+      render: (text, record) => roomStatusLabels[record.status] ?? "未知状态",
     },
     {
       title: "观战端口",
       dataIndex: "port",
       key: "port",
-      render: (text, record) =>
-        record.status ? "--" : record.port ? record.port : "等待分配",
+      render: (text, record) => record.port ?? "----",
     },
     {
       title: "回放",
