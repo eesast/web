@@ -88,12 +88,12 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       render: (text, record) => {
         return (
           <Text>
-            【{record.contest_room_teams[0]?.team_label ?? "Team1"}】
+            【{record.contest_room_teams[0]?.team_label ?? "Default"}】
             {record.contest_room_teams[0]?.contest_team.team_name}：
-            {record.contest_room_teams[0]?.score}
-            <br />【{record.contest_room_teams[1]?.team_label ?? "Team2"}】
+            {record.contest_room_teams[0]?.score ?? "0"}
+            <br />【{record.contest_room_teams[1]?.team_label ?? "Default"}】
             {record.contest_room_teams[1]?.contest_team.team_name}：
-            {record.contest_room_teams[1]?.score}
+            {record.contest_room_teams[1]?.score ?? "0"}
           </Text>
         );
       },
