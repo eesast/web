@@ -41,22 +41,29 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
 
-  const { data: roomListData, error: teamListError } =
-    graphql.useGetRoomInfoSubscription({
+  const { data: arenaRoomsData, error: getArenaRoomsError } =
+    graphql.useGetArenaRoomsSubscription({
       variables: {
         contest_id: Contest_id,
       },
     });
   useEffect(() => {
-    if (teamListError) {
-      message.error("获取对战信息失败");
-      console.log(teamListError.message);
+    if (getArenaRoomsError) {
+      message.error("获取对战记录失败");
+      console.log(getArenaRoomsError.message);
     }
   });
 
   const roomListColumns: TableProps<
-    graphql.GetRoomInfoSubscription["contest_room"][0]
+    graphql.GetArenaRoomsSubscription["contest_room"][0]
   >["columns"] = [
+    {
+      title: "对战时间",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (text, record) =>
+        dayjs(record.created_at).format("MM-DD HH:mm:ss"),
+    },
     {
       title: "对战双方",
       key: "team_name",
@@ -74,9 +81,12 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       render: (text, record) => {
         return (
           <Text>
-            {record.contest_room_teams[0]?.contest_team.team_name}
-            <br />
-            {record.contest_room_teams[1]?.contest_team.team_name}
+            【{record.contest_room_teams[0]?.team_label ?? "Team1"}】
+            {record.contest_room_teams[0]?.contest_team.team_name}：
+            {record.contest_room_teams[0]?.score}
+            <br />【{record.contest_room_teams[1]?.team_label ?? "Team2"}】
+            {record.contest_room_teams[1]?.contest_team.team_name}：
+            {record.contest_room_teams[1]?.score}
           </Text>
         );
       },
@@ -93,26 +103,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       key: "port",
       render: (text, record) =>
         record.status ? "--" : record.port ? record.port : "等待分配",
-    },
-    {
-      title: "结果",
-      dataIndex: "result",
-      key: "result",
-      render: (text, record) =>
-        record.result ? (
-          <Text>
-            {record.result?.split(",")[0]} <br /> {record.result?.split(",")[1]}
-          </Text>
-        ) : (
-          ""
-        ),
-    },
-    {
-      title: "对战时间",
-      dataIndex: "created_at",
-      key: "created_at",
-      render: (text, record) =>
-        dayjs(record.created_at).format("M-DD HH:mm:ss"),
     },
     {
       title: "回放",
@@ -142,7 +132,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   ];
 
   const download = async (
-    record: graphql.GetRoomInfoSubscription["contest_room"][0],
+    record: graphql.GetArenaRoomsSubscription["contest_room"][0],
   ) => {
     try {
       const response = await axios.get(`room/${record.room_id}`, {
@@ -161,13 +151,13 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const [associatedValue, setAssociatedValue] = useState("");
   const [filterParamList, setFilterParamList] = useState(
-    roomListData?.contest_room,
+    arenaRoomsData?.contest_room,
   );
   useEffect(() => {
     if (associatedValue !== "") {
       setFilterParamList([]);
       setFilterParamList(
-        roomListData?.contest_room.filter((item) => {
+        arenaRoomsData?.contest_room.filter((item) => {
           return (
             item.contest_room_teams[0]?.contest_team?.team_name?.indexOf(
               associatedValue,
@@ -179,9 +169,9 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         }),
       );
     } else {
-      setFilterParamList(roomListData?.contest_room);
+      setFilterParamList(arenaRoomsData?.contest_room);
     }
-  }, [associatedValue, roomListData?.contest_room]);
+  }, [associatedValue, arenaRoomsData?.contest_room]);
 
   return (
     <Layout>
@@ -220,7 +210,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
           <Suspense fallback={<Loading />}>
             <Table
               dataSource={
-                filterParamList as graphql.GetRoomInfoSubscription["contest_room"]
+                filterParamList as graphql.GetArenaRoomsSubscription["contest_room"]
               }
               columns={roomListColumns}
               rowKey={(record) => record.room_id}

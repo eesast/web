@@ -74,8 +74,6 @@ query GetContestInfo($contest_id: uuid!) {
     description
     start_date
     end_date
-    # TODO: To be deleted
-    status
   }
 }
 
