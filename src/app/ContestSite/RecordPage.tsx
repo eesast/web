@@ -19,8 +19,8 @@ import type { TableProps } from "antd/lib/table";
 //----删除room和team
 //————创建thuaicode————
 //————后端发送post————
-import axios, { AxiosError } from "axios";
-import FileSaver from "file-saver";
+// import axios, { AxiosError } from "axios";
+// import FileSaver from "file-saver";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
@@ -134,19 +134,20 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   const download = async (
     record: graphql.GetArenaRoomsSubscription["contest_room"][0],
   ) => {
-    try {
-      const response = await axios.get(`room/${record.room_id}`, {
-        responseType: "blob",
-      });
-      FileSaver.saveAs(response.data, record.room_id + ".thuaipb");
-    } catch (e) {
-      const err = e as AxiosError;
-      if (err.response?.status === 401) {
-        message.error("认证失败");
-      } else {
-        message.error("未知错误");
-      }
-    }
+    message.info("暂不支持下载");
+    // try {
+    //   const response = await axios.get(`room/${record.room_id}`, {
+    //     responseType: "blob",
+    //   });
+    //   FileSaver.saveAs(response.data, record.room_id + ".thuaipb");
+    // } catch (e) {
+    //   const err = e as AxiosError;
+    //   if (err.response?.status === 401) {
+    //     message.error("认证失败");
+    //   } else {
+    //     message.error("未知错误");
+    //   }
+    // }
   };
 
   const [associatedValue, setAssociatedValue] = useState("");
