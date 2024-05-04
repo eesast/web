@@ -402,10 +402,24 @@ const MenuPage: React.FC<ContestProps> = (props) => {
                 </Authenticate>
               }
             />
-            <Route path="code" element={<CodePage {...props} />} />
+            <Route
+              path="code"
+              element={
+                <Authenticate role={userRoles} user={props.user}>
+                  <CodePage {...props} />
+                </Authenticate>
+              }
+            />
 
             <Route path="arena-score" element={<ArenaPage {...props} />} />
-            <Route path="arena-record" element={<RecordPage {...props} />} />
+            <Route
+              path="arena-record"
+              element={
+                <Authenticate role={userRoles} user={props.user}>
+                  <RecordPage {...props} />
+                </Authenticate>
+              }
+            />
             <Route
               path="arena-analysis"
               element={<AnalysisPage {...props} />}
