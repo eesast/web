@@ -81,7 +81,7 @@ mutation UpdateTeamPlayer(
 }
 
 # 查
-subscription GetTeamPlayers($team_id: uuid!) {
+query GetTeamPlayers($team_id: uuid!) {
   contest_team_player(where: { team_id: { _eq: $team_id } }) {
     player
     player_code {

@@ -86,11 +86,12 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const { data: teamPlayersData } = graphql.useGetTeamPlayersSubscription({
-    variables: {
-      team_id: teamid,
-    },
-  });
+  const { data: teamPlayersData, refetch: refetchTeamPlayers } =
+    graphql.useGetTeamPlayersSuspenseQuery({
+      variables: {
+        team_id: teamid,
+      },
+    });
 
   // 获取比赛状态
   const { data: contestData, error: contestError } =
@@ -469,6 +470,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         },
       });
       message.success("角色属性更新成功");
+      refetchTeamPlayers();
       setEditingRoleKey("");
     } catch (error) {
       message.error("更新失败，请重试");
@@ -495,6 +497,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         },
       });
       message.success("角色代码更新成功");
+      refetchTeamPlayers();
       setEditingCodeKey("");
     } catch (error) {
       console.log(error);
