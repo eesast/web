@@ -37,8 +37,9 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { FormInstance } from "antd/lib";
-import { useNavigate } from "react-router-dom";
-import Loading from "@/app/Components/Loading";
+import NotJoined from "./Components/NotJoined";
+import NotImplemented from "./Components/NotImplemented";
+
 /* ---------------- 主页面 ---------------- */
 const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -47,13 +48,11 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const { Option } = Select;
   const { Paragraph } = Typography;
-  const navigate = useNavigate();
   const Contest_id = url.query.get("contest");
   const [selectedCodeId, setSelectedCodeId] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [editingCodeKey, setEditingCodeKey] = useState("");
   const [editingRoleKey, setEditingRoleKey] = useState("");
-
   type ColumnsType<T> = TableProps<T>["columns"];
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
@@ -69,20 +68,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const teamid = teamData?.contest_team_member[0]?.contest_team.team_id!;
 
-  const handleNavigate = async () => {
-    try {
-      message.info({ content: "请先加入队伍", key: "teamMessage" });
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      navigate(url.link("team"));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    if (!teamid) {
-      handleNavigate();
-    }
+  const { data: contestSwitchData } = graphql.useGetContestSwitchSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
   });
 
   const { data: GetTeamInfo } = graphql.useGetTeamInfoQuery({
@@ -134,7 +123,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [contestError]);
 
-  //linqiushi
   useEffect(() => {
     if (codeError) {
       console.log(codeError.message);
@@ -147,6 +135,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
+  if (!teamid) {
+    return <NotJoined />;
+  }
   /* ---------------- 业务逻辑函数 ---------------- */
   // 编译代码
   const EditableContext = React.createContext<FormInstance<any> | null>(null);
@@ -436,14 +427,8 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   const isEditingCode = (record: any) => record.key === editingCodeKey;
-  const editCode = (record: any) => {
-    setEditingCodeKey(record.key);
-  };
 
   const isEditingRole = (record: any) => record.key === editingRoleKey;
-  const editRole = (record: any) => {
-    setEditingRoleKey(record.key);
-  };
 
   const handlePlayerRoleChange = async (key: string, role: string) => {
     try {
@@ -464,7 +449,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const handlePlayerCodesChange = async (key: string, code_id: string) => {
+  const handlePlayerCodesChange = async (
+    key: string,
+    code_id: string | undefined | null,
+  ) => {
     try {
       await updatePlayerCodes({
         variables: {
@@ -479,6 +467,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       message.success("角色代码更新成功");
       setEditingCodeKey("");
     } catch (error) {
+      console.log(error);
       message.error("更新失败，请重试");
     }
   };
@@ -625,7 +614,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Button onClick={() => setEditingCodeKey("")}>取消</Button>
           </div>
         ) : (
-          <Button onClick={() => editCode(record)}>选择代码</Button>
+          <Button onClick={() => setEditingCodeKey(record.key)}>
+            选择代码
+          </Button>
         );
       },
     },
@@ -647,7 +638,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Button onClick={() => setEditingRoleKey("")}>取消</Button>
           </div>
         ) : (
-          <Button onClick={() => editRole(record)}>选择属性</Button>
+          <Button onClick={() => setEditingRoleKey(record.key)}>
+            选择属性
+          </Button>
         );
       },
     },
@@ -801,8 +794,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       ),
     },
   ];
+  if (!contestSwitchData.contest_by_pk?.code_upload_switch)
+    return <NotImplemented />;
 
-  return teamid ? (
+  return (
     <Layout>
       <br />
       <Row>
@@ -860,8 +855,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         </Col>
       </Row>
     </Layout>
-  ) : (
-    <Loading />
   );
 };
 export default CodePage;
