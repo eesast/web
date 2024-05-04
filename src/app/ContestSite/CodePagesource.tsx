@@ -33,7 +33,6 @@ import {
 import { uploadFile, downloadFile, existFile, deleteFile } from "../../api/cos";
 import type { TableProps } from "antd/lib/table";
 import axios, { AxiosError } from "axios";
-import FileSaver from "file-saver";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
@@ -278,10 +277,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
         //上传成功后发送编译请求
         if (lang === "cpp") {
           await axios.post("code/compile-start", {
-            contest_name: contestData?.contest_by_pk?.name,
             code_id: code_id,
-            language: lang,
-            path: `${contestData?.contest_by_pk?.name}/code/${teamid}`,
           });
         }
       } else {
@@ -339,6 +335,10 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
           await deleteFile(
             `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.cpp`,
           );
+          //删除可执行文件
+          await deleteFile(
+            `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}`,
+          );
         } else if (py_exist) {
           await deleteFile(
             `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.py`,
@@ -346,6 +346,10 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
         }
         await deleteFile(
           `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.log`,
+        );
+        //删除网络请求信息
+        await deleteFile(
+          `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.curl.log`,
         );
 
         await deleteTeamCode({
@@ -383,23 +387,26 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
 
   const downloadCompile = async (code_id: string) => {
     try {
-      const response = await axios.get(
-        `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.log}`,
-        {
-          responseType: "blob",
-        },
+      const log_exist = await existFile(
+        `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.log`,
       );
-
-      FileSaver.saveAs(
-        response.data,
-        GetTeamInfo?.contest_team_by_pk?.team_name?.replace(
-          /[&|\\*^%$'"#@-]/g,
-          "",
-        ) +
-          "_" +
-          teamCodesData?.contest_team_code[0].code_name +
-          "_compile_log.txt",
-      );
+      if (log_exist) {
+        const codefile = {
+          filename:
+            GetTeamInfo?.contest_team_by_pk?.team_name?.replace(
+              /[&|\\*^%$'"#@-]/g,
+              "",
+            ) +
+            "_" +
+            teamCodesData?.contest_team_code[0].code_name +
+            "_compile_log.txt",
+          url: `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.log`,
+        };
+        message.info("开始下载:" + codefile.filename);
+        downloadFile(codefile.url, codefile.filename);
+      } else {
+        message.error("编译信息不存在");
+      }
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -751,8 +758,11 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
       render: (item: any) => (
         <Row justify="start">
           <Button
+            disabled={
+              item.compile_status !== "Completed" &&
+              item.compile_status !== "Failed"
+            }
             onClick={() => {
-              message.info(`下载代码${item.code_name}的编译信息`);
               downloadCompile(item.code_id).catch((e) => {
                 message.error("下载失败");
               });
@@ -830,6 +840,7 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
               accept=".cpp,.py"
               customRequest={handleUpload}
               onChange={handleOnchange}
+              showUploadList={false}
             >
               <Button>
                 <UploadOutlined />
