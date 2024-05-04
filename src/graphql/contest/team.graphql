@@ -230,46 +230,6 @@ subscription GetAllTeamInfo($contest_id: uuid!) {
 }
 
 # TODO: 重写，废弃
-query GetAllTeamInfo_score($contest_id: uuid!) {
-  contest_team(
-    where: {
-      _and: { contest_id: { _eq: $contest_id }, score: { _is_null: false } }
-    }
-  ) {
-    team_name
-    created_at
-    invited_code
-    member_num
-    score
-    status
-    status2
-    contest_score
-    team_id
-    submitted_code_num
-    contest {
-      name
-    }
-    team_intro
-    team_leader {
-      uuid
-      class
-      email
-      realname
-      phone
-    }
-    contest_team_members {
-      user {
-        id
-        class
-        email
-        realname
-        phone
-      }
-    }
-  }
-}
-
-# TODO: 重写，废弃
 query GetAllTeamInfo_compile($contest_id: uuid!) {
   contest_team(
     where: {

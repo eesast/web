@@ -20,6 +20,7 @@ subscription GetArenaRooms($contest_id: uuid!) {
     created_at
     contest_room_teams {
       contest_team {
+        team_id
         team_name
         team_leader {
           realname
@@ -65,6 +66,7 @@ subscription GetCompetitionRooms($contest_id: uuid!, $round_id: uuid!) {
     created_at
     contest_room_teams {
       contest_team {
+        team_id
         team_name
         team_leader {
           realname
@@ -74,63 +76,5 @@ subscription GetCompetitionRooms($contest_id: uuid!, $round_id: uuid!) {
       team_label
       player_roles
     }
-  }
-}
-
-# TODO：迁移到GetArenaRooms
-subscription GetRoomInfo($contest_id: uuid!) {
-  contest_room(
-    where: { contest_id: { _eq: $contest_id } }
-    order_by: { created_at: desc }
-  ) {
-    created_at
-    result
-    room_id
-    status
-    port
-    contest_room_teams {
-      contest_team {
-        team_name
-        team_id
-        score
-      }
-    }
-  }
-}
-
-# TODO：迁移到GetRunningArenaRooms
-query GetRoomInfo_status($contest_id: uuid!) {
-  contest_room(
-    where: {
-      _and: {
-        contest_id: { _eq: $contest_id }
-        status: { _eq: "false" }
-        port: { _is_null: false }
-      }
-    }
-  ) {
-    room_id
-    status
-    created_at
-  }
-}
-
-# TODO：计划废弃
-mutation InsertRoom(
-  $contest_id: uuid!
-  $team1_id: uuid!
-  $team2_id: uuid!
-  $created_at: timestamptz!
-) {
-  insert_contest_room_one(
-    object: {
-      contest_id: $contest_id
-      contest_room_teams: {
-        data: [{ team_id: $team1_id }, { team_id: $team2_id }]
-      }
-      created_at: $created_at
-    }
-  ) {
-    room_id
   }
 }
