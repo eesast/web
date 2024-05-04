@@ -495,7 +495,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             const otherPlayers = teamLabels.filter(
               (label: string) => label !== player,
             );
-            const opponent = otherPlayers.length > 0 ? otherPlayers[0] : null; // Take the first available player as opponent
+            const opponent =
+              otherPlayers.length > 0 ? otherPlayers[0] : teamLabels[0]; // Take the first available player as opponent
             contestPlayersData?.contest_player.forEach((player) => {
               const code_id = runForm.getFieldValue(
                 `code_version_${player.player_label}`,

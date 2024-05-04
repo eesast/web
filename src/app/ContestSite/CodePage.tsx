@@ -40,7 +40,7 @@ import { FormInstance } from "antd/lib";
 import { useNavigate } from "react-router-dom";
 import Loading from "@/app/Components/Loading";
 /* ---------------- 主页面 ---------------- */
-const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
+const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
 
   //linqiushi
@@ -864,4 +864,4 @@ const CodePagesource: React.FC<ContestProps> = ({ mode, user }) => {
     <Loading />
   );
 };
-export default CodePagesource;
+export default CodePage;
