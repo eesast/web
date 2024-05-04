@@ -12972,7 +12972,7 @@ export type GetTeamsQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } }> };
+export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null }, contest: { __typename?: 'contest', contest_players_aggregate: { __typename?: 'contest_player_aggregate', aggregate?: { __typename?: 'contest_player_aggregate_fields', count: number } | null } } }> };
 
 export type GetAllTeamInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13031,8 +13031,8 @@ export type AddTeamPlayerMutation = { __typename?: 'mutation_root', insert_conte
 export type UpdateTeamPlayerMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
   player: Scalars['String']['input'];
-  code_id: Scalars['uuid']['input'];
-  role: Scalars['String']['input'];
+  code_id?: InputMaybe<Scalars['uuid']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -14935,7 +14935,9 @@ export const GetTeamsDocument = gql`
         class
       }
     }
-    contest_team_codes_aggregate(where: {compile_status: {_eq: "Success"}}) {
+    contest_team_codes_aggregate(
+      where: {compile_status: {_in: ["No Need", "Completed"]}}
+    ) {
       aggregate {
         count
       }
@@ -14945,6 +14947,20 @@ export const GetTeamsDocument = gql`
         count
         sum {
           score
+        }
+      }
+    }
+    contest_team_players_aggregate(
+      where: {player_code: {compile_status: {_in: ["No Need", "Completed"]}}}
+    ) {
+      aggregate {
+        count
+      }
+    }
+    contest {
+      contest_players_aggregate {
+        aggregate {
+          count
         }
       }
     }
@@ -15270,7 +15286,7 @@ export type AddTeamPlayerMutationHookResult = ReturnType<typeof useAddTeamPlayer
 export type AddTeamPlayerMutationResult = Apollo.MutationResult<AddTeamPlayerMutation>;
 export type AddTeamPlayerMutationOptions = Apollo.BaseMutationOptions<AddTeamPlayerMutation, AddTeamPlayerMutationVariables>;
 export const UpdateTeamPlayerDocument = gql`
-    mutation UpdateTeamPlayer($team_id: uuid!, $player: String!, $code_id: uuid!, $role: String!) {
+    mutation UpdateTeamPlayer($team_id: uuid!, $player: String!, $code_id: uuid, $role: String) {
   update_contest_team_player_by_pk(
     pk_columns: {team_id: $team_id, player: $player}
     _set: {code_id: $code_id, role: $role}

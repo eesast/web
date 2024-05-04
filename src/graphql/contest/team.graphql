@@ -160,7 +160,7 @@ query getTeams($contest_id: uuid!) {
       }
     }
     contest_team_codes_aggregate(
-      where: { compile_status: { _eq: "Success" } }
+      where: { compile_status: { _in: ["No Need", "Completed"] } }
     ) {
       aggregate {
         count
@@ -171,6 +171,22 @@ query getTeams($contest_id: uuid!) {
         count
         sum {
           score
+        }
+      }
+    }
+    contest_team_players_aggregate(
+      where: {
+        player_code: { compile_status: { _in: ["No Need", "Completed"] } }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    contest {
+      contest_players_aggregate {
+        aggregate {
+          count
         }
       }
     }

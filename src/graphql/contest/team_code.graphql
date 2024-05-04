@@ -69,8 +69,8 @@ mutation AddTeamPlayer($team_id: uuid!, $player: String!) {
 mutation UpdateTeamPlayer(
   $team_id: uuid!
   $player: String!
-  $code_id: uuid!
-  $role: String!
+  $code_id: uuid
+  $role: String
 ) {
   update_contest_team_player_by_pk(
     pk_columns: { team_id: $team_id, player: $player }

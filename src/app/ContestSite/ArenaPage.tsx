@@ -2,6 +2,7 @@ import React, { useEffect, useState, Suspense } from "react";
 import {
   Tooltip,
   message,
+  Button,
   Divider,
   Form,
   Modal,
@@ -20,6 +21,7 @@ import axios from "axios";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
+import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 interface TeamLabelBind {
@@ -38,6 +40,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [opponentTeamId, setOpponentTeamId] = useState("");
   const [associatedValue, setAssociatedValue] = useState("");
+  const [isButtonActive, setIsButtonActive] = useState(false);
+  const [selectedMapId, setSelectedMapId] = useState("");
   type VisibleContestTeam = graphql.GetTeamsQuery["contest_team"][0] & {
     isVisible: boolean;
   };
@@ -53,6 +57,12 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+
+  const { data: contestSwitchData } = graphql.useGetContestSwitchSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
 
   //获取天梯队伍信息
   const { data: scoreteamListData, error: scoreteamListError } =
@@ -71,19 +81,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     });
 
   const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
-
-  const { data: contestPlayersData } =
-    graphql.useGetContestPlayersSuspenseQuery({
-      variables: {
-        contest_id: Contest_id,
-      },
-    });
-
-  const { data: teamPlayersData } = graphql.useGetTeamPlayersSubscription({
-    variables: {
-      team_id: team_id,
-    },
-  });
 
   const { data: teamStatusOurData } = graphql.useGetTeamStatusSuspenseQuery({
     variables: {
@@ -117,20 +114,13 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const [updataPlayerCodes, { error: updatePlayerError }] =
-    graphql.useUpdateTeamPlayerMutation();
-
-  const rawTeamLabels = contestMapData?.contest_map[0]?.team_labels;
-  // 将JSON字符串转换为数组
-  const teamLabels = rawTeamLabels ? JSON.parse(rawTeamLabels) : [];
-
   /* ---------------- useEffect ---------------- */
-  useEffect(() => {
-    if (updatePlayerError) {
-      message.error("角色代码更新失败");
-      console.log(updatePlayerError.message);
-    }
-  });
+
+  const rawTeamLabels = contestMapData?.contest_map.find((item) => {
+    return item.map_id === selectedMapId;
+  })?.team_labels;
+  const teamLabels = rawTeamLabels ? JSON.parse(rawTeamLabels) : [];
+  const uniqueTeamLabels = Array.from(new Set(teamLabels)) as any;
 
   useEffect(() => {
     if (contestError) {
@@ -173,6 +163,25 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [contestMapError]);
 
+  useEffect(() => {
+    if (isButtonActive) {
+      setFilterParamList(
+        scoreteamListData?.contest_team.map((item) => ({
+          ...item,
+          isVisible:
+            item.contest_team_players_aggregate.aggregate?.count ===
+            item.contest.contest_players_aggregate?.aggregate?.count,
+        })),
+      );
+    } else {
+      setFilterParamList(
+        scoreteamListData?.contest_team.map((item) => ({
+          ...item,
+          isVisible: true,
+        })),
+      );
+    }
+  }, [isButtonActive, scoreteamListData?.contest_team]);
   //搜索模块
   useEffect(() => {
     if (associatedValue !== "") {
@@ -240,6 +249,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     })();
   };
 
+  if (!contestSwitchData.contest_by_pk?.arena_switch) return <NotImplemented />;
   /* ---------------- 随渲染刷新的组件 ---------------- */
   /* ---------------- 页面组件 ---------------- */
 
@@ -273,16 +283,28 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       <br />
       <Row>
         <Col span={2}></Col>
-        <Col span={20}>
+        <Col span={10}>
           <Typography.Title level={2}>天梯挑战</Typography.Title>
         </Col>
       </Row>
       <Row>
         <Col span={2}></Col>
-        <Col span={20}>
+        <Col span={18}>
           <Typography.Text mark>
             愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
           </Typography.Text>
+        </Col>
+        <Col span={3}>
+          <Button
+            onClick={() => setIsButtonActive(!isButtonActive)}
+            type={isButtonActive ? "default" : "primary"}
+            size="large"
+            style={{
+              width: "8vw",
+            }}
+          >
+            {isButtonActive ? "查看所有队伍" : "仅看可发起对战的队伍"}
+          </Button>
         </Col>
       </Row>
       <br />
@@ -479,10 +501,10 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         onCancel={() => {
           setIsModalVisible(false);
           runForm.resetFields();
+          setSelectedMapId("");
         }}
         onOk={() => {
           runForm.submit();
-          setIsModalVisible(false);
         }}
         destroyOnClose
       >
@@ -492,32 +514,16 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           onFinish={(values) => {
             const player = runForm.getFieldValue("round_player");
             const mapId = runForm.getFieldValue("map_id");
-            const otherPlayers = teamLabels.filter(
+            const otherPlayers = uniqueTeamLabels.filter(
               (label: string) => label !== player,
             );
             const opponent =
-              otherPlayers.length > 0 ? otherPlayers[0] : teamLabels[0]; // Take the first available player as opponent
-            contestPlayersData?.contest_player.forEach((player) => {
-              const code_id = runForm.getFieldValue(
-                `code_version_${player.player_label}`,
-              );
-              if (code_id) {
-                updataPlayerCodes({
-                  variables: {
-                    team_id: team_id,
-                    player: player.player_label,
-                    code_id: code_id,
-                    role: teamPlayersData?.contest_team_player?.find(
-                      (code) => code.player === player.player_label,
-                    )?.role!,
-                  },
-                });
-              }
-            });
+              otherPlayers.length > 0 ? otherPlayers[0] : uniqueTeamLabels[0]; // Take the first available player as opponent
             fight(player, opponent, mapId);
+            setIsModalVisible(false);
           }}
           onFinishFailed={(errorInfo: any) => {
-            console.log("Failed:", errorInfo);
+            console.log("发起对战失败:", errorInfo);
           }}
         >
           <Form.Item
@@ -525,7 +531,14 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             label="比赛地图"
             rules={[{ required: true, message: "请选择比赛地图" }]}
           >
-            <Select style={{ width: "40%" }} allowClear>
+            <Select
+              style={{ width: "40%" }}
+              onChange={(value) => {
+                setSelectedMapId(value);
+                runForm.resetFields(["round_player"]);
+              }}
+              allowClear
+            >
               {contestMapData?.contest_map.map((map) => (
                 <Option key={map.map_id} value={map.map_id}>
                   {map.name}
@@ -533,19 +546,25 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name="round_player"
-            label="比赛角色"
-            rules={[{ required: true, message: "请选择比赛角色" }]}
-          >
-            <Select style={{ width: "40%" }} allowClear>
-              {teamLabels?.map((label: string, index: number) => (
-                <Option key={index} value={label}>
-                  {label}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+          <Tooltip title={selectedMapId ? "" : "请先选择地图"}>
+            <Form.Item
+              name="round_player"
+              label="比赛角色"
+              rules={[{ required: true, message: "请选择比赛角色" }]}
+            >
+              <Select
+                style={{ width: "40%" }}
+                disabled={!selectedMapId}
+                allowClear
+              >
+                {uniqueTeamLabels?.map((label: string, index: number) => (
+                  <Option key={index} value={label}>
+                    {label}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Tooltip>
         </Form>
       </Modal>
     </Layout>
