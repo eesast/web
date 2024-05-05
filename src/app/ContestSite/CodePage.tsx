@@ -75,8 +75,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const { data: GetTeamInfo } = graphql.useGetTeamInfoQuery({
     variables: {
-      team_id: teamid!,
+      team_id: teamid,
     },
+    skip: !teamid,
   });
 
   const { data: teamCodesData, error: teamCodesError } =
@@ -84,6 +85,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       variables: {
         team_id: teamid,
       },
+      skip: !teamid,
     });
 
   const { data: teamPlayersData, refetch: refetchTeamPlayers } =
@@ -91,6 +93,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       variables: {
         team_id: teamid,
       },
+      skip: !teamid,
     });
 
   // 获取比赛状态
