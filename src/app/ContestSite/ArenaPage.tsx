@@ -79,20 +79,20 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
+  const team_id = teamData?.contest_team_member[0]?.contest_team.team_id;
 
   const { data: teamStatusOurData } = graphql.useGetTeamStatusSuspenseQuery({
     variables: {
-      team_id: team_id ? team_id : "",
+      team_id: team_id,
     },
-    skip: true,
+    skip: !team_id,
   });
 
   const { refetch: teamStatusRefetch } = graphql.useGetTeamStatusSuspenseQuery({
     variables: {
-      team_id: "",
+      team_id: team_id,
     },
-    skip: true,
+    skip: !team_id,
   });
 
   //获取正在比赛的room信息
@@ -294,7 +294,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <Row>
         <Col span={2}></Col>
-        <Col span={18}>
+        <Col span={17}>
           <Typography.Text mark>
             愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
           </Typography.Text>
@@ -305,7 +305,10 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             type={isButtonActive ? "default" : "primary"}
             size="large"
             style={{
-              width: "8vw",
+              width: "11vw",
+              overflow: "hidden",
+              whiteSpace: "normal",
+              lineHeight: "normal",
             }}
           >
             {isButtonActive ? "查看所有队伍" : "仅看可发起对战的队伍"}
@@ -422,7 +425,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                           <Col span={15}>
                             <Row style={{ marginBottom: "20px" }} gutter={4}>
                               <Col
-                                span={8}
+                                span={10}
                                 style={{
                                   overflow: "hidden",
                                   whiteSpace: "nowrap",
@@ -439,7 +442,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                 </Typography.Text>
                               </Col>
                               <Col
-                                span={8}
+                                span={14}
                                 style={{
                                   overflow: "hidden",
                                   whiteSpace: "nowrap",
