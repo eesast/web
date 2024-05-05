@@ -413,11 +413,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             <Route path="arena-score" element={<ArenaPage {...props} />} />
             <Route
               path="arena-record"
-              element={
-                <Authenticate role={userRoles} user={props.user}>
-                  <RecordPage {...props} />
-                </Authenticate>
-              }
+              element={<RecordPage {...props} />}
             />
             <Route
               path="arena-analysis"
