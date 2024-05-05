@@ -13038,12 +13038,12 @@ export type UpdateTeamPlayerMutationVariables = Exact<{
 
 export type UpdateTeamPlayerMutation = { __typename?: 'mutation_root', update_contest_team_player_by_pk?: { __typename?: 'contest_team_player', player: string } | null };
 
-export type GetTeamPlayersSubscriptionVariables = Exact<{
+export type GetTeamPlayersQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamPlayersSubscription = { __typename?: 'subscription_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, created_at: any } | null }> };
+export type GetTeamPlayersQuery = { __typename?: 'query_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, created_at: any } | null }> };
 
 export type GetTeamStatusQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -15325,7 +15325,7 @@ export type UpdateTeamPlayerMutationHookResult = ReturnType<typeof useUpdateTeam
 export type UpdateTeamPlayerMutationResult = Apollo.MutationResult<UpdateTeamPlayerMutation>;
 export type UpdateTeamPlayerMutationOptions = Apollo.BaseMutationOptions<UpdateTeamPlayerMutation, UpdateTeamPlayerMutationVariables>;
 export const GetTeamPlayersDocument = gql`
-    subscription GetTeamPlayers($team_id: uuid!) {
+    query GetTeamPlayers($team_id: uuid!) {
   contest_team_player(where: {team_id: {_eq: $team_id}}) {
     player
     player_code {
@@ -15340,27 +15340,37 @@ export const GetTeamPlayersDocument = gql`
     `;
 
 /**
- * __useGetTeamPlayersSubscription__
+ * __useGetTeamPlayersQuery__
  *
- * To run a query within a React component, call `useGetTeamPlayersSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetTeamPlayersSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetTeamPlayersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamPlayersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetTeamPlayersSubscription({
+ * const { data, loading, error } = useGetTeamPlayersQuery({
  *   variables: {
  *      team_id: // value for 'team_id'
  *   },
  * });
  */
-export function useGetTeamPlayersSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables> & ({ variables: GetTeamPlayersSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetTeamPlayersQuery(baseOptions: Apollo.QueryHookOptions<GetTeamPlayersQuery, GetTeamPlayersQueryVariables> & ({ variables: GetTeamPlayersQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetTeamPlayersSubscription, GetTeamPlayersSubscriptionVariables>(GetTeamPlayersDocument, options);
+        return Apollo.useQuery<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>(GetTeamPlayersDocument, options);
       }
-export type GetTeamPlayersSubscriptionHookResult = ReturnType<typeof useGetTeamPlayersSubscription>;
-export type GetTeamPlayersSubscriptionResult = Apollo.SubscriptionResult<GetTeamPlayersSubscription>;
+export function useGetTeamPlayersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>(GetTeamPlayersDocument, options);
+        }
+export function useGetTeamPlayersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>(GetTeamPlayersDocument, options);
+        }
+export type GetTeamPlayersQueryHookResult = ReturnType<typeof useGetTeamPlayersQuery>;
+export type GetTeamPlayersLazyQueryHookResult = ReturnType<typeof useGetTeamPlayersLazyQuery>;
+export type GetTeamPlayersSuspenseQueryHookResult = ReturnType<typeof useGetTeamPlayersSuspenseQuery>;
+export type GetTeamPlayersQueryResult = Apollo.QueryResult<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>;
 export const GetTeamStatusDocument = gql`
     query GetTeamStatus($team_id: uuid!) {
   contest_team_by_pk(team_id: $team_id) {
