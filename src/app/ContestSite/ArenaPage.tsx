@@ -425,7 +425,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                           <Col span={15}>
                             <Row style={{ marginBottom: "20px" }} gutter={4}>
                               <Col
-                                span={8}
+                                span={10}
                                 style={{
                                   overflow: "hidden",
                                   whiteSpace: "nowrap",
@@ -442,7 +442,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                 </Typography.Text>
                               </Col>
                               <Col
-                                span={8}
+                                span={14}
                                 style={{
                                   overflow: "hidden",
                                   whiteSpace: "nowrap",
