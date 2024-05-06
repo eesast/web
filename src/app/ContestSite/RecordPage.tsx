@@ -19,18 +19,23 @@ import type { TableProps } from "antd/lib/table";
 //----删除room和team
 //————创建thuaicode————
 //————后端发送post————
-// import axios, { AxiosError } from "axios";
-// import FileSaver from "file-saver";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
+import { downloadFile } from "../../api/cos";
 const { Text } = Typography;
 
 const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  const { data: contestData } = graphql.useGetContestInfoSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+  const contest_name = contestData?.contest_by_pk?.name;
 
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
@@ -140,20 +145,17 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   const download = async (
     record: graphql.GetArenaRoomsSubscription["contest_room"][0],
   ) => {
-    message.info("暂不支持下载");
-    // try {
-    //   const response = await axios.get(`room/${record.room_id}`, {
-    //     responseType: "blob",
-    //   });
-    //   FileSaver.saveAs(response.data, record.room_id + ".thuaipb");
-    // } catch (e) {
-    //   const err = e as AxiosError;
-    //   if (err.response?.status === 401) {
-    //     message.error("认证失败");
-    //   } else {
-    //     message.error("未知错误");
-    //   }
-    // }
+    try {
+      const codefile = {
+        filename: record.created_at + "对战记录",
+        url: `${contest_name}/arena/${record.room_id}/${record.room_id}.thuaipb`,
+      };
+      message.info("开始下载" + codefile.filename);
+      downloadFile(codefile.url, codefile.filename);
+    } catch (e) {
+      console.log(e);
+      message.info("下载失败");
+    }
   };
 
   const [associatedValue, setAssociatedValue] = useState("");
@@ -191,8 +193,19 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <Row>
         <Col span={2}></Col>
-        <Col span={20}>
+        <Col span={17}>
           <Typography.Text mark>在哪里跌倒，就在哪里爬起来！</Typography.Text>
+        </Col>
+        <Col span={4}>
+          <Button
+            size="large"
+            type="primary"
+            style={{
+              width: "10vw",
+            }}
+          >
+            <Link to={url.link("stream")}>观看直播</Link>
+          </Button>
         </Col>
       </Row>
       <br />

@@ -299,7 +299,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
           </Typography.Text>
         </Col>
-        <Col span={3}>
+        <Col span={5}>
           <Button
             onClick={() => setIsButtonActive(!isButtonActive)}
             type={isButtonActive ? "default" : "primary"}
@@ -314,6 +314,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             {isButtonActive ? "查看所有队伍" : "仅看可发起对战的队伍"}
           </Button>
         </Col>
+        <Col span={2}></Col>
       </Row>
       <br />
       <Row>
