@@ -309,14 +309,14 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
           url: `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.cpp`,
         };
         message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url);
+        downloadFile(codefile.url, codefile.filename);
       } else if (py_exist) {
         const codefile = {
           filename: code_name,
           url: `${contestData?.contest_by_pk?.name}/code/${teamid}/${code_id}.py`,
         };
         message.info("开始下载:" + codefile.filename);
-        downloadFile(codefile.url);
+        downloadFile(codefile.url, codefile.filename);
       }
     } catch (err) {
       message.error("下载失败");
