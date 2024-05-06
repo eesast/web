@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import React from "react";
 import { useUrl } from "../../api/hooks/url";
 import { ContestProps } from ".";
@@ -6,8 +6,9 @@ import * as graphql from "@/generated/graphql";
 import { message } from "antd";
 import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
-import THUAI6 from "./Components/THUAI6/StreamNative";
-import THUAI7 from "./Components/THUAI7/StreamWebGL";
+
+const THUAI6 = lazy(() => import("./Components/THUAI6/StreamNative"));
+const THUAI7 = lazy(() => import("./Components/THUAI7/StreamWebGL"));
 
 export interface StreamProps {
   streamUrl: string;
@@ -43,17 +44,15 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  const url_dev = url.query.get("url");
-  const streamUrl = url_dev
-    ? `http://${url_dev}`
-    : "https://api.eesast.com:8879";
+  const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
+  const port = url.query.get("port") ?? "";
 
   const Stream = () => {
     const contestName = contestNameData?.contest_by_pk?.name;
     if (contestName === "THUAI6") {
-      return <THUAI6 streamUrl={streamUrl} />;
+      return <THUAI6 streamUrl={streamUrl + port} />;
     } else if (contestName === "THUAI7") {
-      return <THUAI7 streamUrl={streamUrl} />;
+      return <THUAI7 streamUrl={streamUrl + port} />;
     } else return <NotImplemented />;
   };
 

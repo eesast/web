@@ -53,7 +53,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
   //运行比赛
   const runContest = async (round_name: string, map_uuid: string) => {
     try {
-      const round_id = await addContestRound({
+      const response = await addContestRound({
         variables: {
           contest_id: Contest_id,
           name: round_name,
@@ -62,7 +62,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
       });
 
       await axios.post("/competition/start-all", {
-        round_id: round_id,
+        round_id: response.data?.insert_contest_round_one?.round_id,
       });
 
       message.info("正在运行比赛:" + round_name);

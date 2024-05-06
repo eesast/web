@@ -124,16 +124,21 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       title: "成员",
       key: "team_member",
       render: (text, record) =>
-        record.contest_team_members.map((i) => [
-          `${i.user.realname} (${i.user.class}, ${i.user.student_no})   `,
-        ]),
+        record.contest_team_members.map((i) => [`${i.user.realname}   `]),
     },
     {
-      title: "过编译代码数",
+      title: "已提交代码数",
       dataIndex: "code_num",
       key: "code_num",
       render: (text, record) =>
         record.contest_team_codes_aggregate.aggregate?.count,
+    },
+    {
+      title: "已选择代码数",
+      dataIndex: "selected_code_num",
+      key: "selected_code_num",
+      render: (text, record) =>
+        record.contest_team_players_aggregate.aggregate?.count,
     },
     {
       title: "对战次数",

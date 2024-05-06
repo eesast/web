@@ -23,10 +23,13 @@ const THUAI6: React.FC<StreamProps> = ({ streamUrl }) => {
   const [student3Loc, setStudent3Loc] = useState<Loc>({ x: 0, y: 0 });
   const [student4Loc, setStudent4Loc] = useState<Loc>({ x: 0, y: 0 });
   const [trickerLoc, setTrickerLoc] = useState<Loc>({ x: 0, y: 0 });
+
+  const playerID = Math.floor(Math.random() * 9999) + 2023;
+
   useEffect(() => {
     const client = new AvailableServiceClient(streamUrl);
     const request = new Message2Server.IDMsg();
-    request.setPlayerId(99);
+    request.setPlayerId(playerID);
     client.tryConnection(
       request,
       {},
@@ -34,10 +37,10 @@ const THUAI6: React.FC<StreamProps> = ({ streamUrl }) => {
         if (!error) {
           console.log("Success making gRPC call:", response.toObject());
           const spectator = new Message2Server.PlayerMsg();
-          spectator.setPlayerId(2024);
+          spectator.setPlayerId(playerID);
           const stream = client.addPlayer(spectator, {});
           stream.on("data", (response) => {
-            console.log("Received message from server:", response.toObject());
+            console.log("Received message from server");
             if (response.getGameState() === MessageType.GameState.GAME_END) {
               stream.cancel();
               console.log("Game Ended.");
