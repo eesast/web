@@ -39,7 +39,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [opponentTeamId, setOpponentTeamId] = useState("");
   const [associatedValue, setAssociatedValue] = useState("");
-  const [isButtonActive, setIsButtonActive] = useState(false);
+  const [onlyCompiledTeams, setOnlyCompiledTeams] = useState(false);
   const [selectedMapId, setSelectedMapId] = useState("");
   type VisibleContestTeam = graphql.GetTeamsQuery["contest_team"][0] & {
     isVisible: boolean;
@@ -81,19 +81,13 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team_id = teamData?.contest_team_member[0]?.contest_team.team_id;
 
-  const { data: teamStatusOurData } = graphql.useGetTeamStatusSuspenseQuery({
-    variables: {
-      team_id: team_id,
-    },
-    skip: !team_id,
-  });
-
-  const { refetch: teamStatusRefetch } = graphql.useGetTeamStatusSuspenseQuery({
-    variables: {
-      team_id: team_id,
-    },
-    skip: !team_id,
-  });
+  const { data: teamStatusOurData, refetch: teamStatusRefetch } =
+    graphql.useGetTeamStatusSuspenseQuery({
+      variables: {
+        team_id: team_id,
+      },
+      skip: !team_id,
+    });
 
   //获取正在比赛的room信息
   const {
@@ -163,7 +157,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [contestMapError]);
 
   useEffect(() => {
-    if (isButtonActive) {
+    if (onlyCompiledTeams) {
       setFilterParamList(
         scoreteamListData?.contest_team.map((item) => ({
           ...item,
@@ -180,7 +174,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         })),
       );
     }
-  }, [isButtonActive, scoreteamListData?.contest_team]);
+  }, [onlyCompiledTeams, scoreteamListData?.contest_team]);
   //搜索模块
   useEffect(() => {
     if (associatedValue !== "") {
@@ -309,7 +303,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             onChange={(e) => {
               setAssociatedValue(e.target.value?.trim());
             }}
-            placeholder="队伍名称 / 队长"
+            placeholder="  队伍名称 / 队长"
             allowClear
             prefix={<SearchOutlined />}
           ></Input>
@@ -323,8 +317,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           }}
         >
           <Checkbox
-            onChange={() => setIsButtonActive(!isButtonActive)}
-            checked={isButtonActive}
+            onChange={() => setOnlyCompiledTeams(!onlyCompiledTeams)}
+            checked={onlyCompiledTeams}
             disabled={!(open && team_id)}
           >
             仅看可发起对战的队伍
