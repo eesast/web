@@ -20,7 +20,7 @@ import {
 } from "antd";
 import type { InputRef } from "antd";
 import {
-  UploadOutlined,
+  InboxOutlined,
   DownloadOutlined,
   DeleteOutlined,
   CheckCircleTwoTone,
@@ -38,6 +38,8 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import { FormInstance } from "antd/lib";
 import NotJoined from "./Components/NotJoined";
+
+const { Dragger } = Upload;
 
 /* ---------------- 主页面 ---------------- */
 const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
@@ -239,6 +241,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   };
   interface playertype {
     key: string;
+    team_label: string;
     player_name: string;
     code_index: number;
     code_name: string;
@@ -522,6 +525,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
           );
           return {
             key: item.player_label,
+            team_label: item.team_label,
             code_index: codeIndexMap.get(code?.player_code?.code_id),
             code_name: code?.player_code?.code_name,
             player_name: item.player_label,
@@ -548,13 +552,18 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const columnsPlayer: ColumnsType<playertype> = [
     {
+      title: "战队",
+      width: "10%",
+      dataIndex: "team_label",
+    },
+    {
       title: "角色",
-      width: "13%",
+      width: "10%",
       dataIndex: "player_name",
     },
     {
-      title: <Tooltip title="仅作统计用，不影响比赛结果">属性</Tooltip>,
-      width: "13%",
+      title: <Tooltip title="仅作统计用，不影响比赛结果">技能/属性</Tooltip>,
+      width: "10%",
       dataIndex: "role",
       render: (text, record) => {
         if (isEditingRole(record)) {
@@ -584,7 +593,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     },
     {
       title: "代码编号（与下表一致）",
-      width: "13%",
+      width: "10%",
       dataIndex: "code_index",
     },
     {
@@ -853,11 +862,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
           <Typography.Title level={2}>角色代码选择</Typography.Title>
         </Col>
       </Row>
+      <br />
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
-          <br />
-          <br />
           <Table
             components={components}
             rowClassName={() => "editable-row"}
@@ -877,29 +885,36 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       <Row>
         <Col span={2}></Col>
         <Col span={20}>
-          <div>
-            <Upload
-              disabled={!open}
-              accept=".cpp,.py"
-              customRequest={handleUpload}
-              onChange={handleOnchange}
-              showUploadList={false}
-            >
-              <Button disabled={!open}>
-                <UploadOutlined />
-                上传代码
-              </Button>
-            </Upload>
-            <br />
-            <br />
-            <Table
-              components={components}
-              rowClassName={() => "editable-row"}
-              bordered
-              dataSource={dataSourceCodes}
-              columns={columnsCodes as ColumnTypes}
-            />
-          </div>
+          <Dragger
+            multiple
+            disabled={!open}
+            accept=".cpp,.py"
+            customRequest={handleUpload}
+            onChange={handleOnchange}
+            showUploadList={false}
+          >
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">拖拽上传AI.cpp或AI.py</p>
+            <p className="ant-upload-hint">
+              支持同时上传多个文件，也可点击选择文件
+            </p>
+          </Dragger>
+        </Col>
+      </Row>
+      <br />
+      <br />
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <Table
+            components={components}
+            rowClassName={() => "editable-row"}
+            bordered
+            dataSource={dataSourceCodes}
+            columns={columnsCodes as ColumnTypes}
+          />
         </Col>
       </Row>
     </Layout>

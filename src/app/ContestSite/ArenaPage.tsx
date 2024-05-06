@@ -292,7 +292,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             checked={onlyCompiledTeams}
             disabled={!(open && team_id)}
           >
-            仅看可发起对战的队伍
+            只看可发起对战的队伍
           </Checkbox>
         </Col>
       </Row>
@@ -462,7 +462,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                             >
                               积分：
                               {item.contest_team_rooms_aggregate.aggregate?.sum
-                                ?.score ?? 0}
+                                ?.score ?? "暂无记录"}
                             </Typography.Text>
                           </Col>
                         </Row>
