@@ -2,7 +2,6 @@ import React, { useEffect, useState, Suspense } from "react";
 import {
   Tooltip,
   message,
-  Button,
   Divider,
   Form,
   Modal,
@@ -14,6 +13,7 @@ import {
   Col,
   Select,
   Typography,
+  Checkbox,
 } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { SearchOutlined } from "@ant-design/icons";
@@ -294,25 +294,10 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <Row>
         <Col span={2}></Col>
-        <Col span={17}>
+        <Col span={20}>
           <Typography.Text mark>
             愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
           </Typography.Text>
-        </Col>
-        <Col span={3}>
-          <Button
-            onClick={() => setIsButtonActive(!isButtonActive)}
-            type={isButtonActive ? "default" : "primary"}
-            size="large"
-            style={{
-              width: "11vw",
-              overflow: "hidden",
-              whiteSpace: "normal",
-              lineHeight: "normal",
-            }}
-          >
-            {isButtonActive ? "查看所有队伍" : "仅看可发起对战的队伍"}
-          </Button>
         </Col>
       </Row>
       <br />
@@ -328,6 +313,22 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             allowClear
             prefix={<SearchOutlined />}
           ></Input>
+        </Col>
+        <Col
+          span={10}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <Checkbox
+            onChange={() => setIsButtonActive(!isButtonActive)}
+            checked={isButtonActive}
+            disabled={!(open && team_id)}
+          >
+            仅看可发起对战的队伍
+          </Checkbox>
         </Col>
       </Row>
       <br />
