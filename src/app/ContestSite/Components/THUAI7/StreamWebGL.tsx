@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { RpcError } from "grpc-web";
-import { AvailableServiceClient } from "@/generated/grpc-web/THUAI6/ServicesServiceClientPb";
-import * as MessageType from "@/generated/grpc-web/THUAI6/MessageType_pb";
-import * as Message2Clients from "@/generated/grpc-web/THUAI6/Message2Clients_pb";
-import * as Message2Server from "@/generated/grpc-web/THUAI6/Message2Server_pb";
+import { AvailableServiceClient } from "@/generated/grpc-web/THUAI7/ServicesServiceClientPb";
+import * as MessageType from "@/generated/grpc-web/THUAI7/MessageType_pb";
+import * as Message2Clients from "@/generated/grpc-web/THUAI7/Message2Clients_pb";
+import * as Message2Server from "@/generated/grpc-web/THUAI7/Message2Server_pb";
 import { FloatButton, Layout, Modal, Progress, Row } from "antd";
 import { ArrowsAltOutlined } from "@ant-design/icons";
 import React from "react";
@@ -62,12 +62,14 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
     }
   };
 
-  const [message, setMessage] = React.useState<string>("");
-
   useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
     const client = new AvailableServiceClient(streamUrl);
     const request = new Message2Server.IDMsg();
-    request.setPlayerId(99);
+    const playerID = Math.floor(Math.random() * 9999) + 2024;
+    request.setPlayerId(playerID);
     client.tryConnection(
       request,
       {},
@@ -75,14 +77,15 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
         if (!error) {
           console.log("Success making gRPC call:", response.toObject());
           const spectator = new Message2Server.PlayerMsg();
-          spectator.setPlayerId(2024);
+          spectator.setPlayerId(playerID);
           const stream = client.addPlayer(spectator, {});
           stream.on("data", (response) => {
             if (response.getGameState() === MessageType.GameState.GAME_END) {
               stream.cancel();
               console.log("Game Ended.");
             }
-            setMessage(JSON.stringify(response.toObject()));
+            const message = JSON.stringify(response.toObject());
+            sendMessage("UpdateManager", "UpdateMessageByJson", message);
             console.log("Received data from server");
           });
           stream.on("status", (status) => {
@@ -100,13 +103,7 @@ const THUAI7: React.FC<StreamProps> = ({ streamUrl }) => {
       },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (isLoaded && message.length > 0) {
-      sendMessage("UpdateManager", "UpdateMessageByJson", message);
-    }
-  });
+  }, [isLoaded]);
 
   return (
     <Layout>
