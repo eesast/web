@@ -63,6 +63,15 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
+  const { data: contestPlayersData } =
+    graphql.useGetContestPlayersSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+
+  const playerCount = contestPlayersData.contest_player.length;
+
   //获取天梯队伍信息
   const { data: scoreteamListData, error: scoreteamListError } =
     graphql.useGetTeamsSuspenseQuery({
@@ -143,13 +152,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  // useEffect(() => {
-  //   if (teamCodesError) {
-  //     message.error("队伍代码加载失败");
-  //     console.log(teamCodesError.message);
-  //   }
-  // }, [teamCodesError]);
-
   useEffect(() => {
     if (contestMapError) {
       console.log(contestMapError.message);
@@ -157,51 +159,20 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [contestMapError]);
 
   useEffect(() => {
-    if (onlyCompiledTeams) {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible:
-            item.contest_team_players_aggregate.aggregate?.count ===
-            item.contest.contest_players_aggregate?.aggregate?.count,
-        })),
-      );
-    } else {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible: true,
-        })),
-      );
-    }
-  }, [onlyCompiledTeams, scoreteamListData?.contest_team]);
-  //搜索模块
-  useEffect(() => {
-    if (associatedValue !== "") {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible:
-            item.team_name?.includes(associatedValue) ||
-            item.team_leader?.realname?.includes(associatedValue) ||
-            false,
-        })) || [],
-      );
-    } else {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible: true,
-        })),
-      );
-    }
-  }, [associatedValue, scoreteamListData?.contest_team]);
-
-  const sortedTeams = [...filterParamList]?.sort((a, b) => {
-    const scoreA = a.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
-    const scoreB = b.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
-    return scoreB - scoreA;
-  });
+    setFilterParamList(
+      scoreteamListData?.contest_team.map((team) => {
+        const teamName = team.team_name;
+        const teamLeader = team.team_leader?.realname;
+        const teamPlayerCount =
+          team.contest_team_players_aggregate.aggregate?.count;
+        const isVisible =
+          (teamName.includes(associatedValue) ||
+            teamLeader?.includes(associatedValue)) &&
+          (!onlyCompiledTeams || teamPlayerCount === playerCount);
+        return { ...team, isVisible: isVisible || false };
+      }) || [],
+    );
+  }, [associatedValue, onlyCompiledTeams, playerCount, scoreteamListData]);
 
   const open = contestSwitchData.contest_by_pk?.arena_switch;
 
@@ -332,7 +303,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           <Suspense fallback={<Loading />}>
             <List
               itemLayout="horizontal"
-              dataSource={sortedTeams}
+              dataSource={filterParamList}
               renderItem={(item, index) =>
                 item.isVisible && (
                   <Content style={{ marginBottom: "20px" }}>

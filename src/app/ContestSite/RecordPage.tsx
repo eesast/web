@@ -177,7 +177,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         );
       }) ?? [],
     );
-  }, [associatedValue, arenaRoomsData?.contest_room, onlyMyTeam, team_id]);
+  }, [associatedValue, arenaRoomsData, onlyMyTeam, team_id]);
 
   return (
     <Layout>
