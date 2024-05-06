@@ -193,17 +193,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={17}>
           <Typography.Text mark>在哪里跌倒，就在哪里爬起来！</Typography.Text>
         </Col>
-        <Col span={4}>
-          <Button
-            size="large"
-            type="primary"
-            style={{
-              width: "10vw",
-            }}
-          >
-            <Link to={url.link("stream")}>观看直播</Link>
-          </Button>
-        </Col>
       </Row>
       <br />
       <Row>
