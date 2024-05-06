@@ -190,7 +190,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <Row>
         <Col span={2}></Col>
-        <Col span={17}>
+        <Col span={20}>
           <Typography.Text mark>在哪里跌倒，就在哪里爬起来！</Typography.Text>
         </Col>
       </Row>
