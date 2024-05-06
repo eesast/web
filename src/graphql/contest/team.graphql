@@ -143,7 +143,12 @@ query getTotalMemberNum($contest_id: uuid!) {
 }
 
 query getTeams($contest_id: uuid!) {
-  contest_team(where: { contest_id: { _eq: $contest_id } }) {
+  contest_team(
+    where: { contest_id: { _eq: $contest_id } }
+    order_by: {
+      contest_team_rooms_aggregate: { sum: { score: desc_nulls_last } }
+    }
+  ) {
     team_id
     team_name
     team_intro
@@ -159,9 +164,7 @@ query getTeams($contest_id: uuid!) {
         class
       }
     }
-    contest_team_codes_aggregate(
-      where: { compile_status: { _in: ["No Need", "Completed"] } }
-    ) {
+    contest_team_codes_aggregate {
       aggregate {
         count
       }
@@ -181,13 +184,6 @@ query getTeams($contest_id: uuid!) {
     ) {
       aggregate {
         count
-      }
-    }
-    contest {
-      contest_players_aggregate {
-        aggregate {
-          count
-        }
       }
     }
   }

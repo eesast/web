@@ -12972,7 +12972,7 @@ export type GetTeamsQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null }, contest: { __typename?: 'contest', contest_players_aggregate: { __typename?: 'contest_player_aggregate', aggregate?: { __typename?: 'contest_player_aggregate_fields', count: number } | null } } }> };
+export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null } }> };
 
 export type GetAllTeamInfoSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -14919,7 +14919,10 @@ export type GetTotalMemberNumSuspenseQueryHookResult = ReturnType<typeof useGetT
 export type GetTotalMemberNumQueryResult = Apollo.QueryResult<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>;
 export const GetTeamsDocument = gql`
     query getTeams($contest_id: uuid!) {
-  contest_team(where: {contest_id: {_eq: $contest_id}}) {
+  contest_team(
+    where: {contest_id: {_eq: $contest_id}}
+    order_by: {contest_team_rooms_aggregate: {sum: {score: desc_nulls_last}}}
+  ) {
     team_id
     team_name
     team_intro
@@ -14935,9 +14938,7 @@ export const GetTeamsDocument = gql`
         class
       }
     }
-    contest_team_codes_aggregate(
-      where: {compile_status: {_in: ["No Need", "Completed"]}}
-    ) {
+    contest_team_codes_aggregate {
       aggregate {
         count
       }
@@ -14955,13 +14956,6 @@ export const GetTeamsDocument = gql`
     ) {
       aggregate {
         count
-      }
-    }
-    contest {
-      contest_players_aggregate {
-        aggregate {
-          count
-        }
       }
     }
   }

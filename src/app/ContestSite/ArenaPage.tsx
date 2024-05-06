@@ -2,7 +2,6 @@ import React, { useEffect, useState, Suspense } from "react";
 import {
   Tooltip,
   message,
-  Button,
   Divider,
   Form,
   Modal,
@@ -14,6 +13,7 @@ import {
   Col,
   Select,
   Typography,
+  Checkbox,
 } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { SearchOutlined } from "@ant-design/icons";
@@ -39,7 +39,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [opponentTeamId, setOpponentTeamId] = useState("");
   const [associatedValue, setAssociatedValue] = useState("");
-  const [isButtonActive, setIsButtonActive] = useState(false);
+  const [onlyCompiledTeams, setOnlyCompiledTeams] = useState(false);
   const [selectedMapId, setSelectedMapId] = useState("");
   type VisibleContestTeam = graphql.GetTeamsQuery["contest_team"][0] & {
     isVisible: boolean;
@@ -63,6 +63,15 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
+  const { data: contestPlayersData } =
+    graphql.useGetContestPlayersSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+
+  const playerCount = contestPlayersData.contest_player.length;
+
   //获取天梯队伍信息
   const { data: scoreteamListData, error: scoreteamListError } =
     graphql.useGetTeamsSuspenseQuery({
@@ -81,19 +90,13 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team_id = teamData?.contest_team_member[0]?.contest_team.team_id;
 
-  const { data: teamStatusOurData } = graphql.useGetTeamStatusSuspenseQuery({
-    variables: {
-      team_id: team_id,
-    },
-    skip: !team_id,
-  });
-
-  const { refetch: teamStatusRefetch } = graphql.useGetTeamStatusSuspenseQuery({
-    variables: {
-      team_id: team_id,
-    },
-    skip: !team_id,
-  });
+  const { data: teamStatusOurData, refetch: teamStatusRefetch } =
+    graphql.useGetTeamStatusSuspenseQuery({
+      variables: {
+        team_id: team_id,
+      },
+      skip: !team_id,
+    });
 
   //获取正在比赛的room信息
   const {
@@ -149,13 +152,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
-  // useEffect(() => {
-  //   if (teamCodesError) {
-  //     message.error("队伍代码加载失败");
-  //     console.log(teamCodesError.message);
-  //   }
-  // }, [teamCodesError]);
-
   useEffect(() => {
     if (contestMapError) {
       console.log(contestMapError.message);
@@ -163,51 +159,20 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [contestMapError]);
 
   useEffect(() => {
-    if (isButtonActive) {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible:
-            item.contest_team_players_aggregate.aggregate?.count ===
-            item.contest.contest_players_aggregate?.aggregate?.count,
-        })),
-      );
-    } else {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible: true,
-        })),
-      );
-    }
-  }, [isButtonActive, scoreteamListData?.contest_team]);
-  //搜索模块
-  useEffect(() => {
-    if (associatedValue !== "") {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible:
-            item.team_name?.includes(associatedValue) ||
-            item.team_leader?.realname?.includes(associatedValue) ||
-            false,
-        })) || [],
-      );
-    } else {
-      setFilterParamList(
-        scoreteamListData?.contest_team.map((item) => ({
-          ...item,
-          isVisible: true,
-        })),
-      );
-    }
-  }, [associatedValue, scoreteamListData?.contest_team]);
-
-  const sortedTeams = [...filterParamList]?.sort((a, b) => {
-    const scoreA = a.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
-    const scoreB = b.contest_team_rooms_aggregate.aggregate?.sum?.score || 0;
-    return scoreB - scoreA;
-  });
+    setFilterParamList(
+      scoreteamListData?.contest_team.map((team) => {
+        const teamName = team.team_name;
+        const teamLeader = team.team_leader?.realname;
+        const teamPlayerCount =
+          team.contest_team_players_aggregate.aggregate?.count;
+        const isVisible =
+          (teamName.includes(associatedValue) ||
+            teamLeader?.includes(associatedValue)) &&
+          (!onlyCompiledTeams || teamPlayerCount === playerCount);
+        return { ...team, isVisible: isVisible || false };
+      }) || [],
+    );
+  }, [associatedValue, onlyCompiledTeams, playerCount, scoreteamListData]);
 
   const open = contestSwitchData.contest_by_pk?.arena_switch;
 
@@ -294,27 +259,11 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <Row>
         <Col span={2}></Col>
-        <Col span={17}>
+        <Col span={20}>
           <Typography.Text mark>
             愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
           </Typography.Text>
         </Col>
-        <Col span={5}>
-          <Button
-            onClick={() => setIsButtonActive(!isButtonActive)}
-            type={isButtonActive ? "default" : "primary"}
-            size="large"
-            style={{
-              width: "11vw",
-              overflow: "hidden",
-              whiteSpace: "normal",
-              lineHeight: "normal",
-            }}
-          >
-            {isButtonActive ? "查看所有队伍" : "仅看可发起对战的队伍"}
-          </Button>
-        </Col>
-        <Col span={2}></Col>
       </Row>
       <br />
       <Row>
@@ -325,10 +274,26 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             onChange={(e) => {
               setAssociatedValue(e.target.value?.trim());
             }}
-            placeholder="队伍名称 / 队长"
+            placeholder="  队伍名称 / 队长"
             allowClear
             prefix={<SearchOutlined />}
           ></Input>
+        </Col>
+        <Col
+          span={10}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <Checkbox
+            onChange={() => setOnlyCompiledTeams(!onlyCompiledTeams)}
+            checked={onlyCompiledTeams}
+            disabled={!(open && team_id)}
+          >
+            只看可发起对战的队伍
+          </Checkbox>
         </Col>
       </Row>
       <br />
@@ -338,7 +303,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           <Suspense fallback={<Loading />}>
             <List
               itemLayout="horizontal"
-              dataSource={sortedTeams}
+              dataSource={filterParamList}
               renderItem={(item, index) =>
                 item.isVisible && (
                   <Content style={{ marginBottom: "20px" }}>
@@ -497,7 +462,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                             >
                               积分：
                               {item.contest_team_rooms_aggregate.aggregate?.sum
-                                ?.score ?? 0}
+                                ?.score ?? "暂无记录"}
                             </Typography.Text>
                           </Col>
                         </Row>

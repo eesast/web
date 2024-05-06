@@ -1,14 +1,15 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
-  Button,
   message,
   Input,
   Layout,
   Row,
   Col,
   Typography,
+  Space,
+  Checkbox,
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 //----根据队员信息查找队伍信息------
@@ -24,18 +25,25 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
-import { downloadFile } from "../../api/cos";
+import { downloadFile } from "@/api/cos";
 const { Text } = Typography;
 
 const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  const { data: contestData } = graphql.useGetContestInfoSuspenseQuery({
+  const navigate = useNavigate();
+
+  const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
-  const contest_name = contestData?.contest_by_pk?.name;
+
+  const { data: contestSwitchData } = graphql.useGetContestSwitchSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
 
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
@@ -79,17 +87,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     {
       title: "对战双方",
       key: "team_name",
-      filters: team_id
-        ? [
-            {
-              text: "只看自己",
-              value: team_id,
-            },
-          ]
-        : [],
-      onFilter: (value, record) =>
-        record.contest_room_teams[0]?.contest_team.team_id === value ||
-        record.contest_room_teams[1]?.contest_team.team_id === value,
       render: (text, record) => {
         return (
           <Text>
@@ -116,71 +113,71 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       render: (text, record) => record.port ?? "----",
     },
     {
-      title: "回放",
-      key: "download",
+      title: "操作",
+      key: "options",
       render: (text, record) => (
-        <Row>
-          <Button
-            onClick={() => download(record)}
-            disabled={record.status !== "Finished"}
-          >
-            下载
-          </Button>
-          <Col span={1} />
-          <Button disabled={record.status !== "Finished"}>
-            <Link
-              to={url
-                .append("room", record.room_id)
-                .append("speed", 3)
-                .link("playback")}
+        <Space size="small">
+          {record.status === "Running" && (
+            <Typography.Link
+              disabled={!contestSwitchData.contest_by_pk?.stream_switch}
+              onClick={() =>
+                navigate(url.append("port", record.port).link("stream"))
+              }
             >
-              查看
-            </Link>
-          </Button>
-        </Row>
+              观看直播
+            </Typography.Link>
+          )}
+          {record.status === "Finished" && (
+            <Typography.Link onClick={() => download(record.room_id)}>
+              下载回放
+            </Typography.Link>
+          )}
+          {record.status === "Finished" && (
+            <Typography.Link
+              disabled={!contestSwitchData.contest_by_pk?.playback_switch}
+              onClick={() =>
+                navigate(url.append("room", record.room_id).link("playback"))
+              }
+            >
+              在线回放
+            </Typography.Link>
+          )}
+        </Space>
       ),
     },
   ];
 
-  const download = async (
-    record: graphql.GetArenaRoomsSubscription["contest_room"][0],
-  ) => {
+  const download = async (roomId: string) => {
     try {
-      const codefile = {
-        filename: record.created_at + "对战记录",
-        url: `${contest_name}/arena/${record.room_id}/${record.room_id}.thuaipb`,
-      };
-      message.info("开始下载" + codefile.filename);
-      downloadFile(codefile.url, codefile.filename);
-    } catch (e) {
-      console.log(e);
-      message.info("下载失败");
+      const contestName = contestNameData?.contest_by_pk?.name;
+      message.loading(`即将下载比赛回放`);
+      await downloadFile(`${contestName}/arena/${roomId}/${roomId}.thuaipb`);
+    } catch (err) {
+      message.error(`比赛回放下载失败`);
+      console.log(err);
     }
   };
 
+  const [onlyMyTeam, setOnlyMyTeam] = useState(false);
   const [associatedValue, setAssociatedValue] = useState("");
   const [filterParamList, setFilterParamList] = useState(
     arenaRoomsData?.contest_room,
   );
   useEffect(() => {
-    if (associatedValue !== "") {
-      setFilterParamList([]);
-      setFilterParamList(
-        arenaRoomsData?.contest_room.filter((item) => {
-          return (
-            item.contest_room_teams[0]?.contest_team?.team_name?.indexOf(
-              associatedValue,
-            ) !== -1 ||
-            item.contest_room_teams[1]?.contest_team?.team_name?.indexOf(
-              associatedValue,
-            ) !== -1
-          );
-        }),
-      );
-    } else {
-      setFilterParamList(arenaRoomsData?.contest_room);
-    }
-  }, [associatedValue, arenaRoomsData?.contest_room]);
+    setFilterParamList(
+      arenaRoomsData?.contest_room?.filter((room) => {
+        const teamId1 = room.contest_room_teams[0]?.contest_team.team_id;
+        const teamId2 = room.contest_room_teams[1]?.contest_team.team_id;
+        const teamName1 = room.contest_room_teams[0]?.contest_team.team_name;
+        const teamName2 = room.contest_room_teams[1]?.contest_team.team_name;
+        return (
+          (teamName1?.includes(associatedValue) ||
+            teamName2?.includes(associatedValue)) &&
+          (!onlyMyTeam || teamId1 === team_id || teamId2 === team_id)
+        );
+      }) ?? [],
+    );
+  }, [associatedValue, arenaRoomsData, onlyMyTeam, team_id]);
 
   return (
     <Layout>
@@ -221,6 +218,24 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
             allowClear
             prefix={<SearchOutlined />}
           ></Input>
+        </Col>
+        <Col
+          span={10}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <Checkbox
+            onChange={() => {
+              setOnlyMyTeam(!onlyMyTeam);
+            }}
+            checked={onlyMyTeam}
+            disabled={!team_id}
+          >
+            只看我的队伍
+          </Checkbox>
         </Col>
       </Row>
       <br />
