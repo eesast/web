@@ -397,18 +397,16 @@ export type Contest = {
   contest_times: Array<Contest_Time>;
   /** An aggregate relationship */
   contest_times_aggregate: Contest_Time_Aggregate;
-  contest_type: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
   end_date: Scalars['timestamptz']['output'];
   fullname: Scalars['String']['output'];
+  game_time?: Maybe<Scalars['numeric']['output']>;
   id: Scalars['uuid']['output'];
-  max_game_time?: Maybe<Scalars['numeric']['output']>;
   name: Scalars['String']['output'];
   playback_switch: Scalars['Boolean']['output'];
   playground_switch: Scalars['Boolean']['output'];
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date: Scalars['timestamptz']['output'];
-  status: Scalars['String']['output'];
   stream_switch: Scalars['Boolean']['output'];
   team_switch: Scalars['Boolean']['output'];
 };
@@ -607,7 +605,7 @@ export type Contest_Aggregate_FieldsCountArgs = {
 export type Contest_Avg_Fields = {
   __typename?: 'contest_avg_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
-  max_game_time?: Maybe<Scalars['Float']['output']>;
+  game_time?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -627,354 +625,19 @@ export type Contest_Bool_Exp = {
   contest_rounds?: InputMaybe<Contest_Round_Bool_Exp>;
   contest_teams?: InputMaybe<Contest_Team_Bool_Exp>;
   contest_times?: InputMaybe<Contest_Time_Bool_Exp>;
-  contest_type?: InputMaybe<String_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   fullname?: InputMaybe<String_Comparison_Exp>;
+  game_time?: InputMaybe<Numeric_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  max_game_time?: InputMaybe<Numeric_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   playback_switch?: InputMaybe<Boolean_Comparison_Exp>;
   playground_switch?: InputMaybe<Boolean_Comparison_Exp>;
   server_memory_limit?: InputMaybe<Numeric_Comparison_Exp>;
   start_date?: InputMaybe<Timestamptz_Comparison_Exp>;
-  status?: InputMaybe<String_Comparison_Exp>;
   stream_switch?: InputMaybe<Boolean_Comparison_Exp>;
   team_switch?: InputMaybe<Boolean_Comparison_Exp>;
 };
-
-/** columns and relationships of "contest_code" */
-export type Contest_Code = {
-  __typename?: 'contest_code';
-  code1?: Maybe<Scalars['String']['output']>;
-  code1_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code2?: Maybe<Scalars['String']['output']>;
-  code2_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code3?: Maybe<Scalars['String']['output']>;
-  code3_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code4?: Maybe<Scalars['String']['output']>;
-  code4_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code5?: Maybe<Scalars['String']['output']>;
-  code5_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code6?: Maybe<Scalars['String']['output']>;
-  code6_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code_type1?: Maybe<Scalars['String']['output']>;
-  code_type2?: Maybe<Scalars['String']['output']>;
-  code_type3?: Maybe<Scalars['String']['output']>;
-  code_type4?: Maybe<Scalars['String']['output']>;
-  code_type5?: Maybe<Scalars['String']['output']>;
-  code_type6?: Maybe<Scalars['String']['output']>;
-  contest_id: Scalars['uuid']['output'];
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  team_id: Scalars['uuid']['output'];
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** aggregated selection of "contest_code" */
-export type Contest_Code_Aggregate = {
-  __typename?: 'contest_code_aggregate';
-  aggregate?: Maybe<Contest_Code_Aggregate_Fields>;
-  nodes: Array<Contest_Code>;
-};
-
-/** aggregate fields of "contest_code" */
-export type Contest_Code_Aggregate_Fields = {
-  __typename?: 'contest_code_aggregate_fields';
-  count: Scalars['Int']['output'];
-  max?: Maybe<Contest_Code_Max_Fields>;
-  min?: Maybe<Contest_Code_Min_Fields>;
-};
-
-
-/** aggregate fields of "contest_code" */
-export type Contest_Code_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Boolean expression to filter rows from the table "contest_code". All fields are combined with a logical 'AND'. */
-export type Contest_Code_Bool_Exp = {
-  _and?: InputMaybe<Array<Contest_Code_Bool_Exp>>;
-  _not?: InputMaybe<Contest_Code_Bool_Exp>;
-  _or?: InputMaybe<Array<Contest_Code_Bool_Exp>>;
-  code1?: InputMaybe<String_Comparison_Exp>;
-  code1_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
-  code2?: InputMaybe<String_Comparison_Exp>;
-  code2_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
-  code3?: InputMaybe<String_Comparison_Exp>;
-  code3_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
-  code4?: InputMaybe<String_Comparison_Exp>;
-  code4_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
-  code5?: InputMaybe<String_Comparison_Exp>;
-  code5_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
-  code6?: InputMaybe<String_Comparison_Exp>;
-  code6_update_time?: InputMaybe<Timestamptz_Comparison_Exp>;
-  code_type1?: InputMaybe<String_Comparison_Exp>;
-  code_type2?: InputMaybe<String_Comparison_Exp>;
-  code_type3?: InputMaybe<String_Comparison_Exp>;
-  code_type4?: InputMaybe<String_Comparison_Exp>;
-  code_type5?: InputMaybe<String_Comparison_Exp>;
-  code_type6?: InputMaybe<String_Comparison_Exp>;
-  contest_id?: InputMaybe<Uuid_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  team_id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "contest_code" */
-export enum Contest_Code_Constraint {
-  /** unique or primary key constraint on columns "team_id" */
-  ContestCodePkey = 'contest_code_pkey'
-}
-
-/** input type for inserting data into table "contest_code" */
-export type Contest_Code_Insert_Input = {
-  code1?: InputMaybe<Scalars['String']['input']>;
-  code1_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code2?: InputMaybe<Scalars['String']['input']>;
-  code2_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code3?: InputMaybe<Scalars['String']['input']>;
-  code3_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code4?: InputMaybe<Scalars['String']['input']>;
-  code4_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code5?: InputMaybe<Scalars['String']['input']>;
-  code5_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code6?: InputMaybe<Scalars['String']['input']>;
-  code6_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code_type1?: InputMaybe<Scalars['String']['input']>;
-  code_type2?: InputMaybe<Scalars['String']['input']>;
-  code_type3?: InputMaybe<Scalars['String']['input']>;
-  code_type4?: InputMaybe<Scalars['String']['input']>;
-  code_type5?: InputMaybe<Scalars['String']['input']>;
-  code_type6?: InputMaybe<Scalars['String']['input']>;
-  contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  team_id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate max on columns */
-export type Contest_Code_Max_Fields = {
-  __typename?: 'contest_code_max_fields';
-  code1?: Maybe<Scalars['String']['output']>;
-  code1_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code2?: Maybe<Scalars['String']['output']>;
-  code2_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code3?: Maybe<Scalars['String']['output']>;
-  code3_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code4?: Maybe<Scalars['String']['output']>;
-  code4_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code5?: Maybe<Scalars['String']['output']>;
-  code5_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code6?: Maybe<Scalars['String']['output']>;
-  code6_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code_type1?: Maybe<Scalars['String']['output']>;
-  code_type2?: Maybe<Scalars['String']['output']>;
-  code_type3?: Maybe<Scalars['String']['output']>;
-  code_type4?: Maybe<Scalars['String']['output']>;
-  code_type5?: Maybe<Scalars['String']['output']>;
-  code_type6?: Maybe<Scalars['String']['output']>;
-  contest_id?: Maybe<Scalars['uuid']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  team_id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** aggregate min on columns */
-export type Contest_Code_Min_Fields = {
-  __typename?: 'contest_code_min_fields';
-  code1?: Maybe<Scalars['String']['output']>;
-  code1_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code2?: Maybe<Scalars['String']['output']>;
-  code2_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code3?: Maybe<Scalars['String']['output']>;
-  code3_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code4?: Maybe<Scalars['String']['output']>;
-  code4_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code5?: Maybe<Scalars['String']['output']>;
-  code5_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code6?: Maybe<Scalars['String']['output']>;
-  code6_update_time?: Maybe<Scalars['timestamptz']['output']>;
-  code_type1?: Maybe<Scalars['String']['output']>;
-  code_type2?: Maybe<Scalars['String']['output']>;
-  code_type3?: Maybe<Scalars['String']['output']>;
-  code_type4?: Maybe<Scalars['String']['output']>;
-  code_type5?: Maybe<Scalars['String']['output']>;
-  code_type6?: Maybe<Scalars['String']['output']>;
-  contest_id?: Maybe<Scalars['uuid']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  team_id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** response of any mutation on the table "contest_code" */
-export type Contest_Code_Mutation_Response = {
-  __typename?: 'contest_code_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Contest_Code>;
-};
-
-/** on_conflict condition type for table "contest_code" */
-export type Contest_Code_On_Conflict = {
-  constraint: Contest_Code_Constraint;
-  update_columns?: Array<Contest_Code_Update_Column>;
-  where?: InputMaybe<Contest_Code_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "contest_code". */
-export type Contest_Code_Order_By = {
-  code1?: InputMaybe<Order_By>;
-  code1_update_time?: InputMaybe<Order_By>;
-  code2?: InputMaybe<Order_By>;
-  code2_update_time?: InputMaybe<Order_By>;
-  code3?: InputMaybe<Order_By>;
-  code3_update_time?: InputMaybe<Order_By>;
-  code4?: InputMaybe<Order_By>;
-  code4_update_time?: InputMaybe<Order_By>;
-  code5?: InputMaybe<Order_By>;
-  code5_update_time?: InputMaybe<Order_By>;
-  code6?: InputMaybe<Order_By>;
-  code6_update_time?: InputMaybe<Order_By>;
-  code_type1?: InputMaybe<Order_By>;
-  code_type2?: InputMaybe<Order_By>;
-  code_type3?: InputMaybe<Order_By>;
-  code_type4?: InputMaybe<Order_By>;
-  code_type5?: InputMaybe<Order_By>;
-  code_type6?: InputMaybe<Order_By>;
-  contest_id?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  team_id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: contest_code */
-export type Contest_Code_Pk_Columns_Input = {
-  team_id: Scalars['uuid']['input'];
-};
-
-/** select columns of table "contest_code" */
-export enum Contest_Code_Select_Column {
-  /** column name */
-  Code1 = 'code1',
-  /** column name */
-  Code1UpdateTime = 'code1_update_time',
-  /** column name */
-  Code2 = 'code2',
-  /** column name */
-  Code2UpdateTime = 'code2_update_time',
-  /** column name */
-  Code3 = 'code3',
-  /** column name */
-  Code3UpdateTime = 'code3_update_time',
-  /** column name */
-  Code4 = 'code4',
-  /** column name */
-  Code4UpdateTime = 'code4_update_time',
-  /** column name */
-  Code5 = 'code5',
-  /** column name */
-  Code5UpdateTime = 'code5_update_time',
-  /** column name */
-  Code6 = 'code6',
-  /** column name */
-  Code6UpdateTime = 'code6_update_time',
-  /** column name */
-  CodeType1 = 'code_type1',
-  /** column name */
-  CodeType2 = 'code_type2',
-  /** column name */
-  CodeType3 = 'code_type3',
-  /** column name */
-  CodeType4 = 'code_type4',
-  /** column name */
-  CodeType5 = 'code_type5',
-  /** column name */
-  CodeType6 = 'code_type6',
-  /** column name */
-  ContestId = 'contest_id',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  TeamId = 'team_id',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "contest_code" */
-export type Contest_Code_Set_Input = {
-  code1?: InputMaybe<Scalars['String']['input']>;
-  code1_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code2?: InputMaybe<Scalars['String']['input']>;
-  code2_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code3?: InputMaybe<Scalars['String']['input']>;
-  code3_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code4?: InputMaybe<Scalars['String']['input']>;
-  code4_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code5?: InputMaybe<Scalars['String']['input']>;
-  code5_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code6?: InputMaybe<Scalars['String']['input']>;
-  code6_update_time?: InputMaybe<Scalars['timestamptz']['input']>;
-  code_type1?: InputMaybe<Scalars['String']['input']>;
-  code_type2?: InputMaybe<Scalars['String']['input']>;
-  code_type3?: InputMaybe<Scalars['String']['input']>;
-  code_type4?: InputMaybe<Scalars['String']['input']>;
-  code_type5?: InputMaybe<Scalars['String']['input']>;
-  code_type6?: InputMaybe<Scalars['String']['input']>;
-  contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  team_id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** update columns of table "contest_code" */
-export enum Contest_Code_Update_Column {
-  /** column name */
-  Code1 = 'code1',
-  /** column name */
-  Code1UpdateTime = 'code1_update_time',
-  /** column name */
-  Code2 = 'code2',
-  /** column name */
-  Code2UpdateTime = 'code2_update_time',
-  /** column name */
-  Code3 = 'code3',
-  /** column name */
-  Code3UpdateTime = 'code3_update_time',
-  /** column name */
-  Code4 = 'code4',
-  /** column name */
-  Code4UpdateTime = 'code4_update_time',
-  /** column name */
-  Code5 = 'code5',
-  /** column name */
-  Code5UpdateTime = 'code5_update_time',
-  /** column name */
-  Code6 = 'code6',
-  /** column name */
-  Code6UpdateTime = 'code6_update_time',
-  /** column name */
-  CodeType1 = 'code_type1',
-  /** column name */
-  CodeType2 = 'code_type2',
-  /** column name */
-  CodeType3 = 'code_type3',
-  /** column name */
-  CodeType4 = 'code_type4',
-  /** column name */
-  CodeType5 = 'code_type5',
-  /** column name */
-  CodeType6 = 'code_type6',
-  /** column name */
-  ContestId = 'contest_id',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  TeamId = 'team_id',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
 
 /** unique or primary key constraints on table "contest" */
 export enum Contest_Constraint {
@@ -987,7 +650,7 @@ export enum Contest_Constraint {
 /** input type for incrementing numeric columns in table "contest" */
 export type Contest_Inc_Input = {
   client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
-  max_game_time?: InputMaybe<Scalars['numeric']['input']>;
+  game_time?: InputMaybe<Scalars['numeric']['input']>;
   server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
 };
 
@@ -1004,18 +667,16 @@ export type Contest_Insert_Input = {
   contest_rounds?: InputMaybe<Contest_Round_Arr_Rel_Insert_Input>;
   contest_teams?: InputMaybe<Contest_Team_Arr_Rel_Insert_Input>;
   contest_times?: InputMaybe<Contest_Time_Arr_Rel_Insert_Input>;
-  contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   fullname?: InputMaybe<Scalars['String']['input']>;
+  game_time?: InputMaybe<Scalars['numeric']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  max_game_time?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
   playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
   server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
   stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
   team_switch?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -1418,32 +1079,28 @@ export enum Contest_Map_Update_Column {
 export type Contest_Max_Fields = {
   __typename?: 'contest_max_fields';
   client_memory_limit?: Maybe<Scalars['numeric']['output']>;
-  contest_type?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   end_date?: Maybe<Scalars['timestamptz']['output']>;
   fullname?: Maybe<Scalars['String']['output']>;
+  game_time?: Maybe<Scalars['numeric']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  max_game_time?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Contest_Min_Fields = {
   __typename?: 'contest_min_fields';
   client_memory_limit?: Maybe<Scalars['numeric']['output']>;
-  contest_type?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   end_date?: Maybe<Scalars['timestamptz']['output']>;
   fullname?: Maybe<Scalars['String']['output']>;
+  game_time?: Maybe<Scalars['numeric']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  max_game_time?: Maybe<Scalars['numeric']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "contest" */
@@ -1691,18 +1348,16 @@ export type Contest_Order_By = {
   contest_rounds_aggregate?: InputMaybe<Contest_Round_Aggregate_Order_By>;
   contest_teams_aggregate?: InputMaybe<Contest_Team_Aggregate_Order_By>;
   contest_times_aggregate?: InputMaybe<Contest_Time_Aggregate_Order_By>;
-  contest_type?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
   fullname?: InputMaybe<Order_By>;
+  game_time?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  max_game_time?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   playback_switch?: InputMaybe<Order_By>;
   playground_switch?: InputMaybe<Order_By>;
   server_memory_limit?: InputMaybe<Order_By>;
   start_date?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
   stream_switch?: InputMaybe<Order_By>;
   team_switch?: InputMaybe<Order_By>;
 };
@@ -1901,11 +1556,9 @@ export type Contest_Room = {
   created_at: Scalars['timestamptz']['output'];
   map_id?: Maybe<Scalars['uuid']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
-  result?: Maybe<Scalars['String']['output']>;
   room_id: Scalars['uuid']['output'];
   round_id?: Maybe<Scalars['uuid']['output']>;
   status: Scalars['String']['output'];
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 
@@ -2004,11 +1657,9 @@ export type Contest_Room_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   map_id?: InputMaybe<Uuid_Comparison_Exp>;
   port?: InputMaybe<Int_Comparison_Exp>;
-  result?: InputMaybe<String_Comparison_Exp>;
   room_id?: InputMaybe<Uuid_Comparison_Exp>;
   round_id?: InputMaybe<Uuid_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "contest_room" */
@@ -2032,11 +1683,9 @@ export type Contest_Room_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   map_id?: InputMaybe<Scalars['uuid']['input']>;
   port?: InputMaybe<Scalars['Int']['input']>;
-  result?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
   round_id?: InputMaybe<Scalars['uuid']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
@@ -2046,11 +1695,9 @@ export type Contest_Room_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   map_id?: Maybe<Scalars['uuid']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
-  result?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
   round_id?: Maybe<Scalars['uuid']['output']>;
   status?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by max() on columns of table "contest_room" */
@@ -2059,11 +1706,9 @@ export type Contest_Room_Max_Order_By = {
   created_at?: InputMaybe<Order_By>;
   map_id?: InputMaybe<Order_By>;
   port?: InputMaybe<Order_By>;
-  result?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
   round_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -2073,11 +1718,9 @@ export type Contest_Room_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   map_id?: Maybe<Scalars['uuid']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
-  result?: Maybe<Scalars['String']['output']>;
   room_id?: Maybe<Scalars['uuid']['output']>;
   round_id?: Maybe<Scalars['uuid']['output']>;
   status?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by min() on columns of table "contest_room" */
@@ -2086,11 +1729,9 @@ export type Contest_Room_Min_Order_By = {
   created_at?: InputMaybe<Order_By>;
   map_id?: InputMaybe<Order_By>;
   port?: InputMaybe<Order_By>;
-  result?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
   round_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "contest_room" */
@@ -2126,11 +1767,9 @@ export type Contest_Room_Order_By = {
   created_at?: InputMaybe<Order_By>;
   map_id?: InputMaybe<Order_By>;
   port?: InputMaybe<Order_By>;
-  result?: InputMaybe<Order_By>;
   room_id?: InputMaybe<Order_By>;
   round_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contest_room */
@@ -2149,15 +1788,11 @@ export enum Contest_Room_Select_Column {
   /** column name */
   Port = 'port',
   /** column name */
-  Result = 'result',
-  /** column name */
   RoomId = 'room_id',
   /** column name */
   RoundId = 'round_id',
   /** column name */
-  Status = 'status',
-  /** column name */
-  UpdatedAt = 'updated_at'
+  Status = 'status'
 }
 
 /** input type for updating data in table "contest_room" */
@@ -2166,11 +1801,9 @@ export type Contest_Room_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   map_id?: InputMaybe<Scalars['uuid']['input']>;
   port?: InputMaybe<Scalars['Int']['input']>;
-  result?: InputMaybe<Scalars['String']['input']>;
   room_id?: InputMaybe<Scalars['uuid']['input']>;
   round_id?: InputMaybe<Scalars['uuid']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate stddev on columns */
@@ -2539,15 +2172,11 @@ export enum Contest_Room_Update_Column {
   /** column name */
   Port = 'port',
   /** column name */
-  Result = 'result',
-  /** column name */
   RoomId = 'room_id',
   /** column name */
   RoundId = 'round_id',
   /** column name */
-  Status = 'status',
-  /** column name */
-  UpdatedAt = 'updated_at'
+  Status = 'status'
 }
 
 /** aggregate var_pop on columns */
@@ -2801,17 +2430,15 @@ export enum Contest_Select_Column {
   /** column name */
   CodeUploadSwitch = 'code_upload_switch',
   /** column name */
-  ContestType = 'contest_type',
-  /** column name */
   Description = 'description',
   /** column name */
   EndDate = 'end_date',
   /** column name */
   Fullname = 'fullname',
   /** column name */
-  Id = 'id',
+  GameTime = 'game_time',
   /** column name */
-  MaxGameTime = 'max_game_time',
+  Id = 'id',
   /** column name */
   Name = 'name',
   /** column name */
@@ -2823,8 +2450,6 @@ export enum Contest_Select_Column {
   /** column name */
   StartDate = 'start_date',
   /** column name */
-  Status = 'status',
-  /** column name */
   StreamSwitch = 'stream_switch',
   /** column name */
   TeamSwitch = 'team_switch'
@@ -2835,18 +2460,16 @@ export type Contest_Set_Input = {
   arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
   client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
-  contest_type?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   end_date?: InputMaybe<Scalars['timestamptz']['input']>;
   fullname?: InputMaybe<Scalars['String']['input']>;
+  game_time?: InputMaybe<Scalars['numeric']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  max_game_time?: InputMaybe<Scalars['numeric']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
   playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
   server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   start_date?: InputMaybe<Scalars['timestamptz']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
   stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
   team_switch?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -2855,7 +2478,7 @@ export type Contest_Set_Input = {
 export type Contest_Stddev_Fields = {
   __typename?: 'contest_stddev_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
-  max_game_time?: Maybe<Scalars['Float']['output']>;
+  game_time?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -2863,7 +2486,7 @@ export type Contest_Stddev_Fields = {
 export type Contest_Stddev_Pop_Fields = {
   __typename?: 'contest_stddev_pop_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
-  max_game_time?: Maybe<Scalars['Float']['output']>;
+  game_time?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -2871,7 +2494,7 @@ export type Contest_Stddev_Pop_Fields = {
 export type Contest_Stddev_Samp_Fields = {
   __typename?: 'contest_stddev_samp_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
-  max_game_time?: Maybe<Scalars['Float']['output']>;
+  game_time?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -2879,7 +2502,7 @@ export type Contest_Stddev_Samp_Fields = {
 export type Contest_Sum_Fields = {
   __typename?: 'contest_sum_fields';
   client_memory_limit?: Maybe<Scalars['numeric']['output']>;
-  max_game_time?: Maybe<Scalars['numeric']['output']>;
+  game_time?: Maybe<Scalars['numeric']['output']>;
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
 };
 
@@ -2889,7 +2512,6 @@ export type Contest_Team = {
   /** An object relationship */
   contest: Contest;
   contest_id: Scalars['uuid']['output'];
-  contest_score?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   contest_team_codes: Array<Contest_Team_Code>;
   /** An aggregate relationship */
@@ -2908,12 +2530,6 @@ export type Contest_Team = {
   contest_team_rooms_aggregate: Contest_Room_Team_Aggregate;
   created_at: Scalars['timestamptz']['output'];
   invited_code: Scalars['String']['output'];
-  /** 已有人员数量 */
-  member_num: Scalars['Int']['output'];
-  score?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
-  status2?: Maybe<Scalars['String']['output']>;
-  submitted_code_num: Scalars['Int']['output'];
   team_id: Scalars['uuid']['output'];
   team_intro?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
@@ -3013,17 +2629,9 @@ export type Contest_Team_Aggregate = {
 /** aggregate fields of "contest_team" */
 export type Contest_Team_Aggregate_Fields = {
   __typename?: 'contest_team_aggregate_fields';
-  avg?: Maybe<Contest_Team_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Contest_Team_Max_Fields>;
   min?: Maybe<Contest_Team_Min_Fields>;
-  stddev?: Maybe<Contest_Team_Stddev_Fields>;
-  stddev_pop?: Maybe<Contest_Team_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Contest_Team_Stddev_Samp_Fields>;
-  sum?: Maybe<Contest_Team_Sum_Fields>;
-  var_pop?: Maybe<Contest_Team_Var_Pop_Fields>;
-  var_samp?: Maybe<Contest_Team_Var_Samp_Fields>;
-  variance?: Maybe<Contest_Team_Variance_Fields>;
 };
 
 
@@ -3035,17 +2643,9 @@ export type Contest_Team_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "contest_team" */
 export type Contest_Team_Aggregate_Order_By = {
-  avg?: InputMaybe<Contest_Team_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Contest_Team_Max_Order_By>;
   min?: InputMaybe<Contest_Team_Min_Order_By>;
-  stddev?: InputMaybe<Contest_Team_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Contest_Team_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Contest_Team_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Contest_Team_Sum_Order_By>;
-  var_pop?: InputMaybe<Contest_Team_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Contest_Team_Var_Samp_Order_By>;
-  variance?: InputMaybe<Contest_Team_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "contest_team" */
@@ -3055,21 +2655,6 @@ export type Contest_Team_Arr_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Contest_Team_On_Conflict>;
 };
 
-/** aggregate avg on columns */
-export type Contest_Team_Avg_Fields = {
-  __typename?: 'contest_team_avg_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Float']['output']>;
-  submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by avg() on columns of table "contest_team" */
-export type Contest_Team_Avg_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
 /** Boolean expression to filter rows from the table "contest_team". All fields are combined with a logical 'AND'. */
 export type Contest_Team_Bool_Exp = {
   _and?: InputMaybe<Array<Contest_Team_Bool_Exp>>;
@@ -3077,18 +2662,12 @@ export type Contest_Team_Bool_Exp = {
   _or?: InputMaybe<Array<Contest_Team_Bool_Exp>>;
   contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
-  contest_score?: InputMaybe<String_Comparison_Exp>;
   contest_team_codes?: InputMaybe<Contest_Team_Code_Bool_Exp>;
   contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
   contest_team_players?: InputMaybe<Contest_Team_Player_Bool_Exp>;
   contest_team_rooms?: InputMaybe<Contest_Room_Team_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   invited_code?: InputMaybe<String_Comparison_Exp>;
-  member_num?: InputMaybe<Int_Comparison_Exp>;
-  score?: InputMaybe<String_Comparison_Exp>;
-  status?: InputMaybe<String_Comparison_Exp>;
-  status2?: InputMaybe<String_Comparison_Exp>;
-  submitted_code_num?: InputMaybe<Int_Comparison_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
   team_intro?: InputMaybe<String_Comparison_Exp>;
   team_leader?: InputMaybe<Users_Bool_Exp>;
@@ -3308,30 +2887,16 @@ export enum Contest_Team_Constraint {
   ContestTeamPkey = 'contest_team_pkey'
 }
 
-/** input type for incrementing numeric columns in table "contest_team" */
-export type Contest_Team_Inc_Input = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Scalars['Int']['input']>;
-  submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
-};
-
 /** input type for inserting data into table "contest_team" */
 export type Contest_Team_Insert_Input = {
   contest?: InputMaybe<Contest_Obj_Rel_Insert_Input>;
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  contest_score?: InputMaybe<Scalars['String']['input']>;
   contest_team_codes?: InputMaybe<Contest_Team_Code_Arr_Rel_Insert_Input>;
   contest_team_members?: InputMaybe<Contest_Team_Member_Arr_Rel_Insert_Input>;
   contest_team_players?: InputMaybe<Contest_Team_Player_Arr_Rel_Insert_Input>;
   contest_team_rooms?: InputMaybe<Contest_Room_Team_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   invited_code?: InputMaybe<Scalars['String']['input']>;
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Scalars['Int']['input']>;
-  score?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-  status2?: InputMaybe<Scalars['String']['input']>;
-  submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
   team_intro?: InputMaybe<Scalars['String']['input']>;
   team_leader?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -3344,15 +2909,8 @@ export type Contest_Team_Insert_Input = {
 export type Contest_Team_Max_Fields = {
   __typename?: 'contest_team_max_fields';
   contest_id?: Maybe<Scalars['uuid']['output']>;
-  contest_score?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   invited_code?: Maybe<Scalars['String']['output']>;
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Int']['output']>;
-  score?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
-  status2?: Maybe<Scalars['String']['output']>;
-  submitted_code_num?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
   team_intro?: Maybe<Scalars['String']['output']>;
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
@@ -3363,15 +2921,8 @@ export type Contest_Team_Max_Fields = {
 /** order by max() on columns of table "contest_team" */
 export type Contest_Team_Max_Order_By = {
   contest_id?: InputMaybe<Order_By>;
-  contest_score?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   invited_code?: InputMaybe<Order_By>;
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  score?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  status2?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
   team_intro?: InputMaybe<Order_By>;
   team_leader_uuid?: InputMaybe<Order_By>;
@@ -3533,15 +3084,8 @@ export enum Contest_Team_Member_Update_Column {
 export type Contest_Team_Min_Fields = {
   __typename?: 'contest_team_min_fields';
   contest_id?: Maybe<Scalars['uuid']['output']>;
-  contest_score?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   invited_code?: Maybe<Scalars['String']['output']>;
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Int']['output']>;
-  score?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
-  status2?: Maybe<Scalars['String']['output']>;
-  submitted_code_num?: Maybe<Scalars['Int']['output']>;
   team_id?: Maybe<Scalars['uuid']['output']>;
   team_intro?: Maybe<Scalars['String']['output']>;
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
@@ -3552,15 +3096,8 @@ export type Contest_Team_Min_Fields = {
 /** order by min() on columns of table "contest_team" */
 export type Contest_Team_Min_Order_By = {
   contest_id?: InputMaybe<Order_By>;
-  contest_score?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   invited_code?: InputMaybe<Order_By>;
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  score?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  status2?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
   team_intro?: InputMaybe<Order_By>;
   team_leader_uuid?: InputMaybe<Order_By>;
@@ -3595,18 +3132,12 @@ export type Contest_Team_On_Conflict = {
 export type Contest_Team_Order_By = {
   contest?: InputMaybe<Contest_Order_By>;
   contest_id?: InputMaybe<Order_By>;
-  contest_score?: InputMaybe<Order_By>;
   contest_team_codes_aggregate?: InputMaybe<Contest_Team_Code_Aggregate_Order_By>;
   contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Order_By>;
   contest_team_players_aggregate?: InputMaybe<Contest_Team_Player_Aggregate_Order_By>;
   contest_team_rooms_aggregate?: InputMaybe<Contest_Room_Team_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   invited_code?: InputMaybe<Order_By>;
-  member_num?: InputMaybe<Order_By>;
-  score?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  status2?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
   team_intro?: InputMaybe<Order_By>;
   team_leader?: InputMaybe<Users_Order_By>;
@@ -3801,21 +3332,9 @@ export enum Contest_Team_Select_Column {
   /** column name */
   ContestId = 'contest_id',
   /** column name */
-  ContestScore = 'contest_score',
-  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   InvitedCode = 'invited_code',
-  /** column name */
-  MemberNum = 'member_num',
-  /** column name */
-  Score = 'score',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  Status2 = 'status2',
-  /** column name */
-  SubmittedCodeNum = 'submitted_code_num',
   /** column name */
   TeamId = 'team_id',
   /** column name */
@@ -3831,15 +3350,8 @@ export enum Contest_Team_Select_Column {
 /** input type for updating data in table "contest_team" */
 export type Contest_Team_Set_Input = {
   contest_id?: InputMaybe<Scalars['uuid']['input']>;
-  contest_score?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   invited_code?: InputMaybe<Scalars['String']['input']>;
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Scalars['Int']['input']>;
-  score?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-  status2?: InputMaybe<Scalars['String']['input']>;
-  submitted_code_num?: InputMaybe<Scalars['Int']['input']>;
   team_id?: InputMaybe<Scalars['uuid']['input']>;
   team_intro?: InputMaybe<Scalars['String']['input']>;
   team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -3847,86 +3359,14 @@ export type Contest_Team_Set_Input = {
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
-/** aggregate stddev on columns */
-export type Contest_Team_Stddev_Fields = {
-  __typename?: 'contest_team_stddev_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Float']['output']>;
-  submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev() on columns of table "contest_team" */
-export type Contest_Team_Stddev_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Contest_Team_Stddev_Pop_Fields = {
-  __typename?: 'contest_team_stddev_pop_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Float']['output']>;
-  submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_pop() on columns of table "contest_team" */
-export type Contest_Team_Stddev_Pop_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Contest_Team_Stddev_Samp_Fields = {
-  __typename?: 'contest_team_stddev_samp_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Float']['output']>;
-  submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_samp() on columns of table "contest_team" */
-export type Contest_Team_Stddev_Samp_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Contest_Team_Sum_Fields = {
-  __typename?: 'contest_team_sum_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Int']['output']>;
-  submitted_code_num?: Maybe<Scalars['Int']['output']>;
-};
-
-/** order by sum() on columns of table "contest_team" */
-export type Contest_Team_Sum_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
 /** update columns of table "contest_team" */
 export enum Contest_Team_Update_Column {
   /** column name */
   ContestId = 'contest_id',
   /** column name */
-  ContestScore = 'contest_score',
-  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   InvitedCode = 'invited_code',
-  /** column name */
-  MemberNum = 'member_num',
-  /** column name */
-  Score = 'score',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  Status2 = 'status2',
-  /** column name */
-  SubmittedCodeNum = 'submitted_code_num',
   /** column name */
   TeamId = 'team_id',
   /** column name */
@@ -3938,51 +3378,6 @@ export enum Contest_Team_Update_Column {
   /** column name */
   UpdatedAt = 'updated_at'
 }
-
-/** aggregate var_pop on columns */
-export type Contest_Team_Var_Pop_Fields = {
-  __typename?: 'contest_team_var_pop_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Float']['output']>;
-  submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_pop() on columns of table "contest_team" */
-export type Contest_Team_Var_Pop_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Contest_Team_Var_Samp_Fields = {
-  __typename?: 'contest_team_var_samp_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Float']['output']>;
-  submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_samp() on columns of table "contest_team" */
-export type Contest_Team_Var_Samp_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Contest_Team_Variance_Fields = {
-  __typename?: 'contest_team_variance_fields';
-  /** 已有人员数量 */
-  member_num?: Maybe<Scalars['Float']['output']>;
-  submitted_code_num?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by variance() on columns of table "contest_team" */
-export type Contest_Team_Variance_Order_By = {
-  /** 已有人员数量 */
-  member_num?: InputMaybe<Order_By>;
-  submitted_code_num?: InputMaybe<Order_By>;
-};
 
 /** 比赛的时间线，仅作展示用 */
 export type Contest_Time = {
@@ -4177,17 +3572,15 @@ export enum Contest_Update_Column {
   /** column name */
   CodeUploadSwitch = 'code_upload_switch',
   /** column name */
-  ContestType = 'contest_type',
-  /** column name */
   Description = 'description',
   /** column name */
   EndDate = 'end_date',
   /** column name */
   Fullname = 'fullname',
   /** column name */
-  Id = 'id',
+  GameTime = 'game_time',
   /** column name */
-  MaxGameTime = 'max_game_time',
+  Id = 'id',
   /** column name */
   Name = 'name',
   /** column name */
@@ -4199,8 +3592,6 @@ export enum Contest_Update_Column {
   /** column name */
   StartDate = 'start_date',
   /** column name */
-  Status = 'status',
-  /** column name */
   StreamSwitch = 'stream_switch',
   /** column name */
   TeamSwitch = 'team_switch'
@@ -4210,7 +3601,7 @@ export enum Contest_Update_Column {
 export type Contest_Var_Pop_Fields = {
   __typename?: 'contest_var_pop_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
-  max_game_time?: Maybe<Scalars['Float']['output']>;
+  game_time?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -4218,7 +3609,7 @@ export type Contest_Var_Pop_Fields = {
 export type Contest_Var_Samp_Fields = {
   __typename?: 'contest_var_samp_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
-  max_game_time?: Maybe<Scalars['Float']['output']>;
+  game_time?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -4226,7 +3617,7 @@ export type Contest_Var_Samp_Fields = {
 export type Contest_Variance_Fields = {
   __typename?: 'contest_variance_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
-  max_game_time?: Maybe<Scalars['Float']['output']>;
+  game_time?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -6123,10 +5514,6 @@ export type Mutation_Root = {
   delete_contest?: Maybe<Contest_Mutation_Response>;
   /** delete single row from the table: "contest" */
   delete_contest_by_pk?: Maybe<Contest>;
-  /** delete data from the table: "contest_code" */
-  delete_contest_code?: Maybe<Contest_Code_Mutation_Response>;
-  /** delete single row from the table: "contest_code" */
-  delete_contest_code_by_pk?: Maybe<Contest_Code>;
   /** delete data from the table: "contest_manager" */
   delete_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** delete single row from the table: "contest_manager" */
@@ -6257,10 +5644,6 @@ export type Mutation_Root = {
   insert_aid_application_one?: Maybe<Aid_Application>;
   /** insert data into the table: "contest" */
   insert_contest?: Maybe<Contest_Mutation_Response>;
-  /** insert data into the table: "contest_code" */
-  insert_contest_code?: Maybe<Contest_Code_Mutation_Response>;
-  /** insert a single row into the table: "contest_code" */
-  insert_contest_code_one?: Maybe<Contest_Code>;
   /** insert data into the table: "contest_manager" */
   insert_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** insert a single row into the table: "contest_manager" */
@@ -6395,10 +5778,6 @@ export type Mutation_Root = {
   update_contest?: Maybe<Contest_Mutation_Response>;
   /** update single row of the table: "contest" */
   update_contest_by_pk?: Maybe<Contest>;
-  /** update data of the table: "contest_code" */
-  update_contest_code?: Maybe<Contest_Code_Mutation_Response>;
-  /** update single row of the table: "contest_code" */
-  update_contest_code_by_pk?: Maybe<Contest_Code>;
   /** update data of the table: "contest_manager" */
   update_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** update single row of the table: "contest_manager" */
@@ -6547,18 +5926,6 @@ export type Mutation_RootDelete_ContestArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Contest_By_PkArgs = {
   id: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Contest_CodeArgs = {
-  where: Contest_Code_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Contest_Code_By_PkArgs = {
-  team_id: Scalars['uuid']['input'];
 };
 
 
@@ -6962,20 +6329,6 @@ export type Mutation_RootInsert_Aid_Application_OneArgs = {
 export type Mutation_RootInsert_ContestArgs = {
   objects: Array<Contest_Insert_Input>;
   on_conflict?: InputMaybe<Contest_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Contest_CodeArgs = {
-  objects: Array<Contest_Code_Insert_Input>;
-  on_conflict?: InputMaybe<Contest_Code_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Contest_Code_OneArgs = {
-  object: Contest_Code_Insert_Input;
-  on_conflict?: InputMaybe<Contest_Code_On_Conflict>;
 };
 
 
@@ -7453,20 +6806,6 @@ export type Mutation_RootUpdate_Contest_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Contest_CodeArgs = {
-  _set?: InputMaybe<Contest_Code_Set_Input>;
-  where: Contest_Code_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Contest_Code_By_PkArgs = {
-  _set?: InputMaybe<Contest_Code_Set_Input>;
-  pk_columns: Contest_Code_Pk_Columns_Input;
-};
-
-
-/** mutation root */
 export type Mutation_RootUpdate_Contest_ManagerArgs = {
   _set?: InputMaybe<Contest_Manager_Set_Input>;
   where: Contest_Manager_Bool_Exp;
@@ -7570,7 +6909,6 @@ export type Mutation_RootUpdate_Contest_Round_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_TeamArgs = {
-  _inc?: InputMaybe<Contest_Team_Inc_Input>;
   _set?: InputMaybe<Contest_Team_Set_Input>;
   where: Contest_Team_Bool_Exp;
 };
@@ -7578,7 +6916,6 @@ export type Mutation_RootUpdate_Contest_TeamArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Contest_Team_By_PkArgs = {
-  _inc?: InputMaybe<Contest_Team_Inc_Input>;
   _set?: InputMaybe<Contest_Team_Set_Input>;
   pk_columns: Contest_Team_Pk_Columns_Input;
 };
@@ -9315,12 +8652,6 @@ export type Query_Root = {
   contest_aggregate: Contest_Aggregate;
   /** fetch data from the table: "contest" using primary key columns */
   contest_by_pk?: Maybe<Contest>;
-  /** fetch data from the table: "contest_code" */
-  contest_code: Array<Contest_Code>;
-  /** fetch aggregated fields from the table: "contest_code" */
-  contest_code_aggregate: Contest_Code_Aggregate;
-  /** fetch data from the table: "contest_code" using primary key columns */
-  contest_code_by_pk?: Maybe<Contest_Code>;
   /** fetch data from the table: "contest_manager" */
   contest_manager: Array<Contest_Manager>;
   /** fetch aggregated fields from the table: "contest_manager" */
@@ -9553,29 +8884,6 @@ export type Query_RootContest_AggregateArgs = {
 
 export type Query_RootContest_By_PkArgs = {
   id: Scalars['uuid']['input'];
-};
-
-
-export type Query_RootContest_CodeArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
-  where?: InputMaybe<Contest_Code_Bool_Exp>;
-};
-
-
-export type Query_RootContest_Code_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
-  where?: InputMaybe<Contest_Code_Bool_Exp>;
-};
-
-
-export type Query_RootContest_Code_By_PkArgs = {
-  team_id: Scalars['uuid']['input'];
 };
 
 
@@ -11071,12 +10379,6 @@ export type Subscription_Root = {
   contest_aggregate: Contest_Aggregate;
   /** fetch data from the table: "contest" using primary key columns */
   contest_by_pk?: Maybe<Contest>;
-  /** fetch data from the table: "contest_code" */
-  contest_code: Array<Contest_Code>;
-  /** fetch aggregated fields from the table: "contest_code" */
-  contest_code_aggregate: Contest_Code_Aggregate;
-  /** fetch data from the table: "contest_code" using primary key columns */
-  contest_code_by_pk?: Maybe<Contest_Code>;
   /** fetch data from the table: "contest_manager" */
   contest_manager: Array<Contest_Manager>;
   /** fetch aggregated fields from the table: "contest_manager" */
@@ -11309,29 +10611,6 @@ export type Subscription_RootContest_AggregateArgs = {
 
 export type Subscription_RootContest_By_PkArgs = {
   id: Scalars['uuid']['input'];
-};
-
-
-export type Subscription_RootContest_CodeArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
-  where?: InputMaybe<Contest_Code_Bool_Exp>;
-};
-
-
-export type Subscription_RootContest_Code_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Contest_Code_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Contest_Code_Order_By>>;
-  where?: InputMaybe<Contest_Code_Bool_Exp>;
-};
-
-
-export type Subscription_RootContest_Code_By_PkArgs = {
-  team_id: Scalars['uuid']['input'];
 };
 
 
@@ -12693,7 +11972,7 @@ export type UpdateContestSwitchMutation = { __typename?: 'mutation_root', update
 export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', fullname: string, description?: string | null, end_date: any, id: any, start_date: any, contest_type: string }> };
+export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', fullname: string, description?: string | null, end_date: any, id: any, start_date: any }> };
 
 export type GetContestInfoQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -12973,20 +12252,6 @@ export type GetTeamsQueryVariables = Exact<{
 
 
 export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null } }> };
-
-export type GetAllTeamInfoSubscriptionVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetAllTeamInfoSubscription = { __typename?: 'subscription_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, created_at: any, invited_code: string, member_num: number, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any, submitted_code_num: number, team_intro?: string | null, contest: { __typename?: 'contest', name: string }, team_leader: { __typename?: 'users', uuid: any, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', id?: string | null, class?: string | null, email?: string | null, realname?: string | null, phone?: string | null } }> }> };
-
-export type GetAllTeamInfo_CompileQueryVariables = Exact<{
-  contest_id: Scalars['uuid']['input'];
-}>;
-
-
-export type GetAllTeamInfo_CompileQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_name: string, score?: string | null, status?: string | null, status2?: string | null, contest_score?: string | null, team_id: any }> };
 
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -13483,7 +12748,6 @@ export const GetContestsDocument = gql`
     end_date
     id
     start_date
-    contest_type
   }
 }
     `;
@@ -14994,112 +14258,6 @@ export type GetTeamsQueryHookResult = ReturnType<typeof useGetTeamsQuery>;
 export type GetTeamsLazyQueryHookResult = ReturnType<typeof useGetTeamsLazyQuery>;
 export type GetTeamsSuspenseQueryHookResult = ReturnType<typeof useGetTeamsSuspenseQuery>;
 export type GetTeamsQueryResult = Apollo.QueryResult<GetTeamsQuery, GetTeamsQueryVariables>;
-export const GetAllTeamInfoDocument = gql`
-    subscription GetAllTeamInfo($contest_id: uuid!) {
-  contest_team(where: {contest_id: {_eq: $contest_id}}) {
-    team_name
-    created_at
-    invited_code
-    member_num
-    score
-    status
-    status2
-    contest_score
-    team_id
-    submitted_code_num
-    contest {
-      name
-    }
-    team_intro
-    team_leader {
-      uuid
-      class
-      email
-      realname
-      phone
-    }
-    contest_team_members {
-      user {
-        id
-        class
-        email
-        realname
-        phone
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetAllTeamInfoSubscription__
- *
- * To run a query within a React component, call `useGetAllTeamInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetAllTeamInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllTeamInfoSubscription({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetAllTeamInfoSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables> & ({ variables: GetAllTeamInfoSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetAllTeamInfoSubscription, GetAllTeamInfoSubscriptionVariables>(GetAllTeamInfoDocument, options);
-      }
-export type GetAllTeamInfoSubscriptionHookResult = ReturnType<typeof useGetAllTeamInfoSubscription>;
-export type GetAllTeamInfoSubscriptionResult = Apollo.SubscriptionResult<GetAllTeamInfoSubscription>;
-export const GetAllTeamInfo_CompileDocument = gql`
-    query GetAllTeamInfo_compile($contest_id: uuid!) {
-  contest_team(
-    where: {_and: {contest_id: {_eq: $contest_id}, status: {_eq: "compiled"}}}
-  ) {
-    team_name
-    score
-    status
-    status2
-    contest_score
-    team_id
-  }
-}
-    `;
-
-/**
- * __useGetAllTeamInfo_CompileQuery__
- *
- * To run a query within a React component, call `useGetAllTeamInfo_CompileQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllTeamInfo_CompileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllTeamInfo_CompileQuery({
- *   variables: {
- *      contest_id: // value for 'contest_id'
- *   },
- * });
- */
-export function useGetAllTeamInfo_CompileQuery(baseOptions: Apollo.QueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables> & ({ variables: GetAllTeamInfo_CompileQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
-      }
-export function useGetAllTeamInfo_CompileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
-        }
-export function useGetAllTeamInfo_CompileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>(GetAllTeamInfo_CompileDocument, options);
-        }
-export type GetAllTeamInfo_CompileQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileQuery>;
-export type GetAllTeamInfo_CompileLazyQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileLazyQuery>;
-export type GetAllTeamInfo_CompileSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamInfo_CompileSuspenseQuery>;
-export type GetAllTeamInfo_CompileQueryResult = Apollo.QueryResult<GetAllTeamInfo_CompileQuery, GetAllTeamInfo_CompileQueryVariables>;
 export const AddTeamCodeDocument = gql`
     mutation AddTeamCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
   insert_contest_team_code_one(
