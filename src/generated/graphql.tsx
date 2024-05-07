@@ -14051,7 +14051,9 @@ export const GetTeamStatDocument = gql`
         count
       }
     }
-    contest_team_rooms_aggregate {
+    contest_team_rooms_aggregate(
+      where: {contest_room: {round_id: {_is_null: true}}}
+    ) {
       aggregate {
         count
         sum {
@@ -14207,7 +14209,9 @@ export const GetTeamsDocument = gql`
         count
       }
     }
-    contest_team_rooms_aggregate {
+    contest_team_rooms_aggregate(
+      where: {contest_room: {round_id: {_is_null: true}}}
+    ) {
       aggregate {
         count
         sum {
