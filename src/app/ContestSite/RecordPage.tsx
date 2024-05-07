@@ -151,7 +151,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     try {
       const contestName = contestNameData?.contest_by_pk?.name;
       message.loading(`即将下载比赛回放`);
-      await downloadFile(`${contestName}/arena/${roomId}/${roomId}.thuaipb`);
+      await downloadFile(`${contestName}/arena/${roomId}/playback.thuaipb`);
     } catch (err) {
       message.error(`比赛回放下载失败`);
       console.log(err);
