@@ -113,7 +113,9 @@ query getTeamStat($team_id: uuid!) {
         count
       }
     }
-    contest_team_rooms_aggregate {
+    contest_team_rooms_aggregate(
+      where: { contest_room: { round_id: { _is_null: true } } }
+    ) {
       aggregate {
         count
         sum {
@@ -169,7 +171,9 @@ query getTeams($contest_id: uuid!) {
         count
       }
     }
-    contest_team_rooms_aggregate {
+    contest_team_rooms_aggregate(
+      where: { contest_room: { round_id: { _is_null: true } } }
+    ) {
       aggregate {
         count
         sum {
