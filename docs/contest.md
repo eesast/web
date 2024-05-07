@@ -67,7 +67,7 @@ permalink: /contest
 - `/arena/get-score`：`docker`服务器比赛结束后，用于查询参战队伍现有天梯分数的路由，拿来计算本场对战的得分。后端查询数据库即可。
   - 请求方法：`POST`
   - 请求：在`headers`里传回创建`docker`时设置的`TOKEN`。
-  - 响应：`body`中。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
+  - 响应：`body`中包含`ContestResult`。顺序与 `TOKEN.team_label_binds` 中的顺序一致。
   - 错误：`500`：`undefined`，返回报错信息
 - `/arena/finish`：`docker`服务器比赛结束的`hook`。更新比赛结果，更新天梯分数，将比赛回放和日志文件上传至`COS`。
   - 请求方法：`POST`
