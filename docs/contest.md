@@ -139,36 +139,31 @@ permalink: /contest
 
 1. 一场比赛对应两个`docker`镜像、多个`docker`并行。其中`server`镜像为比赛逻辑服务器，`client`镜像为选手代码执行客户端（一队共用）。
 2. 队式应当关注上面的`/arena/finish`、`/arena/get-score`和`/competition/finish-one`、`/competition/get-score`路由参数信息。
-
-- `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`。
-  - 比赛结束后先请求`SCORE_URL`，获取参战队伍在天梯/比赛中的现有分数，请求时需要在`headers`中加上`TOKEN`。
-  - 获得现有分数后，`docker` 应当据此计算出本场对战的得分（增量，而非更新后的总分）
-  - 完成后再请求`FINISH_URL`，在请求的`body`中传回`ContestResult`（即上面计算出的增量得分），请求时需要在`headers`中加上`TOKEN`。
-- `client`镜像启动时会设置环境变量`TEAM_LABEL` 和 `TEAM_SEQ_ID`，供容器得知该队比赛执方和序号。
-- 队式 docker 不需要关注 `team_uuid`，这对于队式而言是不可见的，队式 docker 可见的只有 `TEAM_LABELS` 和 `TEAM_SEQ_ID`，并且分数信息须与传入的 `TEAM_SEQ_ID` 的顺序相同。
-
+   - `server`镜像启动时会设置环境变量`SCORE_URL`（即`/arena/get-score`或`/competition/get-score`）、`FINISH_URL`（即`/arena/finish`或`/competition/finish-one`）、`TOKEN`。
+     - 比赛结束后先请求`SCORE_URL`，获取参战队伍在天梯/比赛中的现有分数，请求时需要在`headers`中加上`TOKEN`。
+     - 获得现有分数后，`docker` 应当据此计算出本场对战的得分（增量，而非更新后的总分）
+     - 完成后再请求`FINISH_URL`，在请求的`body`中传回`ContestResult`（即上面计算出的增量得分），请求时需要在`headers`中加上`TOKEN`。
+   - `client`镜像启动时会设置环境变量`TEAM_LABEL` 和 `TEAM_SEQ_ID`，供容器得知该队比赛执方和序号。
+   - 队式 docker 不需要关注 `team_uuid`，这对于队式而言是不可见的，队式 docker 可见的只有 `TEAM_LABELS` 和 `TEAM_SEQ_ID`，并且分数信息须与传入的 `TEAM_SEQ_ID` 的顺序相同。
 3. 后端提供的环境变量说明。
-
-- 客户端：
-  - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
-  - `TEAM_LABEL`: 客户端队伍标签。对应 `TeamLabelBind` 中的 `label` 字段。
-  - `TEAM_SEQ_ID`: 客户端使用，当前客户端的队伍序号，所有队伍从 0 开始顺序编号，与服务端 `TEAM_LABELS` 的顺序对应。
-  - `PORT`: 服务器开放的端口，客户端需通过此端口加入服务器的比赛。
-- 服务端：
-  - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
-  - `MODE`: 判断当前比赛是天梯还是最终比赛。取值为 `ARENA` （天梯）或者 `COMPETITION`（决赛）。
-  - `TOKEN`: 服务端验证身份的 token。发送请求时需带上。
-  - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段，位序对应客户端 `TEAM_SEQ_ID` 的顺序，也对应 `SCORE_URL` 和 `FINISH_URL` 的分数信息 `scores` 的顺序。
-  - `MAX_GAME_TIME`: 比赛持续的时间，单位为秒。若超过这个时间，后端会强制停止所有相关容器。
-  - `MAP_ID`: 地图 id。
-  - `SCORE_URL`: 获取当前天梯分数的 url 路径。请求时需带上 `TOKEN`。
-  - `FINISH_URL`: 结束比赛时更新分数的 url 路径。请求时需带上 `TOKEN`。
-  - `EXPOSED`: 决定是否开放端口的环境变量，`1` 表示开放，`0` 表示不开放。
-
+   - 客户端：
+     - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
+     - `TEAM_LABEL`: 客户端队伍标签。对应 `TeamLabelBind` 中的 `label` 字段。
+     - `TEAM_SEQ_ID`: 客户端使用，当前客户端的队伍序号，所有队伍从 0 开始顺序编号，与服务端 `TEAM_LABELS` 的顺序对应。
+     - `PORT`: 服务器开放的端口，客户端需通过此端口加入服务器的比赛。
+   - 服务端：
+     - `TERMINAL`: 取值为 `SERVER` 或者 `CLIENT`，表明当前比赛 docker 是客户端还是服务器。
+     - `MODE`: 判断当前比赛是天梯还是最终比赛。取值为 `ARENA` （天梯）或者 `COMPETITION`（决赛）。
+     - `TOKEN`: 服务端验证身份的 token。发送请求时需带上。
+     - `TEAM_LABELS`: 全局信息。本场比赛的所有队伍标签。用 `:` 分隔，其中的每个元素对应 `TeamLabelBind` 中的 `label` 字段，位序对应客户端 `TEAM_SEQ_ID` 的顺序，也对应 `SCORE_URL` 和 `FINISH_URL` 的分数信息 `scores` 的顺序。
+     - `MAX_GAME_TIME`: 比赛持续的时间，单位为秒。若超过这个时间，后端会强制停止所有相关容器。
+     - `MAP_ID`: 地图 id。
+     - `SCORE_URL`: 获取当前天梯分数的 url 路径。请求时需带上 `TOKEN`。
+     - `FINISH_URL`: 结束比赛时更新分数的 url 路径。请求时需带上 `TOKEN`。
+     - `EXPOSED`: 决定是否开放端口的环境变量，`1` 表示开放，`0` 表示不开放。
 4. `docker`目录绑定。
-
-- 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/output`下，命名为`playback.thuaipb`。如果需要上传日志文件，同样放在此目录下，命名为 `xxx.log` 。`TEAM_LABELS`中传入了所有队伍的`label`。
-- 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。对于 `suffix` 的说明：对于 `python` 代码，`suffix` 为 `py`；对于 `cpp` 代码，没有 `suffix`，文件命名就是 `${player_label}`。日志文件可以放在`/usr/local/output`下，命名为 `xxx.log`。`TEAM_LABEL` 中传入了当前队伍的`label`，`TEAM_SEQ_ID`是当前队伍的序号，编号从 0 开始。
+   - 对于`server`镜像，地图文件在`/usr/local/map`下，命名为`${map_id}.txt`，回放文件请放在在`/usr/local/output`下，命名为`playback.thuaipb`。如果需要上传日志文件，同样放在此目录下，命名为 `xxx.log` 。`TEAM_LABELS`中传入了所有队伍的`label`。
+   - 对于`client`镜像，队伍代码在`/usr/local/code`下，命名为`${player_label}.${suffix}`（`player_label`为在数据库存储的字符串标签，可供赛事组预先定义，如`Student1`）。对于 `suffix` 的说明：对于 `python` 代码，`suffix` 为 `py`；对于 `cpp` 代码，没有 `suffix`，文件命名就是 `${player_label}`。日志文件可以放在`/usr/local/output`下，命名为 `xxx.log`。`TEAM_LABEL` 中传入了当前队伍的`label`，`TEAM_SEQ_ID`是当前队伍的序号，编号从 0 开始。
 
 ## 附录
 
