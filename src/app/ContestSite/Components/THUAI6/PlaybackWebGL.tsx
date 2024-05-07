@@ -34,7 +34,7 @@ const THUAI6: React.FC = () => {
   const playback_speed = url.query.get("speed");
 
   const { data: scoreteamListData, error: scoreteamListError } =
-    graphql.useGetAllTeamInfo_CompileSuspenseQuery({
+    graphql.useGetTeamsSuspenseQuery({
       variables: {
         contest_id: Contest_id,
       },
