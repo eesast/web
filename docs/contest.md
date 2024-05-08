@@ -74,7 +74,11 @@ permalink: /contest
   - 请求：`body`中包含`ContestResult`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。如果 `docker` 未能正常运行比赛，`body.status` 设置为 `Crashed`，不会更新分数；否则 `body.status` 设置为 `Finished`，正常更新分数。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
-- `注意`：除此之外，后端需要在`docker_cron`中更新数据库比赛状态和端口信息（异步、非请求内）。
+- `/arena/playback`：用于获取回放的路由，直接返回文件。
+  - 请求方法：`GET`
+  - 请求：`{room_id: uuid}`
+  - 响应：`200`：`playback.thuaipb`文件
+  - 错误：`404`：`404 Not Found: Playback not found`
 
 ## 比赛逻辑
 
@@ -134,6 +138,11 @@ permalink: /contest
   - 请求：`body`中包含`ContestResult` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
+- `/competition/playback`：用于获取回放的路由，直接返回文件。
+  - 请求方法：`GET`
+  - 请求：`{room_id: uuid}`
+  - 响应：`200`：`playback.thuaipb`文件
+  - 错误：`404`：`404 Not Found: Playback not found`
 
 ## 与赛事组的约定
 
