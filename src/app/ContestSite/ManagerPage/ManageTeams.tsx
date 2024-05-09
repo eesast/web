@@ -105,7 +105,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       const contestName = cleanFileName(contestNameData?.contest_by_pk?.name!);
       const workBook = xlsx.utils.book_new();
       const workSheet = xlsx.utils.aoa_to_sheet(data);
-      xlsx.utils.book_append_sheet(workBook, workSheet, "helloWorld");
+      xlsx.utils.book_append_sheet(workBook, workSheet);
       xlsx.writeFile(workBook, `队伍信息_${contestName}.xlsx`);
     } catch (error) {
       message.error("队伍信息导出失败");
