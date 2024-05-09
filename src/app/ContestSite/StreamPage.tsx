@@ -15,7 +15,7 @@ import streamTHUAI7 from "./Components/Stream/THUAI7";
 export interface StreamProps {
   streamUrl: string;
   port: string;
-  callback: (response: any) => void;
+  update: (response: any) => void;
 }
 
 const Container = styled.div`
@@ -29,6 +29,19 @@ const Container = styled.div`
 const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const contest = url.query.get("contest");
+
+  const { data: contestNameData, error: contestNameError } =
+    graphql.useGetContestNameSuspenseQuery({
+      variables: {
+        contest_id: contest,
+      },
+    });
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("获取比赛信息失败");
+      console.log(contestNameError.message);
+    }
+  });
 
   const { data: contestSwitchData, error: contestSwitchError } =
     graphql.useGetContestSwitchQuery({
@@ -46,8 +59,7 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
   const port = url.query.get("port") ?? "";
 
-  const projectUrl =
-    process.env.REACT_APP_STATIC_URL! + "/public/WebGL/THUAI7/";
+  const projectUrl = `${process.env.REACT_APP_STATIC_URL!}/public/WebGL/${contestNameData.contest_by_pk?.name}/`;
   const projectName = "stream";
 
   const handleCacheControl = (url: string) => {
@@ -88,7 +100,10 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
     if (!isLoaded) {
       return;
     }
-    streamTHUAI7({ streamUrl, port, callback: update });
+    const name = contestNameData.contest_by_pk?.name;
+    if (name === "THUAI7") {
+      streamTHUAI7({ streamUrl, port, update });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded]);
 

@@ -1,20 +1,50 @@
-import { useEffect, useState } from "react";
-import { RpcError } from "grpc-web";
-import { AvailableServiceClient } from "@/generated/grpc-web/THUAI6/ServicesServiceClientPb";
-import * as MessageType from "@/generated/grpc-web/THUAI6/MessageType_pb";
-import * as Message2Clients from "@/generated/grpc-web/THUAI6/Message2Clients_pb";
-import * as Message2Server from "@/generated/grpc-web/THUAI6/Message2Server_pb";
-import { Col, Layout, Row } from "antd";
-import Title from "antd/lib/typography/Title";
 import React from "react";
-import { StreamProps } from "../../StreamPage";
+import { useEffect, useState } from "react";
+import { Col, Layout, Row, message } from "antd";
+import Title from "antd/lib/typography/Title";
+import { ContestProps } from ".";
+import * as graphql from "@/generated/graphql";
+import { useUrl } from "@/api/hooks/url";
+import streamTHUAI6 from "./Components/Stream/THUAI6";
+import NotImplemented from "./Components/NotImplemented";
+import Loading from "../Components/Loading";
 
 interface Loc {
   x: number;
   y: number;
 }
 
-const THUAI6: React.FC<StreamProps> = ({ streamUrl }) => {
+// 这个页面是THUAI6时为了实验线上直播功能手搓的，由于后续WebGL并未跟进，所以保留了这个页面；如果后续WebGL进度较慢，也可考虑先用这种实现方式，将下面THUAI6专属的绘制部分组件化，然后写新的再选择性引入即可
+const StreamNativePage: React.FC<ContestProps> = ({ mode, user }) => {
+  const url = useUrl();
+  const contest = url.query.get("contest");
+
+  const { data: contestNameData, error: contestNameError } =
+    graphql.useGetContestNameSuspenseQuery({
+      variables: {
+        contest_id: contest,
+      },
+    });
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("获取比赛信息失败");
+      console.log(contestNameError.message);
+    }
+  });
+
+  const { data: contestSwitchData, error: contestSwitchError } =
+    graphql.useGetContestSwitchQuery({
+      variables: {
+        contest_id: contest,
+      },
+    });
+  useEffect(() => {
+    if (contestSwitchError) {
+      message.error("获取比赛状态失败");
+      console.log(contestSwitchError.message);
+    }
+  });
+
   const [gameTime, setGameTime] = useState(0);
   const [studentScore, setStudentScore] = useState(0);
   const [trickerScore, setTrickerScore] = useState(0);
@@ -24,67 +54,43 @@ const THUAI6: React.FC<StreamProps> = ({ streamUrl }) => {
   const [student4Loc, setStudent4Loc] = useState<Loc>({ x: 0, y: 0 });
   const [trickerLoc, setTrickerLoc] = useState<Loc>({ x: 0, y: 0 });
 
-  const playerID = Math.floor(Math.random() * 9999) + 2023;
+  const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
+  const port = url.query.get("port") ?? "";
+
+  const update = (response: any) => {
+    const allMessage = response.getAllMessage();
+    setGameTime(allMessage?.getGameTime() || 0);
+    setStudentScore(allMessage?.getStudentScore() || 0);
+    setTrickerScore(allMessage?.getTrickerScore() || 0);
+    const objMessageList = response.getObjMessageList();
+    setStudent1Loc({
+      x: objMessageList[0]?.getStudentMessage()?.getX() || 0,
+      y: objMessageList[0]?.getStudentMessage()?.getY() || 0,
+    });
+    setStudent2Loc({
+      x: objMessageList[1]?.getStudentMessage()?.getX() || 0,
+      y: objMessageList[1]?.getStudentMessage()?.getY() || 0,
+    });
+    setStudent3Loc({
+      x: objMessageList[2]?.getStudentMessage()?.getX() || 0,
+      y: objMessageList[2]?.getStudentMessage()?.getY() || 0,
+    });
+    setStudent4Loc({
+      x: objMessageList[3]?.getStudentMessage()?.getX() || 0,
+      y: objMessageList[3]?.getStudentMessage()?.getY() || 0,
+    });
+    setTrickerLoc({
+      x: objMessageList[4]?.getTrickerMessage()?.getX() || 0,
+      y: objMessageList[4]?.getTrickerMessage()?.getY() || 0,
+    });
+    console.log("Received data from server");
+  };
 
   useEffect(() => {
-    const client = new AvailableServiceClient(streamUrl);
-    const request = new Message2Server.IDMsg();
-    request.setPlayerId(playerID);
-    client.tryConnection(
-      request,
-      {},
-      (error: RpcError, response: Message2Clients.BoolRes) => {
-        if (!error) {
-          console.log("Success making gRPC call:", response.toObject());
-          const spectator = new Message2Server.PlayerMsg();
-          spectator.setPlayerId(playerID);
-          const stream = client.addPlayer(spectator, {});
-          stream.on("data", (response) => {
-            console.log("Received message from server");
-            if (response.getGameState() === MessageType.GameState.GAME_END) {
-              stream.cancel();
-              console.log("Game Ended.");
-            }
-            let allMessage = response.getAllMessage();
-            setGameTime(allMessage?.getGameTime() || 0);
-            setStudentScore(allMessage?.getStudentScore() || 0);
-            setTrickerScore(allMessage?.getTrickerScore() || 0);
-            let objMessageList = response.getObjMessageList();
-            setStudent1Loc({
-              x: objMessageList[0]?.getStudentMessage()?.getX() || 0,
-              y: objMessageList[0]?.getStudentMessage()?.getY() || 0,
-            });
-            setStudent2Loc({
-              x: objMessageList[1]?.getStudentMessage()?.getX() || 0,
-              y: objMessageList[1]?.getStudentMessage()?.getY() || 0,
-            });
-            setStudent3Loc({
-              x: objMessageList[2]?.getStudentMessage()?.getX() || 0,
-              y: objMessageList[2]?.getStudentMessage()?.getY() || 0,
-            });
-            setStudent4Loc({
-              x: objMessageList[3]?.getStudentMessage()?.getX() || 0,
-              y: objMessageList[3]?.getStudentMessage()?.getY() || 0,
-            });
-            setTrickerLoc({
-              x: objMessageList[4]?.getTrickerMessage()?.getX() || 0,
-              y: objMessageList[4]?.getTrickerMessage()?.getY() || 0,
-            });
-          });
-          stream.on("status", (status) => {
-            console.log("Received status from server:", status);
-          });
-          stream.on("error", (error) => {
-            console.error("Error making gRPC call:", error);
-          });
-          stream.on("end", () => {
-            console.log("Server ended streaming connection.");
-          });
-        } else {
-          console.error("Error making gRPC call:", error);
-        }
-      },
-    );
+    const name = contestNameData.contest_by_pk?.name;
+    if (name === "THUAI6") {
+      streamTHUAI6({ streamUrl, port, update });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -382,32 +388,38 @@ const THUAI6: React.FC<StreamProps> = ({ streamUrl }) => {
     drawPlayer(context, trickerLoc, true);
   });
 
-  return (
-    <Layout>
-      <Col
-        css={`
-          margin-top: 45px;
-          margin-left: 80px;
-        `}
-      >
-        <Row>
-          <Title level={5}>Game Time: {gameTime / 1000} sec</Title>
-        </Row>
-        <Row>
-          <Title level={5}>Student Score: {studentScore}</Title>
-        </Row>
-        <Row>
-          <Title level={5}>Tricker Score: {trickerScore}</Title>
-        </Row>
-        <canvas
-          ref={canvasRef}
-          width={width}
-          height={height}
-          style={{ border: "1px solid #000000" }}
-        ></canvas>
-      </Col>
-    </Layout>
+  return contestSwitchData ? (
+    contestSwitchData?.contest_by_pk?.stream_switch ? (
+      <Layout>
+        <Col
+          css={`
+            margin-top: 45px;
+            margin-left: 80px;
+          `}
+        >
+          <Row>
+            <Title level={5}>Game Time: {gameTime / 1000} sec</Title>
+          </Row>
+          <Row>
+            <Title level={5}>Student Score: {studentScore}</Title>
+          </Row>
+          <Row>
+            <Title level={5}>Tricker Score: {trickerScore}</Title>
+          </Row>
+          <canvas
+            ref={canvasRef}
+            width={width}
+            height={height}
+            style={{ border: "1px solid #000000" }}
+          ></canvas>
+        </Col>
+      </Layout>
+    ) : (
+      <NotImplemented />
+    )
+  ) : (
+    <Loading />
   );
 };
 
-export default THUAI6;
+export default StreamNativePage;

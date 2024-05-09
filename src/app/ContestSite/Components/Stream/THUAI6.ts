@@ -1,19 +1,19 @@
 import { RpcError } from "grpc-web";
-import { AvailableServiceClient } from "@/generated/grpc-web/THUAI7/ServicesServiceClientPb";
-import * as MessageType from "@/generated/grpc-web/THUAI7/MessageType_pb";
-import * as Message2Clients from "@/generated/grpc-web/THUAI7/Message2Clients_pb";
-import * as Message2Server from "@/generated/grpc-web/THUAI7/Message2Server_pb";
+import { AvailableServiceClient } from "@/generated/grpc-web/THUAI6/ServicesServiceClientPb";
+import * as MessageType from "@/generated/grpc-web/THUAI6/MessageType_pb";
+import * as Message2Clients from "@/generated/grpc-web/THUAI6/Message2Clients_pb";
+import * as Message2Server from "@/generated/grpc-web/THUAI6/Message2Server_pb";
 import { StreamProps } from "../../StreamPage";
 import { message } from "antd";
 
-const streamTHUAI7: (props: StreamProps) => void = ({
+const streamTHUAI6: (props: StreamProps) => void = ({
   streamUrl,
   port,
   update,
 }) => {
   const client = new AvailableServiceClient(streamUrl + port);
   const request = new Message2Server.IDMsg();
-  const playerID = Math.floor(Math.random() * 9999) + 2024;
+  const playerID = Math.floor(Math.random() * 9999) + 2023;
   request.setPlayerId(playerID);
   client.tryConnection(
     request,
@@ -26,8 +26,8 @@ const streamTHUAI7: (props: StreamProps) => void = ({
         const stream = client.addPlayer(spectator, {});
         stream.on("data", (response) => {
           if (response.getGameState() === MessageType.GameState.GAME_END) {
-            stream.cancel();
             message.info("对战结束");
+            stream.cancel();
             console.log("Game Ended.");
           }
           update(response);
@@ -49,4 +49,4 @@ const streamTHUAI7: (props: StreamProps) => void = ({
   );
 };
 
-export default streamTHUAI7;
+export default streamTHUAI6;
