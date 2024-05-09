@@ -72,7 +72,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     Crashed: "非正常退出",
     Running: "进行中",
     Waiting: "排队等待中",
-    Timeout: "运行超时"
+    Timeout: "运行超时",
   };
 
   const roomListColumns: TableProps<
@@ -122,7 +122,15 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
             <Typography.Link
               disabled={!contestSwitchData.contest_by_pk?.stream_switch}
               onClick={() =>
-                navigate(url.append("port", record.port).link("stream"))
+                navigate(
+                  url
+                    .append("port", record.port)
+                    .link(
+                      contestNameData.contest_by_pk?.name === "THUAI6"
+                        ? "stream-native"
+                        : "stream",
+                    ),
+                )
               }
             >
               观看直播
