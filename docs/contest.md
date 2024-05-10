@@ -30,10 +30,10 @@ permalink: /contest
    - 比赛期间，用户可通过特定端口观看直播。后端在上面所述启动比赛的【第二步】时分配好一个端口。如果端口数量不足，则不启动比赛。如果成功分配端口并启动比赛，则应同时更新数据库`contest_room`表中的`port`字段。
    - 前端应当使用`subscription`实时更新比赛状态和直播观看端口。
 6. `docker` 服务器结束比赛后请求后端`/arena/finish`路由。
-   - 后端更新数据库，更新`contest_room`表中的`status`为`Finished` 或 `Crashed` 、更新`port`为`NULL`；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
+   - 后端更新数据库，更新`contest_room`表中的`status`为`Finished`、`Timeout` 或 `Crashed` 、更新`port`为`NULL`；更新`contest_room_team`表中的`score`字段，为这场比赛的每个队伍记录分数
    - 后端将比赛回放文件以及日志文件（如有）上传至 `cos`，具体路径参考[COS存储桶访问路径](https://eesast.github.io/web/cos)。
    - 后端向参与这场比赛的队伍队员发送`Web Push`订阅通知（暂不急于实现）。
-   - 后端会设置最大运行时间（位于数据库内，每届比赛有不同的运行时间），若超过最大运行时间，则后端会强制停止所有相关容器的运行，并更新 `room` 状态为 `Crashed`，释放 `port`。
+   - 后端会设置最大运行时间（位于数据库内，每届比赛有不同的运行时间），若超过最大运行时间，则后端会强制停止所有相关容器的运行，并更新 `room` 状态为 `Timeout`，释放 `port`。
 7. 比赛结束后，前端提供下载和在线观看回放的功能，直接按照[COS存储桶访问路径](https://eesast.github.io/web/cos)中约定的路径从`cos`下载对应的文件即可。
 
 ### 接口描述
@@ -74,7 +74,11 @@ permalink: /contest
   - 请求：`body`中包含`ContestResult`，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。如果 `docker` 未能正常运行比赛，`body.status` 设置为 `Crashed`，不会更新分数；否则 `body.status` 设置为 `Finished`，正常更新分数。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
-- `注意`：除此之外，后端需要在`docker_cron`中更新数据库比赛状态和端口信息（异步、非请求内）。
+- `/arena/playback`：用于获取回放的路由，直接返回文件。
+  - 请求方法：`GET`
+  - 请求：`{room_id: uuid}`
+  - 响应：`200`：`playback.thuaipb`文件
+  - 错误：`404`：`404 Not Found: Playback not found`
 
 ## 比赛逻辑
 
@@ -134,6 +138,11 @@ permalink: /contest
   - 请求：`body`中包含`ContestResult` ，类型定义见下方附录。同时在`headers`里传回创建`docker`时设置的`TOKEN`。
   - 响应：`200`：`Update OK!`
   - 错误：`500`：`undefined`，返回报错信息
+- `/competition/playback`：用于获取回放的路由，直接返回文件。
+  - 请求方法：`GET`
+  - 请求：`{room_id: uuid}`
+  - 响应：`200`：`playback.thuaipb`文件
+  - 错误：`404`：`404 Not Found: Playback not found`
 
 ## 与赛事组的约定
 
@@ -171,7 +180,7 @@ permalink: /contest
 
 ```javascript
 interface ContestResult {
-  status: string; // `Crashed` 或 `Finished`。
+  status: string; // `Finished`、`Timeout` 或 `Crashed`。
   scores: number[]; // 每个队伍的分数，顺序与 TEAM_LABELS 一致。
 };
 

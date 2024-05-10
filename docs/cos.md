@@ -16,10 +16,10 @@ permalink: /cos
 - 编译后的可执行文件：`${name}/code/${team_id}/${code_id}`
 - 编译产生的日志文件：`${name}/code/${team_id}/${code_id}.log` 以及 `${name}/code/${team_id}/${code_id}.curl.log`
 - 公告文件：`${name}/notice/${notice_id}/${filename}`
-- 天梯回放：`${name}/arena/${room_id}/${room_id}.thuaipb`
-- 天梯日志：`${name}/arena/${room_id}/${room_id}.log`
-- 后台比赛回放：`${name}/competition/${round_id}/${room_id}/${room_id}.thuaipb`
-- 后台比赛日志：`${name}/competition/${round_id}/${room_id}/${room_id}.log`
+- 天梯回放：`${name}/arena/${room_id}/playback.thuaipb`
+- 天梯日志：`${name}/arena/${room_id}/xxx.log`
+- 比赛回放：`${name}/competition/${round_id}/${room_id}/playback.thuaipb`
+- 比赛日志：`${name}/competition/${round_id}/${room_id}/xxx.log`
 - 地图：`${name}/map/${filename}`
 
 ### Info页面相关文件

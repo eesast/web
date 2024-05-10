@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import {
   HomeOutlined,
@@ -45,8 +45,9 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import PlaygroundPage from "./PlaygroundPage";
 import Authenticate, { userRoles } from "../Components/Authenticate";
-//import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
+
+const StreamNativePage = lazy(() => import("./StreamNativePage"));
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const { Sider, Content } = Layout;
@@ -171,11 +172,17 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           label: <Link to={url.link("playground")}>试玩</Link>,
           icon: <ExperimentOutlined />,
         },
-        {
-          key: "stream",
-          label: <Link to={url.link("stream")}>直播</Link>,
-          icon: <PlaySquareOutlined />,
-        },
+        contestData.contest_by_pk?.name === "THUAI6"
+          ? {
+              key: "stream-native",
+              label: <Link to={url.link("stream-native")}>直播</Link>,
+              icon: <PlaySquareOutlined />,
+            }
+          : {
+              key: "stream",
+              label: <Link to={url.link("stream")}>直播</Link>,
+              icon: <PlaySquareOutlined />,
+            },
         {
           key: "playback",
           label: <Link to={url.link("playback")}>回放</Link>,
@@ -391,6 +398,10 @@ const MenuPage: React.FC<ContestProps> = (props) => {
 
             <Route path="playground" element={<PlaygroundPage {...props} />} />
             <Route path="stream" element={<StreamPage {...props} />} />
+            <Route
+              path="stream-native"
+              element={<StreamNativePage {...props} />}
+            />
             <Route path="playback" element={<PlaybackPage {...props} />} />
 
             <Route
@@ -411,10 +422,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             />
 
             <Route path="arena-score" element={<ArenaPage {...props} />} />
-            <Route
-              path="arena-record"
-              element={<RecordPage {...props} />}
-            />
+            <Route path="arena-record" element={<RecordPage {...props} />} />
             <Route
               path="arena-analysis"
               element={<AnalysisPage {...props} />}
