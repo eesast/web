@@ -90,14 +90,26 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const team_id = teamData?.contest_team_member[0]?.contest_team.team_id;
 
-  const { data: teamStatusOurData, refetch: teamStatusRefetch } =
+  const { refetch: oppTeamStatusRefetch } =
     graphql.useGetTeamStatusSuspenseQuery({
       variables: {
         team_id: team_id,
       },
       skip: !team_id,
     });
-
+  //为了避免点击后两次refetch造成延迟过久，这里opponent和us的data分开获取
+  const { data: ourTeamStatusData } = graphql.useGetTeamStatusSuspenseQuery({
+    variables: {
+      team_id: team_id,
+    },
+    skip: !team_id,
+  });
+  const ourPlayersCount =
+    ourTeamStatusData?.contest_team_by_pk?.contest_team_players_aggregate
+      ?.aggregate?.count;
+  const requiredPlayersCount =
+    ourTeamStatusData?.contest_team_by_pk?.contest?.contest_players_aggregate
+      ?.aggregate?.count;
   //获取正在比赛的room信息
   const {
     data: roomStatusData,
@@ -220,32 +232,49 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     })();
   };
 
+  const handleStartBattle = (item: any) => {
+    console.log(item.team_id);
+    if (!open) {
+      message.info("对战功能暂未开放");
+      return;
+    }
+    if (!team_id) {
+      message.info("您尚未加入队伍，请先加入队伍");
+      return;
+    }
+    if (ourPlayersCount !== requiredPlayersCount) {
+      message.info("您的队伍代码未编译通过或角色未分配代码，请先完善");
+      return;
+    }
+    if (item.team_id === team_id) {
+      message.info("不能和自己的队伍对战");
+      return;
+    }
+    oppTeamStatusRefetch({ team_id: item.team_id }).then((result) => {
+      const playersCount =
+        result.data.contest_team_by_pk?.contest_team_players_aggregate.aggregate
+          ?.count;
+      const requiredPlayersCount =
+        result.data.contest_team_by_pk?.contest.contest_players_aggregate
+          .aggregate?.count;
+      if (playersCount !== requiredPlayersCount) {
+        setOpponentTeamId(item.team_id);
+        message.info("该队伍代码未编译通过或角色未分配代码，请选择其他队伍");
+      } else {
+        setOpponentTeamId(item.team_id);
+        setIsModalVisible(true);
+      }
+    });
+  };
   /* ---------------- 随渲染刷新的组件 ---------------- */
   /* ---------------- 页面组件 ---------------- */
 
   const getColorByRank = (rank: number) => {
-    switch (rank) {
-      case 1:
-        return "#FFD700"; // 金色
-      case 2:
-        return "#C0C0C0"; // 银色
-      case 3:
-        return "#CD7F32"; // 铜色
-      default:
-        return "#E6E1E1"; // 默认颜色，例如黑色
-    }
+    const colors = ["#FFD700", "#C0C0C0", "#CD7F32", "#E6E1E1"];
+    return colors[Math.min(rank - 1, 4)];
   };
   const getSizeByRank = (rank: number) => {
-    switch (rank) {
-      case 1:
-        return "120px";
-      case 2:
-        return "105px";
-      case 3:
-        return "90px";
-      default:
-        return "75px";
-    }
+    return `${Math.max(6 - rank * 0.5, 4)}vw`;
   };
 
   return (
@@ -318,49 +347,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                         }}
                         hoverable={open && team_id}
                         onClick={() => {
-                          if (!open) {
-                            message.info("对战功能暂未开放");
-                            return;
-                          }
-                          if (!team_id) {
-                            message.info("您尚未加入队伍，请先加入队伍");
-                            return;
-                          }
-                          if (
-                            teamStatusOurData?.contest_team_by_pk
-                              ?.contest_team_players_aggregate.aggregate
-                              ?.count !==
-                            teamStatusOurData?.contest_team_by_pk?.contest
-                              .contest_players_aggregate.aggregate?.count
-                          ) {
-                            message.info(
-                              "您的队伍代码未编译通过或角色未分配代码",
-                            );
-                            return;
-                          }
-                          teamStatusRefetch({ team_id: item.team_id }).then(
-                            (result) => {
-                              const playersCount =
-                                result.data.contest_team_by_pk
-                                  ?.contest_team_players_aggregate.aggregate
-                                  ?.count;
-                              const requiredPlayersCount =
-                                result.data.contest_team_by_pk?.contest
-                                  .contest_players_aggregate.aggregate?.count;
-                              if (playersCount !== requiredPlayersCount) {
-                                message.info(
-                                  "该队伍代码未编译通过或角色未分配代码，请选择其他队伍",
-                                );
-                              } else {
-                                if (item.team_id === team_id) {
-                                  message.info("不能和自己的队伍对战");
-                                } else {
-                                  setOpponentTeamId(item.team_id);
-                                  setIsModalVisible(true);
-                                }
-                              }
-                            },
-                          );
+                          handleStartBattle(item);
                         }}
                       >
                         <Row
