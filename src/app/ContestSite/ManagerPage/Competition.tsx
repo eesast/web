@@ -320,6 +320,10 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
         round_id: roundId,
         team_labels: teamLabels,
       });
+      refectCompetitionRooms({
+        contest_id: Contest_id,
+        round_id: roundId,
+      });
       message.info(`发起重赛成功`);
     } catch (err) {
       message.error(`发起重赛失败`);
