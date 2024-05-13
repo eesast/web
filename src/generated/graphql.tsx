@@ -12253,6 +12253,14 @@ export type GetTeamsQueryVariables = Exact<{
 
 export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null } }> };
 
+export type GetTeamsCompetitionResultQueryVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  round_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamsCompetitionResultQuery = { __typename?: 'query_root', contest_round_by_pk?: { __typename?: 'contest_round', name: string } | null, contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } }> };
+
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
   code_name: Scalars['String']['input'];
@@ -14263,6 +14271,68 @@ export type GetTeamsQueryHookResult = ReturnType<typeof useGetTeamsQuery>;
 export type GetTeamsLazyQueryHookResult = ReturnType<typeof useGetTeamsLazyQuery>;
 export type GetTeamsSuspenseQueryHookResult = ReturnType<typeof useGetTeamsSuspenseQuery>;
 export type GetTeamsQueryResult = Apollo.QueryResult<GetTeamsQuery, GetTeamsQueryVariables>;
+export const GetTeamsCompetitionResultDocument = gql`
+    query getTeamsCompetitionResult($contest_id: uuid!, $round_id: uuid!) {
+  contest_round_by_pk(round_id: $round_id) {
+    name
+  }
+  contest_team(where: {contest_id: {_eq: $contest_id}}) {
+    team_id
+    team_name
+    contest_team_members {
+      user {
+        realname
+        student_no
+        class
+      }
+    }
+    contest_team_rooms_aggregate(
+      where: {contest_room: {_and: {round_id: {_eq: $round_id}, status: {_eq: "Finished"}}}}
+    ) {
+      aggregate {
+        count
+        sum {
+          score
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamsCompetitionResultQuery__
+ *
+ * To run a query within a React component, call `useGetTeamsCompetitionResultQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamsCompetitionResultQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamsCompetitionResultQuery({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      round_id: // value for 'round_id'
+ *   },
+ * });
+ */
+export function useGetTeamsCompetitionResultQuery(baseOptions: Apollo.QueryHookOptions<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables> & ({ variables: GetTeamsCompetitionResultQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>(GetTeamsCompetitionResultDocument, options);
+      }
+export function useGetTeamsCompetitionResultLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>(GetTeamsCompetitionResultDocument, options);
+        }
+export function useGetTeamsCompetitionResultSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>(GetTeamsCompetitionResultDocument, options);
+        }
+export type GetTeamsCompetitionResultQueryHookResult = ReturnType<typeof useGetTeamsCompetitionResultQuery>;
+export type GetTeamsCompetitionResultLazyQueryHookResult = ReturnType<typeof useGetTeamsCompetitionResultLazyQuery>;
+export type GetTeamsCompetitionResultSuspenseQueryHookResult = ReturnType<typeof useGetTeamsCompetitionResultSuspenseQuery>;
+export type GetTeamsCompetitionResultQueryResult = Apollo.QueryResult<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>;
 export const AddTeamCodeDocument = gql`
     mutation AddTeamCode($team_id: uuid!, $code_name: String!, $language: String!, $compile_status: String) {
   insert_contest_team_code_one(

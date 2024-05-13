@@ -246,7 +246,23 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
     }
   }, [getCompetitionRoomsError]);
 
-  const exportCompetitionData = () => {
+  const {
+    data: teamsCompetitionResultData,
+    error: getTeamsCompetitionResultError,
+  } = graphql.useGetTeamsCompetitionResultSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+      round_id: roundId,
+    },
+  });
+  useEffect(() => {
+    if (getTeamsCompetitionResultError) {
+      message.error("获取队伍比赛结果失败");
+      console.log(getTeamsCompetitionResultError.message);
+    }
+  }, [getTeamsCompetitionResultError]);
+
+  const exportCompetitionRooms = () => {
     try {
       let data: any = [];
       data = data.concat(
@@ -265,12 +281,47 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
         ]),
       );
       const contestName = cleanFileName(contestNameData?.contest_by_pk?.name!);
+      const roundName = cleanFileName(
+        teamsCompetitionResultData?.contest_round_by_pk?.name!,
+      );
       const workBook = xlsx.utils.book_new();
       const workSheet = xlsx.utils.aoa_to_sheet(data);
       xlsx.utils.book_append_sheet(workBook, workSheet);
-      xlsx.writeFile(workBook, `比赛信息_${contestName}.xlsx`);
+      xlsx.writeFile(workBook, `比赛记录_${contestName}_${roundName}.xlsx`);
     } catch (error) {
-      message.error("比赛信息导出失败");
+      message.error("比赛记录导出失败");
+    }
+  };
+
+  const exportCompetitionResult = () => {
+    try {
+      let data: any = [];
+      data = data.concat(
+        // 函数concat 把队伍信息和成员信息连接起来
+        // eslint-disable-next-line
+        teamsCompetitionResultData?.contest_team.map((team) =>
+          [
+            team.team_name,
+            team.contest_team_rooms_aggregate.aggregate?.count,
+            team.contest_team_rooms_aggregate.aggregate?.sum?.score,
+          ].concat(
+            team.contest_team_members?.map(
+              (member) =>
+                `${member.user.realname} (${member.user.class}, ${member.user.student_no})`,
+            ),
+          ),
+        ),
+      );
+      const contestName = cleanFileName(contestNameData?.contest_by_pk?.name!);
+      const roundName = cleanFileName(
+        teamsCompetitionResultData?.contest_round_by_pk?.name!,
+      );
+      const workBook = xlsx.utils.book_new();
+      const workSheet = xlsx.utils.aoa_to_sheet(data);
+      xlsx.utils.book_append_sheet(workBook, workSheet);
+      xlsx.writeFile(workBook, `比赛结果_${contestName}_${roundName}.xlsx`);
+    } catch (error) {
+      message.error("比赛结果导出失败");
     }
   };
 
@@ -451,13 +502,22 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
         columns={roomListColumns}
         rowKey={(record) => record.room_id}
       ></Table>
-      <Button
-        icon={<DownloadOutlined />}
-        onClick={exportCompetitionData}
-        type="primary"
-      >
-        导出比赛信息
-      </Button>
+      <Space size="middle">
+        <Button
+          icon={<DownloadOutlined />}
+          onClick={exportCompetitionRooms}
+          type="primary"
+        >
+          导出比赛记录
+        </Button>
+        <Button
+          icon={<DownloadOutlined />}
+          onClick={exportCompetitionResult}
+          type="primary"
+        >
+          导出比赛结果
+        </Button>
+      </Space>
     </Suspense>
   );
 };
