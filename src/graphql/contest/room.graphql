@@ -60,6 +60,7 @@ query GetCompetitionRooms($contest_id: uuid!, $round_id: uuid!) {
     }
     order_by: { created_at: desc }
   ) {
+    round_id
     room_id
     status
     port

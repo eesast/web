@@ -23,6 +23,12 @@ import { useUrl } from "@/api/hooks/url";
 import { downloadFile } from "@/api/cos";
 import dayjs from "dayjs";
 import Loading from "@/app/Components/Loading";
+import { useNavigate } from "react-router-dom";
+
+interface TeamLabelBind {
+  team_id: string;
+  label: string;
+}
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title, Text } = Typography;
@@ -47,11 +53,18 @@ const cleanFileName = (fileName: string) => {
 const Competition: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [runForm] = Form.useForm();
   const { Option } = Select;
 
   const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+
+  const { data: contestSwitchData } = graphql.useGetContestSwitchSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
@@ -181,6 +194,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
     Running: "进行中",
     Waiting: "排队等待中",
     Timeout: "运行超时",
+    Failed: "发起失败",
   };
 
   const roomListColumns: TableProps<
@@ -216,13 +230,68 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
       render: (text, record) => roomStatusLabels[record.status] ?? "未知状态",
     },
     {
+      title: "观战端口",
+      dataIndex: "port",
+      key: "port",
+      render: (text, record) => record.port ?? "----",
+    },
+    {
       title: "操作",
       key: "options",
       render: (text, record) => (
         <Space size="small">
+          {record.status === "Running" && (
+            <Typography.Link
+              disabled={!contestSwitchData.contest_by_pk?.stream_switch}
+              onClick={() =>
+                navigate(
+                  url
+                    .append("port", record.port)
+                    .link(
+                      contestNameData.contest_by_pk?.name === "THUAI6"
+                        ? "stream-native"
+                        : "stream",
+                    ),
+                )
+              }
+            >
+              观看直播
+            </Typography.Link>
+          )}
           {record.status === "Finished" && (
             <Typography.Link onClick={() => download(record.room_id)}>
               下载回放
+            </Typography.Link>
+          )}
+          {record.status === "Finished" && (
+            <Typography.Link
+              disabled={!contestSwitchData.contest_by_pk?.playback_switch}
+              onClick={() =>
+                navigate(url.append("room", record.room_id).link("playback"))
+              }
+            >
+              在线回放
+            </Typography.Link>
+          )}
+          {record.status !== "Waiting" && (
+            <Typography.Link
+              onClick={() => {
+                const teamLabels: TeamLabelBind[] = [
+                  {
+                    team_id:
+                      record.contest_room_teams[0]!.contest_team.team_id!,
+                    label: record.contest_room_teams[0]!.team_label!,
+                  },
+                  {
+                    team_id:
+                      record.contest_room_teams[1]!.contest_team.team_id!,
+                    label: record.contest_room_teams[1]!.team_label!,
+                  },
+                ];
+                restart(record.round_id, teamLabels);
+              }}
+            >
+              发起重赛
             </Typography.Link>
           )}
         </Space>
@@ -243,6 +312,33 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
+  const restart = async (roundId: string, teamLabels: TeamLabelBind[]) => {
+    try {
+      await axios.post("/competition/start-one", {
+        round_id: roundId,
+        team_labels: teamLabels,
+      });
+      message.info(`发起重赛成功`);
+    } catch (err) {
+      message.error(`发起重赛失败`);
+      console.log(err);
+    }
+  };
+
+  const roomCount = competitionRoomsData?.contest_room.length ?? 1;
+  const finishedRoomCount = competitionRoomsData?.contest_room.filter(
+    (room) => room.status === "Finished",
+  ).length;
+  const coveredRoomCount = competitionRoomsData?.contest_room.filter(
+    (room) =>
+      room.status === "Failed" ||
+      room.status === "Crashed" ||
+      room.status === "Timeout" ||
+      room.status === "Finished",
+  ).length;
+  const coveredRate = (coveredRoomCount / roomCount) * 100;
+  const finishedRate = (finishedRoomCount / roomCount) * 100;
+
   return (
     <Layout>
       <Card
@@ -255,6 +351,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
           开赛情况
         </Title>
         <Space
+          size="middle"
           style={{
             display: "flex",
             alignItems: "center",
@@ -283,8 +380,13 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
             }))}
           />
           <Progress
-            percent={30}
-            style={{ width: "calc(80vw - 360px)" }}
+            format={() =>
+              `${finishedRoomCount}/${coveredRoomCount}/${roomCount}`
+            }
+            percent={coveredRate}
+            success={{ percent: finishedRate }}
+            status="active"
+            style={{ width: "calc(80vw - 376px)" }}
             size={["default", 16]}
           />
         </Space>

@@ -73,6 +73,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     Running: "进行中",
     Waiting: "排队等待中",
     Timeout: "运行超时",
+    Failed: "发起失败",
   };
 
   const roomListColumns: TableProps<

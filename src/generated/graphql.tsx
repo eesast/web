@@ -12126,7 +12126,7 @@ export type GetCompetitionRoomsQueryVariables = Exact<{
 }>;
 
 
-export type GetCompetitionRoomsQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
+export type GetCompetitionRoomsQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', round_id?: any | null, room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
 
 export type AddContestRoundMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -13525,6 +13525,7 @@ export const GetCompetitionRoomsDocument = gql`
     where: {_and: {contest_id: {_eq: $contest_id}, round_id: {_eq: $round_id}}}
     order_by: {created_at: desc}
   ) {
+    round_id
     room_id
     status
     port
