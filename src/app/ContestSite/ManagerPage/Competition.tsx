@@ -259,7 +259,9 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
             </Typography.Link>
           )}
           {record.status === "Finished" && (
-            <Typography.Link onClick={() => download(record.room_id)}>
+            <Typography.Link
+              onClick={() => download(record.round_id, record.room_id)}
+            >
               下载回放
             </Typography.Link>
           )}
@@ -299,12 +301,12 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
     },
   ];
 
-  const download = async (roomId: string) => {
+  const download = async (roundId: string, roomId: string) => {
     try {
       const contestName = contestNameData?.contest_by_pk?.name;
       message.loading(`即将下载比赛回放`);
       await downloadFile(
-        `${contestName}/competition/${roomId}/playback.thuaipb`,
+        `${contestName}/competition/${roundId}/${roomId}/playback.thuaipb`,
       );
     } catch (err) {
       message.error(`比赛回放下载失败`);
@@ -386,7 +388,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
             percent={coveredRate}
             success={{ percent: finishedRate }}
             status="active"
-            style={{ width: "calc(80vw - 376px)" }}
+            style={{ width: "calc(90vw - 560px)" }}
             size={["default", 16]}
           />
         </Space>
