@@ -53,7 +53,7 @@ query GetRunningArenaRooms($contest_id: uuid!) {
   }
 }
 
-query GetCompetitionRooms($contest_id: uuid!, $round_id: uuid!) {
+subscription GetCompetitionRooms($contest_id: uuid!, $round_id: uuid!) {
   contest_room(
     where: {
       _and: { contest_id: { _eq: $contest_id }, round_id: { _eq: $round_id } }

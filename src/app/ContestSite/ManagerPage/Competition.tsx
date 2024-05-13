@@ -53,22 +53,10 @@ const cleanFileName = (fileName: string) => {
 const Competition: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [roundId, setRoundId] = useState<string | null>(null);
   const [runForm] = Form.useForm();
   const { Option } = Select;
-
-  const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
-
-  const { data: contestSwitchData } = graphql.useGetContestSwitchSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-    },
-  });
 
   const { data: contestMapData, error: contestMapError } =
     graphql.useGetContestMapsQuery({
@@ -106,24 +94,6 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [addRoundError]);
 
-  const {
-    data: competitionRoomsData,
-    error: getCompetitionRoomsError,
-    refetch: refectCompetitionRooms,
-  } = graphql.useGetCompetitionRoomsSuspenseQuery({
-    variables: {
-      contest_id: Contest_id,
-      round_id: contestRoundData?.contest_round[0]?.round_id,
-    },
-    skip: !contestRoundData?.contest_round[0]?.round_id,
-  });
-  useEffect(() => {
-    if (getCompetitionRoomsError) {
-      message.error("获取比赛房间失败");
-      console.log(getCompetitionRoomsError.message);
-    }
-  }, [getCompetitionRoomsError]);
-
   //运行比赛
   const runContest = async (round_name: string, map_uuid: string) => {
     try {
@@ -159,6 +129,122 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
         console.log("Failed:", errorInfo);
       });
   };
+
+  return (
+    <Layout>
+      <Card
+        hoverable
+        style={{
+          padding: "2vh 1vw",
+        }}
+      >
+        <Title level={2} style={{ margin: `0 0 24px` }}>
+          开赛情况
+        </Title>
+        <Space
+          size="middle"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "24px",
+          }}
+        >
+          <Button
+            type="primary"
+            icon={<ForwardOutlined />}
+            onClick={() => setIsModalVisible(true)}
+          >
+            新轮次
+          </Button>
+          <Select
+            style={{ width: 160 }}
+            defaultValue={contestRoundData?.contest_round[0]?.round_id}
+            onChange={setRoundId}
+            options={contestRoundData?.contest_round.map((round) => ({
+              label: round.name,
+              value: round.round_id,
+            }))}
+          />
+        </Space>
+        {roundId && <Round roundId={roundId} />}
+        <Modal
+          open={isModalVisible}
+          title="运行比赛"
+          centered
+          okText="运行"
+          maskClosable={false}
+          onCancel={() => {
+            setIsModalVisible(false);
+            runForm.resetFields();
+          }}
+          onOk={handleRunContest}
+          destroyOnClose
+        >
+          <Form
+            form={runForm}
+            name="battle"
+            onFinishFailed={(errorInfo: any) => {
+              console.log("Failed:", errorInfo);
+            }}
+            preserve={false}
+          >
+            <Form.Item
+              name="round_name"
+              label="本轮比赛名称"
+              rules={[{ required: true, message: "请输入比赛名称" }]}
+            >
+              <Input allowClear />
+            </Form.Item>
+            <Form.Item
+              name="map_id"
+              label="比赛地图"
+              rules={[{ required: true, message: "请选择比赛地图" }]}
+            >
+              <Select style={{ width: "40%" }}>
+                {contestMapData?.contest_map.map((map) => (
+                  <Option key={map.map_id} value={map.map_id}>
+                    {map.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </Card>
+    </Layout>
+  );
+};
+
+const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
+  const url = useUrl();
+  const Contest_id = url.query.get("contest");
+  const navigate = useNavigate();
+
+  const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+
+  const { data: contestSwitchData } = graphql.useGetContestSwitchSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+
+  const { data: competitionRoomsData, error: getCompetitionRoomsError } =
+    graphql.useGetCompetitionRoomsSubscription({
+      variables: {
+        contest_id: Contest_id,
+        round_id: roundId,
+      },
+    });
+  useEffect(() => {
+    if (getCompetitionRoomsError) {
+      message.error("获取比赛房间失败");
+      console.log(getCompetitionRoomsError.message);
+    }
+  }, [getCompetitionRoomsError]);
 
   const exportCompetitionData = () => {
     try {
@@ -198,7 +284,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   const roomListColumns: TableProps<
-    graphql.GetCompetitionRoomsQuery["contest_room"][0]
+    graphql.GetCompetitionRoomsSubscription["contest_room"][0]
   >["columns"] = [
     {
       title: "对战时间",
@@ -227,6 +313,11 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
       title: "状态",
       dataIndex: "status",
       key: "status",
+      filters: Object.keys(roomStatusLabels).map((key) => ({
+        text: roomStatusLabels[key],
+        value: key,
+      })),
+      onFilter: (value, record) => record.status === value,
       render: (text, record) => roomStatusLabels[record.status] ?? "未知状态",
     },
     {
@@ -320,10 +411,6 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
         round_id: roundId,
         team_labels: teamLabels,
       });
-      refectCompetitionRooms({
-        contest_id: Contest_id,
-        round_id: roundId,
-      });
       message.info(`发起重赛成功`);
     } catch (err) {
       message.error(`发起重赛失败`);
@@ -332,131 +419,46 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   const roomCount = competitionRoomsData?.contest_room.length ?? 1;
-  const finishedRoomCount = competitionRoomsData?.contest_room.filter(
-    (room) => room.status === "Finished",
-  ).length;
-  const coveredRoomCount = competitionRoomsData?.contest_room.filter(
-    (room) =>
-      room.status === "Failed" ||
-      room.status === "Crashed" ||
-      room.status === "Timeout" ||
-      room.status === "Finished",
-  ).length;
+  const finishedRoomCount =
+    competitionRoomsData?.contest_room.filter(
+      (room) => room.status === "Finished",
+    ).length ?? 0;
+  const coveredRoomCount =
+    competitionRoomsData?.contest_room.filter(
+      (room) =>
+        room.status === "Failed" ||
+        room.status === "Crashed" ||
+        room.status === "Timeout" ||
+        room.status === "Finished",
+    ).length ?? 0;
   const coveredRate = (coveredRoomCount / roomCount) * 100;
   const finishedRate = (finishedRoomCount / roomCount) * 100;
 
   return (
-    <Layout>
-      <Card
-        hoverable
-        style={{
-          padding: "2vh 1vw",
-        }}
+    <Suspense fallback={<Loading />}>
+      <Progress
+        format={() => `${finishedRoomCount}/${coveredRoomCount}/${roomCount}`}
+        percent={coveredRate}
+        success={{ percent: finishedRate }}
+        status="active"
+        style={{ width: "100%", paddingRight: "50px", marginBottom: "24px" }}
+        size={["default", 16]}
+      />
+      <Table
+        dataSource={
+          competitionRoomsData?.contest_room as graphql.GetCompetitionRoomsSubscription["contest_room"]
+        }
+        columns={roomListColumns}
+        rowKey={(record) => record.room_id}
+      ></Table>
+      <Button
+        icon={<DownloadOutlined />}
+        onClick={exportCompetitionData}
+        type="primary"
       >
-        <Title level={2} style={{ margin: `0 0 24px` }}>
-          开赛情况
-        </Title>
-        <Space
-          size="middle"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "24px",
-          }}
-        >
-          <Button
-            type="primary"
-            icon={<ForwardOutlined />}
-            onClick={() => setIsModalVisible(true)}
-          >
-            新轮次
-          </Button>
-          <Select
-            style={{ width: 120 }}
-            defaultValue={contestRoundData?.contest_round[0]?.round_id}
-            onChange={(value) =>
-              refectCompetitionRooms({
-                contest_id: Contest_id,
-                round_id: value,
-              })
-            }
-            options={contestRoundData?.contest_round.map((round) => ({
-              label: round.name,
-              value: round.round_id,
-            }))}
-          />
-          <Progress
-            format={() =>
-              `${finishedRoomCount}/${coveredRoomCount}/${roomCount}`
-            }
-            percent={coveredRate}
-            success={{ percent: finishedRate }}
-            status="active"
-            style={{ width: "calc(90vw - 560px)" }}
-            size={["default", 16]}
-          />
-        </Space>
-        <Suspense fallback={<Loading />}>
-          <Table
-            dataSource={
-              competitionRoomsData?.contest_room as graphql.GetCompetitionRoomsQuery["contest_room"]
-            }
-            columns={roomListColumns}
-            rowKey={(record) => record.room_id}
-          ></Table>
-        </Suspense>
-        <Button
-          icon={<DownloadOutlined />}
-          onClick={exportCompetitionData}
-          type="primary"
-        >
-          导出比赛信息
-        </Button>
-        <Modal
-          open={isModalVisible}
-          title="运行比赛"
-          centered
-          okText="运行"
-          maskClosable={false}
-          onCancel={() => {
-            setIsModalVisible(false);
-            runForm.resetFields();
-          }}
-          onOk={handleRunContest}
-          destroyOnClose
-        >
-          <Form
-            form={runForm}
-            name="battle"
-            onFinishFailed={(errorInfo: any) => {
-              console.log("Failed:", errorInfo);
-            }}
-            preserve={false}
-          >
-            <Form.Item
-              name="round_name"
-              label="本轮比赛名称"
-              rules={[{ required: true, message: "请输入比赛名称" }]}
-            >
-              <Input allowClear />
-            </Form.Item>
-            <Form.Item
-              name="map_id"
-              label="比赛地图"
-              rules={[{ required: true, message: "请选择比赛地图" }]}
-            >
-              <Select style={{ width: "40%" }}>
-                {contestMapData?.contest_map.map((map) => (
-                  <Option key={map.map_id} value={map.map_id}>
-                    {map.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Form>
-        </Modal>
-      </Card>
-    </Layout>
+        导出比赛信息
+      </Button>
+    </Suspense>
   );
 };
 
