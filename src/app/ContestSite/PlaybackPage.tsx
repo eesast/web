@@ -117,6 +117,15 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
+  useEffect(() => {
+    if (!openLocalFile && !room_id) {
+      message.warning({
+        content: "未选择回放房间号或本地文件",
+        key: "failMessage",
+      });
+    }
+  }, [openLocalFile, room_id]);
+
   const [localFilename, setLocalFilename] = React.useState<string>("");
 
   if (openLocalFile) {
@@ -149,10 +158,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       console.error("File Handling API is not supported!");
       return <NotImplemented />;
     }
-  }
-
-  if (!openLocalFile && !room_id) {
-    message.warning("未选择回放房间号或本地文件");
   }
 
   return contestSwitchData ? (

@@ -82,9 +82,9 @@ query GetTeamInfo($team_id: uuid!) {
     }
     contest_team_members {
       user {
-        uuid
         realname
         student_no
+        class
       }
     }
   }
@@ -188,6 +188,37 @@ query getTeams($contest_id: uuid!) {
     ) {
       aggregate {
         count
+      }
+    }
+  }
+}
+
+query getTeamsCompetitionResult($contest_id: uuid!, $round_id: uuid!) {
+  contest_round_by_pk(round_id: $round_id) {
+    name
+  }
+  contest_team(where: { contest_id: { _eq: $contest_id } }) {
+    team_id
+    team_name
+    contest_team_members {
+      user {
+        realname
+        student_no
+        class
+      }
+    }
+    contest_team_rooms_aggregate(
+      where: {
+        contest_room: {
+          _and: { round_id: { _eq: $round_id }, status: { _eq: "Finished" } }
+        }
+      }
+    ) {
+      aggregate {
+        count
+        sum {
+          score
+        }
       }
     }
   }
