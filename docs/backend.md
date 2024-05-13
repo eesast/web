@@ -18,7 +18,7 @@ permalink: /backend
       - 请求 log 文件：`./${code_id}.curl.log`
   - 可执行文件存放目录：`./code/${team_id}`
     - 可执行文件：`./${code_id}.${suffix}` 或 `./${code_id}` (cpp)
-  - 比赛目录（临时）：`./arena/${room_id}`
+  - 比赛目录（临时）：`./arena/${room_id}` 与 `./competition/${room_id}`（注意COS路径有`round_id`而后端没有）
     - 可执行文件目录（被绑定）：`./source/${team_id}`
       - 可执行文件：`./${player_label}.${suffix}` 或 `./${player_label}` (cpp)
     - 回放文件及 log 目录（被绑定）：`./output`
