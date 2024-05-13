@@ -82,9 +82,9 @@ query GetTeamInfo($team_id: uuid!) {
     }
     contest_team_members {
       user {
-        uuid
         realname
         student_no
+        class
       }
     }
   }

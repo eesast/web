@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import {
   Button,
   Card,
+  Divider,
   Drawer,
   Layout,
   message,
@@ -25,6 +26,7 @@ import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
 import Loading from "@/app/Components/Loading";
+import { downloadFile } from "@/api/cos";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;
@@ -54,6 +56,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
 
   const [showTeamInfo, setShowTeamInfo] = useState(false);
   const [showTeamCode, setShowTeamCode] = useState(false);
+  const [teamId, setTeamId] = useState<string | null>(null);
 
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
@@ -165,10 +168,20 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       key: "action",
       render: (text, record) => (
         <Space size="small">
-          <Typography.Link onClick={() => setShowTeamInfo(true)}>
+          <Typography.Link
+            onClick={() => {
+              setShowTeamInfo(true);
+              setTeamId(record.team_id);
+            }}
+          >
             队伍主页
           </Typography.Link>
-          <Typography.Link onClick={() => setShowTeamCode(true)}>
+          <Typography.Link
+            onClick={() => {
+              setShowTeamCode(true);
+              setTeamId(record.team_id);
+            }}
+          >
             队伍代码
           </Typography.Link>
         </Space>
@@ -212,9 +225,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
         onClose={() => setShowTeamInfo(false)}
         key="team_info"
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        {teamId && <ManageTeamInfo teamId={teamId} />}
       </Drawer>
       <Drawer
         title="队伍代码"
@@ -224,14 +235,116 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
         onClose={() => setShowTeamCode(false)}
         key="team_code"
       >
-        <p>Some code...</p>
-        <CloudDownloadOutlined />
-        <p>Some code...</p>
-        <CloudDownloadOutlined />
-        <p>Some code...</p>
-        <CloudDownloadOutlined />
+        {teamId && <ManageTeamCode teamId={teamId} />}
       </Drawer>
     </Layout>
+  );
+};
+
+const ManageTeamInfo: React.FC<{ teamId: string }> = ({ teamId }) => {
+  const { data: teamInfoData, error: getTeamInfoError } =
+    graphql.useGetTeamInfoSuspenseQuery({
+      variables: {
+        team_id: teamId,
+      },
+      skip: !teamId,
+    });
+  useEffect(() => {
+    if (getTeamInfoError) {
+      message.error("队伍信息加载失败");
+    }
+  }, [getTeamInfoError]);
+
+  return (
+    <>
+      <p>队名：{teamInfoData.contest_team_by_pk?.team_name}</p>
+      <p>队长：{teamInfoData.contest_team_by_pk?.team_leader.realname}</p>
+      <p>邀请码：{teamInfoData.contest_team_by_pk?.invited_code}</p>
+      <p>队伍简介：{teamInfoData.contest_team_by_pk?.team_intro}</p>
+      <Divider />
+      {teamInfoData.contest_team_by_pk?.contest_team_members.map((member) => (
+        <>
+          <p>成员姓名：{member.user.realname}</p>
+          <p>成员班级：{member.user.class}</p>
+          <p>成员学号：{member.user.student_no}</p>
+          <Divider />
+        </>
+      ))}
+    </>
+  );
+};
+
+const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
+  const url = useUrl();
+  const contest_id = url.query.get("contest")!;
+
+  const { data: contestNameData, error: contestNameError } =
+    graphql.useGetContestNameSuspenseQuery({
+      variables: {
+        contest_id: contest_id,
+      },
+    });
+
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("比赛信息加载失败");
+    }
+  }, [contestNameError]);
+
+  const { data: teamPlayersData, error: getTeamPlayersError } =
+    graphql.useGetTeamPlayersSuspenseQuery({
+      variables: {
+        team_id: teamId,
+      },
+      skip: !teamId,
+    });
+  useEffect(() => {
+    if (getTeamPlayersError) {
+      message.error("队伍代码加载失败");
+    }
+  }, [getTeamPlayersError]);
+
+  const handleDownload = async (
+    filename: string,
+    codeId: string,
+    language: string,
+  ) => {
+    try {
+      const contestName = contestNameData?.contest_by_pk?.name;
+      message.info("开始下载:" + filename);
+      await downloadFile(
+        `${contestName}/code/${teamId}/${codeId}.${language}`,
+        filename,
+      );
+    } catch (err) {
+      message.error("下载失败");
+      console.log(err);
+    }
+  };
+
+  return (
+    <>
+      {teamPlayersData?.contest_team_player.map((player) => (
+        <div>
+          <p>
+            {player.player}: {player.role}
+          </p>
+          <Typography.Link
+            onClick={() => {
+              handleDownload(
+                player.player_code?.code_name!,
+                player.player_code?.code_id!,
+                player.player_code?.language!,
+              );
+            }}
+          >
+            <CloudDownloadOutlined /> {"  "}
+            {player.player_code?.code_name}
+          </Typography.Link>
+          <Divider />
+        </div>
+      ))}
+    </>
   );
 };
 
