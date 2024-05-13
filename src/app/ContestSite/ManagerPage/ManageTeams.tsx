@@ -329,18 +329,20 @@ const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
           <p>
             {player.player}: {player.role}
           </p>
-          <Typography.Link
-            onClick={() => {
-              handleDownload(
-                player.player_code?.code_name!,
-                player.player_code?.code_id!,
-                player.player_code?.language!,
-              );
-            }}
-          >
-            <CloudDownloadOutlined /> {"  "}
-            {player.player_code?.code_name}
-          </Typography.Link>
+          {player.player_code && (
+            <Typography.Link
+              onClick={() => {
+                handleDownload(
+                  player.player_code?.code_name!,
+                  player.player_code?.code_id!,
+                  player.player_code?.language!,
+                );
+              }}
+            >
+              <CloudDownloadOutlined /> {"  "}
+              {player.player_code?.code_name}
+            </Typography.Link>
+          )}
           <Divider />
         </div>
       ))}
