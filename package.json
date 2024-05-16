@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/pro-components": "2.7.1",
-    "@apollo/client": "3.10.3",
+    "@apollo/client": "3.10.4",
     "antd": "5.17.0",
     "axios": "1.6.8",
     "cos-js-sdk-v5": "1.7.1",
