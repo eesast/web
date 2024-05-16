@@ -42,7 +42,7 @@ const streamTHUAI6: (props: StreamProps) => void = ({
           console.log("Server ended streaming connection.");
         });
       } else {
-        message.warning("直播连接失败");
+        message.warning({ content: "直播连接失败", key: "failMessage" });
         console.error("Error making gRPC call:", error);
       }
     },
