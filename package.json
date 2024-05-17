@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/pro-components": "2.7.1",
-    "@apollo/client": "3.10.3",
+    "@apollo/client": "3.10.4",
     "antd": "5.17.0",
     "axios": "1.6.8",
     "cos-js-sdk-v5": "1.7.1",
@@ -41,9 +41,9 @@
     "@types/file-saver": "2.0.7",
     "@types/is-url": "1.2.32",
     "@types/lodash.get": "4.4.9",
-    "@types/node": "20.12.11",
+    "@types/node": "20.12.12",
     "@types/pizzip": "3.0.5",
-    "@types/react": "18.3.1",
+    "@types/react": "18.3.2",
     "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.3.0",
     "@types/react-router-dom": "5.3.3",
@@ -56,14 +56,14 @@
     "prettier": "3.2.5",
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
-    "rimraf": "5.0.5",
+    "rimraf": "5.0.7",
     "typescript": "5.4.5",
     "web-vitals": "3.5.2",
     "webpack-bundle-analyzer": "4.10.2",
     "webpackbar": "6.0.1"
   },
   "peerDependencies": {
-    "electron": "30.0.3",
+    "electron": "30.0.6",
     "electron-builder": "24.13.3"
   },
   "resolutions": {
