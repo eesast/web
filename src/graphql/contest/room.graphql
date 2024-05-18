@@ -33,6 +33,36 @@ subscription GetArenaRooms($contest_id: uuid!) {
   }
 }
 
+# 查某个队伍的所有contest_room
+subscription GetTeamArenaRooms($contest_id: uuid!, $team_id: uuid!) {
+  contest_room(
+    where: {
+      _and: {
+        contest_id: { _eq: $contest_id }
+        round_id: { _is_null: true }
+        contest_room_teams: { contest_team: { team_id: { _eq: $team_id } } }
+      }
+    }
+    order_by: { created_at: desc }
+  ) {
+    room_id
+    status
+    port
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_id
+        team_name
+        team_leader {
+          realname
+        }
+      }
+      score
+      team_label
+      player_roles
+    }
+  }
+}
 query GetRunningArenaRooms($contest_id: uuid!) {
   contest_room(
     where: {

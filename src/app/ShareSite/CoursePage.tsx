@@ -1,4 +1,4 @@
-import { Button, Layout, message } from "antd";
+import { Button, Layout } from "antd";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
@@ -8,9 +8,9 @@ import { PageProps } from "..";
 
 const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
-  const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
+  //const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
 
-  const columns: ProColumns<graphql.Share_Course>[] = [
+  const columns: ProColumns<graphql.Course>[] = [
     {
       title: "课程号",
       dataIndex: "code",
@@ -94,32 +94,32 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   ];
 
-  const dataRequest = async (params: {
-    pageSize?: number;
-    current?: number;
-  }): Promise<{
-    data: graphql.Share_Course[];
-    success: boolean;
-    total?: number;
-  }> => {
-    console.log(params);
-    const { data, error } = await courseRefetch();
+  // const dataRequest = async (params: {
+  //   pageSize?: number;
+  //   current?: number;
+  // }): Promise<{
+  //   data: graphql.Course[];
+  //   success: boolean;
+  //   total?: number;
+  // }> => {
+  //   console.log(params);
+  //   const { data, error } = await courseRefetch();
 
-    if (error) {
-      message.error("课程加载失败");
-      console.log(error.message);
-      return {
-        data: [],
-        success: false,
-        total: 0,
-      };
-    }
-    return {
-      data: data.share_course,
-      success: true,
-      total: data.share_course.length,
-    };
-  };
+  //   if (error) {
+  //     message.error("课程加载失败");
+  //     console.log(error.message);
+  //     return {
+  //       data: [],
+  //       success: false,
+  //       total: 0,
+  //     };
+  //   }
+  //   return {
+  //     data: data.course,
+  //     success: true,
+  //     total: data.course.length,
+  //   };
+  // };
 
   return (
     <Layout
@@ -127,9 +127,9 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         margin: 30px;
       `}
     >
-      <ProTable<graphql.Share_Course>
+      <ProTable<graphql.Course>
         columns={columns}
-        request={dataRequest}
+        //request={dataRequest}
         rowKey="uuid"
         pagination={{
           showQuickJumper: true,
