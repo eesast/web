@@ -1,5 +1,5 @@
 query GetCourse {
-  share_course(order_by: { year: desc }) {
+  course(order_by: { year: desc }) {
     code
     fullname
     language

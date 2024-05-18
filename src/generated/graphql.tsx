@@ -3621,6 +3621,1403 @@ export type Contest_Variance_Fields = {
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
+/** 所有电子系的课程，用于课程评测 */
+export type Course = {
+  __typename?: 'course';
+  code: Scalars['String']['output'];
+  /** An array relationship */
+  course_comments: Array<Course_Comment>;
+  /** An aggregate relationship */
+  course_comments_aggregate: Course_Comment_Aggregate;
+  /** An array relationship */
+  course_infos: Array<Course_Info>;
+  /** An aggregate relationship */
+  course_infos_aggregate: Course_Info_Aggregate;
+  /** An array relationship */
+  course_ratings: Array<Course_Rating>;
+  /** An aggregate relationship */
+  course_ratings_aggregate: Course_Rating_Aggregate;
+  fullname: Scalars['String']['output'];
+  language: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  professor: Scalars['String']['output'];
+  semester: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  uuid: Scalars['uuid']['output'];
+  year: Scalars['Int']['output'];
+};
+
+
+/** 所有电子系的课程，用于课程评测 */
+export type CourseCourse_CommentsArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
+};
+
+
+/** 所有电子系的课程，用于课程评测 */
+export type CourseCourse_Comments_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
+};
+
+
+/** 所有电子系的课程，用于课程评测 */
+export type CourseCourse_InfosArgs = {
+  distinct_on?: InputMaybe<Array<Course_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Info_Order_By>>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+
+/** 所有电子系的课程，用于课程评测 */
+export type CourseCourse_Infos_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Info_Order_By>>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+
+/** 所有电子系的课程，用于课程评测 */
+export type CourseCourse_RatingsArgs = {
+  distinct_on?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Rating_Order_By>>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+
+/** 所有电子系的课程，用于课程评测 */
+export type CourseCourse_Ratings_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Rating_Order_By>>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+/** aggregated selection of "course" */
+export type Course_Aggregate = {
+  __typename?: 'course_aggregate';
+  aggregate?: Maybe<Course_Aggregate_Fields>;
+  nodes: Array<Course>;
+};
+
+/** aggregate fields of "course" */
+export type Course_Aggregate_Fields = {
+  __typename?: 'course_aggregate_fields';
+  avg?: Maybe<Course_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Max_Fields>;
+  min?: Maybe<Course_Min_Fields>;
+  stddev?: Maybe<Course_Stddev_Fields>;
+  stddev_pop?: Maybe<Course_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Course_Stddev_Samp_Fields>;
+  sum?: Maybe<Course_Sum_Fields>;
+  var_pop?: Maybe<Course_Var_Pop_Fields>;
+  var_samp?: Maybe<Course_Var_Samp_Fields>;
+  variance?: Maybe<Course_Variance_Fields>;
+};
+
+
+/** aggregate fields of "course" */
+export type Course_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Course_Avg_Fields = {
+  __typename?: 'course_avg_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "course". All fields are combined with a logical 'AND'. */
+export type Course_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Bool_Exp>>;
+  _not?: InputMaybe<Course_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Bool_Exp>>;
+  code?: InputMaybe<String_Comparison_Exp>;
+  course_comments?: InputMaybe<Course_Comment_Bool_Exp>;
+  course_infos?: InputMaybe<Course_Info_Bool_Exp>;
+  course_ratings?: InputMaybe<Course_Rating_Bool_Exp>;
+  fullname?: InputMaybe<String_Comparison_Exp>;
+  language?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  professor?: InputMaybe<String_Comparison_Exp>;
+  semester?: InputMaybe<String_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** 用户评论表 */
+export type Course_Comment = {
+  __typename?: 'course_comment';
+  comment: Scalars['String']['output'];
+  /** An object relationship */
+  course: Course;
+  course_id: Scalars['uuid']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** An object relationship */
+  user: Users;
+  user_uuid: Scalars['uuid']['output'];
+  uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "course_comment" */
+export type Course_Comment_Aggregate = {
+  __typename?: 'course_comment_aggregate';
+  aggregate?: Maybe<Course_Comment_Aggregate_Fields>;
+  nodes: Array<Course_Comment>;
+};
+
+/** aggregate fields of "course_comment" */
+export type Course_Comment_Aggregate_Fields = {
+  __typename?: 'course_comment_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Comment_Max_Fields>;
+  min?: Maybe<Course_Comment_Min_Fields>;
+};
+
+
+/** aggregate fields of "course_comment" */
+export type Course_Comment_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "course_comment" */
+export type Course_Comment_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Course_Comment_Max_Order_By>;
+  min?: InputMaybe<Course_Comment_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "course_comment" */
+export type Course_Comment_Arr_Rel_Insert_Input = {
+  data: Array<Course_Comment_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Course_Comment_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "course_comment". All fields are combined with a logical 'AND'. */
+export type Course_Comment_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Comment_Bool_Exp>>;
+  _not?: InputMaybe<Course_Comment_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Comment_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  course?: InputMaybe<Course_Bool_Exp>;
+  course_id?: InputMaybe<Uuid_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "course_comment" */
+export enum Course_Comment_Constraint {
+  /** unique or primary key constraint on columns "uuid" */
+  CourseCommentPkey = 'course_comment_pkey'
+}
+
+/** input type for inserting data into table "course_comment" */
+export type Course_Comment_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  course?: InputMaybe<Course_Obj_Rel_Insert_Input>;
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Course_Comment_Max_Fields = {
+  __typename?: 'course_comment_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  course_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "course_comment" */
+export type Course_Comment_Max_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  course_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Course_Comment_Min_Fields = {
+  __typename?: 'course_comment_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  course_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "course_comment" */
+export type Course_Comment_Min_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  course_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "course_comment" */
+export type Course_Comment_Mutation_Response = {
+  __typename?: 'course_comment_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course_Comment>;
+};
+
+/** on_conflict condition type for table "course_comment" */
+export type Course_Comment_On_Conflict = {
+  constraint: Course_Comment_Constraint;
+  update_columns?: Array<Course_Comment_Update_Column>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course_comment". */
+export type Course_Comment_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  course?: InputMaybe<Course_Order_By>;
+  course_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course_comment */
+export type Course_Comment_Pk_Columns_Input = {
+  uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "course_comment" */
+export enum Course_Comment_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  CourseId = 'course_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserUuid = 'user_uuid',
+  /** column name */
+  Uuid = 'uuid'
+}
+
+/** input type for updating data in table "course_comment" */
+export type Course_Comment_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "course_comment" */
+export enum Course_Comment_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  CourseId = 'course_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserUuid = 'user_uuid',
+  /** column name */
+  Uuid = 'uuid'
+}
+
+/** unique or primary key constraints on table "course" */
+export enum Course_Constraint {
+  /** unique or primary key constraint on columns "uuid" */
+  ShareCoursePkey = 'share_course_pkey'
+}
+
+/** input type for incrementing numeric columns in table "course" */
+export type Course_Inc_Input = {
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** 课程信息键值对表，对manager开放编辑 */
+export type Course_Info = {
+  __typename?: 'course_info';
+  /** An object relationship */
+  course: Course;
+  course_id: Scalars['uuid']['output'];
+  key: Scalars['String']['output'];
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregated selection of "course_info" */
+export type Course_Info_Aggregate = {
+  __typename?: 'course_info_aggregate';
+  aggregate?: Maybe<Course_Info_Aggregate_Fields>;
+  nodes: Array<Course_Info>;
+};
+
+/** aggregate fields of "course_info" */
+export type Course_Info_Aggregate_Fields = {
+  __typename?: 'course_info_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Info_Max_Fields>;
+  min?: Maybe<Course_Info_Min_Fields>;
+};
+
+
+/** aggregate fields of "course_info" */
+export type Course_Info_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Info_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "course_info" */
+export type Course_Info_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Course_Info_Max_Order_By>;
+  min?: InputMaybe<Course_Info_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "course_info" */
+export type Course_Info_Arr_Rel_Insert_Input = {
+  data: Array<Course_Info_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Course_Info_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "course_info". All fields are combined with a logical 'AND'. */
+export type Course_Info_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Info_Bool_Exp>>;
+  _not?: InputMaybe<Course_Info_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Info_Bool_Exp>>;
+  course?: InputMaybe<Course_Bool_Exp>;
+  course_id?: InputMaybe<Uuid_Comparison_Exp>;
+  key?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "course_info" */
+export enum Course_Info_Constraint {
+  /** unique or primary key constraint on columns "key", "course_id" */
+  CourseInfoPkey = 'course_info_pkey'
+}
+
+/** input type for inserting data into table "course_info" */
+export type Course_Info_Insert_Input = {
+  course?: InputMaybe<Course_Obj_Rel_Insert_Input>;
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Course_Info_Max_Fields = {
+  __typename?: 'course_info_max_fields';
+  course_id?: Maybe<Scalars['uuid']['output']>;
+  key?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by max() on columns of table "course_info" */
+export type Course_Info_Max_Order_By = {
+  course_id?: InputMaybe<Order_By>;
+  key?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Course_Info_Min_Fields = {
+  __typename?: 'course_info_min_fields';
+  course_id?: Maybe<Scalars['uuid']['output']>;
+  key?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by min() on columns of table "course_info" */
+export type Course_Info_Min_Order_By = {
+  course_id?: InputMaybe<Order_By>;
+  key?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "course_info" */
+export type Course_Info_Mutation_Response = {
+  __typename?: 'course_info_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course_Info>;
+};
+
+/** on_conflict condition type for table "course_info" */
+export type Course_Info_On_Conflict = {
+  constraint: Course_Info_Constraint;
+  update_columns?: Array<Course_Info_Update_Column>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course_info". */
+export type Course_Info_Order_By = {
+  course?: InputMaybe<Course_Order_By>;
+  course_id?: InputMaybe<Order_By>;
+  key?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course_info */
+export type Course_Info_Pk_Columns_Input = {
+  course_id: Scalars['uuid']['input'];
+  key: Scalars['String']['input'];
+};
+
+/** select columns of table "course_info" */
+export enum Course_Info_Select_Column {
+  /** column name */
+  CourseId = 'course_id',
+  /** column name */
+  Key = 'key',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "course_info" */
+export type Course_Info_Set_Input = {
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "course_info" */
+export enum Course_Info_Update_Column {
+  /** column name */
+  CourseId = 'course_id',
+  /** column name */
+  Key = 'key',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for inserting data into table "course" */
+export type Course_Insert_Input = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  course_comments?: InputMaybe<Course_Comment_Arr_Rel_Insert_Input>;
+  course_infos?: InputMaybe<Course_Info_Arr_Rel_Insert_Input>;
+  course_ratings?: InputMaybe<Course_Rating_Arr_Rel_Insert_Input>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  professor?: InputMaybe<Scalars['String']['input']>;
+  semester?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** 课程共享平台的管理员 */
+export type Course_Manager = {
+  __typename?: 'course_manager';
+  /** An object relationship */
+  user: Users;
+  user_uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "course_manager" */
+export type Course_Manager_Aggregate = {
+  __typename?: 'course_manager_aggregate';
+  aggregate?: Maybe<Course_Manager_Aggregate_Fields>;
+  nodes: Array<Course_Manager>;
+};
+
+/** aggregate fields of "course_manager" */
+export type Course_Manager_Aggregate_Fields = {
+  __typename?: 'course_manager_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Manager_Max_Fields>;
+  min?: Maybe<Course_Manager_Min_Fields>;
+};
+
+
+/** aggregate fields of "course_manager" */
+export type Course_Manager_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Manager_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "course_manager". All fields are combined with a logical 'AND'. */
+export type Course_Manager_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Manager_Bool_Exp>>;
+  _not?: InputMaybe<Course_Manager_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Manager_Bool_Exp>>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "course_manager" */
+export enum Course_Manager_Constraint {
+  /** unique or primary key constraint on columns "user_uuid" */
+  CourseManagerPkey = 'course_manager_pkey'
+}
+
+/** input type for inserting data into table "course_manager" */
+export type Course_Manager_Insert_Input = {
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Course_Manager_Max_Fields = {
+  __typename?: 'course_manager_max_fields';
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Course_Manager_Min_Fields = {
+  __typename?: 'course_manager_min_fields';
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "course_manager" */
+export type Course_Manager_Mutation_Response = {
+  __typename?: 'course_manager_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course_Manager>;
+};
+
+/** on_conflict condition type for table "course_manager" */
+export type Course_Manager_On_Conflict = {
+  constraint: Course_Manager_Constraint;
+  update_columns?: Array<Course_Manager_Update_Column>;
+  where?: InputMaybe<Course_Manager_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course_manager". */
+export type Course_Manager_Order_By = {
+  user?: InputMaybe<Users_Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course_manager */
+export type Course_Manager_Pk_Columns_Input = {
+  user_uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "course_manager" */
+export enum Course_Manager_Select_Column {
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
+/** input type for updating data in table "course_manager" */
+export type Course_Manager_Set_Input = {
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "course_manager" */
+export enum Course_Manager_Update_Column {
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
+/** aggregate max on columns */
+export type Course_Max_Fields = {
+  __typename?: 'course_max_fields';
+  code?: Maybe<Scalars['String']['output']>;
+  fullname?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  professor?: Maybe<Scalars['String']['output']>;
+  semester?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** aggregate min on columns */
+export type Course_Min_Fields = {
+  __typename?: 'course_min_fields';
+  code?: Maybe<Scalars['String']['output']>;
+  fullname?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  professor?: Maybe<Scalars['String']['output']>;
+  semester?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** response of any mutation on the table "course" */
+export type Course_Mutation_Response = {
+  __typename?: 'course_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course>;
+};
+
+/** input type for inserting object relation for remote table "course" */
+export type Course_Obj_Rel_Insert_Input = {
+  data: Course_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Course_On_Conflict>;
+};
+
+/** on_conflict condition type for table "course" */
+export type Course_On_Conflict = {
+  constraint: Course_Constraint;
+  update_columns?: Array<Course_Update_Column>;
+  where?: InputMaybe<Course_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course". */
+export type Course_Order_By = {
+  code?: InputMaybe<Order_By>;
+  course_comments_aggregate?: InputMaybe<Course_Comment_Aggregate_Order_By>;
+  course_infos_aggregate?: InputMaybe<Course_Info_Aggregate_Order_By>;
+  course_ratings_aggregate?: InputMaybe<Course_Rating_Aggregate_Order_By>;
+  fullname?: InputMaybe<Order_By>;
+  language?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  professor?: InputMaybe<Order_By>;
+  semester?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course */
+export type Course_Pk_Columns_Input = {
+  uuid: Scalars['uuid']['input'];
+};
+
+/** 用户评分表 */
+export type Course_Rating = {
+  __typename?: 'course_rating';
+  /** An object relationship */
+  course: Course;
+  course_id: Scalars['uuid']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  /** 任务量 */
+  dim1: Scalars['Int']['output'];
+  /** 内容难度 */
+  dim2: Scalars['Int']['output'];
+  /** 上课质量 */
+  dim3: Scalars['Int']['output'];
+  /** 收获感 */
+  dim4: Scalars['Int']['output'];
+  /** 给分好坏 */
+  dim5: Scalars['Int']['output'];
+  /** 考试作业讲课相关度 */
+  dim6: Scalars['Int']['output'];
+  updated_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  user: Users;
+  user_uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "course_rating" */
+export type Course_Rating_Aggregate = {
+  __typename?: 'course_rating_aggregate';
+  aggregate?: Maybe<Course_Rating_Aggregate_Fields>;
+  nodes: Array<Course_Rating>;
+};
+
+/** aggregate fields of "course_rating" */
+export type Course_Rating_Aggregate_Fields = {
+  __typename?: 'course_rating_aggregate_fields';
+  avg?: Maybe<Course_Rating_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Rating_Max_Fields>;
+  min?: Maybe<Course_Rating_Min_Fields>;
+  stddev?: Maybe<Course_Rating_Stddev_Fields>;
+  stddev_pop?: Maybe<Course_Rating_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Course_Rating_Stddev_Samp_Fields>;
+  sum?: Maybe<Course_Rating_Sum_Fields>;
+  var_pop?: Maybe<Course_Rating_Var_Pop_Fields>;
+  var_samp?: Maybe<Course_Rating_Var_Samp_Fields>;
+  variance?: Maybe<Course_Rating_Variance_Fields>;
+};
+
+
+/** aggregate fields of "course_rating" */
+export type Course_Rating_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "course_rating" */
+export type Course_Rating_Aggregate_Order_By = {
+  avg?: InputMaybe<Course_Rating_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Course_Rating_Max_Order_By>;
+  min?: InputMaybe<Course_Rating_Min_Order_By>;
+  stddev?: InputMaybe<Course_Rating_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Course_Rating_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Course_Rating_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Course_Rating_Sum_Order_By>;
+  var_pop?: InputMaybe<Course_Rating_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Course_Rating_Var_Samp_Order_By>;
+  variance?: InputMaybe<Course_Rating_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "course_rating" */
+export type Course_Rating_Arr_Rel_Insert_Input = {
+  data: Array<Course_Rating_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Course_Rating_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Course_Rating_Avg_Fields = {
+  __typename?: 'course_rating_avg_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Float']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Float']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Float']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Float']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Float']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "course_rating" */
+export type Course_Rating_Avg_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "course_rating". All fields are combined with a logical 'AND'. */
+export type Course_Rating_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Rating_Bool_Exp>>;
+  _not?: InputMaybe<Course_Rating_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Rating_Bool_Exp>>;
+  course?: InputMaybe<Course_Bool_Exp>;
+  course_id?: InputMaybe<Uuid_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  dim1?: InputMaybe<Int_Comparison_Exp>;
+  dim2?: InputMaybe<Int_Comparison_Exp>;
+  dim3?: InputMaybe<Int_Comparison_Exp>;
+  dim4?: InputMaybe<Int_Comparison_Exp>;
+  dim5?: InputMaybe<Int_Comparison_Exp>;
+  dim6?: InputMaybe<Int_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "course_rating" */
+export enum Course_Rating_Constraint {
+  /** unique or primary key constraint on columns "user_uuid", "course_id" */
+  CourseRatingPkey = 'course_rating_pkey'
+}
+
+/** input type for incrementing numeric columns in table "course_rating" */
+export type Course_Rating_Inc_Input = {
+  /** 任务量 */
+  dim1?: InputMaybe<Scalars['Int']['input']>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Scalars['Int']['input']>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Scalars['Int']['input']>;
+  /** 收获感 */
+  dim4?: InputMaybe<Scalars['Int']['input']>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Scalars['Int']['input']>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "course_rating" */
+export type Course_Rating_Insert_Input = {
+  course?: InputMaybe<Course_Obj_Rel_Insert_Input>;
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 任务量 */
+  dim1?: InputMaybe<Scalars['Int']['input']>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Scalars['Int']['input']>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Scalars['Int']['input']>;
+  /** 收获感 */
+  dim4?: InputMaybe<Scalars['Int']['input']>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Scalars['Int']['input']>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Scalars['Int']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Course_Rating_Max_Fields = {
+  __typename?: 'course_rating_max_fields';
+  course_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Int']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Int']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Int']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Int']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Int']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Int']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "course_rating" */
+export type Course_Rating_Max_Order_By = {
+  course_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Course_Rating_Min_Fields = {
+  __typename?: 'course_rating_min_fields';
+  course_id?: Maybe<Scalars['uuid']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Int']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Int']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Int']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Int']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Int']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Int']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "course_rating" */
+export type Course_Rating_Min_Order_By = {
+  course_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "course_rating" */
+export type Course_Rating_Mutation_Response = {
+  __typename?: 'course_rating_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course_Rating>;
+};
+
+/** on_conflict condition type for table "course_rating" */
+export type Course_Rating_On_Conflict = {
+  constraint: Course_Rating_Constraint;
+  update_columns?: Array<Course_Rating_Update_Column>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course_rating". */
+export type Course_Rating_Order_By = {
+  course?: InputMaybe<Course_Order_By>;
+  course_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dim1?: InputMaybe<Order_By>;
+  dim2?: InputMaybe<Order_By>;
+  dim3?: InputMaybe<Order_By>;
+  dim4?: InputMaybe<Order_By>;
+  dim5?: InputMaybe<Order_By>;
+  dim6?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course_rating */
+export type Course_Rating_Pk_Columns_Input = {
+  course_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "course_rating" */
+export enum Course_Rating_Select_Column {
+  /** column name */
+  CourseId = 'course_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Dim1 = 'dim1',
+  /** column name */
+  Dim2 = 'dim2',
+  /** column name */
+  Dim3 = 'dim3',
+  /** column name */
+  Dim4 = 'dim4',
+  /** column name */
+  Dim5 = 'dim5',
+  /** column name */
+  Dim6 = 'dim6',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
+/** input type for updating data in table "course_rating" */
+export type Course_Rating_Set_Input = {
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 任务量 */
+  dim1?: InputMaybe<Scalars['Int']['input']>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Scalars['Int']['input']>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Scalars['Int']['input']>;
+  /** 收获感 */
+  dim4?: InputMaybe<Scalars['Int']['input']>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Scalars['Int']['input']>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Scalars['Int']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Course_Rating_Stddev_Fields = {
+  __typename?: 'course_rating_stddev_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Float']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Float']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Float']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Float']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Float']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "course_rating" */
+export type Course_Rating_Stddev_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Course_Rating_Stddev_Pop_Fields = {
+  __typename?: 'course_rating_stddev_pop_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Float']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Float']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Float']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Float']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Float']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "course_rating" */
+export type Course_Rating_Stddev_Pop_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Course_Rating_Stddev_Samp_Fields = {
+  __typename?: 'course_rating_stddev_samp_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Float']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Float']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Float']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Float']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Float']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "course_rating" */
+export type Course_Rating_Stddev_Samp_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Course_Rating_Sum_Fields = {
+  __typename?: 'course_rating_sum_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Int']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Int']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Int']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Int']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Int']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "course_rating" */
+export type Course_Rating_Sum_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "course_rating" */
+export enum Course_Rating_Update_Column {
+  /** column name */
+  CourseId = 'course_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Dim1 = 'dim1',
+  /** column name */
+  Dim2 = 'dim2',
+  /** column name */
+  Dim3 = 'dim3',
+  /** column name */
+  Dim4 = 'dim4',
+  /** column name */
+  Dim5 = 'dim5',
+  /** column name */
+  Dim6 = 'dim6',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
+/** aggregate var_pop on columns */
+export type Course_Rating_Var_Pop_Fields = {
+  __typename?: 'course_rating_var_pop_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Float']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Float']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Float']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Float']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Float']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "course_rating" */
+export type Course_Rating_Var_Pop_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Course_Rating_Var_Samp_Fields = {
+  __typename?: 'course_rating_var_samp_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Float']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Float']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Float']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Float']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Float']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "course_rating" */
+export type Course_Rating_Var_Samp_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Course_Rating_Variance_Fields = {
+  __typename?: 'course_rating_variance_fields';
+  /** 任务量 */
+  dim1?: Maybe<Scalars['Float']['output']>;
+  /** 内容难度 */
+  dim2?: Maybe<Scalars['Float']['output']>;
+  /** 上课质量 */
+  dim3?: Maybe<Scalars['Float']['output']>;
+  /** 收获感 */
+  dim4?: Maybe<Scalars['Float']['output']>;
+  /** 给分好坏 */
+  dim5?: Maybe<Scalars['Float']['output']>;
+  /** 考试作业讲课相关度 */
+  dim6?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "course_rating" */
+export type Course_Rating_Variance_Order_By = {
+  /** 任务量 */
+  dim1?: InputMaybe<Order_By>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Order_By>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Order_By>;
+  /** 收获感 */
+  dim4?: InputMaybe<Order_By>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Order_By>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "course" */
+export enum Course_Select_Column {
+  /** column name */
+  Code = 'code',
+  /** column name */
+  Fullname = 'fullname',
+  /** column name */
+  Language = 'language',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Professor = 'professor',
+  /** column name */
+  Semester = 'semester',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  Uuid = 'uuid',
+  /** column name */
+  Year = 'year'
+}
+
+/** input type for updating data in table "course" */
+export type Course_Set_Input = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  professor?: InputMaybe<Scalars['String']['input']>;
+  semester?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Course_Stddev_Fields = {
+  __typename?: 'course_stddev_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Course_Stddev_Pop_Fields = {
+  __typename?: 'course_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Course_Stddev_Samp_Fields = {
+  __typename?: 'course_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Course_Sum_Fields = {
+  __typename?: 'course_sum_fields';
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "course" */
+export enum Course_Update_Column {
+  /** column name */
+  Code = 'code',
+  /** column name */
+  Fullname = 'fullname',
+  /** column name */
+  Language = 'language',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Professor = 'professor',
+  /** column name */
+  Semester = 'semester',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  Uuid = 'uuid',
+  /** column name */
+  Year = 'year'
+}
+
+/** aggregate var_pop on columns */
+export type Course_Var_Pop_Fields = {
+  __typename?: 'course_var_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Course_Var_Samp_Fields = {
+  __typename?: 'course_var_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Course_Variance_Fields = {
+  __typename?: 'course_variance_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
 export type Date_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['date']['input']>;
@@ -5562,6 +6959,26 @@ export type Mutation_Root = {
   delete_contest_time?: Maybe<Contest_Time_Mutation_Response>;
   /** delete single row from the table: "contest_time" */
   delete_contest_time_by_pk?: Maybe<Contest_Time>;
+  /** delete data from the table: "course" */
+  delete_course?: Maybe<Course_Mutation_Response>;
+  /** delete single row from the table: "course" */
+  delete_course_by_pk?: Maybe<Course>;
+  /** delete data from the table: "course_comment" */
+  delete_course_comment?: Maybe<Course_Comment_Mutation_Response>;
+  /** delete single row from the table: "course_comment" */
+  delete_course_comment_by_pk?: Maybe<Course_Comment>;
+  /** delete data from the table: "course_info" */
+  delete_course_info?: Maybe<Course_Info_Mutation_Response>;
+  /** delete single row from the table: "course_info" */
+  delete_course_info_by_pk?: Maybe<Course_Info>;
+  /** delete data from the table: "course_manager" */
+  delete_course_manager?: Maybe<Course_Manager_Mutation_Response>;
+  /** delete single row from the table: "course_manager" */
+  delete_course_manager_by_pk?: Maybe<Course_Manager>;
+  /** delete data from the table: "course_rating" */
+  delete_course_rating?: Maybe<Course_Rating_Mutation_Response>;
+  /** delete single row from the table: "course_rating" */
+  delete_course_rating_by_pk?: Maybe<Course_Rating>;
   /** delete data from the table: "department" */
   delete_department?: Maybe<Department_Mutation_Response>;
   /** delete single row from the table: "department" */
@@ -5626,10 +7043,6 @@ export type Mutation_Root = {
   delete_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** delete single row from the table: "scholarships_aids" */
   delete_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
-  /** delete data from the table: "share_course" */
-  delete_share_course?: Maybe<Share_Course_Mutation_Response>;
-  /** delete single row from the table: "share_course" */
-  delete_share_course_by_pk?: Maybe<Share_Course>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -5694,6 +7107,26 @@ export type Mutation_Root = {
   insert_contest_time?: Maybe<Contest_Time_Mutation_Response>;
   /** insert a single row into the table: "contest_time" */
   insert_contest_time_one?: Maybe<Contest_Time>;
+  /** insert data into the table: "course" */
+  insert_course?: Maybe<Course_Mutation_Response>;
+  /** insert data into the table: "course_comment" */
+  insert_course_comment?: Maybe<Course_Comment_Mutation_Response>;
+  /** insert a single row into the table: "course_comment" */
+  insert_course_comment_one?: Maybe<Course_Comment>;
+  /** insert data into the table: "course_info" */
+  insert_course_info?: Maybe<Course_Info_Mutation_Response>;
+  /** insert a single row into the table: "course_info" */
+  insert_course_info_one?: Maybe<Course_Info>;
+  /** insert data into the table: "course_manager" */
+  insert_course_manager?: Maybe<Course_Manager_Mutation_Response>;
+  /** insert a single row into the table: "course_manager" */
+  insert_course_manager_one?: Maybe<Course_Manager>;
+  /** insert a single row into the table: "course" */
+  insert_course_one?: Maybe<Course>;
+  /** insert data into the table: "course_rating" */
+  insert_course_rating?: Maybe<Course_Rating_Mutation_Response>;
+  /** insert a single row into the table: "course_rating" */
+  insert_course_rating_one?: Maybe<Course_Rating>;
   /** insert data into the table: "department" */
   insert_department?: Maybe<Department_Mutation_Response>;
   /** insert a single row into the table: "department" */
@@ -5758,10 +7191,6 @@ export type Mutation_Root = {
   insert_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** insert a single row into the table: "scholarships_aids" */
   insert_scholarships_aids_one?: Maybe<Scholarships_Aids>;
-  /** insert data into the table: "share_course" */
-  insert_share_course?: Maybe<Share_Course_Mutation_Response>;
-  /** insert a single row into the table: "share_course" */
-  insert_share_course_one?: Maybe<Share_Course>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -5826,6 +7255,26 @@ export type Mutation_Root = {
   update_contest_time?: Maybe<Contest_Time_Mutation_Response>;
   /** update single row of the table: "contest_time" */
   update_contest_time_by_pk?: Maybe<Contest_Time>;
+  /** update data of the table: "course" */
+  update_course?: Maybe<Course_Mutation_Response>;
+  /** update single row of the table: "course" */
+  update_course_by_pk?: Maybe<Course>;
+  /** update data of the table: "course_comment" */
+  update_course_comment?: Maybe<Course_Comment_Mutation_Response>;
+  /** update single row of the table: "course_comment" */
+  update_course_comment_by_pk?: Maybe<Course_Comment>;
+  /** update data of the table: "course_info" */
+  update_course_info?: Maybe<Course_Info_Mutation_Response>;
+  /** update single row of the table: "course_info" */
+  update_course_info_by_pk?: Maybe<Course_Info>;
+  /** update data of the table: "course_manager" */
+  update_course_manager?: Maybe<Course_Manager_Mutation_Response>;
+  /** update single row of the table: "course_manager" */
+  update_course_manager_by_pk?: Maybe<Course_Manager>;
+  /** update data of the table: "course_rating" */
+  update_course_rating?: Maybe<Course_Rating_Mutation_Response>;
+  /** update single row of the table: "course_rating" */
+  update_course_rating_by_pk?: Maybe<Course_Rating>;
   /** update data of the table: "department" */
   update_department?: Maybe<Department_Mutation_Response>;
   /** update single row of the table: "department" */
@@ -5890,10 +7339,6 @@ export type Mutation_Root = {
   update_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** update single row of the table: "scholarships_aids" */
   update_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
-  /** update data of the table: "share_course" */
-  update_share_course?: Maybe<Share_Course_Mutation_Response>;
-  /** update single row of the table: "share_course" */
-  update_share_course_by_pk?: Maybe<Share_Course>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -6077,6 +7522,68 @@ export type Mutation_RootDelete_Contest_TimeArgs = {
 export type Mutation_RootDelete_Contest_Time_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_CourseArgs = {
+  where: Course_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_CommentArgs = {
+  where: Course_Comment_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Comment_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_InfoArgs = {
+  where: Course_Info_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Info_By_PkArgs = {
+  course_id: Scalars['uuid']['input'];
+  key: Scalars['String']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_ManagerArgs = {
+  where: Course_Manager_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Manager_By_PkArgs = {
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_RatingArgs = {
+  where: Course_Rating_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Rating_By_PkArgs = {
+  course_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -6272,18 +7779,6 @@ export type Mutation_RootDelete_Scholarships_AidsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Scholarships_Aids_By_PkArgs = {
   code: Scalars['String']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Share_CourseArgs = {
-  where: Share_Course_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Share_Course_By_PkArgs = {
-  uuid: Scalars['uuid']['input'];
 };
 
 
@@ -6508,6 +8003,76 @@ export type Mutation_RootInsert_Contest_Time_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_CourseArgs = {
+  objects: Array<Course_Insert_Input>;
+  on_conflict?: InputMaybe<Course_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_CommentArgs = {
+  objects: Array<Course_Comment_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Comment_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Comment_OneArgs = {
+  object: Course_Comment_Insert_Input;
+  on_conflict?: InputMaybe<Course_Comment_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_InfoArgs = {
+  objects: Array<Course_Info_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Info_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Info_OneArgs = {
+  object: Course_Info_Insert_Input;
+  on_conflict?: InputMaybe<Course_Info_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_ManagerArgs = {
+  objects: Array<Course_Manager_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Manager_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Manager_OneArgs = {
+  object: Course_Manager_Insert_Input;
+  on_conflict?: InputMaybe<Course_Manager_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_OneArgs = {
+  object: Course_Insert_Input;
+  on_conflict?: InputMaybe<Course_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_RatingArgs = {
+  objects: Array<Course_Rating_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Rating_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Rating_OneArgs = {
+  object: Course_Rating_Insert_Input;
+  on_conflict?: InputMaybe<Course_Rating_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_DepartmentArgs = {
   objects: Array<Department_Insert_Input>;
   on_conflict?: InputMaybe<Department_On_Conflict>;
@@ -6728,20 +8293,6 @@ export type Mutation_RootInsert_Scholarships_AidsArgs = {
 export type Mutation_RootInsert_Scholarships_Aids_OneArgs = {
   object: Scholarships_Aids_Insert_Input;
   on_conflict?: InputMaybe<Scholarships_Aids_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Share_CourseArgs = {
-  objects: Array<Share_Course_Insert_Input>;
-  on_conflict?: InputMaybe<Share_Course_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Share_Course_OneArgs = {
-  object: Share_Course_Insert_Input;
-  on_conflict?: InputMaybe<Share_Course_On_Conflict>;
 };
 
 
@@ -6974,6 +8525,80 @@ export type Mutation_RootUpdate_Contest_TimeArgs = {
 export type Mutation_RootUpdate_Contest_Time_By_PkArgs = {
   _set?: InputMaybe<Contest_Time_Set_Input>;
   pk_columns: Contest_Time_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_CourseArgs = {
+  _inc?: InputMaybe<Course_Inc_Input>;
+  _set?: InputMaybe<Course_Set_Input>;
+  where: Course_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_By_PkArgs = {
+  _inc?: InputMaybe<Course_Inc_Input>;
+  _set?: InputMaybe<Course_Set_Input>;
+  pk_columns: Course_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_CommentArgs = {
+  _set?: InputMaybe<Course_Comment_Set_Input>;
+  where: Course_Comment_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_By_PkArgs = {
+  _set?: InputMaybe<Course_Comment_Set_Input>;
+  pk_columns: Course_Comment_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_InfoArgs = {
+  _set?: InputMaybe<Course_Info_Set_Input>;
+  where: Course_Info_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Info_By_PkArgs = {
+  _set?: InputMaybe<Course_Info_Set_Input>;
+  pk_columns: Course_Info_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_ManagerArgs = {
+  _set?: InputMaybe<Course_Manager_Set_Input>;
+  where: Course_Manager_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Manager_By_PkArgs = {
+  _set?: InputMaybe<Course_Manager_Set_Input>;
+  pk_columns: Course_Manager_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_RatingArgs = {
+  _inc?: InputMaybe<Course_Rating_Inc_Input>;
+  _set?: InputMaybe<Course_Rating_Set_Input>;
+  where: Course_Rating_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Rating_By_PkArgs = {
+  _inc?: InputMaybe<Course_Rating_Inc_Input>;
+  _set?: InputMaybe<Course_Rating_Set_Input>;
+  pk_columns: Course_Rating_Pk_Columns_Input;
 };
 
 
@@ -7214,22 +8839,6 @@ export type Mutation_RootUpdate_Scholarships_Aids_By_PkArgs = {
   _inc?: InputMaybe<Scholarships_Aids_Inc_Input>;
   _set?: InputMaybe<Scholarships_Aids_Set_Input>;
   pk_columns: Scholarships_Aids_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Share_CourseArgs = {
-  _inc?: InputMaybe<Share_Course_Inc_Input>;
-  _set?: InputMaybe<Share_Course_Set_Input>;
-  where: Share_Course_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Share_Course_By_PkArgs = {
-  _inc?: InputMaybe<Share_Course_Inc_Input>;
-  _set?: InputMaybe<Share_Course_Set_Input>;
-  pk_columns: Share_Course_Pk_Columns_Input;
 };
 
 
@@ -8724,6 +10333,36 @@ export type Query_Root = {
   contest_time_aggregate: Contest_Time_Aggregate;
   /** fetch data from the table: "contest_time" using primary key columns */
   contest_time_by_pk?: Maybe<Contest_Time>;
+  /** fetch data from the table: "course" */
+  course: Array<Course>;
+  /** fetch aggregated fields from the table: "course" */
+  course_aggregate: Course_Aggregate;
+  /** fetch data from the table: "course" using primary key columns */
+  course_by_pk?: Maybe<Course>;
+  /** fetch data from the table: "course_comment" */
+  course_comment: Array<Course_Comment>;
+  /** fetch aggregated fields from the table: "course_comment" */
+  course_comment_aggregate: Course_Comment_Aggregate;
+  /** fetch data from the table: "course_comment" using primary key columns */
+  course_comment_by_pk?: Maybe<Course_Comment>;
+  /** fetch data from the table: "course_info" */
+  course_info: Array<Course_Info>;
+  /** fetch aggregated fields from the table: "course_info" */
+  course_info_aggregate: Course_Info_Aggregate;
+  /** fetch data from the table: "course_info" using primary key columns */
+  course_info_by_pk?: Maybe<Course_Info>;
+  /** fetch data from the table: "course_manager" */
+  course_manager: Array<Course_Manager>;
+  /** fetch aggregated fields from the table: "course_manager" */
+  course_manager_aggregate: Course_Manager_Aggregate;
+  /** fetch data from the table: "course_manager" using primary key columns */
+  course_manager_by_pk?: Maybe<Course_Manager>;
+  /** fetch data from the table: "course_rating" */
+  course_rating: Array<Course_Rating>;
+  /** fetch aggregated fields from the table: "course_rating" */
+  course_rating_aggregate: Course_Rating_Aggregate;
+  /** fetch data from the table: "course_rating" using primary key columns */
+  course_rating_by_pk?: Maybe<Course_Rating>;
   /** fetch data from the table: "department" */
   department: Array<Department>;
   /** fetch aggregated fields from the table: "department" */
@@ -8820,12 +10459,6 @@ export type Query_Root = {
   scholarships_aids_aggregate: Scholarships_Aids_Aggregate;
   /** fetch data from the table: "scholarships_aids" using primary key columns */
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
-  /** fetch data from the table: "share_course" */
-  share_course: Array<Share_Course>;
-  /** fetch aggregated fields from the table: "share_course" */
-  share_course_aggregate: Share_Course_Aggregate;
-  /** fetch data from the table: "share_course" using primary key columns */
-  share_course_by_pk?: Maybe<Share_Course>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -9167,6 +10800,123 @@ export type Query_RootContest_Time_AggregateArgs = {
 export type Query_RootContest_Time_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
+};
+
+
+export type Query_RootCourseArgs = {
+  distinct_on?: InputMaybe<Array<Course_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Order_By>>;
+  where?: InputMaybe<Course_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Order_By>>;
+  where?: InputMaybe<Course_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootCourse_CommentArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootCourse_InfoArgs = {
+  distinct_on?: InputMaybe<Array<Course_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Info_Order_By>>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Info_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Info_Order_By>>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Info_By_PkArgs = {
+  course_id: Scalars['uuid']['input'];
+  key: Scalars['String']['input'];
+};
+
+
+export type Query_RootCourse_ManagerArgs = {
+  distinct_on?: InputMaybe<Array<Course_Manager_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Manager_Order_By>>;
+  where?: InputMaybe<Course_Manager_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Manager_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Manager_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Manager_Order_By>>;
+  where?: InputMaybe<Course_Manager_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Manager_By_PkArgs = {
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootCourse_RatingArgs = {
+  distinct_on?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Rating_Order_By>>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Rating_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Rating_Order_By>>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Rating_By_PkArgs = {
+  course_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -9538,29 +11288,6 @@ export type Query_RootScholarships_Aids_AggregateArgs = {
 
 export type Query_RootScholarships_Aids_By_PkArgs = {
   code: Scalars['String']['input'];
-};
-
-
-export type Query_RootShare_CourseArgs = {
-  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
-  where?: InputMaybe<Share_Course_Bool_Exp>;
-};
-
-
-export type Query_RootShare_Course_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
-  where?: InputMaybe<Share_Course_Bool_Exp>;
-};
-
-
-export type Query_RootShare_Course_By_PkArgs = {
-  uuid: Scalars['uuid']['input'];
 };
 
 
@@ -10114,257 +11841,6 @@ export type Scholarships_Aids_Variance_Fields = {
   amount?: Maybe<Scalars['Float']['output']>;
 };
 
-/** 所有电子系的课程，用于课程评测 */
-export type Share_Course = {
-  __typename?: 'share_course';
-  code: Scalars['String']['output'];
-  fullname: Scalars['String']['output'];
-  language: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  professor: Scalars['String']['output'];
-  semester: Scalars['String']['output'];
-  type: Scalars['String']['output'];
-  uuid: Scalars['uuid']['output'];
-  year: Scalars['Int']['output'];
-};
-
-/** aggregated selection of "share_course" */
-export type Share_Course_Aggregate = {
-  __typename?: 'share_course_aggregate';
-  aggregate?: Maybe<Share_Course_Aggregate_Fields>;
-  nodes: Array<Share_Course>;
-};
-
-/** aggregate fields of "share_course" */
-export type Share_Course_Aggregate_Fields = {
-  __typename?: 'share_course_aggregate_fields';
-  avg?: Maybe<Share_Course_Avg_Fields>;
-  count: Scalars['Int']['output'];
-  max?: Maybe<Share_Course_Max_Fields>;
-  min?: Maybe<Share_Course_Min_Fields>;
-  stddev?: Maybe<Share_Course_Stddev_Fields>;
-  stddev_pop?: Maybe<Share_Course_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Share_Course_Stddev_Samp_Fields>;
-  sum?: Maybe<Share_Course_Sum_Fields>;
-  var_pop?: Maybe<Share_Course_Var_Pop_Fields>;
-  var_samp?: Maybe<Share_Course_Var_Samp_Fields>;
-  variance?: Maybe<Share_Course_Variance_Fields>;
-};
-
-
-/** aggregate fields of "share_course" */
-export type Share_Course_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Share_Course_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** aggregate avg on columns */
-export type Share_Course_Avg_Fields = {
-  __typename?: 'share_course_avg_fields';
-  year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** Boolean expression to filter rows from the table "share_course". All fields are combined with a logical 'AND'. */
-export type Share_Course_Bool_Exp = {
-  _and?: InputMaybe<Array<Share_Course_Bool_Exp>>;
-  _not?: InputMaybe<Share_Course_Bool_Exp>;
-  _or?: InputMaybe<Array<Share_Course_Bool_Exp>>;
-  code?: InputMaybe<String_Comparison_Exp>;
-  fullname?: InputMaybe<String_Comparison_Exp>;
-  language?: InputMaybe<String_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  professor?: InputMaybe<String_Comparison_Exp>;
-  semester?: InputMaybe<String_Comparison_Exp>;
-  type?: InputMaybe<String_Comparison_Exp>;
-  uuid?: InputMaybe<Uuid_Comparison_Exp>;
-  year?: InputMaybe<Int_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "share_course" */
-export enum Share_Course_Constraint {
-  /** unique or primary key constraint on columns "uuid" */
-  ShareCoursePkey = 'share_course_pkey'
-}
-
-/** input type for incrementing numeric columns in table "share_course" */
-export type Share_Course_Inc_Input = {
-  year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** input type for inserting data into table "share_course" */
-export type Share_Course_Insert_Input = {
-  code?: InputMaybe<Scalars['String']['input']>;
-  fullname?: InputMaybe<Scalars['String']['input']>;
-  language?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  professor?: InputMaybe<Scalars['String']['input']>;
-  semester?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<Scalars['String']['input']>;
-  uuid?: InputMaybe<Scalars['uuid']['input']>;
-  year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** aggregate max on columns */
-export type Share_Course_Max_Fields = {
-  __typename?: 'share_course_max_fields';
-  code?: Maybe<Scalars['String']['output']>;
-  fullname?: Maybe<Scalars['String']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  professor?: Maybe<Scalars['String']['output']>;
-  semester?: Maybe<Scalars['String']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-  uuid?: Maybe<Scalars['uuid']['output']>;
-  year?: Maybe<Scalars['Int']['output']>;
-};
-
-/** aggregate min on columns */
-export type Share_Course_Min_Fields = {
-  __typename?: 'share_course_min_fields';
-  code?: Maybe<Scalars['String']['output']>;
-  fullname?: Maybe<Scalars['String']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  professor?: Maybe<Scalars['String']['output']>;
-  semester?: Maybe<Scalars['String']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-  uuid?: Maybe<Scalars['uuid']['output']>;
-  year?: Maybe<Scalars['Int']['output']>;
-};
-
-/** response of any mutation on the table "share_course" */
-export type Share_Course_Mutation_Response = {
-  __typename?: 'share_course_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Share_Course>;
-};
-
-/** on_conflict condition type for table "share_course" */
-export type Share_Course_On_Conflict = {
-  constraint: Share_Course_Constraint;
-  update_columns?: Array<Share_Course_Update_Column>;
-  where?: InputMaybe<Share_Course_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "share_course". */
-export type Share_Course_Order_By = {
-  code?: InputMaybe<Order_By>;
-  fullname?: InputMaybe<Order_By>;
-  language?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  professor?: InputMaybe<Order_By>;
-  semester?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  uuid?: InputMaybe<Order_By>;
-  year?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: share_course */
-export type Share_Course_Pk_Columns_Input = {
-  uuid: Scalars['uuid']['input'];
-};
-
-/** select columns of table "share_course" */
-export enum Share_Course_Select_Column {
-  /** column name */
-  Code = 'code',
-  /** column name */
-  Fullname = 'fullname',
-  /** column name */
-  Language = 'language',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  Professor = 'professor',
-  /** column name */
-  Semester = 'semester',
-  /** column name */
-  Type = 'type',
-  /** column name */
-  Uuid = 'uuid',
-  /** column name */
-  Year = 'year'
-}
-
-/** input type for updating data in table "share_course" */
-export type Share_Course_Set_Input = {
-  code?: InputMaybe<Scalars['String']['input']>;
-  fullname?: InputMaybe<Scalars['String']['input']>;
-  language?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  professor?: InputMaybe<Scalars['String']['input']>;
-  semester?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<Scalars['String']['input']>;
-  uuid?: InputMaybe<Scalars['uuid']['input']>;
-  year?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Share_Course_Stddev_Fields = {
-  __typename?: 'share_course_stddev_fields';
-  year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Share_Course_Stddev_Pop_Fields = {
-  __typename?: 'share_course_stddev_pop_fields';
-  year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Share_Course_Stddev_Samp_Fields = {
-  __typename?: 'share_course_stddev_samp_fields';
-  year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate sum on columns */
-export type Share_Course_Sum_Fields = {
-  __typename?: 'share_course_sum_fields';
-  year?: Maybe<Scalars['Int']['output']>;
-};
-
-/** update columns of table "share_course" */
-export enum Share_Course_Update_Column {
-  /** column name */
-  Code = 'code',
-  /** column name */
-  Fullname = 'fullname',
-  /** column name */
-  Language = 'language',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  Professor = 'professor',
-  /** column name */
-  Semester = 'semester',
-  /** column name */
-  Type = 'type',
-  /** column name */
-  Uuid = 'uuid',
-  /** column name */
-  Year = 'year'
-}
-
-/** aggregate var_pop on columns */
-export type Share_Course_Var_Pop_Fields = {
-  __typename?: 'share_course_var_pop_fields';
-  year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate var_samp on columns */
-export type Share_Course_Var_Samp_Fields = {
-  __typename?: 'share_course_var_samp_fields';
-  year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate variance on columns */
-export type Share_Course_Variance_Fields = {
-  __typename?: 'share_course_variance_fields';
-  year?: Maybe<Scalars['Float']['output']>;
-};
-
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "aid_application" */
@@ -10451,6 +11927,36 @@ export type Subscription_Root = {
   contest_time_aggregate: Contest_Time_Aggregate;
   /** fetch data from the table: "contest_time" using primary key columns */
   contest_time_by_pk?: Maybe<Contest_Time>;
+  /** fetch data from the table: "course" */
+  course: Array<Course>;
+  /** fetch aggregated fields from the table: "course" */
+  course_aggregate: Course_Aggregate;
+  /** fetch data from the table: "course" using primary key columns */
+  course_by_pk?: Maybe<Course>;
+  /** fetch data from the table: "course_comment" */
+  course_comment: Array<Course_Comment>;
+  /** fetch aggregated fields from the table: "course_comment" */
+  course_comment_aggregate: Course_Comment_Aggregate;
+  /** fetch data from the table: "course_comment" using primary key columns */
+  course_comment_by_pk?: Maybe<Course_Comment>;
+  /** fetch data from the table: "course_info" */
+  course_info: Array<Course_Info>;
+  /** fetch aggregated fields from the table: "course_info" */
+  course_info_aggregate: Course_Info_Aggregate;
+  /** fetch data from the table: "course_info" using primary key columns */
+  course_info_by_pk?: Maybe<Course_Info>;
+  /** fetch data from the table: "course_manager" */
+  course_manager: Array<Course_Manager>;
+  /** fetch aggregated fields from the table: "course_manager" */
+  course_manager_aggregate: Course_Manager_Aggregate;
+  /** fetch data from the table: "course_manager" using primary key columns */
+  course_manager_by_pk?: Maybe<Course_Manager>;
+  /** fetch data from the table: "course_rating" */
+  course_rating: Array<Course_Rating>;
+  /** fetch aggregated fields from the table: "course_rating" */
+  course_rating_aggregate: Course_Rating_Aggregate;
+  /** fetch data from the table: "course_rating" using primary key columns */
+  course_rating_by_pk?: Maybe<Course_Rating>;
   /** fetch data from the table: "department" */
   department: Array<Department>;
   /** fetch aggregated fields from the table: "department" */
@@ -10547,12 +12053,6 @@ export type Subscription_Root = {
   scholarships_aids_aggregate: Scholarships_Aids_Aggregate;
   /** fetch data from the table: "scholarships_aids" using primary key columns */
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
-  /** fetch data from the table: "share_course" */
-  share_course: Array<Share_Course>;
-  /** fetch aggregated fields from the table: "share_course" */
-  share_course_aggregate: Share_Course_Aggregate;
-  /** fetch data from the table: "share_course" using primary key columns */
-  share_course_by_pk?: Maybe<Share_Course>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -10894,6 +12394,123 @@ export type Subscription_RootContest_Time_AggregateArgs = {
 export type Subscription_RootContest_Time_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootCourseArgs = {
+  distinct_on?: InputMaybe<Array<Course_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Order_By>>;
+  where?: InputMaybe<Course_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Order_By>>;
+  where?: InputMaybe<Course_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_CommentArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_By_PkArgs = {
+  uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_InfoArgs = {
+  distinct_on?: InputMaybe<Array<Course_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Info_Order_By>>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Info_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Info_Order_By>>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Info_By_PkArgs = {
+  course_id: Scalars['uuid']['input'];
+  key: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootCourse_ManagerArgs = {
+  distinct_on?: InputMaybe<Array<Course_Manager_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Manager_Order_By>>;
+  where?: InputMaybe<Course_Manager_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Manager_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Manager_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Manager_Order_By>>;
+  where?: InputMaybe<Course_Manager_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Manager_By_PkArgs = {
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_RatingArgs = {
+  distinct_on?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Rating_Order_By>>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Rating_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Rating_Order_By>>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Rating_By_PkArgs = {
+  course_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -11265,29 +12882,6 @@ export type Subscription_RootScholarships_Aids_AggregateArgs = {
 
 export type Subscription_RootScholarships_Aids_By_PkArgs = {
   code: Scalars['String']['input'];
-};
-
-
-export type Subscription_RootShare_CourseArgs = {
-  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
-  where?: InputMaybe<Share_Course_Bool_Exp>;
-};
-
-
-export type Subscription_RootShare_Course_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Share_Course_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Share_Course_Order_By>>;
-  where?: InputMaybe<Share_Course_Bool_Exp>;
-};
-
-
-export type Subscription_RootShare_Course_By_PkArgs = {
-  uuid: Scalars['uuid']['input'];
 };
 
 
@@ -12113,6 +13707,14 @@ export type GetArenaRoomsSubscriptionVariables = Exact<{
 
 export type GetArenaRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
 
+export type GetTeamArenaRoomsSubscriptionVariables = Exact<{
+  contest_id: Scalars['uuid']['input'];
+  team_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetTeamArenaRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
+
 export type GetRunningArenaRoomsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
@@ -12578,7 +14180,7 @@ export type DeleteNoticeMutation = { __typename?: 'mutation_root', delete_info_n
 export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCourseQuery = { __typename?: 'query_root', share_course: Array<{ __typename?: 'share_course', code: string, fullname: string, language: string, name: string, professor: string, semester: string, type: string, uuid: any, year: number }> };
+export type GetCourseQuery = { __typename?: 'query_root', course: Array<{ __typename?: 'course', code: string, fullname: string, language: string, name: string, professor: string, semester: string, type: string, uuid: any, year: number }> };
 
 export type GetWeeklyQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -13479,6 +15081,55 @@ export function useGetArenaRoomsSubscription(baseOptions: Apollo.SubscriptionHoo
       }
 export type GetArenaRoomsSubscriptionHookResult = ReturnType<typeof useGetArenaRoomsSubscription>;
 export type GetArenaRoomsSubscriptionResult = Apollo.SubscriptionResult<GetArenaRoomsSubscription>;
+export const GetTeamArenaRoomsDocument = gql`
+    subscription GetTeamArenaRooms($contest_id: uuid!, $team_id: uuid!) {
+  contest_room(
+    where: {_and: {contest_id: {_eq: $contest_id}, round_id: {_is_null: true}, contest_room_teams: {contest_team: {team_id: {_eq: $team_id}}}}}
+    order_by: {created_at: desc}
+  ) {
+    room_id
+    status
+    port
+    created_at
+    contest_room_teams {
+      contest_team {
+        team_id
+        team_name
+        team_leader {
+          realname
+        }
+      }
+      score
+      team_label
+      player_roles
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTeamArenaRoomsSubscription__
+ *
+ * To run a query within a React component, call `useGetTeamArenaRoomsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamArenaRoomsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamArenaRoomsSubscription({
+ *   variables: {
+ *      contest_id: // value for 'contest_id'
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useGetTeamArenaRoomsSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetTeamArenaRoomsSubscription, GetTeamArenaRoomsSubscriptionVariables> & ({ variables: GetTeamArenaRoomsSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetTeamArenaRoomsSubscription, GetTeamArenaRoomsSubscriptionVariables>(GetTeamArenaRoomsDocument, options);
+      }
+export type GetTeamArenaRoomsSubscriptionHookResult = ReturnType<typeof useGetTeamArenaRoomsSubscription>;
+export type GetTeamArenaRoomsSubscriptionResult = Apollo.SubscriptionResult<GetTeamArenaRoomsSubscription>;
 export const GetRunningArenaRoomsDocument = gql`
     query GetRunningArenaRooms($contest_id: uuid!) {
   contest_room(
@@ -15984,7 +17635,7 @@ export type DeleteNoticeMutationResult = Apollo.MutationResult<DeleteNoticeMutat
 export type DeleteNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteNoticeMutation, DeleteNoticeMutationVariables>;
 export const GetCourseDocument = gql`
     query GetCourse {
-  share_course(order_by: {year: desc}) {
+  course(order_by: {year: desc}) {
     code
     fullname
     language
