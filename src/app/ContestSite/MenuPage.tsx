@@ -301,6 +301,12 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       placement: "right",
       target: () => arenaRef.current,
     },
+    // {
+    //   title: "游玩时刻",
+    //   description: "下面让我们跳转到试玩界面一探究竟吧！",
+    //   placement: "right",
+    //   target: () => playRef.current,
+    // },
   ];
 
   const TourGuide = () => {
@@ -314,6 +320,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
         onClose={() => {
           setOpen(false);
           localStorage.setItem("tour_contest", "true");
+          //navigate(url.link("playground"));
         }}
         steps={steps}
       />
