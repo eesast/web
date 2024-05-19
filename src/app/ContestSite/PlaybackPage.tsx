@@ -25,6 +25,9 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const playback_speed = url.query.get("speed");
   const isPWA = url.query.get("pwa");
   const openLocalFile = isPWA === "true";
+  const competitionOrArena = url.query.has("competition")
+    ? "competition"
+    : "arena";
 
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
@@ -101,7 +104,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         sendMessage(
           "InputManager",
           "AfterInputFilename",
-          `${process.env.NODE_ENV === "development" ? process.env.REACT_APP_API_DEV_URL! : process.env.REACT_APP_API_URL!}/arena/playback/${room_id}`,
+          `${process.env.NODE_ENV === "development" ? process.env.REACT_APP_API_DEV_URL! : process.env.REACT_APP_API_URL!}/${competitionOrArena}/playback/${room_id}`,
         );
       }
     }
@@ -142,12 +145,13 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
           console.log(fileHandle);
           const file = await fileHandle.getFile();
           console.log(file);
+          console.log(URL.createObjectURL(file));
           const reader = new FileReader();
           reader.readAsArrayBuffer(file);
           reader.onload = () => {
             console.log(reader.result);
           };
-          setLocalFilename(fileHandle.name);
+          setLocalFilename(URL.createObjectURL(file));
         } else {
           message.error("不支持的文件类型");
           console.error("Invalid file type!");

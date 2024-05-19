@@ -411,7 +411,12 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
             <Typography.Link
               disabled={!contestSwitchData.contest_by_pk?.playback_switch}
               onClick={() =>
-                navigate(url.append("room", record.room_id).link("playback"))
+                navigate(
+                  url
+                    .append("room", record.room_id)
+                    .append("competition", record.room_id)
+                    .link("playback"),
+                )
               }
             >
               在线回放

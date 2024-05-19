@@ -13713,7 +13713,7 @@ export type GetTeamArenaRoomsSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetTeamArenaRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
+export type GetTeamArenaRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }>, contest_room_teams_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number } | null } }> };
 
 export type GetRunningArenaRoomsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -15085,7 +15085,7 @@ export const GetTeamArenaRoomsDocument = gql`
     subscription GetTeamArenaRooms($contest_id: uuid!, $team_id: uuid!) {
   contest_room(
     where: {_and: {contest_id: {_eq: $contest_id}, round_id: {_is_null: true}, contest_room_teams: {contest_team: {team_id: {_eq: $team_id}}}}}
-    order_by: {created_at: desc}
+    order_by: {created_at: asc}
   ) {
     room_id
     status
@@ -15102,6 +15102,11 @@ export const GetTeamArenaRoomsDocument = gql`
       score
       team_label
       player_roles
+    }
+    contest_room_teams_aggregate {
+      aggregate {
+        count
+      }
     }
   }
 }
