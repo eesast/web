@@ -43,7 +43,7 @@ subscription GetTeamArenaRooms($contest_id: uuid!, $team_id: uuid!) {
         contest_room_teams: { contest_team: { team_id: { _eq: $team_id } } }
       }
     }
-    order_by: { created_at: desc }
+    order_by: { created_at: asc }
   ) {
     room_id
     status
@@ -60,6 +60,11 @@ subscription GetTeamArenaRooms($contest_id: uuid!, $team_id: uuid!) {
       score
       team_label
       player_roles
+    }
+    contest_room_teams_aggregate {
+      aggregate {
+        count
+      }
     }
   }
 }
