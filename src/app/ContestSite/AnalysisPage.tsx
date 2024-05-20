@@ -10,6 +10,7 @@ import {
 import dayjs from "dayjs";
 import * as graphql from "@/generated/graphql";
 import { Chart } from "@antv/g2";
+import NotJoined from "./Components/NotJoined";
 
 /* ---------------- 主页面 ---------------- */
 const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
@@ -17,7 +18,8 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const totalScoreRef = useRef(0);
-  const chartRef = useRef(null);
+  const chartPieRef = useRef(null);
+  const chartLineRef = useRef(null);
 
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
@@ -62,11 +64,13 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
+  //当前队伍排名
   const scoreRank =
     scoreteamListData.contest_team.findIndex(
       (team: any) => team.team_id === team_id,
     ) + 1;
 
+  //天梯积分分析
   useEffect(() => {
     totalScoreRef.current = 0;
     const processedData =
@@ -83,11 +87,12 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
           score: totalScoreRef.current,
         };
       }) || [];
-
     const dataToDisplay = processedData.slice(-viewRange);
 
+    if (!chartLineRef.current) return;
+
     const chart = new Chart({
-      container: "chart-container",
+      container: chartLineRef.current,
       autoFit: true,
     });
 
@@ -105,8 +110,8 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
     chart
       .line()
       .style({
-        stroke: "#2E9CE5", // 设置线的颜色
-        lineWidth: 2, // 设置线的宽度
+        stroke: "#2E9CE5",
+        lineWidth: 2,
       })
       .label({
         text: (d: { score: number }) => `${d.score}`,
@@ -141,12 +146,12 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
 
     chart.render();
 
-    // 清理函数，在组件卸载时销毁图表实例
     return () => {
       chart.destroy();
     };
   });
 
+  //对战结果分析
   useEffect(() => {
     const matchResults = teamArenaRoomsData?.contest_room?.reduce(
       (acc, room) => {
@@ -189,10 +194,10 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
     // 过滤掉 value 为 0 的数据项
     const data = rawData.filter((item) => item.value !== 0);
 
-    if (!chartRef.current) return;
+    if (!chartPieRef.current) return;
 
     const chart = new Chart({
-      container: chartRef.current,
+      container: chartPieRef.current,
       autoFit: true,
     });
 
@@ -231,6 +236,15 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
       chart.destroy();
     };
   });
+
+  if (!team_id)
+    return (
+      <Layout>
+        <NotJoined />
+        <div ref={chartLineRef} />
+        <div ref={chartPieRef} />
+      </Layout>
+    );
 
   return (
     <Layout>
@@ -302,7 +316,7 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
               }}
             >
               <div
-                id="chart-container"
+                ref={chartLineRef}
                 style={{ width: "100%", height: "50vh" }}
               />
               <div>
@@ -343,7 +357,7 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
               }}
             >
               <div
-                ref={chartRef}
+                ref={chartPieRef}
                 style={{ width: "100%", height: "50vh" }}
               ></div>
             </Card>
