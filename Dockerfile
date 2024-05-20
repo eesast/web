@@ -13,7 +13,7 @@ RUN yarn install --frozen-lockfile --no-cache
 COPY . .
 
 # Build
-RUN NODE_OPTIONS="--max_old_space_size=4096" yarn build
+RUN yarn build
 
 
 # Runner stage
