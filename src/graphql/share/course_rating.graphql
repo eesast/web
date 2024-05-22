@@ -30,15 +30,54 @@ query GetCourseRatingOne($course_uuid: uuid!, $user_uuid: uuid!) {
 }
 
 #增
-mutation AddCourseRating($dim1: Int!, $dim2: Int!, $dim3: Int!, $dim4: Int!, $dim5: Int!, $dim6: Int!, $course_id: uuid!, $user_uuid: uuid!) {
-  insert_course_rating_one(object: {dim1: $dim1, dim2: $dim2, dim3: $dim3, dim4: $dim4, dim5: $dim5, dim6: $dim6, course_id: $course_id, user_uuid: $user_uuid}) {
+mutation AddCourseRating(
+  $dim1: Int!, 
+  $dim2: Int!, 
+  $dim3: Int!, 
+  $dim4: Int!, 
+  $dim5: Int!,
+  $dim6: Int!, 
+  $course_id: uuid!, 
+  $user_uuid: uuid!
+  ) {
+  insert_course_rating_one(object: {
+    dim1: $dim1, 
+    dim2: $dim2, 
+    dim3: $dim3, 
+    dim4: $dim4, 
+    dim5: $dim5, 
+    dim6: $dim6, 
+    course_id: $course_id, 
+    user_uuid: $user_uuid
+    }
+    ) {
     created_at
   }
 }
 
 #改
-mutation UpdateCourseRating($course_id: uuid!, $user_uuid: uuid!, $dim1: Int!, $dim2: Int!, $dim3: Int!, $dim4: Int!, $dim5: Int!, $dim6: Int!) {
-  update_course_rating_by_pk(pk_columns: {course_id: $course_id, user_uuid: $user_uuid}, _set: {dim1: $dim1, dim2: $dim2, dim3: $dim3, dim4: $dim4, dim5: $dim5, dim6: $dim6}) {
+mutation UpdateCourseRating(
+  $course_id: uuid!, 
+  $user_uuid: uuid!, 
+  $dim1: Int!, 
+  $dim2: Int!, 
+  $dim3: Int!, 
+  $dim4: Int!, 
+  $dim5: Int!, 
+  $dim6: Int!) {
+  update_course_rating_by_pk(
+    pk_columns: {
+    course_id: $course_id, 
+    user_uuid: $user_uuid},
+     _set: {
+      dim1: $dim1, 
+      dim2: $dim2, 
+      dim3: $dim3, 
+      dim4: $dim4, 
+      dim5: $dim5, 
+      dim6: $dim6
+      }
+    ) {
     updated_at
   }
 }
