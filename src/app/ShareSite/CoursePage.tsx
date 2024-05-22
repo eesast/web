@@ -1,4 +1,10 @@
-import { Button, Layout, message } from "antd";
+import React, { useState } from "react";
+import { 
+  Button, 
+  Drawer,
+  Layout, 
+  message 
+} from "antd";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
@@ -9,7 +15,7 @@ import { PageProps } from "..";
 const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
-  
+  const [showCourseRating, setShowCourseRating] = useState(false);
   const columns: ProColumns<graphql.GetCourseQuery["course"][0]>[] = [
     {
       title: "课程号",
@@ -145,8 +151,26 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
           </Button>,
         ]}
       />
+      <Drawer
+        title="课程打分"
+        placement="right"
+        closable={false}
+        open={showCourseRating}
+        onClose={() => setShowCourseRating(false)}
+        key="course_rating"  
+      >
+        {<CourseRating course_uuid=""/>}
+      </Drawer>
     </Layout>
   );
 };
+
+const CourseRating: React.FC<{course_uuid: string}> = ({course_uuid}) => {
+  const url=useUrl();
+  return(
+    <>
+    </>
+  )
+}
 
 export default CoursesPage;

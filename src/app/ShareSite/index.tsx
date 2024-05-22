@@ -52,16 +52,11 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     );
   };
 
-  const items = [
+  let items = [
     {
       key: "intro",
       label: <Link to={url.link("intro")}>介绍</Link>,
     },
-    // {
-    //   key: "course",
-    //   label: <Link to={url.link("course")}>课程</Link>,
-    //   disabled: true,
-    // },
     // {
     //   key: "repo",
     //   label: <Link to={url.link("repo")}>仓库</Link>,
@@ -80,6 +75,13 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
       label: <Link to={url.link("minecraft")}>Minecraft</Link>,
     },
   ];
+  
+  if (user.role === 'student') {
+    items.splice(1, 0, {
+      key: "course",
+      label: <Link to={url.link("course")}>课程</Link>,
+    });
+  }
 
   return (
     <Layout>
