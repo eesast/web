@@ -1,6 +1,6 @@
 # EESAST WEB
 
-[![Build Status](https://travis-ci.com/eesast/web.svg?branch=master)](https://travis-ci.com/eesast/web)
+![CD](https://github.com/eesast/web/actions/workflows/cd.yml/badge.svg?branch=master)
 
 EESAST 网页前端
 
@@ -12,7 +12,7 @@ EESAST 网页前端
 - `NPM` (`Node`自带)
 - `Yarn` (`npm i yarn -g`)
 
-### 2. 编辑环境变量
+### 2. 编辑环境变量（默认已添加）
 
 - `REACT_APP_API_URL`：生产环境后端地址，默认为 `https://api.eesast.com`
 - `REACT_APP_API_DEV_URL`：测试环境后端地址，默认为 `https://api-dev.eesast.com`
@@ -104,4 +104,4 @@ docker-compose up -d
 
 ### Nginx
 
-server_name eesast.com, 反向代理到`27776`端口
+`server_name eesast.com`, 反向代理到`27776`端口
