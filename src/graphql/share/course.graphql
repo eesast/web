@@ -1,3 +1,6 @@
+# 主要操作对象：course表
+
+#查 所有课程信息
 query GetCourse {
   course(order_by: { year: desc }) {
     code
@@ -9,5 +12,70 @@ query GetCourse {
     type
     uuid
     year
+  }
+}
+
+#改 
+mutation UpdateCourse(
+  $code: String!,
+  $uuid: uuid!,
+  $fullname: String!, 
+  $language: String!, 
+  $name: String!, 
+  $professor: String!, 
+  $semester: String!, 
+  $type: String!, 
+  $year: Int!
+  ) {
+  update_course_by_pk(
+    pk_columns: {uuid: $uuid}, 
+    _set: {
+      code: $code, 
+      fullname: $fullname, 
+      language: $language, 
+      name: $name, 
+      professor: $professor, 
+      semester: $semester, 
+      type: $type, 
+      year: $year
+    }
+  ) {
+    uuid
+  }
+}
+
+# 增
+mutation AddCourse(
+  $year: Int!, 
+  $type: String!, 
+  $semester: String!, 
+  $professor: String!, 
+  $name: String!, 
+  $language: String!, 
+  $fullname: String!, 
+  $code: String!
+) {
+  insert_course(
+    objects: {
+      code: $code, 
+      fullname: $fullname, 
+      language: $language, 
+      name: $name, 
+      professor: $professor, 
+      semester: $semester, 
+      type: $type, 
+      year: $year
+    }
+  ) {
+    returning {
+      uuid
+    }
+  }
+}
+
+# 删
+mutation DeleteCourse($uuid: uuid!) {
+  delete_course_by_pk(uuid: $uuid) {
+    uuid
   }
 }

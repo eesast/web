@@ -1,0 +1,14 @@
+# 主要操作对象：course_manager表
+
+# 增 管理员手动操作
+
+# 删 管理员手动操作
+
+# 改 管理员手动操作
+
+#查
+query GetCourseManager($user_uuid: uuid!) {
+  course_manager_by_pk(user_uuid: $user_uuid) {
+    user_uuid
+  }
+}

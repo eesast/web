@@ -9,7 +9,8 @@ import { PageProps } from "..";
 const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
-
+  // const { addCourse }=graphql.useAddCourseMutation();
+  
   const columns: ProColumns<graphql.GetCourseQuery["course"][0]>[] = [
     {
       title: "课程号",

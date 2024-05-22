@@ -138,7 +138,7 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
               max-width: calc((100vh - 72px) / 9 * 16);
               max-height: calc(100vh - 72px);
               aspect-ratio: 16 / 9;
-              padding: 0.9vw 1.6vw;
+              padding: 0 0;
             `}
           />
         </Row>
