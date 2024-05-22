@@ -1,4 +1,4 @@
-import * as jspb from "google-protobuf";
+//import * as jspb from "google-protobuf";
 
 export enum BulletType {
   NULL_BULLET_TYPE = 0,
