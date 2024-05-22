@@ -1,0 +1,31 @@
+# 主要操作对象：course_info表，对manager开放编辑
+
+#查
+query GetCourseInfo($course_uuid: uuid!) {
+  course_info(where: {course_id: {_eq: $course_uuid}}) {
+    key
+    value
+  }
+}
+
+#改
+mutation UpdateCourseInfo($course_id: uuid!, $key: String!, $value: String!) {
+  update_course_info_by_pk(pk_columns: {course_id: $course_id, key: $key}, _set: {value: $value}) {
+    course_id
+  }
+}
+
+#增
+mutation AddCourseInfo($key: String!, $value: String!, $course_id: uuid!) {
+  insert_course_info_one(object: {key: $key, value: $value, course_id: $course_id}) {
+    course_id
+  }
+}
+
+#删
+mutation MyMutation3($course_id: uuid!, $key: String!) {
+  delete_course_info_by_pk(course_id: $course_id, key: $key) {
+    course_id
+    key
+  }
+}

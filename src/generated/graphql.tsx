@@ -14182,6 +14182,164 @@ export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCourseQuery = { __typename?: 'query_root', course: Array<{ __typename?: 'course', code: string, fullname: string, language: string, name: string, professor: string, semester: string, type: string, uuid: any, year: number }> };
 
+export type UpdateCourseMutationVariables = Exact<{
+  code: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
+  fullname: Scalars['String']['input'];
+  language: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  professor: Scalars['String']['input'];
+  semester: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateCourseMutation = { __typename?: 'mutation_root', update_course_by_pk?: { __typename?: 'course', uuid: any } | null };
+
+export type AddCourseMutationVariables = Exact<{
+  year: Scalars['Int']['input'];
+  type: Scalars['String']['input'];
+  semester: Scalars['String']['input'];
+  professor: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  language: Scalars['String']['input'];
+  fullname: Scalars['String']['input'];
+  code: Scalars['String']['input'];
+}>;
+
+
+export type AddCourseMutation = { __typename?: 'mutation_root', insert_course?: { __typename?: 'course_mutation_response', returning: Array<{ __typename?: 'course', uuid: any }> } | null };
+
+export type DeleteCourseMutationVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteCourseMutation = { __typename?: 'mutation_root', delete_course_by_pk?: { __typename?: 'course', uuid: any } | null };
+
+export type GetCourseCommentsQueryVariables = Exact<{
+  course_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCourseCommentsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', comment: string, created_at: any, updated_at?: any | null, uuid: any, user_uuid: any }> };
+
+export type UpdateCommentMutationVariables = Exact<{
+  comment: Scalars['String']['input'];
+  uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type UpdateCommentMutation = { __typename?: 'mutation_root', update_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
+
+export type AddCommentOneMutationVariables = Exact<{
+  comment: Scalars['String']['input'];
+  user_uuid: Scalars['uuid']['input'];
+  course_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type AddCommentOneMutation = { __typename?: 'mutation_root', insert_course_comment_one?: { __typename?: 'course_comment', uuid: any } | null };
+
+export type DeleteCommentOneMutationVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteCommentOneMutation = { __typename?: 'mutation_root', delete_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
+
+export type GetCourseInfoQueryVariables = Exact<{
+  course_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCourseInfoQuery = { __typename?: 'query_root', course_info: Array<{ __typename?: 'course_info', key: string, value?: string | null }> };
+
+export type UpdateCourseInfoMutationVariables = Exact<{
+  course_id: Scalars['uuid']['input'];
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCourseInfoMutation = { __typename?: 'mutation_root', update_course_info_by_pk?: { __typename?: 'course_info', course_id: any } | null };
+
+export type AddCourseInfoMutationVariables = Exact<{
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+  course_id: Scalars['uuid']['input'];
+}>;
+
+
+export type AddCourseInfoMutation = { __typename?: 'mutation_root', insert_course_info_one?: { __typename?: 'course_info', course_id: any } | null };
+
+export type MyMutation3MutationVariables = Exact<{
+  course_id: Scalars['uuid']['input'];
+  key: Scalars['String']['input'];
+}>;
+
+
+export type MyMutation3Mutation = { __typename?: 'mutation_root', delete_course_info_by_pk?: { __typename?: 'course_info', course_id: any, key: string } | null };
+
+export type GetCourseManagerQueryVariables = Exact<{
+  user_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCourseManagerQuery = { __typename?: 'query_root', course_manager_by_pk?: { __typename?: 'course_manager', user_uuid: any } | null };
+
+export type GetCourseRatingQueryVariables = Exact<{
+  course_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCourseRatingQuery = { __typename?: 'query_root', course_rating_aggregate: { __typename?: 'course_rating_aggregate', aggregate?: { __typename?: 'course_rating_aggregate_fields', count: number, avg?: { __typename?: 'course_rating_avg_fields', dim1?: number | null, dim2?: number | null, dim3?: number | null, dim4?: number | null, dim5?: number | null, dim6?: number | null } | null } | null } };
+
+export type GetCourseRatingOneQueryVariables = Exact<{
+  course_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type GetCourseRatingOneQuery = { __typename?: 'query_root', course_rating_by_pk?: { __typename?: 'course_rating', dim1: number, dim2: number, dim3: number, dim4: number, dim5: number, dim6: number } | null };
+
+export type AddCourseRatingMutationVariables = Exact<{
+  dim1: Scalars['Int']['input'];
+  dim2: Scalars['Int']['input'];
+  dim3: Scalars['Int']['input'];
+  dim4: Scalars['Int']['input'];
+  dim5: Scalars['Int']['input'];
+  dim6: Scalars['Int']['input'];
+  course_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type AddCourseRatingMutation = { __typename?: 'mutation_root', insert_course_rating_one?: { __typename?: 'course_rating', created_at: any } | null };
+
+export type UpdateCourseRatingMutationVariables = Exact<{
+  course_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+  dim1: Scalars['Int']['input'];
+  dim2: Scalars['Int']['input'];
+  dim3: Scalars['Int']['input'];
+  dim4: Scalars['Int']['input'];
+  dim5: Scalars['Int']['input'];
+  dim6: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateCourseRatingMutation = { __typename?: 'mutation_root', update_course_rating_by_pk?: { __typename?: 'course_rating', updated_at: any } | null };
+
+export type DeleteCourseRatingMutationVariables = Exact<{
+  course_id: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteCourseRatingMutation = { __typename?: 'mutation_root', delete_course_rating_by_pk?: { __typename?: 'course_rating', course_id: any, user_uuid: any } | null };
+
 export type GetWeeklyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -17685,6 +17843,688 @@ export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
 export type GetCourseLazyQueryHookResult = ReturnType<typeof useGetCourseLazyQuery>;
 export type GetCourseSuspenseQueryHookResult = ReturnType<typeof useGetCourseSuspenseQuery>;
 export type GetCourseQueryResult = Apollo.QueryResult<GetCourseQuery, GetCourseQueryVariables>;
+export const UpdateCourseDocument = gql`
+    mutation UpdateCourse($code: String!, $uuid: uuid!, $fullname: String!, $language: String!, $name: String!, $professor: String!, $semester: String!, $type: String!, $year: Int!) {
+  update_course_by_pk(
+    pk_columns: {uuid: $uuid}
+    _set: {code: $code, fullname: $fullname, language: $language, name: $name, professor: $professor, semester: $semester, type: $type, year: $year}
+  ) {
+    uuid
+  }
+}
+    `;
+export type UpdateCourseMutationFn = Apollo.MutationFunction<UpdateCourseMutation, UpdateCourseMutationVariables>;
+
+/**
+ * __useUpdateCourseMutation__
+ *
+ * To run a mutation, you first call `useUpdateCourseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCourseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCourseMutation, { data, loading, error }] = useUpdateCourseMutation({
+ *   variables: {
+ *      code: // value for 'code'
+ *      uuid: // value for 'uuid'
+ *      fullname: // value for 'fullname'
+ *      language: // value for 'language'
+ *      name: // value for 'name'
+ *      professor: // value for 'professor'
+ *      semester: // value for 'semester'
+ *      type: // value for 'type'
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useUpdateCourseMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCourseMutation, UpdateCourseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCourseMutation, UpdateCourseMutationVariables>(UpdateCourseDocument, options);
+      }
+export type UpdateCourseMutationHookResult = ReturnType<typeof useUpdateCourseMutation>;
+export type UpdateCourseMutationResult = Apollo.MutationResult<UpdateCourseMutation>;
+export type UpdateCourseMutationOptions = Apollo.BaseMutationOptions<UpdateCourseMutation, UpdateCourseMutationVariables>;
+export const AddCourseDocument = gql`
+    mutation AddCourse($year: Int!, $type: String!, $semester: String!, $professor: String!, $name: String!, $language: String!, $fullname: String!, $code: String!) {
+  insert_course(
+    objects: {code: $code, fullname: $fullname, language: $language, name: $name, professor: $professor, semester: $semester, type: $type, year: $year}
+  ) {
+    returning {
+      uuid
+    }
+  }
+}
+    `;
+export type AddCourseMutationFn = Apollo.MutationFunction<AddCourseMutation, AddCourseMutationVariables>;
+
+/**
+ * __useAddCourseMutation__
+ *
+ * To run a mutation, you first call `useAddCourseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCourseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCourseMutation, { data, loading, error }] = useAddCourseMutation({
+ *   variables: {
+ *      year: // value for 'year'
+ *      type: // value for 'type'
+ *      semester: // value for 'semester'
+ *      professor: // value for 'professor'
+ *      name: // value for 'name'
+ *      language: // value for 'language'
+ *      fullname: // value for 'fullname'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useAddCourseMutation(baseOptions?: Apollo.MutationHookOptions<AddCourseMutation, AddCourseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCourseMutation, AddCourseMutationVariables>(AddCourseDocument, options);
+      }
+export type AddCourseMutationHookResult = ReturnType<typeof useAddCourseMutation>;
+export type AddCourseMutationResult = Apollo.MutationResult<AddCourseMutation>;
+export type AddCourseMutationOptions = Apollo.BaseMutationOptions<AddCourseMutation, AddCourseMutationVariables>;
+export const DeleteCourseDocument = gql`
+    mutation DeleteCourse($uuid: uuid!) {
+  delete_course_by_pk(uuid: $uuid) {
+    uuid
+  }
+}
+    `;
+export type DeleteCourseMutationFn = Apollo.MutationFunction<DeleteCourseMutation, DeleteCourseMutationVariables>;
+
+/**
+ * __useDeleteCourseMutation__
+ *
+ * To run a mutation, you first call `useDeleteCourseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCourseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCourseMutation, { data, loading, error }] = useDeleteCourseMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useDeleteCourseMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseMutation, DeleteCourseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCourseMutation, DeleteCourseMutationVariables>(DeleteCourseDocument, options);
+      }
+export type DeleteCourseMutationHookResult = ReturnType<typeof useDeleteCourseMutation>;
+export type DeleteCourseMutationResult = Apollo.MutationResult<DeleteCourseMutation>;
+export type DeleteCourseMutationOptions = Apollo.BaseMutationOptions<DeleteCourseMutation, DeleteCourseMutationVariables>;
+export const GetCourseCommentsDocument = gql`
+    query GetCourseComments($course_uuid: uuid!) {
+  course_comment(
+    order_by: {created_at: asc}
+    where: {course_id: {_eq: $course_uuid}}
+  ) {
+    comment
+    created_at
+    updated_at
+    uuid
+    user_uuid
+  }
+}
+    `;
+
+/**
+ * __useGetCourseCommentsQuery__
+ *
+ * To run a query within a React component, call `useGetCourseCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseCommentsQuery({
+ *   variables: {
+ *      course_uuid: // value for 'course_uuid'
+ *   },
+ * });
+ */
+export function useGetCourseCommentsQuery(baseOptions: Apollo.QueryHookOptions<GetCourseCommentsQuery, GetCourseCommentsQueryVariables> & ({ variables: GetCourseCommentsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>(GetCourseCommentsDocument, options);
+      }
+export function useGetCourseCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>(GetCourseCommentsDocument, options);
+        }
+export function useGetCourseCommentsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>(GetCourseCommentsDocument, options);
+        }
+export type GetCourseCommentsQueryHookResult = ReturnType<typeof useGetCourseCommentsQuery>;
+export type GetCourseCommentsLazyQueryHookResult = ReturnType<typeof useGetCourseCommentsLazyQuery>;
+export type GetCourseCommentsSuspenseQueryHookResult = ReturnType<typeof useGetCourseCommentsSuspenseQuery>;
+export type GetCourseCommentsQueryResult = Apollo.QueryResult<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>;
+export const UpdateCommentDocument = gql`
+    mutation UpdateComment($comment: String!, $uuid: uuid!) {
+  update_course_comment_by_pk(
+    pk_columns: {uuid: $uuid}
+    _set: {comment: $comment}
+  ) {
+    uuid
+  }
+}
+    `;
+export type UpdateCommentMutationFn = Apollo.MutationFunction<UpdateCommentMutation, UpdateCommentMutationVariables>;
+
+/**
+ * __useUpdateCommentMutation__
+ *
+ * To run a mutation, you first call `useUpdateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCommentMutation, { data, loading, error }] = useUpdateCommentMutation({
+ *   variables: {
+ *      comment: // value for 'comment'
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useUpdateCommentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCommentMutation, UpdateCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCommentMutation, UpdateCommentMutationVariables>(UpdateCommentDocument, options);
+      }
+export type UpdateCommentMutationHookResult = ReturnType<typeof useUpdateCommentMutation>;
+export type UpdateCommentMutationResult = Apollo.MutationResult<UpdateCommentMutation>;
+export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCommentMutation, UpdateCommentMutationVariables>;
+export const AddCommentOneDocument = gql`
+    mutation AddCommentOne($comment: String!, $user_uuid: uuid!, $course_uuid: uuid!) {
+  insert_course_comment_one(
+    object: {comment: $comment, course_id: $course_uuid, user_uuid: $user_uuid}
+  ) {
+    uuid
+  }
+}
+    `;
+export type AddCommentOneMutationFn = Apollo.MutationFunction<AddCommentOneMutation, AddCommentOneMutationVariables>;
+
+/**
+ * __useAddCommentOneMutation__
+ *
+ * To run a mutation, you first call `useAddCommentOneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCommentOneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCommentOneMutation, { data, loading, error }] = useAddCommentOneMutation({
+ *   variables: {
+ *      comment: // value for 'comment'
+ *      user_uuid: // value for 'user_uuid'
+ *      course_uuid: // value for 'course_uuid'
+ *   },
+ * });
+ */
+export function useAddCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<AddCommentOneMutation, AddCommentOneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCommentOneMutation, AddCommentOneMutationVariables>(AddCommentOneDocument, options);
+      }
+export type AddCommentOneMutationHookResult = ReturnType<typeof useAddCommentOneMutation>;
+export type AddCommentOneMutationResult = Apollo.MutationResult<AddCommentOneMutation>;
+export type AddCommentOneMutationOptions = Apollo.BaseMutationOptions<AddCommentOneMutation, AddCommentOneMutationVariables>;
+export const DeleteCommentOneDocument = gql`
+    mutation DeleteCommentOne($uuid: uuid!) {
+  delete_course_comment_by_pk(uuid: $uuid) {
+    uuid
+  }
+}
+    `;
+export type DeleteCommentOneMutationFn = Apollo.MutationFunction<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>;
+
+/**
+ * __useDeleteCommentOneMutation__
+ *
+ * To run a mutation, you first call `useDeleteCommentOneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCommentOneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCommentOneMutation, { data, loading, error }] = useDeleteCommentOneMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useDeleteCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>(DeleteCommentOneDocument, options);
+      }
+export type DeleteCommentOneMutationHookResult = ReturnType<typeof useDeleteCommentOneMutation>;
+export type DeleteCommentOneMutationResult = Apollo.MutationResult<DeleteCommentOneMutation>;
+export type DeleteCommentOneMutationOptions = Apollo.BaseMutationOptions<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>;
+export const GetCourseInfoDocument = gql`
+    query GetCourseInfo($course_uuid: uuid!) {
+  course_info(where: {course_id: {_eq: $course_uuid}}) {
+    key
+    value
+  }
+}
+    `;
+
+/**
+ * __useGetCourseInfoQuery__
+ *
+ * To run a query within a React component, call `useGetCourseInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseInfoQuery({
+ *   variables: {
+ *      course_uuid: // value for 'course_uuid'
+ *   },
+ * });
+ */
+export function useGetCourseInfoQuery(baseOptions: Apollo.QueryHookOptions<GetCourseInfoQuery, GetCourseInfoQueryVariables> & ({ variables: GetCourseInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCourseInfoQuery, GetCourseInfoQueryVariables>(GetCourseInfoDocument, options);
+      }
+export function useGetCourseInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseInfoQuery, GetCourseInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCourseInfoQuery, GetCourseInfoQueryVariables>(GetCourseInfoDocument, options);
+        }
+export function useGetCourseInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseInfoQuery, GetCourseInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCourseInfoQuery, GetCourseInfoQueryVariables>(GetCourseInfoDocument, options);
+        }
+export type GetCourseInfoQueryHookResult = ReturnType<typeof useGetCourseInfoQuery>;
+export type GetCourseInfoLazyQueryHookResult = ReturnType<typeof useGetCourseInfoLazyQuery>;
+export type GetCourseInfoSuspenseQueryHookResult = ReturnType<typeof useGetCourseInfoSuspenseQuery>;
+export type GetCourseInfoQueryResult = Apollo.QueryResult<GetCourseInfoQuery, GetCourseInfoQueryVariables>;
+export const UpdateCourseInfoDocument = gql`
+    mutation UpdateCourseInfo($course_id: uuid!, $key: String!, $value: String!) {
+  update_course_info_by_pk(
+    pk_columns: {course_id: $course_id, key: $key}
+    _set: {value: $value}
+  ) {
+    course_id
+  }
+}
+    `;
+export type UpdateCourseInfoMutationFn = Apollo.MutationFunction<UpdateCourseInfoMutation, UpdateCourseInfoMutationVariables>;
+
+/**
+ * __useUpdateCourseInfoMutation__
+ *
+ * To run a mutation, you first call `useUpdateCourseInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCourseInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCourseInfoMutation, { data, loading, error }] = useUpdateCourseInfoMutation({
+ *   variables: {
+ *      course_id: // value for 'course_id'
+ *      key: // value for 'key'
+ *      value: // value for 'value'
+ *   },
+ * });
+ */
+export function useUpdateCourseInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCourseInfoMutation, UpdateCourseInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCourseInfoMutation, UpdateCourseInfoMutationVariables>(UpdateCourseInfoDocument, options);
+      }
+export type UpdateCourseInfoMutationHookResult = ReturnType<typeof useUpdateCourseInfoMutation>;
+export type UpdateCourseInfoMutationResult = Apollo.MutationResult<UpdateCourseInfoMutation>;
+export type UpdateCourseInfoMutationOptions = Apollo.BaseMutationOptions<UpdateCourseInfoMutation, UpdateCourseInfoMutationVariables>;
+export const AddCourseInfoDocument = gql`
+    mutation AddCourseInfo($key: String!, $value: String!, $course_id: uuid!) {
+  insert_course_info_one(
+    object: {key: $key, value: $value, course_id: $course_id}
+  ) {
+    course_id
+  }
+}
+    `;
+export type AddCourseInfoMutationFn = Apollo.MutationFunction<AddCourseInfoMutation, AddCourseInfoMutationVariables>;
+
+/**
+ * __useAddCourseInfoMutation__
+ *
+ * To run a mutation, you first call `useAddCourseInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCourseInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCourseInfoMutation, { data, loading, error }] = useAddCourseInfoMutation({
+ *   variables: {
+ *      key: // value for 'key'
+ *      value: // value for 'value'
+ *      course_id: // value for 'course_id'
+ *   },
+ * });
+ */
+export function useAddCourseInfoMutation(baseOptions?: Apollo.MutationHookOptions<AddCourseInfoMutation, AddCourseInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCourseInfoMutation, AddCourseInfoMutationVariables>(AddCourseInfoDocument, options);
+      }
+export type AddCourseInfoMutationHookResult = ReturnType<typeof useAddCourseInfoMutation>;
+export type AddCourseInfoMutationResult = Apollo.MutationResult<AddCourseInfoMutation>;
+export type AddCourseInfoMutationOptions = Apollo.BaseMutationOptions<AddCourseInfoMutation, AddCourseInfoMutationVariables>;
+export const MyMutation3Document = gql`
+    mutation MyMutation3($course_id: uuid!, $key: String!) {
+  delete_course_info_by_pk(course_id: $course_id, key: $key) {
+    course_id
+    key
+  }
+}
+    `;
+export type MyMutation3MutationFn = Apollo.MutationFunction<MyMutation3Mutation, MyMutation3MutationVariables>;
+
+/**
+ * __useMyMutation3Mutation__
+ *
+ * To run a mutation, you first call `useMyMutation3Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMyMutation3Mutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [myMutation3Mutation, { data, loading, error }] = useMyMutation3Mutation({
+ *   variables: {
+ *      course_id: // value for 'course_id'
+ *      key: // value for 'key'
+ *   },
+ * });
+ */
+export function useMyMutation3Mutation(baseOptions?: Apollo.MutationHookOptions<MyMutation3Mutation, MyMutation3MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MyMutation3Mutation, MyMutation3MutationVariables>(MyMutation3Document, options);
+      }
+export type MyMutation3MutationHookResult = ReturnType<typeof useMyMutation3Mutation>;
+export type MyMutation3MutationResult = Apollo.MutationResult<MyMutation3Mutation>;
+export type MyMutation3MutationOptions = Apollo.BaseMutationOptions<MyMutation3Mutation, MyMutation3MutationVariables>;
+export const GetCourseManagerDocument = gql`
+    query GetCourseManager($user_uuid: uuid!) {
+  course_manager_by_pk(user_uuid: $user_uuid) {
+    user_uuid
+  }
+}
+    `;
+
+/**
+ * __useGetCourseManagerQuery__
+ *
+ * To run a query within a React component, call `useGetCourseManagerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseManagerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseManagerQuery({
+ *   variables: {
+ *      user_uuid: // value for 'user_uuid'
+ *   },
+ * });
+ */
+export function useGetCourseManagerQuery(baseOptions: Apollo.QueryHookOptions<GetCourseManagerQuery, GetCourseManagerQueryVariables> & ({ variables: GetCourseManagerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCourseManagerQuery, GetCourseManagerQueryVariables>(GetCourseManagerDocument, options);
+      }
+export function useGetCourseManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseManagerQuery, GetCourseManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCourseManagerQuery, GetCourseManagerQueryVariables>(GetCourseManagerDocument, options);
+        }
+export function useGetCourseManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseManagerQuery, GetCourseManagerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCourseManagerQuery, GetCourseManagerQueryVariables>(GetCourseManagerDocument, options);
+        }
+export type GetCourseManagerQueryHookResult = ReturnType<typeof useGetCourseManagerQuery>;
+export type GetCourseManagerLazyQueryHookResult = ReturnType<typeof useGetCourseManagerLazyQuery>;
+export type GetCourseManagerSuspenseQueryHookResult = ReturnType<typeof useGetCourseManagerSuspenseQuery>;
+export type GetCourseManagerQueryResult = Apollo.QueryResult<GetCourseManagerQuery, GetCourseManagerQueryVariables>;
+export const GetCourseRatingDocument = gql`
+    query GetCourseRating($course_uuid: uuid!) {
+  course_rating_aggregate(where: {course_id: {_eq: $course_uuid}}) {
+    aggregate {
+      avg {
+        dim1
+        dim2
+        dim3
+        dim4
+        dim5
+        dim6
+      }
+      count(columns: user_uuid)
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCourseRatingQuery__
+ *
+ * To run a query within a React component, call `useGetCourseRatingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseRatingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseRatingQuery({
+ *   variables: {
+ *      course_uuid: // value for 'course_uuid'
+ *   },
+ * });
+ */
+export function useGetCourseRatingQuery(baseOptions: Apollo.QueryHookOptions<GetCourseRatingQuery, GetCourseRatingQueryVariables> & ({ variables: GetCourseRatingQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCourseRatingQuery, GetCourseRatingQueryVariables>(GetCourseRatingDocument, options);
+      }
+export function useGetCourseRatingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseRatingQuery, GetCourseRatingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCourseRatingQuery, GetCourseRatingQueryVariables>(GetCourseRatingDocument, options);
+        }
+export function useGetCourseRatingSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseRatingQuery, GetCourseRatingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCourseRatingQuery, GetCourseRatingQueryVariables>(GetCourseRatingDocument, options);
+        }
+export type GetCourseRatingQueryHookResult = ReturnType<typeof useGetCourseRatingQuery>;
+export type GetCourseRatingLazyQueryHookResult = ReturnType<typeof useGetCourseRatingLazyQuery>;
+export type GetCourseRatingSuspenseQueryHookResult = ReturnType<typeof useGetCourseRatingSuspenseQuery>;
+export type GetCourseRatingQueryResult = Apollo.QueryResult<GetCourseRatingQuery, GetCourseRatingQueryVariables>;
+export const GetCourseRatingOneDocument = gql`
+    query GetCourseRatingOne($course_uuid: uuid!, $user_uuid: uuid!) {
+  course_rating_by_pk(course_id: $course_uuid, user_uuid: $user_uuid) {
+    dim1
+    dim2
+    dim3
+    dim4
+    dim5
+    dim6
+  }
+}
+    `;
+
+/**
+ * __useGetCourseRatingOneQuery__
+ *
+ * To run a query within a React component, call `useGetCourseRatingOneQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseRatingOneQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseRatingOneQuery({
+ *   variables: {
+ *      course_uuid: // value for 'course_uuid'
+ *      user_uuid: // value for 'user_uuid'
+ *   },
+ * });
+ */
+export function useGetCourseRatingOneQuery(baseOptions: Apollo.QueryHookOptions<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables> & ({ variables: GetCourseRatingOneQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>(GetCourseRatingOneDocument, options);
+      }
+export function useGetCourseRatingOneLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>(GetCourseRatingOneDocument, options);
+        }
+export function useGetCourseRatingOneSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>(GetCourseRatingOneDocument, options);
+        }
+export type GetCourseRatingOneQueryHookResult = ReturnType<typeof useGetCourseRatingOneQuery>;
+export type GetCourseRatingOneLazyQueryHookResult = ReturnType<typeof useGetCourseRatingOneLazyQuery>;
+export type GetCourseRatingOneSuspenseQueryHookResult = ReturnType<typeof useGetCourseRatingOneSuspenseQuery>;
+export type GetCourseRatingOneQueryResult = Apollo.QueryResult<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>;
+export const AddCourseRatingDocument = gql`
+    mutation AddCourseRating($dim1: Int!, $dim2: Int!, $dim3: Int!, $dim4: Int!, $dim5: Int!, $dim6: Int!, $course_id: uuid!, $user_uuid: uuid!) {
+  insert_course_rating_one(
+    object: {dim1: $dim1, dim2: $dim2, dim3: $dim3, dim4: $dim4, dim5: $dim5, dim6: $dim6, course_id: $course_id, user_uuid: $user_uuid}
+  ) {
+    created_at
+  }
+}
+    `;
+export type AddCourseRatingMutationFn = Apollo.MutationFunction<AddCourseRatingMutation, AddCourseRatingMutationVariables>;
+
+/**
+ * __useAddCourseRatingMutation__
+ *
+ * To run a mutation, you first call `useAddCourseRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCourseRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCourseRatingMutation, { data, loading, error }] = useAddCourseRatingMutation({
+ *   variables: {
+ *      dim1: // value for 'dim1'
+ *      dim2: // value for 'dim2'
+ *      dim3: // value for 'dim3'
+ *      dim4: // value for 'dim4'
+ *      dim5: // value for 'dim5'
+ *      dim6: // value for 'dim6'
+ *      course_id: // value for 'course_id'
+ *      user_uuid: // value for 'user_uuid'
+ *   },
+ * });
+ */
+export function useAddCourseRatingMutation(baseOptions?: Apollo.MutationHookOptions<AddCourseRatingMutation, AddCourseRatingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCourseRatingMutation, AddCourseRatingMutationVariables>(AddCourseRatingDocument, options);
+      }
+export type AddCourseRatingMutationHookResult = ReturnType<typeof useAddCourseRatingMutation>;
+export type AddCourseRatingMutationResult = Apollo.MutationResult<AddCourseRatingMutation>;
+export type AddCourseRatingMutationOptions = Apollo.BaseMutationOptions<AddCourseRatingMutation, AddCourseRatingMutationVariables>;
+export const UpdateCourseRatingDocument = gql`
+    mutation UpdateCourseRating($course_id: uuid!, $user_uuid: uuid!, $dim1: Int!, $dim2: Int!, $dim3: Int!, $dim4: Int!, $dim5: Int!, $dim6: Int!) {
+  update_course_rating_by_pk(
+    pk_columns: {course_id: $course_id, user_uuid: $user_uuid}
+    _set: {dim1: $dim1, dim2: $dim2, dim3: $dim3, dim4: $dim4, dim5: $dim5, dim6: $dim6}
+  ) {
+    updated_at
+  }
+}
+    `;
+export type UpdateCourseRatingMutationFn = Apollo.MutationFunction<UpdateCourseRatingMutation, UpdateCourseRatingMutationVariables>;
+
+/**
+ * __useUpdateCourseRatingMutation__
+ *
+ * To run a mutation, you first call `useUpdateCourseRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCourseRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCourseRatingMutation, { data, loading, error }] = useUpdateCourseRatingMutation({
+ *   variables: {
+ *      course_id: // value for 'course_id'
+ *      user_uuid: // value for 'user_uuid'
+ *      dim1: // value for 'dim1'
+ *      dim2: // value for 'dim2'
+ *      dim3: // value for 'dim3'
+ *      dim4: // value for 'dim4'
+ *      dim5: // value for 'dim5'
+ *      dim6: // value for 'dim6'
+ *   },
+ * });
+ */
+export function useUpdateCourseRatingMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCourseRatingMutation, UpdateCourseRatingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCourseRatingMutation, UpdateCourseRatingMutationVariables>(UpdateCourseRatingDocument, options);
+      }
+export type UpdateCourseRatingMutationHookResult = ReturnType<typeof useUpdateCourseRatingMutation>;
+export type UpdateCourseRatingMutationResult = Apollo.MutationResult<UpdateCourseRatingMutation>;
+export type UpdateCourseRatingMutationOptions = Apollo.BaseMutationOptions<UpdateCourseRatingMutation, UpdateCourseRatingMutationVariables>;
+export const DeleteCourseRatingDocument = gql`
+    mutation DeleteCourseRating($course_id: uuid!, $user_uuid: uuid!) {
+  delete_course_rating_by_pk(course_id: $course_id, user_uuid: $user_uuid) {
+    course_id
+    user_uuid
+  }
+}
+    `;
+export type DeleteCourseRatingMutationFn = Apollo.MutationFunction<DeleteCourseRatingMutation, DeleteCourseRatingMutationVariables>;
+
+/**
+ * __useDeleteCourseRatingMutation__
+ *
+ * To run a mutation, you first call `useDeleteCourseRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCourseRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCourseRatingMutation, { data, loading, error }] = useDeleteCourseRatingMutation({
+ *   variables: {
+ *      course_id: // value for 'course_id'
+ *      user_uuid: // value for 'user_uuid'
+ *   },
+ * });
+ */
+export function useDeleteCourseRatingMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseRatingMutation, DeleteCourseRatingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCourseRatingMutation, DeleteCourseRatingMutationVariables>(DeleteCourseRatingDocument, options);
+      }
+export type DeleteCourseRatingMutationHookResult = ReturnType<typeof useDeleteCourseRatingMutation>;
+export type DeleteCourseRatingMutationResult = Apollo.MutationResult<DeleteCourseRatingMutation>;
+export type DeleteCourseRatingMutationOptions = Apollo.BaseMutationOptions<DeleteCourseRatingMutation, DeleteCourseRatingMutationVariables>;
 export const GetWeeklyDocument = gql`
     query GetWeekly {
   weekly {
