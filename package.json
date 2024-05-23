@@ -39,7 +39,7 @@
     "@graphql-codegen/cli": "5.0.2",
     "@graphql-codegen/typescript-operations": "4.2.1",
     "@graphql-codegen/typescript-react-apollo": "4.3.0",
-    "@playwright/test": "1.44.0",
+    "@playwright/test": "1.44.1",
     "@types/file-saver": "2.0.7",
     "@types/is-url": "1.2.32",
     "@types/lodash.get": "4.4.9",
