@@ -1,33 +1,51 @@
 # 主要操作对象：course_comment表
 
 #查 所有评论
-query GetCourseComments($course_uuid:uuid!){
- course_comment(order_by: {created_at: asc}, where: {course_id: {_eq: $course_uuid}}) {
+query GetCourseComments($course_uuid: uuid!) {
+  course_comment(
+    order_by: { created_at: asc }
+    where: { course_id: { _eq: $course_uuid } }
+  ) {
     comment
     created_at
     updated_at
     uuid
     user_uuid
+    user {
+      username
+    }
   }
 }
 
 #改
-mutation UpdateComment($comment: String!, $uuid: uuid!) {
-  update_course_comment_by_pk(pk_columns: {uuid: $uuid}, _set: {comment: $comment}) {
+mutation UpdateCourseComment($comment: String!, $uuid: uuid!) {
+  update_course_comment_by_pk(
+    pk_columns: { uuid: $uuid }
+    _set: { comment: $comment }
+  ) {
     uuid
   }
 }
 
-
 #增
-mutation AddCommentOne($comment: String!, $user_uuid: uuid!, $course_uuid: uuid!) {
-  insert_course_comment_one(object: {comment: $comment, course_id: $course_uuid, user_uuid: $user_uuid}) {
+mutation AddCourseCommentOne(
+  $comment: String!
+  $user_uuid: uuid!
+  $course_uuid: uuid!
+) {
+  insert_course_comment_one(
+    object: {
+      comment: $comment
+      course_id: $course_uuid
+      user_uuid: $user_uuid
+    }
+  ) {
     uuid
   }
 }
 
 #删
-mutation DeleteCommentOne($uuid: uuid!) {
+mutation DeleteCourseCommentOne($uuid: uuid!) {
   delete_course_comment_by_pk(uuid: $uuid) {
     uuid
   }
