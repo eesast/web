@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Button, Drawer, Layout, message } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { PageProps } from "..";
+import DiscusDrawer from "./DiscusPage";
 
 const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -34,7 +35,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       key: "year",
       filters: true,
       onFilter: true,
-      hideInSearch: true,
+      // hideInSearch: true,
     },
     {
       title: "学期",
@@ -42,7 +43,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       key: "semester",
       filters: true,
       onFilter: true,
-      hideInSearch: true,
+      // hideInSearch: true,
       valueType: "select",
       valueEnum: {
         spring: { text: "春季学期", status: "spring" },
@@ -61,7 +62,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       key: "type",
       filters: true,
       onFilter: true,
-      hideInSearch: true,
+      // hideInSearch: true,
       valueType: "select",
       valueEnum: {
         must: { text: "核心必修", status: "must" },
@@ -75,7 +76,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       key: "language",
       filters: true,
       onFilter: true,
-      hideInSearch: true,
+      // hideInSearch: true,
       valueType: "select",
       valueEnum: {
         chinese: { text: "中文", status: "chinese" },
@@ -87,9 +88,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       valueType: "option",
       key: "option",
       render: (text, record, _, action) => [
-        <Link to={url.append("course", record.uuid).link("discus")}>
-          讨论区
-        </Link>,
+        <DiscusDrawer course_uuid={record.uuid} user_uuid={user.uuid} />,
         <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },

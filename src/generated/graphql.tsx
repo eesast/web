@@ -3770,7 +3770,7 @@ export type Course_Comment = {
   course: Course;
   course_id: Scalars['uuid']['output'];
   created_at: Scalars['timestamptz']['output'];
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   user: Users;
   user_uuid: Scalars['uuid']['output'];
@@ -3828,6 +3828,163 @@ export type Course_Comment_Bool_Exp = {
   uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
+/** columns and relationships of "course_comment_comment" */
+export type Course_Comment_Comment = {
+  __typename?: 'course_comment_comment';
+  comment: Scalars['String']['output'];
+  comment_uuid: Scalars['uuid']['output'];
+  /** An object relationship */
+  course_comment: Course_Comment;
+  create_at: Scalars['timestamptz']['output'];
+  update_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  user: Users;
+  user_uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "course_comment_comment" */
+export type Course_Comment_Comment_Aggregate = {
+  __typename?: 'course_comment_comment_aggregate';
+  aggregate?: Maybe<Course_Comment_Comment_Aggregate_Fields>;
+  nodes: Array<Course_Comment_Comment>;
+};
+
+/** aggregate fields of "course_comment_comment" */
+export type Course_Comment_Comment_Aggregate_Fields = {
+  __typename?: 'course_comment_comment_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Comment_Comment_Max_Fields>;
+  min?: Maybe<Course_Comment_Comment_Min_Fields>;
+};
+
+
+/** aggregate fields of "course_comment_comment" */
+export type Course_Comment_Comment_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "course_comment_comment". All fields are combined with a logical 'AND'. */
+export type Course_Comment_Comment_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Comment_Comment_Bool_Exp>>;
+  _not?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Comment_Comment_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  comment_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  course_comment?: InputMaybe<Course_Comment_Bool_Exp>;
+  create_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  update_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "course_comment_comment" */
+export enum Course_Comment_Comment_Constraint {
+  /** unique or primary key constraint on columns "comment_uuid", "user_uuid" */
+  CourseCommentCommentPkey = 'course_comment_comment_pkey'
+}
+
+/** input type for inserting data into table "course_comment_comment" */
+export type Course_Comment_Comment_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  course_comment?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
+  create_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  update_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Course_Comment_Comment_Max_Fields = {
+  __typename?: 'course_comment_comment_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  comment_uuid?: Maybe<Scalars['uuid']['output']>;
+  create_at?: Maybe<Scalars['timestamptz']['output']>;
+  update_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Course_Comment_Comment_Min_Fields = {
+  __typename?: 'course_comment_comment_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  comment_uuid?: Maybe<Scalars['uuid']['output']>;
+  create_at?: Maybe<Scalars['timestamptz']['output']>;
+  update_at?: Maybe<Scalars['timestamptz']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "course_comment_comment" */
+export type Course_Comment_Comment_Mutation_Response = {
+  __typename?: 'course_comment_comment_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course_Comment_Comment>;
+};
+
+/** on_conflict condition type for table "course_comment_comment" */
+export type Course_Comment_Comment_On_Conflict = {
+  constraint: Course_Comment_Comment_Constraint;
+  update_columns?: Array<Course_Comment_Comment_Update_Column>;
+  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course_comment_comment". */
+export type Course_Comment_Comment_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  comment_uuid?: InputMaybe<Order_By>;
+  course_comment?: InputMaybe<Course_Comment_Order_By>;
+  create_at?: InputMaybe<Order_By>;
+  update_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course_comment_comment */
+export type Course_Comment_Comment_Pk_Columns_Input = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "course_comment_comment" */
+export enum Course_Comment_Comment_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  CommentUuid = 'comment_uuid',
+  /** column name */
+  CreateAt = 'create_at',
+  /** column name */
+  UpdateAt = 'update_at',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
+/** input type for updating data in table "course_comment_comment" */
+export type Course_Comment_Comment_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  create_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  update_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "course_comment_comment" */
+export enum Course_Comment_Comment_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  CommentUuid = 'comment_uuid',
+  /** column name */
+  CreateAt = 'create_at',
+  /** column name */
+  UpdateAt = 'update_at',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
 /** unique or primary key constraints on table "course_comment" */
 export enum Course_Comment_Constraint {
   /** unique or primary key constraint on columns "uuid" */
@@ -3845,6 +4002,130 @@ export type Course_Comment_Insert_Input = {
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
   uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
+
+/** columns and relationships of "course_comment_like" */
+export type Course_Comment_Like = {
+  __typename?: 'course_comment_like';
+  comment_uuid: Scalars['uuid']['output'];
+  /** An object relationship */
+  course_comment: Course_Comment;
+  /** An object relationship */
+  user: Users;
+  user_uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "course_comment_like" */
+export type Course_Comment_Like_Aggregate = {
+  __typename?: 'course_comment_like_aggregate';
+  aggregate?: Maybe<Course_Comment_Like_Aggregate_Fields>;
+  nodes: Array<Course_Comment_Like>;
+};
+
+/** aggregate fields of "course_comment_like" */
+export type Course_Comment_Like_Aggregate_Fields = {
+  __typename?: 'course_comment_like_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Comment_Like_Max_Fields>;
+  min?: Maybe<Course_Comment_Like_Min_Fields>;
+};
+
+
+/** aggregate fields of "course_comment_like" */
+export type Course_Comment_Like_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "course_comment_like". All fields are combined with a logical 'AND'. */
+export type Course_Comment_Like_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Comment_Like_Bool_Exp>>;
+  _not?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Comment_Like_Bool_Exp>>;
+  comment_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  course_comment?: InputMaybe<Course_Comment_Bool_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "course_comment_like" */
+export enum Course_Comment_Like_Constraint {
+  /** unique or primary key constraint on columns "comment_uuid", "user_uuid" */
+  CourseCommentLikesPkey = 'course_comment_likes_pkey'
+}
+
+/** input type for inserting data into table "course_comment_like" */
+export type Course_Comment_Like_Insert_Input = {
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  course_comment?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Course_Comment_Like_Max_Fields = {
+  __typename?: 'course_comment_like_max_fields';
+  comment_uuid?: Maybe<Scalars['uuid']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Course_Comment_Like_Min_Fields = {
+  __typename?: 'course_comment_like_min_fields';
+  comment_uuid?: Maybe<Scalars['uuid']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "course_comment_like" */
+export type Course_Comment_Like_Mutation_Response = {
+  __typename?: 'course_comment_like_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course_Comment_Like>;
+};
+
+/** on_conflict condition type for table "course_comment_like" */
+export type Course_Comment_Like_On_Conflict = {
+  constraint: Course_Comment_Like_Constraint;
+  update_columns?: Array<Course_Comment_Like_Update_Column>;
+  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course_comment_like". */
+export type Course_Comment_Like_Order_By = {
+  comment_uuid?: InputMaybe<Order_By>;
+  course_comment?: InputMaybe<Course_Comment_Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course_comment_like */
+export type Course_Comment_Like_Pk_Columns_Input = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "course_comment_like" */
+export enum Course_Comment_Like_Select_Column {
+  /** column name */
+  CommentUuid = 'comment_uuid',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
+/** input type for updating data in table "course_comment_like" */
+export type Course_Comment_Like_Set_Input = {
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "course_comment_like" */
+export enum Course_Comment_Like_Update_Column {
+  /** column name */
+  CommentUuid = 'comment_uuid',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
 
 /** aggregate max on columns */
 export type Course_Comment_Max_Fields = {
@@ -3897,6 +4178,13 @@ export type Course_Comment_Mutation_Response = {
   returning: Array<Course_Comment>;
 };
 
+/** input type for inserting object relation for remote table "course_comment" */
+export type Course_Comment_Obj_Rel_Insert_Input = {
+  data: Course_Comment_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Course_Comment_On_Conflict>;
+};
+
 /** on_conflict condition type for table "course_comment" */
 export type Course_Comment_On_Conflict = {
   constraint: Course_Comment_Constraint;
@@ -3946,6 +4234,130 @@ export type Course_Comment_Set_Input = {
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
   uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
+
+/** columns and relationships of "course_comment_star" */
+export type Course_Comment_Star = {
+  __typename?: 'course_comment_star';
+  comment_uuid: Scalars['uuid']['output'];
+  /** An object relationship */
+  course_comment: Course_Comment;
+  /** An object relationship */
+  user: Users;
+  user_uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "course_comment_star" */
+export type Course_Comment_Star_Aggregate = {
+  __typename?: 'course_comment_star_aggregate';
+  aggregate?: Maybe<Course_Comment_Star_Aggregate_Fields>;
+  nodes: Array<Course_Comment_Star>;
+};
+
+/** aggregate fields of "course_comment_star" */
+export type Course_Comment_Star_Aggregate_Fields = {
+  __typename?: 'course_comment_star_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Course_Comment_Star_Max_Fields>;
+  min?: Maybe<Course_Comment_Star_Min_Fields>;
+};
+
+
+/** aggregate fields of "course_comment_star" */
+export type Course_Comment_Star_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "course_comment_star". All fields are combined with a logical 'AND'. */
+export type Course_Comment_Star_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Comment_Star_Bool_Exp>>;
+  _not?: InputMaybe<Course_Comment_Star_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Comment_Star_Bool_Exp>>;
+  comment_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  course_comment?: InputMaybe<Course_Comment_Bool_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "course_comment_star" */
+export enum Course_Comment_Star_Constraint {
+  /** unique or primary key constraint on columns "comment_uuid", "user_uuid" */
+  CourseCommentStarPkey = 'course_comment_star_pkey'
+}
+
+/** input type for inserting data into table "course_comment_star" */
+export type Course_Comment_Star_Insert_Input = {
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  course_comment?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Course_Comment_Star_Max_Fields = {
+  __typename?: 'course_comment_star_max_fields';
+  comment_uuid?: Maybe<Scalars['uuid']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Course_Comment_Star_Min_Fields = {
+  __typename?: 'course_comment_star_min_fields';
+  comment_uuid?: Maybe<Scalars['uuid']['output']>;
+  user_uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "course_comment_star" */
+export type Course_Comment_Star_Mutation_Response = {
+  __typename?: 'course_comment_star_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Course_Comment_Star>;
+};
+
+/** on_conflict condition type for table "course_comment_star" */
+export type Course_Comment_Star_On_Conflict = {
+  constraint: Course_Comment_Star_Constraint;
+  update_columns?: Array<Course_Comment_Star_Update_Column>;
+  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "course_comment_star". */
+export type Course_Comment_Star_Order_By = {
+  comment_uuid?: InputMaybe<Order_By>;
+  course_comment?: InputMaybe<Course_Comment_Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: course_comment_star */
+export type Course_Comment_Star_Pk_Columns_Input = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "course_comment_star" */
+export enum Course_Comment_Star_Select_Column {
+  /** column name */
+  CommentUuid = 'comment_uuid',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
+
+/** input type for updating data in table "course_comment_star" */
+export type Course_Comment_Star_Set_Input = {
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "course_comment_star" */
+export enum Course_Comment_Star_Update_Column {
+  /** column name */
+  CommentUuid = 'comment_uuid',
+  /** column name */
+  UserUuid = 'user_uuid'
+}
 
 /** update columns of table "course_comment" */
 export enum Course_Comment_Update_Column {
@@ -6967,6 +7379,18 @@ export type Mutation_Root = {
   delete_course_comment?: Maybe<Course_Comment_Mutation_Response>;
   /** delete single row from the table: "course_comment" */
   delete_course_comment_by_pk?: Maybe<Course_Comment>;
+  /** delete data from the table: "course_comment_comment" */
+  delete_course_comment_comment?: Maybe<Course_Comment_Comment_Mutation_Response>;
+  /** delete single row from the table: "course_comment_comment" */
+  delete_course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
+  /** delete data from the table: "course_comment_like" */
+  delete_course_comment_like?: Maybe<Course_Comment_Like_Mutation_Response>;
+  /** delete single row from the table: "course_comment_like" */
+  delete_course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
+  /** delete data from the table: "course_comment_star" */
+  delete_course_comment_star?: Maybe<Course_Comment_Star_Mutation_Response>;
+  /** delete single row from the table: "course_comment_star" */
+  delete_course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
   /** delete data from the table: "course_info" */
   delete_course_info?: Maybe<Course_Info_Mutation_Response>;
   /** delete single row from the table: "course_info" */
@@ -7111,8 +7535,20 @@ export type Mutation_Root = {
   insert_course?: Maybe<Course_Mutation_Response>;
   /** insert data into the table: "course_comment" */
   insert_course_comment?: Maybe<Course_Comment_Mutation_Response>;
+  /** insert data into the table: "course_comment_comment" */
+  insert_course_comment_comment?: Maybe<Course_Comment_Comment_Mutation_Response>;
+  /** insert a single row into the table: "course_comment_comment" */
+  insert_course_comment_comment_one?: Maybe<Course_Comment_Comment>;
+  /** insert data into the table: "course_comment_like" */
+  insert_course_comment_like?: Maybe<Course_Comment_Like_Mutation_Response>;
+  /** insert a single row into the table: "course_comment_like" */
+  insert_course_comment_like_one?: Maybe<Course_Comment_Like>;
   /** insert a single row into the table: "course_comment" */
   insert_course_comment_one?: Maybe<Course_Comment>;
+  /** insert data into the table: "course_comment_star" */
+  insert_course_comment_star?: Maybe<Course_Comment_Star_Mutation_Response>;
+  /** insert a single row into the table: "course_comment_star" */
+  insert_course_comment_star_one?: Maybe<Course_Comment_Star>;
   /** insert data into the table: "course_info" */
   insert_course_info?: Maybe<Course_Info_Mutation_Response>;
   /** insert a single row into the table: "course_info" */
@@ -7263,6 +7699,18 @@ export type Mutation_Root = {
   update_course_comment?: Maybe<Course_Comment_Mutation_Response>;
   /** update single row of the table: "course_comment" */
   update_course_comment_by_pk?: Maybe<Course_Comment>;
+  /** update data of the table: "course_comment_comment" */
+  update_course_comment_comment?: Maybe<Course_Comment_Comment_Mutation_Response>;
+  /** update single row of the table: "course_comment_comment" */
+  update_course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
+  /** update data of the table: "course_comment_like" */
+  update_course_comment_like?: Maybe<Course_Comment_Like_Mutation_Response>;
+  /** update single row of the table: "course_comment_like" */
+  update_course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
+  /** update data of the table: "course_comment_star" */
+  update_course_comment_star?: Maybe<Course_Comment_Star_Mutation_Response>;
+  /** update single row of the table: "course_comment_star" */
+  update_course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
   /** update data of the table: "course_info" */
   update_course_info?: Maybe<Course_Info_Mutation_Response>;
   /** update single row of the table: "course_info" */
@@ -7546,6 +7994,45 @@ export type Mutation_RootDelete_Course_CommentArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Course_Comment_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Comment_CommentArgs = {
+  where: Course_Comment_Comment_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Comment_Comment_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Comment_LikeArgs = {
+  where: Course_Comment_Like_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Comment_Like_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Comment_StarArgs = {
+  where: Course_Comment_Star_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Course_Comment_Star_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -8017,9 +8504,51 @@ export type Mutation_RootInsert_Course_CommentArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Course_Comment_CommentArgs = {
+  objects: Array<Course_Comment_Comment_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Comment_Comment_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Comment_Comment_OneArgs = {
+  object: Course_Comment_Comment_Insert_Input;
+  on_conflict?: InputMaybe<Course_Comment_Comment_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Comment_LikeArgs = {
+  objects: Array<Course_Comment_Like_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Comment_Like_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Comment_Like_OneArgs = {
+  object: Course_Comment_Like_Insert_Input;
+  on_conflict?: InputMaybe<Course_Comment_Like_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Course_Comment_OneArgs = {
   object: Course_Comment_Insert_Input;
   on_conflict?: InputMaybe<Course_Comment_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Comment_StarArgs = {
+  objects: Array<Course_Comment_Star_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Comment_Star_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Course_Comment_Star_OneArgs = {
+  object: Course_Comment_Star_Insert_Input;
+  on_conflict?: InputMaybe<Course_Comment_Star_On_Conflict>;
 };
 
 
@@ -8555,6 +9084,48 @@ export type Mutation_RootUpdate_Course_CommentArgs = {
 export type Mutation_RootUpdate_Course_Comment_By_PkArgs = {
   _set?: InputMaybe<Course_Comment_Set_Input>;
   pk_columns: Course_Comment_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_CommentArgs = {
+  _set?: InputMaybe<Course_Comment_Comment_Set_Input>;
+  where: Course_Comment_Comment_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_Comment_By_PkArgs = {
+  _set?: InputMaybe<Course_Comment_Comment_Set_Input>;
+  pk_columns: Course_Comment_Comment_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_LikeArgs = {
+  _set?: InputMaybe<Course_Comment_Like_Set_Input>;
+  where: Course_Comment_Like_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_Like_By_PkArgs = {
+  _set?: InputMaybe<Course_Comment_Like_Set_Input>;
+  pk_columns: Course_Comment_Like_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_StarArgs = {
+  _set?: InputMaybe<Course_Comment_Star_Set_Input>;
+  where: Course_Comment_Star_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_Star_By_PkArgs = {
+  _set?: InputMaybe<Course_Comment_Star_Set_Input>;
+  pk_columns: Course_Comment_Star_Pk_Columns_Input;
 };
 
 
@@ -10345,6 +10916,24 @@ export type Query_Root = {
   course_comment_aggregate: Course_Comment_Aggregate;
   /** fetch data from the table: "course_comment" using primary key columns */
   course_comment_by_pk?: Maybe<Course_Comment>;
+  /** fetch data from the table: "course_comment_comment" */
+  course_comment_comment: Array<Course_Comment_Comment>;
+  /** fetch aggregated fields from the table: "course_comment_comment" */
+  course_comment_comment_aggregate: Course_Comment_Comment_Aggregate;
+  /** fetch data from the table: "course_comment_comment" using primary key columns */
+  course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
+  /** fetch data from the table: "course_comment_like" */
+  course_comment_like: Array<Course_Comment_Like>;
+  /** fetch aggregated fields from the table: "course_comment_like" */
+  course_comment_like_aggregate: Course_Comment_Like_Aggregate;
+  /** fetch data from the table: "course_comment_like" using primary key columns */
+  course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
+  /** fetch data from the table: "course_comment_star" */
+  course_comment_star: Array<Course_Comment_Star>;
+  /** fetch aggregated fields from the table: "course_comment_star" */
+  course_comment_star_aggregate: Course_Comment_Star_Aggregate;
+  /** fetch data from the table: "course_comment_star" using primary key columns */
+  course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
   /** fetch data from the table: "course_info" */
   course_info: Array<Course_Info>;
   /** fetch aggregated fields from the table: "course_info" */
@@ -10846,6 +11435,78 @@ export type Query_RootCourse_Comment_AggregateArgs = {
 
 export type Query_RootCourse_Comment_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootCourse_Comment_CommentArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_Comment_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_Comment_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootCourse_Comment_LikeArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
+  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_Like_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
+  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_Like_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootCourse_Comment_StarArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
+  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_Star_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
+  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
+};
+
+
+export type Query_RootCourse_Comment_Star_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -11939,6 +12600,24 @@ export type Subscription_Root = {
   course_comment_aggregate: Course_Comment_Aggregate;
   /** fetch data from the table: "course_comment" using primary key columns */
   course_comment_by_pk?: Maybe<Course_Comment>;
+  /** fetch data from the table: "course_comment_comment" */
+  course_comment_comment: Array<Course_Comment_Comment>;
+  /** fetch aggregated fields from the table: "course_comment_comment" */
+  course_comment_comment_aggregate: Course_Comment_Comment_Aggregate;
+  /** fetch data from the table: "course_comment_comment" using primary key columns */
+  course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
+  /** fetch data from the table: "course_comment_like" */
+  course_comment_like: Array<Course_Comment_Like>;
+  /** fetch aggregated fields from the table: "course_comment_like" */
+  course_comment_like_aggregate: Course_Comment_Like_Aggregate;
+  /** fetch data from the table: "course_comment_like" using primary key columns */
+  course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
+  /** fetch data from the table: "course_comment_star" */
+  course_comment_star: Array<Course_Comment_Star>;
+  /** fetch aggregated fields from the table: "course_comment_star" */
+  course_comment_star_aggregate: Course_Comment_Star_Aggregate;
+  /** fetch data from the table: "course_comment_star" using primary key columns */
+  course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
   /** fetch data from the table: "course_info" */
   course_info: Array<Course_Info>;
   /** fetch aggregated fields from the table: "course_info" */
@@ -12440,6 +13119,78 @@ export type Subscription_RootCourse_Comment_AggregateArgs = {
 
 export type Subscription_RootCourse_Comment_By_PkArgs = {
   uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_Comment_CommentArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_Comment_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
+  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_Comment_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_Comment_LikeArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
+  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_Like_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
+  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_Like_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_Comment_StarArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
+  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_Star_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
+  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_Star_By_PkArgs = {
+  comment_uuid: Scalars['uuid']['input'];
+  user_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -14223,31 +14974,31 @@ export type GetCourseCommentsQueryVariables = Exact<{
 }>;
 
 
-export type GetCourseCommentsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', comment: string, created_at: any, updated_at?: any | null, uuid: any, user_uuid: any }> };
+export type GetCourseCommentsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', comment: string, created_at: any, updated_at: any, uuid: any, user_uuid: any, user: { __typename?: 'users', username?: string | null } }> };
 
-export type UpdateCommentMutationVariables = Exact<{
+export type UpdateCourseCommentMutationVariables = Exact<{
   comment: Scalars['String']['input'];
   uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type UpdateCommentMutation = { __typename?: 'mutation_root', update_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
+export type UpdateCourseCommentMutation = { __typename?: 'mutation_root', update_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
 
-export type AddCommentOneMutationVariables = Exact<{
+export type AddCourseCommentOneMutationVariables = Exact<{
   comment: Scalars['String']['input'];
   user_uuid: Scalars['uuid']['input'];
   course_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type AddCommentOneMutation = { __typename?: 'mutation_root', insert_course_comment_one?: { __typename?: 'course_comment', uuid: any } | null };
+export type AddCourseCommentOneMutation = { __typename?: 'mutation_root', insert_course_comment_one?: { __typename?: 'course_comment', uuid: any } | null };
 
-export type DeleteCommentOneMutationVariables = Exact<{
+export type DeleteCourseCommentOneMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteCommentOneMutation = { __typename?: 'mutation_root', delete_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
+export type DeleteCourseCommentOneMutation = { __typename?: 'mutation_root', delete_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
 
 export type GetCourseInfoQueryVariables = Exact<{
   course_uuid: Scalars['uuid']['input'];
@@ -17975,6 +18726,9 @@ export const GetCourseCommentsDocument = gql`
     updated_at
     uuid
     user_uuid
+    user {
+      username
+    }
   }
 }
     `;
@@ -18011,8 +18765,8 @@ export type GetCourseCommentsQueryHookResult = ReturnType<typeof useGetCourseCom
 export type GetCourseCommentsLazyQueryHookResult = ReturnType<typeof useGetCourseCommentsLazyQuery>;
 export type GetCourseCommentsSuspenseQueryHookResult = ReturnType<typeof useGetCourseCommentsSuspenseQuery>;
 export type GetCourseCommentsQueryResult = Apollo.QueryResult<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>;
-export const UpdateCommentDocument = gql`
-    mutation UpdateComment($comment: String!, $uuid: uuid!) {
+export const UpdateCourseCommentDocument = gql`
+    mutation UpdateCourseComment($comment: String!, $uuid: uuid!) {
   update_course_comment_by_pk(
     pk_columns: {uuid: $uuid}
     _set: {comment: $comment}
@@ -18021,35 +18775,35 @@ export const UpdateCommentDocument = gql`
   }
 }
     `;
-export type UpdateCommentMutationFn = Apollo.MutationFunction<UpdateCommentMutation, UpdateCommentMutationVariables>;
+export type UpdateCourseCommentMutationFn = Apollo.MutationFunction<UpdateCourseCommentMutation, UpdateCourseCommentMutationVariables>;
 
 /**
- * __useUpdateCommentMutation__
+ * __useUpdateCourseCommentMutation__
  *
- * To run a mutation, you first call `useUpdateCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateCommentMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateCourseCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCourseCommentMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateCommentMutation, { data, loading, error }] = useUpdateCommentMutation({
+ * const [updateCourseCommentMutation, { data, loading, error }] = useUpdateCourseCommentMutation({
  *   variables: {
  *      comment: // value for 'comment'
  *      uuid: // value for 'uuid'
  *   },
  * });
  */
-export function useUpdateCommentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCommentMutation, UpdateCommentMutationVariables>) {
+export function useUpdateCourseCommentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCourseCommentMutation, UpdateCourseCommentMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateCommentMutation, UpdateCommentMutationVariables>(UpdateCommentDocument, options);
+        return Apollo.useMutation<UpdateCourseCommentMutation, UpdateCourseCommentMutationVariables>(UpdateCourseCommentDocument, options);
       }
-export type UpdateCommentMutationHookResult = ReturnType<typeof useUpdateCommentMutation>;
-export type UpdateCommentMutationResult = Apollo.MutationResult<UpdateCommentMutation>;
-export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCommentMutation, UpdateCommentMutationVariables>;
-export const AddCommentOneDocument = gql`
-    mutation AddCommentOne($comment: String!, $user_uuid: uuid!, $course_uuid: uuid!) {
+export type UpdateCourseCommentMutationHookResult = ReturnType<typeof useUpdateCourseCommentMutation>;
+export type UpdateCourseCommentMutationResult = Apollo.MutationResult<UpdateCourseCommentMutation>;
+export type UpdateCourseCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCourseCommentMutation, UpdateCourseCommentMutationVariables>;
+export const AddCourseCommentOneDocument = gql`
+    mutation AddCourseCommentOne($comment: String!, $user_uuid: uuid!, $course_uuid: uuid!) {
   insert_course_comment_one(
     object: {comment: $comment, course_id: $course_uuid, user_uuid: $user_uuid}
   ) {
@@ -18057,20 +18811,20 @@ export const AddCommentOneDocument = gql`
   }
 }
     `;
-export type AddCommentOneMutationFn = Apollo.MutationFunction<AddCommentOneMutation, AddCommentOneMutationVariables>;
+export type AddCourseCommentOneMutationFn = Apollo.MutationFunction<AddCourseCommentOneMutation, AddCourseCommentOneMutationVariables>;
 
 /**
- * __useAddCommentOneMutation__
+ * __useAddCourseCommentOneMutation__
  *
- * To run a mutation, you first call `useAddCommentOneMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddCommentOneMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddCourseCommentOneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCourseCommentOneMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addCommentOneMutation, { data, loading, error }] = useAddCommentOneMutation({
+ * const [addCourseCommentOneMutation, { data, loading, error }] = useAddCourseCommentOneMutation({
  *   variables: {
  *      comment: // value for 'comment'
  *      user_uuid: // value for 'user_uuid'
@@ -18078,46 +18832,46 @@ export type AddCommentOneMutationFn = Apollo.MutationFunction<AddCommentOneMutat
  *   },
  * });
  */
-export function useAddCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<AddCommentOneMutation, AddCommentOneMutationVariables>) {
+export function useAddCourseCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<AddCourseCommentOneMutation, AddCourseCommentOneMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddCommentOneMutation, AddCommentOneMutationVariables>(AddCommentOneDocument, options);
+        return Apollo.useMutation<AddCourseCommentOneMutation, AddCourseCommentOneMutationVariables>(AddCourseCommentOneDocument, options);
       }
-export type AddCommentOneMutationHookResult = ReturnType<typeof useAddCommentOneMutation>;
-export type AddCommentOneMutationResult = Apollo.MutationResult<AddCommentOneMutation>;
-export type AddCommentOneMutationOptions = Apollo.BaseMutationOptions<AddCommentOneMutation, AddCommentOneMutationVariables>;
-export const DeleteCommentOneDocument = gql`
-    mutation DeleteCommentOne($uuid: uuid!) {
+export type AddCourseCommentOneMutationHookResult = ReturnType<typeof useAddCourseCommentOneMutation>;
+export type AddCourseCommentOneMutationResult = Apollo.MutationResult<AddCourseCommentOneMutation>;
+export type AddCourseCommentOneMutationOptions = Apollo.BaseMutationOptions<AddCourseCommentOneMutation, AddCourseCommentOneMutationVariables>;
+export const DeleteCourseCommentOneDocument = gql`
+    mutation DeleteCourseCommentOne($uuid: uuid!) {
   delete_course_comment_by_pk(uuid: $uuid) {
     uuid
   }
 }
     `;
-export type DeleteCommentOneMutationFn = Apollo.MutationFunction<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>;
+export type DeleteCourseCommentOneMutationFn = Apollo.MutationFunction<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>;
 
 /**
- * __useDeleteCommentOneMutation__
+ * __useDeleteCourseCommentOneMutation__
  *
- * To run a mutation, you first call `useDeleteCommentOneMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCommentOneMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteCourseCommentOneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCourseCommentOneMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteCommentOneMutation, { data, loading, error }] = useDeleteCommentOneMutation({
+ * const [deleteCourseCommentOneMutation, { data, loading, error }] = useDeleteCourseCommentOneMutation({
  *   variables: {
  *      uuid: // value for 'uuid'
  *   },
  * });
  */
-export function useDeleteCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>) {
+export function useDeleteCourseCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>(DeleteCommentOneDocument, options);
+        return Apollo.useMutation<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>(DeleteCourseCommentOneDocument, options);
       }
-export type DeleteCommentOneMutationHookResult = ReturnType<typeof useDeleteCommentOneMutation>;
-export type DeleteCommentOneMutationResult = Apollo.MutationResult<DeleteCommentOneMutation>;
-export type DeleteCommentOneMutationOptions = Apollo.BaseMutationOptions<DeleteCommentOneMutation, DeleteCommentOneMutationVariables>;
+export type DeleteCourseCommentOneMutationHookResult = ReturnType<typeof useDeleteCourseCommentOneMutation>;
+export type DeleteCourseCommentOneMutationResult = Apollo.MutationResult<DeleteCourseCommentOneMutation>;
+export type DeleteCourseCommentOneMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>;
 export const GetCourseInfoDocument = gql`
     query GetCourseInfo($course_uuid: uuid!) {
   course_info(where: {course_id: {_eq: $course_uuid}}) {
