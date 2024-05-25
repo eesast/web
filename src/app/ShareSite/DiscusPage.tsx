@@ -19,8 +19,8 @@ import {
   ExclamationCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
 import * as graphql from "@/generated/graphql";
+import dayjs from "dayjs";
 
 interface Comment {
   comment: string;
@@ -123,7 +123,7 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
     } else {
       console.error("course_uuid is null or undefined");
     }
-  }, [course_uuid]);
+  });
 
   const handleAddCourseComment = async () => {
     try {
@@ -332,7 +332,7 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
                       }}
                     >
                       Updated at:{" "}
-                      {moment(item.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+                      {dayjs(item.updated_at).format("YYYY-MM-DD HH:mm:ss")}
                     </span>
                   </div>
                 }
