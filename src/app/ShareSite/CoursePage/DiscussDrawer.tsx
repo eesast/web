@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FC } from "react";
 import {
+  Badge,
   Button,
   Drawer,
   message,
@@ -19,6 +20,7 @@ import {
   ExclamationCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import dayjs from "dayjs";
 
@@ -74,7 +76,11 @@ const IconText: FC<IconTextProps> = ({ icon, text, onClick }) => (
   </Space>
 );
 
-const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
+const DiscussDrawer: React.FC<CourseProps> = ({
+  course_uuid,
+  mode,
+  user,
+}: any) => {
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [addCommentModalVisible, setAddCommentModalVisible] = useState(false);
@@ -123,7 +129,8 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
     } else {
       console.error("course_uuid is null or undefined");
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [course_uuid]);
 
   const handleAddCourseComment = async () => {
     try {
@@ -131,7 +138,7 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
       await addCourseComment({
         variables: {
           comment: newComment,
-          user_uuid: user_uuid,
+          user_uuid: user.uuid,
           course_uuid: course_uuid,
         },
       });
@@ -197,10 +204,13 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
 
   return (
     <>
-      <Button type="primary" onClick={showDrawer}>
-        讨论
-      </Button>
+      <Badge count={comments?.length}>
+        <Button type="primary" onClick={showDrawer}>
+          讨论
+        </Button>
+      </Badge>
       <Drawer
+        key="course_discuss"
         title={
           <div
             style={{
@@ -268,7 +278,7 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
                 <IconText icon={StarOutlined} text="1" />,
                 <IconText icon={LikeOutlined} text="2" />,
                 <IconText icon={MessageOutlined} text="3" />,
-                item.user_uuid === user_uuid && (
+                item.user_uuid === user.uuid && (
                   <>
                     <IconText
                       icon={EditOutlined}
@@ -281,7 +291,7 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
                     />
                   </>
                 ),
-                item.user_uuid === user_uuid && (
+                item.user_uuid === user.uuid && (
                   <>
                     <IconText
                       icon={DeleteOutlined}
@@ -372,4 +382,4 @@ const DiscusDrawer = ({ course_uuid, user_uuid }: any) => {
   );
 };
 
-export default DiscusDrawer;
+export default DiscussDrawer;
