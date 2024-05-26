@@ -1,17 +1,21 @@
-import React, { useState } from "react";
-import { Button, Drawer, Layout, message } from "antd";
+import React from "react";
+import { Button, Layout, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useUrl } from "../../api/hooks/url";
+import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { Link } from "react-router-dom";
-import { PageProps } from "..";
-import DiscusDrawer from "./DiscusPage";
+import { PageProps } from "../..";
+import DiscussDrawer from "./DiscussDrawer";
+//import CourseRating from "./CourseRating";
+
+export interface CourseProps extends PageProps {
+  course_uuid: string;
+}
 
 const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
-  const [showCourseRating, setShowCourseRating] = useState(false);
   const columns: ProColumns<graphql.GetCourseQuery["course"][0]>[] = [
     {
       title: "课程号",
@@ -86,9 +90,10 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
     {
       title: "操作",
       valueType: "option",
+      width: "20%",
       key: "option",
       render: (text, record, _, action) => [
-        <DiscusDrawer course_uuid={record.uuid} user_uuid={user.uuid} />,
+        <DiscussDrawer course_uuid={record.uuid} mode={mode} user={user} />,
         <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
@@ -145,22 +150,8 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
           </Button>,
         ]}
       />
-      <Drawer
-        title="课程打分"
-        placement="right"
-        closable={false}
-        open={showCourseRating}
-        onClose={() => setShowCourseRating(false)}
-        key="course_rating"
-      >
-        {<CourseRating course_uuid="" />}
-      </Drawer>
     </Layout>
   );
-};
-
-const CourseRating: React.FC<{ course_uuid: string }> = ({ course_uuid }) => {
-  return <></>;
 };
 
 export default CoursesPage;
