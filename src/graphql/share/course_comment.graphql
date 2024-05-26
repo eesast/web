@@ -3,7 +3,7 @@
 #查 所有评论
 query GetCourseComments($course_uuid: uuid!) {
   course_comment(
-    order_by: { created_at: asc }
+    order_by: { created_at: desc }
     where: { course_id: { _eq: $course_uuid } }
   ) {
     comment
@@ -11,9 +11,80 @@ query GetCourseComments($course_uuid: uuid!) {
     updated_at
     uuid
     user_uuid
+    parent_uuid
     user {
       username
     }
+  }
+}
+
+query GetCourseCommentsStared($user_uuid: uuid!, $course_uuid: uuid!) {
+  course_comment_stars(
+    where: {
+      user_uuid: { _eq: $user_uuid }
+      course_comment: { course_id: { _eq: $course_uuid } }
+    }
+    order_by: { course_comment: { created_at: desc } }
+  ) {
+    course_comment {
+      comment
+      created_at
+      updated_at
+      uuid
+      user_uuid
+      parent_uuid
+      user {
+        username
+      }
+    }
+  }
+}
+
+query GetCourseCommentStars($comment_uuid: uuid!) {
+  course_comment_stars_aggregate(
+    where: { comment_uuid: { _eq: $comment_uuid } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query GetCourseCommentLikes($comment_uuid: uuid!) {
+  course_comment_likes_aggregate(
+    where: { comment_uuid: { _eq: $comment_uuid } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query GetCourseCommentUserStars($comment_uuid: uuid!, $user_uuid: uuid!) {
+  course_comment_stars(
+    limit: 1
+    where: {
+      _and: {
+        comment_uuid: { _eq: $comment_uuid }
+        user_uuid: { _eq: $user_uuid }
+      }
+    }
+  ) {
+    comment_uuid
+  }
+}
+
+query GetCourseCommentUserLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
+  course_comment_likes(
+    limit: 1
+    where: {
+      _and: {
+        comment_uuid: { _eq: $comment_uuid }
+        user_uuid: { _eq: $user_uuid }
+      }
+    }
+  ) {
+    comment_uuid
   }
 }
 
@@ -32,15 +103,35 @@ mutation AddCourseCommentOne(
   $comment: String!
   $user_uuid: uuid!
   $course_uuid: uuid!
+  $parent_uuid: uuid
 ) {
   insert_course_comment_one(
     object: {
       comment: $comment
       course_id: $course_uuid
       user_uuid: $user_uuid
+      parent_uuid: $parent_uuid
     }
   ) {
     uuid
+  }
+}
+
+mutation AddCourseCommentStars($comment_uuid: uuid!, $user_uuid: uuid!) {
+  insert_course_comment_stars_one(
+    object: { comment_uuid: $comment_uuid, user_uuid: $user_uuid }
+    on_conflict: { constraint: course_comment_star_pkey, update_columns: [] }
+  ) {
+    comment_uuid
+  }
+}
+
+mutation AddCourseCommentLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
+  insert_course_comment_likes_one(
+    object: { comment_uuid: $comment_uuid, user_uuid: $user_uuid }
+    on_conflict: { constraint: course_comment_likes_pkey, update_columns: [] }
+  ) {
+    comment_uuid
   }
 }
 
@@ -48,5 +139,23 @@ mutation AddCourseCommentOne(
 mutation DeleteCourseCommentOne($uuid: uuid!) {
   delete_course_comment_by_pk(uuid: $uuid) {
     uuid
+  }
+}
+
+mutation DeleteCourseCommentStars($comment_uuid: uuid!, $user_uuid: uuid!) {
+  delete_course_comment_stars_by_pk(
+    comment_uuid: $comment_uuid
+    user_uuid: $user_uuid
+  ) {
+    comment_uuid
+  }
+}
+
+mutation DeleteCourseCommentLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
+  delete_course_comment_likes_by_pk(
+    comment_uuid: $comment_uuid
+    user_uuid: $user_uuid
+  ) {
+    comment_uuid
   }
 }

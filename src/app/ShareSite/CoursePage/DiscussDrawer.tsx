@@ -30,6 +30,7 @@ interface Comment {
   updated_at: string;
   uuid: string;
   user_uuid: string;
+  parent_uuid?: string;
   user: {
     username?: any;
   };
@@ -273,6 +274,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                 padding: "10px",
                 marginBottom: "10px",
                 borderRadius: "5px",
+                // 透明度
+                opacity: 0.8,
               }}
               actions={[
                 <IconText icon={StarOutlined} text="1" />,
