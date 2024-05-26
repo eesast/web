@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Layout, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useUrl } from "../../../api/hooks/url";
+//import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { PageProps } from "../..";
 import DiscussDrawer from "./DiscussDrawer";
 import CourseRating from "./CourseRating";
@@ -14,7 +14,7 @@ export interface CourseProps extends PageProps {
 }
 
 const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
-  const url = useUrl();
+  //const url = useUrl();
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
   const columns: ProColumns<graphql.GetCourseQuery["course"][0]>[] = [
     {
@@ -95,7 +95,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       render: (text, record, _, action) => [
         <DiscussDrawer course_uuid={record.uuid} mode={mode} user={user} />,
         <CourseRating course_uuid={record.uuid} mode={mode} user={user} />,
-        <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
+        // <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
   ];
