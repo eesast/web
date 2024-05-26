@@ -7,7 +7,7 @@ import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { Link } from "react-router-dom";
 import { PageProps } from "../..";
 import DiscussDrawer from "./DiscussDrawer";
-//import CourseRating from "./CourseRating";
+import CourseRating from "./CourseRating";
 
 export interface CourseProps extends PageProps {
   course_uuid: string;
@@ -94,6 +94,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       key: "option",
       render: (text, record, _, action) => [
         <DiscussDrawer course_uuid={record.uuid} mode={mode} user={user} />,
+        <CourseRating course_uuid={record.uuid} mode={mode} user={user} />,
         <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
