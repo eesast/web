@@ -15,7 +15,6 @@ import { ReloadOutlined } from "@ant-design/icons";
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import { Chart } from "@antv/g2";
-import { QueryManager } from "@apollo/client/core/QueryManager";
 
 const CourseRating: React.FC<CourseProps> = ({
   course_uuid,
