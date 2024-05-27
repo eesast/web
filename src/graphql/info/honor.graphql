@@ -27,7 +27,7 @@ query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
     statement
     attachment_url
     status
-    student_byuuid {
+    student {
       uuid
       realname
       class

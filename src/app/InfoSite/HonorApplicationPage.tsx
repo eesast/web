@@ -290,7 +290,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       <SearchOutlined style={{ color: filtered ? "#027dcd" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record["student_byuuid"]![dataIndex]!.toString()
+      record["student"]![dataIndex]!.toString()
         .toLowerCase()
         .includes(value.toString().toLowerCase()),
     onFilterDropdownVisibleChange: (visible) => {
@@ -332,19 +332,19 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   >["columns"] = [
     {
       title: "学号",
-      dataIndex: ["student_byuuid", "student_no"],
+      dataIndex: ["student", "student_no"],
       key: "student_id",
       ...getColumnSearchProps("student_no", "学号"),
     },
     {
       title: "姓名",
-      dataIndex: ["student_byuuid", "realname"],
+      dataIndex: ["student", "realname"],
       key: "name",
       ...getColumnSearchProps("realname", "姓名"),
     },
     {
       title: "班级",
-      dataIndex: ["student_byuuid", "class"],
+      dataIndex: ["student", "class"],
       key: "class",
       ...getColumnSearchProps("class", "班级"),
     },
@@ -413,14 +413,14 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         (application) =>
           application.honor === exportHonor &&
           exportClasses.some((_class) =>
-            application.student_byuuid?.class?.includes(_class),
+            application.student?.class?.includes(_class),
           ),
       )
       .map((i) => [
         i.id,
-        i.student_byuuid?.realname,
-        i.student_byuuid?.class,
-        i.student_byuuid?.student_no,
+        i.student?.realname,
+        i.student?.class,
+        i.student?.student_no,
         exportHonor,
         getStatusText(i.status),
         i.statement,
@@ -463,9 +463,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     const applications = applicationsForCounselors!.honor_application.map(
       (i) => [
         i.id,
-        i.student_byuuid?.realname,
-        i.student_byuuid?.class,
-        i.student_byuuid?.student_no,
+        i.student?.realname,
+        i.student?.class,
+        i.student?.student_no,
         i.honor,
         getStatusText(i.status),
         i.statement,
