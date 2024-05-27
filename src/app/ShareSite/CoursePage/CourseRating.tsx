@@ -242,7 +242,7 @@ const CourseRating: React.FC<CourseProps> = ({
           type="primary"
           onClick={showDrawer}
           style={{
-            marginLeft: "30px",
+            marginLeft: "12px",
           }}
         >
           评分
@@ -318,7 +318,7 @@ const CourseRating: React.FC<CourseProps> = ({
           <Typography.Text>
             <span style={{ fontSize: "18px", lineHeight: 1.8 }}>
               1.
-              评分目的：课程评分旨在帮助同学们更好地了解课程情况，为选课提供参考，希望同学根据自身上课体验认真评分
+              课程评分旨在帮助同学们更好地了解课程情况，为选课提供参考，希望同学根据自身体验认真评分
               <br />
               <br />
               2.
