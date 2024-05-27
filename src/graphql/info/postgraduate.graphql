@@ -1,65 +1,65 @@
-# query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
-#   postgraduate_mentor_info(
-#     where: { verified: { _eq: true } }
-#     limit: $limit
-#     order_by: { id: asc }
-#     offset: $offset
-#   ) {
-#     id
-#     created_at
-#     updated_at
-#     mentor
-#     field
-#     phd_quota
-#     phd_quota_unfixed
-#     contact
-#     alternate_contact
-#     home_page
-#     detail_info
-#     user_id
-#     intend: applications_aggregate(
-#       where: {
-#         _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
-#       }
-#     ) {
-#       aggregate {
-#         count
-#         max {
-#           updated_at
-#         }
-#       }
-#     }
-#     in_contact: applications_aggregate(
-#       where: {
-#         _and: [{ verified: { _eq: true } }, { status: { _eq: "in_contact" } }]
-#       }
-#     ) {
-#       aggregate {
-#         count
-#         max {
-#           updated_at
-#         }
-#       }
-#     }
-#     confirmed: applications_aggregate(
-#       where: {
-#         _and: [{ verified: { _eq: true } }, { status: { _eq: "confirmed" } }]
-#       }
-#     ) {
-#       aggregate {
-#         count
-#         max {
-#           updated_at
-#         }
-#       }
-#     }
-#   }
-#   postgraduate_mentor_info_aggregate {
-#     aggregate {
-#       count
-#     }
-#   }
-# }
+query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
+  postgraduate_mentor_info(
+    where: { verified: { _eq: true } }
+    limit: $limit
+    order_by: { id: asc }
+    offset: $offset
+  ) {
+    id
+    created_at
+    updated_at
+    mentor
+    field
+    phd_quota
+    phd_quota_unfixed
+    contact
+    alternate_contact
+    home_page
+    detail_info
+    user_id
+    intend: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "intend" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    in_contact: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "in_contact" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    confirmed: applications_aggregate(
+      where: {
+        _and: [{ verified: { _eq: true } }, { status: { _eq: "confirmed" } }]
+      }
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+  }
+  postgraduate_mentor_info_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
 
 # query GetUnverifiedMentorInfo($limit: Int = 10, $offset: Int = 0) {
 #   postgraduate_mentor_info(
