@@ -10,6 +10,7 @@ import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import IntroPage from "./IntroPage";
 import MinecraftPage from "./MinecraftPage";
+import Authenticate, { userRoles } from "../Components/Authenticate";
 
 const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
@@ -75,8 +76,8 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
       label: <Link to={url.link("minecraft")}>Minecraft</Link>,
     },
   ];
-  
-  if (user.role === 'student') {
+
+  if (user.role === "student") {
     items.splice(1, 0, {
       key: "course",
       label: <Link to={url.link("course")}>课程</Link>,
@@ -103,10 +104,13 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             />
             <Route
               path="course"
-              element={<CoursePage mode={mode} user={user} />}
+              element={
+                <Authenticate role={userRoles} user={user}>
+                  <CoursePage mode={mode} user={user} />
+                </Authenticate>
+              }
             />
             <Route path="repo" element={<RepoPage mode={mode} user={user} />} />
-            {/* <Route path="toturial"} element={<CoursePage />} mode={mode} user={user} /> */}
             <Route
               path="weekly"
               element={<WeeklyPage mode={mode} user={user} />}

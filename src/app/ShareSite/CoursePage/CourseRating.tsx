@@ -1,5 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Card, Drawer, Form, Rate, Space, message, Spin } from "antd";
+import {
+  Badge,
+  Button,
+  Card,
+  Drawer,
+  Form,
+  message,
+  Rate,
+  Space,
+  Spin,
+  Typography,
+} from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
@@ -40,6 +51,7 @@ const CourseRating: React.FC<CourseProps> = ({
     setOpenDrawer(true);
     setLoading(true);
   };
+
   const closeDrawer = () => {
     setOpenDrawer(false);
   };
@@ -113,7 +125,13 @@ const CourseRating: React.FC<CourseProps> = ({
     }
   };
 
-  console.log(courseRatingData);
+  const taskAmountDesc = ["大", "较大", "适中", "较小", "小"];
+  const contentDifficultyDesc = ["难", "较难", "适中", "较易", "易"];
+  const courseQualityDesc = ["差", "较差", "一般", "较好", "好"];
+  const harvestDesc = ["小", "较小", "适中", "较大", "大"];
+  const scoreDesc = ["差", "较差", "一般", "较好", "好"];
+  const relevanceDesc = ["低", "较低", "一般", "较高", "高"];
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!chartRadarRef.current) return;
@@ -131,16 +149,16 @@ const CourseRating: React.FC<CourseProps> = ({
         score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim3,
       },
       {
+        item: "考试作业讲课相关度",
+        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim6,
+      },
+      {
         item: "收获感",
         score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim4,
       },
       {
         item: "给分好坏",
         score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim5,
-      },
-      {
-        item: "考试作业讲课相关度",
-        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim6,
       },
     ];
 
@@ -165,7 +183,7 @@ const CourseRating: React.FC<CourseProps> = ({
           gridSroke: mode === "dark" ? "white" : "black",
           tick: false,
           gridLineDash: [0, 0],
-          labelFontSize: 12,
+          labelFontSize: 16,
           labelFill: mode === "dark" ? "white" : "black",
           labelAlign: "horizontal",
           labelFontWeight: "bold",
@@ -177,7 +195,7 @@ const CourseRating: React.FC<CourseProps> = ({
           gridLineWidth: 2,
           gridSroke: mode === "dark" ? "white" : "black",
           labelFill: mode === "dark" ? "white" : "black",
-          labelFontSize: 12,
+          labelFontSize: 15,
           gridLineDash: [0, 0],
         },
       },
@@ -217,16 +235,19 @@ const CourseRating: React.FC<CourseProps> = ({
 
   return (
     <>
-      <Button
-        type="primary"
-        onClick={showDrawer}
-        style={{
-          marginLeft: "10px",
-          marginRight: "10px",
-        }}
+      <Badge
+        count={courseRatingTotal?.course_rating_aggregate.aggregate?.count}
       >
-        评分
-      </Button>
+        <Button
+          type="primary"
+          onClick={showDrawer}
+          style={{
+            marginLeft: "12px",
+          }}
+        >
+          评分
+        </Button>
+      </Badge>
       <Drawer
         title={
           <div
@@ -236,7 +257,7 @@ const CourseRating: React.FC<CourseProps> = ({
               alignItems: "center",
             }}
           >
-            <span style={{ fontSize: "24px" }}>课程评分</span>
+            <span style={{ fontSize: "26px" }}>课程评分</span>
             <Space>
               <Button
                 size="large"
@@ -286,36 +307,71 @@ const CourseRating: React.FC<CourseProps> = ({
         <Card
           hoverable
           title={
-            <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-              平均评分
+            <span style={{ fontSize: "23px", fontWeight: "bold" }}>
+              评分说明
             </span>
           }
+          style={{
+            padding: "15px",
+          }}
         >
-          <Spin spinning={loading}>
-            <div
-              ref={chartRadarRef}
-              style={{ width: "100%", height: "38vh" }}
-            />
-          </Spin>
+          <Typography.Text>
+            <span style={{ fontSize: "18px", lineHeight: 1.8 }}>
+              1.
+              课程评分旨在帮助同学们更好地了解课程情况，为选课提供参考，希望同学根据自身体验认真评分
+              <br />
+              <br />
+              2.
+              任务量和内容难度：星级越高表示任务量越小、内容难度越低，主要是为了反映任务量的多少和难度的高低，但
+              <span style={{ fontWeight: "bold" }}>并非星级越高越合适</span>
+              ，同学可以根据自身需求进行评判
+              <br />
+            </span>
+          </Typography.Text>
         </Card>
         <br />
         <Card
           hoverable
           title={
-            <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+            <span style={{ fontSize: "23px", fontWeight: "bold" }}>
+              平均评分
+            </span>
+          }
+          style={{
+            padding: "15px",
+          }}
+        >
+          <Spin spinning={loading}>
+            <div
+              ref={chartRadarRef}
+              style={{ width: "100%", height: "36vh" }}
+            />
+          </Spin>
+          <div style={{ textAlign: "center", fontSize: "18px" }}>
+            已有
+            <span style={{ color: "red", fontWeight: "bold" }}>
+              {courseRatingTotal?.course_rating_aggregate.aggregate?.count}
+            </span>
+            人完成评分
+          </div>
+        </Card>
+        <br />
+        <Card
+          hoverable
+          title={
+            <span style={{ fontSize: "23px", fontWeight: "bold" }}>
               我的评分
             </span>
           }
-          style={{ fontSize: "30px" }}
+          style={{
+            padding: "15px",
+          }}
         >
           <Form
             layout="inline"
             labelAlign="left"
             labelCol={{ span: 12 }}
             wrapperCol={{ span: 22 }}
-            style={{
-              marginLeft: "10px",
-            }}
             form={form}
             initialValues={{
               dim1: 0,
@@ -328,47 +384,69 @@ const CourseRating: React.FC<CourseProps> = ({
           >
             <Form.Item
               name="dim1"
-              label={<span style={{ paddingLeft: "84px" }}>任务量</span>}
+              label={
+                <span style={{ fontSize: "18px", paddingLeft: "108px" }}>
+                  任务量
+                </span>
+              }
               style={{ marginBottom: "18px" }}
             >
-              <Rate style={{ fontSize: 35 }} />
+              <Rate tooltips={taskAmountDesc} style={{ fontSize: 35 }} />
             </Form.Item>
             <Form.Item
               name="dim2"
-              label={<span style={{ paddingLeft: "70px" }}>内容难度</span>}
+              label={
+                <span style={{ fontSize: "18px", paddingLeft: "90px" }}>
+                  内容难度
+                </span>
+              }
               style={{ marginBottom: "18px" }}
             >
-              <Rate style={{ fontSize: 35 }} />
+              <Rate tooltips={contentDifficultyDesc} style={{ fontSize: 35 }} />
             </Form.Item>
             <Form.Item
               name="dim3"
-              label={<span style={{ paddingLeft: "70px" }}>上课质量</span>}
+              label={
+                <span style={{ fontSize: "18px", paddingLeft: "90px" }}>
+                  上课质量
+                </span>
+              }
               style={{ marginBottom: "18px" }}
             >
-              <Rate style={{ fontSize: 35 }} />
+              <Rate tooltips={courseQualityDesc} style={{ fontSize: 35 }} />
             </Form.Item>
             <Form.Item
               name="dim4"
-              label={<span style={{ paddingLeft: "84px" }}>收获感</span>}
+              label={
+                <span style={{ fontSize: "18px", paddingLeft: "108px" }}>
+                  收获感
+                </span>
+              }
               style={{ marginBottom: "18px" }}
             >
-              <Rate style={{ fontSize: 35 }} />
+              <Rate tooltips={harvestDesc} style={{ fontSize: 35 }} />
             </Form.Item>
             <Form.Item
               name="dim5"
-              label={<span style={{ paddingLeft: "70px" }}>给分好坏</span>}
+              label={
+                <span style={{ fontSize: "18px", paddingLeft: "90px" }}>
+                  给分好坏
+                </span>
+              }
               style={{ marginBottom: "18px" }}
             >
-              <Rate style={{ fontSize: 35 }} />
+              <Rate tooltips={scoreDesc} style={{ fontSize: 35 }} />
             </Form.Item>
             <Form.Item
               name="dim6"
               label={
-                <span style={{ paddingLeft: "0px" }}>考试作业讲课相关度</span>
+                <span style={{ fontSize: "18px", paddingLeft: "0px" }}>
+                  考试作业讲课相关度
+                </span>
               }
               style={{ marginBottom: "18px" }}
             >
-              <Rate style={{ fontSize: 35 }} />
+              <Rate tooltips={relevanceDesc} style={{ fontSize: 35 }} />
             </Form.Item>
           </Form>
         </Card>
