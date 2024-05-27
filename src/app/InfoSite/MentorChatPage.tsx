@@ -40,19 +40,16 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [approvedApplicationsError]);
 
-  const mentor =
-    approvedApplicationsData?.mentor_application?.[0]?.mentor_byuuid;
+  const mentor = approvedApplicationsData?.mentor_application?.[0]?.mentor;
   const students = useMemo(
     () =>
-      approvedApplicationsData?.mentor_application.map(
-        (i) => i.student_byuuid,
-      ) ?? [],
+      approvedApplicationsData?.mentor_application.map((i) => i.student) ?? [],
     [approvedApplicationsData?.mentor_application],
   );
 
   const [selectedStudent, setSelectedStudent] =
     useState<
-      graphql.GetApprovedMentorApplicationsQuery["mentor_application"][0]["student_byuuid"]
+      graphql.GetApprovedMentorApplicationsQuery["mentor_application"][0]["student"]
     >();
 
   useEffect(() => {

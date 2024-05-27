@@ -550,11 +550,11 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
       const applications = applicationForCounselorsData!.mentor_application.map(
         (i) => [
-          i.student_byuuid?.uuid,
-          i.student_byuuid?.realname,
-          i.student_byuuid?.class,
-          i.mentor_byuuid?.department,
-          i.mentor_byuuid?.realname,
+          i.student?.uuid,
+          i.student?.realname,
+          i.student?.class,
+          i.mentor?.department,
+          i.mentor?.realname,
           i.statement,
           getStatusText(i.status),
         ],
@@ -941,10 +941,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                   `}
                 >
                   <Descriptions.Item label="导师姓名" span={2}>
-                    {item.mentor_byuuid?.realname}
+                    {item.mentor?.realname}
                   </Descriptions.Item>
                   <Descriptions.Item label="导师院系">
-                    {item.mentor_byuuid?.department}
+                    {item.mentor?.department}
                   </Descriptions.Item>
                   <Descriptions.Item label="申请时间" span={2}>
                     {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
@@ -1087,17 +1087,17 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                   `}
                 >
                   <Descriptions.Item label="学生姓名" span={2}>
-                    {item.student_byuuid?.realname}
+                    {item.student?.realname}
                   </Descriptions.Item>
                   <Descriptions.Item label="学生院系">
-                    {item.student_byuuid?.department}
+                    {item.student?.department}
                   </Descriptions.Item>
                   <Descriptions.Item label="邮箱" span={2}>
-                    {item.student_byuuid?.email}
+                    {item.student?.email}
                   </Descriptions.Item>
                   {item.status === "approved" && (
                     <Descriptions.Item label="手机">
-                      {item.student_byuuid?.phone}
+                      {item.student?.phone}
                     </Descriptions.Item>
                   )}
                   <Descriptions.Item label="申请时间" span={2}>
@@ -1189,13 +1189,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               onFinish={handleApplicationEdit}
               initialValues={editingApplication}
             >
-              <Form.Item name={["mentor_byuuid", "realname"]} label="导师姓名">
+              <Form.Item name={["mentor", "realname"]} label="导师姓名">
                 <Input readOnly />
               </Form.Item>
-              <Form.Item
-                name={["mentor_byuuid", "department"]}
-                label="导师院系"
-              >
+              <Form.Item name={["mentor", "department"]} label="导师院系">
                 <Input readOnly />
               </Form.Item>
               <Form.Item
@@ -1316,7 +1313,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         <Descriptions
           title={
             mentorInfoData?.mentor_info_by_pk
-              ? `${mentorInfoData?.mentor_info_by_pk?.userByMentorUuid.realname}的信息`
+              ? `${mentorInfoData?.mentor_info_by_pk?.user.realname}的信息`
               : "老师信息未记录于数据库中"
           }
           column={1}
@@ -1369,13 +1366,13 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             {mentorInfoData?.mentor_info_by_pk?.achievement}
           </Descriptions.Item>
           <Descriptions.Item label="联系邮箱">
-            {mentorInfoData?.mentor_info_by_pk?.userByMentorUuid.email}
+            {mentorInfoData?.mentor_info_by_pk?.user.email}
           </Descriptions.Item>
         </Descriptions>
       </Modal>
       <Modal
         open={showUpdateInfo}
-        title={`更新${mentorInfoData?.mentor_info_by_pk?.userByMentorUuid.realname}信息`}
+        title={`更新${mentorInfoData?.mentor_info_by_pk?.user.realname}信息`}
         centered
         destroyOnClose
         onCancel={() => {

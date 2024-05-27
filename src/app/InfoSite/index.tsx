@@ -3,7 +3,6 @@ import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
 import { Button, Layout, Menu, MenuProps, message } from "antd";
 import {
   TrophyOutlined,
-  // ReadOutlined,
   MenuOutlined,
   InfoCircleOutlined,
   SolutionOutlined,
@@ -14,17 +13,15 @@ import {
 import NoticePage from "./NoticePage";
 import MentorApplicationPage from "./MentorApplicationPage";
 import MentorChatPage from "./MentorChatPage";
-// import MentorInfoVerifyPage from "./MentorInfoVerifyPage";
 import HonorApplicationPage from "./HonorApplicationPage";
-import NotFoundPage from "../Components/NotFound";
-// import ScholarshipApplicationPage from "./ScholarshipApplicationPage";
-// import AidApplicationPage from "./AidApplicationPage";
 // import PostgraduateMentorPage from "./PostgraduateMentorPage";
 // import PostgraduateApplicationPage from "./PostgraduateApplicationPage";
+// import PostgraduateMentorInfoVerifyPage from "./PostgraduateMentorInfoVerifyPage";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import * as graphql from "@/generated/graphql";
 import Loading from "../Components/Loading";
+import NotFoundPage from "../Components/NotFound";
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const { Content, Sider } = Layout;
@@ -109,15 +106,6 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
           label: <Link to={url.link("honors")}>荣誉</Link>,
           icon: <BankOutlined />,
         },
-        // {
-        //   key: "scholarships",
-        //   label: <Link to={url.link("scholarships")}>奖学金</Link>,
-        //   icon: <ReadOutlined />,
-        // },
-        // {
-        //   key: "financial-aid",
-        //   label: <Link to={url.link("financial-aid")}>助学金</Link>,
-        // },
       ],
     },
     // {
@@ -229,17 +217,12 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
               element={<HonorApplicationPage mode={mode} user={user} />}
             />
             {/* <Route
-              path="scholarships"
-              element={<ScholarshipApplicationPage mode={mode} user={user} />}
-            /> */}
-            {/* <Route path="financial-aid" element={<AidApplicationPage mode={mode} user={user} />} /> */}
-            {/* <Route
               path="postgraduate-mentor-info"
               element={<PostgraduateMentorPage mode={mode} user={user} />}
             />
             <Route
               path="mentor-info-verify"
-              element={<MentorInfoVerifyPage mode={mode} user={user} />}
+              element={<PostgraduateMentorInfoVerifyPage mode={mode} user={user} />}
             />
             <Route
               path="postgraduate-application"
