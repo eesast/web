@@ -81,284 +81,6 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** columns and relationships of "aid_application" */
-export type Aid_Application = {
-  __typename?: 'aid_application';
-  aid: Scalars['String']['output'];
-  amount: Scalars['Int']['output'];
-  code: Scalars['String']['output'];
-  created_at: Scalars['timestamptz']['output'];
-  form_url?: Maybe<Scalars['String']['output']>;
-  id: Scalars['uuid']['output'];
-  status: Scalars['String']['output'];
-  student_id: Scalars['String']['output'];
-  student_uuid: Scalars['uuid']['output'];
-  thank_letter?: Maybe<Scalars['String']['output']>;
-  updated_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  user: Users;
-};
-
-/** aggregated selection of "aid_application" */
-export type Aid_Application_Aggregate = {
-  __typename?: 'aid_application_aggregate';
-  aggregate?: Maybe<Aid_Application_Aggregate_Fields>;
-  nodes: Array<Aid_Application>;
-};
-
-/** aggregate fields of "aid_application" */
-export type Aid_Application_Aggregate_Fields = {
-  __typename?: 'aid_application_aggregate_fields';
-  avg?: Maybe<Aid_Application_Avg_Fields>;
-  count: Scalars['Int']['output'];
-  max?: Maybe<Aid_Application_Max_Fields>;
-  min?: Maybe<Aid_Application_Min_Fields>;
-  stddev?: Maybe<Aid_Application_Stddev_Fields>;
-  stddev_pop?: Maybe<Aid_Application_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Aid_Application_Stddev_Samp_Fields>;
-  sum?: Maybe<Aid_Application_Sum_Fields>;
-  var_pop?: Maybe<Aid_Application_Var_Pop_Fields>;
-  var_samp?: Maybe<Aid_Application_Var_Samp_Fields>;
-  variance?: Maybe<Aid_Application_Variance_Fields>;
-};
-
-
-/** aggregate fields of "aid_application" */
-export type Aid_Application_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** aggregate avg on columns */
-export type Aid_Application_Avg_Fields = {
-  __typename?: 'aid_application_avg_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** Boolean expression to filter rows from the table "aid_application". All fields are combined with a logical 'AND'. */
-export type Aid_Application_Bool_Exp = {
-  _and?: InputMaybe<Array<Aid_Application_Bool_Exp>>;
-  _not?: InputMaybe<Aid_Application_Bool_Exp>;
-  _or?: InputMaybe<Array<Aid_Application_Bool_Exp>>;
-  aid?: InputMaybe<String_Comparison_Exp>;
-  amount?: InputMaybe<Int_Comparison_Exp>;
-  code?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  form_url?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  status?: InputMaybe<String_Comparison_Exp>;
-  student_id?: InputMaybe<String_Comparison_Exp>;
-  student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
-  thank_letter?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<Users_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "aid_application" */
-export enum Aid_Application_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  AidApplicationPkey1 = 'aid_application_pkey1'
-}
-
-/** input type for incrementing numeric columns in table "aid_application" */
-export type Aid_Application_Inc_Input = {
-  amount?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** input type for inserting data into table "aid_application" */
-export type Aid_Application_Insert_Input = {
-  aid?: InputMaybe<Scalars['String']['input']>;
-  amount?: InputMaybe<Scalars['Int']['input']>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_url?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-  student_id?: InputMaybe<Scalars['String']['input']>;
-  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  thank_letter?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-};
-
-/** aggregate max on columns */
-export type Aid_Application_Max_Fields = {
-  __typename?: 'aid_application_max_fields';
-  aid?: Maybe<Scalars['String']['output']>;
-  amount?: Maybe<Scalars['Int']['output']>;
-  code?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_url?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
-  student_id?: Maybe<Scalars['String']['output']>;
-  student_uuid?: Maybe<Scalars['uuid']['output']>;
-  thank_letter?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** aggregate min on columns */
-export type Aid_Application_Min_Fields = {
-  __typename?: 'aid_application_min_fields';
-  aid?: Maybe<Scalars['String']['output']>;
-  amount?: Maybe<Scalars['Int']['output']>;
-  code?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_url?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
-  student_id?: Maybe<Scalars['String']['output']>;
-  student_uuid?: Maybe<Scalars['uuid']['output']>;
-  thank_letter?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** response of any mutation on the table "aid_application" */
-export type Aid_Application_Mutation_Response = {
-  __typename?: 'aid_application_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Aid_Application>;
-};
-
-/** on_conflict condition type for table "aid_application" */
-export type Aid_Application_On_Conflict = {
-  constraint: Aid_Application_Constraint;
-  update_columns?: Array<Aid_Application_Update_Column>;
-  where?: InputMaybe<Aid_Application_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "aid_application". */
-export type Aid_Application_Order_By = {
-  aid?: InputMaybe<Order_By>;
-  amount?: InputMaybe<Order_By>;
-  code?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  form_url?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  student_id?: InputMaybe<Order_By>;
-  student_uuid?: InputMaybe<Order_By>;
-  thank_letter?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<Users_Order_By>;
-};
-
-/** primary key columns input for table: aid_application */
-export type Aid_Application_Pk_Columns_Input = {
-  id: Scalars['uuid']['input'];
-};
-
-/** select columns of table "aid_application" */
-export enum Aid_Application_Select_Column {
-  /** column name */
-  Aid = 'aid',
-  /** column name */
-  Amount = 'amount',
-  /** column name */
-  Code = 'code',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormUrl = 'form_url',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  StudentId = 'student_id',
-  /** column name */
-  StudentUuid = 'student_uuid',
-  /** column name */
-  ThankLetter = 'thank_letter',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "aid_application" */
-export type Aid_Application_Set_Input = {
-  aid?: InputMaybe<Scalars['String']['input']>;
-  amount?: InputMaybe<Scalars['Int']['input']>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_url?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-  student_id?: InputMaybe<Scalars['String']['input']>;
-  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  thank_letter?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Aid_Application_Stddev_Fields = {
-  __typename?: 'aid_application_stddev_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Aid_Application_Stddev_Pop_Fields = {
-  __typename?: 'aid_application_stddev_pop_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Aid_Application_Stddev_Samp_Fields = {
-  __typename?: 'aid_application_stddev_samp_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate sum on columns */
-export type Aid_Application_Sum_Fields = {
-  __typename?: 'aid_application_sum_fields';
-  amount?: Maybe<Scalars['Int']['output']>;
-};
-
-/** update columns of table "aid_application" */
-export enum Aid_Application_Update_Column {
-  /** column name */
-  Aid = 'aid',
-  /** column name */
-  Amount = 'amount',
-  /** column name */
-  Code = 'code',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormUrl = 'form_url',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  StudentId = 'student_id',
-  /** column name */
-  StudentUuid = 'student_uuid',
-  /** column name */
-  ThankLetter = 'thank_letter',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** aggregate var_pop on columns */
-export type Aid_Application_Var_Pop_Fields = {
-  __typename?: 'aid_application_var_pop_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate var_samp on columns */
-export type Aid_Application_Var_Samp_Fields = {
-  __typename?: 'aid_application_var_samp_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate variance on columns */
-export type Aid_Application_Variance_Fields = {
-  __typename?: 'aid_application_variance_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
 /** columns and relationships of "contest" */
 export type Contest = {
   __typename?: 'contest';
@@ -3768,8 +3490,11 @@ export type Course_Comment = {
   comment: Scalars['String']['output'];
   /** An object relationship */
   course: Course;
+  /** An object relationship */
+  course_comment_parent?: Maybe<Course_Comment>;
   course_id: Scalars['uuid']['output'];
   created_at: Scalars['timestamptz']['output'];
+  parent_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   user: Users;
@@ -3820,170 +3545,15 @@ export type Course_Comment_Bool_Exp = {
   _or?: InputMaybe<Array<Course_Comment_Bool_Exp>>;
   comment?: InputMaybe<String_Comparison_Exp>;
   course?: InputMaybe<Course_Bool_Exp>;
+  course_comment_parent?: InputMaybe<Course_Comment_Bool_Exp>;
   course_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  parent_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
-
-/** columns and relationships of "course_comment_comment" */
-export type Course_Comment_Comment = {
-  __typename?: 'course_comment_comment';
-  comment: Scalars['String']['output'];
-  comment_uuid: Scalars['uuid']['output'];
-  /** An object relationship */
-  course_comment: Course_Comment;
-  create_at: Scalars['timestamptz']['output'];
-  update_at: Scalars['timestamptz']['output'];
-  /** An object relationship */
-  user: Users;
-  user_uuid: Scalars['uuid']['output'];
-};
-
-/** aggregated selection of "course_comment_comment" */
-export type Course_Comment_Comment_Aggregate = {
-  __typename?: 'course_comment_comment_aggregate';
-  aggregate?: Maybe<Course_Comment_Comment_Aggregate_Fields>;
-  nodes: Array<Course_Comment_Comment>;
-};
-
-/** aggregate fields of "course_comment_comment" */
-export type Course_Comment_Comment_Aggregate_Fields = {
-  __typename?: 'course_comment_comment_aggregate_fields';
-  count: Scalars['Int']['output'];
-  max?: Maybe<Course_Comment_Comment_Max_Fields>;
-  min?: Maybe<Course_Comment_Comment_Min_Fields>;
-};
-
-
-/** aggregate fields of "course_comment_comment" */
-export type Course_Comment_Comment_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Boolean expression to filter rows from the table "course_comment_comment". All fields are combined with a logical 'AND'. */
-export type Course_Comment_Comment_Bool_Exp = {
-  _and?: InputMaybe<Array<Course_Comment_Comment_Bool_Exp>>;
-  _not?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
-  _or?: InputMaybe<Array<Course_Comment_Comment_Bool_Exp>>;
-  comment?: InputMaybe<String_Comparison_Exp>;
-  comment_uuid?: InputMaybe<Uuid_Comparison_Exp>;
-  course_comment?: InputMaybe<Course_Comment_Bool_Exp>;
-  create_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  update_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<Users_Bool_Exp>;
-  user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "course_comment_comment" */
-export enum Course_Comment_Comment_Constraint {
-  /** unique or primary key constraint on columns "comment_uuid", "user_uuid" */
-  CourseCommentCommentPkey = 'course_comment_comment_pkey'
-}
-
-/** input type for inserting data into table "course_comment_comment" */
-export type Course_Comment_Comment_Insert_Input = {
-  comment?: InputMaybe<Scalars['String']['input']>;
-  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  course_comment?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
-  create_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  update_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** aggregate max on columns */
-export type Course_Comment_Comment_Max_Fields = {
-  __typename?: 'course_comment_comment_max_fields';
-  comment?: Maybe<Scalars['String']['output']>;
-  comment_uuid?: Maybe<Scalars['uuid']['output']>;
-  create_at?: Maybe<Scalars['timestamptz']['output']>;
-  update_at?: Maybe<Scalars['timestamptz']['output']>;
-  user_uuid?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** aggregate min on columns */
-export type Course_Comment_Comment_Min_Fields = {
-  __typename?: 'course_comment_comment_min_fields';
-  comment?: Maybe<Scalars['String']['output']>;
-  comment_uuid?: Maybe<Scalars['uuid']['output']>;
-  create_at?: Maybe<Scalars['timestamptz']['output']>;
-  update_at?: Maybe<Scalars['timestamptz']['output']>;
-  user_uuid?: Maybe<Scalars['uuid']['output']>;
-};
-
-/** response of any mutation on the table "course_comment_comment" */
-export type Course_Comment_Comment_Mutation_Response = {
-  __typename?: 'course_comment_comment_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Course_Comment_Comment>;
-};
-
-/** on_conflict condition type for table "course_comment_comment" */
-export type Course_Comment_Comment_On_Conflict = {
-  constraint: Course_Comment_Comment_Constraint;
-  update_columns?: Array<Course_Comment_Comment_Update_Column>;
-  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "course_comment_comment". */
-export type Course_Comment_Comment_Order_By = {
-  comment?: InputMaybe<Order_By>;
-  comment_uuid?: InputMaybe<Order_By>;
-  course_comment?: InputMaybe<Course_Comment_Order_By>;
-  create_at?: InputMaybe<Order_By>;
-  update_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<Users_Order_By>;
-  user_uuid?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: course_comment_comment */
-export type Course_Comment_Comment_Pk_Columns_Input = {
-  comment_uuid: Scalars['uuid']['input'];
-  user_uuid: Scalars['uuid']['input'];
-};
-
-/** select columns of table "course_comment_comment" */
-export enum Course_Comment_Comment_Select_Column {
-  /** column name */
-  Comment = 'comment',
-  /** column name */
-  CommentUuid = 'comment_uuid',
-  /** column name */
-  CreateAt = 'create_at',
-  /** column name */
-  UpdateAt = 'update_at',
-  /** column name */
-  UserUuid = 'user_uuid'
-}
-
-/** input type for updating data in table "course_comment_comment" */
-export type Course_Comment_Comment_Set_Input = {
-  comment?: InputMaybe<Scalars['String']['input']>;
-  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  create_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  update_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** update columns of table "course_comment_comment" */
-export enum Course_Comment_Comment_Update_Column {
-  /** column name */
-  Comment = 'comment',
-  /** column name */
-  CommentUuid = 'comment_uuid',
-  /** column name */
-  CreateAt = 'create_at',
-  /** column name */
-  UpdateAt = 'update_at',
-  /** column name */
-  UserUuid = 'user_uuid'
-}
 
 /** unique or primary key constraints on table "course_comment" */
 export enum Course_Comment_Constraint {
@@ -3995,17 +3565,19 @@ export enum Course_Comment_Constraint {
 export type Course_Comment_Insert_Input = {
   comment?: InputMaybe<Scalars['String']['input']>;
   course?: InputMaybe<Course_Obj_Rel_Insert_Input>;
+  course_comment_parent?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
   uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** columns and relationships of "course_comment_like" */
-export type Course_Comment_Like = {
-  __typename?: 'course_comment_like';
+/** columns and relationships of "course_comment_likes" */
+export type Course_Comment_Likes = {
+  __typename?: 'course_comment_likes';
   comment_uuid: Scalars['uuid']['output'];
   /** An object relationship */
   course_comment: Course_Comment;
@@ -4014,47 +3586,47 @@ export type Course_Comment_Like = {
   user_uuid: Scalars['uuid']['output'];
 };
 
-/** aggregated selection of "course_comment_like" */
-export type Course_Comment_Like_Aggregate = {
-  __typename?: 'course_comment_like_aggregate';
-  aggregate?: Maybe<Course_Comment_Like_Aggregate_Fields>;
-  nodes: Array<Course_Comment_Like>;
+/** aggregated selection of "course_comment_likes" */
+export type Course_Comment_Likes_Aggregate = {
+  __typename?: 'course_comment_likes_aggregate';
+  aggregate?: Maybe<Course_Comment_Likes_Aggregate_Fields>;
+  nodes: Array<Course_Comment_Likes>;
 };
 
-/** aggregate fields of "course_comment_like" */
-export type Course_Comment_Like_Aggregate_Fields = {
-  __typename?: 'course_comment_like_aggregate_fields';
+/** aggregate fields of "course_comment_likes" */
+export type Course_Comment_Likes_Aggregate_Fields = {
+  __typename?: 'course_comment_likes_aggregate_fields';
   count: Scalars['Int']['output'];
-  max?: Maybe<Course_Comment_Like_Max_Fields>;
-  min?: Maybe<Course_Comment_Like_Min_Fields>;
+  max?: Maybe<Course_Comment_Likes_Max_Fields>;
+  min?: Maybe<Course_Comment_Likes_Min_Fields>;
 };
 
 
-/** aggregate fields of "course_comment_like" */
-export type Course_Comment_Like_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+/** aggregate fields of "course_comment_likes" */
+export type Course_Comment_Likes_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Comment_Likes_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Boolean expression to filter rows from the table "course_comment_like". All fields are combined with a logical 'AND'. */
-export type Course_Comment_Like_Bool_Exp = {
-  _and?: InputMaybe<Array<Course_Comment_Like_Bool_Exp>>;
-  _not?: InputMaybe<Course_Comment_Like_Bool_Exp>;
-  _or?: InputMaybe<Array<Course_Comment_Like_Bool_Exp>>;
+/** Boolean expression to filter rows from the table "course_comment_likes". All fields are combined with a logical 'AND'. */
+export type Course_Comment_Likes_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Comment_Likes_Bool_Exp>>;
+  _not?: InputMaybe<Course_Comment_Likes_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Comment_Likes_Bool_Exp>>;
   comment_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   course_comment?: InputMaybe<Course_Comment_Bool_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
-/** unique or primary key constraints on table "course_comment_like" */
-export enum Course_Comment_Like_Constraint {
+/** unique or primary key constraints on table "course_comment_likes" */
+export enum Course_Comment_Likes_Constraint {
   /** unique or primary key constraint on columns "comment_uuid", "user_uuid" */
   CourseCommentLikesPkey = 'course_comment_likes_pkey'
 }
 
-/** input type for inserting data into table "course_comment_like" */
-export type Course_Comment_Like_Insert_Input = {
+/** input type for inserting data into table "course_comment_likes" */
+export type Course_Comment_Likes_Insert_Input = {
   comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
   course_comment?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -4062,65 +3634,65 @@ export type Course_Comment_Like_Insert_Input = {
 };
 
 /** aggregate max on columns */
-export type Course_Comment_Like_Max_Fields = {
-  __typename?: 'course_comment_like_max_fields';
+export type Course_Comment_Likes_Max_Fields = {
+  __typename?: 'course_comment_likes_max_fields';
   comment_uuid?: Maybe<Scalars['uuid']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
-export type Course_Comment_Like_Min_Fields = {
-  __typename?: 'course_comment_like_min_fields';
+export type Course_Comment_Likes_Min_Fields = {
+  __typename?: 'course_comment_likes_min_fields';
   comment_uuid?: Maybe<Scalars['uuid']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
-/** response of any mutation on the table "course_comment_like" */
-export type Course_Comment_Like_Mutation_Response = {
-  __typename?: 'course_comment_like_mutation_response';
+/** response of any mutation on the table "course_comment_likes" */
+export type Course_Comment_Likes_Mutation_Response = {
+  __typename?: 'course_comment_likes_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
-  returning: Array<Course_Comment_Like>;
+  returning: Array<Course_Comment_Likes>;
 };
 
-/** on_conflict condition type for table "course_comment_like" */
-export type Course_Comment_Like_On_Conflict = {
-  constraint: Course_Comment_Like_Constraint;
-  update_columns?: Array<Course_Comment_Like_Update_Column>;
-  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+/** on_conflict condition type for table "course_comment_likes" */
+export type Course_Comment_Likes_On_Conflict = {
+  constraint: Course_Comment_Likes_Constraint;
+  update_columns?: Array<Course_Comment_Likes_Update_Column>;
+  where?: InputMaybe<Course_Comment_Likes_Bool_Exp>;
 };
 
-/** Ordering options when selecting data from "course_comment_like". */
-export type Course_Comment_Like_Order_By = {
+/** Ordering options when selecting data from "course_comment_likes". */
+export type Course_Comment_Likes_Order_By = {
   comment_uuid?: InputMaybe<Order_By>;
   course_comment?: InputMaybe<Course_Comment_Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: course_comment_like */
-export type Course_Comment_Like_Pk_Columns_Input = {
+/** primary key columns input for table: course_comment_likes */
+export type Course_Comment_Likes_Pk_Columns_Input = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
 
-/** select columns of table "course_comment_like" */
-export enum Course_Comment_Like_Select_Column {
+/** select columns of table "course_comment_likes" */
+export enum Course_Comment_Likes_Select_Column {
   /** column name */
   CommentUuid = 'comment_uuid',
   /** column name */
   UserUuid = 'user_uuid'
 }
 
-/** input type for updating data in table "course_comment_like" */
-export type Course_Comment_Like_Set_Input = {
+/** input type for updating data in table "course_comment_likes" */
+export type Course_Comment_Likes_Set_Input = {
   comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** update columns of table "course_comment_like" */
-export enum Course_Comment_Like_Update_Column {
+/** update columns of table "course_comment_likes" */
+export enum Course_Comment_Likes_Update_Column {
   /** column name */
   CommentUuid = 'comment_uuid',
   /** column name */
@@ -4133,6 +3705,7 @@ export type Course_Comment_Max_Fields = {
   comment?: Maybe<Scalars['String']['output']>;
   course_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  parent_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
   uuid?: Maybe<Scalars['uuid']['output']>;
@@ -4143,6 +3716,7 @@ export type Course_Comment_Max_Order_By = {
   comment?: InputMaybe<Order_By>;
   course_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  parent_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
   uuid?: InputMaybe<Order_By>;
@@ -4154,6 +3728,7 @@ export type Course_Comment_Min_Fields = {
   comment?: Maybe<Scalars['String']['output']>;
   course_id?: Maybe<Scalars['uuid']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  parent_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
   uuid?: Maybe<Scalars['uuid']['output']>;
@@ -4164,6 +3739,7 @@ export type Course_Comment_Min_Order_By = {
   comment?: InputMaybe<Order_By>;
   course_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  parent_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_uuid?: InputMaybe<Order_By>;
   uuid?: InputMaybe<Order_By>;
@@ -4196,8 +3772,10 @@ export type Course_Comment_On_Conflict = {
 export type Course_Comment_Order_By = {
   comment?: InputMaybe<Order_By>;
   course?: InputMaybe<Course_Order_By>;
+  course_comment_parent?: InputMaybe<Course_Comment_Order_By>;
   course_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  parent_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_uuid?: InputMaybe<Order_By>;
@@ -4218,6 +3796,8 @@ export enum Course_Comment_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  ParentUuid = 'parent_uuid',
+  /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
   UserUuid = 'user_uuid',
@@ -4230,14 +3810,15 @@ export type Course_Comment_Set_Input = {
   comment?: InputMaybe<Scalars['String']['input']>;
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
   uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** columns and relationships of "course_comment_star" */
-export type Course_Comment_Star = {
-  __typename?: 'course_comment_star';
+/** columns and relationships of "course_comment_stars" */
+export type Course_Comment_Stars = {
+  __typename?: 'course_comment_stars';
   comment_uuid: Scalars['uuid']['output'];
   /** An object relationship */
   course_comment: Course_Comment;
@@ -4246,47 +3827,47 @@ export type Course_Comment_Star = {
   user_uuid: Scalars['uuid']['output'];
 };
 
-/** aggregated selection of "course_comment_star" */
-export type Course_Comment_Star_Aggregate = {
-  __typename?: 'course_comment_star_aggregate';
-  aggregate?: Maybe<Course_Comment_Star_Aggregate_Fields>;
-  nodes: Array<Course_Comment_Star>;
+/** aggregated selection of "course_comment_stars" */
+export type Course_Comment_Stars_Aggregate = {
+  __typename?: 'course_comment_stars_aggregate';
+  aggregate?: Maybe<Course_Comment_Stars_Aggregate_Fields>;
+  nodes: Array<Course_Comment_Stars>;
 };
 
-/** aggregate fields of "course_comment_star" */
-export type Course_Comment_Star_Aggregate_Fields = {
-  __typename?: 'course_comment_star_aggregate_fields';
+/** aggregate fields of "course_comment_stars" */
+export type Course_Comment_Stars_Aggregate_Fields = {
+  __typename?: 'course_comment_stars_aggregate_fields';
   count: Scalars['Int']['output'];
-  max?: Maybe<Course_Comment_Star_Max_Fields>;
-  min?: Maybe<Course_Comment_Star_Min_Fields>;
+  max?: Maybe<Course_Comment_Stars_Max_Fields>;
+  min?: Maybe<Course_Comment_Stars_Min_Fields>;
 };
 
 
-/** aggregate fields of "course_comment_star" */
-export type Course_Comment_Star_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
+/** aggregate fields of "course_comment_stars" */
+export type Course_Comment_Stars_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Course_Comment_Stars_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Boolean expression to filter rows from the table "course_comment_star". All fields are combined with a logical 'AND'. */
-export type Course_Comment_Star_Bool_Exp = {
-  _and?: InputMaybe<Array<Course_Comment_Star_Bool_Exp>>;
-  _not?: InputMaybe<Course_Comment_Star_Bool_Exp>;
-  _or?: InputMaybe<Array<Course_Comment_Star_Bool_Exp>>;
+/** Boolean expression to filter rows from the table "course_comment_stars". All fields are combined with a logical 'AND'. */
+export type Course_Comment_Stars_Bool_Exp = {
+  _and?: InputMaybe<Array<Course_Comment_Stars_Bool_Exp>>;
+  _not?: InputMaybe<Course_Comment_Stars_Bool_Exp>;
+  _or?: InputMaybe<Array<Course_Comment_Stars_Bool_Exp>>;
   comment_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   course_comment?: InputMaybe<Course_Comment_Bool_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
-/** unique or primary key constraints on table "course_comment_star" */
-export enum Course_Comment_Star_Constraint {
+/** unique or primary key constraints on table "course_comment_stars" */
+export enum Course_Comment_Stars_Constraint {
   /** unique or primary key constraint on columns "comment_uuid", "user_uuid" */
   CourseCommentStarPkey = 'course_comment_star_pkey'
 }
 
-/** input type for inserting data into table "course_comment_star" */
-export type Course_Comment_Star_Insert_Input = {
+/** input type for inserting data into table "course_comment_stars" */
+export type Course_Comment_Stars_Insert_Input = {
   comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
   course_comment?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -4294,65 +3875,65 @@ export type Course_Comment_Star_Insert_Input = {
 };
 
 /** aggregate max on columns */
-export type Course_Comment_Star_Max_Fields = {
-  __typename?: 'course_comment_star_max_fields';
+export type Course_Comment_Stars_Max_Fields = {
+  __typename?: 'course_comment_stars_max_fields';
   comment_uuid?: Maybe<Scalars['uuid']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
-export type Course_Comment_Star_Min_Fields = {
-  __typename?: 'course_comment_star_min_fields';
+export type Course_Comment_Stars_Min_Fields = {
+  __typename?: 'course_comment_stars_min_fields';
   comment_uuid?: Maybe<Scalars['uuid']['output']>;
   user_uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
-/** response of any mutation on the table "course_comment_star" */
-export type Course_Comment_Star_Mutation_Response = {
-  __typename?: 'course_comment_star_mutation_response';
+/** response of any mutation on the table "course_comment_stars" */
+export type Course_Comment_Stars_Mutation_Response = {
+  __typename?: 'course_comment_stars_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
-  returning: Array<Course_Comment_Star>;
+  returning: Array<Course_Comment_Stars>;
 };
 
-/** on_conflict condition type for table "course_comment_star" */
-export type Course_Comment_Star_On_Conflict = {
-  constraint: Course_Comment_Star_Constraint;
-  update_columns?: Array<Course_Comment_Star_Update_Column>;
-  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
+/** on_conflict condition type for table "course_comment_stars" */
+export type Course_Comment_Stars_On_Conflict = {
+  constraint: Course_Comment_Stars_Constraint;
+  update_columns?: Array<Course_Comment_Stars_Update_Column>;
+  where?: InputMaybe<Course_Comment_Stars_Bool_Exp>;
 };
 
-/** Ordering options when selecting data from "course_comment_star". */
-export type Course_Comment_Star_Order_By = {
+/** Ordering options when selecting data from "course_comment_stars". */
+export type Course_Comment_Stars_Order_By = {
   comment_uuid?: InputMaybe<Order_By>;
   course_comment?: InputMaybe<Course_Comment_Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_uuid?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: course_comment_star */
-export type Course_Comment_Star_Pk_Columns_Input = {
+/** primary key columns input for table: course_comment_stars */
+export type Course_Comment_Stars_Pk_Columns_Input = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
 
-/** select columns of table "course_comment_star" */
-export enum Course_Comment_Star_Select_Column {
+/** select columns of table "course_comment_stars" */
+export enum Course_Comment_Stars_Select_Column {
   /** column name */
   CommentUuid = 'comment_uuid',
   /** column name */
   UserUuid = 'user_uuid'
 }
 
-/** input type for updating data in table "course_comment_star" */
-export type Course_Comment_Star_Set_Input = {
+/** input type for updating data in table "course_comment_stars" */
+export type Course_Comment_Stars_Set_Input = {
   comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** update columns of table "course_comment_star" */
-export enum Course_Comment_Star_Update_Column {
+/** update columns of table "course_comment_stars" */
+export enum Course_Comment_Stars_Update_Column {
   /** column name */
   CommentUuid = 'comment_uuid',
   /** column name */
@@ -4367,6 +3948,8 @@ export enum Course_Comment_Update_Column {
   CourseId = 'course_id',
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  ParentUuid = 'parent_uuid',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -7315,10 +6898,6 @@ export type Mentor_Time_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  /** delete data from the table: "aid_application" */
-  delete_aid_application?: Maybe<Aid_Application_Mutation_Response>;
-  /** delete single row from the table: "aid_application" */
-  delete_aid_application_by_pk?: Maybe<Aid_Application>;
   /** delete data from the table: "contest" */
   delete_contest?: Maybe<Contest_Mutation_Response>;
   /** delete single row from the table: "contest" */
@@ -7379,18 +6958,14 @@ export type Mutation_Root = {
   delete_course_comment?: Maybe<Course_Comment_Mutation_Response>;
   /** delete single row from the table: "course_comment" */
   delete_course_comment_by_pk?: Maybe<Course_Comment>;
-  /** delete data from the table: "course_comment_comment" */
-  delete_course_comment_comment?: Maybe<Course_Comment_Comment_Mutation_Response>;
-  /** delete single row from the table: "course_comment_comment" */
-  delete_course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
-  /** delete data from the table: "course_comment_like" */
-  delete_course_comment_like?: Maybe<Course_Comment_Like_Mutation_Response>;
-  /** delete single row from the table: "course_comment_like" */
-  delete_course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
-  /** delete data from the table: "course_comment_star" */
-  delete_course_comment_star?: Maybe<Course_Comment_Star_Mutation_Response>;
-  /** delete single row from the table: "course_comment_star" */
-  delete_course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
+  /** delete data from the table: "course_comment_likes" */
+  delete_course_comment_likes?: Maybe<Course_Comment_Likes_Mutation_Response>;
+  /** delete single row from the table: "course_comment_likes" */
+  delete_course_comment_likes_by_pk?: Maybe<Course_Comment_Likes>;
+  /** delete data from the table: "course_comment_stars" */
+  delete_course_comment_stars?: Maybe<Course_Comment_Stars_Mutation_Response>;
+  /** delete single row from the table: "course_comment_stars" */
+  delete_course_comment_stars_by_pk?: Maybe<Course_Comment_Stars>;
   /** delete data from the table: "course_info" */
   delete_course_info?: Maybe<Course_Info_Mutation_Response>;
   /** delete single row from the table: "course_info" */
@@ -7459,10 +7034,6 @@ export type Mutation_Root = {
   delete_postgraduate_mentor_info_pending?: Maybe<Postgraduate_Mentor_Info_Pending_Mutation_Response>;
   /** delete single row from the table: "postgraduate_mentor_info_pending" */
   delete_postgraduate_mentor_info_pending_by_pk?: Maybe<Postgraduate_Mentor_Info_Pending>;
-  /** delete data from the table: "scholarship_application" */
-  delete_scholarship_application?: Maybe<Scholarship_Application_Mutation_Response>;
-  /** delete single row from the table: "scholarship_application" */
-  delete_scholarship_application_by_pk?: Maybe<Scholarship_Application>;
   /** delete data from the table: "scholarships_aids" */
   delete_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** delete single row from the table: "scholarships_aids" */
@@ -7475,10 +7046,6 @@ export type Mutation_Root = {
   delete_weekly?: Maybe<Weekly_Mutation_Response>;
   /** delete single row from the table: "weekly" */
   delete_weekly_by_pk?: Maybe<Weekly>;
-  /** insert data into the table: "aid_application" */
-  insert_aid_application?: Maybe<Aid_Application_Mutation_Response>;
-  /** insert a single row into the table: "aid_application" */
-  insert_aid_application_one?: Maybe<Aid_Application>;
   /** insert data into the table: "contest" */
   insert_contest?: Maybe<Contest_Mutation_Response>;
   /** insert data into the table: "contest_manager" */
@@ -7535,20 +7102,16 @@ export type Mutation_Root = {
   insert_course?: Maybe<Course_Mutation_Response>;
   /** insert data into the table: "course_comment" */
   insert_course_comment?: Maybe<Course_Comment_Mutation_Response>;
-  /** insert data into the table: "course_comment_comment" */
-  insert_course_comment_comment?: Maybe<Course_Comment_Comment_Mutation_Response>;
-  /** insert a single row into the table: "course_comment_comment" */
-  insert_course_comment_comment_one?: Maybe<Course_Comment_Comment>;
-  /** insert data into the table: "course_comment_like" */
-  insert_course_comment_like?: Maybe<Course_Comment_Like_Mutation_Response>;
-  /** insert a single row into the table: "course_comment_like" */
-  insert_course_comment_like_one?: Maybe<Course_Comment_Like>;
+  /** insert data into the table: "course_comment_likes" */
+  insert_course_comment_likes?: Maybe<Course_Comment_Likes_Mutation_Response>;
+  /** insert a single row into the table: "course_comment_likes" */
+  insert_course_comment_likes_one?: Maybe<Course_Comment_Likes>;
   /** insert a single row into the table: "course_comment" */
   insert_course_comment_one?: Maybe<Course_Comment>;
-  /** insert data into the table: "course_comment_star" */
-  insert_course_comment_star?: Maybe<Course_Comment_Star_Mutation_Response>;
-  /** insert a single row into the table: "course_comment_star" */
-  insert_course_comment_star_one?: Maybe<Course_Comment_Star>;
+  /** insert data into the table: "course_comment_stars" */
+  insert_course_comment_stars?: Maybe<Course_Comment_Stars_Mutation_Response>;
+  /** insert a single row into the table: "course_comment_stars" */
+  insert_course_comment_stars_one?: Maybe<Course_Comment_Stars>;
   /** insert data into the table: "course_info" */
   insert_course_info?: Maybe<Course_Info_Mutation_Response>;
   /** insert a single row into the table: "course_info" */
@@ -7619,10 +7182,6 @@ export type Mutation_Root = {
   insert_postgraduate_mentor_info_pending?: Maybe<Postgraduate_Mentor_Info_Pending_Mutation_Response>;
   /** insert a single row into the table: "postgraduate_mentor_info_pending" */
   insert_postgraduate_mentor_info_pending_one?: Maybe<Postgraduate_Mentor_Info_Pending>;
-  /** insert data into the table: "scholarship_application" */
-  insert_scholarship_application?: Maybe<Scholarship_Application_Mutation_Response>;
-  /** insert a single row into the table: "scholarship_application" */
-  insert_scholarship_application_one?: Maybe<Scholarship_Application>;
   /** insert data into the table: "scholarships_aids" */
   insert_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** insert a single row into the table: "scholarships_aids" */
@@ -7635,10 +7194,6 @@ export type Mutation_Root = {
   insert_weekly?: Maybe<Weekly_Mutation_Response>;
   /** insert a single row into the table: "weekly" */
   insert_weekly_one?: Maybe<Weekly>;
-  /** update data of the table: "aid_application" */
-  update_aid_application?: Maybe<Aid_Application_Mutation_Response>;
-  /** update single row of the table: "aid_application" */
-  update_aid_application_by_pk?: Maybe<Aid_Application>;
   /** update data of the table: "contest" */
   update_contest?: Maybe<Contest_Mutation_Response>;
   /** update single row of the table: "contest" */
@@ -7699,18 +7254,14 @@ export type Mutation_Root = {
   update_course_comment?: Maybe<Course_Comment_Mutation_Response>;
   /** update single row of the table: "course_comment" */
   update_course_comment_by_pk?: Maybe<Course_Comment>;
-  /** update data of the table: "course_comment_comment" */
-  update_course_comment_comment?: Maybe<Course_Comment_Comment_Mutation_Response>;
-  /** update single row of the table: "course_comment_comment" */
-  update_course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
-  /** update data of the table: "course_comment_like" */
-  update_course_comment_like?: Maybe<Course_Comment_Like_Mutation_Response>;
-  /** update single row of the table: "course_comment_like" */
-  update_course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
-  /** update data of the table: "course_comment_star" */
-  update_course_comment_star?: Maybe<Course_Comment_Star_Mutation_Response>;
-  /** update single row of the table: "course_comment_star" */
-  update_course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
+  /** update data of the table: "course_comment_likes" */
+  update_course_comment_likes?: Maybe<Course_Comment_Likes_Mutation_Response>;
+  /** update single row of the table: "course_comment_likes" */
+  update_course_comment_likes_by_pk?: Maybe<Course_Comment_Likes>;
+  /** update data of the table: "course_comment_stars" */
+  update_course_comment_stars?: Maybe<Course_Comment_Stars_Mutation_Response>;
+  /** update single row of the table: "course_comment_stars" */
+  update_course_comment_stars_by_pk?: Maybe<Course_Comment_Stars>;
   /** update data of the table: "course_info" */
   update_course_info?: Maybe<Course_Info_Mutation_Response>;
   /** update single row of the table: "course_info" */
@@ -7779,10 +7330,6 @@ export type Mutation_Root = {
   update_postgraduate_mentor_info_pending?: Maybe<Postgraduate_Mentor_Info_Pending_Mutation_Response>;
   /** update single row of the table: "postgraduate_mentor_info_pending" */
   update_postgraduate_mentor_info_pending_by_pk?: Maybe<Postgraduate_Mentor_Info_Pending>;
-  /** update data of the table: "scholarship_application" */
-  update_scholarship_application?: Maybe<Scholarship_Application_Mutation_Response>;
-  /** update single row of the table: "scholarship_application" */
-  update_scholarship_application_by_pk?: Maybe<Scholarship_Application>;
   /** update data of the table: "scholarships_aids" */
   update_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** update single row of the table: "scholarships_aids" */
@@ -7795,18 +7342,6 @@ export type Mutation_Root = {
   update_weekly?: Maybe<Weekly_Mutation_Response>;
   /** update single row of the table: "weekly" */
   update_weekly_by_pk?: Maybe<Weekly>;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Aid_ApplicationArgs = {
-  where: Aid_Application_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Aid_Application_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -7998,39 +7533,26 @@ export type Mutation_RootDelete_Course_Comment_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootDelete_Course_Comment_CommentArgs = {
-  where: Course_Comment_Comment_Bool_Exp;
+export type Mutation_RootDelete_Course_Comment_LikesArgs = {
+  where: Course_Comment_Likes_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Course_Comment_Comment_By_PkArgs = {
+export type Mutation_RootDelete_Course_Comment_Likes_By_PkArgs = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Course_Comment_LikeArgs = {
-  where: Course_Comment_Like_Bool_Exp;
+export type Mutation_RootDelete_Course_Comment_StarsArgs = {
+  where: Course_Comment_Stars_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Course_Comment_Like_By_PkArgs = {
-  comment_uuid: Scalars['uuid']['input'];
-  user_uuid: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Course_Comment_StarArgs = {
-  where: Course_Comment_Star_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Course_Comment_Star_By_PkArgs = {
+export type Mutation_RootDelete_Course_Comment_Stars_By_PkArgs = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
@@ -8246,18 +7768,6 @@ export type Mutation_RootDelete_Postgraduate_Mentor_Info_Pending_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootDelete_Scholarship_ApplicationArgs = {
-  where: Scholarship_Application_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Scholarship_Application_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
 export type Mutation_RootDelete_Scholarships_AidsArgs = {
   where: Scholarships_Aids_Bool_Exp;
 };
@@ -8290,20 +7800,6 @@ export type Mutation_RootDelete_WeeklyArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Weekly_By_PkArgs = {
   id: Scalars['Int']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Aid_ApplicationArgs = {
-  objects: Array<Aid_Application_Insert_Input>;
-  on_conflict?: InputMaybe<Aid_Application_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Aid_Application_OneArgs = {
-  object: Aid_Application_Insert_Input;
-  on_conflict?: InputMaybe<Aid_Application_On_Conflict>;
 };
 
 
@@ -8504,30 +8000,16 @@ export type Mutation_RootInsert_Course_CommentArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Course_Comment_CommentArgs = {
-  objects: Array<Course_Comment_Comment_Insert_Input>;
-  on_conflict?: InputMaybe<Course_Comment_Comment_On_Conflict>;
+export type Mutation_RootInsert_Course_Comment_LikesArgs = {
+  objects: Array<Course_Comment_Likes_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Comment_Likes_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Course_Comment_Comment_OneArgs = {
-  object: Course_Comment_Comment_Insert_Input;
-  on_conflict?: InputMaybe<Course_Comment_Comment_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Course_Comment_LikeArgs = {
-  objects: Array<Course_Comment_Like_Insert_Input>;
-  on_conflict?: InputMaybe<Course_Comment_Like_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Course_Comment_Like_OneArgs = {
-  object: Course_Comment_Like_Insert_Input;
-  on_conflict?: InputMaybe<Course_Comment_Like_On_Conflict>;
+export type Mutation_RootInsert_Course_Comment_Likes_OneArgs = {
+  object: Course_Comment_Likes_Insert_Input;
+  on_conflict?: InputMaybe<Course_Comment_Likes_On_Conflict>;
 };
 
 
@@ -8539,16 +8021,16 @@ export type Mutation_RootInsert_Course_Comment_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Course_Comment_StarArgs = {
-  objects: Array<Course_Comment_Star_Insert_Input>;
-  on_conflict?: InputMaybe<Course_Comment_Star_On_Conflict>;
+export type Mutation_RootInsert_Course_Comment_StarsArgs = {
+  objects: Array<Course_Comment_Stars_Insert_Input>;
+  on_conflict?: InputMaybe<Course_Comment_Stars_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Course_Comment_Star_OneArgs = {
-  object: Course_Comment_Star_Insert_Input;
-  on_conflict?: InputMaybe<Course_Comment_Star_On_Conflict>;
+export type Mutation_RootInsert_Course_Comment_Stars_OneArgs = {
+  object: Course_Comment_Stars_Insert_Input;
+  on_conflict?: InputMaybe<Course_Comment_Stars_On_Conflict>;
 };
 
 
@@ -8798,20 +8280,6 @@ export type Mutation_RootInsert_Postgraduate_Mentor_Info_Pending_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Scholarship_ApplicationArgs = {
-  objects: Array<Scholarship_Application_Insert_Input>;
-  on_conflict?: InputMaybe<Scholarship_Application_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Scholarship_Application_OneArgs = {
-  object: Scholarship_Application_Insert_Input;
-  on_conflict?: InputMaybe<Scholarship_Application_On_Conflict>;
-};
-
-
-/** mutation root */
 export type Mutation_RootInsert_Scholarships_AidsArgs = {
   objects: Array<Scholarships_Aids_Insert_Input>;
   on_conflict?: InputMaybe<Scholarships_Aids_On_Conflict>;
@@ -8850,22 +8318,6 @@ export type Mutation_RootInsert_WeeklyArgs = {
 export type Mutation_RootInsert_Weekly_OneArgs = {
   object: Weekly_Insert_Input;
   on_conflict?: InputMaybe<Weekly_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Aid_ApplicationArgs = {
-  _inc?: InputMaybe<Aid_Application_Inc_Input>;
-  _set?: InputMaybe<Aid_Application_Set_Input>;
-  where: Aid_Application_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Aid_Application_By_PkArgs = {
-  _inc?: InputMaybe<Aid_Application_Inc_Input>;
-  _set?: InputMaybe<Aid_Application_Set_Input>;
-  pk_columns: Aid_Application_Pk_Columns_Input;
 };
 
 
@@ -9088,44 +8540,30 @@ export type Mutation_RootUpdate_Course_Comment_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Course_Comment_CommentArgs = {
-  _set?: InputMaybe<Course_Comment_Comment_Set_Input>;
-  where: Course_Comment_Comment_Bool_Exp;
+export type Mutation_RootUpdate_Course_Comment_LikesArgs = {
+  _set?: InputMaybe<Course_Comment_Likes_Set_Input>;
+  where: Course_Comment_Likes_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Course_Comment_Comment_By_PkArgs = {
-  _set?: InputMaybe<Course_Comment_Comment_Set_Input>;
-  pk_columns: Course_Comment_Comment_Pk_Columns_Input;
+export type Mutation_RootUpdate_Course_Comment_Likes_By_PkArgs = {
+  _set?: InputMaybe<Course_Comment_Likes_Set_Input>;
+  pk_columns: Course_Comment_Likes_Pk_Columns_Input;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Course_Comment_LikeArgs = {
-  _set?: InputMaybe<Course_Comment_Like_Set_Input>;
-  where: Course_Comment_Like_Bool_Exp;
+export type Mutation_RootUpdate_Course_Comment_StarsArgs = {
+  _set?: InputMaybe<Course_Comment_Stars_Set_Input>;
+  where: Course_Comment_Stars_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Course_Comment_Like_By_PkArgs = {
-  _set?: InputMaybe<Course_Comment_Like_Set_Input>;
-  pk_columns: Course_Comment_Like_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Course_Comment_StarArgs = {
-  _set?: InputMaybe<Course_Comment_Star_Set_Input>;
-  where: Course_Comment_Star_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Course_Comment_Star_By_PkArgs = {
-  _set?: InputMaybe<Course_Comment_Star_Set_Input>;
-  pk_columns: Course_Comment_Star_Pk_Columns_Input;
+export type Mutation_RootUpdate_Course_Comment_Stars_By_PkArgs = {
+  _set?: InputMaybe<Course_Comment_Stars_Set_Input>;
+  pk_columns: Course_Comment_Stars_Pk_Columns_Input;
 };
 
 
@@ -9378,22 +8816,6 @@ export type Mutation_RootUpdate_Postgraduate_Mentor_Info_Pending_By_PkArgs = {
   _inc?: InputMaybe<Postgraduate_Mentor_Info_Pending_Inc_Input>;
   _set?: InputMaybe<Postgraduate_Mentor_Info_Pending_Set_Input>;
   pk_columns: Postgraduate_Mentor_Info_Pending_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Scholarship_ApplicationArgs = {
-  _inc?: InputMaybe<Scholarship_Application_Inc_Input>;
-  _set?: InputMaybe<Scholarship_Application_Set_Input>;
-  where: Scholarship_Application_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Scholarship_Application_By_PkArgs = {
-  _inc?: InputMaybe<Scholarship_Application_Inc_Input>;
-  _set?: InputMaybe<Scholarship_Application_Set_Input>;
-  pk_columns: Scholarship_Application_Pk_Columns_Input;
 };
 
 
@@ -10820,12 +10242,6 @@ export type Postgraduate_Mentor_Info_Variance_Fields = {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** fetch data from the table: "aid_application" */
-  aid_application: Array<Aid_Application>;
-  /** fetch aggregated fields from the table: "aid_application" */
-  aid_application_aggregate: Aid_Application_Aggregate;
-  /** fetch data from the table: "aid_application" using primary key columns */
-  aid_application_by_pk?: Maybe<Aid_Application>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -10916,24 +10332,18 @@ export type Query_Root = {
   course_comment_aggregate: Course_Comment_Aggregate;
   /** fetch data from the table: "course_comment" using primary key columns */
   course_comment_by_pk?: Maybe<Course_Comment>;
-  /** fetch data from the table: "course_comment_comment" */
-  course_comment_comment: Array<Course_Comment_Comment>;
-  /** fetch aggregated fields from the table: "course_comment_comment" */
-  course_comment_comment_aggregate: Course_Comment_Comment_Aggregate;
-  /** fetch data from the table: "course_comment_comment" using primary key columns */
-  course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
-  /** fetch data from the table: "course_comment_like" */
-  course_comment_like: Array<Course_Comment_Like>;
-  /** fetch aggregated fields from the table: "course_comment_like" */
-  course_comment_like_aggregate: Course_Comment_Like_Aggregate;
-  /** fetch data from the table: "course_comment_like" using primary key columns */
-  course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
-  /** fetch data from the table: "course_comment_star" */
-  course_comment_star: Array<Course_Comment_Star>;
-  /** fetch aggregated fields from the table: "course_comment_star" */
-  course_comment_star_aggregate: Course_Comment_Star_Aggregate;
-  /** fetch data from the table: "course_comment_star" using primary key columns */
-  course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
+  /** fetch data from the table: "course_comment_likes" */
+  course_comment_likes: Array<Course_Comment_Likes>;
+  /** fetch aggregated fields from the table: "course_comment_likes" */
+  course_comment_likes_aggregate: Course_Comment_Likes_Aggregate;
+  /** fetch data from the table: "course_comment_likes" using primary key columns */
+  course_comment_likes_by_pk?: Maybe<Course_Comment_Likes>;
+  /** fetch data from the table: "course_comment_stars" */
+  course_comment_stars: Array<Course_Comment_Stars>;
+  /** fetch aggregated fields from the table: "course_comment_stars" */
+  course_comment_stars_aggregate: Course_Comment_Stars_Aggregate;
+  /** fetch data from the table: "course_comment_stars" using primary key columns */
+  course_comment_stars_by_pk?: Maybe<Course_Comment_Stars>;
   /** fetch data from the table: "course_info" */
   course_info: Array<Course_Info>;
   /** fetch aggregated fields from the table: "course_info" */
@@ -11036,12 +10446,6 @@ export type Query_Root = {
   postgraduate_mentor_info_pending_aggregate: Postgraduate_Mentor_Info_Pending_Aggregate;
   /** fetch data from the table: "postgraduate_mentor_info_pending" using primary key columns */
   postgraduate_mentor_info_pending_by_pk?: Maybe<Postgraduate_Mentor_Info_Pending>;
-  /** fetch data from the table: "scholarship_application" */
-  scholarship_application: Array<Scholarship_Application>;
-  /** fetch aggregated fields from the table: "scholarship_application" */
-  scholarship_application_aggregate: Scholarship_Application_Aggregate;
-  /** fetch data from the table: "scholarship_application" using primary key columns */
-  scholarship_application_by_pk?: Maybe<Scholarship_Application>;
   /** fetch data from the table: "scholarships_aids" */
   scholarships_aids: Array<Scholarships_Aids>;
   /** fetch aggregated fields from the table: "scholarships_aids" */
@@ -11060,29 +10464,6 @@ export type Query_Root = {
   weekly_aggregate: Weekly_Aggregate;
   /** fetch data from the table: "weekly" using primary key columns */
   weekly_by_pk?: Maybe<Weekly>;
-};
-
-
-export type Query_RootAid_ApplicationArgs = {
-  distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
-  where?: InputMaybe<Aid_Application_Bool_Exp>;
-};
-
-
-export type Query_RootAid_Application_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
-  where?: InputMaybe<Aid_Application_Bool_Exp>;
-};
-
-
-export type Query_RootAid_Application_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -11438,73 +10819,49 @@ export type Query_RootCourse_Comment_By_PkArgs = {
 };
 
 
-export type Query_RootCourse_Comment_CommentArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+export type Query_RootCourse_Comment_LikesArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Likes_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
-  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Likes_Order_By>>;
+  where?: InputMaybe<Course_Comment_Likes_Bool_Exp>;
 };
 
 
-export type Query_RootCourse_Comment_Comment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+export type Query_RootCourse_Comment_Likes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Likes_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
-  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Likes_Order_By>>;
+  where?: InputMaybe<Course_Comment_Likes_Bool_Exp>;
 };
 
 
-export type Query_RootCourse_Comment_Comment_By_PkArgs = {
+export type Query_RootCourse_Comment_Likes_By_PkArgs = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
 
 
-export type Query_RootCourse_Comment_LikeArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+export type Query_RootCourse_Comment_StarsArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Stars_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
-  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Stars_Order_By>>;
+  where?: InputMaybe<Course_Comment_Stars_Bool_Exp>;
 };
 
 
-export type Query_RootCourse_Comment_Like_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+export type Query_RootCourse_Comment_Stars_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Stars_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
-  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Stars_Order_By>>;
+  where?: InputMaybe<Course_Comment_Stars_Bool_Exp>;
 };
 
 
-export type Query_RootCourse_Comment_Like_By_PkArgs = {
-  comment_uuid: Scalars['uuid']['input'];
-  user_uuid: Scalars['uuid']['input'];
-};
-
-
-export type Query_RootCourse_Comment_StarArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
-  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
-};
-
-
-export type Query_RootCourse_Comment_Star_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
-  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
-};
-
-
-export type Query_RootCourse_Comment_Star_By_PkArgs = {
+export type Query_RootCourse_Comment_Stars_By_PkArgs = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
@@ -11906,29 +11263,6 @@ export type Query_RootPostgraduate_Mentor_Info_Pending_By_PkArgs = {
 };
 
 
-export type Query_RootScholarship_ApplicationArgs = {
-  distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
-  where?: InputMaybe<Scholarship_Application_Bool_Exp>;
-};
-
-
-export type Query_RootScholarship_Application_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
-  where?: InputMaybe<Scholarship_Application_Bool_Exp>;
-};
-
-
-export type Query_RootScholarship_Application_By_PkArgs = {
-  id: Scalars['uuid']['input'];
-};
-
-
 export type Query_RootScholarships_AidsArgs = {
   distinct_on?: InputMaybe<Array<Scholarships_Aids_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -11995,295 +11329,6 @@ export type Query_RootWeekly_AggregateArgs = {
 
 export type Query_RootWeekly_By_PkArgs = {
   id: Scalars['Int']['input'];
-};
-
-/** columns and relationships of "scholarship_application" */
-export type Scholarship_Application = {
-  __typename?: 'scholarship_application';
-  amount: Scalars['Int']['output'];
-  code: Scalars['String']['output'];
-  created_at: Scalars['timestamptz']['output'];
-  form_url?: Maybe<Scalars['String']['output']>;
-  honor: Scalars['String']['output'];
-  id: Scalars['uuid']['output'];
-  scholarship: Scalars['String']['output'];
-  status: Scalars['String']['output'];
-  /** An object relationship */
-  student_byuuid?: Maybe<Users>;
-  student_id: Scalars['String']['output'];
-  student_uuid?: Maybe<Scalars['uuid']['output']>;
-  thank_letter?: Maybe<Scalars['String']['output']>;
-  updated_at: Scalars['timestamptz']['output'];
-};
-
-/** aggregated selection of "scholarship_application" */
-export type Scholarship_Application_Aggregate = {
-  __typename?: 'scholarship_application_aggregate';
-  aggregate?: Maybe<Scholarship_Application_Aggregate_Fields>;
-  nodes: Array<Scholarship_Application>;
-};
-
-/** aggregate fields of "scholarship_application" */
-export type Scholarship_Application_Aggregate_Fields = {
-  __typename?: 'scholarship_application_aggregate_fields';
-  avg?: Maybe<Scholarship_Application_Avg_Fields>;
-  count: Scalars['Int']['output'];
-  max?: Maybe<Scholarship_Application_Max_Fields>;
-  min?: Maybe<Scholarship_Application_Min_Fields>;
-  stddev?: Maybe<Scholarship_Application_Stddev_Fields>;
-  stddev_pop?: Maybe<Scholarship_Application_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Scholarship_Application_Stddev_Samp_Fields>;
-  sum?: Maybe<Scholarship_Application_Sum_Fields>;
-  var_pop?: Maybe<Scholarship_Application_Var_Pop_Fields>;
-  var_samp?: Maybe<Scholarship_Application_Var_Samp_Fields>;
-  variance?: Maybe<Scholarship_Application_Variance_Fields>;
-};
-
-
-/** aggregate fields of "scholarship_application" */
-export type Scholarship_Application_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** aggregate avg on columns */
-export type Scholarship_Application_Avg_Fields = {
-  __typename?: 'scholarship_application_avg_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** Boolean expression to filter rows from the table "scholarship_application". All fields are combined with a logical 'AND'. */
-export type Scholarship_Application_Bool_Exp = {
-  _and?: InputMaybe<Array<Scholarship_Application_Bool_Exp>>;
-  _not?: InputMaybe<Scholarship_Application_Bool_Exp>;
-  _or?: InputMaybe<Array<Scholarship_Application_Bool_Exp>>;
-  amount?: InputMaybe<Int_Comparison_Exp>;
-  code?: InputMaybe<String_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  form_url?: InputMaybe<String_Comparison_Exp>;
-  honor?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  scholarship?: InputMaybe<String_Comparison_Exp>;
-  status?: InputMaybe<String_Comparison_Exp>;
-  student_byuuid?: InputMaybe<Users_Bool_Exp>;
-  student_id?: InputMaybe<String_Comparison_Exp>;
-  student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
-  thank_letter?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "scholarship_application" */
-export enum Scholarship_Application_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  ScholarshipApplicationPkey1 = 'scholarship_application_pkey1'
-}
-
-/** input type for incrementing numeric columns in table "scholarship_application" */
-export type Scholarship_Application_Inc_Input = {
-  amount?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** input type for inserting data into table "scholarship_application" */
-export type Scholarship_Application_Insert_Input = {
-  amount?: InputMaybe<Scalars['Int']['input']>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_url?: InputMaybe<Scalars['String']['input']>;
-  honor?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  scholarship?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-  student_byuuid?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  student_id?: InputMaybe<Scalars['String']['input']>;
-  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  thank_letter?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate max on columns */
-export type Scholarship_Application_Max_Fields = {
-  __typename?: 'scholarship_application_max_fields';
-  amount?: Maybe<Scalars['Int']['output']>;
-  code?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_url?: Maybe<Scalars['String']['output']>;
-  honor?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  scholarship?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
-  student_id?: Maybe<Scalars['String']['output']>;
-  student_uuid?: Maybe<Scalars['uuid']['output']>;
-  thank_letter?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** aggregate min on columns */
-export type Scholarship_Application_Min_Fields = {
-  __typename?: 'scholarship_application_min_fields';
-  amount?: Maybe<Scalars['Int']['output']>;
-  code?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  form_url?: Maybe<Scalars['String']['output']>;
-  honor?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['uuid']['output']>;
-  scholarship?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Scalars['String']['output']>;
-  student_id?: Maybe<Scalars['String']['output']>;
-  student_uuid?: Maybe<Scalars['uuid']['output']>;
-  thank_letter?: Maybe<Scalars['String']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** response of any mutation on the table "scholarship_application" */
-export type Scholarship_Application_Mutation_Response = {
-  __typename?: 'scholarship_application_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Scholarship_Application>;
-};
-
-/** on_conflict condition type for table "scholarship_application" */
-export type Scholarship_Application_On_Conflict = {
-  constraint: Scholarship_Application_Constraint;
-  update_columns?: Array<Scholarship_Application_Update_Column>;
-  where?: InputMaybe<Scholarship_Application_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "scholarship_application". */
-export type Scholarship_Application_Order_By = {
-  amount?: InputMaybe<Order_By>;
-  code?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  form_url?: InputMaybe<Order_By>;
-  honor?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  scholarship?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  student_byuuid?: InputMaybe<Users_Order_By>;
-  student_id?: InputMaybe<Order_By>;
-  student_uuid?: InputMaybe<Order_By>;
-  thank_letter?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: scholarship_application */
-export type Scholarship_Application_Pk_Columns_Input = {
-  id: Scalars['uuid']['input'];
-};
-
-/** select columns of table "scholarship_application" */
-export enum Scholarship_Application_Select_Column {
-  /** column name */
-  Amount = 'amount',
-  /** column name */
-  Code = 'code',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormUrl = 'form_url',
-  /** column name */
-  Honor = 'honor',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Scholarship = 'scholarship',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  StudentId = 'student_id',
-  /** column name */
-  StudentUuid = 'student_uuid',
-  /** column name */
-  ThankLetter = 'thank_letter',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "scholarship_application" */
-export type Scholarship_Application_Set_Input = {
-  amount?: InputMaybe<Scalars['Int']['input']>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  form_url?: InputMaybe<Scalars['String']['input']>;
-  honor?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['uuid']['input']>;
-  scholarship?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-  student_id?: InputMaybe<Scalars['String']['input']>;
-  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  thank_letter?: InputMaybe<Scalars['String']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Scholarship_Application_Stddev_Fields = {
-  __typename?: 'scholarship_application_stddev_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Scholarship_Application_Stddev_Pop_Fields = {
-  __typename?: 'scholarship_application_stddev_pop_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Scholarship_Application_Stddev_Samp_Fields = {
-  __typename?: 'scholarship_application_stddev_samp_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate sum on columns */
-export type Scholarship_Application_Sum_Fields = {
-  __typename?: 'scholarship_application_sum_fields';
-  amount?: Maybe<Scalars['Int']['output']>;
-};
-
-/** update columns of table "scholarship_application" */
-export enum Scholarship_Application_Update_Column {
-  /** column name */
-  Amount = 'amount',
-  /** column name */
-  Code = 'code',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FormUrl = 'form_url',
-  /** column name */
-  Honor = 'honor',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Scholarship = 'scholarship',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  StudentId = 'student_id',
-  /** column name */
-  StudentUuid = 'student_uuid',
-  /** column name */
-  ThankLetter = 'thank_letter',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** aggregate var_pop on columns */
-export type Scholarship_Application_Var_Pop_Fields = {
-  __typename?: 'scholarship_application_var_pop_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate var_samp on columns */
-export type Scholarship_Application_Var_Samp_Fields = {
-  __typename?: 'scholarship_application_var_samp_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate variance on columns */
-export type Scholarship_Application_Variance_Fields = {
-  __typename?: 'scholarship_application_variance_fields';
-  amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "scholarships_aids" */
@@ -12504,12 +11549,6 @@ export type Scholarships_Aids_Variance_Fields = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** fetch data from the table: "aid_application" */
-  aid_application: Array<Aid_Application>;
-  /** fetch aggregated fields from the table: "aid_application" */
-  aid_application_aggregate: Aid_Application_Aggregate;
-  /** fetch data from the table: "aid_application" using primary key columns */
-  aid_application_by_pk?: Maybe<Aid_Application>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -12600,24 +11639,18 @@ export type Subscription_Root = {
   course_comment_aggregate: Course_Comment_Aggregate;
   /** fetch data from the table: "course_comment" using primary key columns */
   course_comment_by_pk?: Maybe<Course_Comment>;
-  /** fetch data from the table: "course_comment_comment" */
-  course_comment_comment: Array<Course_Comment_Comment>;
-  /** fetch aggregated fields from the table: "course_comment_comment" */
-  course_comment_comment_aggregate: Course_Comment_Comment_Aggregate;
-  /** fetch data from the table: "course_comment_comment" using primary key columns */
-  course_comment_comment_by_pk?: Maybe<Course_Comment_Comment>;
-  /** fetch data from the table: "course_comment_like" */
-  course_comment_like: Array<Course_Comment_Like>;
-  /** fetch aggregated fields from the table: "course_comment_like" */
-  course_comment_like_aggregate: Course_Comment_Like_Aggregate;
-  /** fetch data from the table: "course_comment_like" using primary key columns */
-  course_comment_like_by_pk?: Maybe<Course_Comment_Like>;
-  /** fetch data from the table: "course_comment_star" */
-  course_comment_star: Array<Course_Comment_Star>;
-  /** fetch aggregated fields from the table: "course_comment_star" */
-  course_comment_star_aggregate: Course_Comment_Star_Aggregate;
-  /** fetch data from the table: "course_comment_star" using primary key columns */
-  course_comment_star_by_pk?: Maybe<Course_Comment_Star>;
+  /** fetch data from the table: "course_comment_likes" */
+  course_comment_likes: Array<Course_Comment_Likes>;
+  /** fetch aggregated fields from the table: "course_comment_likes" */
+  course_comment_likes_aggregate: Course_Comment_Likes_Aggregate;
+  /** fetch data from the table: "course_comment_likes" using primary key columns */
+  course_comment_likes_by_pk?: Maybe<Course_Comment_Likes>;
+  /** fetch data from the table: "course_comment_stars" */
+  course_comment_stars: Array<Course_Comment_Stars>;
+  /** fetch aggregated fields from the table: "course_comment_stars" */
+  course_comment_stars_aggregate: Course_Comment_Stars_Aggregate;
+  /** fetch data from the table: "course_comment_stars" using primary key columns */
+  course_comment_stars_by_pk?: Maybe<Course_Comment_Stars>;
   /** fetch data from the table: "course_info" */
   course_info: Array<Course_Info>;
   /** fetch aggregated fields from the table: "course_info" */
@@ -12720,12 +11753,6 @@ export type Subscription_Root = {
   postgraduate_mentor_info_pending_aggregate: Postgraduate_Mentor_Info_Pending_Aggregate;
   /** fetch data from the table: "postgraduate_mentor_info_pending" using primary key columns */
   postgraduate_mentor_info_pending_by_pk?: Maybe<Postgraduate_Mentor_Info_Pending>;
-  /** fetch data from the table: "scholarship_application" */
-  scholarship_application: Array<Scholarship_Application>;
-  /** fetch aggregated fields from the table: "scholarship_application" */
-  scholarship_application_aggregate: Scholarship_Application_Aggregate;
-  /** fetch data from the table: "scholarship_application" using primary key columns */
-  scholarship_application_by_pk?: Maybe<Scholarship_Application>;
   /** fetch data from the table: "scholarships_aids" */
   scholarships_aids: Array<Scholarships_Aids>;
   /** fetch aggregated fields from the table: "scholarships_aids" */
@@ -12744,29 +11771,6 @@ export type Subscription_Root = {
   weekly_aggregate: Weekly_Aggregate;
   /** fetch data from the table: "weekly" using primary key columns */
   weekly_by_pk?: Maybe<Weekly>;
-};
-
-
-export type Subscription_RootAid_ApplicationArgs = {
-  distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
-  where?: InputMaybe<Aid_Application_Bool_Exp>;
-};
-
-
-export type Subscription_RootAid_Application_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Aid_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Aid_Application_Order_By>>;
-  where?: InputMaybe<Aid_Application_Bool_Exp>;
-};
-
-
-export type Subscription_RootAid_Application_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -13122,73 +12126,49 @@ export type Subscription_RootCourse_Comment_By_PkArgs = {
 };
 
 
-export type Subscription_RootCourse_Comment_CommentArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+export type Subscription_RootCourse_Comment_LikesArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Likes_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
-  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Likes_Order_By>>;
+  where?: InputMaybe<Course_Comment_Likes_Bool_Exp>;
 };
 
 
-export type Subscription_RootCourse_Comment_Comment_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Comment_Select_Column>>;
+export type Subscription_RootCourse_Comment_Likes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Likes_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Comment_Order_By>>;
-  where?: InputMaybe<Course_Comment_Comment_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Likes_Order_By>>;
+  where?: InputMaybe<Course_Comment_Likes_Bool_Exp>;
 };
 
 
-export type Subscription_RootCourse_Comment_Comment_By_PkArgs = {
+export type Subscription_RootCourse_Comment_Likes_By_PkArgs = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
 
 
-export type Subscription_RootCourse_Comment_LikeArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+export type Subscription_RootCourse_Comment_StarsArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Stars_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
-  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Stars_Order_By>>;
+  where?: InputMaybe<Course_Comment_Stars_Bool_Exp>;
 };
 
 
-export type Subscription_RootCourse_Comment_Like_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Like_Select_Column>>;
+export type Subscription_RootCourse_Comment_Stars_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Course_Comment_Stars_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Like_Order_By>>;
-  where?: InputMaybe<Course_Comment_Like_Bool_Exp>;
+  order_by?: InputMaybe<Array<Course_Comment_Stars_Order_By>>;
+  where?: InputMaybe<Course_Comment_Stars_Bool_Exp>;
 };
 
 
-export type Subscription_RootCourse_Comment_Like_By_PkArgs = {
-  comment_uuid: Scalars['uuid']['input'];
-  user_uuid: Scalars['uuid']['input'];
-};
-
-
-export type Subscription_RootCourse_Comment_StarArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
-  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
-};
-
-
-export type Subscription_RootCourse_Comment_Star_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Course_Comment_Star_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Course_Comment_Star_Order_By>>;
-  where?: InputMaybe<Course_Comment_Star_Bool_Exp>;
-};
-
-
-export type Subscription_RootCourse_Comment_Star_By_PkArgs = {
+export type Subscription_RootCourse_Comment_Stars_By_PkArgs = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
 };
@@ -13587,29 +12567,6 @@ export type Subscription_RootPostgraduate_Mentor_Info_Pending_AggregateArgs = {
 
 export type Subscription_RootPostgraduate_Mentor_Info_Pending_By_PkArgs = {
   id: Scalars['Int']['input'];
-};
-
-
-export type Subscription_RootScholarship_ApplicationArgs = {
-  distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
-  where?: InputMaybe<Scholarship_Application_Bool_Exp>;
-};
-
-
-export type Subscription_RootScholarship_Application_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Scholarship_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Scholarship_Application_Order_By>>;
-  where?: InputMaybe<Scholarship_Application_Bool_Exp>;
-};
-
-
-export type Subscription_RootScholarship_Application_By_PkArgs = {
-  id: Scalars['uuid']['input'];
 };
 
 
@@ -14715,30 +13672,6 @@ export type GetContestTimesQueryVariables = Exact<{
 
 export type GetContestTimesQuery = { __typename?: 'query_root', contest_time: Array<{ __typename?: 'contest_time', event: string, start: any, end: any, description?: string | null }> };
 
-export type GetApprovedMentorApplicationsQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type GetApprovedMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null, mentor_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null }> };
-
-export type SubscribeToMessagesSubscriptionVariables = Exact<{
-  from_uuid: Scalars['uuid']['input'];
-  to_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type SubscribeToMessagesSubscription = { __typename?: 'subscription_root', mentor_message: Array<{ __typename?: 'mentor_message', created_at: any, from_uuid?: any | null, id: any, payload: string, to_uuid?: any | null }> };
-
-export type AddMessageMutationVariables = Exact<{
-  from_uuid: Scalars['uuid']['input'];
-  to_uuid: Scalars['uuid']['input'];
-  payload: Scalars['String']['input'];
-}>;
-
-
-export type AddMessageMutation = { __typename?: 'mutation_root', insert_mentor_message?: { __typename?: 'mentor_message_mutation_response', returning: Array<{ __typename?: 'mentor_message', id: any }> } | null };
-
 export type GetHonorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
   _gte: Scalars['timestamptz']['input'];
@@ -14752,7 +13685,7 @@ export type GetHonorApplicationsForCounselorsQueryVariables = Exact<{
 }>;
 
 
-export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null } | null }> };
+export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, student_no?: string | null } | null }> };
 
 export type AddHonorApplicationMutationVariables = Exact<{
   student_uuid: Scalars['uuid']['input'];
@@ -14893,6 +13826,30 @@ export type GetIdByNameQueryVariables = Exact<{
 
 export type GetIdByNameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
+export type GetApprovedMentorApplicationsQueryVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type GetApprovedMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null, mentor_byuuid?: { __typename?: 'users', uuid: any, realname?: string | null } | null }> };
+
+export type SubscribeToMessagesSubscriptionVariables = Exact<{
+  from_uuid: Scalars['uuid']['input'];
+  to_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type SubscribeToMessagesSubscription = { __typename?: 'subscription_root', mentor_message: Array<{ __typename?: 'mentor_message', created_at: any, from_uuid?: any | null, id: any, payload: string, to_uuid?: any | null }> };
+
+export type AddMessageMutationVariables = Exact<{
+  from_uuid: Scalars['uuid']['input'];
+  to_uuid: Scalars['uuid']['input'];
+  payload: Scalars['String']['input'];
+}>;
+
+
+export type AddMessageMutation = { __typename?: 'mutation_root', insert_mentor_message?: { __typename?: 'mentor_message_mutation_response', returning: Array<{ __typename?: 'mentor_message', id: any }> } | null };
+
 export type GetNoticesQueryVariables = Exact<{
   notice_type?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
@@ -14927,6 +13884,14 @@ export type DeleteNoticeMutationVariables = Exact<{
 
 
 export type DeleteNoticeMutation = { __typename?: 'mutation_root', delete_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
+
+export type GetPostgraduateFeedsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetPostgraduateFeedsQuery = { __typename?: 'query_root', postgraduate_mentor_info: Array<{ __typename?: 'postgraduate_mentor_info', id: number, created_at: any, updated_at: any, mentor: string, field: string, phd_quota: any, phd_quota_unfixed: any, contact: string, alternate_contact?: string | null, home_page?: string | null, detail_info?: string | null, user_id: string, intend: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, in_contact: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, confirmed: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null } }>, postgraduate_mentor_info_aggregate: { __typename?: 'postgraduate_mentor_info_aggregate', aggregate?: { __typename?: 'postgraduate_mentor_info_aggregate_fields', count: number } | null } };
 
 export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -17372,138 +16337,6 @@ export type GetContestTimesQueryHookResult = ReturnType<typeof useGetContestTime
 export type GetContestTimesLazyQueryHookResult = ReturnType<typeof useGetContestTimesLazyQuery>;
 export type GetContestTimesSuspenseQueryHookResult = ReturnType<typeof useGetContestTimesSuspenseQuery>;
 export type GetContestTimesQueryResult = Apollo.QueryResult<GetContestTimesQuery, GetContestTimesQueryVariables>;
-export const GetApprovedMentorApplicationsDocument = gql`
-    query GetApprovedMentorApplications($uuid: uuid!) {
-  mentor_application(
-    where: {_and: [{_or: [{student_uuid: {_eq: $uuid}}, {mentor_uuid: {_eq: $uuid}}]}, {status: {_eq: "approved"}}]}
-    order_by: {created_at: asc}
-  ) {
-    id
-    student_byuuid {
-      uuid
-      realname
-    }
-    mentor_byuuid {
-      uuid
-      realname
-    }
-    statement
-    status
-    created_at
-    updated_at
-  }
-}
-    `;
-
-/**
- * __useGetApprovedMentorApplicationsQuery__
- *
- * To run a query within a React component, call `useGetApprovedMentorApplicationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetApprovedMentorApplicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetApprovedMentorApplicationsQuery({
- *   variables: {
- *      uuid: // value for 'uuid'
- *   },
- * });
- */
-export function useGetApprovedMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables> & ({ variables: GetApprovedMentorApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
-      }
-export function useGetApprovedMentorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
-        }
-export function useGetApprovedMentorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
-        }
-export type GetApprovedMentorApplicationsQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsQuery>;
-export type GetApprovedMentorApplicationsLazyQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsLazyQuery>;
-export type GetApprovedMentorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsSuspenseQuery>;
-export type GetApprovedMentorApplicationsQueryResult = Apollo.QueryResult<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>;
-export const SubscribeToMessagesDocument = gql`
-    subscription SubscribeToMessages($from_uuid: uuid!, $to_uuid: uuid!) {
-  mentor_message(
-    order_by: {created_at: asc}
-    where: {_or: [{_and: {from_uuid: {_eq: $from_uuid}, to_uuid: {_eq: $to_uuid}}}, {_and: {from_uuid: {_eq: $to_uuid}, to_uuid: {_eq: $from_uuid}}}]}
-  ) {
-    created_at
-    from_uuid
-    id
-    payload
-    to_uuid
-  }
-}
-    `;
-
-/**
- * __useSubscribeToMessagesSubscription__
- *
- * To run a query within a React component, call `useSubscribeToMessagesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubscribeToMessagesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSubscribeToMessagesSubscription({
- *   variables: {
- *      from_uuid: // value for 'from_uuid'
- *      to_uuid: // value for 'to_uuid'
- *   },
- * });
- */
-export function useSubscribeToMessagesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables> & ({ variables: SubscribeToMessagesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables>(SubscribeToMessagesDocument, options);
-      }
-export type SubscribeToMessagesSubscriptionHookResult = ReturnType<typeof useSubscribeToMessagesSubscription>;
-export type SubscribeToMessagesSubscriptionResult = Apollo.SubscriptionResult<SubscribeToMessagesSubscription>;
-export const AddMessageDocument = gql`
-    mutation AddMessage($from_uuid: uuid!, $to_uuid: uuid!, $payload: String!) {
-  insert_mentor_message(
-    objects: {from_uuid: $from_uuid, to_uuid: $to_uuid, payload: $payload}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddMessageMutationFn = Apollo.MutationFunction<AddMessageMutation, AddMessageMutationVariables>;
-
-/**
- * __useAddMessageMutation__
- *
- * To run a mutation, you first call `useAddMessageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddMessageMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addMessageMutation, { data, loading, error }] = useAddMessageMutation({
- *   variables: {
- *      from_uuid: // value for 'from_uuid'
- *      to_uuid: // value for 'to_uuid'
- *      payload: // value for 'payload'
- *   },
- * });
- */
-export function useAddMessageMutation(baseOptions?: Apollo.MutationHookOptions<AddMessageMutation, AddMessageMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddMessageMutation, AddMessageMutationVariables>(AddMessageDocument, options);
-      }
-export type AddMessageMutationHookResult = ReturnType<typeof useAddMessageMutation>;
-export type AddMessageMutationResult = Apollo.MutationResult<AddMessageMutation>;
-export type AddMessageMutationOptions = Apollo.BaseMutationOptions<AddMessageMutation, AddMessageMutationVariables>;
 export const GetHonorApplicationsDocument = gql`
     query GetHonorApplications($uuid: uuid!, $_gte: timestamptz!) {
   honor_application(
@@ -17569,6 +16402,7 @@ export const GetHonorApplicationsForCounselorsDocument = gql`
       uuid
       realname
       class
+      student_no
     }
     created_at
     updated_at
@@ -18381,6 +17215,138 @@ export type GetIdByNameQueryHookResult = ReturnType<typeof useGetIdByNameQuery>;
 export type GetIdByNameLazyQueryHookResult = ReturnType<typeof useGetIdByNameLazyQuery>;
 export type GetIdByNameSuspenseQueryHookResult = ReturnType<typeof useGetIdByNameSuspenseQuery>;
 export type GetIdByNameQueryResult = Apollo.QueryResult<GetIdByNameQuery, GetIdByNameQueryVariables>;
+export const GetApprovedMentorApplicationsDocument = gql`
+    query GetApprovedMentorApplications($uuid: uuid!) {
+  mentor_application(
+    where: {_and: [{_or: [{student_uuid: {_eq: $uuid}}, {mentor_uuid: {_eq: $uuid}}]}, {status: {_eq: "approved"}}]}
+    order_by: {created_at: asc}
+  ) {
+    id
+    student_byuuid {
+      uuid
+      realname
+    }
+    mentor_byuuid {
+      uuid
+      realname
+    }
+    statement
+    status
+    created_at
+    updated_at
+  }
+}
+    `;
+
+/**
+ * __useGetApprovedMentorApplicationsQuery__
+ *
+ * To run a query within a React component, call `useGetApprovedMentorApplicationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetApprovedMentorApplicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetApprovedMentorApplicationsQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useGetApprovedMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables> & ({ variables: GetApprovedMentorApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
+      }
+export function useGetApprovedMentorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
+        }
+export function useGetApprovedMentorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
+        }
+export type GetApprovedMentorApplicationsQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsQuery>;
+export type GetApprovedMentorApplicationsLazyQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsLazyQuery>;
+export type GetApprovedMentorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsSuspenseQuery>;
+export type GetApprovedMentorApplicationsQueryResult = Apollo.QueryResult<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>;
+export const SubscribeToMessagesDocument = gql`
+    subscription SubscribeToMessages($from_uuid: uuid!, $to_uuid: uuid!) {
+  mentor_message(
+    order_by: {created_at: asc}
+    where: {_or: [{_and: {from_uuid: {_eq: $from_uuid}, to_uuid: {_eq: $to_uuid}}}, {_and: {from_uuid: {_eq: $to_uuid}, to_uuid: {_eq: $from_uuid}}}]}
+  ) {
+    created_at
+    from_uuid
+    id
+    payload
+    to_uuid
+  }
+}
+    `;
+
+/**
+ * __useSubscribeToMessagesSubscription__
+ *
+ * To run a query within a React component, call `useSubscribeToMessagesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeToMessagesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscribeToMessagesSubscription({
+ *   variables: {
+ *      from_uuid: // value for 'from_uuid'
+ *      to_uuid: // value for 'to_uuid'
+ *   },
+ * });
+ */
+export function useSubscribeToMessagesSubscription(baseOptions: Apollo.SubscriptionHookOptions<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables> & ({ variables: SubscribeToMessagesSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscribeToMessagesSubscription, SubscribeToMessagesSubscriptionVariables>(SubscribeToMessagesDocument, options);
+      }
+export type SubscribeToMessagesSubscriptionHookResult = ReturnType<typeof useSubscribeToMessagesSubscription>;
+export type SubscribeToMessagesSubscriptionResult = Apollo.SubscriptionResult<SubscribeToMessagesSubscription>;
+export const AddMessageDocument = gql`
+    mutation AddMessage($from_uuid: uuid!, $to_uuid: uuid!, $payload: String!) {
+  insert_mentor_message(
+    objects: {from_uuid: $from_uuid, to_uuid: $to_uuid, payload: $payload}
+  ) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type AddMessageMutationFn = Apollo.MutationFunction<AddMessageMutation, AddMessageMutationVariables>;
+
+/**
+ * __useAddMessageMutation__
+ *
+ * To run a mutation, you first call `useAddMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addMessageMutation, { data, loading, error }] = useAddMessageMutation({
+ *   variables: {
+ *      from_uuid: // value for 'from_uuid'
+ *      to_uuid: // value for 'to_uuid'
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useAddMessageMutation(baseOptions?: Apollo.MutationHookOptions<AddMessageMutation, AddMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMessageMutation, AddMessageMutationVariables>(AddMessageDocument, options);
+      }
+export type AddMessageMutationHookResult = ReturnType<typeof useAddMessageMutation>;
+export type AddMessageMutationResult = Apollo.MutationResult<AddMessageMutation>;
+export type AddMessageMutationOptions = Apollo.BaseMutationOptions<AddMessageMutation, AddMessageMutationVariables>;
 export const GetNoticesDocument = gql`
     query GetNotices($notice_type: [String!]) {
   info_notice(
@@ -18547,6 +17513,98 @@ export function useDeleteNoticeMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteNoticeMutationHookResult = ReturnType<typeof useDeleteNoticeMutation>;
 export type DeleteNoticeMutationResult = Apollo.MutationResult<DeleteNoticeMutation>;
 export type DeleteNoticeMutationOptions = Apollo.BaseMutationOptions<DeleteNoticeMutation, DeleteNoticeMutationVariables>;
+export const GetPostgraduateFeedsDocument = gql`
+    query GetPostgraduateFeeds($limit: Int = 10, $offset: Int = 0) {
+  postgraduate_mentor_info(
+    where: {verified: {_eq: true}}
+    limit: $limit
+    order_by: {id: asc}
+    offset: $offset
+  ) {
+    id
+    created_at
+    updated_at
+    mentor
+    field
+    phd_quota
+    phd_quota_unfixed
+    contact
+    alternate_contact
+    home_page
+    detail_info
+    user_id
+    intend: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "intend"}}]}
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    in_contact: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "in_contact"}}]}
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+    confirmed: applications_aggregate(
+      where: {_and: [{verified: {_eq: true}}, {status: {_eq: "confirmed"}}]}
+    ) {
+      aggregate {
+        count
+        max {
+          updated_at
+        }
+      }
+    }
+  }
+  postgraduate_mentor_info_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPostgraduateFeedsQuery__
+ *
+ * To run a query within a React component, call `useGetPostgraduateFeedsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostgraduateFeedsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostgraduateFeedsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useGetPostgraduateFeedsQuery(baseOptions?: Apollo.QueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
+      }
+export function useGetPostgraduateFeedsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
+        }
+export function useGetPostgraduateFeedsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
+        }
+export type GetPostgraduateFeedsQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsQuery>;
+export type GetPostgraduateFeedsLazyQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsLazyQuery>;
+export type GetPostgraduateFeedsSuspenseQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsSuspenseQuery>;
+export type GetPostgraduateFeedsQueryResult = Apollo.QueryResult<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>;
 export const GetCourseDocument = gql`
     query GetCourse {
   course(order_by: {year: desc}) {

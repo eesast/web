@@ -31,6 +31,7 @@ query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
       uuid
       realname
       class
+      student_no
     }
     created_at
     updated_at

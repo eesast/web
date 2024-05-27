@@ -23,7 +23,6 @@ import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import type { ColumnProps, TableProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import { getStatusText, getStatusValue } from "../../api/utils/application";
-import get from "lodash.get";
 import { FilterConfirmProps } from "antd/lib/table/interface";
 import * as graphql from "@/generated/graphql";
 import { PageProps } from "..";
@@ -232,13 +231,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   };
 
   const getColumnSearchProps: (
-    dataIndex:
-      | keyof graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
-      | (
-          | keyof graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
-          | "name"
-          | "class"
-        )[],
+    dataIndex: "realname" | "class" | "student_no",
     name: string,
   ) => Partial<
     ColumnProps<
@@ -297,8 +290,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       <SearchOutlined style={{ color: filtered ? "#027dcd" : undefined }} />
     ),
     onFilter: (value, record) =>
-      get(record, dataIndex)
-        .toString()
+      record["student_byuuid"]![dataIndex]!.toString()
         .toLowerCase()
         .includes(value.toString().toLowerCase()),
     onFilterDropdownVisibleChange: (visible) => {
@@ -340,21 +332,21 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   >["columns"] = [
     {
       title: "学号",
-      dataIndex: ["student", "id"],
+      dataIndex: ["student_byuuid", "student_no"],
       key: "student_id",
-      ...getColumnSearchProps(["student_byuuid", "id"], "学号"),
+      ...getColumnSearchProps("student_no", "学号"),
     },
     {
       title: "姓名",
-      dataIndex: ["student", "name"],
+      dataIndex: ["student_byuuid", "realname"],
       key: "name",
-      ...getColumnSearchProps(["student_byuuid", "name"], "姓名"),
+      ...getColumnSearchProps("realname", "姓名"),
     },
     {
       title: "班级",
-      dataIndex: ["student", "class"],
+      dataIndex: ["student_byuuid", "class"],
       key: "class",
-      ...getColumnSearchProps(["student_byuuid", "class"], "班级"),
+      ...getColumnSearchProps("class", "班级"),
     },
     {
       title: "荣誉类型",
@@ -426,9 +418,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       )
       .map((i) => [
         i.id,
-        i.student_byuuid?.uuid,
         i.student_byuuid?.realname,
         i.student_byuuid?.class,
+        i.student_byuuid?.student_no,
         exportHonor,
         getStatusText(i.status),
         i.statement,
@@ -471,9 +463,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     const applications = applicationsForCounselors!.honor_application.map(
       (i) => [
         i.id,
-        i.student_byuuid?.uuid,
         i.student_byuuid?.realname,
         i.student_byuuid?.class,
+        i.student_byuuid?.student_no,
         i.honor,
         getStatusText(i.status),
         i.statement,
