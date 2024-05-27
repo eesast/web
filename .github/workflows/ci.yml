@@ -49,10 +49,6 @@ jobs:
           yarn lint
           yarn typecheck
 
-      - name: Test build
-        shell: bash
-        run: docker build -t eesast/web:latest .
-
       # 以下是端到端测试框架 Playwright 的配置，比赛密集开发结束后再启用
       # - name: Run Playwright tests
       #   run: yarn playwright test

@@ -32,6 +32,9 @@ root.render(
   </React.StrictMode>,
 );
 
+// 这是PWA自动弹出安装提示的代码，可以拦截并在之后需要的时候再调用event.prompt()弹出安装提示（暂未实现）
+window.addEventListener("beforeinstallprompt", (event) => {});
+
 // Measuring performance in our app, pass a function
 // Learn more: https://github.com/GoogleChrome/web-vitals, https://bit.ly/CRA-vitals
 if (process.env.NODE_ENV === "development") {

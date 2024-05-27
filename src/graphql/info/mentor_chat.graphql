@@ -14,11 +14,11 @@ query GetApprovedMentorApplications($uuid: uuid!) {
     order_by: { created_at: asc }
   ) {
     id
-    student_byuuid {
+    student {
       uuid
       realname
     }
-    mentor_byuuid {
+    mentor {
       uuid
       realname
     }

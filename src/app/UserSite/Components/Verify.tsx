@@ -56,12 +56,8 @@ const Verify: React.FC<VerifyProps> = ({ title, email, phone, setter }) => {
         return setSendLoading(false);
       } catch (e) {
         const err = e as AxiosError;
-        if (err.response?.status === 401) {
-          message.error("系统繁忙，请稍后再试");
-        } else {
-          console.log(err);
-          message.error("未知错误");
-        }
+        console.log(err);
+        message.error("未知错误");
         return setSendLoading(false);
       }
     }

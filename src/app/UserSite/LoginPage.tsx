@@ -44,15 +44,9 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
-        if (
-          (err.response?.data as string | undefined)?.includes(
-            "User doesn't exist",
-          )
-        ) {
-          message.error("用户不存在");
-        } else {
-          message.error("邮箱或密码错误");
-        }
+        message.error("邮箱或密码错误");
+      } else if (err.response?.status === 404) {
+        message.error("用户不存在");
       } else {
         console.log(err);
         message.error("未知错误");
