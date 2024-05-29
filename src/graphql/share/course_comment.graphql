@@ -1,6 +1,7 @@
 # 主要操作对象：course_comment表
 
 #查 所有评论
+
 query GetCourseComments($course_uuid: uuid!) {
   course_comment(
     order_by: { created_at: desc }
@@ -27,15 +28,21 @@ query GetCourseCommentsStared($user_uuid: uuid!, $course_uuid: uuid!) {
     order_by: { course_comment: { created_at: desc } }
   ) {
     course_comment {
-      comment
-      created_at
-      updated_at
       uuid
-      user_uuid
-      parent_uuid
-      user {
-        username
-      }
+    }
+  }
+}
+
+query GetCourseCommentsLiked($user_uuid: uuid!, $course_uuid: uuid!) {
+  course_comment_likes(
+    where: {
+      user_uuid: { _eq: $user_uuid }
+      course_comment: { course_id: { _eq: $course_uuid } }
+    }
+    order_by: { course_comment: { created_at: desc } }
+  ) {
+    course_comment {
+      uuid
     }
   }
 }
@@ -60,33 +67,42 @@ query GetCourseCommentLikes($comment_uuid: uuid!) {
   }
 }
 
-query GetCourseCommentUserStars($comment_uuid: uuid!, $user_uuid: uuid!) {
-  course_comment_stars(
-    limit: 1
-    where: {
-      _and: {
-        comment_uuid: { _eq: $comment_uuid }
-        user_uuid: { _eq: $user_uuid }
-      }
-    }
+query GetCourseCommentSons($parent_uuid: uuid!) {
+  course_comment(
+    where: { parent_uuid: { _eq: $parent_uuid } }
+    order_by: { created_at: desc }
   ) {
-    comment_uuid
+    uuid
   }
 }
 
-query GetCourseCommentUserLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
-  course_comment_likes(
-    limit: 1
-    where: {
-      _and: {
-        comment_uuid: { _eq: $comment_uuid }
-        user_uuid: { _eq: $user_uuid }
-      }
-    }
-  ) {
-    comment_uuid
-  }
-}
+# query GetCourseCommentUserStars($comment_uuid: uuid!, $user_uuid: uuid!) {
+#   course_comment_stars(
+#     limit: 1
+#     where: {
+#       _and: {
+#         comment_uuid: { _eq: $comment_uuid }
+#         user_uuid: { _eq: $user_uuid }
+#       }
+#     }
+#   ) {
+#     comment_uuid
+#   }
+# }
+
+# query GetCourseCommentUserLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
+#   course_comment_likes(
+#     limit: 1
+#     where: {
+#       _and: {
+#         comment_uuid: { _eq: $comment_uuid }
+#         user_uuid: { _eq: $user_uuid }
+#       }
+#     }
+#   ) {
+#     comment_uuid
+#   }
+# }
 
 #改
 mutation UpdateCourseComment($comment: String!, $uuid: uuid!) {
@@ -157,5 +173,23 @@ mutation DeleteCourseCommentLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
     user_uuid: $user_uuid
   ) {
     comment_uuid
+  }
+}
+
+mutation DeleteCourseCommentStarsByComment($comment_uuid: uuid!) {
+  delete_course_comment_stars(where: { comment_uuid: { _eq: $comment_uuid } }) {
+    affected_rows
+  }
+}
+
+mutation DeleteCourseCommentLikesByComment($comment_uuid: uuid!) {
+  delete_course_comment_likes(where: { comment_uuid: { _eq: $comment_uuid } }) {
+    affected_rows
+  }
+}
+
+mutation DeleteCourseCommentByFather($parent_uuid: uuid!) {
+  delete_course_comment(where: { parent_uuid: { _eq: $parent_uuid } }) {
+    affected_rows
   }
 }
