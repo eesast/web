@@ -67,14 +67,14 @@ query GetCourseCommentLikes($comment_uuid: uuid!) {
   }
 }
 
-query GetCourseCommentSons($parent_uuid: uuid!) {
-  course_comment(
-    where: { parent_uuid: { _eq: $parent_uuid } }
-    order_by: { created_at: desc }
-  ) {
-    uuid
-  }
-}
+# query GetCourseCommentSons($comment_uuid: uuid!) {
+#   course_comment(
+#     where: { parent_uuid: { _eq: $comment_uuid } }
+#     order_by: { created_at: desc }
+#   ) {
+#     uuid
+#   }
+# }
 
 # query GetCourseCommentUserStars($comment_uuid: uuid!, $user_uuid: uuid!) {
 #   course_comment_stars(

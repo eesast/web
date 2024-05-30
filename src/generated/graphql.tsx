@@ -13868,7 +13868,7 @@ export type GetCourseCommentLikesQueryVariables = Exact<{
 export type GetCourseCommentLikesQuery = { __typename?: 'query_root', course_comment_likes_aggregate: { __typename?: 'course_comment_likes_aggregate', aggregate?: { __typename?: 'course_comment_likes_aggregate_fields', count: number } | null } };
 
 export type GetCourseCommentSonsQueryVariables = Exact<{
-  parent_uuid: Scalars['uuid']['input'];
+  comment_uuid: Scalars['uuid']['input'];
 }>;
 
 
@@ -17988,9 +17988,9 @@ export type GetCourseCommentLikesLazyQueryHookResult = ReturnType<typeof useGetC
 export type GetCourseCommentLikesSuspenseQueryHookResult = ReturnType<typeof useGetCourseCommentLikesSuspenseQuery>;
 export type GetCourseCommentLikesQueryResult = Apollo.QueryResult<GetCourseCommentLikesQuery, GetCourseCommentLikesQueryVariables>;
 export const GetCourseCommentSonsDocument = gql`
-    query GetCourseCommentSons($parent_uuid: uuid!) {
+    query GetCourseCommentSons($comment_uuid: uuid!) {
   course_comment(
-    where: {parent_uuid: {_eq: $parent_uuid}}
+    where: {parent_uuid: {_eq: $comment_uuid}}
     order_by: {created_at: desc}
   ) {
     uuid
@@ -18010,7 +18010,7 @@ export const GetCourseCommentSonsDocument = gql`
  * @example
  * const { data, loading, error } = useGetCourseCommentSonsQuery({
  *   variables: {
- *      parent_uuid: // value for 'parent_uuid'
+ *      comment_uuid: // value for 'comment_uuid'
  *   },
  * });
  */

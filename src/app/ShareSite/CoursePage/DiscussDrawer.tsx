@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, useEffect, FC, useRef } from "react";
 import {
   Badge,
   Button,
@@ -25,6 +25,7 @@ import {
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import dayjs from "dayjs";
+import styled from "styled-components";
 
 interface Comment {
   comment: string;
@@ -66,14 +67,20 @@ const COMMENT_COLORS = [
   "#cd5c5c", // 印第安红 (IndianRed)
 ];
 
+const StyledDrawer = styled(Drawer)`
+  .ant-drawer-content-wrapper {
+    transition: transform 0.8s ease !important;
+  }
+`;
+
 interface IconTextProps {
   icon: FC;
   text: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
 }
 
 const IconText: FC<IconTextProps> = ({ icon, text, onClick }) => (
-  <Space onClick={onClick}>
+  <Space onClick={onClick} style={{ cursor: "pointer" }}>
     {React.createElement(icon)}
     {text}
   </Space>
@@ -85,6 +92,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   user,
 }: any) => {
   const [open, setOpen] = useState(false);
+  const [openReply, setOpenReply] = useState(false);
+  const [randomSeed, setRandomSeed] = useState(0);
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentsStared, setCommentsStared] = useState<string[]>([]);
   const [commentsLiked, setCommentsLiked] = useState<string[]>([]);
@@ -95,7 +104,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     {},
   );
   const [commentsReplies, setCommentsReplies] = useState<{
-    [key: string]: string[];
+    [key: string]: Comment[];
   }>({});
   const [addCommentModalVisible, setAddCommentModalVisible] = useState(false);
   const [updateCommentModalVisible, setUpdateCommentModalVisible] =
@@ -103,8 +112,11 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [newComment, setNewComment] = useState("");
   const [updateComment, setUpdateComment] = useState("");
   const [updateCommentUuid, setUpdateCommentUuid] = useState("");
+  const [currentComment, setCurrentComment] = useState<Comment>();
+  const [highlightedComment, setHighlightedComment] = useState<Comment>();
   const [isRotating, setIsRotating] = useState(false);
-  const [selectedCommentUuid, setSelectedCommentUuid] = useState("");
+  const [rotateDegree, setRotateDegree] = useState(0);
+  const drawerContentRef = useRef<HTMLDivElement>(null);
 
   const showDrawer = () => {
     setOpen(true);
@@ -136,13 +148,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const { refetch: getCourseCommentStarsRefetch } =
     graphql.useGetCourseCommentStarsQuery({
       variables: {
-        comment_uuid: selectedCommentUuid,
+        comment_uuid: "",
       },
     });
   const { refetch: getCourseCommentLikesRefetch } =
     graphql.useGetCourseCommentLikesQuery({
       variables: {
-        comment_uuid: selectedCommentUuid,
+        comment_uuid: "",
       },
     });
   const [addCourseComment] = graphql.useAddCourseCommentOneMutation();
@@ -158,11 +170,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     graphql.useDeleteCourseCommentLikesMutation();
   const [deleteCourseCommentLikesByComment] =
     graphql.useDeleteCourseCommentLikesByCommentMutation();
-  const [deleteCourseCommentByFather] =
-    graphql.useDeleteCourseCommentByFatherMutation();
 
   const handleGetCourseComment = async () => {
     setIsRotating(true);
+    setRotateDegree(0);
+    const intervalId = setInterval(() => {
+      setRotateDegree((prev) => prev + 7.2);
+    }, 10);
     {
       const { data, error } = await getCourseCommentRefetch();
       if (error) {
@@ -229,7 +243,19 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       }));
     });
 
-    setTimeout(() => setIsRotating(false), 500);
+    comments.forEach((comment) => {
+      setCommentsReplies((prev) => ({
+        ...prev,
+        [comment.uuid]: comments.filter(
+          (item) => item.parent_uuid === comment.uuid,
+        ),
+      }));
+    });
+
+    setTimeout(() => {
+      clearInterval(intervalId);
+      setIsRotating(false);
+    }, 450);
   };
 
   const handelToggleCommentStar = async (uuid: string) => {
@@ -339,8 +365,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       });
       setNewComment("");
       setAddCommentModalVisible(false);
-      message.success("评论已经添加");
       handleGetCourseComment();
+      message.success("评论已经添加");
     } catch (error) {
       console.error("Error adding comments: ", error);
     }
@@ -358,11 +384,14 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       setComments((prev) =>
         prev.map((item) =>
           item.uuid === updateCommentUuid
-            ? { ...item, comment: updateComment }
+            ? {
+                ...item,
+                comment: updateComment,
+                updated_at: new Date().toISOString(),
+              }
             : item,
         ),
       );
-
       setUpdateComment("");
       setUpdateCommentModalVisible(false);
       message.success("评论已经更新");
@@ -376,7 +405,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       console.log("Deleting comment", uuid);
       const replies = commentsReplies[uuid] ?? [];
       replies.forEach(async (reply) => {
-        await handleDeleteCourseComment(reply);
+        await handleDeleteCourseComment(reply.uuid);
       });
       await deleteCourseCommentStarsByComment({
         variables: {
@@ -393,8 +422,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           uuid,
         },
       });
-      message.success("评论已经删除");
       handleGetCourseComment();
+      message.success("评论已经删除");
     } catch (error) {
       console.error("Error deleting comments: ", error);
     }
@@ -427,6 +456,35 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     });
   };
 
+  const handleScrollToComment = (uuid: string) => {
+    const element = document.getElementById(uuid);
+    if (element && drawerContentRef.current) {
+      drawerContentRef.current.scrollTo({
+        top: element.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleGotoComment = async (
+    from_item: Comment,
+    to_item: Comment,
+    openReply: boolean,
+  ) => {
+    setOpenReply(false);
+    handleScrollToComment(to_item.uuid);
+    const waitTime =
+      from_item === to_item
+        ? 0
+        : Math.abs(
+            (comments.indexOf(from_item) - comments.indexOf(to_item)) * 25,
+          ) + 300;
+
+    await new Promise((resolve) => setTimeout(resolve, waitTime));
+    setCurrentComment(to_item);
+    setOpenReply(openReply);
+  };
+
   return (
     <>
       <Badge count={comments?.length}>
@@ -434,6 +492,11 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           type="primary"
           onClick={() => {
             showDrawer();
+            setRandomSeed(
+              course_uuid
+                .split("")
+                .reduce((acc: any, char: any) => acc + char.charCodeAt(0), 0),
+            );
             handleGetCourseComment();
           }}
         >
@@ -441,7 +504,6 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         </Button>
       </Badge>
       <Drawer
-        key="course_discuss"
         title={
           <div
             style={{
@@ -459,8 +521,10 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     style={{
                       fontSize: "20px",
                       color: "#1890ff",
-                      transition: "transform 0.5s ease",
-                      transform: isRotating ? "rotate(360deg)" : "rotate(0deg)",
+                      transition: "transform 0.01s ease",
+                      transform: isRotating
+                        ? `rotate(${rotateDegree}deg)`
+                        : `rotate(${rotateDegree + (360 - (rotateDegree % 360))}deg)`,
                     }}
                   />
                 }
@@ -483,128 +547,374 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         onClose={onClose}
         open={open}
       >
-        <List
-          itemLayout="vertical"
-          size="large"
-          dataSource={comments}
-          footer={
-            <div>
-              <center>
-                <b>{comments.length} </b> 条评论
-              </center>
-            </div>
-          }
-          renderItem={(item, index) => (
-            <List.Item
-              key={item.user_uuid}
-              style={{
-                backgroundColor: COMMENT_COLORS[index % COMMENT_COLORS.length],
-                color: "white",
-                fontWeight: "bold",
-                padding: "10px",
-                marginBottom: "10px",
-                borderRadius: "5px",
-                // 透明度
-                opacity: 0.8,
-              }}
-              actions={[
-                <IconText
-                  icon={
-                    commentsStared.includes(item.uuid)
-                      ? StarFilled
-                      : StarOutlined
-                  }
-                  text={commentsStars[item.uuid]?.toString() ?? "0"}
-                  onClick={() => handelToggleCommentStar(item.uuid)}
-                />,
-                <IconText
-                  icon={
-                    commentsLiked.includes(item.uuid)
-                      ? LikeFilled
-                      : LikeOutlined
-                  }
-                  text={commentsLikes[item.uuid]?.toString() ?? "0"}
-                  onClick={() => {
-                    handelToggleCommentLike(item.uuid);
-                  }}
-                />,
-                <IconText
-                  icon={MessageOutlined}
-                  text={commentsReplies[item.uuid]?.length.toString() ?? "0"}
-                />,
-                item.user_uuid === user.uuid && (
-                  <>
-                    <IconText
-                      icon={EditOutlined}
-                      text=""
-                      onClick={() => {
-                        setUpdateCommentModalVisible(true);
-                        setUpdateCommentUuid(item.uuid);
-                        setUpdateComment(item.comment);
-                      }}
-                    />
-                  </>
-                ),
-                item.user_uuid === user.uuid && (
-                  <>
-                    <IconText
-                      icon={DeleteOutlined}
-                      text=""
-                      // 点击并确认删除评论
-                      onClick={() => showDeleteConfirm(item.uuid)}
-                    />
-                  </>
-                ),
-              ]}
-            >
-              <List.Item.Meta
-                avatar={
-                  <Avatar
-                    style={{
-                      backgroundColor: "white",
-                      color: COMMENT_COLORS[index % COMMENT_COLORS.length],
-                      fontSize: "1.3em",
-                      lineHeight: "44px",
-                      width: "40px",
-                      height: "40px",
+        <div
+          ref={drawerContentRef}
+          style={{ maxHeight: "calc(100vh - 108px)", overflowY: "auto" }}
+        >
+          <List
+            itemLayout="vertical"
+            size="large"
+            dataSource={comments}
+            footer={
+              <div>
+                <center>
+                  <b>{comments.length} </b> 条评论
+                </center>
+              </div>
+            }
+            renderItem={(item, index) => (
+              <List.Item
+                id={item.uuid}
+                style={{
+                  backgroundColor:
+                    COMMENT_COLORS[
+                      (index + randomSeed) % COMMENT_COLORS.length
+                    ],
+                  color: "white",
+                  fontWeight: "bold",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  borderRadius: "5px",
+                  opacity:
+                    item === highlightedComment
+                      ? 1
+                      : item.parent_uuid
+                        ? 0.65
+                        : 0.8,
+                }}
+                onMouseEnter={() => {
+                  setHighlightedComment(item);
+                }}
+                onMouseLeave={() => {
+                  setHighlightedComment(undefined);
+                }}
+                onClick={() => {
+                  handleGotoComment(item, item, true);
+                }}
+                actions={[
+                  <IconText
+                    icon={
+                      commentsStared.includes(item.uuid)
+                        ? StarFilled
+                        : StarOutlined
+                    }
+                    text={commentsStars[item.uuid]?.toString() ?? "0"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handelToggleCommentStar(item.uuid);
                     }}
-                  >
-                    {item.user.username?.slice(-2) ?? "匿名"}
-                  </Avatar>
-                }
-                title={item.user.username ?? "anonymous"}
-                description={
-                  <div>
-                    <span
+                  />,
+                  <IconText
+                    icon={
+                      commentsLiked.includes(item.uuid)
+                        ? LikeFilled
+                        : LikeOutlined
+                    }
+                    text={commentsLikes[item.uuid]?.toString() ?? "0"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handelToggleCommentLike(item.uuid);
+                    }}
+                  />,
+                  <IconText
+                    icon={MessageOutlined}
+                    text={commentsReplies[item.uuid]?.length.toString() ?? "0"}
+                  />,
+                  item.user_uuid === user.uuid && (
+                    <>
+                      <IconText
+                        icon={EditOutlined}
+                        text=""
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setUpdateCommentModalVisible(true);
+                          setUpdateCommentUuid(item.uuid);
+                          setUpdateComment(item.comment);
+                        }}
+                      />
+                    </>
+                  ),
+                ]}
+                extra={[
+                  (user.role === "admin" || item.user_uuid === user.uuid) && (
+                    <>
+                      <IconText
+                        icon={DeleteOutlined}
+                        text=""
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          showDeleteConfirm(item.uuid);
+                        }}
+                      />
+                    </>
+                  ),
+                ]}
+              >
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
                       style={{
-                        color: "white",
-                        fontWeight: "bold",
-                        fontSize: "1.2em",
-                        wordWrap: "break-word",
-                        whiteSpace: "pre-wrap",
-                        maxWidth: "90%",
-                        display: "inline-block",
+                        backgroundColor: "white",
+                        color:
+                          COMMENT_COLORS[
+                            (index + randomSeed) % COMMENT_COLORS.length
+                          ],
+                        fontSize: "1.3em",
+                        lineHeight: "44px",
+                        width: "40px",
+                        height: "40px",
                       }}
                     >
-                      {item.comment}
-                    </span>
-                    <br />
-                    <span
+                      {item.user.username?.slice(-2) ?? "匿名"}
+                    </Avatar>
+                  }
+                  title={<>{item.user.username ?? "anonymous"}</>}
+                  description={
+                    <div>
+                      <span
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: "1.3em",
+                          wordWrap: "break-word",
+                          whiteSpace: "pre-wrap",
+                          maxWidth: "90%",
+                          display: "inline-block",
+                        }}
+                      >
+                        {item.parent_uuid ? (
+                          <>
+                            {"Re"}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleGotoComment(
+                                  item,
+                                  comments.find(
+                                    (comment) =>
+                                      comment.uuid === item.parent_uuid,
+                                  ) ?? item,
+                                  false,
+                                );
+                              }}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                color: "rgba(245, 245, 245)",
+                                cursor: "pointer",
+                                fontWeight: "bold",
+                                fontSize: "1em",
+                              }}
+                              onMouseOver={(e) =>
+                                (e.currentTarget.style.color = "black")
+                              }
+                              onMouseOut={(e) =>
+                                (e.currentTarget.style.color =
+                                  "rgba(245, 245, 245)")
+                              }
+                            >
+                              {comments.find(
+                                (comment) => comment.uuid === item.parent_uuid,
+                              )?.user.username ?? ""}
+                            </button>
+                            {":  "}
+                            {item.comment}
+                          </>
+                        ) : (
+                          item.comment
+                        )}
+                        <br />
+                        <br />
+                      </span>
+                      <br />
+
+                      <span
+                        style={{
+                          color: "rgba(245, 245, 245, 0.5)",
+                          fontSize: "0.8em",
+                        }}
+                      >
+                        Updated at:{" "}
+                        {dayjs(item.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+                      </span>
+                    </div>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+        <StyledDrawer
+          title="回复"
+          width={420}
+          closable={false}
+          onClose={() => setOpenReply(false)}
+          open={openReply}
+        >
+          <List
+            itemLayout="vertical"
+            size="large"
+            dataSource={comments.filter(
+              (item) => item.parent_uuid === currentComment?.uuid ?? "",
+            )}
+            renderItem={(item, index) => (
+              <List.Item
+                key={item.user_uuid}
+                style={{
+                  backgroundColor:
+                    COMMENT_COLORS[
+                      (comments.indexOf(item) + randomSeed) %
+                        COMMENT_COLORS.length
+                    ],
+                  color: "white",
+                  fontWeight: "bold",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  borderRadius: "5px",
+                  opacity: 0.8,
+                }}
+                onMouseEnter={() => {
+                  setHighlightedComment(item);
+                }}
+                onMouseLeave={() => {
+                  setHighlightedComment(undefined);
+                }}
+                actions={[
+                  <IconText
+                    icon={
+                      commentsStared.includes(item.uuid)
+                        ? StarFilled
+                        : StarOutlined
+                    }
+                    text={commentsStars[item.uuid]?.toString() ?? "0"}
+                    onClick={() => {
+                      handelToggleCommentStar(item.uuid);
+                    }}
+                  />,
+                  <IconText
+                    icon={
+                      commentsLiked.includes(item.uuid)
+                        ? LikeFilled
+                        : LikeOutlined
+                    }
+                    text={commentsLikes[item.uuid]?.toString() ?? "0"}
+                    onClick={() => {
+                      handelToggleCommentLike(item.uuid);
+                    }}
+                  />,
+                  <IconText
+                    icon={MessageOutlined}
+                    text={commentsReplies[item.uuid]?.length.toString() ?? "0"}
+                    onClick={async () =>
+                      await handleGotoComment(
+                        currentComment ?? item,
+                        item,
+                        true,
+                      )
+                    }
+                  />,
+                  item.user_uuid === user.uuid && (
+                    <>
+                      <IconText
+                        icon={EditOutlined}
+                        text=""
+                        onClick={async () => {
+                          await handleGotoComment(
+                            currentComment ?? item,
+                            item,
+                            false,
+                          );
+                          setUpdateCommentModalVisible(true);
+                          setUpdateCommentUuid(item.uuid);
+                          setUpdateComment(item.comment);
+                        }}
+                      />
+                    </>
+                  ),
+                ]}
+                extra={[
+                  (user.role === "admin" || item.user_uuid === user.uuid) && (
+                    <>
+                      <IconText
+                        icon={DeleteOutlined}
+                        text=""
+                        onClick={() => {
+                          showDeleteConfirm(item.uuid);
+                        }}
+                      />
+                    </>
+                  ),
+                ]}
+              >
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
                       style={{
-                        color: "rgba(245, 245, 245, 0.5)",
-                        fontSize: "0.8em",
+                        backgroundColor: "white",
+                        color:
+                          COMMENT_COLORS[
+                            (comments.indexOf(item) + randomSeed) %
+                              COMMENT_COLORS.length
+                          ],
+                        fontSize: "1.3em",
+                        lineHeight: "44px",
+                        width: "40px",
+                        height: "40px",
                       }}
                     >
-                      Updated at:{" "}
-                      {dayjs(item.updated_at).format("YYYY-MM-DD HH:mm:ss")}
-                    </span>
-                  </div>
-                }
-              />
-            </List.Item>
-          )}
-        />
-        <div></div>
+                      {item.user.username?.slice(-2) ?? "匿名"}
+                    </Avatar>
+                  }
+                  title={item.user.username ?? "anonymous"}
+                  description={
+                    <div>
+                      <span
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: "1.2em",
+                          wordWrap: "break-word",
+                          whiteSpace: "pre-wrap",
+                          maxWidth: "90%",
+                          display: "inline-block",
+                        }}
+                      >
+                        {item.comment}
+                      </span>
+                      <br />
+                      <br />
+                      <span
+                        style={{
+                          color: "rgba(245, 245, 245, 0.5)",
+                          fontSize: "0.8em",
+                        }}
+                      >
+                        Updated at:{" "}
+                        {dayjs(item.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+                      </span>
+                    </div>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+          <div></div>
+          <div style={{ marginBottom: 1 }}>
+            <Input.TextArea
+              rows={4}
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <Button
+              type="primary"
+              onClick={() => {
+                handleAddCourseComment(currentComment?.uuid);
+              }}
+            >
+              回复
+            </Button>
+          </div>
+        </StyledDrawer>
       </Drawer>
       <Modal
         title="发布评论"
