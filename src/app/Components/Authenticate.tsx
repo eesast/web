@@ -13,6 +13,7 @@ interface AuthenticateProps {
 
 export const userRoles = ["user", "student", "teacher", "counselor"];
 export const tsinghuaRoles = ["student", "teacher", "counselor"];
+export const courseRoles = ["student", "admin"];
 
 const Authenticate: React.FC<AuthenticateProps> = ({
   user,
