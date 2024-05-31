@@ -3,12 +3,16 @@ import {
   Badge,
   Button,
   Card,
+  Divider,
   Drawer,
   Form,
+  Modal,
   message,
   Rate,
+  Row,
   Space,
   Spin,
+  Tooltip,
   Typography,
 } from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
@@ -21,10 +25,11 @@ const CourseRating: React.FC<CourseProps> = ({
   mode,
   user,
 }: any) => {
+  const [ratingForm] = Form.useForm();
+  const chartRadarRef = useRef(null);
+  const [openModal, setOpenModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
-  const [form] = Form.useForm();
-  const chartRadarRef = useRef(null);
   const [loading, setLoading] = useState(true);
 
   const { data: courseRatingData, refetch: refetchCourseRating } =
@@ -44,7 +49,7 @@ const CourseRating: React.FC<CourseProps> = ({
 
   const [addCourseRating] = graphql.useAddCourseRatingMutation();
   const [updateCourseRating] = graphql.useUpdateCourseRatingMutation();
-  //const [deleteCourseRating] = graphql.useDeleteCourseRatingMutation();
+  const [deleteCourseRating] = graphql.useDeleteCourseRatingMutation();
 
   const showDrawer = () => {
     handleGetCourseRating();
@@ -66,14 +71,33 @@ const CourseRating: React.FC<CourseProps> = ({
       return;
     }
     if (data) {
-      form.setFieldsValue(courseRatingData?.course_rating_by_pk);
+      ratingForm.setFieldsValue(courseRatingData?.course_rating_by_pk);
     } else {
       message.error("获取评分失败");
     }
   };
 
+  const handleDeleteRating = async () => {
+    try {
+      await deleteCourseRating({
+        variables: {
+          course_id: course_uuid,
+          user_uuid: user.uuid,
+        },
+      });
+      message.success("评分已删除");
+      ratingForm.resetFields();
+      refetchCourseRating();
+      refetchCourseRatingTotal();
+      setOpenModal(false);
+    } catch (error) {
+      message.error("删除评分失败");
+      console.log(error);
+    }
+  };
+
   const handleSaveRating = async () => {
-    const values = await form.validateFields();
+    const values = await ratingForm.validateFields();
     if (
       values.dim1 === 0 ||
       values.dim2 === 0 ||
@@ -135,31 +159,15 @@ const CourseRating: React.FC<CourseProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!chartRadarRef.current) return;
+
+    const { avg } = courseRatingTotal?.course_rating_aggregate?.aggregate || {};
     const radarData = [
-      {
-        item: "任务量",
-        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim1,
-      },
-      {
-        item: "内容难度",
-        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim2,
-      },
-      {
-        item: "上课质量",
-        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim3,
-      },
-      {
-        item: "考试作业讲课相关度",
-        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim6,
-      },
-      {
-        item: "收获感",
-        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim4,
-      },
-      {
-        item: "给分好坏",
-        score: courseRatingTotal?.course_rating_aggregate?.aggregate?.avg?.dim5,
-      },
+      { item: "任务量", score: avg?.dim1 },
+      { item: "内容难度", score: avg?.dim2 },
+      { item: "上课质量", score: avg?.dim3 },
+      { item: "考试作业讲课相关度", score: avg?.dim6 },
+      { item: "收获感", score: avg?.dim4 },
+      { item: "给分好坏", score: avg?.dim5 },
     ];
 
     const chart = new Chart({
@@ -281,28 +289,6 @@ const CourseRating: React.FC<CourseProps> = ({
         onClose={closeDrawer}
         open={openDrawer}
         key="course_rating"
-        footer={
-          <div
-            style={{
-              textAlign: "right",
-            }}
-          >
-            <Button
-              size="large"
-              onClick={closeDrawer}
-              style={{ width: 80, height: 40, marginRight: 12 }}
-            >
-              取消
-            </Button>
-            <Button
-              onClick={handleSaveRating}
-              style={{ width: 80, height: 40, marginRight: 12 }}
-              type="primary"
-            >
-              保存
-            </Button>
-          </div>
-        }
       >
         <Card
           hoverable
@@ -321,8 +307,11 @@ const CourseRating: React.FC<CourseProps> = ({
               课程评分旨在帮助同学们更好地了解课程情况，为选课提供参考，希望同学根据自身体验认真评分
               <br />
               <br />
-              2.
-              任务量和内容难度：星级越高表示任务量越小、内容难度越低，主要是为了反映任务量的多少和难度的高低，但
+              2. 任务量和内容难度：
+              <span style={{ fontWeight: "bold" }}>
+                星级越高表示任务量越小、内容难度越低
+              </span>
+              ，主要是为了反映任务量的多少和难度的高低，但
               <span style={{ fontWeight: "bold" }}>并非星级越高越合适</span>
               ，同学可以根据自身需求进行评判
               <br />
@@ -342,20 +331,20 @@ const CourseRating: React.FC<CourseProps> = ({
           }}
         >
           <Spin spinning={loading}>
-            <div
+            <Row
               ref={chartRadarRef}
               style={{ width: "100%", height: "36vh" }}
             />
           </Spin>
-          <div style={{ textAlign: "center", fontSize: "18px" }}>
+          <Row justify="center" style={{ fontSize: "18px" }}>
             已有
             <span style={{ color: "red", fontWeight: "bold" }}>
               {courseRatingTotal?.course_rating_aggregate.aggregate?.count}
             </span>
             人完成评分
-          </div>
+          </Row>
         </Card>
-        <br />
+        <Divider />
         <Card
           hoverable
           title={
@@ -372,7 +361,7 @@ const CourseRating: React.FC<CourseProps> = ({
             labelAlign="left"
             labelCol={{ span: 12 }}
             wrapperCol={{ span: 22 }}
-            form={form}
+            form={ratingForm}
             initialValues={{
               dim1: 0,
               dim2: 0,
@@ -449,8 +438,57 @@ const CourseRating: React.FC<CourseProps> = ({
               <Rate tooltips={relevanceDesc} style={{ fontSize: 35 }} />
             </Form.Item>
           </Form>
+          <Divider />
+          <Row justify="end">
+            <Tooltip
+              title={
+                courseRatingData?.course_rating_by_pk
+                  ? "删除评分"
+                  : "当前尚未评分，无法删除"
+              }
+            >
+              <Button
+                disabled={!courseRatingData?.course_rating_by_pk}
+                onClick={() => setOpenModal(true)}
+                style={{
+                  width: 80,
+                  height: 40,
+                  marginRight: 12,
+                  fontSize: "18px",
+                }}
+              >
+                删除
+              </Button>
+            </Tooltip>
+            <Tooltip title={"保存评分"}>
+              <Button
+                onClick={handleSaveRating}
+                style={{
+                  width: 80,
+                  height: 40,
+                  marginRight: 12,
+                  fontSize: "18px",
+                }}
+                type="primary"
+              >
+                保存
+              </Button>
+            </Tooltip>
+          </Row>
         </Card>
       </Drawer>
+      <Modal
+        open={openModal}
+        onCancel={() => setOpenModal(false)}
+        onOk={handleDeleteRating}
+        centered
+      >
+        <Typography.Text>
+          <span style={{ fontSize: "20px" }}>
+            确定要删除评分吗？删除后无法恢复
+          </span>
+        </Typography.Text>
+      </Modal>
     </>
   );
 };
