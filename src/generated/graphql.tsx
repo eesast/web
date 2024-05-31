@@ -3494,6 +3494,7 @@ export type Course_Comment = {
   course_comment_parent?: Maybe<Course_Comment>;
   course_id: Scalars['uuid']['output'];
   created_at: Scalars['timestamptz']['output'];
+  deleted: Scalars['Boolean']['output'];
   parent_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
@@ -3548,6 +3549,7 @@ export type Course_Comment_Bool_Exp = {
   course_comment_parent?: InputMaybe<Course_Comment_Bool_Exp>;
   course_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  deleted?: InputMaybe<Boolean_Comparison_Exp>;
   parent_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
@@ -3568,6 +3570,7 @@ export type Course_Comment_Insert_Input = {
   course_comment_parent?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
   parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -3775,6 +3778,7 @@ export type Course_Comment_Order_By = {
   course_comment_parent?: InputMaybe<Course_Comment_Order_By>;
   course_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  deleted?: InputMaybe<Order_By>;
   parent_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
@@ -3796,6 +3800,8 @@ export enum Course_Comment_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  Deleted = 'deleted',
+  /** column name */
   ParentUuid = 'parent_uuid',
   /** column name */
   UpdatedAt = 'updated_at',
@@ -3810,6 +3816,7 @@ export type Course_Comment_Set_Input = {
   comment?: InputMaybe<Scalars['String']['input']>;
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
   parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -3948,6 +3955,8 @@ export enum Course_Comment_Update_Column {
   CourseId = 'course_id',
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  Deleted = 'deleted',
   /** column name */
   ParentUuid = 'parent_uuid',
   /** column name */
@@ -13835,7 +13844,7 @@ export type GetCourseCommentsQueryVariables = Exact<{
 }>;
 
 
-export type GetCourseCommentsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', comment: string, created_at: any, updated_at: any, uuid: any, user_uuid: any, parent_uuid?: any | null, user: { __typename?: 'users', username?: string | null } }> };
+export type GetCourseCommentsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', comment: string, created_at: any, updated_at: any, uuid: any, user_uuid: any, parent_uuid?: any | null, deleted: boolean, user: { __typename?: 'users', username?: string | null } }> };
 
 export type GetCourseCommentsStaredQueryVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
@@ -13867,13 +13876,6 @@ export type GetCourseCommentLikesQueryVariables = Exact<{
 
 export type GetCourseCommentLikesQuery = { __typename?: 'query_root', course_comment_likes_aggregate: { __typename?: 'course_comment_likes_aggregate', aggregate?: { __typename?: 'course_comment_likes_aggregate_fields', count: number } | null } };
 
-export type GetCourseCommentSonsQueryVariables = Exact<{
-  comment_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type GetCourseCommentSonsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', uuid: any }> };
-
 export type UpdateCourseCommentMutationVariables = Exact<{
   comment: Scalars['String']['input'];
   uuid: Scalars['uuid']['input'];
@@ -13881,6 +13883,13 @@ export type UpdateCourseCommentMutationVariables = Exact<{
 
 
 export type UpdateCourseCommentMutation = { __typename?: 'mutation_root', update_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
+
+export type DeleteCourseCommentOneMutationVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteCourseCommentOneMutation = { __typename?: 'mutation_root', update_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
 
 export type AddCourseCommentOneMutationVariables = Exact<{
   comment: Scalars['String']['input'];
@@ -13908,13 +13917,6 @@ export type AddCourseCommentLikesMutationVariables = Exact<{
 
 export type AddCourseCommentLikesMutation = { __typename?: 'mutation_root', insert_course_comment_likes_one?: { __typename?: 'course_comment_likes', comment_uuid: any } | null };
 
-export type DeleteCourseCommentOneMutationVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteCourseCommentOneMutation = { __typename?: 'mutation_root', delete_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
-
 export type DeleteCourseCommentStarsMutationVariables = Exact<{
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
@@ -13930,27 +13932,6 @@ export type DeleteCourseCommentLikesMutationVariables = Exact<{
 
 
 export type DeleteCourseCommentLikesMutation = { __typename?: 'mutation_root', delete_course_comment_likes_by_pk?: { __typename?: 'course_comment_likes', comment_uuid: any } | null };
-
-export type DeleteCourseCommentStarsByCommentMutationVariables = Exact<{
-  comment_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteCourseCommentStarsByCommentMutation = { __typename?: 'mutation_root', delete_course_comment_stars?: { __typename?: 'course_comment_stars_mutation_response', affected_rows: number } | null };
-
-export type DeleteCourseCommentLikesByCommentMutationVariables = Exact<{
-  comment_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteCourseCommentLikesByCommentMutation = { __typename?: 'mutation_root', delete_course_comment_likes?: { __typename?: 'course_comment_likes_mutation_response', affected_rows: number } | null };
-
-export type DeleteCourseCommentByFatherMutationVariables = Exact<{
-  parent_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteCourseCommentByFatherMutation = { __typename?: 'mutation_root', delete_course_comment?: { __typename?: 'course_comment_mutation_response', affected_rows: number } | null };
 
 export type GetCourseInfoQueryVariables = Exact<{
   course_uuid: Scalars['uuid']['input'];
@@ -17763,7 +17744,7 @@ export type DeleteCourseMutationOptions = Apollo.BaseMutationOptions<DeleteCours
 export const GetCourseCommentsDocument = gql`
     query GetCourseComments($course_uuid: uuid!) {
   course_comment(
-    order_by: {created_at: desc}
+    order_by: {created_at: asc}
     where: {course_id: {_eq: $course_uuid}}
   ) {
     comment
@@ -17775,6 +17756,7 @@ export const GetCourseCommentsDocument = gql`
     user {
       username
     }
+    deleted
   }
 }
     `;
@@ -17815,7 +17797,7 @@ export const GetCourseCommentsStaredDocument = gql`
     query GetCourseCommentsStared($user_uuid: uuid!, $course_uuid: uuid!) {
   course_comment_stars(
     where: {user_uuid: {_eq: $user_uuid}, course_comment: {course_id: {_eq: $course_uuid}}}
-    order_by: {course_comment: {created_at: desc}}
+    order_by: {course_comment: {created_at: asc}}
   ) {
     course_comment {
       uuid
@@ -17987,49 +17969,6 @@ export type GetCourseCommentLikesQueryHookResult = ReturnType<typeof useGetCours
 export type GetCourseCommentLikesLazyQueryHookResult = ReturnType<typeof useGetCourseCommentLikesLazyQuery>;
 export type GetCourseCommentLikesSuspenseQueryHookResult = ReturnType<typeof useGetCourseCommentLikesSuspenseQuery>;
 export type GetCourseCommentLikesQueryResult = Apollo.QueryResult<GetCourseCommentLikesQuery, GetCourseCommentLikesQueryVariables>;
-export const GetCourseCommentSonsDocument = gql`
-    query GetCourseCommentSons($comment_uuid: uuid!) {
-  course_comment(
-    where: {parent_uuid: {_eq: $comment_uuid}}
-    order_by: {created_at: desc}
-  ) {
-    uuid
-  }
-}
-    `;
-
-/**
- * __useGetCourseCommentSonsQuery__
- *
- * To run a query within a React component, call `useGetCourseCommentSonsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCourseCommentSonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCourseCommentSonsQuery({
- *   variables: {
- *      comment_uuid: // value for 'comment_uuid'
- *   },
- * });
- */
-export function useGetCourseCommentSonsQuery(baseOptions: Apollo.QueryHookOptions<GetCourseCommentSonsQuery, GetCourseCommentSonsQueryVariables> & ({ variables: GetCourseCommentSonsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCourseCommentSonsQuery, GetCourseCommentSonsQueryVariables>(GetCourseCommentSonsDocument, options);
-      }
-export function useGetCourseCommentSonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCourseCommentSonsQuery, GetCourseCommentSonsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCourseCommentSonsQuery, GetCourseCommentSonsQueryVariables>(GetCourseCommentSonsDocument, options);
-        }
-export function useGetCourseCommentSonsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseCommentSonsQuery, GetCourseCommentSonsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetCourseCommentSonsQuery, GetCourseCommentSonsQueryVariables>(GetCourseCommentSonsDocument, options);
-        }
-export type GetCourseCommentSonsQueryHookResult = ReturnType<typeof useGetCourseCommentSonsQuery>;
-export type GetCourseCommentSonsLazyQueryHookResult = ReturnType<typeof useGetCourseCommentSonsLazyQuery>;
-export type GetCourseCommentSonsSuspenseQueryHookResult = ReturnType<typeof useGetCourseCommentSonsSuspenseQuery>;
-export type GetCourseCommentSonsQueryResult = Apollo.QueryResult<GetCourseCommentSonsQuery, GetCourseCommentSonsQueryVariables>;
 export const UpdateCourseCommentDocument = gql`
     mutation UpdateCourseComment($comment: String!, $uuid: uuid!) {
   update_course_comment_by_pk(
@@ -18067,6 +18006,39 @@ export function useUpdateCourseCommentMutation(baseOptions?: Apollo.MutationHook
 export type UpdateCourseCommentMutationHookResult = ReturnType<typeof useUpdateCourseCommentMutation>;
 export type UpdateCourseCommentMutationResult = Apollo.MutationResult<UpdateCourseCommentMutation>;
 export type UpdateCourseCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCourseCommentMutation, UpdateCourseCommentMutationVariables>;
+export const DeleteCourseCommentOneDocument = gql`
+    mutation DeleteCourseCommentOne($uuid: uuid!) {
+  update_course_comment_by_pk(pk_columns: {uuid: $uuid}, _set: {deleted: true}) {
+    uuid
+  }
+}
+    `;
+export type DeleteCourseCommentOneMutationFn = Apollo.MutationFunction<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>;
+
+/**
+ * __useDeleteCourseCommentOneMutation__
+ *
+ * To run a mutation, you first call `useDeleteCourseCommentOneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCourseCommentOneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCourseCommentOneMutation, { data, loading, error }] = useDeleteCourseCommentOneMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useDeleteCourseCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>(DeleteCourseCommentOneDocument, options);
+      }
+export type DeleteCourseCommentOneMutationHookResult = ReturnType<typeof useDeleteCourseCommentOneMutation>;
+export type DeleteCourseCommentOneMutationResult = Apollo.MutationResult<DeleteCourseCommentOneMutation>;
+export type DeleteCourseCommentOneMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>;
 export const AddCourseCommentOneDocument = gql`
     mutation AddCourseCommentOne($comment: String!, $user_uuid: uuid!, $course_uuid: uuid!, $parent_uuid: uuid) {
   insert_course_comment_one(
@@ -18179,39 +18151,6 @@ export function useAddCourseCommentLikesMutation(baseOptions?: Apollo.MutationHo
 export type AddCourseCommentLikesMutationHookResult = ReturnType<typeof useAddCourseCommentLikesMutation>;
 export type AddCourseCommentLikesMutationResult = Apollo.MutationResult<AddCourseCommentLikesMutation>;
 export type AddCourseCommentLikesMutationOptions = Apollo.BaseMutationOptions<AddCourseCommentLikesMutation, AddCourseCommentLikesMutationVariables>;
-export const DeleteCourseCommentOneDocument = gql`
-    mutation DeleteCourseCommentOne($uuid: uuid!) {
-  delete_course_comment_by_pk(uuid: $uuid) {
-    uuid
-  }
-}
-    `;
-export type DeleteCourseCommentOneMutationFn = Apollo.MutationFunction<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>;
-
-/**
- * __useDeleteCourseCommentOneMutation__
- *
- * To run a mutation, you first call `useDeleteCourseCommentOneMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCourseCommentOneMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCourseCommentOneMutation, { data, loading, error }] = useDeleteCourseCommentOneMutation({
- *   variables: {
- *      uuid: // value for 'uuid'
- *   },
- * });
- */
-export function useDeleteCourseCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>(DeleteCourseCommentOneDocument, options);
-      }
-export type DeleteCourseCommentOneMutationHookResult = ReturnType<typeof useDeleteCourseCommentOneMutation>;
-export type DeleteCourseCommentOneMutationResult = Apollo.MutationResult<DeleteCourseCommentOneMutation>;
-export type DeleteCourseCommentOneMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>;
 export const DeleteCourseCommentStarsDocument = gql`
     mutation DeleteCourseCommentStars($comment_uuid: uuid!, $user_uuid: uuid!) {
   delete_course_comment_stars_by_pk(
@@ -18286,105 +18225,6 @@ export function useDeleteCourseCommentLikesMutation(baseOptions?: Apollo.Mutatio
 export type DeleteCourseCommentLikesMutationHookResult = ReturnType<typeof useDeleteCourseCommentLikesMutation>;
 export type DeleteCourseCommentLikesMutationResult = Apollo.MutationResult<DeleteCourseCommentLikesMutation>;
 export type DeleteCourseCommentLikesMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentLikesMutation, DeleteCourseCommentLikesMutationVariables>;
-export const DeleteCourseCommentStarsByCommentDocument = gql`
-    mutation DeleteCourseCommentStarsByComment($comment_uuid: uuid!) {
-  delete_course_comment_stars(where: {comment_uuid: {_eq: $comment_uuid}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteCourseCommentStarsByCommentMutationFn = Apollo.MutationFunction<DeleteCourseCommentStarsByCommentMutation, DeleteCourseCommentStarsByCommentMutationVariables>;
-
-/**
- * __useDeleteCourseCommentStarsByCommentMutation__
- *
- * To run a mutation, you first call `useDeleteCourseCommentStarsByCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCourseCommentStarsByCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCourseCommentStarsByCommentMutation, { data, loading, error }] = useDeleteCourseCommentStarsByCommentMutation({
- *   variables: {
- *      comment_uuid: // value for 'comment_uuid'
- *   },
- * });
- */
-export function useDeleteCourseCommentStarsByCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseCommentStarsByCommentMutation, DeleteCourseCommentStarsByCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCourseCommentStarsByCommentMutation, DeleteCourseCommentStarsByCommentMutationVariables>(DeleteCourseCommentStarsByCommentDocument, options);
-      }
-export type DeleteCourseCommentStarsByCommentMutationHookResult = ReturnType<typeof useDeleteCourseCommentStarsByCommentMutation>;
-export type DeleteCourseCommentStarsByCommentMutationResult = Apollo.MutationResult<DeleteCourseCommentStarsByCommentMutation>;
-export type DeleteCourseCommentStarsByCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentStarsByCommentMutation, DeleteCourseCommentStarsByCommentMutationVariables>;
-export const DeleteCourseCommentLikesByCommentDocument = gql`
-    mutation DeleteCourseCommentLikesByComment($comment_uuid: uuid!) {
-  delete_course_comment_likes(where: {comment_uuid: {_eq: $comment_uuid}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteCourseCommentLikesByCommentMutationFn = Apollo.MutationFunction<DeleteCourseCommentLikesByCommentMutation, DeleteCourseCommentLikesByCommentMutationVariables>;
-
-/**
- * __useDeleteCourseCommentLikesByCommentMutation__
- *
- * To run a mutation, you first call `useDeleteCourseCommentLikesByCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCourseCommentLikesByCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCourseCommentLikesByCommentMutation, { data, loading, error }] = useDeleteCourseCommentLikesByCommentMutation({
- *   variables: {
- *      comment_uuid: // value for 'comment_uuid'
- *   },
- * });
- */
-export function useDeleteCourseCommentLikesByCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseCommentLikesByCommentMutation, DeleteCourseCommentLikesByCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCourseCommentLikesByCommentMutation, DeleteCourseCommentLikesByCommentMutationVariables>(DeleteCourseCommentLikesByCommentDocument, options);
-      }
-export type DeleteCourseCommentLikesByCommentMutationHookResult = ReturnType<typeof useDeleteCourseCommentLikesByCommentMutation>;
-export type DeleteCourseCommentLikesByCommentMutationResult = Apollo.MutationResult<DeleteCourseCommentLikesByCommentMutation>;
-export type DeleteCourseCommentLikesByCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentLikesByCommentMutation, DeleteCourseCommentLikesByCommentMutationVariables>;
-export const DeleteCourseCommentByFatherDocument = gql`
-    mutation DeleteCourseCommentByFather($parent_uuid: uuid!) {
-  delete_course_comment(where: {parent_uuid: {_eq: $parent_uuid}}) {
-    affected_rows
-  }
-}
-    `;
-export type DeleteCourseCommentByFatherMutationFn = Apollo.MutationFunction<DeleteCourseCommentByFatherMutation, DeleteCourseCommentByFatherMutationVariables>;
-
-/**
- * __useDeleteCourseCommentByFatherMutation__
- *
- * To run a mutation, you first call `useDeleteCourseCommentByFatherMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCourseCommentByFatherMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCourseCommentByFatherMutation, { data, loading, error }] = useDeleteCourseCommentByFatherMutation({
- *   variables: {
- *      parent_uuid: // value for 'parent_uuid'
- *   },
- * });
- */
-export function useDeleteCourseCommentByFatherMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseCommentByFatherMutation, DeleteCourseCommentByFatherMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCourseCommentByFatherMutation, DeleteCourseCommentByFatherMutationVariables>(DeleteCourseCommentByFatherDocument, options);
-      }
-export type DeleteCourseCommentByFatherMutationHookResult = ReturnType<typeof useDeleteCourseCommentByFatherMutation>;
-export type DeleteCourseCommentByFatherMutationResult = Apollo.MutationResult<DeleteCourseCommentByFatherMutation>;
-export type DeleteCourseCommentByFatherMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentByFatherMutation, DeleteCourseCommentByFatherMutationVariables>;
 export const GetCourseInfoDocument = gql`
     query GetCourseInfo($course_uuid: uuid!) {
   course_info(where: {course_id: {_eq: $course_uuid}}) {

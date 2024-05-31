@@ -4,7 +4,7 @@
 
 query GetCourseComments($course_uuid: uuid!) {
   course_comment(
-    order_by: { created_at: desc }
+    order_by: { created_at: asc }
     where: { course_id: { _eq: $course_uuid } }
   ) {
     comment
@@ -16,6 +16,7 @@ query GetCourseComments($course_uuid: uuid!) {
     user {
       username
     }
+    deleted
   }
 }
 
@@ -25,7 +26,7 @@ query GetCourseCommentsStared($user_uuid: uuid!, $course_uuid: uuid!) {
       user_uuid: { _eq: $user_uuid }
       course_comment: { course_id: { _eq: $course_uuid } }
     }
-    order_by: { course_comment: { created_at: desc } }
+    order_by: { course_comment: { created_at: asc } }
   ) {
     course_comment {
       uuid
@@ -67,48 +68,20 @@ query GetCourseCommentLikes($comment_uuid: uuid!) {
   }
 }
 
-# query GetCourseCommentSons($comment_uuid: uuid!) {
-#   course_comment(
-#     where: { parent_uuid: { _eq: $comment_uuid } }
-#     order_by: { created_at: desc }
-#   ) {
-#     uuid
-#   }
-# }
-
-# query GetCourseCommentUserStars($comment_uuid: uuid!, $user_uuid: uuid!) {
-#   course_comment_stars(
-#     limit: 1
-#     where: {
-#       _and: {
-#         comment_uuid: { _eq: $comment_uuid }
-#         user_uuid: { _eq: $user_uuid }
-#       }
-#     }
-#   ) {
-#     comment_uuid
-#   }
-# }
-
-# query GetCourseCommentUserLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
-#   course_comment_likes(
-#     limit: 1
-#     where: {
-#       _and: {
-#         comment_uuid: { _eq: $comment_uuid }
-#         user_uuid: { _eq: $user_uuid }
-#       }
-#     }
-#   ) {
-#     comment_uuid
-#   }
-# }
-
 #改
 mutation UpdateCourseComment($comment: String!, $uuid: uuid!) {
   update_course_comment_by_pk(
     pk_columns: { uuid: $uuid }
     _set: { comment: $comment }
+  ) {
+    uuid
+  }
+}
+
+mutation DeleteCourseCommentOne($uuid: uuid!) {
+  update_course_comment_by_pk(
+    pk_columns: { uuid: $uuid }
+    _set: { deleted: true }
   ) {
     uuid
   }
@@ -152,11 +125,6 @@ mutation AddCourseCommentLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
 }
 
 #删
-mutation DeleteCourseCommentOne($uuid: uuid!) {
-  delete_course_comment_by_pk(uuid: $uuid) {
-    uuid
-  }
-}
 
 mutation DeleteCourseCommentStars($comment_uuid: uuid!, $user_uuid: uuid!) {
   delete_course_comment_stars_by_pk(
@@ -176,20 +144,20 @@ mutation DeleteCourseCommentLikes($comment_uuid: uuid!, $user_uuid: uuid!) {
   }
 }
 
-mutation DeleteCourseCommentStarsByComment($comment_uuid: uuid!) {
-  delete_course_comment_stars(where: { comment_uuid: { _eq: $comment_uuid } }) {
-    affected_rows
-  }
-}
+# mutation DeleteCourseCommentStarsByComment($comment_uuid: uuid!) {
+#   delete_course_comment_stars(where: { comment_uuid: { _eq: $comment_uuid } }) {
+#     affected_rows
+#   }
+# }
 
-mutation DeleteCourseCommentLikesByComment($comment_uuid: uuid!) {
-  delete_course_comment_likes(where: { comment_uuid: { _eq: $comment_uuid } }) {
-    affected_rows
-  }
-}
+# mutation DeleteCourseCommentLikesByComment($comment_uuid: uuid!) {
+#   delete_course_comment_likes(where: { comment_uuid: { _eq: $comment_uuid } }) {
+#     affected_rows
+#   }
+# }
 
-mutation DeleteCourseCommentByFather($parent_uuid: uuid!) {
-  delete_course_comment(where: { parent_uuid: { _eq: $parent_uuid } }) {
-    affected_rows
-  }
-}
+# mutation DeleteCourseCommentByFather($parent_uuid: uuid!) {
+#   delete_course_comment(where: { parent_uuid: { _eq: $parent_uuid } }) {
+#     affected_rows
+#   }
+# }

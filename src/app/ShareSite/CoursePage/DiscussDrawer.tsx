@@ -9,11 +9,15 @@ import {
   Space,
   Modal,
   Input,
+  Dropdown,
+  MenuProps,
+  Typography,
 } from "antd";
 import {
   LikeOutlined,
   LikeFilled,
   MessageOutlined,
+  MessageFilled,
   StarOutlined,
   StarFilled,
   ReloadOutlined,
@@ -21,6 +25,7 @@ import {
   EditOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
@@ -37,6 +42,7 @@ interface Comment {
   user: {
     username?: any;
   };
+  deleted: boolean;
 }
 
 const COMMENT_COLORS = [
@@ -86,6 +92,73 @@ const IconText: FC<IconTextProps> = ({ icon, text, onClick }) => (
   </Space>
 );
 
+interface CustomMenuProp {
+  items: MenuProps["items"];
+  onClick?: MenuProps["onClick"];
+  text?: string;
+}
+
+const DropdownMenu: FC<CustomMenuProp> = ({ items, onClick, text }) => (
+  <Dropdown
+    menu={{
+      items: items,
+      selectable: true,
+      defaultSelectedKeys: ["1"],
+      onClick: onClick,
+    }}
+  >
+    <Typography.Link>
+      <Space>
+        <span
+          style={{
+            fontSize: "1.1em",
+          }}
+        >
+          {text}
+        </span>
+        <DownOutlined />
+      </Space>
+    </Typography.Link>
+  </Dropdown>
+);
+
+const sortModeMenuOptions: { [key: string]: string } = {
+  "1": "按创建时间",
+  "2": "按修改时间",
+  "3": "按收藏数",
+  "4": "按点赞数",
+  "5": "按回复数",
+};
+const sortModeMenu: MenuProps["items"] = Object.entries(
+  sortModeMenuOptions,
+).map(([key, label]) => ({
+  key,
+  label,
+}));
+
+const sortTrendMenuOptions: { [key: string]: string } = {
+  "1": "降序",
+  "2": "升序",
+};
+const sortTrendMenu: MenuProps["items"] = Object.entries(
+  sortTrendMenuOptions,
+).map(([key, label]) => ({
+  key,
+  label,
+}));
+
+const displayOptionMenuOptions: { [key: string]: string } = {
+  "1": "显示全部",
+  "2": "隐藏回复",
+  "3": "显示收藏",
+};
+const displayOptionMenu: MenuProps["items"] = Object.entries(
+  displayOptionMenuOptions,
+).map(([key, label]) => ({
+  key,
+  label,
+}));
+
 const DiscussDrawer: React.FC<CourseProps> = ({
   course_uuid,
   mode,
@@ -95,6 +168,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [openReply, setOpenReply] = useState(false);
   const [randomSeed, setRandomSeed] = useState(0);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [commentsSorted, setCommentsSorted] = useState<Comment[]>([]);
   const [commentsStared, setCommentsStared] = useState<string[]>([]);
   const [commentsLiked, setCommentsLiked] = useState<string[]>([]);
   const [commentsStars, setCommentsStars] = useState<{ [key: string]: number }>(
@@ -116,6 +190,9 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [highlightedComment, setHighlightedComment] = useState<Comment>();
   const [isRotating, setIsRotating] = useState(false);
   const [rotateDegree, setRotateDegree] = useState(0);
+  const [sortMode, setSortMode] = useState("1");
+  const [sortTrend, setSortTrend] = useState("1");
+  const [displayOption, setDisplayOption] = useState("1");
   const drawerContentRef = useRef<HTMLDivElement>(null);
 
   const showDrawer = () => {
@@ -163,13 +240,9 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [addCourseCommentStars] = graphql.useAddCourseCommentStarsMutation();
   const [deleteCourseCommentStars] =
     graphql.useDeleteCourseCommentStarsMutation();
-  const [deleteCourseCommentStarsByComment] =
-    graphql.useDeleteCourseCommentStarsByCommentMutation();
   const [addCourseCommentLikes] = graphql.useAddCourseCommentLikesMutation();
   const [deleteCourseCommentLikes] =
     graphql.useDeleteCourseCommentLikesMutation();
-  const [deleteCourseCommentLikesByComment] =
-    graphql.useDeleteCourseCommentLikesByCommentMutation();
 
   const handleGetCourseComment = async () => {
     setIsRotating(true);
@@ -211,6 +284,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       );
     }
 
+    setTimeout(() => {
+      clearInterval(intervalId);
+      setIsRotating(false);
+    }, 450);
+  };
+
+  const handleGetCourseCommentStars = async () => {
     comments.forEach(async (comment) => {
       const { data, error } = await getCourseCommentStarsRefetch({
         comment_uuid: comment.uuid,
@@ -226,7 +306,9 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           data?.course_comment_stars_aggregate.aggregate?.count ?? 0,
       }));
     });
+  };
 
+  const handleGetCourseCommentLikes = async () => {
     comments.forEach(async (comment) => {
       const { data, error } = await getCourseCommentLikesRefetch({
         comment_uuid: comment.uuid,
@@ -242,23 +324,20 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           data?.course_comment_likes_aggregate.aggregate?.count ?? 0,
       }));
     });
+  };
 
+  const handleGetCommentReplies = async () => {
     comments.forEach((comment) => {
       setCommentsReplies((prev) => ({
         ...prev,
         [comment.uuid]: comments.filter(
-          (item) => item.parent_uuid === comment.uuid,
+          (item) => item.parent_uuid === comment.uuid && !item.deleted,
         ),
       }));
     });
-
-    setTimeout(() => {
-      clearInterval(intervalId);
-      setIsRotating(false);
-    }, 450);
   };
 
-  const handelToggleCommentStar = async (uuid: string) => {
+  const handleToggleCommentStar = async (uuid: string) => {
     try {
       console.log("Toggling star for comment", uuid);
       const comment = comments.find((item) => item.uuid === uuid) ?? undefined;
@@ -305,7 +384,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     }
   };
 
-  const handelToggleCommentLike = async (uuid: string) => {
+  const handleToggleCommentLike = async (uuid: string) => {
     try {
       console.log("Toggling like for comment", uuid);
       const comment = comments.find((item) => item.uuid === uuid) ?? undefined;
@@ -365,6 +444,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       });
       setNewComment("");
       setAddCommentModalVisible(false);
+      setSortMode("1");
+      setSortTrend("1");
       handleGetCourseComment();
       message.success("评论已经添加");
     } catch (error) {
@@ -403,40 +484,16 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const handleDeleteCourseComment = async (uuid: string) => {
     try {
       console.log("Deleting comment", uuid);
-      const replies = commentsReplies[uuid] ?? [];
-      replies.forEach(async (reply) => {
-        await handleDeleteCourseComment(reply.uuid);
-      });
-      await deleteCourseCommentStarsByComment({
-        variables: {
-          comment_uuid: uuid,
-        },
-      });
-      await deleteCourseCommentLikesByComment({
-        variables: {
-          comment_uuid: uuid,
-        },
-      });
       await deleteCourseComment({
         variables: {
           uuid,
         },
       });
-      handleGetCourseComment();
       message.success("评论已经删除");
     } catch (error) {
       console.error("Error deleting comments: ", error);
     }
   };
-
-  useEffect(() => {
-    if (course_uuid) {
-      handleGetCourseComment();
-    } else {
-      console.error("course_uuid is null or undefined");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [course_uuid]);
 
   const { confirm } = Modal;
   const showDeleteConfirm = (uuid: string) => {
@@ -471,23 +528,132 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     to_item: Comment,
     openReply: boolean,
   ) => {
+    const index_from = commentsSorted.indexOf(from_item);
+    const index_to = commentsSorted.indexOf(to_item);
+    if (index_from === -1 || index_to === -1) {
+      message.error("评论已删除");
+      return;
+    }
     setOpenReply(false);
     handleScrollToComment(to_item.uuid);
     const waitTime =
-      from_item === to_item
-        ? 0
-        : Math.abs(
-            (comments.indexOf(from_item) - comments.indexOf(to_item)) * 25,
-          ) + 300;
+      from_item === to_item ? 0 : Math.abs((index_from - index_to) * 25) + 300;
 
     await new Promise((resolve) => setTimeout(resolve, waitTime));
     setCurrentComment(to_item);
     setOpenReply(openReply);
   };
 
+  const handleSelectSortMode: MenuProps["onClick"] = (e) => {
+    setSortMode(e.key);
+  };
+  const handleSelectSortTrend: MenuProps["onClick"] = (e) => {
+    setSortTrend(e.key);
+  };
+  const handleSelectDisplayOption: MenuProps["onClick"] = (e) => {
+    setDisplayOption(e.key);
+  };
+
+  const handleSortComments = (mode: string, trend: string) => {
+    const sorted = [...comments.filter((item) => !item.deleted)];
+    switch (mode) {
+      case "1":
+        sorted.sort(
+          (b, a) =>
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+        );
+        break;
+      case "2":
+        sorted.sort(
+          (b, a) =>
+            new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime(),
+        );
+        break;
+      case "3":
+        sorted.sort((b, a) => {
+          const aStars = commentsStars[a.uuid] ?? 0;
+          const bStars = commentsStars[b.uuid] ?? 0;
+          return aStars === bStars
+            ? new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime()
+            : aStars - bStars;
+        });
+        break;
+      case "4":
+        sorted.sort((b, a) => {
+          const aLikes = commentsLikes[a.uuid] ?? 0;
+          const bLikes = commentsLikes[b.uuid] ?? 0;
+          return aLikes === bLikes
+            ? new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime()
+            : aLikes - bLikes;
+        });
+        break;
+      case "5":
+        sorted.sort((b, a) => {
+          const aReplies = commentsReplies[a.uuid]?.length ?? 0;
+          const bReplies = commentsReplies[b.uuid]?.length ?? 0;
+          return aReplies === bReplies
+            ? new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime()
+            : aReplies - bReplies;
+        });
+        break;
+      default:
+        break;
+    }
+
+    if (trend === "2") {
+      sorted.reverse();
+    }
+
+    setCommentsSorted(sorted);
+  };
+
+  useEffect(() => {
+    handleSortComments(sortMode, sortTrend);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortMode, sortTrend]);
+  useEffect(() => {
+    if (sortMode === "3") {
+      handleSortComments(sortMode, sortTrend);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commentsStars]);
+  useEffect(() => {
+    if (sortMode === "4") {
+      handleSortComments(sortMode, sortTrend);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commentsLikes]);
+  useEffect(() => {
+    if (sortMode === "5") {
+      handleSortComments(sortMode, sortTrend);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commentsReplies]);
+  useEffect(() => {
+    if (course_uuid) {
+      handleGetCourseComment();
+    } else {
+      console.error("course_uuid is null or undefined");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [course_uuid]);
+
+  useEffect(() => {
+    handleGetCourseCommentStars();
+    handleGetCourseCommentLikes();
+    handleGetCommentReplies();
+    if (sortMode === "1" || sortMode === "2") {
+      handleSortComments(sortMode, sortTrend);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comments]);
+
   return (
     <>
-      <Badge count={comments?.length}>
+      <Badge count={comments?.filter((item) => !item.deleted).length}>
         <Button
           type="primary"
           onClick={() => {
@@ -512,14 +678,46 @@ const DiscussDrawer: React.FC<CourseProps> = ({
               alignItems: "center",
             }}
           >
-            <span>评论</span>
+            <Space>
+              {"    "}
+              {comments.length === 0 ? (
+                <Typography.Text>
+                  <span
+                    style={{
+                      fontSize: "1.2em",
+                    }}
+                  >
+                    暂无评论
+                  </span>
+                </Typography.Text>
+              ) : (
+                <>
+                  <DropdownMenu
+                    items={sortModeMenu}
+                    onClick={handleSelectSortMode}
+                    text={sortModeMenuOptions[sortMode] ?? "按创建时间"}
+                  ></DropdownMenu>
+                  <DropdownMenu
+                    items={sortTrendMenu}
+                    onClick={handleSelectSortTrend}
+                    text={sortTrendMenuOptions[sortTrend] ?? "显示全部"}
+                  ></DropdownMenu>
+                  <DropdownMenu
+                    items={displayOptionMenu}
+                    onClick={handleSelectDisplayOption}
+                    text={displayOptionMenuOptions[displayOption] ?? "显示全部"}
+                  ></DropdownMenu>
+                </>
+              )}
+            </Space>
+
             <Space>
               <Button
                 type="link"
                 icon={
                   <ReloadOutlined
                     style={{
-                      fontSize: "20px",
+                      fontSize: "1.4em",
                       color: "#1890ff",
                       transition: "transform 0.01s ease",
                       transform: isRotating
@@ -534,7 +732,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                 type="link"
                 icon={
                   <PlusOutlined
-                    style={{ fontSize: "20px", color: "#1890ff" }}
+                    style={{ fontSize: "1.5em", color: "#1890ff" }}
                   />
                 }
                 onClick={() => setAddCommentModalVisible(true)}
@@ -554,7 +752,15 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           <List
             itemLayout="vertical"
             size="large"
-            dataSource={comments}
+            dataSource={
+              displayOption === "1"
+                ? commentsSorted
+                : displayOption === "2"
+                  ? commentsSorted.filter((item) => !item.parent_uuid)
+                  : commentsSorted.filter((item) =>
+                      commentsStared.includes(item.uuid),
+                    )
+            }
             footer={
               <div>
                 <center>
@@ -601,7 +807,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     text={commentsStars[item.uuid]?.toString() ?? "0"}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handelToggleCommentStar(item.uuid);
+                      handleToggleCommentStar(item.uuid);
                     }}
                   />,
                   <IconText
@@ -613,11 +819,19 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     text={commentsLikes[item.uuid]?.toString() ?? "0"}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handelToggleCommentLike(item.uuid);
+                      handleToggleCommentLike(item.uuid);
                     }}
                   />,
                   <IconText
-                    icon={MessageOutlined}
+                    icon={
+                      commentsReplies[item.uuid] &&
+                      user?.uuid &&
+                      commentsReplies[item.uuid].some(
+                        (reply) => reply.user_uuid === user.uuid,
+                      )
+                        ? MessageFilled
+                        : MessageOutlined
+                    }
                     text={commentsReplies[item.uuid]?.length.toString() ?? "0"}
                   />,
                   item.user_uuid === user.uuid && (
@@ -688,6 +902,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
+                                setDisplayOption("1");
                                 handleGotoComment(
                                   item,
                                   comments.find(
@@ -788,7 +1003,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     }
                     text={commentsStars[item.uuid]?.toString() ?? "0"}
                     onClick={() => {
-                      handelToggleCommentStar(item.uuid);
+                      handleToggleCommentStar(item.uuid);
                     }}
                   />,
                   <IconText
@@ -799,19 +1014,28 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     }
                     text={commentsLikes[item.uuid]?.toString() ?? "0"}
                     onClick={() => {
-                      handelToggleCommentLike(item.uuid);
+                      handleToggleCommentLike(item.uuid);
                     }}
                   />,
                   <IconText
-                    icon={MessageOutlined}
+                    icon={
+                      commentsReplies[item.uuid] &&
+                      user?.uuid &&
+                      commentsReplies[item.uuid].some(
+                        (reply) => reply.user_uuid === user.uuid,
+                      )
+                        ? MessageFilled
+                        : MessageOutlined
+                    }
                     text={commentsReplies[item.uuid]?.length.toString() ?? "0"}
-                    onClick={async () =>
+                    onClick={async () => {
+                      setDisplayOption("1");
                       await handleGotoComment(
                         currentComment ?? item,
                         item,
                         true,
-                      )
-                    }
+                      );
+                    }}
                   />,
                   item.user_uuid === user.uuid && (
                     <>
@@ -819,6 +1043,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         icon={EditOutlined}
                         text=""
                         onClick={async () => {
+                          setDisplayOption("1");
                           await handleGotoComment(
                             currentComment ?? item,
                             item,
