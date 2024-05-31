@@ -487,6 +487,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       setUpdateCommentModalVisible(false);
       setComments(commentsRef.current.filter((item) => !item.deleted));
       handleSortComments(sortMode, sortTrend);
+      handleGetCommentReplies();
       message.success("评论已经更新");
     } catch (error) {
       console.error("Error updating comments: ", error);
@@ -559,8 +560,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     to_item: Comment,
     openReply: boolean,
   ) => {
-    const index_from = commentsSorted.indexOf(from_item);
-    const index_to = commentsSorted.indexOf(to_item);
+    const index_from = commentsSorted.findIndex(
+      (comment) => comment.uuid === from_item.uuid,
+    );
+    const index_to = commentsSorted.findIndex(
+      (comment) => comment.uuid === to_item.uuid,
+    );
+    console.log("Scrolling from", index_from, "to", index_to);
     if (index_from === -1 || index_to === -1) {
       message.error("评论已删除");
       return;
@@ -1039,6 +1045,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     onClick={async () => {
                       setDisplayOption("1");
                       await new Promise((resolve) => setTimeout(resolve, 200));
+
                       await handleGotoComment(
                         currentComment ?? item,
                         item,
@@ -1135,7 +1142,6 @@ const DiscussDrawer: React.FC<CourseProps> = ({
               </List.Item>
             )}
           />
-          <div></div>
           <div style={{ marginBottom: 1 }}>
             <Input.TextArea
               rows={4}
@@ -1144,6 +1150,9 @@ const DiscussDrawer: React.FC<CourseProps> = ({
             />
             <Button
               type="primary"
+              style={{
+                marginTop: 10,
+              }}
               onClick={() => {
                 handleAddCourseComment(currentComment?.uuid);
               }}
