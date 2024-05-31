@@ -17744,7 +17744,7 @@ export type DeleteCourseMutationOptions = Apollo.BaseMutationOptions<DeleteCours
 export const GetCourseCommentsDocument = gql`
     query GetCourseComments($course_uuid: uuid!) {
   course_comment(
-    order_by: {created_at: asc}
+    order_by: {created_at: desc}
     where: {course_id: {_eq: $course_uuid}}
   ) {
     comment
@@ -17797,7 +17797,7 @@ export const GetCourseCommentsStaredDocument = gql`
     query GetCourseCommentsStared($user_uuid: uuid!, $course_uuid: uuid!) {
   course_comment_stars(
     where: {user_uuid: {_eq: $user_uuid}, course_comment: {course_id: {_eq: $course_uuid}}}
-    order_by: {course_comment: {created_at: asc}}
+    order_by: {course_comment: {created_at: desc}}
   ) {
     course_comment {
       uuid

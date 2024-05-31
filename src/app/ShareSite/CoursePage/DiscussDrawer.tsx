@@ -167,7 +167,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [open, setOpen] = useState(false);
   const [openReply, setOpenReply] = useState(false);
   const [randomSeed, setRandomSeed] = useState(0);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const commentsRef = useRef<Comment[]>([]);
+  const [comments, setComments] = useState<Comment[]>(commentsRef.current);
   const [commentsSorted, setCommentsSorted] = useState<Comment[]>([]);
   const [commentsStared, setCommentsStared] = useState<string[]>([]);
   const [commentsLiked, setCommentsLiked] = useState<string[]>([]);
@@ -244,7 +245,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [deleteCourseCommentLikes] =
     graphql.useDeleteCourseCommentLikesMutation();
 
-  const handleGetCourseComment = async () => {
+  const handleGetCourseComment = async (loadAncillary: boolean = true) => {
     setIsRotating(true);
     setRotateDegree(0);
     const intervalId = setInterval(() => {
@@ -254,35 +255,39 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       const { data, error } = await getCourseCommentRefetch();
       if (error) {
         console.error("Error fetching comments: ", error);
-        message.error("获取评论失败");
         return;
       }
-      setComments(data?.course_comment ?? []);
+      commentsRef.current = data?.course_comment ?? [];
     }
-    {
-      const { data, error } = await getCourseCommentStaredRefetch();
-      if (error) {
-        console.error("Error fetching comments stared: ", error);
-        message.error("获取收藏失败");
-        return;
+    if (loadAncillary) {
+      {
+        const { data, error } = await getCourseCommentStaredRefetch();
+        if (error) {
+          console.error("Error fetching comments stared: ", error);
+          return;
+        }
+        setCommentsStared(
+          data?.course_comment_stars.map((item) => item.course_comment.uuid) ??
+            [],
+        );
       }
-      setCommentsStared(
-        data?.course_comment_stars.map((item) => item.course_comment.uuid) ??
-          [],
-      );
-    }
-    {
-      const { data, error } = await getCourseCommentLikedRefetch();
-      if (error) {
-        console.error("Error fetching comments liked: ", error);
-        message.error("获取点赞失败");
-        return;
+      {
+        const { data, error } = await getCourseCommentLikedRefetch();
+        if (error) {
+          console.error("Error fetching comments liked: ", error);
+          return;
+        }
+        setCommentsLiked(
+          data?.course_comment_likes.map((item) => item.course_comment.uuid) ??
+            [],
+        );
       }
-      setCommentsLiked(
-        data?.course_comment_likes.map((item) => item.course_comment.uuid) ??
-          [],
-      );
+      await handleGetCourseCommentStars();
+      await handleGetCourseCommentLikes();
+      handleGetCommentReplies();
     }
+    setComments(commentsRef.current.filter((item) => !item.deleted));
+    handleSortComments(sortMode, sortTrend);
 
     setTimeout(() => {
       clearInterval(intervalId);
@@ -291,13 +296,15 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   };
 
   const handleGetCourseCommentStars = async () => {
-    comments.forEach(async (comment) => {
+    commentsRef.current.forEach(async (comment) => {
+      if (comment.deleted) {
+        return;
+      }
       const { data, error } = await getCourseCommentStarsRefetch({
         comment_uuid: comment.uuid,
       });
       if (error) {
         console.error("Error fetching comments stars: ", error);
-        message.error("获取收藏数失败");
         return;
       }
       setCommentsStars((prev) => ({
@@ -309,13 +316,15 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   };
 
   const handleGetCourseCommentLikes = async () => {
-    comments.forEach(async (comment) => {
+    commentsRef.current.forEach(async (comment) => {
+      if (comment.deleted) {
+        return;
+      }
       const { data, error } = await getCourseCommentLikesRefetch({
         comment_uuid: comment.uuid,
       });
       if (error) {
         console.error("Error fetching comments likes: ", error);
-        message.error("获取点赞数失败");
         return;
       }
       setCommentsLikes((prev) => ({
@@ -326,11 +335,14 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     });
   };
 
-  const handleGetCommentReplies = async () => {
-    comments.forEach((comment) => {
+  const handleGetCommentReplies = () => {
+    commentsRef.current.forEach((comment) => {
+      if (comment.deleted) {
+        return;
+      }
       setCommentsReplies((prev) => ({
         ...prev,
-        [comment.uuid]: comments.filter(
+        [comment.uuid]: commentsRef.current.filter(
           (item) => item.parent_uuid === comment.uuid && !item.deleted,
         ),
       }));
@@ -340,7 +352,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const handleToggleCommentStar = async (uuid: string) => {
     try {
       console.log("Toggling star for comment", uuid);
-      const comment = comments.find((item) => item.uuid === uuid) ?? undefined;
+      const comment =
+        commentsRef.current.find((item) => item.uuid === uuid) ?? undefined;
       if (comment === undefined) {
         console.error("Comment not found");
         return;
@@ -387,7 +400,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const handleToggleCommentLike = async (uuid: string) => {
     try {
       console.log("Toggling like for comment", uuid);
-      const comment = comments.find((item) => item.uuid === uuid) ?? undefined;
+      const comment =
+        commentsRef.current.find((item) => item.uuid === uuid) ?? undefined;
       if (comment === undefined) {
         console.error("Comment not found");
         return;
@@ -444,9 +458,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       });
       setNewComment("");
       setAddCommentModalVisible(false);
-      setSortMode("1");
-      setSortTrend("1");
-      handleGetCourseComment();
+      await handleGetCourseComment();
       message.success("评论已经添加");
     } catch (error) {
       console.error("Error adding comments: ", error);
@@ -462,19 +474,19 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           uuid: updateCommentUuid,
         },
       });
-      setComments((prev) =>
-        prev.map((item) =>
-          item.uuid === updateCommentUuid
-            ? {
-                ...item,
-                comment: updateComment,
-                updated_at: new Date().toISOString(),
-              }
-            : item,
-        ),
+      commentsRef.current = commentsRef.current.map((item) =>
+        item.uuid === updateCommentUuid
+          ? {
+              ...item,
+              comment: updateComment,
+              updated_at: new Date().toISOString(),
+            }
+          : item,
       );
       setUpdateComment("");
       setUpdateCommentModalVisible(false);
+      setComments(commentsRef.current.filter((item) => !item.deleted));
+      handleSortComments(sortMode, sortTrend);
       message.success("评论已经更新");
     } catch (error) {
       console.error("Error updating comments: ", error);
@@ -489,6 +501,25 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           uuid,
         },
       });
+      commentsRef.current = commentsRef.current.map((item) =>
+        item.uuid === uuid
+          ? {
+              ...item,
+              deleted: true,
+            }
+          : item,
+      );
+      setComments(commentsRef.current.filter((item) => !item.deleted));
+      setCommentsReplies((prev) => {
+        const newReplies = { ...prev };
+        for (const key in newReplies) {
+          newReplies[key] = newReplies[key].filter(
+            (item) => item.uuid !== uuid,
+          );
+        }
+        return newReplies;
+      });
+      handleSortComments(sortMode, sortTrend);
       message.success("评论已经删除");
     } catch (error) {
       console.error("Error deleting comments: ", error);
@@ -555,7 +586,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   };
 
   const handleSortComments = (mode: string, trend: string) => {
-    const sorted = [...comments.filter((item) => !item.deleted)];
+    const sorted = [...commentsRef.current.filter((item) => !item.deleted)];
     switch (mode) {
       case "1":
         sorted.sort(
@@ -614,46 +645,19 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     handleSortComments(sortMode, sortTrend);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortMode, sortTrend]);
-  useEffect(() => {
-    if (sortMode === "3") {
-      handleSortComments(sortMode, sortTrend);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commentsStars]);
-  useEffect(() => {
-    if (sortMode === "4") {
-      handleSortComments(sortMode, sortTrend);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commentsLikes]);
-  useEffect(() => {
-    if (sortMode === "5") {
-      handleSortComments(sortMode, sortTrend);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commentsReplies]);
+
   useEffect(() => {
     if (course_uuid) {
-      handleGetCourseComment();
+      handleGetCourseComment(false);
     } else {
       console.error("course_uuid is null or undefined");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course_uuid]);
 
-  useEffect(() => {
-    handleGetCourseCommentStars();
-    handleGetCourseCommentLikes();
-    handleGetCommentReplies();
-    if (sortMode === "1" || sortMode === "2") {
-      handleSortComments(sortMode, sortTrend);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comments]);
-
   return (
     <>
-      <Badge count={comments?.filter((item) => !item.deleted).length}>
+      <Badge count={comments?.length ?? 0}>
         <Button
           type="primary"
           onClick={() => {
@@ -680,7 +684,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           >
             <Space>
               {"    "}
-              {comments.length === 0 ? (
+              {(comments?.length ?? 0) === 0 ? (
                 <Typography.Text>
                   <span
                     style={{
@@ -726,7 +730,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     }}
                   />
                 }
-                onClick={handleGetCourseComment}
+                onClick={() => handleGetCourseComment()}
               />
               <Button
                 type="link"
@@ -764,7 +768,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
             footer={
               <div>
                 <center>
-                  <b>{comments.length} </b> 条评论
+                  <b>{comments?.length ?? 0} </b> 条评论
                 </center>
               </div>
             }
@@ -774,7 +778,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                 style={{
                   backgroundColor:
                     COMMENT_COLORS[
-                      (index + randomSeed) % COMMENT_COLORS.length
+                      (commentsRef.current?.indexOf(item) ?? 0 + randomSeed) %
+                        COMMENT_COLORS.length
                     ],
                   color: "white",
                   fontWeight: "bold",
@@ -795,6 +800,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                   setHighlightedComment(undefined);
                 }}
                 onClick={() => {
+                  setCurrentComment(item);
                   handleGotoComment(item, item, true);
                 }}
                 actions={[
@@ -871,7 +877,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         backgroundColor: "white",
                         color:
                           COMMENT_COLORS[
-                            (index + randomSeed) % COMMENT_COLORS.length
+                            (commentsRef.current?.indexOf(item) ??
+                              0 + randomSeed) % COMMENT_COLORS.length
                           ],
                         fontSize: "1.3em",
                         lineHeight: "44px",
@@ -900,12 +907,15 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                           <>
                             {"Re"}
                             <button
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.stopPropagation();
                                 setDisplayOption("1");
-                                handleGotoComment(
+                                await new Promise((resolve) =>
+                                  setTimeout(resolve, 200),
+                                );
+                                await handleGotoComment(
                                   item,
-                                  comments.find(
+                                  commentsRef.current.find(
                                     (comment) =>
                                       comment.uuid === item.parent_uuid,
                                   ) ?? item,
@@ -928,7 +938,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                                   "rgba(245, 245, 245)")
                               }
                             >
-                              {comments.find(
+                              {commentsRef.current.find(
                                 (comment) => comment.uuid === item.parent_uuid,
                               )?.user.username ?? ""}
                             </button>
@@ -969,16 +979,14 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           <List
             itemLayout="vertical"
             size="large"
-            dataSource={comments.filter(
-              (item) => item.parent_uuid === currentComment?.uuid ?? "",
-            )}
-            renderItem={(item, index) => (
+            dataSource={commentsReplies[currentComment?.uuid ?? ""] ?? []}
+            renderItem={(item) => (
               <List.Item
                 key={item.user_uuid}
                 style={{
                   backgroundColor:
                     COMMENT_COLORS[
-                      (comments.indexOf(item) + randomSeed) %
+                      (commentsRef.current?.indexOf(item) ?? 0 + randomSeed) %
                         COMMENT_COLORS.length
                     ],
                   color: "white",
@@ -1030,6 +1038,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                     text={commentsReplies[item.uuid]?.length.toString() ?? "0"}
                     onClick={async () => {
                       setDisplayOption("1");
+                      await new Promise((resolve) => setTimeout(resolve, 200));
                       await handleGotoComment(
                         currentComment ?? item,
                         item,
@@ -1044,6 +1053,9 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         text=""
                         onClick={async () => {
                           setDisplayOption("1");
+                          await new Promise((resolve) =>
+                            setTimeout(resolve, 200),
+                          );
                           await handleGotoComment(
                             currentComment ?? item,
                             item,
@@ -1078,8 +1090,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         backgroundColor: "white",
                         color:
                           COMMENT_COLORS[
-                            (comments.indexOf(item) + randomSeed) %
-                              COMMENT_COLORS.length
+                            (commentsRef.current?.indexOf(item) ??
+                              0 + randomSeed) % COMMENT_COLORS.length
                           ],
                         fontSize: "1.3em",
                         lineHeight: "44px",
