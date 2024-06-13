@@ -14,7 +14,7 @@
     "dayjs": "1.11.11",
     "dotenv": "16.4.5",
     "google-protobuf": "3.21.2",
-    "graphql": "16.8.1",
+    "graphql": "16.8.2",
     "graphql-ws": "5.16.0",
     "grpc-web": "1.5.0",
     "is-url": "1.2.4",
