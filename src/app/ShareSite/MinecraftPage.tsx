@@ -45,7 +45,7 @@ const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
         <Title level={2}>我要怎么连接服务器？</Title>
         <Paragraph>
           <Text strong>
-            EESAST的服务器域名为 <Text code>mc.eesast.com</Text>
+            EESAST的服务器域名为 <Text code>mc.eesast.com</Text>，版本为 <Text code>1.19 Fabric</Text>
           </Text>
           ， 推荐大家使用PCL2客户端连接（也可自选其他客户端），具体教程请参考
           <Link
