@@ -2,8 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import {
   Badge,
   Button,
+  Card,
   Col,
+  DatePicker,
   Descriptions,
+  Divider,
   Form,
   Input,
   InputRef,
@@ -31,6 +34,8 @@ import {
   ExclamationCircleFilled,
   UploadOutlined,
   DownloadOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import { getStatusText } from "../../api/utils/application";
 import { pick } from "../../api/utils/pick";
@@ -62,6 +67,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   });
 
+  const [hasGetTime, setHasGetTime] = useState(false);
+
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -80,6 +87,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             end_E: new Date(response.data.time.end_E),
           },
         });
+        setHasGetTime(true);
       } catch (e) {
         const err = e as AxiosError;
         if (err.response?.status === 401) {
@@ -93,6 +101,32 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     };
     fetch();
   }, []);
+
+  const [updateMentorTime] = graphql.useUpdateMentorTimeMutation();
+  useEffect(() => {
+    if (!hasGetTime) return; //未获取到时间信息的时候，info的全部都是默认值，不进行数据库更改操作
+    if (user.role !== "counselor" && user.role !== "root") return;
+    try {
+      updateMentorTime({
+        variables: {
+          start_A: info.mentor.start_A,
+          start_B: info.mentor.start_B,
+          start_C: info.mentor.start_C,
+          start_D: info.mentor.start_D,
+          start_E: info.mentor.start_E,
+          end_A: info.mentor.end_A,
+          end_B: info.mentor.end_B,
+          end_C: info.mentor.end_C,
+          end_D: info.mentor.end_D,
+          end_E: info.mentor.end_E,
+          activateIn: new Date().getFullYear(),
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      message.error("时间更新失败");
+    }
+  }, [info, updateMentorTime, hasGetTime, user.role]);
 
   const {
     loading: applicationLoading,
@@ -173,19 +207,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       message.error("申请状态更新失败");
     }
   }, [updateApplicationStatusError]);
-
-  const handleApplicationStatusChange = async (
-    status: "approved" | "submitted" | "rejected",
-    item: graphql.GetMentorApplicationsQuery["mentor_application"][0],
-  ) => {
-    await updateApplicationStatus({
-      variables: {
-        id: item.id,
-        status: status,
-      },
-    });
-    await refetchApplications();
-  };
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingApplication, setEditingApplication] =
@@ -407,6 +428,14 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         (b.total_for_grade.aggregate?.count ?? 0),
     },
     {
+      title: "已接收人数",
+      dataIndex: ["total_for_match", "aggregate", "count"],
+      key: "matchedApplicants",
+      sorter: (a, b) =>
+        (a.total_for_match.aggregate?.count ?? 0) -
+        (b.total_for_match.aggregate?.count ?? 0),
+    },
+    {
       title: "操作",
       key: "action",
       render: (text, record) => (
@@ -588,7 +617,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const {
     data: freshmanList,
     error: freshmanListError,
-    // refetch: refetchFreshmanList,
+    refetch: refetchFreshmanList,
   } = graphql.useGetFreshmanListQuery({
     skip: user.role !== "counselor" && user.role !== "root",
   });
@@ -601,66 +630,73 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   }, [freshmanListError]);
 
   const handleAttribute = async () => {
-    setAttributing(true);
-
-    try {
-      const freshmanToAttribute = freshmanList!.users.filter(
-        (item) => item.mentor_application_as_student.length === 0,
-      );
-      const teachersToAttribute = mentorList!.users.filter(
-        (item) =>
-          item.mentor_available?.available === true &&
-          (item.matched.aggregate?.count ?? 0) < 5,
-      );
-
-      if (teachersToAttribute.length === 0) {
+    let freshmanToAttribute = freshmanList!.users.filter(
+      (item) => item.mentor_application_as_student.length === 0,
+    );
+    let teachersToAttribute = new Map<any, number>();
+    let teachersHash = new Array<any>();
+    //建立哈希映射，key为老师，value为匹配数，记录匹配数不超过5的老师
+    let len = 0;
+    mentorList!.users.forEach((item) => {
+      if (
+        item.mentor_available?.available === true &&
+        (item.matched.aggregate?.count ?? 0) < 5
+      ) {
+        teachersToAttribute.set(item, item.matched.aggregate?.count ?? 0);
+        teachersHash.push(item);
+        len++;
+      }
+    });
+    let matched = new Map<any, any>();
+    let numOfStudents = freshmanToAttribute.length;
+    for (let i = 0; i < numOfStudents; i++) {
+      if (len === 0) {
         message.error("没有可用的导师");
-        return;
+        break;
       }
 
-      if (freshmanToAttribute.length === 0) {
-        message.success("随机分配完成");
-        return;
+      let randomIndex = Math.floor(Math.random() * len); //范围[0,len-1]随机
+      let tmpTeacher = teachersHash[randomIndex];
+      matched.set(freshmanToAttribute[i], tmpTeacher);
+
+      //更新老师的匹配数
+      if ((teachersToAttribute.get(tmpTeacher) ?? 0) < 4) {
+        teachersToAttribute.set(
+          tmpTeacher,
+          (teachersToAttribute.get(tmpTeacher) ?? 0) + 1,
+        );
+      } else {
+        teachersToAttribute.delete(tmpTeacher);
+        teachersHash.splice(randomIndex, 1);
+        len--;
       }
-
-      const student =
-        freshmanToAttribute[Date.now() % freshmanToAttribute.length];
-
-      const minCount = Math.min(
-        ...teachersToAttribute.map(
-          (item) => item.matched.aggregate?.count ?? 0,
-        ),
-      );
-      const teachersWithMinCount = teachersToAttribute.filter(
-        (item) => item.matched.aggregate?.count === minCount,
-      );
-
-      const teacher =
-        teachersWithMinCount[Date.now() % teachersWithMinCount.length];
-
-      const { data } = await addApplication({
-        variables: {
-          student_uuid: student.uuid,
-          mentor_uuid: teacher.uuid,
-          statement: "系统随机分配",
-        },
-      });
-
-      await updateApplicationStatus({
-        variables: {
-          id: data?.insert_mentor_application?.returning[0].id!,
-          status: "approved",
-        },
-      });
-
-      message.success("分配成功");
-      window.location.reload();
-      return;
-    } catch {
-      message.error("分配失败");
-    } finally {
-      setAttributing(false);
     }
+
+    //更新数据库
+    for (const [student, teacher] of matched) {
+      try {
+        const { data } = await addApplication({
+          variables: {
+            student_uuid: student.uuid,
+            mentor_uuid: teacher.uuid,
+            statement: "系统随机分配",
+          },
+        });
+        await updateApplicationStatus({
+          variables: {
+            id: data?.insert_mentor_application?.returning[0].id!,
+            status: "approved",
+          },
+        });
+      } catch {
+        message.error("分配失败");
+      }
+    }
+
+    message.success("随机分配已完成");
+    setAttributing(false);
+    window.location.reload();
+    return;
   };
 
   const [importing, setImporting] = useState(false);
@@ -846,6 +882,18 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  const [hideReject, setHideReject] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
+  const [studentDetails, setStudentDetails] = useState([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
   return (
     <Space
       direction="vertical"
@@ -853,309 +901,582 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         width: 100%;
       `}
     >
-      <Typography.Title level={2}>关键时间点</Typography.Title>
-      <Timeline>
-        {user.role === "teacher" && (
-          <Timeline.Item
-            color={
-              new Date() >= info.mentor.start_A &&
-              new Date() <= info.mentor.end_A
-                ? "green"
-                : "red"
-            }
-          >
-            <p>预备阶段：导师更新个人信息</p>
-            <p>
-              {info.mentor.start_A.toLocaleString()} ~{" "}
-              {info.mentor.end_A.toLocaleString()}
-            </p>
-          </Timeline.Item>
-        )}
-        <Timeline.Item
-          color={
-            new Date() >= info.mentor.start_B && new Date() <= info.mentor.end_B
-              ? "green"
-              : "red"
-          }
-        >
-          <p>预备阶段：学生了解导师信息</p>
-          <p>
-            {info.mentor.start_B.toLocaleString()} ~{" "}
-            {info.mentor.end_B.toLocaleString()}
-          </p>
-        </Timeline.Item>
-        <Timeline.Item
-          color={
-            new Date() >= info.mentor.start_C && new Date() <= info.mentor.end_C
-              ? "green"
-              : "red"
-          }
-        >
-          <p>第一阶段：自由申请与匹配</p>
-          <p>
-            {info.mentor.start_C.toLocaleString()} ~{" "}
-            {info.mentor.end_C.toLocaleString()}
-          </p>
-        </Timeline.Item>
-        <Timeline.Item
-          color={
-            new Date() >= info.mentor.start_D && new Date() <= info.mentor.end_D
-              ? "green"
-              : "red"
-          }
-        >
-          <p>第二阶段：未匹配同学补选</p>
-          <p>
-            {info.mentor.start_D.toLocaleString()} ~{" "}
-            {info.mentor.end_D.toLocaleString()}
-          </p>
-        </Timeline.Item>
-        <Timeline.Item
-          color={
-            new Date() >= info.mentor.start_E && new Date() <= info.mentor.end_E
-              ? "green"
-              : "red"
-          }
-        >
-          <p>第三阶段：系统随机分配</p>
-          <p>
-            {info.mentor.start_E.toLocaleString()} ~{" "}
-            {info.mentor.end_E.toLocaleString()}
-          </p>
-        </Timeline.Item>
-      </Timeline>
-      {user.role === "student" && (
-        <>
-          <Typography.Title level={2}>已申请</Typography.Title>
-          <List
-            loading={applicationLoading}
-            dataSource={applicationData?.mentor_application}
-            renderItem={(item) => {
-              return (
-                <Descriptions
-                  key={item.id}
-                  bordered
-                  size="small"
-                  css={`
-                    margin: 24px auto;
-                  `}
-                >
-                  <Descriptions.Item label="导师姓名" span={2}>
-                    {item.mentor?.realname}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="导师院系">
-                    {item.mentor?.department}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请时间" span={2}>
-                    {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请状态">
-                    {item.status === "submitted" ? (
-                      <Badge status="processing" text="待处理" />
-                    ) : item.status === "approved" ? (
-                      <Badge status="success" text="已通过" />
-                    ) : (
-                      <Badge status="error" text="未通过" />
-                    )}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请陈述" span={3}>
-                    <Text
-                      css={`
-                        word-rap: break-word;
-                        white-space: pre-wrap;
-                      `}
-                    >
-                      {item.statement}
-                    </Text>
-                    <br />
-                    <br />
+      <Row style={{ justifyContent: "space-evenly" }}>
+        {user.role !== "counselor" && (
+          <>
+            <Col span={14}>
+              {user.role === "teacher" && (
+                <>
+                  <Card>
                     <Row>
-                      <Col span={4}>
-                        <Button
-                          disabled={item.status !== "submitted"}
-                          onClick={() => {
-                            setEditingApplication(item);
-                            form.setFieldsValue(item);
-                            setModalVisible(true);
-                          }}
-                        >
-                          编辑
-                        </Button>
+                      <Col span={8}>
+                        <Switch
+                          loading={
+                            mentorAvailableLoading ||
+                            changeMentorAvailableLoading
+                          }
+                          checkedChildren="正在接收申请"
+                          unCheckedChildren="停止接收申请"
+                          checked={
+                            mentorAvailableData?.mentor_available?.[0]
+                              ?.available ?? false
+                          }
+                          onChange={handleMentorAvailableChange}
+                        />
                       </Col>
-                      <Col span={4}>
+                      <Col span={8}>
                         <Button
-                          danger
-                          loading={deleteMentorApplicationLoading}
+                          type="primary"
                           onClick={() => {
-                            Modal.confirm({
-                              centered: true,
-                              title: "确认删除申请？",
-                              icon: <ExclamationCircleFilled />,
-                              content: "删除后可重新申请",
-                              okText: "确认",
-                              okType: "danger",
-                              cancelText: "取消",
-                              onOk: () => handleApplicationDelete(item.id),
+                            getMentorInfo({
+                              variables: { mentor_uuid: user.uuid! },
                             });
+                            setShowMentorInfo(true);
                           }}
                         >
-                          删除
+                          查看我的信息
                         </Button>
                       </Col>
                     </Row>
-                  </Descriptions.Item>
-                  {item.status === "approved" && (
-                    <Descriptions.Item label="谈话记录" span={2}>
-                      <Row align="middle">
-                        <Col span={6}>
-                          {item.chat_status === false ? (
-                            <Badge status="processing" text="未提交" />
-                          ) : (
-                            <Badge status="success" text="已提交" />
-                          )}
+                  </Card>
+                  <br />
+                  <Card>
+                    <List>
+                      <Typography.Title level={2}>未处理</Typography.Title>
+                      <List
+                        loading={applicationLoading}
+                        dataSource={applicationData?.mentor_application}
+                        renderItem={(item) => {
+                          if (item.status === "rejected") return null;
+                          if (item.status === "approved") return null;
+                          return (
+                            <Descriptions
+                              key={item.id}
+                              bordered
+                              size="small"
+                              css={`
+                                margin: 24px auto;
+                              `}
+                            >
+                              <Descriptions.Item label="学生姓名" span={2}>
+                                {item.student?.realname}
+                              </Descriptions.Item>
+                              <Descriptions.Item label="学生院系" span={2}>
+                                {item.student?.department}
+                              </Descriptions.Item>
+                              <Descriptions.Item label="申请状态" span={2}>
+                                {item.status === "submitted" ? (
+                                  <Badge status="processing" text="待处理" />
+                                ) : item.status === "approved" ? (
+                                  <Badge status="success" text="已通过" />
+                                ) : (
+                                  <Badge status="error" text="未通过" />
+                                )}
+                              </Descriptions.Item>
+                              {item.status === "approved" && (
+                                <Descriptions.Item label="谈话记录" span={2}>
+                                  {item.chat_status === false ? (
+                                    <Badge status="processing" text="未提交" />
+                                  ) : (
+                                    <Row align="middle">
+                                      <Col span={8}>
+                                        <Badge status="success" text="已提交" />
+                                      </Col>
+                                      <Col span={8}>
+                                        <Button
+                                          onClick={() =>
+                                            handleDownloadRecord(item.id)
+                                          }
+                                        >
+                                          下载
+                                        </Button>
+                                      </Col>
+                                    </Row>
+                                  )}
+                                </Descriptions.Item>
+                              )}
+                              <Descriptions.Item label="详细信息" span={2}>
+                                <Button
+                                  onClick={() => {
+                                    setStudentDetails([
+                                      item.student?.realname,
+                                      item.student?.department,
+                                      item.student?.email,
+                                      item.student?.phone,
+                                      item.created_at,
+                                      item.statement,
+                                      item.status,
+                                      item.id,
+                                    ]);
+                                    setOpenDetails(true);
+                                  }}
+                                >
+                                  查看详细信息
+                                </Button>
+                              </Descriptions.Item>
+                            </Descriptions>
+                          );
+                        }}
+                      />
+                      <Divider />
+                      <Row>
+                        <Col span={4}>
+                          <Typography.Title level={2}>已处理</Typography.Title>
                         </Col>
-                        <Col span={5}>
-                          <Upload
-                            customRequest={(e) => {
-                              handleUploadRecord(e, item.id);
-                            }}
-                            onChange={handleOnchangeRecord}
-                            showUploadList={false}
-                            // onRemove={handleRemoveRecord}
-                            // multiple={false}
+                        <Col span={4}>
+                          <Tooltip
+                            title={
+                              hideReject ? "显示未通过申请" : "隐藏未通过申请"
+                            }
                           >
-                            <Button icon={<UploadOutlined />}>提交</Button>
-                          </Upload>
+                            <Button
+                              shape="circle"
+                              icon={
+                                hideReject ? (
+                                  <EyeInvisibleOutlined />
+                                ) : (
+                                  <EyeOutlined />
+                                )
+                              }
+                              type="default"
+                              onClick={() => {
+                                setHideReject(!hideReject);
+                              }}
+                            />
+                          </Tooltip>
                         </Col>
-                        {item.chat_status === true && (
-                          <Col span={5}>
-                            <Button
-                              icon={<DownloadOutlined />}
-                              onClick={() => handleDownloadRecord(item.id)}
-                            >
-                              下载
-                            </Button>
-                          </Col>
-                        )}
                       </Row>
-                    </Descriptions.Item>
-                  )}
-                </Descriptions>
-              );
-            }}
-          />
-        </>
-      )}
-      {user.role === "teacher" && (
-        <>
-          <Row align="middle">
-            <Col span={4}>
-              <Switch
-                loading={mentorAvailableLoading || changeMentorAvailableLoading}
-                checkedChildren="正在接收申请"
-                unCheckedChildren="停止接收申请"
-                checked={
-                  mentorAvailableData?.mentor_available?.[0]?.available ?? false
-                }
-                onChange={handleMentorAvailableChange}
-              />
-            </Col>
-            <Col span={4}>
-              <Button
-                type="primary"
-                onClick={() => {
-                  getMentorInfo({ variables: { mentor_uuid: user.uuid! } });
-                  setShowMentorInfo(true);
-                }}
-              >
-                查看我的信息
-              </Button>
-            </Col>
-          </Row>
-
-          <List
-            loading={applicationLoading}
-            dataSource={applicationData?.mentor_application}
-            renderItem={(item) => {
-              return (
-                <Descriptions
-                  key={item.id}
-                  bordered
-                  size="small"
-                  css={`
-                    margin: 24px auto;
-                  `}
-                >
-                  <Descriptions.Item label="学生姓名" span={2}>
-                    {item.student?.realname}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="学生院系">
-                    {item.student?.department}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="邮箱" span={2}>
-                    {item.student?.email}
-                  </Descriptions.Item>
-                  {item.status === "approved" && (
-                    <Descriptions.Item label="手机">
-                      {item.student?.phone}
-                    </Descriptions.Item>
-                  )}
-                  <Descriptions.Item label="申请时间" span={2}>
-                    {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请状态">
-                    {item.status === "submitted" ? (
-                      <Badge status="processing" text="待处理" />
-                    ) : item.status === "approved" ? (
-                      <Badge status="success" text="已通过" />
-                    ) : (
-                      <Badge status="error" text="未通过" />
-                    )}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请陈述" span={3}>
-                    <Typography.Text style={{ wordWrap: "break-word" }}>
-                      {item.statement}
-                    </Typography.Text>
-                    <br />
-                    <br />
-                    <Radio.Group
-                      disabled={updateApplicationStatusLoading}
-                      value={item.status}
-                      onChange={(e) => {
-                        handleApplicationStatusChange(e.target.value, item);
-                      }}
-                    >
-                      <Radio value="approved">接收该同学</Radio>
-                      <Radio value="submitted">尚未处理</Radio>
-                      <Radio value="rejected">拒绝该同学</Radio>
-                    </Radio.Group>
-                  </Descriptions.Item>
-                  {item.status === "approved" && (
-                    <Descriptions.Item label="谈话记录" span={2}>
-                      {item.chat_status === false ? (
-                        <Badge status="processing" text="未提交" />
-                      ) : (
-                        <Row align="middle">
-                          <Col span={8}>
-                            <Badge status="success" text="已提交" />
-                          </Col>
-                          <Col span={8}>
-                            <Button
-                              onClick={() => handleDownloadRecord(item.id)}
+                      <List
+                        loading={applicationLoading}
+                        dataSource={applicationData?.mentor_application}
+                        renderItem={(item) => {
+                          if (item.status === "rejected" && hideReject)
+                            return null;
+                          if (item.status === "submitted") return null;
+                          return (
+                            <Descriptions
+                              key={item.id}
+                              bordered
+                              size="small"
+                              css={`
+                                margin: 24px auto;
+                              `}
                             >
-                              下载
-                            </Button>
-                          </Col>
-                        </Row>
-                      )}
-                    </Descriptions.Item>
+                              <Descriptions.Item label="学生姓名" span={2}>
+                                {item.student?.realname}
+                              </Descriptions.Item>
+                              <Descriptions.Item label="学生院系" span={2}>
+                                {item.student?.department}
+                              </Descriptions.Item>
+                              <Descriptions.Item label="申请状态" span={2}>
+                                {item.status === "submitted" ? (
+                                  <Badge status="processing" text="待处理" />
+                                ) : item.status === "approved" ? (
+                                  <Badge status="success" text="已通过" />
+                                ) : (
+                                  <Badge status="error" text="未通过" />
+                                )}
+                              </Descriptions.Item>
+                              <Descriptions.Item label="详细信息" span={2}>
+                                <Button
+                                  onClick={() => {
+                                    setStudentDetails([
+                                      item.student?.realname,
+                                      item.student?.department,
+                                      item.student?.email,
+                                      item.student?.phone,
+                                      item.created_at,
+                                      item.statement,
+                                      item.status,
+                                      item.id,
+                                    ]);
+                                    setOpenDetails(true);
+                                  }}
+                                >
+                                  查看详细信息
+                                </Button>
+                              </Descriptions.Item>
+                              {item.status === "approved" && (
+                                <Descriptions.Item label="谈话记录" span={2}>
+                                  {item.chat_status === false ? (
+                                    <Badge status="processing" text="未提交" />
+                                  ) : (
+                                    <Row align="middle">
+                                      <Col span={8}>
+                                        <Badge status="success" text="已提交" />
+                                      </Col>
+                                      <Col span={8} />
+                                      <Col span={4}>
+                                        <Button
+                                          onClick={() =>
+                                            handleDownloadRecord(item.id)
+                                          }
+                                        >
+                                          下载
+                                        </Button>
+                                      </Col>
+                                    </Row>
+                                  )}
+                                </Descriptions.Item>
+                              )}
+                            </Descriptions>
+                          );
+                        }}
+                      />
+                    </List>
+                  </Card>
+                </>
+              )}
+
+              {user.role === "student" && (
+                <Card>
+                  <Typography.Title level={2}>已申请</Typography.Title>
+                  <List
+                    loading={applicationLoading}
+                    dataSource={applicationData?.mentor_application}
+                    renderItem={(item) => {
+                      return (
+                        <Descriptions
+                          key={item.id}
+                          bordered
+                          size="small"
+                          css={`
+                            margin: 24px auto;
+                          `}
+                        >
+                          <Descriptions.Item label="导师姓名" span={2}>
+                            {item.mentor?.realname}
+                          </Descriptions.Item>
+                          <Descriptions.Item label="导师院系" span={2}>
+                            {item.mentor?.department}
+                          </Descriptions.Item>
+                          <Descriptions.Item label="申请时间" span={2}>
+                            {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
+                          </Descriptions.Item>
+                          <Descriptions.Item label="申请状态" span={2}>
+                            {item.status === "submitted" ? (
+                              <Badge status="processing" text="待处理" />
+                            ) : item.status === "approved" ? (
+                              <Badge status="success" text="已通过" />
+                            ) : (
+                              <Badge status="error" text="未通过" />
+                            )}
+                          </Descriptions.Item>
+                          <Descriptions.Item label="申请陈述" span={3}>
+                            <Text
+                              css={`
+                                word-rap: break-word;
+                                white-space: pre-wrap;
+                              `}
+                            >
+                              {item.statement}
+                            </Text>
+                            <br />
+                            <br />
+                            <Row>
+                              <Col span={4}>
+                                <Button
+                                  disabled={item.status !== "submitted"}
+                                  onClick={() => {
+                                    setEditingApplication(item);
+                                    form.setFieldsValue(item);
+                                    setModalVisible(true);
+                                  }}
+                                >
+                                  编辑
+                                </Button>
+                              </Col>
+                              <Col span={4}>
+                                <Button
+                                  danger
+                                  loading={deleteMentorApplicationLoading}
+                                  onClick={() => {
+                                    Modal.confirm({
+                                      centered: true,
+                                      title: "确认删除申请？",
+                                      icon: <ExclamationCircleFilled />,
+                                      content: "删除后可重新申请",
+                                      okText: "确认",
+                                      okType: "danger",
+                                      cancelText: "取消",
+                                      onOk: () =>
+                                        handleApplicationDelete(item.id),
+                                    });
+                                  }}
+                                >
+                                  删除
+                                </Button>
+                              </Col>
+                            </Row>
+                          </Descriptions.Item>
+                          {item.status === "approved" && (
+                            <Descriptions.Item label="谈话记录" span={2}>
+                              <Row
+                                align="middle"
+                                style={{ justifyContent: "space-evenly" }}
+                              >
+                                <Col span={6}>
+                                  {item.chat_status === false ? (
+                                    <Badge status="processing" text="未提交" />
+                                  ) : (
+                                    <Badge status="success" text="已提交" />
+                                  )}
+                                </Col>
+                                <Col span={5} />
+                                <Col span={4}>
+                                  <Upload
+                                    customRequest={(e) => {
+                                      handleUploadRecord(e, item.id);
+                                    }}
+                                    onChange={handleOnchangeRecord}
+                                    showUploadList={false}
+                                    // onRemove={handleRemoveRecord}
+                                    // multiple={false}
+                                  >
+                                    <Button icon={<UploadOutlined />}>
+                                      提交
+                                    </Button>
+                                  </Upload>
+                                </Col>
+                                {item.chat_status === true && (
+                                  <>
+                                    <Col span={4} />
+                                    <Col span={4}>
+                                      <Button
+                                        icon={<DownloadOutlined />}
+                                        onClick={() =>
+                                          handleDownloadRecord(item.id)
+                                        }
+                                      >
+                                        下载
+                                      </Button>
+                                    </Col>
+                                  </>
+                                )}
+                              </Row>
+                            </Descriptions.Item>
+                          )}
+                        </Descriptions>
+                      );
+                    }}
+                  />
+                </Card>
+              )}
+            </Col>
+            <Col span={8}>
+              <Card>
+                <Typography.Title level={2}>关键时间点</Typography.Title>
+                <br />
+                <Timeline>
+                  {user.role === "teacher" && (
+                    <Timeline.Item
+                      color={
+                        new Date() >= info.mentor.start_A &&
+                        new Date() <= info.mentor.end_A
+                          ? "green"
+                          : "gray"
+                      }
+                    >
+                      <p>预备阶段：导师更新个人信息</p>
+                      <br />
+                      <p>
+                        {dayjs(info.mentor.start_A).format("YYYY-MM-DD")} ~{" "}
+                        {dayjs(info.mentor.end_A).format("YYYY-MM-DD")}
+                      </p>
+                    </Timeline.Item>
                   )}
-                </Descriptions>
-              );
-            }}
-          />
-        </>
-      )}
+                  <Timeline.Item
+                    color={
+                      new Date() >= info.mentor.start_B &&
+                      new Date() <= info.mentor.end_B
+                        ? "green"
+                        : "gray"
+                    }
+                  >
+                    <p>预备阶段：学生了解导师信息</p>
+                    <br />
+                    <p>
+                      {dayjs(info.mentor.start_B).format("YYYY-MM-DD")} ~{" "}
+                      {dayjs(info.mentor.end_B).format("YYYY-MM-DD")}
+                    </p>
+                  </Timeline.Item>
+                  <Timeline.Item
+                    color={
+                      new Date() >= info.mentor.start_C &&
+                      new Date() <= info.mentor.end_C
+                        ? "green"
+                        : "gray"
+                    }
+                  >
+                    <p>第一阶段：自由申请与匹配</p>
+                    <br />
+                    <p>
+                      {dayjs(info.mentor.start_C).format("YYYY-MM-DD")} ~{" "}
+                      {dayjs(info.mentor.end_C).format("YYYY-MM-DD")}
+                    </p>
+                  </Timeline.Item>
+                  <Timeline.Item
+                    color={
+                      new Date() >= info.mentor.start_D &&
+                      new Date() <= info.mentor.end_D
+                        ? "green"
+                        : "gray"
+                    }
+                  >
+                    <p>第二阶段：未匹配同学补选</p>
+                    <br />
+                    <p>
+                      {dayjs(info.mentor.start_D).format("YYYY-MM-DD")} ~{" "}
+                      {dayjs(info.mentor.end_D).format("YYYY-MM-DD")}
+                    </p>
+                  </Timeline.Item>
+                  <Timeline.Item
+                    color={
+                      new Date() >= info.mentor.start_E &&
+                      new Date() <= info.mentor.end_E
+                        ? "green"
+                        : "gray"
+                    }
+                  >
+                    <p>第三阶段：系统随机分配</p>
+                    <br />
+                    <p>
+                      {dayjs(info.mentor.start_E).format("YYYY-MM-DD")} ~{" "}
+                      {dayjs(info.mentor.end_E).format("YYYY-MM-DD")}
+                    </p>
+                  </Timeline.Item>
+                </Timeline>
+              </Card>
+            </Col>
+          </>
+        )}
+        {user.role === "counselor" && (
+          <>
+            <Col span={24}>
+              <Card>
+                <Typography.Title level={2}>管理时间设置</Typography.Title>
+                {hasGetTime && (
+                  <Row>
+                    <Timeline style={{ width: "100%" }}>
+                      <Timeline.Item color="#027dcd">
+                        <Typography.Text>预备阶段</Typography.Text>
+                        <br />
+                        <DatePicker.RangePicker
+                          defaultValue={[
+                            dayjs(info.mentor.start_A),
+                            dayjs(info.mentor.end_A),
+                          ]}
+                          onChange={(date) => {
+                            if (date && date[0] && date[1]) {
+                              setInfo({
+                                ...info,
+                                mentor: {
+                                  ...info.mentor,
+                                  start_A: date[0].toDate(),
+                                  end_A: date[1].toDate(),
+                                },
+                              });
+                            }
+                          }}
+                        />
+                      </Timeline.Item>
+                      <Timeline.Item color="#027dcd">
+                        <Typography.Text>预备阶段</Typography.Text>
+                        <br />
+                        <DatePicker.RangePicker
+                          defaultValue={[
+                            dayjs(info.mentor.start_B),
+                            dayjs(info.mentor.end_B),
+                          ]}
+                          onChange={(date) => {
+                            if (date && date[0] && date[1]) {
+                              setInfo({
+                                ...info,
+                                mentor: {
+                                  ...info.mentor,
+                                  start_B: date[0].toDate(),
+                                  end_B: date[1].toDate(),
+                                },
+                              });
+                            }
+                          }}
+                        />
+                      </Timeline.Item>
+                      <Timeline.Item color="#027dcd">
+                        <Typography.Text>第一阶段</Typography.Text>
+                        <br />
+                        <DatePicker.RangePicker
+                          defaultValue={[
+                            dayjs(info.mentor.start_C),
+                            dayjs(info.mentor.end_C),
+                          ]}
+                          onChange={(date) => {
+                            if (date && date[0] && date[1]) {
+                              setInfo({
+                                ...info,
+                                mentor: {
+                                  ...info.mentor,
+                                  start_C: date[0].toDate(),
+                                  end_C: date[1].toDate(),
+                                },
+                              });
+                            }
+                          }}
+                        />
+                      </Timeline.Item>
+                      <Timeline.Item color="#027dcd">
+                        <Typography.Text>第二阶段</Typography.Text>
+                        <br />
+                        <DatePicker.RangePicker
+                          defaultValue={[
+                            dayjs(info.mentor.start_D),
+                            dayjs(info.mentor.end_D),
+                          ]}
+                          onChange={(date) => {
+                            if (date && date[0] && date[1]) {
+                              setInfo({
+                                ...info,
+                                mentor: {
+                                  ...info.mentor,
+                                  start_D: date[0].toDate(),
+                                  end_D: date[1].toDate(),
+                                },
+                              });
+                            }
+                          }}
+                        />
+                      </Timeline.Item>
+                      <Timeline.Item color="#027dcd">
+                        <Typography.Text>第三阶段</Typography.Text>
+                        <br />
+                        <DatePicker.RangePicker
+                          defaultValue={[
+                            dayjs(info.mentor.start_E),
+                            dayjs(info.mentor.end_E),
+                          ]}
+                          onChange={(date) => {
+                            if (date && date[0] && date[1]) {
+                              setInfo({
+                                ...info,
+                                mentor: {
+                                  ...info.mentor,
+                                  start_E: date[0].toDate(),
+                                  end_E: date[1].toDate(),
+                                },
+                              });
+                            }
+                          }}
+                        />
+                      </Timeline.Item>
+                    </Timeline>
+                  </Row>
+                )}
+              </Card>
+            </Col>
+          </>
+        )}
+      </Row>
+
       {user.role === "student" && (
         <>
           <Typography.Title level={2}>导师列表</Typography.Title>
@@ -1231,17 +1552,35 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                 导入信息
               </Button>
             </Col>
+            <Col span={5}>
+              <Tooltip title="点击刷新">
+                <Button
+                  onClick={() => {
+                    refetchFreshmanList();
+                  }}
+                >
+                  尚未匹配的学生人数:{" "}
+                  {
+                    freshmanList?.users.filter(
+                      (item) => item.mentor_application_as_student.length === 0,
+                    ).length
+                  }
+                </Button>
+              </Tooltip>
+            </Col>
             <Col span={3}>
               <Button
                 type="primary"
-                // onClick={handleAttribute}
                 onClick={() => {
                   Modal.confirm({
                     title: "确认进行系统随机分配？",
                     content: "此操作不可撤销",
                     okText: "确认",
                     cancelText: "取消",
-                    onOk: handleAttribute,
+                    onOk: async () => {
+                      setAttributing(true);
+                      handleAttribute();
+                    },
                   });
                 }}
                 loading={attributing}
@@ -1257,6 +1596,18 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               (item) => item.mentor_available?.available !== false,
             )}
             columns={mentorListColumnsForCounselors}
+          />
+          <Typography.Title level={2}>未匹配学生</Typography.Title>
+          <Table
+            dataSource={freshmanList?.users.filter(
+              (item) => item.mentor_application_as_student.length === 0,
+            )}
+            //根据freshmanlist来填写表格，需要显示的为student_no,realname,class,realname
+            columns={[
+              { title: "学号", dataIndex: "student_no", key: "student_no" },
+              { title: "姓名", dataIndex: "realname", key: "realname" },
+              { title: "班级", dataIndex: "class", key: "class" },
+            ]}
           />
           <Modal
             open={importFormVisible}
@@ -1299,6 +1650,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           </Modal>
         </>
       )}
+
+      {/* 老师信息 */}
       <Modal
         open={showMentorInfo}
         title="导师信息"
@@ -1370,6 +1723,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           </Descriptions.Item>
         </Descriptions>
       </Modal>
+      {/* 更改老师信息 */}
       <Modal
         open={showUpdateInfo}
         title={`更新${mentorInfoData?.mentor_info_by_pk?.user.realname}信息`}
@@ -1424,6 +1778,75 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             <Input.TextArea />
           </Form.Item>
         </Form>
+      </Modal>
+      {/* 学生详细信息 */}
+      <Modal
+        open={openDetails}
+        title="学生详细信息"
+        centered
+        destroyOnClose
+        onCancel={() => {
+          setOpenDetails(false);
+        }}
+        footer={null}
+        width="70%"
+      >
+        <Descriptions
+          // title={
+          //   studentDetails[0]
+          //     ? `${studentDetails[0]}的信息`
+          //     : "学生信息未记录于数据库中"
+          // }
+          column={1}
+        >
+          <Descriptions.Item label="姓名">
+            {studentDetails[0]}
+          </Descriptions.Item>
+          <Descriptions.Item label="院系">
+            {studentDetails[1]}
+          </Descriptions.Item>
+          <Descriptions.Item label="邮箱">
+            {studentDetails[2]}
+          </Descriptions.Item>
+          <Descriptions.Item label="手机">
+            {studentDetails[3]}
+          </Descriptions.Item>
+          <Descriptions.Item label="申请时间">
+            {dayjs(studentDetails[4]).format("YYYY-MM-DD HH:mm")}
+          </Descriptions.Item>
+          <Descriptions.Item label="申请陈述">
+            {studentDetails[5]}
+          </Descriptions.Item>
+          <Descriptions.Item>
+            <Radio.Group
+              disabled={updateApplicationStatusLoading}
+              value={studentDetails[6]}
+              onChange={async (e) => {
+                await updateApplicationStatus({
+                  variables: {
+                    id: studentDetails[7],
+                    status: e.target.value,
+                  },
+                });
+                setStudentDetails([
+                  studentDetails[0],
+                  studentDetails[1],
+                  studentDetails[2],
+                  studentDetails[3],
+                  studentDetails[4],
+                  studentDetails[5],
+                  e.target.value,
+                  studentDetails[7],
+                ]);
+                await refetchApplications();
+              }}
+            >
+              <Radio value="approved">接收该同学</Radio>
+              <Radio value="submitted">尚未处理</Radio>
+              <Radio value="rejected">拒绝该同学</Radio>
+            </Radio.Group>
+          </Descriptions.Item>
+        </Descriptions>
       </Modal>
     </Space>
   );

@@ -3494,6 +3494,7 @@ export type Course_Comment = {
   course_comment_parent?: Maybe<Course_Comment>;
   course_id: Scalars['uuid']['output'];
   created_at: Scalars['timestamptz']['output'];
+  deleted: Scalars['Boolean']['output'];
   parent_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
@@ -3548,6 +3549,7 @@ export type Course_Comment_Bool_Exp = {
   course_comment_parent?: InputMaybe<Course_Comment_Bool_Exp>;
   course_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  deleted?: InputMaybe<Boolean_Comparison_Exp>;
   parent_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
@@ -3568,6 +3570,7 @@ export type Course_Comment_Insert_Input = {
   course_comment_parent?: InputMaybe<Course_Comment_Obj_Rel_Insert_Input>;
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
   parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -3775,6 +3778,7 @@ export type Course_Comment_Order_By = {
   course_comment_parent?: InputMaybe<Course_Comment_Order_By>;
   course_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  deleted?: InputMaybe<Order_By>;
   parent_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
@@ -3796,6 +3800,8 @@ export enum Course_Comment_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  Deleted = 'deleted',
+  /** column name */
   ParentUuid = 'parent_uuid',
   /** column name */
   UpdatedAt = 'updated_at',
@@ -3810,6 +3816,7 @@ export type Course_Comment_Set_Input = {
   comment?: InputMaybe<Scalars['String']['input']>;
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
   parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -3948,6 +3955,8 @@ export enum Course_Comment_Update_Column {
   CourseId = 'course_id',
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  Deleted = 'deleted',
   /** column name */
   ParentUuid = 'parent_uuid',
   /** column name */
@@ -13690,7 +13699,7 @@ export type GetMentorListQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, realname?: string | null, department?: string | null, matched: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_grade: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null }> };
+export type GetMentorListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, realname?: string | null, department?: string | null, matched: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_grade: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_match: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null }> };
 
 export type UpsertMentorInfoMutationVariables = Exact<{
   achievement?: InputMaybe<Scalars['String']['input']>;
@@ -13713,7 +13722,7 @@ export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?
 export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFreshmanListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, student_no?: string | null, mentor_application_as_student: Array<{ __typename?: 'mentor_application', student_uuid: any, mentor_uuid: any, statement: string }> }> };
+export type GetFreshmanListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, student_no?: string | null, realname?: string | null, class?: string | null, mentor_application_as_student: Array<{ __typename?: 'mentor_application', student_uuid: any, mentor_uuid: any, statement: string }> }> };
 
 export type GetIdByNameQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -13721,6 +13730,23 @@ export type GetIdByNameQueryVariables = Exact<{
 
 
 export type GetIdByNameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+
+export type UpdateMentorTimeMutationVariables = Exact<{
+  start_A: Scalars['timestamptz']['input'];
+  start_B: Scalars['timestamptz']['input'];
+  start_C: Scalars['timestamptz']['input'];
+  start_D: Scalars['timestamptz']['input'];
+  start_E: Scalars['timestamptz']['input'];
+  end_A: Scalars['timestamptz']['input'];
+  end_B: Scalars['timestamptz']['input'];
+  end_C: Scalars['timestamptz']['input'];
+  end_D: Scalars['timestamptz']['input'];
+  end_E: Scalars['timestamptz']['input'];
+  activateIn: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateMentorTimeMutation = { __typename?: 'mutation_root', update_mentor_time?: { __typename?: 'mentor_time_mutation_response', affected_rows: number } | null };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -16899,6 +16925,13 @@ export const GetMentorListDocument = gql`
         count
       }
     }
+    total_for_match: mentor_application_as_mentor_aggregate(
+      where: {status: {_eq: "approved"}}
+    ) {
+      aggregate {
+        count
+      }
+    }
     mentor_available {
       available
     }
@@ -17031,6 +17064,8 @@ export const GetFreshmanListDocument = gql`
   users(where: {student_no: {_gt: "2022999999", _lte: "2023999999"}}) {
     uuid
     student_no
+    realname
+    class
     mentor_application_as_student(where: {status: {_eq: "approved"}}) {
       student_uuid
       mentor_uuid
@@ -17111,6 +17146,52 @@ export type GetIdByNameQueryHookResult = ReturnType<typeof useGetIdByNameQuery>;
 export type GetIdByNameLazyQueryHookResult = ReturnType<typeof useGetIdByNameLazyQuery>;
 export type GetIdByNameSuspenseQueryHookResult = ReturnType<typeof useGetIdByNameSuspenseQuery>;
 export type GetIdByNameQueryResult = Apollo.QueryResult<GetIdByNameQuery, GetIdByNameQueryVariables>;
+export const UpdateMentorTimeDocument = gql`
+    mutation UpdateMentorTime($start_A: timestamptz!, $start_B: timestamptz!, $start_C: timestamptz!, $start_D: timestamptz!, $start_E: timestamptz!, $end_A: timestamptz!, $end_B: timestamptz!, $end_C: timestamptz!, $end_D: timestamptz!, $end_E: timestamptz!, $activateIn: Int!) {
+  update_mentor_time(
+    where: {activateIn: {_eq: $activateIn}}
+    _set: {start_A: $start_A, start_B: $start_B, start_C: $start_C, start_D: $start_D, start_E: $start_E, end_A: $end_A, end_B: $end_B, end_C: $end_C, end_D: $end_D, end_E: $end_E}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type UpdateMentorTimeMutationFn = Apollo.MutationFunction<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>;
+
+/**
+ * __useUpdateMentorTimeMutation__
+ *
+ * To run a mutation, you first call `useUpdateMentorTimeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMentorTimeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMentorTimeMutation, { data, loading, error }] = useUpdateMentorTimeMutation({
+ *   variables: {
+ *      start_A: // value for 'start_A'
+ *      start_B: // value for 'start_B'
+ *      start_C: // value for 'start_C'
+ *      start_D: // value for 'start_D'
+ *      start_E: // value for 'start_E'
+ *      end_A: // value for 'end_A'
+ *      end_B: // value for 'end_B'
+ *      end_C: // value for 'end_C'
+ *      end_D: // value for 'end_D'
+ *      end_E: // value for 'end_E'
+ *      activateIn: // value for 'activateIn'
+ *   },
+ * });
+ */
+export function useUpdateMentorTimeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>(UpdateMentorTimeDocument, options);
+      }
+export type UpdateMentorTimeMutationHookResult = ReturnType<typeof useUpdateMentorTimeMutation>;
+export type UpdateMentorTimeMutationResult = Apollo.MutationResult<UpdateMentorTimeMutation>;
+export type UpdateMentorTimeMutationOptions = Apollo.BaseMutationOptions<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
     query GetApprovedMentorApplications($uuid: uuid!) {
   mentor_application(

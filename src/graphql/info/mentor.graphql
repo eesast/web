@@ -184,6 +184,13 @@ query GetMentorList($grade_time: timestamptz!) {
         count
       }
     }
+    total_for_match: mentor_application_as_mentor_aggregate(
+      where: { status: { _eq: "approved" } }
+    ) {
+      aggregate {
+        count
+      }
+    }
     mentor_available {
       available
     }
@@ -232,6 +239,8 @@ query GetFreshmanList {
   users(where: { student_no: { _gt: "2022999999", _lte: "2023999999" } }) {
     uuid
     student_no
+    realname
+    class
     mentor_application_as_student(where: { status: { _eq: "approved" } }) {
       student_uuid
       mentor_uuid
@@ -243,5 +252,37 @@ query GetFreshmanList {
 query GetIdByName($name: String!) {
   users(where: { realname: { _eq: $name } }) {
     uuid
+  }
+}
+
+mutation UpdateMentorTime(
+  $start_A: timestamptz!
+  $start_B: timestamptz!
+  $start_C: timestamptz!
+  $start_D: timestamptz!
+  $start_E: timestamptz!
+  $end_A: timestamptz!
+  $end_B: timestamptz!
+  $end_C: timestamptz!
+  $end_D: timestamptz!
+  $end_E: timestamptz!
+  $activateIn: Int!
+) {
+  update_mentor_time(
+    where: { activateIn: { _eq: $activateIn } }
+    _set: {
+      start_A: $start_A
+      start_B: $start_B
+      start_C: $start_C
+      start_D: $start_D
+      start_E: $start_E
+      end_A: $end_A
+      end_B: $end_B
+      end_C: $end_C
+      end_D: $end_D
+      end_E: $end_E
+    }
+  ) {
+    affected_rows
   }
 }

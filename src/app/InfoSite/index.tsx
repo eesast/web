@@ -35,7 +35,10 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
-  const [openKeys, setOpenKeys] = useState([""]);
+  const [openKeys, setOpenKeys] = useState(() => {
+    const savedOpenKeys = sessionStorage.getItem("openKeys");
+    return savedOpenKeys ? JSON.parse(savedOpenKeys) : [];
+  });
 
   const { data } = graphql.useGetProfileQuery({
     variables: { uuid: user.uuid! },
@@ -139,6 +142,10 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
+
+  useEffect(() => {
+    sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
+  }, [openKeys]);
 
   return (
     <Layout>
