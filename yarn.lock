@@ -510,10 +510,10 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@apollo/client@3.10.5":
-  version "3.10.5"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.10.5.tgz#7bc5d43b54b3d66b4fffdab6ad3cb207808041db"
-  integrity sha512-bZh5wLAT8b4KdEmqnqiQeDUttnR+NJ+gDYSN8T+U0uFGN++5LO5PTwySih6kIU5ErGGGw4NHI94YdSET3uLuBA==
+"@apollo/client@3.10.7":
+  version "3.10.7"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.10.7.tgz#0923e99c23777a91328321bd1a2473a1392e1a74"
+  integrity sha512-IkJcmq5C2rwU94xaJ0N+wM9WgTATXspzVMh5C8dlfv9dzgK8/g3zye+DQn5E+mkRhwWZktaGwDPaPZMbDJvjrg==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@wry/caches" "^1.0.0"
