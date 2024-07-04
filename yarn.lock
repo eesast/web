@@ -5378,10 +5378,10 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cos-js-sdk-v5@1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.8.1.tgz#b7324e423d20c31d91b7433ac8cc05ede0d62d6c"
-  integrity sha512-crsdrcDSRJqdniG61JiQCEA4FIUMuvqNohRCIONrHGd23xvykZs8uySLHmvAKDieAYRT+P72F/Ng7kjycW2b1w==
+cos-js-sdk-v5@1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.8.2.tgz#b4fb9bcc5b1c7aa2aee88ae8f073ff4bbc3d0a7f"
+  integrity sha512-lPlXnS9zR1qL+QmlZghL5EA+b6eraXatWk0d9rzmv7kPuAFK+Q+76YHqNfayt+gBuv0LeZ9FYRITSjAAM8STOg==
   dependencies:
     "@xmldom/xmldom" "^0.8.6"
 
