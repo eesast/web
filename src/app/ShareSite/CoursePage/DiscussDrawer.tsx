@@ -45,6 +45,12 @@ interface Comment {
   deleted: boolean;
 }
 
+interface IconTextProps {
+  icon: FC;
+  text: string;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
+}
+
 const COMMENT_COLORS = [
   "#9400d3", // 深紫罗兰色
   "#00bfff", // 深海蓝
@@ -78,12 +84,6 @@ const StyledDrawer = styled(Drawer)`
     transition: transform 0.8s ease !important;
   }
 `;
-
-interface IconTextProps {
-  icon: FC;
-  text: string;
-  onClick?: React.MouseEventHandler<HTMLSpanElement>;
-}
 
 const IconText: FC<IconTextProps> = ({ icon, text, onClick }) => (
   <Space onClick={onClick} style={{ cursor: "pointer" }}>
@@ -164,10 +164,11 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   mode,
   user,
 }: any) => {
-  const [open, setOpen] = useState(false);
+  const drawerContentRef = useRef<HTMLDivElement>(null);
+  const commentsRef = useRef<Comment[]>([]);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [openReply, setOpenReply] = useState(false);
   const [randomSeed, setRandomSeed] = useState(0);
-  const commentsRef = useRef<Comment[]>([]);
   const [comments, setComments] = useState<Comment[]>(commentsRef.current);
   const [commentsSorted, setCommentsSorted] = useState<Comment[]>([]);
   const [commentsStared, setCommentsStared] = useState<string[]>([]);
@@ -194,14 +195,6 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [sortMode, setSortMode] = useState("1");
   const [sortTrend, setSortTrend] = useState("1");
   const [displayOption, setDisplayOption] = useState("1");
-  const drawerContentRef = useRef<HTMLDivElement>(null);
-
-  const showDrawer = () => {
-    setOpen(true);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
 
   const { refetch: getCourseCommentRefetch } =
     graphql.useGetCourseCommentsQuery({
@@ -527,24 +520,6 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     }
   };
 
-  const { confirm } = Modal;
-  const showDeleteConfirm = (uuid: string) => {
-    confirm({
-      title: "确认删除?",
-      icon: <ExclamationCircleOutlined />,
-      content: "删除后将无法恢复",
-      okText: "是的",
-      okType: "danger",
-      cancelText: "取消",
-      onOk() {
-        handleDeleteCourseComment(uuid);
-      },
-      onCancel() {
-        console.log("取消删除操作");
-      },
-    });
-  };
-
   const handleScrollToComment = (uuid: string) => {
     const element = document.getElementById(uuid);
     if (element && drawerContentRef.current) {
@@ -647,6 +622,24 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     setCommentsSorted(sorted);
   };
 
+  const { confirm } = Modal;
+  const showDeleteConfirm = (uuid: string) => {
+    confirm({
+      title: "确认删除?",
+      icon: <ExclamationCircleOutlined />,
+      content: "删除后将无法恢复",
+      okText: "是的",
+      okType: "danger",
+      cancelText: "取消",
+      onOk() {
+        handleDeleteCourseComment(uuid);
+      },
+      onCancel() {
+        console.log("取消删除操作");
+      },
+    });
+  };
+
   useEffect(() => {
     handleSortComments(sortMode, sortTrend);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -667,7 +660,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         <Button
           type="primary"
           onClick={() => {
-            showDrawer();
+            setOpenDrawer(true);
             setRandomSeed(
               course_uuid
                 .split("")
@@ -680,6 +673,11 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         </Button>
       </Badge>
       <Drawer
+        styles={{
+          body: {
+            overflow: "hidden",
+          },
+        }}
         title={
           <div
             style={{
@@ -752,8 +750,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         }
         width={520}
         closable={false}
-        onClose={onClose}
-        open={open}
+        onClose={() => setOpenDrawer(false)}
+        open={openDrawer}
       >
         <div
           ref={drawerContentRef}

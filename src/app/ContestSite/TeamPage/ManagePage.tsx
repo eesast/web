@@ -209,7 +209,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     >
       <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Statistic
               title="已提交代码"
               value={
@@ -222,7 +222,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Statistic
               title="共参与了"
               value={
@@ -236,7 +236,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Statistic
               title="天梯积分"
               value={
@@ -251,7 +251,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       </Row>
       <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Title level={3} style={{ margin: `0 0 24px` }}>
               队伍信息
             </Title>
@@ -290,7 +290,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           </Card>
         </Col>
         <Col span={16}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Title level={3} style={{ margin: `0 0 12px` }}>
               成员管理
             </Title>

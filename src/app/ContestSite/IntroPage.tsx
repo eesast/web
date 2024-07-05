@@ -60,7 +60,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
     >
       <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Statistic
               title="已报名"
               value={
@@ -74,7 +74,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Statistic
               title="共组成了"
               value={
@@ -87,7 +87,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Countdown
               title="距离报名截止还有"
               value={contestInfoData?.contest_by_pk?.end_date}
@@ -98,12 +98,12 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
         <Col span={16}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Markdown>{contestInfoData?.contest_by_pk?.description}</Markdown>
           </Card>
         </Col>
         <Col span={8}>
-          <Card bordered={false}>
+          <Card hoverable bordered={false}>
             <Timeline
               items={contestTimes.map((contestTime) => {
                 // 检查比赛结束时间是否已经过去
