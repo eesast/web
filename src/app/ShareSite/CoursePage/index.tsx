@@ -39,8 +39,6 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       title: "年份",
       dataIndex: "year",
       key: "year",
-      filters: true,
-      onFilter: true,
       sorter: (a, b) => a.code.localeCompare(b.code),
       // hideInSearch: true,
     },
