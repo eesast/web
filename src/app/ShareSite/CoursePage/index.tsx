@@ -39,7 +39,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       title: "年份",
       dataIndex: "year",
       key: "year",
-      sorter: (a, b) => a.code.localeCompare(b.code),
+      sorter: (a, b) => a.year - b.year,
       // hideInSearch: true,
     },
     {
@@ -79,8 +79,8 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       // hideInSearch: true,
       valueType: "select",
       valueEnum: {
-        chinese: { text: "中文", status: "chinese" },
-        english: { text: "英文", status: "english" },
+        中文: { text: "中文", status: "chinese" },
+        英文: { text: "英文", status: "english" },
       },
     },
     {
