@@ -76,11 +76,11 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       title: "授课语言",
       dataIndex: "language",
       key: "language",
-      //hideInSearch: true,
+      // hideInSearch: true,
       valueType: "select",
       valueEnum: {
-        中文: { text: "中文", status: "chinese" },
-        英文: { text: "英文", status: "english" },
+        chinese: { text: "中文", status: "chinese" },
+        english: { text: "英文", status: "english" },
       },
     },
     {
