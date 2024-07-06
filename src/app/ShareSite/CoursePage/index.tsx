@@ -21,6 +21,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       title: "课程号",
       dataIndex: "code",
       key: "code",
+      sorter: (a, b) => a.code.localeCompare(b.code),
     },
     {
       title: "课程名",
@@ -40,14 +41,13 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       key: "year",
       filters: true,
       onFilter: true,
+      sorter: (a, b) => a.code.localeCompare(b.code),
       // hideInSearch: true,
     },
     {
       title: "学期",
       dataIndex: "semester",
       key: "semester",
-      filters: true,
-      onFilter: true,
       // hideInSearch: true,
       valueType: "select",
       valueEnum: {
@@ -65,8 +65,6 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       title: "课程属性",
       dataIndex: "type",
       key: "type",
-      filters: true,
-      onFilter: true,
       // hideInSearch: true,
       valueType: "select",
       valueEnum: {
@@ -80,8 +78,6 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       title: "授课语言",
       dataIndex: "language",
       key: "language",
-      filters: true,
-      onFilter: true,
       //hideInSearch: true,
       valueType: "select",
       valueEnum: {
