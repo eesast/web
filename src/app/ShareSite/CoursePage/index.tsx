@@ -32,6 +32,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       dataIndex: "name",
       key: "name",
       hideInTable: true,
+      hideInSearch: true,
     },
     {
       title: "年份",
@@ -50,9 +51,9 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       // hideInSearch: true,
       valueType: "select",
       valueEnum: {
-        spring: { text: "春季学期", status: "spring" },
-        autumn: { text: "秋季学期", status: "autumn" },
-        summer: { text: "夏季学期", status: "summer" },
+        春季学期: { text: "春季学期", status: "spring" },
+        秋季学期: { text: "秋季学期", status: "autumn" },
+        夏季学期: { text: "夏季学期", status: "summer" },
       },
     },
     {
@@ -69,9 +70,10 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       // hideInSearch: true,
       valueType: "select",
       valueEnum: {
-        must: { text: "核心必修", status: "must" },
-        required: { text: "专业限选", status: "required" },
-        optional: { text: "专业任选", status: "optional" },
+        核心必修: { text: "核心必修", status: "must" },
+        专业限选: { text: "专业限选", status: "required" },
+        专业限选实验课: { text: "专业限选实验课", status: "required_lab" },
+        专业任选: { text: "专业任选", status: "optional" },
       },
     },
     {
@@ -80,11 +82,11 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       key: "language",
       filters: true,
       onFilter: true,
-      // hideInSearch: true,
+      //hideInSearch: true,
       valueType: "select",
       valueEnum: {
-        chinese: { text: "中文", status: "chinese" },
-        english: { text: "英文", status: "english" },
+        中文: { text: "中文", status: "chinese" },
+        英文: { text: "英文", status: "english" },
       },
     },
     {
@@ -103,14 +105,14 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   const dataRequest = async (params: {
     pageSize?: number;
     current?: number;
+    [key: string]: any;
   }): Promise<{
     data: graphql.GetCourseQuery["course"];
     success: boolean;
     total?: number;
   }> => {
-    console.log(params);
+    //console.log(params);
     const { data, error } = await courseRefetch();
-
     if (error) {
       message.error("课程加载失败");
       console.log(error.message);
@@ -120,10 +122,34 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         total: 0,
       };
     }
+    const filteredData = data.course.filter((course) => {
+      return (
+        (!params.code ||
+          course.code.toLowerCase().includes(params.code.toLowerCase())) &&
+        (!params.fullname ||
+          course.fullname
+            .toLowerCase()
+            .includes(params.fullname.toLowerCase())) &&
+        (!params.year || course.year === parseInt(params.year)) &&
+        (!params.semester || course.semester === params.semester) &&
+        (!params.professor ||
+          course.professor
+            .toLowerCase()
+            .includes(params.professor.toLowerCase())) &&
+        (!params.type || course.type === params.type) &&
+        (!params.language || course.language === params.language)
+      );
+    });
+
+    // 处理分页
+    const startIndex = (params.current! - 1) * params.pageSize!;
+    const endIndex = startIndex + params.pageSize!;
+    const paginatedData = filteredData.slice(startIndex, endIndex);
+
     return {
-      data: data.course,
+      data: paginatedData,
       success: true,
-      total: data.course.length,
+      total: filteredData.length,
     };
   };
 

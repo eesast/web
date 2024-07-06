@@ -13,6 +13,7 @@ import {
   validateUsername,
 } from "../../api/utils/validator";
 import { UserProps } from ".";
+//import axios from 'axios';
 
 const roleMap: { [key: string]: string } = {
   anonymous: "游客",
@@ -23,7 +24,16 @@ const roleMap: { [key: string]: string } = {
   admin: "管理员",
 };
 
+// const CLIENT_ID = 'Ov23liTd9x0uVEeGwGO4';
+// const REDIRECT_URI = 'http://localhost:3000';
+
+// interface GitHubUser {
+//   login: string;
+//   avatar_url: string;
+// }
+
 const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
+  // const [usergithub, setUsergithub] = useState<GitHubUser | null>(null);
   const url = useUrl();
   const navigate = useNavigate();
   const {
@@ -35,6 +45,42 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       uuid: user.uuid,
     },
   });
+
+  // useEffect(() => {
+  //   const code = new URLSearchParams(window.location.search).get('code');
+  //   if (code) {
+  //     getAccessToken(code);
+  //   }
+  // });
+
+  // const getAccessToken = async (code: string) => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:3001/github/callback?code=${code}`);
+  //     const accessToken = response.data.accessToken;
+  //     if (accessToken) {
+  //       console.log('Access Token:', accessToken); // 调试输出
+  //       getUserInfo(accessToken);
+  //     } else {
+  //       console.error('Access token is missing');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error getting access token:', error);
+  //   }
+  // };
+
+  // const getUserInfo = async (accessToken: string) => {
+  //   try {
+  //     const response = await axios.get<GitHubUser>(`http://localhost:3001/github/user?access_token=${accessToken}`);
+  //     setUsergithub(response.data);
+  //   } catch (error) {
+  //     console.error('Error getting user info:', error);
+  //   }
+  // };
+
+  // const handleLogin = () => {
+  //   window.location.href = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+  // };
+
   useEffect(() => {
     if (getProfileError) {
       message.error("获取用户信息失败");
@@ -303,6 +349,14 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       >
         退出登录
       </Button>
+      {/* {usergithub ? (
+          <div>
+            <h2>Welcome, {usergithub?.login}</h2>
+            <img src={usergithub?.avatar_url} alt="avatar" width="50" />
+          </div>
+        ) : (
+          <button onClick={handleLogin}>Login with GitHub</button>
+        )} */}
     </Content>
   );
 };
