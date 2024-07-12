@@ -8,9 +8,9 @@
     "@ant-design/charts": "2.1.1",
     "@ant-design/pro-components": "2.7.10",
     "@apollo/client": "3.10.8",
-    "antd": "5.19.0",
+    "antd": "5.19.1",
     "axios": "1.7.2",
-    "cos-js-sdk-v5": "1.8.2",
+    "cos-js-sdk-v5": "1.8.3",
     "dayjs": "1.11.11",
     "dotenv": "16.4.5",
     "google-protobuf": "3.21.2",
@@ -36,7 +36,7 @@
     "@graphql-codegen/typescript-react-apollo": "4.3.0",
     "@playwright/test": "1.45.1",
     "@types/is-url": "1.2.32",
-    "@types/node": "20.14.9",
+    "@types/node": "20.14.10",
     "@types/react": "18.3.3",
     "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.3.0",
@@ -50,14 +50,14 @@
     "prettier": "3.3.2",
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
-    "rimraf": "5.0.7",
+    "rimraf": "6.0.1",
     "typescript": "5.5.3",
     "web-vitals": "4.2.1",
     "webpack-bundle-analyzer": "4.10.2",
     "webpackbar": "6.0.1"
   },
   "peerDependencies": {
-    "electron": "31.1.0",
+    "electron": "31.2.0",
     "electron-builder": "24.13.3"
   },
   "resolutions": {
