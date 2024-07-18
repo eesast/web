@@ -52,7 +52,7 @@
     "react-scripts": "5.0.1",
     "rimraf": "6.0.1",
     "typescript": "5.5.3",
-    "web-vitals": "4.2.1",
+    "web-vitals": "4.2.2",
     "webpack-bundle-analyzer": "4.10.2",
     "webpackbar": "6.0.1"
   },
