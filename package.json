@@ -7,7 +7,7 @@
   "dependencies": {
     "@ant-design/charts": "2.1.2",
     "@ant-design/pro-components": "2.7.14",
-    "@apollo/client": "3.11.1",
+    "@apollo/client": "3.11.2",
     "antd": "5.19.3",
     "axios": "1.7.2",
     "cos-js-sdk-v5": "1.8.3",
