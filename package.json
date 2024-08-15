@@ -10,7 +10,7 @@
     "@apollo/client": "3.11.4",
     "antd": "5.20.0",
     "axios": "1.7.3",
-    "cos-js-sdk-v5": "1.8.3",
+    "cos-js-sdk-v5": "1.8.4",
     "dayjs": "1.11.12",
     "dotenv": "16.4.5",
     "google-protobuf": "3.21.4",
