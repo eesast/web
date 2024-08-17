@@ -145,9 +145,7 @@ interface IApplicationSchedule {
 
 const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   // schedule
-  const [selectedYear, setSelectedYear] = useState<number>(
-    new Date().getFullYear(),
-  );
+  const [selectedYear] = useState<number>(new Date().getFullYear());
   const [mentorApplicationSchedule, setMentorApplicationSchedule] =
     useState<IApplicationSchedule>();
   const [mentorListFull, setMentorListFull] = useState<IMentorFull[]>();
