@@ -6,7 +6,6 @@ import {
   Col,
   DatePicker,
   Descriptions,
-  Divider,
   Form,
   Input,
   InputRef,
@@ -23,13 +22,12 @@ import {
   Tooltip,
   Typography,
   Upload,
+  InputNumber,
 } from "antd";
-import axios, { AxiosError } from "axios";
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import {
-  EditOutlined,
   SearchOutlined,
   ExclamationCircleFilled,
   UploadOutlined,
@@ -51,279 +49,558 @@ const param: FilterConfirmProps = {
 };
 const { Text } = Typography;
 
-const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
-  const [info, setInfo] = useState({
-    mentor: {
-      start_A: new Date(),
-      start_B: new Date(),
-      start_C: new Date(),
-      start_D: new Date(),
-      start_E: new Date(),
-      end_A: new Date(),
-      end_B: new Date(),
-      end_C: new Date(),
-      end_D: new Date(),
-      end_E: new Date(),
-    },
-  });
+const getNestedValue: any = (record: any, path: (string | number)[]) => {
+  return path.reduce((acc, key) => acc && acc[key], record);
+};
 
-  const [hasGetTime, setHasGetTime] = useState(false);
+const departmentFilter = [
+  {
+    text: "电子系",
+    value: "电子系",
+  },
+  {
+    text: "微纳电子系",
+    value: "微纳电子系",
+  },
+  {
+    text: "医学院",
+    value: "医学院",
+  },
+];
+
+interface IAppliedMentorDetail {
+  mentor_uuid: string;
+  real_name: string;
+  email: string;
+  intro: string;
+  background: string;
+  field: string;
+  achievement: string;
+}
+
+interface IMentorDetail {
+  mentor_uuid: any;
+  real_name: string;
+  available: boolean;
+  max_applicants: number;
+  intro: string;
+  background: string;
+  field: string;
+  achievement: string;
+}
+
+interface IMentorFull {
+  total_applicants: number;
+  matched_applicants: number;
+  achievement?: string | null;
+  available: boolean;
+  background?: string | null;
+  field?: string | null;
+  intro?: string | null;
+  max_applicants: number;
+  mentor_uuid: string;
+  user: {
+    department?: string | null;
+    email?: string | null;
+    realname?: string | null;
+  };
+}
+
+interface IAppliedStudentDetail {
+  application_id: string;
+  student_uuid: string;
+  real_name: string;
+  department: string;
+  email: string;
+  phone: string;
+  created_at: string;
+  statement: string;
+  status: string;
+}
+
+interface IFreshman {
+  realname: string;
+  student_no: string;
+}
+
+interface IRegisteredFreshman {
+  realname: string;
+  student_no: string;
+  uuid: string;
+}
+
+interface IApplicationSchedule {
+  activateIn: number;
+  start_A: Date;
+  start_B: Date;
+  start_C: Date;
+  start_D: Date;
+  start_E: Date;
+  end_A: Date;
+  end_B: Date;
+  end_C: Date;
+  end_D: Date;
+  end_E: Date;
+}
+
+const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
+  // schedule
+  const [selectedYear] = useState<number>(new Date().getFullYear());
+  const [mentorApplicationSchedule, setMentorApplicationSchedule] =
+    useState<IApplicationSchedule>();
+  const [mentorListFull, setMentorListFull] = useState<IMentorFull[]>();
+  // mentor see mentor detail
+  const [mentorDetail, setMentorDetail] = useState<IMentorDetail>();
+  const [mentorDetailVisible, setMentorDetailVisible] = useState(false);
+  const [mentorInfoForm] = Form.useForm();
+  // student see mentor detail
+  const [selectMentorDetail, setSelectMentorDetail] =
+    useState<IAppliedMentorDetail>();
+  const [selectMentorDetailVisiable, setSelectMentorDetailVisiable] =
+    useState(false);
+  // mentor see student detail
+  const [selectAppliedStudentDetail, setSelectAppliedStudentDetail] =
+    useState<IAppliedStudentDetail>();
+  const [
+    selectAppliedStudentDetailVisiable,
+    setSelectAppliedStudentDetailVisiable,
+  ] = useState(false);
+  // mentor hide reject application
+  const [hideReject, setHideReject] = useState(false);
+  // student apply mentor
+  const [selectMentor, setSelectMentor] = useState<String>();
+  const [applicationModalVisible, setApplicationModalVisible] = useState(false);
+  const [applicationForm] = Form.useForm();
+  // search
+  const searchInput = useRef<InputRef>(null);
+  // export
+  const [exporting, setExporting] = useState(false);
+  // import mentor info
+  const [importingMentorInfo, setImportingMentorInfo] = useState(false);
+  const [importMentorInfoFileList, setImportMentorInfoFileList] =
+    useState<FileList | null>(null);
+  const [importMentorInfoFormVisible, setImportMentorInfoFormVisible] =
+    useState(false);
+  const [importMentorInfoProgress, setImportMentorInfoProgress] = useState(0);
+  // import freshman info
+  const [importingFreshmanInfo, setImportingFreshmanInfo] = useState(false);
+  const [importFreshmanInfoFileList, setImportFreshmanInfoFileList] =
+    useState<FileList | null>(null);
+  const [importFreshmanInfoFormVisible, setImportFreshmanInfoFormVisible] =
+    useState(false);
+  const [importFreshmanInfoProgress, setImportFreshmanInfoProgress] =
+    useState(0);
+  // unmatched freshman list
+  const [unmatchedFreshmanList, setUnmatchedFreshmanList] = useState<
+    IFreshman[]
+  >([]);
+  // registered student list
+  const [registeredFreshmanList, setRegisteredFreshmanList] = useState<
+    IRegisteredFreshman[]
+  >([]);
+  // random attribute
+  const [attributing, setAttributing] = useState(false);
+
+  /**
+   * Universal
+   */
+  // GetMentorApplicationSchedule
+  const { data: mentorApplicationScheduleData } =
+    graphql.useGetMentorApplicationScheduleQuery({
+      variables: {
+        year: selectedYear,
+      },
+      skip: !selectedYear,
+    });
+
+  // useEffect(() => {
+  //   if (selectedYear) {
+  //     refetchMentorApplicationSchedule();
+  //     mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+  //   }
+  // }, [selectedYear]);
 
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        const response = await axios.get("/application/info/mentor");
-        setInfo({
-          mentor: {
-            start_A: new Date(response.data.time.start_A),
-            start_B: new Date(response.data.time.start_B),
-            start_C: new Date(response.data.time.start_C),
-            start_D: new Date(response.data.time.start_D),
-            start_E: new Date(response.data.time.start_E),
-            end_A: new Date(response.data.time.end_A),
-            end_B: new Date(response.data.time.end_B),
-            end_C: new Date(response.data.time.end_C),
-            end_D: new Date(response.data.time.end_D),
-            end_E: new Date(response.data.time.end_E),
+    if (mentorApplicationScheduleData?.mentor_time_by_pk) {
+      setMentorApplicationSchedule(
+        mentorApplicationScheduleData.mentor_time_by_pk,
+      );
+    }
+  }, [mentorApplicationScheduleData]);
+
+  // Get mentor info list
+  const {
+    loading: mentorInfoListLoading,
+    error: mentorInfoListError,
+    data: mentorInfoListData,
+    refetch: refetchMentorInfoList,
+  } = graphql.useGetMentorInfoListQuery();
+  useEffect(() => {
+    if (mentorInfoListError) {
+      message.error("导师信息列表加载失败");
+      message.error(mentorInfoListError.message);
+    }
+  }, [mentorInfoListError]);
+
+  useEffect(() => {
+    const processMentorData = async () => {
+      await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+    };
+    processMentorData();
+  }, [mentorInfoListData, selectedYear]);
+
+  const [getMentorApplicationsCount] =
+    graphql.useGetMentorApplicationsCountLazyQuery();
+  const [getMentorApplicationsApprovedCount] =
+    graphql.useGetMentorApplicationsApprovedCountLazyQuery();
+
+  // Get mentor list detail
+  const mentorListWithApplicationsCount = async (
+    mentorInfoListData: graphql.GetMentorInfoListQuery | undefined,
+    selectedYear: number | undefined,
+  ) => {
+    if (!mentorInfoListData?.mentor_info || !selectedYear) {
+      return;
+    }
+    const info = await Promise.all(
+      mentorInfoListData.mentor_info.map(async (mentor) => {
+        const { data: applicationsCountResult } =
+          await getMentorApplicationsCount({
+            variables: {
+              uuid: mentor.mentor_uuid,
+              year: selectedYear,
+            },
+          });
+
+        const { data: applicationsApprovedCountResult } =
+          await getMentorApplicationsApprovedCount({
+            variables: {
+              uuid: mentor.mentor_uuid,
+              year: selectedYear,
+            },
+          });
+
+        return {
+          ...mentor,
+          total_applicants:
+            applicationsCountResult?.mentor_application_aggregate?.aggregate
+              ?.count ?? NaN,
+          matched_applicants:
+            applicationsApprovedCountResult?.mentor_application_aggregate
+              ?.aggregate?.count ?? NaN,
+        };
+      }),
+    );
+    setMentorListFull(info);
+  };
+
+  /**
+   * Mentor Only
+   */
+  // Get mentor info
+  useEffect(() => {
+    if (user.role !== "teacher" || !mentorInfoListData?.mentor_info) {
+      return;
+    }
+    const mentor = mentorInfoListData.mentor_info.find(
+      (mentor) => mentor.mentor_uuid === user.uuid,
+    );
+    if (mentor) {
+      setMentorDetail({
+        mentor_uuid: mentor.mentor_uuid,
+        real_name: mentor.user.realname ?? "",
+        available: mentor.available,
+        max_applicants: mentor.max_applicants,
+        intro: mentor.intro ?? "",
+        background: mentor.background ?? "",
+        field: mentor.field ?? "",
+        achievement: mentor.achievement ?? "",
+      });
+    } else {
+      const insertMentorInfoAsync = async () => {
+        await insertMentorInfo({
+          variables: {
+            mentor_uuid: user.uuid,
           },
         });
-        setHasGetTime(true);
-      } catch (e) {
-        const err = e as AxiosError;
-        if (err.response?.status === 401) {
-          message.error("验证失败");
-        } else if (err.response?.status === 500) {
-          message.error("数据错误");
-        } else {
-          message.error("未知错误");
-        }
-      }
-    };
-    fetch();
-  }, []);
-
-  const [updateMentorTime] = graphql.useUpdateMentorTimeMutation();
-  useEffect(() => {
-    if (!hasGetTime) return; //未获取到时间信息的时候，info的全部都是默认值，不进行数据库更改操作
-    if (user.role !== "counselor" && user.role !== "root") return;
-    try {
-      updateMentorTime({
-        variables: {
-          start_A: info.mentor.start_A,
-          start_B: info.mentor.start_B,
-          start_C: info.mentor.start_C,
-          start_D: info.mentor.start_D,
-          start_E: info.mentor.start_E,
-          end_A: info.mentor.end_A,
-          end_B: info.mentor.end_B,
-          end_C: info.mentor.end_C,
-          end_D: info.mentor.end_D,
-          end_E: info.mentor.end_E,
-          activateIn: new Date().getFullYear(),
-        },
-      });
-    } catch (err) {
-      console.log(err);
-      message.error("时间更新失败");
+      };
+      insertMentorInfoAsync();
     }
-  }, [info, updateMentorTime, hasGetTime, user.role]);
+  }, [mentorInfoListData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const {
-    loading: applicationLoading,
-    error: applicationError,
-    data: applicationData,
-    refetch: refetchApplications,
-  } = graphql.useGetMentorApplicationsQuery({
-    variables: {
-      uuid: user.uuid!,
+  // Insert mentor info
+  const [insertMentorInfo] = graphql.useInsertMentorInfoMutation({
+    onCompleted: () => {
+      refetchMentorInfoList();
     },
-    skip: user.role === "counselor",
   });
 
-  const {
-    loading: applicationForCounselorsLoading,
-    error: applicationForCounselorsError,
-    data: applicationForCounselorsData,
-    // refetch: refetchApplicationsForCounselors,
-  } = graphql.useGetMentorApplicationsForCounselorsQuery({
-    skip: user.role !== "counselor" && user.role !== "root",
+  // Update mentor available status
+  const [
+    updateMentorInfoAvailable,
+    { loading: updateMentorInfoAvailableLoading },
+  ] = graphql.useUpdateMentorInfoAvailableMutation({
+    onCompleted: () => {
+      refetchMentorInfoList();
+    },
   });
 
-  useEffect(() => {
-    if (applicationError || applicationForCounselorsError) {
-      message.error("申请加载失败");
-    }
-  }, [applicationError, applicationForCounselorsError]);
+  // Update mentor max applicants
+  const [updateMentorInfoMaxApplicants] =
+    graphql.useUpdateMentorInfoMaxApplicantsMutation({
+      onCompleted: () => {
+        refetchMentorInfoList();
+      },
+    });
 
+  // Update mentor info description
+  const [
+    updateMentorInfoDescription,
+    {
+      loading: updateMentorInfoDescriptionLoading,
+      error: updateMentorInfoDescriptionError,
+    },
+  ] = graphql.useUpdateMentorInfoDescriptionMutation({
+    onCompleted: () => {
+      refetchMentorInfoList();
+    },
+  });
+
+  // Get mentor application list
   const {
-    loading: mentorAvailableLoading,
-    data: mentorAvailableData,
-    error: mentorAvailableError,
-    refetch: refetchMentorAvailable,
-  } = graphql.useGetMentorAvailableQuery({
+    loading: mentorApplicationsListForMentorLoading,
+    data: mentorApplicationsListForMentorData,
+    refetch: refetchMentorApplicationsListForMentor,
+  } = graphql.useGetMentorApplicationsListForMentorQuery({
     variables: {
       uuid: user.uuid!,
+      year: selectedYear,
     },
     skip: user.role !== "teacher",
   });
 
-  useEffect(() => {
-    if (mentorAvailableError) {
-      message.error("导师接收状态加载失败");
-    }
-  }, [mentorAvailableError]);
+  // useEffect(() => {
+  //   refetchMentorApplicationSchedule({
+  //     year: selectedYear,
+  //   });
+  // }, [selectedYear]);
 
+  // Update mentor application status
   const [
-    changeMentorAvailable,
-    {
-      loading: changeMentorAvailableLoading,
-      error: changeMentorAvailableError,
-    },
-  ] = graphql.useChangeMentorAvailableMutation();
-
-  useEffect(() => {
-    if (changeMentorAvailableError) {
-      message.error("导师接收状态更新失败");
-    }
-  }, [changeMentorAvailableError]);
-
-  const handleMentorAvailableChange = async (checked: boolean) => {
-    await changeMentorAvailable({
-      variables: { uuid: user.uuid!, available: checked },
-    });
-    await refetchMentorAvailable();
-  };
-
-  const [
-    updateApplicationStatus,
-    {
-      loading: updateApplicationStatusLoading,
-      error: updateApplicationStatusError,
-    },
+    updateMentorApplicationStatus,
+    { loading: updateMentorApplicationStatusLoading },
   ] = graphql.useUpdateMentorApplicationStatusMutation();
+  /**
+   * Student Only
+   */
+  // Insert mentor application
+  const [insertMentorApplication, { loading: insertMentorApplicationLoading }] =
+    graphql.useInsertMentorApplicationMutation({
+      onCompleted: async () => {
+        await refetchMentorApplicationsListForStudent();
+        await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+      },
+    });
 
-  useEffect(() => {
-    if (updateApplicationStatusError) {
-      message.error("申请状态更新失败");
-    }
-  }, [updateApplicationStatusError]);
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editingApplication, setEditingApplication] =
-    useState<graphql.GetMentorApplicationsQuery["mentor_application"][0]>();
-  const [form] = Form.useForm();
-
+  // Update mentor application statement
   const [
-    addApplication,
-    { loading: applicationAdding, error: addApplicationError },
-  ] = graphql.useAddMentorApplicationMutation();
+    updateMentorApplicationStatement,
+    { loading: updateMentorApplicationStatementLoading },
+  ] = graphql.useUpdateMentorApplicationStatementMutation({
+    onCompleted: async () => {
+      await refetchMentorApplicationsListForStudent();
+    },
+  });
 
-  useEffect(() => {
-    if (addApplicationError) {
-      message.error("申请提交失败");
-    }
-  }, [addApplicationError]);
-
-  const [
-    updateApplication,
-    { loading: applicationUpdating, error: updateApplicationError },
-  ] = graphql.useUpdateMentorApplicationMutation();
-
-  useEffect(() => {
-    if (updateApplicationError) {
-      message.error("申请更新失败");
-    }
-  }, [updateApplicationError]);
-
-  const handleApplicationEdit = async () => {
-    try {
-      form.validateFields();
-    } catch {}
-
-    const values = form.getFieldsValue();
-
-    if (editingApplication) {
-      await updateApplication({
-        variables: {
-          id: editingApplication.id,
-          statement: values.statement,
-        },
-      });
-    } else {
-      await addApplication({
-        variables: {
-          statement: values.statement,
-          student_uuid: user.uuid!,
-          mentor_uuid: selectedMentor?.uuid!,
-        },
-      });
-    }
-
-    setModalVisible(false);
-    setEditingApplication(undefined);
-    setSelectedMentor(undefined);
-    form.resetFields();
-
-    refetchApplications();
-    refetchMentorList();
-  };
-
+  // Get student mentor application list
+  const {
+    loading: mentorApplicationsListForStudentLoading,
+    data: mentorApplicationsListForStudentData,
+    refetch: refetchMentorApplicationsListForStudent,
+  } = graphql.useGetMentorApplicationsListForStudentQuery({
+    variables: {
+      uuid: user.uuid!,
+      year: selectedYear,
+    },
+    skip: user.role !== "student",
+  });
+  // Delete mentor application
   const [
     deleteMentorApplication,
     {
       loading: deleteMentorApplicationLoading,
       error: deleteMentorApplicationError,
     },
-  ] = graphql.useDeleteMentorApplicationMutation();
+  ] = graphql.useDeleteMentorApplicationMutation({
+    onCompleted: async () => {
+      await refetchMentorApplicationsListForStudent();
+      await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+    },
+  });
+
+  // Handle application edit
+  const handleApplicationEdit = async () => {
+    try {
+      applicationForm.validateFields();
+    } catch {
+      message.error("无信息或信息不完整");
+      return;
+    }
+    const values = applicationForm.getFieldsValue();
+    if (values.statement.length === 0) {
+      message.error("陈述不能为空");
+      return;
+    }
+    const submittedApplication =
+      mentorApplicationsListForStudentData?.mentor_application.find(
+        (i) => i.mentor_uuid === selectMentor,
+      );
+    if (submittedApplication) {
+      if (submittedApplication.status === "approved") {
+        message.error("已通过或已拒绝的申请无法修改");
+        return;
+      }
+      await updateMentorApplicationStatement({
+        variables: {
+          id: submittedApplication.id,
+          statement: values.statement,
+        },
+      });
+    } else {
+      await insertMentorApplication({
+        variables: {
+          mentor_uuid: selectMentor,
+          student_uuid: user.uuid,
+          year: selectedYear,
+          statement: values.statement,
+        },
+      });
+    }
+
+    setApplicationModalVisible(false);
+    setSelectMentor(undefined);
+    applicationForm.resetFields();
+  };
+
+  const [updateApplicationChatStatus] =
+    graphql.useUpdateMentorApplicationChatStatusMutation();
+
+  /**
+   * Counselor Only
+   */
+  // Update mentor application schedule
+  const [insertMentorApplicationSchedule] =
+    graphql.useInsertMentorApplicationScheduleMutation();
 
   useEffect(() => {
-    if (deleteMentorApplicationError) {
-      message.error("删除申请失败");
+    if (
+      mentorApplicationSchedule &&
+      (user.role === "counselor" || user.role === "root")
+    ) {
+      insertMentorApplicationSchedule({
+        variables: {
+          year: selectedYear,
+          start_A: mentorApplicationSchedule.start_A,
+          start_B: mentorApplicationSchedule.start_B,
+          start_C: mentorApplicationSchedule.start_C,
+          start_D: mentorApplicationSchedule.start_D,
+          start_E: mentorApplicationSchedule.start_E,
+          end_A: mentorApplicationSchedule.end_A,
+          end_B: mentorApplicationSchedule.end_B,
+          end_C: mentorApplicationSchedule.end_C,
+          end_D: mentorApplicationSchedule.end_D,
+          end_E: mentorApplicationSchedule.end_E,
+        },
+      });
     }
-  }, [deleteMentorApplicationError]);
+  }, [mentorApplicationSchedule]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Get mentor application list for counselor
   const {
-    data: mentorList,
-    loading: mentorListLoading,
-    error: mentorListError,
-    refetch: refetchMentorList,
-  } = graphql.useGetMentorListQuery({
+    loading: mentorApplicationsListForCounselorsLoading,
+    data: mentorApplicationsListForCounselorsData,
+  } = graphql.useGetMentorApplicationsListForCounselorQuery({
+    skip: user.role !== "counselor",
     variables: {
-      grade_time: info.mentor.start_C,
+      year: selectedYear,
     },
-    skip: user.role === "teacher",
+  });
+
+  // Insert freshman info list
+  const [insertFreshmanInfoList] = graphql.useInsertFreshmanInfoListMutation();
+
+  // Get freshman info list
+  const {
+    data: freshmanInfoListData,
+    loading: freshmanInfoListLoading,
+    refetch: refetchFreshmanInfoList,
+  } = graphql.useGetFreshmanInfoListQuery({
+    variables: {
+      year: selectedYear,
+    },
+    skip: user.role !== "counselor",
   });
 
   useEffect(() => {
-    if (mentorListError) {
-      message.error("导师列表加载失败");
-      console.log(mentorListError);
+    if (freshmanInfoListData && mentorApplicationsListForCounselorsData) {
+      const mentorApplicationsListForCounselorsApproved =
+        mentorApplicationsListForCounselorsData.mentor_application.filter(
+          (i) => i.status === "approved",
+        );
+      setUnmatchedFreshmanList(
+        freshmanInfoListData.freshman.filter(
+          (i) =>
+            !mentorApplicationsListForCounselorsApproved.find(
+              (j) => j.student.student_no === i.student_no,
+            ),
+        ),
+      );
+      const updateRegisteredFreshmanList = async () => {
+        const promises = freshmanInfoListData.freshman.map(async (i) => {
+          const { data: stu } = await queryStudentByStudentNo({
+            variables: {
+              student_no: i.student_no,
+            },
+          });
+          if (stu?.users && stu.users.length > 0) {
+            return {
+              realname: i.realname,
+              student_no: i.student_no,
+              uuid: stu.users[0].uuid,
+            };
+          }
+        });
+        const results = await Promise.all(promises);
+        const validResults = results.filter((res) => res !== undefined);
+        setRegisteredFreshmanList(validResults as IRegisteredFreshman[]);
+      };
+      updateRegisteredFreshmanList();
     }
-  }, [mentorListError]);
+  }, [freshmanInfoListData, mentorApplicationsListForCounselorsData]);
 
-  const searchInput = useRef<InputRef>(null);
-  const [, setSearchText] = useState("");
+  const [queryStudentByStudentNo] =
+    graphql.useQueryStudentByStudentNoLazyQuery();
+  const [queryTeacherByRealname] = graphql.useQueryTeacherByRealnameLazyQuery();
 
+  /**
+   * Props
+   */
+  // Search props
   const handleSearch = (
     selectedKeys: FilterDropdownProps["selectedKeys"],
     confirm: FilterDropdownProps["confirm"],
   ) => {
     confirm(param);
-    setSearchText(selectedKeys[0].toString());
   };
-
   const handleReset = (clearFilters: FilterDropdownProps["clearFilters"]) => {
     clearFilters?.();
-    setSearchText("");
   };
 
+  // Search mentor info list
   const getColumnSearchProps: (
-    dataIndex: keyof graphql.GetMentorListQuery["users"][0],
+    dataIndex: (string | number)[],
     name: string,
-  ) => Partial<ColumnProps<graphql.GetMentorListQuery["users"][0]>> = (
-    dataIndex,
-    name,
-  ) => ({
+  ) => Partial<ColumnProps<IMentorFull>> = (dataIndex, name) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -377,7 +654,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       <SearchOutlined style={{ color: filtered ? "#027dcd" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]!.toString()
+      getNestedValue(record, dataIndex)!
+        .toString()
         .toLowerCase()
         .includes(value.toString().toLowerCase()),
     onFilterDropdownVisibleChange: (visible) => {
@@ -387,96 +665,154 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   });
 
-  const [selectedMentor, setSelectedMentor] =
-    useState<graphql.GetMentorListQuery["users"][0]>();
+  // Export mentor application list
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      const Xlsx = await import("xlsx");
+      const applications =
+        mentorApplicationsListForCounselorsData!.mentor_application.map((i) => [
+          i.student.student_no,
+          i.student.realname,
+          i.student.department,
+          i.student.class,
+          i.mentor.realname,
+          i.mentor.department,
+          getStatusText(i.status),
+          i.statement,
+        ]);
+      const head = [
+        "学生学号",
+        "学生姓名",
+        "学生院系",
+        "学生班级",
+        "导师姓名",
+        "导师院系",
+        "申请状态",
+        "申请陈述",
+      ];
+      applications.unshift(head);
+      const worksheet = Xlsx.utils.aoa_to_sheet(applications);
+      const workbook = Xlsx.utils.book_new();
+      Xlsx.utils.book_append_sheet(workbook, worksheet, "新生导师");
+      const current_time = dayjs().format("YYYY:MM:DD-HH:mm:ss");
+      Xlsx.writeFile(workbook, `新生导师申请记录-${current_time}.xlsx`);
+      message.success("申请导出成功");
+    } catch {
+      message.error("申请导出失败");
+    } finally {
+      setExporting(false);
+    }
+  };
 
-  const mentorListColumnsForStudents: TableProps<
-    graphql.GetMentorListQuery["users"][0]
-  >["columns"] = [
+  // mentor info list columns
+  const mentorInfoListColumns: TableProps<IMentorFull>["columns"] = [
     {
       title: "姓名",
-      dataIndex: "realname",
+      dataIndex: ["user", "realname"],
       key: "realname",
-      ...getColumnSearchProps("realname", "姓名"),
+      ...getColumnSearchProps(["user", "realname"], "姓名"),
     },
     {
       title: "院系",
-      dataIndex: "department",
+      dataIndex: ["user", "department"],
       key: "department",
-      filters: [
-        {
-          text: "电子系",
-          value: "电子系",
-        },
-        {
-          text: "微纳电子系",
-          value: "微纳电子系",
-        },
-        {
-          text: "医学院",
-          value: "医学院",
-        },
-      ],
-      onFilter: (value, record) => record.department === value,
+      filters: departmentFilter,
+      onFilter: (value, record) => record.user.department === value,
     },
     {
-      title: "申请人数",
-      dataIndex: ["total_for_grade", "aggregate", "count"],
-      key: "totalApplicants",
+      title: "申请限额",
+      dataIndex: "max_applicants",
+      key: "max_applicants",
+      render: (value, record) => (record.available ? value : "Unavailable"),
+    },
+    {
+      title: "已申请人数",
+      dataIndex: "total_applicants",
+      key: "total_applicants",
       sorter: (a, b) =>
-        (a.total_for_grade.aggregate?.count ?? 0) -
-        (b.total_for_grade.aggregate?.count ?? 0),
+        isNaN(a.total_applicants)
+          ? 1
+          : isNaN(b.total_applicants)
+            ? -1
+            : a.total_applicants - b.total_applicants,
     },
     {
       title: "已接收人数",
-      dataIndex: ["total_for_match", "aggregate", "count"],
-      key: "matchedApplicants",
+      dataIndex: "matched_applicants",
+      key: "matched_applicants",
       sorter: (a, b) =>
-        (a.total_for_match.aggregate?.count ?? 0) -
-        (b.total_for_match.aggregate?.count ?? 0),
+        isNaN(a.matched_applicants)
+          ? 1
+          : isNaN(b.matched_applicants)
+            ? -1
+            : a.matched_applicants - b.matched_applicants,
     },
     {
       title: "操作",
       key: "action",
-      render: (text, record) => (
+      render: (value, record) => (
         <Row justify="space-around">
-          <Col span={8}>
-            <Button
-              onClick={() => {
-                if (new Date() < info.mentor.start_C) {
-                  return message.info("未到自由申请时间！");
-                } else if (
-                  new Date() > info.mentor.end_C &&
-                  new Date() < info.mentor.start_D
-                ) {
-                  return message.info("未到补选时间！");
-                } else if (new Date() > info.mentor.end_D) {
-                  return message.warning("补选时间已过！");
+          {user.role === "student" && (
+            <Col span={8}>
+              <Button
+                onClick={() => {
+                  setSelectMentor(record.mentor_uuid);
+                  applicationForm.setFieldsValue(
+                    mentorApplicationsListForStudentData?.mentor_application.find(
+                      (i) => i.mentor_uuid === record.mentor_uuid,
+                    ) ?? {
+                      mentor: {
+                        realname: record.user.realname,
+                        department: record.user.department,
+                      },
+                      statement: "",
+                    },
+                  );
+                  setApplicationModalVisible(true);
+                }}
+                disabled={
+                  user.role !== "student" ||
+                  !mentorApplicationSchedule ||
+                  new Date() < mentorApplicationSchedule.start_C ||
+                  new Date() > mentorApplicationSchedule.end_D ||
+                  (new Date() > mentorApplicationSchedule.end_C &&
+                    new Date() < mentorApplicationSchedule.start_D) ||
+                  (((mentorApplicationsListForStudentData?.mentor_application &&
+                    mentorApplicationsListForStudentData.mentor_application
+                      .length > 0) ||
+                    !record.available ||
+                    record.total_applicants === undefined ||
+                    record.max_applicants === undefined ||
+                    record.total_applicants >= record.max_applicants) &&
+                    !(
+                      (mentorApplicationsListForStudentData?.mentor_application?.find(
+                        (i) => i.mentor_uuid === record.mentor_uuid,
+                      )?.status ?? "approved") !== "approved"
+                    ))
                 }
-                form.setFieldsValue({ mentor: record });
-                setSelectedMentor(record);
-                setModalVisible(true);
-              }}
-              disabled={
-                (applicationData &&
-                  applicationData.mentor_application.length !== 0 &&
-                  (applicationData.mentor_application.filter(
-                    (i) => i.status === "approved",
-                  ).length === 1 ||
-                    applicationData.mentor_application.filter(
-                      (i) => i.status === "submitted",
-                    ).length === 1)) ||
-                !(record.mentor_available?.available ?? false)
-              }
-            >
-              申请
-            </Button>
-          </Col>
+              >
+                {mentorApplicationsListForStudentData?.mentor_application.find(
+                  (i) => i.mentor_uuid === record.mentor_uuid,
+                )
+                  ? "编辑申请"
+                  : "申请"}
+              </Button>
+            </Col>
+          )}
           <Col span={8}>
             <Button
               onClick={() => {
-                getMentorInfo({ variables: { mentor_uuid: record.uuid } });
-                setShowMentorInfo(true);
+                setSelectMentorDetail({
+                  mentor_uuid: record.mentor_uuid,
+                  real_name: record.user.realname ?? "",
+                  intro: record.intro ?? "",
+                  background: record.background ?? "",
+                  field: record.field ?? "",
+                  achievement: record.achievement ?? "",
+                  email: record.user.email ?? "",
+                });
+                setSelectMentorDetailVisiable(true);
               }}
             >
               查看信息
@@ -488,176 +824,46 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   ];
 
-  const mentorListColumnsForCounselors: TableProps<
-    graphql.GetMentorListQuery["users"][0]
-  >["columns"] = [
-    {
-      title: "姓名",
-      dataIndex: "realname",
-      key: "realname",
-      ...getColumnSearchProps("realname", "姓名"),
-    },
-    {
-      title: "院系",
-      dataIndex: "department",
-      key: "department",
-      filters: [
-        {
-          text: "电子系",
-          value: "电子系",
-        },
-        {
-          text: "微纳电子系",
-          value: "微纳电子系",
-        },
-        {
-          text: "医学院",
-          value: "医学院",
-        },
-      ],
-      onFilter: (value, record) => record.department === value,
-    },
-    {
-      title: "申请人数",
-      dataIndex: ["total", "aggregate", "count"],
-      key: "totalApplicants",
-      sorter: (a, b) =>
-        (a.total.aggregate?.count ?? 0) - (b.total.aggregate?.count ?? 0),
-    },
-    {
-      title: "匹配人数",
-      dataIndex: ["matched", "aggregate", "count"],
-      key: "matched",
-      sorter: (a, b) =>
-        (a.matched.aggregate?.count ?? 0) - (b.matched.aggregate?.count ?? 0),
-    },
-    {
-      title: "正在接收",
-      dataIndex: "available",
-      key: "available",
-      filters: [
-        {
-          text: "是",
-          value: "true",
-        },
-        {
-          text: "否",
-          value: "false",
-        },
-      ],
-      onFilter: (value, record) =>
-        (record.mentor_available?.available ?? false).toString() === value,
-      render: (text, record) =>
-        record.mentor_available?.available ?? false ? "是" : "否",
-    },
-    {
-      title: "操作",
-      key: "action",
-      render: (text, record) => (
-        <>
-          <Button
-            onClick={() => {
-              getMentorInfo({ variables: { mentor_uuid: record.uuid } });
-              setShowMentorInfo(true);
-            }}
-          >
-            查看信息
-          </Button>
-        </>
-      ),
-    },
-  ];
-
-  const [exporting, setExporting] = useState(false);
-  const [attributing, setAttributing] = useState(false);
-
-  const handleExport = async () => {
-    setExporting(true);
-
-    try {
-      const Xlsx = await import("xlsx");
-
-      const applications = applicationForCounselorsData!.mentor_application.map(
-        (i) => [
-          i.student?.uuid,
-          i.student?.realname,
-          i.student?.class,
-          i.mentor?.department,
-          i.mentor?.realname,
-          i.statement,
-          getStatusText(i.status),
-        ],
-      );
-
-      const head = [
-        "学号",
-        "姓名",
-        "班级",
-        "导师院系",
-        "导师姓名",
-        "申请陈述",
-        "申请状态",
-      ];
-
-      applications.unshift(head);
-
-      const worksheet = Xlsx.utils.aoa_to_sheet(applications);
-      const workbook = Xlsx.utils.book_new();
-      Xlsx.utils.book_append_sheet(workbook, worksheet, "新生导师");
-      Xlsx.writeFile(workbook, `新生导师.xlsx`);
-
-      message.success("申请导出成功");
-    } catch {
-      message.error("申请导出失败");
-    } finally {
-      setExporting(false);
-    }
-  };
-
-  const {
-    data: freshmanList,
-    error: freshmanListError,
-    refetch: refetchFreshmanList,
-  } = graphql.useGetFreshmanListQuery({
-    skip: user.role !== "counselor" && user.role !== "root",
-  });
-
-  useEffect(() => {
-    if (freshmanListError) {
-      message.error("新生列表加载失败");
-      console.log(freshmanListError);
-    }
-  }, [freshmanListError]);
-
+  // 随机分配
   const handleAttribute = async () => {
-    let freshmanToAttribute = freshmanList!.users.filter(
-      (item) => item.mentor_application_as_student.length === 0,
+    if (
+      !mentorListFull ||
+      !unmatchedFreshmanList ||
+      !registeredFreshmanList ||
+      !freshmanInfoListData ||
+      !selectedYear ||
+      attributing
+    ) {
+      message.error("数据加载失败，请刷新重试");
+      return;
+    }
+    let teachersToAttribute = new Map<IMentorFull, number>();
+    let teachersHash = new Array<IMentorFull>();
+    const unmatchedRegisteredFreshmanList = registeredFreshmanList.filter((i) =>
+      unmatchedFreshmanList.find((j) => j.student_no === i.student_no),
     );
-    let teachersToAttribute = new Map<any, number>();
-    let teachersHash = new Array<any>();
-    //建立哈希映射，key为老师，value为匹配数，记录匹配数不超过5的老师
-    let len = 0;
-    mentorList!.users.forEach((item) => {
-      if (
-        item.mentor_available?.available === true &&
-        (item.matched.aggregate?.count ?? 0) < 5
-      ) {
-        teachersToAttribute.set(item, item.matched.aggregate?.count ?? 0);
+
+    // 建立哈希映射，key 为老师，value 为匹配数，记录匹配数不超过 5 的老师
+    let mentorNum = 0;
+    mentorListFull.forEach((item: IMentorFull) => {
+      if (item.available && (item.matched_applicants ?? 0) < 5) {
+        teachersToAttribute.set(item, item.matched_applicants ?? 0);
         teachersHash.push(item);
-        len++;
+        mentorNum++;
       }
     });
-    let matched = new Map<any, any>();
-    let numOfStudents = freshmanToAttribute.length;
+    let matched = new Map<IRegisteredFreshman, IMentorFull>();
+    let numOfStudents = unmatchedRegisteredFreshmanList.length;
+
+    let isMentorEnough = true;
     for (let i = 0; i < numOfStudents; i++) {
-      if (len === 0) {
-        message.error("没有可用的导师");
+      if (mentorNum === 0) {
+        isMentorEnough = false;
         break;
       }
-
-      let randomIndex = Math.floor(Math.random() * len); //范围[0,len-1]随机
+      let randomIndex = Math.floor(Math.random() * mentorNum);
       let tmpTeacher = teachersHash[randomIndex];
-      matched.set(freshmanToAttribute[i], tmpTeacher);
+      matched.set(unmatchedRegisteredFreshmanList[i], tmpTeacher);
 
       //更新老师的匹配数
       if ((teachersToAttribute.get(tmpTeacher) ?? 0) < 4) {
@@ -668,57 +874,62 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       } else {
         teachersToAttribute.delete(tmpTeacher);
         teachersHash.splice(randomIndex, 1);
-        len--;
+        mentorNum--;
       }
+    }
+
+    if (matched.size === 0) {
+      message.info("无可分配对象");
+      setAttributing(false);
+      return;
+    }
+
+    // 弹窗确认
+    const confirm = window.confirm(
+      `未匹配学生共${unmatchedFreshmanList.length}人，其中${freshmanInfoListData.freshman.length - registeredFreshmanList.length}人未注册，待随机分配${numOfStudents}人，可分配导师${isMentorEnough ? "充足" : "不足"}，实际分配${matched.size}人，确认继续？`,
+    );
+    if (!confirm) {
+      setAttributing(false);
+      return;
     }
 
     //更新数据库
     for (const [student, teacher] of matched) {
       try {
-        const { data } = await addApplication({
+        const { data } = await insertMentorApplication({
           variables: {
+            mentor_uuid: teacher.mentor_uuid,
             student_uuid: student.uuid,
-            mentor_uuid: teacher.uuid,
+            year: selectedYear,
             statement: "系统随机分配",
           },
         });
-        await updateApplicationStatus({
+        await updateMentorApplicationStatus({
           variables: {
-            id: data?.insert_mentor_application?.returning[0].id!,
+            id: data?.insert_mentor_application_one?.id!,
             status: "approved",
           },
         });
-      } catch {
-        message.error("分配失败");
+      } catch (err: any) {
+        message.info("分配失败");
+        message.info(err.message);
       }
     }
-
     message.success("随机分配已完成");
     setAttributing(false);
     window.location.reload();
     return;
   };
 
-  const [importing, setImporting] = useState(false);
-  const [importFormVisible, setImportFormVisible] = useState(false);
-  const [fileList, setFileList] = useState<FileList | null>(null);
-  const [parseProgress, setParseProgress] = useState(0);
-
-  const [
-    updateMentorInfo,
-    { loading: updateMentorInfoLoading, error: updateMentorInfoError },
-  ] = graphql.useUpsertMentorInfoMutation();
-
-  const handleImport = async () => {
-    if (!fileList || fileList.length !== 1) {
+  // Import mentor description
+  const handleImportMentorInfo = async () => {
+    if (!importMentorInfoFileList || importMentorInfoFileList.length !== 1) {
       message.info("请选择文件");
       return;
     }
-    const file = fileList[0];
-    setImporting(true);
-
+    const file = importMentorInfoFileList[0];
+    setImportingMentorInfo(true);
     const Xlsx = await import("xlsx");
-
     try {
       const reader = new FileReader();
       const data = await new Promise<ArrayBuffer>((resolve, reject) => {
@@ -726,16 +937,13 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           reader.abort();
           reject();
         };
-
         reader.onload = () => {
           resolve(reader.result as ArrayBuffer);
         };
-
         reader.readAsBinaryString(file);
       });
       const workbook = Xlsx.read(data, { type: "binary" });
       const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-
       const mentorInfos = (
         Xlsx.utils.sheet_to_json(firstWorksheet, {
           header: 1,
@@ -755,35 +963,36 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             const background = info[2].toString();
             const field = info[3].toString();
             const achievement = info[4].toString();
-
-            console.log(`try get user`);
-
-            const { data } = await graphql.useGetIdByNameQuery({
+            const { data } = await queryTeacherByRealname({
               variables: {
-                name: name,
+                realname: name,
               },
             });
-
-            console.log(`get user ${data}`);
-
-            // _id in database
             const uuid = data?.users[0].uuid;
-
-            const { errors } = await updateMentorInfo({
+            if (
+              !mentorInfoListData!.mentor_info.find(
+                (i) => i.mentor_uuid === uuid,
+              )
+            ) {
+              await insertMentorInfo({
+                variables: {
+                  mentor_uuid: uuid!,
+                },
+              });
+            }
+            const { errors } = await updateMentorInfoDescription({
               variables: {
                 mentor_uuid: uuid!,
-                intro,
-                background,
-                field,
-                achievement,
+                intro: intro,
+                background: background,
+                field: field,
+                achievement: achievement,
               },
             });
-
-            console.log(`upsert ${errors}`);
-
             count++;
-            setParseProgress(Math.round((count / mentorInfos.length) * 100));
-
+            setImportMentorInfoProgress(
+              Math.round((count / mentorInfos.length) * 100),
+            );
             if (errors) {
               throw errors;
             }
@@ -793,56 +1002,114 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         }),
       );
     } catch (err) {
-      message.error("文件解析失败：" + err);
+      message.error("Error loading file.\n" + err);
     } finally {
-      setImporting(false);
+      setImportingMentorInfo(false);
+      setImportFreshmanInfoFormVisible(false);
     }
   };
 
-  const [getMentorInfo, { data: mentorInfoData, refetch: refetchMentorInfo }] =
-    graphql.useGetMentorInfoLazyQuery();
-  const [showMentorInfo, setShowMentorInfo] = useState(false);
-  const [showUpdateInfo, setShowUpdateInfo] = useState(false);
-  const [updateInfoForm] = Form.useForm();
-
-  const handleApplicationDelete = async (application_id: any) => {
+  // Import freshman info
+  const handleImportFreshmanInfo = async (year: number) => {
+    if (
+      !importFreshmanInfoFileList ||
+      importFreshmanInfoFileList.length !== 1
+    ) {
+      message.info("请选择文件");
+      return;
+    }
+    const file = importFreshmanInfoFileList[0];
+    setImportingFreshmanInfo(true);
+    const Xlsx = await import("xlsx");
     try {
-      await deleteMentorApplication({
+      const reader = new FileReader();
+      const data = await new Promise<ArrayBuffer>((resolve, reject) => {
+        reader.onerror = () => {
+          reader.abort();
+          reject();
+        };
+        reader.onload = () => {
+          resolve(reader.result as ArrayBuffer);
+        };
+        reader.readAsBinaryString(file);
+      });
+      const workbook = Xlsx.read(data, { type: "binary" });
+      const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const studentInfos = (
+        Xlsx.utils.sheet_to_json(firstWorksheet, {
+          header: 1,
+        }) as (string | number)[][]
+      ).filter((i) => i.length !== 0);
+      const head = studentInfos.shift();
+      if (!head || head.length < 2) {
+        throw new Error("Parse error");
+      }
+
+      let count = 0;
+      const studentInfosWithUuid = await Promise.all(
+        studentInfos.map(async (info) => {
+          try {
+            const student_no = info[0].toString();
+            const realname = info[1].toString();
+            const { data: studentData } = await queryStudentByStudentNo({
+              variables: {
+                student_no: student_no,
+              },
+            });
+            const stu = studentData?.users[0];
+            if (stu?.uuid && stu.realname) {
+              if (stu.realname !== realname) {
+                throw new Error(
+                  `Realname mismatch: ${stu.realname} !== ${realname}`,
+                );
+              }
+              count++;
+              setImportFreshmanInfoProgress(
+                Math.round(
+                  Math.max((count / studentInfos.length) * 100 - 1, 0),
+                ),
+              );
+              return {
+                student_no: student_no,
+                realname: realname,
+                uuid: stu.uuid,
+                year: year,
+              };
+            } else {
+              count++;
+              setImportFreshmanInfoProgress(
+                Math.round(
+                  Math.max((count / studentInfos.length) * 100 - 1, 0),
+                ),
+              );
+              return {
+                student_no: student_no,
+                realname: realname,
+                uuid: null,
+                year: year,
+              };
+            }
+          } catch (err) {
+            throw err;
+          }
+        }),
+      );
+      await insertFreshmanInfoList({
         variables: {
-          id: application_id,
+          freshmanData: studentInfosWithUuid,
         },
       });
-      refetchApplications();
-      message.success("删除申请成功");
+      setImportFreshmanInfoProgress(100);
     } catch (err) {
-      console.log(err);
-      message.error("删除申请失败");
+      message.error("Error loading file.\n" + err);
+    } finally {
+      setImportingFreshmanInfo(false);
+      setImportFreshmanInfoFormVisible(false);
     }
   };
 
-  const [updateApplicationChatStatus] =
-    graphql.useUpdateMentorApplicationChatStatusMutation();
-
-  //更新chat_status状态并refetch
-  const handleApplicationChatStatusChange = async (
-    chat_status: boolean,
-    application_id: any,
-  ) => {
-    try {
-      await updateApplicationChatStatus({
-        variables: {
-          id: application_id,
-          chat_status: chat_status,
-        },
-      });
-      await refetchApplications();
-    } catch (err) {
-      console.log(err);
-      message.error("谈话记录状态更新失败");
-    }
-  };
-
-  const handleUploadRecord = async (
+  // Upload chat record
+  const handleUploadChatRecord = async (
     e: RcCustomRequestOptions,
     application_id: any,
   ) => {
@@ -851,25 +1118,25 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       const result = await uploadFile(e.file, url);
       const xhr = new XMLHttpRequest();
       e.onSuccess!(result, xhr);
-      handleApplicationChatStatusChange(true, application_id);
+      await updateApplicationChatStatus({
+        variables: {
+          id: application_id,
+          chat_status: true,
+        },
+      });
     } catch (err) {
       console.log(err);
       e.onError!(new Error("上传失败"));
     }
   };
 
-  const handleOnchangeRecord = async (info: any) => {
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} 上传成功`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} 上传失败`);
-    }
-  };
-
-  const handleDownloadRecord = async (application_id: any) => {
+  // Download chat record
+  const handleDownloadChatRecord = async (application_id: any) => {
     try {
-      const fileList = await listFile(`chat_record/${application_id}/`);
-      const url = fileList.reduce((max, item) => {
+      const importMentorInfoFileList = await listFile(
+        `chat_record/${application_id}/`,
+      );
+      const url = importMentorInfoFileList.reduce((max, item) => {
         return new Date(item.LastModified) > new Date(max.LastModified)
           ? item
           : max;
@@ -882,18 +1149,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
-  const [hideReject, setHideReject] = useState(false);
-  const [openDetails, setOpenDetails] = useState(false);
-  const [studentDetails, setStudentDetails] = useState([
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
   return (
     <Space
       direction="vertical"
@@ -902,239 +1157,101 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       `}
     >
       <Row style={{ justifyContent: "space-evenly" }}>
-        {user.role !== "counselor" && (
-          <>
-            <Col span={14}>
-              {user.role === "teacher" && (
-                <>
-                  <Card>
-                    <Row>
-                      <Col span={8}>
-                        <Switch
-                          loading={
-                            mentorAvailableLoading ||
-                            changeMentorAvailableLoading
-                          }
-                          checkedChildren="正在接收申请"
-                          unCheckedChildren="停止接收申请"
-                          checked={
-                            mentorAvailableData?.mentor_available?.[0]
-                              ?.available ?? false
-                          }
-                          onChange={handleMentorAvailableChange}
-                        />
-                      </Col>
-                      <Col span={8}>
+        <Col span={14}>
+          {user.role === "teacher" && mentorDetail && (
+            <>
+              <Card>
+                <Row>
+                  <Col span={8}>
+                    <Switch
+                      loading={
+                        mentorInfoListLoading ||
+                        updateMentorInfoAvailableLoading
+                      }
+                      checkedChildren="正在接收申请"
+                      unCheckedChildren="停止接收申请"
+                      checked={mentorDetail?.available ?? false}
+                      onChange={async () => {
+                        if (!mentorDetail) return;
+                        const isAvailable = !mentorDetail.available;
+                        setMentorDetail({
+                          ...mentorDetail,
+                          available: isAvailable,
+                        });
+                        await updateMentorInfoAvailable({
+                          variables: {
+                            uuid: user.uuid!,
+                            available: isAvailable,
+                          },
+                        });
+                      }}
+                    />
+                  </Col>
+                  <Col span={8}>
+                    <Typography.Text>申请人数上限： </Typography.Text>
+                    <InputNumber
+                      min={1}
+                      max={5}
+                      defaultValue={mentorDetail?.max_applicants}
+                      onChange={async (value) => {
+                        if (!mentorDetail || !value) return;
+                        setMentorDetail({
+                          ...mentorDetail,
+                          max_applicants: value,
+                        });
+                        await updateMentorInfoMaxApplicants({
+                          variables: {
+                            uuid: user.uuid!,
+                            max_applicants: value,
+                          },
+                        });
+                      }}
+                    />
+                  </Col>
+                  <Col span={8}>
+                    <Button
+                      type="primary"
+                      onClick={async () => {
+                        setMentorDetailVisible(true);
+                      }}
+                    >
+                      我的信息
+                    </Button>
+                  </Col>
+                </Row>
+              </Card>
+              <br />
+              <Card>
+                <List>
+                  <Row>
+                    <Col span={4}>
+                      <Tooltip
+                        title={hideReject ? "显示未通过申请" : "隐藏未通过申请"}
+                      >
                         <Button
-                          type="primary"
+                          shape="circle"
+                          icon={
+                            hideReject ? (
+                              <EyeInvisibleOutlined />
+                            ) : (
+                              <EyeOutlined />
+                            )
+                          }
+                          type="default"
                           onClick={() => {
-                            getMentorInfo({
-                              variables: { mentor_uuid: user.uuid! },
-                            });
-                            setShowMentorInfo(true);
+                            setHideReject(!hideReject);
                           }}
-                        >
-                          查看我的信息
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Card>
-                  <br />
-                  <Card>
-                    <List>
-                      <Typography.Title level={2}>未处理</Typography.Title>
-                      <List
-                        loading={applicationLoading}
-                        dataSource={applicationData?.mentor_application}
-                        renderItem={(item) => {
-                          if (item.status === "rejected") return null;
-                          if (item.status === "approved") return null;
-                          return (
-                            <Descriptions
-                              key={item.id}
-                              bordered
-                              size="small"
-                              css={`
-                                margin: 24px auto;
-                              `}
-                            >
-                              <Descriptions.Item label="学生姓名" span={2}>
-                                {item.student?.realname}
-                              </Descriptions.Item>
-                              <Descriptions.Item label="学生院系" span={2}>
-                                {item.student?.department}
-                              </Descriptions.Item>
-                              <Descriptions.Item label="申请状态" span={2}>
-                                {item.status === "submitted" ? (
-                                  <Badge status="processing" text="待处理" />
-                                ) : item.status === "approved" ? (
-                                  <Badge status="success" text="已通过" />
-                                ) : (
-                                  <Badge status="error" text="未通过" />
-                                )}
-                              </Descriptions.Item>
-                              {item.status === "approved" && (
-                                <Descriptions.Item label="谈话记录" span={2}>
-                                  {item.chat_status === false ? (
-                                    <Badge status="processing" text="未提交" />
-                                  ) : (
-                                    <Row align="middle">
-                                      <Col span={8}>
-                                        <Badge status="success" text="已提交" />
-                                      </Col>
-                                      <Col span={8}>
-                                        <Button
-                                          onClick={() =>
-                                            handleDownloadRecord(item.id)
-                                          }
-                                        >
-                                          下载
-                                        </Button>
-                                      </Col>
-                                    </Row>
-                                  )}
-                                </Descriptions.Item>
-                              )}
-                              <Descriptions.Item label="详细信息" span={2}>
-                                <Button
-                                  onClick={() => {
-                                    setStudentDetails([
-                                      item.student?.realname,
-                                      item.student?.department,
-                                      item.student?.email,
-                                      item.student?.phone,
-                                      item.created_at,
-                                      item.statement,
-                                      item.status,
-                                      item.id,
-                                    ]);
-                                    setOpenDetails(true);
-                                  }}
-                                >
-                                  查看详细信息
-                                </Button>
-                              </Descriptions.Item>
-                            </Descriptions>
-                          );
-                        }}
-                      />
-                      <Divider />
-                      <Row>
-                        <Col span={4}>
-                          <Typography.Title level={2}>已处理</Typography.Title>
-                        </Col>
-                        <Col span={4}>
-                          <Tooltip
-                            title={
-                              hideReject ? "显示未通过申请" : "隐藏未通过申请"
-                            }
-                          >
-                            <Button
-                              shape="circle"
-                              icon={
-                                hideReject ? (
-                                  <EyeInvisibleOutlined />
-                                ) : (
-                                  <EyeOutlined />
-                                )
-                              }
-                              type="default"
-                              onClick={() => {
-                                setHideReject(!hideReject);
-                              }}
-                            />
-                          </Tooltip>
-                        </Col>
-                      </Row>
-                      <List
-                        loading={applicationLoading}
-                        dataSource={applicationData?.mentor_application}
-                        renderItem={(item) => {
-                          if (item.status === "rejected" && hideReject)
-                            return null;
-                          if (item.status === "submitted") return null;
-                          return (
-                            <Descriptions
-                              key={item.id}
-                              bordered
-                              size="small"
-                              css={`
-                                margin: 24px auto;
-                              `}
-                            >
-                              <Descriptions.Item label="学生姓名" span={2}>
-                                {item.student?.realname}
-                              </Descriptions.Item>
-                              <Descriptions.Item label="学生院系" span={2}>
-                                {item.student?.department}
-                              </Descriptions.Item>
-                              <Descriptions.Item label="申请状态" span={2}>
-                                {item.status === "submitted" ? (
-                                  <Badge status="processing" text="待处理" />
-                                ) : item.status === "approved" ? (
-                                  <Badge status="success" text="已通过" />
-                                ) : (
-                                  <Badge status="error" text="未通过" />
-                                )}
-                              </Descriptions.Item>
-                              <Descriptions.Item label="详细信息" span={2}>
-                                <Button
-                                  onClick={() => {
-                                    setStudentDetails([
-                                      item.student?.realname,
-                                      item.student?.department,
-                                      item.student?.email,
-                                      item.student?.phone,
-                                      item.created_at,
-                                      item.statement,
-                                      item.status,
-                                      item.id,
-                                    ]);
-                                    setOpenDetails(true);
-                                  }}
-                                >
-                                  查看详细信息
-                                </Button>
-                              </Descriptions.Item>
-                              {item.status === "approved" && (
-                                <Descriptions.Item label="谈话记录" span={2}>
-                                  {item.chat_status === false ? (
-                                    <Badge status="processing" text="未提交" />
-                                  ) : (
-                                    <Row align="middle">
-                                      <Col span={8}>
-                                        <Badge status="success" text="已提交" />
-                                      </Col>
-                                      <Col span={8} />
-                                      <Col span={4}>
-                                        <Button
-                                          onClick={() =>
-                                            handleDownloadRecord(item.id)
-                                          }
-                                        >
-                                          下载
-                                        </Button>
-                                      </Col>
-                                    </Row>
-                                  )}
-                                </Descriptions.Item>
-                              )}
-                            </Descriptions>
-                          );
-                        }}
-                      />
-                    </List>
-                  </Card>
-                </>
-              )}
-
-              {user.role === "student" && (
-                <Card>
-                  <Typography.Title level={2}>已申请</Typography.Title>
+                        />
+                      </Tooltip>
+                    </Col>
+                  </Row>
                   <List
-                    loading={applicationLoading}
-                    dataSource={applicationData?.mentor_application}
+                    loading={mentorApplicationsListForMentorLoading}
+                    dataSource={
+                      mentorApplicationsListForMentorData?.mentor_application
+                    }
                     renderItem={(item) => {
+                      if (item.status === "rejected" && hideReject) return null;
                       return (
                         <Descriptions
                           key={item.id}
@@ -1144,43 +1261,133 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                             margin: 24px auto;
                           `}
                         >
-                          <Descriptions.Item label="导师姓名" span={2}>
-                            {item.mentor?.realname}
-                          </Descriptions.Item>
-                          <Descriptions.Item label="导师院系" span={2}>
-                            {item.mentor?.department}
+                          <Descriptions.Item label="学生姓名" span={2}>
+                            {item.student?.realname}
                           </Descriptions.Item>
                           <Descriptions.Item label="申请时间" span={2}>
                             {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
                           </Descriptions.Item>
+                          <Descriptions.Item label="学生院系" span={2}>
+                            {item.student?.department}
+                          </Descriptions.Item>
                           <Descriptions.Item label="申请状态" span={2}>
-                            {item.status === "submitted" ? (
-                              <Badge status="processing" text="待处理" />
-                            ) : item.status === "approved" ? (
+                            {item.status === "approved" ? (
                               <Badge status="success" text="已通过" />
-                            ) : (
+                            ) : item.status === "rejected" ? (
                               <Badge status="error" text="未通过" />
+                            ) : (
+                              <Badge status="processing" text="待处理" />
                             )}
                           </Descriptions.Item>
-                          <Descriptions.Item label="申请陈述" span={3}>
-                            <Text
-                              css={`
-                                word-rap: break-word;
-                                white-space: pre-wrap;
-                              `}
+                          {item.status === "approved" && (
+                            <Descriptions.Item label="谈话记录" span={2}>
+                              {item.chat_status === false ? (
+                                <Badge status="processing" text="未提交" />
+                              ) : (
+                                <Row align="middle">
+                                  <Col span={8}>
+                                    <Badge status="success" text="已提交" />
+                                  </Col>
+                                  <Col span={3}></Col>
+                                  <Col span={8}>
+                                    <Button
+                                      onClick={async () =>
+                                        await handleDownloadChatRecord(item.id)
+                                      }
+                                    >
+                                      下载
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              )}
+                            </Descriptions.Item>
+                          )}
+                          <Descriptions.Item label="详细信息" span={2}>
+                            <Button
+                              onClick={() => {
+                                setSelectAppliedStudentDetail({
+                                  application_id: item.id,
+                                  student_uuid: item.student_uuid,
+                                  real_name: item.student?.realname ?? "",
+                                  department: item.student?.department ?? "",
+                                  email: item.student?.email ?? "",
+                                  phone: item.student?.phone ?? "",
+                                  created_at: item.created_at,
+                                  statement: item.statement,
+                                  status: item.status,
+                                });
+                                setSelectAppliedStudentDetailVisiable(true);
+                              }}
                             >
-                              {item.statement}
-                            </Text>
+                              查看详细信息
+                            </Button>
+                          </Descriptions.Item>
+                        </Descriptions>
+                      );
+                    }}
+                  />
+                </List>
+              </Card>
+            </>
+          )}
+
+          {user.role === "student" && (
+            <Card>
+              <Typography.Title level={2}>已申请</Typography.Title>
+              <List
+                loading={mentorApplicationsListForStudentLoading}
+                dataSource={
+                  mentorApplicationsListForStudentData?.mentor_application
+                }
+                renderItem={(item) => {
+                  return (
+                    <Descriptions
+                      key={item.id}
+                      bordered
+                      size="small"
+                      css={`
+                        margin: 24px auto;
+                      `}
+                    >
+                      <Descriptions.Item label="导师姓名" span={2}>
+                        {item.mentor?.realname}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="导师院系" span={2}>
+                        {item.mentor?.department}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="申请时间" span={2}>
+                        {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="申请状态" span={2}>
+                        {item.status === "approved" ? (
+                          <Badge status="success" text="已通过" />
+                        ) : item.status === "rejected" ? (
+                          <Badge status="error" text="未通过" />
+                        ) : (
+                          <Badge status="processing" text="待处理" />
+                        )}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="申请陈述" span={4}>
+                        <Text
+                          css={`
+                            word-rap: break-word;
+                            white-space: pre-wrap;
+                          `}
+                        >
+                          {item.statement}
+                        </Text>
+                        {item.status !== "approved" && (
+                          <>
                             <br />
                             <br />
                             <Row>
                               <Col span={4}>
                                 <Button
-                                  disabled={item.status !== "submitted"}
+                                  disabled={item.status === "approved"}
                                   onClick={() => {
-                                    setEditingApplication(item);
-                                    form.setFieldsValue(item);
-                                    setModalVisible(true);
+                                    setSelectMentor(item.mentor_uuid);
+                                    applicationForm.setFieldsValue(item);
+                                    setApplicationModalVisible(true);
                                   }}
                                 >
                                   编辑
@@ -1190,6 +1397,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                                 <Button
                                   danger
                                   loading={deleteMentorApplicationLoading}
+                                  disabled={item.status === "approved"}
                                   onClick={() => {
                                     Modal.confirm({
                                       centered: true,
@@ -1199,8 +1407,18 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                                       okText: "确认",
                                       okType: "danger",
                                       cancelText: "取消",
-                                      onOk: () =>
-                                        handleApplicationDelete(item.id),
+                                      onOk: async () => {
+                                        await deleteMentorApplication({
+                                          variables: {
+                                            id: item.id,
+                                          },
+                                        });
+                                        if (deleteMentorApplicationError) {
+                                          message.error("删除失败");
+                                        } else {
+                                          message.success("删除成功");
+                                        }
+                                      },
                                     });
                                   }}
                                 >
@@ -1208,415 +1426,487 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                                 </Button>
                               </Col>
                             </Row>
-                          </Descriptions.Item>
-                          {item.status === "approved" && (
-                            <Descriptions.Item label="谈话记录" span={2}>
-                              <Row
-                                align="middle"
-                                style={{ justifyContent: "space-evenly" }}
+                          </>
+                        )}
+                      </Descriptions.Item>
+                      {item.status === "approved" && (
+                        <Descriptions.Item label="谈话记录" span={4}>
+                          <Row
+                            align="middle"
+                            style={{ justifyContent: "space-evenly" }}
+                          >
+                            <Col span={4}>
+                              {item.chat_status === false ? (
+                                <Badge status="processing" text="未提交" />
+                              ) : (
+                                <Badge status="success" text="已提交" />
+                              )}
+                            </Col>
+                            <Col span={2} />
+                            <Col span={4}>
+                              <Upload
+                                customRequest={async (e) => {
+                                  await handleUploadChatRecord(e, item.id);
+                                }}
+                                onChange={(info) => {
+                                  if (info.file.status === "done") {
+                                    message.success(
+                                      `${info.file.name} 上传成功`,
+                                    );
+                                  } else if (info.file.status === "error") {
+                                    message.error(`${info.file.name} 上传失败`);
+                                  }
+                                }}
+                                showUploadList={false}
                               >
-                                <Col span={6}>
-                                  {item.chat_status === false ? (
-                                    <Badge status="processing" text="未提交" />
-                                  ) : (
-                                    <Badge status="success" text="已提交" />
-                                  )}
-                                </Col>
-                                <Col span={5} />
+                                <Button icon={<UploadOutlined />}>提交</Button>
+                              </Upload>
+                            </Col>
+                            {item.chat_status === true && (
+                              <>
+                                <Col span={2} />
                                 <Col span={4}>
-                                  <Upload
-                                    customRequest={(e) => {
-                                      handleUploadRecord(e, item.id);
-                                    }}
-                                    onChange={handleOnchangeRecord}
-                                    showUploadList={false}
-                                    // onRemove={handleRemoveRecord}
-                                    // multiple={false}
+                                  <Button
+                                    icon={<DownloadOutlined />}
+                                    onClick={() =>
+                                      handleDownloadChatRecord(item.id)
+                                    }
                                   >
-                                    <Button icon={<UploadOutlined />}>
-                                      提交
-                                    </Button>
-                                  </Upload>
+                                    下载
+                                  </Button>
                                 </Col>
-                                {item.chat_status === true && (
-                                  <>
-                                    <Col span={4} />
-                                    <Col span={4}>
-                                      <Button
-                                        icon={<DownloadOutlined />}
-                                        onClick={() =>
-                                          handleDownloadRecord(item.id)
-                                        }
-                                      >
-                                        下载
-                                      </Button>
-                                    </Col>
-                                  </>
-                                )}
-                              </Row>
-                            </Descriptions.Item>
-                          )}
-                        </Descriptions>
-                      );
-                    }}
-                  />
-                </Card>
-              )}
-            </Col>
-            <Col span={8}>
+                              </>
+                            )}
+                          </Row>
+                        </Descriptions.Item>
+                      )}
+                    </Descriptions>
+                  );
+                }}
+              />
+            </Card>
+          )}
+
+          {user.role === "counselor" &&
+            mentorApplicationSchedule &&
+            selectedYear === new Date().getFullYear() && (
               <Card>
-                <Typography.Title level={2}>关键时间点</Typography.Title>
+                <Typography.Title level={2}>管理时间</Typography.Title>
                 <br />
-                <Timeline>
-                  {user.role === "teacher" && (
-                    <Timeline.Item
-                      color={
-                        new Date() >= info.mentor.start_A &&
-                        new Date() <= info.mentor.end_A
-                          ? "green"
-                          : "gray"
-                      }
-                    >
-                      <p>预备阶段：导师更新个人信息</p>
-                      <br />
-                      <p>
-                        {dayjs(info.mentor.start_A).format("YYYY-MM-DD")} ~{" "}
-                        {dayjs(info.mentor.end_A).format("YYYY-MM-DD")}
-                      </p>
-                    </Timeline.Item>
-                  )}
-                  <Timeline.Item
-                    color={
-                      new Date() >= info.mentor.start_B &&
-                      new Date() <= info.mentor.end_B
-                        ? "green"
-                        : "gray"
-                    }
-                  >
-                    <p>预备阶段：学生了解导师信息</p>
-                    <br />
-                    <p>
-                      {dayjs(info.mentor.start_B).format("YYYY-MM-DD")} ~{" "}
-                      {dayjs(info.mentor.end_B).format("YYYY-MM-DD")}
-                    </p>
-                  </Timeline.Item>
-                  <Timeline.Item
-                    color={
-                      new Date() >= info.mentor.start_C &&
-                      new Date() <= info.mentor.end_C
-                        ? "green"
-                        : "gray"
-                    }
-                  >
-                    <p>第一阶段：自由申请与匹配</p>
-                    <br />
-                    <p>
-                      {dayjs(info.mentor.start_C).format("YYYY-MM-DD")} ~{" "}
-                      {dayjs(info.mentor.end_C).format("YYYY-MM-DD")}
-                    </p>
-                  </Timeline.Item>
-                  <Timeline.Item
-                    color={
-                      new Date() >= info.mentor.start_D &&
-                      new Date() <= info.mentor.end_D
-                        ? "green"
-                        : "gray"
-                    }
-                  >
-                    <p>第二阶段：未匹配同学补选</p>
-                    <br />
-                    <p>
-                      {dayjs(info.mentor.start_D).format("YYYY-MM-DD")} ~{" "}
-                      {dayjs(info.mentor.end_D).format("YYYY-MM-DD")}
-                    </p>
-                  </Timeline.Item>
-                  <Timeline.Item
-                    color={
-                      new Date() >= info.mentor.start_E &&
-                      new Date() <= info.mentor.end_E
-                        ? "green"
-                        : "gray"
-                    }
-                  >
-                    <p>第三阶段：系统随机分配</p>
-                    <br />
-                    <p>
-                      {dayjs(info.mentor.start_E).format("YYYY-MM-DD")} ~{" "}
-                      {dayjs(info.mentor.end_E).format("YYYY-MM-DD")}
-                    </p>
-                  </Timeline.Item>
-                </Timeline>
-              </Card>
-            </Col>
-          </>
-        )}
-        {user.role === "counselor" && (
-          <>
-            <Col span={24}>
-              <Card>
-                <Typography.Title level={2}>管理时间设置</Typography.Title>
-                {hasGetTime && (
-                  <Row>
+                <Row>
+                  <Col span={1} />
+                  <Col>
                     <Timeline style={{ width: "100%" }}>
                       <Timeline.Item color="#027dcd">
-                        <Typography.Text>预备阶段</Typography.Text>
+                        <Typography.Text>
+                          预备阶段：导师更新个人信息
+                        </Typography.Text>
+                        <br />
                         <br />
                         <DatePicker.RangePicker
                           defaultValue={[
-                            dayjs(info.mentor.start_A),
-                            dayjs(info.mentor.end_A),
+                            dayjs(mentorApplicationSchedule.start_A),
+                            dayjs(mentorApplicationSchedule.end_A),
                           ]}
                           onChange={(date) => {
                             if (date && date[0] && date[1]) {
-                              setInfo({
-                                ...info,
-                                mentor: {
-                                  ...info.mentor,
-                                  start_A: date[0].toDate(),
-                                  end_A: date[1].toDate(),
-                                },
+                              setMentorApplicationSchedule({
+                                ...mentorApplicationSchedule,
+                                start_A: date[0].toDate(),
+                                end_A: date[1].toDate(),
                               });
                             }
                           }}
                         />
+                        <br />
+                        <br />
                       </Timeline.Item>
                       <Timeline.Item color="#027dcd">
-                        <Typography.Text>预备阶段</Typography.Text>
+                        <Typography.Text>
+                          预备阶段：学生了解导师信息
+                        </Typography.Text>
+                        <br />
                         <br />
                         <DatePicker.RangePicker
                           defaultValue={[
-                            dayjs(info.mentor.start_B),
-                            dayjs(info.mentor.end_B),
+                            dayjs(mentorApplicationSchedule.start_B),
+                            dayjs(mentorApplicationSchedule.end_B),
                           ]}
                           onChange={(date) => {
                             if (date && date[0] && date[1]) {
-                              setInfo({
-                                ...info,
-                                mentor: {
-                                  ...info.mentor,
-                                  start_B: date[0].toDate(),
-                                  end_B: date[1].toDate(),
-                                },
+                              setMentorApplicationSchedule({
+                                ...mentorApplicationSchedule,
+                                start_B: date[0].toDate(),
+                                end_B: date[1].toDate(),
                               });
                             }
                           }}
                         />
+                        <br />
+                        <br />
                       </Timeline.Item>
                       <Timeline.Item color="#027dcd">
-                        <Typography.Text>第一阶段</Typography.Text>
+                        <Typography.Text>
+                          第一阶段：自由申请与匹配
+                        </Typography.Text>
+                        <br />
                         <br />
                         <DatePicker.RangePicker
                           defaultValue={[
-                            dayjs(info.mentor.start_C),
-                            dayjs(info.mentor.end_C),
+                            dayjs(mentorApplicationSchedule.start_C),
+                            dayjs(mentorApplicationSchedule.end_C),
                           ]}
                           onChange={(date) => {
                             if (date && date[0] && date[1]) {
-                              setInfo({
-                                ...info,
-                                mentor: {
-                                  ...info.mentor,
-                                  start_C: date[0].toDate(),
-                                  end_C: date[1].toDate(),
-                                },
+                              setMentorApplicationSchedule({
+                                ...mentorApplicationSchedule,
+                                start_C: date[0].toDate(),
+                                end_C: date[1].toDate(),
                               });
                             }
                           }}
                         />
+                        <br />
+                        <br />
                       </Timeline.Item>
                       <Timeline.Item color="#027dcd">
-                        <Typography.Text>第二阶段</Typography.Text>
+                        <Typography.Text>
+                          第二阶段：未匹配同学补选
+                        </Typography.Text>
+                        <br />
                         <br />
                         <DatePicker.RangePicker
                           defaultValue={[
-                            dayjs(info.mentor.start_D),
-                            dayjs(info.mentor.end_D),
+                            dayjs(mentorApplicationSchedule.start_D),
+                            dayjs(mentorApplicationSchedule.end_D),
                           ]}
                           onChange={(date) => {
                             if (date && date[0] && date[1]) {
-                              setInfo({
-                                ...info,
-                                mentor: {
-                                  ...info.mentor,
-                                  start_D: date[0].toDate(),
-                                  end_D: date[1].toDate(),
-                                },
+                              setMentorApplicationSchedule({
+                                ...mentorApplicationSchedule,
+                                start_D: date[0].toDate(),
+                                end_D: date[1].toDate(),
                               });
                             }
                           }}
                         />
+                        <br />
+                        <br />
                       </Timeline.Item>
                       <Timeline.Item color="#027dcd">
-                        <Typography.Text>第三阶段</Typography.Text>
+                        <Typography.Text>
+                          第三阶段：系统随机分配
+                        </Typography.Text>
+                        <br />
                         <br />
                         <DatePicker.RangePicker
                           defaultValue={[
-                            dayjs(info.mentor.start_E),
-                            dayjs(info.mentor.end_E),
+                            dayjs(mentorApplicationSchedule.start_E),
+                            dayjs(mentorApplicationSchedule.end_E),
                           ]}
                           onChange={(date) => {
                             if (date && date[0] && date[1]) {
-                              setInfo({
-                                ...info,
-                                mentor: {
-                                  ...info.mentor,
-                                  start_E: date[0].toDate(),
-                                  end_E: date[1].toDate(),
-                                },
+                              setMentorApplicationSchedule({
+                                ...mentorApplicationSchedule,
+                                start_E: date[0].toDate(),
+                                end_E: date[1].toDate(),
                               });
                             }
                           }}
                         />
                       </Timeline.Item>
                     </Timeline>
-                  </Row>
-                )}
+                  </Col>
+                </Row>
+
+                <Typography.Title level={2}>操作</Typography.Title>
+                <br />
+                <Row>
+                  <Col span={1} />
+                  <Col span={5}>
+                    <Button
+                      onClick={() => setImportFreshmanInfoFormVisible(true)}
+                      loading={importingFreshmanInfo}
+                      disabled={
+                        freshmanInfoListLoading ||
+                        mentorApplicationsListForCounselorsLoading
+                      }
+                    >
+                      导入新生信息
+                    </Button>
+                  </Col>
+                  <Col span={5}>
+                    <Button
+                      onClick={() => setImportMentorInfoFormVisible(true)}
+                      loading={importingMentorInfo}
+                      disabled={
+                        freshmanInfoListLoading ||
+                        mentorApplicationsListForCounselorsLoading
+                      }
+                    >
+                      导入导师信息
+                    </Button>
+                  </Col>
+                  <Col span={4}>
+                    <Button
+                      onClick={handleExport}
+                      loading={exporting}
+                      disabled={
+                        freshmanInfoListLoading ||
+                        mentorApplicationsListForCounselorsLoading
+                      }
+                    >
+                      导出申请
+                    </Button>
+                  </Col>
+                  <Col span={5}>
+                    <Tooltip title="点击刷新">
+                      <Button
+                        onClick={async () => {
+                          await refetchFreshmanInfoList({
+                            year: selectedYear,
+                          });
+                        }}
+                        disabled={
+                          freshmanInfoListLoading ||
+                          mentorApplicationsListForCounselorsLoading
+                        }
+                      >
+                        {"匹配人数: "}
+                        {freshmanInfoListData && unmatchedFreshmanList
+                          ? freshmanInfoListData.freshman.length -
+                            unmatchedFreshmanList.length
+                          : NaN}
+                        /{freshmanInfoListData?.freshman.length ?? NaN}
+                      </Button>
+                    </Tooltip>
+                  </Col>
+                  <Col>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        Modal.confirm({
+                          title: "确认进行系统随机分配？",
+                          content: "此操作不可撤销",
+                          okText: "确认",
+                          cancelText: "取消",
+                          onOk: async () => {
+                            setAttributing(true);
+                            await handleAttribute();
+                          },
+                        });
+                      }}
+                      loading={attributing}
+                    >
+                      随机分配
+                    </Button>
+                  </Col>
+                </Row>
+                <br />
               </Card>
-            </Col>
-          </>
+            )}
+        </Col>
+
+        {mentorApplicationSchedule && (
+          <Col span={8}>
+            <Card>
+              <Row align="middle">
+                {/* <Col>
+                  <Input
+                    defaultValue={new Date().getFullYear()}
+                    size="large"
+                    style={{
+                      fontSize: 24,
+                      border: "none",
+                      padding: 0,
+                      width: 60,
+                      cursor: "default",
+                      fontWeight: "bold",
+                    }}
+                    onChange={async (v) => {
+                      if (v.target.value.length === 4) {
+                        setSelectedYear(parseInt(v.target.value));
+                      }
+                    }}
+                  />
+                </Col> */}
+                <Col>
+                  <Typography.Title
+                    level={3}
+                    style={{ margin: "0 0 0 8px", fontSize: 24 }}
+                  >
+                    时间线
+                  </Typography.Title>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col span={1}></Col>
+                <Col>
+                  <Timeline>
+                    {(user.role === "teacher" || user.role === "counselor") && (
+                      <Timeline.Item
+                        color={
+                          new Date() >= mentorApplicationSchedule.start_A &&
+                          new Date() <= mentorApplicationSchedule.end_A
+                            ? "green"
+                            : "gray"
+                        }
+                      >
+                        <p>预备阶段：导师更新个人信息</p>
+                        <br />
+                        <p>
+                          {dayjs(mentorApplicationSchedule.start_A).format(
+                            "YYYY-MM-DD",
+                          )}{" "}
+                          ~{" "}
+                          {dayjs(mentorApplicationSchedule.end_A).format(
+                            "YYYY-MM-DD",
+                          )}
+                        </p>
+                      </Timeline.Item>
+                    )}
+                    <Timeline.Item
+                      color={
+                        new Date() >= mentorApplicationSchedule.start_B &&
+                        new Date() <= mentorApplicationSchedule.end_B
+                          ? "green"
+                          : "gray"
+                      }
+                    >
+                      <p>预备阶段：学生了解导师信息</p>
+                      <br />
+                      <p>
+                        {dayjs(mentorApplicationSchedule.start_B).format(
+                          "YYYY-MM-DD",
+                        )}{" "}
+                        ~{" "}
+                        {dayjs(mentorApplicationSchedule.end_B).format(
+                          "YYYY-MM-DD",
+                        )}
+                      </p>
+                    </Timeline.Item>
+
+                    <Timeline.Item
+                      color={
+                        new Date() >= mentorApplicationSchedule.start_C &&
+                        new Date() <= mentorApplicationSchedule.end_C
+                          ? "green"
+                          : "gray"
+                      }
+                    >
+                      <p>第一阶段：自由申请与匹配</p>
+                      <br />
+                      <p>
+                        {dayjs(mentorApplicationSchedule.start_C).format(
+                          "YYYY-MM-DD",
+                        )}{" "}
+                        ~{" "}
+                        {dayjs(mentorApplicationSchedule.end_C).format(
+                          "YYYY-MM-DD",
+                        )}
+                      </p>
+                    </Timeline.Item>
+
+                    <Timeline.Item
+                      color={
+                        new Date() >= mentorApplicationSchedule.start_D &&
+                        new Date() <= mentorApplicationSchedule.end_D
+                          ? "green"
+                          : "gray"
+                      }
+                    >
+                      <p>第二阶段：未匹配同学补选</p>
+                      <br />
+                      <p>
+                        {dayjs(mentorApplicationSchedule.start_D).format(
+                          "YYYY-MM-DD",
+                        )}{" "}
+                        ~{" "}
+                        {dayjs(mentorApplicationSchedule.end_D).format(
+                          "YYYY-MM-DD",
+                        )}
+                      </p>
+                    </Timeline.Item>
+                    <Timeline.Item
+                      color={
+                        new Date() >= mentorApplicationSchedule.start_E &&
+                        new Date() <= mentorApplicationSchedule.end_E
+                          ? "green"
+                          : "gray"
+                      }
+                    >
+                      <p>第三阶段：系统随机分配</p>
+                      <br />
+                      <p>
+                        {dayjs(mentorApplicationSchedule.start_E).format(
+                          "YYYY-MM-DD",
+                        )}{" "}
+                        ~{" "}
+                        {dayjs(mentorApplicationSchedule.end_E).format(
+                          "YYYY-MM-DD",
+                        )}
+                      </p>
+                    </Timeline.Item>
+                  </Timeline>
+                </Col>
+              </Row>
+            </Card>
+          </Col>
         )}
       </Row>
 
-      {user.role === "student" && (
-        <>
-          <Typography.Title level={2}>导师列表</Typography.Title>
-          <Table
-            rowKey="_id"
-            loading={mentorListLoading}
-            dataSource={mentorList?.users.filter(
-              (item) => item.mentor_available?.available,
-            )}
-            columns={mentorListColumnsForStudents}
-          />
-          <Modal
-            open={modalVisible}
-            title={editingApplication?.statement ? "编辑申请" : "新申请"}
-            centered
-            destroyOnClose
-            okText="提交"
-            onCancel={() => {
-              setModalVisible(false);
-              setEditingApplication(undefined);
-              setSelectedMentor(undefined);
-              form.resetFields();
-            }}
-            onOk={handleApplicationEdit}
-            maskClosable={false}
-            confirmLoading={applicationUpdating || applicationAdding}
-          >
-            <Form
-              form={form}
-              name="application"
-              onFinish={handleApplicationEdit}
-              initialValues={editingApplication}
-            >
-              <Form.Item name={["mentor", "realname"]} label="导师姓名">
-                <Input readOnly />
-              </Form.Item>
-              <Form.Item name={["mentor", "department"]} label="导师院系">
-                <Input readOnly />
-              </Form.Item>
-              <Form.Item
-                name="statement"
-                label="申请陈述"
-                rules={[{ required: true, message: "请输入申请陈述" }]}
-              >
-                <Input.TextArea
-                  style={{ resize: "none" }}
-                  autoSize={{ minRows: 5 }}
-                />
-              </Form.Item>
-            </Form>
-          </Modal>
-        </>
-      )}
       {user.role === "counselor" && (
         <>
-          <Typography.Title level={2}>导师列表</Typography.Title>
-          <Row>
-            <Col span={3}>
-              <Button
-                onClick={handleExport}
-                loading={exporting}
-                disabled={applicationForCounselorsLoading}
-              >
-                导出申请
-              </Button>
-            </Col>
-            <Col span={3}>
-              <Button
-                onClick={() => setImportFormVisible(true)}
-                loading={importing}
-                disabled={applicationForCounselorsLoading}
-              >
-                导入信息
-              </Button>
-            </Col>
-            <Col span={5}>
-              <Tooltip title="点击刷新">
-                <Button
-                  onClick={() => {
-                    refetchFreshmanList();
-                  }}
-                >
-                  尚未匹配的学生人数:{" "}
-                  {
-                    freshmanList?.users.filter(
-                      (item) => item.mentor_application_as_student.length === 0,
-                    ).length
-                  }
-                </Button>
-              </Tooltip>
-            </Col>
-            <Col span={3}>
-              <Button
-                type="primary"
-                onClick={() => {
-                  Modal.confirm({
-                    title: "确认进行系统随机分配？",
-                    content: "此操作不可撤销",
-                    okText: "确认",
-                    cancelText: "取消",
-                    onOk: async () => {
-                      setAttributing(true);
-                      handleAttribute();
+          <Row justify="center" gutter={50}>
+            <Col span={11}>
+              <Typography.Title level={2}>未匹配学生</Typography.Title>
+              <Card>
+                <Table
+                  dataSource={unmatchedFreshmanList}
+                  columns={[
+                    {
+                      title: "学号",
+                      dataIndex: "student_no",
+                      key: "student_no",
                     },
-                  });
-                }}
-                loading={attributing}
-              >
-                随机分配
-              </Button>
+                    { title: "姓名", dataIndex: "realname", key: "realname" },
+                  ]}
+                />
+              </Card>
+            </Col>
+
+            <Col span={11}>
+              <Typography.Title level={2}>未注册学生</Typography.Title>
+              <Card>
+                <Table
+                  dataSource={freshmanInfoListData?.freshman.filter(
+                    (i) =>
+                      !registeredFreshmanList.find(
+                        (j) => j.student_no === i.student_no,
+                      ),
+                  )}
+                  columns={[
+                    {
+                      title: "学号",
+                      dataIndex: "student_no",
+                      key: "student_no",
+                    },
+                    { title: "姓名", dataIndex: "realname", key: "realname" },
+                  ]}
+                />
+              </Card>
             </Col>
           </Row>
 
-          <Table
-            loading={mentorListLoading}
-            dataSource={mentorList?.users.filter(
-              (item) => item.mentor_available?.available !== false,
-            )}
-            columns={mentorListColumnsForCounselors}
-          />
-          <Typography.Title level={2}>未匹配学生</Typography.Title>
-          <Table
-            dataSource={freshmanList?.users.filter(
-              (item) => item.mentor_application_as_student.length === 0,
-            )}
-            //根据freshmanlist来填写表格，需要显示的为student_no,realname,class,realname
-            columns={[
-              { title: "学号", dataIndex: "student_no", key: "student_no" },
-              { title: "姓名", dataIndex: "realname", key: "realname" },
-              { title: "班级", dataIndex: "class", key: "class" },
-            ]}
-          />
           <Modal
-            open={importFormVisible}
+            open={importMentorInfoFormVisible}
             title="导入导师信息"
             centered
-            onOk={handleImport}
-            onCancel={() => setImportFormVisible(false)}
+            onOk={handleImportMentorInfo}
+            onCancel={() => setImportMentorInfoFormVisible(false)}
             maskClosable={false}
-            confirmLoading={importing}
+            confirmLoading={importingMentorInfo}
             okText="导入"
           >
             <Typography.Paragraph>
@@ -1636,13 +1926,52 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 type="file"
                 name="file"
-                onChange={(e) => setFileList(e.target.files)}
+                onChange={(e) => setImportMentorInfoFileList(e.target.files)}
               />
               <label htmlFor="upload-file"></label>
-              {parseProgress > 0 && (
+              {importMentorInfoProgress > 0 && (
                 <Progress
                   type="circle"
-                  percent={parseProgress}
+                  percent={importMentorInfoProgress}
+                  status="active"
+                />
+              )}
+            </div>
+          </Modal>
+
+          <Modal
+            open={importFreshmanInfoFormVisible}
+            title="导入新生信息"
+            centered
+            onOk={() => handleImportFreshmanInfo(selectedYear)}
+            onCancel={() => setImportFreshmanInfoFormVisible(false)}
+            maskClosable={false}
+            confirmLoading={importingMentorInfo}
+            okText="导入"
+          >
+            <Typography.Paragraph>
+              上传 Excel 文件以更新申请状态。Excel 的格式应为：学号、姓名
+            </Typography.Paragraph>
+            <div
+              css={`
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+              `}
+            >
+              <input
+                id="upload-file"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                type="file"
+                name="file"
+                onChange={(e) => setImportFreshmanInfoFileList(e.target.files)}
+              />
+              <label htmlFor="upload-file"></label>
+              {importFreshmanInfoProgress > 0 && (
+                <Progress
+                  type="circle"
+                  percent={importFreshmanInfoProgress}
                   status="active"
                 />
               )}
@@ -1651,116 +1980,238 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         </>
       )}
 
-      {/* 老师信息 */}
+      {/* {user.role === "student" && ( */}
+      <>
+        <Typography.Title level={2}>导师列表</Typography.Title>
+        <Table
+          rowKey="_id"
+          loading={!mentorListFull}
+          dataSource={mentorListFull}
+          columns={mentorInfoListColumns}
+        />
+        <Modal
+          open={applicationModalVisible}
+          title={
+            mentorApplicationsListForStudentData &&
+            mentorApplicationsListForStudentData.mentor_application.filter(
+              (i) => i.mentor_uuid === selectMentor,
+            ).length > 0
+              ? "编辑申请"
+              : "新申请"
+          }
+          centered
+          destroyOnClose
+          okText="提交"
+          onCancel={() => {
+            setApplicationModalVisible(false);
+            setSelectMentor(undefined);
+            applicationForm.resetFields();
+          }}
+          onOk={handleApplicationEdit}
+          maskClosable={false}
+          confirmLoading={
+            insertMentorApplicationLoading ||
+            updateMentorApplicationStatementLoading
+          }
+        >
+          <Form
+            form={applicationForm}
+            name="application"
+            onFinish={handleApplicationEdit}
+          >
+            <Form.Item name={["mentor", "realname"]} label="导师姓名">
+              <Input readOnly />
+            </Form.Item>
+            <Form.Item name={["mentor", "department"]} label="导师院系">
+              <Input readOnly />
+            </Form.Item>
+            <Form.Item
+              name="statement"
+              label="申请陈述"
+              rules={[{ required: true, message: "请输入申请陈述" }]}
+            >
+              <Input.TextArea
+                style={{ resize: "none" }}
+                autoSize={{ minRows: 5 }}
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </>
+      {/* )} */}
+
+      {/* 学生详细信息 */}
       <Modal
-        open={showMentorInfo}
-        title="导师信息"
+        open={selectAppliedStudentDetailVisiable}
+        title={
+          selectAppliedStudentDetail?.real_name
+            ? `${selectAppliedStudentDetail.real_name}的信息`
+            : "学生信息未记录于数据库中"
+        }
         centered
         destroyOnClose
         onCancel={() => {
-          setShowMentorInfo(false);
+          setSelectAppliedStudentDetailVisiable(false);
         }}
         footer={null}
-        width="70%"
+        width="60%"
       >
-        <Descriptions
-          title={
-            mentorInfoData?.mentor_info_by_pk
-              ? `${mentorInfoData?.mentor_info_by_pk?.user.realname}的信息`
-              : "老师信息未记录于数据库中"
-          }
-          column={1}
-          extra={
-            ["teacher", "counselor"].includes(user.role!) ? (
-              <Tooltip title="更新信息">
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    setShowUpdateInfo(true);
-                    setShowMentorInfo(false);
-                    updateInfoForm.setFields([
-                      {
-                        name: "intro",
-                        value: mentorInfoData?.mentor_info_by_pk?.intro,
-                      },
-                      {
-                        name: "background",
-                        value: mentorInfoData?.mentor_info_by_pk?.background,
-                      },
-                      {
-                        name: "field",
-                        value: mentorInfoData?.mentor_info_by_pk?.field,
-                      },
-                      {
-                        name: "achievement",
-                        value: mentorInfoData?.mentor_info_by_pk?.achievement,
-                      },
-                    ]);
-                  }}
-                  shape="circle"
-                  icon={<EditOutlined />}
-                />
-              </Tooltip>
-            ) : (
-              <></>
-            )
-          }
-        >
-          <Descriptions.Item label="基本信息">
-            {mentorInfoData?.mentor_info_by_pk?.intro}
+        <Descriptions column={3}>
+          <Descriptions.Item label="姓名">
+            {selectAppliedStudentDetail?.real_name ?? "暂无记录"}
           </Descriptions.Item>
-          <Descriptions.Item label="教育背景">
-            {mentorInfoData?.mentor_info_by_pk?.background}
+          <Descriptions.Item label="院系">
+            {selectAppliedStudentDetail?.department ?? "暂无记录"}
           </Descriptions.Item>
-          <Descriptions.Item label="研究领域">
-            {mentorInfoData?.mentor_info_by_pk?.field}
+          <Descriptions.Item label="邮箱">
+            {selectAppliedStudentDetail?.email ?? "暂无记录"}
           </Descriptions.Item>
-          <Descriptions.Item label="学术成果">
-            {mentorInfoData?.mentor_info_by_pk?.achievement}
+          <Descriptions.Item label="手机">
+            {selectAppliedStudentDetail?.phone ?? "暂无记录"}
           </Descriptions.Item>
-          <Descriptions.Item label="联系邮箱">
-            {mentorInfoData?.mentor_info_by_pk?.user.email}
+          <Descriptions.Item label="申请时间" span={2}>
+            {dayjs(selectAppliedStudentDetail?.created_at).format(
+              "YYYY-MM-DD HH:mm",
+            ) ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="申请陈述" span={3}>
+            {selectAppliedStudentDetail?.statement ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item span={3}>{""}</Descriptions.Item> 占位
+          <Descriptions.Item span={1}>
+            <Radio.Group
+              disabled={
+                updateMentorApplicationStatusLoading ||
+                selectAppliedStudentDetail?.application_id === undefined
+              }
+              value={selectAppliedStudentDetail?.status}
+              onChange={async (e) => {
+                try {
+                  await updateMentorApplicationStatus({
+                    variables: {
+                      id: selectAppliedStudentDetail?.application_id,
+                      status: e.target.value,
+                    },
+                  });
+                  setSelectAppliedStudentDetail(
+                    selectAppliedStudentDetail
+                      ? {
+                          ...selectAppliedStudentDetail,
+                          status: e.target.value,
+                        }
+                      : undefined,
+                  );
+                  await refetchMentorApplicationsListForMentor({
+                    uuid: user.uuid!,
+                    year: selectedYear,
+                  });
+                  await mentorListWithApplicationsCount(
+                    mentorInfoListData,
+                    selectedYear,
+                  );
+                  setSelectAppliedStudentDetailVisiable(false);
+                } catch (err) {
+                  message.error("更新失败");
+                }
+              }}
+            >
+              <Radio value="approved">接收</Radio>
+              <Radio value="submitted">待处理</Radio>
+              <Radio value="rejected">拒绝</Radio>
+            </Radio.Group>
           </Descriptions.Item>
         </Descriptions>
       </Modal>
-      {/* 更改老师信息 */}
+
+      {/* 老师详细信息 */}
+
       <Modal
-        open={showUpdateInfo}
-        title={`更新${mentorInfoData?.mentor_info_by_pk?.user.realname}信息`}
+        open={selectMentorDetailVisiable}
         centered
         destroyOnClose
         onCancel={() => {
-          setShowUpdateInfo(false);
+          setSelectMentorDetailVisiable(false);
+        }}
+        footer={null}
+        width="60%"
+      >
+        {selectMentorDetail?.mentor_uuid && selectMentorDetail?.real_name ? (
+          <Descriptions title={selectMentorDetail.real_name} column={3}>
+            <Descriptions.Item label="基本信息">
+              {selectMentorDetail?.intro ?? "暂无记录"}
+            </Descriptions.Item>
+            <Descriptions.Item label="教育背景">
+              {selectMentorDetail?.background ?? "暂无记录"}
+            </Descriptions.Item>
+            <Descriptions.Item label="研究领域">
+              {selectMentorDetail?.field ?? "暂无记录"}
+            </Descriptions.Item>
+            <Descriptions.Item label="学术成果">
+              {selectMentorDetail?.achievement ?? "暂无记录"}
+            </Descriptions.Item>
+            <Descriptions.Item label="联系邮箱">
+              {selectMentorDetail?.email ?? "暂无记录"}
+            </Descriptions.Item>
+          </Descriptions>
+        ) : (
+          <Descriptions title={"导师信息未记录于数据库中"}></Descriptions>
+        )}
+      </Modal>
+
+      {/* 更改老师信息 */}
+      <Modal
+        open={mentorDetailVisible}
+        centered
+        destroyOnClose
+        onCancel={() => {
+          setMentorDetailVisible(false);
         }}
         okText="更新"
-        confirmLoading={updateMentorInfoLoading}
+        confirmLoading={updateMentorInfoDescriptionLoading}
         cancelText="取消"
         onOk={async () => {
           try {
-            const values = await updateInfoForm
+            if (
+              mentorDetail?.mentor_uuid === undefined ||
+              mentorDetail?.real_name === undefined
+            ) {
+              throw new Error(
+                "导师信息未记录于数据库中或姓名为空，请联系管理员",
+              );
+            }
+            const values = await mentorInfoForm
               .validateFields()
               .catch((info) => message.error(`表单验证失败`));
-            await updateMentorInfo({
+            await updateMentorInfoDescription({
               variables: {
                 ...pick(values, [
-                  "intro",
+                  "achievement",
                   "background",
                   "field",
-                  "achievement",
+                  "intro",
                 ]),
-                mentor_uuid:
-                  mentorInfoData?.mentor_info_by_pk?.mentor_uuid! || user.uuid!,
+                mentor_uuid: mentorDetail.mentor_uuid,
               },
             });
+            setMentorDetailVisible(false);
             message.info(`信息更新成功`);
-            await refetchMentorInfo!();
           } catch (error) {
-            message.error(`信息更新失败：${updateMentorInfoError}`);
+            message.error(`信息更新失败：${updateMentorInfoDescriptionError}`);
           }
         }}
         width="70%"
       >
-        <Form form={updateInfoForm} layout="vertical" name="updateInfoForm">
+        <Form
+          form={mentorInfoForm}
+          layout="vertical"
+          name="mentorInfoForm"
+          initialValues={{
+            intro: mentorDetail?.intro,
+            background: mentorDetail?.background,
+            field: mentorDetail?.field,
+            achievement: mentorDetail?.achievement,
+          }}
+        >
           <Form.Item
             name="intro"
             label="基本信息"
@@ -1778,75 +2229,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             <Input.TextArea />
           </Form.Item>
         </Form>
-      </Modal>
-      {/* 学生详细信息 */}
-      <Modal
-        open={openDetails}
-        title="学生详细信息"
-        centered
-        destroyOnClose
-        onCancel={() => {
-          setOpenDetails(false);
-        }}
-        footer={null}
-        width="70%"
-      >
-        <Descriptions
-          // title={
-          //   studentDetails[0]
-          //     ? `${studentDetails[0]}的信息`
-          //     : "学生信息未记录于数据库中"
-          // }
-          column={1}
-        >
-          <Descriptions.Item label="姓名">
-            {studentDetails[0]}
-          </Descriptions.Item>
-          <Descriptions.Item label="院系">
-            {studentDetails[1]}
-          </Descriptions.Item>
-          <Descriptions.Item label="邮箱">
-            {studentDetails[2]}
-          </Descriptions.Item>
-          <Descriptions.Item label="手机">
-            {studentDetails[3]}
-          </Descriptions.Item>
-          <Descriptions.Item label="申请时间">
-            {dayjs(studentDetails[4]).format("YYYY-MM-DD HH:mm")}
-          </Descriptions.Item>
-          <Descriptions.Item label="申请陈述">
-            {studentDetails[5]}
-          </Descriptions.Item>
-          <Descriptions.Item>
-            <Radio.Group
-              disabled={updateApplicationStatusLoading}
-              value={studentDetails[6]}
-              onChange={async (e) => {
-                await updateApplicationStatus({
-                  variables: {
-                    id: studentDetails[7],
-                    status: e.target.value,
-                  },
-                });
-                setStudentDetails([
-                  studentDetails[0],
-                  studentDetails[1],
-                  studentDetails[2],
-                  studentDetails[3],
-                  studentDetails[4],
-                  studentDetails[5],
-                  e.target.value,
-                  studentDetails[7],
-                ]);
-                await refetchApplications();
-              }}
-            >
-              <Radio value="approved">接收该同学</Radio>
-              <Radio value="submitted">尚未处理</Radio>
-              <Radio value="rejected">拒绝该同学</Radio>
-            </Radio.Group>
-          </Descriptions.Item>
-        </Descriptions>
       </Modal>
     </Space>
   );

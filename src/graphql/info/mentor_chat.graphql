@@ -1,4 +1,4 @@
-query GetApprovedMentorApplications($uuid: uuid!) {
+query GetApprovedMentorApplications($uuid: uuid!, $year: Int!) {
   mentor_application(
     where: {
       _and: [
@@ -9,6 +9,7 @@ query GetApprovedMentorApplications($uuid: uuid!) {
           ]
         }
         { status: { _eq: "approved" } }
+        { year: { _eq: $year } }
       ]
     }
     order_by: { created_at: asc }

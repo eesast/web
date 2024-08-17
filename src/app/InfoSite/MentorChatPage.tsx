@@ -22,6 +22,7 @@ const { TextArea } = Input;
 
 const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
+  const [selectedYear] = useState<number>(new Date().getFullYear());
 
   const {
     loading: approvedApplicationsLoading,
@@ -30,6 +31,7 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
   } = graphql.useGetApprovedMentorApplicationsQuery({
     variables: {
       uuid: user.uuid!,
+      year: selectedYear!,
     },
     skip: user.role === "counselor",
   });
@@ -140,7 +142,7 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
       {user.role === "teacher" && (
         <Typography.Title
           level={2}
-        >{`与学生 ${selectedStudent?.realname} 的聊天`}</Typography.Title>
+        >{`与 ${selectedStudent?.realname} 的聊天`}</Typography.Title>
       )}
       <div>
         {user.role === "teacher" && (
@@ -271,6 +273,7 @@ const ChatFeed: React.FC<{
   useEffect(() => {
     if (error) {
       message.error("聊天记录加载失败");
+      message.error(error.message);
     }
   }, [error]);
 
