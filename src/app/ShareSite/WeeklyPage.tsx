@@ -66,28 +66,29 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     const [visibleInsert, setVisibleInsert] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
     return (
-      <Card
-        hoverable={true}
-        cover={<Im src={props.item.url} />}
-        actions={showAction(
-          setVisibleInsert,
-          setVisibleDelete,
-          visibleInsert,
-          visibleDelete,
-          props.item,
-        )}
-      >
-        <Meta
-          avatar={<Avatar src={`/android-chrome-192x192.png`} />}
-          title={
-            <Text>
-              {" "}
-              {props.item.title.slice(0, 12)} <br />{" "}
-              {props.item.title.slice(14)}{" "}
-            </Text>
-          }
-        />
-      </Card>
+      <td title={props.item.title.split("|")[1]}>
+        <Card
+          hoverable={true}
+          cover={<Im src={props.item.url} />}
+          actions={showAction(
+            setVisibleInsert,
+            setVisibleDelete,
+            visibleInsert,
+            visibleDelete,
+            props.item,
+          )}
+        >
+          <Meta
+            avatar={<Avatar src={`/android-chrome-192x192.png`} />}
+            title={
+              <Text>
+                {props.item.title.split("|")[0]} <br />{" "}
+                {props.item.title.split("|")[1]}
+              </Text>
+            }
+          />
+        </Card>
+      </td>
     );
   };
 
