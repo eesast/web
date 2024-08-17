@@ -1,261 +1,195 @@
-query GetMentorApplications($uuid: uuid!) {
-  mentor_application(
-    where: {
-      _or: [{ student_uuid: { _eq: $uuid } }, { mentor_uuid: { _eq: $uuid } }]
+# Universal
+query GetMentorApplicationSchedule($year: Int!) {
+  mentor_time_by_pk(activateIn: $year) {
+    activateIn
+    start_A
+    start_B
+    start_C
+    start_D
+    start_E
+    end_A
+    end_B
+    end_C
+    end_D
+    end_E
+  }
+}
+query GetMentorInfoList {
+  mentor_info(order_by: { available: desc, max_applicants: desc }) {
+    achievement
+    available
+    background
+    field
+    intro
+    max_applicants
+    mentor_uuid
+    user {
+      department
+      email
+      realname
     }
-    order_by: { created_at: asc }
+  }
+}
+query GetMentorApplicationsCount($uuid: uuid!, $year: Int!) {
+  mentor_application_aggregate(
+    where: { _and: { mentor_uuid: { _eq: $uuid }, year: { _eq: $year } } }
   ) {
-    id
-    student {
-      realname
-      department
-      email
-      phone
+    aggregate {
+      count
     }
-    mentor {
-      realname
-      department
-      mentor_available {
-        available
+  }
+}
+query GetMentorApplicationsApprovedCount($uuid: uuid!, $year: Int!) {
+  mentor_application_aggregate(
+    where: {
+      _and: {
+        mentor_uuid: { _eq: $uuid }
+        _and: { year: { _eq: $year }, status: { _eq: "approved" } }
       }
     }
-    statement
-    status
-    chat_status
-    created_at
-    updated_at
+  ) {
+    aggregate {
+      count
+    }
   }
 }
 
-query GetMentorApplicationsForCounselors {
-  mentor_application(order_by: { created_at: asc }) {
-    id
-    student {
-      uuid
-      realname
-      class
-      department
-      email
-      phone
-    }
-    mentor {
-      realname
-      department
-      mentor_available {
-        available
-      }
-    }
-    statement
-    status
-    created_at
+# Mentor
+mutation InsertMentorInfo($mentor_uuid: uuid!) {
+  insert_mentor_info_one(
+    object: { mentor_uuid: $mentor_uuid }
+    on_conflict: { constraint: mentor_info_pkey }
+  ) {
     updated_at
   }
 }
-
-query GetMentorAvailable($uuid: uuid!) {
-  mentor_available(where: { mentor_uuid: { _eq: $uuid } }) {
+mutation UpdateMentorInfoAvailable($uuid: uuid!, $available: Boolean!) {
+  update_mentor_info_by_pk(
+    pk_columns: { mentor_uuid: $uuid }
+    _set: { available: $available }
+  ) {
     available
   }
 }
-
-mutation ChangeMentorAvailable($uuid: uuid!, $available: Boolean!) {
-  insert_mentor_available_one(
-    object: { mentor_uuid: $uuid, available: $available }
-    on_conflict: {
-      constraint: mentor_available_mentor_uuid_key
-      update_columns: available
+mutation UpdateMentorInfoMaxApplicants($uuid: uuid!, $max_applicants: Int!) {
+  update_mentor_info_by_pk(
+    pk_columns: { mentor_uuid: $uuid }
+    _set: { max_applicants: $max_applicants }
+  ) {
+    max_applicants
+  }
+}
+mutation UpdateMentorInfoDescription(
+  $mentor_uuid: uuid!
+  $achievement: String = ""
+  $background: String = ""
+  $field: String = ""
+  $intro: String = ""
+) {
+  update_mentor_info_by_pk(
+    pk_columns: { mentor_uuid: $mentor_uuid }
+    _set: {
+      achievement: $achievement
+      background: $background
+      field: $field
+      intro: $intro
     }
   ) {
     mentor_uuid
-    available
   }
 }
-
+query GetMentorApplicationsListForMentor($uuid: uuid!, $year: Int!) {
+  mentor_application(
+    where: { mentor_uuid: { _eq: $uuid }, year: { _eq: $year } }
+    order_by: { created_at: asc }
+  ) {
+    id
+    created_at
+    updated_at
+    statement
+    status
+    chat_status
+    student_uuid
+    student {
+      realname
+      department
+      class
+      email
+      phone
+    }
+  }
+}
 mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
-  update_mentor_application(
-    where: { id: { _eq: $id } }
+  update_mentor_application_by_pk(
+    pk_columns: { id: $id }
     _set: { status: $status }
   ) {
-    returning {
-      id
-    }
+    status
   }
 }
 
-mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
-  update_mentor_application(
-    where: { id: { _eq: $id } }
-    _set: { chat_status: $chat_status }
-  ) {
-    returning {
-      id
-    }
-  }
-}
-
-mutation AddMentorApplication(
-  $student_uuid: uuid!
+# Student
+mutation InsertMentorApplication(
   $mentor_uuid: uuid!
-  $statement: String!
+  $student_uuid: uuid!
+  $year: Int!
+  $statement: String = ""
 ) {
-  insert_mentor_application(
-    objects: {
-      student_uuid: $student_uuid
-      mentor_uuid: $mentor_uuid
+  insert_mentor_application_one(
+    object: {
       statement: $statement
+      mentor_uuid: $mentor_uuid
+      student_uuid: $student_uuid
+      year: $year
     }
   ) {
-    returning {
-      id
-    }
+    id
   }
 }
-
-mutation UpdateMentorApplication($id: uuid!, $statement: String!) {
-  update_mentor_application(
-    where: { id: { _eq: $id } }
+mutation UpdateMentorApplicationStatement($id: uuid!, $statement: String!) {
+  update_mentor_application_by_pk(
+    pk_columns: { id: $id }
     _set: { statement: $statement }
   ) {
-    returning {
-      id
+    statement
+  }
+}
+query GetMentorApplicationsListForStudent($uuid: uuid!, $year: Int!) {
+  mentor_application(
+    where: { student_uuid: { _eq: $uuid }, year: { _eq: $year } }
+    order_by: { created_at: asc }
+  ) {
+    id
+    created_at
+    updated_at
+    statement
+    status
+    chat_status
+    mentor_uuid
+    mentor {
+      realname
+      department
+      email
     }
   }
 }
-
 mutation DeleteMentorApplication($id: uuid!) {
   delete_mentor_application_by_pk(id: $id) {
     id
   }
 }
-
-# query GetMentorList($grade_time: timestamptz!) {
-#   user_by_role(role: "teacher") {
-#     _id
-#     name
-#     department
-#     user {
-#       matched: mentor_applications_mentor_aggregate(
-#         where: { status: { _eq: "approved" } }
-#       ) {
-#         aggregate {
-#           count
-#         }
-#       }
-#       total: mentor_applications_mentor_aggregate {
-#         aggregate {
-#           count
-#         }
-#       }
-#       total_for_grade: mentor_applications_mentor_aggregate(
-#         where: { created_at: { _gte: $grade_time } }
-#       ) {
-#         aggregate {
-#           count
-#         }
-#       }
-#       mentor_available {
-#         available
-#       }
-#     }
-#   }
-# }
-
-query GetMentorList($grade_time: timestamptz!) {
-  users(where: { role: { _eq: "teacher" } }) {
-    uuid
-    realname
-    department
-    matched: mentor_application_as_mentor_aggregate(
-      where: { status: { _eq: "approved" } }
-    ) {
-      aggregate {
-        count
-      }
-    }
-    total: mentor_application_as_mentor_aggregate {
-      aggregate {
-        count
-      }
-    }
-    total_for_grade: mentor_application_as_mentor_aggregate(
-      where: { created_at: { _gte: $grade_time } }
-    ) {
-      aggregate {
-        count
-      }
-    }
-    total_for_match: mentor_application_as_mentor_aggregate(
-      where: { status: { _eq: "approved" } }
-    ) {
-      aggregate {
-        count
-      }
-    }
-    mentor_available {
-      available
-    }
-  }
-}
-
-mutation UpsertMentorInfo(
-  $achievement: String = ""
-  $background: String = ""
-  $field: String = ""
-  $intro: String = ""
-  $mentor_uuid: uuid!
-) {
-  insert_mentor_info_one(
-    object: {
-      achievement: $achievement
-      background: $background
-      field: $field
-      intro: $intro
-      mentor_uuid: $mentor_uuid
-    }
-    on_conflict: {
-      constraint: mentor_info_pkey
-      update_columns: [achievement, background, field, intro]
-    }
+mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
+  update_mentor_application_by_pk(
+    pk_columns: { id: $id }
+    _set: { chat_status: $chat_status }
   ) {
-    mentor_uuid
+    chat_status
   }
 }
 
-query GetMentorInfo($mentor_uuid: uuid!) {
-  mentor_info_by_pk(mentor_uuid: $mentor_uuid) {
-    achievement
-    background
-    field
-    intro
-    mentor_uuid
-    user {
-      realname
-      email
-    }
-  }
-}
-
-query GetFreshmanList {
-  users(where: { student_no: { _gt: "2022999999", _lte: "2023999999" } }) {
-    uuid
-    student_no
-    realname
-    class
-    mentor_application_as_student(where: { status: { _eq: "approved" } }) {
-      student_uuid
-      mentor_uuid
-      statement
-    }
-  }
-}
-
-query GetIdByName($name: String!) {
-  users(where: { realname: { _eq: $name } }) {
-    uuid
-  }
-}
-
-mutation UpdateMentorTime(
+# Counselor
+mutation InsertMentorApplicationSchedule(
+  $year: Int!
   $start_A: timestamptz!
   $start_B: timestamptz!
   $start_C: timestamptz!
@@ -266,11 +200,10 @@ mutation UpdateMentorTime(
   $end_C: timestamptz!
   $end_D: timestamptz!
   $end_E: timestamptz!
-  $activateIn: Int!
 ) {
-  update_mentor_time(
-    where: { activateIn: { _eq: $activateIn } }
-    _set: {
+  insert_mentor_time_one(
+    object: {
+      activateIn: $year
       start_A: $start_A
       start_B: $start_B
       start_C: $start_C
@@ -281,6 +214,71 @@ mutation UpdateMentorTime(
       end_C: $end_C
       end_D: $end_D
       end_E: $end_E
+    }
+    on_conflict: {
+      constraint: mentor_time_pkey
+      update_columns: [
+        start_A
+        start_B
+        start_C
+        start_D
+        start_E
+        end_A
+        end_B
+        end_C
+        end_D
+        end_E
+      ]
+    }
+  ) {
+    activateIn
+  }
+}
+query GetMentorApplicationsListForCounselor($year: Int!) {
+  mentor_application(
+    where: { year: { _eq: $year } }
+    order_by: { created_at: asc }
+  ) {
+    statement
+    status
+    chat_status
+    student {
+      realname
+      student_no
+      department
+      class
+    }
+    mentor {
+      realname
+      department
+    }
+  }
+}
+query QueryStudentByStudentNo($student_no: String!) {
+  users(where: { student_no: { _eq: $student_no } }) {
+    uuid
+    realname
+  }
+}
+query QueryTeacherByRealname($realname: String!) {
+  users(where: { realname: { _eq: $realname } }) {
+    uuid
+  }
+}
+
+query GetFreshmanInfoList($year: Int!) {
+  freshman(where: { year: { _eq: $year } }, order_by: { student_no: asc }) {
+    realname
+    student_no
+  }
+}
+
+mutation InsertFreshmanInfoList($freshmanData: [freshman_insert_input!]!) {
+  insert_freshman(
+    objects: $freshmanData
+    on_conflict: {
+      constraint: freshman_pkey
+      update_columns: [realname, student_no, year, uuid]
     }
   ) {
     affected_rows
