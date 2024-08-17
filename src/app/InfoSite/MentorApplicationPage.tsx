@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Badge,
   Button,
@@ -6,7 +6,6 @@ import {
   Col,
   DatePicker,
   Descriptions,
-  Divider,
   Form,
   Input,
   InputRef,
@@ -24,15 +23,11 @@ import {
   Typography,
   Upload,
   InputNumber,
-  Slider,
-  Select,
 } from "antd";
-import axios, { AxiosError } from "axios";
 import dayjs from "dayjs";
 import type { TableProps, ColumnProps } from "antd/lib/table";
 import type { FilterDropdownProps } from "antd/lib/table/interface";
 import {
-  EditOutlined,
   SearchOutlined,
   ExclamationCircleFilled,
   UploadOutlined,
@@ -212,29 +207,21 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
    * Universal
    */
   // GetMentorApplicationSchedule
-  const {
-    loading: mentorApplicationScheduleLoading,
-    error: mentorApplicationScheduleError,
-    data: mentorApplicationScheduleData,
-    refetch: refetchMentorApplicationSchedule,
-  } = graphql.useGetMentorApplicationScheduleQuery({
-    variables: {
-      year: selectedYear,
-    },
-    skip: !selectedYear,
-  });
-  useEffect(() => {
-    if (mentorApplicationScheduleError) {
-      message.error("导师申请时间加载失败");
-      message.error(mentorApplicationScheduleError.message);
-    }
-  }, [mentorApplicationScheduleError]);
+  const { data: mentorApplicationScheduleData } =
+    graphql.useGetMentorApplicationScheduleQuery({
+      variables: {
+        year: selectedYear,
+      },
+      skip: !selectedYear,
+    });
+
   // useEffect(() => {
   //   if (selectedYear) {
   //     refetchMentorApplicationSchedule();
   //     mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
   //   }
   // }, [selectedYear]);
+
   useEffect(() => {
     if (mentorApplicationScheduleData?.mentor_time_by_pk) {
       setMentorApplicationSchedule(
@@ -242,6 +229,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       );
     }
   }, [mentorApplicationScheduleData]);
+
   // Get mentor info list
   const {
     loading: mentorInfoListLoading,
@@ -331,73 +319,41 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         achievement: mentor.achievement ?? "",
       });
     } else {
+      const insertMentorInfoAsync = async () => {
+        await insertMentorInfo({
+          variables: {
+            mentor_uuid: user.uuid,
+          },
+        });
+      };
       insertMentorInfoAsync();
     }
   }, [mentorInfoListData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const insertMentorInfoAsync = async () => {
-    await insertMentorInfo({
-      variables: {
-        mentor_uuid: user.uuid,
-      },
-    });
-    if (insertMentorInfoError) {
-      message.error("导师信息插入失败");
-    } else {
-      message.success("导师信息插入成功");
-    }
-  };
-
   // Insert mentor info
-  const [
-    insertMentorInfo,
-    { loading: insertMentorInfoLoading, error: insertMentorInfoError },
-  ] = graphql.useInsertMentorInfoMutation({
+  const [insertMentorInfo] = graphql.useInsertMentorInfoMutation({
     onCompleted: () => {
       refetchMentorInfoList();
     },
   });
-  useEffect(() => {
-    if (insertMentorInfoError) {
-      message.error("导师信息插入失败");
-    }
-  }, [insertMentorInfoError]);
 
   // Update mentor available status
   const [
     updateMentorInfoAvailable,
-    {
-      loading: updateMentorInfoAvailableLoading,
-      error: updateMentorInfoAvailableError,
-    },
+    { loading: updateMentorInfoAvailableLoading },
   ] = graphql.useUpdateMentorInfoAvailableMutation({
     onCompleted: () => {
       refetchMentorInfoList();
     },
   });
-  useEffect(() => {
-    if (updateMentorInfoAvailableError) {
-      message.error("接收状态更新失败");
-    }
-  }, [updateMentorInfoAvailableError]);
 
   // Update mentor max applicants
-  const [
-    updateMentorInfoMaxApplicants,
-    {
-      loading: updateMentorInfoMaxApplicantsLoading,
-      error: updateMentorInfoMaxApplicantsError,
-    },
-  ] = graphql.useUpdateMentorInfoMaxApplicantsMutation({
-    onCompleted: () => {
-      refetchMentorInfoList();
-    },
-  });
-  useEffect(() => {
-    if (updateMentorInfoMaxApplicantsError) {
-      message.error("最大申请人数更新失败");
-    }
-  }, [updateMentorInfoMaxApplicantsError]);
+  const [updateMentorInfoMaxApplicants] =
+    graphql.useUpdateMentorInfoMaxApplicantsMutation({
+      onCompleted: () => {
+        refetchMentorInfoList();
+      },
+    });
 
   // Update mentor info description
   const [
@@ -411,16 +367,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       refetchMentorInfoList();
     },
   });
-  useEffect(() => {
-    if (updateMentorInfoDescriptionError) {
-      message.error("信息更新失败");
-    }
-  }, [updateMentorInfoDescriptionError]);
 
   // Get mentor application list
   const {
     loading: mentorApplicationsListForMentorLoading,
-    error: mentorApplicationsListForMentorError,
     data: mentorApplicationsListForMentorData,
     refetch: refetchMentorApplicationsListForMentor,
   } = graphql.useGetMentorApplicationsListForMentorQuery({
@@ -440,59 +390,33 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   // Update mentor application status
   const [
     updateMentorApplicationStatus,
-    {
-      loading: updateMentorApplicationStatusLoading,
-      error: updateMentorApplicationStatusError,
-    },
+    { loading: updateMentorApplicationStatusLoading },
   ] = graphql.useUpdateMentorApplicationStatusMutation();
-  useEffect(() => {
-    if (updateMentorApplicationStatusError) {
-      message.error("申请状态更新失败");
-    }
-  }, [updateMentorApplicationStatusError]);
-
   /**
    * Student Only
    */
   // Insert mentor application
-  const [
-    insertMentorApplication,
-    {
-      loading: insertMentorApplicationLoading,
-      error: insertMentorApplicationError,
-    },
-  ] = graphql.useInsertMentorApplicationMutation({
-    onCompleted: async () => {
-      await refetchMentorApplicationsListForStudent();
-      await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
-    },
-  });
-  useEffect(() => {
-    if (insertMentorApplicationError) {
-      message.error("申请提交失败");
-    }
-  }, [insertMentorApplicationError]);
+  const [insertMentorApplication, { loading: insertMentorApplicationLoading }] =
+    graphql.useInsertMentorApplicationMutation({
+      onCompleted: async () => {
+        await refetchMentorApplicationsListForStudent();
+        await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+      },
+    });
+
   // Update mentor application statement
   const [
     updateMentorApplicationStatement,
-    {
-      loading: updateMentorApplicationStatementLoading,
-      error: updateMentorApplicationStatementError,
-    },
+    { loading: updateMentorApplicationStatementLoading },
   ] = graphql.useUpdateMentorApplicationStatementMutation({
     onCompleted: async () => {
       await refetchMentorApplicationsListForStudent();
     },
   });
-  useEffect(() => {
-    if (updateMentorApplicationStatementError) {
-      message.error("申请陈述更新失败");
-    }
-  }, [updateMentorApplicationStatementError]);
+
   // Get student mentor application list
   const {
     loading: mentorApplicationsListForStudentLoading,
-    error: mentorApplicationsListForStudentError,
     data: mentorApplicationsListForStudentData,
     refetch: refetchMentorApplicationsListForStudent,
   } = graphql.useGetMentorApplicationsListForStudentQuery({
@@ -515,11 +439,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
     },
   });
-  useEffect(() => {
-    if (deleteMentorApplicationError) {
-      message.error("删除申请失败");
-    }
-  }, [deleteMentorApplicationError]);
+
   // Handle application edit
   const handleApplicationEdit = async () => {
     try {
@@ -564,30 +484,16 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     applicationForm.resetFields();
   };
 
-  const [
-    updateApplicationChatStatus,
-    {
-      loading: updateApplicationChatStatusLoading,
-      error: updateApplicationChatStatusError,
-    },
-  ] = graphql.useUpdateMentorApplicationChatStatusMutation();
+  const [updateApplicationChatStatus] =
+    graphql.useUpdateMentorApplicationChatStatusMutation();
 
   /**
    * Counselor Only
    */
   // Update mentor application schedule
-  const [
-    insertMentorApplicationSchedule,
-    {
-      loading: insertMentorApplicationScheduleLoading,
-      error: insertMentorApplicationScheduleError,
-    },
-  ] = graphql.useInsertMentorApplicationScheduleMutation();
-  useEffect(() => {
-    if (insertMentorApplicationScheduleError) {
-      message.error("导师申请时间更新失败");
-    }
-  }, [insertMentorApplicationScheduleError]);
+  const [insertMentorApplicationSchedule] =
+    graphql.useInsertMentorApplicationScheduleMutation();
+
   useEffect(() => {
     if (
       mentorApplicationSchedule &&
@@ -614,40 +520,21 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   // Get mentor application list for counselor
   const {
     loading: mentorApplicationsListForCounselorsLoading,
-    error: mentorApplicationsListForCounselorsError,
     data: mentorApplicationsListForCounselorsData,
-    refetch: refetchMentorApplicationsListForCounselors,
   } = graphql.useGetMentorApplicationsListForCounselorQuery({
     skip: user.role !== "counselor",
     variables: {
       year: selectedYear,
     },
   });
-  useEffect(() => {
-    if (mentorApplicationsListForCounselorsError) {
-      message.error("导师申请列表加载失败");
-    }
-  }, [mentorApplicationsListForCounselorsError]);
 
   // Insert freshman info list
-  const [
-    insertFreshmanInfoList,
-    {
-      loading: insertFreshmanInfoListLoading,
-      error: insertFreshmanInfoListError,
-    },
-  ] = graphql.useInsertFreshmanInfoListMutation();
-  useEffect(() => {
-    if (insertFreshmanInfoListError) {
-      message.error("新生信息插入失败");
-    }
-  }, [insertFreshmanInfoListError]);
+  const [insertFreshmanInfoList] = graphql.useInsertFreshmanInfoListMutation();
 
   // Get freshman info list
   const {
     data: freshmanInfoListData,
     loading: freshmanInfoListLoading,
-    error: freshmanInfoListError,
     refetch: refetchFreshmanInfoList,
   } = graphql.useGetFreshmanInfoListQuery({
     variables: {
@@ -655,13 +542,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
     skip: user.role !== "counselor",
   });
-
-  useEffect(() => {
-    if (freshmanInfoListError) {
-      message.error("新生信息列表加载失败");
-      message.error(freshmanInfoListError.message);
-    }
-  }, [freshmanInfoListError]);
 
   useEffect(() => {
     if (freshmanInfoListData && mentorApplicationsListForCounselorsData) {
@@ -964,9 +844,9 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     const unmatchedRegisteredFreshmanList = registeredFreshmanList.filter((i) =>
       unmatchedFreshmanList.find((j) => j.student_no === i.student_no),
     );
-    //建立哈希映射，key为老师，value为匹配数，记录匹配数不超过5的老师
+
+    // 建立哈希映射，key 为老师，value 为匹配数，记录匹配数不超过 5 的老师
     let mentorNum = 0;
-    console.log(mentorListFull);
     mentorListFull.forEach((item: IMentorFull) => {
       if (item.available && (item.matched_applicants ?? 0) < 5) {
         teachersToAttribute.set(item, item.matched_applicants ?? 0);
@@ -1268,15 +1148,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     } catch (err) {
       console.log(err);
       message.error(`下载失败`);
-    }
-  };
-
-  // Handle
-  const handleOnchangeChatRecord = (info: any) => {
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} 上传成功`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} 上传失败`);
     }
   };
 
