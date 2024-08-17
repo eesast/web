@@ -22,9 +22,7 @@ const { TextArea } = Input;
 
 const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
-  const [selectedYear, setSelectedYear] = useState<number>(
-    new Date().getFullYear(),
-  );
+  const [selectedYear] = useState<number>(new Date().getFullYear());
 
   const {
     loading: approvedApplicationsLoading,
