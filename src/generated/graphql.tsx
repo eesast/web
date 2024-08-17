@@ -5137,6 +5137,204 @@ export enum Department_Update_Column {
   Name = 'name'
 }
 
+/** columns and relationships of "freshman" */
+export type Freshman = {
+  __typename?: 'freshman';
+  realname: Scalars['String']['output'];
+  student_no: Scalars['String']['output'];
+  uuid?: Maybe<Scalars['uuid']['output']>;
+  year: Scalars['Int']['output'];
+};
+
+/** aggregated selection of "freshman" */
+export type Freshman_Aggregate = {
+  __typename?: 'freshman_aggregate';
+  aggregate?: Maybe<Freshman_Aggregate_Fields>;
+  nodes: Array<Freshman>;
+};
+
+/** aggregate fields of "freshman" */
+export type Freshman_Aggregate_Fields = {
+  __typename?: 'freshman_aggregate_fields';
+  avg?: Maybe<Freshman_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Freshman_Max_Fields>;
+  min?: Maybe<Freshman_Min_Fields>;
+  stddev?: Maybe<Freshman_Stddev_Fields>;
+  stddev_pop?: Maybe<Freshman_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Freshman_Stddev_Samp_Fields>;
+  sum?: Maybe<Freshman_Sum_Fields>;
+  var_pop?: Maybe<Freshman_Var_Pop_Fields>;
+  var_samp?: Maybe<Freshman_Var_Samp_Fields>;
+  variance?: Maybe<Freshman_Variance_Fields>;
+};
+
+
+/** aggregate fields of "freshman" */
+export type Freshman_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Freshman_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Freshman_Avg_Fields = {
+  __typename?: 'freshman_avg_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "freshman". All fields are combined with a logical 'AND'. */
+export type Freshman_Bool_Exp = {
+  _and?: InputMaybe<Array<Freshman_Bool_Exp>>;
+  _not?: InputMaybe<Freshman_Bool_Exp>;
+  _or?: InputMaybe<Array<Freshman_Bool_Exp>>;
+  realname?: InputMaybe<String_Comparison_Exp>;
+  student_no?: InputMaybe<String_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "freshman" */
+export enum Freshman_Constraint {
+  /** unique or primary key constraint on columns "student_no" */
+  FreshmanPkey = 'freshman_pkey',
+  /** unique or primary key constraint on columns "uuid" */
+  FreshmanUuidKey = 'freshman_uuid_key'
+}
+
+/** input type for incrementing numeric columns in table "freshman" */
+export type Freshman_Inc_Input = {
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "freshman" */
+export type Freshman_Insert_Input = {
+  realname?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate max on columns */
+export type Freshman_Max_Fields = {
+  __typename?: 'freshman_max_fields';
+  realname?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** aggregate min on columns */
+export type Freshman_Min_Fields = {
+  __typename?: 'freshman_min_fields';
+  realname?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** response of any mutation on the table "freshman" */
+export type Freshman_Mutation_Response = {
+  __typename?: 'freshman_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Freshman>;
+};
+
+/** on_conflict condition type for table "freshman" */
+export type Freshman_On_Conflict = {
+  constraint: Freshman_Constraint;
+  update_columns?: Array<Freshman_Update_Column>;
+  where?: InputMaybe<Freshman_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "freshman". */
+export type Freshman_Order_By = {
+  realname?: InputMaybe<Order_By>;
+  student_no?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: freshman */
+export type Freshman_Pk_Columns_Input = {
+  student_no: Scalars['String']['input'];
+};
+
+/** select columns of table "freshman" */
+export enum Freshman_Select_Column {
+  /** column name */
+  Realname = 'realname',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  Uuid = 'uuid',
+  /** column name */
+  Year = 'year'
+}
+
+/** input type for updating data in table "freshman" */
+export type Freshman_Set_Input = {
+  realname?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Freshman_Stddev_Fields = {
+  __typename?: 'freshman_stddev_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Freshman_Stddev_Pop_Fields = {
+  __typename?: 'freshman_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Freshman_Stddev_Samp_Fields = {
+  __typename?: 'freshman_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Freshman_Sum_Fields = {
+  __typename?: 'freshman_sum_fields';
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "freshman" */
+export enum Freshman_Update_Column {
+  /** column name */
+  Realname = 'realname',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  Uuid = 'uuid',
+  /** column name */
+  Year = 'year'
+}
+
+/** aggregate var_pop on columns */
+export type Freshman_Var_Pop_Fields = {
+  __typename?: 'freshman_var_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Freshman_Var_Samp_Fields = {
+  __typename?: 'freshman_var_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Freshman_Variance_Fields = {
+  __typename?: 'freshman_variance_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
 /** columns and relationships of "honor_application" */
 export type Honor_Application = {
   __typename?: 'honor_application';
@@ -5829,6 +6027,7 @@ export type Mentor_Application = {
   student: Users;
   student_uuid: Scalars['uuid']['output'];
   updated_at: Scalars['timestamptz']['output'];
+  year: Scalars['Int']['output'];
 };
 
 /** aggregated selection of "mentor_application" */
@@ -5841,9 +6040,17 @@ export type Mentor_Application_Aggregate = {
 /** aggregate fields of "mentor_application" */
 export type Mentor_Application_Aggregate_Fields = {
   __typename?: 'mentor_application_aggregate_fields';
+  avg?: Maybe<Mentor_Application_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Mentor_Application_Max_Fields>;
   min?: Maybe<Mentor_Application_Min_Fields>;
+  stddev?: Maybe<Mentor_Application_Stddev_Fields>;
+  stddev_pop?: Maybe<Mentor_Application_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Mentor_Application_Stddev_Samp_Fields>;
+  sum?: Maybe<Mentor_Application_Sum_Fields>;
+  var_pop?: Maybe<Mentor_Application_Var_Pop_Fields>;
+  var_samp?: Maybe<Mentor_Application_Var_Samp_Fields>;
+  variance?: Maybe<Mentor_Application_Variance_Fields>;
 };
 
 
@@ -5855,9 +6062,17 @@ export type Mentor_Application_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "mentor_application" */
 export type Mentor_Application_Aggregate_Order_By = {
+  avg?: InputMaybe<Mentor_Application_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Mentor_Application_Max_Order_By>;
   min?: InputMaybe<Mentor_Application_Min_Order_By>;
+  stddev?: InputMaybe<Mentor_Application_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Mentor_Application_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Mentor_Application_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Mentor_Application_Sum_Order_By>;
+  var_pop?: InputMaybe<Mentor_Application_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Mentor_Application_Var_Samp_Order_By>;
+  variance?: InputMaybe<Mentor_Application_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "mentor_application" */
@@ -5865,6 +6080,17 @@ export type Mentor_Application_Arr_Rel_Insert_Input = {
   data: Array<Mentor_Application_Insert_Input>;
   /** upsert condition */
   on_conflict?: InputMaybe<Mentor_Application_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Mentor_Application_Avg_Fields = {
+  __typename?: 'mentor_application_avg_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "mentor_application" */
+export type Mentor_Application_Avg_Order_By = {
+  year?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "mentor_application". All fields are combined with a logical 'AND'. */
@@ -5882,6 +6108,7 @@ export type Mentor_Application_Bool_Exp = {
   student?: InputMaybe<Users_Bool_Exp>;
   student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "mentor_application" */
@@ -5889,6 +6116,11 @@ export enum Mentor_Application_Constraint {
   /** unique or primary key constraint on columns "id" */
   MentorApplicationPkey1 = 'mentor_application_pkey1'
 }
+
+/** input type for incrementing numeric columns in table "mentor_application" */
+export type Mentor_Application_Inc_Input = {
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** input type for inserting data into table "mentor_application" */
 export type Mentor_Application_Insert_Input = {
@@ -5903,6 +6135,7 @@ export type Mentor_Application_Insert_Input = {
   student?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
@@ -5916,6 +6149,7 @@ export type Mentor_Application_Max_Fields = {
   status?: Maybe<Scalars['String']['output']>;
   student_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by max() on columns of table "mentor_application" */
@@ -5928,6 +6162,7 @@ export type Mentor_Application_Max_Order_By = {
   status?: InputMaybe<Order_By>;
   student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -5941,6 +6176,7 @@ export type Mentor_Application_Min_Fields = {
   status?: Maybe<Scalars['String']['output']>;
   student_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by min() on columns of table "mentor_application" */
@@ -5953,6 +6189,7 @@ export type Mentor_Application_Min_Order_By = {
   status?: InputMaybe<Order_By>;
   student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "mentor_application" */
@@ -5983,6 +6220,7 @@ export type Mentor_Application_Order_By = {
   student?: InputMaybe<Users_Order_By>;
   student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: mentor_application */
@@ -6007,7 +6245,9 @@ export enum Mentor_Application_Select_Column {
   /** column name */
   StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Year = 'year'
 }
 
 /** input type for updating data in table "mentor_application" */
@@ -6021,6 +6261,51 @@ export type Mentor_Application_Set_Input = {
   status?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Mentor_Application_Stddev_Fields = {
+  __typename?: 'mentor_application_stddev_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "mentor_application" */
+export type Mentor_Application_Stddev_Order_By = {
+  year?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Mentor_Application_Stddev_Pop_Fields = {
+  __typename?: 'mentor_application_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "mentor_application" */
+export type Mentor_Application_Stddev_Pop_Order_By = {
+  year?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Mentor_Application_Stddev_Samp_Fields = {
+  __typename?: 'mentor_application_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "mentor_application" */
+export type Mentor_Application_Stddev_Samp_Order_By = {
+  year?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Mentor_Application_Sum_Fields = {
+  __typename?: 'mentor_application_sum_fields';
+  year?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "mentor_application" */
+export type Mentor_Application_Sum_Order_By = {
+  year?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "mentor_application" */
@@ -6040,14 +6325,50 @@ export enum Mentor_Application_Update_Column {
   /** column name */
   StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Year = 'year'
 }
+
+/** aggregate var_pop on columns */
+export type Mentor_Application_Var_Pop_Fields = {
+  __typename?: 'mentor_application_var_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "mentor_application" */
+export type Mentor_Application_Var_Pop_Order_By = {
+  year?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Mentor_Application_Var_Samp_Fields = {
+  __typename?: 'mentor_application_var_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "mentor_application" */
+export type Mentor_Application_Var_Samp_Order_By = {
+  year?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Mentor_Application_Variance_Fields = {
+  __typename?: 'mentor_application_variance_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "mentor_application" */
+export type Mentor_Application_Variance_Order_By = {
+  year?: InputMaybe<Order_By>;
+};
 
 /** columns and relationships of "mentor_available" */
 export type Mentor_Available = {
   __typename?: 'mentor_available';
   available: Scalars['Boolean']['output'];
   created_at: Scalars['timestamptz']['output'];
+  max_applicant: Scalars['Int']['output'];
   /** An object relationship */
   mentor: Users;
   mentor_uuid: Scalars['uuid']['output'];
@@ -6064,9 +6385,17 @@ export type Mentor_Available_Aggregate = {
 /** aggregate fields of "mentor_available" */
 export type Mentor_Available_Aggregate_Fields = {
   __typename?: 'mentor_available_aggregate_fields';
+  avg?: Maybe<Mentor_Available_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Mentor_Available_Max_Fields>;
   min?: Maybe<Mentor_Available_Min_Fields>;
+  stddev?: Maybe<Mentor_Available_Stddev_Fields>;
+  stddev_pop?: Maybe<Mentor_Available_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Mentor_Available_Stddev_Samp_Fields>;
+  sum?: Maybe<Mentor_Available_Sum_Fields>;
+  var_pop?: Maybe<Mentor_Available_Var_Pop_Fields>;
+  var_samp?: Maybe<Mentor_Available_Var_Samp_Fields>;
+  variance?: Maybe<Mentor_Available_Variance_Fields>;
 };
 
 
@@ -6076,6 +6405,12 @@ export type Mentor_Available_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** aggregate avg on columns */
+export type Mentor_Available_Avg_Fields = {
+  __typename?: 'mentor_available_avg_fields';
+  max_applicant?: Maybe<Scalars['Float']['output']>;
+};
+
 /** Boolean expression to filter rows from the table "mentor_available". All fields are combined with a logical 'AND'. */
 export type Mentor_Available_Bool_Exp = {
   _and?: InputMaybe<Array<Mentor_Available_Bool_Exp>>;
@@ -6083,6 +6418,7 @@ export type Mentor_Available_Bool_Exp = {
   _or?: InputMaybe<Array<Mentor_Available_Bool_Exp>>;
   available?: InputMaybe<Boolean_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  max_applicant?: InputMaybe<Int_Comparison_Exp>;
   mentor?: InputMaybe<Users_Bool_Exp>;
   mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -6096,10 +6432,16 @@ export enum Mentor_Available_Constraint {
   MentorAvailablePkey = 'mentor_available_pkey'
 }
 
+/** input type for incrementing numeric columns in table "mentor_available" */
+export type Mentor_Available_Inc_Input = {
+  max_applicant?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** input type for inserting data into table "mentor_available" */
 export type Mentor_Available_Insert_Input = {
   available?: InputMaybe<Scalars['Boolean']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  max_applicant?: InputMaybe<Scalars['Int']['input']>;
   mentor?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6109,6 +6451,7 @@ export type Mentor_Available_Insert_Input = {
 export type Mentor_Available_Max_Fields = {
   __typename?: 'mentor_available_max_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  max_applicant?: Maybe<Scalars['Int']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -6117,6 +6460,7 @@ export type Mentor_Available_Max_Fields = {
 export type Mentor_Available_Min_Fields = {
   __typename?: 'mentor_available_min_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  max_applicant?: Maybe<Scalars['Int']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -6148,6 +6492,7 @@ export type Mentor_Available_On_Conflict = {
 export type Mentor_Available_Order_By = {
   available?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  max_applicant?: InputMaybe<Order_By>;
   mentor?: InputMaybe<Users_Order_By>;
   mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -6165,6 +6510,8 @@ export enum Mentor_Available_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  MaxApplicant = 'max_applicant',
+  /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
   UpdatedAt = 'updated_at'
@@ -6174,8 +6521,33 @@ export enum Mentor_Available_Select_Column {
 export type Mentor_Available_Set_Input = {
   available?: InputMaybe<Scalars['Boolean']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  max_applicant?: InputMaybe<Scalars['Int']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Mentor_Available_Stddev_Fields = {
+  __typename?: 'mentor_available_stddev_fields';
+  max_applicant?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Mentor_Available_Stddev_Pop_Fields = {
+  __typename?: 'mentor_available_stddev_pop_fields';
+  max_applicant?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Mentor_Available_Stddev_Samp_Fields = {
+  __typename?: 'mentor_available_stddev_samp_fields';
+  max_applicant?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Mentor_Available_Sum_Fields = {
+  __typename?: 'mentor_available_sum_fields';
+  max_applicant?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "mentor_available" */
@@ -6185,16 +6557,37 @@ export enum Mentor_Available_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  MaxApplicant = 'max_applicant',
+  /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
   UpdatedAt = 'updated_at'
 }
+
+/** aggregate var_pop on columns */
+export type Mentor_Available_Var_Pop_Fields = {
+  __typename?: 'mentor_available_var_pop_fields';
+  max_applicant?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Mentor_Available_Var_Samp_Fields = {
+  __typename?: 'mentor_available_var_samp_fields';
+  max_applicant?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Mentor_Available_Variance_Fields = {
+  __typename?: 'mentor_available_variance_fields';
+  max_applicant?: Maybe<Scalars['Float']['output']>;
+};
 
 /** 新生导师信息 */
 export type Mentor_Info = {
   __typename?: 'mentor_info';
   /** 学术成果 */
   achievement?: Maybe<Scalars['String']['output']>;
+  available: Scalars['Boolean']['output'];
   /** 教育背景 */
   background?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['timestamptz']['output'];
@@ -6202,6 +6595,7 @@ export type Mentor_Info = {
   field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
   intro?: Maybe<Scalars['String']['output']>;
+  max_applicants: Scalars['Int']['output'];
   mentor_uuid: Scalars['uuid']['output'];
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
@@ -6218,9 +6612,17 @@ export type Mentor_Info_Aggregate = {
 /** aggregate fields of "mentor_info" */
 export type Mentor_Info_Aggregate_Fields = {
   __typename?: 'mentor_info_aggregate_fields';
+  avg?: Maybe<Mentor_Info_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Mentor_Info_Max_Fields>;
   min?: Maybe<Mentor_Info_Min_Fields>;
+  stddev?: Maybe<Mentor_Info_Stddev_Fields>;
+  stddev_pop?: Maybe<Mentor_Info_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Mentor_Info_Stddev_Samp_Fields>;
+  sum?: Maybe<Mentor_Info_Sum_Fields>;
+  var_pop?: Maybe<Mentor_Info_Var_Pop_Fields>;
+  var_samp?: Maybe<Mentor_Info_Var_Samp_Fields>;
+  variance?: Maybe<Mentor_Info_Variance_Fields>;
 };
 
 
@@ -6230,16 +6632,24 @@ export type Mentor_Info_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** aggregate avg on columns */
+export type Mentor_Info_Avg_Fields = {
+  __typename?: 'mentor_info_avg_fields';
+  max_applicants?: Maybe<Scalars['Float']['output']>;
+};
+
 /** Boolean expression to filter rows from the table "mentor_info". All fields are combined with a logical 'AND'. */
 export type Mentor_Info_Bool_Exp = {
   _and?: InputMaybe<Array<Mentor_Info_Bool_Exp>>;
   _not?: InputMaybe<Mentor_Info_Bool_Exp>;
   _or?: InputMaybe<Array<Mentor_Info_Bool_Exp>>;
   achievement?: InputMaybe<String_Comparison_Exp>;
+  available?: InputMaybe<Boolean_Comparison_Exp>;
   background?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   field?: InputMaybe<String_Comparison_Exp>;
   intro?: InputMaybe<String_Comparison_Exp>;
+  max_applicants?: InputMaybe<Int_Comparison_Exp>;
   mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
@@ -6251,10 +6661,16 @@ export enum Mentor_Info_Constraint {
   MentorInfoPkey = 'mentor_info_pkey'
 }
 
+/** input type for incrementing numeric columns in table "mentor_info" */
+export type Mentor_Info_Inc_Input = {
+  max_applicants?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** input type for inserting data into table "mentor_info" */
 export type Mentor_Info_Insert_Input = {
   /** 学术成果 */
   achievement?: InputMaybe<Scalars['String']['input']>;
+  available?: InputMaybe<Scalars['Boolean']['input']>;
   /** 教育背景 */
   background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6262,6 +6678,7 @@ export type Mentor_Info_Insert_Input = {
   field?: InputMaybe<Scalars['String']['input']>;
   /** 简要信息：联系方式、职位等 */
   intro?: InputMaybe<Scalars['String']['input']>;
+  max_applicants?: InputMaybe<Scalars['Int']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -6279,6 +6696,7 @@ export type Mentor_Info_Max_Fields = {
   field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
   intro?: Maybe<Scalars['String']['output']>;
+  max_applicants?: Maybe<Scalars['Int']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -6295,6 +6713,7 @@ export type Mentor_Info_Min_Fields = {
   field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
   intro?: Maybe<Scalars['String']['output']>;
+  max_applicants?: Maybe<Scalars['Int']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -6318,10 +6737,12 @@ export type Mentor_Info_On_Conflict = {
 /** Ordering options when selecting data from "mentor_info". */
 export type Mentor_Info_Order_By = {
   achievement?: InputMaybe<Order_By>;
+  available?: InputMaybe<Order_By>;
   background?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   field?: InputMaybe<Order_By>;
   intro?: InputMaybe<Order_By>;
+  max_applicants?: InputMaybe<Order_By>;
   mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
@@ -6337,6 +6758,8 @@ export enum Mentor_Info_Select_Column {
   /** column name */
   Achievement = 'achievement',
   /** column name */
+  Available = 'available',
+  /** column name */
   Background = 'background',
   /** column name */
   CreatedAt = 'created_at',
@@ -6344,6 +6767,8 @@ export enum Mentor_Info_Select_Column {
   Field = 'field',
   /** column name */
   Intro = 'intro',
+  /** column name */
+  MaxApplicants = 'max_applicants',
   /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
@@ -6354,6 +6779,7 @@ export enum Mentor_Info_Select_Column {
 export type Mentor_Info_Set_Input = {
   /** 学术成果 */
   achievement?: InputMaybe<Scalars['String']['input']>;
+  available?: InputMaybe<Scalars['Boolean']['input']>;
   /** 教育背景 */
   background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6361,14 +6787,41 @@ export type Mentor_Info_Set_Input = {
   field?: InputMaybe<Scalars['String']['input']>;
   /** 简要信息：联系方式、职位等 */
   intro?: InputMaybe<Scalars['String']['input']>;
+  max_applicants?: InputMaybe<Scalars['Int']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Mentor_Info_Stddev_Fields = {
+  __typename?: 'mentor_info_stddev_fields';
+  max_applicants?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Mentor_Info_Stddev_Pop_Fields = {
+  __typename?: 'mentor_info_stddev_pop_fields';
+  max_applicants?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Mentor_Info_Stddev_Samp_Fields = {
+  __typename?: 'mentor_info_stddev_samp_fields';
+  max_applicants?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Mentor_Info_Sum_Fields = {
+  __typename?: 'mentor_info_sum_fields';
+  max_applicants?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "mentor_info" */
 export enum Mentor_Info_Update_Column {
   /** column name */
   Achievement = 'achievement',
+  /** column name */
+  Available = 'available',
   /** column name */
   Background = 'background',
   /** column name */
@@ -6378,10 +6831,30 @@ export enum Mentor_Info_Update_Column {
   /** column name */
   Intro = 'intro',
   /** column name */
+  MaxApplicants = 'max_applicants',
+  /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
   UpdatedAt = 'updated_at'
 }
+
+/** aggregate var_pop on columns */
+export type Mentor_Info_Var_Pop_Fields = {
+  __typename?: 'mentor_info_var_pop_fields';
+  max_applicants?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Mentor_Info_Var_Samp_Fields = {
+  __typename?: 'mentor_info_var_samp_fields';
+  max_applicants?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Mentor_Info_Variance_Fields = {
+  __typename?: 'mentor_info_variance_fields';
+  max_applicants?: Maybe<Scalars['Float']['output']>;
+};
 
 /** columns and relationships of "mentor_message" */
 export type Mentor_Message = {
@@ -6900,6 +7373,10 @@ export type Mutation_Root = {
   delete_department?: Maybe<Department_Mutation_Response>;
   /** delete single row from the table: "department" */
   delete_department_by_pk?: Maybe<Department>;
+  /** delete data from the table: "freshman" */
+  delete_freshman?: Maybe<Freshman_Mutation_Response>;
+  /** delete single row from the table: "freshman" */
+  delete_freshman_by_pk?: Maybe<Freshman>;
   /** delete data from the table: "honor_application" */
   delete_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** delete single row from the table: "honor_application" */
@@ -7048,6 +7525,10 @@ export type Mutation_Root = {
   insert_department?: Maybe<Department_Mutation_Response>;
   /** insert a single row into the table: "department" */
   insert_department_one?: Maybe<Department>;
+  /** insert data into the table: "freshman" */
+  insert_freshman?: Maybe<Freshman_Mutation_Response>;
+  /** insert a single row into the table: "freshman" */
+  insert_freshman_one?: Maybe<Freshman>;
   /** insert data into the table: "honor_application" */
   insert_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** insert a single row into the table: "honor_application" */
@@ -7196,6 +7677,10 @@ export type Mutation_Root = {
   update_department?: Maybe<Department_Mutation_Response>;
   /** update single row of the table: "department" */
   update_department_by_pk?: Maybe<Department>;
+  /** update data of the table: "freshman" */
+  update_freshman?: Maybe<Freshman_Mutation_Response>;
+  /** update single row of the table: "freshman" */
+  update_freshman_by_pk?: Maybe<Freshman>;
   /** update data of the table: "honor_application" */
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
@@ -7523,6 +8008,18 @@ export type Mutation_RootDelete_DepartmentArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Department_By_PkArgs = {
   name: Scalars['String']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_FreshmanArgs = {
+  where: Freshman_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Freshman_By_PkArgs = {
+  student_no: Scalars['String']['input'];
 };
 
 
@@ -8012,6 +8509,20 @@ export type Mutation_RootInsert_DepartmentArgs = {
 export type Mutation_RootInsert_Department_OneArgs = {
   object: Department_Insert_Input;
   on_conflict?: InputMaybe<Department_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_FreshmanArgs = {
+  objects: Array<Freshman_Insert_Input>;
+  on_conflict?: InputMaybe<Freshman_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Freshman_OneArgs = {
+  object: Freshman_Insert_Input;
+  on_conflict?: InputMaybe<Freshman_On_Conflict>;
 };
 
 
@@ -8544,6 +9055,22 @@ export type Mutation_RootUpdate_Department_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_FreshmanArgs = {
+  _inc?: InputMaybe<Freshman_Inc_Input>;
+  _set?: InputMaybe<Freshman_Set_Input>;
+  where: Freshman_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Freshman_By_PkArgs = {
+  _inc?: InputMaybe<Freshman_Inc_Input>;
+  _set?: InputMaybe<Freshman_Set_Input>;
+  pk_columns: Freshman_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Honor_ApplicationArgs = {
   _set?: InputMaybe<Honor_Application_Set_Input>;
   where: Honor_Application_Bool_Exp;
@@ -8603,6 +9130,7 @@ export type Mutation_RootUpdate_Info_Notice_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_ApplicationArgs = {
+  _inc?: InputMaybe<Mentor_Application_Inc_Input>;
   _set?: InputMaybe<Mentor_Application_Set_Input>;
   where: Mentor_Application_Bool_Exp;
 };
@@ -8610,6 +9138,7 @@ export type Mutation_RootUpdate_Mentor_ApplicationArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_Application_By_PkArgs = {
+  _inc?: InputMaybe<Mentor_Application_Inc_Input>;
   _set?: InputMaybe<Mentor_Application_Set_Input>;
   pk_columns: Mentor_Application_Pk_Columns_Input;
 };
@@ -8617,6 +9146,7 @@ export type Mutation_RootUpdate_Mentor_Application_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_AvailableArgs = {
+  _inc?: InputMaybe<Mentor_Available_Inc_Input>;
   _set?: InputMaybe<Mentor_Available_Set_Input>;
   where: Mentor_Available_Bool_Exp;
 };
@@ -8624,6 +9154,7 @@ export type Mutation_RootUpdate_Mentor_AvailableArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_Available_By_PkArgs = {
+  _inc?: InputMaybe<Mentor_Available_Inc_Input>;
   _set?: InputMaybe<Mentor_Available_Set_Input>;
   pk_columns: Mentor_Available_Pk_Columns_Input;
 };
@@ -8631,6 +9162,7 @@ export type Mutation_RootUpdate_Mentor_Available_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_InfoArgs = {
+  _inc?: InputMaybe<Mentor_Info_Inc_Input>;
   _set?: InputMaybe<Mentor_Info_Set_Input>;
   where: Mentor_Info_Bool_Exp;
 };
@@ -8638,6 +9170,7 @@ export type Mutation_RootUpdate_Mentor_InfoArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Mentor_Info_By_PkArgs = {
+  _inc?: InputMaybe<Mentor_Info_Inc_Input>;
   _set?: InputMaybe<Mentor_Info_Set_Input>;
   pk_columns: Mentor_Info_Pk_Columns_Input;
 };
@@ -10286,6 +10819,12 @@ export type Query_Root = {
   department_aggregate: Department_Aggregate;
   /** fetch data from the table: "department" using primary key columns */
   department_by_pk?: Maybe<Department>;
+  /** fetch data from the table: "freshman" */
+  freshman: Array<Freshman>;
+  /** fetch aggregated fields from the table: "freshman" */
+  freshman_aggregate: Freshman_Aggregate;
+  /** fetch data from the table: "freshman" using primary key columns */
+  freshman_by_pk?: Maybe<Freshman>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -10876,6 +11415,29 @@ export type Query_RootDepartment_AggregateArgs = {
 
 export type Query_RootDepartment_By_PkArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type Query_RootFreshmanArgs = {
+  distinct_on?: InputMaybe<Array<Freshman_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Freshman_Order_By>>;
+  where?: InputMaybe<Freshman_Bool_Exp>;
+};
+
+
+export type Query_RootFreshman_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Freshman_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Freshman_Order_By>>;
+  where?: InputMaybe<Freshman_Bool_Exp>;
+};
+
+
+export type Query_RootFreshman_By_PkArgs = {
+  student_no: Scalars['String']['input'];
 };
 
 
@@ -11593,6 +12155,12 @@ export type Subscription_Root = {
   department_aggregate: Department_Aggregate;
   /** fetch data from the table: "department" using primary key columns */
   department_by_pk?: Maybe<Department>;
+  /** fetch data from the table: "freshman" */
+  freshman: Array<Freshman>;
+  /** fetch aggregated fields from the table: "freshman" */
+  freshman_aggregate: Freshman_Aggregate;
+  /** fetch data from the table: "freshman" using primary key columns */
+  freshman_by_pk?: Maybe<Freshman>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
@@ -12183,6 +12751,29 @@ export type Subscription_RootDepartment_AggregateArgs = {
 
 export type Subscription_RootDepartment_By_PkArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootFreshmanArgs = {
+  distinct_on?: InputMaybe<Array<Freshman_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Freshman_Order_By>>;
+  where?: InputMaybe<Freshman_Bool_Exp>;
+};
+
+
+export type Subscription_RootFreshman_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Freshman_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Freshman_Order_By>>;
+  where?: InputMaybe<Freshman_Bool_Exp>;
+};
+
+
+export type Subscription_RootFreshman_By_PkArgs = {
+  student_no: Scalars['String']['input'];
 };
 
 
@@ -13627,32 +14218,75 @@ export type UpdateHonorApplicationStatusMutationVariables = Exact<{
 
 export type UpdateHonorApplicationStatusMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any, status: string }> } | null };
 
-export type GetMentorApplicationsQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
+export type GetMentorApplicationScheduleQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
 }>;
 
 
-export type GetMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, chat_status: boolean, created_at: any, updated_at: any, student: { __typename?: 'users', realname?: string | null, department?: string | null, email?: string | null, phone?: string | null }, mentor: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } }> };
+export type GetMentorApplicationScheduleQuery = { __typename?: 'query_root', mentor_time_by_pk?: { __typename?: 'mentor_time', activateIn: number, start_A: any, start_B: any, start_C: any, start_D: any, start_E: any, end_A: any, end_B: any, end_C: any, end_D: any, end_E: any } | null };
 
-export type GetMentorApplicationsForCounselorsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetMentorInfoListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMentorApplicationsForCounselorsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, department?: string | null, email?: string | null, phone?: string | null }, mentor: { __typename?: 'users', realname?: string | null, department?: string | null, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null } }> };
+export type GetMentorInfoListQuery = { __typename?: 'query_root', mentor_info: Array<{ __typename?: 'mentor_info', achievement?: string | null, available: boolean, background?: string | null, field?: string | null, intro?: string | null, max_applicants: number, mentor_uuid: any, user: { __typename?: 'users', department?: string | null, email?: string | null, realname?: string | null } }> };
 
-export type GetMentorAvailableQueryVariables = Exact<{
+export type GetMentorApplicationsCountQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
+  year: Scalars['Int']['input'];
 }>;
 
 
-export type GetMentorAvailableQuery = { __typename?: 'query_root', mentor_available: Array<{ __typename?: 'mentor_available', available: boolean }> };
+export type GetMentorApplicationsCountQuery = { __typename?: 'query_root', mentor_application_aggregate: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null } };
 
-export type ChangeMentorAvailableMutationVariables = Exact<{
+export type GetMentorApplicationsApprovedCountQueryVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type GetMentorApplicationsApprovedCountQuery = { __typename?: 'query_root', mentor_application_aggregate: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null } };
+
+export type InsertMentorInfoMutationVariables = Exact<{
+  mentor_uuid: Scalars['uuid']['input'];
+}>;
+
+
+export type InsertMentorInfoMutation = { __typename?: 'mutation_root', insert_mentor_info_one?: { __typename?: 'mentor_info', updated_at: any } | null };
+
+export type UpdateMentorInfoAvailableMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];
   available: Scalars['Boolean']['input'];
 }>;
 
 
-export type ChangeMentorAvailableMutation = { __typename?: 'mutation_root', insert_mentor_available_one?: { __typename?: 'mentor_available', mentor_uuid: any, available: boolean } | null };
+export type UpdateMentorInfoAvailableMutation = { __typename?: 'mutation_root', update_mentor_info_by_pk?: { __typename?: 'mentor_info', available: boolean } | null };
+
+export type UpdateMentorInfoMaxApplicantsMutationVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+  max_applicants: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateMentorInfoMaxApplicantsMutation = { __typename?: 'mutation_root', update_mentor_info_by_pk?: { __typename?: 'mentor_info', max_applicants: number } | null };
+
+export type UpdateMentorInfoDescriptionMutationVariables = Exact<{
+  mentor_uuid: Scalars['uuid']['input'];
+  achievement?: InputMaybe<Scalars['String']['input']>;
+  background?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<Scalars['String']['input']>;
+  intro?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateMentorInfoDescriptionMutation = { __typename?: 'mutation_root', update_mentor_info_by_pk?: { __typename?: 'mentor_info', mentor_uuid: any } | null };
+
+export type GetMentorApplicationsListForMentorQueryVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type GetMentorApplicationsListForMentorQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, created_at: any, updated_at: any, statement: string, status: string, chat_status: boolean, student_uuid: any, student: { __typename?: 'users', realname?: string | null, department?: string | null, class?: string | null, email?: string | null, phone?: string | null } }> };
 
 export type UpdateMentorApplicationStatusMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -13660,32 +14294,33 @@ export type UpdateMentorApplicationStatusMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMentorApplicationStatusMutation = { __typename?: 'mutation_root', update_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
+export type UpdateMentorApplicationStatusMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', status: string } | null };
 
-export type UpdateMentorApplicationChatStatusMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  chat_status: Scalars['Boolean']['input'];
-}>;
-
-
-export type UpdateMentorApplicationChatStatusMutation = { __typename?: 'mutation_root', update_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
-
-export type AddMentorApplicationMutationVariables = Exact<{
-  student_uuid: Scalars['uuid']['input'];
+export type InsertMentorApplicationMutationVariables = Exact<{
   mentor_uuid: Scalars['uuid']['input'];
-  statement: Scalars['String']['input'];
+  student_uuid: Scalars['uuid']['input'];
+  year: Scalars['Int']['input'];
+  statement?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type AddMentorApplicationMutation = { __typename?: 'mutation_root', insert_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
+export type InsertMentorApplicationMutation = { __typename?: 'mutation_root', insert_mentor_application_one?: { __typename?: 'mentor_application', id: any } | null };
 
-export type UpdateMentorApplicationMutationVariables = Exact<{
+export type UpdateMentorApplicationStatementMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
   statement: Scalars['String']['input'];
 }>;
 
 
-export type UpdateMentorApplicationMutation = { __typename?: 'mutation_root', update_mentor_application?: { __typename?: 'mentor_application_mutation_response', returning: Array<{ __typename?: 'mentor_application', id: any }> } | null };
+export type UpdateMentorApplicationStatementMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', statement: string } | null };
+
+export type GetMentorApplicationsListForStudentQueryVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type GetMentorApplicationsListForStudentQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, created_at: any, updated_at: any, statement: string, status: string, chat_status: boolean, mentor_uuid: any, mentor: { __typename?: 'users', realname?: string | null, department?: string | null, email?: string | null } }> };
 
 export type DeleteMentorApplicationMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -13694,44 +14329,16 @@ export type DeleteMentorApplicationMutationVariables = Exact<{
 
 export type DeleteMentorApplicationMutation = { __typename?: 'mutation_root', delete_mentor_application_by_pk?: { __typename?: 'mentor_application', id: any } | null };
 
-export type GetMentorListQueryVariables = Exact<{
-  grade_time: Scalars['timestamptz']['input'];
+export type UpdateMentorApplicationChatStatusMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  chat_status: Scalars['Boolean']['input'];
 }>;
 
 
-export type GetMentorListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, realname?: string | null, department?: string | null, matched: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_grade: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, total_for_match: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null }, mentor_available?: { __typename?: 'mentor_available', available: boolean } | null }> };
+export type UpdateMentorApplicationChatStatusMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', chat_status: boolean } | null };
 
-export type UpsertMentorInfoMutationVariables = Exact<{
-  achievement?: InputMaybe<Scalars['String']['input']>;
-  background?: InputMaybe<Scalars['String']['input']>;
-  field?: InputMaybe<Scalars['String']['input']>;
-  intro?: InputMaybe<Scalars['String']['input']>;
-  mentor_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type UpsertMentorInfoMutation = { __typename?: 'mutation_root', insert_mentor_info_one?: { __typename?: 'mentor_info', mentor_uuid: any } | null };
-
-export type GetMentorInfoQueryVariables = Exact<{
-  mentor_uuid: Scalars['uuid']['input'];
-}>;
-
-
-export type GetMentorInfoQuery = { __typename?: 'query_root', mentor_info_by_pk?: { __typename?: 'mentor_info', achievement?: string | null, background?: string | null, field?: string | null, intro?: string | null, mentor_uuid: any, user: { __typename?: 'users', realname?: string | null, email?: string | null } } | null };
-
-export type GetFreshmanListQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetFreshmanListQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, student_no?: string | null, realname?: string | null, class?: string | null, mentor_application_as_student: Array<{ __typename?: 'mentor_application', student_uuid: any, mentor_uuid: any, statement: string }> }> };
-
-export type GetIdByNameQueryVariables = Exact<{
-  name: Scalars['String']['input'];
-}>;
-
-
-export type GetIdByNameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
-
-export type UpdateMentorTimeMutationVariables = Exact<{
+export type InsertMentorApplicationScheduleMutationVariables = Exact<{
+  year: Scalars['Int']['input'];
   start_A: Scalars['timestamptz']['input'];
   start_B: Scalars['timestamptz']['input'];
   start_C: Scalars['timestamptz']['input'];
@@ -13742,14 +14349,49 @@ export type UpdateMentorTimeMutationVariables = Exact<{
   end_C: Scalars['timestamptz']['input'];
   end_D: Scalars['timestamptz']['input'];
   end_E: Scalars['timestamptz']['input'];
-  activateIn: Scalars['Int']['input'];
 }>;
 
 
-export type UpdateMentorTimeMutation = { __typename?: 'mutation_root', update_mentor_time?: { __typename?: 'mentor_time_mutation_response', affected_rows: number } | null };
+export type InsertMentorApplicationScheduleMutation = { __typename?: 'mutation_root', insert_mentor_time_one?: { __typename?: 'mentor_time', activateIn: number } | null };
+
+export type GetMentorApplicationsListForCounselorQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type GetMentorApplicationsListForCounselorQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', statement: string, status: string, chat_status: boolean, student: { __typename?: 'users', realname?: string | null, student_no?: string | null, department?: string | null, class?: string | null }, mentor: { __typename?: 'users', realname?: string | null, department?: string | null } }> };
+
+export type QueryStudentByStudentNoQueryVariables = Exact<{
+  student_no: Scalars['String']['input'];
+}>;
+
+
+export type QueryStudentByStudentNoQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, realname?: string | null }> };
+
+export type QueryTeacherByRealnameQueryVariables = Exact<{
+  realname: Scalars['String']['input'];
+}>;
+
+
+export type QueryTeacherByRealnameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+
+export type GetFreshmanInfoListQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type GetFreshmanInfoListQuery = { __typename?: 'query_root', freshman: Array<{ __typename?: 'freshman', realname: string, student_no: string }> };
+
+export type InsertFreshmanInfoListMutationVariables = Exact<{
+  freshmanData: Array<Freshman_Insert_Input> | Freshman_Insert_Input;
+}>;
+
+
+export type InsertFreshmanInfoListMutation = { __typename?: 'mutation_root', insert_freshman?: { __typename?: 'freshman_mutation_response', affected_rows: number } | null };
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
+  year: Scalars['Int']['input'];
 }>;
 
 
@@ -16580,209 +17222,407 @@ export function useUpdateHonorApplicationStatusMutation(baseOptions?: Apollo.Mut
 export type UpdateHonorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateHonorApplicationStatusMutation>;
 export type UpdateHonorApplicationStatusMutationResult = Apollo.MutationResult<UpdateHonorApplicationStatusMutation>;
 export type UpdateHonorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
-export const GetMentorApplicationsDocument = gql`
-    query GetMentorApplications($uuid: uuid!) {
-  mentor_application(
-    where: {_or: [{student_uuid: {_eq: $uuid}}, {mentor_uuid: {_eq: $uuid}}]}
-    order_by: {created_at: asc}
-  ) {
-    id
-    student {
-      realname
-      department
-      email
-      phone
-    }
-    mentor {
-      realname
-      department
-      mentor_available {
-        available
-      }
-    }
-    statement
-    status
-    chat_status
-    created_at
-    updated_at
+export const GetMentorApplicationScheduleDocument = gql`
+    query GetMentorApplicationSchedule($year: Int!) {
+  mentor_time_by_pk(activateIn: $year) {
+    activateIn
+    start_A
+    start_B
+    start_C
+    start_D
+    start_E
+    end_A
+    end_B
+    end_C
+    end_D
+    end_E
   }
 }
     `;
 
 /**
- * __useGetMentorApplicationsQuery__
+ * __useGetMentorApplicationScheduleQuery__
  *
- * To run a query within a React component, call `useGetMentorApplicationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorApplicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetMentorApplicationScheduleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMentorApplicationScheduleQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetMentorApplicationsQuery({
+ * const { data, loading, error } = useGetMentorApplicationScheduleQuery({
  *   variables: {
- *      uuid: // value for 'uuid'
+ *      year: // value for 'year'
  *   },
  * });
  */
-export function useGetMentorApplicationsQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables> & ({ variables: GetMentorApplicationsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetMentorApplicationScheduleQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables> & ({ variables: GetMentorApplicationScheduleQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>(GetMentorApplicationsDocument, options);
+        return Apollo.useQuery<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>(GetMentorApplicationScheduleDocument, options);
       }
-export function useGetMentorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>) {
+export function useGetMentorApplicationScheduleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>(GetMentorApplicationsDocument, options);
+          return Apollo.useLazyQuery<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>(GetMentorApplicationScheduleDocument, options);
         }
-export function useGetMentorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>) {
+export function useGetMentorApplicationScheduleSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>(GetMentorApplicationsDocument, options);
+          return Apollo.useSuspenseQuery<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>(GetMentorApplicationScheduleDocument, options);
         }
-export type GetMentorApplicationsQueryHookResult = ReturnType<typeof useGetMentorApplicationsQuery>;
-export type GetMentorApplicationsLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsLazyQuery>;
-export type GetMentorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsSuspenseQuery>;
-export type GetMentorApplicationsQueryResult = Apollo.QueryResult<GetMentorApplicationsQuery, GetMentorApplicationsQueryVariables>;
-export const GetMentorApplicationsForCounselorsDocument = gql`
-    query GetMentorApplicationsForCounselors {
-  mentor_application(order_by: {created_at: asc}) {
-    id
-    student {
-      uuid
-      realname
-      class
-      department
-      email
-      phone
-    }
-    mentor {
-      realname
-      department
-      mentor_available {
-        available
-      }
-    }
-    statement
-    status
-    created_at
-    updated_at
-  }
-}
-    `;
-
-/**
- * __useGetMentorApplicationsForCounselorsQuery__
- *
- * To run a query within a React component, call `useGetMentorApplicationsForCounselorsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorApplicationsForCounselorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorApplicationsForCounselorsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetMentorApplicationsForCounselorsQuery(baseOptions?: Apollo.QueryHookOptions<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>(GetMentorApplicationsForCounselorsDocument, options);
-      }
-export function useGetMentorApplicationsForCounselorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>(GetMentorApplicationsForCounselorsDocument, options);
-        }
-export function useGetMentorApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>(GetMentorApplicationsForCounselorsDocument, options);
-        }
-export type GetMentorApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetMentorApplicationsForCounselorsQuery>;
-export type GetMentorApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsForCounselorsLazyQuery>;
-export type GetMentorApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsForCounselorsSuspenseQuery>;
-export type GetMentorApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetMentorApplicationsForCounselorsQuery, GetMentorApplicationsForCounselorsQueryVariables>;
-export const GetMentorAvailableDocument = gql`
-    query GetMentorAvailable($uuid: uuid!) {
-  mentor_available(where: {mentor_uuid: {_eq: $uuid}}) {
+export type GetMentorApplicationScheduleQueryHookResult = ReturnType<typeof useGetMentorApplicationScheduleQuery>;
+export type GetMentorApplicationScheduleLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationScheduleLazyQuery>;
+export type GetMentorApplicationScheduleSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationScheduleSuspenseQuery>;
+export type GetMentorApplicationScheduleQueryResult = Apollo.QueryResult<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>;
+export const GetMentorInfoListDocument = gql`
+    query GetMentorInfoList {
+  mentor_info(order_by: {available: desc, max_applicants: desc}) {
+    achievement
     available
-  }
-}
-    `;
-
-/**
- * __useGetMentorAvailableQuery__
- *
- * To run a query within a React component, call `useGetMentorAvailableQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorAvailableQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorAvailableQuery({
- *   variables: {
- *      uuid: // value for 'uuid'
- *   },
- * });
- */
-export function useGetMentorAvailableQuery(baseOptions: Apollo.QueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables> & ({ variables: GetMentorAvailableQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>(GetMentorAvailableDocument, options);
-      }
-export function useGetMentorAvailableLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>(GetMentorAvailableDocument, options);
-        }
-export function useGetMentorAvailableSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>(GetMentorAvailableDocument, options);
-        }
-export type GetMentorAvailableQueryHookResult = ReturnType<typeof useGetMentorAvailableQuery>;
-export type GetMentorAvailableLazyQueryHookResult = ReturnType<typeof useGetMentorAvailableLazyQuery>;
-export type GetMentorAvailableSuspenseQueryHookResult = ReturnType<typeof useGetMentorAvailableSuspenseQuery>;
-export type GetMentorAvailableQueryResult = Apollo.QueryResult<GetMentorAvailableQuery, GetMentorAvailableQueryVariables>;
-export const ChangeMentorAvailableDocument = gql`
-    mutation ChangeMentorAvailable($uuid: uuid!, $available: Boolean!) {
-  insert_mentor_available_one(
-    object: {mentor_uuid: $uuid, available: $available}
-    on_conflict: {constraint: mentor_available_mentor_uuid_key, update_columns: available}
-  ) {
+    background
+    field
+    intro
+    max_applicants
     mentor_uuid
-    available
+    user {
+      department
+      email
+      realname
+    }
   }
 }
     `;
-export type ChangeMentorAvailableMutationFn = Apollo.MutationFunction<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>;
 
 /**
- * __useChangeMentorAvailableMutation__
+ * __useGetMentorInfoListQuery__
  *
- * To run a mutation, you first call `useChangeMentorAvailableMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useChangeMentorAvailableMutation` returns a tuple that includes:
+ * To run a query within a React component, call `useGetMentorInfoListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMentorInfoListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMentorInfoListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMentorInfoListQuery(baseOptions?: Apollo.QueryHookOptions<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>(GetMentorInfoListDocument, options);
+      }
+export function useGetMentorInfoListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>(GetMentorInfoListDocument, options);
+        }
+export function useGetMentorInfoListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>(GetMentorInfoListDocument, options);
+        }
+export type GetMentorInfoListQueryHookResult = ReturnType<typeof useGetMentorInfoListQuery>;
+export type GetMentorInfoListLazyQueryHookResult = ReturnType<typeof useGetMentorInfoListLazyQuery>;
+export type GetMentorInfoListSuspenseQueryHookResult = ReturnType<typeof useGetMentorInfoListSuspenseQuery>;
+export type GetMentorInfoListQueryResult = Apollo.QueryResult<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>;
+export const GetMentorApplicationsCountDocument = gql`
+    query GetMentorApplicationsCount($uuid: uuid!, $year: Int!) {
+  mentor_application_aggregate(
+    where: {_and: {mentor_uuid: {_eq: $uuid}, year: {_eq: $year}}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMentorApplicationsCountQuery__
+ *
+ * To run a query within a React component, call `useGetMentorApplicationsCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMentorApplicationsCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMentorApplicationsCountQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetMentorApplicationsCountQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables> & ({ variables: GetMentorApplicationsCountQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
+      }
+export function useGetMentorApplicationsCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
+        }
+export function useGetMentorApplicationsCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
+        }
+export type GetMentorApplicationsCountQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountQuery>;
+export type GetMentorApplicationsCountLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountLazyQuery>;
+export type GetMentorApplicationsCountSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountSuspenseQuery>;
+export type GetMentorApplicationsCountQueryResult = Apollo.QueryResult<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>;
+export const GetMentorApplicationsApprovedCountDocument = gql`
+    query GetMentorApplicationsApprovedCount($uuid: uuid!, $year: Int!) {
+  mentor_application_aggregate(
+    where: {_and: {mentor_uuid: {_eq: $uuid}, _and: {year: {_eq: $year}, status: {_eq: "approved"}}}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMentorApplicationsApprovedCountQuery__
+ *
+ * To run a query within a React component, call `useGetMentorApplicationsApprovedCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMentorApplicationsApprovedCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMentorApplicationsApprovedCountQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetMentorApplicationsApprovedCountQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables> & ({ variables: GetMentorApplicationsApprovedCountQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
+      }
+export function useGetMentorApplicationsApprovedCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
+        }
+export function useGetMentorApplicationsApprovedCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
+        }
+export type GetMentorApplicationsApprovedCountQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountQuery>;
+export type GetMentorApplicationsApprovedCountLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountLazyQuery>;
+export type GetMentorApplicationsApprovedCountSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountSuspenseQuery>;
+export type GetMentorApplicationsApprovedCountQueryResult = Apollo.QueryResult<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>;
+export const InsertMentorInfoDocument = gql`
+    mutation InsertMentorInfo($mentor_uuid: uuid!) {
+  insert_mentor_info_one(
+    object: {mentor_uuid: $mentor_uuid}
+    on_conflict: {constraint: mentor_info_pkey}
+  ) {
+    updated_at
+  }
+}
+    `;
+export type InsertMentorInfoMutationFn = Apollo.MutationFunction<InsertMentorInfoMutation, InsertMentorInfoMutationVariables>;
+
+/**
+ * __useInsertMentorInfoMutation__
+ *
+ * To run a mutation, you first call `useInsertMentorInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertMentorInfoMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [changeMentorAvailableMutation, { data, loading, error }] = useChangeMentorAvailableMutation({
+ * const [insertMentorInfoMutation, { data, loading, error }] = useInsertMentorInfoMutation({
+ *   variables: {
+ *      mentor_uuid: // value for 'mentor_uuid'
+ *   },
+ * });
+ */
+export function useInsertMentorInfoMutation(baseOptions?: Apollo.MutationHookOptions<InsertMentorInfoMutation, InsertMentorInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertMentorInfoMutation, InsertMentorInfoMutationVariables>(InsertMentorInfoDocument, options);
+      }
+export type InsertMentorInfoMutationHookResult = ReturnType<typeof useInsertMentorInfoMutation>;
+export type InsertMentorInfoMutationResult = Apollo.MutationResult<InsertMentorInfoMutation>;
+export type InsertMentorInfoMutationOptions = Apollo.BaseMutationOptions<InsertMentorInfoMutation, InsertMentorInfoMutationVariables>;
+export const UpdateMentorInfoAvailableDocument = gql`
+    mutation UpdateMentorInfoAvailable($uuid: uuid!, $available: Boolean!) {
+  update_mentor_info_by_pk(
+    pk_columns: {mentor_uuid: $uuid}
+    _set: {available: $available}
+  ) {
+    available
+  }
+}
+    `;
+export type UpdateMentorInfoAvailableMutationFn = Apollo.MutationFunction<UpdateMentorInfoAvailableMutation, UpdateMentorInfoAvailableMutationVariables>;
+
+/**
+ * __useUpdateMentorInfoAvailableMutation__
+ *
+ * To run a mutation, you first call `useUpdateMentorInfoAvailableMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMentorInfoAvailableMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMentorInfoAvailableMutation, { data, loading, error }] = useUpdateMentorInfoAvailableMutation({
  *   variables: {
  *      uuid: // value for 'uuid'
  *      available: // value for 'available'
  *   },
  * });
  */
-export function useChangeMentorAvailableMutation(baseOptions?: Apollo.MutationHookOptions<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>) {
+export function useUpdateMentorInfoAvailableMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorInfoAvailableMutation, UpdateMentorInfoAvailableMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>(ChangeMentorAvailableDocument, options);
+        return Apollo.useMutation<UpdateMentorInfoAvailableMutation, UpdateMentorInfoAvailableMutationVariables>(UpdateMentorInfoAvailableDocument, options);
       }
-export type ChangeMentorAvailableMutationHookResult = ReturnType<typeof useChangeMentorAvailableMutation>;
-export type ChangeMentorAvailableMutationResult = Apollo.MutationResult<ChangeMentorAvailableMutation>;
-export type ChangeMentorAvailableMutationOptions = Apollo.BaseMutationOptions<ChangeMentorAvailableMutation, ChangeMentorAvailableMutationVariables>;
+export type UpdateMentorInfoAvailableMutationHookResult = ReturnType<typeof useUpdateMentorInfoAvailableMutation>;
+export type UpdateMentorInfoAvailableMutationResult = Apollo.MutationResult<UpdateMentorInfoAvailableMutation>;
+export type UpdateMentorInfoAvailableMutationOptions = Apollo.BaseMutationOptions<UpdateMentorInfoAvailableMutation, UpdateMentorInfoAvailableMutationVariables>;
+export const UpdateMentorInfoMaxApplicantsDocument = gql`
+    mutation UpdateMentorInfoMaxApplicants($uuid: uuid!, $max_applicants: Int!) {
+  update_mentor_info_by_pk(
+    pk_columns: {mentor_uuid: $uuid}
+    _set: {max_applicants: $max_applicants}
+  ) {
+    max_applicants
+  }
+}
+    `;
+export type UpdateMentorInfoMaxApplicantsMutationFn = Apollo.MutationFunction<UpdateMentorInfoMaxApplicantsMutation, UpdateMentorInfoMaxApplicantsMutationVariables>;
+
+/**
+ * __useUpdateMentorInfoMaxApplicantsMutation__
+ *
+ * To run a mutation, you first call `useUpdateMentorInfoMaxApplicantsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMentorInfoMaxApplicantsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMentorInfoMaxApplicantsMutation, { data, loading, error }] = useUpdateMentorInfoMaxApplicantsMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      max_applicants: // value for 'max_applicants'
+ *   },
+ * });
+ */
+export function useUpdateMentorInfoMaxApplicantsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorInfoMaxApplicantsMutation, UpdateMentorInfoMaxApplicantsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMentorInfoMaxApplicantsMutation, UpdateMentorInfoMaxApplicantsMutationVariables>(UpdateMentorInfoMaxApplicantsDocument, options);
+      }
+export type UpdateMentorInfoMaxApplicantsMutationHookResult = ReturnType<typeof useUpdateMentorInfoMaxApplicantsMutation>;
+export type UpdateMentorInfoMaxApplicantsMutationResult = Apollo.MutationResult<UpdateMentorInfoMaxApplicantsMutation>;
+export type UpdateMentorInfoMaxApplicantsMutationOptions = Apollo.BaseMutationOptions<UpdateMentorInfoMaxApplicantsMutation, UpdateMentorInfoMaxApplicantsMutationVariables>;
+export const UpdateMentorInfoDescriptionDocument = gql`
+    mutation UpdateMentorInfoDescription($mentor_uuid: uuid!, $achievement: String = "", $background: String = "", $field: String = "", $intro: String = "") {
+  update_mentor_info_by_pk(
+    pk_columns: {mentor_uuid: $mentor_uuid}
+    _set: {achievement: $achievement, background: $background, field: $field, intro: $intro}
+  ) {
+    mentor_uuid
+  }
+}
+    `;
+export type UpdateMentorInfoDescriptionMutationFn = Apollo.MutationFunction<UpdateMentorInfoDescriptionMutation, UpdateMentorInfoDescriptionMutationVariables>;
+
+/**
+ * __useUpdateMentorInfoDescriptionMutation__
+ *
+ * To run a mutation, you first call `useUpdateMentorInfoDescriptionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMentorInfoDescriptionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMentorInfoDescriptionMutation, { data, loading, error }] = useUpdateMentorInfoDescriptionMutation({
+ *   variables: {
+ *      mentor_uuid: // value for 'mentor_uuid'
+ *      achievement: // value for 'achievement'
+ *      background: // value for 'background'
+ *      field: // value for 'field'
+ *      intro: // value for 'intro'
+ *   },
+ * });
+ */
+export function useUpdateMentorInfoDescriptionMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorInfoDescriptionMutation, UpdateMentorInfoDescriptionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMentorInfoDescriptionMutation, UpdateMentorInfoDescriptionMutationVariables>(UpdateMentorInfoDescriptionDocument, options);
+      }
+export type UpdateMentorInfoDescriptionMutationHookResult = ReturnType<typeof useUpdateMentorInfoDescriptionMutation>;
+export type UpdateMentorInfoDescriptionMutationResult = Apollo.MutationResult<UpdateMentorInfoDescriptionMutation>;
+export type UpdateMentorInfoDescriptionMutationOptions = Apollo.BaseMutationOptions<UpdateMentorInfoDescriptionMutation, UpdateMentorInfoDescriptionMutationVariables>;
+export const GetMentorApplicationsListForMentorDocument = gql`
+    query GetMentorApplicationsListForMentor($uuid: uuid!, $year: Int!) {
+  mentor_application(
+    where: {mentor_uuid: {_eq: $uuid}, year: {_eq: $year}}
+    order_by: {created_at: asc}
+  ) {
+    id
+    created_at
+    updated_at
+    statement
+    status
+    chat_status
+    student_uuid
+    student {
+      realname
+      department
+      class
+      email
+      phone
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMentorApplicationsListForMentorQuery__
+ *
+ * To run a query within a React component, call `useGetMentorApplicationsListForMentorQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMentorApplicationsListForMentorQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMentorApplicationsListForMentorQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetMentorApplicationsListForMentorQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables> & ({ variables: GetMentorApplicationsListForMentorQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>(GetMentorApplicationsListForMentorDocument, options);
+      }
+export function useGetMentorApplicationsListForMentorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>(GetMentorApplicationsListForMentorDocument, options);
+        }
+export function useGetMentorApplicationsListForMentorSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>(GetMentorApplicationsListForMentorDocument, options);
+        }
+export type GetMentorApplicationsListForMentorQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForMentorQuery>;
+export type GetMentorApplicationsListForMentorLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForMentorLazyQuery>;
+export type GetMentorApplicationsListForMentorSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForMentorSuspenseQuery>;
+export type GetMentorApplicationsListForMentorQueryResult = Apollo.QueryResult<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>;
 export const UpdateMentorApplicationStatusDocument = gql`
     mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
-  update_mentor_application(where: {id: {_eq: $id}}, _set: {status: $status}) {
-    returning {
-      id
-    }
+  update_mentor_application_by_pk(pk_columns: {id: $id}, _set: {status: $status}) {
+    status
   }
 }
     `;
@@ -16813,123 +17653,136 @@ export function useUpdateMentorApplicationStatusMutation(baseOptions?: Apollo.Mu
 export type UpdateMentorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateMentorApplicationStatusMutation>;
 export type UpdateMentorApplicationStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationStatusMutation>;
 export type UpdateMentorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationStatusMutation, UpdateMentorApplicationStatusMutationVariables>;
-export const UpdateMentorApplicationChatStatusDocument = gql`
-    mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
-  update_mentor_application(
-    where: {id: {_eq: $id}}
-    _set: {chat_status: $chat_status}
+export const InsertMentorApplicationDocument = gql`
+    mutation InsertMentorApplication($mentor_uuid: uuid!, $student_uuid: uuid!, $year: Int!, $statement: String = "") {
+  insert_mentor_application_one(
+    object: {statement: $statement, mentor_uuid: $mentor_uuid, student_uuid: $student_uuid, year: $year}
   ) {
-    returning {
-      id
-    }
+    id
   }
 }
     `;
-export type UpdateMentorApplicationChatStatusMutationFn = Apollo.MutationFunction<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>;
+export type InsertMentorApplicationMutationFn = Apollo.MutationFunction<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>;
 
 /**
- * __useUpdateMentorApplicationChatStatusMutation__
+ * __useInsertMentorApplicationMutation__
  *
- * To run a mutation, you first call `useUpdateMentorApplicationChatStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateMentorApplicationChatStatusMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInsertMentorApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertMentorApplicationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateMentorApplicationChatStatusMutation, { data, loading, error }] = useUpdateMentorApplicationChatStatusMutation({
+ * const [insertMentorApplicationMutation, { data, loading, error }] = useInsertMentorApplicationMutation({
  *   variables: {
- *      id: // value for 'id'
- *      chat_status: // value for 'chat_status'
- *   },
- * });
- */
-export function useUpdateMentorApplicationChatStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>(UpdateMentorApplicationChatStatusDocument, options);
-      }
-export type UpdateMentorApplicationChatStatusMutationHookResult = ReturnType<typeof useUpdateMentorApplicationChatStatusMutation>;
-export type UpdateMentorApplicationChatStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationChatStatusMutation>;
-export type UpdateMentorApplicationChatStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>;
-export const AddMentorApplicationDocument = gql`
-    mutation AddMentorApplication($student_uuid: uuid!, $mentor_uuid: uuid!, $statement: String!) {
-  insert_mentor_application(
-    objects: {student_uuid: $student_uuid, mentor_uuid: $mentor_uuid, statement: $statement}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddMentorApplicationMutationFn = Apollo.MutationFunction<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>;
-
-/**
- * __useAddMentorApplicationMutation__
- *
- * To run a mutation, you first call `useAddMentorApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddMentorApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addMentorApplicationMutation, { data, loading, error }] = useAddMentorApplicationMutation({
- *   variables: {
- *      student_uuid: // value for 'student_uuid'
  *      mentor_uuid: // value for 'mentor_uuid'
+ *      student_uuid: // value for 'student_uuid'
+ *      year: // value for 'year'
  *      statement: // value for 'statement'
  *   },
  * });
  */
-export function useAddMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>) {
+export function useInsertMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>(AddMentorApplicationDocument, options);
+        return Apollo.useMutation<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>(InsertMentorApplicationDocument, options);
       }
-export type AddMentorApplicationMutationHookResult = ReturnType<typeof useAddMentorApplicationMutation>;
-export type AddMentorApplicationMutationResult = Apollo.MutationResult<AddMentorApplicationMutation>;
-export type AddMentorApplicationMutationOptions = Apollo.BaseMutationOptions<AddMentorApplicationMutation, AddMentorApplicationMutationVariables>;
-export const UpdateMentorApplicationDocument = gql`
-    mutation UpdateMentorApplication($id: uuid!, $statement: String!) {
-  update_mentor_application(
-    where: {id: {_eq: $id}}
+export type InsertMentorApplicationMutationHookResult = ReturnType<typeof useInsertMentorApplicationMutation>;
+export type InsertMentorApplicationMutationResult = Apollo.MutationResult<InsertMentorApplicationMutation>;
+export type InsertMentorApplicationMutationOptions = Apollo.BaseMutationOptions<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>;
+export const UpdateMentorApplicationStatementDocument = gql`
+    mutation UpdateMentorApplicationStatement($id: uuid!, $statement: String!) {
+  update_mentor_application_by_pk(
+    pk_columns: {id: $id}
     _set: {statement: $statement}
   ) {
-    returning {
-      id
-    }
+    statement
   }
 }
     `;
-export type UpdateMentorApplicationMutationFn = Apollo.MutationFunction<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>;
+export type UpdateMentorApplicationStatementMutationFn = Apollo.MutationFunction<UpdateMentorApplicationStatementMutation, UpdateMentorApplicationStatementMutationVariables>;
 
 /**
- * __useUpdateMentorApplicationMutation__
+ * __useUpdateMentorApplicationStatementMutation__
  *
- * To run a mutation, you first call `useUpdateMentorApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateMentorApplicationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateMentorApplicationStatementMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMentorApplicationStatementMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateMentorApplicationMutation, { data, loading, error }] = useUpdateMentorApplicationMutation({
+ * const [updateMentorApplicationStatementMutation, { data, loading, error }] = useUpdateMentorApplicationStatementMutation({
  *   variables: {
  *      id: // value for 'id'
  *      statement: // value for 'statement'
  *   },
  * });
  */
-export function useUpdateMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>) {
+export function useUpdateMentorApplicationStatementMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorApplicationStatementMutation, UpdateMentorApplicationStatementMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>(UpdateMentorApplicationDocument, options);
+        return Apollo.useMutation<UpdateMentorApplicationStatementMutation, UpdateMentorApplicationStatementMutationVariables>(UpdateMentorApplicationStatementDocument, options);
       }
-export type UpdateMentorApplicationMutationHookResult = ReturnType<typeof useUpdateMentorApplicationMutation>;
-export type UpdateMentorApplicationMutationResult = Apollo.MutationResult<UpdateMentorApplicationMutation>;
-export type UpdateMentorApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationMutation, UpdateMentorApplicationMutationVariables>;
+export type UpdateMentorApplicationStatementMutationHookResult = ReturnType<typeof useUpdateMentorApplicationStatementMutation>;
+export type UpdateMentorApplicationStatementMutationResult = Apollo.MutationResult<UpdateMentorApplicationStatementMutation>;
+export type UpdateMentorApplicationStatementMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationStatementMutation, UpdateMentorApplicationStatementMutationVariables>;
+export const GetMentorApplicationsListForStudentDocument = gql`
+    query GetMentorApplicationsListForStudent($uuid: uuid!, $year: Int!) {
+  mentor_application(
+    where: {student_uuid: {_eq: $uuid}, year: {_eq: $year}}
+    order_by: {created_at: asc}
+  ) {
+    id
+    created_at
+    updated_at
+    statement
+    status
+    chat_status
+    mentor_uuid
+    mentor {
+      realname
+      department
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMentorApplicationsListForStudentQuery__
+ *
+ * To run a query within a React component, call `useGetMentorApplicationsListForStudentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMentorApplicationsListForStudentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMentorApplicationsListForStudentQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetMentorApplicationsListForStudentQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables> & ({ variables: GetMentorApplicationsListForStudentQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>(GetMentorApplicationsListForStudentDocument, options);
+      }
+export function useGetMentorApplicationsListForStudentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>(GetMentorApplicationsListForStudentDocument, options);
+        }
+export function useGetMentorApplicationsListForStudentSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>(GetMentorApplicationsListForStudentDocument, options);
+        }
+export type GetMentorApplicationsListForStudentQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForStudentQuery>;
+export type GetMentorApplicationsListForStudentLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForStudentLazyQuery>;
+export type GetMentorApplicationsListForStudentSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForStudentSuspenseQuery>;
+export type GetMentorApplicationsListForStudentQueryResult = Apollo.QueryResult<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>;
 export const DeleteMentorApplicationDocument = gql`
     mutation DeleteMentorApplication($id: uuid!) {
   delete_mentor_application_by_pk(id: $id) {
@@ -16963,277 +17816,69 @@ export function useDeleteMentorApplicationMutation(baseOptions?: Apollo.Mutation
 export type DeleteMentorApplicationMutationHookResult = ReturnType<typeof useDeleteMentorApplicationMutation>;
 export type DeleteMentorApplicationMutationResult = Apollo.MutationResult<DeleteMentorApplicationMutation>;
 export type DeleteMentorApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteMentorApplicationMutation, DeleteMentorApplicationMutationVariables>;
-export const GetMentorListDocument = gql`
-    query GetMentorList($grade_time: timestamptz!) {
-  users(where: {role: {_eq: "teacher"}}) {
-    uuid
-    realname
-    department
-    matched: mentor_application_as_mentor_aggregate(
-      where: {status: {_eq: "approved"}}
-    ) {
-      aggregate {
-        count
-      }
-    }
-    total: mentor_application_as_mentor_aggregate {
-      aggregate {
-        count
-      }
-    }
-    total_for_grade: mentor_application_as_mentor_aggregate(
-      where: {created_at: {_gte: $grade_time}}
-    ) {
-      aggregate {
-        count
-      }
-    }
-    total_for_match: mentor_application_as_mentor_aggregate(
-      where: {status: {_eq: "approved"}}
-    ) {
-      aggregate {
-        count
-      }
-    }
-    mentor_available {
-      available
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMentorListQuery__
- *
- * To run a query within a React component, call `useGetMentorListQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorListQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorListQuery({
- *   variables: {
- *      grade_time: // value for 'grade_time'
- *   },
- * });
- */
-export function useGetMentorListQuery(baseOptions: Apollo.QueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables> & ({ variables: GetMentorListQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorListQuery, GetMentorListQueryVariables>(GetMentorListDocument, options);
-      }
-export function useGetMentorListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorListQuery, GetMentorListQueryVariables>(GetMentorListDocument, options);
-        }
-export function useGetMentorListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorListQuery, GetMentorListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorListQuery, GetMentorListQueryVariables>(GetMentorListDocument, options);
-        }
-export type GetMentorListQueryHookResult = ReturnType<typeof useGetMentorListQuery>;
-export type GetMentorListLazyQueryHookResult = ReturnType<typeof useGetMentorListLazyQuery>;
-export type GetMentorListSuspenseQueryHookResult = ReturnType<typeof useGetMentorListSuspenseQuery>;
-export type GetMentorListQueryResult = Apollo.QueryResult<GetMentorListQuery, GetMentorListQueryVariables>;
-export const UpsertMentorInfoDocument = gql`
-    mutation UpsertMentorInfo($achievement: String = "", $background: String = "", $field: String = "", $intro: String = "", $mentor_uuid: uuid!) {
-  insert_mentor_info_one(
-    object: {achievement: $achievement, background: $background, field: $field, intro: $intro, mentor_uuid: $mentor_uuid}
-    on_conflict: {constraint: mentor_info_pkey, update_columns: [achievement, background, field, intro]}
+export const UpdateMentorApplicationChatStatusDocument = gql`
+    mutation UpdateMentorApplicationChatStatus($id: uuid!, $chat_status: Boolean!) {
+  update_mentor_application_by_pk(
+    pk_columns: {id: $id}
+    _set: {chat_status: $chat_status}
   ) {
-    mentor_uuid
+    chat_status
   }
 }
     `;
-export type UpsertMentorInfoMutationFn = Apollo.MutationFunction<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>;
+export type UpdateMentorApplicationChatStatusMutationFn = Apollo.MutationFunction<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>;
 
 /**
- * __useUpsertMentorInfoMutation__
+ * __useUpdateMentorApplicationChatStatusMutation__
  *
- * To run a mutation, you first call `useUpsertMentorInfoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpsertMentorInfoMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateMentorApplicationChatStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMentorApplicationChatStatusMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [upsertMentorInfoMutation, { data, loading, error }] = useUpsertMentorInfoMutation({
+ * const [updateMentorApplicationChatStatusMutation, { data, loading, error }] = useUpdateMentorApplicationChatStatusMutation({
  *   variables: {
- *      achievement: // value for 'achievement'
- *      background: // value for 'background'
- *      field: // value for 'field'
- *      intro: // value for 'intro'
- *      mentor_uuid: // value for 'mentor_uuid'
+ *      id: // value for 'id'
+ *      chat_status: // value for 'chat_status'
  *   },
  * });
  */
-export function useUpsertMentorInfoMutation(baseOptions?: Apollo.MutationHookOptions<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>) {
+export function useUpdateMentorApplicationChatStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>(UpsertMentorInfoDocument, options);
+        return Apollo.useMutation<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>(UpdateMentorApplicationChatStatusDocument, options);
       }
-export type UpsertMentorInfoMutationHookResult = ReturnType<typeof useUpsertMentorInfoMutation>;
-export type UpsertMentorInfoMutationResult = Apollo.MutationResult<UpsertMentorInfoMutation>;
-export type UpsertMentorInfoMutationOptions = Apollo.BaseMutationOptions<UpsertMentorInfoMutation, UpsertMentorInfoMutationVariables>;
-export const GetMentorInfoDocument = gql`
-    query GetMentorInfo($mentor_uuid: uuid!) {
-  mentor_info_by_pk(mentor_uuid: $mentor_uuid) {
-    achievement
-    background
-    field
-    intro
-    mentor_uuid
-    user {
-      realname
-      email
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMentorInfoQuery__
- *
- * To run a query within a React component, call `useGetMentorInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorInfoQuery({
- *   variables: {
- *      mentor_uuid: // value for 'mentor_uuid'
- *   },
- * });
- */
-export function useGetMentorInfoQuery(baseOptions: Apollo.QueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables> & ({ variables: GetMentorInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(GetMentorInfoDocument, options);
-      }
-export function useGetMentorInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(GetMentorInfoDocument, options);
-        }
-export function useGetMentorInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorInfoQuery, GetMentorInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorInfoQuery, GetMentorInfoQueryVariables>(GetMentorInfoDocument, options);
-        }
-export type GetMentorInfoQueryHookResult = ReturnType<typeof useGetMentorInfoQuery>;
-export type GetMentorInfoLazyQueryHookResult = ReturnType<typeof useGetMentorInfoLazyQuery>;
-export type GetMentorInfoSuspenseQueryHookResult = ReturnType<typeof useGetMentorInfoSuspenseQuery>;
-export type GetMentorInfoQueryResult = Apollo.QueryResult<GetMentorInfoQuery, GetMentorInfoQueryVariables>;
-export const GetFreshmanListDocument = gql`
-    query GetFreshmanList {
-  users(where: {student_no: {_gt: "2022999999", _lte: "2023999999"}}) {
-    uuid
-    student_no
-    realname
-    class
-    mentor_application_as_student(where: {status: {_eq: "approved"}}) {
-      student_uuid
-      mentor_uuid
-      statement
-    }
-  }
-}
-    `;
-
-/**
- * __useGetFreshmanListQuery__
- *
- * To run a query within a React component, call `useGetFreshmanListQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFreshmanListQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFreshmanListQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetFreshmanListQuery(baseOptions?: Apollo.QueryHookOptions<GetFreshmanListQuery, GetFreshmanListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetFreshmanListQuery, GetFreshmanListQueryVariables>(GetFreshmanListDocument, options);
-      }
-export function useGetFreshmanListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFreshmanListQuery, GetFreshmanListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetFreshmanListQuery, GetFreshmanListQueryVariables>(GetFreshmanListDocument, options);
-        }
-export function useGetFreshmanListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetFreshmanListQuery, GetFreshmanListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetFreshmanListQuery, GetFreshmanListQueryVariables>(GetFreshmanListDocument, options);
-        }
-export type GetFreshmanListQueryHookResult = ReturnType<typeof useGetFreshmanListQuery>;
-export type GetFreshmanListLazyQueryHookResult = ReturnType<typeof useGetFreshmanListLazyQuery>;
-export type GetFreshmanListSuspenseQueryHookResult = ReturnType<typeof useGetFreshmanListSuspenseQuery>;
-export type GetFreshmanListQueryResult = Apollo.QueryResult<GetFreshmanListQuery, GetFreshmanListQueryVariables>;
-export const GetIdByNameDocument = gql`
-    query GetIdByName($name: String!) {
-  users(where: {realname: {_eq: $name}}) {
-    uuid
-  }
-}
-    `;
-
-/**
- * __useGetIdByNameQuery__
- *
- * To run a query within a React component, call `useGetIdByNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetIdByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetIdByNameQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useGetIdByNameQuery(baseOptions: Apollo.QueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables> & ({ variables: GetIdByNameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetIdByNameQuery, GetIdByNameQueryVariables>(GetIdByNameDocument, options);
-      }
-export function useGetIdByNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetIdByNameQuery, GetIdByNameQueryVariables>(GetIdByNameDocument, options);
-        }
-export function useGetIdByNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetIdByNameQuery, GetIdByNameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetIdByNameQuery, GetIdByNameQueryVariables>(GetIdByNameDocument, options);
-        }
-export type GetIdByNameQueryHookResult = ReturnType<typeof useGetIdByNameQuery>;
-export type GetIdByNameLazyQueryHookResult = ReturnType<typeof useGetIdByNameLazyQuery>;
-export type GetIdByNameSuspenseQueryHookResult = ReturnType<typeof useGetIdByNameSuspenseQuery>;
-export type GetIdByNameQueryResult = Apollo.QueryResult<GetIdByNameQuery, GetIdByNameQueryVariables>;
-export const UpdateMentorTimeDocument = gql`
-    mutation UpdateMentorTime($start_A: timestamptz!, $start_B: timestamptz!, $start_C: timestamptz!, $start_D: timestamptz!, $start_E: timestamptz!, $end_A: timestamptz!, $end_B: timestamptz!, $end_C: timestamptz!, $end_D: timestamptz!, $end_E: timestamptz!, $activateIn: Int!) {
-  update_mentor_time(
-    where: {activateIn: {_eq: $activateIn}}
-    _set: {start_A: $start_A, start_B: $start_B, start_C: $start_C, start_D: $start_D, start_E: $start_E, end_A: $end_A, end_B: $end_B, end_C: $end_C, end_D: $end_D, end_E: $end_E}
+export type UpdateMentorApplicationChatStatusMutationHookResult = ReturnType<typeof useUpdateMentorApplicationChatStatusMutation>;
+export type UpdateMentorApplicationChatStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationChatStatusMutation>;
+export type UpdateMentorApplicationChatStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationChatStatusMutation, UpdateMentorApplicationChatStatusMutationVariables>;
+export const InsertMentorApplicationScheduleDocument = gql`
+    mutation InsertMentorApplicationSchedule($year: Int!, $start_A: timestamptz!, $start_B: timestamptz!, $start_C: timestamptz!, $start_D: timestamptz!, $start_E: timestamptz!, $end_A: timestamptz!, $end_B: timestamptz!, $end_C: timestamptz!, $end_D: timestamptz!, $end_E: timestamptz!) {
+  insert_mentor_time_one(
+    object: {activateIn: $year, start_A: $start_A, start_B: $start_B, start_C: $start_C, start_D: $start_D, start_E: $start_E, end_A: $end_A, end_B: $end_B, end_C: $end_C, end_D: $end_D, end_E: $end_E}
+    on_conflict: {constraint: mentor_time_pkey, update_columns: [start_A, start_B, start_C, start_D, start_E, end_A, end_B, end_C, end_D, end_E]}
   ) {
-    affected_rows
+    activateIn
   }
 }
     `;
-export type UpdateMentorTimeMutationFn = Apollo.MutationFunction<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>;
+export type InsertMentorApplicationScheduleMutationFn = Apollo.MutationFunction<InsertMentorApplicationScheduleMutation, InsertMentorApplicationScheduleMutationVariables>;
 
 /**
- * __useUpdateMentorTimeMutation__
+ * __useInsertMentorApplicationScheduleMutation__
  *
- * To run a mutation, you first call `useUpdateMentorTimeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateMentorTimeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInsertMentorApplicationScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertMentorApplicationScheduleMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateMentorTimeMutation, { data, loading, error }] = useUpdateMentorTimeMutation({
+ * const [insertMentorApplicationScheduleMutation, { data, loading, error }] = useInsertMentorApplicationScheduleMutation({
  *   variables: {
+ *      year: // value for 'year'
  *      start_A: // value for 'start_A'
  *      start_B: // value for 'start_B'
  *      start_C: // value for 'start_C'
@@ -17244,21 +17889,230 @@ export type UpdateMentorTimeMutationFn = Apollo.MutationFunction<UpdateMentorTim
  *      end_C: // value for 'end_C'
  *      end_D: // value for 'end_D'
  *      end_E: // value for 'end_E'
- *      activateIn: // value for 'activateIn'
  *   },
  * });
  */
-export function useUpdateMentorTimeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>) {
+export function useInsertMentorApplicationScheduleMutation(baseOptions?: Apollo.MutationHookOptions<InsertMentorApplicationScheduleMutation, InsertMentorApplicationScheduleMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>(UpdateMentorTimeDocument, options);
+        return Apollo.useMutation<InsertMentorApplicationScheduleMutation, InsertMentorApplicationScheduleMutationVariables>(InsertMentorApplicationScheduleDocument, options);
       }
-export type UpdateMentorTimeMutationHookResult = ReturnType<typeof useUpdateMentorTimeMutation>;
-export type UpdateMentorTimeMutationResult = Apollo.MutationResult<UpdateMentorTimeMutation>;
-export type UpdateMentorTimeMutationOptions = Apollo.BaseMutationOptions<UpdateMentorTimeMutation, UpdateMentorTimeMutationVariables>;
+export type InsertMentorApplicationScheduleMutationHookResult = ReturnType<typeof useInsertMentorApplicationScheduleMutation>;
+export type InsertMentorApplicationScheduleMutationResult = Apollo.MutationResult<InsertMentorApplicationScheduleMutation>;
+export type InsertMentorApplicationScheduleMutationOptions = Apollo.BaseMutationOptions<InsertMentorApplicationScheduleMutation, InsertMentorApplicationScheduleMutationVariables>;
+export const GetMentorApplicationsListForCounselorDocument = gql`
+    query GetMentorApplicationsListForCounselor($year: Int!) {
+  mentor_application(where: {year: {_eq: $year}}, order_by: {created_at: asc}) {
+    statement
+    status
+    chat_status
+    student {
+      realname
+      student_no
+      department
+      class
+    }
+    mentor {
+      realname
+      department
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMentorApplicationsListForCounselorQuery__
+ *
+ * To run a query within a React component, call `useGetMentorApplicationsListForCounselorQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMentorApplicationsListForCounselorQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMentorApplicationsListForCounselorQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetMentorApplicationsListForCounselorQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables> & ({ variables: GetMentorApplicationsListForCounselorQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>(GetMentorApplicationsListForCounselorDocument, options);
+      }
+export function useGetMentorApplicationsListForCounselorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>(GetMentorApplicationsListForCounselorDocument, options);
+        }
+export function useGetMentorApplicationsListForCounselorSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>(GetMentorApplicationsListForCounselorDocument, options);
+        }
+export type GetMentorApplicationsListForCounselorQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForCounselorQuery>;
+export type GetMentorApplicationsListForCounselorLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForCounselorLazyQuery>;
+export type GetMentorApplicationsListForCounselorSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForCounselorSuspenseQuery>;
+export type GetMentorApplicationsListForCounselorQueryResult = Apollo.QueryResult<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>;
+export const QueryStudentByStudentNoDocument = gql`
+    query QueryStudentByStudentNo($student_no: String!) {
+  users(where: {student_no: {_eq: $student_no}}) {
+    uuid
+    realname
+  }
+}
+    `;
+
+/**
+ * __useQueryStudentByStudentNoQuery__
+ *
+ * To run a query within a React component, call `useQueryStudentByStudentNoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQueryStudentByStudentNoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQueryStudentByStudentNoQuery({
+ *   variables: {
+ *      student_no: // value for 'student_no'
+ *   },
+ * });
+ */
+export function useQueryStudentByStudentNoQuery(baseOptions: Apollo.QueryHookOptions<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables> & ({ variables: QueryStudentByStudentNoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>(QueryStudentByStudentNoDocument, options);
+      }
+export function useQueryStudentByStudentNoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>(QueryStudentByStudentNoDocument, options);
+        }
+export function useQueryStudentByStudentNoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>(QueryStudentByStudentNoDocument, options);
+        }
+export type QueryStudentByStudentNoQueryHookResult = ReturnType<typeof useQueryStudentByStudentNoQuery>;
+export type QueryStudentByStudentNoLazyQueryHookResult = ReturnType<typeof useQueryStudentByStudentNoLazyQuery>;
+export type QueryStudentByStudentNoSuspenseQueryHookResult = ReturnType<typeof useQueryStudentByStudentNoSuspenseQuery>;
+export type QueryStudentByStudentNoQueryResult = Apollo.QueryResult<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>;
+export const QueryTeacherByRealnameDocument = gql`
+    query QueryTeacherByRealname($realname: String!) {
+  users(where: {realname: {_eq: $realname}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useQueryTeacherByRealnameQuery__
+ *
+ * To run a query within a React component, call `useQueryTeacherByRealnameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQueryTeacherByRealnameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQueryTeacherByRealnameQuery({
+ *   variables: {
+ *      realname: // value for 'realname'
+ *   },
+ * });
+ */
+export function useQueryTeacherByRealnameQuery(baseOptions: Apollo.QueryHookOptions<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables> & ({ variables: QueryTeacherByRealnameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>(QueryTeacherByRealnameDocument, options);
+      }
+export function useQueryTeacherByRealnameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>(QueryTeacherByRealnameDocument, options);
+        }
+export function useQueryTeacherByRealnameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>(QueryTeacherByRealnameDocument, options);
+        }
+export type QueryTeacherByRealnameQueryHookResult = ReturnType<typeof useQueryTeacherByRealnameQuery>;
+export type QueryTeacherByRealnameLazyQueryHookResult = ReturnType<typeof useQueryTeacherByRealnameLazyQuery>;
+export type QueryTeacherByRealnameSuspenseQueryHookResult = ReturnType<typeof useQueryTeacherByRealnameSuspenseQuery>;
+export type QueryTeacherByRealnameQueryResult = Apollo.QueryResult<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>;
+export const GetFreshmanInfoListDocument = gql`
+    query GetFreshmanInfoList($year: Int!) {
+  freshman(where: {year: {_eq: $year}}, order_by: {student_no: asc}) {
+    realname
+    student_no
+  }
+}
+    `;
+
+/**
+ * __useGetFreshmanInfoListQuery__
+ *
+ * To run a query within a React component, call `useGetFreshmanInfoListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFreshmanInfoListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFreshmanInfoListQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetFreshmanInfoListQuery(baseOptions: Apollo.QueryHookOptions<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables> & ({ variables: GetFreshmanInfoListQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>(GetFreshmanInfoListDocument, options);
+      }
+export function useGetFreshmanInfoListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>(GetFreshmanInfoListDocument, options);
+        }
+export function useGetFreshmanInfoListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>(GetFreshmanInfoListDocument, options);
+        }
+export type GetFreshmanInfoListQueryHookResult = ReturnType<typeof useGetFreshmanInfoListQuery>;
+export type GetFreshmanInfoListLazyQueryHookResult = ReturnType<typeof useGetFreshmanInfoListLazyQuery>;
+export type GetFreshmanInfoListSuspenseQueryHookResult = ReturnType<typeof useGetFreshmanInfoListSuspenseQuery>;
+export type GetFreshmanInfoListQueryResult = Apollo.QueryResult<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>;
+export const InsertFreshmanInfoListDocument = gql`
+    mutation InsertFreshmanInfoList($freshmanData: [freshman_insert_input!]!) {
+  insert_freshman(
+    objects: $freshmanData
+    on_conflict: {constraint: freshman_pkey, update_columns: [realname, student_no, year, uuid]}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type InsertFreshmanInfoListMutationFn = Apollo.MutationFunction<InsertFreshmanInfoListMutation, InsertFreshmanInfoListMutationVariables>;
+
+/**
+ * __useInsertFreshmanInfoListMutation__
+ *
+ * To run a mutation, you first call `useInsertFreshmanInfoListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertFreshmanInfoListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertFreshmanInfoListMutation, { data, loading, error }] = useInsertFreshmanInfoListMutation({
+ *   variables: {
+ *      freshmanData: // value for 'freshmanData'
+ *   },
+ * });
+ */
+export function useInsertFreshmanInfoListMutation(baseOptions?: Apollo.MutationHookOptions<InsertFreshmanInfoListMutation, InsertFreshmanInfoListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertFreshmanInfoListMutation, InsertFreshmanInfoListMutationVariables>(InsertFreshmanInfoListDocument, options);
+      }
+export type InsertFreshmanInfoListMutationHookResult = ReturnType<typeof useInsertFreshmanInfoListMutation>;
+export type InsertFreshmanInfoListMutationResult = Apollo.MutationResult<InsertFreshmanInfoListMutation>;
+export type InsertFreshmanInfoListMutationOptions = Apollo.BaseMutationOptions<InsertFreshmanInfoListMutation, InsertFreshmanInfoListMutationVariables>;
 export const GetApprovedMentorApplicationsDocument = gql`
-    query GetApprovedMentorApplications($uuid: uuid!) {
+    query GetApprovedMentorApplications($uuid: uuid!, $year: Int!) {
   mentor_application(
-    where: {_and: [{_or: [{student_uuid: {_eq: $uuid}}, {mentor_uuid: {_eq: $uuid}}]}, {status: {_eq: "approved"}}]}
+    where: {_and: [{_or: [{student_uuid: {_eq: $uuid}}, {mentor_uuid: {_eq: $uuid}}]}, {status: {_eq: "approved"}}, {year: {_eq: $year}}]}
     order_by: {created_at: asc}
   ) {
     id
@@ -17291,6 +18145,7 @@ export const GetApprovedMentorApplicationsDocument = gql`
  * const { data, loading, error } = useGetApprovedMentorApplicationsQuery({
  *   variables: {
  *      uuid: // value for 'uuid'
+ *      year: // value for 'year'
  *   },
  * });
  */
