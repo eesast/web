@@ -43,6 +43,7 @@ import { FilterConfirmProps } from "antd/lib/table/interface";
 import { RcFile } from "rc-upload/lib/interface";
 import * as graphql from "@/generated/graphql";
 import { PageProps } from "..";
+// import Center from "../Components/Center";
 
 const param: FilterConfirmProps = {
   closeDropdown: true,
@@ -235,6 +236,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     data: mentorInfoListData,
     refetch: refetchMentorInfoList,
   } = graphql.useGetMentorInfoListQuery();
+
   useEffect(() => {
     if (mentorInfoListError) {
       message.error("导师信息列表加载失败");
@@ -247,6 +249,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
     };
     processMentorData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mentorInfoListData, selectedYear]);
 
   const [getMentorApplicationsCount] =
@@ -576,6 +579,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       };
       updateRegisteredFreshmanList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [freshmanInfoListData, mentorApplicationsListForCounselorsData]);
 
   const [queryStudentByStudentNo] =
@@ -774,10 +778,12 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                 disabled={
                   user.role !== "student" ||
                   !mentorApplicationSchedule ||
-                  new Date() < mentorApplicationSchedule.start_C ||
-                  new Date() > mentorApplicationSchedule.end_D ||
-                  (new Date() > mentorApplicationSchedule.end_C &&
-                    new Date() < mentorApplicationSchedule.start_D) ||
+                  dayjs(new Date()) <
+                    dayjs(mentorApplicationSchedule.start_C) ||
+                  dayjs(new Date()) > dayjs(mentorApplicationSchedule.end_D) ||
+                  (dayjs(new Date()) > dayjs(mentorApplicationSchedule.end_C) &&
+                    dayjs(new Date()) <
+                      dayjs(mentorApplicationSchedule.start_D)) ||
                   (((mentorApplicationsListForStudentData?.mentor_application &&
                     mentorApplicationsListForStudentData.mentor_application
                       .length > 0) ||
@@ -1157,7 +1163,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       `}
     >
       <Row style={{ justifyContent: "space-evenly" }}>
-        <Col span={14}>
+        <Col span={13}>
           {user.role === "teacher" && mentorDetail && (
             <>
               <Card>
@@ -1490,8 +1496,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           {user.role === "counselor" &&
             mentorApplicationSchedule &&
             selectedYear === new Date().getFullYear() && (
-              <Card>
-                <Typography.Title level={2}>管理时间</Typography.Title>
+              <Card hoverable>
+                <Typography.Title level={2} style={{ margin: "8px 8px 0 8px" }}>
+                  管理时间
+                </Typography.Title>
                 <br />
                 <Row>
                   <Col span={1} />
@@ -1618,12 +1626,12 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     </Timeline>
                   </Col>
                 </Row>
-
-                <Typography.Title level={2}>操作</Typography.Title>
+                <Typography.Title level={2} style={{ margin: "8px 8px 0 8px" }}>
+                  操作
+                </Typography.Title>
                 <br />
-                <Row>
-                  <Col span={1} />
-                  <Col span={5}>
+                <Row gutter={[16, 16]}>
+                  <Col span={8}>
                     <Button
                       onClick={() => setImportFreshmanInfoFormVisible(true)}
                       loading={importingFreshmanInfo}
@@ -1631,11 +1639,12 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                         freshmanInfoListLoading ||
                         mentorApplicationsListForCounselorsLoading
                       }
+                      block
                     >
                       导入新生信息
                     </Button>
                   </Col>
-                  <Col span={5}>
+                  <Col span={8}>
                     <Button
                       onClick={() => setImportMentorInfoFormVisible(true)}
                       loading={importingMentorInfo}
@@ -1643,11 +1652,12 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                         freshmanInfoListLoading ||
                         mentorApplicationsListForCounselorsLoading
                       }
+                      block
                     >
                       导入导师信息
                     </Button>
                   </Col>
-                  <Col span={4}>
+                  <Col span={8}>
                     <Button
                       onClick={handleExport}
                       loading={exporting}
@@ -1655,11 +1665,12 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                         freshmanInfoListLoading ||
                         mentorApplicationsListForCounselorsLoading
                       }
+                      block
                     >
                       导出申请
                     </Button>
                   </Col>
-                  <Col span={5}>
+                  <Col span={16}>
                     <Tooltip title="点击刷新">
                       <Button
                         onClick={async () => {
@@ -1671,6 +1682,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                           freshmanInfoListLoading ||
                           mentorApplicationsListForCounselorsLoading
                         }
+                        block
                       >
                         {"匹配人数: "}
                         {freshmanInfoListData && unmatchedFreshmanList
@@ -1681,7 +1693,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                       </Button>
                     </Tooltip>
                   </Col>
-                  <Col>
+                  <Col span={8}>
                     <Button
                       type="primary"
                       onClick={() => {
@@ -1697,6 +1709,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                         });
                       }}
                       loading={attributing}
+                      block
                     >
                       随机分配
                     </Button>
@@ -1708,8 +1721,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         </Col>
 
         {mentorApplicationSchedule && (
-          <Col span={8}>
-            <Card>
+          <Col span={9}>
+            <Card hoverable>
               <Row align="middle">
                 {/* <Col>
                   <Input
@@ -1732,8 +1745,8 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                 </Col> */}
                 <Col>
                   <Typography.Title
-                    level={3}
-                    style={{ margin: "0 0 0 8px", fontSize: 24 }}
+                    level={2}
+                    style={{ margin: "8px 8px 0 8px" }}
                   >
                     时间线
                   </Typography.Title>
@@ -1747,8 +1760,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     {(user.role === "teacher" || user.role === "counselor") && (
                       <Timeline.Item
                         color={
-                          new Date() >= mentorApplicationSchedule.start_A &&
-                          new Date() <= mentorApplicationSchedule.end_A
+                          dayjs(new Date()) >=
+                            dayjs(mentorApplicationSchedule.start_A) &&
+                          dayjs(new Date()) <=
+                            dayjs(mentorApplicationSchedule.end_A)
                             ? "green"
                             : "gray"
                         }
@@ -1768,8 +1783,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     )}
                     <Timeline.Item
                       color={
-                        new Date() >= mentorApplicationSchedule.start_B &&
-                        new Date() <= mentorApplicationSchedule.end_B
+                        dayjs(new Date()) >=
+                          dayjs(mentorApplicationSchedule.start_B) &&
+                        dayjs(new Date()) <=
+                          dayjs(mentorApplicationSchedule.end_B)
                           ? "green"
                           : "gray"
                       }
@@ -1789,8 +1806,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
                     <Timeline.Item
                       color={
-                        new Date() >= mentorApplicationSchedule.start_C &&
-                        new Date() <= mentorApplicationSchedule.end_C
+                        dayjs(new Date()) >=
+                          dayjs(mentorApplicationSchedule.start_C) &&
+                        dayjs(new Date()) <=
+                          dayjs(mentorApplicationSchedule.end_C)
                           ? "green"
                           : "gray"
                       }
@@ -1810,8 +1829,10 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
                     <Timeline.Item
                       color={
-                        new Date() >= mentorApplicationSchedule.start_D &&
-                        new Date() <= mentorApplicationSchedule.end_D
+                        dayjs(new Date()) >=
+                          dayjs(mentorApplicationSchedule.start_D) &&
+                        dayjs(new Date()) <=
+                          dayjs(mentorApplicationSchedule.end_D)
                           ? "green"
                           : "gray"
                       }
@@ -1828,10 +1849,13 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                         )}
                       </p>
                     </Timeline.Item>
+
                     <Timeline.Item
                       color={
-                        new Date() >= mentorApplicationSchedule.start_E &&
-                        new Date() <= mentorApplicationSchedule.end_E
+                        dayjs(new Date()) >=
+                          dayjs(mentorApplicationSchedule.start_E) &&
+                        dayjs(new Date()) <=
+                          dayjs(mentorApplicationSchedule.end_E)
                           ? "green"
                           : "gray"
                       }
@@ -1856,48 +1880,64 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         )}
       </Row>
 
+      <br />
+
       {user.role === "counselor" && (
         <>
-          <Row justify="center" gutter={50}>
-            <Col span={11}>
-              <Typography.Title level={2}>未匹配学生</Typography.Title>
-              <Card>
-                <Table
-                  dataSource={unmatchedFreshmanList}
-                  columns={[
-                    {
-                      title: "学号",
-                      dataIndex: "student_no",
-                      key: "student_no",
-                    },
-                    { title: "姓名", dataIndex: "realname", key: "realname" },
-                  ]}
-                />
-              </Card>
-            </Col>
+          <Col span={26}>
+            <Row style={{ justifyContent: "space-evenly" }}>
+              <Col span={11}>
+                <Card hoverable>
+                  <Typography.Title
+                    level={2}
+                    style={{ margin: "8px 8px 0 8px" }}
+                  >
+                    未匹配学生
+                  </Typography.Title>
+                  <Table
+                    style={{ margin: "16px 8px 0 8px" }}
+                    dataSource={unmatchedFreshmanList}
+                    columns={[
+                      {
+                        title: "学号",
+                        dataIndex: "student_no",
+                        key: "student_no",
+                      },
+                      { title: "姓名", dataIndex: "realname", key: "realname" },
+                    ]}
+                  />
+                </Card>
+              </Col>
 
-            <Col span={11}>
-              <Typography.Title level={2}>未注册学生</Typography.Title>
-              <Card>
-                <Table
-                  dataSource={freshmanInfoListData?.freshman.filter(
-                    (i) =>
-                      !registeredFreshmanList.find(
-                        (j) => j.student_no === i.student_no,
-                      ),
-                  )}
-                  columns={[
-                    {
-                      title: "学号",
-                      dataIndex: "student_no",
-                      key: "student_no",
-                    },
-                    { title: "姓名", dataIndex: "realname", key: "realname" },
-                  ]}
-                />
-              </Card>
-            </Col>
-          </Row>
+              <Col span={11}>
+                <Card hoverable>
+                  <Typography.Title
+                    level={2}
+                    style={{ margin: "8px 8px 0 8px" }}
+                  >
+                    未注册学生
+                  </Typography.Title>
+                  <Table
+                    style={{ margin: "16px 8px 0 8px" }}
+                    dataSource={freshmanInfoListData?.freshman.filter(
+                      (i) =>
+                        !registeredFreshmanList.find(
+                          (j) => j.student_no === i.student_no,
+                        ),
+                    )}
+                    columns={[
+                      {
+                        title: "学号",
+                        dataIndex: "student_no",
+                        key: "student_no",
+                      },
+                      { title: "姓名", dataIndex: "realname", key: "realname" },
+                    ]}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          </Col>
 
           <Modal
             open={importMentorInfoFormVisible}
@@ -1981,14 +2021,19 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       )}
 
       {/* {user.role === "student" && ( */}
+      <br />
       <>
-        <Typography.Title level={2}>导师列表</Typography.Title>
-        <Table
-          rowKey="_id"
-          loading={!mentorListFull}
-          dataSource={mentorListFull}
-          columns={mentorInfoListColumns}
-        />
+        <Col span={26}>
+          <Card hoverable>
+            <Typography.Title level={2}>导师列表</Typography.Title>
+            <Table
+              rowKey="_id"
+              loading={!mentorListFull}
+              dataSource={mentorListFull}
+              columns={mentorInfoListColumns}
+            />
+          </Card>
+        </Col>
         <Modal
           open={applicationModalVisible}
           title={
@@ -2136,7 +2181,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         width="60%"
       >
         {selectMentorDetail?.mentor_uuid && selectMentorDetail?.real_name ? (
-          <Descriptions title={selectMentorDetail.real_name} column={3}>
+          <Descriptions title={selectMentorDetail.real_name} column={1}>
             <Descriptions.Item label="基本信息">
               {selectMentorDetail?.intro ?? "暂无记录"}
             </Descriptions.Item>
