@@ -48,7 +48,7 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     if (password) {
       handleRegister();
     }
-  });
+  }, [password]);
 
   return (
     <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
