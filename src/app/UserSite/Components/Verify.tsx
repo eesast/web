@@ -49,6 +49,13 @@ const Verify: React.FC<VerifyProps> = ({ title, email, phone, setter }) => {
           return navigate(-1);
         }
         const response = await axios.post("/user/send-code", request);
+        if (response.status === 500) {
+          message.error("邮件发送失败，请检查邮箱是否正确");
+          return setSendLoading(false);
+        } else if (response.status === 501) {
+          message.error("短信发送失败，请检查手机号是否正确");
+          return setSendLoading(false);
+        }
         const data = response.data;
         localStorage.setItem("verificationToken", data.token);
         message.success("发送成功");
