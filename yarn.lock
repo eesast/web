@@ -20,12 +20,13 @@
   resolved "https://registry.yarnpkg.com/@ant-design/charts-util/-/charts-util-0.0.1-alpha.6.tgz#09903d28a15d86cc73fafef5383a5a3f932811bb"
   integrity sha512-roZobGkUJ0WqULPiQkX/2j01r6Cn0W6WTVpszq9u8dZKwyrSDr+UgfA/hDmrwOm9TWD9HAxe7aRHnvC06dux8w==
 
-"@ant-design/charts@2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.1.2.tgz#943d3ba438eeac29dcf2f24898ed2b4bae957d3e"
-  integrity sha512-ZFlavGCQygofs86GIk7A26+8mMO4l/6GQaQ3MrPdTUbzOkzmmDJxWwLJSbmDKUPw7gCTB0D8ccejmzYfhSLmaQ==
+"@ant-design/charts@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.2.1.tgz#5ee5d6f8c477c50308d89e41f57db5b61a628c15"
+  integrity sha512-OjAZeJo2xWlatj1/dw8eB9CDMsGCZ/BA6Z6k2sLPkSqDV9GUIjGNgXQ9igYrIqfpB+xVq5lLPvHndyXCHcOzMQ==
   dependencies:
     "@ant-design/plots" "^2.1.3"
+    lodash "^4.17.21"
 
 "@ant-design/colors@^7.0.0", "@ant-design/colors@^7.1.0":
   version "7.1.0"
