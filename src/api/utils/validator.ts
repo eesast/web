@@ -33,8 +33,18 @@ export const validatePassword = (password: string) => {
   );
 };
 
-export const validateNumber = (number: string) => {
-  return /^[0-9]*$/.test(number);
+export const validatePhoneNumber = (phoneNumber: string): boolean => {
+  if (!/^[0-9]+$/.test(phoneNumber)) {
+    return false;
+  }
+  if (phoneNumber.length !== 11 || !phoneNumber.startsWith("1")) {
+    return false;
+  }
+  return true;
+};
+
+export const validateStudentID = (input: string): boolean => {
+  return /^[0-9]+$/.test(input);
 };
 
 export const validateClass = (className: string) => {

@@ -252,10 +252,15 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mentorInfoListData, selectedYear]);
 
-  const [getMentorApplicationsCount] =
-    graphql.useGetMentorApplicationsCountLazyQuery();
-  const [getMentorApplicationsApprovedCount] =
-    graphql.useGetMentorApplicationsApprovedCountLazyQuery();
+  const { refetch: getMentorApplicationsCount } =
+    graphql.useGetMentorApplicationsCountQuery({
+      skip: true,
+    });
+
+  const { refetch: getMentorApplicationsApprovedCount } =
+    graphql.useGetMentorApplicationsApprovedCountQuery({
+      skip: true,
+    });
 
   // Get mentor list detail
   const mentorListWithApplicationsCount = async (
@@ -269,18 +274,14 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       mentorInfoListData.mentor_info.map(async (mentor) => {
         const { data: applicationsCountResult } =
           await getMentorApplicationsCount({
-            variables: {
-              uuid: mentor.mentor_uuid,
-              year: selectedYear,
-            },
+            uuid: mentor.mentor_uuid,
+            year: selectedYear,
           });
 
         const { data: applicationsApprovedCountResult } =
           await getMentorApplicationsApprovedCount({
-            variables: {
-              uuid: mentor.mentor_uuid,
-              year: selectedYear,
-            },
+            uuid: mentor.mentor_uuid,
+            year: selectedYear,
           });
 
         return {
@@ -584,6 +585,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
   const [queryStudentByStudentNo] =
     graphql.useQueryStudentByStudentNoLazyQuery();
+
   const [queryTeacherByRealname] = graphql.useQueryTeacherByRealnameLazyQuery();
 
   /**

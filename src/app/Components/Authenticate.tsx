@@ -27,9 +27,7 @@ const Authenticate: React.FC<AuthenticateProps> = ({
     }
   });
 
-  if (!user.isLoggedIn) {
-    return <Navigate to="/user/login" />;
-  }
+  if (!user.isLoggedIn) return <Navigate to="/user/login" />;
 
   if (role.includes(user.role)) return children;
 
