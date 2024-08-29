@@ -254,20 +254,12 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
   const { refetch: getMentorApplicationsCount } =
     graphql.useGetMentorApplicationsCountQuery({
-      variables: {
-        uuid: null,
-        year: selectedYear,
-      },
-      skip: !selectedYear || !mentorInfoListData,
+      skip: true,
     });
 
   const { refetch: getMentorApplicationsApprovedCount } =
     graphql.useGetMentorApplicationsApprovedCountQuery({
-      variables: {
-        uuid: null,
-        year: selectedYear,
-      },
-      skip: !selectedYear || !mentorInfoListData,
+      skip: true,
     });
 
   // Get mentor list detail

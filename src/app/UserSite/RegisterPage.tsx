@@ -48,6 +48,7 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     if (password) {
       handleRegister();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password]);
 
   return (
