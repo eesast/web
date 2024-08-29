@@ -8,7 +8,7 @@ import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
 import {
   validateEmail,
-  validateNumber,
+  validatePhoneNumber,
   validateUsername,
 } from "../../api/utils/validator";
 import { UserProps } from ".";
@@ -70,7 +70,7 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                 if (
                   !value ||
                   validateEmail(value) ||
-                  validateNumber(value) ||
+                  validatePhoneNumber(value) ||
                   validateUsername(value)
                 ) {
                   return Promise.resolve();

@@ -9,7 +9,8 @@ import dayjs from "dayjs";
 import {
   validateClass,
   validateEmail,
-  validateNumber,
+  validateStudentID,
+  validatePhoneNumber,
   validateUsername,
 } from "../../api/utils/validator";
 import { UserProps } from ".";
@@ -80,6 +81,12 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   // const handleLogin = () => {
   //   window.location.href = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
   // };
+  const { refetch: refetchUserByEmail } = graphql.useGetUserByEmailQuery({
+    variables: { email: "" },
+  });
+  const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
+    variables: { phone: "" },
+  });
 
   useEffect(() => {
     if (getProfileError) {
@@ -92,6 +99,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     graphql.useGetDepartmentsSuspenseQuery({
       variables: {},
     });
+
   useEffect(() => {
     if (getDepartmentsError) {
       message.error("获取院系信息失败");
@@ -134,7 +142,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     },
     {
       key: "phone",
-      label: "电话",
+      label: "手机号",
       children: profileData.users_by_pk?.phone || "",
       editable: () => true,
     },
@@ -198,6 +206,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
 
   const [updateProfileMutation, { error: updateProfileError }] =
     graphql.useUpdateProfileMutation();
+
   useEffect(() => {
     if (updateProfileError) {
       if (
@@ -212,18 +221,29 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       console.log(updateProfileError);
     }
   }, [updateProfileError]);
+
   const handleEdit = async (key: any, record: any) => {
     if (key === "email") {
       if (!validateEmail(record[key])) {
         message.error("请输入正确的邮箱格式");
         return Promise.reject();
       }
+      const { data } = await refetchUserByEmail({ email: record[key] });
+      if (data.users.length) {
+        message.error("邮箱已被注册");
+        return Promise.reject();
+      }
       navigate(url.append("email", record[key]).link("update"));
       return Promise.resolve();
     }
     if (key === "phone") {
-      if (!validateNumber(record[key])) {
+      if (!validatePhoneNumber(record[key])) {
         message.error("请输入正确的手机号");
+        return Promise.reject();
+      }
+      const { data } = await refetchUserByPhone({ phone: record[key] });
+      if (data.users.length) {
+        message.error("手机号已被注册");
         return Promise.reject();
       }
       navigate(url.append("phone", record[key]).link("update"));
@@ -232,6 +252,11 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     if (key === "tsinghua_email") {
       if (!validateEmail(record[key], true)) {
         message.error("请输入正确的邮箱格式");
+        return Promise.reject();
+      }
+      const { data } = await refetchUserByEmail({ email: record[key] });
+      if (data.users.length) {
+        message.error("邮箱已被注册");
         return Promise.reject();
       }
       navigate(
@@ -259,7 +284,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       }
     }
     if (key === "student_no") {
-      if (!validateNumber(record[key])) {
+      if (!validateStudentID(record[key])) {
         message.error("请输入正确的学号");
         return Promise.reject();
       }

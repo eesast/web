@@ -1,6 +1,6 @@
 import { Button, Form, Input, Tooltip, message } from "antd";
 import Center from "../../Components/Center";
-import { validateEmail, validateNumber } from "@/api/utils/validator";
+import { validateEmail, validatePhoneNumber } from "@/api/utils/validator";
 import { QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import * as graphql from "@/generated/graphql";
@@ -82,7 +82,11 @@ const Start: React.FC<StartProps> = ({
           { required: true, message: "请输入邮箱/手机号" },
           () => ({
             validator(rule, value) {
-              if (!value || validateEmail(value) || validateNumber(value)) {
+              if (
+                !value ||
+                validateEmail(value) ||
+                validatePhoneNumber(value)
+              ) {
                 return Promise.resolve();
               }
               return Promise.reject("请输入正确的邮箱/手机号");
