@@ -50,6 +50,12 @@ query GetUserByEmail($email: String!) {
   }
 }
 
+query GetUserByTsinghuaEmail($tsinghua_email: String!) {
+  users(where: { tsinghua_email: { _eq: $tsinghua_email } }) {
+    uuid
+  }
+}
+
 query GetUserByPhone($phone: String!) {
   users(where: { phone: { _eq: $phone } }) {
     uuid
