@@ -84,6 +84,10 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const { refetch: refetchUserByEmail } = graphql.useGetUserByEmailQuery({
     variables: { email: "" },
   });
+  const { refetch: refetchUserByTsinghuaEmail } =
+    graphql.useGetUserByTsinghuaEmailQuery({
+      variables: { tsinghua_email: "" },
+    });
   const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
     variables: { phone: "" },
   });
@@ -254,9 +258,11 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         message.error("请输入正确的邮箱格式");
         return Promise.reject();
       }
-      const { data } = await refetchUserByEmail({ email: record[key] });
+      const { data } = await refetchUserByTsinghuaEmail({
+        tsinghua_email: record[key],
+      });
       if (data.users.length) {
-        message.error("邮箱已被注册");
+        message.error("清华邮箱已被注册");
         return Promise.reject();
       }
       navigate(
