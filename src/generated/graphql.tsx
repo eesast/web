@@ -14216,6 +14216,13 @@ export type GetUserByEmailQueryVariables = Exact<{
 
 export type GetUserByEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
+export type GetUserByTsinghuaEmailQueryVariables = Exact<{
+  tsinghua_email: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByTsinghuaEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+
 export type GetUserByPhoneQueryVariables = Exact<{
   phone: Scalars['String']['input'];
 }>;
@@ -19139,6 +19146,46 @@ export type GetUserByEmailQueryHookResult = ReturnType<typeof useGetUserByEmailQ
 export type GetUserByEmailLazyQueryHookResult = ReturnType<typeof useGetUserByEmailLazyQuery>;
 export type GetUserByEmailSuspenseQueryHookResult = ReturnType<typeof useGetUserByEmailSuspenseQuery>;
 export type GetUserByEmailQueryResult = Apollo.QueryResult<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const GetUserByTsinghuaEmailDocument = gql`
+    query GetUserByTsinghuaEmail($tsinghua_email: String!) {
+  users(where: {tsinghua_email: {_eq: $tsinghua_email}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGetUserByTsinghuaEmailQuery__
+ *
+ * To run a query within a React component, call `useGetUserByTsinghuaEmailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByTsinghuaEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByTsinghuaEmailQuery({
+ *   variables: {
+ *      tsinghua_email: // value for 'tsinghua_email'
+ *   },
+ * });
+ */
+export function useGetUserByTsinghuaEmailQuery(baseOptions: Apollo.QueryHookOptions<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables> & ({ variables: GetUserByTsinghuaEmailQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>(GetUserByTsinghuaEmailDocument, options);
+      }
+export function useGetUserByTsinghuaEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>(GetUserByTsinghuaEmailDocument, options);
+        }
+export function useGetUserByTsinghuaEmailSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>(GetUserByTsinghuaEmailDocument, options);
+        }
+export type GetUserByTsinghuaEmailQueryHookResult = ReturnType<typeof useGetUserByTsinghuaEmailQuery>;
+export type GetUserByTsinghuaEmailLazyQueryHookResult = ReturnType<typeof useGetUserByTsinghuaEmailLazyQuery>;
+export type GetUserByTsinghuaEmailSuspenseQueryHookResult = ReturnType<typeof useGetUserByTsinghuaEmailSuspenseQuery>;
+export type GetUserByTsinghuaEmailQueryResult = Apollo.QueryResult<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>;
 export const GetUserByPhoneDocument = gql`
     query GetUserByPhone($phone: String!) {
   users(where: {phone: {_eq: $phone}}) {
