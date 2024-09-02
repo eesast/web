@@ -13752,22 +13752,6 @@ export type GetMentorInfoListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetMentorInfoListQuery = { __typename?: 'query_root', mentor_info: Array<{ __typename?: 'mentor_info', achievement?: string | null, available: boolean, background?: string | null, field?: string | null, intro?: string | null, max_applicants: number, mentor_uuid: any, user: { __typename?: 'users', department?: string | null, email?: string | null, realname?: string | null } }> };
 
-export type GetMentorApplicationsCountQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-  year: Scalars['Int']['input'];
-}>;
-
-
-export type GetMentorApplicationsCountQuery = { __typename?: 'query_root', mentor_application_aggregate: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null } };
-
-export type GetMentorApplicationsApprovedCountQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-  year: Scalars['Int']['input'];
-}>;
-
-
-export type GetMentorApplicationsApprovedCountQuery = { __typename?: 'query_root', mentor_application_aggregate: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null } };
-
 export type InsertMentorInfoMutationVariables = Exact<{
   mentor_uuid: Scalars['uuid']['input'];
 }>;
@@ -13817,16 +13801,6 @@ export type UpdateMentorApplicationStatusMutationVariables = Exact<{
 
 
 export type UpdateMentorApplicationStatusMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', status: string } | null };
-
-export type InsertMentorApplicationMutationVariables = Exact<{
-  mentor_uuid: Scalars['uuid']['input'];
-  student_uuid: Scalars['uuid']['input'];
-  year: Scalars['Int']['input'];
-  statement?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type InsertMentorApplicationMutation = { __typename?: 'mutation_root', insert_mentor_application_one?: { __typename?: 'mentor_application', id: any } | null };
 
 export type UpdateMentorApplicationStatementMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -16851,96 +16825,6 @@ export type GetMentorInfoListQueryHookResult = ReturnType<typeof useGetMentorInf
 export type GetMentorInfoListLazyQueryHookResult = ReturnType<typeof useGetMentorInfoListLazyQuery>;
 export type GetMentorInfoListSuspenseQueryHookResult = ReturnType<typeof useGetMentorInfoListSuspenseQuery>;
 export type GetMentorInfoListQueryResult = Apollo.QueryResult<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>;
-export const GetMentorApplicationsCountDocument = gql`
-    query GetMentorApplicationsCount($uuid: uuid!, $year: Int!) {
-  mentor_application_aggregate(
-    where: {_and: {mentor_uuid: {_eq: $uuid}, year: {_eq: $year}}}
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMentorApplicationsCountQuery__
- *
- * To run a query within a React component, call `useGetMentorApplicationsCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorApplicationsCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorApplicationsCountQuery({
- *   variables: {
- *      uuid: // value for 'uuid'
- *      year: // value for 'year'
- *   },
- * });
- */
-export function useGetMentorApplicationsCountQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables> & ({ variables: GetMentorApplicationsCountQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
-      }
-export function useGetMentorApplicationsCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
-        }
-export function useGetMentorApplicationsCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
-        }
-export type GetMentorApplicationsCountQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountQuery>;
-export type GetMentorApplicationsCountLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountLazyQuery>;
-export type GetMentorApplicationsCountSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountSuspenseQuery>;
-export type GetMentorApplicationsCountQueryResult = Apollo.QueryResult<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>;
-export const GetMentorApplicationsApprovedCountDocument = gql`
-    query GetMentorApplicationsApprovedCount($uuid: uuid!, $year: Int!) {
-  mentor_application_aggregate(
-    where: {_and: {mentor_uuid: {_eq: $uuid}, _and: {year: {_eq: $year}, status: {_eq: "approved"}}}}
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMentorApplicationsApprovedCountQuery__
- *
- * To run a query within a React component, call `useGetMentorApplicationsApprovedCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorApplicationsApprovedCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorApplicationsApprovedCountQuery({
- *   variables: {
- *      uuid: // value for 'uuid'
- *      year: // value for 'year'
- *   },
- * });
- */
-export function useGetMentorApplicationsApprovedCountQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables> & ({ variables: GetMentorApplicationsApprovedCountQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
-      }
-export function useGetMentorApplicationsApprovedCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
-        }
-export function useGetMentorApplicationsApprovedCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
-        }
-export type GetMentorApplicationsApprovedCountQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountQuery>;
-export type GetMentorApplicationsApprovedCountLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountLazyQuery>;
-export type GetMentorApplicationsApprovedCountSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountSuspenseQuery>;
-export type GetMentorApplicationsApprovedCountQueryResult = Apollo.QueryResult<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>;
 export const InsertMentorInfoDocument = gql`
     mutation InsertMentorInfo($mentor_uuid: uuid!) {
   insert_mentor_info_one(
@@ -17182,44 +17066,6 @@ export function useUpdateMentorApplicationStatusMutation(baseOptions?: Apollo.Mu
 export type UpdateMentorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateMentorApplicationStatusMutation>;
 export type UpdateMentorApplicationStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationStatusMutation>;
 export type UpdateMentorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationStatusMutation, UpdateMentorApplicationStatusMutationVariables>;
-export const InsertMentorApplicationDocument = gql`
-    mutation InsertMentorApplication($mentor_uuid: uuid!, $student_uuid: uuid!, $year: Int!, $statement: String = "") {
-  insert_mentor_application_one(
-    object: {statement: $statement, mentor_uuid: $mentor_uuid, student_uuid: $student_uuid, year: $year}
-  ) {
-    id
-  }
-}
-    `;
-export type InsertMentorApplicationMutationFn = Apollo.MutationFunction<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>;
-
-/**
- * __useInsertMentorApplicationMutation__
- *
- * To run a mutation, you first call `useInsertMentorApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertMentorApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertMentorApplicationMutation, { data, loading, error }] = useInsertMentorApplicationMutation({
- *   variables: {
- *      mentor_uuid: // value for 'mentor_uuid'
- *      student_uuid: // value for 'student_uuid'
- *      year: // value for 'year'
- *      statement: // value for 'statement'
- *   },
- * });
- */
-export function useInsertMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>(InsertMentorApplicationDocument, options);
-      }
-export type InsertMentorApplicationMutationHookResult = ReturnType<typeof useInsertMentorApplicationMutation>;
-export type InsertMentorApplicationMutationResult = Apollo.MutationResult<InsertMentorApplicationMutation>;
-export type InsertMentorApplicationMutationOptions = Apollo.BaseMutationOptions<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>;
 export const UpdateMentorApplicationStatementDocument = gql`
     mutation UpdateMentorApplicationStatement($id: uuid!, $statement: String!) {
   update_mentor_application_by_pk(
