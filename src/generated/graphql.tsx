@@ -6060,37 +6060,10 @@ export type Mentor_Application_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** order by aggregate values of table "mentor_application" */
-export type Mentor_Application_Aggregate_Order_By = {
-  avg?: InputMaybe<Mentor_Application_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Mentor_Application_Max_Order_By>;
-  min?: InputMaybe<Mentor_Application_Min_Order_By>;
-  stddev?: InputMaybe<Mentor_Application_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Mentor_Application_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Mentor_Application_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Mentor_Application_Sum_Order_By>;
-  var_pop?: InputMaybe<Mentor_Application_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Mentor_Application_Var_Samp_Order_By>;
-  variance?: InputMaybe<Mentor_Application_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "mentor_application" */
-export type Mentor_Application_Arr_Rel_Insert_Input = {
-  data: Array<Mentor_Application_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Mentor_Application_On_Conflict>;
-};
-
 /** aggregate avg on columns */
 export type Mentor_Application_Avg_Fields = {
   __typename?: 'mentor_application_avg_fields';
   year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by avg() on columns of table "mentor_application" */
-export type Mentor_Application_Avg_Order_By = {
-  year?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "mentor_application". All fields are combined with a logical 'AND'. */
@@ -6152,19 +6125,6 @@ export type Mentor_Application_Max_Fields = {
   year?: Maybe<Scalars['Int']['output']>;
 };
 
-/** order by max() on columns of table "mentor_application" */
-export type Mentor_Application_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  mentor_uuid?: InputMaybe<Order_By>;
-  statement?: InputMaybe<Order_By>;
-  /** approved | submitted */
-  status?: InputMaybe<Order_By>;
-  student_uuid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  year?: InputMaybe<Order_By>;
-};
-
 /** aggregate min on columns */
 export type Mentor_Application_Min_Fields = {
   __typename?: 'mentor_application_min_fields';
@@ -6177,19 +6137,6 @@ export type Mentor_Application_Min_Fields = {
   student_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
-};
-
-/** order by min() on columns of table "mentor_application" */
-export type Mentor_Application_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  mentor_uuid?: InputMaybe<Order_By>;
-  statement?: InputMaybe<Order_By>;
-  /** approved | submitted */
-  status?: InputMaybe<Order_By>;
-  student_uuid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  year?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "mentor_application" */
@@ -6270,20 +6217,10 @@ export type Mentor_Application_Stddev_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by stddev() on columns of table "mentor_application" */
-export type Mentor_Application_Stddev_Order_By = {
-  year?: InputMaybe<Order_By>;
-};
-
 /** aggregate stddev_pop on columns */
 export type Mentor_Application_Stddev_Pop_Fields = {
   __typename?: 'mentor_application_stddev_pop_fields';
   year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_pop() on columns of table "mentor_application" */
-export type Mentor_Application_Stddev_Pop_Order_By = {
-  year?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -6292,20 +6229,10 @@ export type Mentor_Application_Stddev_Samp_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by stddev_samp() on columns of table "mentor_application" */
-export type Mentor_Application_Stddev_Samp_Order_By = {
-  year?: InputMaybe<Order_By>;
-};
-
 /** aggregate sum on columns */
 export type Mentor_Application_Sum_Fields = {
   __typename?: 'mentor_application_sum_fields';
   year?: Maybe<Scalars['Int']['output']>;
-};
-
-/** order by sum() on columns of table "mentor_application" */
-export type Mentor_Application_Sum_Order_By = {
-  year?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "mentor_application" */
@@ -6336,250 +6263,16 @@ export type Mentor_Application_Var_Pop_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by var_pop() on columns of table "mentor_application" */
-export type Mentor_Application_Var_Pop_Order_By = {
-  year?: InputMaybe<Order_By>;
-};
-
 /** aggregate var_samp on columns */
 export type Mentor_Application_Var_Samp_Fields = {
   __typename?: 'mentor_application_var_samp_fields';
   year?: Maybe<Scalars['Float']['output']>;
 };
 
-/** order by var_samp() on columns of table "mentor_application" */
-export type Mentor_Application_Var_Samp_Order_By = {
-  year?: InputMaybe<Order_By>;
-};
-
 /** aggregate variance on columns */
 export type Mentor_Application_Variance_Fields = {
   __typename?: 'mentor_application_variance_fields';
   year?: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by variance() on columns of table "mentor_application" */
-export type Mentor_Application_Variance_Order_By = {
-  year?: InputMaybe<Order_By>;
-};
-
-/** columns and relationships of "mentor_available" */
-export type Mentor_Available = {
-  __typename?: 'mentor_available';
-  available: Scalars['Boolean']['output'];
-  created_at: Scalars['timestamptz']['output'];
-  max_applicant: Scalars['Int']['output'];
-  /** An object relationship */
-  mentor: Users;
-  mentor_uuid: Scalars['uuid']['output'];
-  updated_at: Scalars['timestamptz']['output'];
-};
-
-/** aggregated selection of "mentor_available" */
-export type Mentor_Available_Aggregate = {
-  __typename?: 'mentor_available_aggregate';
-  aggregate?: Maybe<Mentor_Available_Aggregate_Fields>;
-  nodes: Array<Mentor_Available>;
-};
-
-/** aggregate fields of "mentor_available" */
-export type Mentor_Available_Aggregate_Fields = {
-  __typename?: 'mentor_available_aggregate_fields';
-  avg?: Maybe<Mentor_Available_Avg_Fields>;
-  count: Scalars['Int']['output'];
-  max?: Maybe<Mentor_Available_Max_Fields>;
-  min?: Maybe<Mentor_Available_Min_Fields>;
-  stddev?: Maybe<Mentor_Available_Stddev_Fields>;
-  stddev_pop?: Maybe<Mentor_Available_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Mentor_Available_Stddev_Samp_Fields>;
-  sum?: Maybe<Mentor_Available_Sum_Fields>;
-  var_pop?: Maybe<Mentor_Available_Var_Pop_Fields>;
-  var_samp?: Maybe<Mentor_Available_Var_Samp_Fields>;
-  variance?: Maybe<Mentor_Available_Variance_Fields>;
-};
-
-
-/** aggregate fields of "mentor_available" */
-export type Mentor_Available_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** aggregate avg on columns */
-export type Mentor_Available_Avg_Fields = {
-  __typename?: 'mentor_available_avg_fields';
-  max_applicant?: Maybe<Scalars['Float']['output']>;
-};
-
-/** Boolean expression to filter rows from the table "mentor_available". All fields are combined with a logical 'AND'. */
-export type Mentor_Available_Bool_Exp = {
-  _and?: InputMaybe<Array<Mentor_Available_Bool_Exp>>;
-  _not?: InputMaybe<Mentor_Available_Bool_Exp>;
-  _or?: InputMaybe<Array<Mentor_Available_Bool_Exp>>;
-  available?: InputMaybe<Boolean_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  max_applicant?: InputMaybe<Int_Comparison_Exp>;
-  mentor?: InputMaybe<Users_Bool_Exp>;
-  mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "mentor_available" */
-export enum Mentor_Available_Constraint {
-  /** unique or primary key constraint on columns "mentor_uuid" */
-  MentorAvailableMentorUuidKey = 'mentor_available_mentor_uuid_key',
-  /** unique or primary key constraint on columns "mentor_uuid" */
-  MentorAvailablePkey = 'mentor_available_pkey'
-}
-
-/** input type for incrementing numeric columns in table "mentor_available" */
-export type Mentor_Available_Inc_Input = {
-  max_applicant?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** input type for inserting data into table "mentor_available" */
-export type Mentor_Available_Insert_Input = {
-  available?: InputMaybe<Scalars['Boolean']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  max_applicant?: InputMaybe<Scalars['Int']['input']>;
-  mentor?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate max on columns */
-export type Mentor_Available_Max_Fields = {
-  __typename?: 'mentor_available_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  max_applicant?: Maybe<Scalars['Int']['output']>;
-  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** aggregate min on columns */
-export type Mentor_Available_Min_Fields = {
-  __typename?: 'mentor_available_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  max_applicant?: Maybe<Scalars['Int']['output']>;
-  mentor_uuid?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-};
-
-/** response of any mutation on the table "mentor_available" */
-export type Mentor_Available_Mutation_Response = {
-  __typename?: 'mentor_available_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Mentor_Available>;
-};
-
-/** input type for inserting object relation for remote table "mentor_available" */
-export type Mentor_Available_Obj_Rel_Insert_Input = {
-  data: Mentor_Available_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Mentor_Available_On_Conflict>;
-};
-
-/** on_conflict condition type for table "mentor_available" */
-export type Mentor_Available_On_Conflict = {
-  constraint: Mentor_Available_Constraint;
-  update_columns?: Array<Mentor_Available_Update_Column>;
-  where?: InputMaybe<Mentor_Available_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "mentor_available". */
-export type Mentor_Available_Order_By = {
-  available?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  max_applicant?: InputMaybe<Order_By>;
-  mentor?: InputMaybe<Users_Order_By>;
-  mentor_uuid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: mentor_available */
-export type Mentor_Available_Pk_Columns_Input = {
-  mentor_uuid: Scalars['uuid']['input'];
-};
-
-/** select columns of table "mentor_available" */
-export enum Mentor_Available_Select_Column {
-  /** column name */
-  Available = 'available',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  MaxApplicant = 'max_applicant',
-  /** column name */
-  MentorUuid = 'mentor_uuid',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "mentor_available" */
-export type Mentor_Available_Set_Input = {
-  available?: InputMaybe<Scalars['Boolean']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  max_applicant?: InputMaybe<Scalars['Int']['input']>;
-  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type Mentor_Available_Stddev_Fields = {
-  __typename?: 'mentor_available_stddev_fields';
-  max_applicant?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Mentor_Available_Stddev_Pop_Fields = {
-  __typename?: 'mentor_available_stddev_pop_fields';
-  max_applicant?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Mentor_Available_Stddev_Samp_Fields = {
-  __typename?: 'mentor_available_stddev_samp_fields';
-  max_applicant?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate sum on columns */
-export type Mentor_Available_Sum_Fields = {
-  __typename?: 'mentor_available_sum_fields';
-  max_applicant?: Maybe<Scalars['Int']['output']>;
-};
-
-/** update columns of table "mentor_available" */
-export enum Mentor_Available_Update_Column {
-  /** column name */
-  Available = 'available',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  MaxApplicant = 'max_applicant',
-  /** column name */
-  MentorUuid = 'mentor_uuid',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** aggregate var_pop on columns */
-export type Mentor_Available_Var_Pop_Fields = {
-  __typename?: 'mentor_available_var_pop_fields';
-  max_applicant?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate var_samp on columns */
-export type Mentor_Available_Var_Samp_Fields = {
-  __typename?: 'mentor_available_var_samp_fields';
-  max_applicant?: Maybe<Scalars['Float']['output']>;
-};
-
-/** aggregate variance on columns */
-export type Mentor_Available_Variance_Fields = {
-  __typename?: 'mentor_available_variance_fields';
-  max_applicant?: Maybe<Scalars['Float']['output']>;
 };
 
 /** 新生导师信息 */
@@ -7397,10 +7090,6 @@ export type Mutation_Root = {
   delete_mentor_application?: Maybe<Mentor_Application_Mutation_Response>;
   /** delete single row from the table: "mentor_application" */
   delete_mentor_application_by_pk?: Maybe<Mentor_Application>;
-  /** delete data from the table: "mentor_available" */
-  delete_mentor_available?: Maybe<Mentor_Available_Mutation_Response>;
-  /** delete single row from the table: "mentor_available" */
-  delete_mentor_available_by_pk?: Maybe<Mentor_Available>;
   /** delete data from the table: "mentor_info" */
   delete_mentor_info?: Maybe<Mentor_Info_Mutation_Response>;
   /** delete single row from the table: "mentor_info" */
@@ -7549,10 +7238,6 @@ export type Mutation_Root = {
   insert_mentor_application?: Maybe<Mentor_Application_Mutation_Response>;
   /** insert a single row into the table: "mentor_application" */
   insert_mentor_application_one?: Maybe<Mentor_Application>;
-  /** insert data into the table: "mentor_available" */
-  insert_mentor_available?: Maybe<Mentor_Available_Mutation_Response>;
-  /** insert a single row into the table: "mentor_available" */
-  insert_mentor_available_one?: Maybe<Mentor_Available>;
   /** insert data into the table: "mentor_info" */
   insert_mentor_info?: Maybe<Mentor_Info_Mutation_Response>;
   /** insert a single row into the table: "mentor_info" */
@@ -7701,10 +7386,6 @@ export type Mutation_Root = {
   update_mentor_application?: Maybe<Mentor_Application_Mutation_Response>;
   /** update single row of the table: "mentor_application" */
   update_mentor_application_by_pk?: Maybe<Mentor_Application>;
-  /** update data of the table: "mentor_available" */
-  update_mentor_available?: Maybe<Mentor_Available_Mutation_Response>;
-  /** update single row of the table: "mentor_available" */
-  update_mentor_available_by_pk?: Maybe<Mentor_Available>;
   /** update data of the table: "mentor_info" */
   update_mentor_info?: Maybe<Mentor_Info_Mutation_Response>;
   /** update single row of the table: "mentor_info" */
@@ -8080,18 +7761,6 @@ export type Mutation_RootDelete_Mentor_ApplicationArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Mentor_Application_By_PkArgs = {
   id: Scalars['uuid']['input'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Mentor_AvailableArgs = {
-  where: Mentor_Available_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Mentor_Available_By_PkArgs = {
-  mentor_uuid: Scalars['uuid']['input'];
 };
 
 
@@ -8593,20 +8262,6 @@ export type Mutation_RootInsert_Mentor_ApplicationArgs = {
 export type Mutation_RootInsert_Mentor_Application_OneArgs = {
   object: Mentor_Application_Insert_Input;
   on_conflict?: InputMaybe<Mentor_Application_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Mentor_AvailableArgs = {
-  objects: Array<Mentor_Available_Insert_Input>;
-  on_conflict?: InputMaybe<Mentor_Available_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Mentor_Available_OneArgs = {
-  object: Mentor_Available_Insert_Input;
-  on_conflict?: InputMaybe<Mentor_Available_On_Conflict>;
 };
 
 
@@ -9141,22 +8796,6 @@ export type Mutation_RootUpdate_Mentor_Application_By_PkArgs = {
   _inc?: InputMaybe<Mentor_Application_Inc_Input>;
   _set?: InputMaybe<Mentor_Application_Set_Input>;
   pk_columns: Mentor_Application_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Mentor_AvailableArgs = {
-  _inc?: InputMaybe<Mentor_Available_Inc_Input>;
-  _set?: InputMaybe<Mentor_Available_Set_Input>;
-  where: Mentor_Available_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Mentor_Available_By_PkArgs = {
-  _inc?: InputMaybe<Mentor_Available_Inc_Input>;
-  _set?: InputMaybe<Mentor_Available_Set_Input>;
-  pk_columns: Mentor_Available_Pk_Columns_Input;
 };
 
 
@@ -10855,12 +10494,6 @@ export type Query_Root = {
   mentor_application_aggregate: Mentor_Application_Aggregate;
   /** fetch data from the table: "mentor_application" using primary key columns */
   mentor_application_by_pk?: Maybe<Mentor_Application>;
-  /** fetch data from the table: "mentor_available" */
-  mentor_available: Array<Mentor_Available>;
-  /** fetch aggregated fields from the table: "mentor_available" */
-  mentor_available_aggregate: Mentor_Available_Aggregate;
-  /** fetch data from the table: "mentor_available" using primary key columns */
-  mentor_available_by_pk?: Maybe<Mentor_Available>;
   /** fetch data from the table: "mentor_info" */
   mentor_info: Array<Mentor_Info>;
   /** fetch aggregated fields from the table: "mentor_info" */
@@ -11556,29 +11189,6 @@ export type Query_RootMentor_Application_By_PkArgs = {
 };
 
 
-export type Query_RootMentor_AvailableArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
-  where?: InputMaybe<Mentor_Available_Bool_Exp>;
-};
-
-
-export type Query_RootMentor_Available_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
-  where?: InputMaybe<Mentor_Available_Bool_Exp>;
-};
-
-
-export type Query_RootMentor_Available_By_PkArgs = {
-  mentor_uuid: Scalars['uuid']['input'];
-};
-
-
 export type Query_RootMentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12191,12 +11801,6 @@ export type Subscription_Root = {
   mentor_application_aggregate: Mentor_Application_Aggregate;
   /** fetch data from the table: "mentor_application" using primary key columns */
   mentor_application_by_pk?: Maybe<Mentor_Application>;
-  /** fetch data from the table: "mentor_available" */
-  mentor_available: Array<Mentor_Available>;
-  /** fetch aggregated fields from the table: "mentor_available" */
-  mentor_available_aggregate: Mentor_Available_Aggregate;
-  /** fetch data from the table: "mentor_available" using primary key columns */
-  mentor_available_by_pk?: Maybe<Mentor_Available>;
   /** fetch data from the table: "mentor_info" */
   mentor_info: Array<Mentor_Info>;
   /** fetch aggregated fields from the table: "mentor_info" */
@@ -12892,29 +12496,6 @@ export type Subscription_RootMentor_Application_By_PkArgs = {
 };
 
 
-export type Subscription_RootMentor_AvailableArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
-  where?: InputMaybe<Mentor_Available_Bool_Exp>;
-};
-
-
-export type Subscription_RootMentor_Available_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Available_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Available_Order_By>>;
-  where?: InputMaybe<Mentor_Available_Bool_Exp>;
-};
-
-
-export type Subscription_RootMentor_Available_By_PkArgs = {
-  mentor_uuid: Scalars['uuid']['input'];
-};
-
-
 export type Subscription_RootMentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13172,16 +12753,6 @@ export type Users = {
   department?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   github_id?: Maybe<Scalars['String']['output']>;
-  /** An array relationship */
-  mentor_application_as_mentor: Array<Mentor_Application>;
-  /** An aggregate relationship */
-  mentor_application_as_mentor_aggregate: Mentor_Application_Aggregate;
-  /** An array relationship */
-  mentor_application_as_student: Array<Mentor_Application>;
-  /** An aggregate relationship */
-  mentor_application_as_student_aggregate: Mentor_Application_Aggregate;
-  /** An object relationship */
-  mentor_available?: Maybe<Mentor_Available>;
   password: Scalars['String']['output'];
   phone?: Maybe<Scalars['String']['output']>;
   realname?: Maybe<Scalars['String']['output']>;
@@ -13211,46 +12782,6 @@ export type UsersContest_Team_Members_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Contest_Team_Member_Order_By>>;
   where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersMentor_Application_As_MentorArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersMentor_Application_As_Mentor_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersMentor_Application_As_StudentArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
-};
-
-
-/** columns and relationships of "users" */
-export type UsersMentor_Application_As_Student_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Mentor_Application_Order_By>>;
-  where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
 
 /** aggregated selection of "users" */
@@ -13286,9 +12817,6 @@ export type Users_Bool_Exp = {
   department?: InputMaybe<String_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   github_id?: InputMaybe<String_Comparison_Exp>;
-  mentor_application_as_mentor?: InputMaybe<Mentor_Application_Bool_Exp>;
-  mentor_application_as_student?: InputMaybe<Mentor_Application_Bool_Exp>;
-  mentor_available?: InputMaybe<Mentor_Available_Bool_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
   phone?: InputMaybe<String_Comparison_Exp>;
   realname?: InputMaybe<String_Comparison_Exp>;
@@ -13328,9 +12856,6 @@ export type Users_Insert_Input = {
   department?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   github_id?: InputMaybe<Scalars['String']['input']>;
-  mentor_application_as_mentor?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
-  mentor_application_as_student?: InputMaybe<Mentor_Application_Arr_Rel_Insert_Input>;
-  mentor_available?: InputMaybe<Mentor_Available_Obj_Rel_Insert_Input>;
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   realname?: InputMaybe<Scalars['String']['input']>;
@@ -13411,9 +12936,6 @@ export type Users_Order_By = {
   department?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   github_id?: InputMaybe<Order_By>;
-  mentor_application_as_mentor_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
-  mentor_application_as_student_aggregate?: InputMaybe<Mentor_Application_Aggregate_Order_By>;
-  mentor_available?: InputMaybe<Mentor_Available_Order_By>;
   password?: InputMaybe<Order_By>;
   phone?: InputMaybe<Order_By>;
   realname?: InputMaybe<Order_By>;
@@ -14230,22 +13752,6 @@ export type GetMentorInfoListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetMentorInfoListQuery = { __typename?: 'query_root', mentor_info: Array<{ __typename?: 'mentor_info', achievement?: string | null, available: boolean, background?: string | null, field?: string | null, intro?: string | null, max_applicants: number, mentor_uuid: any, user: { __typename?: 'users', department?: string | null, email?: string | null, realname?: string | null } }> };
 
-export type GetMentorApplicationsCountQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-  year: Scalars['Int']['input'];
-}>;
-
-
-export type GetMentorApplicationsCountQuery = { __typename?: 'query_root', mentor_application_aggregate: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null } };
-
-export type GetMentorApplicationsApprovedCountQueryVariables = Exact<{
-  uuid: Scalars['uuid']['input'];
-  year: Scalars['Int']['input'];
-}>;
-
-
-export type GetMentorApplicationsApprovedCountQuery = { __typename?: 'query_root', mentor_application_aggregate: { __typename?: 'mentor_application_aggregate', aggregate?: { __typename?: 'mentor_application_aggregate_fields', count: number } | null } };
-
 export type InsertMentorInfoMutationVariables = Exact<{
   mentor_uuid: Scalars['uuid']['input'];
 }>;
@@ -14295,16 +13801,6 @@ export type UpdateMentorApplicationStatusMutationVariables = Exact<{
 
 
 export type UpdateMentorApplicationStatusMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', status: string } | null };
-
-export type InsertMentorApplicationMutationVariables = Exact<{
-  mentor_uuid: Scalars['uuid']['input'];
-  student_uuid: Scalars['uuid']['input'];
-  year: Scalars['Int']['input'];
-  statement?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type InsertMentorApplicationMutation = { __typename?: 'mutation_root', insert_mentor_application_one?: { __typename?: 'mentor_application', id: any } | null };
 
 export type UpdateMentorApplicationStatementMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -17322,96 +16818,6 @@ export type GetMentorInfoListQueryHookResult = ReturnType<typeof useGetMentorInf
 export type GetMentorInfoListLazyQueryHookResult = ReturnType<typeof useGetMentorInfoListLazyQuery>;
 export type GetMentorInfoListSuspenseQueryHookResult = ReturnType<typeof useGetMentorInfoListSuspenseQuery>;
 export type GetMentorInfoListQueryResult = Apollo.QueryResult<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>;
-export const GetMentorApplicationsCountDocument = gql`
-    query GetMentorApplicationsCount($uuid: uuid!, $year: Int!) {
-  mentor_application_aggregate(
-    where: {_and: {mentor_uuid: {_eq: $uuid}, year: {_eq: $year}}}
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMentorApplicationsCountQuery__
- *
- * To run a query within a React component, call `useGetMentorApplicationsCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorApplicationsCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorApplicationsCountQuery({
- *   variables: {
- *      uuid: // value for 'uuid'
- *      year: // value for 'year'
- *   },
- * });
- */
-export function useGetMentorApplicationsCountQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables> & ({ variables: GetMentorApplicationsCountQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
-      }
-export function useGetMentorApplicationsCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
-        }
-export function useGetMentorApplicationsCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>(GetMentorApplicationsCountDocument, options);
-        }
-export type GetMentorApplicationsCountQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountQuery>;
-export type GetMentorApplicationsCountLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountLazyQuery>;
-export type GetMentorApplicationsCountSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsCountSuspenseQuery>;
-export type GetMentorApplicationsCountQueryResult = Apollo.QueryResult<GetMentorApplicationsCountQuery, GetMentorApplicationsCountQueryVariables>;
-export const GetMentorApplicationsApprovedCountDocument = gql`
-    query GetMentorApplicationsApprovedCount($uuid: uuid!, $year: Int!) {
-  mentor_application_aggregate(
-    where: {_and: {mentor_uuid: {_eq: $uuid}, _and: {year: {_eq: $year}, status: {_eq: "approved"}}}}
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useGetMentorApplicationsApprovedCountQuery__
- *
- * To run a query within a React component, call `useGetMentorApplicationsApprovedCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMentorApplicationsApprovedCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMentorApplicationsApprovedCountQuery({
- *   variables: {
- *      uuid: // value for 'uuid'
- *      year: // value for 'year'
- *   },
- * });
- */
-export function useGetMentorApplicationsApprovedCountQuery(baseOptions: Apollo.QueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables> & ({ variables: GetMentorApplicationsApprovedCountQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
-      }
-export function useGetMentorApplicationsApprovedCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
-        }
-export function useGetMentorApplicationsApprovedCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>(GetMentorApplicationsApprovedCountDocument, options);
-        }
-export type GetMentorApplicationsApprovedCountQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountQuery>;
-export type GetMentorApplicationsApprovedCountLazyQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountLazyQuery>;
-export type GetMentorApplicationsApprovedCountSuspenseQueryHookResult = ReturnType<typeof useGetMentorApplicationsApprovedCountSuspenseQuery>;
-export type GetMentorApplicationsApprovedCountQueryResult = Apollo.QueryResult<GetMentorApplicationsApprovedCountQuery, GetMentorApplicationsApprovedCountQueryVariables>;
 export const InsertMentorInfoDocument = gql`
     mutation InsertMentorInfo($mentor_uuid: uuid!) {
   insert_mentor_info_one(
@@ -17653,44 +17059,6 @@ export function useUpdateMentorApplicationStatusMutation(baseOptions?: Apollo.Mu
 export type UpdateMentorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateMentorApplicationStatusMutation>;
 export type UpdateMentorApplicationStatusMutationResult = Apollo.MutationResult<UpdateMentorApplicationStatusMutation>;
 export type UpdateMentorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateMentorApplicationStatusMutation, UpdateMentorApplicationStatusMutationVariables>;
-export const InsertMentorApplicationDocument = gql`
-    mutation InsertMentorApplication($mentor_uuid: uuid!, $student_uuid: uuid!, $year: Int!, $statement: String = "") {
-  insert_mentor_application_one(
-    object: {statement: $statement, mentor_uuid: $mentor_uuid, student_uuid: $student_uuid, year: $year}
-  ) {
-    id
-  }
-}
-    `;
-export type InsertMentorApplicationMutationFn = Apollo.MutationFunction<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>;
-
-/**
- * __useInsertMentorApplicationMutation__
- *
- * To run a mutation, you first call `useInsertMentorApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertMentorApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertMentorApplicationMutation, { data, loading, error }] = useInsertMentorApplicationMutation({
- *   variables: {
- *      mentor_uuid: // value for 'mentor_uuid'
- *      student_uuid: // value for 'student_uuid'
- *      year: // value for 'year'
- *      statement: // value for 'statement'
- *   },
- * });
- */
-export function useInsertMentorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>(InsertMentorApplicationDocument, options);
-      }
-export type InsertMentorApplicationMutationHookResult = ReturnType<typeof useInsertMentorApplicationMutation>;
-export type InsertMentorApplicationMutationResult = Apollo.MutationResult<InsertMentorApplicationMutation>;
-export type InsertMentorApplicationMutationOptions = Apollo.BaseMutationOptions<InsertMentorApplicationMutation, InsertMentorApplicationMutationVariables>;
 export const UpdateMentorApplicationStatementDocument = gql`
     mutation UpdateMentorApplicationStatement($id: uuid!, $statement: String!) {
   update_mentor_application_by_pk(

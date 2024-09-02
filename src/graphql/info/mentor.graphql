@@ -30,29 +30,29 @@ query GetMentorInfoList {
     }
   }
 }
-query GetMentorApplicationsCount($uuid: uuid!, $year: Int!) {
-  mentor_application_aggregate(
-    where: { _and: { mentor_uuid: { _eq: $uuid }, year: { _eq: $year } } }
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-query GetMentorApplicationsApprovedCount($uuid: uuid!, $year: Int!) {
-  mentor_application_aggregate(
-    where: {
-      _and: {
-        mentor_uuid: { _eq: $uuid }
-        _and: { year: { _eq: $year }, status: { _eq: "approved" } }
-      }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
+# query GetMentorApplicationsCount($uuid: uuid!, $year: Int!) {
+#   mentor_application_aggregate(
+#     where: { _and: { mentor_uuid: { _eq: $uuid }, year: { _eq: $year } } }
+#   ) {
+#     aggregate {
+#       count
+#     }
+#   }
+# }
+# query GetMentorApplicationsApprovedCount($uuid: uuid!, $year: Int!) {
+#   mentor_application_aggregate(
+#     where: {
+#       _and: {
+#         mentor_uuid: { _eq: $uuid }
+#         _and: { year: { _eq: $year }, status: { _eq: "approved" } }
+#       }
+#     }
+#   ) {
+#     aggregate {
+#       count
+#     }
+#   }
+# }
 
 # Mentor
 mutation InsertMentorInfo($mentor_uuid: uuid!) {
@@ -128,24 +128,24 @@ mutation UpdateMentorApplicationStatus($id: uuid!, $status: String!) {
   }
 }
 
-# Student
-mutation InsertMentorApplication(
-  $mentor_uuid: uuid!
-  $student_uuid: uuid!
-  $year: Int!
-  $statement: String = ""
-) {
-  insert_mentor_application_one(
-    object: {
-      statement: $statement
-      mentor_uuid: $mentor_uuid
-      student_uuid: $student_uuid
-      year: $year
-    }
-  ) {
-    id
-  }
-}
+# # Student
+# mutation InsertMentorApplication(
+#   $mentor_uuid: uuid!
+#   $student_uuid: uuid!
+#   $year: Int!
+#   $statement: String = ""
+# ) {
+#   insert_mentor_application_one(
+#     object: {
+#       statement: $statement
+#       mentor_uuid: $mentor_uuid
+#       student_uuid: $student_uuid
+#       year: $year
+#     }
+#   ) {
+#     id
+#   }
+# }
 mutation UpdateMentorApplicationStatement($id: uuid!, $statement: String!) {
   update_mentor_application_by_pk(
     pk_columns: { id: $id }

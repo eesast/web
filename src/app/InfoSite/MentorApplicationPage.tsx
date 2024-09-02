@@ -43,6 +43,7 @@ import { FilterConfirmProps } from "antd/lib/table/interface";
 import { RcFile } from "rc-upload/lib/interface";
 import * as graphql from "@/generated/graphql";
 import { PageProps } from "..";
+import axios, { AxiosError } from "axios";
 // import Center from "../Components/Center";
 
 const param: FilterConfirmProps = {
@@ -169,7 +170,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   // mentor hide reject application
   const [hideReject, setHideReject] = useState(false);
   // student apply mentor
-  const [selectMentor, setSelectMentor] = useState<String>();
+  const [selectMentor, setSelectMentor] = useState<string>();
   const [applicationModalVisible, setApplicationModalVisible] = useState(false);
   const [applicationForm] = Form.useForm();
   // search
@@ -246,56 +247,30 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
   useEffect(() => {
     const processMentorData = async () => {
-      await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+      await mentorListWithApplicationsCount(selectedYear);
     };
     processMentorData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mentorInfoListData, selectedYear]);
+  }, [mentorInfoListData]);
 
-  const { refetch: getMentorApplicationsCount } =
-    graphql.useGetMentorApplicationsCountQuery({
-      skip: true,
-    });
-
-  const { refetch: getMentorApplicationsApprovedCount } =
-    graphql.useGetMentorApplicationsApprovedCountQuery({
-      skip: true,
-    });
-
-  // Get mentor list detail
   const mentorListWithApplicationsCount = async (
-    mentorInfoListData: graphql.GetMentorInfoListQuery | undefined,
     selectedYear: number | undefined,
   ) => {
-    if (!mentorInfoListData?.mentor_info || !selectedYear) {
+    if (!selectedYear) {
       return;
     }
-    const info = await Promise.all(
-      mentorInfoListData.mentor_info.map(async (mentor) => {
-        const { data: applicationsCountResult } =
-          await getMentorApplicationsCount({
-            uuid: mentor.mentor_uuid,
-            year: selectedYear,
-          });
-
-        const { data: applicationsApprovedCountResult } =
-          await getMentorApplicationsApprovedCount({
-            uuid: mentor.mentor_uuid,
-            year: selectedYear,
-          });
-
-        return {
-          ...mentor,
-          total_applicants:
-            applicationsCountResult?.mentor_application_aggregate?.aggregate
-              ?.count ?? NaN,
-          matched_applicants:
-            applicationsApprovedCountResult?.mentor_application_aggregate
-              ?.aggregate?.count ?? NaN,
-        };
-      }),
-    );
-    setMentorListFull(info);
+    try {
+      const response = await axios.get(
+        `/application/info/mentor/${selectedYear.toString()}`,
+      );
+      if (response.status === 200) {
+        setMentorListFull(response.data);
+      }
+    } catch (e) {
+      const err = e as AxiosError;
+      message.error("请求失败，请检查网络连接");
+      console.error("Error fetching mentor info:", err);
+    }
   };
 
   /**
@@ -397,14 +372,42 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   /**
    * Student Only
    */
-  // Insert mentor application
-  const [insertMentorApplication, { loading: insertMentorApplicationLoading }] =
-    graphql.useInsertMentorApplicationMutation({
-      onCompleted: async () => {
+  // // Insert mentor application
+  // const [insertMentorApplication, { loading: insertMentorApplicationLoading }] =
+  //   graphql.useInsertMentorApplicationMutation({
+  //     onCompleted: async () => {
+  //       await refetchMentorApplicationsListForStudent();
+  //       await mentorListWithApplicationsCount(selectedYear);
+  //     },
+  //   });
+
+  const insertMentorApplication = async (
+    mentor_uuid: string,
+    student_uuid: string,
+    statement: string = "",
+  ) => {
+    if (user.role !== "student" && user.role !== "counselor") {
+      return;
+    }
+    try {
+      const response = await axios.post(`/application/mentor/insert_one`, {
+        mentor_uuid: mentor_uuid,
+        student_uuid: student_uuid,
+        year: selectedYear,
+        statement: statement,
+      });
+      if (response.status === 200) {
         await refetchMentorApplicationsListForStudent();
-        await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
-      },
-    });
+        await mentorListWithApplicationsCount(selectedYear);
+        message.success("申请成功");
+        return response.data;
+      }
+    } catch (e) {
+      const err = e as AxiosError;
+      message.error("请求失败，请检查网络连接");
+      console.error("Error fetching mentor info:", err);
+    }
+  };
 
   // Update mentor application statement
   const [
@@ -438,12 +441,15 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   ] = graphql.useDeleteMentorApplicationMutation({
     onCompleted: async () => {
       await refetchMentorApplicationsListForStudent();
-      await mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+      await mentorListWithApplicationsCount(selectedYear);
     },
   });
 
   // Handle application edit
   const handleApplicationEdit = async () => {
+    if (!selectMentor) {
+      return;
+    }
     try {
       applicationForm.validateFields();
     } catch {
@@ -471,14 +477,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         },
       });
     } else {
-      await insertMentorApplication({
-        variables: {
-          mentor_uuid: selectMentor,
-          student_uuid: user.uuid,
-          year: selectedYear,
-          statement: values.statement,
-        },
-      });
+      await insertMentorApplication(selectMentor, user.uuid!, values.statement);
     }
 
     setApplicationModalVisible(false);
@@ -904,17 +903,14 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     //更新数据库
     for (const [student, teacher] of matched) {
       try {
-        const { data } = await insertMentorApplication({
-          variables: {
-            mentor_uuid: teacher.mentor_uuid,
-            student_uuid: student.uuid,
-            year: selectedYear,
-            statement: "系统随机分配",
-          },
-        });
+        const application_id = await insertMentorApplication(
+          teacher.mentor_uuid,
+          student.uuid,
+          "系统随机分配",
+        );
         await updateMentorApplicationStatus({
           variables: {
-            id: data?.insert_mentor_application_one?.id!,
+            id: application_id,
             status: "approved",
           },
         });
@@ -1133,7 +1129,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         },
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
       e.onError!(new Error("上传失败"));
     }
   };
@@ -1152,7 +1148,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       message.info("开始下载");
       downloadFile(url).catch((e) => message.error("下载失败：" + e));
     } catch (err) {
-      console.log(err);
+      console.error(err);
       message.error(`下载失败`);
     }
   };
@@ -2056,10 +2052,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           }}
           onOk={handleApplicationEdit}
           maskClosable={false}
-          confirmLoading={
-            insertMentorApplicationLoading ||
-            updateMentorApplicationStatementLoading
-          }
+          confirmLoading={updateMentorApplicationStatementLoading}
         >
           <Form
             form={applicationForm}
@@ -2152,10 +2145,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     uuid: user.uuid!,
                     year: selectedYear,
                   });
-                  await mentorListWithApplicationsCount(
-                    mentorInfoListData,
-                    selectedYear,
-                  );
+                  await mentorListWithApplicationsCount(selectedYear);
                   setSelectAppliedStudentDetailVisiable(false);
                 } catch (err) {
                   message.error("更新失败");
