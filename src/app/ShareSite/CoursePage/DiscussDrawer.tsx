@@ -277,7 +277,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       }
       await handleGetCourseCommentStars();
       await handleGetCourseCommentLikes();
-      handleGetCommentReplies();
+      await handleGetCommentReplies();
     }
     setComments(commentsRef.current.filter((item) => !item.deleted));
     handleSortComments(sortMode, sortTrend);

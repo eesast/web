@@ -53,6 +53,7 @@ const exportSelectOptions = classes.map((_class) => (
 ));
 
 const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedYear] = useState<number>(new Date().getFullYear());
   const [info, setInfo] = useState({
     honors: [""],
@@ -421,9 +422,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
     const head = [
       "申请 ID",
-      "学号",
       "姓名",
       "班级",
+      "学号",
       "荣誉类型",
       "申请状态",
       "申请陈述",
@@ -469,9 +470,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
     const head = [
       "申请 ID",
-      "学号",
       "姓名",
       "班级",
+      "学号",
       "荣誉类型",
       "申请状态",
       "申请陈述",
@@ -560,12 +561,28 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           }
         }),
       );
+      await refetchApplicationsForCounselors();
+      setParseProgress(0);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // 清除文件输入
+      }
+      setFileList(null); // 清除文件列表
+      message.success("导入成功!");
+      setImportFormVisible(false);
     } catch (err) {
       message.error("文件解析失败：" + err);
     } finally {
       setImportLoading(false);
-      setImportFormVisible(false);
     }
+  };
+
+  const handleCancel = () => {
+    setImportFormVisible(false);
+    setParseProgress(0);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // 清除文件输入
+    }
+    setFileList(null); // 清除文件列表
   };
 
   return (
@@ -853,7 +870,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             title="导入申请"
             centered
             onOk={handleApplicationImport}
-            onCancel={() => setImportFormVisible(false)}
+            onCancel={handleCancel}
             maskClosable={false}
             confirmLoading={importLoading}
             okText="导入"
@@ -871,11 +888,15 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               `}
             >
               <input
+                ref={fileInputRef}
                 id="upload-file"
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 type="file"
                 name="file"
-                onChange={(e) => setFileList(e.target.files)}
+                onChange={(e) => {
+                  setFileList(e.target.files);
+                  setParseProgress(0);
+                }}
               />
               <label htmlFor="upload-file"></label>
               {parseProgress > 0 && (
