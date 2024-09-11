@@ -5348,6 +5348,7 @@ export type Honor_Application = {
   student: Users;
   student_uuid: Scalars['uuid']['output'];
   updated_at: Scalars['timestamptz']['output'];
+  year: Scalars['Int']['output'];
 };
 
 /** aggregated selection of "honor_application" */
@@ -5360,9 +5361,17 @@ export type Honor_Application_Aggregate = {
 /** aggregate fields of "honor_application" */
 export type Honor_Application_Aggregate_Fields = {
   __typename?: 'honor_application_aggregate_fields';
+  avg?: Maybe<Honor_Application_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Honor_Application_Max_Fields>;
   min?: Maybe<Honor_Application_Min_Fields>;
+  stddev?: Maybe<Honor_Application_Stddev_Fields>;
+  stddev_pop?: Maybe<Honor_Application_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Honor_Application_Stddev_Samp_Fields>;
+  sum?: Maybe<Honor_Application_Sum_Fields>;
+  var_pop?: Maybe<Honor_Application_Var_Pop_Fields>;
+  var_samp?: Maybe<Honor_Application_Var_Samp_Fields>;
+  variance?: Maybe<Honor_Application_Variance_Fields>;
 };
 
 
@@ -5370,6 +5379,12 @@ export type Honor_Application_Aggregate_Fields = {
 export type Honor_Application_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Honor_Application_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Honor_Application_Avg_Fields = {
+  __typename?: 'honor_application_avg_fields';
+  year?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "honor_application". All fields are combined with a logical 'AND'. */
@@ -5386,6 +5401,7 @@ export type Honor_Application_Bool_Exp = {
   student?: InputMaybe<Users_Bool_Exp>;
   student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "honor_application" */
@@ -5393,6 +5409,11 @@ export enum Honor_Application_Constraint {
   /** unique or primary key constraint on columns "id" */
   HonorApplicationPkey1 = 'honor_application_pkey1'
 }
+
+/** input type for incrementing numeric columns in table "honor_application" */
+export type Honor_Application_Inc_Input = {
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
 
 /** input type for inserting data into table "honor_application" */
 export type Honor_Application_Insert_Input = {
@@ -5405,6 +5426,7 @@ export type Honor_Application_Insert_Input = {
   student?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
@@ -5418,6 +5440,7 @@ export type Honor_Application_Max_Fields = {
   status?: Maybe<Scalars['String']['output']>;
   student_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate min on columns */
@@ -5431,6 +5454,7 @@ export type Honor_Application_Min_Fields = {
   status?: Maybe<Scalars['String']['output']>;
   student_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** response of any mutation on the table "honor_application" */
@@ -5460,6 +5484,7 @@ export type Honor_Application_Order_By = {
   student?: InputMaybe<Users_Order_By>;
   student_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: honor_application */
@@ -5484,7 +5509,9 @@ export enum Honor_Application_Select_Column {
   /** column name */
   StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Year = 'year'
 }
 
 /** input type for updating data in table "honor_application" */
@@ -5497,6 +5524,31 @@ export type Honor_Application_Set_Input = {
   status?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Honor_Application_Stddev_Fields = {
+  __typename?: 'honor_application_stddev_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Honor_Application_Stddev_Pop_Fields = {
+  __typename?: 'honor_application_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Honor_Application_Stddev_Samp_Fields = {
+  __typename?: 'honor_application_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate sum on columns */
+export type Honor_Application_Sum_Fields = {
+  __typename?: 'honor_application_sum_fields';
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "honor_application" */
@@ -5516,8 +5568,28 @@ export enum Honor_Application_Update_Column {
   /** column name */
   StudentUuid = 'student_uuid',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Year = 'year'
 }
+
+/** aggregate var_pop on columns */
+export type Honor_Application_Var_Pop_Fields = {
+  __typename?: 'honor_application_var_pop_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Honor_Application_Var_Samp_Fields = {
+  __typename?: 'honor_application_var_samp_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Honor_Application_Variance_Fields = {
+  __typename?: 'honor_application_variance_fields';
+  year?: Maybe<Scalars['Float']['output']>;
+};
 
 /** 荣誉申请时间表 */
 export type Honor_Time = {
@@ -8727,6 +8799,7 @@ export type Mutation_RootUpdate_Freshman_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Honor_ApplicationArgs = {
+  _inc?: InputMaybe<Honor_Application_Inc_Input>;
   _set?: InputMaybe<Honor_Application_Set_Input>;
   where: Honor_Application_Bool_Exp;
 };
@@ -8734,6 +8807,7 @@ export type Mutation_RootUpdate_Honor_ApplicationArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Honor_Application_By_PkArgs = {
+  _inc?: InputMaybe<Honor_Application_Inc_Input>;
   _set?: InputMaybe<Honor_Application_Set_Input>;
   pk_columns: Honor_Application_Pk_Columns_Input;
 };
@@ -13692,53 +13766,18 @@ export type GetContestTimesQuery = { __typename?: 'query_root', contest_time: Ar
 
 export type GetHonorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
-  _gte: Scalars['timestamptz']['input'];
+  year: Scalars['Int']['input'];
 }>;
 
 
 export type GetHonorApplicationsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any }> };
 
 export type GetHonorApplicationsForCounselorsQueryVariables = Exact<{
-  _gte: Scalars['timestamptz']['input'];
+  year: Scalars['Int']['input'];
 }>;
 
 
 export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, student_no?: string | null } }> };
-
-export type AddHonorApplicationMutationVariables = Exact<{
-  student_uuid: Scalars['uuid']['input'];
-  honor: Scalars['String']['input'];
-  statement: Scalars['String']['input'];
-  attachment_url?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type AddHonorApplicationMutation = { __typename?: 'mutation_root', insert_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
-
-export type UpdateHonorApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  honor: Scalars['String']['input'];
-  statement: Scalars['String']['input'];
-  attachment_url?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateHonorApplicationMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
-
-export type DeleteHonorApplicationMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-}>;
-
-
-export type DeleteHonorApplicationMutation = { __typename?: 'mutation_root', delete_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any }> } | null };
-
-export type UpdateHonorApplicationStatusMutationVariables = Exact<{
-  id: Scalars['uuid']['input'];
-  status: Scalars['String']['input'];
-}>;
-
-
-export type UpdateHonorApplicationStatusMutation = { __typename?: 'mutation_root', update_honor_application?: { __typename?: 'honor_application_mutation_response', returning: Array<{ __typename?: 'honor_application', id: any, status: string }> } | null };
 
 export type GetMentorApplicationScheduleQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -16468,9 +16507,9 @@ export type GetContestTimesLazyQueryHookResult = ReturnType<typeof useGetContest
 export type GetContestTimesSuspenseQueryHookResult = ReturnType<typeof useGetContestTimesSuspenseQuery>;
 export type GetContestTimesQueryResult = Apollo.QueryResult<GetContestTimesQuery, GetContestTimesQueryVariables>;
 export const GetHonorApplicationsDocument = gql`
-    query GetHonorApplications($uuid: uuid!, $_gte: timestamptz!) {
+    query GetHonorApplications($uuid: uuid!, $year: Int!) {
   honor_application(
-    where: {student_uuid: {_eq: $uuid}, updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
+    where: {student_uuid: {_eq: $uuid}, year: {_eq: $year}}
     order_by: {created_at: asc}
   ) {
     id
@@ -16497,7 +16536,7 @@ export const GetHonorApplicationsDocument = gql`
  * const { data, loading, error } = useGetHonorApplicationsQuery({
  *   variables: {
  *      uuid: // value for 'uuid'
- *      _gte: // value for '_gte'
+ *      year: // value for 'year'
  *   },
  * });
  */
@@ -16518,11 +16557,8 @@ export type GetHonorApplicationsLazyQueryHookResult = ReturnType<typeof useGetHo
 export type GetHonorApplicationsSuspenseQueryHookResult = ReturnType<typeof useGetHonorApplicationsSuspenseQuery>;
 export type GetHonorApplicationsQueryResult = Apollo.QueryResult<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>;
 export const GetHonorApplicationsForCounselorsDocument = gql`
-    query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
-  honor_application(
-    order_by: {created_at: asc}
-    where: {updated_at: {_gte: $_gte}, created_at: {_gte: $_gte}}
-  ) {
+    query GetHonorApplicationsForCounselors($year: Int!) {
+  honor_application(order_by: {created_at: asc}, where: {year: {_eq: $year}}) {
     id
     honor
     statement
@@ -16552,7 +16588,7 @@ export const GetHonorApplicationsForCounselorsDocument = gql`
  * @example
  * const { data, loading, error } = useGetHonorApplicationsForCounselorsQuery({
  *   variables: {
- *      _gte: // value for '_gte'
+ *      year: // value for 'year'
  *   },
  * });
  */
@@ -16572,159 +16608,6 @@ export type GetHonorApplicationsForCounselorsQueryHookResult = ReturnType<typeof
 export type GetHonorApplicationsForCounselorsLazyQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsLazyQuery>;
 export type GetHonorApplicationsForCounselorsSuspenseQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsSuspenseQuery>;
 export type GetHonorApplicationsForCounselorsQueryResult = Apollo.QueryResult<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>;
-export const AddHonorApplicationDocument = gql`
-    mutation AddHonorApplication($student_uuid: uuid!, $honor: String!, $statement: String!, $attachment_url: String) {
-  insert_honor_application(
-    objects: {student_uuid: $student_uuid, honor: $honor, statement: $statement, attachment_url: $attachment_url}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type AddHonorApplicationMutationFn = Apollo.MutationFunction<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>;
-
-/**
- * __useAddHonorApplicationMutation__
- *
- * To run a mutation, you first call `useAddHonorApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddHonorApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addHonorApplicationMutation, { data, loading, error }] = useAddHonorApplicationMutation({
- *   variables: {
- *      student_uuid: // value for 'student_uuid'
- *      honor: // value for 'honor'
- *      statement: // value for 'statement'
- *      attachment_url: // value for 'attachment_url'
- *   },
- * });
- */
-export function useAddHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>(AddHonorApplicationDocument, options);
-      }
-export type AddHonorApplicationMutationHookResult = ReturnType<typeof useAddHonorApplicationMutation>;
-export type AddHonorApplicationMutationResult = Apollo.MutationResult<AddHonorApplicationMutation>;
-export type AddHonorApplicationMutationOptions = Apollo.BaseMutationOptions<AddHonorApplicationMutation, AddHonorApplicationMutationVariables>;
-export const UpdateHonorApplicationDocument = gql`
-    mutation UpdateHonorApplication($id: uuid!, $honor: String!, $statement: String!, $attachment_url: String) {
-  update_honor_application(
-    where: {id: {_eq: $id}}
-    _set: {honor: $honor, statement: $statement, attachment_url: $attachment_url}
-  ) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type UpdateHonorApplicationMutationFn = Apollo.MutationFunction<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>;
-
-/**
- * __useUpdateHonorApplicationMutation__
- *
- * To run a mutation, you first call `useUpdateHonorApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateHonorApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateHonorApplicationMutation, { data, loading, error }] = useUpdateHonorApplicationMutation({
- *   variables: {
- *      id: // value for 'id'
- *      honor: // value for 'honor'
- *      statement: // value for 'statement'
- *      attachment_url: // value for 'attachment_url'
- *   },
- * });
- */
-export function useUpdateHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>(UpdateHonorApplicationDocument, options);
-      }
-export type UpdateHonorApplicationMutationHookResult = ReturnType<typeof useUpdateHonorApplicationMutation>;
-export type UpdateHonorApplicationMutationResult = Apollo.MutationResult<UpdateHonorApplicationMutation>;
-export type UpdateHonorApplicationMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationMutation, UpdateHonorApplicationMutationVariables>;
-export const DeleteHonorApplicationDocument = gql`
-    mutation DeleteHonorApplication($id: uuid!) {
-  delete_honor_application(where: {id: {_eq: $id}}) {
-    returning {
-      id
-    }
-  }
-}
-    `;
-export type DeleteHonorApplicationMutationFn = Apollo.MutationFunction<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>;
-
-/**
- * __useDeleteHonorApplicationMutation__
- *
- * To run a mutation, you first call `useDeleteHonorApplicationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteHonorApplicationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteHonorApplicationMutation, { data, loading, error }] = useDeleteHonorApplicationMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteHonorApplicationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>(DeleteHonorApplicationDocument, options);
-      }
-export type DeleteHonorApplicationMutationHookResult = ReturnType<typeof useDeleteHonorApplicationMutation>;
-export type DeleteHonorApplicationMutationResult = Apollo.MutationResult<DeleteHonorApplicationMutation>;
-export type DeleteHonorApplicationMutationOptions = Apollo.BaseMutationOptions<DeleteHonorApplicationMutation, DeleteHonorApplicationMutationVariables>;
-export const UpdateHonorApplicationStatusDocument = gql`
-    mutation UpdateHonorApplicationStatus($id: uuid!, $status: String!) {
-  update_honor_application(where: {id: {_eq: $id}}, _set: {status: $status}) {
-    returning {
-      id
-      status
-    }
-  }
-}
-    `;
-export type UpdateHonorApplicationStatusMutationFn = Apollo.MutationFunction<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
-
-/**
- * __useUpdateHonorApplicationStatusMutation__
- *
- * To run a mutation, you first call `useUpdateHonorApplicationStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateHonorApplicationStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateHonorApplicationStatusMutation, { data, loading, error }] = useUpdateHonorApplicationStatusMutation({
- *   variables: {
- *      id: // value for 'id'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useUpdateHonorApplicationStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>(UpdateHonorApplicationStatusDocument, options);
-      }
-export type UpdateHonorApplicationStatusMutationHookResult = ReturnType<typeof useUpdateHonorApplicationStatusMutation>;
-export type UpdateHonorApplicationStatusMutationResult = Apollo.MutationResult<UpdateHonorApplicationStatusMutation>;
-export type UpdateHonorApplicationStatusMutationOptions = Apollo.BaseMutationOptions<UpdateHonorApplicationStatusMutation, UpdateHonorApplicationStatusMutationVariables>;
 export const GetMentorApplicationScheduleDocument = gql`
     query GetMentorApplicationSchedule($year: Int!) {
   mentor_time_by_pk(activateIn: $year) {
