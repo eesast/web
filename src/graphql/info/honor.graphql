@@ -1,10 +1,6 @@
-query GetHonorApplications($uuid: uuid!, $_gte: timestamptz!) {
+query GetHonorApplications($uuid: uuid!, $year: Int!) {
   honor_application(
-    where: {
-      student_uuid: { _eq: $uuid }
-      updated_at: { _gte: $_gte }
-      created_at: { _gte: $_gte }
-    }
+    where: { student_uuid: { _eq: $uuid }, year: { _eq: $year } }
     order_by: { created_at: asc }
   ) {
     id
@@ -17,10 +13,10 @@ query GetHonorApplications($uuid: uuid!, $_gte: timestamptz!) {
   }
 }
 
-query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
+query GetHonorApplicationsForCounselors($year: Int!) {
   honor_application(
     order_by: { created_at: asc }
-    where: { updated_at: { _gte: $_gte }, created_at: { _gte: $_gte } }
+    where: { year: { _eq: $year } }
   ) {
     id
     honor
@@ -35,65 +31,5 @@ query GetHonorApplicationsForCounselors($_gte: timestamptz!) {
     }
     created_at
     updated_at
-  }
-}
-
-mutation AddHonorApplication(
-  $student_uuid: uuid!
-  $honor: String!
-  $statement: String!
-  $attachment_url: String
-) {
-  insert_honor_application(
-    objects: {
-      student_uuid: $student_uuid
-      honor: $honor
-      statement: $statement
-      attachment_url: $attachment_url
-    }
-  ) {
-    returning {
-      id
-    }
-  }
-}
-
-mutation UpdateHonorApplication(
-  $id: uuid!
-  $honor: String!
-  $statement: String!
-  $attachment_url: String
-) {
-  update_honor_application(
-    where: { id: { _eq: $id } }
-    _set: {
-      honor: $honor
-      statement: $statement
-      attachment_url: $attachment_url
-    }
-  ) {
-    returning {
-      id
-    }
-  }
-}
-
-mutation DeleteHonorApplication($id: uuid!) {
-  delete_honor_application(where: { id: { _eq: $id } }) {
-    returning {
-      id
-    }
-  }
-}
-
-mutation UpdateHonorApplicationStatus($id: uuid!, $status: String!) {
-  update_honor_application(
-    where: { id: { _eq: $id } }
-    _set: { status: $status }
-  ) {
-    returning {
-      id
-      status
-    }
   }
 }
