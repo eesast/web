@@ -53,6 +53,7 @@ const exportSelectOptions = classes.map((_class) => (
 ));
 
 const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
+  const [selectedYear] = useState<number>(new Date().getFullYear());
   const [info, setInfo] = useState({
     honors: [""],
     honor: {
@@ -104,14 +105,15 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   } = graphql.useGetHonorApplicationsQuery({
     variables: {
       uuid: user.uuid!,
-      _gte: info.honor.start_A,
+      year: selectedYear,
     },
-    skip: user.role === "counselor",
+    skip: user.role !== "student",
   });
 
   useEffect(() => {
     if (applicationError) {
       message.error("申请加载失败");
+      console.error(applicationError);
     }
   }, [applicationError]);
 
@@ -121,55 +123,49 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
   const [form] = Form.useForm();
 
-  const [
-    addApplication,
-    { loading: applicationAdding, error: addApplicationError },
-  ] = graphql.useAddHonorApplicationMutation();
-
-  useEffect(() => {
-    if (addApplicationError) {
-      message.error("申请提交失败");
-    }
-  }, [addApplicationError]);
-
-  const [
-    updateApplication,
-    { loading: applicationUpdating, error: updateApplicationError },
-  ] = graphql.useUpdateHonorApplicationMutation();
-
-  useEffect(() => {
-    if (updateApplicationError) {
-      message.error("申请更新失败");
-    }
-  }, [updateApplicationError]);
+  const [applicationUpdating, setApplicationUpdating] =
+    useState<boolean>(false);
 
   const handleApplicationEdit = async () => {
     try {
       form.validateFields();
-    } catch {}
+    } catch {
+      return;
+    }
 
     const values = form.getFieldsValue();
 
-    if (editingApplication) {
-      await updateApplication({
-        variables: {
+    if (!values.honor || !values.statement) {
+      message.error("请填写完整的申请信息");
+      return;
+    }
+
+    setApplicationUpdating(true);
+    try {
+      if (editingApplication) {
+        await axios.post(`/application/honor/update_one`, {
           id: editingApplication.id,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
-        },
-      });
-    } else {
-      await addApplication({
-        variables: {
-          student_uuid: user.uuid!,
+          student_uuid: user.uuid,
+        });
+        message.success("申请更新成功");
+      } else {
+        await axios.post(`/application/honor/insert_one`, {
+          student_uuid: user.uuid,
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
-        },
-      });
+        });
+        message.success("申请提交成功");
+      }
+    } catch (err) {
+      console.error(err);
+      message.error("Error in submitting application");
     }
 
+    setApplicationUpdating(false);
     setApplicationFormVisible(false);
     setEditingApplication(undefined);
     form.resetFields();
@@ -177,22 +173,22 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetchApplications();
   };
 
-  const [deleteApplication, { error: deleteApplicationError }] =
-    graphql.useDeleteHonorApplicationMutation();
-
-  useEffect(() => {
-    if (deleteApplicationError) {
-      message.error("申请删除失败");
-    }
-  }, [deleteApplicationError]);
-
   const handleApplicationDelete = async (id: string) => {
     confirm({
       title: "确定要删除此申请吗？",
       icon: <ExclamationCircleOutlined />,
       content: "此操作不可恢复。",
       onOk: async () => {
-        await deleteApplication({ variables: { id } });
+        try {
+          await axios.post(`/application/honor/delete_one`, {
+            id: id,
+            student_uuid: user.uuid,
+          });
+          message.success("申请删除成功");
+        } catch (err) {
+          console.error(err);
+          message.error("Error in deleting application");
+        }
         await refetchApplications();
       },
     });
@@ -204,7 +200,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     data: applicationsForCounselors,
     refetch: refetchApplicationsForCounselors,
   } = graphql.useGetHonorApplicationsForCounselorsQuery({
-    variables: { _gte: info.honor.start_A },
+    variables: { year: selectedYear },
     skip: user.role !== "counselor",
   });
 
@@ -300,32 +296,23 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   });
 
-  const [
-    updateApplicationStatus,
-    {
-      loading: updateApplicationStatusLoading,
-      error: updateApplicationStatusError,
-    },
-  ] = graphql.useUpdateHonorApplicationStatusMutation();
-
   const handleApplicationApprove = async (
     checked: boolean,
     item: graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0],
   ) => {
-    await updateApplicationStatus({
-      variables: {
+    try {
+      await axios.post(`/application/honor/update_status_one`, {
         id: item.id,
         status: checked ? "approved" : "rejected",
-      },
-    });
+        counselor_uuid: user.uuid,
+      });
+      message.success("申请状态更新成功");
+    } catch (err) {
+      console.error(err);
+      message.error("Error in approving application");
+    }
     await refetchApplicationsForCounselors();
   };
-
-  useEffect(() => {
-    if (updateApplicationStatusError) {
-      message.error("申请状态更新失败");
-    }
-  }, [updateApplicationStatusError]);
 
   const honorColumnsForCounselor: TableProps<
     graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
@@ -384,7 +371,6 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           checked={record.status === "approved"}
           checkedChildren="已通过"
           unCheckedChildren="未通过"
-          loading={updateApplicationStatusLoading}
           onChange={(checked) => {
             handleApplicationApprove(checked, record);
           }}
@@ -561,19 +547,14 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               throw new Error("Parse error");
             }
 
-            updateApplicationStatus({
-              variables: {
-                id,
-                status: getStatusValue(status),
-              },
+            await axios.post(`/application/honor/update_status_one`, {
+              id,
+              status: getStatusValue(status),
+              counselor_uuid: user.uuid,
             });
 
             count++;
             setParseProgress(Math.round((count / applications.length) * 100));
-
-            if (updateApplicationStatusError) {
-              throw updateApplicationStatusError;
-            }
           } catch (err) {
             throw err;
           }
@@ -583,6 +564,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       message.error("文件解析失败：" + err);
     } finally {
       setImportLoading(false);
+      setImportFormVisible(false);
     }
   };
 
@@ -623,7 +605,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         </Timeline.Item>
       </Timeline>
       <Typography.Title level={2}>荣誉</Typography.Title>
-      {user.role !== "counselor" && (
+      {user.role === "student" && (
         <>
           <Button
             disabled={false}
@@ -740,7 +722,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             }}
             onOk={handleApplicationEdit}
             maskClosable={false}
-            confirmLoading={applicationUpdating || applicationAdding}
+            confirmLoading={applicationUpdating}
           >
             <Form
               form={form}
@@ -775,6 +757,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           </Modal>
         </>
       )}
+      {user.role === "teacher" && <></>}
       {user.role === "counselor" && (
         <>
           <Space direction="horizontal">
