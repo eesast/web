@@ -12,6 +12,7 @@ import {
   Row,
   Typography,
   message,
+  Tooltip,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import * as graphql from "@/generated/graphql";
@@ -66,7 +67,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     const [visibleInsert, setVisibleInsert] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
     return (
-      <td title={props.item.title.split("|")[1]}>
+      <Tooltip title={props.item.title.split("|")[1]}>
         <Card
           hoverable={true}
           cover={<Im src={props.item.url} />}
@@ -88,7 +89,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
             }
           />
         </Card>
-      </td>
+      </Tooltip>
     );
   };
 

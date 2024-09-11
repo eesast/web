@@ -53,6 +53,8 @@ const exportSelectOptions = classes.map((_class) => (
 ));
 
 const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [info, setInfo] = useState({
     honors: [""],
     honor: {
@@ -435,9 +437,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
     const head = [
       "申请 ID",
-      "学号",
       "姓名",
       "班级",
+      "学号",
       "荣誉类型",
       "申请状态",
       "申请陈述",
@@ -483,9 +485,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
     const head = [
       "申请 ID",
-      "学号",
       "姓名",
       "班级",
+      "学号",
       "荣誉类型",
       "申请状态",
       "申请陈述",
@@ -585,6 +587,16 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       setImportLoading(false);
     }
   };
+
+  const handleCancel = () => {
+    setImportFormVisible(false);
+    setParseProgress(0);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';  // 清除文件输入
+    }
+    setFileList(null);  // 清除文件列表
+  };
+
 
   return (
     <Space
@@ -870,7 +882,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             title="导入申请"
             centered
             onOk={handleApplicationImport}
-            onCancel={() => setImportFormVisible(false)}
+            onCancel={handleCancel}
             maskClosable={false}
             confirmLoading={importLoading}
             okText="导入"
@@ -888,11 +900,12 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               `}
             >
               <input
+                ref={fileInputRef}
                 id="upload-file"
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 type="file"
                 name="file"
-                onChange={(e) => setFileList(e.target.files)}
+                onChange={(e) => {setFileList(e.target.files); setParseProgress(0)}}
               />
               <label htmlFor="upload-file"></label>
               {parseProgress > 0 && (
