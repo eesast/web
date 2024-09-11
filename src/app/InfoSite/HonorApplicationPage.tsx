@@ -561,11 +561,18 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           }
         }),
       );
+      await refetchApplicationsForCounselors();
+      setParseProgress(0);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // 清除文件输入
+      }
+      setFileList(null); // 清除文件列表
+      message.success("导入成功!");
+      setImportFormVisible(false);
     } catch (err) {
       message.error("文件解析失败：" + err);
     } finally {
       setImportLoading(false);
-      setImportFormVisible(false);
     }
   };
 
