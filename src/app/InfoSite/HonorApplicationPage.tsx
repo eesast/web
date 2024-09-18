@@ -603,8 +603,8 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         >
           <p>第一阶段：荣誉申请</p>
           <p>
-            {info.honor.start_A.toLocaleString()} ~{" "}
-            {info.honor.end_A.toLocaleString()}
+            {info.honor.start_A.toLocaleString(undefined, { hour12: false })} ~{" "}
+            {info.honor.end_A.toLocaleString(undefined, { hour12: false })}
           </p>
         </Timeline.Item>
         <Timeline.Item
@@ -616,8 +616,8 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         >
           <p>第二阶段：荣誉申请结果公示</p>
           <p>
-            {info.honor.start_B.toLocaleString()} ~{" "}
-            {info.honor.end_B.toLocaleString()}
+            {info.honor.start_B.toLocaleString(undefined, { hour12: false })} ~{" "}
+            {info.honor.end_B.toLocaleString(undefined, { hour12: false })}
           </p>
         </Timeline.Item>
       </Timeline>
