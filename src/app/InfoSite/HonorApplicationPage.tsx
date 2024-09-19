@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Space,
   Typography,
+  Card,
   Timeline,
   Button,
   List,
@@ -642,87 +643,141 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             dataSource={applicationData?.honor_application}
             renderItem={(item) => {
               return (
-                <Descriptions
-                  key={item.id}
-                  bordered
-                  size="small"
+                <Card
+                  hoverable
+                  styles={{
+                    body: {
+                      padding: "20px",
+                    },
+                  }}
                   css={`
                     margin: 24px auto;
                   `}
                 >
-                  <Descriptions.Item label="荣誉类型" span={2}>
-                    {item.honor}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请状态">
-                    {item.status === "submitted" ? (
-                      <Badge status="processing" text="已提交" />
-                    ) : item.status === "approved" ? (
-                      <Badge status="success" text="已通过" />
-                    ) : (
-                      <Badge status="error" text="未通过" />
-                    )}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请陈述" span={3}>
-                    <Text
-                      css={`
-                        word-rap: break-word;
-                        white-space: pre-wrap;
-                      `}
+                  <Descriptions key={item.id} bordered size="small" column={8}>
+                    <Descriptions.Item
+                      label="荣誉类型"
+                      span={3}
+                      labelStyle={{
+                        whiteSpace: "nowrap",
+                        width: "90px",
+                        fontWeight: "bold",
+                      }}
+                      contentStyle={{
+                        width: "100px",
+                      }}
                     >
-                      {item.statement}
-                    </Text>
-                  </Descriptions.Item>
-                  <Descriptions.Item label="申请材料" span={2}>
-                    {item.attachment_url && isUrl(item.attachment_url) ? (
-                      <a
-                        href={item.attachment_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      {item.honor}
+                    </Descriptions.Item>
+                    <Descriptions.Item
+                      label="申请状态"
+                      span={5}
+                      labelStyle={{
+                        whiteSpace: "nowrap",
+                        width: "90px",
+                        fontWeight: "bold",
+                      }}
+                      contentStyle={{
+                        width: "80px",
+                      }}
+                    >
+                      {item.status === "submitted" ? (
+                        <Badge status="processing" text="已提交" />
+                      ) : item.status === "approved" ? (
+                        <Badge status="success" text="已通过" />
+                      ) : (
+                        <Badge status="error" text="未通过" />
+                      )}
+                    </Descriptions.Item>
+                    <Descriptions.Item
+                      label="申请陈述"
+                      span={8}
+                      labelStyle={{
+                        whiteSpace: "nowrap",
+                        width: "90px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <Text
+                        css={`
+                          word-rap: break-word;
+                          white-space: pre-wrap;
+                        `}
                       >
-                        {item.attachment_url}
-                      </a>
-                    ) : (
-                      item.attachment_url ?? "无"
-                    )}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="操作">
-                    <Button
-                      css={`
-                        margin: 5px;
-                      `}
-                      disabled={item.status !== "submitted"}
-                      onClick={() => {
-                        if (new Date() < info.honor.start_A) {
-                          return message.info("未到申请时间！");
-                        } else if (new Date() > info.honor.end_A) {
-                          return message.warning("申请时间已过！");
-                        }
-                        setEditingApplication(item);
-                        form.setFieldsValue(item);
-                        setApplicationFormVisible(true);
+                        {item.statement}
+                      </Text>
+                    </Descriptions.Item>
+                    <Descriptions.Item
+                      label="申请材料"
+                      span={3}
+                      labelStyle={{
+                        whiteSpace: "nowrap",
+                        width: "90px",
+                        fontWeight: "bold",
+                      }}
+                      contentStyle={{
+                        width: "80px",
                       }}
                     >
-                      编辑
-                    </Button>
-                    <Button
-                      css={`
-                        margin: 5px;
-                      `}
-                      disabled={false}
-                      danger
-                      onClick={() => {
-                        if (new Date() < info.honor.start_A) {
-                          return message.info("未到申请时间！");
-                        } else if (new Date() > info.honor.end_A) {
-                          return message.warning("申请时间已过！");
-                        }
-                        handleApplicationDelete(item.id);
+                      {item.attachment_url && isUrl(item.attachment_url) ? (
+                        <a
+                          href={item.attachment_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {item.attachment_url}
+                        </a>
+                      ) : (
+                        item.attachment_url ?? "无"
+                      )}
+                    </Descriptions.Item>
+                    <Descriptions.Item
+                      label="操作"
+                      span={5}
+                      labelStyle={{
+                        whiteSpace: "nowrap",
+                        width: "90px",
+                        fontWeight: "bold",
                       }}
                     >
-                      删除
-                    </Button>
-                  </Descriptions.Item>
-                </Descriptions>
+                      <Button
+                        css={`
+                          margin: 5px;
+                        `}
+                        disabled={item.status !== "submitted"}
+                        onClick={() => {
+                          if (new Date() < info.honor.start_A) {
+                            return message.info("未到申请时间！");
+                          } else if (new Date() > info.honor.end_A) {
+                            return message.warning("申请时间已过！");
+                          }
+                          setEditingApplication(item);
+                          form.setFieldsValue(item);
+                          setApplicationFormVisible(true);
+                        }}
+                      >
+                        编辑
+                      </Button>
+                      <Button
+                        css={`
+                          margin: 5px;
+                        `}
+                        disabled={false}
+                        danger
+                        onClick={() => {
+                          if (new Date() < info.honor.start_A) {
+                            return message.info("未到申请时间！");
+                          } else if (new Date() > info.honor.end_A) {
+                            return message.warning("申请时间已过！");
+                          }
+                          handleApplicationDelete(item.id);
+                        }}
+                      >
+                        删除
+                      </Button>
+                    </Descriptions.Item>
+                  </Descriptions>
+                </Card>
               );
             }}
           />
