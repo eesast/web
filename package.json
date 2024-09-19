@@ -6,9 +6,9 @@
   "private": true,
   "dependencies": {
     "@ant-design/charts": "2.2.1",
-    "@ant-design/pro-components": "2.7.15",
+    "@ant-design/pro-components": "2.7.18",
     "@apollo/client": "3.11.8",
-    "antd": "5.20.5",
+    "antd": "5.20.6",
     "axios": "1.7.3",
     "cos-js-sdk-v5": "1.8.4",
     "dayjs": "1.11.13",
@@ -24,7 +24,7 @@
     "react-dom": "18.3.1",
     "react-markdown": "9.0.1",
     "react-otp-input": "3.1.1",
-    "react-router-dom": "6.26.1",
+    "react-router-dom": "6.26.2",
     "react-router-prompt": "0.7.1",
     "react-unity-webgl": "9.5.2",
     "styled-components": "6.1.13",
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.2",
     "@graphql-codegen/typescript-operations": "4.2.3",
-    "@graphql-codegen/typescript-react-apollo": "4.3.1",
+    "@graphql-codegen/typescript-react-apollo": "4.3.2",
     "@playwright/test": "1.47.0",
     "@types/is-url": "1.2.32",
     "@types/node": "20.16.5",
@@ -45,19 +45,19 @@
     "babel-plugin-styled-components": "2.1.4",
     "cross-env": "7.0.3",
     "customize-cra": "1.0.0",
-    "husky": "9.1.5",
+    "husky": "9.1.6",
     "lint-staged": "15.2.10",
     "prettier": "3.3.3",
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
     "rimraf": "6.0.1",
-    "typescript": "5.5.4",
+    "typescript": "5.6.2",
     "web-vitals": "4.2.3",
     "webpack-bundle-analyzer": "4.10.2",
     "webpackbar": "6.0.1"
   },
   "peerDependencies": {
-    "electron": "32.0.2",
+    "electron": "32.1.0",
     "electron-builder": "25.0.5"
   },
   "resolutions": {
