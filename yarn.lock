@@ -106,16 +106,16 @@
     rc-resize-observer "^1.0.0"
     rc-util "^5.4.0"
 
-"@ant-design/pro-components@2.7.18":
-  version "2.7.18"
-  resolved "https://registry.yarnpkg.com/@ant-design/pro-components/-/pro-components-2.7.18.tgz#2a2c3765281e6c2ba2b510baad6e248fd2377b01"
-  integrity sha512-mby630STk+bpQJJE1/5pLhoLpnFIG6Hkd228MGN9BtrVfLg5crBHDZ8C6h7lAkf/8b7mvNPxXmUBtqrvUrefPg==
+"@ant-design/pro-components@2.7.19":
+  version "2.7.19"
+  resolved "https://registry.yarnpkg.com/@ant-design/pro-components/-/pro-components-2.7.19.tgz#197513f73d1463d70a60dda95c99ebc7a048dfee"
+  integrity sha512-C/xf7VhZEMZsphT9i6DsjjwQYAEj0u77n7WYtd9/HLfJyQ2h9maORnd1z+BSmBZ58IWb18wPbiODUjNXT/toMw==
   dependencies:
     "@ant-design/pro-card" "2.8.8"
     "@ant-design/pro-descriptions" "2.5.53"
     "@ant-design/pro-field" "2.16.2"
     "@ant-design/pro-form" "2.30.2"
-    "@ant-design/pro-layout" "7.20.1"
+    "@ant-design/pro-layout" "7.20.2"
     "@ant-design/pro-list" "2.5.69"
     "@ant-design/pro-provider" "2.14.9"
     "@ant-design/pro-skeleton" "2.1.13"
@@ -173,10 +173,10 @@
     rc-resize-observer "^1.1.0"
     rc-util "^5.0.6"
 
-"@ant-design/pro-layout@7.20.1":
-  version "7.20.1"
-  resolved "https://registry.yarnpkg.com/@ant-design/pro-layout/-/pro-layout-7.20.1.tgz#f1a749402dff5d4999f5be87a1bc4c0c629cc954"
-  integrity sha512-RPSifaKySvLiUakrI+X/Z96sJjGoz51aRK4imY+Lm7LlvjRD2raxO9MhIePZq74qOoRUTRxh9oqTxtRz/8gADw==
+"@ant-design/pro-layout@7.20.2":
+  version "7.20.2"
+  resolved "https://registry.yarnpkg.com/@ant-design/pro-layout/-/pro-layout-7.20.2.tgz#60f3c6a075148cacdd67605091d459aaff30fcf1"
+  integrity sha512-a97k8P2sbprPXcBOG8p1g/0bP5kLBiC3+GSj0oxSWjUelAKzI9Q448tLOIfLjDcokxOvPRCEcCAlRg+mCKZVPg==
   dependencies:
     "@ant-design/icons" "^5.0.0"
     "@ant-design/pro-provider" "2.14.9"
@@ -187,7 +187,7 @@
     classnames "^2.3.2"
     lodash-es "^4.17.21"
     omit.js "^2.0.2"
-    path-to-regexp "8.1.0"
+    path-to-regexp "8.0.0"
     rc-resize-observer "^1.1.0"
     rc-util "^5.0.6"
     swr "^2.0.0"
@@ -10319,10 +10319,10 @@ path-to-regexp@0.1.10:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.10.tgz#67e9108c5c0551b9e5326064387de4763c4d5f8b"
   integrity sha512-7lf7qcQidTku0Gu3YDPc8DJ1q7OOucfa/BSsIwjuh56VU7katFvuM8hULfkwB3Fns/rsVF7PwPKVw1sl5KQS9w==
 
-path-to-regexp@8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-8.1.0.tgz#4d687606ed0be8ed512ba802eb94d620cb1a86f0"
-  integrity sha512-Bqn3vc8CMHty6zuD+tG23s6v2kwxslHEhTj4eYaVKGIEB+YX/2wd0/rgXLFD9G9id9KCtbVy/3ZgmvZjpa0UdQ==
+path-to-regexp@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-8.0.0.tgz#92076ec6b2eaf08be7c3233484142c05e8866cf5"
+  integrity sha512-GAWaqWlTjYK/7SVpIUA6CTxmcg65SP30sbjdCvyYReosRkk7Z/LyHWwkK3Vu0FcIi0FNTADUs4eh1AsU5s10cg==
 
 path-type@^4.0.0:
   version "4.0.0"
