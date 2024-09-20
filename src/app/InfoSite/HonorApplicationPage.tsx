@@ -627,6 +627,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         <>
           <Button
             disabled={false}
+            type="primary"
             onClick={() => {
               if (new Date() < info.honor.start_A) {
                 return message.info("未到申请时间！");
