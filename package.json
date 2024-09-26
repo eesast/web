@@ -9,7 +9,7 @@
     "@ant-design/pro-components": "2.7.19",
     "@apollo/client": "3.11.8",
     "antd": "5.20.6",
-    "axios": "1.7.4",
+    "axios": "1.7.7",
     "cos-js-sdk-v5": "1.8.4",
     "dayjs": "1.11.13",
     "dotenv": "16.4.5",
