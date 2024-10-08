@@ -12,10 +12,39 @@ import IntroPage from "./IntroPage";
 import MinecraftPage from "./MinecraftPage";
 import Authenticate, { courseRoles } from "../Components/Authenticate";
 
+/* ---------------- 不随渲染刷新的常量 ---------------- */
+const { Header, Content } = Layout;
+
+/* ---------------- 不随渲染刷新的组件 ---------------- */
+const StyledMenu = styled(Menu)`
+  &.ant-menu {
+    width: 100%;
+    line-height: 48px;
+    border-bottom: unset;
+  }
+`;
+
+const Container = styled.div`
+  height: calc(100vh - 120px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Loading = () => {
+  return (
+    <Container>
+      <Spin size="large" />
+    </Container>
+  );
+};
+
+/* ---------------- 主页面 ---------------- */
 const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
 
-  const { Header, Content } = Layout;
   const StyledHeader = styled(Header)`
     display: flex;
     align-items: center;
@@ -29,30 +58,7 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     top: 72px;
   `;
 
-  const StyledMenu = styled(Menu)`
-    &.ant-menu {
-      width: 100%;
-      line-height: 48px;
-      border-bottom: unset;
-    }
-  `;
-
-  const Container = styled.div`
-    height: calc(100vh - 120px);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
-
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   let items = [
     {
       key: "intro",
@@ -84,6 +90,7 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     });
   }
 
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Layout>
       <StyledHeader>
