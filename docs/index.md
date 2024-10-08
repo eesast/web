@@ -9,4 +9,5 @@
 
 技术文档
 
+- [startup：配环境流程](https://eesast.github.io/web/environment)
 - [队式比赛 NFS 绑定流程](https://eesast.github.io/web/nfs)
