@@ -20,11 +20,13 @@ import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import { Chart } from "@antv/g2";
 
+/* ---------------- 主页面 ---------------- */
 const CourseRating: React.FC<CourseProps> = ({
   course_uuid,
   mode,
   user,
 }: any) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
   const [ratingForm] = Form.useForm();
   const chartRadarRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
@@ -32,6 +34,7 @@ const CourseRating: React.FC<CourseProps> = ({
   const [isRotating, setIsRotating] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: courseRatingData, refetch: refetchCourseRating } =
     graphql.useGetCourseRatingOneQuery({
       variables: {
@@ -51,6 +54,93 @@ const CourseRating: React.FC<CourseProps> = ({
   const [updateCourseRating] = graphql.useUpdateCourseRatingMutation();
   const [deleteCourseRating] = graphql.useDeleteCourseRatingMutation();
 
+  /* ---------------- useEffect ---------------- */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!chartRadarRef.current) return;
+
+    const { avg } = courseRatingTotal?.course_rating_aggregate?.aggregate || {};
+    const radarData = [
+      { item: "任务量", score: avg?.dim1 },
+      { item: "内容难度", score: avg?.dim2 },
+      { item: "上课质量", score: avg?.dim3 },
+      { item: "考试作业讲课相关度", score: avg?.dim6 },
+      { item: "收获感", score: avg?.dim4 },
+      { item: "给分好坏", score: avg?.dim5 },
+    ];
+
+    const chart = new Chart({
+      container: chartRadarRef.current,
+      autoFit: true,
+    });
+
+    chart.options({
+      type: "view",
+      autoFit: true,
+      data: radarData,
+      scale: {
+        x: { padding: 0.5, align: 0 },
+        y: { tickCount: 1, domainMin: 0, domainMax: 5 },
+      },
+      coordinate: { type: "polar" },
+      axis: {
+        x: {
+          grid: true,
+          gridLineWidth: 2,
+          gridSroke: mode === "dark" ? "white" : "black",
+          tick: false,
+          gridLineDash: [0, 0],
+          labelFontSize: 16,
+          labelFill: mode === "dark" ? "white" : "black",
+          labelAlign: "horizontal",
+          labelFontWeight: "bold",
+          labelSpacing: 15,
+        },
+        y: {
+          zIndex: 1,
+          title: false,
+          gridLineWidth: 2,
+          gridSroke: mode === "dark" ? "white" : "black",
+          labelFill: mode === "dark" ? "white" : "black",
+          labelFontSize: 15,
+          gridLineDash: [0, 0],
+        },
+      },
+      interaction: { tooltip: { crosshairsLineDash: [4, 4] } },
+      children: [
+        {
+          type: "area",
+          encode: { x: "item", y: "score", color: "#4083FE" },
+          style: { fillOpacity: 0.5 },
+        },
+        {
+          type: "line",
+          encode: { x: "item", y: "score", color: "#4083FE" },
+          style: { lineWidth: 2 },
+        },
+        {
+          type: "point",
+          encode: {
+            x: "item",
+            y: "score",
+            color: "#4184FE",
+            shape: "point",
+            size: 3,
+          },
+          tooltip: null,
+        },
+      ],
+    });
+
+    chart.render();
+
+    setLoading(false);
+    return () => {
+      chart.destroy();
+    };
+  });
+
+  /* ---------------- 业务逻辑函数 ---------------- */
   const showDrawer = () => {
     handleGetCourseRating();
     setOpenDrawer(true);
@@ -156,91 +246,7 @@ const CourseRating: React.FC<CourseProps> = ({
   const scoreDesc = ["差", "较差", "一般", "较好", "好"];
   const relevanceDesc = ["低", "较低", "一般", "较高", "高"];
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (!chartRadarRef.current) return;
-
-    const { avg } = courseRatingTotal?.course_rating_aggregate?.aggregate || {};
-    const radarData = [
-      { item: "任务量", score: avg?.dim1 },
-      { item: "内容难度", score: avg?.dim2 },
-      { item: "上课质量", score: avg?.dim3 },
-      { item: "考试作业讲课相关度", score: avg?.dim6 },
-      { item: "收获感", score: avg?.dim4 },
-      { item: "给分好坏", score: avg?.dim5 },
-    ];
-
-    const chart = new Chart({
-      container: chartRadarRef.current,
-      autoFit: true,
-    });
-
-    chart.options({
-      type: "view",
-      autoFit: true,
-      data: radarData,
-      scale: {
-        x: { padding: 0.5, align: 0 },
-        y: { tickCount: 1, domainMin: 0, domainMax: 5 },
-      },
-      coordinate: { type: "polar" },
-      axis: {
-        x: {
-          grid: true,
-          gridLineWidth: 2,
-          gridSroke: mode === "dark" ? "white" : "black",
-          tick: false,
-          gridLineDash: [0, 0],
-          labelFontSize: 16,
-          labelFill: mode === "dark" ? "white" : "black",
-          labelAlign: "horizontal",
-          labelFontWeight: "bold",
-          labelSpacing: 15,
-        },
-        y: {
-          zIndex: 1,
-          title: false,
-          gridLineWidth: 2,
-          gridSroke: mode === "dark" ? "white" : "black",
-          labelFill: mode === "dark" ? "white" : "black",
-          labelFontSize: 15,
-          gridLineDash: [0, 0],
-        },
-      },
-      interaction: { tooltip: { crosshairsLineDash: [4, 4] } },
-      children: [
-        {
-          type: "area",
-          encode: { x: "item", y: "score", color: "#4083FE" },
-          style: { fillOpacity: 0.5 },
-        },
-        {
-          type: "line",
-          encode: { x: "item", y: "score", color: "#4083FE" },
-          style: { lineWidth: 2 },
-        },
-        {
-          type: "point",
-          encode: {
-            x: "item",
-            y: "score",
-            color: "#4184FE",
-            shape: "point",
-            size: 3,
-          },
-          tooltip: null,
-        },
-      ],
-    });
-
-    chart.render();
-
-    setLoading(false);
-    return () => {
-      chart.destroy();
-    };
-  });
-
+  /* ---------------- 页面组件 ---------------- */
   return (
     <>
       <Badge

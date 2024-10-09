@@ -5,8 +5,7 @@ import { PageProps } from "..";
 import { useUrl } from "@/api/hooks/url";
 import { useNavigate } from "react-router-dom";
 
-const { Title, Paragraph } = Typography;
-
+/* ---------------- 接口和类型定义 ---------------- */
 type ResourceProps = {
   image: string;
   title: string;
@@ -23,6 +22,7 @@ const Resource: React.FC<ResourceProps> = ({
   reverse,
 }) => {
   const navigate = useNavigate();
+
   return (
     <Card
       bordered
@@ -69,8 +69,15 @@ const Resource: React.FC<ResourceProps> = ({
   );
 };
 
+/* ---------------- 不随渲染刷新的常量 ---------------- */
+const { Title, Paragraph } = Typography;
+
+/* ---------------- 主页面 ---------------- */
 const IntroPage: React.FC<PageProps> = ({ mode, user }) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
+
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Space direction="vertical" size="small" style={{ width: "100%" }}>
       <Resource
