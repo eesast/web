@@ -24,20 +24,25 @@ import {
 import axios from "axios";
 import { PageProps } from "..";
 
-const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
-  const { Meta } = Card;
-  const { Content, Footer } = Layout;
-  const { Text } = Typography;
-  const pageSizes = ["8", "12", "16", "20", "32"];
+/* ---------------- 不随渲染刷新的常量 ---------------- */
+const { Meta } = Card;
+const { Content, Footer } = Layout;
+const { Text } = Typography;
+const pageSizes = ["8", "12", "16", "20", "32"];
 
-  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
+/* ---------------- 主页面 ---------------- */
+const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
+  const [associatedValue, setAssociatedValue] = useState("");
+  const [filterParamList, setFilterParamList] = useState([]);
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
 
-  const [associatedValue, setAssociatedValue] = useState("");
-  const [filterParamList, setFilterParamList] = useState([]);
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
 
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     let weekly_sorted: any;
     if (weekly_data) {
@@ -58,11 +63,13 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [associatedValue, weekly_data]);
 
+  /* ---------------- 业务逻辑函数 ---------------- */
   const onChange = (pageNumber: number, pageSize?: number) => {
     setPage(pageNumber);
     if (pageSize) setShowSize(pageSize);
   };
 
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   const MyCard = (props: any) => {
     const [visibleInsert, setVisibleInsert] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
@@ -270,6 +277,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Layout>
       <Content
