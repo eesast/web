@@ -1,7 +1,7 @@
 ---
 title: 管理逻辑
 description: 网站开发接口文档
-permalink: /team
+permalink: /manage
 ---
 
 ## 管理逻辑
