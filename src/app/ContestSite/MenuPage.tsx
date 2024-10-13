@@ -51,14 +51,21 @@ const StreamNativePage = lazy(() => import("./StreamNativePage"));
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const { Sider, Content } = Layout;
-
+const submenuKeys = ["home", "game", "team", "arena"];
+const userAgent = navigator.userAgent;
+const isMobile = userAgent.match(
+  /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
+);
+/* ---------------- 主⻚⾯ ---------------- */
 const MenuPage: React.FC<ContestProps> = (props) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-  const userAgent = navigator.userAgent;
-  const isMobile = userAgent.match(
-    /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
-  );
+  const introRef = useRef(null);
+  const playRef = useRef(null);
+  const joinRef = useRef(null);
+  const codeRef = useRef(null);
+  const arenaRef = useRef(null);
   const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
   const [openKeys, setOpenKeys] = useState(() => {
     //从sessionStorage中获取openKeys
@@ -68,11 +75,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     }
     return [];
   });
-
-  useEffect(() => {
-    sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
-  }, [openKeys]);
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //获取是否为某个队伍的成员
   const { data: teamData } = graphql.useGetTeamQuery({
     variables: {
@@ -80,14 +83,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       contest_id: Contest_id,
     },
   });
-
   const isMember = teamData?.contest_team_member?.length !== 0;
-
-  const introRef = useRef(null);
-  const playRef = useRef(null);
-  const joinRef = useRef(null);
-  const codeRef = useRef(null);
-  const arenaRef = useRef(null);
 
   const { data: getContestManagersData, error: getContestManagersError } =
     graphql.useGetContestManagersSuspenseQuery({
@@ -102,6 +98,10 @@ const MenuPage: React.FC<ContestProps> = (props) => {
         contest_id: Contest_id,
       },
     });
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
+  }, [openKeys]);
 
   useEffect(() => {
     if (getContestManagersError) {
@@ -116,7 +116,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       console.log(contestError.message);
     }
   }, [contestError]);
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const linkToRule = `https://docs.eesast.com/docs/contests/${contestData.contest_by_pk?.name}`;
 
   const items = [
@@ -242,8 +242,6 @@ const MenuPage: React.FC<ContestProps> = (props) => {
       icon: <SettingOutlined />,
     },
   ];
-
-  const submenuKeys = ["home", "game", "team", "arena"];
 
   const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);

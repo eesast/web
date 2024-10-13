@@ -22,10 +22,15 @@ import * as graphql from "@/generated/graphql";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;
 const RangePicker: any = DatePicker.RangePicker;
-
+/* ---------------- 主⻚⾯ ---------------- */
 const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [addEventForm] = Form.useForm();
+  const { token } = theme.useToken();
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const {
     data: contestTimesData,
     error: getContestTimesError,
@@ -35,20 +40,20 @@ const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
+  const [addContestTime, { error: addContestTimeError }] =
+    graphql.useAddContestTimeMutation();
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (getContestTimesError) {
       message.error("比赛加载失败");
     }
   }, [getContestTimesError]);
-
-  const [addContestTime, { error: addContestTimeError }] =
-    graphql.useAddContestTimeMutation();
   useEffect(() => {
     if (addContestTimeError) {
       message.error("添加事件失败");
     }
   }, [addContestTimeError]);
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleAdd = async () => {
     try {
       const values = await addEventForm.validateFields();
@@ -70,10 +75,6 @@ const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [addEventForm] = Form.useForm();
-
-  const { token } = theme.useToken();
   const panelStyle: React.CSSProperties = {
     marginBottom: 12,
     background: token.colorFillAlter,
@@ -94,7 +95,7 @@ const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
       </>
     ),
   }));
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <Layout>
       <Card

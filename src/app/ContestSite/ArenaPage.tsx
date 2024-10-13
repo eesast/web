@@ -22,14 +22,13 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
-/* ---------------- 不随渲染刷新的常量 ---------------- */
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 interface TeamLabelBind {
   team_id: string;
   label: string;
 }
 const { Option } = Select;
 
-/* ---------------- 不随渲染刷新的组件 ---------------- */
 /* ---------------- 主页面 ---------------- */
 const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -41,14 +40,13 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [associatedValue, setAssociatedValue] = useState("");
   const [onlyCompiledTeams, setOnlyCompiledTeams] = useState(false);
   const [selectedMapId, setSelectedMapId] = useState("");
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   type VisibleContestTeam = graphql.GetTeamsQuery["contest_team"][0] & {
     isVisible: boolean;
   };
   const [filterParamList, setFilterParamList] = useState<VisibleContestTeam[]>(
     [],
   );
-  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
-
   //获取比赛状态
   const { data: contestData, error: contestError } =
     graphql.useGetContestInfoSuspenseQuery({
@@ -69,7 +67,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
-
   const playerCount = contestPlayersData.contest_player.length;
 
   //获取天梯队伍信息
@@ -186,9 +183,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     );
   }, [associatedValue, onlyCompiledTeams, playerCount, scoreteamListData]);
 
-  const open = contestSwitchData.contest_by_pk?.arena_switch;
-
   /* ---------------- 业务逻辑函数 ---------------- */
+  const open = contestSwitchData.contest_by_pk?.arena_switch;
   //检查对手队伍是否满足对战条件
 
   //开启对战逻辑
@@ -266,7 +262,6 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       }
     });
   };
-  /* ---------------- 随渲染刷新的组件 ---------------- */
   /* ---------------- 页面组件 ---------------- */
 
   const getColorByRank = (rank: number) => {
