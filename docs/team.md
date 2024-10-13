@@ -21,6 +21,9 @@ permalink: /team
 
 - 添加代码
 
+  - 权限控制：不是团队成员
+  - team
+
 - 添加玩家
 
 - 更新团队
@@ -92,8 +95,9 @@ permalink: /team
 - `/team/update_team`：更新团队
 
   - 请求方法：`POST`
-    - 请求：`body`中有` { team_id:uuid, team_name:string, team_intro :string}`
-  - 响应：`200`: `message:Team Updated Successfully`以及`team_id:team_id`(更新后的team_id)
+    - 请求：`body`中有` { team_id:uuid, team_name:string(Optional), team_intro :string(Optional)}`
+    - 至少需要提供一个更新的数据
+  - 响应：`200`: `message:Team Updated Successfully`以及`team_id:team_id`
   - 工作过程：
     暂无
   - 错误：

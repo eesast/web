@@ -41,6 +41,7 @@ permalink: /manage
 
   - 请求方法：`POST`
     - 请求：`body`中有`{contest_id:uuid, name:string, filename:string, team_labels:string}`，
+    - 至少提供一个更新的数据
   - 响应：`200`: `Contest Map Added Successfully`并返回`map_id`
   - 工作过程：
     暂无
@@ -52,7 +53,8 @@ permalink: /manage
 - `/manage/add_contest_notice`：添加比赛通知
 
   - 请求方法：`POST`
-    - 请求：`body`中有`{title:string, content:string, files:string, contest_id:uuid}`，
+    - 请求：`body`中有`{title:string, content:string(Optional), files:string(Optional), contest_id:uuid(Optional)}`，
+    - 至少提供一个更新的数据
   - 响应：`200`: `Contest Notice Added Successfully`并返回`id`
   - 工作过程：
     暂无
@@ -88,7 +90,8 @@ permalink: /manage
 - `/manage/update_contest_info`：更新比赛信息
 
   - 请求方法：`POST`
-    - 请求：`body`中有`{contest_id:uuid, fullname:string, description:string, start_date:timestamptz, end_date:timestamptz}`，
+    - 请求：`body`中有`{contest_id:uuid, fullname:string(Optional), description:string(Optional), start_date:timestamptz(Optional), end_date:timestamptz(Optional)}`，
+    - 至少更新一个信息
   - 响应：`200`: `Contest Info Added Successfully`并返回`id: update_contest_info.id`
   - 工作过程：
     暂无
