@@ -28,6 +28,7 @@ import { FilterConfirmProps } from "antd/lib/table/interface";
 import * as graphql from "@/generated/graphql";
 import { PageProps } from "..";
 
+/* ---------------- 不随渲染刷新的组件 ---------------- */
 const param: FilterConfirmProps = {
   closeDropdown: true,
 };
@@ -53,8 +54,9 @@ const exportSelectOptions = classes.map((_class) => (
   </Option>
 ));
 
+/* ---------------- 主页面 ---------------- */
 const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  /* ---------------- states 和 引入 hooks ---------------- */
   const [selectedYear] = useState<number>(new Date().getFullYear());
   const [info, setInfo] = useState({
     honors: [""],
@@ -66,7 +68,51 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   });
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [, setSearchText] = useState<React.Key>("");
+
+  const searchInput = useRef<InputRef>(null);
+  const [exportFormVisible, setExportFormVisible] = useState(false);
+  const [exportHonor, setExportHonor] = useState("");
+  const [exportClasses, setExportClasses] = useState<string[]>([]);
+  const [exportLoading, setExportLoading] = useState(false);
+
+  const [exportAllLoading, setExportAllLoading] = useState(false);
+
+  const [importFormVisible, setImportFormVisible] = useState(false);
+  const [importLoading, setImportLoading] = useState(false);
+  const [fileList, setFileList] = useState<FileList | null>(null);
+  const [parseProgress, setParseProgress] = useState(0);
+
+  /* ---------------- 数据获取hook ---------------- */
+  // 获取荣誉申请信息
+  const {
+    loading: applicationLoading,
+    error: applicationError,
+    data: applicationData,
+    refetch: refetchApplications,
+  } = graphql.useGetHonorApplicationsQuery({
+    variables: {
+      uuid: user.uuid!,
+      year: selectedYear,
+    },
+    skip: user.role !== "student",
+  });
+
+  // 获取辅导员的荣誉申请信息
+  const {
+    loading: applicationsForCounselorsLoading,
+    error: applicationsForCounselorsError,
+    data: applicationsForCounselors,
+    refetch: refetchApplicationsForCounselors,
+  } = graphql.useGetHonorApplicationsForCounselorsQuery({
+    variables: { year: selectedYear },
+    skip: user.role !== "counselor",
+  });
+
+  /* ---------------- useEffect 部分 ---------------- */
   useEffect(() => {
+    // 获取荣誉信息
     const fetch = async () => {
       try {
         const response = await axios.get("/application/info/honor");
@@ -99,19 +145,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     </Option>
   ));
 
-  const {
-    loading: applicationLoading,
-    error: applicationError,
-    data: applicationData,
-    refetch: refetchApplications,
-  } = graphql.useGetHonorApplicationsQuery({
-    variables: {
-      uuid: user.uuid!,
-      year: selectedYear,
-    },
-    skip: user.role !== "student",
-  });
-
+  // 申请加载失败时提示
   useEffect(() => {
     if (applicationError) {
       message.error("申请加载失败");
@@ -175,6 +209,15 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetchApplications();
   };
 
+  // 申请加载失败时提示
+  useEffect(() => {
+    if (applicationsForCounselorsError) {
+      message.error("申请加载失败");
+    }
+  }, [applicationsForCounselorsError]);
+
+  /* ---------------- 其他函数和处理逻辑 ---------------- */
+  // 删除申请
   const handleApplicationDelete = async (id: string) => {
     confirm({
       title: "确定要删除此申请吗？",
@@ -196,25 +239,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     });
   };
 
-  const {
-    loading: applicationsForCounselorsLoading,
-    error: applicationsForCounselorsError,
-    data: applicationsForCounselors,
-    refetch: refetchApplicationsForCounselors,
-  } = graphql.useGetHonorApplicationsForCounselorsQuery({
-    variables: { year: selectedYear },
-    skip: user.role !== "counselor",
-  });
-
-  useEffect(() => {
-    if (applicationsForCounselorsError) {
-      message.error("申请加载失败");
-    }
-  }, [applicationsForCounselorsError]);
-
-  const searchInput = useRef<InputRef>(null);
-  const [, setSearchText] = useState<React.Key>("");
-
+  // 处理搜索
   const handleSearch = (
     selectedKeys: FilterDropdownProps["selectedKeys"],
     confirm: FilterDropdownProps["confirm"],
@@ -228,6 +253,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     setSearchText("");
   };
 
+  // 搜索栏
   const getColumnSearchProps: (
     dataIndex: "realname" | "class" | "student_no",
     name: string,
@@ -298,6 +324,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   });
 
+  // 处理申请审批
   const handleApplicationApprove = async (
     checked: boolean,
     item: graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0],
@@ -316,6 +343,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     await refetchApplicationsForCounselors();
   };
 
+  // 表格列
   const honorColumnsForCounselor: TableProps<
     graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0]
   >["columns"] = [
@@ -381,11 +409,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   ];
 
-  const [exportFormVisible, setExportFormVisible] = useState(false);
-  const [exportHonor, setExportHonor] = useState("");
-  const [exportClasses, setExportClasses] = useState<string[]>([]);
-  const [exportLoading, setExportLoading] = useState(false);
-
+  // 导出申请
   const handleApplicationExport = async () => {
     if (!exportHonor || exportClasses.length === 0) {
       message.info("请选择筛选条件");
@@ -443,8 +467,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     setExportLoading(false);
   };
 
-  const [exportAllLoading, setExportAllLoading] = useState(false);
-
+  // 导出全部申请
   const handleAllApplicationExport = async () => {
     setExportAllLoading(true);
 
@@ -491,11 +514,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     setExportAllLoading(false);
   };
 
-  const [importFormVisible, setImportFormVisible] = useState(false);
-  const [importLoading, setImportLoading] = useState(false);
-  const [fileList, setFileList] = useState<FileList | null>(null);
-  const [parseProgress, setParseProgress] = useState(0);
-
+  // 导入申请
   const handleApplicationImport = async () => {
     if (!fileList || fileList.length !== 1) {
       message.info("请选择文件");
@@ -577,6 +596,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  // 取消导入
   const handleCancel = () => {
     setImportFormVisible(false);
     setParseProgress(0);
@@ -586,6 +606,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     setFileList(null); // 清除文件列表
   };
 
+  /* ---------------- 页面渲染 ---------------- */
   return (
     <Space
       direction="vertical"
@@ -729,7 +750,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                           {item.attachment_url}
                         </a>
                       ) : (
-                        item.attachment_url ?? "无"
+                        (item.attachment_url ?? "无")
                       )}
                     </Descriptions.Item>
                     <Descriptions.Item
