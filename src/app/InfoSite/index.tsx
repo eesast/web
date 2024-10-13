@@ -26,56 +26,22 @@ import NotFoundPage from "../Components/NotFound";
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 const { Content, Sider } = Layout;
 
+/* ---------------- 主页面 ---------------- */
 const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
-  const url = useUrl();
-  const navigate = useNavigate();
-
+  /* --------------------- states 和 引入 hooks --------------------- */
+  const url = useUrl(); // 获取当前 URL
+  const navigate = useNavigate(); // 路由导航
   const userAgent = navigator.userAgent;
   const isMobile = userAgent.match(
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
-  const [collapsed, setCollapsed] = React.useState(isMobile ? true : false);
+  const [collapsed, setCollapsed] = React.useState(isMobile ? true : false); // 控制侧边栏折叠状态
   const [openKeys, setOpenKeys] = useState(() => {
     const savedOpenKeys = sessionStorage.getItem("openKeys");
     return savedOpenKeys ? JSON.parse(savedOpenKeys) : [];
   });
 
-  const { data } = graphql.useGetProfileQuery({
-    variables: { uuid: user.uuid! },
-  });
-
-  const profile = data?.users_by_pk;
-
-  useEffect(() => {
-    if (
-      profile &&
-      (user.role === "user" ||
-        !profile?.department ||
-        !profile.email ||
-        !profile.realname ||
-        !profile.phone ||
-        ((!profile.student_no || !profile.class) && user.role !== "teacher"))
-    ) {
-      message.warning({
-        content: "请先补全个人信息，并完成清华邮箱验证",
-        key: "profileMessage",
-      });
-      navigate(url.link("user", "site"));
-    }
-  });
-
-  // const disclaimer = () => {
-  //   if (localStorage.getItem("disclaimerChecked") !== "true") {
-  //     Modal.warning({
-  //       title: "友情提醒",
-  //       content:
-  //         "本平台建立初衷为方便系内同学共享推研信息，为联络导师提供便利。本平台所有信息非官方数据，均由同学自行上传并对真实性负责，因此平台无法保证信息的真实性、有效性。所有信息以最终推研通知为准，仅供参考。",
-  //       okText: "我已知悉",
-  //     });
-  //     localStorage.setItem("disclaimerChecked", "true");
-  //   }
-  // };
-
+  // 菜单项和子菜单项
   const items = [
     {
       key: "notices",
@@ -132,8 +98,54 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
     // },
   ];
 
+  //定义子菜单的key
   const submenuKeys = ["mentors", "honors-scholarships"];
 
+  /* --------------------- 数据获取 hook --------------------- */
+  const { data } = graphql.useGetProfileQuery({
+    variables: { uuid: user.uuid! },
+  });
+
+  const profile = data?.users_by_pk;
+
+  /* --------------------- useEffect 部分 --------------------- */
+  useEffect(() => {
+    // 如果个人信息不完整，弹出提示并跳转至个人信息页面
+    if (
+      profile &&
+      (user.role === "user" ||
+        !profile?.department ||
+        !profile.email ||
+        !profile.realname ||
+        !profile.phone ||
+        ((!profile.student_no || !profile.class) && user.role !== "teacher"))
+    ) {
+      message.warning({
+        content: "请先补全个人信息，并完成清华邮箱验证",
+        key: "profileMessage",
+      });
+      navigate(url.link("user", "site"));
+    }
+  });
+
+  useEffect(() => {
+    // 将打开的菜单项保存到 sessionStorage
+    sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
+  }, [openKeys]);
+
+  // const disclaimer = () => {
+  //   if (localStorage.getItem("disclaimerChecked") !== "true") {
+  //     Modal.warning({
+  //       title: "友情提醒",
+  //       content:
+  //         "本平台建立初衷为方便系内同学共享推研信息，为联络导师提供便利。本平台所有信息非官方数据，均由同学自行上传并对真实性负责，因此平台无法保证信息的真实性、有效性。所有信息以最终推研通知为准，仅供参考。",
+  //       okText: "我已知悉",
+  //     });
+  //     localStorage.setItem("disclaimerChecked", "true");
+  //   }
+  // };
+
+  /* --------------------- 事件处理 --------------------- */
   const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (latestOpenKey && submenuKeys.indexOf(latestOpenKey!) === -1) {
@@ -143,10 +155,7 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
-  useEffect(() => {
-    sessionStorage.setItem("openKeys", JSON.stringify(openKeys));
-  }, [openKeys]);
-
+  /* --------------------- 组件页面 --------------------- */
   return (
     <Layout>
       <Sider

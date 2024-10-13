@@ -46,6 +46,7 @@ import { PageProps } from "..";
 import axios, { AxiosError } from "axios";
 // import Center from "../Components/Center";
 
+/* ----- 不依赖于 props 和 hooks 的定义 ----- */
 const param: FilterConfirmProps = {
   closeDropdown: true,
 };
@@ -70,6 +71,7 @@ const departmentFilter = [
   },
 ];
 
+/* ----- 接口和类型定义 ----- */
 interface IAppliedMentorDetail {
   mentor_uuid: string;
   real_name: string;
@@ -145,7 +147,9 @@ interface IApplicationSchedule {
   end_E: Date;
 }
 
+/* ----- 主页面 ----- */
 const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
+  /* ----- states 和 引用 hooks ----- */
   // schedule
   const [selectedYear] = useState<number>(new Date().getFullYear());
   const [mentorApplicationSchedule, setMentorApplicationSchedule] =
@@ -203,6 +207,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   // random attribute
   const [attributing, setAttributing] = useState(false);
 
+  /* ----- 数据获取 hooks ----- */
   /**
    * Universal
    */
@@ -215,21 +220,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       skip: !selectedYear,
     });
 
-  // useEffect(() => {
-  //   if (selectedYear) {
-  //     refetchMentorApplicationSchedule();
-  //     mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
-  //   }
-  // }, [selectedYear]);
-
-  useEffect(() => {
-    if (mentorApplicationScheduleData?.mentor_time_by_pk) {
-      setMentorApplicationSchedule(
-        mentorApplicationScheduleData.mentor_time_by_pk,
-      );
-    }
-  }, [mentorApplicationScheduleData]);
-
   // Get mentor info list
   const {
     loading: mentorInfoListLoading,
@@ -238,74 +228,66 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     refetch: refetchMentorInfoList,
   } = graphql.useGetMentorInfoListQuery();
 
-  useEffect(() => {
-    if (mentorInfoListError) {
-      message.error("导师信息列表加载失败");
-      message.error(mentorInfoListError.message);
-    }
-  }, [mentorInfoListError]);
+  // Get mentor application list
+  const {
+    loading: mentorApplicationsListForMentorLoading,
+    data: mentorApplicationsListForMentorData,
+    refetch: refetchMentorApplicationsListForMentor,
+  } = graphql.useGetMentorApplicationsListForMentorQuery({
+    variables: {
+      uuid: user.uuid!,
+      year: selectedYear,
+    },
+    skip: user.role !== "teacher",
+  });
 
-  useEffect(() => {
-    const processMentorData = async () => {
-      await mentorListWithApplicationsCount(selectedYear);
-    };
-    processMentorData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mentorInfoListData]);
+  // Get student mentor application list
+  const {
+    loading: mentorApplicationsListForStudentLoading,
+    data: mentorApplicationsListForStudentData,
+    refetch: refetchMentorApplicationsListForStudent,
+  } = graphql.useGetMentorApplicationsListForStudentQuery({
+    variables: {
+      uuid: user.uuid!,
+      year: selectedYear,
+    },
+    skip: user.role !== "student",
+  });
 
-  const mentorListWithApplicationsCount = async (
-    selectedYear: number | undefined,
-  ) => {
-    if (!selectedYear) {
-      return;
-    }
-    try {
-      const response = await axios.get(
-        `/application/info/mentor/${selectedYear.toString()}`,
-      );
-      if (response.status === 200) {
-        setMentorListFull(response.data);
-      }
-    } catch (e) {
-      const err = e as AxiosError;
-      message.error("请求失败，请检查网络连接");
-      console.error("Error fetching mentor info:", err);
-    }
-  };
+  // Get mentor application list for counselor
+  const {
+    loading: mentorApplicationsListForCounselorsLoading,
+    data: mentorApplicationsListForCounselorsData,
+  } = graphql.useGetMentorApplicationsListForCounselorQuery({
+    skip: user.role !== "counselor",
+    variables: {
+      year: selectedYear,
+    },
+  });
 
-  /**
-   * Mentor Only
-   */
-  // Get mentor info
-  useEffect(() => {
-    if (user.role !== "teacher" || !mentorInfoListData?.mentor_info) {
-      return;
-    }
-    const mentor = mentorInfoListData.mentor_info.find(
-      (mentor) => mentor.mentor_uuid === user.uuid,
-    );
-    if (mentor) {
-      setMentorDetail({
-        mentor_uuid: mentor.mentor_uuid,
-        real_name: mentor.user.realname ?? "",
-        available: mentor.available,
-        max_applicants: mentor.max_applicants,
-        intro: mentor.intro ?? "",
-        background: mentor.background ?? "",
-        field: mentor.field ?? "",
-        achievement: mentor.achievement ?? "",
-      });
-    } else {
-      const insertMentorInfoAsync = async () => {
-        await insertMentorInfo({
-          variables: {
-            mentor_uuid: user.uuid,
-          },
-        });
-      };
-      insertMentorInfoAsync();
-    }
-  }, [mentorInfoListData]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Get freshman info list
+  const {
+    data: freshmanInfoListData,
+    loading: freshmanInfoListLoading,
+    refetch: refetchFreshmanInfoList,
+  } = graphql.useGetFreshmanInfoListQuery({
+    variables: {
+      year: selectedYear,
+    },
+    skip: user.role !== "counselor",
+  });
+
+  const [queryStudentByStudentNo] =
+    graphql.useQueryStudentByStudentNoLazyQuery();
+
+  const [queryTeacherByRealname] = graphql.useQueryTeacherByRealnameLazyQuery();
+
+  /* ----- 数据变更 hooks ----- */
+  // Update mentor application status
+  const [
+    updateMentorApplicationStatus,
+    { loading: updateMentorApplicationStatusLoading },
+  ] = graphql.useUpdateMentorApplicationStatusMutation();
 
   // Insert mentor info
   const [insertMentorInfo] = graphql.useInsertMentorInfoMutation({
@@ -345,18 +327,50 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   });
 
-  // Get mentor application list
-  const {
-    loading: mentorApplicationsListForMentorLoading,
-    data: mentorApplicationsListForMentorData,
-    refetch: refetchMentorApplicationsListForMentor,
-  } = graphql.useGetMentorApplicationsListForMentorQuery({
-    variables: {
-      uuid: user.uuid!,
-      year: selectedYear,
+  // Update mentor application statement
+  const [
+    updateMentorApplicationStatement,
+    { loading: updateMentorApplicationStatementLoading },
+  ] = graphql.useUpdateMentorApplicationStatementMutation({
+    onCompleted: async () => {
+      await refetchMentorApplicationsListForStudent();
     },
-    skip: user.role !== "teacher",
   });
+
+  // Delete mentor application
+  const [
+    deleteMentorApplication,
+    {
+      loading: deleteMentorApplicationLoading,
+      error: deleteMentorApplicationError,
+    },
+  ] = graphql.useDeleteMentorApplicationMutation({
+    onCompleted: async () => {
+      await refetchMentorApplicationsListForStudent();
+      await mentorListWithApplicationsCount(selectedYear);
+    },
+  });
+
+  const [updateApplicationChatStatus] =
+    graphql.useUpdateMentorApplicationChatStatusMutation();
+
+  /**
+   * Counselor Only
+   */
+  // Update mentor application schedule
+  const [insertMentorApplicationSchedule] =
+    graphql.useInsertMentorApplicationScheduleMutation();
+
+  // Insert freshman info list
+  const [insertFreshmanInfoList] = graphql.useInsertFreshmanInfoListMutation();
+
+  /*
+  // useEffect(() => {
+  //   if (selectedYear) {
+  //     refetchMentorApplicationSchedule();
+  //     mentorListWithApplicationsCount(mentorInfoListData, selectedYear);
+  //   }
+  // }, [selectedYear]);
 
   // useEffect(() => {
   //   refetchMentorApplicationSchedule({
@@ -364,11 +378,150 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   //   });
   // }, [selectedYear]);
 
-  // Update mentor application status
-  const [
-    updateMentorApplicationStatus,
-    { loading: updateMentorApplicationStatusLoading },
-  ] = graphql.useUpdateMentorApplicationStatusMutation();
+  /* ----- useEffect 部分 ----- */
+  // mentor application schedule
+  useEffect(() => {
+    if (mentorApplicationScheduleData?.mentor_time_by_pk) {
+      setMentorApplicationSchedule(
+        mentorApplicationScheduleData.mentor_time_by_pk,
+      );
+    }
+  }, [mentorApplicationScheduleData]);
+
+  // mentor info list error
+  useEffect(() => {
+    if (mentorInfoListError) {
+      message.error("导师信息列表加载失败");
+      message.error(mentorInfoListError.message);
+    }
+  }, [mentorInfoListError]);
+
+  // mentor info list
+  useEffect(() => {
+    const processMentorData = async () => {
+      await mentorListWithApplicationsCount(selectedYear);
+    };
+    processMentorData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mentorInfoListData]);
+
+  /**
+   * Mentor Only
+   */
+  // Get mentor info
+  useEffect(() => {
+    if (user.role !== "teacher" || !mentorInfoListData?.mentor_info) {
+      return;
+    }
+    const mentor = mentorInfoListData.mentor_info.find(
+      (mentor) => mentor.mentor_uuid === user.uuid,
+    );
+    if (mentor) {
+      setMentorDetail({
+        mentor_uuid: mentor.mentor_uuid,
+        real_name: mentor.user.realname ?? "",
+        available: mentor.available,
+        max_applicants: mentor.max_applicants,
+        intro: mentor.intro ?? "",
+        background: mentor.background ?? "",
+        field: mentor.field ?? "",
+        achievement: mentor.achievement ?? "",
+      });
+    } else {
+      const insertMentorInfoAsync = async () => {
+        await insertMentorInfo({
+          variables: {
+            mentor_uuid: user.uuid,
+          },
+        });
+      };
+      insertMentorInfoAsync();
+    }
+  }, [mentorInfoListData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (
+      mentorApplicationSchedule &&
+      (user.role === "counselor" || user.role === "root")
+    ) {
+      insertMentorApplicationSchedule({
+        variables: {
+          year: selectedYear,
+          start_A: mentorApplicationSchedule.start_A,
+          start_B: mentorApplicationSchedule.start_B,
+          start_C: mentorApplicationSchedule.start_C,
+          start_D: mentorApplicationSchedule.start_D,
+          start_E: mentorApplicationSchedule.start_E,
+          end_A: mentorApplicationSchedule.end_A,
+          end_B: mentorApplicationSchedule.end_B,
+          end_C: mentorApplicationSchedule.end_C,
+          end_D: mentorApplicationSchedule.end_D,
+          end_E: mentorApplicationSchedule.end_E,
+        },
+      });
+    }
+  }, [mentorApplicationSchedule]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (freshmanInfoListData && mentorApplicationsListForCounselorsData) {
+      const mentorApplicationsListForCounselorsApproved =
+        mentorApplicationsListForCounselorsData.mentor_application.filter(
+          (i) => i.status === "approved",
+        );
+      setUnmatchedFreshmanList(
+        freshmanInfoListData.freshman.filter(
+          (i) =>
+            !mentorApplicationsListForCounselorsApproved.find(
+              (j) => j.student.student_no === i.student_no,
+            ),
+        ),
+      );
+      const updateRegisteredFreshmanList = async () => {
+        const promises = freshmanInfoListData.freshman.map(async (i) => {
+          const { data: stu } = await queryStudentByStudentNo({
+            variables: {
+              student_no: i.student_no,
+            },
+          });
+          if (stu?.users && stu.users.length > 0) {
+            return {
+              realname: i.realname,
+              student_no: i.student_no,
+              uuid: stu.users[0].uuid,
+            };
+          }
+        });
+        const results = await Promise.all(promises);
+        const validResults = results.filter((res) => res !== undefined);
+        setRegisteredFreshmanList(validResults as IRegisteredFreshman[]);
+      };
+      updateRegisteredFreshmanList();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [freshmanInfoListData, mentorApplicationsListForCounselorsData]);
+
+  /* ----- 其他函数和处理逻辑 ----- */
+  // mentor info list with applications count
+  const mentorListWithApplicationsCount = async (
+    selectedYear: number | undefined,
+  ) => {
+    if (!selectedYear) {
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `/application/info/mentor/${selectedYear.toString()}`,
+      );
+      if (response.status === 200) {
+        setMentorListFull(response.data);
+      }
+    } catch (e) {
+      const err = e as AxiosError;
+      message.error("请求失败，请检查网络连接");
+      console.error("Error fetching mentor info:", err);
+    }
+  };
+
   /**
    * Student Only
    */
@@ -409,42 +562,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
-  // Update mentor application statement
-  const [
-    updateMentorApplicationStatement,
-    { loading: updateMentorApplicationStatementLoading },
-  ] = graphql.useUpdateMentorApplicationStatementMutation({
-    onCompleted: async () => {
-      await refetchMentorApplicationsListForStudent();
-    },
-  });
-
-  // Get student mentor application list
-  const {
-    loading: mentorApplicationsListForStudentLoading,
-    data: mentorApplicationsListForStudentData,
-    refetch: refetchMentorApplicationsListForStudent,
-  } = graphql.useGetMentorApplicationsListForStudentQuery({
-    variables: {
-      uuid: user.uuid!,
-      year: selectedYear,
-    },
-    skip: user.role !== "student",
-  });
-  // Delete mentor application
-  const [
-    deleteMentorApplication,
-    {
-      loading: deleteMentorApplicationLoading,
-      error: deleteMentorApplicationError,
-    },
-  ] = graphql.useDeleteMentorApplicationMutation({
-    onCompleted: async () => {
-      await refetchMentorApplicationsListForStudent();
-      await mentorListWithApplicationsCount(selectedYear);
-    },
-  });
-
   // Handle application edit
   const handleApplicationEdit = async () => {
     if (!selectMentor) {
@@ -484,108 +601,6 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     setSelectMentor(undefined);
     applicationForm.resetFields();
   };
-
-  const [updateApplicationChatStatus] =
-    graphql.useUpdateMentorApplicationChatStatusMutation();
-
-  /**
-   * Counselor Only
-   */
-  // Update mentor application schedule
-  const [insertMentorApplicationSchedule] =
-    graphql.useInsertMentorApplicationScheduleMutation();
-
-  useEffect(() => {
-    if (
-      mentorApplicationSchedule &&
-      (user.role === "counselor" || user.role === "root")
-    ) {
-      insertMentorApplicationSchedule({
-        variables: {
-          year: selectedYear,
-          start_A: mentorApplicationSchedule.start_A,
-          start_B: mentorApplicationSchedule.start_B,
-          start_C: mentorApplicationSchedule.start_C,
-          start_D: mentorApplicationSchedule.start_D,
-          start_E: mentorApplicationSchedule.start_E,
-          end_A: mentorApplicationSchedule.end_A,
-          end_B: mentorApplicationSchedule.end_B,
-          end_C: mentorApplicationSchedule.end_C,
-          end_D: mentorApplicationSchedule.end_D,
-          end_E: mentorApplicationSchedule.end_E,
-        },
-      });
-    }
-  }, [mentorApplicationSchedule]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Get mentor application list for counselor
-  const {
-    loading: mentorApplicationsListForCounselorsLoading,
-    data: mentorApplicationsListForCounselorsData,
-  } = graphql.useGetMentorApplicationsListForCounselorQuery({
-    skip: user.role !== "counselor",
-    variables: {
-      year: selectedYear,
-    },
-  });
-
-  // Insert freshman info list
-  const [insertFreshmanInfoList] = graphql.useInsertFreshmanInfoListMutation();
-
-  // Get freshman info list
-  const {
-    data: freshmanInfoListData,
-    loading: freshmanInfoListLoading,
-    refetch: refetchFreshmanInfoList,
-  } = graphql.useGetFreshmanInfoListQuery({
-    variables: {
-      year: selectedYear,
-    },
-    skip: user.role !== "counselor",
-  });
-
-  useEffect(() => {
-    if (freshmanInfoListData && mentorApplicationsListForCounselorsData) {
-      const mentorApplicationsListForCounselorsApproved =
-        mentorApplicationsListForCounselorsData.mentor_application.filter(
-          (i) => i.status === "approved",
-        );
-      setUnmatchedFreshmanList(
-        freshmanInfoListData.freshman.filter(
-          (i) =>
-            !mentorApplicationsListForCounselorsApproved.find(
-              (j) => j.student.student_no === i.student_no,
-            ),
-        ),
-      );
-      const updateRegisteredFreshmanList = async () => {
-        const promises = freshmanInfoListData.freshman.map(async (i) => {
-          const { data: stu } = await queryStudentByStudentNo({
-            variables: {
-              student_no: i.student_no,
-            },
-          });
-          if (stu?.users && stu.users.length > 0) {
-            return {
-              realname: i.realname,
-              student_no: i.student_no,
-              uuid: stu.users[0].uuid,
-            };
-          }
-        });
-        const results = await Promise.all(promises);
-        const validResults = results.filter((res) => res !== undefined);
-        setRegisteredFreshmanList(validResults as IRegisteredFreshman[]);
-      };
-      updateRegisteredFreshmanList();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freshmanInfoListData, mentorApplicationsListForCounselorsData]);
-
-  const [queryStudentByStudentNo] =
-    graphql.useQueryStudentByStudentNoLazyQuery();
-
-  const [queryTeacherByRealname] = graphql.useQueryTeacherByRealnameLazyQuery();
 
   /**
    * Props
@@ -1153,6 +1168,7 @@ const MentorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  /* ----- 页面渲染 ----- */
   return (
     <Space
       direction="vertical"
