@@ -26,13 +26,26 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
 import { downloadFile } from "@/api/cos";
-const { Text } = Typography;
 
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
+const { Text } = Typography;
+const roomStatusLabels: { [key: string]: string } = {
+  Finished: "已结束",
+  Crashed: "非正常退出",
+  Running: "进行中",
+  Waiting: "排队等待中",
+  Timeout: "运行超时",
+  Failed: "发起失败",
+};
+/* ---------------- 主⻚⾯ ---------------- */
 const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
+  const [onlyMyTeam, setOnlyMyTeam] = useState(false);
+  const [associatedValue, setAssociatedValue] = useState("");
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const navigate = useNavigate();
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
     variables: {
       contest_id: Contest_id,
@@ -60,22 +73,14 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (getArenaRoomsError) {
       message.error("获取对战记录失败");
       console.log(getArenaRoomsError.message);
     }
   });
-
-  const roomStatusLabels: { [key: string]: string } = {
-    Finished: "已结束",
-    Crashed: "非正常退出",
-    Running: "进行中",
-    Waiting: "排队等待中",
-    Timeout: "运行超时",
-    Failed: "发起失败",
-  };
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const roomListColumns: TableProps<
     graphql.GetArenaRoomsSubscription["contest_room"][0]
   >["columns"] = [
@@ -168,8 +173,6 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const [onlyMyTeam, setOnlyMyTeam] = useState(false);
-  const [associatedValue, setAssociatedValue] = useState("");
   const [filterParamList, setFilterParamList] = useState(
     arenaRoomsData?.contest_room,
   );
@@ -188,7 +191,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       }) ?? [],
     );
   }, [associatedValue, arenaRoomsData, onlyMyTeam, team_id]);
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <Layout>
       <br />

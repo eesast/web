@@ -12,6 +12,9 @@ import * as graphql from "@/generated/graphql";
 import { Chart } from "@antv/g2";
 import NotJoined from "./Components/NotJoined";
 
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
+const ranges = [5, 10, 20, 50, 100, 0];
+
 /* ---------------- 主页面 ---------------- */
 const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -27,7 +30,6 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
-
   const team_id = teamData?.contest_team_member[0]?.contest_team.team_id!;
 
   const { data: teamStatData } = graphql.useGetTeamStatSuspenseQuery({
@@ -46,23 +48,23 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
       skip: !team_id,
     },
   );
-  const matchCount = teamArenaRoomsData?.contest_room?.length || 0;
-
-  const [activeButton, setActiveButton] = useState(matchCount); // 初始选中的按钮
-  const [viewRange, setViewRange] = useState(matchCount);
-
-  const ranges = [5, 10, 20, 50, 100, 0];
-
-  const handleButtonClick = (range: any) => {
-    setViewRange(range === 0 ? matchCount : range);
-    setActiveButton(range);
-  };
 
   const { data: scoreteamListData } = graphql.useGetTeamsSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
+
+  const matchCount = teamArenaRoomsData?.contest_room?.length || 0;
+
+  const [activeButton, setActiveButton] = useState(matchCount); // 初始选中的按钮
+  const [viewRange, setViewRange] = useState(matchCount);
+
+  /* ---------------- 业务逻辑函数 ---------------- */
+  const handleButtonClick = (range: any) => {
+    setViewRange(range === 0 ? matchCount : range);
+    setActiveButton(range);
+  };
 
   //当前队伍排名
   const scoreRank =
@@ -236,7 +238,7 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
       chart.destroy();
     };
   });
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   if (!team_id)
     return (
       <Layout>

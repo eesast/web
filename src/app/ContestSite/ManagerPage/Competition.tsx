@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 import Loading from "@/app/Components/Loading";
 import { useNavigate } from "react-router-dom";
 
+/* ---------------- 接⼝和类型定义 ---------------- */
 interface TeamLabelBind {
   team_id: string;
   label: string;
@@ -32,6 +33,15 @@ interface TeamLabelBind {
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title, Text } = Typography;
+const { Option } = Select;
+const roomStatusLabels: { [key: string]: string } = {
+  Finished: "已结束",
+  Crashed: "非正常退出",
+  Running: "进行中",
+  Waiting: "排队等待中",
+  Timeout: "运行超时",
+  Failed: "发起失败",
+};
 const cleanFileName = (fileName: string) => {
   // 定义非法字符正则表达式
   const illegalRe = /[/?<>\\:*|"]/g;
@@ -50,20 +60,30 @@ const cleanFileName = (fileName: string) => {
   return cleaned;
 };
 
+/* ---------------- 主⻚⾯ ---------------- */
 const Competition: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [roundId, setRoundId] = useState<string | null>(null);
   const [runForm] = Form.useForm();
-  const { Option } = Select;
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestMapData, error: contestMapError } =
     graphql.useGetContestMapsQuery({
       variables: {
         contest_id: Contest_id,
       },
     });
+  const { data: contestRoundData, error: contestRoundError } =
+    graphql.useGetContestRoundsQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
+  const [addContestRound, { error: addRoundError }] =
+    graphql.useAddContestRoundMutation();
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestMapError) {
       message.error("比赛地图加载失败");
@@ -71,12 +91,6 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [contestMapError]);
 
-  const { data: contestRoundData, error: contestRoundError } =
-    graphql.useGetContestRoundsQuery({
-      variables: {
-        contest_id: Contest_id,
-      },
-    });
   useEffect(() => {
     if (contestRoundError) {
       message.error("比赛轮次加载失败");
@@ -84,16 +98,13 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [contestRoundError]);
 
-  const [addContestRound, { error: addRoundError }] =
-    graphql.useAddContestRoundMutation();
-
   useEffect(() => {
     if (addRoundError) {
       message.error("比赛轮次添加失败");
       console.log(addRoundError.message);
     }
   }, [addRoundError]);
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   //运行比赛
   const runContest = async (round_name: string, map_uuid: string) => {
     try {
@@ -130,6 +141,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
       });
   };
 
+  /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <Layout>
       <Card
@@ -216,10 +228,11 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
 };
 
 const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const navigate = useNavigate();
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
     variables: {
       contest_id: Contest_id,
@@ -239,12 +252,6 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
         round_id: roundId,
       },
     });
-  useEffect(() => {
-    if (getCompetitionRoomsError) {
-      message.error("获取比赛房间失败");
-      console.log(getCompetitionRoomsError.message);
-    }
-  }, [getCompetitionRoomsError]);
 
   const {
     data: teamsCompetitionResultData,
@@ -255,13 +262,20 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
       round_id: roundId,
     },
   });
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (getCompetitionRoomsError) {
+      message.error("获取比赛房间失败");
+      console.log(getCompetitionRoomsError.message);
+    }
+  }, [getCompetitionRoomsError]);
   useEffect(() => {
     if (getTeamsCompetitionResultError) {
       message.error("获取队伍比赛结果失败");
       console.log(getTeamsCompetitionResultError.message);
     }
   }, [getTeamsCompetitionResultError]);
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const exportCompetitionRooms = () => {
     try {
       let data: any = [];
@@ -323,15 +337,6 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
     } catch (error) {
       message.error("比赛结果导出失败");
     }
-  };
-
-  const roomStatusLabels: { [key: string]: string } = {
-    Finished: "已结束",
-    Crashed: "非正常退出",
-    Running: "进行中",
-    Waiting: "排队等待中",
-    Timeout: "运行超时",
-    Failed: "发起失败",
   };
 
   const roomListColumns: TableProps<
@@ -489,7 +494,7 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
     ).length ?? 0;
   const coveredRate = (coveredRoomCount / roomCount) * 100;
   const finishedRate = (finishedRoomCount / roomCount) * 100;
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <Suspense fallback={<Loading />}>
       <Progress
