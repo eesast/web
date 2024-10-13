@@ -34,30 +34,41 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
 
-const { Text } = Typography;
-const { confirm } = Modal;
-
+/* ---------------- 接⼝和类型定义 ---------------- */
 interface File {
   filename: string;
   url: string;
 }
+interface NoticeCardProps extends CardProps {
+  contest: string;
+  title: string;
+  content: string;
+  files?: File[];
+  updatedAt: Date;
+  onEditPress?: () => void;
+  onDeletePress?: () => void;
+}
 
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
+const { Text } = Typography;
+const { confirm } = Modal;
+/* ---------------- 主⻚⾯ ---------------- */
 const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
-
+  const [form] = Form.useForm();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  const [editingNotice, setEditingNotice] =
+    useState<graphql.GetContestNoticesQuery["contest_notice"][0]>();
   const { data: contestData, error: contestError } =
     graphql.useGetContestInfoSuspenseQuery({
       variables: {
         contest_id: Contest_id,
       },
     });
-  useEffect(() => {
-    if (contestError) {
-      message.error("比赛加载失败");
-      console.log(contestError.message);
-    }
-  }, [contestError]);
 
   const {
     data: noticeData,
@@ -85,6 +96,13 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (contestError) {
+      message.error("比赛加载失败");
+      console.log(contestError.message);
+    }
+  }, [contestError]);
 
   useEffect(() => {
     if (noticeError) {
@@ -117,12 +135,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(getContestManagersError.message);
     }
   }, [getContestManagersError]);
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editingNotice, setEditingNotice] =
-    useState<graphql.GetContestNoticesQuery["contest_notice"][0]>();
-  const [form] = Form.useForm();
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleNoticeEdit = async () => {
     try {
       form.validateFields();
@@ -156,10 +169,8 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
     setModalVisible(false);
     setEditingNotice(undefined);
     form.resetFields();
-
     refetchNotices();
   };
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
@@ -229,7 +240,7 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
   };
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <Layout>
       <br />
@@ -373,16 +384,6 @@ const NoticePage: React.FC<ContestProps> = ({ mode, user }) => {
 };
 
 export default NoticePage;
-
-interface NoticeCardProps extends CardProps {
-  contest: string;
-  title: string;
-  content: string;
-  files?: File[];
-  updatedAt: Date;
-  onEditPress?: () => void;
-  onDeletePress?: () => void;
-}
 
 const NoticeCard: React.FC<NoticeCardProps> = (props) => {
   const {

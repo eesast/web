@@ -31,19 +31,25 @@ import { deleteFile, downloadFile } from "@/api/cos";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;
 const { Dragger } = Upload;
-
+/* ---------------- 主⻚⾯ ---------------- */
 const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
+  const { token } = theme.useToken();
+  const [addMapForm] = Form.useForm();
   const windowSize = useWindowSize();
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
-
   const contestName = contestNameData?.contest_by_pk?.name;
-
+  const { uploadProps, setFileList } = useUploadProps(
+    `${contestName}/map`,
+    false,
+  );
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const {
@@ -56,6 +62,14 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
 
+  const [addContestMap, { error: addContestMapError }] =
+    graphql.useAddContestMapMutation();
+
+  // const [ updateContestMap, {error: updateContestMapError} ] = graphql.useUpdateContestMapMutation();
+
+  const [deleteContestMap, { error: deleteContestMapError }] =
+    graphql.useDeleteContestMapMutation();
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (getContestMapsError) {
       message.error("比赛地图加载失败");
@@ -63,8 +77,6 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [getContestMapsError]);
 
-  const [addContestMap, { error: addContestMapError }] =
-    graphql.useAddContestMapMutation();
   useEffect(() => {
     if (addContestMapError) {
       message.error("比赛地图添加失败");
@@ -72,7 +84,6 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [addContestMapError]);
 
-  // const [ updateContestMap, {error: updateContestMapError} ] = graphql.useUpdateContestMapMutation();
   // useEffect(() => {
   //   if (updateContestMapError) {
   //     message.error("比赛地图更新失败");
@@ -80,20 +91,13 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
   //   }
   // }, [updateContestMapError]);
 
-  const [deleteContestMap, { error: deleteContestMapError }] =
-    graphql.useDeleteContestMapMutation();
   useEffect(() => {
     if (deleteContestMapError) {
       message.error("比赛地图删除失败");
       console.log(deleteContestMapError.message);
     }
   }, [deleteContestMapError]);
-
-  const { uploadProps, setFileList } = useUploadProps(
-    `${contestName}/map`,
-    false,
-  );
-  const [addMapForm] = Form.useForm();
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleAdd = async () => {
     try {
       const values = await addMapForm.validateFields();
@@ -165,8 +169,7 @@ const UploadMap: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(e);
     }
   };
-
-  const { token } = theme.useToken();
+  /* ---------------- ⻚⾯组件 ---------------- */
   const panelStyle: React.CSSProperties = {
     marginBottom: 12,
     background: token.colorFillAlter,

@@ -39,8 +39,43 @@ import { ContestProps } from ".";
 import { FormInstance } from "antd/lib";
 import NotJoined from "./Components/NotJoined";
 
+/* ---------------- 接⼝和类型定义 ---------------- */
+interface Item {
+  key: string;
+  codename: string;
+  updatetime: string;
+}
+interface EditableRowProps {
+  index: number;
+}
+interface EditableCellProps {
+  title: React.ReactNode;
+  editable: boolean;
+  children: React.ReactNode;
+  dataIndex: keyof Item;
+  record: Item;
+  handleSave: (record: Item) => void;
+}
+interface playertype {
+  key: string;
+  team_label: string;
+  player_name: string;
+  code_index: number;
+  code_name: string;
+  updatetime: string;
+  operation: string;
+  role: string;
+}
+interface datatype {
+  key: React.Key;
+  codename: string;
+  updatetime: string;
+}
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const { Dragger } = Upload;
-
+type ColumnsType<T> = TableProps<T>["columns"];
+type EditableTableProps = Parameters<typeof Table>[0];
+type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 /* ---------------- 主页面 ---------------- */
 const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -54,8 +89,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [selectedRole, setSelectedRole] = useState("");
   const [editingCodeKey, setEditingCodeKey] = useState("");
   const [editingRoleKey, setEditingRoleKey] = useState("");
-  type ColumnsType<T> = TableProps<T>["columns"];
-
+  const codeIndexMap = new Map();
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
 
@@ -66,7 +100,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
-
   const teamid = teamData?.contest_team_member[0]?.contest_team.team_id!;
 
   const { data: contestSwitchData } = graphql.useGetContestSwitchSuspenseQuery({
@@ -144,19 +177,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     return <NotJoined />;
   }
 
-  const open = contestSwitchData.contest_by_pk?.code_upload_switch;
-
   /* ---------------- 业务逻辑函数 ---------------- */
+  const open = contestSwitchData.contest_by_pk?.code_upload_switch;
   // 编译代码
   const EditableContext = React.createContext<FormInstance<any> | null>(null);
-  interface Item {
-    key: string;
-    codename: string;
-    updatetime: string;
-  }
-  interface EditableRowProps {
-    index: number;
-  }
   const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
     const [form] = Form.useForm();
     return (
@@ -167,14 +191,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       </Form>
     );
   };
-  interface EditableCellProps {
-    title: React.ReactNode;
-    editable: boolean;
-    children: React.ReactNode;
-    dataIndex: keyof Item;
-    record: Item;
-    handleSave: (record: Item) => void;
-  }
   const EditableCell: React.FC<EditableCellProps> = ({
     title,
     editable,
@@ -239,23 +255,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
     return <td {...restProps}>{childNode}</td>;
   };
-  interface playertype {
-    key: string;
-    team_label: string;
-    player_name: string;
-    code_index: number;
-    code_name: string;
-    updatetime: string;
-    operation: string;
-    role: string;
-  }
-  interface datatype {
-    key: React.Key;
-    codename: string;
-    updatetime: string;
-  }
-  type EditableTableProps = Parameters<typeof Table>[0];
-  type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
+
   const components = {
     body: {
       row: EditableRow,
@@ -511,7 +511,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const codeIndexMap = new Map();
   teamCodesData?.contest_team_code.forEach((code, index) => {
     codeIndexMap.set(code.code_id, index + 1); // 存储 code_name 到 codeindex 的映射
   });
@@ -549,7 +548,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       } as datatype;
     },
   );
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   const columnsPlayer: ColumnsType<playertype> = [
     {
       title: "战队",

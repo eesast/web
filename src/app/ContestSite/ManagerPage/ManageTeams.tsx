@@ -28,7 +28,7 @@ import { ContestProps } from "..";
 import Loading from "@/app/Components/Loading";
 import { downloadFile } from "@/api/cos";
 
-/* ---------------- 不随渲染刷新的常量 ---------------- */
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const { Title } = Typography;
 const cleanFileName = (fileName: string) => {
   // 定义非法字符正则表达式
@@ -47,7 +47,6 @@ const cleanFileName = (fileName: string) => {
   }
   return cleaned;
 };
-/* ---------------- 不随渲染刷新的组件 ---------------- */
 /* ---------------- 主页面 ---------------- */
 const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
@@ -57,7 +56,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
   const [showTeamInfo, setShowTeamInfo] = useState(false);
   const [showTeamCode, setShowTeamCode] = useState(false);
   const [teamId, setTeamId] = useState<string | null>(null);
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
       variables: {
@@ -65,25 +64,24 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       },
     });
 
-  useEffect(() => {
-    if (contestNameError) {
-      message.error("比赛信息加载失败");
-    }
-  }, [contestNameError]);
-
   const { data: teamsData, error: getTeamsError } =
     graphql.useGetTeamsSuspenseQuery({
       variables: {
         contest_id: contest_id,
       },
     });
-
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("比赛信息加载失败");
+    }
+  }, [contestNameError]);
   useEffect(() => {
     if (getTeamsError) {
       message.error("队伍列表加载失败");
     }
   }, [getTeamsError]);
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const exportTeamsData = () => {
     try {
       let data: any = [];
@@ -275,21 +273,16 @@ const ManageTeamInfo: React.FC<{ teamId: string }> = ({ teamId }) => {
 };
 
 const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const contest_id = url.query.get("contest")!;
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
       variables: {
         contest_id: contest_id,
       },
     });
-
-  useEffect(() => {
-    if (contestNameError) {
-      message.error("比赛信息加载失败");
-    }
-  }, [contestNameError]);
 
   const { data: teamPlayersData, error: getTeamPlayersError } =
     graphql.useGetTeamPlayersSuspenseQuery({
@@ -298,12 +291,19 @@ const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
       },
       skip: !teamId,
     });
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("比赛信息加载失败");
+    }
+  }, [contestNameError]);
+
   useEffect(() => {
     if (getTeamPlayersError) {
       message.error("队伍代码加载失败");
     }
   }, [getTeamPlayersError]);
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleDownload = async (
     filename: string,
     codeId: string,
@@ -321,7 +321,7 @@ const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
       console.log(err);
     }
   };
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <>
       {teamPlayersData?.contest_team_player.map((player) => (

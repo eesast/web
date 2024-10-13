@@ -25,10 +25,14 @@ import { downloadFile } from "@/api/cos";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;
 const { Dragger } = Upload;
-
+const suffixes = [".loader.js", ".framework.js", ".wasm", ".data"];
+/* ---------------- 主⻚⾯ ---------------- */
 const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  const { token } = theme.useToken();
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
     variables: {
       contest_id: Contest_id,
@@ -37,7 +41,9 @@ const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
 
   const contestName = contestNameData?.contest_by_pk?.name;
   const { uploadProps } = useUploadProps(`public/WebGL/${contestName}`, true);
+  const [activeKey, setActiveKey] = useState<string | string[]>([]);
 
+  /* ---------------- 业务逻辑函数 ---------------- */
   const prepareFile = (file: File) => {
     const filenameSplit = file.name.split(".");
     const suffix = filenameSplit.pop();
@@ -73,7 +79,7 @@ const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(err);
     }
   };
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   const WebGLFiles = ({
     projectName,
     suffixes,
@@ -114,14 +120,12 @@ const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
     );
   };
 
-  const { token } = theme.useToken();
   const panelStyle: React.CSSProperties = {
     marginBottom: 12,
     background: token.colorFillAlter,
     borderRadius: token.borderRadiusLG,
     border: "none",
   };
-  const suffixes = [".loader.js", ".framework.js", ".wasm", ".data"];
   const webGLprojects: CollapseProps["items"] = [
     {
       key: "playground",
@@ -142,7 +146,6 @@ const UploadWebGL: React.FC<ContestProps> = ({ mode, user }) => {
       style: panelStyle,
     },
   ];
-  const [activeKey, setActiveKey] = useState<string | string[]>([]);
   const currentProject = webGLprojects.find((i) => i.key === activeKey[0]);
 
   return (

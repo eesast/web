@@ -6,6 +6,9 @@ import * as Message2Server from "@/generated/grpc-web/THUAI7/Message2Server_pb";
 import { StreamProps } from "../../StreamPage";
 import { message } from "antd";
 
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
+const playerID = Math.floor(Math.random() * 9999) + 2024;
+/* ---------------- 主⻚⾯ ---------------- */
 const streamTHUAI7: (props: StreamProps) => void = ({
   streamUrl,
   port,
@@ -13,7 +16,6 @@ const streamTHUAI7: (props: StreamProps) => void = ({
 }) => {
   const client = new AvailableServiceClient(streamUrl + port);
   const request = new Message2Server.IDMsg();
-  const playerID = Math.floor(Math.random() * 9999) + 2024;
   request.setPlayerId(playerID);
   client.tryConnection(
     request,
