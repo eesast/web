@@ -27,6 +27,10 @@ permalink: /cos
 - 新生导师谈话记录：`chat_record/${application_id}/${filename}`
 - 公告文件：`upload/${filename}`
 
+### 用户头像文件
+
+- 用户头像文件(_.jpg/_.png，大小小于1MB)：`avatar/${user.uuid}/${filename}`
+
 ### 公开静态资源文件
 
 这部分文件前端可直接通过 `https://static.eesast.com/` 解析到存储桶访问。
