@@ -11423,7 +11423,7 @@ react-app-rewired@2.2.1:
   dependencies:
     semver "^5.6.0"
 
-react-cropper@^2.3.3:
+react-cropper@2.3.3:
   version "2.3.3"
   resolved "https://registry.npmmirror.com/react-cropper/-/react-cropper-2.3.3.tgz#aced0d045d9fd56168ba4d17287a40c287754dee"
   integrity sha512-zghiEYkUb41kqtu+2jpX2Ntigf+Jj1dF9ew4lAobPzI2adaPE31z0p+5TcWngK6TvmWQUwK3lj4G+NDh1PDQ1w==
