@@ -112,8 +112,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         preview={false}
         style={{
           objectFit: "cover",
-          height: "100%",
-          width: "100%",
+          minHeight: 256,
           borderRadius: "10px",
         }}
         onClick={() => {
