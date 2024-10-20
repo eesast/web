@@ -6,11 +6,11 @@
   "private": true,
   "dependencies": {
     "@ant-design/charts": "2.2.1",
-    "@ant-design/pro-components": "2.7.19",
+    "@ant-design/pro-components": "2.8.0",
     "@apollo/client": "3.11.8",
-    "antd": "5.21.3",
+    "antd": "5.21.4",
     "axios": "1.7.7",
-    "cos-js-sdk-v5": "1.8.4",
+    "cos-js-sdk-v5": "1.8.6",
     "dayjs": "1.11.13",
     "dotenv": "16.4.5",
     "google-protobuf": "3.21.4",
@@ -25,7 +25,7 @@
     "react-dom": "18.3.1",
     "react-markdown": "9.0.1",
     "react-otp-input": "3.1.1",
-    "react-router-dom": "6.26.2",
+    "react-router-dom": "6.27.0",
     "react-router-prompt": "0.7.1",
     "react-unity-webgl": "9.5.2",
     "styled-components": "6.1.13",
@@ -35,12 +35,12 @@
     "@graphql-codegen/cli": "5.0.3",
     "@graphql-codegen/typescript-operations": "4.3.0",
     "@graphql-codegen/typescript-react-apollo": "4.3.2",
-    "@playwright/test": "1.48.0",
+    "@playwright/test": "1.48.1",
     "@types/is-url": "1.2.32",
-    "@types/node": "20.16.11",
+    "@types/node": "20.16.12",
     "@types/react": "18.3.11",
     "@types/react-custom-scrollbars": "4.0.13",
-    "@types/react-dom": "18.3.0",
+    "@types/react-dom": "18.3.1",
     "@types/react-router-dom": "5.3.3",
     "@types/styled-components": "5.1.34",
     "babel-plugin-styled-components": "2.1.4",
@@ -58,8 +58,8 @@
     "webpackbar": "6.0.1"
   },
   "peerDependencies": {
-    "electron": "32.2.0",
-    "electron-builder": "25.1.7"
+    "electron": "33.0.1",
+    "electron-builder": "25.1.8"
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11"
