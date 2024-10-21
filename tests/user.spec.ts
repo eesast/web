@@ -19,10 +19,10 @@ async function login(page: Page, user: string, password: string) {
 }
 
 test.describe("Login", () => {
-  // test("should login with username", async ({ page }) => {
-  //   await login(page, account.username, account.password);
-  //   await expect(page.getByRole('heading', { name: '用户信息' })).toBeVisible();
-  // });
+  test("should login with username", async ({ page }) => {
+    await login(page, account.username, account.password);
+    await expect(page.getByRole("heading", { name: "用户信息" })).toBeVisible();
+  });
 
   test("should login with email", async ({ page }) => {
     await login(page, account.email, account.password);
