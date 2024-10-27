@@ -11,10 +11,10 @@ import {
   TourProps,
   message,
   theme,
+  Avatar,
 } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import {
-  UserOutlined,
   MenuOutlined,
   ExportOutlined,
   NotificationTwoTone,
@@ -33,7 +33,7 @@ import { useUrl } from "../api/hooks/url";
 import { useUser, JwtPayload } from "../api/hooks/user";
 import { subscribe, unsubscribe } from "../api/notification";
 import Loading from "./Components/Loading";
-
+import { getAvatarUrl, listFile } from "../api/cos";
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
 dayjs.locale("zh-cn");
@@ -59,6 +59,36 @@ const App: React.FC = () => {
   const [mode, setMode] = useState<"light" | "dark">(
     (localStorage.getItem("theme") as "light" | "dark") || "light",
   );
+  const [imageUrl, setImageUrl] = useState<string>(() => {
+    // 在初始化时执行异步操作
+    listFile(`avatar/${user.uuid}/`)
+      .then((files) => {
+        const imageFiles = files.filter((file) =>
+          /\.(jpe?g|png)$/i.test(file.Key),
+        );
+        if (imageFiles.length > 0) {
+          const firstImage = imageFiles[0];
+          getAvatarUrl(firstImage.Key)
+            .then((url) => {
+              // const uniqueUrl = `${url}?t=${new Date().getTime()}`;
+              setImageUrl(url);
+            })
+            .catch((error) => {
+              console.error("Failed to load avatar URL:", error);
+              message.error("加载头像失败");
+            });
+        } else {
+          setImageUrl("/UserOutlined.png"); // 替换为实际的默认头像 URL
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to list files:", error);
+        message.error("加载头像失败");
+      });
+
+    // 返回初始值
+    return "";
+  });
   const contestRef = useRef(null);
   const infoRef = useRef(null);
   const shareRef = useRef(null);
@@ -294,7 +324,7 @@ const App: React.FC = () => {
         `}
       >
         {user.isLoggedIn ? (
-          <Button icon={<UserOutlined style={{ fontSize: "16px" }} />} />
+          <Avatar style={{ fontSize: "16px" }} src={imageUrl} />
         ) : (
           <Button>登录</Button>
         )}
