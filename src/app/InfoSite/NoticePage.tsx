@@ -37,15 +37,37 @@ import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
 import { PageProps } from "..";
 
+/*----- 不依赖于 props 和 hooks 的定义 -----*/
 const { Text } = Typography;
 const { confirm } = Modal;
 
+/*----- 文件接口定义 -----*/
 interface File {
-  filename: string;
-  url: string;
+  filename: string; //文件名
+  url: string; //文件地址
 }
 
+/*----- 公告接口定义 -----*/
+interface NoticeCardProps extends CardProps {
+  title: string; //标题
+  content: string; //内容
+  files?: File[]; //文件
+  updatedAt: Date; //更新时间
+  onEditPress?: () => void; //编辑按钮点击事件
+  onDeletePress?: () => void; //删除按钮点击事件
+}
+
+/*----- 主组件 NoticePage -----*/
 const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
+  /*----- states 和 引入 hooks -----*/
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editingNotice, setEditingNotice] =
+    useState<graphql.GetNoticesQuery["info_notice"][0]>();
+  const [noticeType, setNoticeType] = useState<string>("all");
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [form] = Form.useForm();
+
+  /*----- 数据获取 hook -----*/
   const {
     data: noticeData,
     loading: noticeLoading,
@@ -57,6 +79,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     },
   });
 
+  // 更新、发布、删除公告的 hooks
   const [updateNotice, { loading: noticeUpdating, error: noticeUpdateError }] =
     graphql.useUpdateNoticeMutation();
   const [addNotice, { loading: noticeAdding, error: noticeAddError }] =
@@ -64,6 +87,8 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
   const [deleteNotice, { error: noticeDeleteError }] =
     graphql.useDeleteNoticeMutation();
 
+  /*----- useEffect 部分 -----*/
+  // 公告加载失败时提示
   useEffect(() => {
     if (noticeError) {
       message.error("公告加载失败");
@@ -71,31 +96,29 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [noticeError]);
 
+  // 公告更新失败时提示
   useEffect(() => {
     if (noticeUpdateError) {
       message.error("公告更新失败");
     }
   }, [noticeUpdateError]);
 
+  // 公告发布失败时提示
   useEffect(() => {
     if (noticeAddError) {
       message.error("公告发布失败");
     }
   }, [noticeAddError]);
 
+  // 公告删除失败时提示
   useEffect(() => {
     if (noticeDeleteError) {
       message.error("公告删除失败");
     }
   }, [noticeDeleteError]);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editingNotice, setEditingNotice] =
-    useState<graphql.GetNoticesQuery["info_notice"][0]>();
-  const [noticeType, setNoticeType] = useState<string>("all");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [form] = Form.useForm();
-
+  /*----- 其他函数和处理逻辑 -----*/
+  // 处理公告编辑
   const handleNoticeEdit = async () => {
     try {
       form.validateFields();
@@ -106,6 +129,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
       }));
       if (editingNotice) {
         await updateNotice({
+          // 更新公告
           variables: {
             id: editingNotice.id,
             title: values.title,
@@ -116,6 +140,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
         });
       } else {
         await addNotice({
+          // 发布公告
           variables: {
             title: values.title,
             content: values.content,
@@ -124,6 +149,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
           },
         });
       }
+      // 关闭模态框，清空表单，重载公告
       setModalVisible(false);
       setEditingNotice(undefined);
       form.resetFields();
@@ -133,6 +159,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  // 处理文件上传
   const handleUpload = async (e: RcCustomRequestOptions) => {
     try {
       const url = "upload/" + (e.file as RcFile).name;
@@ -144,6 +171,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  // 处理文件删除
   const handleRemove = async (file: UploadFile) => {
     try {
       let fileList_ = fileList;
@@ -170,7 +198,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
         });
       } else throw Error("error");
       if (file.response?.status === 200) {
-        await deleteFile("upload/" + file.name);
+        await deleteFile("upload/" + file.name); //删除文件
       }
       refetchNotices();
     } catch (err) {
@@ -178,6 +206,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  // 处理公告删除
   const handleNoticeDelete = async (id: string) => {
     confirm({
       title: "确定要删除此公告吗？",
@@ -190,6 +219,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     });
   };
 
+  // 处理公告类别点击
   const handleTypeClick = async (e: any) => {
     setNoticeType(e.key);
     await refetchNotices({
@@ -200,6 +230,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     });
   };
 
+  /*----- 组件渲染 -----*/
   return (
     <>
       <Row align="middle" justify="space-between">
@@ -361,16 +392,9 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
 
 export default NoticePage;
 
-interface NoticeCardProps extends CardProps {
-  title: string;
-  content: string;
-  files?: File[];
-  updatedAt: Date;
-  onEditPress?: () => void;
-  onDeletePress?: () => void;
-}
-
+/*----- NoticeCard 组件 -----*/
 const NoticeCard: React.FC<NoticeCardProps> = (props) => {
+  /*----- props -----*/
   const {
     title,
     content,
@@ -381,6 +405,7 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
     ...restProps
   } = props;
 
+  /*----- 组件渲染 -----*/
   return (
     <Card
       css={`

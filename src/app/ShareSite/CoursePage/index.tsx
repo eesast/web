@@ -9,13 +9,20 @@ import { PageProps } from "../..";
 import DiscussDrawer from "./DiscussDrawer";
 import CourseRating from "./CourseRating";
 
+/* ---------------- 接口和类型定义 ---------------- */
 export interface CourseProps extends PageProps {
   course_uuid: string;
 }
 
+/* ---------------- 主页面 ---------------- */
 const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
   //const url = useUrl();
+
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
+
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   const columns: ProColumns<graphql.GetCourseQuery["course"][0]>[] = [
     {
       title: "课程号",
@@ -96,6 +103,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
     },
   ];
 
+  /* ---------------- 业务逻辑函数 ---------------- */
   const dataRequest = async (params: {
     pageSize?: number;
     current?: number;
@@ -147,6 +155,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
     };
   };
 
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Layout
       css={`

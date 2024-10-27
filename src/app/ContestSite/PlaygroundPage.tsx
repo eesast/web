@@ -10,6 +10,8 @@ import { message, Layout, Row, Modal, Progress, FloatButton } from "antd";
 import { ArrowsAltOutlined } from "@ant-design/icons";
 import Loading from "../Components/Loading";
 
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
+const projectName = "playground";
 const Container = styled.div`
   height: calc(100vh - 72px);
   width: 100%;
@@ -17,23 +19,18 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
+/* ---------------- 主⻚⾯ ---------------- */
 const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const contest = url.query.get("contest");
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
       variables: {
         contest_id: contest,
       },
     });
-  useEffect(() => {
-    if (contestNameError) {
-      message.error("获取比赛信息失败");
-      console.log(contestNameError.message);
-    }
-  });
 
   const { data: contestSwitchData, error: contestSwitchError } =
     graphql.useGetContestSwitchQuery({
@@ -41,17 +38,23 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: contest,
       },
     });
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("获取比赛信息失败");
+      console.log(contestNameError.message);
+    }
+  });
   useEffect(() => {
     if (contestSwitchError) {
       message.error("获取比赛状态失败");
       console.log(contestSwitchError.message);
     }
   });
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const projectUrl =
     process.env.REACT_APP_STATIC_URL! +
     `/public/WebGL/${contestNameData?.contest_by_pk?.name ?? "Jump"}/`;
-  const projectName = "playground";
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -88,7 +91,7 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(err);
     }
   };
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return contestSwitchData ? (
     contestSwitchData?.contest_by_pk?.playground_switch ? (
       <Layout>
