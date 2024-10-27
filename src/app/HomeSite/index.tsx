@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Layout, Menu, Spin, Tabs } from "antd";
+import { Layout, Spin, Tabs } from "antd";
 import { ApartmentOutlined, TrophyOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Route, Navigate, Routes } from "react-router-dom";
@@ -13,7 +13,7 @@ import ContestPage from "./ContestPage";
 const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
 
-  const { Header, Content } = Layout;
+  const { Content } = Layout;
   //const StyledHeader = styled(Header)`
   //display: flex;
   //align-items: center;
