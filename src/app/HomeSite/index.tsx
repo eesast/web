@@ -1,12 +1,8 @@
 import React, { Suspense } from "react";
 import { Layout, Menu, Spin, Tabs } from "antd";
-import {
-  SwitcherOutlined,
-  ApartmentOutlined,
-  TrophyOutlined,
-} from "@ant-design/icons";
+import { ApartmentOutlined, TrophyOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import { Link, Route, Navigate, Routes } from "react-router-dom";
+import { Route, Navigate, Routes } from "react-router-dom";
 import NewsPage from "./NewsPage";
 import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
@@ -18,19 +14,19 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
 
   const { Header, Content } = Layout;
-  const StyledHeader = styled(Header)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99;
-    height: 48px;
-    width: 100%;
-    background-color: ${mode === "light" ? `white` : `#141414`};
-    border-bottom: 1px solid
-      ${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
-    position: sticky;
-    top: 72px;
-  `;
+  //const StyledHeader = styled(Header)`
+  //display: flex;
+  //align-items: center;
+  //justify-content: center;
+  //z-index: 99;
+  //height: 48px;
+  //width: 100%;
+  //background-color: ${mode === "light" ? `white` : `#141414`};
+  //border-bottom: 1px solid
+  //${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
+  //position: sticky;
+  //top: 72px;
+  //`;
   const StyledTabs = styled(Tabs)`
     background-color: ${mode === "light" ? `white` : `#141414`};
 
@@ -46,14 +42,14 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
       font-size: 30px;
     }
   `;
-  const StyledMenu = styled(Menu)`
-    &.ant-menu {
-      line-height: 48px;
-      width: 100%;
-      justify-content: center;
-      border-bottom: unset;
-    }
-  `;
+  //const StyledMenu = styled(Menu)`
+  //&.ant-menu {
+  //line-height: 48px;
+  //width: 100%;
+  //justify-content: center;
+  //border-bottom: unset;
+  //}
+  //`;
 
   const Container = styled.div`
     height: auto;
