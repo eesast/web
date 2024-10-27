@@ -51,6 +51,22 @@ const downloadByUrl = (url: string) => {
   document.body.removeChild(element);
 };
 
+export const getAvatarUrl = (key: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    cos.getObjectUrl(
+      {
+        Bucket: bucket,
+        Region: region,
+        Key: key,
+      },
+      (err, data) => {
+        if (err) return reject(err);
+        resolve(data.Url);
+      },
+    );
+  });
+};
+
 export const downloadFile = (url: string, filename?: string) => {
   return new Promise(async (resolve, reject) => {
     if ((await existFile(url)) === false)
