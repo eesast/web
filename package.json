@@ -37,7 +37,7 @@
     "@graphql-codegen/typescript-react-apollo": "4.3.2",
     "@playwright/test": "1.48.2",
     "@types/is-url": "1.2.32",
-    "@types/node": "22.8.7",
+    "@types/node": "22.9.0",
     "@types/react": "18.3.12",
     "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.3.1",
