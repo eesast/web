@@ -33,11 +33,7 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
     .ant-tabs-nav .ant-tabs-tab {
       justify-content: center;
       align-items: center;
-<<<<<<< HEAD
-      font-size: 22px;
-=======
-      font-size: 25px;
->>>>>>> c1c97ff1b2de404dbea1b04807345f9ca0feb967
+      font-size: 20px;
       width: 300px;
       margin: 0;
     }

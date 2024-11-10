@@ -62,29 +62,49 @@ const App: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
-    listFile(`avatar/${user.uuid}/`)
-      .then((files) => {
-        const imageFiles = files.filter((file) =>
-          /\.(jpe?g|png)$/i.test(file.Key),
-        );
-        if (imageFiles.length > 0) {
-          const firstImage = imageFiles[0];
-          return getAvatarUrl(firstImage.Key);
-        } else {
-          setImageUrl("/UserOutlined.png"); // 替换为实际的默认头像 URL
-          return null; // 返回 null 以避免后续设置
-        }
-      })
-      .then((url) => {
-        if (url) {
-          setImageUrl(url);
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to load avatar:", error);
-        message.error("加载头像失败");
-      });
-  }, [user.uuid]); // 依赖于 user.uuid 变化
+    let isMounted = true; // 防止组件卸载后更新状态
+
+    const fetchAvatar = () => {
+      listFile(`avatar/${user.uuid}/`)
+        .then((files) => {
+          const imageFiles = files.filter((file) =>
+            /\.(jpe?g|png)$/i.test(file.Key),
+          );
+          if (imageFiles.length > 0) {
+            const firstImage = imageFiles[0];
+            return getAvatarUrl(firstImage.Key);
+          } else {
+            setImageUrl("/UserOutlined.png"); // 替换为默认头像 URL
+            return null;
+          }
+        })
+        .then((url) => {
+          if (url && isMounted) {
+            setImageUrl(url);
+          }
+        })
+        .catch((error) => {
+          if (isMounted) {
+            console.error("Failed to load avatar:", error);
+            message.error("加载头像失败");
+          }
+        })
+        .finally(() => {
+          // 这里调用下次请求
+          if (isMounted) {
+            setTimeout(fetchAvatar, 500); // 请求完成后 1 秒再发起下一个请求
+          }
+        });
+    };
+
+    // 初次请求
+    fetchAvatar();
+
+    // 清理函数，避免组件卸载时执行更新操作
+    return () => {
+      isMounted = false;
+    };
+  }, [user.uuid]);
 
   const contestRef = useRef(null);
   const infoRef = useRef(null);
@@ -205,8 +225,8 @@ const App: React.FC = () => {
             align-items: center;
             justify-content: center;
             height: 72px;
-            width: 480px;
-            fontsize: 22px;
+            width: 960px;
+            font-size: 18px;
           `}
           mode="horizontal"
           selectedKeys={[url.site]}
