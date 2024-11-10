@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useRef, useState } from "react";
+import React, { Suspense, lazy, useRef, useState, useEffect } from "react";
 import {
   Button,
   ConfigProvider,
@@ -59,8 +59,9 @@ const App: React.FC = () => {
   const [mode, setMode] = useState<"light" | "dark">(
     (localStorage.getItem("theme") as "light" | "dark") || "light",
   );
-  const [imageUrl, setImageUrl] = useState<string>(() => {
-    // 在初始化时执行异步操作
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  useEffect(() => {
     listFile(`avatar/${user.uuid}/`)
       .then((files) => {
         const imageFiles = files.filter((file) =>
@@ -68,27 +69,23 @@ const App: React.FC = () => {
         );
         if (imageFiles.length > 0) {
           const firstImage = imageFiles[0];
-          getAvatarUrl(firstImage.Key)
-            .then((url) => {
-              // const uniqueUrl = `${url}?t=${new Date().getTime()}`;
-              setImageUrl(url);
-            })
-            .catch((error) => {
-              console.error("Failed to load avatar URL:", error);
-              message.error("加载头像失败");
-            });
+          return getAvatarUrl(firstImage.Key);
         } else {
           setImageUrl("/UserOutlined.png"); // 替换为实际的默认头像 URL
+          return null; // 返回 null 以避免后续设置
+        }
+      })
+      .then((url) => {
+        if (url) {
+          setImageUrl(url);
         }
       })
       .catch((error) => {
-        console.error("Failed to list files:", error);
+        console.error("Failed to load avatar:", error);
         message.error("加载头像失败");
       });
+  }, [user.uuid]); // 依赖于 user.uuid 变化
 
-    // 返回初始值
-    return "";
-  });
   const contestRef = useRef(null);
   const infoRef = useRef(null);
   const shareRef = useRef(null);
@@ -209,6 +206,7 @@ const App: React.FC = () => {
             justify-content: center;
             height: 72px;
             width: 480px;
+            fontsize: 22px;
           `}
           mode="horizontal"
           selectedKeys={[url.site]}
