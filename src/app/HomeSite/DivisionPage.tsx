@@ -280,7 +280,7 @@ const PublicityDepartment = () => (
   </StyledTypography>
 );
 
-const DivisonPage: React.FC<PageProps> = ({ mode, user }) => {
+const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
   interface TabItem {
     key: string;
     label: string;
@@ -321,4 +321,4 @@ const DivisonPage: React.FC<PageProps> = ({ mode, user }) => {
   );
 };
 
-export default DivisonPage;
+export default DivisionPage;

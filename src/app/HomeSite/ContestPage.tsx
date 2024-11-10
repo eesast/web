@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Typography, Divider, Row, Col, Image } from "antd";
+import { Tabs, Typography, Divider, Image } from "antd";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import { PageProps } from "..";
@@ -25,7 +25,7 @@ const ListItem = styled(P)`
 
 const Contest1 = () => (
   <StyledTypography>
-    <Title level={2}>队式程序设计大赛</Title>
+    <Title level={2}>队式程序设计大赛（THUAI）</Title>
     <Title level={3}>赛事时间</Title>
     <P>
       队式程序设计大赛在【春季学期】举行。在激烈的赛程之前，会有电子系科协举办的培训讲座，帮助选手们快速上手，参与进紧张有趣的赛程中，感受
@@ -34,83 +34,45 @@ const Contest1 = () => (
     <Divider />
     <Title level={3}>赛事简介</Title>
     <P>
-      “队式程序设计大赛”是由清华大学电子系科协举办的一项经典赛事，是一个组队参加的对抗性策略程序设计比赛。比赛主题往往基于某款经典电子游戏，设计出的全新规则，邀请选手组队设计出更加完善和智能的游戏策略，并用高效的程序代码实现。比赛往往以双方AI对战的形式进行，决赛时还会使用3D界面向全场播送比赛实况，对抗性和观赏性极强，为清华大学内一年一度的程序设计盛事。
+      “队式程序设计大赛”是由清华大学电子系科协举办的一项经典赛事，是一个组队参加的对抗性策略程序设计比赛。比赛主题往往基于某款经典电子游戏，设计出的全新规则，邀请选手组队设计出更加完善和智能的游戏策略，并用高效的程序代码实现。比赛往往以双方
+      AI
+      对战的形式进行，决赛时还会使用3D界面向全场播送比赛实况，对抗性和观赏性极强，为清华大学内一年一度的程序设计盛事。
     </P>
-    <Title level={4}>精彩回顾</Title>
+    <Title level={3}>精彩回顾</Title>
+    <Bold></Bold>
     <Center direction="column">
       <Image
-        alt="队式十六——深蓝 (Deep Blue)"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/ts16.jpg`}
+        alt="THUAI_7_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_THUAI_7.png`}
+        width={800}
       />
-      <P>队式十六——深蓝 (Deep Blue)</P>
-    </Center>
-    <Center direction="column">
+      <P>THUAI7——星际指挥官：AI 前线</P>
+      <P></P>
       <Image
-        alt="队式十七——Stellar Craft"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/ts17.jpg`}
+        alt="THUAI_6_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_THUAI_6.jpg`}
+        width={800}
       />
-      <P>队式十七——Stellar Craft</P>
-    </Center>
-    <Center direction="column">
+      <P>THUAI6——毕业吧少女</P>
+      <P></P>
       <Image
-        alt="队式十八——CPClash"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/ts18.jpg`}
+        alt="THUAI_5_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_THUAI_5.jpg`}
+        width={800}
       />
-      <P>队式十八——CPClash</P>
-    </Center>
-    <Center direction="column">
+      <P>THUAI5——机算夺魁</P>
+      <P></P>
       <Image
-        alt="队式十九"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/ts19.jpg`}
+        alt="THUAI_4_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_THUAI_4.png`}
+        width={800}
       />
-      <P>2018 年，队式十九作为 A1 组比赛合并到 THU-AI 中</P>
-    </Center>
-    <Center direction="column">
-      <Image
-        alt="队式二十——THU-AI 枪林弹雨组"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/ts20.jpg`}
-      />
-      <P>队式二十——THU-AI 枪林弹雨组</P>
+      <P>THUAI4——清彩无限</P>
+      <P></P>
     </Center>
   </StyledTypography>
 );
 const Contest2 = () => (
-  <StyledTypography>
-    <Title level={2}>电子设计大赛</Title>
-    <Title level={3}>赛事时间</Title>
-    <P>
-      电子设计大赛在每年的【秋季学期】举行，从报名领取元件到决赛整个过程大概会持续半个学期，包括赛前培训，预赛初赛决赛等阶段，让同学们从机械结构到电路设计，从控制逻辑到上层策略，一步步完成作品。
-    </P>
-    <Divider />
-    <Title level={3}>赛事简介</Title>
-    <P>
-      “电子设计大赛”是由清华大学电子系和自动化系合办的面向全校的比赛，选手可以组成不多于四人的队伍报名参加比赛。比赛一般是要求选手设计一辆智能车，根据赛题内容设计机械结构，编写单片机代码，实现自动控制。比赛形式是让两支队伍的智能车进行对抗，根据规则，胜者晋级，比赛过程中智能车除了根据传感器检测场地情况之外，还可以通过官方提供的通信模块从上位机处获取信息或者给上位机发送指令；决赛在罗姆楼进行，每年都会吸引大批观众，一边欣赏紧张激烈的比赛，一边听着激情洋溢的解说，见证冠军的诞生。
-    </P>
-    <Title level={4}>精彩回顾</Title>
-    <Center direction="column">
-      <Image
-        alt="第十八届电子设计大赛——天赐良机"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/edc18.jpg`}
-      />
-      <P>第十八届电子设计大赛——天赐良机</P>
-    </Center>
-    <Center direction="column">
-      <Image
-        alt="第十九届电子设计大赛——绿茵荣耀"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/edc19.jpg`}
-      />
-      <P>第十九届电子设计大赛——绿茵荣耀</P>
-    </Center>
-    <Center direction="column">
-      <Image
-        alt="第二十届电子设计大赛——智圆行方"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/edc20.jpg`}
-      />
-      <P>第二十届电子设计大赛——智圆行方</P>
-    </Center>
-  </StyledTypography>
-);
-const Contest3 = () => (
   <StyledTypography>
     <Title level={2}>硬件设计大赛</Title>
     <Title level={3}>赛事时间</Title>
@@ -120,67 +82,47 @@ const Contest3 = () => (
     <P>
       硬件设计大赛是清华大学电子系主办的一个比赛，主要面向电子系零基础的同学，赛前有若干次培训讲座，现场发放相应的模块，带领大家从零开始接触、学习单片机的基本操作，旨在激发同学们对硬件的热情。
     </P>
-    <Title level={4}>精彩回顾</Title>
+    <Title level={3}>精彩回顾</Title>
+    <Bold></Bold>
     <Center direction="column">
-      <Bold>2017 年硬件设计大赛作品</Bold>
+      <Image
+        alt="hardware_2024_cover_1"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_hardware_2024_1.jpg`}
+        width={600}
+      />
+      <P>2024 特等奖——Deskbot 桌宠机器人</P>
+      <P></P>
+      <Image
+        alt="hardware_2023_cover_1"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_hardware_2023_1.jpg`}
+        width={600}
+      />
+      <P>2023 特等奖——全自动饮品制作机</P>
+      <P></P>
+      <Image
+        alt="hardware_2023_cover_2"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_hardware_2023_2.jpg`}
+        width={600}
+      />
+      <P>2023 一等奖——多功能蓝牙手套</P>
+      <P></P>
+      <Image
+        alt="hardware_2022_cover_1"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_hardware_2022_1.jpg`}
+        width={600}
+      />
+      <P>2022 特等奖——FPS 体感射击手枪</P>
+      <P></P>
+      <Image
+        alt="hardware_2023_cover_2"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_hardware_2022_2.jpg`}
+        width={600}
+      />
+      <P>2022 一等奖——遥控航拍无人机</P>
     </Center>
-    <Row justify="space-between" align="middle">
-      <Col span={11}>
-        <Image
-          alt="2017 年硬件设计大赛作品 1"
-          src={`${process.env.REACT_APP_STATIC_URL!}/public/images/hwdc2017-1.jpg`}
-          style={{ width: "100%" }}
-        />
-      </Col>
-      <Col span={11}>
-        <Image
-          alt="2017 年硬件设计大赛作品 2"
-          src={`${process.env.REACT_APP_STATIC_URL!}/public/images/hwdc2017-2.jpg`}
-          style={{ width: "100%" }}
-        />
-      </Col>
-    </Row>
-    <Center direction="column">
-      <Bold>2018 年硬件设计大赛作品</Bold>
-    </Center>
-    <Row justify="space-between" align="middle">
-      <Col span={11}>
-        <Image
-          alt="2018 年硬件设计大赛作品 1"
-          src={`${process.env.REACT_APP_STATIC_URL!}/public/images/hwdc2018-1.gif`}
-          style={{ width: "100%" }}
-        />
-      </Col>
-      <Col span={11}>
-        <Image
-          alt="2018 年硬件设计大赛作品 2"
-          src={`${process.env.REACT_APP_STATIC_URL!}/public/images/hwdc2018-2.jpg`}
-          style={{ width: "100%" }}
-        />
-      </Col>
-    </Row>
-    <Center direction="column">
-      <Bold>2019 年硬件设计大赛作品</Bold>
-    </Center>
-    <Row justify="space-between" align="middle">
-      <Col span={11}>
-        <Image
-          alt="2019 年硬件设计大赛作品 1"
-          src={`${process.env.REACT_APP_STATIC_URL!}/public/images/hwdc2019-1.gif`}
-          style={{ width: "100%" }}
-        />
-      </Col>
-      <Col span={11}>
-        <Image
-          alt="2019 年硬件设计大赛作品 2"
-          src={`${process.env.REACT_APP_STATIC_URL!}/public/images/hwdc2019-2.gif`}
-          style={{ width: "100%" }}
-        />
-      </Col>
-    </Row>
   </StyledTypography>
 );
-const Contest4 = () => (
+const Contest3 = () => (
   <StyledTypography>
     <Title level={2}>软件设计大赛</Title>
     <Title level={3}>赛事时间</Title>
@@ -209,47 +151,128 @@ const Contest4 = () => (
     <ListItem>
       稳定性：提交作品需要具有一定的稳定性，尽可能的减少异常和出错的概率。
     </ListItem>
-    <Title level={4}>精彩回顾</Title>
+    <Title level={3}>精彩回顾</Title>
     <Center direction="column">
-      <Bold>2018 软件设计大赛优秀作品</Bold>
+      <Bold></Bold>
       <Image
-        alt="多功能计算器 CalcPro"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/swdc2018-1.png`}
+        alt="software_cover_2024"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_software_2024.jpg`}
+        width={800}
       />
-      <P>多功能计算器 CalcPro</P>
+      <P>2024 特等奖——如果光有声音</P>
+      <P></P>
       <Image
-        alt="简易操作系统 BASIC-OS1"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/swdc2018-2.jpg`}
+        alt="software_cover_2023"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_software_2023.jpg`}
+        width={800}
       />
-      <P>简易操作系统 BASIC-OS1</P>
+      <P>2023 特等奖——Dimland: Midnight Traverse</P>
+      <P></P>
       <Image
-        alt="校园网管理软件 .NetCampus"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/swdc2018-3.jpg`}
+        alt="software_cover_2022"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_software_2022.jpg`}
+        width={800}
       />
-      <P>校园网管理软件 .NetCampus</P>
+      <P>2022 特等奖——Galaxy</P>
+      <P></P>
+      <Image
+        alt="software_cover_2021"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_software_2021.jpg`}
+        width={800}
+      />
+      <P>2021 特等奖——Not Quite Accurate Battle Simulator</P>
+      <P></P>
     </Center>
-    <br />
+  </StyledTypography>
+);
+const Contest4 = () => (
+  <StyledTypography>
+    <Title level={2}>智能无人机挑战赛</Title>
+    <Title level={3}>赛事介绍</Title>
+    <P>
+      清华大学智能无人机挑战赛（全校本科生编程类赛事）由清华大学团委、清华大学电子工程系和基础工业训练中心主办，旨在鼓励对无人机智能操控感兴趣的同学发展兴趣爱好。本赛事会提供相关课程学习以便选手掌握相关理论知识，参与创新实践。
+    </P>
+    <P></P>
+    <Divider />
+    <Title level={3}>赛事特点</Title>
+    <P>
+      智能无人机挑战赛是“赛课结合”的典型案例，与本学期开设的2学分课程《智能无人机技术设计实践》相联动。通过参加理论教学和实验辅导，选手将从中获得有针对性的备赛辅导，有效提高参赛竞争力。
+      大赛选用Python为主要编程语言，以地空协同为赛题背景，希望引导同学们从所学知识出发，关注实际问题，在团队合作中大胆创新，将科技与现实有效结合，做出优秀作品。选手们可以在课程中学习到ROS系统、无人机路径规划、图像识别等知识，并用理论指导实践，在老师和助教的帮助下得到有针对性的备赛辅导，增强软硬件协同编程的能力，有效提高选手的参赛竞争力。
+    </P>
+    <P></P>
+    <Divider />
+    <Title level={3}>赛事风采</Title>
     <Center direction="column">
-      <Bold>2019 软件设计大赛优秀作品</Bold>
+      <Bold></Bold>
       <Image
-        alt="音乐节奏游戏 TuneStory"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/swdc2019-1.png`}
+        alt="uav_cover_1"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_uav_1.jpg`}
+        width={800}
       />
-      <P>音乐节奏游戏 TuneStory</P>
+      <P>第四届智能无人机挑战赛决赛现场</P>
+      <P></P>
       <Image
-        alt="三角形滤镜 LowPoly"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/swdc2019-2.png`}
+        alt="uav_cover_2"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_uav_2.jpg`}
+        width={800}
       />
-      <P>三角形滤镜 LowPoly</P>
-      <Image
-        alt="在线多功能绘图"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/swdc2019-3.png`}
-      />
-      <P>在线多功能绘图</P>
+      <P>第四届智能无人机挑战赛选手风采</P>
+      <P></P>
     </Center>
   </StyledTypography>
 );
 const Contest5 = () => (
+  <StyledTypography>
+    <Title level={2}>新生信息知识竞赛</Title>
+    <Title level={3}>赛事时间</Title>
+    <P>
+      ADI
+      杯新生信息知识竞赛在【秋季学期】举行，在新生入学后会有相关的宣传工作，通常期中考试前结束所有工作。
+    </P>
+    <Divider />
+    <Title level={3}>赛事简介</Title>
+    <P>
+      清华大学 ADI 杯新生信息知识竞赛至今已成功举办 20
+      届。该活动是由清华大学信息学院四系科协（电子系，计算机系，自动化系，软件学院）合办的一年一届的全校活动。活动旨在向新生普及信息知识，发现人才。这项活动面向全校
+      3000 多名新生，尤其是 1000
+      多名信息学院的新同学，已在校内产生了良好而广泛的影响。
+    </P>
+    <P>
+      全校初赛采取统一笔试环节，选取五到七支队伍进入决赛。电子系系内初赛及全校决赛试题以
+      PowerPoint
+      形式，有必答题、抢答题、视频题、女生题、人气题、你说我猜题、渐进抢答题和风险题等环节，均为现场作答。
+    </P>
+    <Divider />
+    <Title level={3}>往年情况</Title>
+    <P>
+      往年奖品包括小米手环、极路由、蓝牙音箱、扫地机器人、打印机、移动硬盘等等，同时观赛亦有机会获得观众奖。
+    </P>
+    <Center direction="column">
+      <Image
+        alt="freshman_knowledge_cover_2"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_freshman_knowledge_2.jpg`}
+        width={800}
+      />
+      <P>第二十届新生信息知识竞赛规则</P>
+      <P></P>
+      <Image
+        alt="freshman_knowledge_cover_3"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_freshman_knowledge_3.jpg`}
+        width={800}
+      />
+      <P>第二十届新生信息知识竞赛初赛</P>
+      <P></P>
+      <Image
+        alt="freshman_knowledge_cover_1"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_freshman_knowledge_1.jpg`}
+        width={800}
+      />
+      <P>第二十届新生信息知识竞赛决赛</P>
+      <P></P>
+    </Center>
+  </StyledTypography>
+);
+const Contest6 = () => (
   <StyledTypography>
     <Title level={2}>挑战杯</Title>
     <Title level={3}>赛事时间</Title>
@@ -280,7 +303,7 @@ const Contest5 = () => (
       </ListItem>
     </P>
     <Divider />
-    <Title level={3}>往年情况</Title>
+    {/* <Title level={3}>往年情况</Title>
     <Title level={4}>32 届挑战杯获奖情况</Title>
     <P>
       一等奖
@@ -323,7 +346,7 @@ const Contest5 = () => (
       <ListItem>基于面部表情与动作的唇语识别与语音合成系统</ListItem>
       <ListItem>基于上转换原理的高性能植入式光电子器件</ListItem>
     </P>
-    <Divider />
+    <Divider /> */}
     <Title level={3}>学长经验</Title>
     <ListItem>
       知识要求：一般来讲挑战杯所需知识与本科所学课程不会有太大的关系，无论是大三参加还是大二参加都会学习一些课外的知识。
@@ -337,50 +360,84 @@ const Contest5 = () => (
     <ListItem>
       团队合作：很少有一个人做项目做到最后的；一般来说组一个小队，联系实验室指导老师会减轻一些做项目的压力。
     </ListItem>
+    <Divider />
+    <Title level={3}>精彩回顾</Title>
+    <Center direction="column">
+      <Bold></Bold>
+      <Image
+        alt="challenge_cover_1"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_challenge_1.jpg`}
+        width={800}
+      />
+      <P>基于波函数的全光神经网络研究</P>
+      <P></P>
+      <Image
+        alt="challenge_cover_2"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_challenge_2.jpg`}
+        width={800}
+      />
+      <P>感知超表面辅助的 6G 无限通信</P>
+      <P></P>
+      <Image
+        alt="challenge_cover_3"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_challenge_3.jpg`}
+        width={800}
+      />
+      <P>土豆服务器</P>
+      <P></P>
+      <Image
+        alt="challenge_cover_4"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_challenge_4.jpg`}
+        width={800}
+      />
+      <P>基于听觉识别与定位的鸟类检测系统</P>
+      <P></P>
+    </Center>
   </StyledTypography>
 );
-const Contest6 = () => (
+const Contest7 = () => (
   <StyledTypography>
-    <Title level={2}>新生信息知识竞赛</Title>
+    <Title level={2}>电子设计大赛</Title>
     <Title level={3}>赛事时间</Title>
     <P>
-      ADI
-      杯新生信息知识竞赛在【秋季学期】举行，在新生入学后会有相关的宣传工作，通常期中考试前结束所有工作。
+      电子设计大赛在每年的【秋季学期】举行，从报名领取元件到决赛整个过程大概会持续半个学期，包括赛前培训，预赛初赛决赛等阶段，让同学们从机械结构到电路设计，从控制逻辑到上层策略，一步步完成作品。
     </P>
     <Divider />
     <Title level={3}>赛事简介</Title>
     <P>
-      清华大学 ADI 杯新生信息知识竞赛至今已成功举办 15
-      届。该活动是由清华大学信息学院四系科协（电子系，计算机系，自动化系，软件学院）合办的一年一届的全校活动。活动旨在向新生普及信息知识，发现人才。这项活动面向全校
-      3000 多名新生，尤其是 1000
-      多名信息学院的新同学，已在校内产生了良好而广泛的影响。
+      “电子设计大赛”是由清华大学电子系和自动化系合办的面向全校的比赛，选手可以组成不多于四人的队伍报名参加比赛。比赛一般是要求选手设计一辆智能车，根据赛题内容设计机械结构，编写单片机代码，实现自动控制。比赛形式是让两支队伍的智能车进行对抗，根据规则，胜者晋级，比赛过程中智能车除了根据传感器检测场地情况之外，还可以通过官方提供的通信模块从上位机处获取信息或者给上位机发送指令；决赛在罗姆楼进行，每年都会吸引大批观众，一边欣赏紧张激烈的比赛，一边听着激情洋溢的解说，见证冠军的诞生。
     </P>
-    <P>
-      全校初赛采取统一笔试环节，选取五到七支队伍进入决赛。电子系系内初赛及全校决赛试题以
-      PowerPoint
-      形式，有必答题、抢答题、视频题、女生题、人气题、你说我猜题、渐进抢答题和风险题等环节，均为现场作答。
-    </P>
-    <Divider />
-    <Title level={3}>往年情况</Title>
-    <P>
-      往年奖品包括小米手环、极路由、蓝牙音箱、扫地机器人、打印机、移动硬盘等等，同时观赛亦有机会获得观众奖。
-    </P>
+    <Title level={3}>精彩回顾</Title>
+    <Bold></Bold>
     <Center direction="column">
       <Image
-        alt="第十五届决赛"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/fic15.jpg`}
+        alt="electric_25_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_25.jpg`}
+        width={400}
       />
-      <P>第十五届决赛</P>
+      <P>第 25 届电子设计大赛——起床战争</P>
+      <P></P>
       <Image
-        alt="第十六届决赛"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/fic16.jpg`}
+        alt="electric_24_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_24.jpg`}
+        width={800}
       />
-      <P>第十六届决赛</P>
+      <P>第 24 届电子设计大赛——配送大师</P>
+      <P></P>
       <Image
-        alt="第十七届决赛"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/fic17.jpg`}
+        alt="electric_23_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_23.jpg`}
+        width={800}
       />
-      <P>第十七届决赛</P>
+      <P>第 23 届电子设计大赛——资源保卫战</P>
+      <P></P>
+      <Image
+        alt="electric_22_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_22.jpg`}
+        width={800}
+      />
+      <P>第 22 届电子设计大赛——火线救援</P>
+      <P></P>
     </Center>
   </StyledTypography>
 );
@@ -393,11 +450,12 @@ const ContestPage: React.FC<PageProps> = ({ mode, user }) => {
   }
   const tabData: TabItem[] = [
     { key: "1", label: "队式程序设计大赛", content: <Contest1 /> },
-    { key: "2", label: "电子设计大赛", content: <Contest2 /> },
-    { key: "3", label: "硬件设计大赛", content: <Contest3 /> },
-    { key: "4", label: "软件设计大赛", content: <Contest4 /> },
-    { key: "5", label: "挑战杯", content: <Contest5 /> },
-    { key: "6", label: "新生知识竞赛", content: <Contest6 /> },
+    { key: "2", label: "硬件设计大赛", content: <Contest2 /> },
+    { key: "3", label: "软件设计大赛", content: <Contest3 /> },
+    { key: "4", label: "智能无人机挑战赛", content: <Contest4 /> },
+    { key: "5", label: "新生知识竞赛", content: <Contest5 /> },
+    { key: "6", label: "挑战杯", content: <Contest6 /> },
+    { key: "7", label: "电子设计大赛", content: <Contest7 /> },
   ];
   const StyledTabs = styled(Tabs)`
     background-color: ${mode === "light" ? `white` : `#141414`};

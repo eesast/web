@@ -339,8 +339,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           <tbody>
             <tr>
               <td>
-                {user.role == "root" ||
-                  (user.role == "counselor" && (
+                {user.role === "root" ||
+                  (user.role === "counselor" && (
                     <Radio.Group
                       defaultValue={"browse"}
                       value={showMode}
