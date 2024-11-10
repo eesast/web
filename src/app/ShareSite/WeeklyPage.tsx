@@ -319,7 +319,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
               sm: 2,
               md: 3,
               lg: 4,
-              xl: 4,
+              xl: 5,
               xxl: 6,
             }}
             dataSource={filterParamList?.slice(
@@ -339,8 +339,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           <tbody>
             <tr>
               <td>
-                {user.role == "root" ||
-                  (user.role == "counselor" && (
+                {user.role === "root" ||
+                  (user.role === "counselor" && (
                     <Radio.Group
                       defaultValue={"browse"}
                       value={showMode}
@@ -355,7 +355,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
                 <Pagination
                   showQuickJumper
                   current={page}
-                  total={weekly_data?.weekly.length}
+                  total={filterParamList.length}
                   defaultPageSize={12}
                   showSizeChanger={true}
                   pageSizeOptions={pageSizes}
