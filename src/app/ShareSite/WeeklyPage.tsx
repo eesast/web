@@ -13,6 +13,7 @@ import {
   Typography,
   message,
   Tooltip,
+  Image,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import * as graphql from "@/generated/graphql";
@@ -104,10 +105,16 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     const [url, setUrl] = useState("/android-chrome-192x192.png");
     fetch_img(props.src, setUrl);
     return (
-      <img
+      <Image
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
+        preview={false}
+        style={{
+          objectFit: "cover",
+          minHeight: 256,
+          borderRadius: "10px",
+        }}
         onClick={() => {
           const w = window.open("loading");
           if (w != null) w.location.href = props.src;
@@ -327,25 +334,22 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           />
         </Row>
       </Content>
-
       <Footer>
         <table style={{ margin: "0 auto" }}>
           <tbody>
             <tr>
-              <td title="仅系统管理员在登录后可进入编辑模式">
-                <Radio.Group
-                  defaultValue={"browse"}
-                  value={showMode}
-                  onChange={(e) => setShowMode(e.target.value)}
-                >
-                  <Radio.Button value="browse">浏览模式</Radio.Button>
-                  <Radio.Button
-                    value="edit"
-                    disabled={user.role !== "counselor" && user.role !== "root"}
-                  >
-                    编辑模式
-                  </Radio.Button>
-                </Radio.Group>
+              <td>
+                {user.role === "root" ||
+                  (user.role === "counselor" && (
+                    <Radio.Group
+                      defaultValue={"browse"}
+                      value={showMode}
+                      onChange={(e) => setShowMode(e.target.value)}
+                    >
+                      <Radio.Button value="browse">浏览模式</Radio.Button>
+                      <Radio.Button value="edit">编辑模式</Radio.Button>
+                    </Radio.Group>
+                  ))}
               </td>
               <td>
                 <Pagination
