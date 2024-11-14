@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/charts": "2.2.3",
-    "@ant-design/pro-components": "2.8.1",
+    "@ant-design/pro-components": "2.8.2",
     "@apollo/client": "3.11.10",
     "antd": "5.21.6",
     "axios": "1.7.7",
