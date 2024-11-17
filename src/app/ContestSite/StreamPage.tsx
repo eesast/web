@@ -12,12 +12,14 @@ import Loading from "../Components/Loading";
 import styled from "styled-components";
 import streamTHUAI7 from "./Components/Stream/THUAI7";
 
+/* ---------------- 接⼝和类型定义 ---------------- */
 export interface StreamProps {
   streamUrl: string;
   port: string;
   update: (response: any) => void;
 }
-
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
+const projectName = "stream";
 const Container = styled.div`
   height: calc(100vh - 72px);
   width: 100%;
@@ -25,23 +27,20 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
+/* ---------------- 主⻚⾯ ---------------- */
 const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const contest = url.query.get("contest");
-
+  const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
+  const port = url.query.get("port") ?? "";
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
       variables: {
         contest_id: contest,
       },
     });
-  useEffect(() => {
-    if (contestNameError) {
-      message.error("获取比赛信息失败");
-      console.log(contestNameError.message);
-    }
-  });
 
   const { data: contestSwitchData, error: contestSwitchError } =
     graphql.useGetContestSwitchQuery({
@@ -49,18 +48,21 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: contest,
       },
     });
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("获取比赛信息失败");
+      console.log(contestNameError.message);
+    }
+  });
   useEffect(() => {
     if (contestSwitchError) {
       message.error("获取比赛状态失败");
       console.log(contestSwitchError.message);
     }
   });
-
-  const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
-  const port = url.query.get("port") ?? "";
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const projectUrl = `${process.env.REACT_APP_STATIC_URL!}/public/WebGL/${contestNameData.contest_by_pk?.name}/`;
-  const projectName = "stream";
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -115,7 +117,7 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(err);
     }
   };
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return contestSwitchData ? (
     contestSwitchData?.contest_by_pk?.stream_switch ? (
       <Layout>

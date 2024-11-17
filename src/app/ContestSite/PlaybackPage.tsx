@@ -10,6 +10,7 @@ import styled from "styled-components";
 import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const Container = styled.div`
   height: calc(100vh - 72px);
   width: 100%;
@@ -17,8 +18,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
+const projectName = "playback";
+/* ---------------- 主⻚⾯ ---------------- */
 const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
+  const [localFilename, setLocalFilename] = React.useState<string>("");
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const room_id = url.query.get("room");
@@ -28,19 +32,13 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
   const competitionOrArena = url.query.has("competition")
     ? "competition"
     : "arena";
-
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
       variables: {
         contest_id: Contest_id,
       },
     });
-  useEffect(() => {
-    if (contestNameError) {
-      message.error("获取比赛信息失败");
-      console.log(contestNameError.message);
-    }
-  });
 
   const { data: contestSwitchData, error: contestSwitchError } =
     graphql.useGetContestSwitchQuery({
@@ -48,15 +46,21 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    if (contestNameError) {
+      message.error("获取比赛信息失败");
+      console.log(contestNameError.message);
+    }
+  });
   useEffect(() => {
     if (contestSwitchError) {
       message.error("获取比赛状态失败");
       console.log(contestSwitchError.message);
     }
   });
-
+  /* ---------------- 业务逻辑函数 ---------------- */
   const projectUrl = `${process.env.REACT_APP_STATIC_URL!}/public/WebGL/${contestNameData.contest_by_pk?.name}/`;
-  const projectName = "playback";
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -129,8 +133,6 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [openLocalFile, room_id]);
 
-  const [localFilename, setLocalFilename] = React.useState<string>("");
-
   if (openLocalFile) {
     if ("launchQueue" in window) {
       console.log("File Handling API is supported!");
@@ -163,7 +165,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
       return <NotImplemented />;
     }
   }
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return contestSwitchData ? (
     contestSwitchData?.contest_by_pk?.playback_switch ? (
       <Layout>

@@ -19,10 +19,15 @@ import * as graphql from "@/generated/graphql";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;
-
+/* ---------------- 主⻚⾯ ---------------- */
 const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
+  /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
+  const [addPlayerForm] = Form.useForm();
+  const { token } = theme.useToken();
   const Contest_id = url.query.get("contest");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const {
     data: contestPlayersData,
     error: getContestPlayersError,
@@ -32,20 +37,23 @@ const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
+  // const [addContestPlayer, { error: addPlayerError }] =
+  //   graphql.useAddContestPlayerMutation();
+
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (getContestPlayersError) {
       message.error("比赛加载失败");
     }
   }, [getContestPlayersError]);
 
-  // const [addContestPlayer, { error: addPlayerError }] =
-  //   graphql.useAddContestPlayerMutation();
   // useEffect(() => {
   //   if (addPlayerError) {
   //     message.error("添加角色失败");
   //   }
   // }, [addPlayerError]);
 
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleAdd = async () => {
     try {
       message.warning("暂不支持添加角色");
@@ -67,25 +75,19 @@ const EditPlayer: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(e);
     }
   };
-
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [addPlayerForm] = Form.useForm();
-
-  const { token } = theme.useToken();
   const panelStyle: React.CSSProperties = {
     marginBottom: 12,
     background: token.colorFillAlter,
     borderRadius: token.borderRadiusLG,
     border: "none",
   };
-
   const players = contestPlayersData?.contest_player.map((item) => ({
     key: item.team_label + " / " + item.player_label,
     label: item.team_label + " / " + item.player_label,
     style: panelStyle,
     children: <>可选属性：{item.roles_available}</>,
   }));
-
+  /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <Layout>
       <Card

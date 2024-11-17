@@ -13,6 +13,7 @@ import {
   Typography,
   message,
   Tooltip,
+  Image,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import * as graphql from "@/generated/graphql";
@@ -24,20 +25,25 @@ import {
 import axios from "axios";
 import { PageProps } from "..";
 
-const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
-  const { Meta } = Card;
-  const { Content, Footer } = Layout;
-  const { Text } = Typography;
-  const pageSizes = ["8", "12", "16", "20", "32"];
+/* ---------------- 不随渲染刷新的常量 ---------------- */
+const { Meta } = Card;
+const { Content, Footer } = Layout;
+const { Text } = Typography;
+const pageSizes = ["8", "12", "16", "20", "32"];
 
-  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
+/* ---------------- 主页面 ---------------- */
+const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
+  const [associatedValue, setAssociatedValue] = useState("");
+  const [filterParamList, setFilterParamList] = useState([]);
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
 
-  const [associatedValue, setAssociatedValue] = useState("");
-  const [filterParamList, setFilterParamList] = useState([]);
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
 
+  /* ---------------- useEffect ---------------- */
   useEffect(() => {
     let weekly_sorted: any;
     if (weekly_data) {
@@ -58,11 +64,13 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [associatedValue, weekly_data]);
 
+  /* ---------------- 业务逻辑函数 ---------------- */
   const onChange = (pageNumber: number, pageSize?: number) => {
     setPage(pageNumber);
     if (pageSize) setShowSize(pageSize);
   };
 
+  /* ---------------- 随渲染刷新的组件 ---------------- */
   const MyCard = (props: any) => {
     const [visibleInsert, setVisibleInsert] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
@@ -97,10 +105,16 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     const [url, setUrl] = useState("/android-chrome-192x192.png");
     fetch_img(props.src, setUrl);
     return (
-      <img
+      <Image
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
+        preview={false}
+        style={{
+          objectFit: "cover",
+          minHeight: 256,
+          borderRadius: "10px",
+        }}
         onClick={() => {
           const w = window.open("loading");
           if (w != null) w.location.href = props.src;
@@ -270,6 +284,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Layout>
       <Content
@@ -304,7 +319,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
               sm: 2,
               md: 3,
               lg: 4,
-              xl: 4,
+              xl: 5,
               xxl: 6,
             }}
             dataSource={filterParamList?.slice(
@@ -319,31 +334,28 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           />
         </Row>
       </Content>
-
       <Footer>
         <table style={{ margin: "0 auto" }}>
           <tbody>
             <tr>
-              <td title="仅系统管理员在登录后可进入编辑模式">
-                <Radio.Group
-                  defaultValue={"browse"}
-                  value={showMode}
-                  onChange={(e) => setShowMode(e.target.value)}
-                >
-                  <Radio.Button value="browse">浏览模式</Radio.Button>
-                  <Radio.Button
-                    value="edit"
-                    disabled={user.role !== "counselor" && user.role !== "root"}
-                  >
-                    编辑模式
-                  </Radio.Button>
-                </Radio.Group>
+              <td>
+                {user.role === "root" ||
+                  (user.role === "counselor" && (
+                    <Radio.Group
+                      defaultValue={"browse"}
+                      value={showMode}
+                      onChange={(e) => setShowMode(e.target.value)}
+                    >
+                      <Radio.Button value="browse">浏览模式</Radio.Button>
+                      <Radio.Button value="edit">编辑模式</Radio.Button>
+                    </Radio.Group>
+                  ))}
               </td>
               <td>
                 <Pagination
                   showQuickJumper
                   current={page}
-                  total={weekly_data?.weekly.length}
+                  total={filterParamList.length}
                   defaultPageSize={12}
                   showSizeChanger={true}
                   pageSizeOptions={pageSizes}

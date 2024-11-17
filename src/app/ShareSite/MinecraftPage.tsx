@@ -3,14 +3,17 @@ import { Typography, Space, Image, Card, Row, Col } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { PageProps } from "..";
 
+/* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title, Paragraph, Text, Link } = Typography;
 const { Meta } = Card;
 
+/* ---------------- 主页面 ---------------- */
 const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  /* ---------------- 页面组件 ---------------- */
   return (
     <Space
       direction="vertical"
@@ -45,7 +48,8 @@ const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
         <Title level={2}>我要怎么连接服务器？</Title>
         <Paragraph>
           <Text strong>
-            EESAST的服务器域名为 <Text code>mc.eesast.com</Text>，版本为 <Text code>1.19 Fabric</Text>
+            EESAST的服务器域名为 <Text code>mc.eesast.com</Text>，版本为{" "}
+            <Text code>1.19 Fabric</Text>
           </Text>
           ， 推荐大家使用PCL2客户端连接（也可自选其他客户端），具体教程请参考
           <Link

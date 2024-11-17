@@ -31,7 +31,7 @@ import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import dayjs from "dayjs";
 import styled from "styled-components";
-
+/* ---------------- 接口和类型定义 ---------------- */
 interface Comment {
   comment: string;
   created_at: string;
@@ -51,6 +51,12 @@ interface IconTextProps {
   onClick?: React.MouseEventHandler<HTMLSpanElement>;
 }
 
+interface CustomMenuProp {
+  items: MenuProps["items"];
+  onClick?: MenuProps["onClick"];
+  text?: string;
+}
+/* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const COMMENT_COLORS = [
   "#9400d3", // 深紫罗兰色
   "#00bfff", // 深海蓝
@@ -79,49 +85,6 @@ const COMMENT_COLORS = [
   "#cd5c5c", // 印第安红 (IndianRed)
 ];
 
-const StyledDrawer = styled(Drawer)`
-  .ant-drawer-content-wrapper {
-    transition: transform 0.8s ease !important;
-  }
-`;
-
-const IconText: FC<IconTextProps> = ({ icon, text, onClick }) => (
-  <Space onClick={onClick} style={{ cursor: "pointer" }}>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
-
-interface CustomMenuProp {
-  items: MenuProps["items"];
-  onClick?: MenuProps["onClick"];
-  text?: string;
-}
-
-const DropdownMenu: FC<CustomMenuProp> = ({ items, onClick, text }) => (
-  <Dropdown
-    menu={{
-      items: items,
-      selectable: true,
-      defaultSelectedKeys: ["1"],
-      onClick: onClick,
-    }}
-  >
-    <Typography.Link>
-      <Space>
-        <span
-          style={{
-            fontSize: "1.1em",
-          }}
-        >
-          {text}
-        </span>
-        <DownOutlined />
-      </Space>
-    </Typography.Link>
-  </Dropdown>
-);
-
 const sortModeMenuOptions: { [key: string]: string } = {
   "1": "按创建时间",
   "2": "按修改时间",
@@ -129,6 +92,7 @@ const sortModeMenuOptions: { [key: string]: string } = {
   "4": "按点赞数",
   "5": "按回复数",
 };
+
 const sortModeMenu: MenuProps["items"] = Object.entries(
   sortModeMenuOptions,
 ).map(([key, label]) => ({
@@ -159,11 +123,50 @@ const displayOptionMenu: MenuProps["items"] = Object.entries(
   label,
 }));
 
+const StyledDrawer = styled(Drawer)`
+  .ant-drawer-content-wrapper {
+    transition: transform 0.8s ease !important;
+  }
+`;
+
+const IconText: FC<IconTextProps> = ({ icon, text, onClick }) => (
+  <Space onClick={onClick} style={{ cursor: "pointer" }}>
+    {React.createElement(icon)}
+    {text}
+  </Space>
+);
+
+const DropdownMenu: FC<CustomMenuProp> = ({ items, onClick, text }) => (
+  <Dropdown
+    menu={{
+      items: items,
+      selectable: true,
+      defaultSelectedKeys: ["1"],
+      onClick: onClick,
+    }}
+  >
+    <Typography.Link>
+      <Space>
+        <span
+          style={{
+            fontSize: "1.1em",
+          }}
+        >
+          {text}
+        </span>
+        <DownOutlined />
+      </Space>
+    </Typography.Link>
+  </Dropdown>
+);
+
+/* ---------------- 主页面 ---------------- */
 const DiscussDrawer: React.FC<CourseProps> = ({
   course_uuid,
   mode,
   user,
 }: any) => {
+  /* ---------------- States 和常量 Hooks ---------------- */
   const drawerContentRef = useRef<HTMLDivElement>(null);
   const commentsRef = useRef<Comment[]>([]);
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -196,6 +199,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [sortTrend, setSortTrend] = useState("1");
   const [displayOption, setDisplayOption] = useState("1");
 
+  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { refetch: getCourseCommentRefetch } =
     graphql.useGetCourseCommentsQuery({
       variables: {
@@ -238,6 +242,22 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [deleteCourseCommentLikes] =
     graphql.useDeleteCourseCommentLikesMutation();
 
+  /* ---------------- useEffect ---------------- */
+  useEffect(() => {
+    handleSortComments(sortMode, sortTrend);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortMode, sortTrend]);
+
+  useEffect(() => {
+    if (course_uuid) {
+      handleGetCourseComment(false);
+    } else {
+      console.error("course_uuid is null or undefined");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [course_uuid]);
+
+  /* ---------------- 业务逻辑函数 ---------------- */
   const handleGetCourseComment = async (loadAncillary: boolean = true) => {
     setIsRotating(true);
     setRotateDegree(0);
@@ -640,20 +660,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     });
   };
 
-  useEffect(() => {
-    handleSortComments(sortMode, sortTrend);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortMode, sortTrend]);
-
-  useEffect(() => {
-    if (course_uuid) {
-      handleGetCourseComment(false);
-    } else {
-      console.error("course_uuid is null or undefined");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [course_uuid]);
-
+  /* ---------------- 页面组件 ---------------- */
   return (
     <>
       <Badge count={comments?.length ?? 0}>
