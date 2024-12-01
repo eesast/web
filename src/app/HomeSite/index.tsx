@@ -33,13 +33,13 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
     .ant-tabs-nav .ant-tabs-tab {
       justify-content: center;
       align-items: center;
-      font-size: 25px;
+      font-size: 20px;
       width: 300px;
       margin: 0;
     }
 
     .ant-tabs-nav .ant-tabs-tab .icon-class {
-      font-size: 30px;
+      font-size: 22px;
     }
   `;
   //const StyledMenu = styled(Menu)`
