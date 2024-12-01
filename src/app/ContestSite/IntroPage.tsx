@@ -105,7 +105,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Col span={8}>
           <Card hoverable bordered={false}>
             <Timeline
-              items={contestTimes.map((contestTime) => {
+              items={contestTimes.map((contestTime, index) => {
                 // 检查比赛结束时间是否已经过去
                 const isCurrentEvent =
                   dayjs().isAfter(dayjs(contestTime.start)) &&
@@ -134,7 +134,13 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
                         {dayjs(contestTime.end).format("YYYY-MM-DD")}
                       </p>
                       <p style={{ color: isPastEvent ? "grey" : "inherit" }}>
-                        {contestTime.description}
+                        {index === contestTimes.length - 1
+                          ? contestTime.description && (
+                              <a href={contestTime.description} target="_blank">
+                                {contestTime.description}
+                              </a>
+                            )
+                          : contestTime.description}
                       </p>
                     </>
                   ),
