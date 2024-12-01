@@ -428,7 +428,6 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       message.error("删除头像失败");
     }
   };
-
   const showDeleteConfirm = () => {
     Modal.confirm({
       title: "确定要删除头像吗？",
@@ -441,6 +440,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   };
 
   // 处理裁剪并上传
+
   const handleCrop = async () => {
     if (cropperRef.current) {
       setLoading(true);
