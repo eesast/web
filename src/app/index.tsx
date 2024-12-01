@@ -90,16 +90,14 @@ const App: React.FC = () => {
           }
         })
         .finally(() => {
-          // 这里调用下次请求
+          // 调用下次请求
           if (isMounted) {
-            setTimeout(fetchAvatar, 500); // 请求完成后 1 秒再发起下一个请求
+            setTimeout(fetchAvatar, 500); // 请求完成后延迟0.5秒再发起下一个请求
           }
         });
     };
-
     // 初次请求
     fetchAvatar();
-
     // 清理函数，避免组件卸载时执行更新操作
     return () => {
       isMounted = false;
