@@ -117,7 +117,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     }
   }, [contestError]);
   /* ---------------- 业务逻辑函数 ---------------- */
-  const linkToRule = `https://docs.eesast.com/docs/contests/${contestData.contest_by_pk?.name}`;
+  const linkToRule = `https://docs.eesast.com/docs/contests/${contestData?.contest_by_pk?.name}`;
 
   const items = [
     {
@@ -171,7 +171,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           label: <Link to={url.link("playground")}>试玩</Link>,
           icon: <ExperimentOutlined />,
         },
-        contestData.contest_by_pk?.name === "THUAI6"
+        contestData?.contest_by_pk?.name === "THUAI6"
           ? {
               key: "stream-native",
               label: <Link to={url.link("stream-native")}>直播</Link>,

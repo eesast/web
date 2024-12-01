@@ -60,7 +60,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
   /* ---------------- 业务逻辑函数 ---------------- */
-  const projectUrl = `${process.env.REACT_APP_STATIC_URL!}/public/WebGL/${contestNameData.contest_by_pk?.name}/`;
+  const projectUrl = `${process.env.REACT_APP_STATIC_URL!}/public/WebGL/${contestNameData?.contest_by_pk?.name}/`;
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {

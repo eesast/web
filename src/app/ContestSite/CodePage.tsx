@@ -178,7 +178,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   }
 
   /* ---------------- 业务逻辑函数 ---------------- */
-  const open = contestSwitchData.contest_by_pk?.code_upload_switch;
+  const open = contestSwitchData?.contest_by_pk?.code_upload_switch;
   // 编译代码
   const EditableContext = React.createContext<FormInstance<any> | null>(null);
   const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
