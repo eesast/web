@@ -6,12 +6,18 @@ interface BackgroundProps {
   mode?: string;
   imageIndex: number;
   children: React.ReactNode;
+  width?: number;
+  height?: number;
+  blur?: number;
 }
 
 const Background: React.FC<BackgroundProps> = ({
   mode,
-  children,
   imageIndex,
+  children,
+  width,
+  height,
+  blur,
 }) => {
   const Background = styled.div<{ url: string }>`
     height: calc(100vh - 72px);
@@ -25,8 +31,13 @@ const Background: React.FC<BackgroundProps> = ({
     justify-content: center;
   `;
 
-  const ActionCard = styled.div`
-    width: 360px;
+  const ActionCard = styled.div<{
+    width?: number;
+    height?: number;
+    blur?: number;
+  }>`
+    width: ${({ width }) => (width ? `${width}px` : "360px")};
+    height: ${({ height }) => (height ? `${height}px` : "auto")};
     padding-top: 12px;
     padding-bottom: 36px;
     padding-left: 36px;
@@ -36,7 +47,9 @@ const Background: React.FC<BackgroundProps> = ({
     background-color: ${mode === "light"
       ? `rgba(255, 255, 255, 0.5)`
       : `rgba(0, 0, 0, 0.5)`};
-    backdrop-filter: blur(36px);
+    backdrop-filter: blur(
+      ${({ blur }) => (blur !== undefined ? `${blur}px` : "36px")}
+    );
   `;
 
   const backgrounds = [
@@ -50,7 +63,9 @@ const Background: React.FC<BackgroundProps> = ({
   return (
     <Background url={background}>
       <Center>
-        <ActionCard>{children}</ActionCard>
+        <ActionCard width={width} height={height} blur={blur}>
+          {children}
+        </ActionCard>
       </Center>
     </Background>
   );

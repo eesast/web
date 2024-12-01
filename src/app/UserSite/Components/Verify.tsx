@@ -12,6 +12,7 @@ interface VerifyProps {
   email: string;
   phone: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
+  useNewToken?: boolean;
 }
 
 const VerifyCard = styled.div`
@@ -27,7 +28,13 @@ const VerifyCard = styled.div`
   margin-bottom: 36px;
 `;
 
-const Verify: React.FC<VerifyProps> = ({ title, email, phone, setter }) => {
+const Verify: React.FC<VerifyProps> = ({
+  title,
+  email,
+  phone,
+  setter,
+  useNewToken = false,
+}) => {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
   const [sendLoading, setSendLoading] = useState(false);
@@ -57,7 +64,15 @@ const Verify: React.FC<VerifyProps> = ({ title, email, phone, setter }) => {
           return setSendLoading(false);
         }
         const data = response.data;
-        localStorage.setItem("verificationToken", data.token);
+        // 先 hard code 一波，后续改后端
+        if (useNewToken) {
+          localStorage.setItem(
+            email ? "verificationEmailToken" : "verificationPhoneToken",
+            data.token,
+          );
+        } else {
+          localStorage.setItem("verificationToken", data.token);
+        }
         message.success("发送成功");
         setTime(60);
         return setSendLoading(false);
@@ -93,7 +108,11 @@ const Verify: React.FC<VerifyProps> = ({ title, email, phone, setter }) => {
   }, [time]);
 
   const handleFinish = async (values: any) => {
-    const verifyToken = localStorage.getItem("verificationToken");
+    const verifyToken = useNewToken
+      ? localStorage.getItem(
+          email ? "verificationEmailToken" : "verificationPhoneToken",
+        )
+      : localStorage.getItem("verificationToken");
     if (!verifyToken) {
       message.error("请先点击发送验证码");
       return;
