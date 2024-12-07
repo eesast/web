@@ -7,7 +7,6 @@
   "dependencies": {
     "@ant-design/charts": "2.2.3",
     "@ant-design/pro-components": "2.8.2",
-    "@antv/g2": "5.2.7",
     "@apollo/client": "3.12.2",
     "antd": "5.22.3",
     "axios": "1.7.9",
@@ -63,7 +62,8 @@
     "electron-builder": "25.1.8"
   },
   "resolutions": {
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@antv/g2": "5.2.7"
   },
   "scripts": {
     "preinstall": "npm config set registry https://registry.npmmirror.com/ && yarn config set registry https://registry.yarnpkg.com",

@@ -326,7 +326,7 @@
     "@antv/util" "^3.3.10"
     svg-path-parser "^1.1.0"
 
-"@antv/coord@^0.4.6", "@antv/coord@^0.4.7":
+"@antv/coord@^0.4.6":
   version "0.4.7"
   resolved "https://registry.yarnpkg.com/@antv/coord/-/coord-0.4.7.tgz#3ef6c6e3f9ca0f024b90888549946061f35df77a"
   integrity sha512-UTbrMLhwJUkKzqJx5KFnSRpU3BqrdLORJbwUbHK2zHSCT3q3bjcFA//ZYLVfIlwqFDXp/hzfMyRtp0c77A9ZVA==
@@ -351,7 +351,7 @@
     gl-matrix "^3.4.3"
     tslib "^2.5.3"
 
-"@antv/g-canvas@^2.0.0", "@antv/g-canvas@^2.0.29", "@antv/g-canvas@^2.0.32":
+"@antv/g-canvas@^2.0.0", "@antv/g-canvas@^2.0.32":
   version "2.0.32"
   resolved "https://registry.yarnpkg.com/@antv/g-canvas/-/g-canvas-2.0.32.tgz#3740560ed96282f7f81b71eb273770179f1fdefe"
   integrity sha512-WanqnjHziCbFYgewFxqW4KgQOREaVSopqMYC+/C42TZkCJ0ZqQlFe1Cpb3MipkiV05/nLWoRhhJTsWZSF6jHbw==
@@ -446,7 +446,7 @@
     "@babel/runtime" "^7.25.6"
     tslib "^2.5.3"
 
-"@antv/g-plugin-dragndrop@^2.0.0", "@antv/g-plugin-dragndrop@^2.0.22", "@antv/g-plugin-dragndrop@^2.0.25":
+"@antv/g-plugin-dragndrop@^2.0.0", "@antv/g-plugin-dragndrop@^2.0.25":
   version "2.0.25"
   resolved "https://registry.yarnpkg.com/@antv/g-plugin-dragndrop/-/g-plugin-dragndrop-2.0.25.tgz#9c8f8536146b67fe8263139d9e77a68e216b6e0e"
   integrity sha512-nzDrO/9ycQRJELEVn+XtQS6u8uRabQkFt5RMnDBas9fGJABG6HwCsQKSYbQV5j9XHHr5s9JOCY8X9N1YQtIfvg==
@@ -532,7 +532,7 @@
     d3-array "^3.2.4"
     d3-hierarchy "^3.1.2"
 
-"@antv/g2@5.2.7":
+"@antv/g2@5.2.7", "@antv/g2@^5.1.18", "@antv/g2@^5.1.8":
   version "5.2.7"
   resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.2.7.tgz#fa131b0343a1a8a771b255d9efd57e2ded4a7503"
   integrity sha512-bOU7ZJfa735KCqIsWWwlFtn3pc8TwJIckBhy7X8PFcxTuMIXzgqOt7vbMMdF4psBHMyIIOCDAo8zf9rGhgjEzA==
@@ -556,32 +556,6 @@
     d3-shape "^3.2.0"
     flru "^1.0.2"
     fmin "^0.0.2"
-    pdfast "^0.2.0"
-
-"@antv/g2@^5.1.18", "@antv/g2@^5.1.8":
-  version "5.2.9"
-  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.2.9.tgz#fedac19510f6ab13309d346b8b5f1e885f8e0852"
-  integrity sha512-2VGvpmrgKATvrpLC7wWFD8gqTnzlArgZu/9K7rVtNBNX1vKZ2y7/IehIXIPfToMAqLoYHdSiCP3UhBHHT9yobQ==
-  dependencies:
-    "@antv/component" "^2.1.2"
-    "@antv/coord" "^0.4.7"
-    "@antv/event-emitter" "^0.1.3"
-    "@antv/g" "^6.1.11"
-    "@antv/g-canvas" "^2.0.29"
-    "@antv/g-plugin-dragndrop" "^2.0.22"
-    "@antv/scale" "^0.4.16"
-    "@antv/util" "^3.3.10"
-    d3-array "^3.2.4"
-    d3-dsv "^3.0.1"
-    d3-force "^3.0.0"
-    d3-format "^3.1.0"
-    d3-geo "^3.1.1"
-    d3-hierarchy "^3.1.2"
-    d3-path "^3.1.0"
-    d3-scale-chromatic "^3.1.0"
-    d3-shape "^3.2.0"
-    flru "^1.0.2"
-    fmin "^0.0.4"
     pdfast "^0.2.0"
 
 "@antv/g6-extension-react@^0.1.7":
@@ -5802,7 +5776,7 @@ d3-format@^3.1.0:
   resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-3.1.0.tgz#9260e23a28ea5cb109e93b21a06e24e2ebd55641"
   integrity sha512-YyUI6AEuY/Wpt8KWLgZHsIU86atmikuoOmCfommt0LYHiQSPjvX2AcFc38PX0CBpr2RCyZhjex+NS/LPOv6YqA==
 
-d3-geo@^3.1.0, d3-geo@^3.1.1:
+d3-geo@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-3.1.1.tgz#6027cf51246f9b2ebd64f99e01dc7c3364033a4d"
   integrity sha512-637ln3gXKXOwhalDzinUgY83KzNWZRKbYubaG+fGVuc/dxO64RRljtCTnf5ecMyE1RIdtqpkVcq0IbtU2S8j2Q==
@@ -5836,7 +5810,7 @@ d3-path@^3.1.0:
   resolved "https://registry.yarnpkg.com/d3-quadtree/-/d3-quadtree-3.0.1.tgz#6dca3e8be2b393c9a9d514dabbd80a92deef1a4f"
   integrity sha512-04xDrxQTDTCFwP5H6hRhsRcb9xxv2RzkcsygFzmkSIOJy3PeRJP7sNk3VRIbKXcog561P9oU0/rVH6vDROAgUw==
 
-d3-scale-chromatic@^3.0.0, d3-scale-chromatic@^3.1.0:
+d3-scale-chromatic@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/d3-scale-chromatic/-/d3-scale-chromatic-3.1.0.tgz#34c39da298b23c20e02f1a4b239bd0f22e7f1314"
   integrity sha512-A3s5PWiZ9YCXFye1o246KoscMWqf8BsD9eRiJ3He7C9OBaxKhAd5TFCdEx/7VbKtxxTsu//1mMJFrEt572cEyQ==
@@ -7129,13 +7103,6 @@ fmin@^0.0.2:
     rollup "^0.25.8"
     tape "^4.5.1"
     uglify-js "^2.6.2"
-
-fmin@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/fmin/-/fmin-0.0.4.tgz#93663a834f466c73e094defb1680982c8583b4b6"
-  integrity sha512-GDebBdizW6g1F5Kxm/y/D0bKjc8zBeIeGEXpgDuGejMyeaafuLkKZRxEzWKqehDRipxQ8h0cLhdDRCsx6T0t4w==
-  dependencies:
-    contour_plot "^0.0.1"
 
 follow-redirects@^1.0.0, follow-redirects@^1.15.6:
   version "1.15.9"
