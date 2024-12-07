@@ -136,7 +136,11 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
                       <p style={{ color: isPastEvent ? "grey" : "inherit" }}>
                         {index === contestTimes.length - 1
                           ? contestTime.description && (
-                              <a href={contestTime.description} target="_blank">
+                              <a
+                                href={contestTime.description}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
                                 {contestTime.description}
                               </a>
                             )
