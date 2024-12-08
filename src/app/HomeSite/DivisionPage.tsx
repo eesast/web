@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, Typography, Row, Col, Image, Layout, Menu, Spin } from "antd";
+import { Tabs, Typography, Row, Col, Image } from "antd";
 import styled from "styled-components";
 import { PageProps } from "..";
 import Center from "../Components/Center";

@@ -1,13 +1,13 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { Layout, Spin, Table, Card } from "antd";
+import { Layout, Spin, Card } from "antd";
 // import { ApartmentOutlined, TrophyOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import { Route, Navigate, Routes, Link, useNavigate } from "react-router-dom";
+import { Route, Navigate, Routes, useNavigate } from "react-router-dom";
 import NewsPage from "./NewsPage";
 import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
-import { request } from "http";
+// import { request } from "http";
 // import DivisionPage from "./DivisionPage";
 // import ContestPage from "./ContestPage";
 
