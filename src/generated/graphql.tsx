@@ -6083,6 +6083,287 @@ export type Json_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['json']['input']>>;
 };
 
+/** 管理员权限列表 */
+export type Manager_Permissions = {
+  __typename?: 'manager_permissions';
+  created_at: Scalars['timestamptz']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  permission_id: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "manager_permissions" */
+export type Manager_Permissions_Aggregate = {
+  __typename?: 'manager_permissions_aggregate';
+  aggregate?: Maybe<Manager_Permissions_Aggregate_Fields>;
+  nodes: Array<Manager_Permissions>;
+};
+
+/** aggregate fields of "manager_permissions" */
+export type Manager_Permissions_Aggregate_Fields = {
+  __typename?: 'manager_permissions_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Manager_Permissions_Max_Fields>;
+  min?: Maybe<Manager_Permissions_Min_Fields>;
+};
+
+
+/** aggregate fields of "manager_permissions" */
+export type Manager_Permissions_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Manager_Permissions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "manager_permissions". All fields are combined with a logical 'AND'. */
+export type Manager_Permissions_Bool_Exp = {
+  _and?: InputMaybe<Array<Manager_Permissions_Bool_Exp>>;
+  _not?: InputMaybe<Manager_Permissions_Bool_Exp>;
+  _or?: InputMaybe<Array<Manager_Permissions_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  permission_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "manager_permissions" */
+export enum Manager_Permissions_Constraint {
+  /** unique or primary key constraint on columns "description" */
+  ManagerPermissionsDescriptionKey = 'manager_permissions_description_key',
+  /** unique or primary key constraint on columns "name" */
+  ManagerPermissionsNameKey = 'manager_permissions_name_key',
+  /** unique or primary key constraint on columns "permission_id" */
+  ManagerPermissionsPkey = 'manager_permissions_pkey'
+}
+
+/** input type for inserting data into table "manager_permissions" */
+export type Manager_Permissions_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  permission_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Manager_Permissions_Max_Fields = {
+  __typename?: 'manager_permissions_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  permission_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Manager_Permissions_Min_Fields = {
+  __typename?: 'manager_permissions_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  permission_id?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "manager_permissions" */
+export type Manager_Permissions_Mutation_Response = {
+  __typename?: 'manager_permissions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Manager_Permissions>;
+};
+
+/** input type for inserting object relation for remote table "manager_permissions" */
+export type Manager_Permissions_Obj_Rel_Insert_Input = {
+  data: Manager_Permissions_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Manager_Permissions_On_Conflict>;
+};
+
+/** on_conflict condition type for table "manager_permissions" */
+export type Manager_Permissions_On_Conflict = {
+  constraint: Manager_Permissions_Constraint;
+  update_columns?: Array<Manager_Permissions_Update_Column>;
+  where?: InputMaybe<Manager_Permissions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "manager_permissions". */
+export type Manager_Permissions_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  permission_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: manager_permissions */
+export type Manager_Permissions_Pk_Columns_Input = {
+  permission_id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "manager_permissions" */
+export enum Manager_Permissions_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  PermissionId = 'permission_id'
+}
+
+/** input type for updating data in table "manager_permissions" */
+export type Manager_Permissions_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  permission_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "manager_permissions" */
+export enum Manager_Permissions_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  PermissionId = 'permission_id'
+}
+
+/** 每个管理员账户的权限 */
+export type Manager_User_Permissions = {
+  __typename?: 'manager_user_permissions';
+  granted_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  manager_permission: Manager_Permissions;
+  permission_id: Scalars['uuid']['output'];
+  /** An object relationship */
+  user: Users;
+  uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "manager_user_permissions" */
+export type Manager_User_Permissions_Aggregate = {
+  __typename?: 'manager_user_permissions_aggregate';
+  aggregate?: Maybe<Manager_User_Permissions_Aggregate_Fields>;
+  nodes: Array<Manager_User_Permissions>;
+};
+
+/** aggregate fields of "manager_user_permissions" */
+export type Manager_User_Permissions_Aggregate_Fields = {
+  __typename?: 'manager_user_permissions_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Manager_User_Permissions_Max_Fields>;
+  min?: Maybe<Manager_User_Permissions_Min_Fields>;
+};
+
+
+/** aggregate fields of "manager_user_permissions" */
+export type Manager_User_Permissions_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Manager_User_Permissions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "manager_user_permissions". All fields are combined with a logical 'AND'. */
+export type Manager_User_Permissions_Bool_Exp = {
+  _and?: InputMaybe<Array<Manager_User_Permissions_Bool_Exp>>;
+  _not?: InputMaybe<Manager_User_Permissions_Bool_Exp>;
+  _or?: InputMaybe<Array<Manager_User_Permissions_Bool_Exp>>;
+  granted_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  manager_permission?: InputMaybe<Manager_Permissions_Bool_Exp>;
+  permission_id?: InputMaybe<Uuid_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "manager_user_permissions" */
+export enum Manager_User_Permissions_Constraint {
+  /** unique or primary key constraint on columns "permission_id", "uuid" */
+  ManagerUserPermissionsPkey = 'manager_user_permissions_pkey'
+}
+
+/** input type for inserting data into table "manager_user_permissions" */
+export type Manager_User_Permissions_Insert_Input = {
+  granted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  manager_permission?: InputMaybe<Manager_Permissions_Obj_Rel_Insert_Input>;
+  permission_id?: InputMaybe<Scalars['uuid']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Manager_User_Permissions_Max_Fields = {
+  __typename?: 'manager_user_permissions_max_fields';
+  granted_at?: Maybe<Scalars['timestamptz']['output']>;
+  permission_id?: Maybe<Scalars['uuid']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Manager_User_Permissions_Min_Fields = {
+  __typename?: 'manager_user_permissions_min_fields';
+  granted_at?: Maybe<Scalars['timestamptz']['output']>;
+  permission_id?: Maybe<Scalars['uuid']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "manager_user_permissions" */
+export type Manager_User_Permissions_Mutation_Response = {
+  __typename?: 'manager_user_permissions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Manager_User_Permissions>;
+};
+
+/** on_conflict condition type for table "manager_user_permissions" */
+export type Manager_User_Permissions_On_Conflict = {
+  constraint: Manager_User_Permissions_Constraint;
+  update_columns?: Array<Manager_User_Permissions_Update_Column>;
+  where?: InputMaybe<Manager_User_Permissions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "manager_user_permissions". */
+export type Manager_User_Permissions_Order_By = {
+  granted_at?: InputMaybe<Order_By>;
+  manager_permission?: InputMaybe<Manager_Permissions_Order_By>;
+  permission_id?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: manager_user_permissions */
+export type Manager_User_Permissions_Pk_Columns_Input = {
+  permission_id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
+};
+
+/** select columns of table "manager_user_permissions" */
+export enum Manager_User_Permissions_Select_Column {
+  /** column name */
+  GrantedAt = 'granted_at',
+  /** column name */
+  PermissionId = 'permission_id',
+  /** column name */
+  Uuid = 'uuid'
+}
+
+/** input type for updating data in table "manager_user_permissions" */
+export type Manager_User_Permissions_Set_Input = {
+  granted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  permission_id?: InputMaybe<Scalars['uuid']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "manager_user_permissions" */
+export enum Manager_User_Permissions_Update_Column {
+  /** column name */
+  GrantedAt = 'granted_at',
+  /** column name */
+  PermissionId = 'permission_id',
+  /** column name */
+  Uuid = 'uuid'
+}
+
 /** columns and relationships of "mentor_application" */
 export type Mentor_Application = {
   __typename?: 'mentor_application';
@@ -7158,6 +7439,14 @@ export type Mutation_Root = {
   delete_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** delete single row from the table: "info_notice" */
   delete_info_notice_by_pk?: Maybe<Info_Notice>;
+  /** delete data from the table: "manager_permissions" */
+  delete_manager_permissions?: Maybe<Manager_Permissions_Mutation_Response>;
+  /** delete single row from the table: "manager_permissions" */
+  delete_manager_permissions_by_pk?: Maybe<Manager_Permissions>;
+  /** delete data from the table: "manager_user_permissions" */
+  delete_manager_user_permissions?: Maybe<Manager_User_Permissions_Mutation_Response>;
+  /** delete single row from the table: "manager_user_permissions" */
+  delete_manager_user_permissions_by_pk?: Maybe<Manager_User_Permissions>;
   /** delete data from the table: "mentor_application" */
   delete_mentor_application?: Maybe<Mentor_Application_Mutation_Response>;
   /** delete single row from the table: "mentor_application" */
@@ -7306,6 +7595,14 @@ export type Mutation_Root = {
   insert_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** insert a single row into the table: "info_notice" */
   insert_info_notice_one?: Maybe<Info_Notice>;
+  /** insert data into the table: "manager_permissions" */
+  insert_manager_permissions?: Maybe<Manager_Permissions_Mutation_Response>;
+  /** insert a single row into the table: "manager_permissions" */
+  insert_manager_permissions_one?: Maybe<Manager_Permissions>;
+  /** insert data into the table: "manager_user_permissions" */
+  insert_manager_user_permissions?: Maybe<Manager_User_Permissions_Mutation_Response>;
+  /** insert a single row into the table: "manager_user_permissions" */
+  insert_manager_user_permissions_one?: Maybe<Manager_User_Permissions>;
   /** insert data into the table: "mentor_application" */
   insert_mentor_application?: Maybe<Mentor_Application_Mutation_Response>;
   /** insert a single row into the table: "mentor_application" */
@@ -7454,6 +7751,14 @@ export type Mutation_Root = {
   update_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** update single row of the table: "info_notice" */
   update_info_notice_by_pk?: Maybe<Info_Notice>;
+  /** update data of the table: "manager_permissions" */
+  update_manager_permissions?: Maybe<Manager_Permissions_Mutation_Response>;
+  /** update single row of the table: "manager_permissions" */
+  update_manager_permissions_by_pk?: Maybe<Manager_Permissions>;
+  /** update data of the table: "manager_user_permissions" */
+  update_manager_user_permissions?: Maybe<Manager_User_Permissions_Mutation_Response>;
+  /** update single row of the table: "manager_user_permissions" */
+  update_manager_user_permissions_by_pk?: Maybe<Manager_User_Permissions>;
   /** update data of the table: "mentor_application" */
   update_mentor_application?: Maybe<Mentor_Application_Mutation_Response>;
   /** update single row of the table: "mentor_application" */
@@ -7821,6 +8126,31 @@ export type Mutation_RootDelete_Info_NoticeArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Info_Notice_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Manager_PermissionsArgs = {
+  where: Manager_Permissions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Manager_Permissions_By_PkArgs = {
+  permission_id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Manager_User_PermissionsArgs = {
+  where: Manager_User_Permissions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Manager_User_Permissions_By_PkArgs = {
+  permission_id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
 };
 
 
@@ -8320,6 +8650,34 @@ export type Mutation_RootInsert_Info_NoticeArgs = {
 export type Mutation_RootInsert_Info_Notice_OneArgs = {
   object: Info_Notice_Insert_Input;
   on_conflict?: InputMaybe<Info_Notice_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Manager_PermissionsArgs = {
+  objects: Array<Manager_Permissions_Insert_Input>;
+  on_conflict?: InputMaybe<Manager_Permissions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Manager_Permissions_OneArgs = {
+  object: Manager_Permissions_Insert_Input;
+  on_conflict?: InputMaybe<Manager_Permissions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Manager_User_PermissionsArgs = {
+  objects: Array<Manager_User_Permissions_Insert_Input>;
+  on_conflict?: InputMaybe<Manager_User_Permissions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Manager_User_Permissions_OneArgs = {
+  object: Manager_User_Permissions_Insert_Input;
+  on_conflict?: InputMaybe<Manager_User_Permissions_On_Conflict>;
 };
 
 
@@ -8854,6 +9212,34 @@ export type Mutation_RootUpdate_Info_NoticeArgs = {
 export type Mutation_RootUpdate_Info_Notice_By_PkArgs = {
   _set?: InputMaybe<Info_Notice_Set_Input>;
   pk_columns: Info_Notice_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Manager_PermissionsArgs = {
+  _set?: InputMaybe<Manager_Permissions_Set_Input>;
+  where: Manager_Permissions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Manager_Permissions_By_PkArgs = {
+  _set?: InputMaybe<Manager_Permissions_Set_Input>;
+  pk_columns: Manager_Permissions_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Manager_User_PermissionsArgs = {
+  _set?: InputMaybe<Manager_User_Permissions_Set_Input>;
+  where: Manager_User_Permissions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Manager_User_Permissions_By_PkArgs = {
+  _set?: InputMaybe<Manager_User_Permissions_Set_Input>;
+  pk_columns: Manager_User_Permissions_Pk_Columns_Input;
 };
 
 
@@ -10562,6 +10948,18 @@ export type Query_Root = {
   info_notice_aggregate: Info_Notice_Aggregate;
   /** fetch data from the table: "info_notice" using primary key columns */
   info_notice_by_pk?: Maybe<Info_Notice>;
+  /** fetch data from the table: "manager_permissions" */
+  manager_permissions: Array<Manager_Permissions>;
+  /** fetch aggregated fields from the table: "manager_permissions" */
+  manager_permissions_aggregate: Manager_Permissions_Aggregate;
+  /** fetch data from the table: "manager_permissions" using primary key columns */
+  manager_permissions_by_pk?: Maybe<Manager_Permissions>;
+  /** fetch data from the table: "manager_user_permissions" */
+  manager_user_permissions: Array<Manager_User_Permissions>;
+  /** fetch aggregated fields from the table: "manager_user_permissions" */
+  manager_user_permissions_aggregate: Manager_User_Permissions_Aggregate;
+  /** fetch data from the table: "manager_user_permissions" using primary key columns */
+  manager_user_permissions_by_pk?: Maybe<Manager_User_Permissions>;
   /** fetch data from the table: "mentor_application" */
   mentor_application: Array<Mentor_Application>;
   /** fetch aggregated fields from the table: "mentor_application" */
@@ -11240,6 +11638,53 @@ export type Query_RootInfo_Notice_By_PkArgs = {
 };
 
 
+export type Query_RootManager_PermissionsArgs = {
+  distinct_on?: InputMaybe<Array<Manager_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_Permissions_Bool_Exp>;
+};
+
+
+export type Query_RootManager_Permissions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Manager_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_Permissions_Bool_Exp>;
+};
+
+
+export type Query_RootManager_Permissions_By_PkArgs = {
+  permission_id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootManager_User_PermissionsArgs = {
+  distinct_on?: InputMaybe<Array<Manager_User_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_User_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_User_Permissions_Bool_Exp>;
+};
+
+
+export type Query_RootManager_User_Permissions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Manager_User_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_User_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_User_Permissions_Bool_Exp>;
+};
+
+
+export type Query_RootManager_User_Permissions_By_PkArgs = {
+  permission_id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
+};
+
+
 export type Query_RootMentor_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -11869,6 +12314,18 @@ export type Subscription_Root = {
   info_notice_aggregate: Info_Notice_Aggregate;
   /** fetch data from the table: "info_notice" using primary key columns */
   info_notice_by_pk?: Maybe<Info_Notice>;
+  /** fetch data from the table: "manager_permissions" */
+  manager_permissions: Array<Manager_Permissions>;
+  /** fetch aggregated fields from the table: "manager_permissions" */
+  manager_permissions_aggregate: Manager_Permissions_Aggregate;
+  /** fetch data from the table: "manager_permissions" using primary key columns */
+  manager_permissions_by_pk?: Maybe<Manager_Permissions>;
+  /** fetch data from the table: "manager_user_permissions" */
+  manager_user_permissions: Array<Manager_User_Permissions>;
+  /** fetch aggregated fields from the table: "manager_user_permissions" */
+  manager_user_permissions_aggregate: Manager_User_Permissions_Aggregate;
+  /** fetch data from the table: "manager_user_permissions" using primary key columns */
+  manager_user_permissions_by_pk?: Maybe<Manager_User_Permissions>;
   /** fetch data from the table: "mentor_application" */
   mentor_application: Array<Mentor_Application>;
   /** fetch aggregated fields from the table: "mentor_application" */
@@ -12544,6 +13001,53 @@ export type Subscription_RootInfo_Notice_AggregateArgs = {
 
 export type Subscription_RootInfo_Notice_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootManager_PermissionsArgs = {
+  distinct_on?: InputMaybe<Array<Manager_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_Permissions_Bool_Exp>;
+};
+
+
+export type Subscription_RootManager_Permissions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Manager_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_Permissions_Bool_Exp>;
+};
+
+
+export type Subscription_RootManager_Permissions_By_PkArgs = {
+  permission_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootManager_User_PermissionsArgs = {
+  distinct_on?: InputMaybe<Array<Manager_User_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_User_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_User_Permissions_Bool_Exp>;
+};
+
+
+export type Subscription_RootManager_User_Permissions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Manager_User_Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Manager_User_Permissions_Order_By>>;
+  where?: InputMaybe<Manager_User_Permissions_Bool_Exp>;
+};
+
+
+export type Subscription_RootManager_User_Permissions_By_PkArgs = {
+  permission_id: Scalars['uuid']['input'];
+  uuid: Scalars['uuid']['input'];
 };
 
 
@@ -13653,7 +14157,7 @@ export type GetTeamsQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null } }> };
+export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null, uuid: any }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null, uuid: any, department?: string | null, tsinghua_email?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null } }> };
 
 export type GetTeamsCompetitionResultQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -14269,6 +14773,13 @@ export type GetUserByPhoneQueryVariables = Exact<{
 
 export type GetUserByPhoneQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
 
+export type GetUserByStudentIdQueryVariables = Exact<{
+  student_no: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByStudentIdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+
 export type GetUser_IdQueryVariables = Exact<{
   email: Scalars['String']['input'];
   realname: Scalars['String']['input'];
@@ -14428,8 +14939,8 @@ export function useGetContestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestsQuery, GetContestsQueryVariables>(GetContestsDocument, options);
         }
-export function useGetContestsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestsQuery, GetContestsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestsQuery, GetContestsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestsQuery, GetContestsQueryVariables>(GetContestsDocument, options);
         }
 export type GetContestsQueryHookResult = ReturnType<typeof useGetContestsQuery>;
@@ -14472,8 +14983,8 @@ export function useGetContestInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
         }
-export function useGetContestInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestInfoQuery, GetContestInfoQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestInfoQuery, GetContestInfoQueryVariables>(GetContestInfoDocument, options);
         }
 export type GetContestInfoQueryHookResult = ReturnType<typeof useGetContestInfoQuery>;
@@ -14512,8 +15023,8 @@ export function useGetContestNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
         }
-export function useGetContestNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestNameSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestNameQuery, GetContestNameQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestNameQuery, GetContestNameQueryVariables>(GetContestNameDocument, options);
         }
 export type GetContestNameQueryHookResult = ReturnType<typeof useGetContestNameQuery>;
@@ -14557,8 +15068,8 @@ export function useGetContestSwitchLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestSwitchQuery, GetContestSwitchQueryVariables>(GetContestSwitchDocument, options);
         }
-export function useGetContestSwitchSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestSwitchQuery, GetContestSwitchQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestSwitchSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestSwitchQuery, GetContestSwitchQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestSwitchQuery, GetContestSwitchQueryVariables>(GetContestSwitchDocument, options);
         }
 export type GetContestSwitchQueryHookResult = ReturnType<typeof useGetContestSwitchQuery>;
@@ -14599,8 +15110,8 @@ export function useGetContestManagersLazyQuery(baseOptions?: Apollo.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
         }
-export function useGetContestManagersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestManagersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestManagersQuery, GetContestManagersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestManagersQuery, GetContestManagersQueryVariables>(GetContestManagersDocument, options);
         }
 export type GetContestManagersQueryHookResult = ReturnType<typeof useGetContestManagersQuery>;
@@ -14752,8 +15263,8 @@ export function useGetContestMapsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestMapsQuery, GetContestMapsQueryVariables>(GetContestMapsDocument, options);
         }
-export function useGetContestMapsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestMapsQuery, GetContestMapsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestMapsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestMapsQuery, GetContestMapsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestMapsQuery, GetContestMapsQueryVariables>(GetContestMapsDocument, options);
         }
 export type GetContestMapsQueryHookResult = ReturnType<typeof useGetContestMapsQuery>;
@@ -14910,8 +15421,8 @@ export function useGetContestNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
         }
-export function useGetContestNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestNoticesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestNoticesQuery, GetContestNoticesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestNoticesQuery, GetContestNoticesQueryVariables>(GetContestNoticesDocument, options);
         }
 export type GetContestNoticesQueryHookResult = ReturnType<typeof useGetContestNoticesQuery>;
@@ -15068,8 +15579,8 @@ export function useGetContestPlayersLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestPlayersQuery, GetContestPlayersQueryVariables>(GetContestPlayersDocument, options);
         }
-export function useGetContestPlayersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestPlayersQuery, GetContestPlayersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestPlayersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestPlayersQuery, GetContestPlayersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestPlayersQuery, GetContestPlayersQueryVariables>(GetContestPlayersDocument, options);
         }
 export type GetContestPlayersQueryHookResult = ReturnType<typeof useGetContestPlayersQuery>;
@@ -15218,8 +15729,8 @@ export function useGetRunningArenaRoomsLazyQuery(baseOptions?: Apollo.LazyQueryH
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>(GetRunningArenaRoomsDocument, options);
         }
-export function useGetRunningArenaRoomsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetRunningArenaRoomsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetRunningArenaRoomsQuery, GetRunningArenaRoomsQueryVariables>(GetRunningArenaRoomsDocument, options);
         }
 export type GetRunningArenaRoomsQueryHookResult = ReturnType<typeof useGetRunningArenaRoomsQuery>;
@@ -15417,8 +15928,8 @@ export function useGetContestRoundsLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestRoundsQuery, GetContestRoundsQueryVariables>(GetContestRoundsDocument, options);
         }
-export function useGetContestRoundsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestRoundsQuery, GetContestRoundsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestRoundsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestRoundsQuery, GetContestRoundsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestRoundsQuery, GetContestRoundsQueryVariables>(GetContestRoundsDocument, options);
         }
 export type GetContestRoundsQueryHookResult = ReturnType<typeof useGetContestRoundsQuery>;
@@ -15642,8 +16153,8 @@ export function useGetTeamLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamQuery, GetTeamQueryVariables>(GetTeamDocument, options);
         }
-export function useGetTeamSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamQuery, GetTeamQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamQuery, GetTeamQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamQuery, GetTeamQueryVariables>(GetTeamDocument, options);
         }
 export type GetTeamQueryHookResult = ReturnType<typeof useGetTeamQuery>;
@@ -15695,8 +16206,8 @@ export function useGetTeamInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
         }
-export function useGetTeamInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamInfoQuery, GetTeamInfoQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamInfoQuery, GetTeamInfoQueryVariables>(GetTeamInfoDocument, options);
         }
 export type GetTeamInfoQueryHookResult = ReturnType<typeof useGetTeamInfoQuery>;
@@ -15743,8 +16254,8 @@ export function useGetTeamInfoByInvitedCodeLazyQuery(baseOptions?: Apollo.LazyQu
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
         }
-export function useGetTeamInfoByInvitedCodeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamInfoByInvitedCodeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamInfoByInvitedCodeQuery, GetTeamInfoByInvitedCodeQueryVariables>(GetTeamInfoByInvitedCodeDocument, options);
         }
 export type GetTeamInfoByInvitedCodeQueryHookResult = ReturnType<typeof useGetTeamInfoByInvitedCodeQuery>;
@@ -15797,8 +16308,8 @@ export function useGetTeamStatLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
         }
-export function useGetTeamStatSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamStatSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamStatQuery, GetTeamStatQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamStatQuery, GetTeamStatQueryVariables>(GetTeamStatDocument, options);
         }
 export type GetTeamStatQueryHookResult = ReturnType<typeof useGetTeamStatQuery>;
@@ -15839,8 +16350,8 @@ export function useGetTotalTeamNumLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
         }
-export function useGetTotalTeamNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTotalTeamNumSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTotalTeamNumQuery, GetTotalTeamNumQueryVariables>(GetTotalTeamNumDocument, options);
         }
 export type GetTotalTeamNumQueryHookResult = ReturnType<typeof useGetTotalTeamNumQuery>;
@@ -15883,8 +16394,8 @@ export function useGetTotalMemberNumLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
         }
-export function useGetTotalMemberNumSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTotalMemberNumSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTotalMemberNumQuery, GetTotalMemberNumQueryVariables>(GetTotalMemberNumDocument, options);
         }
 export type GetTotalMemberNumQueryHookResult = ReturnType<typeof useGetTotalMemberNumQuery>;
@@ -15904,12 +16415,16 @@ export const GetTeamsDocument = gql`
       realname
       student_no
       class
+      uuid
     }
     contest_team_members {
       user {
         realname
         student_no
         class
+        uuid
+        department
+        tsinghua_email
       }
     }
     contest_team_codes_aggregate {
@@ -15962,8 +16477,8 @@ export function useGetTeamsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamsQuery, GetTeamsQueryVariables>(GetTeamsDocument, options);
         }
-export function useGetTeamsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamsQuery, GetTeamsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamsQuery, GetTeamsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamsQuery, GetTeamsQueryVariables>(GetTeamsDocument, options);
         }
 export type GetTeamsQueryHookResult = ReturnType<typeof useGetTeamsQuery>;
@@ -16024,8 +16539,8 @@ export function useGetTeamsCompetitionResultLazyQuery(baseOptions?: Apollo.LazyQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>(GetTeamsCompetitionResultDocument, options);
         }
-export function useGetTeamsCompetitionResultSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamsCompetitionResultSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamsCompetitionResultQuery, GetTeamsCompetitionResultQueryVariables>(GetTeamsCompetitionResultDocument, options);
         }
 export type GetTeamsCompetitionResultQueryHookResult = ReturnType<typeof useGetTeamsCompetitionResultQuery>;
@@ -16289,8 +16804,8 @@ export function useGetTeamPlayersLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>(GetTeamPlayersDocument, options);
         }
-export function useGetTeamPlayersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamPlayersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamPlayersQuery, GetTeamPlayersQueryVariables>(GetTeamPlayersDocument, options);
         }
 export type GetTeamPlayersQueryHookResult = ReturnType<typeof useGetTeamPlayersQuery>;
@@ -16342,8 +16857,8 @@ export function useGetTeamStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamStatusQuery, GetTeamStatusQueryVariables>(GetTeamStatusDocument, options);
         }
-export function useGetTeamStatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamStatusQuery, GetTeamStatusQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamStatusSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamStatusQuery, GetTeamStatusQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamStatusQuery, GetTeamStatusQueryVariables>(GetTeamStatusDocument, options);
         }
 export type GetTeamStatusQueryHookResult = ReturnType<typeof useGetTeamStatusQuery>;
@@ -16498,8 +17013,8 @@ export function useGetContestTimesLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetContestTimesQuery, GetContestTimesQueryVariables>(GetContestTimesDocument, options);
         }
-export function useGetContestTimesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContestTimesQuery, GetContestTimesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetContestTimesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetContestTimesQuery, GetContestTimesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetContestTimesQuery, GetContestTimesQueryVariables>(GetContestTimesDocument, options);
         }
 export type GetContestTimesQueryHookResult = ReturnType<typeof useGetContestTimesQuery>;
@@ -16548,8 +17063,8 @@ export function useGetHonorApplicationsLazyQuery(baseOptions?: Apollo.LazyQueryH
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
         }
-export function useGetHonorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetHonorApplicationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetHonorApplicationsQuery, GetHonorApplicationsQueryVariables>(GetHonorApplicationsDocument, options);
         }
 export type GetHonorApplicationsQueryHookResult = ReturnType<typeof useGetHonorApplicationsQuery>;
@@ -16600,8 +17115,8 @@ export function useGetHonorApplicationsForCounselorsLazyQuery(baseOptions?: Apol
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
         }
-export function useGetHonorApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetHonorApplicationsForCounselorsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetHonorApplicationsForCounselorsQuery, GetHonorApplicationsForCounselorsQueryVariables>(GetHonorApplicationsForCounselorsDocument, options);
         }
 export type GetHonorApplicationsForCounselorsQueryHookResult = ReturnType<typeof useGetHonorApplicationsForCounselorsQuery>;
@@ -16650,8 +17165,8 @@ export function useGetMentorApplicationScheduleLazyQuery(baseOptions?: Apollo.La
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>(GetMentorApplicationScheduleDocument, options);
         }
-export function useGetMentorApplicationScheduleSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetMentorApplicationScheduleSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetMentorApplicationScheduleQuery, GetMentorApplicationScheduleQueryVariables>(GetMentorApplicationScheduleDocument, options);
         }
 export type GetMentorApplicationScheduleQueryHookResult = ReturnType<typeof useGetMentorApplicationScheduleQuery>;
@@ -16700,8 +17215,8 @@ export function useGetMentorInfoListLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>(GetMentorInfoListDocument, options);
         }
-export function useGetMentorInfoListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetMentorInfoListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetMentorInfoListQuery, GetMentorInfoListQueryVariables>(GetMentorInfoListDocument, options);
         }
 export type GetMentorInfoListQueryHookResult = ReturnType<typeof useGetMentorInfoListQuery>;
@@ -16907,8 +17422,8 @@ export function useGetMentorApplicationsListForMentorLazyQuery(baseOptions?: Apo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>(GetMentorApplicationsListForMentorDocument, options);
         }
-export function useGetMentorApplicationsListForMentorSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetMentorApplicationsListForMentorSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetMentorApplicationsListForMentorQuery, GetMentorApplicationsListForMentorQueryVariables>(GetMentorApplicationsListForMentorDocument, options);
         }
 export type GetMentorApplicationsListForMentorQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForMentorQuery>;
@@ -17033,8 +17548,8 @@ export function useGetMentorApplicationsListForStudentLazyQuery(baseOptions?: Ap
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>(GetMentorApplicationsListForStudentDocument, options);
         }
-export function useGetMentorApplicationsListForStudentSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetMentorApplicationsListForStudentSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetMentorApplicationsListForStudentQuery, GetMentorApplicationsListForStudentQueryVariables>(GetMentorApplicationsListForStudentDocument, options);
         }
 export type GetMentorApplicationsListForStudentQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForStudentQuery>;
@@ -17201,8 +17716,8 @@ export function useGetMentorApplicationsListForCounselorLazyQuery(baseOptions?: 
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>(GetMentorApplicationsListForCounselorDocument, options);
         }
-export function useGetMentorApplicationsListForCounselorSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetMentorApplicationsListForCounselorSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetMentorApplicationsListForCounselorQuery, GetMentorApplicationsListForCounselorQueryVariables>(GetMentorApplicationsListForCounselorDocument, options);
         }
 export type GetMentorApplicationsListForCounselorQueryHookResult = ReturnType<typeof useGetMentorApplicationsListForCounselorQuery>;
@@ -17242,8 +17757,8 @@ export function useQueryStudentByStudentNoLazyQuery(baseOptions?: Apollo.LazyQue
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>(QueryStudentByStudentNoDocument, options);
         }
-export function useQueryStudentByStudentNoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useQueryStudentByStudentNoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<QueryStudentByStudentNoQuery, QueryStudentByStudentNoQueryVariables>(QueryStudentByStudentNoDocument, options);
         }
 export type QueryStudentByStudentNoQueryHookResult = ReturnType<typeof useQueryStudentByStudentNoQuery>;
@@ -17282,8 +17797,8 @@ export function useQueryTeacherByRealnameLazyQuery(baseOptions?: Apollo.LazyQuer
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>(QueryTeacherByRealnameDocument, options);
         }
-export function useQueryTeacherByRealnameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useQueryTeacherByRealnameSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<QueryTeacherByRealnameQuery, QueryTeacherByRealnameQueryVariables>(QueryTeacherByRealnameDocument, options);
         }
 export type QueryTeacherByRealnameQueryHookResult = ReturnType<typeof useQueryTeacherByRealnameQuery>;
@@ -17323,8 +17838,8 @@ export function useGetFreshmanInfoListLazyQuery(baseOptions?: Apollo.LazyQueryHo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>(GetFreshmanInfoListDocument, options);
         }
-export function useGetFreshmanInfoListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetFreshmanInfoListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetFreshmanInfoListQuery, GetFreshmanInfoListQueryVariables>(GetFreshmanInfoListDocument, options);
         }
 export type GetFreshmanInfoListQueryHookResult = ReturnType<typeof useGetFreshmanInfoListQuery>;
@@ -17415,8 +17930,8 @@ export function useGetApprovedMentorApplicationsLazyQuery(baseOptions?: Apollo.L
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
         }
-export function useGetApprovedMentorApplicationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetApprovedMentorApplicationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetApprovedMentorApplicationsQuery, GetApprovedMentorApplicationsQueryVariables>(GetApprovedMentorApplicationsDocument, options);
         }
 export type GetApprovedMentorApplicationsQueryHookResult = ReturnType<typeof useGetApprovedMentorApplicationsQuery>;
@@ -17541,8 +18056,8 @@ export function useGetNoticesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetNoticesQuery, GetNoticesQueryVariables>(GetNoticesDocument, options);
         }
-export function useGetNoticesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetNoticesQuery, GetNoticesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetNoticesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetNoticesQuery, GetNoticesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetNoticesQuery, GetNoticesQueryVariables>(GetNoticesDocument, options);
         }
 export type GetNoticesQueryHookResult = ReturnType<typeof useGetNoticesQuery>;
@@ -17750,8 +18265,8 @@ export function useGetPostgraduateFeedsLazyQuery(baseOptions?: Apollo.LazyQueryH
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
         }
-export function useGetPostgraduateFeedsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetPostgraduateFeedsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>(GetPostgraduateFeedsDocument, options);
         }
 export type GetPostgraduateFeedsQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsQuery>;
@@ -17797,8 +18312,8 @@ export function useGetCourseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, options);
         }
-export function useGetCourseSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, options);
         }
 export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
@@ -17970,8 +18485,8 @@ export function useGetCourseCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>(GetCourseCommentsDocument, options);
         }
-export function useGetCourseCommentsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseCommentsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseCommentsQuery, GetCourseCommentsQueryVariables>(GetCourseCommentsDocument, options);
         }
 export type GetCourseCommentsQueryHookResult = ReturnType<typeof useGetCourseCommentsQuery>;
@@ -18016,8 +18531,8 @@ export function useGetCourseCommentsStaredLazyQuery(baseOptions?: Apollo.LazyQue
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseCommentsStaredQuery, GetCourseCommentsStaredQueryVariables>(GetCourseCommentsStaredDocument, options);
         }
-export function useGetCourseCommentsStaredSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseCommentsStaredQuery, GetCourseCommentsStaredQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseCommentsStaredSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseCommentsStaredQuery, GetCourseCommentsStaredQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseCommentsStaredQuery, GetCourseCommentsStaredQueryVariables>(GetCourseCommentsStaredDocument, options);
         }
 export type GetCourseCommentsStaredQueryHookResult = ReturnType<typeof useGetCourseCommentsStaredQuery>;
@@ -18062,8 +18577,8 @@ export function useGetCourseCommentsLikedLazyQuery(baseOptions?: Apollo.LazyQuer
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseCommentsLikedQuery, GetCourseCommentsLikedQueryVariables>(GetCourseCommentsLikedDocument, options);
         }
-export function useGetCourseCommentsLikedSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseCommentsLikedQuery, GetCourseCommentsLikedQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseCommentsLikedSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseCommentsLikedQuery, GetCourseCommentsLikedQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseCommentsLikedQuery, GetCourseCommentsLikedQueryVariables>(GetCourseCommentsLikedDocument, options);
         }
 export type GetCourseCommentsLikedQueryHookResult = ReturnType<typeof useGetCourseCommentsLikedQuery>;
@@ -18104,8 +18619,8 @@ export function useGetCourseCommentStarsLazyQuery(baseOptions?: Apollo.LazyQuery
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseCommentStarsQuery, GetCourseCommentStarsQueryVariables>(GetCourseCommentStarsDocument, options);
         }
-export function useGetCourseCommentStarsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseCommentStarsQuery, GetCourseCommentStarsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseCommentStarsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseCommentStarsQuery, GetCourseCommentStarsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseCommentStarsQuery, GetCourseCommentStarsQueryVariables>(GetCourseCommentStarsDocument, options);
         }
 export type GetCourseCommentStarsQueryHookResult = ReturnType<typeof useGetCourseCommentStarsQuery>;
@@ -18146,8 +18661,8 @@ export function useGetCourseCommentLikesLazyQuery(baseOptions?: Apollo.LazyQuery
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseCommentLikesQuery, GetCourseCommentLikesQueryVariables>(GetCourseCommentLikesDocument, options);
         }
-export function useGetCourseCommentLikesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseCommentLikesQuery, GetCourseCommentLikesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseCommentLikesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseCommentLikesQuery, GetCourseCommentLikesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseCommentLikesQuery, GetCourseCommentLikesQueryVariables>(GetCourseCommentLikesDocument, options);
         }
 export type GetCourseCommentLikesQueryHookResult = ReturnType<typeof useGetCourseCommentLikesQuery>;
@@ -18443,8 +18958,8 @@ export function useGetCourseInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseInfoQuery, GetCourseInfoQueryVariables>(GetCourseInfoDocument, options);
         }
-export function useGetCourseInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseInfoQuery, GetCourseInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseInfoQuery, GetCourseInfoQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseInfoQuery, GetCourseInfoQueryVariables>(GetCourseInfoDocument, options);
         }
 export type GetCourseInfoQueryHookResult = ReturnType<typeof useGetCourseInfoQuery>;
@@ -18593,8 +19108,8 @@ export function useGetCourseManagerLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseManagerQuery, GetCourseManagerQueryVariables>(GetCourseManagerDocument, options);
         }
-export function useGetCourseManagerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseManagerQuery, GetCourseManagerQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseManagerSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseManagerQuery, GetCourseManagerQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseManagerQuery, GetCourseManagerQueryVariables>(GetCourseManagerDocument, options);
         }
 export type GetCourseManagerQueryHookResult = ReturnType<typeof useGetCourseManagerQuery>;
@@ -18643,8 +19158,8 @@ export function useGetCourseRatingLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseRatingQuery, GetCourseRatingQueryVariables>(GetCourseRatingDocument, options);
         }
-export function useGetCourseRatingSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseRatingQuery, GetCourseRatingQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseRatingSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseRatingQuery, GetCourseRatingQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseRatingQuery, GetCourseRatingQueryVariables>(GetCourseRatingDocument, options);
         }
 export type GetCourseRatingQueryHookResult = ReturnType<typeof useGetCourseRatingQuery>;
@@ -18689,8 +19204,8 @@ export function useGetCourseRatingOneLazyQuery(baseOptions?: Apollo.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>(GetCourseRatingOneDocument, options);
         }
-export function useGetCourseRatingOneSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetCourseRatingOneSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetCourseRatingOneQuery, GetCourseRatingOneQueryVariables>(GetCourseRatingOneDocument, options);
         }
 export type GetCourseRatingOneQueryHookResult = ReturnType<typeof useGetCourseRatingOneQuery>;
@@ -18850,8 +19365,8 @@ export function useGetWeeklyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(GetWeeklyDocument, options);
         }
-export function useGetWeeklySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetWeeklyQuery, GetWeeklyQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetWeeklySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetWeeklyQuery, GetWeeklyQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetWeeklyQuery, GetWeeklyQueryVariables>(GetWeeklyDocument, options);
         }
 export type GetWeeklyQueryHookResult = ReturnType<typeof useGetWeeklyQuery>;
@@ -18900,8 +19415,8 @@ export function useGetProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options);
         }
-export function useGetProfileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProfileQuery, GetProfileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProfileQuery, GetProfileQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options);
         }
 export type GetProfileQueryHookResult = ReturnType<typeof useGetProfileQuery>;
@@ -18981,8 +19496,8 @@ export function useGetDepartmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetDepartmentsQuery, GetDepartmentsQueryVariables>(GetDepartmentsDocument, options);
         }
-export function useGetDepartmentsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDepartmentsQuery, GetDepartmentsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetDepartmentsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetDepartmentsQuery, GetDepartmentsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetDepartmentsQuery, GetDepartmentsQueryVariables>(GetDepartmentsDocument, options);
         }
 export type GetDepartmentsQueryHookResult = ReturnType<typeof useGetDepartmentsQuery>;
@@ -19021,8 +19536,8 @@ export function useGetUserByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
         }
-export function useGetUserByEmailSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetUserByEmailSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
         }
 export type GetUserByEmailQueryHookResult = ReturnType<typeof useGetUserByEmailQuery>;
@@ -19061,8 +19576,8 @@ export function useGetUserByTsinghuaEmailLazyQuery(baseOptions?: Apollo.LazyQuer
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>(GetUserByTsinghuaEmailDocument, options);
         }
-export function useGetUserByTsinghuaEmailSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetUserByTsinghuaEmailSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetUserByTsinghuaEmailQuery, GetUserByTsinghuaEmailQueryVariables>(GetUserByTsinghuaEmailDocument, options);
         }
 export type GetUserByTsinghuaEmailQueryHookResult = ReturnType<typeof useGetUserByTsinghuaEmailQuery>;
@@ -19101,14 +19616,54 @@ export function useGetUserByPhoneLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
         }
-export function useGetUserByPhoneSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetUserByPhoneSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>(GetUserByPhoneDocument, options);
         }
 export type GetUserByPhoneQueryHookResult = ReturnType<typeof useGetUserByPhoneQuery>;
 export type GetUserByPhoneLazyQueryHookResult = ReturnType<typeof useGetUserByPhoneLazyQuery>;
 export type GetUserByPhoneSuspenseQueryHookResult = ReturnType<typeof useGetUserByPhoneSuspenseQuery>;
 export type GetUserByPhoneQueryResult = Apollo.QueryResult<GetUserByPhoneQuery, GetUserByPhoneQueryVariables>;
+export const GetUserByStudentIdDocument = gql`
+    query GetUserByStudentID($student_no: String!) {
+  users(where: {student_no: {_eq: $student_no}}) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGetUserByStudentIdQuery__
+ *
+ * To run a query within a React component, call `useGetUserByStudentIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByStudentIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByStudentIdQuery({
+ *   variables: {
+ *      student_no: // value for 'student_no'
+ *   },
+ * });
+ */
+export function useGetUserByStudentIdQuery(baseOptions: Apollo.QueryHookOptions<GetUserByStudentIdQuery, GetUserByStudentIdQueryVariables> & ({ variables: GetUserByStudentIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByStudentIdQuery, GetUserByStudentIdQueryVariables>(GetUserByStudentIdDocument, options);
+      }
+export function useGetUserByStudentIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByStudentIdQuery, GetUserByStudentIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByStudentIdQuery, GetUserByStudentIdQueryVariables>(GetUserByStudentIdDocument, options);
+        }
+export function useGetUserByStudentIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserByStudentIdQuery, GetUserByStudentIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserByStudentIdQuery, GetUserByStudentIdQueryVariables>(GetUserByStudentIdDocument, options);
+        }
+export type GetUserByStudentIdQueryHookResult = ReturnType<typeof useGetUserByStudentIdQuery>;
+export type GetUserByStudentIdLazyQueryHookResult = ReturnType<typeof useGetUserByStudentIdLazyQuery>;
+export type GetUserByStudentIdSuspenseQueryHookResult = ReturnType<typeof useGetUserByStudentIdSuspenseQuery>;
+export type GetUserByStudentIdQueryResult = Apollo.QueryResult<GetUserByStudentIdQuery, GetUserByStudentIdQueryVariables>;
 export const GetUser_IdDocument = gql`
     query GetUser_Id($email: String!, $realname: String!) {
   users(where: {email: {_eq: $email}, realname: {_eq: $realname}}) {
@@ -19142,8 +19697,8 @@ export function useGetUser_IdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
         }
-export function useGetUser_IdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetUser_IdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUser_IdQuery, GetUser_IdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetUser_IdQuery, GetUser_IdQueryVariables>(GetUser_IdDocument, options);
         }
 export type GetUser_IdQueryHookResult = ReturnType<typeof useGetUser_IdQuery>;

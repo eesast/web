@@ -5,7 +5,7 @@ import Background from "./Components/Background";
 import Password from "./Components/Password";
 import Verify from "./Components/Verify";
 import axios, { AxiosError } from "axios";
-import Start from "./Components/Start";
+import Contact from "./Components/Contact_bak";
 import { useUrl } from "../../api/hooks/url";
 import { UserProps } from ".";
 
@@ -51,7 +51,7 @@ const ResetPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   return (
     <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
       {email === "" && phone === "" ? (
-        <Start
+        <Contact
           title="已绑定的邮箱/手机号"
           setEmail={setEmail}
           setPhone={setPhone}

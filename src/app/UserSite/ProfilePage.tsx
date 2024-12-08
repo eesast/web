@@ -182,14 +182,14 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       key: "username",
       label: "用户名",
       span: 2,
-      children: profileData.users_by_pk?.username || "",
+      children: profileData?.users_by_pk?.username || "",
       editable: () => true,
     },
     {
       key: "email",
       label: "注册邮箱",
       span: 4,
-      children: profileData.users_by_pk?.email || "",
+      children: profileData?.users_by_pk?.email || "",
       editable: () => true,
     },
     {
@@ -205,23 +205,23 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       key: "realname",
       label: "姓名",
       span: 2,
-      children: profileData.users_by_pk?.realname || "",
+      children: profileData?.users_by_pk?.realname || "",
       editable: () => true,
     },
     {
       key: "phone",
       label: "手机号",
       span: 2,
-      children: profileData.users_by_pk?.phone || "",
+      children: profileData?.users_by_pk?.phone || "",
       editable: () => true,
     },
     {
       key: "department",
       label: "院系",
       span: 2,
-      children: profileData.users_by_pk?.department || "",
+      children: profileData?.users_by_pk?.department || "",
       editable: () => true,
-      valueEnum: departmentsData.department.reduce(
+      valueEnum: departmentsData?.department.reduce(
         (target, key, _) => {
           target[key.name] = key.name;
           return target;
@@ -233,27 +233,27 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       key: "class",
       label: "班级",
       span: 2,
-      children: profileData.users_by_pk?.class || "",
+      children: profileData?.users_by_pk?.class || "",
       editable: () => true,
     },
     {
       key: "student_no",
       label: "学号",
       span: 2,
-      children: profileData.users_by_pk?.student_no || "",
+      children: profileData?.users_by_pk?.student_no || "",
       editable: () => true,
     },
     {
       key: "tsinghua_email",
       label: "清华邮箱认证",
       span: 4,
-      children: profileData.users_by_pk?.tsinghua_email || "",
+      children: profileData?.users_by_pk?.tsinghua_email || "",
       editable: () => true,
     },
     {
       key: "updated_at",
       label: "信息更新时间",
-      children: dayjs(profileData.users_by_pk?.updated_at).format(
+      children: dayjs(profileData?.users_by_pk?.updated_at).format(
         "YYYY-MM-DD HH:mm",
       ),
       span: 2,
@@ -269,7 +269,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     {
       key: "created_at",
       label: "注册时间",
-      children: dayjs(profileData.users_by_pk?.created_at).format(
+      children: dayjs(profileData?.users_by_pk?.created_at).format(
         "YYYY-MM-DD HH:mm",
       ),
       span: 2,
@@ -367,7 +367,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     await updateProfileMutation({
       variables: {
         uuid: user.uuid,
-        ...profileData.users_by_pk,
+        ...profileData?.users_by_pk,
         ...record,
       },
     });
@@ -428,7 +428,6 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       message.error("删除头像失败");
     }
   };
-
   const showDeleteConfirm = () => {
     Modal.confirm({
       title: "确定要删除头像吗？",
@@ -441,6 +440,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   };
 
   // 处理裁剪并上传
+
   const handleCrop = async () => {
     if (cropperRef.current) {
       setLoading(true);
@@ -599,7 +599,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
             onClick={() =>
               navigate(
                 url
-                  .append("email", profileData.users_by_pk?.email)
+                  .append("email", profileData?.users_by_pk?.email)
                   .link("reset"),
               )
             }
@@ -622,7 +622,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                 onOk: () =>
                   navigate(
                     url
-                      .append("email", profileData.users_by_pk?.email)
+                      .append("email", profileData?.users_by_pk?.email)
                       .link("delete"),
                   ),
               });

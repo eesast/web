@@ -124,24 +124,25 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         total: 0,
       };
     }
-    const filteredData = data.course.filter((course) => {
-      return (
-        (!params.code ||
-          course.code.toLowerCase().includes(params.code.toLowerCase())) &&
-        (!params.fullname ||
-          course.fullname
-            .toLowerCase()
-            .includes(params.fullname.toLowerCase())) &&
-        (!params.year || course.year === parseInt(params.year)) &&
-        (!params.semester || course.semester === params.semester) &&
-        (!params.professor ||
-          course.professor
-            .toLowerCase()
-            .includes(params.professor.toLowerCase())) &&
-        (!params.type || course.type === params.type) &&
-        (!params.language || course.language === params.language)
-      );
-    });
+    const filteredData =
+      data?.course.filter((course) => {
+        return (
+          (!params.code ||
+            course.code.toLowerCase().includes(params.code.toLowerCase())) &&
+          (!params.fullname ||
+            course.fullname
+              .toLowerCase()
+              .includes(params.fullname.toLowerCase())) &&
+          (!params.year || course.year === parseInt(params.year)) &&
+          (!params.semester || course.semester === params.semester) &&
+          (!params.professor ||
+            course.professor
+              .toLowerCase()
+              .includes(params.professor.toLowerCase())) &&
+          (!params.type || course.type === params.type) &&
+          (!params.language || course.language === params.language)
+        );
+      }) ?? [];
 
     // 处理分页
     const startIndex = (params.current! - 1) * params.pageSize!;
