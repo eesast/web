@@ -255,12 +255,12 @@ const ManageTeamInfo: React.FC<{ teamId: string }> = ({ teamId }) => {
 
   return (
     <>
-      <p>队名：{teamInfoData.contest_team_by_pk?.team_name}</p>
-      <p>队长：{teamInfoData.contest_team_by_pk?.team_leader.realname}</p>
-      <p>邀请码：{teamInfoData.contest_team_by_pk?.invited_code}</p>
-      <p>队伍简介：{teamInfoData.contest_team_by_pk?.team_intro}</p>
+      <p>队名：{teamInfoData?.contest_team_by_pk?.team_name}</p>
+      <p>队长：{teamInfoData?.contest_team_by_pk?.team_leader.realname}</p>
+      <p>邀请码：{teamInfoData?.contest_team_by_pk?.invited_code}</p>
+      <p>队伍简介：{teamInfoData?.contest_team_by_pk?.team_intro}</p>
       <Divider />
-      {teamInfoData.contest_team_by_pk?.contest_team_members.map((member) => (
+      {teamInfoData?.contest_team_by_pk?.contest_team_members.map((member) => (
         <>
           <p>成员姓名：{member.user.realname}</p>
           <p>成员班级：{member.user.class}</p>

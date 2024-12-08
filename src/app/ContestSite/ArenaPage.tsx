@@ -14,14 +14,17 @@ import {
   Select,
   Typography,
   Checkbox,
+  Avatar,
 } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { listFile, getAvatarUrl } from "../../api/cos";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import Loading from "../Components/Loading";
+
 /* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 interface TeamLabelBind {
   team_id: string;
@@ -47,6 +50,9 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const [filterParamList, setFilterParamList] = useState<VisibleContestTeam[]>(
     [],
   );
+
+  // const [imageUrlList, setImageUrlList] = useState<string[]>([]); // 队伍头像数组
+
   //获取比赛状态
   const { data: contestData, error: contestError } =
     graphql.useGetContestInfoSuspenseQuery({
@@ -67,7 +73,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
-  const playerCount = contestPlayersData.contest_player.length;
+  const playerCount = contestPlayersData?.contest_player.length;
 
   //获取天梯队伍信息
   const { data: scoreteamListData, error: scoreteamListError } =
@@ -133,6 +139,88 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   const teamLabels = rawTeamLabels ? JSON.parse(rawTeamLabels) : [];
   const uniqueTeamLabels = Array.from(new Set(teamLabels)) as any;
 
+  /*
+  useEffect(() => {
+    // 获取所有头像 URL
+    const fetchAvatars = async () => {
+      const urls = await Promise.all(
+        filterParamList.map(async (item) => {
+          try {
+            // 发起头像请求
+            const files = await listFile(`avatar/${item.team_id}/`);
+            const imageFiles = files.filter((file) =>
+              /\.(jpe?g|png)$/i.test(file.Key)
+            );
+            if (imageFiles.length > 0) {
+              const firstImage = imageFiles[0];
+              return await getAvatarUrl(firstImage.Key);
+            } else {
+              return "/TeamOutlined.png"; // 使用默认头像 URL
+            }
+          } catch (error) {
+            console.error("Failed to load avatar:", error);
+            return "/TeamOutlined.png"; // 出现错误时使用默认头像 URL
+          }
+        })
+      );
+      setImageUrlList(urls);
+    };
+
+    fetchAvatars();
+  }, [filterParamList]); // 每次 filterParamList 变化时重新获取
+*/
+
+  const [teamAvatars, setTeamAvatars] = useState<string[][]>([]); // 每支队伍的队员头像数组
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchAvatar = async (userId: string | null | undefined) => {
+      try {
+        const files = await listFile(`avatar/${userId}/`);
+        const imageFiles = files.filter((file) =>
+          /\.(jpe?g|png)$/i.test(file.Key),
+        );
+        if (imageFiles.length > 0) {
+          const firstImage = imageFiles[0];
+          return getAvatarUrl(firstImage.Key);
+        } else {
+          return "/UserOutlined.png";
+        }
+      } catch (error) {
+        console.error("Failed to load avatar:", error);
+        return "/UserOutlined.png";
+      }
+    };
+
+    const fetchTeamAvatars = async () => {
+      const teamAvatarsPromises = filterParamList.map(async (team) => {
+        const teamMembers = [...team.contest_team_members];
+
+        const avatars = await Promise.all(
+          teamMembers.map(async (member) => {
+            if (member?.user.uuid) {
+              return fetchAvatar(member.user.uuid);
+            }
+            return "/UserOutlined.png";
+          }),
+        );
+        return avatars;
+      });
+
+      const result = await Promise.all(teamAvatarsPromises);
+      if (isMounted) {
+        setTeamAvatars(result);
+      }
+    };
+
+    fetchTeamAvatars();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [filterParamList]);
+
   useEffect(() => {
     if (contestError) {
       message.error("比赛加载失败");
@@ -184,7 +272,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [associatedValue, onlyCompiledTeams, playerCount, scoreteamListData]);
 
   /* ---------------- 业务逻辑函数 ---------------- */
-  const open = contestSwitchData.contest_by_pk?.arena_switch;
+  const open = contestSwitchData?.contest_by_pk?.arena_switch;
   //检查对手队伍是否满足对战条件
 
   //开启对战逻辑
@@ -248,10 +336,10 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
     oppTeamStatusRefetch({ team_id: item.team_id }).then((result) => {
       const playersCount =
-        result.data.contest_team_by_pk?.contest_team_players_aggregate.aggregate
-          ?.count;
+        result.data?.contest_team_by_pk?.contest_team_players_aggregate
+          .aggregate?.count;
       const requiredPlayersCount =
-        result.data.contest_team_by_pk?.contest.contest_players_aggregate
+        result.data?.contest_team_by_pk?.contest.contest_players_aggregate
           .aggregate?.count;
       if (playersCount !== requiredPlayersCount) {
         setOpponentTeamId(item.team_id);
@@ -403,17 +491,55 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                     fontWeight: "bold",
                                   }}
                                 >
-                                  队员：
-                                  {[
-                                    ...new Set([
-                                      item.team_leader?.realname,
-                                      ...item.contest_team_members.map(
-                                        (i) => i.user?.realname,
-                                      ),
-                                    ]),
-                                  ]
-                                    .filter(Boolean)
-                                    .join(", ")}
+                                  队伍：
+                                  {teamAvatars[index]?.map(
+                                    (avatarUrl, memberindex) => (
+                                      <Tooltip
+                                        title={
+                                          <Typography.Text>
+                                            姓名：
+                                            {item.contest_team_members[
+                                              memberindex
+                                            ].user.realname || "暂无"}
+                                            <br />
+                                            院系：
+                                            {item.contest_team_members[
+                                              memberindex
+                                            ].user.department || "暂无"}
+                                            <br />
+                                            班级：
+                                            {item.contest_team_members[
+                                              memberindex
+                                            ].user.class || "暂无"}
+                                            <br />
+                                            学号：
+                                            {item.contest_team_members[
+                                              memberindex
+                                            ].user.student_no || "暂无"}
+                                            <br />
+                                            清华邮箱：
+                                            {item.contest_team_members[
+                                              memberindex
+                                            ].user.tsinghua_email || "暂无"}
+                                          </Typography.Text>
+                                        }
+                                        placement="rightTop"
+                                        color={
+                                          mode === "dark" ? "black" : "white"
+                                        }
+                                        overlayStyle={{ maxWidth: "600px" }}
+                                      >
+                                        <Avatar
+                                          key={memberindex}
+                                          src={avatarUrl}
+                                          style={{
+                                            fontSize: "26px",
+                                            marginRight: "10px",
+                                          }}
+                                        />
+                                      </Tooltip>
+                                    ),
+                                  )}
                                 </Typography.Text>
                               </Col>
                             </Row>

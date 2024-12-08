@@ -49,6 +49,8 @@ const InfoSite = lazy(() => import("./InfoSite"));
 const ShareSite = lazy(() => import("./ShareSite"));
 const UserSite = lazy(() => import("./UserSite"));
 
+const { Header, Footer, Content } = Layout;
+
 const App: React.FC = () => {
   const url = useUrl();
   const [user, setUser] = useUser();
@@ -56,9 +58,19 @@ const App: React.FC = () => {
   const isMobile = userAgent.match(
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
-  const [mode, setMode] = useState<"light" | "dark">(
-    (localStorage.getItem("theme") as "light" | "dark") || "light",
-  );
+  // 初始化状态
+  const [mode, setMode] = useState<"light" | "dark">(() => {
+    // 优先使用 localStorage 中保存的主题
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      return savedTheme;
+    }
+    // 否则使用系统主题
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
+
   const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
@@ -90,16 +102,14 @@ const App: React.FC = () => {
           }
         })
         .finally(() => {
-          // 这里调用下次请求
+          // 调用下次请求
           if (isMounted) {
-            setTimeout(fetchAvatar, 500); // 请求完成后 1 秒再发起下一个请求
+            setTimeout(fetchAvatar, 500); // 请求完成后延迟0.5秒再发起下一个请求
           }
         });
     };
-
     // 初次请求
     fetchAvatar();
-
     // 清理函数，避免组件卸载时执行更新操作
     return () => {
       isMounted = false;
@@ -110,8 +120,6 @@ const App: React.FC = () => {
   const infoRef = useRef(null);
   const shareRef = useRef(null);
   const themeRef = useRef(null);
-
-  const { Header, Footer, Content } = Layout;
 
   const StyledHeader = styled(Header)`
     display: flex;
@@ -247,6 +255,30 @@ const App: React.FC = () => {
   };
 
   const ThemeSwitch = () => {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    const [isOverridden, setIsOverridden] = useState(false);
+
+    useEffect(() => {
+      // 检查是否有保存的主题设置
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        setMode(savedTheme as "light" | "dark");
+        setIsOverridden(true);
+      } else {
+        // 否则跟随系统
+        setMode(prefersDark.matches ? "dark" : "light");
+      }
+
+      const handleChange = (e: any) => {
+        if (!isOverridden) {
+          setMode(e.matches ? "dark" : "light");
+        }
+      };
+
+      prefersDark.addEventListener("change", handleChange);
+      return () => prefersDark.removeEventListener("change", handleChange);
+    }, [isOverridden, prefersDark]);
+
     return (
       <Switch
         css={`
@@ -259,8 +291,10 @@ const App: React.FC = () => {
         ref={themeRef}
         checked={mode === "light"}
         onChange={() => {
-          setMode(mode === "dark" ? "light" : "dark");
-          localStorage.setItem("theme", mode === "dark" ? "light" : "dark");
+          const newMode = mode === "dark" ? "light" : "dark";
+          setMode(newMode);
+          setIsOverridden(true);
+          localStorage.setItem("theme", newMode);
         }}
         checkedChildren="日"
         unCheckedChildren="夜"
@@ -408,6 +442,51 @@ const App: React.FC = () => {
       />
     );
   };
+
+  useEffect(() => {
+    let isMounted = true; // 防止组件卸载后更新状态
+
+    const fetchAvatar = () => {
+      listFile(`avatar/${user.uuid}/`)
+        .then((files) => {
+          const imageFiles = files.filter((file) =>
+            /\.(jpe?g|png)$/i.test(file.Key),
+          );
+          if (imageFiles.length > 0) {
+            const firstImage = imageFiles[0];
+            return getAvatarUrl(firstImage.Key);
+          } else {
+            setImageUrl("/UserOutlined.png"); // 替换为默认头像 URL
+            return null;
+          }
+        })
+        .then((url) => {
+          if (url && isMounted) {
+            setImageUrl(url);
+          }
+        })
+        .catch((error) => {
+          if (isMounted) {
+            console.error("Failed to load avatar:", error);
+            message.error("加载头像失败");
+          }
+        })
+        .finally(() => {
+          // 这里调用下次请求
+          if (isMounted) {
+            setTimeout(fetchAvatar, 500); // 请求完成后 1 秒再发起下一个请求
+          }
+        });
+    };
+
+    // 初次请求
+    fetchAvatar();
+
+    // 清理函数，避免组件卸载时执行更新操作
+    return () => {
+      isMounted = false;
+    };
+  }, [user.uuid]);
 
   return (
     <ConfigProvider

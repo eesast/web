@@ -5,14 +5,14 @@ import { QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import * as graphql from "@/generated/graphql";
 
-interface StartProps {
+interface ContactProps {
   title: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   isRegister: boolean;
 }
 
-const Start: React.FC<StartProps> = ({
+const Contact: React.FC<ContactProps> = ({
   title,
   setEmail,
   setPhone,
@@ -128,4 +128,4 @@ const Start: React.FC<StartProps> = ({
   );
 };
 
-export default Start;
+export default Contact;
