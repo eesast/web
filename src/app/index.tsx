@@ -72,6 +72,50 @@ const App: React.FC = () => {
   });
 
   const [imageUrl, setImageUrl] = useState<string>("");
+
+  useEffect(() => {
+    let isMounted = true; // 防止组件卸载后更新状态
+
+    const fetchAvatar = () => {
+      listFile(`avatar/${user.uuid}/`)
+        .then((files) => {
+          const imageFiles = files.filter((file) =>
+            /\.(jpe?g|png)$/i.test(file.Key),
+          );
+          if (imageFiles.length > 0) {
+            const firstImage = imageFiles[0];
+            return getAvatarUrl(firstImage.Key);
+          } else {
+            setImageUrl("/UserOutlined.png"); // 替换为默认头像 URL
+            return null;
+          }
+        })
+        .then((url) => {
+          if (url && isMounted) {
+            setImageUrl(url);
+          }
+        })
+        .catch((error) => {
+          if (isMounted) {
+            console.error("Failed to load avatar:", error);
+            message.error("加载头像失败");
+          }
+        })
+        .finally(() => {
+          // 调用下次请求
+          if (isMounted) {
+            setTimeout(fetchAvatar, 500); // 请求完成后延迟0.5秒再发起下一个请求
+          }
+        });
+    };
+    // 初次请求
+    fetchAvatar();
+    // 清理函数，避免组件卸载时执行更新操作
+    return () => {
+      isMounted = false;
+    };
+  }, [user.uuid]);
+
   const contestRef = useRef(null);
   const infoRef = useRef(null);
   const shareRef = useRef(null);
