@@ -1,23 +1,58 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { Layout, Spin, Card } from "antd";
-// import { ApartmentOutlined, TrophyOutlined } from "@ant-design/icons";
+import { Layout, Spin, Card, Tooltip } from "antd";
 import styled from "styled-components";
 import { Route, Navigate, Routes, useNavigate } from "react-router-dom";
 import NewsPage from "./NewsPage";
 import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
-// import { request } from "http";
-// import DivisionPage from "./DivisionPage";
-// import ContestPage from "./ContestPage";
 
+// 类型接口
 interface CardComponentProps {
   onClick: () => void;
   imageSrc?: string;
   text: string;
 }
 
-const StyledCard = styled(Card)`
+// 滚动容器的共同属性
+interface ScrollContainerProps {
+  children: React.ReactNode;
+  scrollSpeed?: number;
+  pauseOnHover?: boolean;
+}
+
+// 基础容器样式
+const Container = styled.div`
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+// 滚动容器样式
+const ScrollContainer = styled.div`
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  height: auto;
+  align-items: center;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > * {
+    flex-shrink: 0;
+    width: 350px;
+    height: 490px;
+  }
+`;
+
+// 卡片组件样式
+const StyledCard = styled(Card)<{ hasImage?: boolean }>`
   width: 350px;
   height: 490px;
   margin: 10px;
@@ -43,169 +78,112 @@ const CardComponent: React.FC<CardComponentProps> = ({
   imageSrc,
   text,
 }) => (
-  <StyledCard onClick={onClick}>
-    {imageSrc ? (
-      <img
-        src={imageSrc}
-        alt={text}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          borderRadius: "inherit",
-        }}
-      />
-    ) : null}
-  </StyledCard>
+  <Tooltip title={"点击查看详情"}>
+    <StyledCard onClick={onClick} hasImage={!!imageSrc}>
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt={text}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "inherit",
+          }}
+        />
+      )}
+    </StyledCard>
+  </Tooltip>
 );
 
-const Container = styled.div`
-  height: auto;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const InfiniteScrollContainer: React.FC<ScrollContainerProps> = ({
+  children,
+  scrollSpeed = 0.5, // 默认滚动速度
+  pauseOnHover = true,
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isScrolling] = useState(false);
+  const [content, setContent] = useState<React.ReactNode[]>([]); // To hold original and cloned content
+  const isPaused = useRef(false);
+  const animationFrameRef = useRef<number>(null);
+
+  useEffect(() => {
+    // Set the content (original + duplicate) only when the children change
+    setContent((prev) => [
+      ...React.Children.toArray(children),
+      ...React.Children.toArray(children), // duplicate content for scrolling effect
+    ]);
+  }, [children]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Scroll animation function
+    const scrollAnimation = () => {
+      if (!isPaused.current && !isScrolling && container) {
+        container.scrollLeft += scrollSpeed;
+
+        // When scroll reaches the half point, reset to the start for infinite effect
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft = 0;
+        }
+      }
+      animationFrameRef.current = requestAnimationFrame(scrollAnimation);
+    };
+
+    // Event listeners to pause scrolling on hover
+    if (pauseOnHover) {
+      container.addEventListener("mouseenter", () => {
+        isPaused.current = true;
+      });
+      container.addEventListener("mouseleave", () => {
+        isPaused.current = false;
+      });
+    }
+
+    // Start scroll animation
+    animationFrameRef.current = requestAnimationFrame(scrollAnimation);
+
+    // Cleanup on unmount
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [scrollSpeed, pauseOnHover, isScrolling]);
+
+  return <ScrollContainer ref={containerRef}>{content}</ScrollContainer>;
+};
+
+// 标题组件样式
+const SectionTitle = styled.h2`
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding-left: 8px;
+  border-left: 4px solid #1890ff;
 `;
 
-const ScrollContainer = styled.div`
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 0% 0% 0% 0%;
-  display: flex;
-  gap: 16px;
-  height: auto;
-  align-items: center;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  & > * {
-    flex-shrink: 0;
-    width: 350px;
-    height: 490px;
-  }
-`;
-
+// 主页面组件
 const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
-  const containerRef1 = useRef<HTMLDivElement>(null);
-  const containerRef2 = useRef<HTMLDivElement>(null);
-  const [isUserScrolling1, setIsUserScrolling1] = useState(false);
-  const [isUserScrolling2, setIsUserScrolling2] = useState(false);
-  const isPausedRef1 = useRef(false);
-  const isPausedRef2 = useRef(false);
-
-  const scrollTimeoutRef1 = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const scrollTimeoutRef2 = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const container = containerRef1.current;
-    if (!container) return;
-
-    const scrollStep = 1;
-
-    const autoScroll = () => {
-      if (!isPausedRef1.current && !isUserScrolling1) {
-        container.scrollLeft += scrollStep;
-      }
-      requestAnimationFrame(autoScroll);
-    };
-
-    const handleMouseEnter = () => (isPausedRef1.current = true);
-    const handleMouseLeave = () => (isPausedRef1.current = false);
-
-    const handleUserScroll = () => {
-      setIsUserScrolling1(true);
-      if (scrollTimeoutRef1.current) clearTimeout(scrollTimeoutRef1.current);
-      scrollTimeoutRef1.current = setTimeout(() => {
-        setIsUserScrolling1(false);
-      }, 1000);
-    };
-
-    container.addEventListener("mouseenter", handleMouseEnter);
-    container.addEventListener("mouseleave", handleMouseLeave);
-    container.addEventListener("scroll", handleUserScroll);
-
-    requestAnimationFrame(autoScroll);
-
-    return () => {
-      if (scrollTimeoutRef1.current) clearTimeout(scrollTimeoutRef1.current);
-      container.removeEventListener("scroll", handleUserScroll);
-      container.removeEventListener("mouseenter", handleMouseEnter);
-      container.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
-  useEffect(() => {
-    const container = containerRef2.current;
-    if (!container) return;
-
-    const scrollStep = 1;
-
-    const autoScroll = () => {
-      if (!isPausedRef2.current && !isUserScrolling2) {
-        container.scrollLeft += scrollStep;
-      }
-      requestAnimationFrame(autoScroll);
-    };
-
-    const handleMouseEnter = () => (isPausedRef2.current = true);
-    const handleMouseLeave = () => (isPausedRef2.current = false);
-
-    const handleUserScroll = () => {
-      setIsUserScrolling2(true);
-      if (scrollTimeoutRef2.current) clearTimeout(scrollTimeoutRef2.current);
-      scrollTimeoutRef2.current = setTimeout(() => {
-        setIsUserScrolling2(false);
-      }, 1000);
-    };
-
-    container.addEventListener("mouseenter", handleMouseEnter);
-    container.addEventListener("mouseleave", handleMouseLeave);
-    container.addEventListener("scroll", handleUserScroll);
-
-    requestAnimationFrame(autoScroll);
-
-    return () => {
-      if (scrollTimeoutRef2.current) clearTimeout(scrollTimeoutRef2.current);
-      container.removeEventListener("scroll", handleUserScroll);
-      container.removeEventListener("mouseenter", handleMouseEnter);
-      container.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
+  const navigate = useNavigate();
   const { Content } = Layout;
 
-  const Loading = () => {
-    return (
-      <Container>
-        <Spin size="large" />
-      </Container>
-    );
-  };
+  // 加载组件
+  const Loading = () => (
+    <Container>
+      <Spin size="large" />
+    </Container>
+  );
 
-  // const items = [
-  // {
-  // key: "news",
-  // icon: <SwitcherOutlined />,
-  // label: <Link to={url.link("news")}>动态</Link>,
-  // },
-  // ];
-
-  const navigate = useNavigate();
-
-  const handleCardClick_division = (tab: string) => {
-    navigate("/share/division", {
-      replace: true,
-      state: { tab },
-    });
-  };
-
-  const handleCardClick_contest = (tab: string) => {
-    navigate("/share/contest", {
+  // 导航处理函数
+  const handleCardClick = (type: "division" | "contest", tab: string) => {
+    navigate(`/share/${type}`, {
       replace: true,
       state: { tab },
     });
@@ -213,18 +191,8 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
 
   return (
     <Layout>
-      {/* 页面头部注释掉的导航菜单 */}
-      {/* <StyledHeader>
-      <StyledMenu
-        theme="light"
-        mode="horizontal"
-        selectedKeys={[url.page]}
-        items={items}
-      />
-    </StyledHeader> */}
-
       <Content>
-        {/* 路由内容 */}
+        {/* 路由配置 */}
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<Navigate to={url.link("news")} />} />
@@ -233,80 +201,84 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
           </Routes>
         </Suspense>
 
-        {/* 页面间距 */}
         <br />
         <br />
 
-        {/* 内容区 */}
+        {/* 内容区域 */}
         <div style={{ width: "100%", maxWidth: "90vw", margin: "0 auto" }}>
-          <ScrollContainer ref={containerRef1}>
+          {/* 部门展示区 */}
+          <SectionTitle>部门</SectionTitle>
+          <InfiniteScrollContainer scrollSpeed={1.5}>
             {/* 部门卡片 */}
             <CardComponent
-              onClick={() => handleCardClick_division("1")}
-              imageSrc={"/software_cover.jpg"}
+              onClick={() => handleCardClick("division", "1")}
+              imageSrc="/software_cover.jpg"
               text="软件部"
             />
             <CardComponent
-              onClick={() => handleCardClick_division("2")}
-              imageSrc={"/hardware_cover.jpg"}
+              onClick={() => handleCardClick("division", "2")}
+              imageSrc="/hardware_cover.jpg"
               text="硬件部"
             />
             <CardComponent
-              onClick={() => handleCardClick_division("3")}
-              imageSrc={"/project_cover.jpg"}
+              onClick={() => handleCardClick("division", "3")}
+              imageSrc="/project_cover.jpg"
               text="项目部"
             />
             <CardComponent
-              onClick={() => handleCardClick_division("4")}
-              imageSrc={"/training_cover.jpg"}
+              onClick={() => handleCardClick("division", "4")}
+              imageSrc="/training_cover.jpg"
               text="学培部"
             />
             <CardComponent
-              onClick={() => handleCardClick_division("5")}
-              imageSrc={"/publicity_cover.jpg"}
+              onClick={() => handleCardClick("division", "5")}
+              imageSrc="/publicity_cover.jpg"
               text="宣策部"
             />
-          </ScrollContainer>
+          </InfiniteScrollContainer>
+
           <br />
           <br />
-          <ScrollContainer ref={containerRef2}>
-            {/* 比赛卡片 */}
+
+          {/* 比赛展示区
+          <SectionTitle>比赛</SectionTitle>
+          <InfinteScrollContainer scrollSpeed={1}>
             <CardComponent
-              onClick={() => handleCardClick_contest("1")}
-              imageSrc={"/team_cover.jpg"}
+              onClick={() => handleCardClick('contest', "1")}
+              imageSrc="/team_cover.jpg"
               text="队式程序设计大赛"
             />
             <CardComponent
-              onClick={() => handleCardClick_contest("2")}
-              imageSrc={"/hard_cover.jpg"}
+              onClick={() => handleCardClick('contest', "2")}
+              imageSrc="/hard_cover.jpg"
               text="硬件设计大赛"
             />
             <CardComponent
-              onClick={() => handleCardClick_contest("3")}
-              imageSrc={"/soft_cover.jpg"}
+              onClick={() => handleCardClick('contest', "3")}
+              imageSrc="/soft_cover.jpg"
               text="软件设计大赛"
             />
             <CardComponent
-              onClick={() => handleCardClick_contest("4")}
-              imageSrc={"/drone_cover.jpg"}
+              onClick={() => handleCardClick('contest', "4")}
+              imageSrc="/drone_cover.jpg"
               text="智能无人机挑战赛"
             />
             <CardComponent
-              onClick={() => handleCardClick_contest("5")}
-              imageSrc={"/knowledge_cover.jpg"}
+              onClick={() => handleCardClick('contest', "5")}
+              imageSrc="/knowledge_cover.jpg"
               text="新生知识竞赛"
             />
             <CardComponent
-              onClick={() => handleCardClick_contest("6")}
-              imageSrc={"/challenge_cover.jpg"}
+              onClick={() => handleCardClick('contest', "6")}
+              imageSrc="/challenge_cover.jpg"
               text="挑战杯"
             />
             <CardComponent
-              onClick={() => handleCardClick_contest("7")}
-              imageSrc={"/electronic_cover.jpg"}
+              onClick={() => handleCardClick('contest', "7")}
+              imageSrc="/electronic_cover.jpg"
               text="电子设计大赛"
             />
-          </ScrollContainer>
+          </InfinteScrollContainer> */}
         </div>
       </Content>
     </Layout>
