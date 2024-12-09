@@ -134,17 +134,15 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
                         {dayjs(contestTime.end).format("YYYY-MM-DD")}
                       </p>
                       <p style={{ color: isPastEvent ? "grey" : "inherit" }}>
-                        {index === contestTimes.length - 1
-                          ? contestTime.description && (
-                              <a
-                                href={contestTime.description}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                {contestTime.description}
-                              </a>
-                            )
-                          : contestTime.description}
+                        {contestTime.description && (
+                          <a
+                            href={contestTime.description}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {contestTime.description}
+                          </a>
+                        )}
                       </p>
                     </>
                   ),
