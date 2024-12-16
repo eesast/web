@@ -12,6 +12,8 @@ import {
   Dropdown,
   MenuProps,
   Typography,
+  ConfigProvider,
+  Tooltip,
 } from "antd";
 import {
   LikeOutlined,
@@ -26,11 +28,14 @@ import {
   ExclamationCircleOutlined,
   PlusOutlined,
   DownOutlined,
+  CheckCircleOutlined,
+  StopOutlined,
 } from "@ant-design/icons";
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import dayjs from "dayjs";
 import styled from "styled-components";
+// import { courseAdminRoles } from "../../Components/Authenticate";
 /* ---------------- 接口和类型定义 ---------------- */
 interface Comment {
   comment: string;
@@ -42,6 +47,7 @@ interface Comment {
   user: {
     username?: any;
   };
+  display: boolean;
   deleted: boolean;
 }
 
@@ -198,6 +204,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [sortMode, setSortMode] = useState("1");
   const [sortTrend, setSortTrend] = useState("1");
   const [displayOption, setDisplayOption] = useState("1");
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deleteCommentUuid, setDeleteCommentUuid] = useState("");
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { refetch: getCourseCommentRefetch } =
@@ -232,6 +240,11 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         comment_uuid: "",
       },
     });
+  const { data: courseManagerData } = graphql.useGetCourseManagerQuery({
+    variables: {
+      user_uuid: user.uuid,
+    },
+  });
   const [addCourseComment] = graphql.useAddCourseCommentOneMutation();
   const [updateCourseComment] = graphql.useUpdateCourseCommentMutation();
   const [deleteCourseComment] = graphql.useDeleteCourseCommentOneMutation();
@@ -241,6 +254,9 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [addCourseCommentLikes] = graphql.useAddCourseCommentLikesMutation();
   const [deleteCourseCommentLikes] =
     graphql.useDeleteCourseCommentLikesMutation();
+  const [displayCourseComment] = graphql.useDisplayCourseCommentOneMutation();
+  const [batchDisplayCourseComments] =
+    graphql.useDisplayCourseCommentsMutation();
 
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
@@ -258,6 +274,46 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   }, [course_uuid]);
 
   /* ---------------- 业务逻辑函数 ---------------- */
+  const handleToggleDisplay = async (uuid: string, shouldDisplay: boolean) => {
+    try {
+      await displayCourseComment({
+        variables: {
+          uuid,
+          shouldDisplay,
+        },
+      });
+
+      // 更新本地状态
+      commentsRef.current = commentsRef.current.map((item) =>
+        item.uuid === uuid
+          ? {
+              ...item,
+              display: shouldDisplay,
+            }
+          : item,
+      );
+
+      // 更新过滤后的评论列表
+      setComments(
+        commentsRef.current.filter(
+          (item) =>
+            !item.deleted &&
+            (courseManagerData?.course_manager_by_pk ||
+              item.display ||
+              item.user_uuid === user.uuid),
+        ),
+      );
+
+      // 重新排序评论
+      handleSortComments(sortMode, sortTrend);
+
+      // 显示操作成功提示
+      message.success(shouldDisplay ? "评论已精选" : "已取消精选");
+    } catch (error) {
+      console.error("切换评论显示状态时出错:", error);
+    }
+  };
+
   const handleGetCourseComment = async (loadAncillary: boolean = true) => {
     setIsRotating(true);
     setRotateDegree(0);
@@ -299,7 +355,16 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       await handleGetCourseCommentLikes();
       await handleGetCommentReplies();
     }
-    setComments(commentsRef.current.filter((item) => !item.deleted));
+    // 在 handleGetCourseComment 函数中
+    setComments(
+      commentsRef.current.filter(
+        (item) =>
+          !item.deleted &&
+          (courseManagerData?.course_manager_by_pk ||
+            item.display ||
+            item.user_uuid === user.uuid),
+      ),
+    );
     handleSortComments(sortMode, sortTrend);
 
     setTimeout(() => {
@@ -310,7 +375,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
 
   const handleGetCourseCommentStars = async () => {
     commentsRef.current.forEach(async (comment) => {
-      if (comment.deleted) {
+      if (comment.deleted || !comment.display) {
         return;
       }
       const { data, error } = await getCourseCommentStarsRefetch({
@@ -330,7 +395,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
 
   const handleGetCourseCommentLikes = async () => {
     commentsRef.current.forEach(async (comment) => {
-      if (comment.deleted) {
+      if (comment.deleted || !comment.display) {
         return;
       }
       const { data, error } = await getCourseCommentLikesRefetch({
@@ -350,13 +415,14 @@ const DiscussDrawer: React.FC<CourseProps> = ({
 
   const handleGetCommentReplies = () => {
     commentsRef.current.forEach((comment) => {
-      if (comment.deleted) {
+      if (comment.deleted || !comment.display) {
         return;
       }
       setCommentsReplies((prev) => ({
         ...prev,
         [comment.uuid]: commentsRef.current.filter(
-          (item) => item.parent_uuid === comment.uuid && !item.deleted,
+          (item) =>
+            item.parent_uuid === comment.uuid && !item.deleted && item.display,
         ),
       }));
     });
@@ -498,7 +564,15 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       );
       setUpdateComment("");
       setUpdateCommentModalVisible(false);
-      setComments(commentsRef.current.filter((item) => !item.deleted));
+      setComments(
+        commentsRef.current.filter(
+          (item) =>
+            !item.deleted &&
+            (courseManagerData?.course_manager_by_pk ||
+              item.display ||
+              item.user_uuid === user.uuid),
+        ),
+      );
       handleSortComments(sortMode, sortTrend);
       handleGetCommentReplies();
       message.success("评论已经更新");
@@ -587,7 +661,15 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   };
 
   const handleSortComments = (mode: string, trend: string) => {
-    const sorted = [...commentsRef.current.filter((item) => !item.deleted)];
+    const sorted = [
+      ...commentsRef.current.filter(
+        (item) =>
+          !item.deleted &&
+          (courseManagerData?.course_manager_by_pk ||
+            item.display ||
+            item.user_uuid === user.uuid),
+      ),
+    ];
     switch (mode) {
       case "1":
         sorted.sort(
@@ -642,27 +724,97 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     setCommentsSorted(sorted);
   };
 
-  const { confirm } = Modal;
-  const showDeleteConfirm = (uuid: string) => {
-    confirm({
-      title: "确认删除?",
-      icon: <ExclamationCircleOutlined />,
-      content: "删除后将无法恢复",
-      okText: "是的",
-      okType: "danger",
-      cancelText: "取消",
-      onOk() {
-        handleDeleteCourseComment(uuid);
-      },
-      onCancel() {
-        console.log("取消删除操作");
-      },
-    });
+  const handleBatchDisplay = async () => {
+    try {
+      await batchDisplayCourseComments({
+        variables: {
+          course_uuid: course_uuid,
+          shouldDisplay: true,
+        },
+      });
+
+      // 更新本地状态
+      commentsRef.current = commentsRef.current.map((item) => ({
+        ...item,
+        display: true,
+      }));
+
+      // 更新显示的评论列表
+      setComments(
+        commentsRef.current.filter(
+          (item) =>
+            !item.deleted &&
+            (courseManagerData?.course_manager_by_pk ||
+              item.display ||
+              item.user_uuid === user.uuid),
+        ),
+      );
+
+      // 重新排序评论
+      handleSortComments(sortMode, sortTrend);
+
+      message.success("已精选全部评论");
+    } catch (error) {
+      console.error("批量精选评论时出错:", error);
+      message.error("操作失败，请重试");
+    }
   };
+  const handleBatchUnDisplay = async () => {
+    try {
+      await batchDisplayCourseComments({
+        variables: {
+          course_uuid: course_uuid,
+          shouldDisplay: false,
+        },
+      });
+
+      // 更新本地状态
+      commentsRef.current = commentsRef.current.map((item) => ({
+        ...item,
+        display: false,
+      }));
+
+      // 更新显示的评论列表
+      setComments(
+        commentsRef.current.filter(
+          (item) =>
+            !item.deleted &&
+            (courseManagerData?.course_manager_by_pk ||
+              item.display ||
+              item.user_uuid === user.uuid),
+        ),
+      );
+
+      // 重新排序评论
+      handleSortComments(sortMode, sortTrend);
+
+      message.success("已取消全部精选");
+    } catch (error) {
+      console.error("批量取消精选评论时出错:", error);
+      message.error("操作失败，请重试");
+    }
+  };
+
+  // const showDeleteConfirm = (uuid: string) => {
+  //   Modal.confirm({
+  //     title: "确认删除?",
+  //     icon: <ExclamationCircleOutlined />,
+  //     content: "删除后将无法恢复",
+  //     okText: "是的",
+  //     okType: "danger",
+  //     cancelText: "取消",
+  //     onOk() {
+  //       handleDeleteCourseComment(uuid);
+  //     },
+  //     onCancel() {
+  //       console.log("取消删除操作");
+  //     },
+  //   });
+  // };
 
   /* ---------------- 页面组件 ---------------- */
   return (
-    <>
+    <ConfigProvider wave={{ disabled: true }}>
       <Badge count={comments?.length ?? 0}>
         <Button
           type="primary"
@@ -727,6 +879,32 @@ const DiscussDrawer: React.FC<CourseProps> = ({
             </Space>
 
             <Space>
+              {courseManagerData?.course_manager_by_pk && (
+                <Space size={4}>
+                  <Tooltip title="全部精选">
+                    <Button
+                      type="link"
+                      icon={
+                        <CheckCircleOutlined
+                          style={{ fontSize: "1.4em", color: "#52c41a" }}
+                        />
+                      }
+                      onClick={handleBatchDisplay}
+                    />
+                  </Tooltip>
+                  <Tooltip title="取消全部精选">
+                    <Button
+                      type="link"
+                      icon={
+                        <StopOutlined
+                          style={{ fontSize: "1.4em", color: "#ff4d4f" }}
+                        />
+                      }
+                      onClick={handleBatchUnDisplay}
+                    />
+                  </Tooltip>
+                </Space>
+              )}
               <Button
                 type="link"
                 icon={
@@ -779,7 +957,22 @@ const DiscussDrawer: React.FC<CourseProps> = ({
             footer={
               <div>
                 <center>
-                  <b>{comments?.length ?? 0} </b> 条评论
+                  <b>
+                    {commentsRef.current.filter(
+                      (item) => !item.deleted && item.display,
+                    ).length ?? 0}{" "}
+                  </b>{" "}
+                  条精选评论
+                  {courseManagerData?.course_manager_by_pk && (
+                    <>
+                      {" / "}
+                      <b>
+                        {commentsRef.current.filter((item) => !item.deleted)
+                          .length ?? 0}
+                      </b>{" "}
+                      条总评论
+                    </>
+                  )}
                 </center>
               </div>
             }
@@ -867,18 +1060,35 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                   ),
                 ]}
                 extra={[
-                  (user.role === "admin" || item.user_uuid === user.uuid) && (
-                    <>
+                  <>
+                    {courseManagerData?.course_manager_by_pk && (
+                      <IconText
+                        icon={() => (
+                          <Badge
+                            status={item.display ? "success" : "default"}
+                            text={item.display ? "已精选" : "精选"}
+                          />
+                        )}
+                        text=""
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleToggleDisplay(item.uuid, !item.display);
+                        }}
+                      />
+                    )}
+                    {(user.role === "admin" ||
+                      item.user_uuid === user.uuid) && (
                       <IconText
                         icon={DeleteOutlined}
                         text=""
                         onClick={(e) => {
                           e.stopPropagation();
-                          showDeleteConfirm(item.uuid);
+                          setDeleteModalVisible(true);
+                          setDeleteCommentUuid(item.uuid);
                         }}
                       />
-                    </>
-                  ),
+                    )}
+                  </>,
                 ]}
               >
                 <List.Item.Meta
@@ -1082,17 +1292,35 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                   ),
                 ]}
                 extra={[
-                  (user.role === "admin" || item.user_uuid === user.uuid) && (
-                    <>
+                  <>
+                    {courseManagerData?.course_manager_by_pk && (
+                      <IconText
+                        icon={() => (
+                          <Badge
+                            status={item.display ? "success" : "default"}
+                            text={item.display ? "已精选" : "精选"}
+                          />
+                        )}
+                        text=""
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleToggleDisplay(item.uuid, !item.display);
+                        }}
+                      />
+                    )}
+                    {(user.role === "admin" ||
+                      item.user_uuid === user.uuid) && (
                       <IconText
                         icon={DeleteOutlined}
                         text=""
-                        onClick={() => {
-                          showDeleteConfirm(item.uuid);
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeleteModalVisible(true);
+                          setDeleteCommentUuid(item.uuid);
                         }}
                       />
-                    </>
-                  ),
+                    )}
+                  </>,
                 ]}
               >
                 <List.Item.Meta
@@ -1193,7 +1421,25 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           onChange={(e) => setUpdateComment(e.target.value)}
         />
       </Modal>
-    </>
+      <Modal
+        title="确认删除?"
+        centered
+        open={deleteModalVisible}
+        onOk={() => {
+          handleDeleteCourseComment(deleteCommentUuid);
+          setDeleteModalVisible(false);
+        }}
+        onCancel={() => setDeleteModalVisible(false)}
+        okText="是的"
+        cancelText="取消"
+        okButtonProps={{ danger: true }}
+      >
+        <ExclamationCircleOutlined
+          style={{ color: "#faad14", marginRight: "8px" }}
+        />
+        删除后将无法恢复
+      </Modal>
+    </ConfigProvider>
   );
 };
 

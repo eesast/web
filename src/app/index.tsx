@@ -495,6 +495,7 @@ const App: React.FC = () => {
         algorithm:
           mode === "light" ? theme.defaultAlgorithm : theme.darkAlgorithm,
       }}
+      wave={{ disabled: true }}
     >
       <TourGuide />
       <Layout>
