@@ -35,6 +35,7 @@ import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import dayjs from "dayjs";
 import styled from "styled-components";
+import { listFile, getAvatarUrl } from "../../../api/cos";
 // import { courseAdminRoles } from "../../Components/Authenticate";
 /* ---------------- 接口和类型定义 ---------------- */
 interface Comment {
@@ -206,6 +207,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [displayOption, setDisplayOption] = useState("1");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteCommentUuid, setDeleteCommentUuid] = useState("");
+  const [commentsRepliesAvatars, setCommentsRepliesAvatars] = useState<
+    string[]
+  >([]);
+  const [avatarSource1, setAvatarsSource1] = useState<string[]>([]);
+  const [avatarSource2, setAvatarsSource2] = useState<string[]>([]);
+  const [avatarSource3, setAvatarsSource3] = useState<string[]>([]);
+  const avatarCache: { [userId: string]: string } = {}; // 头像缓存
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { refetch: getCourseCommentRefetch } =
@@ -272,6 +280,118 @@ const DiscussDrawer: React.FC<CourseProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course_uuid]);
+
+  useEffect(() => {
+    const fetchAvatar = async (userId: string | null | undefined) => {
+      if (userId && avatarCache[userId]) {
+        return avatarCache[userId];
+      }
+      try {
+        const files = await listFile(`avatar/${userId}/`);
+        const imageFiles = files.filter((file) =>
+          /\.(jpe?g|png)$/i.test(file.Key),
+        );
+        let avatarUrl = "/UserOutlined.png";
+        if (imageFiles.length > 0) {
+          const firstImage = imageFiles[0];
+          avatarUrl = await getAvatarUrl(firstImage.Key);
+        }
+        if (userId) {
+          avatarCache[userId] = avatarUrl;
+        }
+        return avatarUrl;
+      } catch (error) {
+        console.error("Failed to load avatar:", error);
+        return "/UserOutlined.png";
+      }
+    };
+
+    const fetchRepliesAvatars = async () => {
+      const replies = commentsReplies[currentComment?.uuid ?? ""] ?? [];
+      const avatars: string[] = [];
+
+      for (let i = 0; i < replies.length; i++) {
+        const item = replies[i];
+        if (item) {
+          if (item.user_uuid) {
+            const avatar = await fetchAvatar(item.user_uuid);
+            avatars.push(avatar);
+          } else {
+            avatars.push("/UserOutlined.png");
+          }
+        } else {
+          avatars.push("/UserOutlined.png");
+        }
+      }
+      setCommentsRepliesAvatars(avatars);
+    };
+    fetchRepliesAvatars();
+
+    const fetchAvatarsSource1 = async () => {
+      const replies = commentsSorted;
+      const avatars: string[] = [];
+
+      for (let i = 0; i < replies.length; i++) {
+        const item = replies[i];
+        if (item) {
+          if (item.user_uuid) {
+            const avatar = await fetchAvatar(item.user_uuid);
+            avatars.push(avatar);
+          } else {
+            avatars.push("/UserOutlined.png");
+          }
+        } else {
+          avatars.push("/UserOutlined.png");
+        }
+      }
+      setAvatarsSource1(avatars);
+    };
+    fetchAvatarsSource1();
+
+    const fetchAvatarsSource2 = async () => {
+      const replies = commentsSorted.filter((item) => !item.parent_uuid);
+      const avatars: string[] = [];
+
+      for (let i = 0; i < replies.length; i++) {
+        const item = replies[i];
+        if (item) {
+          if (item.user_uuid) {
+            const avatar = await fetchAvatar(item.user_uuid);
+            avatars.push(avatar);
+          } else {
+            avatars.push("/UserOutlined.png");
+          }
+        } else {
+          avatars.push("/UserOutlined.png");
+        }
+      }
+      setAvatarsSource2(avatars);
+    };
+    fetchAvatarsSource2();
+
+    const fetchAvatarsSource3 = async () => {
+      const replies = commentsSorted.filter((item) =>
+        commentsStared.includes(item.uuid),
+      );
+      const avatars: string[] = [];
+
+      for (let i = 0; i < replies.length; i++) {
+        const item = replies[i];
+        if (item) {
+          if (item.user_uuid) {
+            const avatar = await fetchAvatar(item.user_uuid);
+            avatars.push(avatar);
+          } else {
+            avatars.push("/UserOutlined.png");
+          }
+        } else {
+          avatars.push("/UserOutlined.png");
+        }
+      }
+      setAvatarsSource3(avatars);
+    };
+    fetchAvatarsSource3();
+  }, [currentComment, commentsReplies, commentsSorted, commentsStared]);
 
   /* ---------------- 业务逻辑函数 ---------------- */
   const handleToggleDisplay = async (uuid: string, shouldDisplay: boolean) => {
@@ -1106,9 +1226,14 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         width: "40px",
                         height: "40px",
                       }}
-                    >
-                      {item.user.username?.slice(-2) ?? "匿名"}
-                    </Avatar>
+                      src={
+                        displayOption === "1"
+                          ? avatarSource1[index]
+                          : displayOption === "2"
+                            ? avatarSource2[index]
+                            : avatarSource3[index]
+                      }
+                    ></Avatar>
                   }
                   title={<>{item.user.username ?? "anonymous"}</>}
                   description={
@@ -1201,7 +1326,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
             itemLayout="vertical"
             size="large"
             dataSource={commentsReplies[currentComment?.uuid ?? ""] ?? []}
-            renderItem={(item) => (
+            renderItem={(item, index) => (
               <List.Item
                 key={item.user_uuid}
                 style={{
@@ -1338,9 +1463,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         width: "40px",
                         height: "40px",
                       }}
-                    >
-                      {item.user.username?.slice(-2) ?? "匿名"}
-                    </Avatar>
+                      src={commentsRepliesAvatars[index]}
+                    ></Avatar>
                   }
                   title={item.user.username ?? "anonymous"}
                   description={
