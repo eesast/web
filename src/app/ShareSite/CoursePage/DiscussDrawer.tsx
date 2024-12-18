@@ -213,7 +213,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [avatarSource1, setAvatarsSource1] = useState<string[]>([]);
   const [avatarSource2, setAvatarsSource2] = useState<string[]>([]);
   const [avatarSource3, setAvatarsSource3] = useState<string[]>([]);
-  const avatarCache: { [userId: string]: string } = {}; // 头像缓存
+  const avatarCacheRef = useRef<{ [key: string]: string }>({});
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { refetch: getCourseCommentRefetch } =
@@ -283,8 +283,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
 
   useEffect(() => {
     const fetchAvatar = async (userId: string | null | undefined) => {
-      if (userId && avatarCache[userId]) {
-        return avatarCache[userId];
+      if (userId && avatarCacheRef.current && avatarCacheRef.current[userId]) {
+        return avatarCacheRef.current[userId];
       }
       try {
         const files = await listFile(`avatar/${userId}/`);
@@ -297,7 +297,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           avatarUrl = await getAvatarUrl(firstImage.Key);
         }
         if (userId) {
-          avatarCache[userId] = avatarUrl;
+          avatarCacheRef.current[userId] = avatarUrl;
         }
         return avatarUrl;
       } catch (error) {
