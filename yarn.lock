@@ -27,12 +27,12 @@
   dependencies:
     lodash "^4.17.21"
 
-"@ant-design/charts@2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.2.4.tgz#0a1ee0f375c41baa665c9e1d5cb5e6e1e2b035bf"
-  integrity sha512-bo4FbBSkz/hhCcbdK/Mmk++dU8rLKV/QbyEQ8okJuBqs40ndo637Cc7xzO/sj1hKMmot8KoXlmtWjdrX0nSOmQ==
+"@ant-design/charts@2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.2.5.tgz#e0067e675aeae54cbfed4f1e31a0bee31a8f6a76"
+  integrity sha512-3N8CmlkxoN7lWDtl7WShJnw3M/vKI74FnWD9znJszioZkQWShgOfW6AbK/EYk18BWDyu0JLRuQknRftS9HC+NQ==
   dependencies:
-    "@ant-design/graphs" "^2.0.2"
+    "@ant-design/graphs" "^2.0.3"
     "@ant-design/plots" "^2.3.2"
     lodash "^4.17.21"
     react "^18.3.1"
@@ -74,10 +74,10 @@
   dependencies:
     "@babel/runtime" "^7.24.7"
 
-"@ant-design/graphs@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.0.2.tgz#d1593073108c2c6e81a8b61b040ccb5364d67912"
-  integrity sha512-Avz+reDVGFIgPCdkfrSwnRDKEyZvZnFhpExLPBVRr2YP34xeA8iy9IB9Nmt4TUrH95njVYAvmk9pnnhDUMzjGQ==
+"@ant-design/graphs@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.0.3.tgz#d413f61071d39948a0ac3153d47bbf3a4afcd1bd"
+  integrity sha512-Wn0oIUJwCpa66e6HqM/i5UwsSE8vIXiIrhCAGNDWylq/R0TzMI4fNAGNnTiakU9PG575TDgl+Pii+VKfmXaHiQ==
   dependencies:
     "@ant-design/charts-util" "0.0.1-alpha.7"
     "@antv/g6" "^5.0.30"
