@@ -5444,12 +5444,12 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cos-js-sdk-v5@1.8.6:
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.8.6.tgz#cdd5d7af31a86d3c9fa3b18fc595c0f532a08d7c"
-  integrity sha512-FCygXb5cNQhlwmsGf5B5WnqFsx+cQiPW+I4SWjVg08IaSA+1Uu8VqpP+FI7+LIA9PoC3GpX6ehgV0olsfEnoHg==
+cos-js-sdk-v5@1.8.7:
+  version "1.8.7"
+  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.8.7.tgz#a8778b25da79bcc0d83d6d1e58eb3b906f9fdc62"
+  integrity sha512-KK3PYbUiLxcjvVhyvEeBQRWzDgAmuldDZQL1lTRM0aeQaI+hlm84xQQQyv+oIRxPnnAIleZF2vUgB4sJFUzcxQ==
   dependencies:
-    fast-xml-parser "^4.4.0"
+    fast-xml-parser "4.5.0"
 
 cosmiconfig@^6.0.0:
   version "6.0.0"
@@ -6949,7 +6949,7 @@ fast-uri@^3.0.1:
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-3.0.3.tgz#892a1c91802d5d7860de728f18608a0573142241"
   integrity sha512-aLrHthzCjH5He4Z2H9YZ+v6Ujb9ocRuW6ZzkJQOrTxleEijANq4v1TsaPaVG1PZcuurEzrLcWRyYBYXD5cEiaw==
 
-fast-xml-parser@^4.4.0:
+fast-xml-parser@4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.5.0.tgz#2882b7d01a6825dfdf909638f2de0256351def37"
   integrity sha512-/PlTQCI96+fZMAOLMZK4CWG1ItCbfZ/0jx7UIJFChPNrx7tcEgerUgWbeieCM9MfHInUDyK8DWYZ+YrywDJuTg==
