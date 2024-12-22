@@ -19,6 +19,7 @@ import {
   ExportOutlined,
   NotificationTwoTone,
   NotificationOutlined,
+  QuestionOutlined,
 } from "@ant-design/icons";
 import { Route, Link, Routes, Navigate } from "react-router-dom";
 import styled from "styled-components";
@@ -349,6 +350,39 @@ const App: React.FC = () => {
       </Link>
     );
   };
+  const TourGuideSite = () => {
+    return (
+      <Link
+        to={url.link("share/tourguide", "site")}
+        css={`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 32px;
+          width: 32px;
+          position: absolute;
+          right: 185px;
+        `}
+      >
+        <Button
+          style={{
+            width: "32px",
+            height: "32px",
+            border: "1px solid #ccc",
+            borderRadius: "50%",
+            background: "transparent",
+            padding: "0",
+            outline: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <QuestionOutlined style={{ fontSize: "20px" }} />
+        </Button>
+      </Link>
+    );
+  };
 
   const steps: TourProps["steps"] = [
     {
@@ -386,7 +420,7 @@ const App: React.FC = () => {
     },
     {
       title: "暗色模式",
-      description: "此外还有炫酷的暗色模式，即护眼又极客，快来体验一下吧！",
+      description: "此外还有炫酷的暗色模式，既护眼又极客，快来体验一下吧！",
       placement: "bottom",
       target: () => themeRef.current,
     },
@@ -423,6 +457,7 @@ const App: React.FC = () => {
           <Home />
           <Navigation />
           <ThemeSwitch />
+          <TourGuideSite />
           <NotificationSwitch />
           <User />
         </StyledHeader>

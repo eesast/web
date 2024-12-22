@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import { Layout, Menu, Spin } from "antd";
 import RepoPage from "./RepoPage";
@@ -10,6 +10,7 @@ import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import IntroPage from "./IntroPage";
 import MinecraftPage from "./MinecraftPage";
+import TourGuidePage from "./TourGuidePage";
 import Authenticate, { courseRoles } from "../Components/Authenticate";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
@@ -44,6 +45,7 @@ const Loading = () => {
 const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
+  const [currentmode, setCurrentMode] = useState(mode);
 
   const StyledHeader = styled(Header)`
     display: flex;
@@ -51,9 +53,11 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     z-index: 99;
     height: 48px;
     width: 100%;
-    background-color: ${mode === "light" ? `white` : `#141414`};
+    background-color: ${currentmode === "light" ? `white` : `#141414`};
     border-bottom: 1px solid
-      ${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
+      ${currentmode === "light"
+        ? `rgba(5, 5, 5, 0.06)`
+        : `rgba(253, 253, 253, 0.12)`};
     position: sticky;
     top: 72px;
   `;
@@ -81,6 +85,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
       key: "minecraft",
       label: <Link to={url.link("minecraft")}>Minecraft</Link>,
     },
+    {
+      key: "tourguide",
+      label: <Link to={url.link("tourguide")}>网站说明</Link>,
+    },
   ];
 
   if (courseRoles.includes(user.role)) {
@@ -107,24 +115,31 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             <Route path="/" element={<Navigate to={url.link("intro")} />} />
             <Route
               path="intro"
-              element={<IntroPage mode={mode} user={user} />}
+              element={<IntroPage mode={currentmode} user={user} />}
             />
             <Route
               path="course"
               element={
                 <Authenticate role={courseRoles} user={user}>
-                  <CoursePage mode={mode} user={user} />
+                  <CoursePage mode={currentmode} user={user} />
                 </Authenticate>
               }
             />
-            <Route path="repo" element={<RepoPage mode={mode} user={user} />} />
+            <Route
+              path="repo"
+              element={<RepoPage mode={currentmode} user={user} />}
+            />
             <Route
               path="weekly"
-              element={<WeeklyPage mode={mode} user={user} />}
+              element={<WeeklyPage mode={currentmode} user={user} />}
             />
             <Route
               path="minecraft"
-              element={<MinecraftPage mode={mode} user={user} />}
+              element={<MinecraftPage mode={currentmode} user={user} />}
+            />
+            <Route
+              path="tourguide"
+              element={<TourGuidePage mode={currentmode} user={user} />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
