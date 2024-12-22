@@ -14681,13 +14681,13 @@ export type AddCourseInfoMutationVariables = Exact<{
 
 export type AddCourseInfoMutation = { __typename?: 'mutation_root', insert_course_info_one?: { __typename?: 'course_info', course_id: any } | null };
 
-export type MyMutation3MutationVariables = Exact<{
+export type DeleteCourseInfoMutationVariables = Exact<{
   course_id: Scalars['uuid']['input'];
   key: Scalars['String']['input'];
 }>;
 
 
-export type MyMutation3Mutation = { __typename?: 'mutation_root', delete_course_info_by_pk?: { __typename?: 'course_info', course_id: any, key: string } | null };
+export type DeleteCourseInfoMutation = { __typename?: 'mutation_root', delete_course_info_by_pk?: { __typename?: 'course_info', course_id: any, key: string } | null };
 
 export type GetCourseManagerQueryVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
@@ -19141,41 +19141,41 @@ export function useAddCourseInfoMutation(baseOptions?: Apollo.MutationHookOption
 export type AddCourseInfoMutationHookResult = ReturnType<typeof useAddCourseInfoMutation>;
 export type AddCourseInfoMutationResult = Apollo.MutationResult<AddCourseInfoMutation>;
 export type AddCourseInfoMutationOptions = Apollo.BaseMutationOptions<AddCourseInfoMutation, AddCourseInfoMutationVariables>;
-export const MyMutation3Document = gql`
-    mutation MyMutation3($course_id: uuid!, $key: String!) {
+export const DeleteCourseInfoDocument = gql`
+    mutation DeleteCourseInfo($course_id: uuid!, $key: String!) {
   delete_course_info_by_pk(course_id: $course_id, key: $key) {
     course_id
     key
   }
 }
     `;
-export type MyMutation3MutationFn = Apollo.MutationFunction<MyMutation3Mutation, MyMutation3MutationVariables>;
+export type DeleteCourseInfoMutationFn = Apollo.MutationFunction<DeleteCourseInfoMutation, DeleteCourseInfoMutationVariables>;
 
 /**
- * __useMyMutation3Mutation__
+ * __useDeleteCourseInfoMutation__
  *
- * To run a mutation, you first call `useMyMutation3Mutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useMyMutation3Mutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteCourseInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCourseInfoMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [myMutation3Mutation, { data, loading, error }] = useMyMutation3Mutation({
+ * const [deleteCourseInfoMutation, { data, loading, error }] = useDeleteCourseInfoMutation({
  *   variables: {
  *      course_id: // value for 'course_id'
  *      key: // value for 'key'
  *   },
  * });
  */
-export function useMyMutation3Mutation(baseOptions?: Apollo.MutationHookOptions<MyMutation3Mutation, MyMutation3MutationVariables>) {
+export function useDeleteCourseInfoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCourseInfoMutation, DeleteCourseInfoMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<MyMutation3Mutation, MyMutation3MutationVariables>(MyMutation3Document, options);
+        return Apollo.useMutation<DeleteCourseInfoMutation, DeleteCourseInfoMutationVariables>(DeleteCourseInfoDocument, options);
       }
-export type MyMutation3MutationHookResult = ReturnType<typeof useMyMutation3Mutation>;
-export type MyMutation3MutationResult = Apollo.MutationResult<MyMutation3Mutation>;
-export type MyMutation3MutationOptions = Apollo.BaseMutationOptions<MyMutation3Mutation, MyMutation3MutationVariables>;
+export type DeleteCourseInfoMutationHookResult = ReturnType<typeof useDeleteCourseInfoMutation>;
+export type DeleteCourseInfoMutationResult = Apollo.MutationResult<DeleteCourseInfoMutation>;
+export type DeleteCourseInfoMutationOptions = Apollo.BaseMutationOptions<DeleteCourseInfoMutation, DeleteCourseInfoMutationVariables>;
 export const GetCourseManagerDocument = gql`
     query GetCourseManager($user_uuid: uuid!) {
   course_manager_by_pk(user_uuid: $user_uuid) {
