@@ -73,7 +73,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
-  const playerCount = contestPlayersData.contest_player.length;
+  const playerCount = contestPlayersData?.contest_player.length;
 
   //获取天梯队伍信息
   const { data: scoreteamListData, error: scoreteamListError } =
@@ -272,7 +272,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   }, [associatedValue, onlyCompiledTeams, playerCount, scoreteamListData]);
 
   /* ---------------- 业务逻辑函数 ---------------- */
-  const open = contestSwitchData.contest_by_pk?.arena_switch;
+  const open = contestSwitchData?.contest_by_pk?.arena_switch;
   //检查对手队伍是否满足对战条件
 
   //开启对战逻辑
@@ -336,10 +336,10 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
     oppTeamStatusRefetch({ team_id: item.team_id }).then((result) => {
       const playersCount =
-        result.data.contest_team_by_pk?.contest_team_players_aggregate.aggregate
-          ?.count;
+        result.data?.contest_team_by_pk?.contest_team_players_aggregate
+          .aggregate?.count;
       const requiredPlayersCount =
-        result.data.contest_team_by_pk?.contest.contest_players_aggregate
+        result.data?.contest_team_by_pk?.contest.contest_players_aggregate
           .aggregate?.count;
       if (playersCount !== requiredPlayersCount) {
         setOpponentTeamId(item.team_id);

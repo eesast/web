@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { FloatButton, Layout, Modal, Progress, Row, message } from "antd";
+import { FloatButton, Layout, Progress, Row, message } from "antd";
+// import { FloatButton, Layout, Modal, Progress, Row, message } from "antd";
 import { ArrowsAltOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import ReactRouterPrompt from "react-router-prompt";
+// import ReactRouterPrompt from "react-router-prompt";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import styled from "styled-components";
@@ -60,7 +61,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
   /* ---------------- 业务逻辑函数 ---------------- */
-  const projectUrl = `${process.env.REACT_APP_STATIC_URL!}/public/WebGL/${contestNameData.contest_by_pk?.name}/`;
+  const projectUrl = `${process.env.REACT_APP_STATIC_URL!}/public/WebGL/${contestNameData?.contest_by_pk?.name}/`;
 
   const handleCacheControl = (url: string) => {
     if (url.match(/\.data/) || url.match(/\.wasm/) || url.match(/\.bundle/)) {
@@ -78,7 +79,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     unityProvider,
     sendMessage,
     isLoaded,
-    unload,
+    // unload,
     requestFullscreen,
     loadingProgression,
   } = useUnityContext({
@@ -115,14 +116,14 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded]);
 
-  const handleQuit = async () => {
-    try {
-      await unload();
-      return;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const handleQuit = async () => {
+  //   try {
+  //     await unload();
+  //     return;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
     if (!openLocalFile && !room_id) {
@@ -200,7 +201,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
             requestFullscreen(true);
           }}
         />
-        <ReactRouterPrompt when={isLoaded}>
+        {/* <ReactRouterPrompt when={isLoaded}>
           {({ isActive, onConfirm, onCancel }) => (
             <Modal
               open={isActive}
@@ -216,7 +217,7 @@ const PlaybackPage: React.FC<ContestProps> = ({ mode, user }) => {
               width={320}
             />
           )}
-        </ReactRouterPrompt>
+        </ReactRouterPrompt> */}
       </Layout>
     ) : (
       <NotImplemented />

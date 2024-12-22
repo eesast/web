@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel, Image } from "antd";
+import { Carousel, Image, Card } from "antd";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import { PageProps } from "..";
@@ -28,9 +28,22 @@ const news = [
   },
 ];
 
+const StyledCard = styled(Card)`
+  width: 100%;
+  background: transparent;
+  .ant-card-body {
+    padding: 200;
+  }
+  border: none;
+  .ant-card {
+    border: none;
+    box-shadow: none;
+  }
+`;
+
 const Container = styled.div`
   position: relative;
-  height: calc(100vh - 67px - 48px);
+  height: calc(100vh - 67px);
   width: 100%;
 `;
 
@@ -52,24 +65,26 @@ const Description = styled.div`
 
 const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
-    <Carousel autoplay effect="fade">
-      {news.map((news) => (
-        <Container key={news.title}>
-          <Background
-            style={{
-              backgroundImage: `url(${news.image})`,
-            }}
-          />
-          <Center>
-            <Image src={news.image} alt={news.title} preview={false} />
-          </Center>
-          <Description>
-            <h2>{news.title}</h2>
-            <p>{news.content}</p>
-          </Description>
-        </Container>
-      ))}
-    </Carousel>
+    <StyledCard>
+      <Carousel autoplay effect="fade">
+        {news.map((news) => (
+          <Container key={news.title}>
+            <Background
+              style={{
+                backgroundImage: `url(${news.image})`,
+              }}
+            />
+            <Center>
+              <Image src={news.image} alt={news.title} preview={false} />
+            </Center>
+            <Description>
+              <h2>{news.title}</h2>
+              <p>{news.content}</p>
+            </Description>
+          </Container>
+        ))}
+      </Carousel>
+    </StyledCard>
   );
 };
 
