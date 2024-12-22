@@ -8,6 +8,7 @@ import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { PageProps } from "../..";
 import DiscussDrawer from "./DiscussDrawer";
 import CourseRating from "./CourseRating";
+import CourseDetail from "./CourseDetail";
 
 /* ---------------- 接口和类型定义 ---------------- */
 export interface CourseProps extends PageProps {
@@ -98,6 +99,7 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       render: (text, record, _, action) => [
         <DiscussDrawer course_uuid={record.uuid} mode={mode} user={user} />,
         <CourseRating course_uuid={record.uuid} mode={mode} user={user} />,
+        <CourseDetail course_uuid={record.uuid} mode={mode} user={user} />,
         // <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
