@@ -3495,6 +3495,7 @@ export type Course_Comment = {
   course_id: Scalars['uuid']['output'];
   created_at: Scalars['timestamptz']['output'];
   deleted: Scalars['Boolean']['output'];
+  display: Scalars['Boolean']['output'];
   parent_uuid?: Maybe<Scalars['uuid']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
@@ -3550,6 +3551,7 @@ export type Course_Comment_Bool_Exp = {
   course_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   deleted?: InputMaybe<Boolean_Comparison_Exp>;
+  display?: InputMaybe<Boolean_Comparison_Exp>;
   parent_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
@@ -3571,6 +3573,7 @@ export type Course_Comment_Insert_Input = {
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   deleted?: InputMaybe<Scalars['Boolean']['input']>;
+  display?: InputMaybe<Scalars['Boolean']['input']>;
   parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -3779,6 +3782,7 @@ export type Course_Comment_Order_By = {
   course_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   deleted?: InputMaybe<Order_By>;
+  display?: InputMaybe<Order_By>;
   parent_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
@@ -3802,6 +3806,8 @@ export enum Course_Comment_Select_Column {
   /** column name */
   Deleted = 'deleted',
   /** column name */
+  Display = 'display',
+  /** column name */
   ParentUuid = 'parent_uuid',
   /** column name */
   UpdatedAt = 'updated_at',
@@ -3817,6 +3823,7 @@ export type Course_Comment_Set_Input = {
   course_id?: InputMaybe<Scalars['uuid']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   deleted?: InputMaybe<Scalars['Boolean']['input']>;
+  display?: InputMaybe<Scalars['Boolean']['input']>;
   parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -3957,6 +3964,8 @@ export enum Course_Comment_Update_Column {
   CreatedAt = 'created_at',
   /** column name */
   Deleted = 'deleted',
+  /** column name */
+  Display = 'display',
   /** column name */
   ParentUuid = 'parent_uuid',
   /** column name */
@@ -14542,7 +14551,7 @@ export type GetCourseCommentsQueryVariables = Exact<{
 }>;
 
 
-export type GetCourseCommentsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', comment: string, created_at: any, updated_at: any, uuid: any, user_uuid: any, parent_uuid?: any | null, deleted: boolean, user: { __typename?: 'users', username?: string | null } }> };
+export type GetCourseCommentsQuery = { __typename?: 'query_root', course_comment: Array<{ __typename?: 'course_comment', comment: string, created_at: any, updated_at: any, uuid: any, user_uuid: any, parent_uuid?: any | null, display: boolean, deleted: boolean, user: { __typename?: 'users', username?: string | null } }> };
 
 export type GetCourseCommentsStaredQueryVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
@@ -14588,6 +14597,22 @@ export type DeleteCourseCommentOneMutationVariables = Exact<{
 
 
 export type DeleteCourseCommentOneMutation = { __typename?: 'mutation_root', update_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
+
+export type DisplayCourseCommentsMutationVariables = Exact<{
+  course_uuid: Scalars['uuid']['input'];
+  shouldDisplay: Scalars['Boolean']['input'];
+}>;
+
+
+export type DisplayCourseCommentsMutation = { __typename?: 'mutation_root', update_course_comment?: { __typename?: 'course_comment_mutation_response', affected_rows: number } | null };
+
+export type DisplayCourseCommentOneMutationVariables = Exact<{
+  uuid: Scalars['uuid']['input'];
+  shouldDisplay: Scalars['Boolean']['input'];
+}>;
+
+
+export type DisplayCourseCommentOneMutation = { __typename?: 'mutation_root', update_course_comment_by_pk?: { __typename?: 'course_comment', uuid: any } | null };
 
 export type AddCourseCommentOneMutationVariables = Exact<{
   comment: Scalars['String']['input'];
@@ -18456,6 +18481,7 @@ export const GetCourseCommentsDocument = gql`
     user {
       username
     }
+    display
     deleted
   }
 }
@@ -18739,6 +18765,80 @@ export function useDeleteCourseCommentOneMutation(baseOptions?: Apollo.MutationH
 export type DeleteCourseCommentOneMutationHookResult = ReturnType<typeof useDeleteCourseCommentOneMutation>;
 export type DeleteCourseCommentOneMutationResult = Apollo.MutationResult<DeleteCourseCommentOneMutation>;
 export type DeleteCourseCommentOneMutationOptions = Apollo.BaseMutationOptions<DeleteCourseCommentOneMutation, DeleteCourseCommentOneMutationVariables>;
+export const DisplayCourseCommentsDocument = gql`
+    mutation DisplayCourseComments($course_uuid: uuid!, $shouldDisplay: Boolean!) {
+  update_course_comment(
+    where: {course_id: {_eq: $course_uuid}, deleted: {_eq: false}}
+    _set: {display: $shouldDisplay}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type DisplayCourseCommentsMutationFn = Apollo.MutationFunction<DisplayCourseCommentsMutation, DisplayCourseCommentsMutationVariables>;
+
+/**
+ * __useDisplayCourseCommentsMutation__
+ *
+ * To run a mutation, you first call `useDisplayCourseCommentsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDisplayCourseCommentsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [displayCourseCommentsMutation, { data, loading, error }] = useDisplayCourseCommentsMutation({
+ *   variables: {
+ *      course_uuid: // value for 'course_uuid'
+ *      shouldDisplay: // value for 'shouldDisplay'
+ *   },
+ * });
+ */
+export function useDisplayCourseCommentsMutation(baseOptions?: Apollo.MutationHookOptions<DisplayCourseCommentsMutation, DisplayCourseCommentsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DisplayCourseCommentsMutation, DisplayCourseCommentsMutationVariables>(DisplayCourseCommentsDocument, options);
+      }
+export type DisplayCourseCommentsMutationHookResult = ReturnType<typeof useDisplayCourseCommentsMutation>;
+export type DisplayCourseCommentsMutationResult = Apollo.MutationResult<DisplayCourseCommentsMutation>;
+export type DisplayCourseCommentsMutationOptions = Apollo.BaseMutationOptions<DisplayCourseCommentsMutation, DisplayCourseCommentsMutationVariables>;
+export const DisplayCourseCommentOneDocument = gql`
+    mutation DisplayCourseCommentOne($uuid: uuid!, $shouldDisplay: Boolean!) {
+  update_course_comment_by_pk(
+    pk_columns: {uuid: $uuid}
+    _set: {display: $shouldDisplay}
+  ) {
+    uuid
+  }
+}
+    `;
+export type DisplayCourseCommentOneMutationFn = Apollo.MutationFunction<DisplayCourseCommentOneMutation, DisplayCourseCommentOneMutationVariables>;
+
+/**
+ * __useDisplayCourseCommentOneMutation__
+ *
+ * To run a mutation, you first call `useDisplayCourseCommentOneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDisplayCourseCommentOneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [displayCourseCommentOneMutation, { data, loading, error }] = useDisplayCourseCommentOneMutation({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *      shouldDisplay: // value for 'shouldDisplay'
+ *   },
+ * });
+ */
+export function useDisplayCourseCommentOneMutation(baseOptions?: Apollo.MutationHookOptions<DisplayCourseCommentOneMutation, DisplayCourseCommentOneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DisplayCourseCommentOneMutation, DisplayCourseCommentOneMutationVariables>(DisplayCourseCommentOneDocument, options);
+      }
+export type DisplayCourseCommentOneMutationHookResult = ReturnType<typeof useDisplayCourseCommentOneMutation>;
+export type DisplayCourseCommentOneMutationResult = Apollo.MutationResult<DisplayCourseCommentOneMutation>;
+export type DisplayCourseCommentOneMutationOptions = Apollo.BaseMutationOptions<DisplayCourseCommentOneMutation, DisplayCourseCommentOneMutationVariables>;
 export const AddCourseCommentOneDocument = gql`
     mutation AddCourseCommentOne($comment: String!, $user_uuid: uuid!, $course_uuid: uuid!, $parent_uuid: uuid) {
   insert_course_comment_one(
