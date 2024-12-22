@@ -30,7 +30,6 @@ const CourseDetail: React.FC<CourseProps> = ({
   user,
 }: any) => {
   /* ---------------- States 和常量 Hooks ---------------- */
-  const [isChange, setIsChange] = useState(false);
   const actionRef = useRef<any>("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
@@ -41,23 +40,18 @@ const CourseDetail: React.FC<CourseProps> = ({
   const [currentRow, setCurrentRow] = useState<any>();
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
-  const { data: course_info, refetch: refetchCourseInfo } =
-    graphql.useGetCourseInfoQuery({
-      variables: {
-        course_uuid: course_uuid,
-      },
-    });
-  const {
-    data: course_manager,
-    error: managerError,
-    refetch: refetchManagerInfo,
-  } = graphql.useGetCourseManagerQuery({
+  const { refetch: refetchCourseInfo } = graphql.useGetCourseInfoQuery({
     variables: {
-      user_uuid: user.uuid,
+      course_uuid: course_uuid,
     },
   });
+  const { data: course_manager, error: managerError } =
+    graphql.useGetCourseManagerQuery({
+      variables: {
+        user_uuid: user.uuid,
+      },
+    });
   const [addCourseInfo] = graphql.useAddCourseInfoMutation();
-  const [updateCourseInfo] = graphql.useUpdateCourseInfoMutation();
   const [deleteCourseInfo] = graphql.useDeleteCourseInfoMutation(); // 这个函数名字后续可以改一下
 
   useEffect(() => {
