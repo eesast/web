@@ -11,18 +11,19 @@ permalink: /team
 - 添加团队
 
   - 权限控制：不是学生/管理员
-  - leader_uuid不存在
+  - team_id等参数有误
   - contest_id不可用
 
 - 加入团队
 
   - 权限控制：不是学生/管理员
-  - team_id不存在
+  - team_id等参数有误
 
 - 添加代码
 
   - 权限控制：不是团队成员
-  - team
+  - team/contest不存在
+  - team_id等参数有误,不是该团队成员
 
 - 添加玩家
 
@@ -48,7 +49,6 @@ permalink: /team
     - 请求：`body`中有`{team_name: string, team_intro: string, team_leader_uuid: uuid, invited_code: string, contest_id:string}`，
   - 响应：`200`: `Team Add Successfully`并返回`team_id`
   - 工作过程：
-    暂无
   - 错误：
     - `400`：`400 Bad Request: Missing required parameters`
     - `400`：`400 Bad Request: Missing Team Leader UUID`
@@ -83,13 +83,18 @@ permalink: /team
 - `/team/add_team_code`：添加团队代码
 
   - 请求方法：`POST`
-    - 请求：`body`中有`{team_id: uuid, code_name: String, language: String, compile_status: String}`
+    - 请求：`body`中有`{team_id: uuid, code_name: String, language: String, compile_status: String, user_id:uuid, contest_id:uuid}`
   - 响应：`200`: `message:Code added successfully`以及`code_id:code_id`(返回的代码id)
   - 工作过程：
-    暂无
+    参数是否齐全  
+    对应团队信息是否存在  
+    是否是该团队成员  
+    Code添加成功
   - 错误：
     - `400`：`400 Bad Request: Missing required parameters`
     - `401`：`401 Unauthorized: Authentication failed`（未登录）
+    - `403`：`403 Forbidden: You are not in this team`（不在队伍里面）
+    - `404`：`404 Not Found: Team not found`
     - `500`：`undefined`（其他内部错误）
 
 - `/team/update_team`：更新团队
@@ -163,17 +168,3 @@ permalink: /team
     - `400`：`400 Bad Request: Missing required parameters`
     - `401`：`401 Unauthorized: Authentication failed`
     - `500`：`undefined`（其他内部错误）
-
-## 附录
-
-### 数据结构定义
-
-(暂未应用)
-
-```javascript
-interface TeamInfo {
-  status: string;
-  scores: number[];
-}
-
-```
