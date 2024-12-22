@@ -108,7 +108,7 @@ const InfiniteScrollContainer: React.FC<ScrollContainerProps> = ({
   const [isScrolling] = useState(false);
   const [content, setContent] = useState<React.ReactNode[]>([]); // To hold original and cloned content
   const isPaused = useRef(false);
-  const animationFrameRef = useRef<number>(null);
+  const animationFrameRef = useRef<number>(0);
 
   useEffect(() => {
     // Set the content (original + duplicate) only when the children change

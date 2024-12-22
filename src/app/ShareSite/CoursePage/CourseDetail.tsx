@@ -74,29 +74,26 @@ const CourseDetail: React.FC<CourseProps> = ({
       valueType: "option",
       width: "20%",
       key: "option",
-      disable: true,
+      hideInTable: !course_manager?.course_manager_by_pk,
       render: (_, row) => {
-        // console.log(course_manager);
-        if (course_manager?.course_manager_by_pk != null)
-          return (
-            <Space size="middle">
-              <Button
-                type="link"
-                onClick={() => {
-                  setCurrentRow(row);
-                  setNewKey(row.key);
-                  setNewValue(String(row.value));
-                  setUpdateInfoModalVisible(true);
-                }}
-              >
-                修改
-              </Button>
-              <Button type="link" onClick={() => showDeleteConfirm(row)}>
-                删除
-              </Button>
-            </Space>
-          );
-        else return <></>;
+        return course_manager?.course_manager_by_pk ? (
+          <Space size="middle">
+            <Button
+              type="link"
+              onClick={() => {
+                setCurrentRow(row);
+                setNewKey(row.key);
+                setNewValue(String(row.value));
+                setUpdateInfoModalVisible(true);
+              }}
+            >
+              修改
+            </Button>
+            <Button type="link" onClick={() => showDeleteConfirm(row)}>
+              删除
+            </Button>
+          </Space>
+        ) : null;
       },
     },
   ];
@@ -290,18 +287,17 @@ const CourseDetail: React.FC<CourseProps> = ({
                 }
                 onClick={handleGetCourseDetail}
               />
-              <Button
-                type="link"
-                icon={
-                  <PlusOutlined
-                    style={{ fontSize: "1.5em", color: "#1890ff" }}
-                  />
-                }
-                onClick={() => {
-                  if (course_manager?.course_manager_by_pk != null)
-                    setAddInfoModalVisible(true);
-                }}
-              />
+              {course_manager?.course_manager_by_pk ? (
+                <Button
+                  type="link"
+                  icon={
+                    <PlusOutlined
+                      style={{ fontSize: "1.5em", color: "#1890ff" }}
+                    />
+                  }
+                  onClick={() => setAddInfoModalVisible(true)}
+                />
+              ) : null}
             </Space>
           </div>
         }
@@ -338,7 +334,7 @@ const CourseDetail: React.FC<CourseProps> = ({
               labelWidth: "auto",
             }}
             dateFormatter="string"
-            headerTitle="课程列表"
+            headerTitle="详情列表"
           />
         </Card>
       </Drawer>
