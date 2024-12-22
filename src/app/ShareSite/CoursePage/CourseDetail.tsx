@@ -80,6 +80,7 @@ const CourseDetail: React.FC<CourseProps> = ({
       valueType: "option",
       width: "20%",
       key: "option",
+      disable: true,
       render: (_, row) => {
         // console.log(course_manager);
         if (course_manager?.course_manager_by_pk != null)
@@ -101,7 +102,7 @@ const CourseDetail: React.FC<CourseProps> = ({
               </Button>
             </Space>
           );
-        else return <>无权限</>;
+        else return <></>;
       },
     },
   ];
