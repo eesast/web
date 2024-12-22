@@ -19,8 +19,7 @@ import {
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { Chart } from "@antv/g2";
-import { dataOf } from "@antv/g2/lib/interaction/legendFilter";
+
 /* ---------------- 接口和类型定义 ---------------- */
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 /* ---------------- 不随渲染刷新的组件 ---------------- */
@@ -32,12 +31,14 @@ const CourseDetail: React.FC<CourseProps> = ({
 }: any) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const [isChange, setIsChange] = useState(false);
-  const actionRef = useRef<any>();
+  const actionRef = useRef<any>("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
   const [addInfoModalVisible, setAddInfoModalVisible] = useState(false);
+  const [updateInfoModalVisible, setUpdateInfoModalVisible] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [newValue, setNewValue] = useState("");
+  const [currentRow, setCurrentRow] = useState<any>();
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: course_info, refetch: refetchCourseInfo } =
@@ -46,23 +47,22 @@ const CourseDetail: React.FC<CourseProps> = ({
         course_uuid: course_uuid,
       },
     });
+  const {
+    data: course_manager,
+    error: managerError,
+    refetch: refetchManagerInfo,
+  } = graphql.useGetCourseManagerQuery({
+    variables: {
+      user_uuid: user.uuid,
+    },
+  });
   const [addCourseInfo] = graphql.useAddCourseInfoMutation();
   const [updateCourseInfo] = graphql.useUpdateCourseInfoMutation();
-  const [deleteCourseInfo] = graphql.useDeleteCourseInfoMutation();
+  const [deleteCourseInfo] = graphql.useDeleteCourseInfoMutation(); // 这个函数名字后续可以改一下
 
   useEffect(() => {
-    // let info_key: any;
-    // let info_value: any;
-    // if(course_info){
-    //   info_key = course_info.course_info.map((item: any) => {
-    //     return item.key;
-    //   });
-    //   info_value = course_info.course_info.map((item: any) => {
-    //     return item.value;
-    //   });
-    // }
-    actionRef.current.reload();
-  }, [isChange]);
+    if (managerError) message.error("获取课程管理员失败");
+  }, [course_manager, managerError]);
 
   const columns: ProColumns<graphql.GetCourseInfoQuery["course_info"][0]>[] = [
     {
@@ -81,16 +81,27 @@ const CourseDetail: React.FC<CourseProps> = ({
       width: "20%",
       key: "option",
       render: (_, row) => {
-        return (
-          <Space size="middle">
-            <Button type="link" onClick={() => handleEdit(row)}>
-              修改
-            </Button>
-            <Button type="link" onClick={() => showDeleteConfirm(row)}>
-              删除
-            </Button>
-          </Space>
-        );
+        // console.log(course_manager);
+        if (course_manager?.course_manager_by_pk != null)
+          return (
+            <Space size="middle">
+              <Button
+                type="link"
+                onClick={() => {
+                  setCurrentRow(row);
+                  setNewKey(row.key);
+                  setNewValue(String(row.value));
+                  setUpdateInfoModalVisible(true);
+                }}
+              >
+                修改
+              </Button>
+              <Button type="link" onClick={() => showDeleteConfirm(row)}>
+                删除
+              </Button>
+            </Space>
+          );
+        else return <>无权限</>;
       },
     },
   ];
@@ -141,18 +152,26 @@ const CourseDetail: React.FC<CourseProps> = ({
     };
   };
 
-  const handleEdit = async (row: any) => {
+  const handleUpdateCourseInfo = async (row: any) => {
     try {
-      // await updateCourseInfo({
-      //   variables: {
-      //     course_id: course_uuid,
-      //     user_uuid: user.uuid,
-
-      //   },
-      // });
-      console.log(row);
-      message.success("详情如更新");
-      refetchCourseInfo();
+      await deleteCourseInfo({
+        variables: {
+          course_id: course_uuid,
+          key: row?.key,
+        },
+      });
+      await addCourseInfo({
+        variables: {
+          key: newKey,
+          value: newValue,
+          course_id: course_uuid,
+        },
+      });
+      setNewKey("");
+      setNewValue("");
+      setUpdateInfoModalVisible(false);
+      handleGetCourseDetail();
+      message.success("详情已更新");
     } catch (error) {
       message.error("详情更新失败");
       console.log(error);
@@ -194,7 +213,6 @@ const CourseDetail: React.FC<CourseProps> = ({
 
   const handleAddCourseInfo = async (parent_uuid?: string) => {
     try {
-      console.log("Adding info for course: ", course_uuid);
       await addCourseInfo({
         variables: {
           key: newKey,
@@ -284,7 +302,10 @@ const CourseDetail: React.FC<CourseProps> = ({
                     style={{ fontSize: "1.5em", color: "#1890ff" }}
                   />
                 }
-                onClick={() => setAddInfoModalVisible(true)}
+                onClick={() => {
+                  if (course_manager?.course_manager_by_pk != null)
+                    setAddInfoModalVisible(true);
+                }}
               />
             </Space>
           </div>
@@ -330,18 +351,44 @@ const CourseDetail: React.FC<CourseProps> = ({
         title="添加详情"
         centered
         open={addInfoModalVisible}
-        onOk={() => handleAddCourseInfo()}
+        onOk={() => {
+          if (newKey && newValue) handleAddCourseInfo();
+        }}
         onCancel={() => setAddInfoModalVisible(false)}
       >
+        项目:
         <Input.TextArea
-          placeholder="项目"
-          rows={1}
+          placeholder="请输入"
+          rows={2}
           value={newKey}
           onChange={(e) => setNewKey(e.target.value)}
         />
+        内容:
+        <Input.TextArea
+          placeholder="请输入"
+          rows={2}
+          value={newValue}
+          onChange={(e) => setNewValue(e.target.value)}
+        />
+      </Modal>
+      <Modal
+        title="修改详情"
+        centered
+        open={updateInfoModalVisible}
+        onOk={() => handleUpdateCourseInfo(currentRow)}
+        onCancel={() => setUpdateInfoModalVisible(false)}
+      >
+        项目:
+        <Input.TextArea
+          placeholder="项目"
+          rows={2}
+          value={newKey}
+          onChange={(e) => setNewKey(e.target.value)}
+        />
+        内容:
         <Input.TextArea
           placeholder="内容"
-          rows={1}
+          rows={2}
           value={newValue}
           onChange={(e) => setNewValue(e.target.value)}
         />
