@@ -312,7 +312,7 @@ const StreamNativePage: React.FC<ContestProps> = ({ mode, user }) => {
   };
 
   useEffect(() => {
-    const name = contestNameData.contest_by_pk?.name;
+    const name = contestNameData?.contest_by_pk?.name;
     if (name === "THUAI6") {
       streamTHUAI6({ streamUrl, port, update });
     }

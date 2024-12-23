@@ -16,6 +16,7 @@ query GetCourseComments($course_uuid: uuid!) {
     user {
       username
     }
+    display
     deleted
   }
 }
@@ -82,6 +83,27 @@ mutation DeleteCourseCommentOne($uuid: uuid!) {
   update_course_comment_by_pk(
     pk_columns: { uuid: $uuid }
     _set: { deleted: true }
+  ) {
+    uuid
+  }
+}
+
+mutation DisplayCourseComments($course_uuid: uuid!, $shouldDisplay: Boolean!) {
+  update_course_comment(
+    where: {
+      course_id: { _eq: $course_uuid }
+      deleted: { _eq: false } # 排除已删除的评论
+    }
+    _set: { display: $shouldDisplay }
+  ) {
+    affected_rows # 返回影响的行数
+  }
+}
+
+mutation DisplayCourseCommentOne($uuid: uuid!, $shouldDisplay: Boolean!) {
+  update_course_comment_by_pk(
+    pk_columns: { uuid: $uuid }
+    _set: { display: $shouldDisplay }
   ) {
     uuid
   }

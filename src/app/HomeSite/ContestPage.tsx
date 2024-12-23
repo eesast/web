@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Typography, Divider, Image } from "antd";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import { PageProps } from "..";
+import { useLocation } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -443,20 +444,14 @@ const Contest7 = () => (
 );
 
 const ContestPage: React.FC<PageProps> = ({ mode, user }) => {
-  interface TabItem {
-    key: string;
-    label: string;
-    content: React.ReactNode;
-  }
-  const tabData: TabItem[] = [
-    { key: "1", label: "队式程序设计大赛", content: <Contest1 /> },
-    { key: "2", label: "硬件设计大赛", content: <Contest2 /> },
-    { key: "3", label: "软件设计大赛", content: <Contest3 /> },
-    { key: "4", label: "智能无人机挑战赛", content: <Contest4 /> },
-    { key: "5", label: "新生知识竞赛", content: <Contest5 /> },
-    { key: "6", label: "挑战杯", content: <Contest6 /> },
-    { key: "7", label: "电子设计大赛", content: <Contest7 /> },
-  ];
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState("1");
+  useEffect(() => {
+    if (location.state && location.state.tab) {
+      setActiveTab(location.state.tab);
+    }
+  }, [location.state]);
+
   const StyledTabs = styled(Tabs)`
     background-color: ${mode === "light" ? `white` : `#141414`};
     .ant-tabs-nav {
@@ -470,15 +465,25 @@ const ContestPage: React.FC<PageProps> = ({ mode, user }) => {
       margin: 0;
     }
   `;
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+  };
+
   return (
     <div style={{ width: "100%", maxWidth: "90vw", margin: "0 auto" }}>
       <StyledTabs
-        defaultActiveKey="1"
-        items={tabData.map(({ key, label, content }) => ({
-          label,
-          key,
-          children: content,
-        }))}
+        activeKey={activeTab}
+        onChange={handleTabChange}
+        items={[
+          { key: "1", label: "队式程序设计大赛", children: <Contest1 /> },
+          { key: "2", label: "硬件设计大赛", children: <Contest2 /> },
+          { key: "3", label: "软件设计大赛", children: <Contest3 /> },
+          { key: "4", label: "智能无人机挑战赛", children: <Contest4 /> },
+          { key: "5", label: "新生知识竞赛", children: <Contest5 /> },
+          { key: "6", label: "挑战杯", children: <Contest6 /> },
+          { key: "7", label: "电子设计大赛", children: <Contest7 /> },
+        ]}
       />
     </div>
   );

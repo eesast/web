@@ -11,6 +11,8 @@ import { PageProps } from "..";
 import IntroPage from "./IntroPage";
 import MinecraftPage from "./MinecraftPage";
 import Authenticate, { courseRoles } from "../Components/Authenticate";
+import DivisionPage from "../HomeSite/DivisionPage";
+import ContestPage from "../HomeSite/ContestPage";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Header, Content } = Layout;
@@ -81,6 +83,14 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
       key: "minecraft",
       label: <Link to={url.link("minecraft")}>Minecraft</Link>,
     },
+    {
+      key: "division",
+      label: <Link to={url.link("division")}>部门</Link>,
+    },
+    {
+      key: "contest",
+      label: <Link to={url.link("contest")}>比赛</Link>,
+    },
   ];
 
   if (courseRoles.includes(user.role)) {
@@ -125,6 +135,14 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             <Route
               path="minecraft"
               element={<MinecraftPage mode={mode} user={user} />}
+            />
+            <Route
+              path="division"
+              element={<DivisionPage mode={mode} user={user} />}
+            />
+            <Route
+              path="contest"
+              element={<ContestPage mode={mode} user={user} />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

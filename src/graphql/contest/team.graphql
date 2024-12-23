@@ -158,12 +158,16 @@ query getTeams($contest_id: uuid!) {
       realname
       student_no
       class
+      uuid
     }
     contest_team_members {
       user {
         realname
         student_no
         class
+        uuid
+        department
+        tsinghua_email
       }
     }
     contest_team_codes_aggregate {
