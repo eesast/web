@@ -68,9 +68,9 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
 
   //当前队伍排名
   const scoreRank =
-    scoreteamListData.contest_team.findIndex(
+    (scoreteamListData?.contest_team.findIndex(
       (team: any) => team.team_id === team_id,
-    ) + 1;
+    ) ?? -1) + 1;
 
   //天梯积分分析
   useEffect(() => {

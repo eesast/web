@@ -62,6 +62,12 @@ query GetUserByPhone($phone: String!) {
   }
 }
 
+query GetUserByStudentID($student_no: String!) {
+  users(where: { student_no: { _eq: $student_no } }) {
+    uuid
+  }
+}
+
 # TODO: To br deleted
 # 根据users的name和email获得其uuid
 query GetUser_Id($email: String!, $realname: String!) {

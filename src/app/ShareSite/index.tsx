@@ -12,6 +12,8 @@ import IntroPage from "./IntroPage";
 import MinecraftPage from "./MinecraftPage";
 import TourGuidePage from "./TourGuidePage";
 import Authenticate, { courseRoles } from "../Components/Authenticate";
+import DivisionPage from "../HomeSite/DivisionPage";
+import ContestPage from "../HomeSite/ContestPage";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Header, Content } = Layout;
@@ -89,6 +91,14 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
       key: "tourguide",
       label: <Link to={url.link("tourguide")}>网站说明</Link>,
     },
+    {
+      key: "division",
+      label: <Link to={url.link("division")}>部门</Link>,
+    },
+    {
+      key: "contest",
+      label: <Link to={url.link("contest")}>比赛</Link>,
+    },
   ];
 
   if (courseRoles.includes(user.role)) {
@@ -140,6 +150,14 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             <Route
               path="tourguide"
               element={<TourGuidePage mode={currentmode} user={user} />}
+            />
+            <Route
+              path="division"
+              element={<DivisionPage mode={mode} user={user} />}
+            />
+            <Route
+              path="contest"
+              element={<ContestPage mode={mode} user={user} />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

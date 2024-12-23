@@ -3,10 +3,11 @@ import { ContestProps } from ".";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import NotImplemented from "./Components/NotImplemented";
-import ReactRouterPrompt from "react-router-prompt";
+// import ReactRouterPrompt from "react-router-prompt";
 import styled from "styled-components";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import { message, Layout, Row, Modal, Progress, FloatButton } from "antd";
+import { message, Layout, Row, Progress, FloatButton } from "antd";
+// import { message, Layout, Row, Modal, Progress, FloatButton } from "antd";
 import { ArrowsAltOutlined } from "@ant-design/icons";
 import Loading from "../Components/Loading";
 
@@ -71,7 +72,7 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
   const {
     unityProvider,
     isLoaded,
-    unload,
+    // unload,
     loadingProgression,
     requestFullscreen,
   } = useUnityContext({
@@ -83,14 +84,14 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
     cacheControl: handleCacheControl,
   });
 
-  const handleQuit = async () => {
-    try {
-      await unload();
-      return;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const handleQuit = async () => {
+  //   try {
+  //     await unload();
+  //     return;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   /* ---------------- ⻚⾯组件 ---------------- */
   return contestSwitchData ? (
     contestSwitchData?.contest_by_pk?.playground_switch ? (
@@ -126,7 +127,7 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
             requestFullscreen(true);
           }}
         />
-        <ReactRouterPrompt when={isLoaded}>
+        {/* <ReactRouterPrompt when={isLoaded}>
           {({ isActive, onConfirm, onCancel }) => (
             <Modal
               open={isActive}
@@ -142,7 +143,7 @@ const PlaygroundPage: React.FC<ContestProps> = ({ mode, user }) => {
               width={320}
             />
           )}
-        </ReactRouterPrompt>
+        </ReactRouterPrompt> */}
       </Layout>
     ) : (
       <NotImplemented />

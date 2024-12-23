@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Typography, Row, Col, Image } from "antd";
 import styled from "styled-components";
 import { PageProps } from "..";
 import Center from "../Components/Center";
+import { useLocation } from "react-router-dom";
 
 const StyledTypography = styled(Typography)`
   padding: 48px 10vw;
@@ -281,18 +282,14 @@ const PublicityDepartment = () => (
 );
 
 const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
-  interface TabItem {
-    key: string;
-    label: string;
-    content: React.ReactNode;
-  }
-  const tabData: TabItem[] = [
-    { key: "1", label: "软件部", content: <SoftwareDepartment /> },
-    { key: "2", label: "硬件部", content: <HardwareDepartment /> },
-    { key: "3", label: "项目部", content: <ProjectDepartment /> },
-    { key: "4", label: "学培部", content: <AcademicDepartment /> },
-    { key: "5", label: "宣策部", content: <PublicityDepartment /> },
-  ];
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState("1");
+
+  useEffect(() => {
+    if (location.state && location.state.tab) {
+      setActiveTab(location.state.tab);
+    }
+  }, [location.state]);
 
   const StyledTabs = styled(Tabs)`
     background-color: ${mode === "light" ? `white` : `#141414`};
@@ -307,15 +304,23 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
       margin: 0;
     }
   `;
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+  };
+
   return (
     <div style={{ width: "100%", maxWidth: "90vw", margin: "0 auto" }}>
       <StyledTabs
-        defaultActiveKey="1"
-        items={tabData.map(({ key, label, content }) => ({
-          label,
-          key,
-          children: content,
-        }))}
+        activeKey={activeTab}
+        onChange={handleTabChange}
+        items={[
+          { key: "1", label: "软件部", children: <SoftwareDepartment /> },
+          { key: "2", label: "硬件部", children: <HardwareDepartment /> },
+          { key: "3", label: "项目部", children: <ProjectDepartment /> },
+          { key: "4", label: "学培部", children: <AcademicDepartment /> },
+          { key: "5", label: "宣策部", children: <PublicityDepartment /> },
+        ]}
       />
     </div>
   );

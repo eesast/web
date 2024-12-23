@@ -126,13 +126,13 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
         <Space size="small">
           {record.status === "Running" && (
             <Typography.Link
-              disabled={!contestSwitchData.contest_by_pk?.stream_switch}
+              disabled={!contestSwitchData?.contest_by_pk?.stream_switch}
               onClick={() =>
                 navigate(
                   url
                     .append("port", record.port)
                     .link(
-                      contestNameData.contest_by_pk?.name === "THUAI6"
+                      contestNameData?.contest_by_pk?.name === "THUAI6"
                         ? "stream-native"
                         : "stream",
                     ),
@@ -149,7 +149,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
           )}
           {record.status === "Finished" && (
             <Typography.Link
-              disabled={!contestSwitchData.contest_by_pk?.playback_switch}
+              disabled={!contestSwitchData?.contest_by_pk?.playback_switch}
               onClick={() =>
                 navigate(url.append("room", record.room_id).link("playback"))
               }
