@@ -291,7 +291,7 @@ const App: React.FC = () => {
             align-items: center;
             justify-content: center;
             position: absolute;
-            right: 120px;
+            right: 112px;
           `}
           ref={themeRef}
           checked={mode === "light"}
@@ -357,7 +357,7 @@ const App: React.FC = () => {
             height: 32px;
             width: 32px;
             position: absolute;
-            right: 80px;
+            right: 72px;
             color: ${mode === "light"
               ? `rgba(0, 0, 0, 0.88)`
               : `rgba(255, 255, 255, 0.85)`};
@@ -404,7 +404,7 @@ const App: React.FC = () => {
           height: 32px;
           width: 32px;
           position: absolute;
-          right: 175px;
+          right: 168px;
         `}
       >
         <Tooltip title="网站说明">
