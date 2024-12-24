@@ -73,7 +73,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
     if (keys) {
       return JSON.parse(keys);
     }
-    return ["back", "rule", "game"];
+    return [];
   });
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //获取是否为某个队伍的成员
