@@ -10,6 +10,7 @@ import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import IntroPage from "./IntroPage";
 import MinecraftPage from "./MinecraftPage";
+import TourGuidePage from "./TourGuidePage";
 import Authenticate, { courseRoles } from "../Components/Authenticate";
 import DivisionPage from "../HomeSite/DivisionPage";
 import ContestPage from "../HomeSite/ContestPage";
@@ -55,7 +56,9 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     width: 100%;
     background-color: ${mode === "light" ? `white` : `#141414`};
     border-bottom: 1px solid
-      ${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
+      ${mode === "light"
+        ? `rgba(5, 5, 5, 0.06)`
+        : `rgba(253, 253, 253, 0.12)`};
     position: sticky;
     top: 72px;
   `;
@@ -82,6 +85,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     {
       key: "minecraft",
       label: <Link to={url.link("minecraft")}>Minecraft</Link>,
+    },
+    {
+      key: "tourguide",
+      label: <Link to={url.link("tourguide")}>网站说明</Link>,
     },
     {
       key: "division",
@@ -127,7 +134,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
                 </Authenticate>
               }
             />
-            <Route path="repo" element={<RepoPage mode={mode} user={user} />} />
+            <Route
+              path="repo"
+              element={<RepoPage mode={mode} user={user} />}
+            />
             <Route
               path="weekly"
               element={<WeeklyPage mode={mode} user={user} />}
@@ -135,6 +145,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             <Route
               path="minecraft"
               element={<MinecraftPage mode={mode} user={user} />}
+            />
+            <Route
+              path="tourguide"
+              element={<TourGuidePage mode={mode} user={user} />}
             />
             <Route
               path="division"
