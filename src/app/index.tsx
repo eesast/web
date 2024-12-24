@@ -395,13 +395,13 @@ const App: React.FC = () => {
           height: 32px;
           width: 32px;
           position: absolute;
-          right: 185px;
+          right: 165px;
         `}
       >
         <Button
           style={{
-            width: "32px",
-            height: "32px",
+            width: "26px",
+            height: "26px",
             border: "1px solid #ccc",
             borderRadius: "50%",
             background: "transparent",
@@ -412,7 +412,7 @@ const App: React.FC = () => {
             justifyContent: "center",
           }}
         >
-          <QuestionOutlined style={{ fontSize: "20px" }} />
+          <QuestionOutlined style={{ fontSize: "17px" }} />
         </Button>
       </Link>
     );
