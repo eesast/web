@@ -70,9 +70,9 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   const [openKeys, setOpenKeys] = useState(() => {
     //从sessionStorage中获取openKeys
     const keys = sessionStorage.getItem("openKeys");
-    // if (keys) {
-    //   return JSON.parse(keys);
-    // }
+    if (keys) {
+      return JSON.parse(keys);
+    }
     return ["back", "rule", "game"];
   });
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
@@ -369,7 +369,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
           mode="inline"
           selectedKeys={[url.page]}
           defaultSelectedKeys={["back"]}
-          // openKeys={openKeys}
+          openKeys={openKeys}
           onOpenChange={handleOpenChange}
           items={
             getContestManagersData?.contest_by_pk?.contest_managers.some(
