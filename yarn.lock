@@ -27,12 +27,12 @@
   dependencies:
     lodash "^4.17.21"
 
-"@ant-design/charts@2.2.5":
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.2.5.tgz#e0067e675aeae54cbfed4f1e31a0bee31a8f6a76"
-  integrity sha512-3N8CmlkxoN7lWDtl7WShJnw3M/vKI74FnWD9znJszioZkQWShgOfW6AbK/EYk18BWDyu0JLRuQknRftS9HC+NQ==
+"@ant-design/charts@2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.2.6.tgz#2e294335399407f14eba5e10d4caf8bb790c80d5"
+  integrity sha512-pkzdIkc+TdHejOkjnizIXleCQ3psqNQSStllhHul4Ep82IU/qfTbGZ9iaVGJoFOc0+uHBO9Y65RVS47TPMBerQ==
   dependencies:
-    "@ant-design/graphs" "^2.0.3"
+    "@ant-design/graphs" "^2.0.4"
     "@ant-design/plots" "^2.3.2"
     lodash "^4.17.21"
     react "^18.3.1"
@@ -74,14 +74,14 @@
   dependencies:
     "@babel/runtime" "^7.24.7"
 
-"@ant-design/graphs@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.0.3.tgz#d413f61071d39948a0ac3153d47bbf3a4afcd1bd"
-  integrity sha512-Wn0oIUJwCpa66e6HqM/i5UwsSE8vIXiIrhCAGNDWylq/R0TzMI4fNAGNnTiakU9PG575TDgl+Pii+VKfmXaHiQ==
+"@ant-design/graphs@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.0.4.tgz#49f52a4bf2b616070b505f06ecce47d65451381f"
+  integrity sha512-8Os7/it/auQt7NWUA+Ml+NjVYz2VsRjaGJYGxlUnfT4w0KiW6A9aYgixjVqWYjsdNBK0J3lHtrlME5RLiJ5DTw==
   dependencies:
     "@ant-design/charts-util" "0.0.1-alpha.7"
-    "@antv/g6" "^5.0.30"
-    "@antv/g6-extension-react" "^0.1.7"
+    "@antv/g6" "^5.0.38"
+    "@antv/g6-extension-react" "^0.1.13"
     "@antv/graphin" "^3.0.4"
     lodash "^4.17.21"
     react "^18.3.1"
@@ -560,19 +560,37 @@
     fmin "0.0.2"
     pdfast "^0.2.0"
 
-"@antv/g6-extension-react@^0.1.7":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@antv/g6-extension-react/-/g6-extension-react-0.1.13.tgz#e512a301aa8a0a0ebfd99e3d8c245743ead6faec"
-  integrity sha512-pw6/MhzlxQ0bwPDQuUlOgslpviQvYyuHEKV7H+y8cjeH6HaOpqo8Ur/Kh8dB/TtNapelyqE0BO7gcfkEt0zuSA==
+"@antv/g6-extension-react@^0.1.13":
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/@antv/g6-extension-react/-/g6-extension-react-0.1.14.tgz#f88b9085ad47a984c46577c9b2956f65acfd09df"
+  integrity sha512-PUKWdjbrkgwUGlx4UH4OpIiZsUGLZvdxsn97fhAodPcwWtNaGnUSZcqheoeHYeJuIj8xCoHXgqa9i662ze4Uvw==
   dependencies:
     "@antv/g" "^6.1.14"
     "@antv/g-svg" "^2.0.27"
     "@antv/react-g" "^2.0.30"
 
-"@antv/g6@^5.0.28", "@antv/g6@^5.0.30":
+"@antv/g6@^5.0.28":
   version "5.0.38"
   resolved "https://registry.yarnpkg.com/@antv/g6/-/g6-5.0.38.tgz#44c57dd45a6cac00843b6b5a79ad3fe47b86b592"
   integrity sha512-qj6hcvETMbgl9SsxTF9pLsAziHOruSQAmMi+tazuu0f1Cccr4asD6iu1VizOolOOyeLOslhTIxhNtShpgZbjrg==
+  dependencies:
+    "@antv/algorithm" "^0.1.26"
+    "@antv/component" "^2.1.2"
+    "@antv/event-emitter" "^0.1.3"
+    "@antv/g" "^6.1.14"
+    "@antv/g-canvas" "^2.0.32"
+    "@antv/g-plugin-dragndrop" "^2.0.25"
+    "@antv/graphlib" "^2.0.4"
+    "@antv/hierarchy" "^0.6.14"
+    "@antv/layout" "1.2.14-beta.9"
+    "@antv/util" "^3.3.10"
+    bubblesets-js "^2.3.4"
+    hull.js "^1.0.6"
+
+"@antv/g6@^5.0.38":
+  version "5.0.39"
+  resolved "https://registry.yarnpkg.com/@antv/g6/-/g6-5.0.39.tgz#2e09c51faea8ef323d68a20cf55affab88b82dc3"
+  integrity sha512-2uhI2Kf6n4xdgRdTx5BFTQ8I5Pg4xPwdU6qleqRyXhrx3Q3lE0GTgWlqFzUlnbJvtH/DUU4qd/3XyYqVL62S9g==
   dependencies:
     "@antv/algorithm" "^0.1.26"
     "@antv/component" "^2.1.2"
