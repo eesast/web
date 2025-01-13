@@ -1,5 +1,11 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import Authenticate, { userRoles } from "../Components/Authenticate";
 import ProfilePage from "./ProfilePage";
@@ -17,6 +23,17 @@ export interface UserProps extends PageProps {
 
 const UserSite: React.FC<UserProps> = (props) => {
   const url = useUrl();
+  const navigationType = useNavigationType(); // 获取导航类型
+  const location = useLocation(); // 获取当前位置
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location.pathname, navigationType]);
 
   return (
     <Routes>
