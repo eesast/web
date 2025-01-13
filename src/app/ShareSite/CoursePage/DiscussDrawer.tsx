@@ -291,7 +291,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         const imageFiles = files.filter((file) =>
           /\.(jpe?g|png)$/i.test(file.Key),
         );
-        let avatarUrl = "/UserOutlined.png";
+        let avatarUrl = `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${userId}`;
         if (imageFiles.length > 0) {
           const firstImage = imageFiles[0];
           avatarUrl = await getAvatarUrl(firstImage.Key);
@@ -302,7 +302,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         return avatarUrl;
       } catch (error) {
         console.error("Failed to load avatar:", error);
-        return "/UserOutlined.png";
+        return `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${userId}`;
       }
     };
 
