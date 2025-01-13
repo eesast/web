@@ -318,6 +318,21 @@ const DiscussDrawer: React.FC<CourseProps> = ({
 
   const handleAddCourseComment = async (parent_uuid?: string) => {
     try {
+      if (!newComment || !newComment.trim()) {
+        message.warning("评论内容不能为空");
+        return;
+      }
+
+      const isDuplicate = comments.some(
+        (comment) =>
+          comment.comment === newComment && comment.user_uuid === user.uuid,
+      );
+
+      if (isDuplicate) {
+        message.warning("请勿重复发布相同评论");
+        return;
+      }
+
       const response = await axios.post(`/course/comments/add`, {
         comment: newComment,
         course_uuid: course_uuid,
@@ -339,6 +354,22 @@ const DiscussDrawer: React.FC<CourseProps> = ({
 
   const handleUpdateCourseComment = async () => {
     try {
+      if (!updateComment || !updateComment.trim()) {
+        message.warning("评论内容不能为空");
+        return;
+      }
+
+      // 获取原评论内容
+      const originalComment = comments.find(
+        (item) => item.uuid === updateCommentUuid,
+      );
+
+      // 检查内容是否有变化
+      if (originalComment && originalComment.comment === updateComment.trim()) {
+        message.info("评论内容未发生变化");
+        return;
+      }
+
       const response = await axios.post(`/course/comments/update`, {
         comment: updateComment,
         comment_uuid: updateCommentUuid,

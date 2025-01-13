@@ -104,12 +104,6 @@ const App: React.FC = () => {
             console.error("Failed to load avatar:", error);
             message.error("加载头像失败");
           }
-        })
-        .finally(() => {
-          // 调用下次请求
-          if (isMounted) {
-            setTimeout(fetchAvatar, 500); // 请求完成后延迟0.5秒再发起下一个请求
-          }
         });
     };
     // 初次请求
@@ -518,12 +512,6 @@ const App: React.FC = () => {
           if (isMounted) {
             console.error("Failed to load avatar:", error);
             message.error("加载头像失败");
-          }
-        })
-        .finally(() => {
-          // 这里调用下次请求
-          if (isMounted) {
-            setTimeout(fetchAvatar, 500); // 请求完成后 1 秒再发起下一个请求
           }
         });
     };
