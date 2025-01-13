@@ -88,7 +88,7 @@ const App: React.FC = () => {
             const firstImage = imageFiles[0];
             return getAvatarUrl(firstImage.Key);
           } else {
-            setImageUrl("/UserOutlined.png"); // 替换为默认头像 URL
+            setImageUrl(`https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${user.uuid}`); // 替换为默认头像 URL
             return null;
           }
         })
@@ -501,7 +501,7 @@ const App: React.FC = () => {
             const firstImage = imageFiles[0];
             return getAvatarUrl(firstImage.Key);
           } else {
-            setImageUrl("/UserOutlined.png"); // 替换为默认头像 URL
+            setImageUrl(`https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${user.uuid}`); // 替换为默认头像 URL
             return null;
           }
         })
