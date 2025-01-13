@@ -25,6 +25,7 @@ const CourseRating: React.FC<CourseProps> = ({
   course_uuid,
   mode,
   user,
+  isManager,
 }: any) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const [ratingForm] = Form.useForm();

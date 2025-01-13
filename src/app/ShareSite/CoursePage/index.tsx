@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Layout, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 //import { useUrl } from "../../../api/hooks/url";
@@ -9,10 +9,12 @@ import { PageProps } from "../..";
 import DiscussDrawer from "./DiscussDrawer";
 import CourseRating from "./CourseRating";
 import CourseDetail from "./CourseDetail";
+import axios from "axios";
 
 /* ---------------- 接口和类型定义 ---------------- */
 export interface CourseProps extends PageProps {
   course_uuid: string;
+  isManager: boolean;
 }
 
 /* ---------------- 主页面 ---------------- */
@@ -22,6 +24,23 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
+
+  const [isManager, setIsManager] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`/course/is_manager`);
+          if (response.status !== 200) throw new Error("Server error");
+          setIsManager(response.data.is_manager);
+        } catch (e) {
+          console.error(e);
+        }
+      };
+      fetchData();
+    }
+  });
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
   const columns: ProColumns<graphql.GetCourseQuery["course"][0]>[] = [
@@ -97,9 +116,24 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
       width: "20%",
       key: "option",
       render: (text, record, _, action) => [
-        <DiscussDrawer course_uuid={record.uuid} mode={mode} user={user} />,
-        <CourseRating course_uuid={record.uuid} mode={mode} user={user} />,
-        <CourseDetail course_uuid={record.uuid} mode={mode} user={user} />,
+        <DiscussDrawer
+          course_uuid={record.uuid}
+          mode={mode}
+          user={user}
+          isManager={isManager}
+        />,
+        <CourseRating
+          course_uuid={record.uuid}
+          mode={mode}
+          user={user}
+          isManager={isManager}
+        />,
+        <CourseDetail
+          course_uuid={record.uuid}
+          mode={mode}
+          user={user}
+          isManager={isManager}
+        />,
         // <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
