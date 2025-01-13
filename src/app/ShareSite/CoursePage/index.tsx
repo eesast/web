@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Button, Layout, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Layout, message } from "antd";
+// import { PlusOutlined } from "@ant-design/icons";
 //import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
@@ -211,11 +211,11 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         }}
         dateFormatter="string"
         headerTitle="课程列表"
-        toolBarRender={() => [
-          <Button key="button" icon={<PlusOutlined />} type="primary">
-            导入
-          </Button>,
-        ]}
+        // toolBarRender={() => [
+        //   <Button key="button" icon={<PlusOutlined />} type="primary">
+        //     导入
+        //   </Button>,
+        // ]}
       />
     </Layout>
   );
