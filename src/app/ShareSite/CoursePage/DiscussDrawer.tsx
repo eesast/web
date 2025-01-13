@@ -34,7 +34,6 @@ import {
 import { CourseProps } from ".";
 import dayjs from "dayjs";
 import styled from "styled-components";
-import { listFile, getAvatarUrl } from "../../../api/cos";
 import axios from "axios";
 
 // import { courseAdminRoles } from "../../Components/Authenticate";
@@ -54,6 +53,7 @@ interface Comment {
   stared: boolean;
   liked: boolean;
   replies: string[];
+  avatar_url: string;
 }
 
 interface IconTextProps {
@@ -181,13 +181,17 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   /* ---------------- States 和常量 Hooks ---------------- */
   const [comments, setComments] = useState<Comment[]>([]);
 
+  const [commentsSorted, setCommentsSorted] = useState<Comment[]>([]);
+  const [sortMode, setSortMode] = useState("1");
+  const [sortTrend, setSortTrend] = useState("1");
+  const [displayOption, setDisplayOption] = useState("1");
+
   const drawerContentRef = useRef<HTMLDivElement>(null);
   // const commentsRef = useRef<Comment[]>([]);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openReply, setOpenReply] = useState(false);
   const [randomSeed, setRandomSeed] = useState(0);
 
-  const [commentsSorted, setCommentsSorted] = useState<Comment[]>([]);
   const [addCommentModalVisible, setAddCommentModalVisible] = useState(false);
   const [updateCommentModalVisible, setUpdateCommentModalVisible] =
     useState(false);
@@ -196,29 +200,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   const [updateCommentUuid, setUpdateCommentUuid] = useState("");
   const [currentComment, setCurrentComment] = useState<Comment>();
   const [highlightedComment, setHighlightedComment] = useState<Comment>();
-  const [isRotating, setIsRotating] = useState(false);
-  const [rotateDegree, setRotateDegree] = useState(0);
-  const [sortMode, setSortMode] = useState("1");
-  const [sortTrend, setSortTrend] = useState("1");
-  const [displayOption, setDisplayOption] = useState("1");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteCommentUuid, setDeleteCommentUuid] = useState("");
-  const [commentsRepliesAvatars, setCommentsRepliesAvatars] = useState<
-    string[]
-  >([]);
-  const [avatarSource1, setAvatarsSource1] = useState<string[]>([]);
-  const [avatarSource2, setAvatarsSource2] = useState<string[]>([]);
-  const [avatarSource3, setAvatarsSource3] = useState<string[]>([]);
-  const avatarCacheRef = useRef<{ [key: string]: string }>({});
 
-  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  const [isRotating, setIsRotating] = useState(false);
+  const [rotateDegree, setRotateDegree] = useState(0);
 
   /* ---------------- useEffect ---------------- */
-  useEffect(() => {
-    handleSortComments(sortMode, sortTrend);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortMode, sortTrend, comments, isManager]);
-
   const fetchComments = async (course_uuid: string) => {
     try {
       const response = await axios.get(`/course/comments/${course_uuid}`);
@@ -246,115 +234,9 @@ const DiscussDrawer: React.FC<CourseProps> = ({
   }, [course_uuid]);
 
   useEffect(() => {
-    const fetchAvatar = async (userId: string | null | undefined) => {
-      if (userId && avatarCacheRef.current && avatarCacheRef.current[userId]) {
-        return avatarCacheRef.current[userId];
-      }
-      try {
-        const files = await listFile(`avatar/${userId}/`);
-        const imageFiles = files.filter((file) =>
-          /\.(jpe?g|png)$/i.test(file.Key),
-        );
-        let avatarUrl = "/UserOutlined.png";
-        if (imageFiles.length > 0) {
-          const firstImage = imageFiles[0];
-          avatarUrl = await getAvatarUrl(firstImage.Key);
-        }
-        if (userId) {
-          avatarCacheRef.current[userId] = avatarUrl;
-        }
-        return avatarUrl;
-      } catch (error) {
-        console.error("Failed to load avatar:", error);
-        return "/UserOutlined.png";
-      }
-    };
-
-    const fetchRepliesAvatars = async () => {
-      const replies = currentComment?.replies ?? [];
-      const avatars: string[] = [];
-
-      for (let i = 0; i < replies.length; i++) {
-        const reply_uuid = replies[i];
-        const item = comments.find((comment) => comment.uuid === reply_uuid);
-        if (item) {
-          if (item.user_uuid) {
-            const avatar = await fetchAvatar(item.user_uuid);
-            avatars.push(avatar);
-          } else {
-            avatars.push("/UserOutlined.png");
-          }
-        } else {
-          avatars.push("/UserOutlined.png");
-        }
-      }
-      setCommentsRepliesAvatars(avatars);
-    };
-    fetchRepliesAvatars();
-
-    const fetchAvatarsSource1 = async () => {
-      const replies = commentsSorted;
-      const avatars: string[] = [];
-
-      for (let i = 0; i < replies.length; i++) {
-        const item = replies[i];
-        if (item) {
-          if (item.user_uuid) {
-            const avatar = await fetchAvatar(item.user_uuid);
-            avatars.push(avatar);
-          } else {
-            avatars.push("/UserOutlined.png");
-          }
-        } else {
-          avatars.push("/UserOutlined.png");
-        }
-      }
-      setAvatarsSource1(avatars);
-    };
-    fetchAvatarsSource1();
-
-    const fetchAvatarsSource2 = async () => {
-      const replies = commentsSorted.filter((item) => !item.parent_uuid);
-      const avatars: string[] = [];
-
-      for (let i = 0; i < replies.length; i++) {
-        const item = replies[i];
-        if (item) {
-          if (item.user_uuid) {
-            const avatar = await fetchAvatar(item.user_uuid);
-            avatars.push(avatar);
-          } else {
-            avatars.push("/UserOutlined.png");
-          }
-        } else {
-          avatars.push("/UserOutlined.png");
-        }
-      }
-      setAvatarsSource2(avatars);
-    };
-    fetchAvatarsSource2();
-
-    const fetchAvatarsSource3 = async () => {
-      const replies = commentsSorted.filter((item) => item.stared);
-      const avatars: string[] = [];
-
-      for (let i = 0; i < replies.length; i++) {
-        const item = replies[i];
-        if (item) {
-          if (item.user_uuid) {
-            const avatar = await fetchAvatar(item.user_uuid);
-            avatars.push(avatar);
-          } else {
-            avatars.push("/UserOutlined.png");
-          }
-        } else {
-          avatars.push("/UserOutlined.png");
-        }
-      }
-      setAvatarsSource3(avatars);
-    };
-    fetchAvatarsSource3();
-  }, [currentComment, commentsSorted, comments]);
+    handleSortComments(sortMode, sortTrend);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortMode, sortTrend, comments, isManager]);
 
   /* ---------------- 业务逻辑函数 ---------------- */
 
@@ -952,13 +834,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         width: "40px",
                         height: "40px",
                       }}
-                      src={
-                        displayOption === "1"
-                          ? avatarSource1[index]
-                          : displayOption === "2"
-                            ? avatarSource2[index]
-                            : avatarSource3[index]
-                      }
+                      src={item.avatar_url}
                     ></Avatar>
                   }
                   title={<>{item.username ?? "anonymous"}</>}
@@ -1192,7 +1068,8 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         width: "40px",
                         height: "40px",
                       }}
-                      src={commentsRepliesAvatars[index]}
+                      src={item.avatar_url}
+                      key={item.avatar_url}
                     ></Avatar>
                   }
                   title={item.username ?? "anonymous"}
