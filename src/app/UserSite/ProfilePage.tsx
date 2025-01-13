@@ -86,7 +86,9 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
               message.error("加载头像失败");
             });
         } else {
-          setImageUrl(`https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${user.uuid}`); // 替换为实际的默认头像 URL
+          setImageUrl(
+            `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${user.uuid}`,
+          ); // 替换为实际的默认头像 URL
         }
       })
       .catch((error) => {
