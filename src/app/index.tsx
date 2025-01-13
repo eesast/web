@@ -22,7 +22,14 @@ import {
   NotificationOutlined,
   QuestionOutlined,
 } from "@ant-design/icons";
-import { Route, Link, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  Link,
+  Routes,
+  Navigate,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
@@ -74,6 +81,17 @@ const App: React.FC = () => {
   });
 
   const [imageUrl, setImageUrl] = useState<string>("");
+  const navigationType = useNavigationType(); // 获取导航类型
+  const location = useLocation(); // 获取当前位置
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location.pathname, navigationType]);
 
   useEffect(() => {
     let isMounted = true; // 防止组件卸载后更新状态

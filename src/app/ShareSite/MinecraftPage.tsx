@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Typography, Space, Image, Card, Row, Col } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { PageProps } from "..";
@@ -9,10 +9,6 @@ const { Meta } = Card;
 
 /* ---------------- 主页面 ---------------- */
 const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   /* ---------------- 页面组件 ---------------- */
   return (
     <Space

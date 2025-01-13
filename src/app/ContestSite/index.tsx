@@ -1,5 +1,11 @@
-import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import MenuPage from "./MenuPage";
 import dayjs from "dayjs";
 import { useUrl } from "../../api/hooks/url";
@@ -19,6 +25,17 @@ dayjs.extend(utc);
 const ContestSite: React.FC<PageProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
+  const navigationType = useNavigationType(); // 获取导航类型
+  const location = useLocation(); // 获取当前位置
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location.pathname, navigationType]);
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   /* ---------------- useEffect ---------------- */
   /* ---------------- 业务逻辑函数 ---------------- */
