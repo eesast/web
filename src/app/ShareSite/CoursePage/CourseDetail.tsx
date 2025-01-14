@@ -1,5 +1,5 @@
 // 课程详情页面只有课程管理员可以编辑，普通学生只能查看
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Markdown from "react-markdown";
 import {
   Badge,
@@ -47,18 +47,8 @@ const CourseDetail: React.FC<CourseProps> = ({
       course_uuid: course_uuid,
     },
   });
-  const { data: course_manager, error: managerError } =
-    graphql.useGetCourseManagerQuery({
-      variables: {
-        user_uuid: user.uuid,
-      },
-    });
   const [addCourseInfo] = graphql.useAddCourseInfoMutation();
   const [deleteCourseInfo] = graphql.useDeleteCourseInfoMutation(); // 这个函数名字后续可以改一下
-
-  useEffect(() => {
-    if (managerError) message.error("获取课程管理员失败");
-  }, [course_manager, managerError]);
 
   const columns: ProColumns<graphql.GetCourseInfoQuery["course_info"][0]>[] = [
     {
@@ -104,9 +94,9 @@ const CourseDetail: React.FC<CourseProps> = ({
       valueType: "option",
       width: "20%",
       key: "option",
-      hideInTable: !course_manager?.course_manager_by_pk,
+      hideInTable: !isManager,
       render: (_, row) => {
-        return course_manager?.course_manager_by_pk ? (
+        return isManager ? (
           <Space size="middle">
             <Button
               type="link"
@@ -252,15 +242,6 @@ const CourseDetail: React.FC<CourseProps> = ({
     }
   };
 
-  const showDrawer = () => {
-    handleGetCourseDetail();
-    setOpenDrawer(true);
-  };
-
-  const closeDrawer = () => {
-    setOpenDrawer(false);
-  };
-
   const handleGetCourseDetail = async () => {
     setIsRotating(true);
     const { data, error } = await refetchCourseInfo({ course_uuid });
@@ -283,10 +264,8 @@ const CourseDetail: React.FC<CourseProps> = ({
       <Badge>
         <Button
           type="primary"
-          onClick={showDrawer}
-          style={{
-            marginLeft: "12px",
-          }}
+          onClick={() => setOpenDrawer(true)}
+          className="action-button"
         >
           详情
         </Button>
@@ -317,7 +296,7 @@ const CourseDetail: React.FC<CourseProps> = ({
                 }
                 onClick={handleGetCourseDetail}
               />
-              {course_manager?.course_manager_by_pk ? (
+              {isManager ? (
                 <Button
                   type="link"
                   icon={
@@ -332,7 +311,7 @@ const CourseDetail: React.FC<CourseProps> = ({
           </div>
         }
         width={600}
-        onClose={closeDrawer}
+        onClose={() => setOpenDrawer(false)}
         open={openDrawer}
         key="course_info"
       >
