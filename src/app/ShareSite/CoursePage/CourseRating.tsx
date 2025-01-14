@@ -65,9 +65,9 @@ const CourseRating: React.FC<CourseProps> = ({
       { item: "任务量", score: Number(avg?.dim1?.toPrecision(3)) },
       { item: "内容难度", score: Number(avg?.dim2?.toPrecision(3)) },
       { item: "上课质量", score: Number(avg?.dim3?.toPrecision(3)) },
-      { item: "考试作业讲课相关度", score: Number(avg?.dim4?.toPrecision(3)) },
-      { item: "收获感", score: Number(avg?.dim5?.toPrecision(3)) },
-      { item: "给分好坏", score: Number(avg?.dim6?.toPrecision(3)) },
+      { item: "考试作业讲课相关度", score: Number(avg?.dim6?.toPrecision(3)) },
+      { item: "收获感", score: Number(avg?.dim4?.toPrecision(3)) },
+      { item: "给分好坏", score: Number(avg?.dim5?.toPrecision(3)) },
     ];
 
     const chart = new Chart({
