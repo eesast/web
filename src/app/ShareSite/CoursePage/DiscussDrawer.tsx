@@ -835,8 +835,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         text=" "
                       />
                     )}
-                    {(user.role === "admin" ||
-                      item.user_uuid === user.uuid) && (
+                    {(isManager || item.user_uuid === user.uuid) && (
                       <IconText
                         icon={DeleteOutlined}
                         text=""
@@ -877,6 +876,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                           fontWeight: "bold",
                           fontSize: "1.3em",
                           wordWrap: "break-word",
+                          wordBreak: "break-word",
                           whiteSpace: "pre-wrap",
                           maxWidth: "90%",
                           display: "inline-block",
@@ -927,8 +927,6 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         ) : (
                           item.comment
                         )}
-                        <br />
-                        <br />
                       </span>
                       <br />
 
