@@ -113,27 +113,46 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
     {
       title: "操作",
       valueType: "option",
-      width: "20%",
+      width: "24%",
       key: "option",
       render: (text, record, _, action) => [
-        <DiscussDrawer
-          course_uuid={record.uuid}
-          mode={mode}
-          user={user}
-          isManager={isManager}
-        />,
-        <CourseRating
-          course_uuid={record.uuid}
-          mode={mode}
-          user={user}
-          isManager={isManager}
-        />,
-        <CourseDetail
-          course_uuid={record.uuid}
-          mode={mode}
-          user={user}
-          isManager={isManager}
-        />,
+        <div
+          key="action-wrapper"
+          className="action-buttons"
+          css={`
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+
+            @media (max-width: 768px) {
+              flex-direction: column;
+
+              .ant-btn {
+                width: 100%;
+                margin-left: 0 !important;
+              }
+            }
+          `}
+        >
+          <DiscussDrawer
+            course_uuid={record.uuid}
+            mode={mode}
+            user={user}
+            isManager={isManager}
+          />
+          <CourseRating
+            course_uuid={record.uuid}
+            mode={mode}
+            user={user}
+            isManager={isManager}
+          />
+          <CourseDetail
+            course_uuid={record.uuid}
+            mode={mode}
+            user={user}
+            isManager={isManager}
+          />
+        </div>,
         // <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
@@ -160,8 +179,9 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         total: 0,
       };
     }
+    const reversedData = [...(data?.course ?? [])].reverse();
     const filteredData =
-      data?.course.filter((course) => {
+      reversedData?.filter((course) => {
         return (
           (!params.code ||
             course.code.toLowerCase().includes(params.code.toLowerCase())) &&

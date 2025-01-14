@@ -281,13 +281,7 @@ const CourseDetail: React.FC<CourseProps> = ({
   return (
     <>
       <Badge>
-        <Button
-          type="primary"
-          onClick={showDrawer}
-          style={{
-            marginLeft: "12px",
-          }}
-        >
+        <Button type="primary" onClick={showDrawer} className="action-button">
           详情
         </Button>
       </Badge>

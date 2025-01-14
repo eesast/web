@@ -582,6 +582,7 @@ const DiscussDrawer: React.FC<CourseProps> = ({
       <Badge count={comments.length ?? 0}>
         <Button
           type="primary"
+          className="action-button"
           onClick={() => {
             setOpenDrawer(true);
             setRandomSeed(
