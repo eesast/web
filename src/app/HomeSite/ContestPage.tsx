@@ -61,7 +61,7 @@ const Contest1 = () => (
         src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_THUAI_5.jpg`}
         width={800}
       />
-      <P>THUAI5——机算夺魁</P>
+      <P>THUAI5——机算挑魁</P>
       <P></P>
       <Image
         alt="THUAI_4_cover"
