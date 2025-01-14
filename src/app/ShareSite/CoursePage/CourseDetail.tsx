@@ -1,5 +1,6 @@
 // 课程详情页面只有课程管理员可以编辑，普通学生只能查看
 import React, { useState, useRef, useEffect } from "react";
+import Markdown from "react-markdown";
 import {
   Badge,
   Button,
@@ -64,11 +65,39 @@ const CourseDetail: React.FC<CourseProps> = ({
       title: "项目",
       dataIndex: "key",
       key: "key",
+      render: (dom: React.ReactNode, entity: any) => (
+        <div
+          style={{
+            wordWrap: "break-word",
+            wordBreak: "break-word",
+            whiteSpace: "normal",
+          }}
+        >
+          <Markdown>{entity.key}</Markdown>
+        </div>
+      ),
     },
     {
       title: "内容",
       dataIndex: "value",
       key: "value",
+      render: (dom: React.ReactNode, entity: any) => (
+        <div
+          style={{
+            wordWrap: "break-word",
+            wordBreak: "break-word",
+            whiteSpace: "normal",
+          }}
+        >
+          {entity.value && entity.value.startsWith("http") ? (
+            <a href={entity.value} target="_blank" rel="noopener noreferrer">
+              {entity.value}
+            </a>
+          ) : (
+            <Markdown>{entity.value || ""}</Markdown>
+          )}
+        </div>
+      ),
     },
     {
       title: "操作",
