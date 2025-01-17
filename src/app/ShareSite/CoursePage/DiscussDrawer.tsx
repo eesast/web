@@ -826,17 +826,19 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         }}
                       />
                     ) : (
-                      <IconText
-                        icon={() => (
-                          <Badge
-                            status={item.display ? "success" : "processing"}
-                            text={item.display ? "已精选" : "未精选"}
-                          />
-                        )}
-                        text=" "
-                      />
+                      item.user_uuid === user.uuid && (
+                        <IconText
+                          icon={() => (
+                            <Badge
+                              status={item.display ? "success" : "processing"}
+                              text={item.display ? "已精选" : "未精选"}
+                            />
+                          )}
+                          text=" "
+                        />
+                      )
                     )}
-                    {(isManager || item.user_uuid === user.uuid) && (
+                    {item.user_uuid === user.uuid && (
                       <IconText
                         icon={DeleteOutlined}
                         text=""
@@ -868,7 +870,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                       src={item.avatar_url}
                     ></Avatar>
                   }
-                  title={<>{item.username ?? "anonymous"}</>}
+                  title={
+                    <>
+                      {item.user_uuid === user.uuid
+                        ? "Me"
+                        : (item.username ?? "anonymous")}
+                    </>
+                  }
                   description={
                     <div>
                       <span
@@ -1058,18 +1066,19 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                         }}
                       />
                     ) : (
-                      <IconText
-                        icon={() => (
-                          <Badge
-                            status={item.display ? "success" : "processing"}
-                            text={item.display ? "已精选" : "未精选"}
-                          />
-                        )}
-                        text=""
-                      />
+                      item.user_uuid === user.uuid && (
+                        <IconText
+                          icon={() => (
+                            <Badge
+                              status={item.display ? "success" : "processing"}
+                              text={item.display ? "已精选" : "未精选"}
+                            />
+                          )}
+                          text=" "
+                        />
+                      )
                     )}
-                    {(user.role === "admin" ||
-                      item.user_uuid === user.uuid) && (
+                    {item.user_uuid === user.uuid && (
                       <IconText
                         icon={DeleteOutlined}
                         text=""
@@ -1102,7 +1111,13 @@ const DiscussDrawer: React.FC<CourseProps> = ({
                       key={item.avatar_url}
                     ></Avatar>
                   }
-                  title={item.username ?? "anonymous"}
+                  title={
+                    <>
+                      {item.user_uuid === user.uuid
+                        ? "Me"
+                        : (item.username ?? "anonymous")}
+                    </>
+                  }
                   description={
                     <div>
                       <span

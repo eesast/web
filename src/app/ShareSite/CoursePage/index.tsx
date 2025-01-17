@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Layout, message } from "antd";
-// import { PlusOutlined } from "@ant-design/icons";
-//import { useUrl } from "../../../api/hooks/url";
+import { Card, Layout, message } from "antd";
+import { WarningOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-//import { Link } from "react-router-dom";
 import { PageProps } from "../..";
 import DiscussDrawer from "./DiscussDrawer";
 import CourseRating from "./CourseRating";
@@ -18,7 +16,7 @@ export interface CourseProps extends PageProps {
 }
 
 /* ---------------- 主页面 ---------------- */
-const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
+const CoursePage: React.FC<PageProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   //const url = useUrl();
 
@@ -219,6 +217,14 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         margin: 30px;
       `}
     >
+      <Card>
+        <ClockCircleOutlined /> <strong>公告：</strong>
+        科协同学寒假放假了，新的讨论留待开学后审查，评分区可正常食用，祝大家新年快乐！
+        <br />
+        <WarningOutlined /> <strong>提示：</strong>
+        讨论区中的内容仅代表同学个人观点，仅供参考
+      </Card>
+      <br />
       <ProTable<graphql.GetCourseQuery["course"][0]>
         columns={columns}
         request={dataRequest}
@@ -241,4 +247,4 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
   );
 };
 
-export default CoursesPage;
+export default CoursePage;
