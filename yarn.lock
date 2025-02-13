@@ -526,10 +526,10 @@
     d3-array "^3.2.4"
     d3-hierarchy "^3.1.2"
 
-"@antv/g2@5.2.10", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
-  version "5.2.10"
-  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.2.10.tgz#0b187fd1905071ff95ba0308a35210ebcc9223a7"
-  integrity sha512-ewJx9eeDuiMYRq+iy6jKnTJuxfmzHPKDQ+EHWLc+F0GhPs2UrGY+A27p2Wb3jbdZI42agnkwtvI6WgDGC3ZXlw==
+"@antv/g2@5.2.11", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
+  version "5.2.11"
+  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.2.11.tgz#e79300383a8cc837aa1a94ebde6c29b5521d2d63"
+  integrity sha512-MRoiUwC6BMuxQ+or0BpWhIVjXoAsreUVp7PKpr/c0b0mNA7uzsM+rZfczDxZbJZ6k+zyQgyagjagfamS88w66g==
   dependencies:
     "@antv/component" "^2.1.2"
     "@antv/coord" "^0.4.7"
@@ -539,15 +539,7 @@
     "@antv/g-plugin-dragndrop" "^2.0.22"
     "@antv/scale" "^0.4.16"
     "@antv/util" "^3.3.10"
-    d3-array "^3.2.4"
-    d3-dsv "^3.0.1"
-    d3-force "^3.0.0"
-    d3-format "^3.1.0"
-    d3-geo "^3.1.1"
-    d3-hierarchy "^3.1.2"
-    d3-path "^3.1.0"
-    d3-scale-chromatic "^3.1.0"
-    d3-shape "^3.2.0"
+    "@antv/vendor" "1.0.6"
     flru "^1.0.2"
     fmin "0.0.2"
     pdfast "^0.2.0"
@@ -666,7 +658,7 @@
     gl-matrix "^3.3.0"
     tslib "^2.3.1"
 
-"@antv/vendor@^1.0.3":
+"@antv/vendor@1.0.6", "@antv/vendor@^1.0.3":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@antv/vendor/-/vendor-1.0.6.tgz#0148d7dbfdf06c43e063dab19f84409a8a79fef0"
   integrity sha512-4WXnLPkbOip6b+dDTzDt5Flvoo7UG2xLTP6M3X3iinWfhKPFpuEVCM5ICXnl7KTTrTe796Uz4Jh7Gfq1DU8xLA==
