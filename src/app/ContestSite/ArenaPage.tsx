@@ -185,11 +185,11 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           const firstImage = imageFiles[0];
           return getAvatarUrl(firstImage.Key);
         } else {
-          return "/UserOutlined.png";
+          return `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${userId}`;
         }
       } catch (error) {
         console.error("Failed to load avatar:", error);
-        return "/UserOutlined.png";
+        return `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${userId}`;
       }
     };
 

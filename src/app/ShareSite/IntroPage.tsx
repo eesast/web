@@ -81,6 +81,12 @@ const IntroPage: React.FC<PageProps> = ({ mode, user }) => {
   return (
     <Space direction="vertical" size="small" style={{ width: "100%" }}>
       <Resource
+        image={`${process.env.REACT_APP_STATIC_URL}/public/images/course_review.jpg`}
+        title="课程评测"
+        text="由软件部搭建的课程评测平台，包含了电子系的核心必修、专业限选、限选实验等课程，可以在此查看课程信息，进行课程讨论、课程评价。"
+        link={url.link("course")}
+      />
+      <Resource
         image={`${process.env.REACT_APP_STATIC_URL}/public/images/eesast_docs.png`}
         title="EESAST DOCS"
         text="软件部丰富、实用的技术文档，包含C++,C#,HTML,JS等编程语言，Git、WSL等常用工具的使用方法，游戏开发、网站开发等技术的学习资料。"

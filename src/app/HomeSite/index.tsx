@@ -1,7 +1,14 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Layout, Spin, Card, Tooltip } from "antd";
 import styled from "styled-components";
-import { Route, Navigate, Routes, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Navigate,
+  Routes,
+  useNavigate,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import NewsPage from "./NewsPage";
 import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
@@ -173,6 +180,17 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const { Content } = Layout;
+  const navigationType = useNavigationType(); // 获取导航类型
+  const location = useLocation(); // 获取当前位置
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location.pathname, navigationType]);
 
   // 加载组件
   const Loading = () => (

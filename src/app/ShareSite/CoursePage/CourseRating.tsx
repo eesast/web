@@ -25,6 +25,7 @@ const CourseRating: React.FC<CourseProps> = ({
   course_uuid,
   mode,
   user,
+  isManager,
 }: any) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const [ratingForm] = Form.useForm();
@@ -61,12 +62,12 @@ const CourseRating: React.FC<CourseProps> = ({
 
     const { avg } = courseRatingTotal?.course_rating_aggregate?.aggregate || {};
     const radarData = [
-      { item: "任务量", score: avg?.dim1 },
-      { item: "内容难度", score: avg?.dim2 },
-      { item: "上课质量", score: avg?.dim3 },
-      { item: "考试作业讲课相关度", score: avg?.dim6 },
-      { item: "收获感", score: avg?.dim4 },
-      { item: "给分好坏", score: avg?.dim5 },
+      { item: "任务量", score: Number(avg?.dim1?.toPrecision(3)) },
+      { item: "内容难度", score: Number(avg?.dim2?.toPrecision(3)) },
+      { item: "上课质量", score: Number(avg?.dim3?.toPrecision(3)) },
+      { item: "考试作业讲课相关度", score: Number(avg?.dim6?.toPrecision(3)) },
+      { item: "收获感", score: Number(avg?.dim4?.toPrecision(3)) },
+      { item: "给分好坏", score: Number(avg?.dim5?.toPrecision(3)) },
     ];
 
     const chart = new Chart({
@@ -252,13 +253,7 @@ const CourseRating: React.FC<CourseProps> = ({
       <Badge
         count={courseRatingTotal?.course_rating_aggregate.aggregate?.count}
       >
-        <Button
-          type="primary"
-          onClick={showDrawer}
-          style={{
-            marginLeft: "12px",
-          }}
-        >
+        <Button type="primary" onClick={showDrawer} className="action-button">
           评分
         </Button>
       </Badge>

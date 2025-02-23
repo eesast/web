@@ -12,6 +12,7 @@ import {
   message,
   theme,
   Avatar,
+  Tooltip,
 } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import {
@@ -19,8 +20,16 @@ import {
   ExportOutlined,
   NotificationTwoTone,
   NotificationOutlined,
+  QuestionOutlined,
 } from "@ant-design/icons";
-import { Route, Link, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  Link,
+  Routes,
+  Navigate,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
@@ -72,6 +81,17 @@ const App: React.FC = () => {
   });
 
   const [imageUrl, setImageUrl] = useState<string>("");
+  const navigationType = useNavigationType(); // 获取导航类型
+  const location = useLocation(); // 获取当前位置
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location.pathname, navigationType]);
 
   useEffect(() => {
     let isMounted = true; // 防止组件卸载后更新状态
@@ -86,7 +106,9 @@ const App: React.FC = () => {
             const firstImage = imageFiles[0];
             return getAvatarUrl(firstImage.Key);
           } else {
-            setImageUrl("/UserOutlined.png"); // 替换为默认头像 URL
+            setImageUrl(
+              `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${user.uuid}`,
+            ); // 替换为默认头像 URL
             return null;
           }
         })
@@ -99,12 +121,6 @@ const App: React.FC = () => {
           if (isMounted) {
             console.error("Failed to load avatar:", error);
             message.error("加载头像失败");
-          }
-        })
-        .finally(() => {
-          // 调用下次请求
-          if (isMounted) {
-            setTimeout(fetchAvatar, 500); // 请求完成后延迟0.5秒再发起下一个请求
           }
         });
     };
@@ -180,19 +196,21 @@ const App: React.FC = () => {
 
   const Home = () => {
     return (
-      <Link
-        to={url.link("home", "site")}
-        css={`
-          display: flex;
-          align-items: center;
-          height: 72px;
-          width: 180px;
-          position: absolute;
-          left: 24px;
-        `}
-      >
-        <Logo title="EESΛST" />
-      </Link>
+      <Tooltip title="返回主页">
+        <Link
+          to={url.link("home", "site")}
+          css={`
+            display: flex;
+            align-items: center;
+            height: 72px;
+            width: 180px;
+            position: absolute;
+            left: 24px;
+          `}
+        >
+          <Logo title="EESΛST" />
+        </Link>
+      </Tooltip>
     );
   };
 
@@ -280,25 +298,27 @@ const App: React.FC = () => {
     }, [isOverridden, prefersDark]);
 
     return (
-      <Switch
-        css={`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: absolute;
-          right: 120px;
-        `}
-        ref={themeRef}
-        checked={mode === "light"}
-        onChange={() => {
-          const newMode = mode === "dark" ? "light" : "dark";
-          setMode(newMode);
-          setIsOverridden(true);
-          localStorage.setItem("theme", newMode);
-        }}
-        checkedChildren="日"
-        unCheckedChildren="夜"
-      />
+      <Tooltip title="主题切换">
+        <Switch
+          css={`
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            right: 112px;
+          `}
+          ref={themeRef}
+          checked={mode === "light"}
+          onChange={() => {
+            const newMode = mode === "dark" ? "light" : "dark";
+            setMode(newMode);
+            setIsOverridden(true);
+            localStorage.setItem("theme", newMode);
+          }}
+          checkedChildren="日"
+          unCheckedChildren="夜"
+        />
+      </Tooltip>
     );
   };
 
@@ -330,32 +350,34 @@ const App: React.FC = () => {
       }
     };
     return user.isLoggedIn ? (
-      <Button
-        type="link"
-        icon={
-          isSubscribed ? (
-            <NotificationTwoTone
-              style={{ fontSize: "20px" }}
-              twoToneColor="#52c41a"
-            />
-          ) : (
-            <NotificationOutlined style={{ fontSize: "20px" }} />
-          )
-        }
-        onClick={handleNotificationChange}
-        css={`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 32px;
-          width: 32px;
-          position: absolute;
-          right: 80px;
-          color: ${mode === "light"
-            ? `rgba(0, 0, 0, 0.88)`
-            : `rgba(255, 255, 255, 0.85)`};
-        `}
-      />
+      <Tooltip title="订阅EESAST">
+        <Button
+          type="link"
+          icon={
+            isSubscribed ? (
+              <NotificationTwoTone
+                style={{ fontSize: "20px" }}
+                twoToneColor="#52c41a"
+              />
+            ) : (
+              <NotificationOutlined style={{ fontSize: "20px" }} />
+            )
+          }
+          onClick={handleNotificationChange}
+          css={`
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            width: 32px;
+            position: absolute;
+            right: 72px;
+            color: ${mode === "light"
+              ? `rgba(0, 0, 0, 0.88)`
+              : `rgba(255, 255, 255, 0.85)`};
+          `}
+        />
+      </Tooltip>
     ) : (
       <></>
     );
@@ -376,10 +398,47 @@ const App: React.FC = () => {
         `}
       >
         {user.isLoggedIn ? (
-          <Avatar style={{ fontSize: "16px" }} src={imageUrl} />
+          <Tooltip title="个人信息">
+            <Avatar style={{ fontSize: "16px" }} src={imageUrl} />
+          </Tooltip>
         ) : (
           <Button>登录</Button>
         )}
+      </Link>
+    );
+  };
+  const TourGuideSite = () => {
+    return (
+      <Link
+        to={url.link("share/tourguide", "site")}
+        css={`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 32px;
+          width: 32px;
+          position: absolute;
+          right: 168px;
+        `}
+      >
+        <Tooltip title="网站说明">
+          <Button
+            style={{
+              width: "26px",
+              height: "26px",
+              border: "1px solid #ccc",
+              borderRadius: "50%",
+              background: "transparent",
+              padding: "0",
+              outline: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <QuestionOutlined style={{ fontSize: "17px" }} />
+          </Button>
+        </Tooltip>
       </Link>
     );
   };
@@ -420,7 +479,7 @@ const App: React.FC = () => {
     },
     {
       title: "暗色模式",
-      description: "此外还有炫酷的暗色模式，即护眼又极客，快来体验一下吧！",
+      description: "此外还有炫酷的暗色模式，既护眼又极客，快来体验一下吧！",
       placement: "bottom",
       target: () => themeRef.current,
     },
@@ -456,7 +515,9 @@ const App: React.FC = () => {
             const firstImage = imageFiles[0];
             return getAvatarUrl(firstImage.Key);
           } else {
-            setImageUrl("/UserOutlined.png"); // 替换为默认头像 URL
+            setImageUrl(
+              `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${user.uuid}`,
+            ); // 替换为默认头像 URL
             return null;
           }
         })
@@ -469,12 +530,6 @@ const App: React.FC = () => {
           if (isMounted) {
             console.error("Failed to load avatar:", error);
             message.error("加载头像失败");
-          }
-        })
-        .finally(() => {
-          // 这里调用下次请求
-          if (isMounted) {
-            setTimeout(fetchAvatar, 500); // 请求完成后 1 秒再发起下一个请求
           }
         });
     };
@@ -503,6 +558,7 @@ const App: React.FC = () => {
           <Home />
           <Navigation />
           <ThemeSwitch />
+          <TourGuideSite />
           <NotificationSwitch />
           <User />
         </StyledHeader>

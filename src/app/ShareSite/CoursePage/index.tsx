@@ -1,27 +1,44 @@
-import React from "react";
-import { Button, Layout, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-//import { useUrl } from "../../../api/hooks/url";
+import React, { useState, useEffect } from "react";
+import { Card, Layout, message } from "antd";
+import { WarningOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-//import { Link } from "react-router-dom";
 import { PageProps } from "../..";
 import DiscussDrawer from "./DiscussDrawer";
 import CourseRating from "./CourseRating";
 import CourseDetail from "./CourseDetail";
+import axios from "axios";
 
 /* ---------------- 接口和类型定义 ---------------- */
 export interface CourseProps extends PageProps {
   course_uuid: string;
+  isManager: boolean;
 }
 
 /* ---------------- 主页面 ---------------- */
-const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
+const CoursePage: React.FC<PageProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   //const url = useUrl();
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { refetch: courseRefetch } = graphql.useGetCourseSuspenseQuery();
+
+  const [isManager, setIsManager] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`/course/is_manager`);
+          if (response.status !== 200) throw new Error("Server error");
+          setIsManager(response.data.is_manager);
+        } catch (e) {
+          console.error(e);
+        }
+      };
+      fetchData();
+    }
+  });
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
   const columns: ProColumns<graphql.GetCourseQuery["course"][0]>[] = [
@@ -94,12 +111,46 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
     {
       title: "操作",
       valueType: "option",
-      width: "20%",
+      width: "24%",
       key: "option",
       render: (text, record, _, action) => [
-        <DiscussDrawer course_uuid={record.uuid} mode={mode} user={user} />,
-        <CourseRating course_uuid={record.uuid} mode={mode} user={user} />,
-        <CourseDetail course_uuid={record.uuid} mode={mode} user={user} />,
+        <div
+          key="action-wrapper"
+          className="action-buttons"
+          css={`
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+
+            @media (max-width: 768px) {
+              flex-direction: column;
+
+              .ant-btn {
+                width: 100%;
+                margin-left: 0 !important;
+              }
+            }
+          `}
+        >
+          <DiscussDrawer
+            course_uuid={record.uuid}
+            mode={mode}
+            user={user}
+            isManager={isManager}
+          />
+          <CourseRating
+            course_uuid={record.uuid}
+            mode={mode}
+            user={user}
+            isManager={isManager}
+          />
+          <CourseDetail
+            course_uuid={record.uuid}
+            mode={mode}
+            user={user}
+            isManager={isManager}
+          />
+        </div>,
         // <Link to={url.append("course", record.uuid).link("repo")}>仓库</Link>,
       ],
     },
@@ -126,8 +177,9 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         total: 0,
       };
     }
+    const reversedData = [...(data?.course ?? [])].reverse();
     const filteredData =
-      data?.course.filter((course) => {
+      reversedData?.filter((course) => {
         return (
           (!params.code ||
             course.code.toLowerCase().includes(params.code.toLowerCase())) &&
@@ -165,6 +217,14 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         margin: 30px;
       `}
     >
+      <Card>
+        <ClockCircleOutlined /> <strong>公告：</strong>
+        科协同学寒假放假了，新的讨论留待开学后审查，评分区可正常食用，祝大家新年快乐！
+        <br />
+        <WarningOutlined /> <strong>提示：</strong>
+        讨论区中的内容仅代表同学个人观点，仅供参考
+      </Card>
+      <br />
       <ProTable<graphql.GetCourseQuery["course"][0]>
         columns={columns}
         request={dataRequest}
@@ -177,14 +237,14 @@ const CoursesPage: React.FC<PageProps> = ({ mode, user }) => {
         }}
         dateFormatter="string"
         headerTitle="课程列表"
-        toolBarRender={() => [
-          <Button key="button" icon={<PlusOutlined />} type="primary">
-            导入
-          </Button>,
-        ]}
+        // toolBarRender={() => [
+        //   <Button key="button" icon={<PlusOutlined />} type="primary">
+        //     导入
+        //   </Button>,
+        // ]}
       />
     </Layout>
   );
 };
 
-export default CoursesPage;
+export default CoursePage;

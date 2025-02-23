@@ -1,5 +1,12 @@
-import React, { Suspense } from "react";
-import { Link, Navigate, Route, Routes } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+import {
+  Link,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import { Layout, Menu, Spin } from "antd";
 import RepoPage from "./RepoPage";
 import CoursePage from "./CoursePage";
@@ -10,6 +17,7 @@ import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
 import IntroPage from "./IntroPage";
 import MinecraftPage from "./MinecraftPage";
+import TourGuidePage from "./TourGuidePage";
 import Authenticate, { courseRoles } from "../Components/Authenticate";
 import DivisionPage from "../HomeSite/DivisionPage";
 import ContestPage from "../HomeSite/ContestPage";
@@ -59,6 +67,17 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     position: sticky;
     top: 72px;
   `;
+  const navigationType = useNavigationType(); // 获取导航类型
+  const location = useLocation(); // 获取当前位置
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location.pathname, navigationType]);
 
   /* ---------------- 随渲染刷新的组件 ---------------- */
   let items = [
@@ -90,6 +109,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
     {
       key: "contest",
       label: <Link to={url.link("contest")}>比赛</Link>,
+    },
+    {
+      key: "tourguide",
+      label: <Link to={url.link("tourguide")}>网站说明</Link>,
     },
   ];
 
@@ -135,6 +158,10 @@ const ShareSite: React.FC<PageProps> = ({ mode, user }) => {
             <Route
               path="minecraft"
               element={<MinecraftPage mode={mode} user={user} />}
+            />
+            <Route
+              path="tourguide"
+              element={<TourGuidePage mode={mode} user={user} />}
             />
             <Route
               path="division"

@@ -86,7 +86,9 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
               message.error("加载头像失败");
             });
         } else {
-          setImageUrl("/UserOutlined.png"); // 替换为实际的默认头像 URL
+          setImageUrl(
+            `https://api.dicebear.com/9.x/thumbs/svg?scale=80&backgroundType=gradientLinear&seed=${user.uuid}`,
+          ); // 替换为实际的默认头像 URL
         }
       })
       .catch((error) => {
@@ -495,7 +497,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       <br />
       <Row gutter={24} align="top">
         {/* 用户信息表格部分 */}
-        <Col span={18}>
+        <Col xs={24} md={18} order={1}>
           <Card
             hoverable
             styles={{
@@ -529,7 +531,12 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           </Card>
         </Col>
         {/* 头像部分 */}
-        <Col span={6} style={{ textAlign: "center", position: "relative" }}>
+        <Col
+          xs={24}
+          md={6}
+          order={2}
+          style={{ textAlign: "center", position: "relative" }}
+        >
           <Card
             hoverable
             style={{

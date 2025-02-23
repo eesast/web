@@ -1,5 +1,13 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Link,
+  Routes,
+  Navigate,
+  useNavigate,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import { Button, Layout, Menu, MenuProps, message } from "antd";
 import {
   TrophyOutlined,
@@ -40,6 +48,17 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
     const savedOpenKeys = sessionStorage.getItem("openKeys");
     return savedOpenKeys ? JSON.parse(savedOpenKeys) : [];
   });
+  const navigationType = useNavigationType(); // 获取导航类型
+  const location = useLocation(); // 获取当前位置
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [location.pathname, navigationType]);
 
   // 菜单项和子菜单项
   const items = [
