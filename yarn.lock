@@ -12161,10 +12161,10 @@ react-router-dom@7.3.0:
   dependencies:
     react-router "7.3.0"
 
-react-router-prompt@0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/react-router-prompt/-/react-router-prompt-0.7.2.tgz#3715973bb7597f4eeb29338d6798e66ffd77fe07"
-  integrity sha512-s+DlvPjGLsAvGBlimCIj0vDgTKeAtRtyAX9U358+WwH9t57kWlT0CKU5LnwP0kSEUJPwhsXf8mplRbm1aRoiPg==
+react-router-prompt@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-router-prompt/-/react-router-prompt-0.8.0.tgz#2b613879e3e30f8cf1ec1d3fa11c3184d0691c9e"
+  integrity sha512-iurKq5VbipBOj8ABBmU63uaUrVZDndCFYYqU436XI8tCmaqsBb0jl2GNX46hqVVYR2nCKVZtGOy5NVYv/nDCmA==
 
 react-router@7.3.0:
   version "7.3.0"
