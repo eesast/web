@@ -22,13 +22,13 @@
   dependencies:
     lodash "^4.17.21"
 
-"@ant-design/charts@2.2.6":
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.2.6.tgz#2e294335399407f14eba5e10d4caf8bb790c80d5"
-  integrity sha512-pkzdIkc+TdHejOkjnizIXleCQ3psqNQSStllhHul4Ep82IU/qfTbGZ9iaVGJoFOc0+uHBO9Y65RVS47TPMBerQ==
+"@ant-design/charts@2.2.7":
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.2.7.tgz#623c118d859461f3c8c253f2bc5035573f5da393"
+  integrity sha512-R8o+K3oskV3kgKkOnnfAJ8dRbF8gpuspgZ0p+xYAiOAX8tg+JpNCB10I/DU4/vipGxmSJQDDU7JiF3roxnN8HQ==
   dependencies:
-    "@ant-design/graphs" "^2.0.4"
-    "@ant-design/plots" "^2.3.2"
+    "@ant-design/graphs" "^2.0.5"
+    "@ant-design/plots" "^2.3.3"
     lodash "^4.17.21"
     react "^18.3.1"
     react-dom "^18.3.1"
@@ -69,19 +69,19 @@
   dependencies:
     "@babel/runtime" "^7.24.7"
 
-"@ant-design/graphs@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.0.4.tgz#49f52a4bf2b616070b505f06ecce47d65451381f"
-  integrity sha512-8Os7/it/auQt7NWUA+Ml+NjVYz2VsRjaGJYGxlUnfT4w0KiW6A9aYgixjVqWYjsdNBK0J3lHtrlME5RLiJ5DTw==
+"@ant-design/graphs@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.0.5.tgz#6590e5995e5311b4b645dd038a8430cf78deacb1"
+  integrity sha512-W5ySuwKLMd+aBUVGvWBlNJttt9feiL6vYhd39mTEg3qYrtvq1gzRwX6hqqf/d3Li4btapTnzjyukEMnkPH2ZAg==
   dependencies:
     "@ant-design/charts-util" "0.0.1-alpha.7"
-    "@antv/g6" "^5.0.38"
-    "@antv/g6-extension-react" "^0.1.13"
+    "@antv/g6" "^5.0.44"
+    "@antv/g6-extension-react" "^0.2.0"
     "@antv/graphin" "^3.0.4"
     lodash "^4.17.21"
     react "^18.3.1"
     react-dom "^18.3.1"
-    styled-components "^6.1.13"
+    styled-components "^6.1.15"
 
 "@ant-design/icons-svg@^4.4.0":
   version "4.4.2"
@@ -99,7 +99,7 @@
     classnames "^2.2.6"
     rc-util "^5.31.1"
 
-"@ant-design/plots@^2.3.2":
+"@ant-design/plots@^2.3.3":
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@ant-design/plots/-/plots-2.3.3.tgz#5f004973c16937f0a5019f290a0234ac15251639"
   integrity sha512-t+pMXuCNEnbrPsRsIMyPSVMYKnFuVYeqHwtjg3ImfTTBdUAfqnJfCBnyPVakPRoMRV2y9+uVL8YWrOQiEvc6rg==
@@ -544,16 +544,15 @@
     fmin "0.0.2"
     pdfast "^0.2.0"
 
-"@antv/g6-extension-react@^0.1.13":
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/@antv/g6-extension-react/-/g6-extension-react-0.1.17.tgz#977959ae0b120966e4166abad2b13ee432a77cec"
-  integrity sha512-0G1ThaAFvq8rzd9mauNSy/OKjVWpepATZifN1FJkuaD3xCNsrewUd0p8AkXH7R2bqmzpcHT/aWKBGIGmlXg/yQ==
+"@antv/g6-extension-react@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@antv/g6-extension-react/-/g6-extension-react-0.2.0.tgz#61f0c17e430e25c0191a1a87f40359b5cb2238fc"
+  integrity sha512-3b4QnxdhWUqYqN9b3pa4gIoJoJ3gKZDzQw+J7W8GY6k0P8mnYxG4YU9nsVpMAqEQNdCK7NTfIhcdz4I3P47/sA==
   dependencies:
     "@antv/g" "^6.1.14"
     "@antv/g-svg" "^2.0.27"
-    "@antv/react-g" "^2.0.30"
 
-"@antv/g6@^5.0.28", "@antv/g6@^5.0.38":
+"@antv/g6@^5.0.28":
   version "5.0.42"
   resolved "https://registry.yarnpkg.com/@antv/g6/-/g6-5.0.42.tgz#07519766549b558040fad25cff26f53e5d5177f1"
   integrity sha512-JGYSeicGIX5C1EGN7DZOYbFm6k18eFlHSdJLQOq5l9bJmWD3Zq7mpRPK8PVsb8YlmFdqajJrCPKnw0zp22kACg==
@@ -571,7 +570,25 @@
     bubblesets-js "^2.3.4"
     hull.js "^1.0.6"
 
-"@antv/g@6.1.21", "@antv/g@^6.1.11", "@antv/g@^6.1.14", "@antv/g@^6.1.7":
+"@antv/g6@^5.0.44":
+  version "5.0.44"
+  resolved "https://registry.yarnpkg.com/@antv/g6/-/g6-5.0.44.tgz#97d589e314b2960019a0fc3a42f9606ea0ba44f6"
+  integrity sha512-aYZB5ifySJU/XXu1pdA2AvzsLvxsn1qKmzxwFmWNJBubiPYLvMOD9BFhRgWRZmVciBdQSjcx1HQu3jpU3m/EqA==
+  dependencies:
+    "@antv/algorithm" "^0.1.26"
+    "@antv/component" "^2.1.2"
+    "@antv/event-emitter" "^0.1.3"
+    "@antv/g" "^6.1.14"
+    "@antv/g-canvas" "^2.0.32"
+    "@antv/g-plugin-dragndrop" "^2.0.25"
+    "@antv/graphlib" "^2.0.4"
+    "@antv/hierarchy" "^0.6.14"
+    "@antv/layout" "1.2.14-beta.9"
+    "@antv/util" "^3.3.10"
+    bubblesets-js "^2.3.4"
+    hull.js "^1.0.6"
+
+"@antv/g@^6.1.11", "@antv/g@^6.1.14", "@antv/g@^6.1.7":
   version "6.1.21"
   resolved "https://registry.yarnpkg.com/@antv/g/-/g-6.1.21.tgz#d64e5dc8ab07a9ec6b14ed671923b7dfe4b4fc05"
   integrity sha512-3cWmsY1bYwDmVzsFmBeqN1tWVt+3JaWL6Uu54C1oF7qn1VXXa3V3KuXGEYCxuei8E8BMriN3D7fZosY5d+MQqw==
@@ -618,19 +635,6 @@
     dagre "^0.8.5"
     ml-matrix "^6.10.4"
     tslib "^2.5.0"
-
-"@antv/react-g@^2.0.30":
-  version "2.0.37"
-  resolved "https://registry.yarnpkg.com/@antv/react-g/-/react-g-2.0.37.tgz#a856e1c219631311267b5be469e4ae8458a5ce0f"
-  integrity sha512-qXued1ZtJHdf8d6aApMLCMHFCZI0lLTjpv6vEpbUWHOGjHolwDTilQy/207UXu2nFd8VbJvnPNnvVyicWFmiKw==
-  dependencies:
-    "@antv/g" "6.1.21"
-    "@antv/util" "^3.3.5"
-    "@babel/runtime" "^7.25.6"
-    gl-matrix "^3.4.3"
-    react-reconciler "^0.26.2"
-    scheduler "^0.20.2"
-    tslib "^2.5.3"
 
 "@antv/scale@^0.4.12", "@antv/scale@^0.4.16":
   version "0.4.16"
@@ -12145,15 +12149,6 @@ react-otp-input@3.1.1:
   resolved "https://registry.yarnpkg.com/react-otp-input/-/react-otp-input-3.1.1.tgz#910169629812c40a614e6c175cc2c5f36102bb61"
   integrity sha512-bjPavgJ0/Zmf/AYi4onj8FbH93IjeD+e8pWwxIJreDEWsU1ILR5fs8jEJmMGWSBe/yyvPP6X/W6Mk9UkOCkTPw==
 
-react-reconciler@^0.26.2:
-  version "0.26.2"
-  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.26.2.tgz#bbad0e2d1309423f76cf3c3309ac6c96e05e9d91"
-  integrity sha512-nK6kgY28HwrMNwDnMui3dvm3rCFjZrcGiuwLc5COUipBK5hWHLOxMJhSnSomirqWwjPBJKV1QcbkI0VJr7Gl1Q==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    scheduler "^0.20.2"
-
 react-refresh@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
@@ -12704,14 +12699,6 @@ saxes@^5.0.1:
   integrity sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==
   dependencies:
     xmlchars "^2.2.0"
-
-scheduler@^0.20.2:
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
-  integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scheduler@^0.23.2:
   version "0.23.2"
@@ -13482,7 +13469,7 @@ style-to-object@^1.0.0:
   dependencies:
     inline-style-parser "0.2.4"
 
-styled-components@6.1.15, styled-components@^6.1.13:
+styled-components@6.1.15, styled-components@^6.1.15:
   version "6.1.15"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.1.15.tgz#7651904d5424d08c1046056eb39024cc23c72ab7"
   integrity sha512-PpOTEztW87Ua2xbmLa7yssjNyUF9vE7wdldRfn1I2E6RTkqknkBYpj771OxM/xrvRGinLy2oysa7GOd7NcZZIA==
