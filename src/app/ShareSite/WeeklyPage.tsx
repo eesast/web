@@ -25,8 +25,6 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { PageProps } from "..";
-import { Form } from "react-router-dom";
-import type { FormInstance } from "antd/es/form"; // 类型声明
 const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
   const { Meta } = Card;
   const { Content, Footer } = Layout;
@@ -76,17 +74,36 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
   }, [associatedValue, weekly_data]);
   const RenewWeekly = async () => {
     try {
-      const { cookie, userAgent, token } = form.getFieldsValue();
-      //todo:输入cookie,response,user-agent的窗口（user-agent只需第一次输入）
-      const response = await axios.post("http://localhost:28888/weekly/renew", {
+      form.submit();
+      const paramSet: FieldType = form.getFieldsValue();
+      const cookie: string | undefined = paramSet.cookie;
+      const userAgent: string | undefined = paramSet.userAgent;
+      const token: string | undefined = paramSet.token;
+      if (!cookie || !userAgent || !token) throw Error("请填写完整信息");
+      const response = await axios.post("/weekly/renew", {
         cookie: cookie,
         useragent: userAgent,
         token: token,
       });
-      //TODO：轮询确认结果
-      if (response.status === 200) message.success("开始爬取内容");
-      else if (response.status === 300) message.success("频率控制中");
-      else throw Error("Delete failed");
+      if (response.status === 200) message.success("spider start");
+      else throw Error("start failed");
+      const filename: string = response.data["filename"];
+      let count = 0;
+      let success: boolean = false;
+      while (count < 10) {
+        const response = await axios.post("/weekly/check", {
+          filename: filename,
+        });
+        if (response.data.finished === true) {
+          message.success("spider finished");
+          success = true;
+          break;
+        }
+        count++;
+        //per second
+        await new Promise((resolve) => setTimeout(resolve, 15000));
+      }
+      if (!success) throw Error("spider failed");
     } catch (err) {
       message.error(String(err));
     }
@@ -344,7 +361,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           />
         </Row>
       </Content>
-      {(user?.role == "counselor" || user?.role == "admin") && (
+      {(user?.role === "counselor" || user?.role === "admin") && (
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <Button
             //onClick={RenewWeekly}
@@ -366,6 +383,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
               style={{ maxWidth: 600 }}
               initialValues={{ remember: true }}
               autoComplete="off"
+              form={form}
             >
               <WebForm.Item<FieldType>
                 label="Cookie"
