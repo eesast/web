@@ -8,7 +8,7 @@
     "@ant-design/charts": "2.2.7",
     "@ant-design/pro-components": "2.8.6",
     "@apollo/client": "3.13.5",
-    "antd": "5.24.3",
+    "antd": "5.24.4",
     "axios": "1.8.3",
     "cos-js-sdk-v5": "1.8.7",
     "dayjs": "1.11.13",
