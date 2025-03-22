@@ -7,9 +7,9 @@
   "dependencies": {
     "@ant-design/charts": "2.2.7",
     "@ant-design/pro-components": "2.8.6",
-    "@apollo/client": "3.13.4",
-    "antd": "5.24.3",
-    "axios": "1.8.3",
+    "@apollo/client": "3.13.5",
+    "antd": "5.24.4",
+    "axios": "1.8.4",
     "cos-js-sdk-v5": "1.8.7",
     "dayjs": "1.11.13",
     "dotenv": "16.4.7",
@@ -25,20 +25,20 @@
     "react-dom": "18.3.1",
     "react-markdown": "10.1.0",
     "react-otp-input": "3.1.1",
-    "react-router-dom": "7.3.0",
+    "react-router-dom": "7.4.0",
     "react-router-prompt": "0.8.0",
     "react-unity-webgl": "9.8.0",
-    "styled-components": "6.1.15",
+    "styled-components": "6.1.16",
     "xlsx": "0.18.5"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.5",
     "@graphql-codegen/typescript-operations": "4.5.1",
     "@graphql-codegen/typescript-react-apollo": "4.3.2",
-    "@playwright/test": "1.51.0",
+    "@playwright/test": "1.51.1",
     "@types/is-url": "1.2.32",
     "@types/node": "22.13.10",
-    "@types/react": "18.3.18",
+    "@types/react": "18.3.19",
     "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.3.5",
     "@types/react-router-dom": "5.3.3",
@@ -58,12 +58,12 @@
     "webpackbar": "7.0.0"
   },
   "peerDependencies": {
-    "electron": "35.0.1",
+    "electron": "35.0.3",
     "electron-builder": "25.1.8"
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
-    "@antv/g2": "5.2.11"
+    "@antv/g2": "5.2.12"
   },
   "scripts": {
     "preinstall": "npm config set registry https://registry.npmmirror.com/ && yarn config set registry https://registry.yarnpkg.com",
