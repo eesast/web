@@ -1,5 +1,4 @@
 import { Modal, Descriptions, Radio, message } from "antd";
-import { PageProps } from "../../..";
 import { IApplication } from "../Interface";
 import dayjs from "dayjs";
 import { RadioChangeEvent } from "antd/lib/radio";
