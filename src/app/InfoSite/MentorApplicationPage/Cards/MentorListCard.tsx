@@ -111,12 +111,6 @@ const ColumnSearchItem: ColumnSearchProps = (dataIndex, name, input) => ({
   },
 });
 
-const departmentFilter = [
-  { text: "电子系", value: "电子系" },
-  { text: "微纳电子系", value: "微纳电子系" },
-  { text: "医学院", value: "医学院" },
-];
-
 interface MentorListProps extends PageProps {
   applications: IApplication[]; // 自身已提交的申请
   mentors: IMentor[]; // 所有导师列表
@@ -158,40 +152,64 @@ const MentorListCard: React.FC<MentorListProps> = ({
       title: "姓名",
       dataIndex: ["name"],
       key: "name",
+      width: "10%",
       ...ColumnSearchItem(["name"], "姓名", searchInput),
     },
     {
       title: "院系",
       dataIndex: ["dept"],
       key: "dept",
-      filters: departmentFilter,
+      width: "10%",
+      filters: [
+        { text: "电子系", value: "电子系" },
+        { text: "微纳电子系", value: "微纳电子系" },
+        { text: "医学院", value: "医学院" },
+      ],
       onFilter: (value, record) => record.dept === value,
+    },
+    {
+      title: "积极分子",
+      dataIndex: ["is_mem"],
+      key: "is_mem",
+      width: "15%",
+      render: (value) => (value ? "是" : "否"),
+      filters: [
+        { text: "是", value: "是" },
+        { text: "否", value: "否" },
+      ],
+      onFilter: (value, record) => (record.is_mem ? "是" : "否") === value,
     },
     {
       title: "申请限额",
       dataIndex: "max_apl",
       key: "max_apl",
+      width: "15%",
       render: (value, record) => (record.avail ? value : "Unavailable"),
+      sorter: (a, b) =>
+        (a.avail ? (a.max_apl ?? 0) : 0) - (b.avail ? (b.max_apl ?? 0) : 0),
     },
     {
       title: "已申请人数",
       dataIndex: "tot_apl",
       key: "tot_apl",
+      width: "15%",
       sorter: (a, b) => (a.tot_apl ?? 0) - (b.tot_apl ?? 0),
     },
     {
       title: "已接收人数",
       dataIndex: "mat_apl",
       key: "mat_apl",
+      width: "15%",
       sorter: (a, b) => (a.mat_apl ?? 0) - (b.mat_apl ?? 0),
     },
     {
       title: "操作",
       key: "action",
+      width: "20%",
       render: (value, record) => (
-        <Row justify="space-around">
+        <Row>
           {user.role === "student" && (
-            <Col span={8}>
+            <Col style={{ width: "50%" }}>
               <Button
                 onClick={() => {
                   setSelectMentor(record);
@@ -201,7 +219,6 @@ const MentorListCard: React.FC<MentorListProps> = ({
                         name: record.name,
                         dept: record.dept,
                       },
-                      stmt: "",
                     },
                   );
                   setEditApplicationModalVisible(true);
@@ -224,7 +241,7 @@ const MentorListCard: React.FC<MentorListProps> = ({
               </Button>
             </Col>
           )}
-          <Col span={8}>
+          <Col style={{ width: "50%" }}>
             <Button
               onClick={() => {
                 setSelectMentor(record);

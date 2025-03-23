@@ -1,4 +1,4 @@
-import { Modal, Form, message, Input } from "antd";
+import { Modal, Form, message, Input, Radio } from "antd";
 import { IApplication, IMentor } from "../Interface";
 import { FormInstance } from "antd/lib";
 import axios from "axios";
@@ -23,12 +23,15 @@ const EditApplicationModal: React.FC<EditApplicationProps> = ({
   const handler = async () => {
     try {
       const values = await form.validateFields().catch(() => {
-        message.error(`表单验证失败`);
         throw new Error();
       });
 
       if (values.stmt.length === 0) {
         message.error("陈述不能为空");
+        return;
+      }
+      if (values.is_mem === undefined) {
+        message.error("请选择是否为积极分子");
         return;
       }
 
@@ -41,6 +44,7 @@ const EditApplicationModal: React.FC<EditApplicationProps> = ({
         const res = await axios.post(`/application/info/mentor/application`, {
           id: cur_appl.id,
           statement: values.stmt,
+          is_member: values.is_mem,
         });
         if (res.status !== 200) {
           throw new Error();
@@ -49,6 +53,7 @@ const EditApplicationModal: React.FC<EditApplicationProps> = ({
         const res = await axios.put(`/application/info/mentor/application`, {
           mentor_uuid: mentor.uuid,
           statement: values.stmt,
+          is_member: values.is_mem,
         });
         if (res.status !== 200) {
           throw new Error();
@@ -87,6 +92,16 @@ const EditApplicationModal: React.FC<EditApplicationProps> = ({
         </Form.Item>
         <Form.Item name={["men", "dept"]} label="导师院系">
           <Input readOnly />
+        </Form.Item>
+        <Form.Item
+          name={["is_mem"]}
+          label="积极分子"
+          rules={[{ required: true, message: "请选择是否为积极分子" }]}
+        >
+          <Radio.Group>
+            <Radio value={true}>是</Radio>
+            <Radio value={false}>否</Radio>
+          </Radio.Group>
         </Form.Item>
         <Form.Item
           name="stmt"
