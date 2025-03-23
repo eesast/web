@@ -37,6 +37,9 @@ const DisplayMentorInfoModal: React.FC<DisplayMentorInfoProps> = ({
           <Descriptions.Item label="学术成果">
             {mentor.achv ?? "暂无记录"}
           </Descriptions.Item>
+          <Descriptions.Item label="交流形式">
+            {mentor.dig_type ?? "暂无记录"}
+          </Descriptions.Item>
           <Descriptions.Item label="联系邮箱">
             {mentor.mail ?? "暂无记录"}
           </Descriptions.Item>

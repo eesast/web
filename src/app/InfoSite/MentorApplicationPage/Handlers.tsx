@@ -56,9 +56,9 @@ export const uploadChatRecordHandler = async (
   try {
     const url = `chat_record/${id}/${(e.file as RcFile).name}`;
     const result = await uploadFile(e.file, url);
-    const xhr = new XMLHttpRequest();
-    e.onSuccess!(result, xhr);
-
+    if (result.statusCode !== 200) {
+      throw new Error();
+    }
     const res = await axios.post(`/application/info/mentor/chat`, {
       id: id,
     });
@@ -68,7 +68,7 @@ export const uploadChatRecordHandler = async (
     await callback();
     message.success("上传成功");
   } catch (err) {
-    e.onError!(new Error("上传失败"));
+    message.error("上传失败");
   }
 };
 

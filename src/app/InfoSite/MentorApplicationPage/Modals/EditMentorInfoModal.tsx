@@ -25,26 +25,18 @@ const EditMentorInfoModal: React.FC<EditMentorInfoProps> = ({
         throw new Error();
       });
 
-      const achv = values.achv ?? "";
-      const bgnd = values.bgnd ?? "";
-      const flds = values.flds ?? "";
-      const intr = values.intr ?? "";
-
-      if (
-        achv.length === 0 &&
-        bgnd.length === 0 &&
-        flds.length === 0 &&
-        intr.length === 0
-      ) {
-        message.error("介绍不能为空");
-        return;
-      }
+      const achv = values.achv;
+      const bgnd = values.bgnd;
+      const flds = values.flds;
+      const intr = values.intr;
+      const dig_type = values.dig_type;
 
       const res = await axios.post(`/application/info/mentor/intro`, {
         achv: achv,
         bgnd: bgnd,
         flds: flds,
         intr: intr,
+        dig_type: dig_type,
       });
       if (res.status !== 200) {
         throw new Error();
@@ -96,6 +88,9 @@ const EditMentorInfoModal: React.FC<EditMentorInfoProps> = ({
           <Input.TextArea />
         </Form.Item>
         <Form.Item name="achv" label="学术成果">
+          <Input.TextArea />
+        </Form.Item>
+        <Form.Item name="dig_type" label="交流形式">
           <Input.TextArea />
         </Form.Item>
       </Form>
