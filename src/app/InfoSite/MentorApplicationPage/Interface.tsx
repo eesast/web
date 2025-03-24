@@ -43,6 +43,7 @@ export interface IApplication {
 export interface IFreshman {
   name: string; // 学生姓名
   stid: string; // 学生学号
+  is_mem: boolean; // 是否参与积极分子谈话
   uuid?: string; // 学生uuid
 }
 

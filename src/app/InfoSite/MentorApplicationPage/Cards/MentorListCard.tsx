@@ -3,113 +3,19 @@ import {
   Card,
   Row,
   Typography,
-  Space,
-  Input,
   Button,
   InputRef,
   Table,
   Form,
 } from "antd";
 import { PageProps } from "../../..";
-import type { TableProps, ColumnProps } from "antd/lib/table";
-import { SearchOutlined } from "@ant-design/icons";
-import type { FilterDropdownProps } from "antd/lib/table/interface";
+import type { TableProps } from "antd/lib/table";
 import { useEffect, useRef, useState } from "react";
 import EditApplicationModal from "../Modals/EditApplicationModal";
 import DisplayMentorInfoModal from "../Modals/DisplayMentorInfoModal";
 import { IApplication, ISchedule, IMentor, IFreshman } from "../Interface";
 import dayjs from "dayjs";
-
-const getNestedValue = (record: any, path: (string | number)[]) => {
-  return path.reduce((acc, key) => acc && acc[key], record);
-};
-
-const searchHandler = (
-  selectedKeys: FilterDropdownProps["selectedKeys"],
-  confirm: FilterDropdownProps["confirm"],
-) => {
-  confirm({ closeDropdown: true });
-};
-
-const resetHandler = (clearFilters: FilterDropdownProps["clearFilters"]) => {
-  clearFilters?.();
-};
-
-interface ColumnSearchProps {
-  (
-    dataIndex: (string | number)[],
-    name: string,
-    input: React.RefObject<InputRef>,
-  ): Partial<ColumnProps<IMentor>>;
-}
-
-const ColumnSearchItem: ColumnSearchProps = (dataIndex, name, input) => ({
-  filterDropdown: ({
-    setSelectedKeys,
-    selectedKeys,
-    confirm,
-    clearFilters,
-  }) => (
-    <Space
-      direction="vertical"
-      css={`
-        padding: 8px;
-      `}
-    >
-      <Input
-        ref={input}
-        placeholder={`搜索${name}`}
-        value={selectedKeys[0]}
-        onChange={(e) =>
-          setSelectedKeys(e.target.value ? [e.target.value] : [])
-        }
-        onPressEnter={() => searchHandler(selectedKeys, confirm)}
-        css={`
-          width: 188px;
-          display: block;
-        `}
-      />
-      <Space>
-        <Button
-          type="primary"
-          onClick={() => searchHandler(selectedKeys, confirm)}
-          icon={<SearchOutlined />}
-          size="small"
-          css={`
-            width: 90px;
-          `}
-        >
-          搜索
-        </Button>
-        <Button
-          onClick={() => resetHandler(clearFilters)}
-          size="small"
-          css={`
-            width: 90px;
-          `}
-        >
-          重置
-        </Button>
-      </Space>
-    </Space>
-  ),
-
-  filterIcon: (filtered) => (
-    <SearchOutlined style={{ color: filtered ? "#027dcd" : undefined }} />
-  ),
-
-  onFilter: (value, record) =>
-    getNestedValue(record, dataIndex)!
-      .toString()
-      .toLowerCase()
-      .includes(value.toString().toLowerCase()),
-
-  onFilterDropdownVisibleChange: (visible) => {
-    if (visible) {
-      setTimeout(() => input.current && input.current.select());
-    }
-  },
-});
+import ColumnSearchItem from "../ColumnSearchItem";
 
 interface MentorListProps extends PageProps {
   applications: IApplication[]; // 自身已提交的申请
@@ -126,6 +32,7 @@ const MentorListCard: React.FC<MentorListProps> = ({
   freshmen,
   callback,
   user,
+  mode,
 }) => {
   const searchInput = useRef<InputRef>(null);
   const [editApplicationModalVisible, setEditApplicationModalVisible] =
@@ -137,6 +44,7 @@ const MentorListCard: React.FC<MentorListProps> = ({
   const [displayMentorInfoVisible, setDisplayMentorInfoVisible] =
     useState(false);
   const [disabledBySchedule, setDisabledBySchedule] = useState(false);
+  const [disableByFreshman, setDisableByFreshman] = useState(false);
 
   useEffect(() => {
     setDisabledBySchedule(
@@ -146,6 +54,10 @@ const MentorListCard: React.FC<MentorListProps> = ({
           dayjs(new Date()) < dayjs(schedule.D.beg)),
     );
   }, [schedule]);
+
+  useEffect(() => {
+    setDisableByFreshman(!freshmen.find((i) => i.uuid && i.uuid === user.uuid));
+  }, [freshmen, user.uuid]);
 
   const mentorInfoListColumns: TableProps<IMentor>["columns"] = [
     {
@@ -224,7 +136,7 @@ const MentorListCard: React.FC<MentorListProps> = ({
                   setEditApplicationModalVisible(true);
                 }}
                 disabled={
-                  !freshmen.find((i) => i.uuid && i.uuid === user.uuid) ||
+                  disableByFreshman ||
                   disabledBySchedule ||
                   ((applications.length > 0 ||
                     !record.avail ||
@@ -274,8 +186,11 @@ const MentorListCard: React.FC<MentorListProps> = ({
             setVisible={setEditApplicationModalVisible}
             cur_appls={applications}
             mentor={selectMentor}
+            freshmen={freshmen}
             form={form}
             callback={callback}
+            user={user}
+            mode={mode}
           />
           <DisplayMentorInfoModal
             visible={displayMentorInfoVisible}

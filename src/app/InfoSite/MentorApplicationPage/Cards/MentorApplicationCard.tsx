@@ -12,7 +12,7 @@ import {
   message,
   Modal,
 } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   EyeInvisibleOutlined,
   EyeOutlined,
@@ -21,7 +21,7 @@ import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { IApplication } from "../Interface";
+import { IApplication, ISchedule } from "../Interface";
 import dayjs from "dayjs";
 import { downloadChatRecordHandler } from "../Handlers";
 import DisplayApplicationModal from "../Modals/DisplayApplicationModal";
@@ -31,20 +31,35 @@ const { Paragraph } = Typography;
 const { confirm } = Modal;
 
 interface MentorApplicationProps {
-  applications: IApplication[]; // 导师被申请的列表
+  applications: IApplication[];
+  schedule: ISchedule;
   callback: () => Promise<void>;
 }
 
 const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
   applications,
+  schedule,
   callback,
 }) => {
   const [hideReject, setHideReject] = useState(false);
+  const [selectedYear, setSelectedYear] = useState<number>(
+    new Date().getFullYear(),
+  );
   const [displayApplicationVisible, setDisplayApplicationVisible] =
     useState(false);
   const [selectedApplication, setSelectedApplication] = useState<
     IApplication | undefined
   >(undefined);
+  const [disabledBySchedule, setDisabledBySchedule] = useState(false);
+
+  useEffect(() => {
+    setDisabledBySchedule(
+      dayjs(new Date()) < dayjs(schedule.C.beg) ||
+        dayjs(new Date()) > dayjs(schedule.D.end) ||
+        (dayjs(new Date()) > dayjs(schedule.C.end) &&
+          dayjs(new Date()) < dayjs(schedule.D.beg)),
+    );
+  }, [schedule]);
 
   const statusHandler = async (value: string, appl: IApplication) => {
     try {
@@ -89,7 +104,25 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
   return (
     <Card>
       <Row>
-        <Col span={4}>
+        <Col style={{ width: "20%" }}>
+          <Typography.Text>年份：</Typography.Text>
+          <Select
+            defaultValue={selectedYear}
+            onChange={(value) => {
+              setSelectedYear(value);
+            }}
+          >
+            {Array.from(
+              { length: new Date().getFullYear() - 2023 + 1 },
+              (_, i) => 2023 + i,
+            ).map((year) => (
+              <Select.Option key={year} value={year}>
+                {year}
+              </Select.Option>
+            ))}
+          </Select>
+        </Col>
+        <Col style={{ width: "10%" }}>
           <Tooltip title={hideReject ? "显示未通过申请" : "隐藏未通过申请"}>
             <Button
               shape="circle"
@@ -107,6 +140,7 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
         dataSource={applications}
         renderItem={(item) => {
           if (item.status === "rejected" && hideReject) return null;
+          if (item.year !== selectedYear) return null;
           return (
             <Descriptions
               key={item.id}
@@ -124,11 +158,11 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
                 {item.stu?.name ?? "暂无记录"}
               </Descriptions.Item>
               <Descriptions.Item
-                label="学生院系"
+                label="学生班级"
                 span={2}
                 style={{ width: "25%" }}
               >
-                {item.stu?.dept ?? "暂无记录"}
+                {item.stu?.clss ?? "暂无记录"}
               </Descriptions.Item>
               <Descriptions.Item
                 label="积极分子"
@@ -166,22 +200,33 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
                 </Button>
               </Descriptions.Item>
               <Descriptions.Item label="申请状态" span={2}>
-                <Select
-                  value={item.status}
-                  onChange={async (value) => {
-                    await statusHandler(value, item);
-                  }}
-                >
-                  <Select.Option key={"approved"} value={"approved"}>
+                {disabledBySchedule ||
+                item.year !== new Date().getFullYear() ? (
+                  item.status === "approved" ? (
                     <Badge status={"success"} text={"已通过"} />
-                  </Select.Option>
-                  <Select.Option key={"rejected"} value={"rejected"}>
+                  ) : item.status === "rejected" ? (
                     <Badge status={"error"} text={"未通过"} />
-                  </Select.Option>
-                  <Select.Option key={"submitted"} value={"submitted"}>
+                  ) : (
                     <Badge status={"processing"} text={"待处理"} />
-                  </Select.Option>
-                </Select>
+                  )
+                ) : (
+                  <Select
+                    value={item.status}
+                    onChange={async (value) => {
+                      await statusHandler(value, item);
+                    }}
+                  >
+                    <Select.Option key={"approved"} value={"approved"}>
+                      <Badge status={"success"} text={"已通过"} />
+                    </Select.Option>
+                    <Select.Option key={"rejected"} value={"rejected"}>
+                      <Badge status={"error"} text={"未通过"} />
+                    </Select.Option>
+                    <Select.Option key={"submitted"} value={"submitted"}>
+                      <Badge status={"processing"} text={"待处理"} />
+                    </Select.Option>
+                  </Select>
+                )}
               </Descriptions.Item>
               {item.status === "approved" && (
                 <Descriptions.Item label="谈话记录" span={4}>
@@ -239,6 +284,7 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
           visible={displayApplicationVisible}
           setVisible={setDisplayApplicationVisible}
           appl={selectedApplication}
+          detail={false}
         />
       )}
     </Card>

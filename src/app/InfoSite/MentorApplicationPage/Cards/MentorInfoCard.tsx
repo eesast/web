@@ -83,8 +83,8 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
         <Col style={{ width: "30%" }}>
           <Typography.Text>申请人数上限： </Typography.Text>
           <InputNumber
-            min={1}
-            max={5}
+            min={5}
+            max={10}
             defaultValue={mentor.max_apl}
             onChange={(value) => maxAppHandler(value)}
           />
@@ -92,9 +92,9 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
         <Col style={{ width: "20%" }}>
           <Button
             type="primary"
-            onClick={async () => {
-              setEditMentorInfoVisible(true);
+            onClick={() => {
               form.setFieldsValue(mentor);
+              setEditMentorInfoVisible(true);
             }}
           >
             我的信息
