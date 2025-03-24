@@ -100,6 +100,9 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           success = true;
           break;
         }
+        if (response.data.failed === true) {
+          throw Error("spider failed");
+        }
         count++;
         //per second
         await new Promise((resolve) => setTimeout(resolve, 15000));
