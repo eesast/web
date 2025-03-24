@@ -90,7 +90,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       const filename: string = response.data["filename"];
       let count = 0;
       let success: boolean = false;
-      while (count < 10) {
+      const limit = 10;
+      while (count < limit) {
         const response = await axios.post("/weekly/check", {
           filename: filename,
         });
@@ -103,7 +104,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         //per second
         await new Promise((resolve) => setTimeout(resolve, 15000));
       }
-      if (!success) throw Error("spider failed");
+      if (!success) throw Error("spider timeout");
     } catch (err) {
       message.error(String(err));
     }
