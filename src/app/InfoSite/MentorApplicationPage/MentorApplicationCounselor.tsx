@@ -1,6 +1,7 @@
 import { PageProps } from "../..";
 import { Space, message, Row, Col } from "antd";
-import MentorListCard from "./Cards/MentorListCard";
+import ManageMentorCard from "./Cards/ManageMentorCard";
+import ManageApplicationCard from "./Cards/ManageApplicationCard";
 import CounselorCards from "./Cards/CounselorCards";
 import FreshmanCards from "./Cards/FreshmanCards";
 import { useState, useEffect } from "react";
@@ -67,6 +68,15 @@ const MentorApplicationStudent: React.FC<PageProps> = ({ mode, user }) => {
     await fetchFreshmen();
   };
 
+  const updateInfoCallback = async () => {
+    await fetchMentors();
+  };
+
+  const updateApplicationCallback = async () => {
+    await fetchApplications();
+    await fetchMentors();
+  };
+
   useEffect(() => {
     fetchApplications();
     fetchMentors();
@@ -99,17 +109,15 @@ const MentorApplicationStudent: React.FC<PageProps> = ({ mode, user }) => {
       </Row>
       <Row style={{ marginTop: "5%" }}>
         <Col style={{ width: "100%" }}>
-          {schedule && (
-            <MentorListCard
-              applications={[]}
-              mentors={mentors}
-              schedule={schedule}
-              freshmen={[]}
-              callback={() => Promise.resolve()}
-              user={user}
-              mode={mode}
-            />
-          )}
+          <ManageMentorCard mentors={mentors} callback={updateInfoCallback} />
+        </Col>
+      </Row>
+      <Row style={{ marginTop: "5%" }}>
+        <Col style={{ width: "100%" }}>
+          <ManageApplicationCard
+            applications={applications}
+            callback={updateApplicationCallback}
+          />
         </Col>
       </Row>
     </Space>

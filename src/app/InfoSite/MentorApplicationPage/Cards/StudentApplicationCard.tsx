@@ -13,7 +13,7 @@ import {
   Form,
 } from "antd";
 import { CalendarTwoTone } from "@ant-design/icons";
-import { IApplication, IMentor } from "../Interface";
+import { IApplication, IFreshman, IMentor, ISchedule } from "../Interface";
 import dayjs from "dayjs";
 import {
   downloadChatRecordHandler,
@@ -25,26 +25,43 @@ import {
   ExclamationCircleFilled,
 } from "@ant-design/icons";
 import EditApplicationModal from "../Modals/EditApplicationModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { PageProps } from "../../..";
 
 const { Paragraph } = Typography;
 
-interface StudentApplicationProps {
+interface StudentApplicationProps extends PageProps {
   applications: IApplication[]; // 学生已申请的列表
+  schedule: ISchedule;
+  freshmen: IFreshman[];
   callback: () => Promise<void>;
 }
 
 const StudentApplicationCard: React.FC<StudentApplicationProps> = ({
   applications,
+  schedule,
+  freshmen,
   callback,
+  user,
+  mode,
 }) => {
   const [editApplicationModalVisible, setEditApplicationModalVisible] =
     useState(false);
   const [selectMentor, setSelectMentor] = useState<IMentor | undefined>(
     undefined,
   );
+  const [disabledBySchedule, setDisabledBySchedule] = useState(false);
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    setDisabledBySchedule(
+      dayjs(new Date()) < dayjs(schedule.C.beg) ||
+        dayjs(new Date()) > dayjs(schedule.D.end) ||
+        (dayjs(new Date()) > dayjs(schedule.C.end) &&
+          dayjs(new Date()) < dayjs(schedule.D.beg)),
+    );
+  }, [schedule]);
 
   const handler = async (id: string) => {
     try {
@@ -127,6 +144,10 @@ const StudentApplicationCard: React.FC<StudentApplicationProps> = ({
                           form.setFieldsValue(item);
                           setEditApplicationModalVisible(true);
                         }}
+                        disabled={
+                          disabledBySchedule ||
+                          item.year !== new Date().getFullYear()
+                        }
                       >
                         编辑
                       </Button>
@@ -134,7 +155,6 @@ const StudentApplicationCard: React.FC<StudentApplicationProps> = ({
                     <Col style={{ width: "20%" }}>
                       <Button
                         danger
-                        disabled={item.status === "approved"}
                         onClick={() => {
                           Modal.confirm({
                             centered: true,
@@ -149,6 +169,10 @@ const StudentApplicationCard: React.FC<StudentApplicationProps> = ({
                             },
                           });
                         }}
+                        disabled={
+                          disabledBySchedule ||
+                          item.year !== new Date().getFullYear()
+                        }
                       >
                         删除
                       </Button>
@@ -244,8 +268,11 @@ const StudentApplicationCard: React.FC<StudentApplicationProps> = ({
           setVisible={setEditApplicationModalVisible}
           cur_appls={applications}
           mentor={selectMentor}
+          freshmen={freshmen}
           form={form}
           callback={callback}
+          user={user}
+          mode={mode}
         />
       )}
     </Card>

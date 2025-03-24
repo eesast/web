@@ -32,6 +32,7 @@ const EditMentorInfoModal: React.FC<EditMentorInfoProps> = ({
       const dig_type = values.dig_type;
 
       const res = await axios.post(`/application/info/mentor/intro`, {
+        mentor_uuid: mentor.uuid,
         achv: achv,
         bgnd: bgnd,
         flds: flds,
