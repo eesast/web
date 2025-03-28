@@ -13,8 +13,9 @@ import {
   Typography,
   message,
   Tooltip,
-  Image,
+  Modal,
 } from "antd";
+import { Form as WebForm } from "antd";
 import React, { useEffect, useState } from "react";
 import * as graphql from "@/generated/graphql";
 import {
@@ -24,26 +25,34 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { PageProps } from "..";
-
-/* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Meta } = Card;
-const { Content, Footer } = Layout;
-const { Text } = Typography;
-const pageSizes = ["8", "12", "16", "20", "32"];
-
-/* ---------------- 主页面 ---------------- */
 const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
-  /* ---------------- States 和常量 Hooks ---------------- */
-  const [associatedValue, setAssociatedValue] = useState("");
-  const [filterParamList, setFilterParamList] = useState([]);
+  const { Meta } = Card;
+  const { Content, Footer } = Layout;
+  const { Text } = Typography;
+  const pageSizes = ["8", "12", "16", "20", "32"];
+  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
-
-  /* ---------------- 从数据库获取数据的 Hooks ---------------- */
-  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
-
-  /* ---------------- useEffect ---------------- */
+  const [associatedValue, setAssociatedValue] = useState("");
+  const [filterParamList, setFilterParamList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = WebForm.useForm<FieldType>();
+  type FieldType = {
+    cookie?: string;
+    userAgent?: string;
+    token?: string;
+  };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    RenewWeekly();
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     let weekly_sorted: any;
     if (weekly_data) {
@@ -63,14 +72,50 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       setFilterParamList(weekly_sorted);
     }
   }, [associatedValue, weekly_data]);
-
-  /* ---------------- 业务逻辑函数 ---------------- */
+  const RenewWeekly = async () => {
+    try {
+      form.submit();
+      const paramSet: FieldType = form.getFieldsValue();
+      const cookie: string | undefined = paramSet.cookie;
+      const userAgent: string | undefined = paramSet.userAgent;
+      const token: string | undefined = paramSet.token;
+      if (!cookie || !userAgent || !token) throw Error("请填写完整信息");
+      const response = await axios.post("/weekly/renew", {
+        cookie: cookie,
+        useragent: userAgent,
+        token: token,
+      });
+      if (response.status === 200) message.success("spider start");
+      else throw Error("start failed");
+      const filename: string = response.data["filename"];
+      let count = 0;
+      let success: boolean = false;
+      const limit = 10;
+      while (count < limit) {
+        const response = await axios.post("/weekly/check", {
+          filename: filename,
+        });
+        if (response.data.finished === true) {
+          message.success("spider finished");
+          success = true;
+          break;
+        }
+        if (response.data.failed === true) {
+          throw Error("spider failed");
+        }
+        count++;
+        //per second
+        await new Promise((resolve) => setTimeout(resolve, 15000));
+      }
+      if (!success) throw Error("spider timeout");
+    } catch (err) {
+      message.error(String(err));
+    }
+  };
   const onChange = (pageNumber: number, pageSize?: number) => {
     setPage(pageNumber);
     if (pageSize) setShowSize(pageSize);
   };
-
-  /* ---------------- 随渲染刷新的组件 ---------------- */
   const MyCard = (props: any) => {
     const [visibleInsert, setVisibleInsert] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
@@ -100,21 +145,14 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       </Tooltip>
     );
   };
-
   const Im = (props: any) => {
     const [url, setUrl] = useState("/android-chrome-192x192.png");
     fetch_img(props.src, setUrl);
     return (
-      <Image
+      <img
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
-        preview={false}
-        style={{
-          objectFit: "cover",
-          minHeight: 256,
-          borderRadius: "10px",
-        }}
         onClick={() => {
           const w = window.open("loading");
           if (w != null) w.location.href = props.src;
@@ -122,7 +160,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       />
     );
   };
-
   const InsertPop = (props: any) => {
     const [inputURL, setInputURL] = useState("");
     return (
@@ -175,7 +212,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       </Layout>
     );
   };
-
   const DeletePop = (props: any) => {
     return (
       <Layout>
@@ -220,7 +256,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       </Layout>
     );
   };
-
   const showAction = (
     setVisibleInsert: any,
     setVisibleDelete: any,
@@ -248,7 +283,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
             }}
           />
         </Popover>,
-
         <Popover
           content={
             <DeletePop setVisibleDelete={setVisibleDelete} id={item.id} />
@@ -270,7 +304,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       ];
     } else return undefined;
   };
-
   const fetch_img = async (url: string, setUrl: any) => {
     try {
       const response = await axios.get("/weekly/cover", {
@@ -283,8 +316,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       console.log(err);
     }
   };
-
-  /* ---------------- 页面组件 ---------------- */
   return (
     <Layout>
       <Content
@@ -319,7 +350,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
               sm: 2,
               md: 3,
               lg: 4,
-              xl: 5,
+              xl: 4,
               xxl: 6,
             }}
             dataSource={filterParamList?.slice(
@@ -334,28 +365,82 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           />
         </Row>
       </Content>
+      {(user?.role === "counselor" || user?.role === "admin") && (
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
+          <Button
+            //onClick={RenewWeekly}
+            //disabled={user?.role !== "counselor" && user?.role !== "admin"}
+            onClick={showModal}
+          >
+            刷新weekly内容
+          </Button>
+          <Modal
+            title="刷新 weekly 内容"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <WebForm
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              style={{ maxWidth: 600 }}
+              initialValues={{ remember: true }}
+              autoComplete="off"
+              form={form}
+            >
+              <WebForm.Item<FieldType>
+                label="Cookie"
+                name="cookie"
+                rules={[{ required: true, message: "请输入内容" }]}
+              >
+                <Input />
+              </WebForm.Item>
+
+              <WebForm.Item<FieldType>
+                label="UserAgent"
+                name="userAgent"
+                rules={[{ required: true, message: "请输入内容" }]}
+              >
+                <Input />
+              </WebForm.Item>
+              <WebForm.Item<FieldType>
+                label="Token"
+                name="token"
+                rules={[{ required: true, message: "请输入内容" }]}
+              >
+                <Input />
+              </WebForm.Item>
+
+              <WebForm.Item label={null}></WebForm.Item>
+            </WebForm>
+          </Modal>
+        </div>
+      )}
       <Footer>
         <table style={{ margin: "0 auto" }}>
           <tbody>
             <tr>
-              <td>
-                {user.role === "root" ||
-                  (user.role === "counselor" && (
-                    <Radio.Group
-                      defaultValue={"browse"}
-                      value={showMode}
-                      onChange={(e) => setShowMode(e.target.value)}
-                    >
-                      <Radio.Button value="browse">浏览模式</Radio.Button>
-                      <Radio.Button value="edit">编辑模式</Radio.Button>
-                    </Radio.Group>
-                  ))}
+              <td title="仅系统管理员在登录后可进入编辑模式">
+                <Radio.Group
+                  defaultValue={"browse"}
+                  value={showMode}
+                  onChange={(e) => setShowMode(e.target.value)}
+                >
+                  <Radio.Button value="browse">浏览模式</Radio.Button>
+                  <Radio.Button
+                    value="edit"
+                    //disabled={user.role !== "counselor" && user.role !== "root"}
+                  >
+                    编辑模式
+                  </Radio.Button>
+                </Radio.Group>
               </td>
               <td>
                 <Pagination
                   showQuickJumper
                   current={page}
-                  total={filterParamList.length}
+                  total={weekly_data?.weekly.length}
                   defaultPageSize={12}
                   showSizeChanger={true}
                   pageSizeOptions={pageSizes}
@@ -371,5 +456,4 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     </Layout>
   );
 };
-
 export default WeeklyPage;
