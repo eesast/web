@@ -365,7 +365,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           />
         </Row>
       </Content>
-      {(user?.role === "counselor" || user?.role === "admin") && (
+      {user?.role === "counselor" && (
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <Button
             //onClick={RenewWeekly}
