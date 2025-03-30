@@ -46,13 +46,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
       message.error("简介加载失败");
     }
   }, [contestInfoError]);
-  const [now, setNow] = useState(dayjs());
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setNow(dayjs());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const [now] = useState(dayjs());
   const contestEnd = contestInfoData?.contest_by_pk?.end_date
     ? dayjs(contestInfoData.contest_by_pk.end_date)
     : null;
