@@ -89,6 +89,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [selectedRole, setSelectedRole] = useState("");
   const [editingCodeKey, setEditingCodeKey] = useState("");
   const [editingRoleKey, setEditingRoleKey] = useState("");
+  const [sf_code, setSF_code] = useState("");
   const codeIndexMap = new Map();
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
@@ -147,6 +148,8 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   //linqiushi:修改后的数据库
   const [AddTeamCode, { error: codeError }] = graphql.useAddTeamCodeMutation();
+
+  const [UpdateTeamSfCode] = graphql.useUpdateTeam_Sf_CodeMutation();
 
   const [updatePlayerCodes] = graphql.useUpdateTeamPlayerMutation();
 
@@ -373,7 +376,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(err);
     }
   };
-
   const handleCodeChange = async (lang: string, codeName: string) => {
     if (!open) {
       message.info("代码功能暂未开放");
@@ -389,6 +391,27 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     });
     return response.data?.insert_contest_team_code_one?.code_id;
   };
+
+  const handleSfCodeChange = async () => {
+    try {
+      const response = await UpdateTeamSfCode({
+        variables: {
+          team_id: teamid!,
+          team_sf_code: sf_code, // 传入用户输入的 SF 代码
+        },
+      });
+
+      console.log("更新成功:", response.data);
+      message.success("SF 代码提交成功！");
+    } catch (error) {
+      console.error("提交失败:", error);
+      message.error("提交失败，请重试！");
+    }
+  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSF_code(e.target.value);
+  };
+
   const handleOnchange = async (info: any) => {
     if (!open) {
       message.info("代码功能暂未开放");
@@ -914,6 +937,28 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
             dataSource={dataSourceCodes}
             columns={columnsCodes as ColumnTypes}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col
+          span={20}
+          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+        >
+          <Typography.Title level={2}>软设代码提交</Typography.Title>
+          <Input
+            placeholder="请在此提交云盘链接"
+            value={sf_code}
+            onChange={handleInputChange}
+            style={{ marginBottom: "10px" }} // 增加输入框和按钮之间的间距
+          />
+          <Button
+            type="primary"
+            onClick={handleSfCodeChange}
+            style={{ alignSelf: "flex-end" }} // 使按钮对齐到右下角
+          >
+            提交
+          </Button>
         </Col>
       </Row>
     </Layout>

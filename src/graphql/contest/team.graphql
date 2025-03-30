@@ -1,4 +1,4 @@
-# 主要操作对象：contest_team 和 contest_team_member表
+# 主要操作对象：contest_team 及contest_team_sf_code 和 contest_team_member表
 
 # 增
 mutation AddTeam(
@@ -52,6 +52,15 @@ mutation UpdateTeam(
   update_contest_team_by_pk(
     pk_columns: { team_id: $team_id }
     _set: { team_name: $team_name, team_intro: $team_intro }
+  ) {
+    team_id
+  }
+}
+
+mutation UpdateTeam_Sf_Code($team_id: uuid!, $team_sf_code: String!) {
+  update_contest_team_by_pk(
+    pk_columns: { team_id: $team_id }
+    _set: { team_sf_code: $team_sf_code }
   ) {
     team_id
   }
