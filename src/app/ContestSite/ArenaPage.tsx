@@ -359,7 +359,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       return colors[rank - 1];
     }
     // 其他排名根据模式返回相应的颜色
-    return mode === "dark" ? "#FFFFFF" : "#333333"; // 将纯黑色 #000000 替换为深灰色 #333333
+    return mode === "dark" ? "#FFFFFF" : "#333333";
   };
 
   const getRankEmoji = (rank: number) => {
