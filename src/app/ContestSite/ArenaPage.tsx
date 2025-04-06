@@ -353,12 +353,18 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   };
   /* ---------------- 页面组件 ---------------- */
 
-  const getColorByRank = (rank: number) => {
-    const colors = ["#FFD700", "#C0C0C0", "#CD7F32", "#E6E1E1"];
-    return colors[Math.min(rank - 1, 4)];
+  const getColorByRank = (rank: number, mode: any) => {
+    if (rank <= 3) {
+      const colors = ["#FFD700", "#C0C0C0", "#CD7F32"];
+      return colors[rank - 1];
+    }
+    // 其他排名根据模式返回相应的颜色
+    return mode === "dark" ? "#FFFFFF" : "#000000";
   };
-  const getSizeByRank = (rank: number) => {
-    return `${Math.max(6 - rank * 0.5, 4)}vw`;
+
+  const getRankEmoji = (rank: number) => {
+    const emojis = ["🥇", "🥈", "🥉"];
+    return rank <= 3 ? emojis[rank - 1] : `${rank}`;
   };
   const [isSimplifiedView, setIsSimplifiedView] = useState(false);
 
@@ -412,7 +418,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             style={{ marginLeft: 16 }}
             onClick={() => setIsSimplifiedView(!isSimplifiedView)}
           >
-            {isSimplifiedView ? "详细显示" : "简化显示"}
+            {isSimplifiedView ? "详细模式" : "简洁模式"}
           </Button>
         </Col>
       </Row>
@@ -434,9 +440,9 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                       {isSimplifiedView ? (
                         <Card
                           style={{
-                            height: "40px",
+                            height: "50px",
                             width: "100%",
-                            marginBottom: "-15px",
+                            marginBottom: "-12px",
                             padding: "0 20px",
                           }}
                           hoverable={open && team_id}
@@ -447,32 +453,39 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                             style={{
                               width: "100%",
                               height: "100%",
-                              margin: -18,
+                              margin: -12,
+                              marginLeft: -40,
                             }}
                           >
                             <Col span={3}>
                               <Typography.Text
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "24px",
                                   fontWeight: "bold",
                                   height: "100%",
                                   lineHeight: 1,
+                                  textAlign: "center",
+                                  display: "block",
+                                  width: "100%",
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
                                 }}
                               >
-                                {index + 1}
+                                {getRankEmoji(index + 1)}
                               </Typography.Text>
                             </Col>
 
                             <Col span={8}>
                               <Typography.Text
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "15px",
                                   fontWeight: "bold",
                                   whiteSpace: "nowrap",
                                   textOverflow: "ellipsis",
                                   overflow: "hidden",
                                   textAlign: "left",
                                   lineHeight: 1,
+                                  marginLeft: "20px",
                                 }}
                               >
                                 队名：{item.team_name}
@@ -488,7 +501,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                             >
                               <Typography.Text
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "15px",
                                   fontWeight: "bold",
                                 }}
                               >
@@ -533,7 +546,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                       <Avatar
                                         key={memberindex}
                                         src={avatarUrl}
-                                        size={20}
+                                        size={24}
                                         style={{
                                           fontSize: "23px",
                                           marginRight: "10px",
@@ -548,7 +561,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                             <Col span={4}>
                               <Typography.Text
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "15px",
                                   fontWeight: "bold",
                                   lineHeight: 1,
                                 }}
@@ -562,9 +575,9 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                         </Card>
                       ) : (
                         <Card
-                          style={{ width: "100%", height: "150px" }}
+                          style={{ width: "100%", height: "130px" }}
                           styles={{
-                            body: { paddingTop: "30px" },
+                            body: { paddingTop: "25px" },
                           }}
                           hoverable={open && team_id}
                           onClick={() => {
@@ -581,23 +594,21 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                 style={{
                                   display: "block",
                                   fontFamily: "Roboto",
-                                  fontSize: getSizeByRank(index + 1), //文本大小
-                                  fontWeight: "bold",
+                                  fontSize: "3.5rem",
+                                  fontWeight: "normal",
                                   overflow: "hidden",
                                   whiteSpace: "nowrap",
                                   textOverflow: "ellipsis",
-                                  color: getColorByRank(index + 1), // 文本颜色
+                                  color: getColorByRank(index + 1, mode),
                                   lineHeight: "90px",
-                                  textShadow: "5px 5px 0 #666, 7px 7px 0 #eee",
                                   textAlign: "center",
-                                  opacity: 0.9,
                                 }}
                               >
-                                {index + 1}
+                                {getRankEmoji(index + 1)}
                               </Typography.Text>
                             </Col>
                             <Col span={15}>
-                              <Row style={{ marginBottom: "20px" }} gutter={4}>
+                              <Row style={{ marginBottom: "10px" }} gutter={4}>
                                 <Col
                                   span={10}
                                   style={{
@@ -681,8 +692,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                   </Typography.Text>
                                 </Col>
                               </Row>
-                              <Divider />
-                              <Row gutter={4} style={{ marginBottom: "0px" }}>
+                              <Divider style={{ margin: "4px 0" }} />
+                              <Row gutter={4} style={{ marginTop: "16px" }}>
                                 <Col
                                   span={16}
                                   style={{
@@ -701,7 +712,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                               <Typography.Text
                                 style={{
                                   display: "block",
-                                  fontSize: "30px",
+                                  fontSize: "26px",
                                   fontWeight: "bold",
                                   textAlign: "center",
                                 }}
