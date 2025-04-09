@@ -180,6 +180,8 @@ permalink: /contest
 interface ContestResult {
   status: string; // `Finished`、`Timeout` 或 `Crashed`。
   scores: number[]; // 每个队伍的分数，顺序与 TEAM_LABELS 一致。
+  player_roles: string[][];  // 数组第一维代表两个队伍，顺序与 TEAM_LABELS 一致，第二维代表某个队伍选用的 player_role，顺序与 player_label 默认顺序一致
+  extra: string | string[]; // 额外的统计信息
 };
 
 interface TeamLabelBind {
