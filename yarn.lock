@@ -334,6 +334,11 @@
   resolved "https://registry.yarnpkg.com/@antv/event-emitter/-/event-emitter-0.1.3.tgz#3e06323b9dcd55a3241ddc7c5458cfabd2095164"
   integrity sha512-4ddpsiHN9Pd4UIlWuKVK1C4IiZIdbwQvy9i7DUSI3xNJ89FPUFt8lxDYj8GzzfdllV0NkJTRxnG+FvLk0llidg==
 
+"@antv/expr@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@antv/expr/-/expr-1.0.2.tgz#a75fa0a0f132fe47bedf6c8b93a847997ffe53ff"
+  integrity sha512-vrfdmPHkTuiS5voVutKl2l06w1ihBh9A8SFdQPEE+2KMVpkymzGOF1eWpfkbGZ7tiFE15GodVdhhHomD/hdIwg==
+
 "@antv/g-camera-api@2.0.35":
   version "2.0.35"
   resolved "https://registry.yarnpkg.com/@antv/g-camera-api/-/g-camera-api-2.0.35.tgz#0c8f5824f4525b2fed9941170aa9e668b9c5734f"
@@ -526,14 +531,15 @@
     d3-array "^3.2.4"
     d3-hierarchy "^3.1.2"
 
-"@antv/g2@5.2.12", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
-  version "5.2.12"
-  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.2.12.tgz#c19522fc005129bc2d5b46203832581bed89e99d"
-  integrity sha512-VPtlYZG6h+Fs5MAHuajRrhnfjqy9DyunUIBKvwL4RU1YnyNccAYJtlVDSLnleGFByjIGNBIDNBewsXbFR+v/hg==
+"@antv/g2@5.3.0", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.3.0.tgz#148fc639d14b2a199396a6f0d42bb381d306a870"
+  integrity sha512-EVJYxEoJdHGVGZgR4LmqppJmr4mVrKwQwu/J9A6CAAHcA/llvv5JHpgsVuiYKL7mTKUCu+U2UOHc5hzrekxWCQ==
   dependencies:
     "@antv/component" "^2.1.2"
     "@antv/coord" "^0.4.7"
     "@antv/event-emitter" "^0.1.3"
+    "@antv/expr" "^1.0.2"
     "@antv/g" "^6.1.11"
     "@antv/g-canvas" "^2.0.29"
     "@antv/g-plugin-dragndrop" "^2.0.22"
