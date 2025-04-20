@@ -48,7 +48,7 @@ const ImportFreshmanModal: React.FC<ImportFreshmanProps> = ({
         }) as (string | number)[][]
       ).filter((i) => i.length !== 0);
       const head = studentInfos.shift();
-      if (!head || head.length < 2) {
+      if (!head || head.length < 3) {
         throw new Error("Parse error");
       }
 
@@ -58,10 +58,12 @@ const ImportFreshmanModal: React.FC<ImportFreshmanProps> = ({
           try {
             const stid = info[0].toString();
             const name = info[1].toString();
+            const is_mem = info[2].toString() === "是";
 
             const res = await axios.put(`/application/info/mentor/freshman`, {
               stid: stid,
               name: name,
+              is_mem: is_mem,
             });
             if (res.status !== 200) {
               throw new Error();

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card, Col, Row, Space, Statistic, Timeline, message } from "antd";
 import { FireOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
@@ -39,12 +39,53 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
     },
   });
   const contestTimes = CountdownData?.contest_time || [];
+
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestInfoError) {
       message.error("简介加载失败");
     }
   }, [contestInfoError]);
+  const [now] = useState(dayjs());
+  const contestEnd = contestInfoData?.contest_by_pk?.end_date
+    ? dayjs(contestInfoData.contest_by_pk.end_date)
+    : null;
+
+  const registrationEvent = contestTimes.find((event) =>
+    event.event.includes("开始报名"),
+  );
+  const semiEvent = contestTimes.find((event) => event.event.includes("复赛"));
+  const finalEvent = contestTimes.find((event) => event.event.includes("决赛"));
+  const registrationStart = registrationEvent
+    ? dayjs(registrationEvent.start)
+    : null;
+  const registrationEnd = registrationEvent
+    ? dayjs(registrationEvent.end)
+    : null;
+  const semiStart = semiEvent ? dayjs(semiEvent.start) : null;
+  const finalStart = finalEvent ? dayjs(finalEvent.start) : null;
+
+  let targetTime: dayjs.Dayjs | null = null;
+  let countdownTitle = "";
+
+  if (registrationStart && now.isBefore(registrationStart)) {
+    targetTime = registrationStart;
+    countdownTitle = "距离报名开始还有";
+  } else if (registrationEnd && now.isBefore(registrationEnd)) {
+    targetTime = registrationEnd;
+    countdownTitle = "距离报名结束还有";
+  } else if (semiStart && now.isBefore(semiStart)) {
+    targetTime = semiStart;
+    countdownTitle = "距离复赛开始还有";
+  } else if (finalStart && now.isBefore(finalStart)) {
+    targetTime = finalStart;
+    countdownTitle = "距离决赛开始还有";
+  } else if (contestEnd && now.isBefore(contestEnd)) {
+    targetTime = contestEnd;
+    countdownTitle = "距离比赛结束还有";
+  } else {
+    countdownTitle = "比赛已结束";
+  }
 
   /* ---------------- 页面组件 ---------------- */
   return (
@@ -88,11 +129,15 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
         </Col>
         <Col span={8}>
           <Card hoverable bordered={false}>
-            <Countdown
-              title="距离报名截止还有"
-              value={contestInfoData?.contest_by_pk?.end_date}
-              format="D 天 H 时 m 分"
-            />
+            {targetTime ? (
+              <Countdown
+                title={countdownTitle}
+                value={targetTime.valueOf()}
+                format="D 天 H 时 m 分"
+              />
+            ) : (
+              <span>{countdownTitle}</span>
+            )}
           </Card>
         </Col>
       </Row>

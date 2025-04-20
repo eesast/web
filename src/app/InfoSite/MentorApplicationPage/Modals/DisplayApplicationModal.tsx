@@ -1,44 +1,30 @@
-import { Modal, Descriptions, Radio, message } from "antd";
+import { Modal, Descriptions, Typography } from "antd";
 import { IApplication } from "../Interface";
-import dayjs from "dayjs";
-import { RadioChangeEvent } from "antd/lib/radio";
-import axios from "axios";
+
+const { Paragraph } = Typography;
 
 interface DisplayApplicationProps {
   visible: boolean; // 是否显示
   setVisible: React.Dispatch<React.SetStateAction<boolean>>; // 设置是否显示
   appl: IApplication; // 该导师被申请的信息
-  callback: () => Promise<void>; // 更新申请状态的回调函数
+  detail: boolean; // 是否显示详细信息
 }
 
 const DisplayApplicationModal: React.FC<DisplayApplicationProps> = ({
   visible,
   setVisible,
   appl,
-  callback,
+  detail,
 }) => {
-  const handler = async (e: RadioChangeEvent) => {
-    try {
-      const res = await axios.post(`/application/info/mentor/status`, {
-        id: appl.id,
-        status: e.target.value,
-      });
-      if (res.status !== 200) {
-        throw new Error();
-      }
-      await callback();
-      message.info("更新成功");
-      setVisible(false);
-    } catch (err) {
-      message.error("更新失败");
-    }
-  };
-
   return (
     <Modal
       open={visible}
       title={
-        appl.stu?.name ? `${appl.stu.name}的信息` : "学生信息未记录于数据库中"
+        detail
+          ? `申请详情`
+          : appl.stu?.name
+            ? `${appl.stu.name}的联系方式`
+            : "学生信息未记录于数据库中"
       }
       centered
       destroyOnClose
@@ -48,38 +34,69 @@ const DisplayApplicationModal: React.FC<DisplayApplicationProps> = ({
       footer={null}
       width="60%"
     >
-      <Descriptions column={3}>
-        <Descriptions.Item label="姓名">
-          {appl.stu?.name ?? "暂无记录"}
-        </Descriptions.Item>
-        <Descriptions.Item label="院系">
-          {appl.stu?.dept ?? "暂无记录"}
-        </Descriptions.Item>
-        <Descriptions.Item label="邮箱">
-          {appl.stu?.mail ?? "暂无记录"}
-        </Descriptions.Item>
-        <Descriptions.Item label="手机">
-          {appl.stu?.phon ?? "暂无记录"}
-        </Descriptions.Item>
-        <Descriptions.Item label="申请时间" span={2}>
-          {dayjs(appl.created).format("YYYY-MM-DD HH:mm") ?? "暂无记录"}
-        </Descriptions.Item>
-        <Descriptions.Item label="申请陈述" span={3}>
-          {appl.stmt ?? "暂无记录"}
-        </Descriptions.Item>
-        <Descriptions.Item span={3}>{""}</Descriptions.Item> 占位
-        <Descriptions.Item span={1}>
-          <Radio.Group
-            disabled={!appl.id}
-            value={appl.status}
-            onChange={handler}
-          >
-            <Radio value="approved">接收</Radio>
-            <Radio value="submitted">待处理</Radio>
-            <Radio value="rejected">拒绝</Radio>
-          </Radio.Group>
-        </Descriptions.Item>
-      </Descriptions>
+      {detail ? (
+        <Descriptions column={2}>
+          <Descriptions.Item label="学生姓名">
+            {appl.stu?.name ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="学生学号">
+            {appl.stu?.stid ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="学生院系">
+            {appl.stu?.dept ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="学生班级">
+            {appl.stu?.clss ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="学生邮箱">
+            {appl.stu?.mail ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="学生手机">
+            {appl.stu?.phon ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="导师姓名">
+            {appl.men?.name ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="导师院系">
+            {appl.men?.dept ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="导师邮箱">
+            {appl.men?.mail ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="导师电话">
+            {appl.men?.phon ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="谈话时间" span={2}>
+            {appl.chat_t ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="申请陈述" span={2}>
+            <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "展开" }}>
+              {appl.stmt}
+            </Paragraph>
+          </Descriptions.Item>
+        </Descriptions>
+      ) : (
+        <Descriptions column={2}>
+          <Descriptions.Item label="姓名">
+            {appl.stu?.name ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="学号">
+            {appl.stu?.stid ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="院系">
+            {appl.stu?.dept ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="班级">
+            {appl.stu?.clss ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="邮箱">
+            {appl.stu?.mail ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="电话">
+            {appl.stu?.phon ?? "暂无记录"}
+          </Descriptions.Item>
+        </Descriptions>
+      )}
     </Modal>
   );
 };

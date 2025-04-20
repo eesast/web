@@ -97,10 +97,13 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
           </Row>
           <Row style={{ marginTop: "5%" }}>
             <Col style={{ width: "100%" }}>
-              <MentorApplicationCard
-                applications={applications}
-                callback={updateStatusCallback}
-              />
+              {schedule && (
+                <MentorApplicationCard
+                  applications={applications}
+                  schedule={schedule}
+                  callback={updateStatusCallback}
+                />
+              )}
             </Col>
           </Row>
         </Col>
