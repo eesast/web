@@ -13,6 +13,7 @@ import {
   Typography,
   message,
   Tooltip,
+  Image,
   Modal,
 } from "antd";
 import { Form as WebForm } from "antd";
@@ -149,7 +150,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     const [url, setUrl] = useState("/android-chrome-192x192.png");
     fetch_img(props.src, setUrl);
     return (
-      <img
+      <Image
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
@@ -430,7 +431,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
                   <Radio.Button value="browse">浏览模式</Radio.Button>
                   <Radio.Button
                     value="edit"
-                    //disabled={user.role !== "counselor" && user.role !== "root"}
+                    disabled={user.role !== "counselor"}
                   >
                     编辑模式
                   </Radio.Button>
