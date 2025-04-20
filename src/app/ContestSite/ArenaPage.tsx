@@ -15,6 +15,7 @@ import {
   Typography,
   Checkbox,
   Avatar,
+  Button,
 } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { SearchOutlined } from "@ant-design/icons";
@@ -352,13 +353,20 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
   };
   /* ---------------- 页面组件 ---------------- */
 
-  const getColorByRank = (rank: number) => {
-    const colors = ["#FFD700", "#C0C0C0", "#CD7F32", "#E6E1E1"];
-    return colors[Math.min(rank - 1, 4)];
+  const getColorByRank = (rank: number, mode: any) => {
+    if (rank <= 3) {
+      const colors = ["#FFD700", "#C0C0C0", "#CD7F32"];
+      return colors[rank - 1];
+    }
+    // 其他排名根据模式返回相应的颜色
+    return mode === "dark" ? "#FFFFFF" : "#333333";
   };
-  const getSizeByRank = (rank: number) => {
-    return `${Math.max(6 - rank * 0.5, 4)}vw`;
+
+  const getRankEmoji = (rank: number) => {
+    const emojis = ["🥇", "🥈", "🥉"];
+    return rank <= 3 ? emojis[rank - 1] : `${rank}`;
   };
+  const [isSimplifiedView, setIsSimplifiedView] = useState(false);
 
   return (
     <Layout>
@@ -406,6 +414,12 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
           >
             只看可发起对战的队伍
           </Checkbox>
+          <Button
+            style={{ marginLeft: 16 }}
+            onClick={() => setIsSimplifiedView(!isSimplifiedView)}
+          >
+            {isSimplifiedView ? "详细模式" : "简洁模式"}
+          </Button>
         </Col>
       </Row>
       <br />
@@ -423,158 +437,294 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                       title={open && team_id ? "点击开战" : ""}
                       placement="topRight"
                     >
-                      <Card
-                        style={{ width: "100%", height: "150px" }}
-                        styles={{
-                          body: { paddingTop: "30px" },
-                        }}
-                        hoverable={open && team_id}
-                        onClick={() => {
-                          handleStartBattle(item);
-                        }}
-                      >
-                        <Row
-                          gutter={4}
-                          align="middle"
-                          style={{ width: "100%", height: "100%" }}
+                      {isSimplifiedView ? (
+                        <Card
+                          style={{
+                            height: "50px",
+                            width: "100%",
+                            marginBottom: "-12px",
+                            padding: "0 20px",
+                          }}
+                          hoverable={open && team_id}
+                          onClick={() => handleStartBattle(item)}
                         >
-                          <Col span={3}>
-                            <Typography.Text
+                          <Row
+                            align="middle"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              margin: -12,
+                              marginLeft: -40,
+                            }}
+                          >
+                            <Col span={3}>
+                              <Typography.Text
+                                style={{
+                                  fontSize: "24px",
+                                  fontWeight: "bold",
+                                  height: "100%",
+                                  lineHeight: 1,
+                                  textAlign: "center",
+                                  display: "block",
+                                  width: "100%",
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                {getRankEmoji(index + 1)}
+                              </Typography.Text>
+                            </Col>
+
+                            <Col span={8}>
+                              <Typography.Text
+                                style={{
+                                  fontSize: "15px",
+                                  fontWeight: "bold",
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                  overflow: "hidden",
+                                  textAlign: "left",
+                                  lineHeight: 1,
+                                  marginLeft: "20px",
+                                }}
+                              >
+                                队名：{item.team_name}
+                              </Typography.Text>
+                            </Col>
+                            <Col
+                              span={8}
                               style={{
-                                display: "block",
-                                fontFamily: "Roboto",
-                                fontSize: getSizeByRank(index + 1), //文本大小
-                                fontWeight: "bold",
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
                                 textOverflow: "ellipsis",
-                                color: getColorByRank(index + 1), // 文本颜色
-                                lineHeight: "90px",
-                                textShadow: "5px 5px 0 #666, 7px 7px 0 #eee",
-                                textAlign: "center",
-                                opacity: 0.9,
                               }}
                             >
-                              {index + 1}
-                            </Typography.Text>
-                          </Col>
-                          <Col span={15}>
-                            <Row style={{ marginBottom: "20px" }} gutter={4}>
-                              <Col
-                                span={10}
+                              <Typography.Text
                                 style={{
+                                  fontSize: "15px",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                队伍：
+                                {teamAvatars[index]?.map(
+                                  (avatarUrl, memberindex) => (
+                                    <Tooltip
+                                      title={
+                                        <Typography.Text>
+                                          姓名：
+                                          {item.contest_team_members[
+                                            memberindex
+                                          ].user.realname || "暂无"}
+                                          <br />
+                                          院系：
+                                          {item.contest_team_members[
+                                            memberindex
+                                          ].user.department || "暂无"}
+                                          <br />
+                                          班级：
+                                          {item.contest_team_members[
+                                            memberindex
+                                          ].user.class || "暂无"}
+                                          <br />
+                                          学号：
+                                          {item.contest_team_members[
+                                            memberindex
+                                          ].user.student_no || "暂无"}
+                                          <br />
+                                          清华邮箱：
+                                          {item.contest_team_members[
+                                            memberindex
+                                          ].user.tsinghua_email || "暂无"}
+                                        </Typography.Text>
+                                      }
+                                      placement="rightTop"
+                                      color={
+                                        mode === "dark" ? "black" : "white"
+                                      }
+                                      overlayStyle={{ maxWidth: "600px" }}
+                                    >
+                                      <Avatar
+                                        key={memberindex}
+                                        src={avatarUrl}
+                                        size={24}
+                                        style={{
+                                          fontSize: "23px",
+                                          marginRight: "10px",
+                                        }}
+                                      />
+                                    </Tooltip>
+                                  ),
+                                )}
+                              </Typography.Text>
+                            </Col>
+
+                            <Col span={4}>
+                              <Typography.Text
+                                style={{
+                                  fontSize: "15px",
+                                  fontWeight: "bold",
+                                  lineHeight: 1,
+                                }}
+                              >
+                                积分：
+                                {item.contest_team_rooms_aggregate.aggregate
+                                  ?.sum?.score ?? "暂无记录"}
+                              </Typography.Text>
+                            </Col>
+                          </Row>
+                        </Card>
+                      ) : (
+                        <Card
+                          style={{ width: "100%", height: "130px" }}
+                          styles={{
+                            body: { paddingTop: "25px" },
+                          }}
+                          hoverable={open && team_id}
+                          onClick={() => {
+                            handleStartBattle(item);
+                          }}
+                        >
+                          <Row
+                            gutter={4}
+                            align="middle"
+                            style={{ width: "100%", height: "100%" }}
+                          >
+                            <Col span={3}>
+                              <Typography.Text
+                                style={{
+                                  display: "block",
+                                  fontFamily: "Roboto",
+                                  fontSize: "3.5rem",
+                                  fontWeight: "normal",
                                   overflow: "hidden",
                                   whiteSpace: "nowrap",
                                   textOverflow: "ellipsis",
+                                  color: getColorByRank(index + 1, mode),
+                                  lineHeight: "90px",
+                                  textAlign: "center",
                                 }}
                               >
-                                <Typography.Text
+                                {getRankEmoji(index + 1)}
+                              </Typography.Text>
+                            </Col>
+                            <Col span={15}>
+                              <Row style={{ marginBottom: "10px" }} gutter={4}>
+                                <Col
+                                  span={10}
                                   style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
+                                    textOverflow: "ellipsis",
                                   }}
                                 >
-                                  队名：{item.team_name}
-                                </Typography.Text>
-                              </Col>
-                              <Col
-                                span={14}
-                                style={{
-                                  overflow: "hidden",
-                                  whiteSpace: "nowrap",
-                                  textOverflow: "ellipsis",
-                                }}
-                              >
-                                <Typography.Text
+                                  <Typography.Text
+                                    style={{
+                                      fontSize: "20px",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    队名：{item.team_name}
+                                  </Typography.Text>
+                                </Col>
+                                <Col
+                                  span={14}
                                   style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
+                                    textOverflow: "ellipsis",
                                   }}
                                 >
-                                  队伍：
-                                  {teamAvatars[index]?.map(
-                                    (avatarUrl, memberindex) => (
-                                      <Tooltip
-                                        title={
-                                          <Typography.Text>
-                                            姓名：
-                                            {item.contest_team_members[
-                                              memberindex
-                                            ].user.realname || "暂无"}
-                                            <br />
-                                            院系：
-                                            {item.contest_team_members[
-                                              memberindex
-                                            ].user.department || "暂无"}
-                                            <br />
-                                            班级：
-                                            {item.contest_team_members[
-                                              memberindex
-                                            ].user.class || "暂无"}
-                                            <br />
-                                            学号：
-                                            {item.contest_team_members[
-                                              memberindex
-                                            ].user.student_no || "暂无"}
-                                            <br />
-                                            清华邮箱：
-                                            {item.contest_team_members[
-                                              memberindex
-                                            ].user.tsinghua_email || "暂无"}
-                                          </Typography.Text>
-                                        }
-                                        placement="rightTop"
-                                        color={
-                                          mode === "dark" ? "black" : "white"
-                                        }
-                                        overlayStyle={{ maxWidth: "600px" }}
-                                      >
-                                        <Avatar
-                                          key={memberindex}
-                                          src={avatarUrl}
-                                          style={{
-                                            fontSize: "26px",
-                                            marginRight: "10px",
-                                          }}
-                                        />
-                                      </Tooltip>
-                                    ),
-                                  )}
-                                </Typography.Text>
-                              </Col>
-                            </Row>
-                            <Divider />
-                            <Row gutter={4} style={{ marginBottom: "0px" }}>
-                              <Col
-                                span={16}
+                                  <Typography.Text
+                                    style={{
+                                      fontSize: "20px",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    队伍：
+                                    {teamAvatars[index]?.map(
+                                      (avatarUrl, memberindex) => (
+                                        <Tooltip
+                                          title={
+                                            <Typography.Text>
+                                              姓名：
+                                              {item.contest_team_members[
+                                                memberindex
+                                              ].user.realname || "暂无"}
+                                              <br />
+                                              院系：
+                                              {item.contest_team_members[
+                                                memberindex
+                                              ].user.department || "暂无"}
+                                              <br />
+                                              班级：
+                                              {item.contest_team_members[
+                                                memberindex
+                                              ].user.class || "暂无"}
+                                              <br />
+                                              学号：
+                                              {item.contest_team_members[
+                                                memberindex
+                                              ].user.student_no || "暂无"}
+                                              <br />
+                                              清华邮箱：
+                                              {item.contest_team_members[
+                                                memberindex
+                                              ].user.tsinghua_email || "暂无"}
+                                            </Typography.Text>
+                                          }
+                                          placement="rightTop"
+                                          color={
+                                            mode === "dark" ? "black" : "white"
+                                          }
+                                          overlayStyle={{ maxWidth: "600px" }}
+                                        >
+                                          <Avatar
+                                            key={memberindex}
+                                            src={avatarUrl}
+                                            style={{
+                                              fontSize: "26px",
+                                              marginRight: "10px",
+                                            }}
+                                          />
+                                        </Tooltip>
+                                      ),
+                                    )}
+                                  </Typography.Text>
+                                </Col>
+                              </Row>
+                              <Divider style={{ margin: "4px 0" }} />
+                              <Row gutter={4} style={{ marginTop: "16px" }}>
+                                <Col
+                                  span={16}
+                                  style={{
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
+                                    textOverflow: "ellipsis",
+                                  }}
+                                >
+                                  <Typography.Text style={{ fontSize: "16px" }}>
+                                    队伍简介：{item.team_intro}
+                                  </Typography.Text>
+                                </Col>
+                              </Row>
+                            </Col>
+                            <Col span={5}>
+                              <Typography.Text
                                 style={{
-                                  overflow: "hidden",
-                                  whiteSpace: "nowrap",
-                                  textOverflow: "ellipsis",
+                                  display: "block",
+                                  fontSize: "26px",
+                                  fontWeight: "bold",
+                                  textAlign: "center",
                                 }}
                               >
-                                <Typography.Text style={{ fontSize: "16px" }}>
-                                  队伍简介：{item.team_intro}
-                                </Typography.Text>
-                              </Col>
-                            </Row>
-                          </Col>
-                          <Col span={5}>
-                            <Typography.Text
-                              style={{
-                                display: "block",
-                                fontSize: "30px",
-                                fontWeight: "bold",
-                                textAlign: "center",
-                              }}
-                            >
-                              积分：
-                              {item.contest_team_rooms_aggregate.aggregate?.sum
-                                ?.score ?? "暂无记录"}
-                            </Typography.Text>
-                          </Col>
-                        </Row>
-                      </Card>
+                                积分：
+                                {item.contest_team_rooms_aggregate.aggregate
+                                  ?.sum?.score ?? "暂无记录"}
+                              </Typography.Text>
+                            </Col>
+                          </Row>
+                        </Card>
+                      )}
                     </Tooltip>
                   </Content>
                 )

@@ -411,10 +411,10 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
       {...restProps}
     >
       <Markdown
-        css={`
-          margin: 12px 0 12px 0;
-          white-space: pre-wrap;
-        `}
+      // css={`
+      //   margin: 12px 0 12px 0;
+      //   white-space: pre-wrap;
+      // `}
       >
         {content}
       </Markdown>
