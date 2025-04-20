@@ -11,7 +11,6 @@ import {
   Layout,
   Row,
   Col,
-  Tooltip,
   Typography,
   Input,
   Form,
@@ -85,8 +84,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { Option } = Select;
   const { Paragraph } = Typography;
   const Contest_id = url.query.get("contest");
-  const [selectedCodeId, setSelectedCodeId] = useState("");
-  const [editingCodeKey, setEditingCodeKey] = useState("");
   const codeIndexMap = new Map();
 
   const [isSelectingGlobalCode, setIsSelectingGlobalCode] = useState(false);
@@ -493,7 +490,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const isEditingCode = (record: any) => record.key === editingCodeKey;
+  const isEditingCode = (record: any) => record.key === isSelectingGlobalCode;
 
   teamCodesData?.contest_team_code.forEach((code, index) => {
     codeIndexMap.set(code.code_id, index + 1); // 存储 code_name 到 codeindex 的映射
@@ -555,7 +552,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               allowClear
               style={{ width: "100%" }}
               defaultValue={text}
-              onChange={(value) => setSelectedCodeId(value)}
+              onChange={(value) => setSelectedGlobalCodeId(value)}
             >
               {teamCodesData?.contest_team_code
                 .filter((item) => {
