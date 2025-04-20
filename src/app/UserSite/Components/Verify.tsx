@@ -5,12 +5,12 @@ import Center from "../../Components/Center";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import styled from "styled-components";
-import { MailOutlined, MobileOutlined } from "@ant-design/icons";
+import { MailOutlined } from "@ant-design/icons";
 
 interface VerifyProps {
   title: string;
   email: string;
-  phone: string;
+  // phone: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
   useNewToken?: boolean;
 }
@@ -31,7 +31,7 @@ const VerifyCard = styled.div`
 const Verify: React.FC<VerifyProps> = ({
   title,
   email,
-  phone,
+  // phone,
   setter,
   useNewToken = false,
 }) => {
@@ -49,8 +49,8 @@ const Verify: React.FC<VerifyProps> = ({
         let request = {};
         if (email) {
           request = { email: email };
-        } else if (phone) {
-          request = { phone: phone };
+          // } else if (phone) {
+          //   request = { phone: phone };
         } else {
           message.error("系统错误，请联系管理员");
           return navigate(-1);
@@ -59,9 +59,9 @@ const Verify: React.FC<VerifyProps> = ({
         if (response.status === 500) {
           message.error("邮件发送失败，请检查邮箱是否正确");
           return setSendLoading(false);
-        } else if (response.status === 501) {
-          message.error("短信发送失败，请检查手机号是否正确");
-          return setSendLoading(false);
+          // } else if (response.status === 501) {
+          //   message.error("短信发送失败，请检查手机号是否正确");
+          //   return setSendLoading(false);
         }
         const data = response.data;
         // 先 hard code 一波，后续改后端
@@ -81,8 +81,8 @@ const Verify: React.FC<VerifyProps> = ({
         if (err.response) {
           if (err.response.status === 500) {
             message.error("邮件发送失败，请检查邮箱是否正确");
-          } else if (err.response.status === 501) {
-            message.error("短信发送失败，请检查手机号是否正确");
+            // } else if (err.response.status === 501) {
+            //   message.error("短信发送失败，请检查手机号是否正确");
           } else {
             message.error("未知错误");
           }
@@ -172,7 +172,7 @@ const Verify: React.FC<VerifyProps> = ({
           </span>
         </VerifyCard>
       )}
-      {phone !== "" && (
+      {/* {phone !== "" && (
         <VerifyCard>
           <MobileOutlined
             css={`
@@ -189,7 +189,7 @@ const Verify: React.FC<VerifyProps> = ({
             {phone}
           </span>
         </VerifyCard>
-      )}
+      )} */}
       <Form.Item
         name="code"
         rules={[

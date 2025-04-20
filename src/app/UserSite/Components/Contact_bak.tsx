@@ -22,9 +22,9 @@ const Contact: React.FC<ContactProps> = ({
   const { refetch: refetchUserByEmail } = graphql.useGetUserByEmailQuery({
     variables: { email: "" },
   });
-  const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
-    variables: { phone: "" },
-  });
+  // const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
+  //   variables: { phone: "" },
+  // });
   const handleFinish = async (values: any) => {
     try {
       if (values.user.includes("@")) {
@@ -41,21 +41,22 @@ const Contact: React.FC<ContactProps> = ({
           }
         }
         setEmail(values.user);
-      } else {
-        const { data } = await refetchUserByPhone({ phone: values.user });
-        if (isRegister) {
-          if (data.users.length) {
-            message.error("手机号已被注册");
-            return;
-          }
-        } else {
-          if (!data.users.length) {
-            message.error("手机号未注册");
-            return;
-          }
-        }
-        setPhone(values.user);
       }
+      // else {
+      //   const { data } = await refetchUserByPhone({ phone: values.user });
+      //   if (isRegister) {
+      //     if (data.users.length) {
+      //       message.error("手机号已被注册");
+      //       return;
+      //     }
+      //   } else {
+      //     if (!data.users.length) {
+      //       message.error("手机号未注册");
+      //       return;
+      //     }
+      //   }
+      //   setPhone(values.user);
+      // }
     } catch (e) {
       message.error("未知错误");
       console.log(e);
@@ -79,7 +80,7 @@ const Contact: React.FC<ContactProps> = ({
       <Form.Item
         name="user"
         rules={[
-          { required: true, message: "请输入邮箱/手机号" },
+          { required: true, message: "请输入邮箱" },
           () => ({
             validator(rule, value) {
               if (
@@ -89,7 +90,7 @@ const Contact: React.FC<ContactProps> = ({
               ) {
                 return Promise.resolve();
               }
-              return Promise.reject("请输入正确的邮箱/手机号");
+              return Promise.reject("请输入正确的邮箱");
             },
           }),
         ]}
@@ -106,7 +107,7 @@ const Contact: React.FC<ContactProps> = ({
               </Tooltip>
             )
           }
-          placeholder="邮箱/手机号"
+          placeholder="邮箱"
           autoComplete="email"
           spellCheck={false}
           autoFocus
@@ -121,7 +122,7 @@ const Contact: React.FC<ContactProps> = ({
             margin-left: 16px;
           `}
         >
-          去验证邮箱/手机
+          去验证邮箱
         </Button>
       </Center>
     </Form>

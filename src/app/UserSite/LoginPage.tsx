@@ -8,7 +8,7 @@ import { useUrl } from "../../api/hooks/url";
 import Background from "./Components/Background";
 import {
   validateEmail,
-  validatePhoneNumber,
+  // validatePhoneNumber,
   validateUsername,
 } from "../../api/utils/validator";
 import { UserProps } from ".";
@@ -64,25 +64,25 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         <Form.Item
           name="user"
           rules={[
-            { required: true, message: "请输入用户名/邮箱/手机号" },
+            { required: true, message: "请输入用户名/邮箱" },
             () => ({
               validator(rule, value) {
                 if (
                   !value ||
                   validateEmail(value) ||
-                  validatePhoneNumber(value) ||
+                  // validatePhoneNumber(value) ||
                   validateUsername(value)
                 ) {
                   return Promise.resolve();
                 }
-                return Promise.reject("请输入正确的用户名/邮箱/手机号");
+                return Promise.reject("请输入正确的用户名/邮箱");
               },
             }),
           ]}
         >
           <Input
             prefix={<UserOutlined />}
-            placeholder="用户名/邮箱/手机号"
+            placeholder="用户名/邮箱"
             autoComplete="email"
             spellCheck={false}
             autoFocus
