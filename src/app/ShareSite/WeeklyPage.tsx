@@ -150,7 +150,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     const [url, setUrl] = useState("/android-chrome-192x192.png");
     fetch_img(props.src, setUrl);
     return (
-      <img
+      <Image
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
@@ -306,6 +306,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     } else return undefined;
   };
   const fetch_img = async (url: string, setUrl: any) => {
+    const user_agent = navigator.userAgent;
     try {
       const response = await axios.get("/weekly/cover", {
         params: {
