@@ -306,7 +306,6 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     } else return undefined;
   };
   const fetch_img = async (url: string, setUrl: any) => {
-    const user_agent = navigator.userAgent;
     try {
       const response = await axios.get("/weekly/cover", {
         params: {
