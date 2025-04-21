@@ -21,9 +21,9 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const [name, setName] = useState("");
   const [class_, setClass] = useState("");
   const [depart, setDepart] = useState("");
-  const [phone, setPhone] = useState("");
+  // const [phone, setPhone] = useState("");
   const [otpEmail, setOtpEmail] = useState("");
-  const [otpPhone, setOtpPhone] = useState("");
+  // const [otpPhone, setOtpPhone] = useState("");
   const [password, setPassword] = useState("");
   const [imageIndex] = useState((Date.now() % 233333) / 233333);
   const [identity, setIdentity] = useState("");
@@ -36,8 +36,8 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         password: password,
         verificationEmailCode: otpEmail,
         verificationEmailToken: localStorage.getItem("verificationEmailToken"),
-        verificationPhoneCode: otpPhone,
-        verificationPhoneToken: localStorage.getItem("verificationPhoneToken"),
+        // verificationPhoneCode: otpPhone,
+        // verificationPhoneToken: localStorage.getItem("verificationPhoneToken"),
         studentID: studentId,
         depart: depart,
         class_: class_,
@@ -149,27 +149,27 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     </Background>
   );
 
-  const PhoneProp: React.FC<{
-    register: boolean;
-  }> = ({ register }) => (
-    <Background mode={mode} imageIndex={imageIndex}>
-      <Contact
-        title="填写手机号 (+86)"
-        info="xxxxxxxxxxx"
-        validRealTime={RealTimeValidator.__ValidatePhone}
-        validOnSubmit={async (value) => {
-          const [registered, msg] =
-            await OnSubmitValidator.__ValidatePhoneRegistered(value);
-          return [registered !== register, registered === register ? msg : ""];
-        }}
-        setter={setPhone}
-        autoComp="tel"
-        onBack={() => {
-          navigate(-1);
-        }}
-      />
-    </Background>
-  );
+  // const PhoneProp: React.FC<{
+  //   register: boolean;
+  // }> = ({ register }) => (
+  //   <Background mode={mode} imageIndex={imageIndex}>
+  //     <Contact
+  //       title="填写手机号 (+86)"
+  //       info="xxxxxxxxxxx"
+  //       validRealTime={RealTimeValidator.__ValidatePhone}
+  //       validOnSubmit={async (value) => {
+  //         const [registered, msg] =
+  //           await OnSubmitValidator.__ValidatePhoneRegistered(value);
+  //         return [registered !== register, registered === register ? msg : ""];
+  //       }}
+  //       setter={setPhone}
+  //       autoComp="tel"
+  //       onBack={() => {
+  //         navigate(-1);
+  //       }}
+  //     />
+  //   </Background>
+  // );
 
   const NameProp: React.FC = () => (
     <Background mode={mode} imageIndex={imageIndex}>
@@ -218,10 +218,10 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   }> = ({ email, phone }) => (
     <Background mode={mode} imageIndex={imageIndex}>
       <Verify
-        title={email === "" ? "验证手机号" : "验证邮箱"}
+        title={"验证邮箱"}
         email={email}
-        phone={phone}
-        setter={email === "" ? setOtpPhone : setOtpEmail}
+        // phone={phone}
+        setter={setOtpEmail}
         useNewToken={true}
       />
     </Background>
@@ -240,11 +240,11 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           <EmailProp register={true} mailType="student" />
         ) : otpEmail === "" ? (
           <VerifyProp email={email} phone="" />
-        ) : phone === "" ? (
-          <PhoneProp register={true} />
-        ) : otpPhone === "" ? (
-          <VerifyProp email="" phone={phone} />
-        ) : studentId === "" ? (
+        ) : // ) : phone === "" ? (
+        //   <PhoneProp register={true} />
+        // ) : otpPhone === "" ? (
+        //   <VerifyProp email="" phone={phone} />
+        studentId === "" ? (
           <StudentIDProp register={true} />
         ) : name === "" ? (
           <NameProp />
@@ -260,11 +260,11 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           <EmailProp register={true} mailType="teacher" />
         ) : otpEmail === "" ? (
           <VerifyProp email={email} phone="" />
-        ) : phone === "" ? (
-          <PhoneProp register={true} />
-        ) : otpPhone === "" ? (
-          <VerifyProp email="" phone={phone} />
-        ) : name === "" ? (
+        ) : // ) : phone === "" ? (
+        //   <PhoneProp register={true} />
+        // ) : otpPhone === "" ? (
+        //   <VerifyProp email="" phone={phone} />
+        name === "" ? (
           <NameProp />
         ) : depart === "" ? (
           <DepartProp />
@@ -276,11 +276,11 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           <EmailProp register={true} mailType="guest" />
         ) : otpEmail === "" ? (
           <VerifyProp email={email} phone="" />
-        ) : phone === "" ? (
-          <PhoneProp register={true} />
-        ) : otpPhone === "" ? (
-          <VerifyProp email="" phone={phone} />
-        ) : name === "" ? (
+        ) : // ) : phone === "" ? (
+        //   <PhoneProp register={true} />
+        // ) : otpPhone === "" ? (
+        //   <VerifyProp email="" phone={phone} />
+        name === "" ? (
           <NameProp />
         ) : (
           <PasswordProp />

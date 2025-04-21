@@ -12,7 +12,7 @@ const DeletePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const url = useUrl();
 
   const email = url.query.get("email") ?? "";
-  const phone = url.query.get("phone") ?? "";
+  // const phone = url.query.get("phone") ?? "";
   const [otp, setOtp] = useState("");
   const [success, setSuccess] = useState(false);
 
@@ -52,11 +52,7 @@ const DeletePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           extra={[
             <Button
               type="primary"
-              onClick={() =>
-                navigate(
-                  url.delete("email").delete("phone").link("home", "site"),
-                )
-              }
+              onClick={() => navigate(url.delete("email").link("home", "site"))}
             >
               返回主页
             </Button>,
@@ -64,9 +60,9 @@ const DeletePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         />
       ) : (
         <Verify
-          title={email === "" ? "敏感操作，请验证手机" : "敏感操作，请验证邮箱"}
+          title={"敏感操作，请验证邮箱"}
           email={email}
-          phone={phone}
+          // phone={phone}
           setter={setOtp}
         />
       )}

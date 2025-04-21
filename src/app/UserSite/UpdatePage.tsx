@@ -11,7 +11,7 @@ const UpdatePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const url = useUrl();
   const navigate = useNavigate();
   const email = url.query.get("email") ?? "";
-  const phone = url.query.get("phone") ?? "";
+  // const phone = url.query.get("phone") ?? "";
   const isTsinghua = url.query.get("tsinghua") === "true";
   const [otp, setOtp] = React.useState("");
 
@@ -28,9 +28,7 @@ const UpdatePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         setUser(data.token);
       }
       message.success("信息更新成功");
-      navigate(
-        url.delete("email").delete("phone").delete("tsinghua").link("profile"),
-      );
+      navigate(url.delete("email").delete("tsinghua").link("profile"));
       return navigate(0);
     } catch (e) {
       const err = e as AxiosError;
@@ -52,9 +50,9 @@ const UpdatePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   return (
     <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
       <Verify
-        title={email === "" ? "验证需绑定的手机" : "验证需绑定的邮箱"}
+        title={"验证需绑定的邮箱"}
         email={email}
-        phone={phone}
+        // phone={phone}
         setter={setOtp}
       />
     </Background>
