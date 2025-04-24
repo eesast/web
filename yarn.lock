@@ -12266,22 +12266,22 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
-react-router-dom@7.5.1:
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-7.5.1.tgz#16ffa63006dfdbab53cf243be84c29535e7dc4e0"
-  integrity sha512-5DPSPc7ENrt2tlKPq0FtpG80ZbqA9aIKEyqX6hSNJDlol/tr6iqCK4crqdsusmOSSotq6zDsn0y3urX9TuTNmA==
+react-router-dom@7.5.2:
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-7.5.2.tgz#fb00e4ac7e1fcc6cb9861458d3ddb2d1b074ca79"
+  integrity sha512-yk1XW8Fj7gK7flpYBXF3yzd2NbX6P7Kxjvs2b5nu1M04rb5pg/Zc4fGdBNTeT4eDYL2bvzWNyKaIMJX/RKHTTg==
   dependencies:
-    react-router "7.5.1"
+    react-router "7.5.2"
 
 react-router-prompt@0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/react-router-prompt/-/react-router-prompt-0.8.0.tgz#2b613879e3e30f8cf1ec1d3fa11c3184d0691c9e"
   integrity sha512-iurKq5VbipBOj8ABBmU63uaUrVZDndCFYYqU436XI8tCmaqsBb0jl2GNX46hqVVYR2nCKVZtGOy5NVYv/nDCmA==
 
-react-router@7.5.1:
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.5.1.tgz#e0bae54e913d139e727e7a88d165174a2cdbeb27"
-  integrity sha512-/jjU3fcYNd2bwz9Q0xt5TwyiyoO8XjSEFXJY4O/lMAlkGTHWuHRAbR9Etik+lSDqMC7A7mz3UlXzgYT6Vl58sA==
+react-router@7.5.2:
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.5.2.tgz#889137b9ce91dadc06eb40997f57f08199845973"
+  integrity sha512-9Rw8r199klMnlGZ8VAsV/I8WrIF6IyJ90JQUdboupx1cdkgYqwnrYjH+I/nY/7cA1X5zia4mDJqH36npP7sxGQ==
   dependencies:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
