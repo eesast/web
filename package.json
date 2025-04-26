@@ -8,7 +8,7 @@
     "@ant-design/charts": "2.2.7",
     "@ant-design/pro-components": "2.8.7",
     "@apollo/client": "3.13.8",
-    "antd": "5.24.7",
+    "antd": "5.24.8",
     "axios": "1.8.4",
     "cos-js-sdk-v5": "1.8.7",
     "dayjs": "1.11.13",
@@ -25,7 +25,7 @@
     "react-dom": "18.3.1",
     "react-markdown": "10.1.0",
     "react-otp-input": "3.1.1",
-    "react-router-dom": "7.5.1",
+    "react-router-dom": "7.5.2",
     "react-router-prompt": "0.8.0",
     "react-unity-webgl": "9.8.0",
     "styled-components": "6.1.17",
@@ -58,12 +58,12 @@
     "webpackbar": "7.0.0"
   },
   "peerDependencies": {
-    "electron": "35.1.5",
+    "electron": "35.2.1",
     "electron-builder": "26.0.12"
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
-    "@antv/g2": "5.3.0"
+    "@antv/g2": "5.3.2"
   },
   "scripts": {
     "preinstall": "npm config set registry https://registry.npmmirror.com/ && yarn config set registry https://registry.yarnpkg.com",

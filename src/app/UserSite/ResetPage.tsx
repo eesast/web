@@ -27,7 +27,7 @@ const ResetPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       };
       await axios.post("/user/change-password", request);
       message.success("密码更改成功");
-      navigate(url.delete("email").delete("phone").link("profile"));
+      navigate(url.delete("email").link("profile"));
       return navigate(0);
     } catch (e) {
       const err = e as AxiosError;
@@ -52,16 +52,16 @@ const ResetPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
       {email === "" && phone === "" ? (
         <Contact
-          title="已绑定的邮箱/手机号"
+          title="已绑定的邮箱"
           setEmail={setEmail}
           setPhone={setPhone}
           isRegister={false}
         />
       ) : otp === "" ? (
         <Verify
-          title={email === "" ? "敏感操作，请验证手机" : "敏感操作，请验证邮箱"}
+          title={"敏感操作，请验证邮箱"}
           email={email}
-          phone={phone}
+          // phone={phone}
           setter={setOtp}
         />
       ) : (

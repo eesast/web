@@ -428,7 +428,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       <Footer>
         <table style={{ margin: "0 auto" }}>
           <tbody>
-            <tr>
+            <tr className="view-and-admin-mode">
               <td title="仅系统管理员在登录后可进入编辑模式">
                 <Radio.Group
                   defaultValue={"browse"}

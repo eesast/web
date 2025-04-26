@@ -151,9 +151,9 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     graphql.useGetUserByTsinghuaEmailQuery({
       variables: { tsinghua_email: "" },
     });
-  const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
-    variables: { phone: "" },
-  });
+  // const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
+  //   variables: { phone: "" },
+  // });
 
   useEffect(() => {
     if (getProfileError) {
@@ -316,12 +316,12 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         message.error("请输入正确的手机号");
         return Promise.reject();
       }
-      const { data } = await refetchUserByPhone({ phone: record[key] });
-      if (data.users.length) {
-        message.error("手机号已被注册");
-        return Promise.reject();
-      }
-      navigate(url.append("phone", record[key]).link("update"));
+      // const { data } = await refetchUserByPhone({ phone: record[key] });
+      // if (data.users.length) {
+      //   message.error("手机号已被注册");
+      //   return Promise.reject();
+      // }
+      // navigate(url.append("phone", record[key]).link("update"));
       return Promise.resolve();
     }
     if (key === "tsinghua_email") {
