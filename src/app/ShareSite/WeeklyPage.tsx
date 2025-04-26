@@ -91,8 +91,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       const filename: string = response.data["filename"];
       let count = 0;
       let success: boolean = false;
-      const limit = 10;
-      while (count < limit) {
+      //const limit = 10;
+      while (count < 60) {
         const response = await axios.post("/weekly/check", {
           filename: filename,
         });
@@ -106,9 +106,10 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         }
         count++;
         //per second
-        await new Promise((resolve) => setTimeout(resolve, 15000));
+        await new Promise((resolve) => setTimeout(resolve, 30000));
       }
       if (!success) throw Error("spider timeout");
+      else console.log("success");
     } catch (err) {
       message.error(String(err));
     }
@@ -154,6 +155,12 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
+        preview={false}
+        style={{
+          objectFit: "cover",
+          minHeight: 256,
+          borderRadius: "10px",
+        }}
         onClick={() => {
           const w = window.open("loading");
           if (w != null) w.location.href = props.src;
