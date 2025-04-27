@@ -1,12 +1,16 @@
 {
-  "extends": ["config:base"],
-  "ignorePaths": ["**/Dockerfile"],
+  "extends": [
+    "config:recommended"
+  ],
+  "ignorePaths": [
+    "**/Dockerfile"
+  ],
   "automerge": true,
   "timezone": "Asia/Shanghai",
-  "schedule": "after 2am and before 8am every friday",
+  "schedule": "after 2am and before 8am on friday",
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": "after 8am and before 10am every friday"
+    "schedule": "after 8am and before 10am on friday"
   },
   "prConcurrentLimit": 0,
   "prHourlyLimit": 5,
