@@ -32,8 +32,8 @@
     "xlsx": "0.18.5"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "5.0.5",
-    "@graphql-codegen/typescript-operations": "4.6.0",
+    "@graphql-codegen/cli": "5.0.6",
+    "@graphql-codegen/typescript-operations": "4.6.1",
     "@graphql-codegen/typescript-react-apollo": "4.3.2",
     "@playwright/test": "1.52.0",
     "@types/is-url": "1.2.32",
