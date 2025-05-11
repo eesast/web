@@ -408,7 +408,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       message.error("提交失败，请重试！");
     }
   };
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setSF_code(e.target.value);
   };
 
@@ -877,90 +879,98 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   return (
     <Layout>
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Title level={2}>角色代码选择</Typography.Title>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Table
-            components={components}
-            rowClassName={() => "editable-row"}
-            bordered
-            dataSource={dataSourcePlayer}
-            columns={columnsPlayer as ColumnTypes}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Title level={2}>我的代码库</Typography.Title>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Dragger
-            multiple
-            disabled={!open}
-            accept=".cpp,.py"
-            customRequest={handleUpload}
-            onChange={handleOnchange}
-            showUploadList={false}
-          >
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">拖拽上传AI.cpp或AI.py</p>
-            <p className="ant-upload-hint">
-              支持同时上传多个文件，也可点击选择文件
-            </p>
-          </Dragger>
-        </Col>
-      </Row>
-      <br />
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Table
-            components={components}
-            rowClassName={() => "editable-row"}
-            bordered
-            dataSource={dataSourceCodes}
-            columns={columnsCodes as ColumnTypes}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col
-          span={20}
-          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-        >
-          <Typography.Title level={2}>软设代码提交</Typography.Title>
-          <Input
-            placeholder="请在此提交云盘链接"
-            value={sf_code}
-            onChange={handleInputChange}
-            style={{ marginBottom: "10px" }} // 增加输入框和按钮之间的间距
-          />
-          <Button
-            type="primary"
-            onClick={handleSfCodeChange}
-            style={{ alignSelf: "flex-end" }} // 使按钮对齐到右下角
-          >
-            提交
-          </Button>
-        </Col>
-      </Row>
+      {contestData?.contest_by_pk?.name.startsWith("SOFT") ? (
+        <>
+          <Row>
+            <Col span={2}></Col>
+            <Col
+              span={20}
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <Typography.Title level={2}>软设代码提交</Typography.Title>
+              <Input.TextArea
+                placeholder="请在此提交云盘链接~"
+                value={sf_code}
+                onChange={handleInputChange}
+                style={{ marginBottom: "10px" }}
+                rows={4}
+              />
+              <Button
+                type="primary"
+                onClick={handleSfCodeChange}
+                style={{ alignSelf: "flex-end" }}
+              >
+                提交
+              </Button>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <>
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Typography.Title level={2}>角色代码选择</Typography.Title>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Table
+                components={components}
+                rowClassName={() => "editable-row"}
+                bordered
+                dataSource={dataSourcePlayer}
+                columns={columnsPlayer as ColumnTypes}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Typography.Title level={2}>我的代码库</Typography.Title>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Dragger
+                multiple
+                disabled={!open}
+                accept=".cpp,.py"
+                customRequest={handleUpload}
+                onChange={handleOnchange}
+                showUploadList={false}
+              >
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">拖拽上传AI.cpp或AI.py</p>
+                <p className="ant-upload-hint">
+                  支持同时上传多个文件，也可点击选择文件
+                </p>
+              </Dragger>
+            </Col>
+          </Row>
+          <br />
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Table
+                components={components}
+                rowClassName={() => "editable-row"}
+                bordered
+                dataSource={dataSourceCodes}
+                columns={columnsCodes as ColumnTypes}
+              />
+            </Col>
+          </Row>
+        </>
+      )}
     </Layout>
   );
 };

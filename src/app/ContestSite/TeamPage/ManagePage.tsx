@@ -82,6 +82,12 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     },
   });
 
+  const { data: contestData } = graphql.useGetContestInfoSuspenseQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
+
   useEffect(() => {
     // 在useEffect中进行异步操作
     listFile(`avatar/${team_id}/`)
@@ -359,48 +365,52 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
         color: mode === "dark" ? "white" : "initial",
       }}
     >
-      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-        <Col span={8}>
-          <Card hoverable bordered={false}>
-            <Statistic
-              title="已提交代码"
-              value={
-                teamStatData?.contest_team_by_pk?.contest_team_codes_aggregate
-                  ?.aggregate?.count || 0
-              }
-              prefix={<UploadOutlined />}
-              suffix="份"
-            />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card hoverable bordered={false}>
-            <Statistic
-              title="共参与了"
-              value={
-                teamStatData?.contest_team_by_pk?.contest_team_rooms_aggregate
-                  ?.aggregate?.count || 0
-              }
-              valueStyle={{ color: "#3f8600" }}
-              prefix={<ArrowUpOutlined />}
-              suffix="场对战"
-            />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card hoverable bordered={false}>
-            <Statistic
-              title="天梯积分"
-              value={
-                teamStatData?.contest_team_by_pk?.contest_team_rooms_aggregate
-                  ?.aggregate?.sum?.score || 0
-              }
-              valueStyle={{ color: "#cf1322" }}
-              prefix={<FireOutlined />}
-            />
-          </Card>
-        </Col>
-      </Row>
+      {contestData?.contest_by_pk?.name.startsWith("THUAI") ? (
+        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+          <Col span={8}>
+            <Card hoverable bordered={false}>
+              <Statistic
+                title="已提交代码"
+                value={
+                  teamStatData?.contest_team_by_pk?.contest_team_codes_aggregate
+                    ?.aggregate?.count || 0
+                }
+                prefix={<UploadOutlined />}
+                suffix="份"
+              />
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card hoverable bordered={false}>
+              <Statistic
+                title="共参与了"
+                value={
+                  teamStatData?.contest_team_by_pk?.contest_team_rooms_aggregate
+                    ?.aggregate?.count || 0
+                }
+                valueStyle={{ color: "#3f8600" }}
+                prefix={<ArrowUpOutlined />}
+                suffix="场对战"
+              />
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card hoverable bordered={false}>
+              <Statistic
+                title="天梯积分"
+                value={
+                  teamStatData?.contest_team_by_pk?.contest_team_rooms_aggregate
+                    ?.aggregate?.sum?.score || 0
+                }
+                valueStyle={{ color: "#cf1322" }}
+                prefix={<FireOutlined />}
+              />
+            </Card>
+          </Col>
+        </Row>
+      ) : (
+        ""
+      )}
       <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
         <Col span={16}>
           <Card hoverable bordered={false}>
