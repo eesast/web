@@ -11,7 +11,6 @@ import {
   Layout,
   Row,
   Col,
-  Tooltip,
   Typography,
   Input,
   Form,
@@ -91,6 +90,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [editingRoleKey, setEditingRoleKey] = useState("");
   const [sf_code, setSF_code] = useState("");
   const codeIndexMap = new Map();
+
+  const [isSelectingGlobalCode, setIsSelectingGlobalCode] = useState(false);
+  const [selectedGlobalCodeId, setSelectedGlobalCodeId] = useState("");
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
 
@@ -425,7 +427,44 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       message.error(`${info.file.name} 上传失败`);
     }
   };
+  const handleGlobalCodeChange = async () => {
+    if (!open) {
+      message.info("代码功能暂未开放");
+      return;
+    }
+    if (!selectedGlobalCodeId) {
+      message.warning("请先选择一个代码");
+      return;
+    }
 
+    try {
+      // 获取所有角色的key
+      const playerKeys = dataSourcePlayer.map((player) => player.key);
+
+      // 为每个角色更新代码
+      await Promise.all(
+        playerKeys.map((key) =>
+          updatePlayerCodes({
+            variables: {
+              team_id: teamid,
+              player: key,
+              code_id: selectedGlobalCodeId,
+              role: teamPlayersData?.contest_team_player?.find(
+                (code) => code.player === key,
+              )?.role!,
+            },
+          }),
+        ),
+      );
+
+      message.success("所有角色代码已更新");
+      refetchTeamPlayers();
+      setIsSelectingGlobalCode(false);
+    } catch (error) {
+      console.log(error);
+      message.error("更新失败，请重试");
+    }
+  };
   const downloadCompile = async (code_id: string) => {
     try {
       const log_exist = await existFile(
@@ -480,61 +519,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
-  const isEditingCode = (record: any) => record.key === editingCodeKey;
-
-  const isEditingRole = (record: any) => record.key === editingRoleKey;
-
-  const handlePlayerRoleChange = async (key: string, role: string) => {
-    if (!open) {
-      message.info("代码功能暂未开放");
-      return;
-    }
-    try {
-      await updatePlayerCodes({
-        variables: {
-          team_id: teamid,
-          player: key,
-          code_id: teamPlayersData?.contest_team_player?.find(
-            (code) => code.player === key,
-          )?.player_code?.code_id!,
-          role: role,
-        },
-      });
-      message.success("角色属性更新成功");
-      refetchTeamPlayers();
-      setEditingRoleKey("");
-    } catch (error) {
-      message.error("更新失败，请重试");
-    }
-  };
-
-  const handlePlayerCodesChange = async (
-    key: string,
-    code_id: string | undefined | null,
-  ) => {
-    if (!open) {
-      message.info("代码功能暂未开放");
-      return;
-    }
-    try {
-      await updatePlayerCodes({
-        variables: {
-          team_id: teamid,
-          player: key,
-          code_id: code_id,
-          role: teamPlayersData?.contest_team_player?.find(
-            (code) => code.player === key,
-          )?.role!,
-        },
-      });
-      message.success("角色代码更新成功");
-      refetchTeamPlayers();
-      setEditingCodeKey("");
-    } catch (error) {
-      console.log(error);
-      message.error("更新失败，请重试");
-    }
-  };
+  const isEditingCode = (record: any) => record.key === isSelectingGlobalCode;
 
   teamCodesData?.contest_team_code.forEach((code, index) => {
     codeIndexMap.set(code.code_id, index + 1); // 存储 code_name 到 codeindex 的映射
@@ -586,41 +571,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       dataIndex: "player_name",
     },
     {
-      title: <Tooltip title="仅作统计用，不影响比赛结果">技能/属性</Tooltip>,
-      width: "10%",
-      dataIndex: "role",
-      render: (text, record) => {
-        if (isEditingRole(record)) {
-          const rolesJson = contestPlayersData?.contest_player?.find(
-            (item) => item?.player_label === record?.player_name,
-          )?.roles_available;
-          const roles = rolesJson ? JSON.parse(rolesJson) : [];
-          return (
-            <Tooltip title="仅作统计用，不影响比赛结果">
-              <Select
-                allowClear
-                style={{ width: "100%" }}
-                defaultValue={text}
-                onChange={(value) => setSelectedRole(value)}
-              >
-                {roles.map((role: string, idx: string) => (
-                  <Option key={idx} value={role}>
-                    {role}
-                  </Option>
-                ))}
-              </Select>
-            </Tooltip>
-          );
-        }
-        return <Tooltip title="仅作统计用，不影响比赛结果">{text}</Tooltip>;
-      },
-    },
-    {
-      title: "代码编号（与下表一致）",
-      width: "10%",
-      dataIndex: "code_index",
-    },
-    {
       title: "代码名",
       width: "15%",
       dataIndex: "code_name",
@@ -631,7 +581,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               allowClear
               style={{ width: "100%" }}
               defaultValue={text}
-              onChange={(value) => setSelectedCodeId(value)}
+              onChange={(value) => setSelectedGlobalCodeId(value)}
             >
               {teamCodesData?.contest_team_code
                 .filter((item) => {
@@ -662,62 +612,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               hour12: false,
             })
           : "",
-    },
-    {
-      title: "选择代码",
-      width: "15%",
-      dataIndex: "selectcode",
-      render: (_, record) => {
-        const editable = isEditingCode(record);
-        return editable ? (
-          <div>
-            <Button
-              type="primary"
-              style={{ marginRight: "20px" }}
-              onClick={() =>
-                handlePlayerCodesChange(record.key, selectedCodeId)
-              }
-            >
-              保存
-            </Button>
-            <Button onClick={() => setEditingCodeKey("")}>取消</Button>
-          </div>
-        ) : (
-          <Button
-            disabled={!open}
-            onClick={() => setEditingCodeKey(record.key)}
-          >
-            选择代码
-          </Button>
-        );
-      },
-    },
-    {
-      title: "选择属性",
-      width: "15%",
-      dataIndex: "selectrole",
-      render: (_, record) => {
-        const editable = isEditingRole(record);
-        return editable ? (
-          <div>
-            <Button
-              type="primary"
-              style={{ marginRight: "20px" }}
-              onClick={() => handlePlayerRoleChange(record.key, selectedRole)}
-            >
-              保存
-            </Button>
-            <Button onClick={() => setEditingRoleKey("")}>取消</Button>
-          </div>
-        ) : (
-          <Button
-            disabled={!open}
-            onClick={() => setEditingRoleKey(record.key)}
-          >
-            选择属性
-          </Button>
-        );
-      },
     },
   ];
 

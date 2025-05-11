@@ -13,6 +13,7 @@ import {
   Typography,
   message,
   Tooltip,
+  Image,
   Modal,
 } from "antd";
 import { Form as WebForm } from "antd";
@@ -90,8 +91,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       const filename: string = response.data["filename"];
       let count = 0;
       let success: boolean = false;
-      const limit = 10;
-      while (count < limit) {
+      //const limit = 10;
+      while (count < 60) {
         const response = await axios.post("/weekly/check", {
           filename: filename,
         });
@@ -105,9 +106,10 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         }
         count++;
         //per second
-        await new Promise((resolve) => setTimeout(resolve, 15000));
+        await new Promise((resolve) => setTimeout(resolve, 30000));
       }
       if (!success) throw Error("spider timeout");
+      else console.log("success");
     } catch (err) {
       message.error(String(err));
     }
@@ -149,10 +151,16 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     const [url, setUrl] = useState("/android-chrome-192x192.png");
     fetch_img(props.src, setUrl);
     return (
-      <img
+      <Image
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
+        preview={false}
+        style={{
+          objectFit: "cover",
+          minHeight: 256,
+          borderRadius: "10px",
+        }}
         onClick={() => {
           const w = window.open("loading");
           if (w != null) w.location.href = props.src;
@@ -420,7 +428,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       <Footer>
         <table style={{ margin: "0 auto" }}>
           <tbody>
-            <tr>
+            <tr className="view-and-admin-mode">
               <td title="仅系统管理员在登录后可进入编辑模式">
                 <Radio.Group
                   defaultValue={"browse"}
@@ -430,7 +438,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
                   <Radio.Button value="browse">浏览模式</Radio.Button>
                   <Radio.Button
                     value="edit"
-                    //disabled={user.role !== "counselor" && user.role !== "root"}
+                    disabled={user.role !== "counselor"}
                   >
                     编辑模式
                   </Radio.Button>
