@@ -84,10 +84,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { Option } = Select;
   const { Paragraph } = Typography;
   const Contest_id = url.query.get("contest");
-  const [selectedCodeId, setSelectedCodeId] = useState("");
-  const [selectedRole, setSelectedRole] = useState("");
-  const [editingCodeKey, setEditingCodeKey] = useState("");
-  const [editingRoleKey, setEditingRoleKey] = useState("");
   const [sf_code, setSF_code] = useState("");
   const codeIndexMap = new Map();
 
@@ -806,6 +802,55 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
             <Col span={2}></Col>
             <Col span={20}>
               <Typography.Title level={2}>角色代码选择</Typography.Title>
+              <Space style={{ marginBottom: 16 }}>
+                {!isSelectingGlobalCode ? (
+                  <Button
+                    type="primary"
+                    onClick={() => setIsSelectingGlobalCode(true)}
+                    disabled={!open}
+                  >
+                    选择代码
+                  </Button>
+                ) : (
+                  <>
+                    <Select
+                      allowClear
+                      style={{ width: 300 }}
+                      placeholder="选择要应用于所有角色的代码"
+                      onChange={(value) => setSelectedGlobalCodeId(value)}
+                    >
+                      {teamCodesData?.contest_team_code
+                        .filter((item) => {
+                          return (
+                            item.compile_status === "No Need" ||
+                            item.compile_status === "Completed"
+                          );
+                        })
+                        .map((code, idx) => (
+                          <Option
+                            key={idx}
+                            value={code.code_id}
+                          >{`代码${codeIndexMap.get(code.code_id)} : ${code.code_name}`}</Option>
+                        ))}
+                    </Select>
+                    <Button
+                      type="primary"
+                      onClick={handleGlobalCodeChange}
+                      disabled={!selectedGlobalCodeId}
+                    >
+                      确认
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setIsSelectingGlobalCode(false);
+                        setSelectedGlobalCodeId("");
+                      }}
+                    >
+                      取消
+                    </Button>
+                  </>
+                )}
+              </Space>
             </Col>
           </Row>
           <br />
