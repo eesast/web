@@ -5,7 +5,7 @@
   "author": "EESAST",
   "private": true,
   "dependencies": {
-    "@ant-design/charts": "2.2.7",
+    "@ant-design/charts": "2.3.0",
     "@ant-design/pro-components": "2.8.7",
     "@apollo/client": "3.13.8",
     "antd": "5.24.9",
