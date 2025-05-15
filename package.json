@@ -15,7 +15,7 @@
     "dotenv": "16.5.0",
     "google-protobuf": "3.21.4",
     "graphql": "16.11.0",
-    "graphql-ws": "6.0.4",
+    "graphql-ws": "6.0.5",
     "grpc-web": "1.5.0",
     "is-url": "1.2.4",
     "jwt-decode": "4.0.0",
