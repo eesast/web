@@ -5605,10 +5605,10 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cos-js-sdk-v5@1.8.7:
-  version "1.8.7"
-  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.8.7.tgz#a8778b25da79bcc0d83d6d1e58eb3b906f9fdc62"
-  integrity sha512-KK3PYbUiLxcjvVhyvEeBQRWzDgAmuldDZQL1lTRM0aeQaI+hlm84xQQQyv+oIRxPnnAIleZF2vUgB4sJFUzcxQ==
+cos-js-sdk-v5@1.8.8:
+  version "1.8.8"
+  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.8.8.tgz#30af53d00f9572c66cf9e9fb12d89438360bd39d"
+  integrity sha512-MkzKJ2BmcTfw1b10ehNjwOch6ugae4lCRRPO0IfkvTO+uXWILZ81r6wtpAf5KjAUYOEgQd96mOZZYE2viDw/jQ==
   dependencies:
     fast-xml-parser "4.5.0"
 
