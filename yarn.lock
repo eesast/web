@@ -312,9 +312,9 @@
     tslib "^2.0.0"
 
 "@antv/component@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@antv/component/-/component-2.1.2.tgz#578a08abc1e70755dd2a2bad85ad7015dcfecf84"
-  integrity sha512-5nC9i9lh5rBHE+pk4TNnerLe4mn5874YHHhvv6EdL618UkgpdKJL0hJu4l7uAYjZ3g46VBK+IYT7md0FYv8f4w==
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@antv/component/-/component-2.1.3.tgz#26cad68ed8e4687ae6fb74267934a50bcbe3410f"
+  integrity sha512-TDePMyrx6rvOeUizcKwrNfSb4vL/hcIsIY01dTD1nXKpR3eDf/q558wN4zGH2NmgX/4TOes7UgSH4iCrpB0eMg==
   dependencies:
     "@antv/g" "^6.1.11"
     "@antv/scale" "^0.4.16"
@@ -340,47 +340,96 @@
   resolved "https://registry.yarnpkg.com/@antv/expr/-/expr-1.0.2.tgz#a75fa0a0f132fe47bedf6c8b93a847997ffe53ff"
   integrity sha512-vrfdmPHkTuiS5voVutKl2l06w1ihBh9A8SFdQPEE+2KMVpkymzGOF1eWpfkbGZ7tiFE15GodVdhhHomD/hdIwg==
 
-"@antv/g-camera-api@2.0.37":
-  version "2.0.37"
-  resolved "https://registry.yarnpkg.com/@antv/g-camera-api/-/g-camera-api-2.0.37.tgz#dee44c9c03371962e5e00264124f1d0874733ed8"
-  integrity sha512-LfNurM/DZirouy8nu69xm+x8EjhT/WmZmaBKBu1ku5pTY52KLBQC0gFQMZ3L8fjUMcmhEtwcRY7wyIG3yDIoTg==
+"@antv/g-camera-api@2.0.35":
+  version "2.0.35"
+  resolved "https://registry.yarnpkg.com/@antv/g-camera-api/-/g-camera-api-2.0.35.tgz#0c8f5824f4525b2fed9941170aa9e668b9c5734f"
+  integrity sha512-z4WKmB6yN2fFi9EnapjuHbFVF0ilhMrWo2eZCxYXcb0dV5MiflU/WZi/bjs4WqVMJPNtYKx+yZhTyROncEiglw==
   dependencies:
-    "@antv/g-lite" "2.2.18"
+    "@antv/g-lite" "2.2.16"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     gl-matrix "^3.4.3"
     tslib "^2.5.3"
 
-"@antv/g-canvas@^2.0.32", "@antv/g-canvas@^2.0.42":
-  version "2.0.42"
-  resolved "https://registry.yarnpkg.com/@antv/g-canvas/-/g-canvas-2.0.42.tgz#ec6df3215056f29ef35796a16a671a3132acb8ec"
-  integrity sha512-RAe7AcrequkVRopzXWoIK+w/UQhtzDgh9YFCO8sjmuYNyw5rZfg1ZD7m+EPE3g9X7S9aV5qxfav63beUuihSiw==
+"@antv/g-camera-api@2.0.38":
+  version "2.0.38"
+  resolved "https://registry.yarnpkg.com/@antv/g-camera-api/-/g-camera-api-2.0.38.tgz#8a2ddc59aae648fcf31a675287fbb7571bcde9d3"
+  integrity sha512-BgFkUMcTO06Oz37Z+hVqxATwdWFE5DfBgMKlFaMwKKF/8n+7eNhlif1KBfcf2rEfGijS0FD0ZGKCr9uJ06+GIg==
   dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@antv/g-plugin-canvas-path-generator" "2.1.18"
-    "@antv/g-plugin-canvas-picker" "2.1.21"
-    "@antv/g-plugin-canvas-renderer" "2.2.21"
-    "@antv/g-plugin-dom-interaction" "2.1.23"
-    "@antv/g-plugin-html-renderer" "2.1.23"
-    "@antv/g-plugin-image-loader" "2.1.21"
+    "@antv/g-lite" "2.2.19"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-canvas@2.0.40":
+  version "2.0.40"
+  resolved "https://registry.yarnpkg.com/@antv/g-canvas/-/g-canvas-2.0.40.tgz#4d550e891c6bc2e51acc42eb877c21e722add68d"
+  integrity sha512-Starh5g+ydOFKzfK/GpwnLwz+o6UZNHkyWBXdHx2ax/AJWHVXwjyCadt/6kkc2non0ts2ow/hpJaW7X3dgdDxQ==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
+    "@antv/g-plugin-canvas-path-generator" "2.1.16"
+    "@antv/g-plugin-canvas-picker" "2.1.19"
+    "@antv/g-plugin-canvas-renderer" "2.2.19"
+    "@antv/g-plugin-dom-interaction" "2.1.21"
+    "@antv/g-plugin-html-renderer" "2.1.21"
+    "@antv/g-plugin-image-loader" "2.1.19"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     tslib "^2.5.3"
 
-"@antv/g-dom-mutation-observer-api@2.0.34":
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/@antv/g-dom-mutation-observer-api/-/g-dom-mutation-observer-api-2.0.34.tgz#8320abbeaf484bcb073304053ae421f155cf7d80"
-  integrity sha512-oNBGtwEuV0+FFk8NCCKxK13V2FJdzIgyC7XSAjtVUR5P2/tgZqNEaOEz6byrimZsft2dZsQUyjl17QSooLRkMw==
+"@antv/g-canvas@^2.0.42":
+  version "2.0.43"
+  resolved "https://registry.yarnpkg.com/@antv/g-canvas/-/g-canvas-2.0.43.tgz#e0f93529d265a6b995e0ab3bcb59877c1e5d843c"
+  integrity sha512-iAMX+b1eEhwddhm7qiQAtNsnwJQDQsiE5/ELgzni0UHF28zMVTlc5FdDMXKLPuaYs9S/dw/MXBtqctRj2IjA1g==
   dependencies:
-    "@antv/g-lite" "2.2.18"
+    "@antv/g-lite" "2.2.19"
+    "@antv/g-plugin-canvas-path-generator" "2.1.19"
+    "@antv/g-plugin-canvas-picker" "2.1.22"
+    "@antv/g-plugin-canvas-renderer" "2.2.22"
+    "@antv/g-plugin-dom-interaction" "2.1.24"
+    "@antv/g-plugin-html-renderer" "2.1.24"
+    "@antv/g-plugin-image-loader" "2.1.22"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-dom-mutation-observer-api@2.0.32":
+  version "2.0.32"
+  resolved "https://registry.yarnpkg.com/@antv/g-dom-mutation-observer-api/-/g-dom-mutation-observer-api-2.0.32.tgz#171361ff66970c620fd5320b51dd79e4add3631f"
+  integrity sha512-50r7en1+doUtR9uXmFJk8YtENQ/+DFcj2g3a4XKu9xp58kmF2qBgtdst9n1deqGcL5s0ufX/Ck9rUhtHwka+Ow==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
     "@babel/runtime" "^7.25.6"
 
-"@antv/g-lite@2.2.18":
-  version "2.2.18"
-  resolved "https://registry.yarnpkg.com/@antv/g-lite/-/g-lite-2.2.18.tgz#ffc027dee5c68bb4cd629563d0cd21a86c87f30a"
-  integrity sha512-m7Oq0cXF5rOSKYpgZwP99b4165WXLePsyG4mX7oUWqL0cEweafk+92Re7tSSnvhUBhgmM7rJ5X1AipFnpzt0Kw==
+"@antv/g-dom-mutation-observer-api@2.0.35":
+  version "2.0.35"
+  resolved "https://registry.yarnpkg.com/@antv/g-dom-mutation-observer-api/-/g-dom-mutation-observer-api-2.0.35.tgz#57633a3a54ac091d64427e42eea8b43fa334b408"
+  integrity sha512-bAl3ViXDHvLEbGvGZwZBg4gpoNjUTwVQ3XTmRAkymkFGkUy+KV0ZwFdqEegP25TQGPl85er/hB6MCu6Yt58AJA==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
+    "@babel/runtime" "^7.25.6"
+
+"@antv/g-lite@2.2.16":
+  version "2.2.16"
+  resolved "https://registry.yarnpkg.com/@antv/g-lite/-/g-lite-2.2.16.tgz#3aad1e45c7dca71d536ec7874d5dfb8a9ed4fdcb"
+  integrity sha512-473r6S5srkxUiUxI3ZkrM74HMkgyO9+2HR1xtJ75yDOOuT8F6osdXDgy0Or5cWqOlsVjiN3L3DaPnQLHlUGO5A==
   dependencies:
     "@antv/g-math" "3.0.0"
+    "@antv/util" "^3.3.5"
+    "@antv/vendor" "^1.0.3"
+    "@babel/runtime" "^7.25.6"
+    eventemitter3 "^5.0.1"
+    gl-matrix "^3.4.3"
+    rbush "^3.0.1"
+    tslib "^2.5.3"
+
+"@antv/g-lite@2.2.19":
+  version "2.2.19"
+  resolved "https://registry.yarnpkg.com/@antv/g-lite/-/g-lite-2.2.19.tgz#ef8f4fa4f0e1e95f7f27b2e341196ddc8a8794f8"
+  integrity sha512-QfxZsbLGTSGL18NgSOAVQURXC3xMXbmmS125EF7/vCzW2Lw2nF5I8k0KW4N09ty+/FtVpSESJX652g2phIvd5g==
+  dependencies:
+    "@antv/g-math" "3.0.1"
     "@antv/util" "^3.3.5"
     "@antv/vendor" "^1.0.3"
     "@babel/runtime" "^7.25.6"
@@ -398,126 +447,226 @@
     gl-matrix "^3.4.3"
     tslib "^2.5.3"
 
-"@antv/g-plugin-canvas-path-generator@2.1.18":
-  version "2.1.18"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-path-generator/-/g-plugin-canvas-path-generator-2.1.18.tgz#ac3317ffce3805ebbffae15d52ff1b73a7ea2ae0"
-  integrity sha512-TOfWb13diw/yMcmYpgDYqXtPFMdw6ywcykJ8WIvW0MjJEjM/HGNmmoVbJYZWTipEm9MwAp38eomhPQS7FeohWQ==
+"@antv/g-math@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@antv/g-math/-/g-math-3.0.1.tgz#8c95b96c04a656345f8bfff9d100fa0b5708a2f0"
+  integrity sha512-FvkDBNRpj+HsLINunrL2PW0OlG368MlpHuihbxleuajGim5kra8tgISwCLmAf8Yz2b1CgZ9PvpohqiLzHS7HLg==
   dependencies:
-    "@antv/g-lite" "2.2.18"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-canvas-path-generator@2.1.16":
+  version "2.1.16"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-path-generator/-/g-plugin-canvas-path-generator-2.1.16.tgz#f60dfa687027aba12aed90d64839b97b2c3c3be0"
+  integrity sha512-E3/HUzWRv1/5QyKHLcXIgFJff0JBxDHz4NfHwYp6IOy5P/A1mbISsUjwafSl8JIVqx0J81CzgqpwU7pWHeXlaQ==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
     "@antv/g-math" "3.0.0"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     tslib "^2.5.3"
 
-"@antv/g-plugin-canvas-picker@2.1.21":
-  version "2.1.21"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-picker/-/g-plugin-canvas-picker-2.1.21.tgz#1d6ff77af30e9a216cf1d8bfddf15095870b4045"
-  integrity sha512-C27pcYeXygltMrLtTxkUiELusgPaVBM9t2nXV+Szldp7K0uOXWSmNfjq3zVcRBMecvKTLdFV8Vz6fk6JxMtmqA==
+"@antv/g-plugin-canvas-path-generator@2.1.19":
+  version "2.1.19"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-path-generator/-/g-plugin-canvas-path-generator-2.1.19.tgz#dc77fec5bee2e267d2b9383d2b29d2bee4d02080"
+  integrity sha512-+tc97NLvVYEFQnrLffmyxPpVXwUuTPbXBGy3aUTBYKd3YXhFBIKJYpQR39jsX2skgUvLh/67ZtA9QeUt6U41oQ==
   dependencies:
-    "@antv/g-lite" "2.2.18"
+    "@antv/g-lite" "2.2.19"
+    "@antv/g-math" "3.0.1"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-canvas-picker@2.1.19":
+  version "2.1.19"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-picker/-/g-plugin-canvas-picker-2.1.19.tgz#d4503b1819808703c765a51b0e3bccef5de4e4cd"
+  integrity sha512-69G0m2v09FimmYSU+hO1wjft1FqM467Cf1jDpjBz6Y3caQ98Hrqpz/7Prko1hMOALCo92MDo65yTTnz/LhBiQA==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
     "@antv/g-math" "3.0.0"
-    "@antv/g-plugin-canvas-path-generator" "2.1.18"
-    "@antv/g-plugin-canvas-renderer" "2.2.21"
+    "@antv/g-plugin-canvas-path-generator" "2.1.16"
+    "@antv/g-plugin-canvas-renderer" "2.2.19"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     gl-matrix "^3.4.3"
     tslib "^2.5.3"
 
-"@antv/g-plugin-canvas-renderer@2.2.21":
-  version "2.2.21"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-renderer/-/g-plugin-canvas-renderer-2.2.21.tgz#80c97dd9682f293e449dc6b53802b0318d6064c9"
-  integrity sha512-WcemVy8BcSMA6Nf7MeLaj0OVjgwGnl5dvIXY0TmwRuvsQiRRWYtKNPFuSjADQ+AEVmUUsPwTn5R2YRH0SDY72w==
+"@antv/g-plugin-canvas-picker@2.1.22":
+  version "2.1.22"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-picker/-/g-plugin-canvas-picker-2.1.22.tgz#e7a870a6d63576fd860e5caaa2053ee1f1020414"
+  integrity sha512-Pm/N+YTFOlXtjPran3wfN7Iuv0i2YglXrByxvBY8IQ3IzmB68+yZr+yPNRqjgbIM0yh45vIxz3SB/7VwYDPXMA==
   dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@antv/g-math" "3.0.0"
-    "@antv/g-plugin-canvas-path-generator" "2.1.18"
-    "@antv/g-plugin-image-loader" "2.1.21"
+    "@antv/g-lite" "2.2.19"
+    "@antv/g-math" "3.0.1"
+    "@antv/g-plugin-canvas-path-generator" "2.1.19"
+    "@antv/g-plugin-canvas-renderer" "2.2.22"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     gl-matrix "^3.4.3"
     tslib "^2.5.3"
 
-"@antv/g-plugin-dom-interaction@2.1.23":
-  version "2.1.23"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-dom-interaction/-/g-plugin-dom-interaction-2.1.23.tgz#ac91f2183104f2fba8c99ff97d9a076b000d31ab"
-  integrity sha512-wcVoB37tZmv3zo2VSLiGitND7+WuKBIYc8mQG3etR48Dk67l+Z0lJa8HUqjdp47blI7nOYF4AP9d2SjI5LQ1sw==
-  dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@babel/runtime" "^7.25.6"
-    tslib "^2.5.3"
-
-"@antv/g-plugin-dragndrop@^2.0.25", "@antv/g-plugin-dragndrop@^2.0.34":
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-dragndrop/-/g-plugin-dragndrop-2.0.34.tgz#49968e0eb0e7f4617333acb4dd3bf99052562232"
-  integrity sha512-XO/nSAZiiZkzJcw4wInyw4uwaxCL08jJTyVWwdh+n6++R9DUTbwRE72jdoX5KmY8ykO7dtbNWEF9GA0ldBqNIw==
-  dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@antv/util" "^3.3.5"
-    "@babel/runtime" "^7.25.6"
-    tslib "^2.5.3"
-
-"@antv/g-plugin-html-renderer@2.1.23":
-  version "2.1.23"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-html-renderer/-/g-plugin-html-renderer-2.1.23.tgz#15218ce0b06165138bd84e229bd7b1946a512915"
-  integrity sha512-G3m7yIkl/p1hShO5X9r1RTPUVl4XkU72agvQZzvv0oWy+PkYzrlA7duzVz/4Jh7kkOiAnfV6NqxMWrldvJAT+A==
-  dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@antv/util" "^3.3.5"
-    "@babel/runtime" "^7.25.6"
-    gl-matrix "^3.4.3"
-    tslib "^2.5.3"
-
-"@antv/g-plugin-image-loader@2.1.21":
-  version "2.1.21"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-image-loader/-/g-plugin-image-loader-2.1.21.tgz#811c2d15a5af65574c03dd0e1a7d74ee0402ba17"
-  integrity sha512-hz0VphH4f16e61eKbMvFPhyM7yH9XyU9aLcYcs6WGbu+kZ2v4kc7wlefbER41dqGbEy7GG0qDvQczDiRbrWYQg==
-  dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@antv/util" "^3.3.5"
-    "@babel/runtime" "^7.25.6"
-    gl-matrix "^3.4.3"
-    tslib "^2.5.3"
-
-"@antv/g-plugin-svg-picker@2.0.37":
-  version "2.0.37"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-svg-picker/-/g-plugin-svg-picker-2.0.37.tgz#4cc69d90e71e266926b802d1176663ec44f49f9a"
-  integrity sha512-M6ngVy6AA8kAKFxjDmmiU1xS1clsF3REbc/Yw+Jzt6fvdJs3T+zSXDorRAmxhB6AnbjFYe84pTqoUEOPFDrdjw==
-  dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@antv/g-plugin-svg-renderer" "2.2.19"
-    "@babel/runtime" "^7.25.6"
-    tslib "^2.5.3"
-
-"@antv/g-plugin-svg-renderer@2.2.19":
+"@antv/g-plugin-canvas-renderer@2.2.19":
   version "2.2.19"
-  resolved "https://registry.yarnpkg.com/@antv/g-plugin-svg-renderer/-/g-plugin-svg-renderer-2.2.19.tgz#3988df3e665466dffe9a2deca85370e74824b76d"
-  integrity sha512-oUDBwZN3cU8DVV7n0HWyxC55j7LNJ8w3ISf/wzTfP2Ub5hfqel0qRwlneOUo4Zo83V7Y3Wgarom0ZmUeBqaPew==
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-renderer/-/g-plugin-canvas-renderer-2.2.19.tgz#90911b38ec15edbbc946f7201ce9090bd22a43cd"
+  integrity sha512-3Ac0pjU0NAafu0rwTnthwWV/CV5kV9CpTf96v1CCXX0P3iPWtW72SatQNOt/v2aQ2NjYB34YuwYy9i0U1oS8rg==
   dependencies:
-    "@antv/g-lite" "2.2.18"
+    "@antv/g-lite" "2.2.16"
+    "@antv/g-math" "3.0.0"
+    "@antv/g-plugin-canvas-path-generator" "2.1.16"
+    "@antv/g-plugin-image-loader" "2.1.19"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-canvas-renderer@2.2.22":
+  version "2.2.22"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-canvas-renderer/-/g-plugin-canvas-renderer-2.2.22.tgz#69d0fe31db160245610a7af8c71085c783760fd9"
+  integrity sha512-+KyorG9lmwx5mogYZ6DP6BaiE9bnGUHojUxg+pTq032dx3SkCkLBl+CB5pZz1C2LEiQ+NkYtP3PlEjgSeeR/9A==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
+    "@antv/g-math" "3.0.1"
+    "@antv/g-plugin-canvas-path-generator" "2.1.19"
+    "@antv/g-plugin-image-loader" "2.1.22"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-dom-interaction@2.1.21":
+  version "2.1.21"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-dom-interaction/-/g-plugin-dom-interaction-2.1.21.tgz#7a764b270a2da8fc367a763231071f38d5ac49cf"
+  integrity sha512-Vm8yeNjZ2aNgNH3LwDRExRChpuVv0Wv2zOblUGy5rgyRIh2Fkm8R89pKLmd3GlLo4AF1ZqAGWHiY2WOeMHEEIA==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-dom-interaction@2.1.24":
+  version "2.1.24"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-dom-interaction/-/g-plugin-dom-interaction-2.1.24.tgz#5e2001d0451293573958763a37b4cc1a6d1ffd27"
+  integrity sha512-1IrsUp2k+4oi2brVNstgxoisdwcdwqSNdEYJBDtVP1Bv5KZabKSs9lxlkxVR0DTb8BJtWBi80gmKQFIJ8znofQ==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-dragndrop@2.0.32":
+  version "2.0.32"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-dragndrop/-/g-plugin-dragndrop-2.0.32.tgz#31559d38c5401a5116a6a8b7c64ba8c939208186"
+  integrity sha512-0Y9S/jx6Z7O3hEQhqrXGWNIcV1dBoRpokSP9gIMqTxOjCLzVUFYv8pFoI+Uyeow6PAWe+gdBQu+EJgVi223lJQ==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-dragndrop@^2.0.34":
+  version "2.0.35"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-dragndrop/-/g-plugin-dragndrop-2.0.35.tgz#a44ab89fbb7214e88dc6c25daf328fee69d24efb"
+  integrity sha512-1ZG+j91uEQAiFN0UqRkYCx3G8WWlKYoCXgTTx6m4YFJESJiab5M1C4OAi7zXclt1maOR154x3L/j3sRmBHFA+A==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-html-renderer@2.1.21":
+  version "2.1.21"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-html-renderer/-/g-plugin-html-renderer-2.1.21.tgz#2077e5eae60c818962f275f3cf73044a0c8aaa88"
+  integrity sha512-1PR9rYt4BgSx8LFnVPF+cPlcBYKfI7iWK/xPipEa3jZ4j/xftELQ5EEyZpfPnrTqu2PtKeMurx7oaM/HPsgaiQ==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-html-renderer@2.1.24":
+  version "2.1.24"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-html-renderer/-/g-plugin-html-renderer-2.1.24.tgz#c5f2e7c43b52f72a34d9542f9b190663c9b65f26"
+  integrity sha512-UPEitSu5F42kRgqy8Cr34aC6O4+0cCnC+avv0ZMXUFOf7AMhMnjQLlHHo+GDfM/0r6m//0ZCsqHpv8vB0A+sUA==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-image-loader@2.1.19":
+  version "2.1.19"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-image-loader/-/g-plugin-image-loader-2.1.19.tgz#c94e63de91b99c7384ecd758687e78a21b1a202b"
+  integrity sha512-ZjNs08RkzdDMLlEWGabJG1Lu1Q71afStSlhcIRhrDOLB4tH0UdYlq/f72tlzJ6KjtLnril/xQH3D7znPlfAoig==
+  dependencies:
+    "@antv/g-lite" "2.2.16"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-image-loader@2.1.22":
+  version "2.1.22"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-image-loader/-/g-plugin-image-loader-2.1.22.tgz#1f8ee3da3a4cc7a51adc9bc281b12d00968ff43c"
+  integrity sha512-moA+EnV8Gnofj5Kk6btQ6DrufPYiGMvGWXrkBqHNrowfIUD+bFfHPnLm4gV52hHKYEvwnIP2XL+ayHRvzVyffw==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    gl-matrix "^3.4.3"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-svg-picker@2.0.38":
+  version "2.0.38"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-svg-picker/-/g-plugin-svg-picker-2.0.38.tgz#879289b50e6d76a0ba5b482b21b4e1404bc37411"
+  integrity sha512-9XuT3VRFtUrdhMYmib7uB/sjXG9orQ7yGzIwYp+mCI734mnmJApOrB+J3UcSt3s+1PAIcABQkHT1MRxFII2w7w==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
+    "@antv/g-plugin-svg-renderer" "2.2.20"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-plugin-svg-renderer@2.2.20":
+  version "2.2.20"
+  resolved "https://registry.yarnpkg.com/@antv/g-plugin-svg-renderer/-/g-plugin-svg-renderer-2.2.20.tgz#c98fbbc20dfe1e5880a1e7ee206a7b79cd646f88"
+  integrity sha512-HjLyQMcMm/kRVhwkmdEkWGGZAHUhIuyztOzO0dzWucfGqXsusNZvKHpiWUMl3DBm6ID6qziYCRw5IIpqlsh3Jw==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     gl-matrix "^3.4.3"
     tslib "^2.5.3"
 
 "@antv/g-svg@^2.0.27":
-  version "2.0.37"
-  resolved "https://registry.yarnpkg.com/@antv/g-svg/-/g-svg-2.0.37.tgz#1d15c47df71211f6278a5bde987dbd7a5453539e"
-  integrity sha512-3kqvzhz/KxIQRJTuEQJ5Veb1OEY2uSw+A4LSHDxPgULAKoyNvagfI/YLopX8FqOnba3vkADFX2LEvgAVeUJv3A==
+  version "2.0.38"
+  resolved "https://registry.yarnpkg.com/@antv/g-svg/-/g-svg-2.0.38.tgz#c74e32a49c6c55c466d70aba1548ef5e11aac972"
+  integrity sha512-S11RB+4Yh3nel+wHChcbB4TlaJFyKl4gP9sUUgUzwgWiAFNxiHU4fM3+sb3f4AQyToIZZd1sqH0TscQ3psX5Yg==
   dependencies:
-    "@antv/g-lite" "2.2.18"
-    "@antv/g-plugin-dom-interaction" "2.1.23"
-    "@antv/g-plugin-svg-picker" "2.0.37"
-    "@antv/g-plugin-svg-renderer" "2.2.19"
+    "@antv/g-lite" "2.2.19"
+    "@antv/g-plugin-dom-interaction" "2.1.24"
+    "@antv/g-plugin-svg-picker" "2.0.38"
+    "@antv/g-plugin-svg-renderer" "2.2.20"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     tslib "^2.5.3"
 
-"@antv/g-web-animations-api@2.1.23":
-  version "2.1.23"
-  resolved "https://registry.yarnpkg.com/@antv/g-web-animations-api/-/g-web-animations-api-2.1.23.tgz#abdac4b20cda58b8d25b22f974bc053ac65c6689"
-  integrity sha512-gpXdxAbVtcM+SOsoc0ucPba7cWgG6FEp2EWGuaMzOiqoJGplp511xZ+d9T3l9hgp/vWOSKt/NZ9PlOPqXSK2GA==
+"@antv/g-web-animations-api@2.1.21":
+  version "2.1.21"
+  resolved "https://registry.yarnpkg.com/@antv/g-web-animations-api/-/g-web-animations-api-2.1.21.tgz#4f8fc78d766a0dc4d51d4e37a917a91c59eb02fb"
+  integrity sha512-EkIjeEH3QzHkDJn3sz1Mk83PqVQXGe5440mJV42QmnxuFuFcxGVJMi9vS8Te7kCUJl4eSb/eqnNi5AWfDMWm+w==
   dependencies:
-    "@antv/g-lite" "2.2.18"
+    "@antv/g-lite" "2.2.16"
+    "@antv/util" "^3.3.5"
+    "@babel/runtime" "^7.25.6"
+    tslib "^2.5.3"
+
+"@antv/g-web-animations-api@2.1.24":
+  version "2.1.24"
+  resolved "https://registry.yarnpkg.com/@antv/g-web-animations-api/-/g-web-animations-api-2.1.24.tgz#d310a3302908bd12e2b45940633a54abc5cbc158"
+  integrity sha512-cxRvJblphBw3Mi1YsAZwvQveZlRyNnZ+nidIq/e0HKmQhOLr3dSq3KAwxanV/n84v/a3BqLkWnm3E1CuSKDG3g==
+  dependencies:
+    "@antv/g-lite" "2.2.19"
     "@antv/util" "^3.3.5"
     "@babel/runtime" "^7.25.6"
     tslib "^2.5.3"
@@ -551,39 +700,50 @@
     pdfast "^0.2.0"
 
 "@antv/g6-extension-react@^0.2.0":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@antv/g6-extension-react/-/g6-extension-react-0.2.1.tgz#438912af51f0dcfebac75fb7ab2605b5b8891384"
-  integrity sha512-fpfObxHv9SkJ2xYay5FNiacfmqZDgJYI4HIfC9qZLNJzPoSGGJtsp09BhiAgK9VutGG2fGhMmgZKwhTRyaAu5w==
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@antv/g6-extension-react/-/g6-extension-react-0.2.2.tgz#8c6a30d83c07e4eeadee89f3416115946bc78537"
+  integrity sha512-O8bLyOwwkCTd0acoDPDpu6qJ8GNdHX5XYs2o+a75qG1qAvc2w9BH7Dc5W8FDW/9Ckz/Q2Zbht++mwOGN8TmwUw==
   dependencies:
     "@antv/g" "^6.1.14"
     "@antv/g-svg" "^2.0.27"
 
 "@antv/g6@^5.0.28", "@antv/g6@^5.0.44":
-  version "5.0.45"
-  resolved "https://registry.yarnpkg.com/@antv/g6/-/g6-5.0.45.tgz#74f3076a3cda2bbde7657e6494306e7f73ffe111"
-  integrity sha512-gwJnan63G+UOyoGAFRafEJjcFHVDt2MPM7xpryJd3Pg0uAFTBQSAriqfNecNj7Ao9vDwfkcrfP5sN87yksMSfA==
+  version "5.0.46"
+  resolved "https://registry.yarnpkg.com/@antv/g6/-/g6-5.0.46.tgz#85fe8aac9a5bb4755d9d1a564aa88882abf8336e"
+  integrity sha512-GPQkvDVbo/MABKf9yhFGkdDHLjuxOGfroHmw7AxdXptSr19//LYZTsoucSIBXwjOmfLTtMR0RP/i2rRWNjgyuA==
   dependencies:
     "@antv/algorithm" "^0.1.26"
     "@antv/component" "^2.1.2"
     "@antv/event-emitter" "^0.1.3"
-    "@antv/g" "^6.1.14"
-    "@antv/g-canvas" "^2.0.32"
-    "@antv/g-plugin-dragndrop" "^2.0.25"
+    "@antv/g" "6.1.21"
+    "@antv/g-canvas" "2.0.40"
+    "@antv/g-plugin-dragndrop" "2.0.32"
     "@antv/graphlib" "^2.0.4"
     "@antv/hierarchy" "^0.6.14"
     "@antv/layout" "1.2.14-beta.9"
     "@antv/util" "^3.3.10"
     bubblesets-js "^2.3.4"
 
-"@antv/g@^6.1.11", "@antv/g@^6.1.14", "@antv/g@^6.1.23", "@antv/g@^6.1.7":
-  version "6.1.23"
-  resolved "https://registry.yarnpkg.com/@antv/g/-/g-6.1.23.tgz#d514289d62bc6da05ee03300a2a617758b8cf9f5"
-  integrity sha512-D3t5gNV5ci3okmkF9N03lZ7arheYE/KmaXBTEuEFWxLOJPsGjweVcM+cNJJ6o0pc+4toGz+XpPFB/Xvz2gM5tw==
+"@antv/g@6.1.21":
+  version "6.1.21"
+  resolved "https://registry.yarnpkg.com/@antv/g/-/g-6.1.21.tgz#d64e5dc8ab07a9ec6b14ed671923b7dfe4b4fc05"
+  integrity sha512-3cWmsY1bYwDmVzsFmBeqN1tWVt+3JaWL6Uu54C1oF7qn1VXXa3V3KuXGEYCxuei8E8BMriN3D7fZosY5d+MQqw==
   dependencies:
-    "@antv/g-camera-api" "2.0.37"
-    "@antv/g-dom-mutation-observer-api" "2.0.34"
-    "@antv/g-lite" "2.2.18"
-    "@antv/g-web-animations-api" "2.1.23"
+    "@antv/g-camera-api" "2.0.35"
+    "@antv/g-dom-mutation-observer-api" "2.0.32"
+    "@antv/g-lite" "2.2.16"
+    "@antv/g-web-animations-api" "2.1.21"
+    "@babel/runtime" "^7.25.6"
+
+"@antv/g@^6.1.11", "@antv/g@^6.1.14", "@antv/g@^6.1.23", "@antv/g@^6.1.7":
+  version "6.1.24"
+  resolved "https://registry.yarnpkg.com/@antv/g/-/g-6.1.24.tgz#2d1d3fee1cbb8afb32a599384f7a3960df08c2e5"
+  integrity sha512-UshMiGnnF9CoaIN9pNhg6yWGU4KloKpGqLhEZU2wN5x11nMVX197yurcpU5vMzAbfdWRLcVW7TJatLQ4rKi1vw==
+  dependencies:
+    "@antv/g-camera-api" "2.0.38"
+    "@antv/g-dom-mutation-observer-api" "2.0.35"
+    "@antv/g-lite" "2.2.19"
+    "@antv/g-web-animations-api" "2.1.24"
     "@babel/runtime" "^7.25.6"
 
 "@antv/graphin@^3.0.4":
@@ -3651,14 +3811,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*":
-  version "22.15.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.17.tgz#355ccec95f705b664e4332bb64a7f07db30b7055"
-  integrity sha512-wIX2aSZL5FE+MR0JlvF87BNVrtFWf6AE6rxSE9X7OwnVvoyCQjpzSRJ+M87se/4QCkCiebQAqrJ0y6fwIyi7nw==
-  dependencies:
-    undici-types "~6.21.0"
-
-"@types/node@22.15.18":
+"@types/node@*", "@types/node@22.15.18":
   version "22.15.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.18.tgz#2f8240f7e932f571c2d45f555ba0b6c3f7a75963"
   integrity sha512-v1DKRfUdyW+jJhZNEI1PYy29S2YRxMV5AOO/x/SjKmW0acCIOqmbj6Haf9eHAhsPmrhlHSxEhv/1WszcLWV4cg==
@@ -3725,9 +3878,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "19.1.3"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-19.1.3.tgz#c75a24b775a63280b02c66a55a3cfa04f4022cf7"
-  integrity sha512-dLWQ+Z0CkIvK1J8+wrDPwGxEYFA4RAyHoZPxHVGspYmFVnwGSNT24cGIhFJrtfRnWVuW8X7NO52gCXmhkVUWGQ==
+  version "19.1.4"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-19.1.4.tgz#4d125f014d6ac26b4759775698db118701e314fe"
+  integrity sha512-EB1yiiYdvySuIITtD5lhW4yPyJ31RkJkkDw794LaQYrxCSaQV/47y5o1FMC4zF9ZyjUjzJMZwbovEnT5yHTW6g==
   dependencies:
     csstype "^3.0.2"
 
@@ -4083,27 +4236,27 @@
     tslib "^2.6.3"
 
 "@whatwg-node/fetch@^0.10.0", "@whatwg-node/fetch@^0.10.4":
-  version "0.10.6"
-  resolved "https://registry.yarnpkg.com/@whatwg-node/fetch/-/fetch-0.10.6.tgz#ce2fc35e45558874ad2488160fc8102481c935e4"
-  integrity sha512-6uzhO2aQ757p3bSHcemA8C4pqEXuyBqyGAM7cYpO0c6/igRMV9As9XL0W12h5EPYMclgr7FgjmbVQBoWEdJ/yA==
+  version "0.10.7"
+  resolved "https://registry.yarnpkg.com/@whatwg-node/fetch/-/fetch-0.10.7.tgz#f5f6839ba4af694259480f191d528ffef91e0361"
+  integrity sha512-sL31zX8BqZovZc38ovBFmKEfao9AzZ/24sWSHKNhDhcnzIO/PYAX2xF6vYtgU9hinrEGlvScTTyKSMynHGdfEA==
   dependencies:
-    "@whatwg-node/node-fetch" "^0.7.18"
+    "@whatwg-node/node-fetch" "^0.7.19"
     urlpattern-polyfill "^10.0.0"
 
-"@whatwg-node/node-fetch@^0.7.18":
-  version "0.7.18"
-  resolved "https://registry.yarnpkg.com/@whatwg-node/node-fetch/-/node-fetch-0.7.18.tgz#19e008468734bd89857f7001f29d38037cdc0cc7"
-  integrity sha512-IxKdVWfZYasGiyxBcsROxq6FmDQu3MNNiOYJ/yqLKhe+Qq27IIWsK7ItbjS2M9L5aM5JxjWkIS7JDh7wnsn+CQ==
+"@whatwg-node/node-fetch@^0.7.19":
+  version "0.7.19"
+  resolved "https://registry.yarnpkg.com/@whatwg-node/node-fetch/-/node-fetch-0.7.19.tgz#b8c09eb785782512972137f3bc7e0dad78667cbc"
+  integrity sha512-ippPt75epj7Tg6H5znI9lBBQ4gi+x23QsIF7UN1Z02MUqzhbkjhGsUtNnYGS3osrqvyKtbGKmEya6IqIPRmtdw==
   dependencies:
     "@fastify/busboy" "^3.1.1"
     "@whatwg-node/disposablestack" "^0.0.6"
-    "@whatwg-node/promise-helpers" "^1.3.1"
+    "@whatwg-node/promise-helpers" "^1.3.2"
     tslib "^2.6.3"
 
-"@whatwg-node/promise-helpers@^1.0.0", "@whatwg-node/promise-helpers@^1.2.1", "@whatwg-node/promise-helpers@^1.2.4", "@whatwg-node/promise-helpers@^1.3.0", "@whatwg-node/promise-helpers@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@whatwg-node/promise-helpers/-/promise-helpers-1.3.1.tgz#65f1820fa652ddc1062aa0fe7456726e8676ea43"
-  integrity sha512-D+OwTEunoQhVHVToD80dPhfz9xgPLqJyEA3F5jCRM14A2u8tBBQVdZekqfqx6ZAfZ+POT4Hb0dn601UKMsvADw==
+"@whatwg-node/promise-helpers@^1.0.0", "@whatwg-node/promise-helpers@^1.2.1", "@whatwg-node/promise-helpers@^1.2.4", "@whatwg-node/promise-helpers@^1.3.0", "@whatwg-node/promise-helpers@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@whatwg-node/promise-helpers/-/promise-helpers-1.3.2.tgz#3b54987ad6517ef6db5920c66a6f0dada606587d"
+  integrity sha512-Nst5JdK47VIl9UcGwtv2Rcgyn5lWtZ0/mhRQ4G8NN2isxpq2TO30iqHzmwoJycjWuyUfg3GFXqP/gFHXeV57IA==
   dependencies:
     tslib "^2.6.3"
 
@@ -4188,7 +4341,7 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.0.4, acorn@^8.11.0, acorn@^8.14.0, acorn@^8.2.4, acorn@^8.8.2, acorn@^8.9.0:
+acorn@^8.0.4, acorn@^8.11.0, acorn@^8.14.0, acorn@^8.2.4, acorn@^8.9.0:
   version "8.14.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.14.1.tgz#721d5dc10f7d5b5609a891773d47731796935dfb"
   integrity sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==
@@ -5072,9 +5225,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001702, caniuse-lite@^1.0.30001716:
-  version "1.0.30001717"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001717.tgz#5d9fec5ce09796a1893013825510678928aca129"
-  integrity sha512-auPpttCq6BDEG8ZAuHJIplGw6GODhjw+/11e7IjpnYCxZcW/ONgPs0KVBJ0d1bY3e2+7PRe5RCLyP+PfwVgkYw==
+  version "1.0.30001718"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001718.tgz#dae13a9c80d517c30c6197515a96131c194d8f82"
+  integrity sha512-AflseV1ahcSunK53NfEs9gFWgOEmzr0f+kaMFA4xiLZlr9Hzt7HxcSpIFcnNCUkz6R6dWKa54rUz3HUmI3nVcw==
 
 capital-case@^1.0.4:
   version "1.0.4"
@@ -6143,9 +6296,9 @@ debug@2.6.9, debug@^2.6.0:
     ms "2.0.0"
 
 debug@4, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.4.0.tgz#2b3f2aea2ffeb776477460267377dc8710faba8a"
-  integrity sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.4.1.tgz#e5a8bc6cbc4c6cd3e64308b0693a3d4fa550189b"
+  integrity sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==
   dependencies:
     ms "^2.1.3"
 
@@ -6486,9 +6639,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.5.149:
-  version "1.5.151"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.151.tgz#5edd6c17e1b2f14b4662c41b9379f96cc8c2bb7c"
-  integrity sha512-Rl6uugut2l9sLojjS4H4SAr3A4IgACMLgpuEMPYCVcKydzfyPrn5absNRju38IhQOf/NwjJY8OGWjlteqYeBCA==
+  version "1.5.155"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.155.tgz#809dd0ae9ae1db87c358e0c0c17c09a2ffc432d1"
+  integrity sha512-ps5KcGGmwL8VaeJlvlDlu4fORQpv3+GIcF5I3f9tUKUlJ/wsysh6HU8P5L1XWRYeXfA0oJd4PyM8ds8zTFf6Ng==
 
 emittery@^0.10.2:
   version "0.10.2"
@@ -7698,15 +7851,10 @@ graphql-tag@^2.11.0, graphql-tag@^2.12.6:
   dependencies:
     tslib "^2.1.0"
 
-graphql-ws@6.0.5:
+graphql-ws@6.0.5, graphql-ws@^6.0.3:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-6.0.5.tgz#24adcf444602df83477b9e07cd4b57f411ada024"
   integrity sha512-HzYw057ch0hx2gZjkbgk1pur4kAtgljlWRP+Gccudqm3BRrTpExjWCQ9OHdIsq47Y6lHL++1lTvuQHhgRRcevw==
-
-graphql-ws@^6.0.3:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-6.0.4.tgz#f0376170965f9535576b2d3e897db38b463a31f0"
-  integrity sha512-8b4OZtNOvv8+NZva8HXamrc0y1jluYC0+13gdh7198FKjVzXyTvVc95DCwGzaKEfn3YuWZxUqjJlHe3qKM/F2g==
 
 graphql@16.11.0:
   version "16.11.0"
@@ -11766,20 +11914,7 @@ rc-segmented@~2.7.0:
     rc-motion "^2.4.4"
     rc-util "^5.17.0"
 
-rc-select@~14.16.2:
-  version "14.16.7"
-  resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-14.16.7.tgz#aaf11918b80bf0acca8840825f9ec3b27d3d6b95"
-  integrity sha512-lT9kO5gFHQdJzu9a0btcOtNaJHkhenSl8H5mcpgXN9VIMXP59rnkpbdHmPrteixWs1D5zFOTyoTYX3b7joADIQ==
-  dependencies:
-    "@babel/runtime" "^7.10.1"
-    "@rc-component/trigger" "^2.1.1"
-    classnames "2.x"
-    rc-motion "^2.0.1"
-    rc-overflow "^1.3.1"
-    rc-util "^5.16.1"
-    rc-virtual-list "^3.5.2"
-
-rc-select@~14.16.7:
+rc-select@~14.16.2, rc-select@~14.16.7:
   version "14.16.8"
   resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-14.16.8.tgz#78e6782f1ccc1f03d9003bc3effa4ed609d29a97"
   integrity sha512-NOV5BZa1wZrsdkKaiK7LHRuo5ZjZYMDxPP6/1+09+FB4KoNi8jcG1ZqLE3AVCxEsYMBe65OBx71wFoHRTP3LRg==
@@ -11820,9 +11955,9 @@ rc-switch@~4.1.0:
     rc-util "^5.30.0"
 
 rc-table@~7.50.4:
-  version "7.50.4"
-  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.50.4.tgz#687b5bf76d1a94168f75481cbc83be9442010432"
-  integrity sha512-Y+YuncnQqoS5e7yHvfvlv8BmCvwDYDX/2VixTBEhkMDk9itS9aBINp4nhzXFKiBP/frG4w0pS9d9Rgisl0T1Bw==
+  version "7.50.5"
+  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.50.5.tgz#d0649d2fd902ca90dc20924c27a2e38523ce3625"
+  integrity sha512-FDZu8aolhSYd3v9KOc3lZOVAU77wmRRu44R0Wfb8Oj1dXRUsloFaXMSl6f7yuWZUxArJTli7k8TEOX2mvhDl4A==
   dependencies:
     "@babel/runtime" "^7.10.1"
     "@rc-component/context" "^1.4.0"
@@ -12662,9 +12797,9 @@ semver@^6.0.0, semver@^6.3.0, semver@^6.3.1:
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
 semver@^7.3.2, semver@^7.3.5, semver@^7.3.7, semver@^7.5.3, semver@^7.5.4:
-  version "7.7.1"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.1.tgz#abd5098d82b18c6c81f6074ff2647fd3e7220c9f"
-  integrity sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==
+  version "7.7.2"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.2.tgz#67d99fdcd35cec21e6f8b87a7fd515a33f982b58"
+  integrity sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==
 
 send@0.19.0:
   version "0.19.0"
@@ -13604,12 +13739,12 @@ terser-webpack-plugin@^5.2.5, terser-webpack-plugin@^5.3.11:
     terser "^5.31.1"
 
 terser@^5.0.0, terser@^5.10.0, terser@^5.31.1:
-  version "5.39.0"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.39.0.tgz#0e82033ed57b3ddf1f96708d123cca717d86ca3a"
-  integrity sha512-LBAhFyLho16harJoWMg/nZsQYgTrg5jXOn2nCYjRUcZZEdE3qa2zb8QEDRUGVZBW4rlazf2fxkg8tztybTaqWw==
+  version "5.39.2"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-5.39.2.tgz#5a1626030724a672e2e5b5c9cd9070308c20e8f9"
+  integrity sha512-yEPUmWve+VA78bI71BW70Dh0TuV4HHd+I5SHOAfS1+QBOmvmCiiffgjR8ryyEd3KIfvPGFqoADt8LdQ6XpXIvg==
   dependencies:
     "@jridgewell/source-map" "^0.3.3"
-    acorn "^8.8.2"
+    acorn "^8.14.0"
     commander "^2.20.0"
     source-map-support "~0.5.20"
 
@@ -14858,12 +14993,7 @@ yaml@^1.10.0, yaml@^1.10.2, yaml@^1.7.2:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yaml@^2.3.1, yaml@^2.3.4:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.7.1.tgz#44a247d1b88523855679ac7fa7cda6ed7e135cf6"
-  integrity sha512-10ULxpnOCQXxJvBgxsn9ptjq6uviG/htZKk9veJGhlqn3w/DxQ631zFF+nlQXLwmImeS5amR2dl2U8sg6U9jsQ==
-
-yaml@^2.7.1:
+yaml@^2.3.1, yaml@^2.3.4, yaml@^2.7.1:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.8.0.tgz#15f8c9866211bdc2d3781a0890e44d4fa1a5fff6"
   integrity sha512-4lLa/EcQCB0cJkyts+FpIRx5G/llPxfP6VQU5KByHEhLxY3IJCH0f0Hy1MHI8sClTvsIb8qwRJ6R/ZdlDJ/leQ==
