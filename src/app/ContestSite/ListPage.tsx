@@ -95,6 +95,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
     : "已结束";
 
   return (
+    //跳转选择
     <Link to={url.append("contest", id).link("intro")}>
       <Card
         css={`

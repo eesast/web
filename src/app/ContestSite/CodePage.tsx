@@ -84,6 +84,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { Option } = Select;
   const { Paragraph } = Typography;
   const Contest_id = url.query.get("contest");
+  const [sf_code, setSF_code] = useState("");
   const codeIndexMap = new Map();
 
   const [isSelectingGlobalCode, setIsSelectingGlobalCode] = useState(false);
@@ -145,6 +146,8 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   //linqiushi:修改后的数据库
   const [AddTeamCode, { error: codeError }] = graphql.useAddTeamCodeMutation();
+
+  const [UpdateTeamSfCode] = graphql.useUpdateTeam_Sf_CodeMutation();
 
   const [updatePlayerCodes] = graphql.useUpdateTeamPlayerMutation();
 
@@ -371,7 +374,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(err);
     }
   };
-
   const handleCodeChange = async (lang: string, codeName: string) => {
     if (!open) {
       message.info("代码功能暂未开放");
@@ -387,6 +389,29 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     });
     return response.data?.insert_contest_team_code_one?.code_id;
   };
+
+  const handleSfCodeChange = async () => {
+    try {
+      const response = await UpdateTeamSfCode({
+        variables: {
+          team_id: teamid!,
+          team_sf_code: sf_code, // 传入用户输入的 SF 代码
+        },
+      });
+
+      console.log("更新成功:", response.data);
+      message.success("SF 代码提交成功！");
+    } catch (error) {
+      console.error("提交失败:", error);
+      message.error("提交失败，请重试！");
+    }
+  };
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setSF_code(e.target.value);
+  };
+
   const handleOnchange = async (info: any) => {
     if (!open) {
       message.info("代码功能暂未开放");
@@ -744,117 +769,147 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   return (
     <Layout>
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Title level={2}>角色代码选择</Typography.Title>
-          <Space style={{ marginBottom: 16 }}>
-            {!isSelectingGlobalCode ? (
+      {contestData?.contest_by_pk?.name.startsWith("SOFT") ? (
+        <>
+          <Row>
+            <Col span={2}></Col>
+            <Col
+              span={20}
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <Typography.Title level={2}>软设代码提交</Typography.Title>
+              <Input.TextArea
+                placeholder="请在此提交云盘链接~"
+                value={sf_code}
+                onChange={handleInputChange}
+                style={{ marginBottom: "10px" }}
+                rows={4}
+              />
               <Button
                 type="primary"
-                onClick={() => setIsSelectingGlobalCode(true)}
-                disabled={!open}
+                onClick={handleSfCodeChange}
+                style={{ alignSelf: "flex-end" }}
               >
-                选择代码
+                提交
               </Button>
-            ) : (
-              <>
-                <Select
-                  allowClear
-                  style={{ width: 300 }}
-                  placeholder="选择要应用于所有角色的代码"
-                  onChange={(value) => setSelectedGlobalCodeId(value)}
-                >
-                  {teamCodesData?.contest_team_code
-                    .filter((item) => {
-                      return (
-                        item.compile_status === "No Need" ||
-                        item.compile_status === "Completed"
-                      );
-                    })
-                    .map((code, idx) => (
-                      <Option
-                        key={idx}
-                        value={code.code_id}
-                      >{`代码${codeIndexMap.get(code.code_id)} : ${code.code_name}`}</Option>
-                    ))}
-                </Select>
-                <Button
-                  type="primary"
-                  onClick={handleGlobalCodeChange}
-                  disabled={!selectedGlobalCodeId}
-                >
-                  确认
-                </Button>
-                <Button
-                  onClick={() => {
-                    setIsSelectingGlobalCode(false);
-                    setSelectedGlobalCodeId("");
-                  }}
-                >
-                  取消
-                </Button>
-              </>
-            )}
-          </Space>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Table
-            components={components}
-            rowClassName={() => "editable-row"}
-            bordered
-            dataSource={dataSourcePlayer}
-            columns={columnsPlayer as ColumnTypes}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Typography.Title level={2}>我的代码库</Typography.Title>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Dragger
-            multiple
-            disabled={!open}
-            accept=".cpp,.py"
-            customRequest={handleUpload}
-            onChange={handleOnchange}
-            showUploadList={false}
-          >
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">拖拽上传AI.cpp或AI.py</p>
-            <p className="ant-upload-hint">
-              支持同时上传多个文件，也可点击选择文件
-            </p>
-          </Dragger>
-        </Col>
-      </Row>
-      <br />
-      <br />
-      <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-          <Table
-            components={components}
-            rowClassName={() => "editable-row"}
-            bordered
-            dataSource={dataSourceCodes}
-            columns={columnsCodes as ColumnTypes}
-          />
-        </Col>
-      </Row>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <>
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Typography.Title level={2}>角色代码选择</Typography.Title>
+              <Space style={{ marginBottom: 16 }}>
+                {!isSelectingGlobalCode ? (
+                  <Button
+                    type="primary"
+                    onClick={() => setIsSelectingGlobalCode(true)}
+                    disabled={!open}
+                  >
+                    选择代码
+                  </Button>
+                ) : (
+                  <>
+                    <Select
+                      allowClear
+                      style={{ width: 300 }}
+                      placeholder="选择要应用于所有角色的代码"
+                      onChange={(value) => setSelectedGlobalCodeId(value)}
+                    >
+                      {teamCodesData?.contest_team_code
+                        .filter((item) => {
+                          return (
+                            item.compile_status === "No Need" ||
+                            item.compile_status === "Completed"
+                          );
+                        })
+                        .map((code, idx) => (
+                          <Option
+                            key={idx}
+                            value={code.code_id}
+                          >{`代码${codeIndexMap.get(code.code_id)} : ${code.code_name}`}</Option>
+                        ))}
+                    </Select>
+                    <Button
+                      type="primary"
+                      onClick={handleGlobalCodeChange}
+                      disabled={!selectedGlobalCodeId}
+                    >
+                      确认
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setIsSelectingGlobalCode(false);
+                        setSelectedGlobalCodeId("");
+                      }}
+                    >
+                      取消
+                    </Button>
+                  </>
+                )}
+              </Space>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Table
+                components={components}
+                rowClassName={() => "editable-row"}
+                bordered
+                dataSource={dataSourcePlayer}
+                columns={columnsPlayer as ColumnTypes}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Typography.Title level={2}>我的代码库</Typography.Title>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Dragger
+                multiple
+                disabled={!open}
+                accept=".cpp,.py"
+                customRequest={handleUpload}
+                onChange={handleOnchange}
+                showUploadList={false}
+              >
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">拖拽上传AI.cpp或AI.py</p>
+                <p className="ant-upload-hint">
+                  支持同时上传多个文件，也可点击选择文件
+                </p>
+              </Dragger>
+            </Col>
+          </Row>
+          <br />
+          <br />
+          <Row>
+            <Col span={2}></Col>
+            <Col span={20}>
+              <Table
+                components={components}
+                rowClassName={() => "editable-row"}
+                bordered
+                dataSource={dataSourceCodes}
+                columns={columnsCodes as ColumnTypes}
+              />
+            </Col>
+          </Row>
+        </>
+      )}
     </Layout>
   );
 };
