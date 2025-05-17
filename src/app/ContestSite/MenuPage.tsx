@@ -119,121 +119,172 @@ const MenuPage: React.FC<ContestProps> = (props) => {
   /* ---------------- 业务逻辑函数 ---------------- */
   const linkToRule = `https://docs.eesast.com/docs/contests/${contestData?.contest_by_pk?.name}`;
 
-  const items = [
-    {
-      key: "back",
-      label: (
-        <Link to={url.delete("contest").link("contest", "site")}>返回</Link>
-      ),
-      icon: <HomeOutlined />,
-    },
-    {
-      key: "home",
-      label: (
-        <span>
-          <span ref={introRef}>带你了解</span>
-        </span>
-      ),
-      icon: <RocketOutlined />,
-      children: [
+  const items = contestData?.contest_by_pk?.name.startsWith("SOFT")
+    ? [
         {
-          key: "intro",
-          label: <Link to={url.link("intro")}>赛事详情</Link>,
-          icon: <InfoCircleOutlined />,
-        },
-        {
-          key: "rule",
+          key: "back",
           label: (
-            <a href={linkToRule} target="_blank" rel="noreferrer">
-              比赛规则
-            </a>
+            <Link to={url.delete("contest").link("contest", "site")}>返回</Link>
           ),
-          icon: <ReadOutlined />,
+          icon: <HomeOutlined />,
         },
         {
-          key: "notice",
-          label: <Link to={url.link("notice")}>公告与资源</Link>,
-          icon: <BarsOutlined />,
-        },
-      ],
-    },
-    {
-      key: "game",
-      label: (
-        <span>
-          <span ref={playRef}>游玩时刻</span>
-        </span>
-      ),
-      icon: <FireOutlined />,
-      children: [
-        {
-          key: "playground",
-          label: <Link to={url.link("playground")}>试玩</Link>,
-          icon: <ExperimentOutlined />,
-        },
-        contestData?.contest_by_pk?.name === "THUAI6"
-          ? {
-              key: "stream-native",
-              label: <Link to={url.link("stream-native")}>直播</Link>,
-              icon: <PlaySquareOutlined />,
-            }
-          : {
-              key: "stream",
-              label: <Link to={url.link("stream")}>直播</Link>,
-              icon: <PlaySquareOutlined />,
-            },
-        {
-          key: "playback",
-          label: <Link to={url.link("playback")}>回放</Link>,
-          icon: <HistoryOutlined />,
-        },
-      ],
-    },
-    {
-      key: "team",
-      label: (
-        <Link to={url.link("team")} ref={joinRef}>
-          {isMember ? "我的队伍" : "现在报名"}
-        </Link>
-      ),
-      icon: <TeamOutlined />,
-    },
-    {
-      key: "code",
-      label: (
-        <Link to={url.link("code")} ref={codeRef}>
-          代码提交
-        </Link>
-      ),
-      icon: <UploadOutlined />,
-    },
-    {
-      key: "arena",
-      label: (
-        <span>
-          <span ref={arenaRef}>天梯试炼</span>
-        </span>
-      ),
-      icon: <TrophyOutlined />,
-      children: [
-        {
-          key: "arena-score",
-          label: <Link to={url.link("arena-score")}>积分榜</Link>,
-          icon: <BarChartOutlined />,
+          key: "team",
+          label: (
+            <Link to={url.link("team")} ref={joinRef}>
+              {isMember ? "我的队伍" : "现在报名"}
+            </Link>
+          ),
+          icon: <TeamOutlined />,
         },
         {
-          key: "arena-record",
-          label: <Link to={url.link("arena-record")}>对战记录</Link>,
-          icon: <FieldTimeOutlined />,
+          key: "code",
+          label: (
+            <Link to={url.link("code")} ref={codeRef}>
+              代码提交
+            </Link>
+          ),
+          icon: <UploadOutlined />,
         },
-        {
-          key: "arena-analysis",
-          label: <Link to={url.link("arena-analysis")}>数据分析</Link>,
-          icon: <RadarChartOutlined />,
-        },
-      ],
-    },
-  ];
+      ]
+    : contestData?.contest_by_pk?.name.startsWith("HARD")
+      ? [
+          {
+            key: "back",
+            label: (
+              <Link to={url.delete("contest").link("contest", "site")}>
+                返回
+              </Link>
+            ),
+            icon: <HomeOutlined />,
+          },
+          {
+            key: "team",
+            label: (
+              <Link to={url.link("team")} ref={joinRef}>
+                {isMember ? "我的队伍" : "现在报名"}
+              </Link>
+            ),
+            icon: <TeamOutlined />,
+          },
+        ]
+      : [
+          {
+            key: "back",
+            label: (
+              <Link to={url.delete("contest").link("contest", "site")}>
+                返回
+              </Link>
+            ),
+            icon: <HomeOutlined />,
+          },
+          {
+            key: "home",
+            label: (
+              <span>
+                <span ref={introRef}>带你了解</span>
+              </span>
+            ),
+            icon: <RocketOutlined />,
+            children: [
+              {
+                key: "intro",
+                label: <Link to={url.link("intro")}>赛事详情</Link>,
+                icon: <InfoCircleOutlined />,
+              },
+              {
+                key: "rule",
+                label: (
+                  <a href={linkToRule} target="_blank" rel="noreferrer">
+                    比赛规则
+                  </a>
+                ),
+                icon: <ReadOutlined />,
+              },
+              {
+                key: "notice",
+                label: <Link to={url.link("notice")}>公告与资源</Link>,
+                icon: <BarsOutlined />,
+              },
+            ],
+          },
+          {
+            key: "game",
+            label: (
+              <span>
+                <span ref={playRef}>游玩时刻</span>
+              </span>
+            ),
+            icon: <FireOutlined />,
+            children: [
+              {
+                key: "playground",
+                label: <Link to={url.link("playground")}>试玩</Link>,
+                icon: <ExperimentOutlined />,
+              },
+              contestData?.contest_by_pk?.name === "THUAI6"
+                ? {
+                    key: "stream-native",
+                    label: <Link to={url.link("stream-native")}>直播</Link>,
+                    icon: <PlaySquareOutlined />,
+                  }
+                : {
+                    key: "stream",
+                    label: <Link to={url.link("stream")}>直播</Link>,
+                    icon: <PlaySquareOutlined />,
+                  },
+              {
+                key: "playback",
+                label: <Link to={url.link("playback")}>回放</Link>,
+                icon: <HistoryOutlined />,
+              },
+            ],
+          },
+          {
+            key: "team",
+            label: (
+              <Link to={url.link("team")} ref={joinRef}>
+                {isMember ? "我的队伍" : "现在报名"}
+              </Link>
+            ),
+            icon: <TeamOutlined />,
+          },
+          {
+            key: "code",
+            label: (
+              <Link to={url.link("code")} ref={codeRef}>
+                代码提交
+              </Link>
+            ),
+            icon: <UploadOutlined />,
+          },
+          {
+            key: "arena",
+            label: (
+              <span>
+                <span ref={arenaRef}>天梯试炼</span>
+              </span>
+            ),
+            icon: <TrophyOutlined />,
+            children: [
+              {
+                key: "arena-score",
+                label: <Link to={url.link("arena-score")}>积分榜</Link>,
+                icon: <BarChartOutlined />,
+              },
+              {
+                key: "arena-record",
+                label: <Link to={url.link("arena-record")}>对战记录</Link>,
+                icon: <FieldTimeOutlined />,
+              },
+              {
+                key: "arena-analysis",
+                label: <Link to={url.link("arena-analysis")}>数据分析</Link>,
+                icon: <RadarChartOutlined />,
+              },
+            ],
+          },
+        ];
 
   const itemsAdmin = [
     {
