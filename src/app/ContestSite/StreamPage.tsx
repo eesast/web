@@ -36,7 +36,7 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const contest = url.query.get("contest");
   const streamUrl = url.query.get("url") ?? "https://live.eesast.com";
-  const port = url.query.get("port") ?? "";
+  const port = url.query.get("port") ?? "8888";
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
