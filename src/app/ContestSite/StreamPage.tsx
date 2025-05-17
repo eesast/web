@@ -11,7 +11,9 @@ import * as graphql from "@/generated/graphql";
 import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 import styled from "styled-components";
+import streamTHUAI6 from "./Components/Stream/THUAI6";
 import streamTHUAI7 from "./Components/Stream/THUAI7";
+import streamTHUAI8 from "./Components/Stream/THUAI8";
 
 /* ---------------- 接⼝和类型定义 ---------------- */
 export interface StreamProps {
@@ -104,9 +106,12 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
       return;
     }
     const name = contestNameData?.contest_by_pk?.name;
-    const match = name?.match(/^THUAI(\d+)$/);
-    if (match && parseInt(match[1]) >= 7) {
+    if (name === "THUAI6") {
+      streamTHUAI6({ streamUrl, port, update });
+    } else if (name === "THUAI7") {
       streamTHUAI7({ streamUrl, port, update });
+    } else if (name === "THUAI8") {
+      streamTHUAI8({ streamUrl, port, update });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded]);
