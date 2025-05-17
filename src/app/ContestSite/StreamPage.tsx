@@ -104,7 +104,10 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
       return;
     }
     const name = contestNameData?.contest_by_pk?.name;
-    if (name === "THUAI7") {
+    if (
+      name?.match(/THUAI\d+/) &&
+      parseInt(name.match(/\d+/)?.[0] ?? "0") >= 7
+    ) {
       streamTHUAI7({ streamUrl, port, update });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
