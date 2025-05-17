@@ -35,7 +35,7 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const contest = url.query.get("contest");
-  const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
+  const streamUrl = url.query.get("url") ?? "https://live.eesast.com";
   const port = url.query.get("port") ?? "";
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =

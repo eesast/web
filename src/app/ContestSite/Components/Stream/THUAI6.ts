@@ -14,7 +14,7 @@ const streamTHUAI6: (props: StreamProps) => void = ({
   port,
   update,
 }) => {
-  const client = new AvailableServiceClient(streamUrl + port);
+  const client = new AvailableServiceClient(streamUrl + ":" + port);
   const request = new Message2Server.IDMsg();
   request.setPlayerId(playerID);
   client.tryConnection(

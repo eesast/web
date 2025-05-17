@@ -243,7 +243,7 @@ const StreamNativePage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const contest = url.query.get("contest");
-  const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
+  const streamUrl = url.query.get("url") ?? "https://live.eesast.com";
   const port = url.query.get("port") ?? "";
   const canvasRef = React.useRef(null);
   const [gameTime, setGameTime] = useState(0);
