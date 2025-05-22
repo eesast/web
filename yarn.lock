@@ -4490,10 +4490,10 @@ ansis@^3.2.0:
   resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.17.0.tgz#fa8d9c2a93fe7d1177e0c17f9eeb562a58a832d7"
   integrity sha512-0qWUglt9JEqLFr3w1I1pbrChn1grhaiAR2ocX1PP/flRmxgtwTzPFFFnfIlD6aMOLQZgSuCRlidD70lvx8yhzg==
 
-antd@5.25.1:
-  version "5.25.1"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-5.25.1.tgz#859b419a18d113492304ccd66c29074a71902241"
-  integrity sha512-4KC7KuPCjr0z3Vuw9DsF+ceqJaPLbuUI3lOX1sY8ix25ceamp+P8yxOmk3Y2JHCD2ZAhq+5IQ/DTJRN2adWYKQ==
+antd@5.25.2:
+  version "5.25.2"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-5.25.2.tgz#f8186a15d6823d9c411670b308742523175b0ac7"
+  integrity sha512-7R2nUvlHhey7Trx64+hCtGXOiy+DTUs1Lv5bwbV1LzEIZIhWb0at1AM6V3K108a5lyoR9n7DX3ptlLF7uYV/DQ==
   dependencies:
     "@ant-design/colors" "^7.2.0"
     "@ant-design/cssinjs" "^1.23.0"
@@ -4530,11 +4530,11 @@ antd@5.25.1:
     rc-rate "~2.13.1"
     rc-resize-observer "^1.4.3"
     rc-segmented "~2.7.0"
-    rc-select "~14.16.7"
+    rc-select "~14.16.8"
     rc-slider "~11.1.8"
     rc-steps "~6.0.1"
     rc-switch "~4.1.0"
-    rc-table "~7.50.4"
+    rc-table "~7.50.5"
     rc-tabs "~15.6.1"
     rc-textarea "~1.10.0"
     rc-tooltip "~6.4.0"
@@ -11727,7 +11727,7 @@ rc-segmented@~2.7.0:
     rc-motion "^2.4.4"
     rc-util "^5.17.0"
 
-rc-select@~14.16.2, rc-select@~14.16.7:
+rc-select@~14.16.2, rc-select@~14.16.8:
   version "14.16.8"
   resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-14.16.8.tgz#78e6782f1ccc1f03d9003bc3effa4ed609d29a97"
   integrity sha512-NOV5BZa1wZrsdkKaiK7LHRuo5ZjZYMDxPP6/1+09+FB4KoNi8jcG1ZqLE3AVCxEsYMBe65OBx71wFoHRTP3LRg==
@@ -11767,7 +11767,7 @@ rc-switch@~4.1.0:
     classnames "^2.2.1"
     rc-util "^5.30.0"
 
-rc-table@~7.50.4:
+rc-table@~7.50.5:
   version "7.50.5"
   resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.50.5.tgz#d0649d2fd902ca90dc20924c27a2e38523ce3625"
   integrity sha512-FDZu8aolhSYd3v9KOc3lZOVAU77wmRRu44R0Wfb8Oj1dXRUsloFaXMSl6f7yuWZUxArJTli7k8TEOX2mvhDl4A==
