@@ -28,7 +28,7 @@
     "react-router-dom": "7.6.2",
     "react-router-prompt": "0.8.0",
     "react-unity-webgl": "9.8.0",
-    "styled-components": "6.1.18",
+    "styled-components": "6.1.19",
     "xlsx": "0.18.5"
   },
   "devDependencies": {
