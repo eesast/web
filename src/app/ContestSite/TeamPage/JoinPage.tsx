@@ -13,18 +13,19 @@ const { TextArea } = Input;
 //临时使用此函数来添加团队成员
 async function addTeamMember_custom(team_id: string, user_uuid: string) {
   axios
-    .post("/team/add_team_player", {
+    .post("/team/add_team_member", {
       team_id: team_id,
-      player: user_uuid,
+      user_uuid: user_uuid,
     })
     .then((response) => {
-      //if (response.status === 551) {
-      //  message.error("队伍成员已满，无法添加更多成员");
-      //}
       console.log("Team member added successfully:", response.data);
       message.success("添加队员成功");
     })
     .catch((error) => {
+      if (error.response && error.response.status === 551) {
+        message.error("队伍成员已满，无法添加更多成员");
+        return;
+      }
       console.error("Error adding team member:", error);
       message.error("添加队员失败");
     });
@@ -192,7 +193,7 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       //}
       await addTeamMember_custom(teamInfo.teamId!, user.uuid!);
       //message.success("加入成功");
-      return refresh();
+      return window.location.reload();
     } catch (e) {
       console.error(e);
       joinForm.resetFields();

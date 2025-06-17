@@ -84,6 +84,7 @@ query GetTeamInfo($team_id: uuid!) {
   contest_team_by_pk(team_id: $team_id) {
     team_name
     team_intro
+    team_id
     invited_code
     team_leader {
       uuid
@@ -94,6 +95,7 @@ query GetTeamInfo($team_id: uuid!) {
         realname
         student_no
         class
+        uuid
       }
     }
   }
