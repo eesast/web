@@ -2258,6 +2258,7 @@ export type Contest_Team = {
   team_leader: Users;
   team_leader_uuid: Scalars['uuid']['output'];
   team_name: Scalars['String']['output'];
+  team_sf_code?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['timestamptz']['output'];
 };
 
@@ -2395,6 +2396,7 @@ export type Contest_Team_Bool_Exp = {
   team_leader?: InputMaybe<Users_Bool_Exp>;
   team_leader_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   team_name?: InputMaybe<String_Comparison_Exp>;
+  team_sf_code?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
@@ -2624,6 +2626,7 @@ export type Contest_Team_Insert_Input = {
   team_leader?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
   team_name?: InputMaybe<Scalars['String']['input']>;
+  team_sf_code?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
@@ -2637,6 +2640,7 @@ export type Contest_Team_Max_Fields = {
   team_intro?: Maybe<Scalars['String']['output']>;
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
   team_name?: Maybe<Scalars['String']['output']>;
+  team_sf_code?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
@@ -2649,6 +2653,7 @@ export type Contest_Team_Max_Order_By = {
   team_intro?: InputMaybe<Order_By>;
   team_leader_uuid?: InputMaybe<Order_By>;
   team_name?: InputMaybe<Order_By>;
+  team_sf_code?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
@@ -2812,6 +2817,7 @@ export type Contest_Team_Min_Fields = {
   team_intro?: Maybe<Scalars['String']['output']>;
   team_leader_uuid?: Maybe<Scalars['uuid']['output']>;
   team_name?: Maybe<Scalars['String']['output']>;
+  team_sf_code?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
@@ -2824,6 +2830,7 @@ export type Contest_Team_Min_Order_By = {
   team_intro?: InputMaybe<Order_By>;
   team_leader_uuid?: InputMaybe<Order_By>;
   team_name?: InputMaybe<Order_By>;
+  team_sf_code?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
@@ -2865,6 +2872,7 @@ export type Contest_Team_Order_By = {
   team_leader?: InputMaybe<Users_Order_By>;
   team_leader_uuid?: InputMaybe<Order_By>;
   team_name?: InputMaybe<Order_By>;
+  team_sf_code?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
@@ -3066,6 +3074,8 @@ export enum Contest_Team_Select_Column {
   /** column name */
   TeamName = 'team_name',
   /** column name */
+  TeamSfCode = 'team_sf_code',
+  /** column name */
   UpdatedAt = 'updated_at'
 }
 
@@ -3078,6 +3088,7 @@ export type Contest_Team_Set_Input = {
   team_intro?: InputMaybe<Scalars['String']['input']>;
   team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
   team_name?: InputMaybe<Scalars['String']['input']>;
+  team_sf_code?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
@@ -3097,6 +3108,8 @@ export enum Contest_Team_Update_Column {
   TeamLeaderUuid = 'team_leader_uuid',
   /** column name */
   TeamName = 'team_name',
+  /** column name */
+  TeamSfCode = 'team_sf_code',
   /** column name */
   UpdatedAt = 'updated_at'
 }
@@ -5149,6 +5162,8 @@ export enum Department_Update_Column {
 /** columns and relationships of "freshman" */
 export type Freshman = {
   __typename?: 'freshman';
+  /** 是否是积极分子 */
+  is_member: Scalars['Boolean']['output'];
   realname: Scalars['String']['output'];
   student_no: Scalars['String']['output'];
   uuid?: Maybe<Scalars['uuid']['output']>;
@@ -5196,6 +5211,7 @@ export type Freshman_Bool_Exp = {
   _and?: InputMaybe<Array<Freshman_Bool_Exp>>;
   _not?: InputMaybe<Freshman_Bool_Exp>;
   _or?: InputMaybe<Array<Freshman_Bool_Exp>>;
+  is_member?: InputMaybe<Boolean_Comparison_Exp>;
   realname?: InputMaybe<String_Comparison_Exp>;
   student_no?: InputMaybe<String_Comparison_Exp>;
   uuid?: InputMaybe<Uuid_Comparison_Exp>;
@@ -5217,6 +5233,8 @@ export type Freshman_Inc_Input = {
 
 /** input type for inserting data into table "freshman" */
 export type Freshman_Insert_Input = {
+  /** 是否是积极分子 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
   realname?: InputMaybe<Scalars['String']['input']>;
   student_no?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -5259,6 +5277,7 @@ export type Freshman_On_Conflict = {
 
 /** Ordering options when selecting data from "freshman". */
 export type Freshman_Order_By = {
+  is_member?: InputMaybe<Order_By>;
   realname?: InputMaybe<Order_By>;
   student_no?: InputMaybe<Order_By>;
   uuid?: InputMaybe<Order_By>;
@@ -5273,6 +5292,8 @@ export type Freshman_Pk_Columns_Input = {
 /** select columns of table "freshman" */
 export enum Freshman_Select_Column {
   /** column name */
+  IsMember = 'is_member',
+  /** column name */
   Realname = 'realname',
   /** column name */
   StudentNo = 'student_no',
@@ -5284,6 +5305,8 @@ export enum Freshman_Select_Column {
 
 /** input type for updating data in table "freshman" */
 export type Freshman_Set_Input = {
+  /** 是否是积极分子 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
   realname?: InputMaybe<Scalars['String']['input']>;
   student_no?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['uuid']['input']>;
@@ -5316,6 +5339,8 @@ export type Freshman_Sum_Fields = {
 
 /** update columns of table "freshman" */
 export enum Freshman_Update_Column {
+  /** column name */
+  IsMember = 'is_member',
   /** column name */
   Realname = 'realname',
   /** column name */
@@ -6376,9 +6401,14 @@ export enum Manager_User_Permissions_Update_Column {
 /** columns and relationships of "mentor_application" */
 export type Mentor_Application = {
   __typename?: 'mentor_application';
+  /** 导师确认谈话 */
+  chat_confirm: Scalars['Boolean']['output'];
   chat_status: Scalars['Boolean']['output'];
+  chat_time?: Maybe<Scalars['timestamptz']['output']>;
   created_at: Scalars['timestamptz']['output'];
   id: Scalars['uuid']['output'];
+  /** 是否参与积极分子发展谈话 */
+  is_member: Scalars['Boolean']['output'];
   /** An object relationship */
   mentor: Users;
   mentor_uuid: Scalars['uuid']['output'];
@@ -6433,9 +6463,12 @@ export type Mentor_Application_Bool_Exp = {
   _and?: InputMaybe<Array<Mentor_Application_Bool_Exp>>;
   _not?: InputMaybe<Mentor_Application_Bool_Exp>;
   _or?: InputMaybe<Array<Mentor_Application_Bool_Exp>>;
+  chat_confirm?: InputMaybe<Boolean_Comparison_Exp>;
   chat_status?: InputMaybe<Boolean_Comparison_Exp>;
+  chat_time?: InputMaybe<Timestamptz_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  is_member?: InputMaybe<Boolean_Comparison_Exp>;
   mentor?: InputMaybe<Users_Bool_Exp>;
   mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   statement?: InputMaybe<String_Comparison_Exp>;
@@ -6459,9 +6492,14 @@ export type Mentor_Application_Inc_Input = {
 
 /** input type for inserting data into table "mentor_application" */
 export type Mentor_Application_Insert_Input = {
+  /** 导师确认谈话 */
+  chat_confirm?: InputMaybe<Scalars['Boolean']['input']>;
   chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  chat_time?: InputMaybe<Scalars['timestamptz']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  /** 是否参与积极分子发展谈话 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
   mentor?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   statement?: InputMaybe<Scalars['String']['input']>;
@@ -6476,6 +6514,7 @@ export type Mentor_Application_Insert_Input = {
 /** aggregate max on columns */
 export type Mentor_Application_Max_Fields = {
   __typename?: 'mentor_application_max_fields';
+  chat_time?: Maybe<Scalars['timestamptz']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
@@ -6490,6 +6529,7 @@ export type Mentor_Application_Max_Fields = {
 /** aggregate min on columns */
 export type Mentor_Application_Min_Fields = {
   __typename?: 'mentor_application_min_fields';
+  chat_time?: Maybe<Scalars['timestamptz']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
@@ -6519,9 +6559,12 @@ export type Mentor_Application_On_Conflict = {
 
 /** Ordering options when selecting data from "mentor_application". */
 export type Mentor_Application_Order_By = {
+  chat_confirm?: InputMaybe<Order_By>;
   chat_status?: InputMaybe<Order_By>;
+  chat_time?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  is_member?: InputMaybe<Order_By>;
   mentor?: InputMaybe<Users_Order_By>;
   mentor_uuid?: InputMaybe<Order_By>;
   statement?: InputMaybe<Order_By>;
@@ -6540,11 +6583,17 @@ export type Mentor_Application_Pk_Columns_Input = {
 /** select columns of table "mentor_application" */
 export enum Mentor_Application_Select_Column {
   /** column name */
+  ChatConfirm = 'chat_confirm',
+  /** column name */
   ChatStatus = 'chat_status',
+  /** column name */
+  ChatTime = 'chat_time',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsMember = 'is_member',
   /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
@@ -6561,9 +6610,14 @@ export enum Mentor_Application_Select_Column {
 
 /** input type for updating data in table "mentor_application" */
 export type Mentor_Application_Set_Input = {
+  /** 导师确认谈话 */
+  chat_confirm?: InputMaybe<Scalars['Boolean']['input']>;
   chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  chat_time?: InputMaybe<Scalars['timestamptz']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  /** 是否参与积极分子发展谈话 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   statement?: InputMaybe<Scalars['String']['input']>;
   /** approved | submitted */
@@ -6600,11 +6654,17 @@ export type Mentor_Application_Sum_Fields = {
 /** update columns of table "mentor_application" */
 export enum Mentor_Application_Update_Column {
   /** column name */
+  ChatConfirm = 'chat_confirm',
+  /** column name */
   ChatStatus = 'chat_status',
+  /** column name */
+  ChatTime = 'chat_time',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsMember = 'is_member',
   /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
@@ -6646,10 +6706,13 @@ export type Mentor_Info = {
   /** 教育背景 */
   background?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['timestamptz']['output'];
+  dialogue_type?: Maybe<Scalars['String']['output']>;
   /** 研究领域 */
   field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
   intro?: Maybe<Scalars['String']['output']>;
+  /** 是否是需要参与积极分子谈话的党员 */
+  is_member: Scalars['Boolean']['output'];
   max_applicants: Scalars['Int']['output'];
   mentor_uuid: Scalars['uuid']['output'];
   updated_at: Scalars['timestamptz']['output'];
@@ -6702,8 +6765,10 @@ export type Mentor_Info_Bool_Exp = {
   available?: InputMaybe<Boolean_Comparison_Exp>;
   background?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  dialogue_type?: InputMaybe<String_Comparison_Exp>;
   field?: InputMaybe<String_Comparison_Exp>;
   intro?: InputMaybe<String_Comparison_Exp>;
+  is_member?: InputMaybe<Boolean_Comparison_Exp>;
   max_applicants?: InputMaybe<Int_Comparison_Exp>;
   mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -6729,10 +6794,13 @@ export type Mentor_Info_Insert_Input = {
   /** 教育背景 */
   background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  dialogue_type?: InputMaybe<Scalars['String']['input']>;
   /** 研究领域 */
   field?: InputMaybe<Scalars['String']['input']>;
   /** 简要信息：联系方式、职位等 */
   intro?: InputMaybe<Scalars['String']['input']>;
+  /** 是否是需要参与积极分子谈话的党员 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
   max_applicants?: InputMaybe<Scalars['Int']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6747,6 +6815,7 @@ export type Mentor_Info_Max_Fields = {
   /** 教育背景 */
   background?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  dialogue_type?: Maybe<Scalars['String']['output']>;
   /** 研究领域 */
   field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
@@ -6764,6 +6833,7 @@ export type Mentor_Info_Min_Fields = {
   /** 教育背景 */
   background?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  dialogue_type?: Maybe<Scalars['String']['output']>;
   /** 研究领域 */
   field?: Maybe<Scalars['String']['output']>;
   /** 简要信息：联系方式、职位等 */
@@ -6795,8 +6865,10 @@ export type Mentor_Info_Order_By = {
   available?: InputMaybe<Order_By>;
   background?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  dialogue_type?: InputMaybe<Order_By>;
   field?: InputMaybe<Order_By>;
   intro?: InputMaybe<Order_By>;
+  is_member?: InputMaybe<Order_By>;
   max_applicants?: InputMaybe<Order_By>;
   mentor_uuid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -6819,9 +6891,13 @@ export enum Mentor_Info_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  DialogueType = 'dialogue_type',
+  /** column name */
   Field = 'field',
   /** column name */
   Intro = 'intro',
+  /** column name */
+  IsMember = 'is_member',
   /** column name */
   MaxApplicants = 'max_applicants',
   /** column name */
@@ -6838,10 +6914,13 @@ export type Mentor_Info_Set_Input = {
   /** 教育背景 */
   background?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  dialogue_type?: InputMaybe<Scalars['String']['input']>;
   /** 研究领域 */
   field?: InputMaybe<Scalars['String']['input']>;
   /** 简要信息：联系方式、职位等 */
   intro?: InputMaybe<Scalars['String']['input']>;
+  /** 是否是需要参与积极分子谈话的党员 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
   max_applicants?: InputMaybe<Scalars['Int']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6882,9 +6961,13 @@ export enum Mentor_Info_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  DialogueType = 'dialogue_type',
+  /** column name */
   Field = 'field',
   /** column name */
   Intro = 'intro',
+  /** column name */
+  IsMember = 'is_member',
   /** column name */
   MaxApplicants = 'max_applicants',
   /** column name */
@@ -14117,6 +14200,14 @@ export type UpdateTeamMutationVariables = Exact<{
 
 export type UpdateTeamMutation = { __typename?: 'mutation_root', update_contest_team_by_pk?: { __typename?: 'contest_team', team_id: any } | null };
 
+export type UpdateTeam_Sf_CodeMutationVariables = Exact<{
+  team_id: Scalars['uuid']['input'];
+  team_sf_code: Scalars['String']['input'];
+}>;
+
+
+export type UpdateTeam_Sf_CodeMutation = { __typename?: 'mutation_root', update_contest_team_by_pk?: { __typename?: 'contest_team', team_id: any } | null };
+
 export type GetTeamQueryVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
   contest_id: Scalars['uuid']['input'];
@@ -16031,6 +16122,43 @@ export function useUpdateTeamMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateTeamMutationHookResult = ReturnType<typeof useUpdateTeamMutation>;
 export type UpdateTeamMutationResult = Apollo.MutationResult<UpdateTeamMutation>;
 export type UpdateTeamMutationOptions = Apollo.BaseMutationOptions<UpdateTeamMutation, UpdateTeamMutationVariables>;
+export const UpdateTeam_Sf_CodeDocument = gql`
+    mutation UpdateTeam_Sf_Code($team_id: uuid!, $team_sf_code: String!) {
+  update_contest_team_by_pk(
+    pk_columns: {team_id: $team_id}
+    _set: {team_sf_code: $team_sf_code}
+  ) {
+    team_id
+  }
+}
+    `;
+export type UpdateTeam_Sf_CodeMutationFn = Apollo.MutationFunction<UpdateTeam_Sf_CodeMutation, UpdateTeam_Sf_CodeMutationVariables>;
+
+/**
+ * __useUpdateTeam_Sf_CodeMutation__
+ *
+ * To run a mutation, you first call `useUpdateTeam_Sf_CodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTeam_Sf_CodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTeamSfCodeMutation, { data, loading, error }] = useUpdateTeam_Sf_CodeMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *      team_sf_code: // value for 'team_sf_code'
+ *   },
+ * });
+ */
+export function useUpdateTeam_Sf_CodeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTeam_Sf_CodeMutation, UpdateTeam_Sf_CodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTeam_Sf_CodeMutation, UpdateTeam_Sf_CodeMutationVariables>(UpdateTeam_Sf_CodeDocument, options);
+      }
+export type UpdateTeam_Sf_CodeMutationHookResult = ReturnType<typeof useUpdateTeam_Sf_CodeMutation>;
+export type UpdateTeam_Sf_CodeMutationResult = Apollo.MutationResult<UpdateTeam_Sf_CodeMutation>;
+export type UpdateTeam_Sf_CodeMutationOptions = Apollo.BaseMutationOptions<UpdateTeam_Sf_CodeMutation, UpdateTeam_Sf_CodeMutationVariables>;
 export const GetTeamDocument = gql`
     query GetTeam($user_uuid: uuid!, $contest_id: uuid!) {
   contest_team_member(

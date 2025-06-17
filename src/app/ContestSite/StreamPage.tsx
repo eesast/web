@@ -11,7 +11,9 @@ import * as graphql from "@/generated/graphql";
 import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 import styled from "styled-components";
+import streamTHUAI6 from "./Components/Stream/THUAI6";
 import streamTHUAI7 from "./Components/Stream/THUAI7";
+import streamTHUAI8 from "./Components/Stream/THUAI8";
 
 /* ---------------- 接⼝和类型定义 ---------------- */
 export interface StreamProps {
@@ -33,8 +35,8 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
   /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const contest = url.query.get("contest");
-  const streamUrl = url.query.get("url") ?? "https://live.eesast.com/";
-  const port = url.query.get("port") ?? "";
+  const streamUrl = url.query.get("url") ?? "https://live.eesast.com";
+  const port = url.query.get("port") ?? "8888";
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
@@ -104,8 +106,12 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
       return;
     }
     const name = contestNameData?.contest_by_pk?.name;
-    if (name === "THUAI7") {
+    if (name === "THUAI6") {
+      streamTHUAI6({ streamUrl, port, update });
+    } else if (name === "THUAI7") {
       streamTHUAI7({ streamUrl, port, update });
+    } else if (name === "THUAI8") {
+      streamTHUAI8({ streamUrl, port, update });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded]);

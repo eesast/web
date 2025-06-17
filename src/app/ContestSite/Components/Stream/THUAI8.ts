@@ -1,15 +1,15 @@
 import { RpcError } from "grpc-web";
-import { AvailableServiceClient } from "@/generated/grpc-web/THUAI6/ServicesServiceClientPb";
-import * as MessageType from "@/generated/grpc-web/THUAI6/MessageType_pb";
-import * as Message2Clients from "@/generated/grpc-web/THUAI6/Message2Clients_pb";
-import * as Message2Server from "@/generated/grpc-web/THUAI6/Message2Server_pb";
+import { AvailableServiceClient } from "@/generated/grpc-web/THUAI8/ServicesServiceClientPb";
+import * as MessageType from "@/generated/grpc-web/THUAI8/MessageType_pb";
+import * as Message2Clients from "@/generated/grpc-web/THUAI8/Message2Clients_pb";
+import * as Message2Server from "@/generated/grpc-web/THUAI8/Message2Server_pb";
 import { StreamProps } from "../../StreamPage";
 import { message } from "antd";
 
 /* ---------------- 不随渲染刷新的常量和组件 ---------------- */
-const playerID = Math.floor(Math.random() * 9999) + 2023;
+const playerID = Math.floor(Math.random() * 9999) + 2024;
 /* ---------------- 主⻚⾯ ---------------- */
-const streamTHUAI6: (props: StreamProps) => void = ({
+const streamTHUAI8: (props: StreamProps) => void = ({
   streamUrl,
   port,
   update,
@@ -17,20 +17,20 @@ const streamTHUAI6: (props: StreamProps) => void = ({
   const envoyPort = (Number(port) - 1000).toString();
   const client = new AvailableServiceClient(streamUrl + ":" + envoyPort);
   const request = new Message2Server.IDMsg();
-  request.setPlayerId(playerID);
+  request.setCharacterId(playerID);
   client.tryConnection(
     request,
     {},
     (error: RpcError, response: Message2Clients.BoolRes) => {
       if (!error) {
         console.log("Success making gRPC call:", response.toObject());
-        const spectator = new Message2Server.PlayerMsg();
-        spectator.setPlayerId(playerID);
-        const stream = client.addPlayer(spectator, {});
+        const spectator = new Message2Server.CharacterMsg();
+        spectator.setCharacterId(playerID);
+        const stream = client.addCharacter(spectator, {});
         stream.on("data", (response) => {
           if (response.getGameState() === MessageType.GameState.GAME_END) {
-            message.info("对战结束");
             stream.cancel();
+            message.info("对战结束");
             console.log("Game Ended.");
           }
           update(response);
@@ -52,4 +52,4 @@ const streamTHUAI6: (props: StreamProps) => void = ({
   );
 };
 
-export default streamTHUAI6;
+export default streamTHUAI8;
