@@ -6,8 +6,37 @@ import * as graphql from "@/generated/graphql";
 import { TeamProps } from ".";
 import NotStarted from ".././Components/NotStarted";
 import Loading from "@/app/Components/Loading";
+import axios from "axios";
 
 const { TextArea } = Input;
+
+//临时使用此函数来添加团队成员
+async function addTeamMember_custom(team_id: string, user_uuid: string) {
+  axios
+    .post("/team/add_team_player", {
+      team_id: team_id,
+      player: user_uuid,
+    })
+    .then((response) => {
+      //if (response.status === 551) {
+      //  message.error("队伍成员已满，无法添加更多成员");
+      //}
+      console.log("Team member added successfully:", response.data);
+      message.success("添加队员成功");
+    })
+    .catch((error) => {
+      console.error("Error adding team member:", error);
+      message.error("添加队员失败");
+    });
+  //.catch((error) => {
+  //  if (error.response && error.response.status === 551) {
+  //    message.error("队伍成员已满，无法添加更多成员");
+  //    return;
+  //  }
+  //  console.error("Error adding team member:", error);
+  //  message.error("添加队员失败");
+  //});
+}
 
 //生成邀请码，8位
 function randomString() {
@@ -107,8 +136,9 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
 
   //Join函数组件
   // 队员插入
-  const [addteamMember, { error: addTeamMemberError }] =
-    graphql.useAddTeamMemberMutation();
+  //const [addteamMember, { error: addTeamMemberError }] =
+  //  graphql.useAddTeamMemberMutation();
+  //});
   //点击加入队伍按钮显示队伍信息
   const [isTeamInfoVisible, setIsTeamInfoVisible] = useState(false);
   const [teamInfo, setTeamInfo] = useState<{
@@ -150,17 +180,18 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   //点击确认加入队伍
   const onFinishJoin = async () => {
     try {
-      await addteamMember({
-        variables: {
-          user_uuid: user.uuid!,
-          team_id: teamInfo.teamId!,
-        },
-      });
-      if (addTeamMemberError) {
-        message.error("加入失败");
-        throw addTeamMemberError;
-      }
-      message.success("加入成功");
+      //await addteamMember({
+      //  variables: {
+      //    user_uuid: user.uuid!,
+      //    team_id: teamInfo.teamId!,
+      //  },
+      //});
+      //if (addTeamMemberError) {
+      //  message.error("加入失败");
+      //  throw addTeamMemberError;
+      //}
+      await addTeamMember_custom(teamInfo.teamId!, user.uuid!);
+      //message.success("加入成功");
       return refresh();
     } catch (e) {
       console.error(e);
