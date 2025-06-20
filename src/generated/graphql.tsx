@@ -124,6 +124,7 @@ export type Contest = {
   fullname: Scalars['String']['output'];
   game_time?: Maybe<Scalars['numeric']['output']>;
   id: Scalars['uuid']['output'];
+  max_teammember_limit?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
   playback_switch: Scalars['Boolean']['output'];
   playground_switch: Scalars['Boolean']['output'];
@@ -328,6 +329,7 @@ export type Contest_Avg_Fields = {
   __typename?: 'contest_avg_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
   game_time?: Maybe<Scalars['Float']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -352,6 +354,7 @@ export type Contest_Bool_Exp = {
   fullname?: InputMaybe<String_Comparison_Exp>;
   game_time?: InputMaybe<Numeric_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  max_teammember_limit?: InputMaybe<Int_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   playback_switch?: InputMaybe<Boolean_Comparison_Exp>;
   playground_switch?: InputMaybe<Boolean_Comparison_Exp>;
@@ -373,6 +376,7 @@ export enum Contest_Constraint {
 export type Contest_Inc_Input = {
   client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
   game_time?: InputMaybe<Scalars['numeric']['input']>;
+  max_teammember_limit?: InputMaybe<Scalars['Int']['input']>;
   server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
 };
 
@@ -394,6 +398,7 @@ export type Contest_Insert_Input = {
   fullname?: InputMaybe<Scalars['String']['input']>;
   game_time?: InputMaybe<Scalars['numeric']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  max_teammember_limit?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
   playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -806,6 +811,7 @@ export type Contest_Max_Fields = {
   fullname?: Maybe<Scalars['String']['output']>;
   game_time?: Maybe<Scalars['numeric']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
@@ -820,6 +826,7 @@ export type Contest_Min_Fields = {
   fullname?: Maybe<Scalars['String']['output']>;
   game_time?: Maybe<Scalars['numeric']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
   start_date?: Maybe<Scalars['timestamptz']['output']>;
@@ -1075,6 +1082,7 @@ export type Contest_Order_By = {
   fullname?: InputMaybe<Order_By>;
   game_time?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  max_teammember_limit?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   playback_switch?: InputMaybe<Order_By>;
   playground_switch?: InputMaybe<Order_By>;
@@ -2162,6 +2170,8 @@ export enum Contest_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MaxTeammemberLimit = 'max_teammember_limit',
+  /** column name */
   Name = 'name',
   /** column name */
   PlaybackSwitch = 'playback_switch',
@@ -2187,6 +2197,7 @@ export type Contest_Set_Input = {
   fullname?: InputMaybe<Scalars['String']['input']>;
   game_time?: InputMaybe<Scalars['numeric']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  max_teammember_limit?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
   playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2201,6 +2212,7 @@ export type Contest_Stddev_Fields = {
   __typename?: 'contest_stddev_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
   game_time?: Maybe<Scalars['Float']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -2209,6 +2221,7 @@ export type Contest_Stddev_Pop_Fields = {
   __typename?: 'contest_stddev_pop_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
   game_time?: Maybe<Scalars['Float']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -2217,6 +2230,7 @@ export type Contest_Stddev_Samp_Fields = {
   __typename?: 'contest_stddev_samp_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
   game_time?: Maybe<Scalars['Float']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -2225,6 +2239,7 @@ export type Contest_Sum_Fields = {
   __typename?: 'contest_sum_fields';
   client_memory_limit?: Maybe<Scalars['numeric']['output']>;
   game_time?: Maybe<Scalars['numeric']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Int']['output']>;
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
 };
 
@@ -3317,6 +3332,8 @@ export enum Contest_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MaxTeammemberLimit = 'max_teammember_limit',
+  /** column name */
   Name = 'name',
   /** column name */
   PlaybackSwitch = 'playback_switch',
@@ -3337,6 +3354,7 @@ export type Contest_Var_Pop_Fields = {
   __typename?: 'contest_var_pop_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
   game_time?: Maybe<Scalars['Float']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -3345,6 +3363,7 @@ export type Contest_Var_Samp_Fields = {
   __typename?: 'contest_var_samp_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
   game_time?: Maybe<Scalars['Float']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -3353,6 +3372,7 @@ export type Contest_Variance_Fields = {
   __typename?: 'contest_variance_fields';
   client_memory_limit?: Maybe<Scalars['Float']['output']>;
   game_time?: Maybe<Scalars['Float']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -14221,7 +14241,7 @@ export type GetTeamInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', team_name: string, team_intro?: string | null, invited_code: string, team_leader: { __typename?: 'users', uuid: any, realname?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }> } | null };
+export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', team_name: string, team_intro?: string | null, team_id: any, invited_code: string, team_leader: { __typename?: 'users', uuid: any, realname?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null, uuid: any } }> } | null };
 
 export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
   invited_code: Scalars['String']['input'];
@@ -16209,6 +16229,7 @@ export const GetTeamInfoDocument = gql`
   contest_team_by_pk(team_id: $team_id) {
     team_name
     team_intro
+    team_id
     invited_code
     team_leader {
       uuid
@@ -16219,6 +16240,7 @@ export const GetTeamInfoDocument = gql`
         realname
         student_no
         class
+        uuid
       }
     }
   }

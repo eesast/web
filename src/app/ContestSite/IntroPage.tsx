@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, Col, Row, Space, Statistic, Timeline, message } from "antd";
 import { FireOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
@@ -6,6 +6,7 @@ import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import dayjs from "dayjs";
+import axios from "axios";
 
 const { Countdown } = Statistic;
 
@@ -26,6 +27,28 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
       contest_id: Contest_id,
     },
   });
+  //const getTeamMemberLimitData = async () => {
+  //  const response = axios.post("/team/member_limit", {
+  //    contest_id: Contest_id
+  //  });
+  //  const res = await response;
+  //  return res.data.limit;
+  //};
+  const getTeamMemberLimitData = useCallback(async () => {
+    if (!Contest_id) return; // 防止 Contest_id 不存在时发出请求
+    try {
+      const response = await axios.post("/team/member_limit", {
+        contest_id: Contest_id,
+      });
+      return response.data.limit;
+    } catch (error) {
+      console.error("Failed to fetch team member limit:", error);
+      message.error("获取队伍人数限制失败");
+      return 0; // 出错时返回默认值
+    }
+  }, [Contest_id]); // 依赖项是 Contest_id
+  // dont use graphql
+  const [teamMemberLimitData, setTeamMemberLimitData] = useState<number>(0);
   const { data: totalMemberNumData } =
     graphql.useGetTotalMemberNumSuspenseQuery({
       variables: {
@@ -41,6 +64,14 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
   const contestTimes = CountdownData?.contest_time || [];
 
   /* ---------------- useEffect ---------------- */
+  // 3. 你的 useEffect 现在是稳定和正确的
+  useEffect(() => {
+    getTeamMemberLimitData().then((limit) => {
+      if (limit !== undefined) {
+        setTeamMemberLimitData(limit);
+      }
+    });
+  }, [getTeamMemberLimitData]); // 依赖于稳定版的函数
   useEffect(() => {
     if (contestInfoError) {
       message.error("简介加载失败");
@@ -193,6 +224,19 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
                   ),
                 };
               })}
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Col span={8}>
+          <Card hoverable bordered={false}>
+            <Statistic
+              title="人数限制"
+              value={teamMemberLimitData === 0 ? "无限制" : teamMemberLimitData}
+              valueStyle={{ color: "#3f8600" }}
+              prefix={<ArrowUpOutlined />}
+              suffix="人/队"
             />
           </Card>
         </Col>
