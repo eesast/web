@@ -14,7 +14,7 @@ import {
   MenuOutlined,
   InfoCircleOutlined,
   SolutionOutlined,
-  CommentOutlined,
+  // CommentOutlined,
   BankOutlined,
   CoffeeOutlined,
 } from "@ant-design/icons";
@@ -77,11 +77,11 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
           label: <Link to={url.link("mentor-applications")}>导师申请</Link>,
           icon: <SolutionOutlined />,
         },
-        {
-          key: "mentor-chats",
-          label: <Link to={url.link("mentor-chats")}>导师交流</Link>,
-          icon: <CommentOutlined />,
-        },
+        // {
+        //   key: "mentor-chats",
+        //   label: <Link to={url.link("mentor-chats")}>导师交流</Link>,
+        //   icon: <CommentOutlined />,
+        // },
       ],
     },
     {
