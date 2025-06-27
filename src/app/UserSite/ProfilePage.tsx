@@ -179,7 +179,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     navigate(url.link("home", "site"));
   };
 
-  const items = [
+  const baseItems = [
     {
       key: "username",
       label: "用户名",
@@ -210,13 +210,13 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       children: profileData?.users_by_pk?.realname || "",
       editable: () => true,
     },
-    {
-      key: "phone",
-      label: "手机号",
-      span: 2,
-      children: profileData?.users_by_pk?.phone || "",
-      editable: () => true,
-    },
+    // {
+    //   key: "phone",
+    //   label: "手机号",
+    //   span: 2,
+    //   children: profileData?.users_by_pk?.phone || "",
+    //   editable: () => true,
+    // },
     {
       key: "department",
       label: "院系",
@@ -278,6 +278,25 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       editable: () => false,
     },
   ];
+
+  const roleVisibleMap = {
+    user: [""],
+    student: [""],
+    teacher: ["class", "student_no"],
+    counselor: [
+      "department",
+      "class",
+      "student_no",
+      "tsinghua_email",
+      "github_id",
+    ],
+  };
+
+  const items = baseItems.filter((item) => {
+    const hiddenKeys =
+      roleVisibleMap[user.role as keyof typeof roleVisibleMap] || [];
+    return !hiddenKeys.includes(item.key);
+  });
 
   const [updateProfileMutation, { error: updateProfileError }] =
     graphql.useUpdateProfileMutation();
@@ -442,7 +461,6 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   };
 
   // 处理裁剪并上传
-
   const handleCrop = async () => {
     if (cropperRef.current) {
       setLoading(true);
@@ -529,6 +547,60 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
               ))}
             </ProDescriptions>
           </Card>
+
+          {/* 操作按钮部分 */}
+          <Row style={{ marginTop: "2px", marginLeft: "20px" }}>
+            <Col>
+              <Button
+                type="primary"
+                css={`
+                  margin-top: 36px;
+                `}
+                onClick={() =>
+                  navigate(
+                    url
+                      .append("email", profileData?.users_by_pk?.email)
+                      .link("reset"),
+                  )
+                }
+              >
+                修改密码
+              </Button>
+              <Button
+                type="primary"
+                danger
+                css={`
+                  margin-top: 36px;
+                  margin-left: 24px;
+                `}
+                onClick={() => {
+                  Modal.confirm({
+                    title: "确认删除账号？",
+                    content: "删除后将无法恢复",
+                    okText: "确认",
+                    cancelText: "取消",
+                    onOk: () =>
+                      navigate(
+                        url
+                          .append("email", profileData?.users_by_pk?.email)
+                          .link("delete"),
+                      ),
+                  });
+                }}
+              >
+                删除账号
+              </Button>
+              <Button
+                css={`
+                  margin-top: 36px;
+                  margin-left: 24px;
+                `}
+                onClick={handleQuit}
+              >
+                退出登录
+              </Button>
+            </Col>
+          </Row>
         </Col>
         {/* 头像部分 */}
         <Col
@@ -595,59 +667,6 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         </Col>
       </Row>
 
-      {/* 操作按钮部分 */}
-      <Row style={{ marginTop: "2px" }}>
-        <Col>
-          <Button
-            type="primary"
-            css={`
-              margin-top: 36px;
-            `}
-            onClick={() =>
-              navigate(
-                url
-                  .append("email", profileData?.users_by_pk?.email)
-                  .link("reset"),
-              )
-            }
-          >
-            修改密码
-          </Button>
-          <Button
-            type="primary"
-            danger
-            css={`
-              margin-top: 36px;
-              margin-left: 24px;
-            `}
-            onClick={() => {
-              Modal.confirm({
-                title: "确认删除账号？",
-                content: "删除后将无法恢复",
-                okText: "确认",
-                cancelText: "取消",
-                onOk: () =>
-                  navigate(
-                    url
-                      .append("email", profileData?.users_by_pk?.email)
-                      .link("delete"),
-                  ),
-              });
-            }}
-          >
-            删除账号
-          </Button>
-          <Button
-            css={`
-              margin-top: 36px;
-              margin-left: 24px;
-            `}
-            onClick={handleQuit}
-          >
-            退出登录
-          </Button>
-        </Col>
-      </Row>
       <Modal
         open={visible}
         onCancel={() => setVisible(false)}
