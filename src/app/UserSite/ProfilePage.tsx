@@ -292,11 +292,21 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     ],
   };
 
-  const items = baseItems.filter((item) => {
-    const hiddenKeys =
-      roleVisibleMap[user.role as keyof typeof roleVisibleMap] || [];
-    return !hiddenKeys.includes(item.key);
-  });
+  const items = baseItems
+    .filter((item) => {
+      const hiddenKeys =
+        roleVisibleMap[user.role as keyof typeof roleVisibleMap] || [];
+      return !hiddenKeys.includes(item.key);
+    })
+    .map((item) => {
+      if (user.role === "counselor") {
+        return {
+          ...item,
+          editable: () => false,
+        };
+      }
+      return item;
+    });
 
   const [updateProfileMutation, { error: updateProfileError }] =
     graphql.useUpdateProfileMutation();
@@ -563,6 +573,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                       .link("reset"),
                   )
                 }
+                disabled={user.role === "counselor"}
               >
                 修改密码
               </Button>
@@ -587,6 +598,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                       ),
                   });
                 }}
+                disabled={user.role === "counselor"}
               >
                 删除账号
               </Button>
