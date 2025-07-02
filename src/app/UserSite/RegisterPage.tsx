@@ -43,7 +43,7 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         depart: depart,
         class_: class_,
       };
-      await axios.post("/user/register-new", request);
+      await axios.post("/user/register", request);
       if (identity === "teacher") {
         message.success("注册成功，请联系管理员验证教师身份");
         setTimeout(() => {
