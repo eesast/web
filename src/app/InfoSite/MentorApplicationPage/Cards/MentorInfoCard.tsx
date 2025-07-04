@@ -106,6 +106,7 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
             unCheckedChildren="不参与积极分子谈话"
             checked={mentor.is_mem ?? false}
             onChange={memberHandler}
+            disabled={true} // Disable this switch for now
           />
         </Col>
       </Row>

@@ -66,8 +66,11 @@ const DisplayApplicationModal: React.FC<DisplayApplicationProps> = ({
           <Descriptions.Item label="导师电话">
             {appl.men?.phon ?? "暂无记录"}
           </Descriptions.Item>
-          <Descriptions.Item label="谈话时间" span={2}>
+          <Descriptions.Item label="谈话时间">
             {appl.chat_t ?? "暂无记录"}
+          </Descriptions.Item>
+          <Descriptions.Item label="积极分子谈话时间">
+            {appl.mem_chat_t ?? "暂无记录"}
           </Descriptions.Item>
           <Descriptions.Item label="申请陈述" span={2}>
             <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "展开" }}>

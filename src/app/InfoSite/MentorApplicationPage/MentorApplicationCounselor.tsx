@@ -116,6 +116,16 @@ const MentorApplicationStudent: React.FC<PageProps> = ({ mode, user }) => {
         <Col style={{ width: "100%" }}>
           <ManageApplicationCard
             applications={applications}
+            is_member={false}
+            callback={updateApplicationCallback}
+          />
+        </Col>
+      </Row>
+      <Row style={{ marginTop: "5%" }}>
+        <Col style={{ width: "100%" }}>
+          <ManageApplicationCard
+            applications={applications.filter((app) => app.is_mem)}
+            is_member={true}
             callback={updateApplicationCallback}
           />
         </Col>
