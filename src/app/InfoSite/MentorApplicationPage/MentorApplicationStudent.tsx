@@ -5,6 +5,7 @@ import StudentApplicationCard from "./Cards/StudentApplicationCard";
 import ScheduleCard from "./Cards/ScheduleCard";
 import { useState, useEffect } from "react";
 import { IMentor, IApplication, ISchedule, IFreshman } from "./Interface";
+import StudentInfoCard from "./Cards/StudentInfoCard";
 import axios from "axios";
 
 const MentorApplicationStudent: React.FC<PageProps> = ({ mode, user }) => {
@@ -82,16 +83,27 @@ const MentorApplicationStudent: React.FC<PageProps> = ({ mode, user }) => {
     >
       <Row>
         <Col style={{ width: "65%" }}>
-          {schedule && (
-            <StudentApplicationCard
-              applications={applications}
-              schedule={schedule}
-              freshmen={freshmen}
-              callback={updateApplicationCallback}
-              user={user}
-              mode={mode}
-            />
-          )}
+          <Row>
+            <Col style={{ width: "100%" }}>
+              {freshmen && (
+                <StudentInfoCard freshmen={freshmen} user={user} mode={mode} />
+              )}
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "5%" }}>
+            <Col style={{ width: "100%" }}>
+              {schedule && (
+                <StudentApplicationCard
+                  applications={applications}
+                  schedule={schedule}
+                  freshmen={freshmen}
+                  callback={updateApplicationCallback}
+                  user={user}
+                  mode={mode}
+                />
+              )}
+            </Col>
+          </Row>
         </Col>
         <Col style={{ width: "30%", marginLeft: "5%" }}>
           {schedule && (
