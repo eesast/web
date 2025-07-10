@@ -311,7 +311,7 @@
     "@antv/util" "^2.0.13"
     tslib "^2.0.0"
 
-"@antv/component@^2.1.2", "@antv/component@^2.1.3":
+"@antv/component@^2.1.3":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@antv/component/-/component-2.1.4.tgz#6ada07c349200ff2a9c8b6d4ed0114cb165754e9"
   integrity sha512-B6xhxYCk57VkyPViWSR5nry8d3Qog51rcFhfuNHJp5S1kKkGqojkzt6aP/45llF/jHNnBLdxnPNQFlCIxZERDQ==
@@ -351,7 +351,7 @@
     gl-matrix "^3.4.3"
     tslib "^2.5.3"
 
-"@antv/g-canvas@^2.0.42", "@antv/g-canvas@^2.0.43":
+"@antv/g-canvas@^2.0.43":
   version "2.0.45"
   resolved "https://registry.yarnpkg.com/@antv/g-canvas/-/g-canvas-2.0.45.tgz#a4b07e38436e15edb076f87c19f743e3c97f4ea6"
   integrity sha512-CV3KxLnRnP5Ae3NfnJ9k9tIfj2HJTzGjDWCoEfgK347vIsVxIVFVz1sR4zWmDcj9EVp/oD6OktUDAsBFN2qRGA==
@@ -447,7 +447,7 @@
     "@babel/runtime" "^7.25.6"
     tslib "^2.5.3"
 
-"@antv/g-plugin-dragndrop@^2.0.34", "@antv/g-plugin-dragndrop@^2.0.35":
+"@antv/g-plugin-dragndrop@^2.0.35":
   version "2.0.36"
   resolved "https://registry.yarnpkg.com/@antv/g-plugin-dragndrop/-/g-plugin-dragndrop-2.0.36.tgz#46379cc83d91133821871e846125fcd2cb8f60c3"
   integrity sha512-LGkvrT0tal5NEYnR2F+CKffsTEgi6dB8FaQ/HC5Pd0bN6ZKhbPisdXWZkliGDrmS9wL+Yr9K5qguFsLv9KDvHg==
@@ -532,21 +532,21 @@
     "@antv/util" "^3.3.5"
     "@antv/vendor" "^1.0.10"
 
-"@antv/g2@5.3.3", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.3.3.tgz#a30e5b5b4e893584d2793195e91dcdea2a743b33"
-  integrity sha512-K+Pf1ZRslGn2IHQzA+2NrukeaNqrpOZB76zytkmt5bhGOhZgSWSfc9ubxi0OAlrBY+Yc6DfYcLiHziuASYoG5w==
+"@antv/g2@5.3.4", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.3.4.tgz#33eebe5dacc4c6fe880679d5cd1aabb01b4c0a72"
+  integrity sha512-IztyYa2EVp4ukrqQWU9ZntAQLY0IKK3stmNOLY/FPda3ZyiQ/jlfjRWQ/Hadejfq/nrtVlrHxWeZqNfz5HHJ2g==
   dependencies:
-    "@antv/component" "^2.1.2"
+    "@antv/component" "^2.1.3"
     "@antv/coord" "^0.4.7"
     "@antv/event-emitter" "^0.1.3"
     "@antv/expr" "^1.0.2"
-    "@antv/g" "^6.1.23"
-    "@antv/g-canvas" "^2.0.42"
-    "@antv/g-plugin-dragndrop" "^2.0.34"
+    "@antv/g" "^6.1.24"
+    "@antv/g-canvas" "^2.0.43"
+    "@antv/g-plugin-dragndrop" "^2.0.35"
     "@antv/scale" "^0.4.16"
     "@antv/util" "^3.3.10"
-    "@antv/vendor" "^1.0.8"
+    "@antv/vendor" "^1.0.11"
     flru "^1.0.2"
     pdfast "^0.2.0"
 
@@ -575,7 +575,7 @@
     "@antv/util" "^3.3.10"
     bubblesets-js "^2.3.4"
 
-"@antv/g@^6.1.11", "@antv/g@^6.1.23", "@antv/g@^6.1.24", "@antv/g@^6.1.7":
+"@antv/g@^6.1.11", "@antv/g@^6.1.24", "@antv/g@^6.1.7":
   version "6.1.26"
   resolved "https://registry.yarnpkg.com/@antv/g/-/g-6.1.26.tgz#2f724c9a44fd8bdbb8ef186687379ddbfca90d12"
   integrity sha512-+Pf23pz8o/u98pKpb3CqLfz4iJaZh6HIo0Z5FJdSTCZUrMIEgmNMFnZiJf9Ow0mnLA9KVdv5ekF17f82G5TyRw==
@@ -649,7 +649,7 @@
     gl-matrix "^3.3.0"
     tslib "^2.3.1"
 
-"@antv/vendor@^1.0.10", "@antv/vendor@^1.0.3", "@antv/vendor@^1.0.8":
+"@antv/vendor@^1.0.10", "@antv/vendor@^1.0.11", "@antv/vendor@^1.0.3":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@antv/vendor/-/vendor-1.0.11.tgz#8a87aa964410d9fcc431a74c8757021a942252f2"
   integrity sha512-LmhPEQ+aapk3barntaiIxJ5VHno/Tyab2JnfdcPzp5xONh/8VSfed4bo/9xKo5HcUAEydko38vYLfj6lJliLiw==
