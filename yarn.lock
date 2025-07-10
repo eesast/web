@@ -4334,10 +4334,10 @@ ansis@^3.2.0:
   resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.17.0.tgz#fa8d9c2a93fe7d1177e0c17f9eeb562a58a832d7"
   integrity sha512-0qWUglt9JEqLFr3w1I1pbrChn1grhaiAR2ocX1PP/flRmxgtwTzPFFFnfIlD6aMOLQZgSuCRlidD70lvx8yhzg==
 
-antd@5.26.3:
-  version "5.26.3"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-5.26.3.tgz#cbbb7e1b48a972dc7b6ee8b6948f51cc91c263f8"
-  integrity sha512-M/s9Q39h/+G7AWnS6fbNxmAI9waTH4ti022GVEXBLq2j810V1wJ3UOQps13nEilzDNcyxnFN/EIbqIgS7wSYaA==
+antd@5.26.4:
+  version "5.26.4"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-5.26.4.tgz#bfa5da007c30a60e2f8a1e4bfb83b8d6e3363e8c"
+  integrity sha512-e1EnOvEkvvqcQ18dxfzChBJyJACyih13WpNf2OtnP9z2POh/SF0fXL+ynUemT1zfr+p+P1po/tmHXaMc5PMghg==
   dependencies:
     "@ant-design/colors" "^7.2.1"
     "@ant-design/cssinjs" "^1.23.0"
