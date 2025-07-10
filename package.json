@@ -12,7 +12,7 @@
     "axios": "1.10.0",
     "cos-js-sdk-v5": "1.10.1",
     "dayjs": "1.11.13",
-    "dotenv": "16.6.1",
+    "dotenv": "17.2.0",
     "google-protobuf": "3.21.4",
     "graphql": "16.11.0",
     "graphql-ws": "6.0.5",
