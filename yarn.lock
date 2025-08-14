@@ -29,13 +29,13 @@
   dependencies:
     lodash "^4.17.21"
 
-"@ant-design/charts@2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.6.1.tgz#07a0a3c77a53b8d7309390ece09d262590ab198f"
-  integrity sha512-IIIFgg49VCO01mc7t2+wlMQnFNwjV0KqO2n9fhMwif/+r0W0ELOzdMbNkrzkZPEWp9p5YhN6cnlnkGeUt488cg==
+"@ant-design/charts@2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.6.2.tgz#c2383b9e7f2953b392bd85130f137a875f17c525"
+  integrity sha512-v/v/9A83F8xPuUdK3FcluNywZ9fV/u9mYwQj8RUhI9Sn/wnDD6ImInEl2pzs9a134WWxVqLCUxM+NWEgnHTbMA==
   dependencies:
-    "@ant-design/graphs" "^2.1.0"
-    "@ant-design/plots" "^2.6.1"
+    "@ant-design/graphs" "^2.1.1"
+    "@ant-design/plots" "^2.6.3"
     lodash "^4.17.21"
 
 "@ant-design/colors@^7.0.0", "@ant-design/colors@^7.2.1":
@@ -74,10 +74,10 @@
   dependencies:
     "@babel/runtime" "^7.24.7"
 
-"@ant-design/graphs@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.1.0.tgz#311f3534fd728d58476d43b149e235424a46c8bf"
-  integrity sha512-JavZyJVDRyO5wjReqz3CRYhml5MMpOe+fT4ucebdkfOfWYTlOG+W9vxtNSITJmCGHUVphQkQo9r1CPkZysDT0g==
+"@ant-design/graphs@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@ant-design/graphs/-/graphs-2.1.1.tgz#d590851de24a98356a3344a901089d37a1faf9aa"
+  integrity sha512-qT3Oo8BWeoAmZEy9gfR6uIk+rczbNJ3sWXKonoOD5koATWv7dY0kgvS1JnhdM1QW4FkfPPJTeQVSlRRUtvWDwA==
   dependencies:
     "@ant-design/charts-util" "0.0.1-alpha.7"
     "@antv/g6" "^5.0.44"
@@ -102,7 +102,7 @@
     classnames "^2.2.6"
     rc-util "^5.31.1"
 
-"@ant-design/plots@^2.6.1":
+"@ant-design/plots@^2.6.3":
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/@ant-design/plots/-/plots-2.6.3.tgz#e2219e233a03848dd3e1c2655d001889091d3991"
   integrity sha512-9V6QND7QESzAlPu5bE56xTlUi2ctfDkdRiNY8SgG5/IW8InqW9SFfhO0sW5mIpTslsI8o/MgmysnSWED8h6adg==
