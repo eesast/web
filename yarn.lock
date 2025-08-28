@@ -532,10 +532,10 @@
     "@antv/util" "^3.3.5"
     "@antv/vendor" "^1.0.10"
 
-"@antv/g2@5.3.5", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
-  version "5.3.5"
-  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.3.5.tgz#6c012b6f8b6e4aeed599733da1376bcf3e8be48d"
-  integrity sha512-Q2TPfWTf2fMwe02Uqk4Uvgy/RGXpGQXfSMPHKLkwTUh6WrFImpgzU4mHhUewKVu5ppPGGfvlwIbZcHeBnNb5ug==
+"@antv/g2@5.4.0", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.4.0.tgz#3eb08ec7501dfe6dc48785c2c0303dc9eb3bafa9"
+  integrity sha512-aNw4lvi9IdsdoMHZbrAhZbFy9y5Ppv6zyjtgTKHdMl8x4xnoweW/4YwryRZh2/2Z497dnobPcVyPu5Iwoz87Ww==
   dependencies:
     "@antv/component" "^2.1.3"
     "@antv/coord" "^0.4.7"
@@ -544,7 +544,7 @@
     "@antv/g" "^6.1.24"
     "@antv/g-canvas" "^2.0.43"
     "@antv/g-plugin-dragndrop" "^2.0.35"
-    "@antv/scale" "^0.4.16"
+    "@antv/scale" "^0.5.0"
     "@antv/util" "^3.3.10"
     "@antv/vendor" "^1.0.11"
     flru "^1.0.2"
@@ -627,6 +627,15 @@
   version "0.4.16"
   resolved "https://registry.yarnpkg.com/@antv/scale/-/scale-0.4.16.tgz#60557470668ccfe5217e482a01f05c0cbb706b62"
   integrity sha512-5wg/zB5kXHxpTV5OYwJD3ja6R8yTiqIOkjOhmpEJiowkzRlbEC/BOyMvNUq5fqFIHnMCE9woO7+c3zxEQCKPjw==
+  dependencies:
+    "@antv/util" "^3.3.7"
+    color-string "^1.5.5"
+    fecha "^4.2.1"
+
+"@antv/scale@^0.5.0":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@antv/scale/-/scale-0.5.1.tgz#37bbc01e6782954589fa9e9f2c44aaf988d49898"
+  integrity sha512-YnipyLgotgvbTn1puouBW7q4ckz0mOS2YW2GtefSRInaJuDykiMZJEyzoT0YZkJ950G+Xkip4QIsTKCSS2oVWw==
   dependencies:
     "@antv/util" "^3.3.7"
     color-string "^1.5.5"
