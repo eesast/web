@@ -104,22 +104,22 @@ const EditApplicationModal: React.FC<EditApplicationProps> = ({
         {newAppl &&
           (mentor.is_mem &&
           freshmen.find((i) => i.uuid === user.uuid)?.is_mem ? (
-            // <Form.Item
-            //   name={["is_mem"]}
-            //   label="积极分子"
-            //   rules={[{ required: true, message: "请选择是否为积极分子" }]}
-            // >
-            //   <Radio.Group>
-            //     <Radio value={true}>是</Radio>
-            //     <Radio value={false}>否</Radio>
-            //   </Radio.Group>
-            // </Form.Item>
-            <Form.Item name={["is_mem"]} label="积极分子" initialValue={true}>
+            <Form.Item
+              name={["is_mem"]}
+              label="积极分子"
+              rules={[{ required: true, message: "请选择是否为积极分子" }]}
+            >
               <Radio.Group>
                 <Radio value={true}>是</Radio>
+                <Radio value={false}>否</Radio>
               </Radio.Group>
             </Form.Item>
           ) : (
+            // <Form.Item name={["is_mem"]} label="积极分子" initialValue={true}>
+            //   <Radio.Group>
+            //     <Radio value={true}>是</Radio>
+            //   </Radio.Group>
+            // </Form.Item>
             <Form.Item name={["is_mem"]} label="积极分子" initialValue={false}>
               <Radio.Group>
                 <Radio value={false}>否</Radio>
