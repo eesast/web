@@ -29,13 +29,13 @@
   dependencies:
     lodash "^4.17.21"
 
-"@ant-design/charts@2.6.2":
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.6.2.tgz#c2383b9e7f2953b392bd85130f137a875f17c525"
-  integrity sha512-v/v/9A83F8xPuUdK3FcluNywZ9fV/u9mYwQj8RUhI9Sn/wnDD6ImInEl2pzs9a134WWxVqLCUxM+NWEgnHTbMA==
+"@ant-design/charts@2.6.4":
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/@ant-design/charts/-/charts-2.6.4.tgz#8655634de31fa9d73e9bbda305f01ff8284e3f66"
+  integrity sha512-KVz/TW28dV99LXgOpsY31p9DozKH63R1iBh9eRTPs8Jii+OjZ1CPBsoedZq56PeWjw608bQpAoGGWdBX+ekU6w==
   dependencies:
     "@ant-design/graphs" "^2.1.1"
-    "@ant-design/plots" "^2.6.3"
+    "@ant-design/plots" "^2.6.4"
     lodash "^4.17.21"
 
 "@ant-design/colors@^7.0.0", "@ant-design/colors@^7.2.1":
@@ -102,10 +102,10 @@
     classnames "^2.2.6"
     rc-util "^5.31.1"
 
-"@ant-design/plots@^2.6.3":
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/@ant-design/plots/-/plots-2.6.3.tgz#e2219e233a03848dd3e1c2655d001889091d3991"
-  integrity sha512-9V6QND7QESzAlPu5bE56xTlUi2ctfDkdRiNY8SgG5/IW8InqW9SFfhO0sW5mIpTslsI8o/MgmysnSWED8h6adg==
+"@ant-design/plots@^2.6.4":
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/@ant-design/plots/-/plots-2.6.4.tgz#d1ad4b2ef094497d6899007a71decb83f0f47cd2"
+  integrity sha512-hUEE91Vqkim1dVPhn6HA08jVRTPCvPFY+S5XqkuJ5F5595exsZI1q0EzIHBwySrQbo041rbNVGp1vGczLxyctg==
   dependencies:
     "@ant-design/charts-util" "0.0.2"
     "@antv/event-emitter" "^0.1.3"
