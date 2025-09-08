@@ -100,7 +100,8 @@ const ImportFreshmanModal: React.FC<ImportFreshmanProps> = ({
       okText="导入"
     >
       <Typography.Paragraph>
-        上传 Excel 文件以更新申请状态。Excel 的格式应为：学号、姓名
+        上传 Excel 文件以更新申请状态。Excel
+        的格式应为：学号、姓名、是否参与积极分子谈话（是/否）
       </Typography.Paragraph>
       <div
         css={`

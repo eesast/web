@@ -11,9 +11,11 @@ import {
   InputNumber,
   Form,
 } from "antd";
+import { LockOutlined } from "@ant-design/icons";
 import type { TableProps } from "antd/lib/table";
 import { useRef, useState } from "react";
 import EditMentorInfoModal from "../Modals/EditMentorInfoModal";
+import EditMentorPwdModal from "../Modals/EditMentorPwdModal";
 import { IMentor } from "../Interface";
 import axios from "axios";
 import ColumnSearchItem from "../ColumnSearchItem";
@@ -32,7 +34,9 @@ const ManageMentorCard: React.FC<ManageMentorProps> = ({
     undefined,
   );
   const [editMentorInfoVisible, setEditMentorInfoVisible] = useState(false);
-  const [form] = Form.useForm();
+  const [editMentorPwdVisible, setEditMentorPwdVisible] = useState(false);
+  const [mentorInfoForm] = Form.useForm();
+  const [mentorPwdForm] = Form.useForm();
 
   const memberHandler = async (mentor: IMentor) => {
     try {
@@ -173,18 +177,38 @@ const ManageMentorCard: React.FC<ManageMentorProps> = ({
     {
       title: "其它信息",
       key: "others",
-      width: "20%",
+      width: "10%",
       render: (value, record) => (
         <Row>
           <Col style={{ width: "50%" }}>
             <Button
               onClick={() => {
                 setSelectMentor(record);
-                form.setFieldsValue(record);
+                mentorInfoForm.setFieldsValue(record);
                 setEditMentorInfoVisible(true);
               }}
             >
               编辑
+            </Button>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: "修改密码",
+      key: "edit_pwd",
+      width: "10%",
+      render: (value, record) => (
+        <Row>
+          <Col style={{ width: "50%" }}>
+            <Button
+              onClick={() => {
+                setSelectMentor(record);
+                mentorPwdForm.setFieldsValue({ password: "", confirm: "" });
+                setEditMentorPwdVisible(true);
+              }}
+            >
+              <LockOutlined />
             </Button>
           </Col>
         </Row>
@@ -207,8 +231,17 @@ const ManageMentorCard: React.FC<ManageMentorProps> = ({
           visible={editMentorInfoVisible}
           setVisible={setEditMentorInfoVisible}
           mentor={selectMentor}
-          form={form}
+          form={mentorInfoForm}
           callback={callback}
+        />
+      )}
+      {selectMentor && (
+        <EditMentorPwdModal
+          visible={editMentorPwdVisible}
+          setVisible={setEditMentorPwdVisible}
+          mentor={selectMentor}
+          form={mentorPwdForm}
+          callback={async () => {}}
         />
       )}
     </Card>

@@ -11,6 +11,7 @@ import IdentitySelection from "./Components/IdentitySelection";
 import { UserProps } from ".";
 import * as RealTimeValidator from "./Components/ValidateRealTime";
 import * as OnSubmitValidator from "./Components/ValidateOnSubmit";
+import ContactAdmin from "../Components/ContactAdmin";
 
 const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const url = useUrl();
@@ -42,12 +43,20 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         depart: depart,
         class_: class_,
       };
-      await axios.post("/user/register-new", request);
-      message.success("注册成功，即将跳转登录界面");
-      setTimeout(() => {
-        navigate(url.link("profile"));
-        return navigate(0);
-      }, 2000);
+      await axios.post("/user/register", request);
+      if (identity === "teacher") {
+        message.success("注册成功，请联系管理员验证教师身份");
+        setTimeout(() => {
+          navigate(url.link("profile"));
+          return navigate(0);
+        }, 5000);
+      } else {
+        message.success("注册成功，即将跳转");
+        setTimeout(() => {
+          navigate(url.link("profile"));
+          return navigate(0);
+        }, 2000);
+      }
     } catch (e) {
       const err = e as AxiosError;
       if (err.response?.status === 401) {
@@ -256,21 +265,23 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           <PasswordProp />
         )
       ) : identity === "teacher" ? (
-        email === "" ? (
-          <EmailProp register={true} mailType="teacher" />
-        ) : otpEmail === "" ? (
-          <VerifyProp email={email} phone="" />
-        ) : // ) : phone === "" ? (
-        //   <PhoneProp register={true} />
-        // ) : otpPhone === "" ? (
-        //   <VerifyProp email="" phone={phone} />
-        name === "" ? (
-          <NameProp />
-        ) : depart === "" ? (
-          <DepartProp />
-        ) : (
-          <PasswordProp />
-        )
+        // email === "" ? (
+        //   <EmailProp register={true} mailType="teacher" />
+        // ) :
+        //  otpEmail === "" ? (
+        //   <VerifyProp email={email} phone="" />
+        // ) : // ) : phone === "" ? (
+        //   //   <PhoneProp register={true} />
+        //   // ) : otpPhone === "" ? (
+        //   //   <VerifyProp email="" phone={phone} />
+        //   name === "" ? (
+        //     <NameProp />
+        //   ) : depart === "" ? (
+        //     <DepartProp />
+        //   ) : (
+        //     <PasswordProp />
+        //   )
+        <ContactAdmin />
       ) : identity === "guest" ? (
         email === "" ? (
           <EmailProp register={true} mailType="guest" />

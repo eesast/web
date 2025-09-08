@@ -115,6 +115,11 @@ const EditApplicationModal: React.FC<EditApplicationProps> = ({
               </Radio.Group>
             </Form.Item>
           ) : (
+            // <Form.Item name={["is_mem"]} label="积极分子" initialValue={true}>
+            //   <Radio.Group>
+            //     <Radio value={true}>是</Radio>
+            //   </Radio.Group>
+            // </Form.Item>
             <Form.Item name={["is_mem"]} label="积极分子" initialValue={false}>
               <Radio.Group>
                 <Radio value={false}>否</Radio>

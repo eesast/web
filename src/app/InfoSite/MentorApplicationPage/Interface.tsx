@@ -36,6 +36,9 @@ export interface IApplication {
   chat: boolean; // 申请聊天状态，由学生发起
   chat2: boolean; // 申请聊天状态，由导师确认
   chat_t?: string; // 申请聊天时间
+  mem_chat: boolean; // 积极分子谈话状态，由学生发起
+  mem_chat2: boolean; // 积极分子谈话状态，由导师确认
+  mem_chat_t?: string; // 积极分子谈话时间
   men?: IMentor; // 申请导师
   stu?: IStudent; // 申请学生
 }

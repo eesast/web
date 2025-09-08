@@ -14,7 +14,7 @@ import {
   MenuOutlined,
   InfoCircleOutlined,
   SolutionOutlined,
-  CommentOutlined,
+  // CommentOutlined,
   BankOutlined,
   CoffeeOutlined,
 } from "@ant-design/icons";
@@ -77,11 +77,11 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
           label: <Link to={url.link("mentor-applications")}>导师申请</Link>,
           icon: <SolutionOutlined />,
         },
-        {
-          key: "mentor-chats",
-          label: <Link to={url.link("mentor-chats")}>导师交流</Link>,
-          icon: <CommentOutlined />,
-        },
+        // {
+        //   key: "mentor-chats",
+        //   label: <Link to={url.link("mentor-chats")}>导师交流</Link>,
+        //   icon: <CommentOutlined />,
+        // },
       ],
     },
     {
@@ -129,21 +129,40 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
 
   /* --------------------- useEffect 部分 --------------------- */
   useEffect(() => {
-    // 如果个人信息不完整，弹出提示并跳转至个人信息页面
-    if (
-      profile &&
-      (user.role === "user" ||
-        !profile?.department ||
-        !profile.email ||
-        !profile.realname ||
-        !profile.phone ||
-        ((!profile.student_no || !profile.class) && user.role !== "teacher"))
-    ) {
-      message.warning({
-        content: "请先补全个人信息，并完成清华邮箱验证",
-        key: "profileMessage",
-      });
-      navigate(url.link("user", "site"));
+    // 如果个人信息不完整或角色不符合，弹出提示并跳转至个人信息页面
+    if (profile) {
+      const { realname, department, class: className, student_no } = profile;
+
+      let incompleteInfo = false;
+      let allowed = true;
+
+      switch (user.role) {
+        case "student":
+          incompleteInfo =
+            !realname || !department || !className || !student_no;
+          break;
+        case "teacher":
+          incompleteInfo = !realname || !department;
+          break;
+        case "counselor":
+          break;
+        default:
+          allowed = false;
+      }
+      if (!allowed) {
+        message.warning({
+          content: "请完成清华邮箱验证",
+          key: "profileMessage",
+        });
+        navigate(url.link("user", "site"));
+        return;
+      } else if (incompleteInfo) {
+        message.warning({
+          content: "请先补全个人信息",
+          key: "profileMessage",
+        });
+        navigate(url.link("user", "site"));
+      }
     }
   });
 

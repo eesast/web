@@ -19,16 +19,20 @@ import ColumnSearchItem from "../ColumnSearchItem";
 import DisplayApplicationModal from "../Modals/DisplayApplicationModal";
 import {
   uploadChatRecordHandler,
+  uploadMemberChatRecordHandler,
   downloadChatRecordHandler,
+  downloadMemberChatRecordHandler,
 } from "../Handlers";
 
 interface ManageApplicationProps {
   applications: IApplication[];
+  is_member: boolean;
   callback: () => Promise<void>;
 }
 
 const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
   applications,
+  is_member,
   callback,
 }) => {
   const searchInput = useRef<InputRef>(null);
@@ -112,8 +116,8 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
     },
     {
       title: "谈话记录",
-      dataIndex: ["chat"],
-      key: "chat",
+      dataIndex: [is_member ? "mem_chat" : "chat"],
+      key: is_member ? "mem_chat" : "chat",
       width: "10%",
       render: (value) =>
         value ? (
@@ -125,12 +129,13 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
         { text: "已提交", value: true },
         { text: "未提交", value: false },
       ],
-      onFilter: (value, record) => record.chat === value,
+      onFilter: (value, record) =>
+        (is_member ? record.mem_chat : record.chat) === value,
     },
     {
       title: "谈话确认",
-      dataIndex: ["chat2"],
-      key: "chat2",
+      dataIndex: [is_member ? "mem_chat2" : "chat2"],
+      key: is_member ? "mem_chat2" : "chat2",
       width: "10%",
       render: (value) =>
         value ? (
@@ -142,7 +147,8 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
         { text: "已确认", value: true },
         { text: "未确认", value: false },
       ],
-      onFilter: (value, record) => record.chat === value,
+      onFilter: (value, record) =>
+        (is_member ? record.mem_chat2 : record.chat2) === value,
     },
     {
       title: "详情",
@@ -171,8 +177,10 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
         <Row>
           <Col style={{ width: "50%" }}>
             <Upload
-              customRequest={async (e) => {
-                await uploadChatRecordHandler(e, record.id, callback);
+              customRequest={(e) => {
+                is_member
+                  ? uploadMemberChatRecordHandler(e, record.id, callback)
+                  : uploadChatRecordHandler(e, record.id, callback);
               }}
               onChange={(info) => {
                 if (info.file.status === "done") {
@@ -182,12 +190,18 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
                 }
               }}
               showUploadList={false}
-              disabled={record.status !== "approved" || record.chat2}
+              disabled={
+                record.status !== "approved" ||
+                (is_member ? record.mem_chat2 : record.chat2)
+              }
             >
               <Tooltip title="提交">
                 <Button
                   icon={<UploadOutlined />}
-                  disabled={record.status !== "approved" || record.chat2}
+                  disabled={
+                    record.status !== "approved" ||
+                    (is_member ? record.mem_chat2 : record.chat2)
+                  }
                 />
               </Tooltip>
             </Upload>
@@ -196,7 +210,11 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
             <Tooltip title="下载">
               <Button
                 icon={<DownloadOutlined />}
-                onClick={() => downloadChatRecordHandler(record.id)}
+                onClick={() =>
+                  is_member
+                    ? downloadMemberChatRecordHandler(record.id)
+                    : downloadChatRecordHandler(record.id)
+                }
                 disabled={!record.chat}
               />
             </Tooltip>
@@ -209,7 +227,7 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
   return (
     <Card hoverable>
       <Typography.Title level={2} style={{ marginTop: "1%" }}>
-        申请列表
+        {is_member ? "积极分子列表" : "申请列表"}
       </Typography.Title>
       <Table
         rowKey="id"
