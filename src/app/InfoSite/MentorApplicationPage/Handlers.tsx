@@ -14,6 +14,7 @@ export const exportApplicationHandler = async (
   setExporting(true);
   try {
     const data = applications.map((i) => [
+      i.year,
       i.stu?.stid,
       i.stu?.name,
       i.stu?.dept,
