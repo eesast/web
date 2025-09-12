@@ -32,6 +32,7 @@ export const exportApplicationHandler = async (
       i.stmt,
     ]);
     const head = [
+      "申请年份",
       "学生学号",
       "学生姓名",
       "学生院系",
