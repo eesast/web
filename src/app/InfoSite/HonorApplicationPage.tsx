@@ -14,7 +14,7 @@ import {
   Select,
   Input,
   Table,
-  Switch,
+  //Switch,
   Progress,
   InputRef,
 } from "antd";
@@ -325,23 +325,23 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   });
 
   // 处理申请审批
-  const handleApplicationApprove = async (
-    checked: boolean,
-    item: graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0],
-  ) => {
-    try {
-      await axios.post(`/application/honor/update_status_one`, {
-        id: item.id,
-        status: checked ? "approved" : "rejected",
-        counselor_uuid: user.uuid,
-      });
-      message.success("申请状态更新成功");
-    } catch (err) {
-      console.error(err);
-      message.error("Error in approving application");
-    }
-    await refetchApplicationsForCounselors();
-  };
+  //const handleApplicationApprove = async (
+  //  checked: boolean,
+  //  item: graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0],
+  //) => {
+  //  try {
+  //    await axios.post(`/application/honor/update_status_one`, {
+  //      id: item.id,
+  //      status: checked ? "approved" : "rejected",
+  //      counselor_uuid: user.uuid,
+  //    });
+  //    message.success("申请状态更新成功");
+  //  } catch (err) {
+  //    console.error(err);
+  //    message.error("Error in approving application");
+  //  }
+  //  await refetchApplicationsForCounselors();
+  //};
 
   // 表格列
   const honorColumnsForCounselor: TableProps<
