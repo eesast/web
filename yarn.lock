@@ -7628,10 +7628,10 @@ graphql@16.11.0:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.11.0.tgz#96d17f66370678027fdf59b2d4c20b4efaa8a633"
   integrity sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw==
 
-grpc-web@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/grpc-web/-/grpc-web-2.0.0.tgz#0c28e4d6498e335089983d6f0d83d273f89bc303"
-  integrity sha512-DVt8qfQ+tyV2h4PNfehw/k5h0tOOaCwiWwDFOSCj5TLLEk93q0VTd8TcaibtBFMK/mkOKDKssvYH+prWmclwFg==
+grpc-web@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/grpc-web/-/grpc-web-2.0.2.tgz#416164eb747bab5c3054fd58f73b21814f325d83"
+  integrity sha512-bvBP0/d5jyVM3eGxxffJhRLAPpH6eXhJeUzBT+bSIEgUKkG4a/BotEimVeW3phP0WLnsJnkRl8uQdRf2yDLaVA==
 
 gzip-size@^6.0.0:
   version "6.0.0"
