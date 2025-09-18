@@ -4379,10 +4379,10 @@ ansis@^3.2.0:
   resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.17.0.tgz#fa8d9c2a93fe7d1177e0c17f9eeb562a58a832d7"
   integrity sha512-0qWUglt9JEqLFr3w1I1pbrChn1grhaiAR2ocX1PP/flRmxgtwTzPFFFnfIlD6aMOLQZgSuCRlidD70lvx8yhzg==
 
-antd@5.27.2:
-  version "5.27.2"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-5.27.2.tgz#a3dd22db2ccc7fab56b179a026f35639e5450549"
-  integrity sha512-9pYRUTrumIEuulRwZijhcnL6ScBZ1X6Y3iJa67VyNhEZAiXtENA7AtggsnqdVclQIm0WL4ky76qUdWrVhDWF3g==
+antd@5.27.4:
+  version "5.27.4"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-5.27.4.tgz#13c97deb12e6aeb43adecd23f3dbe3139a62e579"
+  integrity sha512-rhArohoAUCxhkPjGI/BXthOrrjaElL4Fb7d4vEHnIR3DpxFXfegd4rN21IgGdiF+Iz4EFuUZu8MdS8NuJHLSVQ==
   dependencies:
     "@ant-design/colors" "^7.2.1"
     "@ant-design/cssinjs" "^1.23.0"
@@ -4420,10 +4420,10 @@ antd@5.27.2:
     rc-resize-observer "^1.4.3"
     rc-segmented "~2.7.0"
     rc-select "~14.16.8"
-    rc-slider "~11.1.8"
+    rc-slider "~11.1.9"
     rc-steps "~6.0.1"
     rc-switch "~4.1.0"
-    rc-table "~7.51.1"
+    rc-table "~7.53.0"
     rc-tabs "~15.7.0"
     rc-textarea "~1.10.2"
     rc-tooltip "~6.4.0"
@@ -11611,10 +11611,10 @@ rc-select@~14.16.2, rc-select@~14.16.8:
     rc-util "^5.16.1"
     rc-virtual-list "^3.5.2"
 
-rc-slider@~11.1.8:
-  version "11.1.8"
-  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-11.1.8.tgz#cf3b30dacac8f98d44f7685f733f6f7da146fc06"
-  integrity sha512-2gg/72YFSpKP+Ja5AjC5DPL1YnV8DEITDQrcc1eASrUYjl0esptaBVJBh5nLTXCCp15eD8EuGjwezVGSHhs9tQ==
+rc-slider@~11.1.9:
+  version "11.1.9"
+  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-11.1.9.tgz#d872130fbf4ec51f28543d62e90451091d6f5208"
+  integrity sha512-h8IknhzSh3FEM9u8ivkskh+Ef4Yo4JRIY2nj7MrH6GQmrwV6mcpJf5/4KgH5JaVI1H3E52yCdpOlVyGZIeph5A==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.5"
@@ -11638,10 +11638,10 @@ rc-switch@~4.1.0:
     classnames "^2.2.1"
     rc-util "^5.30.0"
 
-rc-table@~7.51.1:
-  version "7.51.1"
-  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.51.1.tgz#cd69ae3262d3b61e4c93c979c12786906e944691"
-  integrity sha512-5iq15mTHhvC42TlBLRCoCBLoCmGlbRZAlyF21FonFnS/DIC8DeRqnmdyVREwt2CFbPceM0zSNdEeVfiGaqYsKw==
+rc-table@~7.53.0:
+  version "7.53.1"
+  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.53.1.tgz#b891aa39e9d1d944711f018692d2c52013afc90f"
+  integrity sha512-firAd7Z+liqIDS5TubJ1qqcoBd6YcANLKWQDZhFf3rfoOTt/UNPj4n3O+2vhl+z4QMqwPEUVAil661WHA8H8Aw==
   dependencies:
     "@babel/runtime" "^7.10.1"
     "@rc-component/context" "^1.4.0"
