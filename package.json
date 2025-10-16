@@ -27,7 +27,7 @@
     "react-otp-input": "3.1.1",
     "react-router-dom": "7.9.4",
     "react-router-prompt": "0.8.0",
-    "react-unity-webgl": "10.1.5",
+    "react-unity-webgl": "10.1.6",
     "styled-components": "6.1.19",
     "xlsx": "0.18.5"
   },

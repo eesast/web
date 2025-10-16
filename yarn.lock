@@ -11919,10 +11919,10 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react-unity-webgl@10.1.5:
-  version "10.1.5"
-  resolved "https://registry.yarnpkg.com/react-unity-webgl/-/react-unity-webgl-10.1.5.tgz#89dfc1a7d844aa5a0720d24f01c2d6d3bcfaa277"
-  integrity sha512-YDVnTCMN0UEalW8j+nVZYvhbiP0DpoVepYL5UeRnQIgRy5RU0iy/8dI1t3fuo4bUNzMtb3QJsDwgYrMkQ5+ytA==
+react-unity-webgl@10.1.6:
+  version "10.1.6"
+  resolved "https://registry.yarnpkg.com/react-unity-webgl/-/react-unity-webgl-10.1.6.tgz#6563024bd5bfedce664f938a6f943175985ec511"
+  integrity sha512-N67RdvdeCfKDpzxKdu9K1fnFpb0xmqDF2Qk74f4B07iP9H/4XouG/RjSK4hYYCUmzeBv76G7DWTUK7hgF43TYw==
 
 react@18.3.1:
   version "18.3.1"
