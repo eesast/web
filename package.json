@@ -51,7 +51,7 @@
     "prettier": "3.6.2",
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
-    "rimraf": "6.1.0",
+    "rimraf": "6.1.2",
     "typescript": "5.9.3",
     "web-vitals": "5.1.0",
     "webpack-bundle-analyzer": "4.10.2",
