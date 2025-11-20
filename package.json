@@ -13,7 +13,7 @@
     "cos-js-sdk-v5": "1.10.1",
     "dayjs": "1.11.13",
     "dotenv": "17.2.3",
-    "google-protobuf": "4.0.0",
+    "google-protobuf": "4.0.1",
     "graphql": "16.11.0",
     "graphql-ws": "6.0.6",
     "grpc-web": "2.0.2",
