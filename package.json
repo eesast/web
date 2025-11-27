@@ -35,7 +35,7 @@
     "@graphql-codegen/cli": "6.1.0",
     "@graphql-codegen/typescript-operations": "5.0.5",
     "@graphql-codegen/typescript-react-apollo": "4.3.3",
-    "@playwright/test": "1.56.1",
+    "@playwright/test": "1.57.0",
     "@types/is-url": "1.2.32",
     "@types/node": "22.19.1",
     "@types/react": "18.3.27",
