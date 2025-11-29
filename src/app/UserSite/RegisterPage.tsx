@@ -83,9 +83,10 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     <Background
       mode={mode}
       imageIndex={imageIndex}
-      width={1200}
+      width={1000}
       height={650}
-      blur={0}
+      blur={36}
+      transparent={false}
     >
       <IdentitySelection
         onSelectIdentity={(identity) => {
@@ -94,6 +95,7 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         onBack={() => {
           navigate(-1);
         }}
+        mode={mode}
       />
     </Background>
   );
