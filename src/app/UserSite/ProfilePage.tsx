@@ -29,6 +29,7 @@ import { UserProps } from ".";
 import { uploadFile, listFile, deleteFile, getAvatarUrl } from "../../api/cos";
 //import axios from 'axios';
 import styled from "styled-components";
+import axios from "axios";
 
 const defaultAvatar = "/UserOutlined.png";
 
@@ -308,23 +309,23 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       return item;
     });
 
-  const [updateProfileMutation, { error: updateProfileError }] =
-    graphql.useUpdateProfileMutation();
+  // const [updateProfileMutation, { error: updateProfileError }] =
+  //   graphql.useUpdateProfileMutation();
 
-  useEffect(() => {
-    if (updateProfileError) {
-      if (
-        updateProfileError.graphQLErrors.some((graphQLError) => {
-          return graphQLError.message.includes("Uniqueness violation");
-        })
-      ) {
-        message.error("该项已被其他用户使用");
-        return;
-      }
-      message.error("更新用户信息失败");
-      console.log(updateProfileError);
-    }
-  }, [updateProfileError]);
+  // useEffect(() => {
+  //   if (updateProfileError) {
+  //     if (
+  //       updateProfileError.graphQLErrors.some((graphQLError) => {
+  //         return graphQLError.message.includes("Uniqueness violation");
+  //       })
+  //     ) {
+  //       message.error("该项已被其他用户使用");
+  //       return;
+  //     }
+  //     message.error("更新用户信息失败");
+  //     console.log(updateProfileError);
+  //   }
+  // }, [updateProfileError]);
 
   const handleEdit = async (key: any, record: any) => {
     if (key === "email") {
@@ -395,14 +396,56 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         return Promise.reject();
       }
     }
-    await updateProfileMutation({
-      variables: {
-        uuid: user.uuid,
-        ...profileData?.users_by_pk,
-        ...record,
-      },
-    });
-    return getProfileRefetch();
+    //提交给后端的updates对象
+    const updates: { [k: string]: any } = {};
+    //将前端字段赋值到后端字段
+    if (record.class !== undefined) {
+      updates.classname = record.class;
+    }
+    if (record.department !== undefined) {
+      updates.department = record.department;
+    }
+    if (record.realname !== undefined) {
+      updates.realname = record.realname;
+    }
+    if (record.student_no !== undefined) {
+      updates.student_no = record.student_no;
+    }
+    if (record.username !== undefined) {
+      updates.username = record.username;
+    }
+
+    //如果无可更新字段，拒绝
+    if (Object.keys(updates).length === 0) {
+      message.error("没有可更新的信息");
+      return Promise.reject();
+    }
+
+    try {
+      const res = await axios.post("/user/update", updates, {});
+      await getProfileRefetch();
+      message.success("用户信息更新成功");
+      return Promise.resolve();
+    } catch (err: any) {
+      if (err.response) {
+        if (err.response.status === 422) {
+          message.error("无可更新信息或输入信息不合法");
+        } else {
+          message.error("用户信息更新失败");
+        }
+      } else {
+        message.error("网络错误，无法连接到服务器");
+      }
+      return Promise.reject();
+    }
+    // await updateProfileMutation({
+    //   variables: {
+    //     uuid: user.uuid,
+    //     ...profileData?.users_by_pk,
+    //     ...record,
+    //   },
+    // });
+    // return getProfileRefetch();
   };
 
   // useEffect(() => {
