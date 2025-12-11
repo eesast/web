@@ -14,7 +14,7 @@ import {
   Select,
   Input,
   Table,
-  Switch,
+  //Switch,
   Progress,
   InputRef,
 } from "antd";
@@ -325,23 +325,23 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   });
 
   // 处理申请审批
-  const handleApplicationApprove = async (
-    checked: boolean,
-    item: graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0],
-  ) => {
-    try {
-      await axios.post(`/application/honor/update_status_one`, {
-        id: item.id,
-        status: checked ? "approved" : "rejected",
-        counselor_uuid: user.uuid,
-      });
-      message.success("申请状态更新成功");
-    } catch (err) {
-      console.error(err);
-      message.error("Error in approving application");
-    }
-    await refetchApplicationsForCounselors();
-  };
+  //const handleApplicationApprove = async (
+  //  checked: boolean,
+  //  item: graphql.GetHonorApplicationsForCounselorsQuery["honor_application"][0],
+  //) => {
+  //  try {
+  //    await axios.post(`/application/honor/update_status_one`, {
+  //      id: item.id,
+  //      status: checked ? "approved" : "rejected",
+  //      counselor_uuid: user.uuid,
+  //    });
+  //    message.success("申请状态更新成功");
+  //  } catch (err) {
+  //    console.error(err);
+  //    message.error("Error in approving application");
+  //  }
+  //  await refetchApplicationsForCounselors();
+  //};
 
   // 表格列
   const honorColumnsForCounselor: TableProps<
@@ -372,41 +372,41 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       filters: info.honors.map((honor) => ({ text: honor, value: honor })),
       onFilter: (value, record) => record.honor === value,
     },
-    {
-      title: "申请状态",
-      dataIndex: "status",
-      key: "status",
-      filters: [
-        {
-          text: "已提交",
-          value: "submitted",
-        },
-        {
-          text: "未通过",
-          value: "rejected",
-        },
-        {
-          text: "已通过",
-          value: "approved",
-        },
-      ],
-      onFilter: (value, record) => record.status === value,
-      render: (text, record) => getStatusText(text),
-    },
-    {
-      title: "操作",
-      key: "action",
-      render: (text, record) => (
-        <Switch
-          checked={record.status === "approved"}
-          checkedChildren="已通过"
-          unCheckedChildren="未通过"
-          onChange={(checked) => {
-            handleApplicationApprove(checked, record);
-          }}
-        />
-      ),
-    },
+    //{
+    //  title: "申请状态",
+    //  dataIndex: "status",
+    //  key: "status",
+    //  filters: [
+    //    {
+    //      text: "已提交",
+    //      value: "submitted",
+    //    },
+    //    {
+    //      text: "未通过",
+    //      value: "rejected",
+    //    },
+    //    {
+    //      text: "已通过",
+    //      value: "approved",
+    //    },
+    //  ],
+    //  onFilter: (value, record) => record.status === value,
+    //  render: (text, record) => getStatusText(text),
+    //},
+    //{
+    //  title: "操作",
+    //  key: "action",
+    //  render: (text, record) => (
+    //    <Switch
+    //      checked={record.status === "approved"}
+    //      checkedChildren="已通过"
+    //      unCheckedChildren="未通过"
+    //      onChange={(checked) => {
+    //        handleApplicationApprove(checked, record);
+    //      }}
+    //    />
+    //  ),
+    //},
   ];
 
   // 导出申请
@@ -434,7 +434,6 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         i.student?.class,
         i.student?.student_no,
         exportHonor,
-        getStatusText(i.status),
         i.statement,
         i.attachment_url,
       ]);
@@ -451,7 +450,6 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       "班级",
       "学号",
       "荣誉类型",
-      "申请状态",
       "申请陈述",
       "申请材料",
     ];
@@ -623,23 +621,10 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
               : "red"
           }
         >
-          <p>第一阶段：荣誉申请</p>
+          <p>荣誉申请</p>
           <p>
             {info.honor.start_A.toLocaleString(undefined, { hour12: false })} ~{" "}
             {info.honor.end_A.toLocaleString(undefined, { hour12: false })}
-          </p>
-        </Timeline.Item>
-        <Timeline.Item
-          color={
-            new Date() >= info.honor.start_B && new Date() <= info.honor.end_B
-              ? "green"
-              : "red"
-          }
-        >
-          <p>第二阶段：荣誉申请结果公示</p>
-          <p>
-            {info.honor.start_B.toLocaleString(undefined, { hour12: false })} ~{" "}
-            {info.honor.end_B.toLocaleString(undefined, { hour12: false })}
           </p>
         </Timeline.Item>
       </Timeline>
