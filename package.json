@@ -67,7 +67,7 @@
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
-    "@antv/g2": "5.4.6"
+    "@antv/g2": "5.4.7"
   },
   "scripts": {
     "preinstall": "npm config set registry https://registry.npmmirror.com/ && yarn config set registry https://registry.yarnpkg.com",
