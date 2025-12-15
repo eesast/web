@@ -83,8 +83,10 @@ const RegisterPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     <Background
       mode={mode}
       imageIndex={imageIndex}
-      width={1000}
-      height={650}
+      //width={950}
+      //height={550}
+      width={630}
+      height={400}
       blur={36}
       transparent={false}
     >
