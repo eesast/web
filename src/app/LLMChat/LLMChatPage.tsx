@@ -675,10 +675,15 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
         { role: "assistant", content: "", reasoning: "" },
       ]);
 
-      const modelToUse =
-        enableDeepThinking && currentModelConfig?.deepThinkingModel
-          ? currentModelConfig.deepThinkingModel
-          : selectedModel;
+      // If deep thinking is enabled in DB (deepThinkingModel === 'enabled'),
+      // we just use the model value itself, and the backend will handle the enable_thinking flag.
+      // If deepThinkingModel is a specific model name (e.g. 'deepseek-reasoner'), we switch to that model.
+      let modelToUse = selectedModel;
+      if (enableDeepThinking && currentModelConfig?.deepThinkingModel) {
+        if (currentModelConfig.deepThinkingModel !== "enabled") {
+          modelToUse = currentModelConfig.deepThinkingModel;
+        }
+      }
 
       const baseUrl =
         (process.env.NODE_ENV === "production"
