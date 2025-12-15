@@ -1,0 +1,7 @@
+query GetLLMList {
+  llm_list {
+    name
+    value
+    deepthinkingmodel
+  }
+}
