@@ -399,21 +399,26 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     //提交给后端的updates对象
     const updates: { [k: string]: any } = {};
     //将前端字段赋值到后端字段
-    if (record.class !== undefined) {
-      updates.classname = record.class;
-    }
-    if (record.department !== undefined) {
-      updates.department = record.department;
-    }
-    if (record.realname !== undefined) {
-      updates.realname = record.realname;
-    }
-    if (record.student_no !== undefined) {
-      updates.student_no = record.student_no;
-    }
-    if (record.username !== undefined) {
-      updates.username = record.username;
-    }
+    updates.className =
+      record.class !== undefined
+        ? record.class
+        : profileData?.users_by_pk?.class;
+    updates.department =
+      record.department !== undefined
+        ? record.department
+        : profileData?.users_by_pk?.department;
+    updates.realname =
+      record.realname !== undefined
+        ? record.realname
+        : profileData?.users_by_pk?.realname;
+    updates.student_no =
+      record.student_no !== undefined
+        ? record.student_no
+        : profileData?.users_by_pk?.student_no;
+    updates.username =
+      record.username !== undefined
+        ? record.username
+        : profileData?.users_by_pk?.username;
 
     //如果无可更新字段，拒绝
     if (Object.keys(updates).length === 0) {
