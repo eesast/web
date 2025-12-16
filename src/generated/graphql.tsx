@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  bigint: { input: any; output: any; }
   date: { input: any; output: any; }
   json: { input: any; output: any; }
   numeric: { input: any; output: any; }
@@ -79,6 +80,199 @@ export type String_Comparison_Exp = {
   _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
   _similar?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** columns and relationships of "access_key_log" */
+export type Access_Key_Log = {
+  __typename?: 'access_key_log';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  is_revoked?: Maybe<Scalars['Boolean']['output']>;
+  jti: Scalars['String']['output'];
+  student_no: Scalars['String']['output'];
+};
+
+/** aggregated selection of "access_key_log" */
+export type Access_Key_Log_Aggregate = {
+  __typename?: 'access_key_log_aggregate';
+  aggregate?: Maybe<Access_Key_Log_Aggregate_Fields>;
+  nodes: Array<Access_Key_Log>;
+};
+
+/** aggregate fields of "access_key_log" */
+export type Access_Key_Log_Aggregate_Fields = {
+  __typename?: 'access_key_log_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Access_Key_Log_Max_Fields>;
+  min?: Maybe<Access_Key_Log_Min_Fields>;
+};
+
+
+/** aggregate fields of "access_key_log" */
+export type Access_Key_Log_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "access_key_log". All fields are combined with a logical 'AND'. */
+export type Access_Key_Log_Bool_Exp = {
+  _and?: InputMaybe<Array<Access_Key_Log_Bool_Exp>>;
+  _not?: InputMaybe<Access_Key_Log_Bool_Exp>;
+  _or?: InputMaybe<Array<Access_Key_Log_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  is_revoked?: InputMaybe<Boolean_Comparison_Exp>;
+  jti?: InputMaybe<String_Comparison_Exp>;
+  student_no?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "access_key_log" */
+export enum Access_Key_Log_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  AccessKeyLogPkey = 'access_key_log_pkey'
+}
+
+/** input type for inserting data into table "access_key_log" */
+export type Access_Key_Log_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  is_revoked?: InputMaybe<Scalars['Boolean']['input']>;
+  jti?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Access_Key_Log_Max_Fields = {
+  __typename?: 'access_key_log_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  jti?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Access_Key_Log_Min_Fields = {
+  __typename?: 'access_key_log_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  jti?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "access_key_log" */
+export type Access_Key_Log_Mutation_Response = {
+  __typename?: 'access_key_log_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Access_Key_Log>;
+};
+
+/** on_conflict condition type for table "access_key_log" */
+export type Access_Key_Log_On_Conflict = {
+  constraint: Access_Key_Log_Constraint;
+  update_columns?: Array<Access_Key_Log_Update_Column>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "access_key_log". */
+export type Access_Key_Log_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  is_revoked?: InputMaybe<Order_By>;
+  jti?: InputMaybe<Order_By>;
+  student_no?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: access_key_log */
+export type Access_Key_Log_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "access_key_log" */
+export enum Access_Key_Log_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsRevoked = 'is_revoked',
+  /** column name */
+  Jti = 'jti',
+  /** column name */
+  StudentNo = 'student_no'
+}
+
+/** input type for updating data in table "access_key_log" */
+export type Access_Key_Log_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  is_revoked?: InputMaybe<Scalars['Boolean']['input']>;
+  jti?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "access_key_log" */
+export type Access_Key_Log_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Access_Key_Log_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Access_Key_Log_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  is_revoked?: InputMaybe<Scalars['Boolean']['input']>;
+  jti?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "access_key_log" */
+export enum Access_Key_Log_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsRevoked = 'is_revoked',
+  /** column name */
+  Jti = 'jti',
+  /** column name */
+  StudentNo = 'student_no'
+}
+
+export type Access_Key_Log_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Access_Key_Log_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Access_Key_Log_Bool_Exp;
+};
+
+/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+export type Bigint_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['bigint']['input']>;
+  _gt?: InputMaybe<Scalars['bigint']['input']>;
+  _gte?: InputMaybe<Scalars['bigint']['input']>;
+  _in?: InputMaybe<Array<Scalars['bigint']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['bigint']['input']>;
+  _lte?: InputMaybe<Scalars['bigint']['input']>;
+  _neq?: InputMaybe<Scalars['bigint']['input']>;
+  _nin?: InputMaybe<Array<Scalars['bigint']['input']>>;
 };
 
 /** columns and relationships of "classes" */
@@ -7194,7 +7388,7 @@ export type Json_Comparison_Exp = {
 /** columns and relationships of "llm_list" */
 export type Llm_List = {
   __typename?: 'llm_list';
-  deepthinkingmodel: Scalars['String']['output'];
+  deepthinkingmodel?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   value: Scalars['String']['output'];
 };
@@ -8854,6 +9048,10 @@ export type Mentor_Time_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete data from the table: "access_key_log" */
+  delete_access_key_log?: Maybe<Access_Key_Log_Mutation_Response>;
+  /** delete single row from the table: "access_key_log" */
+  delete_access_key_log_by_pk?: Maybe<Access_Key_Log>;
   /** delete data from the table: "classes" */
   delete_classes?: Maybe<Classes_Mutation_Response>;
   /** delete single row from the table: "classes" */
@@ -9010,6 +9208,10 @@ export type Mutation_Root = {
   delete_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** delete single row from the table: "scholarships_aids" */
   delete_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** delete data from the table: "user_llm_usage" */
+  delete_user_llm_usage?: Maybe<User_Llm_Usage_Mutation_Response>;
+  /** delete single row from the table: "user_llm_usage" */
+  delete_user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -9018,6 +9220,10 @@ export type Mutation_Root = {
   delete_weekly?: Maybe<Weekly_Mutation_Response>;
   /** delete single row from the table: "weekly" */
   delete_weekly_by_pk?: Maybe<Weekly>;
+  /** insert data into the table: "access_key_log" */
+  insert_access_key_log?: Maybe<Access_Key_Log_Mutation_Response>;
+  /** insert a single row into the table: "access_key_log" */
+  insert_access_key_log_one?: Maybe<Access_Key_Log>;
   /** insert data into the table: "classes" */
   insert_classes?: Maybe<Classes_Mutation_Response>;
   /** insert a single row into the table: "classes" */
@@ -9174,6 +9380,10 @@ export type Mutation_Root = {
   insert_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** insert a single row into the table: "scholarships_aids" */
   insert_scholarships_aids_one?: Maybe<Scholarships_Aids>;
+  /** insert data into the table: "user_llm_usage" */
+  insert_user_llm_usage?: Maybe<User_Llm_Usage_Mutation_Response>;
+  /** insert a single row into the table: "user_llm_usage" */
+  insert_user_llm_usage_one?: Maybe<User_Llm_Usage>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -9182,6 +9392,12 @@ export type Mutation_Root = {
   insert_weekly?: Maybe<Weekly_Mutation_Response>;
   /** insert a single row into the table: "weekly" */
   insert_weekly_one?: Maybe<Weekly>;
+  /** update data of the table: "access_key_log" */
+  update_access_key_log?: Maybe<Access_Key_Log_Mutation_Response>;
+  /** update single row of the table: "access_key_log" */
+  update_access_key_log_by_pk?: Maybe<Access_Key_Log>;
+  /** update multiples rows of table: "access_key_log" */
+  update_access_key_log_many?: Maybe<Array<Maybe<Access_Key_Log_Mutation_Response>>>;
   /** update data of the table: "classes" */
   update_classes?: Maybe<Classes_Mutation_Response>;
   /** update single row of the table: "classes" */
@@ -9416,6 +9632,12 @@ export type Mutation_Root = {
   update_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
   /** update multiples rows of table: "scholarships_aids" */
   update_scholarships_aids_many?: Maybe<Array<Maybe<Scholarships_Aids_Mutation_Response>>>;
+  /** update data of the table: "user_llm_usage" */
+  update_user_llm_usage?: Maybe<User_Llm_Usage_Mutation_Response>;
+  /** update single row of the table: "user_llm_usage" */
+  update_user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
+  /** update multiples rows of table: "user_llm_usage" */
+  update_user_llm_usage_many?: Maybe<Array<Maybe<User_Llm_Usage_Mutation_Response>>>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -9428,6 +9650,18 @@ export type Mutation_Root = {
   update_weekly_by_pk?: Maybe<Weekly>;
   /** update multiples rows of table: "weekly" */
   update_weekly_many?: Maybe<Array<Maybe<Weekly_Mutation_Response>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Access_Key_LogArgs = {
+  where: Access_Key_Log_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Access_Key_Log_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -9915,6 +10149,18 @@ export type Mutation_RootDelete_Scholarships_Aids_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_User_Llm_UsageArgs = {
+  where: User_Llm_Usage_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_User_Llm_Usage_By_PkArgs = {
+  student_no: Scalars['String']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp;
 };
@@ -9935,6 +10181,20 @@ export type Mutation_RootDelete_WeeklyArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Weekly_By_PkArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Access_Key_LogArgs = {
+  objects: Array<Access_Key_Log_Insert_Input>;
+  on_conflict?: InputMaybe<Access_Key_Log_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Access_Key_Log_OneArgs = {
+  object: Access_Key_Log_Insert_Input;
+  on_conflict?: InputMaybe<Access_Key_Log_On_Conflict>;
 };
 
 
@@ -10485,6 +10745,20 @@ export type Mutation_RootInsert_Scholarships_Aids_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_User_Llm_UsageArgs = {
+  objects: Array<User_Llm_Usage_Insert_Input>;
+  on_conflict?: InputMaybe<User_Llm_Usage_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_Llm_Usage_OneArgs = {
+  object: User_Llm_Usage_Insert_Input;
+  on_conflict?: InputMaybe<User_Llm_Usage_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: InputMaybe<Users_On_Conflict>;
@@ -10509,6 +10783,26 @@ export type Mutation_RootInsert_WeeklyArgs = {
 export type Mutation_RootInsert_Weekly_OneArgs = {
   object: Weekly_Insert_Input;
   on_conflict?: InputMaybe<Weekly_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Access_Key_LogArgs = {
+  _set?: InputMaybe<Access_Key_Log_Set_Input>;
+  where: Access_Key_Log_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Access_Key_Log_By_PkArgs = {
+  _set?: InputMaybe<Access_Key_Log_Set_Input>;
+  pk_columns: Access_Key_Log_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Access_Key_Log_ManyArgs = {
+  updates: Array<Access_Key_Log_Updates>;
 };
 
 
@@ -11321,6 +11615,28 @@ export type Mutation_RootUpdate_Scholarships_Aids_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Scholarships_Aids_ManyArgs = {
   updates: Array<Scholarships_Aids_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Llm_UsageArgs = {
+  _inc?: InputMaybe<User_Llm_Usage_Inc_Input>;
+  _set?: InputMaybe<User_Llm_Usage_Set_Input>;
+  where: User_Llm_Usage_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Llm_Usage_By_PkArgs = {
+  _inc?: InputMaybe<User_Llm_Usage_Inc_Input>;
+  _set?: InputMaybe<User_Llm_Usage_Set_Input>;
+  pk_columns: User_Llm_Usage_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Llm_Usage_ManyArgs = {
+  updates: Array<User_Llm_Usage_Updates>;
 };
 
 
@@ -12923,6 +13239,12 @@ export type Postgraduate_Mentor_Info_Variance_Fields = {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "access_key_log" */
+  access_key_log: Array<Access_Key_Log>;
+  /** fetch aggregated fields from the table: "access_key_log" */
+  access_key_log_aggregate: Access_Key_Log_Aggregate;
+  /** fetch data from the table: "access_key_log" using primary key columns */
+  access_key_log_by_pk?: Maybe<Access_Key_Log>;
   /** fetch data from the table: "classes" */
   classes: Array<Classes>;
   /** fetch aggregated fields from the table: "classes" */
@@ -13157,6 +13479,12 @@ export type Query_Root = {
   scholarships_aids_aggregate: Scholarships_Aids_Aggregate;
   /** fetch data from the table: "scholarships_aids" using primary key columns */
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** fetch data from the table: "user_llm_usage" */
+  user_llm_usage: Array<User_Llm_Usage>;
+  /** fetch aggregated fields from the table: "user_llm_usage" */
+  user_llm_usage_aggregate: User_Llm_Usage_Aggregate;
+  /** fetch data from the table: "user_llm_usage" using primary key columns */
+  user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -13169,6 +13497,29 @@ export type Query_Root = {
   weekly_aggregate: Weekly_Aggregate;
   /** fetch data from the table: "weekly" using primary key columns */
   weekly_by_pk?: Maybe<Weekly>;
+};
+
+
+export type Query_RootAccess_Key_LogArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Query_RootAccess_Key_Log_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Query_RootAccess_Key_Log_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -14084,6 +14435,29 @@ export type Query_RootScholarships_Aids_By_PkArgs = {
 };
 
 
+export type Query_RootUser_Llm_UsageArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Llm_Usage_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Llm_Usage_By_PkArgs = {
+  student_no: Scalars['String']['input'];
+};
+
+
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -14374,6 +14748,14 @@ export type Scholarships_Aids_Variance_Fields = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "access_key_log" */
+  access_key_log: Array<Access_Key_Log>;
+  /** fetch aggregated fields from the table: "access_key_log" */
+  access_key_log_aggregate: Access_Key_Log_Aggregate;
+  /** fetch data from the table: "access_key_log" using primary key columns */
+  access_key_log_by_pk?: Maybe<Access_Key_Log>;
+  /** fetch data from the table in a streaming manner: "access_key_log" */
+  access_key_log_stream: Array<Access_Key_Log>;
   /** fetch data from the table: "classes" */
   classes: Array<Classes>;
   /** fetch aggregated fields from the table: "classes" */
@@ -14686,6 +15068,14 @@ export type Subscription_Root = {
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
   /** fetch data from the table in a streaming manner: "scholarships_aids" */
   scholarships_aids_stream: Array<Scholarships_Aids>;
+  /** fetch data from the table: "user_llm_usage" */
+  user_llm_usage: Array<User_Llm_Usage>;
+  /** fetch aggregated fields from the table: "user_llm_usage" */
+  user_llm_usage_aggregate: User_Llm_Usage_Aggregate;
+  /** fetch data from the table: "user_llm_usage" using primary key columns */
+  user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
+  /** fetch data from the table in a streaming manner: "user_llm_usage" */
+  user_llm_usage_stream: Array<User_Llm_Usage>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -14702,6 +15092,36 @@ export type Subscription_Root = {
   weekly_by_pk?: Maybe<Weekly>;
   /** fetch data from the table in a streaming manner: "weekly" */
   weekly_stream: Array<Weekly>;
+};
+
+
+export type Subscription_RootAccess_Key_LogArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Subscription_RootAccess_Key_Log_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Subscription_RootAccess_Key_Log_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootAccess_Key_Log_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Access_Key_Log_Stream_Cursor_Input>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
 };
 
 
@@ -15890,6 +16310,36 @@ export type Subscription_RootScholarships_Aids_StreamArgs = {
 };
 
 
+export type Subscription_RootUser_Llm_UsageArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Llm_Usage_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Llm_Usage_By_PkArgs = {
+  student_no: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootUser_Llm_Usage_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<User_Llm_Usage_Stream_Cursor_Input>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -15960,6 +16410,260 @@ export type Timestamptz_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['timestamptz']['input']>;
   _neq?: InputMaybe<Scalars['timestamptz']['input']>;
   _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+};
+
+/** columns and relationships of "user_llm_usage" */
+export type User_Llm_Usage = {
+  __typename?: 'user_llm_usage';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  last_updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  student_no: Scalars['String']['output'];
+  token_limit: Scalars['bigint']['output'];
+  total_tokens_used: Scalars['bigint']['output'];
+};
+
+/** aggregated selection of "user_llm_usage" */
+export type User_Llm_Usage_Aggregate = {
+  __typename?: 'user_llm_usage_aggregate';
+  aggregate?: Maybe<User_Llm_Usage_Aggregate_Fields>;
+  nodes: Array<User_Llm_Usage>;
+};
+
+/** aggregate fields of "user_llm_usage" */
+export type User_Llm_Usage_Aggregate_Fields = {
+  __typename?: 'user_llm_usage_aggregate_fields';
+  avg?: Maybe<User_Llm_Usage_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<User_Llm_Usage_Max_Fields>;
+  min?: Maybe<User_Llm_Usage_Min_Fields>;
+  stddev?: Maybe<User_Llm_Usage_Stddev_Fields>;
+  stddev_pop?: Maybe<User_Llm_Usage_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<User_Llm_Usage_Stddev_Samp_Fields>;
+  sum?: Maybe<User_Llm_Usage_Sum_Fields>;
+  var_pop?: Maybe<User_Llm_Usage_Var_Pop_Fields>;
+  var_samp?: Maybe<User_Llm_Usage_Var_Samp_Fields>;
+  variance?: Maybe<User_Llm_Usage_Variance_Fields>;
+};
+
+
+/** aggregate fields of "user_llm_usage" */
+export type User_Llm_Usage_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type User_Llm_Usage_Avg_Fields = {
+  __typename?: 'user_llm_usage_avg_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "user_llm_usage". All fields are combined with a logical 'AND'. */
+export type User_Llm_Usage_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Llm_Usage_Bool_Exp>>;
+  _not?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Llm_Usage_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  last_updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  student_no?: InputMaybe<String_Comparison_Exp>;
+  token_limit?: InputMaybe<Bigint_Comparison_Exp>;
+  total_tokens_used?: InputMaybe<Bigint_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "user_llm_usage" */
+export enum User_Llm_Usage_Constraint {
+  /** unique or primary key constraint on columns "student_no" */
+  UserLlmUsagePkey = 'user_llm_usage_pkey'
+}
+
+/** input type for incrementing numeric columns in table "user_llm_usage" */
+export type User_Llm_Usage_Inc_Input = {
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** input type for inserting data into table "user_llm_usage" */
+export type User_Llm_Usage_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  last_updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate max on columns */
+export type User_Llm_Usage_Max_Fields = {
+  __typename?: 'user_llm_usage_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  last_updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  token_limit?: Maybe<Scalars['bigint']['output']>;
+  total_tokens_used?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** aggregate min on columns */
+export type User_Llm_Usage_Min_Fields = {
+  __typename?: 'user_llm_usage_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  last_updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  token_limit?: Maybe<Scalars['bigint']['output']>;
+  total_tokens_used?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** response of any mutation on the table "user_llm_usage" */
+export type User_Llm_Usage_Mutation_Response = {
+  __typename?: 'user_llm_usage_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Llm_Usage>;
+};
+
+/** on_conflict condition type for table "user_llm_usage" */
+export type User_Llm_Usage_On_Conflict = {
+  constraint: User_Llm_Usage_Constraint;
+  update_columns?: Array<User_Llm_Usage_Update_Column>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_llm_usage". */
+export type User_Llm_Usage_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  last_updated_at?: InputMaybe<Order_By>;
+  student_no?: InputMaybe<Order_By>;
+  token_limit?: InputMaybe<Order_By>;
+  total_tokens_used?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: user_llm_usage */
+export type User_Llm_Usage_Pk_Columns_Input = {
+  student_no: Scalars['String']['input'];
+};
+
+/** select columns of table "user_llm_usage" */
+export enum User_Llm_Usage_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  LastUpdatedAt = 'last_updated_at',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  TokenLimit = 'token_limit',
+  /** column name */
+  TotalTokensUsed = 'total_tokens_used'
+}
+
+/** input type for updating data in table "user_llm_usage" */
+export type User_Llm_Usage_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  last_updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type User_Llm_Usage_Stddev_Fields = {
+  __typename?: 'user_llm_usage_stddev_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type User_Llm_Usage_Stddev_Pop_Fields = {
+  __typename?: 'user_llm_usage_stddev_pop_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type User_Llm_Usage_Stddev_Samp_Fields = {
+  __typename?: 'user_llm_usage_stddev_samp_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "user_llm_usage" */
+export type User_Llm_Usage_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_Llm_Usage_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_Llm_Usage_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  last_updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate sum on columns */
+export type User_Llm_Usage_Sum_Fields = {
+  __typename?: 'user_llm_usage_sum_fields';
+  token_limit?: Maybe<Scalars['bigint']['output']>;
+  total_tokens_used?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** update columns of table "user_llm_usage" */
+export enum User_Llm_Usage_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  LastUpdatedAt = 'last_updated_at',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  TokenLimit = 'token_limit',
+  /** column name */
+  TotalTokensUsed = 'total_tokens_used'
+}
+
+export type User_Llm_Usage_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<User_Llm_Usage_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Llm_Usage_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: User_Llm_Usage_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type User_Llm_Usage_Var_Pop_Fields = {
+  __typename?: 'user_llm_usage_var_pop_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type User_Llm_Usage_Var_Samp_Fields = {
+  __typename?: 'user_llm_usage_var_samp_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type User_Llm_Usage_Variance_Fields = {
+  __typename?: 'user_llm_usage_variance_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "users" */
@@ -17210,7 +17914,14 @@ export type GetPostgraduateFeedsQuery = { __typename?: 'query_root', postgraduat
 export type GetLlmListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLlmListQuery = { __typename?: 'query_root', llm_list: Array<{ __typename?: 'llm_list', name: string, value: string, deepthinkingmodel: string }> };
+export type GetLlmListQuery = { __typename?: 'query_root', llm_list: Array<{ __typename?: 'llm_list', name: string, value: string, deepthinkingmodel?: string | null }> };
+
+export type GetUserLlmUsageQueryVariables = Exact<{
+  student_no: Scalars['String']['input'];
+}>;
+
+
+export type GetUserLlmUsageQuery = { __typename?: 'query_root', user_llm_usage_by_pk?: { __typename?: 'user_llm_usage', student_no: string, total_tokens_used: any, token_limit: any } | null };
 
 export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -20975,6 +21686,48 @@ export type GetLlmListQueryHookResult = ReturnType<typeof useGetLlmListQuery>;
 export type GetLlmListLazyQueryHookResult = ReturnType<typeof useGetLlmListLazyQuery>;
 export type GetLlmListSuspenseQueryHookResult = ReturnType<typeof useGetLlmListSuspenseQuery>;
 export type GetLlmListQueryResult = Apollo.QueryResult<GetLlmListQuery, GetLlmListQueryVariables>;
+export const GetUserLlmUsageDocument = gql`
+    query GetUserLlmUsage($student_no: String!) {
+  user_llm_usage_by_pk(student_no: $student_no) {
+    student_no
+    total_tokens_used
+    token_limit
+  }
+}
+    `;
+
+/**
+ * __useGetUserLlmUsageQuery__
+ *
+ * To run a query within a React component, call `useGetUserLlmUsageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserLlmUsageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserLlmUsageQuery({
+ *   variables: {
+ *      student_no: // value for 'student_no'
+ *   },
+ * });
+ */
+export function useGetUserLlmUsageQuery(baseOptions: Apollo.QueryHookOptions<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables> & ({ variables: GetUserLlmUsageQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>(GetUserLlmUsageDocument, options);
+      }
+export function useGetUserLlmUsageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>(GetUserLlmUsageDocument, options);
+        }
+export function useGetUserLlmUsageSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>(GetUserLlmUsageDocument, options);
+        }
+export type GetUserLlmUsageQueryHookResult = ReturnType<typeof useGetUserLlmUsageQuery>;
+export type GetUserLlmUsageLazyQueryHookResult = ReturnType<typeof useGetUserLlmUsageLazyQuery>;
+export type GetUserLlmUsageSuspenseQueryHookResult = ReturnType<typeof useGetUserLlmUsageSuspenseQuery>;
+export type GetUserLlmUsageQueryResult = Apollo.QueryResult<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>;
 export const GetCourseDocument = gql`
     query GetCourse {
   course(order_by: {year: desc}) {
