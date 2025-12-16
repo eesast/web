@@ -2898,6 +2898,35 @@ export type Contest_Sum_Fields = {
   server_memory_limit?: Maybe<Scalars['numeric']['output']>;
 };
 
+/** Initial value of the column from where the streaming should start */
+export type Contest_Stream_Cursor_Value_Input = {
+  arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
+  code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  game_time?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  max_teammember_limit?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
+  start_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  team_switch?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Contest_Sum_Fields = {
+  __typename?: 'contest_sum_fields';
+  client_memory_limit?: Maybe<Scalars['numeric']['output']>;
+  game_time?: Maybe<Scalars['numeric']['output']>;
+  max_teammember_limit?: Maybe<Scalars['Int']['output']>;
+  server_memory_limit?: Maybe<Scalars['numeric']['output']>;
+};
+
 /** 比赛队伍 */
 export type Contest_Team = {
   __typename?: 'contest_team';
@@ -11149,6 +11178,18 @@ export type Mutation_RootUpdate_Course_Comment_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Course_Comment_Likes_ManyArgs = {
+  updates: Array<Course_Comment_Likes_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_ManyArgs = {
+  updates: Array<Course_Comment_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Course_Comment_StarsArgs = {
   _set?: InputMaybe<Course_Comment_Stars_Set_Input>;
   where: Course_Comment_Stars_Bool_Exp;
@@ -13124,6 +13165,36 @@ export type Postgraduate_Mentor_Info_Stddev_Samp_Fields = {
   phd_quota?: Maybe<Scalars['Float']['output']>;
   /** 非固定名额 */
   phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "postgraduate_mentor_info" */
+export type Postgraduate_Mentor_Info_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Postgraduate_Mentor_Info_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Postgraduate_Mentor_Info_Stream_Cursor_Value_Input = {
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
+  /** 修改者id */
+  editor?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  mentor?: InputMaybe<Scalars['String']['input']>;
+  /** 固定名额 */
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
+  /** 非固定名额 */
+  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 创建此信息用户id，有权更改 */
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Streaming cursor of the table "postgraduate_mentor_info" */
