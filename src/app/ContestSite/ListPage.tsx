@@ -1,7 +1,16 @@
 import React, { useEffect, Suspense } from "react";
 import { Link } from "react-router-dom";
 import Card, { CardProps } from "antd/lib/card";
-import { Col, Divider, List, message, Layout, Row, Typography } from "antd";
+import {
+  Col,
+  Divider,
+  List,
+  message,
+  Layout,
+  Row,
+  Typography,
+  Button,
+} from "antd";
 //以下为分页面，用以没登陆会跳转到登陆页面
 import dayjs from "dayjs";
 //import utc from 'dayjs/plugin/utc';
@@ -55,6 +64,17 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
       <Row>
         <Col span={3}></Col>
         <Col span={18}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              marginBottom: "20px",
+            }}
+          >
+            <Link to="/llm">
+              <Button type="primary">进入大模型对话</Button>
+            </Link>
+          </div>
           <Suspense fallback={<Loading />}>
             <List
               dataSource={contestData?.contest}
