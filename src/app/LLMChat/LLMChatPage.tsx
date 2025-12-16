@@ -9,9 +9,7 @@ import {
   Space,
   Select,
   Avatar,
-  Switch,
   Tooltip,
-  List,
   Modal,
   Checkbox,
 } from "antd";
@@ -42,7 +40,7 @@ interface PageProps {
   user: JwtPayload;
 }
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { TextArea } = Input;
 const { Sider, Content } = Layout;
 
