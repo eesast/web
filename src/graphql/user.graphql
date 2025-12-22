@@ -44,6 +44,15 @@ query GetDepartments {
   }
 }
 
+# 在这里添加班级查询
+query GetClasses {
+  classes {
+    id
+    name
+    department
+  }
+}
+
 query GetUserByEmail($email: String!) {
   users(where: { email: { _eq: $email } }) {
     uuid
@@ -73,5 +82,11 @@ query GetUserByStudentID($student_no: String!) {
 query GetUser_Id($email: String!, $realname: String!) {
   users(where: { email: { _eq: $email }, realname: { _eq: $realname } }) {
     uuid
+  }
+}
+
+query GetClasses_Name {
+  classes {
+    name
   }
 }
