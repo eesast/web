@@ -57,6 +57,7 @@ const ContestSite = lazy(() => import("./ContestSite"));
 const InfoSite = lazy(() => import("./InfoSite"));
 const ShareSite = lazy(() => import("./ShareSite"));
 const UserSite = lazy(() => import("./UserSite"));
+const LLMChat = lazy(() => import("./LLMChat/LLMChatPage"));
 
 const { Header, Footer, Content } = Layout;
 
@@ -589,6 +590,10 @@ const App: React.FC = () => {
               <Route
                 path="user/*"
                 element={<UserSite mode={mode} user={user} setUser={setUser} />}
+              />
+              <Route
+                path="llm/*"
+                element={<LLMChat mode={mode} user={user} />}
               />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

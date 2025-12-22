@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  bigint: { input: any; output: any; }
   date: { input: any; output: any; }
   json: { input: any; output: any; }
   numeric: { input: any; output: any; }
@@ -81,6 +82,371 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** columns and relationships of "access_key_log" */
+export type Access_Key_Log = {
+  __typename?: 'access_key_log';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  is_revoked?: Maybe<Scalars['Boolean']['output']>;
+  jti: Scalars['String']['output'];
+  student_no: Scalars['String']['output'];
+};
+
+/** aggregated selection of "access_key_log" */
+export type Access_Key_Log_Aggregate = {
+  __typename?: 'access_key_log_aggregate';
+  aggregate?: Maybe<Access_Key_Log_Aggregate_Fields>;
+  nodes: Array<Access_Key_Log>;
+};
+
+/** aggregate fields of "access_key_log" */
+export type Access_Key_Log_Aggregate_Fields = {
+  __typename?: 'access_key_log_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Access_Key_Log_Max_Fields>;
+  min?: Maybe<Access_Key_Log_Min_Fields>;
+};
+
+
+/** aggregate fields of "access_key_log" */
+export type Access_Key_Log_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "access_key_log". All fields are combined with a logical 'AND'. */
+export type Access_Key_Log_Bool_Exp = {
+  _and?: InputMaybe<Array<Access_Key_Log_Bool_Exp>>;
+  _not?: InputMaybe<Access_Key_Log_Bool_Exp>;
+  _or?: InputMaybe<Array<Access_Key_Log_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  is_revoked?: InputMaybe<Boolean_Comparison_Exp>;
+  jti?: InputMaybe<String_Comparison_Exp>;
+  student_no?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "access_key_log" */
+export enum Access_Key_Log_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  AccessKeyLogPkey = 'access_key_log_pkey'
+}
+
+/** input type for inserting data into table "access_key_log" */
+export type Access_Key_Log_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  is_revoked?: InputMaybe<Scalars['Boolean']['input']>;
+  jti?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Access_Key_Log_Max_Fields = {
+  __typename?: 'access_key_log_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  jti?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Access_Key_Log_Min_Fields = {
+  __typename?: 'access_key_log_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  jti?: Maybe<Scalars['String']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "access_key_log" */
+export type Access_Key_Log_Mutation_Response = {
+  __typename?: 'access_key_log_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Access_Key_Log>;
+};
+
+/** on_conflict condition type for table "access_key_log" */
+export type Access_Key_Log_On_Conflict = {
+  constraint: Access_Key_Log_Constraint;
+  update_columns?: Array<Access_Key_Log_Update_Column>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "access_key_log". */
+export type Access_Key_Log_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  is_revoked?: InputMaybe<Order_By>;
+  jti?: InputMaybe<Order_By>;
+  student_no?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: access_key_log */
+export type Access_Key_Log_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "access_key_log" */
+export enum Access_Key_Log_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsRevoked = 'is_revoked',
+  /** column name */
+  Jti = 'jti',
+  /** column name */
+  StudentNo = 'student_no'
+}
+
+/** input type for updating data in table "access_key_log" */
+export type Access_Key_Log_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  is_revoked?: InputMaybe<Scalars['Boolean']['input']>;
+  jti?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "access_key_log" */
+export type Access_Key_Log_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Access_Key_Log_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Access_Key_Log_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  is_revoked?: InputMaybe<Scalars['Boolean']['input']>;
+  jti?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "access_key_log" */
+export enum Access_Key_Log_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsRevoked = 'is_revoked',
+  /** column name */
+  Jti = 'jti',
+  /** column name */
+  StudentNo = 'student_no'
+}
+
+export type Access_Key_Log_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Access_Key_Log_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Access_Key_Log_Bool_Exp;
+};
+
+/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+export type Bigint_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['bigint']['input']>;
+  _gt?: InputMaybe<Scalars['bigint']['input']>;
+  _gte?: InputMaybe<Scalars['bigint']['input']>;
+  _in?: InputMaybe<Array<Scalars['bigint']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['bigint']['input']>;
+  _lte?: InputMaybe<Scalars['bigint']['input']>;
+  _neq?: InputMaybe<Scalars['bigint']['input']>;
+  _nin?: InputMaybe<Array<Scalars['bigint']['input']>>;
+};
+
+/** columns and relationships of "classes" */
+export type Classes = {
+  __typename?: 'classes';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  department?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  name: Scalars['String']['output'];
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregated selection of "classes" */
+export type Classes_Aggregate = {
+  __typename?: 'classes_aggregate';
+  aggregate?: Maybe<Classes_Aggregate_Fields>;
+  nodes: Array<Classes>;
+};
+
+/** aggregate fields of "classes" */
+export type Classes_Aggregate_Fields = {
+  __typename?: 'classes_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Classes_Max_Fields>;
+  min?: Maybe<Classes_Min_Fields>;
+};
+
+
+/** aggregate fields of "classes" */
+export type Classes_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Classes_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "classes". All fields are combined with a logical 'AND'. */
+export type Classes_Bool_Exp = {
+  _and?: InputMaybe<Array<Classes_Bool_Exp>>;
+  _not?: InputMaybe<Classes_Bool_Exp>;
+  _or?: InputMaybe<Array<Classes_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  department?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "classes" */
+export enum Classes_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  ClassesNameKey = 'classes_name_key',
+  /** unique or primary key constraint on columns "id" */
+  ClassesPkey = 'classes_pkey'
+}
+
+/** input type for inserting data into table "classes" */
+export type Classes_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Classes_Max_Fields = {
+  __typename?: 'classes_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  department?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregate min on columns */
+export type Classes_Min_Fields = {
+  __typename?: 'classes_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  department?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** response of any mutation on the table "classes" */
+export type Classes_Mutation_Response = {
+  __typename?: 'classes_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Classes>;
+};
+
+/** on_conflict condition type for table "classes" */
+export type Classes_On_Conflict = {
+  constraint: Classes_Constraint;
+  update_columns?: Array<Classes_Update_Column>;
+  where?: InputMaybe<Classes_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "classes". */
+export type Classes_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  department?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: classes */
+export type Classes_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "classes" */
+export enum Classes_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Department = 'department',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "classes" */
+export type Classes_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** Streaming cursor of the table "classes" */
+export type Classes_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Classes_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Classes_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "classes" */
+export enum Classes_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Department = 'department',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+export type Classes_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Classes_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Classes_Bool_Exp;
+};
+
 /** columns and relationships of "contest" */
 export type Contest = {
   __typename?: 'contest';
@@ -124,7 +490,7 @@ export type Contest = {
   fullname: Scalars['String']['output'];
   game_time?: Maybe<Scalars['numeric']['output']>;
   id: Scalars['uuid']['output'];
-  max_teammember_limit?: Maybe<Scalars['Int']['output']>;
+  max_teammember_limit: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   playback_switch: Scalars['Boolean']['output'];
   playground_switch: Scalars['Boolean']['output'];
@@ -342,13 +708,21 @@ export type Contest_Bool_Exp = {
   client_memory_limit?: InputMaybe<Numeric_Comparison_Exp>;
   code_upload_switch?: InputMaybe<Boolean_Comparison_Exp>;
   contest_managers?: InputMaybe<Contest_Manager_Bool_Exp>;
+  contest_managers_aggregate?: InputMaybe<Contest_Manager_Aggregate_Bool_Exp>;
   contest_maps?: InputMaybe<Contest_Map_Bool_Exp>;
+  contest_maps_aggregate?: InputMaybe<Contest_Map_Aggregate_Bool_Exp>;
   contest_notices?: InputMaybe<Contest_Notice_Bool_Exp>;
+  contest_notices_aggregate?: InputMaybe<Contest_Notice_Aggregate_Bool_Exp>;
   contest_players?: InputMaybe<Contest_Player_Bool_Exp>;
+  contest_players_aggregate?: InputMaybe<Contest_Player_Aggregate_Bool_Exp>;
   contest_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
+  contest_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Bool_Exp>;
   contest_rounds?: InputMaybe<Contest_Round_Bool_Exp>;
+  contest_rounds_aggregate?: InputMaybe<Contest_Round_Aggregate_Bool_Exp>;
   contest_teams?: InputMaybe<Contest_Team_Bool_Exp>;
+  contest_teams_aggregate?: InputMaybe<Contest_Team_Aggregate_Bool_Exp>;
   contest_times?: InputMaybe<Contest_Time_Bool_Exp>;
+  contest_times_aggregate?: InputMaybe<Contest_Time_Aggregate_Bool_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   fullname?: InputMaybe<String_Comparison_Exp>;
@@ -426,6 +800,17 @@ export type Contest_Manager_Aggregate = {
   nodes: Array<Contest_Manager>;
 };
 
+export type Contest_Manager_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Manager_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Manager_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Manager_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Manager_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "contest_manager" */
 export type Contest_Manager_Aggregate_Fields = {
   __typename?: 'contest_manager_aggregate_fields';
@@ -468,7 +853,7 @@ export type Contest_Manager_Bool_Exp = {
 
 /** unique or primary key constraints on table "contest_manager" */
 export enum Contest_Manager_Constraint {
-  /** unique or primary key constraint on columns "user_uuid", "contest_id" */
+  /** unique or primary key constraint on columns "contest_id", "user_uuid" */
   ContestManagerPkey = 'contest_manager_pkey'
 }
 
@@ -550,6 +935,20 @@ export type Contest_Manager_Set_Input = {
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "contest_manager" */
+export type Contest_Manager_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Manager_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Manager_Stream_Cursor_Value_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "contest_manager" */
 export enum Contest_Manager_Update_Column {
   /** column name */
@@ -557,6 +956,13 @@ export enum Contest_Manager_Update_Column {
   /** column name */
   UserUuid = 'user_uuid'
 }
+
+export type Contest_Manager_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Manager_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Manager_Bool_Exp;
+};
 
 /** 比赛用到的地图（文件） */
 export type Contest_Map = {
@@ -625,6 +1031,17 @@ export type Contest_Map_Aggregate = {
   nodes: Array<Contest_Map>;
 };
 
+export type Contest_Map_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Map_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Map_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Map_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Map_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "contest_map" */
 export type Contest_Map_Aggregate_Fields = {
   __typename?: 'contest_map_aggregate_fields';
@@ -662,7 +1079,9 @@ export type Contest_Map_Bool_Exp = {
   contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
   contest_map_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
+  contest_map_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Bool_Exp>;
   contest_rounds?: InputMaybe<Contest_Round_Bool_Exp>;
+  contest_rounds_aggregate?: InputMaybe<Contest_Round_Aggregate_Bool_Exp>;
   filename?: InputMaybe<String_Comparison_Exp>;
   map_id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
@@ -788,6 +1207,23 @@ export type Contest_Map_Set_Input = {
   team_labels?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Streaming cursor of the table "contest_map" */
+export type Contest_Map_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Map_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Map_Stream_Cursor_Value_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  map_id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  team_labels?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** update columns of table "contest_map" */
 export enum Contest_Map_Update_Column {
   /** column name */
@@ -801,6 +1237,13 @@ export enum Contest_Map_Update_Column {
   /** column name */
   TeamLabels = 'team_labels'
 }
+
+export type Contest_Map_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Map_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Map_Bool_Exp;
+};
 
 /** aggregate max on columns */
 export type Contest_Max_Fields = {
@@ -860,6 +1303,17 @@ export type Contest_Notice_Aggregate = {
   __typename?: 'contest_notice_aggregate';
   aggregate?: Maybe<Contest_Notice_Aggregate_Fields>;
   nodes: Array<Contest_Notice>;
+};
+
+export type Contest_Notice_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Notice_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Notice_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Notice_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Notice_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "contest_notice" */
@@ -1032,6 +1486,25 @@ export type Contest_Notice_Set_Input = {
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
+/** Streaming cursor of the table "contest_notice" */
+export type Contest_Notice_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Notice_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Notice_Stream_Cursor_Value_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** update columns of table "contest_notice" */
 export enum Contest_Notice_Update_Column {
   /** column name */
@@ -1049,6 +1522,13 @@ export enum Contest_Notice_Update_Column {
   /** column name */
   UpdatedAt = 'updated_at'
 }
+
+export type Contest_Notice_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Notice_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Notice_Bool_Exp;
+};
 
 /** input type for inserting object relation for remote table "contest" */
 export type Contest_Obj_Rel_Insert_Input = {
@@ -1115,6 +1595,17 @@ export type Contest_Player_Aggregate = {
   nodes: Array<Contest_Player>;
 };
 
+export type Contest_Player_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Player_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Player_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Player_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Player_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "contest_player" */
 export type Contest_Player_Aggregate_Fields = {
   __typename?: 'contest_player_aggregate_fields';
@@ -1158,7 +1649,7 @@ export type Contest_Player_Bool_Exp = {
 
 /** unique or primary key constraints on table "contest_player" */
 export enum Contest_Player_Constraint {
-  /** unique or primary key constraint on columns "team_label", "player_label", "contest_id" */
+  /** unique or primary key constraint on columns "contest_id", "player_label", "team_label" */
   ContestPlayerPkey = 'contest_player_pkey'
 }
 
@@ -1257,6 +1748,22 @@ export type Contest_Player_Set_Input = {
   team_label?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Streaming cursor of the table "contest_player" */
+export type Contest_Player_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Player_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Player_Stream_Cursor_Value_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  player_label?: InputMaybe<Scalars['String']['input']>;
+  roles_available?: InputMaybe<Scalars['String']['input']>;
+  team_label?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** update columns of table "contest_player" */
 export enum Contest_Player_Update_Column {
   /** column name */
@@ -1268,6 +1775,13 @@ export enum Contest_Player_Update_Column {
   /** column name */
   TeamLabel = 'team_label'
 }
+
+export type Contest_Player_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Player_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Player_Bool_Exp;
+};
 
 /** columns and relationships of "contest_room" */
 export type Contest_Room = {
@@ -1316,6 +1830,17 @@ export type Contest_Room_Aggregate = {
   __typename?: 'contest_room_aggregate';
   aggregate?: Maybe<Contest_Room_Aggregate_Fields>;
   nodes: Array<Contest_Room>;
+};
+
+export type Contest_Room_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Room_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Room_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Room_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Room_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "contest_room" */
@@ -1383,6 +1908,7 @@ export type Contest_Room_Bool_Exp = {
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
   contest_map?: InputMaybe<Contest_Map_Bool_Exp>;
   contest_room_teams?: InputMaybe<Contest_Room_Team_Bool_Exp>;
+  contest_room_teams_aggregate?: InputMaybe<Contest_Room_Team_Aggregate_Bool_Exp>;
   contest_round?: InputMaybe<Contest_Round_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   map_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -1569,6 +2095,25 @@ export type Contest_Room_Stddev_Samp_Order_By = {
   port?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "contest_room" */
+export type Contest_Room_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Room_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Room_Stream_Cursor_Value_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  map_id?: InputMaybe<Scalars['uuid']['input']>;
+  port?: InputMaybe<Scalars['Int']['input']>;
+  room_id?: InputMaybe<Scalars['uuid']['input']>;
+  round_id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Contest_Room_Sum_Fields = {
   __typename?: 'contest_room_sum_fields';
@@ -1600,6 +2145,17 @@ export type Contest_Room_Team_Aggregate = {
   __typename?: 'contest_room_team_aggregate';
   aggregate?: Maybe<Contest_Room_Team_Aggregate_Fields>;
   nodes: Array<Contest_Room_Team>;
+};
+
+export type Contest_Room_Team_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Room_Team_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Room_Team_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Room_Team_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Room_Team_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "contest_room_team" */
@@ -1675,7 +2231,7 @@ export type Contest_Room_Team_Bool_Exp = {
 
 /** unique or primary key constraints on table "contest_room_team" */
 export enum Contest_Room_Team_Constraint {
-  /** unique or primary key constraint on columns "room_id", "team_id" */
+  /** unique or primary key constraint on columns "team_id", "room_id" */
   ContestRoomTeamPkey = 'contest_room_team_pkey'
 }
 
@@ -1831,6 +2387,24 @@ export type Contest_Room_Team_Stddev_Samp_Order_By = {
   score?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "contest_room_team" */
+export type Contest_Room_Team_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Room_Team_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Room_Team_Stream_Cursor_Value_Input = {
+  player_codes?: InputMaybe<Scalars['String']['input']>;
+  player_roles?: InputMaybe<Scalars['String']['input']>;
+  room_id?: InputMaybe<Scalars['uuid']['input']>;
+  score?: InputMaybe<Scalars['Int']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_label?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Contest_Room_Team_Sum_Fields = {
   __typename?: 'contest_room_team_sum_fields';
@@ -1857,6 +2431,15 @@ export enum Contest_Room_Team_Update_Column {
   /** column name */
   TeamLabel = 'team_label'
 }
+
+export type Contest_Room_Team_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Contest_Room_Team_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Room_Team_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Room_Team_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Contest_Room_Team_Var_Pop_Fields = {
@@ -1908,6 +2491,15 @@ export enum Contest_Room_Update_Column {
   /** column name */
   Status = 'status'
 }
+
+export type Contest_Room_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Contest_Room_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Room_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Room_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Contest_Room_Var_Pop_Fields = {
@@ -1986,6 +2578,17 @@ export type Contest_Round_Aggregate = {
   nodes: Array<Contest_Round>;
 };
 
+export type Contest_Round_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Round_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Round_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Round_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Round_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "contest_round" */
 export type Contest_Round_Aggregate_Fields = {
   __typename?: 'contest_round_aggregate_fields';
@@ -2024,6 +2627,7 @@ export type Contest_Round_Bool_Exp = {
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
   contest_map?: InputMaybe<Contest_Map_Bool_Exp>;
   contest_round_rooms?: InputMaybe<Contest_Room_Bool_Exp>;
+  contest_round_rooms_aggregate?: InputMaybe<Contest_Room_Aggregate_Bool_Exp>;
   map_id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   round_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -2139,6 +2743,22 @@ export type Contest_Round_Set_Input = {
   round_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "contest_round" */
+export type Contest_Round_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Round_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Round_Stream_Cursor_Value_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  map_id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  round_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "contest_round" */
 export enum Contest_Round_Update_Column {
   /** column name */
@@ -2150,6 +2770,13 @@ export enum Contest_Round_Update_Column {
   /** column name */
   RoundId = 'round_id'
 }
+
+export type Contest_Round_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Round_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Round_Bool_Exp;
+};
 
 /** select columns of table "contest" */
 export enum Contest_Select_Column {
@@ -2232,6 +2859,34 @@ export type Contest_Stddev_Samp_Fields = {
   game_time?: Maybe<Scalars['Float']['output']>;
   max_teammember_limit?: Maybe<Scalars['Float']['output']>;
   server_memory_limit?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "contest" */
+export type Contest_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Stream_Cursor_Value_Input = {
+  arena_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  client_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
+  code_upload_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  game_time?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  max_teammember_limit?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  playback_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  playground_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  server_memory_limit?: InputMaybe<Scalars['numeric']['input']>;
+  start_date?: InputMaybe<Scalars['timestamptz']['input']>;
+  stream_switch?: InputMaybe<Scalars['Boolean']['input']>;
+  team_switch?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate sum on columns */
@@ -2364,6 +3019,17 @@ export type Contest_Team_Aggregate = {
   nodes: Array<Contest_Team>;
 };
 
+export type Contest_Team_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Team_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Team_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Team_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Team_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "contest_team" */
 export type Contest_Team_Aggregate_Fields = {
   __typename?: 'contest_team_aggregate_fields';
@@ -2401,9 +3067,13 @@ export type Contest_Team_Bool_Exp = {
   contest?: InputMaybe<Contest_Bool_Exp>;
   contest_id?: InputMaybe<Uuid_Comparison_Exp>;
   contest_team_codes?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+  contest_team_codes_aggregate?: InputMaybe<Contest_Team_Code_Aggregate_Bool_Exp>;
   contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+  contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Bool_Exp>;
   contest_team_players?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+  contest_team_players_aggregate?: InputMaybe<Contest_Team_Player_Aggregate_Bool_Exp>;
   contest_team_rooms?: InputMaybe<Contest_Room_Team_Bool_Exp>;
+  contest_team_rooms_aggregate?: InputMaybe<Contest_Room_Team_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   invited_code?: InputMaybe<String_Comparison_Exp>;
   team_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -2433,6 +3103,17 @@ export type Contest_Team_Code_Aggregate = {
   __typename?: 'contest_team_code_aggregate';
   aggregate?: Maybe<Contest_Team_Code_Aggregate_Fields>;
   nodes: Array<Contest_Team_Code>;
+};
+
+export type Contest_Team_Code_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Team_Code_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Team_Code_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Team_Code_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "contest_team_code" */
@@ -2602,6 +3283,24 @@ export type Contest_Team_Code_Set_Input = {
   team_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "contest_team_code" */
+export type Contest_Team_Code_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Team_Code_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Team_Code_Stream_Cursor_Value_Input = {
+  code_id?: InputMaybe<Scalars['uuid']['input']>;
+  code_name?: InputMaybe<Scalars['String']['input']>;
+  compile_status?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "contest_team_code" */
 export enum Contest_Team_Code_Update_Column {
   /** column name */
@@ -2617,6 +3316,13 @@ export enum Contest_Team_Code_Update_Column {
   /** column name */
   TeamId = 'team_id'
 }
+
+export type Contest_Team_Code_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Team_Code_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Team_Code_Bool_Exp;
+};
 
 /** unique or primary key constraints on table "contest_team" */
 export enum Contest_Team_Constraint {
@@ -2690,6 +3396,17 @@ export type Contest_Team_Member_Aggregate = {
   nodes: Array<Contest_Team_Member>;
 };
 
+export type Contest_Team_Member_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Team_Member_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Team_Member_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "contest_team_member" */
 export type Contest_Team_Member_Aggregate_Fields = {
   __typename?: 'contest_team_member_aggregate_fields';
@@ -2732,7 +3449,7 @@ export type Contest_Team_Member_Bool_Exp = {
 
 /** unique or primary key constraints on table "contest_team_member" */
 export enum Contest_Team_Member_Constraint {
-  /** unique or primary key constraint on columns "user_uuid", "team_id" */
+  /** unique or primary key constraint on columns "team_id", "user_uuid" */
   ContestTeamMemberPkey = 'contest_team_member_pkey'
 }
 
@@ -2814,6 +3531,20 @@ export type Contest_Team_Member_Set_Input = {
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "contest_team_member" */
+export type Contest_Team_Member_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Team_Member_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Team_Member_Stream_Cursor_Value_Input = {
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "contest_team_member" */
 export enum Contest_Team_Member_Update_Column {
   /** column name */
@@ -2821,6 +3552,13 @@ export enum Contest_Team_Member_Update_Column {
   /** column name */
   UserUuid = 'user_uuid'
 }
+
+export type Contest_Team_Member_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Team_Member_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Team_Member_Bool_Exp;
+};
 
 /** aggregate min on columns */
 export type Contest_Team_Min_Fields = {
@@ -2914,6 +3652,17 @@ export type Contest_Team_Player_Aggregate = {
   __typename?: 'contest_team_player_aggregate';
   aggregate?: Maybe<Contest_Team_Player_Aggregate_Fields>;
   nodes: Array<Contest_Team_Player>;
+};
+
+export type Contest_Team_Player_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Team_Player_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Team_Player_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Team_Player_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "contest_team_player" */
@@ -3060,6 +3809,22 @@ export type Contest_Team_Player_Set_Input = {
   team_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "contest_team_player" */
+export type Contest_Team_Player_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Team_Player_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Team_Player_Stream_Cursor_Value_Input = {
+  code_id?: InputMaybe<Scalars['uuid']['input']>;
+  player?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "contest_team_player" */
 export enum Contest_Team_Player_Update_Column {
   /** column name */
@@ -3071,6 +3836,13 @@ export enum Contest_Team_Player_Update_Column {
   /** column name */
   TeamId = 'team_id'
 }
+
+export type Contest_Team_Player_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Team_Player_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Team_Player_Bool_Exp;
+};
 
 /** select columns of table "contest_team" */
 export enum Contest_Team_Select_Column {
@@ -3107,6 +3879,27 @@ export type Contest_Team_Set_Input = {
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
+/** Streaming cursor of the table "contest_team" */
+export type Contest_Team_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Team_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Team_Stream_Cursor_Value_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  invited_code?: InputMaybe<Scalars['String']['input']>;
+  team_id?: InputMaybe<Scalars['uuid']['input']>;
+  team_intro?: InputMaybe<Scalars['String']['input']>;
+  team_leader_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  team_name?: InputMaybe<Scalars['String']['input']>;
+  team_sf_code?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** update columns of table "contest_team" */
 export enum Contest_Team_Update_Column {
   /** column name */
@@ -3129,6 +3922,13 @@ export enum Contest_Team_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
+export type Contest_Team_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Team_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Team_Bool_Exp;
+};
+
 /** 比赛的时间线，仅作展示用 */
 export type Contest_Time = {
   __typename?: 'contest_time';
@@ -3146,6 +3946,17 @@ export type Contest_Time_Aggregate = {
   __typename?: 'contest_time_aggregate';
   aggregate?: Maybe<Contest_Time_Aggregate_Fields>;
   nodes: Array<Contest_Time>;
+};
+
+export type Contest_Time_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Contest_Time_Aggregate_Bool_Exp_Count>;
+};
+
+export type Contest_Time_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Contest_Time_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Contest_Time_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "contest_time" */
@@ -3192,7 +4003,7 @@ export type Contest_Time_Bool_Exp = {
 
 /** unique or primary key constraints on table "contest_time" */
 export enum Contest_Time_Constraint {
-  /** unique or primary key constraint on columns "event", "contest_id" */
+  /** unique or primary key constraint on columns "contest_id", "event" */
   ContestTimePkey = 'contest_time_pkey'
 }
 
@@ -3299,6 +4110,23 @@ export type Contest_Time_Set_Input = {
   start?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
+/** Streaming cursor of the table "contest_time" */
+export type Contest_Time_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Contest_Time_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Contest_Time_Stream_Cursor_Value_Input = {
+  contest_id?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<Scalars['timestamptz']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** update columns of table "contest_time" */
 export enum Contest_Time_Update_Column {
   /** column name */
@@ -3312,6 +4140,13 @@ export enum Contest_Time_Update_Column {
   /** column name */
   Start = 'start'
 }
+
+export type Contest_Time_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Time_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Time_Bool_Exp;
+};
 
 /** update columns of table "contest" */
 export enum Contest_Update_Column {
@@ -3348,6 +4183,15 @@ export enum Contest_Update_Column {
   /** column name */
   TeamSwitch = 'team_switch'
 }
+
+export type Contest_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Contest_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Contest_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Contest_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Contest_Var_Pop_Fields = {
@@ -3505,8 +4349,11 @@ export type Course_Bool_Exp = {
   _or?: InputMaybe<Array<Course_Bool_Exp>>;
   code?: InputMaybe<String_Comparison_Exp>;
   course_comments?: InputMaybe<Course_Comment_Bool_Exp>;
+  course_comments_aggregate?: InputMaybe<Course_Comment_Aggregate_Bool_Exp>;
   course_infos?: InputMaybe<Course_Info_Bool_Exp>;
+  course_infos_aggregate?: InputMaybe<Course_Info_Aggregate_Bool_Exp>;
   course_ratings?: InputMaybe<Course_Rating_Bool_Exp>;
+  course_ratings_aggregate?: InputMaybe<Course_Rating_Aggregate_Bool_Exp>;
   fullname?: InputMaybe<String_Comparison_Exp>;
   language?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
@@ -3542,6 +4389,33 @@ export type Course_Comment_Aggregate = {
   __typename?: 'course_comment_aggregate';
   aggregate?: Maybe<Course_Comment_Aggregate_Fields>;
   nodes: Array<Course_Comment>;
+};
+
+export type Course_Comment_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Course_Comment_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Course_Comment_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Course_Comment_Aggregate_Bool_Exp_Count>;
+};
+
+export type Course_Comment_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Course_Comment_Select_Column_Course_Comment_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Course_Comment_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Course_Comment_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Course_Comment_Select_Column_Course_Comment_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Course_Comment_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Course_Comment_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Course_Comment_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Course_Comment_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "course_comment" */
@@ -3730,6 +4604,20 @@ export type Course_Comment_Likes_Set_Input = {
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "course_comment_likes" */
+export type Course_Comment_Likes_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Course_Comment_Likes_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Course_Comment_Likes_Stream_Cursor_Value_Input = {
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "course_comment_likes" */
 export enum Course_Comment_Likes_Update_Column {
   /** column name */
@@ -3737,6 +4625,13 @@ export enum Course_Comment_Likes_Update_Column {
   /** column name */
   UserUuid = 'user_uuid'
 }
+
+export type Course_Comment_Likes_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Course_Comment_Likes_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Course_Comment_Likes_Bool_Exp;
+};
 
 /** aggregate max on columns */
 export type Course_Comment_Max_Fields = {
@@ -3848,6 +4743,22 @@ export enum Course_Comment_Select_Column {
   UserUuid = 'user_uuid',
   /** column name */
   Uuid = 'uuid'
+}
+
+/** select "course_comment_aggregate_bool_exp_bool_and_arguments_columns" columns of table "course_comment" */
+export enum Course_Comment_Select_Column_Course_Comment_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Display = 'display'
+}
+
+/** select "course_comment_aggregate_bool_exp_bool_or_arguments_columns" columns of table "course_comment" */
+export enum Course_Comment_Select_Column_Course_Comment_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Display = 'display'
 }
 
 /** input type for updating data in table "course_comment" */
@@ -3979,6 +4890,20 @@ export type Course_Comment_Stars_Set_Input = {
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "course_comment_stars" */
+export type Course_Comment_Stars_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Course_Comment_Stars_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Course_Comment_Stars_Stream_Cursor_Value_Input = {
+  comment_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "course_comment_stars" */
 export enum Course_Comment_Stars_Update_Column {
   /** column name */
@@ -3986,6 +4911,34 @@ export enum Course_Comment_Stars_Update_Column {
   /** column name */
   UserUuid = 'user_uuid'
 }
+
+export type Course_Comment_Stars_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Course_Comment_Stars_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Course_Comment_Stars_Bool_Exp;
+};
+
+/** Streaming cursor of the table "course_comment" */
+export type Course_Comment_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Course_Comment_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Course_Comment_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted?: InputMaybe<Scalars['Boolean']['input']>;
+  display?: InputMaybe<Scalars['Boolean']['input']>;
+  parent_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
 
 /** update columns of table "course_comment" */
 export enum Course_Comment_Update_Column {
@@ -4008,6 +4961,13 @@ export enum Course_Comment_Update_Column {
   /** column name */
   Uuid = 'uuid'
 }
+
+export type Course_Comment_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Course_Comment_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Course_Comment_Bool_Exp;
+};
 
 /** unique or primary key constraints on table "course" */
 export enum Course_Constraint {
@@ -4035,6 +4995,17 @@ export type Course_Info_Aggregate = {
   __typename?: 'course_info_aggregate';
   aggregate?: Maybe<Course_Info_Aggregate_Fields>;
   nodes: Array<Course_Info>;
+};
+
+export type Course_Info_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Course_Info_Aggregate_Bool_Exp_Count>;
+};
+
+export type Course_Info_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Course_Info_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Course_Info_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "course_info" */
@@ -4168,6 +5139,21 @@ export type Course_Info_Set_Input = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Streaming cursor of the table "course_info" */
+export type Course_Info_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Course_Info_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Course_Info_Stream_Cursor_Value_Input = {
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** update columns of table "course_info" */
 export enum Course_Info_Update_Column {
   /** column name */
@@ -4177,6 +5163,13 @@ export enum Course_Info_Update_Column {
   /** column name */
   Value = 'value'
 }
+
+export type Course_Info_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Course_Info_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Course_Info_Bool_Exp;
+};
 
 /** input type for inserting data into table "course" */
 export type Course_Insert_Input = {
@@ -4295,11 +5288,31 @@ export type Course_Manager_Set_Input = {
   user_uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "course_manager" */
+export type Course_Manager_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Course_Manager_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Course_Manager_Stream_Cursor_Value_Input = {
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "course_manager" */
 export enum Course_Manager_Update_Column {
   /** column name */
   UserUuid = 'user_uuid'
 }
+
+export type Course_Manager_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Course_Manager_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Course_Manager_Bool_Exp;
+};
 
 /** aggregate max on columns */
 export type Course_Max_Fields = {
@@ -4405,6 +5418,17 @@ export type Course_Rating_Aggregate = {
   nodes: Array<Course_Rating>;
 };
 
+export type Course_Rating_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Course_Rating_Aggregate_Bool_Exp_Count>;
+};
+
+export type Course_Rating_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Course_Rating_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Course_Rating_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "course_rating" */
 export type Course_Rating_Aggregate_Fields = {
   __typename?: 'course_rating_aggregate_fields';
@@ -4504,7 +5528,7 @@ export type Course_Rating_Bool_Exp = {
 
 /** unique or primary key constraints on table "course_rating" */
 export enum Course_Rating_Constraint {
-  /** unique or primary key constraint on columns "user_uuid", "course_id" */
+  /** unique or primary key constraint on columns "course_id", "user_uuid" */
   CourseRatingPkey = 'course_rating_pkey'
 }
 
@@ -4809,6 +5833,34 @@ export type Course_Rating_Stddev_Samp_Order_By = {
   dim6?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "course_rating" */
+export type Course_Rating_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Course_Rating_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Course_Rating_Stream_Cursor_Value_Input = {
+  course_id?: InputMaybe<Scalars['uuid']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 任务量 */
+  dim1?: InputMaybe<Scalars['Int']['input']>;
+  /** 内容难度 */
+  dim2?: InputMaybe<Scalars['Int']['input']>;
+  /** 上课质量 */
+  dim3?: InputMaybe<Scalars['Int']['input']>;
+  /** 收获感 */
+  dim4?: InputMaybe<Scalars['Int']['input']>;
+  /** 给分好坏 */
+  dim5?: InputMaybe<Scalars['Int']['input']>;
+  /** 考试作业讲课相关度 */
+  dim6?: InputMaybe<Scalars['Int']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Course_Rating_Sum_Fields = {
   __typename?: 'course_rating_sum_fields';
@@ -4865,6 +5917,15 @@ export enum Course_Rating_Update_Column {
   /** column name */
   UserUuid = 'user_uuid'
 }
+
+export type Course_Rating_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Course_Rating_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Course_Rating_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Course_Rating_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Course_Rating_Var_Pop_Fields = {
@@ -5018,6 +6079,27 @@ export type Course_Stddev_Samp_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "course" */
+export type Course_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Course_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Course_Stream_Cursor_Value_Input = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  professor?: InputMaybe<Scalars['String']['input']>;
+  semester?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Course_Sum_Fields = {
   __typename?: 'course_sum_fields';
@@ -5046,6 +6128,15 @@ export enum Course_Update_Column {
   Year = 'year'
 }
 
+export type Course_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Course_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Course_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Course_Bool_Exp;
+};
+
 /** aggregate var_pop on columns */
 export type Course_Var_Pop_Fields = {
   __typename?: 'course_var_pop_fields';
@@ -5063,6 +6154,14 @@ export type Course_Variance_Fields = {
   __typename?: 'course_variance_fields';
   year?: Maybe<Scalars['Float']['output']>;
 };
+
+/** ordering argument of a cursor */
+export enum Cursor_Ordering {
+  /** ascending ordering of the cursor */
+  Asc = 'ASC',
+  /** descending ordering of the cursor */
+  Desc = 'DESC'
+}
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
 export type Date_Comparison_Exp = {
@@ -5173,11 +6272,31 @@ export type Department_Set_Input = {
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Streaming cursor of the table "department" */
+export type Department_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Department_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Department_Stream_Cursor_Value_Input = {
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** update columns of table "department" */
 export enum Department_Update_Column {
   /** column name */
   Name = 'name'
 }
+
+export type Department_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Department_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Department_Bool_Exp;
+};
 
 /** columns and relationships of "freshman" */
 export type Freshman = {
@@ -5351,6 +6470,24 @@ export type Freshman_Stddev_Samp_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "freshman" */
+export type Freshman_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Freshman_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Freshman_Stream_Cursor_Value_Input = {
+  /** 是否是积极分子 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
+  realname?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Freshman_Sum_Fields = {
   __typename?: 'freshman_sum_fields';
@@ -5370,6 +6507,15 @@ export enum Freshman_Update_Column {
   /** column name */
   Year = 'year'
 }
+
+export type Freshman_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Freshman_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Freshman_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Freshman_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Freshman_Var_Pop_Fields = {
@@ -5599,6 +6745,27 @@ export type Honor_Application_Stddev_Samp_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "honor_application" */
+export type Honor_Application_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Honor_Application_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Honor_Application_Stream_Cursor_Value_Input = {
+  attachment_url?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  honor?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Honor_Application_Sum_Fields = {
   __typename?: 'honor_application_sum_fields';
@@ -5626,6 +6793,15 @@ export enum Honor_Application_Update_Column {
   /** column name */
   Year = 'year'
 }
+
+export type Honor_Application_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Honor_Application_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Honor_Application_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Honor_Application_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Honor_Application_Var_Pop_Fields = {
@@ -5816,6 +6992,23 @@ export type Honor_Time_Stddev_Samp_Fields = {
   activateIn?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "honor_time" */
+export type Honor_Time_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Honor_Time_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Honor_Time_Stream_Cursor_Value_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+  end_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_B?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Honor_Time_Sum_Fields = {
   __typename?: 'honor_time_sum_fields';
@@ -5835,6 +7028,15 @@ export enum Honor_Time_Update_Column {
   /** column name */
   StartB = 'start_B'
 }
+
+export type Honor_Time_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Honor_Time_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Honor_Time_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Honor_Time_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Honor_Time_Var_Pop_Fields = {
@@ -5950,11 +7152,31 @@ export type Honor_Type_Set_Input = {
   type_name?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Streaming cursor of the table "honor_type" */
+export type Honor_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Honor_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Honor_Type_Stream_Cursor_Value_Input = {
+  type_name?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** update columns of table "honor_type" */
 export enum Honor_Type_Update_Column {
   /** column name */
   TypeName = 'type_name'
 }
+
+export type Honor_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Honor_Type_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Honor_Type_Bool_Exp;
+};
 
 /** columns and relationships of "info_notice" */
 export type Info_Notice = {
@@ -6106,6 +7328,25 @@ export type Info_Notice_Set_Input = {
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
+/** Streaming cursor of the table "info_notice" */
+export type Info_Notice_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Info_Notice_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Info_Notice_Stream_Cursor_Value_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  files?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  notice_type?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** update columns of table "info_notice" */
 export enum Info_Notice_Update_Column {
   /** column name */
@@ -6124,6 +7365,13 @@ export enum Info_Notice_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
+export type Info_Notice_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Info_Notice_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Info_Notice_Bool_Exp;
+};
+
 /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
 export type Json_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['json']['input']>;
@@ -6135,6 +7383,152 @@ export type Json_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['json']['input']>;
   _neq?: InputMaybe<Scalars['json']['input']>;
   _nin?: InputMaybe<Array<Scalars['json']['input']>>;
+};
+
+/** columns and relationships of "llm_list" */
+export type Llm_List = {
+  __typename?: 'llm_list';
+  deepthinkingmodel?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
+/** aggregated selection of "llm_list" */
+export type Llm_List_Aggregate = {
+  __typename?: 'llm_list_aggregate';
+  aggregate?: Maybe<Llm_List_Aggregate_Fields>;
+  nodes: Array<Llm_List>;
+};
+
+/** aggregate fields of "llm_list" */
+export type Llm_List_Aggregate_Fields = {
+  __typename?: 'llm_list_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Llm_List_Max_Fields>;
+  min?: Maybe<Llm_List_Min_Fields>;
+};
+
+
+/** aggregate fields of "llm_list" */
+export type Llm_List_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Llm_List_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "llm_list". All fields are combined with a logical 'AND'. */
+export type Llm_List_Bool_Exp = {
+  _and?: InputMaybe<Array<Llm_List_Bool_Exp>>;
+  _not?: InputMaybe<Llm_List_Bool_Exp>;
+  _or?: InputMaybe<Array<Llm_List_Bool_Exp>>;
+  deepthinkingmodel?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "llm_list" */
+export enum Llm_List_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  LlmListPkey = 'llm_list_pkey'
+}
+
+/** input type for inserting data into table "llm_list" */
+export type Llm_List_Insert_Input = {
+  deepthinkingmodel?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Llm_List_Max_Fields = {
+  __typename?: 'llm_list_max_fields';
+  deepthinkingmodel?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Llm_List_Min_Fields = {
+  __typename?: 'llm_list_min_fields';
+  deepthinkingmodel?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "llm_list" */
+export type Llm_List_Mutation_Response = {
+  __typename?: 'llm_list_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Llm_List>;
+};
+
+/** on_conflict condition type for table "llm_list" */
+export type Llm_List_On_Conflict = {
+  constraint: Llm_List_Constraint;
+  update_columns?: Array<Llm_List_Update_Column>;
+  where?: InputMaybe<Llm_List_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "llm_list". */
+export type Llm_List_Order_By = {
+  deepthinkingmodel?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: llm_list */
+export type Llm_List_Pk_Columns_Input = {
+  name: Scalars['String']['input'];
+};
+
+/** select columns of table "llm_list" */
+export enum Llm_List_Select_Column {
+  /** column name */
+  Deepthinkingmodel = 'deepthinkingmodel',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "llm_list" */
+export type Llm_List_Set_Input = {
+  deepthinkingmodel?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "llm_list" */
+export type Llm_List_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Llm_List_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Llm_List_Stream_Cursor_Value_Input = {
+  deepthinkingmodel?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "llm_list" */
+export enum Llm_List_Update_Column {
+  /** column name */
+  Deepthinkingmodel = 'deepthinkingmodel',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Value = 'value'
+}
+
+export type Llm_List_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Llm_List_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Llm_List_Bool_Exp;
 };
 
 /** 管理员权限列表 */
@@ -6271,6 +7665,22 @@ export type Manager_Permissions_Set_Input = {
   permission_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "manager_permissions" */
+export type Manager_Permissions_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Manager_Permissions_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Manager_Permissions_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  permission_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "manager_permissions" */
 export enum Manager_Permissions_Update_Column {
   /** column name */
@@ -6282,6 +7692,13 @@ export enum Manager_Permissions_Update_Column {
   /** column name */
   PermissionId = 'permission_id'
 }
+
+export type Manager_Permissions_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Manager_Permissions_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Manager_Permissions_Bool_Exp;
+};
 
 /** 每个管理员账户的权限 */
 export type Manager_User_Permissions = {
@@ -6408,6 +7825,21 @@ export type Manager_User_Permissions_Set_Input = {
   uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "manager_user_permissions" */
+export type Manager_User_Permissions_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Manager_User_Permissions_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Manager_User_Permissions_Stream_Cursor_Value_Input = {
+  granted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  permission_id?: InputMaybe<Scalars['uuid']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "manager_user_permissions" */
 export enum Manager_User_Permissions_Update_Column {
   /** column name */
@@ -6417,6 +7849,13 @@ export enum Manager_User_Permissions_Update_Column {
   /** column name */
   Uuid = 'uuid'
 }
+
+export type Manager_User_Permissions_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Manager_User_Permissions_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Manager_User_Permissions_Bool_Exp;
+};
 
 /** columns and relationships of "mentor_application" */
 export type Mentor_Application = {
@@ -6429,6 +7868,9 @@ export type Mentor_Application = {
   id: Scalars['uuid']['output'];
   /** 是否参与积极分子发展谈话 */
   is_member: Scalars['Boolean']['output'];
+  member_chat_confirm: Scalars['Boolean']['output'];
+  member_chat_status: Scalars['Boolean']['output'];
+  member_chat_time?: Maybe<Scalars['timestamptz']['output']>;
   /** An object relationship */
   mentor: Users;
   mentor_uuid: Scalars['uuid']['output'];
@@ -6489,6 +7931,9 @@ export type Mentor_Application_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   is_member?: InputMaybe<Boolean_Comparison_Exp>;
+  member_chat_confirm?: InputMaybe<Boolean_Comparison_Exp>;
+  member_chat_status?: InputMaybe<Boolean_Comparison_Exp>;
+  member_chat_time?: InputMaybe<Timestamptz_Comparison_Exp>;
   mentor?: InputMaybe<Users_Bool_Exp>;
   mentor_uuid?: InputMaybe<Uuid_Comparison_Exp>;
   statement?: InputMaybe<String_Comparison_Exp>;
@@ -6520,6 +7965,9 @@ export type Mentor_Application_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   /** 是否参与积极分子发展谈话 */
   is_member?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_confirm?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_time?: InputMaybe<Scalars['timestamptz']['input']>;
   mentor?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   statement?: InputMaybe<Scalars['String']['input']>;
@@ -6537,6 +7985,7 @@ export type Mentor_Application_Max_Fields = {
   chat_time?: Maybe<Scalars['timestamptz']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  member_chat_time?: Maybe<Scalars['timestamptz']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   statement?: Maybe<Scalars['String']['output']>;
   /** approved | submitted */
@@ -6552,6 +8001,7 @@ export type Mentor_Application_Min_Fields = {
   chat_time?: Maybe<Scalars['timestamptz']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  member_chat_time?: Maybe<Scalars['timestamptz']['output']>;
   mentor_uuid?: Maybe<Scalars['uuid']['output']>;
   statement?: Maybe<Scalars['String']['output']>;
   /** approved | submitted */
@@ -6585,6 +8035,9 @@ export type Mentor_Application_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   is_member?: InputMaybe<Order_By>;
+  member_chat_confirm?: InputMaybe<Order_By>;
+  member_chat_status?: InputMaybe<Order_By>;
+  member_chat_time?: InputMaybe<Order_By>;
   mentor?: InputMaybe<Users_Order_By>;
   mentor_uuid?: InputMaybe<Order_By>;
   statement?: InputMaybe<Order_By>;
@@ -6615,6 +8068,12 @@ export enum Mentor_Application_Select_Column {
   /** column name */
   IsMember = 'is_member',
   /** column name */
+  MemberChatConfirm = 'member_chat_confirm',
+  /** column name */
+  MemberChatStatus = 'member_chat_status',
+  /** column name */
+  MemberChatTime = 'member_chat_time',
+  /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
   Statement = 'statement',
@@ -6638,6 +8097,9 @@ export type Mentor_Application_Set_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   /** 是否参与积极分子发展谈话 */
   is_member?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_confirm?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_time?: InputMaybe<Scalars['timestamptz']['input']>;
   mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
   statement?: InputMaybe<Scalars['String']['input']>;
   /** approved | submitted */
@@ -6665,6 +8127,36 @@ export type Mentor_Application_Stddev_Samp_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "mentor_application" */
+export type Mentor_Application_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Mentor_Application_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Mentor_Application_Stream_Cursor_Value_Input = {
+  /** 导师确认谈话 */
+  chat_confirm?: InputMaybe<Scalars['Boolean']['input']>;
+  chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  chat_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  /** 是否参与积极分子发展谈话 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_confirm?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_status?: InputMaybe<Scalars['Boolean']['input']>;
+  member_chat_time?: InputMaybe<Scalars['timestamptz']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  statement?: InputMaybe<Scalars['String']['input']>;
+  /** approved | submitted */
+  status?: InputMaybe<Scalars['String']['input']>;
+  student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Mentor_Application_Sum_Fields = {
   __typename?: 'mentor_application_sum_fields';
@@ -6686,6 +8178,12 @@ export enum Mentor_Application_Update_Column {
   /** column name */
   IsMember = 'is_member',
   /** column name */
+  MemberChatConfirm = 'member_chat_confirm',
+  /** column name */
+  MemberChatStatus = 'member_chat_status',
+  /** column name */
+  MemberChatTime = 'member_chat_time',
+  /** column name */
   MentorUuid = 'mentor_uuid',
   /** column name */
   Statement = 'statement',
@@ -6698,6 +8196,15 @@ export enum Mentor_Application_Update_Column {
   /** column name */
   Year = 'year'
 }
+
+export type Mentor_Application_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Mentor_Application_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Mentor_Application_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Mentor_Application_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Mentor_Application_Var_Pop_Fields = {
@@ -6964,6 +8471,34 @@ export type Mentor_Info_Stddev_Samp_Fields = {
   max_applicants?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "mentor_info" */
+export type Mentor_Info_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Mentor_Info_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Mentor_Info_Stream_Cursor_Value_Input = {
+  /** 学术成果 */
+  achievement?: InputMaybe<Scalars['String']['input']>;
+  available?: InputMaybe<Scalars['Boolean']['input']>;
+  /** 教育背景 */
+  background?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  dialogue_type?: InputMaybe<Scalars['String']['input']>;
+  /** 研究领域 */
+  field?: InputMaybe<Scalars['String']['input']>;
+  /** 简要信息：联系方式、职位等 */
+  intro?: InputMaybe<Scalars['String']['input']>;
+  /** 是否是需要参与积极分子谈话的党员 */
+  is_member?: InputMaybe<Scalars['Boolean']['input']>;
+  max_applicants?: InputMaybe<Scalars['Int']['input']>;
+  mentor_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Mentor_Info_Sum_Fields = {
   __typename?: 'mentor_info_sum_fields';
@@ -6995,6 +8530,15 @@ export enum Mentor_Info_Update_Column {
   /** column name */
   UpdatedAt = 'updated_at'
 }
+
+export type Mentor_Info_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Mentor_Info_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Mentor_Info_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Mentor_Info_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Mentor_Info_Var_Pop_Fields = {
@@ -7155,6 +8699,24 @@ export type Mentor_Message_Set_Input = {
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
+/** Streaming cursor of the table "mentor_message" */
+export type Mentor_Message_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Mentor_Message_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Mentor_Message_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  from_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  payload?: InputMaybe<Scalars['String']['input']>;
+  to_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** update columns of table "mentor_message" */
 export enum Mentor_Message_Update_Column {
   /** column name */
@@ -7170,6 +8732,13 @@ export enum Mentor_Message_Update_Column {
   /** column name */
   UpdatedAt = 'updated_at'
 }
+
+export type Mentor_Message_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Mentor_Message_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Mentor_Message_Bool_Exp;
+};
 
 /** 导师申请时间表 */
 export type Mentor_Time = {
@@ -7394,6 +8963,29 @@ export type Mentor_Time_Stddev_Samp_Fields = {
   activateIn?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "mentor_time" */
+export type Mentor_Time_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Mentor_Time_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Mentor_Time_Stream_Cursor_Value_Input = {
+  activateIn?: InputMaybe<Scalars['Int']['input']>;
+  end_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_C?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_D?: InputMaybe<Scalars['timestamptz']['input']>;
+  end_E?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_A?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_B?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_C?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_D?: InputMaybe<Scalars['timestamptz']['input']>;
+  start_E?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Mentor_Time_Sum_Fields = {
   __typename?: 'mentor_time_sum_fields';
@@ -7426,6 +9018,15 @@ export enum Mentor_Time_Update_Column {
   StartE = 'start_E'
 }
 
+export type Mentor_Time_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Mentor_Time_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Mentor_Time_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Mentor_Time_Bool_Exp;
+};
+
 /** aggregate var_pop on columns */
 export type Mentor_Time_Var_Pop_Fields = {
   __typename?: 'mentor_time_var_pop_fields';
@@ -7447,6 +9048,14 @@ export type Mentor_Time_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete data from the table: "access_key_log" */
+  delete_access_key_log?: Maybe<Access_Key_Log_Mutation_Response>;
+  /** delete single row from the table: "access_key_log" */
+  delete_access_key_log_by_pk?: Maybe<Access_Key_Log>;
+  /** delete data from the table: "classes" */
+  delete_classes?: Maybe<Classes_Mutation_Response>;
+  /** delete single row from the table: "classes" */
+  delete_classes_by_pk?: Maybe<Classes>;
   /** delete data from the table: "contest" */
   delete_contest?: Maybe<Contest_Mutation_Response>;
   /** delete single row from the table: "contest" */
@@ -7551,6 +9160,10 @@ export type Mutation_Root = {
   delete_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** delete single row from the table: "info_notice" */
   delete_info_notice_by_pk?: Maybe<Info_Notice>;
+  /** delete data from the table: "llm_list" */
+  delete_llm_list?: Maybe<Llm_List_Mutation_Response>;
+  /** delete single row from the table: "llm_list" */
+  delete_llm_list_by_pk?: Maybe<Llm_List>;
   /** delete data from the table: "manager_permissions" */
   delete_manager_permissions?: Maybe<Manager_Permissions_Mutation_Response>;
   /** delete single row from the table: "manager_permissions" */
@@ -7595,6 +9208,10 @@ export type Mutation_Root = {
   delete_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** delete single row from the table: "scholarships_aids" */
   delete_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** delete data from the table: "user_llm_usage" */
+  delete_user_llm_usage?: Maybe<User_Llm_Usage_Mutation_Response>;
+  /** delete single row from the table: "user_llm_usage" */
+  delete_user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -7603,6 +9220,14 @@ export type Mutation_Root = {
   delete_weekly?: Maybe<Weekly_Mutation_Response>;
   /** delete single row from the table: "weekly" */
   delete_weekly_by_pk?: Maybe<Weekly>;
+  /** insert data into the table: "access_key_log" */
+  insert_access_key_log?: Maybe<Access_Key_Log_Mutation_Response>;
+  /** insert a single row into the table: "access_key_log" */
+  insert_access_key_log_one?: Maybe<Access_Key_Log>;
+  /** insert data into the table: "classes" */
+  insert_classes?: Maybe<Classes_Mutation_Response>;
+  /** insert a single row into the table: "classes" */
+  insert_classes_one?: Maybe<Classes>;
   /** insert data into the table: "contest" */
   insert_contest?: Maybe<Contest_Mutation_Response>;
   /** insert data into the table: "contest_manager" */
@@ -7707,6 +9332,10 @@ export type Mutation_Root = {
   insert_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** insert a single row into the table: "info_notice" */
   insert_info_notice_one?: Maybe<Info_Notice>;
+  /** insert data into the table: "llm_list" */
+  insert_llm_list?: Maybe<Llm_List_Mutation_Response>;
+  /** insert a single row into the table: "llm_list" */
+  insert_llm_list_one?: Maybe<Llm_List>;
   /** insert data into the table: "manager_permissions" */
   insert_manager_permissions?: Maybe<Manager_Permissions_Mutation_Response>;
   /** insert a single row into the table: "manager_permissions" */
@@ -7751,6 +9380,10 @@ export type Mutation_Root = {
   insert_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** insert a single row into the table: "scholarships_aids" */
   insert_scholarships_aids_one?: Maybe<Scholarships_Aids>;
+  /** insert data into the table: "user_llm_usage" */
+  insert_user_llm_usage?: Maybe<User_Llm_Usage_Mutation_Response>;
+  /** insert a single row into the table: "user_llm_usage" */
+  insert_user_llm_usage_one?: Maybe<User_Llm_Usage>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -7759,6 +9392,18 @@ export type Mutation_Root = {
   insert_weekly?: Maybe<Weekly_Mutation_Response>;
   /** insert a single row into the table: "weekly" */
   insert_weekly_one?: Maybe<Weekly>;
+  /** update data of the table: "access_key_log" */
+  update_access_key_log?: Maybe<Access_Key_Log_Mutation_Response>;
+  /** update single row of the table: "access_key_log" */
+  update_access_key_log_by_pk?: Maybe<Access_Key_Log>;
+  /** update multiples rows of table: "access_key_log" */
+  update_access_key_log_many?: Maybe<Array<Maybe<Access_Key_Log_Mutation_Response>>>;
+  /** update data of the table: "classes" */
+  update_classes?: Maybe<Classes_Mutation_Response>;
+  /** update single row of the table: "classes" */
+  update_classes_by_pk?: Maybe<Classes>;
+  /** update multiples rows of table: "classes" */
+  update_classes_many?: Maybe<Array<Maybe<Classes_Mutation_Response>>>;
   /** update data of the table: "contest" */
   update_contest?: Maybe<Contest_Mutation_Response>;
   /** update single row of the table: "contest" */
@@ -7767,30 +9412,46 @@ export type Mutation_Root = {
   update_contest_manager?: Maybe<Contest_Manager_Mutation_Response>;
   /** update single row of the table: "contest_manager" */
   update_contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** update multiples rows of table: "contest_manager" */
+  update_contest_manager_many?: Maybe<Array<Maybe<Contest_Manager_Mutation_Response>>>;
+  /** update multiples rows of table: "contest" */
+  update_contest_many?: Maybe<Array<Maybe<Contest_Mutation_Response>>>;
   /** update data of the table: "contest_map" */
   update_contest_map?: Maybe<Contest_Map_Mutation_Response>;
   /** update single row of the table: "contest_map" */
   update_contest_map_by_pk?: Maybe<Contest_Map>;
+  /** update multiples rows of table: "contest_map" */
+  update_contest_map_many?: Maybe<Array<Maybe<Contest_Map_Mutation_Response>>>;
   /** update data of the table: "contest_notice" */
   update_contest_notice?: Maybe<Contest_Notice_Mutation_Response>;
   /** update single row of the table: "contest_notice" */
   update_contest_notice_by_pk?: Maybe<Contest_Notice>;
+  /** update multiples rows of table: "contest_notice" */
+  update_contest_notice_many?: Maybe<Array<Maybe<Contest_Notice_Mutation_Response>>>;
   /** update data of the table: "contest_player" */
   update_contest_player?: Maybe<Contest_Player_Mutation_Response>;
   /** update single row of the table: "contest_player" */
   update_contest_player_by_pk?: Maybe<Contest_Player>;
+  /** update multiples rows of table: "contest_player" */
+  update_contest_player_many?: Maybe<Array<Maybe<Contest_Player_Mutation_Response>>>;
   /** update data of the table: "contest_room" */
   update_contest_room?: Maybe<Contest_Room_Mutation_Response>;
   /** update single row of the table: "contest_room" */
   update_contest_room_by_pk?: Maybe<Contest_Room>;
+  /** update multiples rows of table: "contest_room" */
+  update_contest_room_many?: Maybe<Array<Maybe<Contest_Room_Mutation_Response>>>;
   /** update data of the table: "contest_room_team" */
   update_contest_room_team?: Maybe<Contest_Room_Team_Mutation_Response>;
   /** update single row of the table: "contest_room_team" */
   update_contest_room_team_by_pk?: Maybe<Contest_Room_Team>;
+  /** update multiples rows of table: "contest_room_team" */
+  update_contest_room_team_many?: Maybe<Array<Maybe<Contest_Room_Team_Mutation_Response>>>;
   /** update data of the table: "contest_round" */
   update_contest_round?: Maybe<Contest_Round_Mutation_Response>;
   /** update single row of the table: "contest_round" */
   update_contest_round_by_pk?: Maybe<Contest_Round>;
+  /** update multiples rows of table: "contest_round" */
+  update_contest_round_many?: Maybe<Array<Maybe<Contest_Round_Mutation_Response>>>;
   /** update data of the table: "contest_team" */
   update_contest_team?: Maybe<Contest_Team_Mutation_Response>;
   /** update single row of the table: "contest_team" */
@@ -7799,18 +9460,28 @@ export type Mutation_Root = {
   update_contest_team_code?: Maybe<Contest_Team_Code_Mutation_Response>;
   /** update single row of the table: "contest_team_code" */
   update_contest_team_code_by_pk?: Maybe<Contest_Team_Code>;
+  /** update multiples rows of table: "contest_team_code" */
+  update_contest_team_code_many?: Maybe<Array<Maybe<Contest_Team_Code_Mutation_Response>>>;
+  /** update multiples rows of table: "contest_team" */
+  update_contest_team_many?: Maybe<Array<Maybe<Contest_Team_Mutation_Response>>>;
   /** update data of the table: "contest_team_member" */
   update_contest_team_member?: Maybe<Contest_Team_Member_Mutation_Response>;
   /** update single row of the table: "contest_team_member" */
   update_contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
+  /** update multiples rows of table: "contest_team_member" */
+  update_contest_team_member_many?: Maybe<Array<Maybe<Contest_Team_Member_Mutation_Response>>>;
   /** update data of the table: "contest_team_player" */
   update_contest_team_player?: Maybe<Contest_Team_Player_Mutation_Response>;
   /** update single row of the table: "contest_team_player" */
   update_contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** update multiples rows of table: "contest_team_player" */
+  update_contest_team_player_many?: Maybe<Array<Maybe<Contest_Team_Player_Mutation_Response>>>;
   /** update data of the table: "contest_time" */
   update_contest_time?: Maybe<Contest_Time_Mutation_Response>;
   /** update single row of the table: "contest_time" */
   update_contest_time_by_pk?: Maybe<Contest_Time>;
+  /** update multiples rows of table: "contest_time" */
+  update_contest_time_many?: Maybe<Array<Maybe<Contest_Time_Mutation_Response>>>;
   /** update data of the table: "course" */
   update_course?: Maybe<Course_Mutation_Response>;
   /** update single row of the table: "course" */
@@ -7823,70 +9494,114 @@ export type Mutation_Root = {
   update_course_comment_likes?: Maybe<Course_Comment_Likes_Mutation_Response>;
   /** update single row of the table: "course_comment_likes" */
   update_course_comment_likes_by_pk?: Maybe<Course_Comment_Likes>;
+  /** update multiples rows of table: "course_comment_likes" */
+  update_course_comment_likes_many?: Maybe<Array<Maybe<Course_Comment_Likes_Mutation_Response>>>;
+  /** update multiples rows of table: "course_comment" */
+  update_course_comment_many?: Maybe<Array<Maybe<Course_Comment_Mutation_Response>>>;
   /** update data of the table: "course_comment_stars" */
   update_course_comment_stars?: Maybe<Course_Comment_Stars_Mutation_Response>;
   /** update single row of the table: "course_comment_stars" */
   update_course_comment_stars_by_pk?: Maybe<Course_Comment_Stars>;
+  /** update multiples rows of table: "course_comment_stars" */
+  update_course_comment_stars_many?: Maybe<Array<Maybe<Course_Comment_Stars_Mutation_Response>>>;
   /** update data of the table: "course_info" */
   update_course_info?: Maybe<Course_Info_Mutation_Response>;
   /** update single row of the table: "course_info" */
   update_course_info_by_pk?: Maybe<Course_Info>;
+  /** update multiples rows of table: "course_info" */
+  update_course_info_many?: Maybe<Array<Maybe<Course_Info_Mutation_Response>>>;
   /** update data of the table: "course_manager" */
   update_course_manager?: Maybe<Course_Manager_Mutation_Response>;
   /** update single row of the table: "course_manager" */
   update_course_manager_by_pk?: Maybe<Course_Manager>;
+  /** update multiples rows of table: "course_manager" */
+  update_course_manager_many?: Maybe<Array<Maybe<Course_Manager_Mutation_Response>>>;
+  /** update multiples rows of table: "course" */
+  update_course_many?: Maybe<Array<Maybe<Course_Mutation_Response>>>;
   /** update data of the table: "course_rating" */
   update_course_rating?: Maybe<Course_Rating_Mutation_Response>;
   /** update single row of the table: "course_rating" */
   update_course_rating_by_pk?: Maybe<Course_Rating>;
+  /** update multiples rows of table: "course_rating" */
+  update_course_rating_many?: Maybe<Array<Maybe<Course_Rating_Mutation_Response>>>;
   /** update data of the table: "department" */
   update_department?: Maybe<Department_Mutation_Response>;
   /** update single row of the table: "department" */
   update_department_by_pk?: Maybe<Department>;
+  /** update multiples rows of table: "department" */
+  update_department_many?: Maybe<Array<Maybe<Department_Mutation_Response>>>;
   /** update data of the table: "freshman" */
   update_freshman?: Maybe<Freshman_Mutation_Response>;
   /** update single row of the table: "freshman" */
   update_freshman_by_pk?: Maybe<Freshman>;
+  /** update multiples rows of table: "freshman" */
+  update_freshman_many?: Maybe<Array<Maybe<Freshman_Mutation_Response>>>;
   /** update data of the table: "honor_application" */
   update_honor_application?: Maybe<Honor_Application_Mutation_Response>;
   /** update single row of the table: "honor_application" */
   update_honor_application_by_pk?: Maybe<Honor_Application>;
+  /** update multiples rows of table: "honor_application" */
+  update_honor_application_many?: Maybe<Array<Maybe<Honor_Application_Mutation_Response>>>;
   /** update data of the table: "honor_time" */
   update_honor_time?: Maybe<Honor_Time_Mutation_Response>;
   /** update single row of the table: "honor_time" */
   update_honor_time_by_pk?: Maybe<Honor_Time>;
+  /** update multiples rows of table: "honor_time" */
+  update_honor_time_many?: Maybe<Array<Maybe<Honor_Time_Mutation_Response>>>;
   /** update data of the table: "honor_type" */
   update_honor_type?: Maybe<Honor_Type_Mutation_Response>;
   /** update single row of the table: "honor_type" */
   update_honor_type_by_pk?: Maybe<Honor_Type>;
+  /** update multiples rows of table: "honor_type" */
+  update_honor_type_many?: Maybe<Array<Maybe<Honor_Type_Mutation_Response>>>;
   /** update data of the table: "info_notice" */
   update_info_notice?: Maybe<Info_Notice_Mutation_Response>;
   /** update single row of the table: "info_notice" */
   update_info_notice_by_pk?: Maybe<Info_Notice>;
+  /** update multiples rows of table: "info_notice" */
+  update_info_notice_many?: Maybe<Array<Maybe<Info_Notice_Mutation_Response>>>;
+  /** update data of the table: "llm_list" */
+  update_llm_list?: Maybe<Llm_List_Mutation_Response>;
+  /** update single row of the table: "llm_list" */
+  update_llm_list_by_pk?: Maybe<Llm_List>;
+  /** update multiples rows of table: "llm_list" */
+  update_llm_list_many?: Maybe<Array<Maybe<Llm_List_Mutation_Response>>>;
   /** update data of the table: "manager_permissions" */
   update_manager_permissions?: Maybe<Manager_Permissions_Mutation_Response>;
   /** update single row of the table: "manager_permissions" */
   update_manager_permissions_by_pk?: Maybe<Manager_Permissions>;
+  /** update multiples rows of table: "manager_permissions" */
+  update_manager_permissions_many?: Maybe<Array<Maybe<Manager_Permissions_Mutation_Response>>>;
   /** update data of the table: "manager_user_permissions" */
   update_manager_user_permissions?: Maybe<Manager_User_Permissions_Mutation_Response>;
   /** update single row of the table: "manager_user_permissions" */
   update_manager_user_permissions_by_pk?: Maybe<Manager_User_Permissions>;
+  /** update multiples rows of table: "manager_user_permissions" */
+  update_manager_user_permissions_many?: Maybe<Array<Maybe<Manager_User_Permissions_Mutation_Response>>>;
   /** update data of the table: "mentor_application" */
   update_mentor_application?: Maybe<Mentor_Application_Mutation_Response>;
   /** update single row of the table: "mentor_application" */
   update_mentor_application_by_pk?: Maybe<Mentor_Application>;
+  /** update multiples rows of table: "mentor_application" */
+  update_mentor_application_many?: Maybe<Array<Maybe<Mentor_Application_Mutation_Response>>>;
   /** update data of the table: "mentor_info" */
   update_mentor_info?: Maybe<Mentor_Info_Mutation_Response>;
   /** update single row of the table: "mentor_info" */
   update_mentor_info_by_pk?: Maybe<Mentor_Info>;
+  /** update multiples rows of table: "mentor_info" */
+  update_mentor_info_many?: Maybe<Array<Maybe<Mentor_Info_Mutation_Response>>>;
   /** update data of the table: "mentor_message" */
   update_mentor_message?: Maybe<Mentor_Message_Mutation_Response>;
   /** update single row of the table: "mentor_message" */
   update_mentor_message_by_pk?: Maybe<Mentor_Message>;
+  /** update multiples rows of table: "mentor_message" */
+  update_mentor_message_many?: Maybe<Array<Maybe<Mentor_Message_Mutation_Response>>>;
   /** update data of the table: "mentor_time" */
   update_mentor_time?: Maybe<Mentor_Time_Mutation_Response>;
   /** update single row of the table: "mentor_time" */
   update_mentor_time_by_pk?: Maybe<Mentor_Time>;
+  /** update multiples rows of table: "mentor_time" */
+  update_mentor_time_many?: Maybe<Array<Maybe<Mentor_Time_Mutation_Response>>>;
   /** update data of the table: "postgraduate_application" */
   update_postgraduate_application?: Maybe<Postgraduate_Application_Mutation_Response>;
   /** update single row of the table: "postgraduate_application" */
@@ -7895,26 +9610,70 @@ export type Mutation_Root = {
   update_postgraduate_application_history?: Maybe<Postgraduate_Application_History_Mutation_Response>;
   /** update single row of the table: "postgraduate_application_history" */
   update_postgraduate_application_history_by_pk?: Maybe<Postgraduate_Application_History>;
+  /** update multiples rows of table: "postgraduate_application_history" */
+  update_postgraduate_application_history_many?: Maybe<Array<Maybe<Postgraduate_Application_History_Mutation_Response>>>;
+  /** update multiples rows of table: "postgraduate_application" */
+  update_postgraduate_application_many?: Maybe<Array<Maybe<Postgraduate_Application_Mutation_Response>>>;
   /** update data of the table: "postgraduate_mentor_info" */
   update_postgraduate_mentor_info?: Maybe<Postgraduate_Mentor_Info_Mutation_Response>;
   /** update single row of the table: "postgraduate_mentor_info" */
   update_postgraduate_mentor_info_by_pk?: Maybe<Postgraduate_Mentor_Info>;
+  /** update multiples rows of table: "postgraduate_mentor_info" */
+  update_postgraduate_mentor_info_many?: Maybe<Array<Maybe<Postgraduate_Mentor_Info_Mutation_Response>>>;
   /** update data of the table: "postgraduate_mentor_info_pending" */
   update_postgraduate_mentor_info_pending?: Maybe<Postgraduate_Mentor_Info_Pending_Mutation_Response>;
   /** update single row of the table: "postgraduate_mentor_info_pending" */
   update_postgraduate_mentor_info_pending_by_pk?: Maybe<Postgraduate_Mentor_Info_Pending>;
+  /** update multiples rows of table: "postgraduate_mentor_info_pending" */
+  update_postgraduate_mentor_info_pending_many?: Maybe<Array<Maybe<Postgraduate_Mentor_Info_Pending_Mutation_Response>>>;
   /** update data of the table: "scholarships_aids" */
   update_scholarships_aids?: Maybe<Scholarships_Aids_Mutation_Response>;
   /** update single row of the table: "scholarships_aids" */
   update_scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** update multiples rows of table: "scholarships_aids" */
+  update_scholarships_aids_many?: Maybe<Array<Maybe<Scholarships_Aids_Mutation_Response>>>;
+  /** update data of the table: "user_llm_usage" */
+  update_user_llm_usage?: Maybe<User_Llm_Usage_Mutation_Response>;
+  /** update single row of the table: "user_llm_usage" */
+  update_user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
+  /** update multiples rows of table: "user_llm_usage" */
+  update_user_llm_usage_many?: Maybe<Array<Maybe<User_Llm_Usage_Mutation_Response>>>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
   update_users_by_pk?: Maybe<Users>;
+  /** update multiples rows of table: "users" */
+  update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
   /** update data of the table: "weekly" */
   update_weekly?: Maybe<Weekly_Mutation_Response>;
   /** update single row of the table: "weekly" */
   update_weekly_by_pk?: Maybe<Weekly>;
+  /** update multiples rows of table: "weekly" */
+  update_weekly_many?: Maybe<Array<Maybe<Weekly_Mutation_Response>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Access_Key_LogArgs = {
+  where: Access_Key_Log_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Access_Key_Log_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_ClassesArgs = {
+  where: Classes_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Classes_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -8242,6 +10001,18 @@ export type Mutation_RootDelete_Info_Notice_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Llm_ListArgs = {
+  where: Llm_List_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Llm_List_By_PkArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Manager_PermissionsArgs = {
   where: Manager_Permissions_Bool_Exp;
 };
@@ -8378,6 +10149,18 @@ export type Mutation_RootDelete_Scholarships_Aids_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_User_Llm_UsageArgs = {
+  where: User_Llm_Usage_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_User_Llm_Usage_By_PkArgs = {
+  student_no: Scalars['String']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp;
 };
@@ -8398,6 +10181,34 @@ export type Mutation_RootDelete_WeeklyArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Weekly_By_PkArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Access_Key_LogArgs = {
+  objects: Array<Access_Key_Log_Insert_Input>;
+  on_conflict?: InputMaybe<Access_Key_Log_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Access_Key_Log_OneArgs = {
+  object: Access_Key_Log_Insert_Input;
+  on_conflict?: InputMaybe<Access_Key_Log_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_ClassesArgs = {
+  objects: Array<Classes_Insert_Input>;
+  on_conflict?: InputMaybe<Classes_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Classes_OneArgs = {
+  object: Classes_Insert_Input;
+  on_conflict?: InputMaybe<Classes_On_Conflict>;
 };
 
 
@@ -8766,6 +10577,20 @@ export type Mutation_RootInsert_Info_Notice_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Llm_ListArgs = {
+  objects: Array<Llm_List_Insert_Input>;
+  on_conflict?: InputMaybe<Llm_List_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Llm_List_OneArgs = {
+  object: Llm_List_Insert_Input;
+  on_conflict?: InputMaybe<Llm_List_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Manager_PermissionsArgs = {
   objects: Array<Manager_Permissions_Insert_Input>;
   on_conflict?: InputMaybe<Manager_Permissions_On_Conflict>;
@@ -8920,6 +10745,20 @@ export type Mutation_RootInsert_Scholarships_Aids_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_User_Llm_UsageArgs = {
+  objects: Array<User_Llm_Usage_Insert_Input>;
+  on_conflict?: InputMaybe<User_Llm_Usage_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_Llm_Usage_OneArgs = {
+  object: User_Llm_Usage_Insert_Input;
+  on_conflict?: InputMaybe<User_Llm_Usage_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: InputMaybe<Users_On_Conflict>;
@@ -8944,6 +10783,46 @@ export type Mutation_RootInsert_WeeklyArgs = {
 export type Mutation_RootInsert_Weekly_OneArgs = {
   object: Weekly_Insert_Input;
   on_conflict?: InputMaybe<Weekly_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Access_Key_LogArgs = {
+  _set?: InputMaybe<Access_Key_Log_Set_Input>;
+  where: Access_Key_Log_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Access_Key_Log_By_PkArgs = {
+  _set?: InputMaybe<Access_Key_Log_Set_Input>;
+  pk_columns: Access_Key_Log_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Access_Key_Log_ManyArgs = {
+  updates: Array<Access_Key_Log_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ClassesArgs = {
+  _set?: InputMaybe<Classes_Set_Input>;
+  where: Classes_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Classes_By_PkArgs = {
+  _set?: InputMaybe<Classes_Set_Input>;
+  pk_columns: Classes_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Classes_ManyArgs = {
+  updates: Array<Classes_Updates>;
 };
 
 
@@ -8978,6 +10857,18 @@ export type Mutation_RootUpdate_Contest_Manager_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_Manager_ManyArgs = {
+  updates: Array<Contest_Manager_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_ManyArgs = {
+  updates: Array<Contest_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_MapArgs = {
   _set?: InputMaybe<Contest_Map_Set_Input>;
   where: Contest_Map_Bool_Exp;
@@ -8988,6 +10879,12 @@ export type Mutation_RootUpdate_Contest_MapArgs = {
 export type Mutation_RootUpdate_Contest_Map_By_PkArgs = {
   _set?: InputMaybe<Contest_Map_Set_Input>;
   pk_columns: Contest_Map_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Map_ManyArgs = {
+  updates: Array<Contest_Map_Updates>;
 };
 
 
@@ -9006,6 +10903,12 @@ export type Mutation_RootUpdate_Contest_Notice_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_Notice_ManyArgs = {
+  updates: Array<Contest_Notice_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_PlayerArgs = {
   _set?: InputMaybe<Contest_Player_Set_Input>;
   where: Contest_Player_Bool_Exp;
@@ -9016,6 +10919,12 @@ export type Mutation_RootUpdate_Contest_PlayerArgs = {
 export type Mutation_RootUpdate_Contest_Player_By_PkArgs = {
   _set?: InputMaybe<Contest_Player_Set_Input>;
   pk_columns: Contest_Player_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Player_ManyArgs = {
+  updates: Array<Contest_Player_Updates>;
 };
 
 
@@ -9036,6 +10945,12 @@ export type Mutation_RootUpdate_Contest_Room_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_Room_ManyArgs = {
+  updates: Array<Contest_Room_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_Room_TeamArgs = {
   _inc?: InputMaybe<Contest_Room_Team_Inc_Input>;
   _set?: InputMaybe<Contest_Room_Team_Set_Input>;
@@ -9052,6 +10967,12 @@ export type Mutation_RootUpdate_Contest_Room_Team_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_Room_Team_ManyArgs = {
+  updates: Array<Contest_Room_Team_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_RoundArgs = {
   _set?: InputMaybe<Contest_Round_Set_Input>;
   where: Contest_Round_Bool_Exp;
@@ -9062,6 +10983,12 @@ export type Mutation_RootUpdate_Contest_RoundArgs = {
 export type Mutation_RootUpdate_Contest_Round_By_PkArgs = {
   _set?: InputMaybe<Contest_Round_Set_Input>;
   pk_columns: Contest_Round_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Round_ManyArgs = {
+  updates: Array<Contest_Round_Updates>;
 };
 
 
@@ -9094,6 +11021,18 @@ export type Mutation_RootUpdate_Contest_Team_Code_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_Team_Code_ManyArgs = {
+  updates: Array<Contest_Team_Code_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Team_ManyArgs = {
+  updates: Array<Contest_Team_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_Team_MemberArgs = {
   _set?: InputMaybe<Contest_Team_Member_Set_Input>;
   where: Contest_Team_Member_Bool_Exp;
@@ -9104,6 +11043,12 @@ export type Mutation_RootUpdate_Contest_Team_MemberArgs = {
 export type Mutation_RootUpdate_Contest_Team_Member_By_PkArgs = {
   _set?: InputMaybe<Contest_Team_Member_Set_Input>;
   pk_columns: Contest_Team_Member_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Team_Member_ManyArgs = {
+  updates: Array<Contest_Team_Member_Updates>;
 };
 
 
@@ -9122,6 +11067,12 @@ export type Mutation_RootUpdate_Contest_Team_Player_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Contest_Team_Player_ManyArgs = {
+  updates: Array<Contest_Team_Player_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Contest_TimeArgs = {
   _set?: InputMaybe<Contest_Time_Set_Input>;
   where: Contest_Time_Bool_Exp;
@@ -9132,6 +11083,12 @@ export type Mutation_RootUpdate_Contest_TimeArgs = {
 export type Mutation_RootUpdate_Contest_Time_By_PkArgs = {
   _set?: InputMaybe<Contest_Time_Set_Input>;
   pk_columns: Contest_Time_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contest_Time_ManyArgs = {
+  updates: Array<Contest_Time_Updates>;
 };
 
 
@@ -9180,6 +11137,18 @@ export type Mutation_RootUpdate_Course_Comment_Likes_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Course_Comment_Likes_ManyArgs = {
+  updates: Array<Course_Comment_Likes_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_ManyArgs = {
+  updates: Array<Course_Comment_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Course_Comment_StarsArgs = {
   _set?: InputMaybe<Course_Comment_Stars_Set_Input>;
   where: Course_Comment_Stars_Bool_Exp;
@@ -9190,6 +11159,12 @@ export type Mutation_RootUpdate_Course_Comment_StarsArgs = {
 export type Mutation_RootUpdate_Course_Comment_Stars_By_PkArgs = {
   _set?: InputMaybe<Course_Comment_Stars_Set_Input>;
   pk_columns: Course_Comment_Stars_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Comment_Stars_ManyArgs = {
+  updates: Array<Course_Comment_Stars_Updates>;
 };
 
 
@@ -9208,6 +11183,12 @@ export type Mutation_RootUpdate_Course_Info_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Course_Info_ManyArgs = {
+  updates: Array<Course_Info_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Course_ManagerArgs = {
   _set?: InputMaybe<Course_Manager_Set_Input>;
   where: Course_Manager_Bool_Exp;
@@ -9218,6 +11199,18 @@ export type Mutation_RootUpdate_Course_ManagerArgs = {
 export type Mutation_RootUpdate_Course_Manager_By_PkArgs = {
   _set?: InputMaybe<Course_Manager_Set_Input>;
   pk_columns: Course_Manager_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_Manager_ManyArgs = {
+  updates: Array<Course_Manager_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Course_ManyArgs = {
+  updates: Array<Course_Updates>;
 };
 
 
@@ -9238,6 +11231,12 @@ export type Mutation_RootUpdate_Course_Rating_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Course_Rating_ManyArgs = {
+  updates: Array<Course_Rating_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_DepartmentArgs = {
   _set?: InputMaybe<Department_Set_Input>;
   where: Department_Bool_Exp;
@@ -9248,6 +11247,12 @@ export type Mutation_RootUpdate_DepartmentArgs = {
 export type Mutation_RootUpdate_Department_By_PkArgs = {
   _set?: InputMaybe<Department_Set_Input>;
   pk_columns: Department_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Department_ManyArgs = {
+  updates: Array<Department_Updates>;
 };
 
 
@@ -9268,6 +11273,12 @@ export type Mutation_RootUpdate_Freshman_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Freshman_ManyArgs = {
+  updates: Array<Freshman_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Honor_ApplicationArgs = {
   _inc?: InputMaybe<Honor_Application_Inc_Input>;
   _set?: InputMaybe<Honor_Application_Set_Input>;
@@ -9280,6 +11291,12 @@ export type Mutation_RootUpdate_Honor_Application_By_PkArgs = {
   _inc?: InputMaybe<Honor_Application_Inc_Input>;
   _set?: InputMaybe<Honor_Application_Set_Input>;
   pk_columns: Honor_Application_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Honor_Application_ManyArgs = {
+  updates: Array<Honor_Application_Updates>;
 };
 
 
@@ -9300,6 +11317,12 @@ export type Mutation_RootUpdate_Honor_Time_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Honor_Time_ManyArgs = {
+  updates: Array<Honor_Time_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Honor_TypeArgs = {
   _set?: InputMaybe<Honor_Type_Set_Input>;
   where: Honor_Type_Bool_Exp;
@@ -9310,6 +11333,12 @@ export type Mutation_RootUpdate_Honor_TypeArgs = {
 export type Mutation_RootUpdate_Honor_Type_By_PkArgs = {
   _set?: InputMaybe<Honor_Type_Set_Input>;
   pk_columns: Honor_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Honor_Type_ManyArgs = {
+  updates: Array<Honor_Type_Updates>;
 };
 
 
@@ -9328,6 +11357,32 @@ export type Mutation_RootUpdate_Info_Notice_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Info_Notice_ManyArgs = {
+  updates: Array<Info_Notice_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Llm_ListArgs = {
+  _set?: InputMaybe<Llm_List_Set_Input>;
+  where: Llm_List_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Llm_List_By_PkArgs = {
+  _set?: InputMaybe<Llm_List_Set_Input>;
+  pk_columns: Llm_List_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Llm_List_ManyArgs = {
+  updates: Array<Llm_List_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Manager_PermissionsArgs = {
   _set?: InputMaybe<Manager_Permissions_Set_Input>;
   where: Manager_Permissions_Bool_Exp;
@@ -9342,6 +11397,12 @@ export type Mutation_RootUpdate_Manager_Permissions_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Manager_Permissions_ManyArgs = {
+  updates: Array<Manager_Permissions_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Manager_User_PermissionsArgs = {
   _set?: InputMaybe<Manager_User_Permissions_Set_Input>;
   where: Manager_User_Permissions_Bool_Exp;
@@ -9352,6 +11413,12 @@ export type Mutation_RootUpdate_Manager_User_PermissionsArgs = {
 export type Mutation_RootUpdate_Manager_User_Permissions_By_PkArgs = {
   _set?: InputMaybe<Manager_User_Permissions_Set_Input>;
   pk_columns: Manager_User_Permissions_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Manager_User_Permissions_ManyArgs = {
+  updates: Array<Manager_User_Permissions_Updates>;
 };
 
 
@@ -9372,6 +11439,12 @@ export type Mutation_RootUpdate_Mentor_Application_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Mentor_Application_ManyArgs = {
+  updates: Array<Mentor_Application_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Mentor_InfoArgs = {
   _inc?: InputMaybe<Mentor_Info_Inc_Input>;
   _set?: InputMaybe<Mentor_Info_Set_Input>;
@@ -9384,6 +11457,12 @@ export type Mutation_RootUpdate_Mentor_Info_By_PkArgs = {
   _inc?: InputMaybe<Mentor_Info_Inc_Input>;
   _set?: InputMaybe<Mentor_Info_Set_Input>;
   pk_columns: Mentor_Info_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Mentor_Info_ManyArgs = {
+  updates: Array<Mentor_Info_Updates>;
 };
 
 
@@ -9402,6 +11481,12 @@ export type Mutation_RootUpdate_Mentor_Message_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Mentor_Message_ManyArgs = {
+  updates: Array<Mentor_Message_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Mentor_TimeArgs = {
   _inc?: InputMaybe<Mentor_Time_Inc_Input>;
   _set?: InputMaybe<Mentor_Time_Set_Input>;
@@ -9414,6 +11499,12 @@ export type Mutation_RootUpdate_Mentor_Time_By_PkArgs = {
   _inc?: InputMaybe<Mentor_Time_Inc_Input>;
   _set?: InputMaybe<Mentor_Time_Set_Input>;
   pk_columns: Mentor_Time_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Mentor_Time_ManyArgs = {
+  updates: Array<Mentor_Time_Updates>;
 };
 
 
@@ -9450,6 +11541,18 @@ export type Mutation_RootUpdate_Postgraduate_Application_History_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Postgraduate_Application_History_ManyArgs = {
+  updates: Array<Postgraduate_Application_History_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Postgraduate_Application_ManyArgs = {
+  updates: Array<Postgraduate_Application_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Postgraduate_Mentor_InfoArgs = {
   _inc?: InputMaybe<Postgraduate_Mentor_Info_Inc_Input>;
   _set?: InputMaybe<Postgraduate_Mentor_Info_Set_Input>;
@@ -9462,6 +11565,12 @@ export type Mutation_RootUpdate_Postgraduate_Mentor_Info_By_PkArgs = {
   _inc?: InputMaybe<Postgraduate_Mentor_Info_Inc_Input>;
   _set?: InputMaybe<Postgraduate_Mentor_Info_Set_Input>;
   pk_columns: Postgraduate_Mentor_Info_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Postgraduate_Mentor_Info_ManyArgs = {
+  updates: Array<Postgraduate_Mentor_Info_Updates>;
 };
 
 
@@ -9482,6 +11591,12 @@ export type Mutation_RootUpdate_Postgraduate_Mentor_Info_Pending_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Postgraduate_Mentor_Info_Pending_ManyArgs = {
+  updates: Array<Postgraduate_Mentor_Info_Pending_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Scholarships_AidsArgs = {
   _inc?: InputMaybe<Scholarships_Aids_Inc_Input>;
   _set?: InputMaybe<Scholarships_Aids_Set_Input>;
@@ -9494,6 +11609,34 @@ export type Mutation_RootUpdate_Scholarships_Aids_By_PkArgs = {
   _inc?: InputMaybe<Scholarships_Aids_Inc_Input>;
   _set?: InputMaybe<Scholarships_Aids_Set_Input>;
   pk_columns: Scholarships_Aids_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Scholarships_Aids_ManyArgs = {
+  updates: Array<Scholarships_Aids_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Llm_UsageArgs = {
+  _inc?: InputMaybe<User_Llm_Usage_Inc_Input>;
+  _set?: InputMaybe<User_Llm_Usage_Set_Input>;
+  where: User_Llm_Usage_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Llm_Usage_By_PkArgs = {
+  _inc?: InputMaybe<User_Llm_Usage_Inc_Input>;
+  _set?: InputMaybe<User_Llm_Usage_Set_Input>;
+  pk_columns: User_Llm_Usage_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Llm_Usage_ManyArgs = {
+  updates: Array<User_Llm_Usage_Updates>;
 };
 
 
@@ -9512,6 +11655,12 @@ export type Mutation_RootUpdate_Users_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Users_ManyArgs = {
+  updates: Array<Users_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_WeeklyArgs = {
   _inc?: InputMaybe<Weekly_Inc_Input>;
   _set?: InputMaybe<Weekly_Set_Input>;
@@ -9524,6 +11673,12 @@ export type Mutation_RootUpdate_Weekly_By_PkArgs = {
   _inc?: InputMaybe<Weekly_Inc_Input>;
   _set?: InputMaybe<Weekly_Set_Input>;
   pk_columns: Weekly_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Weekly_ManyArgs = {
+  updates: Array<Weekly_Updates>;
 };
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -9600,6 +11755,33 @@ export type Postgraduate_Application_Aggregate = {
   nodes: Array<Postgraduate_Application>;
 };
 
+export type Postgraduate_Application_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Postgraduate_Application_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Postgraduate_Application_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Postgraduate_Application_Aggregate_Bool_Exp_Count>;
+};
+
+export type Postgraduate_Application_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Postgraduate_Application_Select_Column_Postgraduate_Application_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Postgraduate_Application_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Postgraduate_Application_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Postgraduate_Application_Select_Column_Postgraduate_Application_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Postgraduate_Application_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Postgraduate_Application_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Postgraduate_Application_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Postgraduate_Application_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "postgraduate_application" */
 export type Postgraduate_Application_Aggregate_Fields = {
   __typename?: 'postgraduate_application_aggregate_fields';
@@ -9663,6 +11845,7 @@ export type Postgraduate_Application_Bool_Exp = {
   _or?: InputMaybe<Array<Postgraduate_Application_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   history?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
+  history_aggregate?: InputMaybe<Postgraduate_Application_History_Aggregate_Bool_Exp>;
   mentor?: InputMaybe<Postgraduate_Mentor_Info_Bool_Exp>;
   mentor_info_id?: InputMaybe<Int_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
@@ -9695,6 +11878,17 @@ export type Postgraduate_Application_History_Aggregate = {
   __typename?: 'postgraduate_application_history_aggregate';
   aggregate?: Maybe<Postgraduate_Application_History_Aggregate_Fields>;
   nodes: Array<Postgraduate_Application_History>;
+};
+
+export type Postgraduate_Application_History_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Postgraduate_Application_History_Aggregate_Bool_Exp_Count>;
+};
+
+export type Postgraduate_Application_History_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Postgraduate_Application_History_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "postgraduate_application_history" */
@@ -9920,6 +12114,24 @@ export type Postgraduate_Application_History_Stddev_Samp_Order_By = {
   mentor_info_id?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "postgraduate_application_history" */
+export type Postgraduate_Application_History_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Postgraduate_Application_History_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Postgraduate_Application_History_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
+  /** intend, in_contact, confirmed_unverified, confirmed_verified, delete */
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Postgraduate_Application_History_Sum_Fields = {
   __typename?: 'postgraduate_application_history_sum_fields';
@@ -9944,6 +12156,15 @@ export enum Postgraduate_Application_History_Update_Column {
   /** column name */
   UserId = 'user_id'
 }
+
+export type Postgraduate_Application_History_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Postgraduate_Application_History_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Postgraduate_Application_History_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Postgraduate_Application_History_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Postgraduate_Application_History_Var_Pop_Fields = {
@@ -10088,6 +12309,18 @@ export enum Postgraduate_Application_Select_Column {
   Verified = 'verified'
 }
 
+/** select "postgraduate_application_aggregate_bool_exp_bool_and_arguments_columns" columns of table "postgraduate_application" */
+export enum Postgraduate_Application_Select_Column_Postgraduate_Application_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Verified = 'verified'
+}
+
+/** select "postgraduate_application_aggregate_bool_exp_bool_or_arguments_columns" columns of table "postgraduate_application" */
+export enum Postgraduate_Application_Select_Column_Postgraduate_Application_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Verified = 'verified'
+}
+
 /** input type for updating data in table "postgraduate_application" */
 export type Postgraduate_Application_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -10132,6 +12365,25 @@ export type Postgraduate_Application_Stddev_Samp_Order_By = {
   mentor_info_id?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "postgraduate_application" */
+export type Postgraduate_Application_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Postgraduate_Application_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Postgraduate_Application_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  mentor_info_id?: InputMaybe<Scalars['Int']['input']>;
+  /** intend, in_contact, confirmed */
+  status?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Postgraduate_Application_Sum_Fields = {
   __typename?: 'postgraduate_application_sum_fields';
@@ -10158,6 +12410,15 @@ export enum Postgraduate_Application_Update_Column {
   /** column name */
   Verified = 'verified'
 }
+
+export type Postgraduate_Application_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Postgraduate_Application_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Postgraduate_Application_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Postgraduate_Application_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Postgraduate_Application_Var_Pop_Fields = {
@@ -10286,6 +12547,7 @@ export type Postgraduate_Mentor_Info_Bool_Exp = {
   _or?: InputMaybe<Array<Postgraduate_Mentor_Info_Bool_Exp>>;
   alternate_contact?: InputMaybe<String_Comparison_Exp>;
   applications?: InputMaybe<Postgraduate_Application_Bool_Exp>;
+  applications_aggregate?: InputMaybe<Postgraduate_Application_Aggregate_Bool_Exp>;
   contact?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   detail_info?: InputMaybe<String_Comparison_Exp>;
@@ -10677,6 +12939,31 @@ export type Postgraduate_Mentor_Info_Pending_Stddev_Samp_Fields = {
   phd_quota?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "postgraduate_mentor_info_pending" */
+export type Postgraduate_Mentor_Info_Pending_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Postgraduate_Mentor_Info_Pending_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Postgraduate_Mentor_Info_Pending_Stream_Cursor_Value_Input = {
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  /** 展示的信息的id */
+  info_id?: InputMaybe<Scalars['Int']['input']>;
+  lab?: InputMaybe<Scalars['String']['input']>;
+  mentor?: InputMaybe<Scalars['String']['input']>;
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Postgraduate_Mentor_Info_Pending_Sum_Fields = {
   __typename?: 'postgraduate_mentor_info_pending_sum_fields';
@@ -10713,6 +13000,15 @@ export enum Postgraduate_Mentor_Info_Pending_Update_Column {
   /** column name */
   UserId = 'user_id'
 }
+
+export type Postgraduate_Mentor_Info_Pending_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Postgraduate_Mentor_Info_Pending_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Postgraduate_Mentor_Info_Pending_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Postgraduate_Mentor_Info_Pending_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Postgraduate_Mentor_Info_Pending_Var_Pop_Fields = {
@@ -10830,6 +13126,36 @@ export type Postgraduate_Mentor_Info_Stddev_Samp_Fields = {
   phd_quota_unfixed?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "postgraduate_mentor_info" */
+export type Postgraduate_Mentor_Info_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Postgraduate_Mentor_Info_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Postgraduate_Mentor_Info_Stream_Cursor_Value_Input = {
+  alternate_contact?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  detail_info?: InputMaybe<Scalars['String']['input']>;
+  /** 修改者id */
+  editor?: InputMaybe<Scalars['String']['input']>;
+  field?: InputMaybe<Scalars['String']['input']>;
+  home_page?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  mentor?: InputMaybe<Scalars['String']['input']>;
+  /** 固定名额 */
+  phd_quota?: InputMaybe<Scalars['numeric']['input']>;
+  /** 非固定名额 */
+  phd_quota_unfixed?: InputMaybe<Scalars['numeric']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 创建此信息用户id，有权更改 */
+  user_id?: InputMaybe<Scalars['String']['input']>;
+  verified?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Postgraduate_Mentor_Info_Sum_Fields = {
   __typename?: 'postgraduate_mentor_info_sum_fields';
@@ -10872,6 +13198,15 @@ export enum Postgraduate_Mentor_Info_Update_Column {
   Verified = 'verified'
 }
 
+export type Postgraduate_Mentor_Info_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Postgraduate_Mentor_Info_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Postgraduate_Mentor_Info_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Postgraduate_Mentor_Info_Bool_Exp;
+};
+
 /** aggregate var_pop on columns */
 export type Postgraduate_Mentor_Info_Var_Pop_Fields = {
   __typename?: 'postgraduate_mentor_info_var_pop_fields';
@@ -10904,6 +13239,18 @@ export type Postgraduate_Mentor_Info_Variance_Fields = {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "access_key_log" */
+  access_key_log: Array<Access_Key_Log>;
+  /** fetch aggregated fields from the table: "access_key_log" */
+  access_key_log_aggregate: Access_Key_Log_Aggregate;
+  /** fetch data from the table: "access_key_log" using primary key columns */
+  access_key_log_by_pk?: Maybe<Access_Key_Log>;
+  /** fetch data from the table: "classes" */
+  classes: Array<Classes>;
+  /** fetch aggregated fields from the table: "classes" */
+  classes_aggregate: Classes_Aggregate;
+  /** fetch data from the table: "classes" using primary key columns */
+  classes_by_pk?: Maybe<Classes>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -11060,6 +13407,12 @@ export type Query_Root = {
   info_notice_aggregate: Info_Notice_Aggregate;
   /** fetch data from the table: "info_notice" using primary key columns */
   info_notice_by_pk?: Maybe<Info_Notice>;
+  /** fetch data from the table: "llm_list" */
+  llm_list: Array<Llm_List>;
+  /** fetch aggregated fields from the table: "llm_list" */
+  llm_list_aggregate: Llm_List_Aggregate;
+  /** fetch data from the table: "llm_list" using primary key columns */
+  llm_list_by_pk?: Maybe<Llm_List>;
   /** fetch data from the table: "manager_permissions" */
   manager_permissions: Array<Manager_Permissions>;
   /** fetch aggregated fields from the table: "manager_permissions" */
@@ -11126,6 +13479,12 @@ export type Query_Root = {
   scholarships_aids_aggregate: Scholarships_Aids_Aggregate;
   /** fetch data from the table: "scholarships_aids" using primary key columns */
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** fetch data from the table: "user_llm_usage" */
+  user_llm_usage: Array<User_Llm_Usage>;
+  /** fetch aggregated fields from the table: "user_llm_usage" */
+  user_llm_usage_aggregate: User_Llm_Usage_Aggregate;
+  /** fetch data from the table: "user_llm_usage" using primary key columns */
+  user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -11138,6 +13497,52 @@ export type Query_Root = {
   weekly_aggregate: Weekly_Aggregate;
   /** fetch data from the table: "weekly" using primary key columns */
   weekly_by_pk?: Maybe<Weekly>;
+};
+
+
+export type Query_RootAccess_Key_LogArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Query_RootAccess_Key_Log_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Query_RootAccess_Key_Log_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootClassesArgs = {
+  distinct_on?: InputMaybe<Array<Classes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Classes_Order_By>>;
+  where?: InputMaybe<Classes_Bool_Exp>;
+};
+
+
+export type Query_RootClasses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Classes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Classes_Order_By>>;
+  where?: InputMaybe<Classes_Bool_Exp>;
+};
+
+
+export type Query_RootClasses_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -11750,6 +14155,29 @@ export type Query_RootInfo_Notice_By_PkArgs = {
 };
 
 
+export type Query_RootLlm_ListArgs = {
+  distinct_on?: InputMaybe<Array<Llm_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Llm_List_Order_By>>;
+  where?: InputMaybe<Llm_List_Bool_Exp>;
+};
+
+
+export type Query_RootLlm_List_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Llm_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Llm_List_Order_By>>;
+  where?: InputMaybe<Llm_List_Bool_Exp>;
+};
+
+
+export type Query_RootLlm_List_By_PkArgs = {
+  name: Scalars['String']['input'];
+};
+
+
 export type Query_RootManager_PermissionsArgs = {
   distinct_on?: InputMaybe<Array<Manager_Permissions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12007,6 +14435,29 @@ export type Query_RootScholarships_Aids_By_PkArgs = {
 };
 
 
+export type Query_RootUser_Llm_UsageArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Llm_Usage_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Llm_Usage_By_PkArgs = {
+  student_no: Scalars['String']['input'];
+};
+
+
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12228,6 +14679,24 @@ export type Scholarships_Aids_Stddev_Samp_Fields = {
   amount?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "scholarships_aids" */
+export type Scholarships_Aids_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Scholarships_Aids_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Scholarships_Aids_Stream_Cursor_Value_Input = {
+  IsAids?: InputMaybe<Scalars['Boolean']['input']>;
+  amount?: InputMaybe<Scalars['Int']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  salutation?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Scholarships_Aids_Sum_Fields = {
   __typename?: 'scholarships_aids_sum_fields';
@@ -12250,6 +14719,15 @@ export enum Scholarships_Aids_Update_Column {
   Type = 'type'
 }
 
+export type Scholarships_Aids_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Scholarships_Aids_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Scholarships_Aids_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Scholarships_Aids_Bool_Exp;
+};
+
 /** aggregate var_pop on columns */
 export type Scholarships_Aids_Var_Pop_Fields = {
   __typename?: 'scholarships_aids_var_pop_fields';
@@ -12270,6 +14748,22 @@ export type Scholarships_Aids_Variance_Fields = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "access_key_log" */
+  access_key_log: Array<Access_Key_Log>;
+  /** fetch aggregated fields from the table: "access_key_log" */
+  access_key_log_aggregate: Access_Key_Log_Aggregate;
+  /** fetch data from the table: "access_key_log" using primary key columns */
+  access_key_log_by_pk?: Maybe<Access_Key_Log>;
+  /** fetch data from the table in a streaming manner: "access_key_log" */
+  access_key_log_stream: Array<Access_Key_Log>;
+  /** fetch data from the table: "classes" */
+  classes: Array<Classes>;
+  /** fetch aggregated fields from the table: "classes" */
+  classes_aggregate: Classes_Aggregate;
+  /** fetch data from the table: "classes" using primary key columns */
+  classes_by_pk?: Maybe<Classes>;
+  /** fetch data from the table in a streaming manner: "classes" */
+  classes_stream: Array<Classes>;
   /** fetch data from the table: "contest" */
   contest: Array<Contest>;
   /** fetch aggregated fields from the table: "contest" */
@@ -12282,42 +14776,58 @@ export type Subscription_Root = {
   contest_manager_aggregate: Contest_Manager_Aggregate;
   /** fetch data from the table: "contest_manager" using primary key columns */
   contest_manager_by_pk?: Maybe<Contest_Manager>;
+  /** fetch data from the table in a streaming manner: "contest_manager" */
+  contest_manager_stream: Array<Contest_Manager>;
   /** fetch data from the table: "contest_map" */
   contest_map: Array<Contest_Map>;
   /** fetch aggregated fields from the table: "contest_map" */
   contest_map_aggregate: Contest_Map_Aggregate;
   /** fetch data from the table: "contest_map" using primary key columns */
   contest_map_by_pk?: Maybe<Contest_Map>;
+  /** fetch data from the table in a streaming manner: "contest_map" */
+  contest_map_stream: Array<Contest_Map>;
   /** fetch data from the table: "contest_notice" */
   contest_notice: Array<Contest_Notice>;
   /** fetch aggregated fields from the table: "contest_notice" */
   contest_notice_aggregate: Contest_Notice_Aggregate;
   /** fetch data from the table: "contest_notice" using primary key columns */
   contest_notice_by_pk?: Maybe<Contest_Notice>;
+  /** fetch data from the table in a streaming manner: "contest_notice" */
+  contest_notice_stream: Array<Contest_Notice>;
   /** fetch data from the table: "contest_player" */
   contest_player: Array<Contest_Player>;
   /** fetch aggregated fields from the table: "contest_player" */
   contest_player_aggregate: Contest_Player_Aggregate;
   /** fetch data from the table: "contest_player" using primary key columns */
   contest_player_by_pk?: Maybe<Contest_Player>;
+  /** fetch data from the table in a streaming manner: "contest_player" */
+  contest_player_stream: Array<Contest_Player>;
   /** fetch data from the table: "contest_room" */
   contest_room: Array<Contest_Room>;
   /** fetch aggregated fields from the table: "contest_room" */
   contest_room_aggregate: Contest_Room_Aggregate;
   /** fetch data from the table: "contest_room" using primary key columns */
   contest_room_by_pk?: Maybe<Contest_Room>;
+  /** fetch data from the table in a streaming manner: "contest_room" */
+  contest_room_stream: Array<Contest_Room>;
   /** fetch data from the table: "contest_room_team" */
   contest_room_team: Array<Contest_Room_Team>;
   /** fetch aggregated fields from the table: "contest_room_team" */
   contest_room_team_aggregate: Contest_Room_Team_Aggregate;
   /** fetch data from the table: "contest_room_team" using primary key columns */
   contest_room_team_by_pk?: Maybe<Contest_Room_Team>;
+  /** fetch data from the table in a streaming manner: "contest_room_team" */
+  contest_room_team_stream: Array<Contest_Room_Team>;
   /** fetch data from the table: "contest_round" */
   contest_round: Array<Contest_Round>;
   /** fetch aggregated fields from the table: "contest_round" */
   contest_round_aggregate: Contest_Round_Aggregate;
   /** fetch data from the table: "contest_round" using primary key columns */
   contest_round_by_pk?: Maybe<Contest_Round>;
+  /** fetch data from the table in a streaming manner: "contest_round" */
+  contest_round_stream: Array<Contest_Round>;
+  /** fetch data from the table in a streaming manner: "contest" */
+  contest_stream: Array<Contest>;
   /** fetch data from the table: "contest_team" */
   contest_team: Array<Contest_Team>;
   /** fetch aggregated fields from the table: "contest_team" */
@@ -12330,24 +14840,34 @@ export type Subscription_Root = {
   contest_team_code_aggregate: Contest_Team_Code_Aggregate;
   /** fetch data from the table: "contest_team_code" using primary key columns */
   contest_team_code_by_pk?: Maybe<Contest_Team_Code>;
+  /** fetch data from the table in a streaming manner: "contest_team_code" */
+  contest_team_code_stream: Array<Contest_Team_Code>;
   /** fetch data from the table: "contest_team_member" */
   contest_team_member: Array<Contest_Team_Member>;
   /** fetch aggregated fields from the table: "contest_team_member" */
   contest_team_member_aggregate: Contest_Team_Member_Aggregate;
   /** fetch data from the table: "contest_team_member" using primary key columns */
   contest_team_member_by_pk?: Maybe<Contest_Team_Member>;
+  /** fetch data from the table in a streaming manner: "contest_team_member" */
+  contest_team_member_stream: Array<Contest_Team_Member>;
   /** fetch data from the table: "contest_team_player" */
   contest_team_player: Array<Contest_Team_Player>;
   /** fetch aggregated fields from the table: "contest_team_player" */
   contest_team_player_aggregate: Contest_Team_Player_Aggregate;
   /** fetch data from the table: "contest_team_player" using primary key columns */
   contest_team_player_by_pk?: Maybe<Contest_Team_Player>;
+  /** fetch data from the table in a streaming manner: "contest_team_player" */
+  contest_team_player_stream: Array<Contest_Team_Player>;
+  /** fetch data from the table in a streaming manner: "contest_team" */
+  contest_team_stream: Array<Contest_Team>;
   /** fetch data from the table: "contest_time" */
   contest_time: Array<Contest_Time>;
   /** fetch aggregated fields from the table: "contest_time" */
   contest_time_aggregate: Contest_Time_Aggregate;
   /** fetch data from the table: "contest_time" using primary key columns */
   contest_time_by_pk?: Maybe<Contest_Time>;
+  /** fetch data from the table in a streaming manner: "contest_time" */
+  contest_time_stream: Array<Contest_Time>;
   /** fetch data from the table: "course" */
   course: Array<Course>;
   /** fetch aggregated fields from the table: "course" */
@@ -12366,102 +14886,148 @@ export type Subscription_Root = {
   course_comment_likes_aggregate: Course_Comment_Likes_Aggregate;
   /** fetch data from the table: "course_comment_likes" using primary key columns */
   course_comment_likes_by_pk?: Maybe<Course_Comment_Likes>;
+  /** fetch data from the table in a streaming manner: "course_comment_likes" */
+  course_comment_likes_stream: Array<Course_Comment_Likes>;
   /** fetch data from the table: "course_comment_stars" */
   course_comment_stars: Array<Course_Comment_Stars>;
   /** fetch aggregated fields from the table: "course_comment_stars" */
   course_comment_stars_aggregate: Course_Comment_Stars_Aggregate;
   /** fetch data from the table: "course_comment_stars" using primary key columns */
   course_comment_stars_by_pk?: Maybe<Course_Comment_Stars>;
+  /** fetch data from the table in a streaming manner: "course_comment_stars" */
+  course_comment_stars_stream: Array<Course_Comment_Stars>;
+  /** fetch data from the table in a streaming manner: "course_comment" */
+  course_comment_stream: Array<Course_Comment>;
   /** fetch data from the table: "course_info" */
   course_info: Array<Course_Info>;
   /** fetch aggregated fields from the table: "course_info" */
   course_info_aggregate: Course_Info_Aggregate;
   /** fetch data from the table: "course_info" using primary key columns */
   course_info_by_pk?: Maybe<Course_Info>;
+  /** fetch data from the table in a streaming manner: "course_info" */
+  course_info_stream: Array<Course_Info>;
   /** fetch data from the table: "course_manager" */
   course_manager: Array<Course_Manager>;
   /** fetch aggregated fields from the table: "course_manager" */
   course_manager_aggregate: Course_Manager_Aggregate;
   /** fetch data from the table: "course_manager" using primary key columns */
   course_manager_by_pk?: Maybe<Course_Manager>;
+  /** fetch data from the table in a streaming manner: "course_manager" */
+  course_manager_stream: Array<Course_Manager>;
   /** fetch data from the table: "course_rating" */
   course_rating: Array<Course_Rating>;
   /** fetch aggregated fields from the table: "course_rating" */
   course_rating_aggregate: Course_Rating_Aggregate;
   /** fetch data from the table: "course_rating" using primary key columns */
   course_rating_by_pk?: Maybe<Course_Rating>;
+  /** fetch data from the table in a streaming manner: "course_rating" */
+  course_rating_stream: Array<Course_Rating>;
+  /** fetch data from the table in a streaming manner: "course" */
+  course_stream: Array<Course>;
   /** fetch data from the table: "department" */
   department: Array<Department>;
   /** fetch aggregated fields from the table: "department" */
   department_aggregate: Department_Aggregate;
   /** fetch data from the table: "department" using primary key columns */
   department_by_pk?: Maybe<Department>;
+  /** fetch data from the table in a streaming manner: "department" */
+  department_stream: Array<Department>;
   /** fetch data from the table: "freshman" */
   freshman: Array<Freshman>;
   /** fetch aggregated fields from the table: "freshman" */
   freshman_aggregate: Freshman_Aggregate;
   /** fetch data from the table: "freshman" using primary key columns */
   freshman_by_pk?: Maybe<Freshman>;
+  /** fetch data from the table in a streaming manner: "freshman" */
+  freshman_stream: Array<Freshman>;
   /** fetch data from the table: "honor_application" */
   honor_application: Array<Honor_Application>;
   /** fetch aggregated fields from the table: "honor_application" */
   honor_application_aggregate: Honor_Application_Aggregate;
   /** fetch data from the table: "honor_application" using primary key columns */
   honor_application_by_pk?: Maybe<Honor_Application>;
+  /** fetch data from the table in a streaming manner: "honor_application" */
+  honor_application_stream: Array<Honor_Application>;
   /** fetch data from the table: "honor_time" */
   honor_time: Array<Honor_Time>;
   /** fetch aggregated fields from the table: "honor_time" */
   honor_time_aggregate: Honor_Time_Aggregate;
   /** fetch data from the table: "honor_time" using primary key columns */
   honor_time_by_pk?: Maybe<Honor_Time>;
+  /** fetch data from the table in a streaming manner: "honor_time" */
+  honor_time_stream: Array<Honor_Time>;
   /** fetch data from the table: "honor_type" */
   honor_type: Array<Honor_Type>;
   /** fetch aggregated fields from the table: "honor_type" */
   honor_type_aggregate: Honor_Type_Aggregate;
   /** fetch data from the table: "honor_type" using primary key columns */
   honor_type_by_pk?: Maybe<Honor_Type>;
+  /** fetch data from the table in a streaming manner: "honor_type" */
+  honor_type_stream: Array<Honor_Type>;
   /** fetch data from the table: "info_notice" */
   info_notice: Array<Info_Notice>;
   /** fetch aggregated fields from the table: "info_notice" */
   info_notice_aggregate: Info_Notice_Aggregate;
   /** fetch data from the table: "info_notice" using primary key columns */
   info_notice_by_pk?: Maybe<Info_Notice>;
+  /** fetch data from the table in a streaming manner: "info_notice" */
+  info_notice_stream: Array<Info_Notice>;
+  /** fetch data from the table: "llm_list" */
+  llm_list: Array<Llm_List>;
+  /** fetch aggregated fields from the table: "llm_list" */
+  llm_list_aggregate: Llm_List_Aggregate;
+  /** fetch data from the table: "llm_list" using primary key columns */
+  llm_list_by_pk?: Maybe<Llm_List>;
+  /** fetch data from the table in a streaming manner: "llm_list" */
+  llm_list_stream: Array<Llm_List>;
   /** fetch data from the table: "manager_permissions" */
   manager_permissions: Array<Manager_Permissions>;
   /** fetch aggregated fields from the table: "manager_permissions" */
   manager_permissions_aggregate: Manager_Permissions_Aggregate;
   /** fetch data from the table: "manager_permissions" using primary key columns */
   manager_permissions_by_pk?: Maybe<Manager_Permissions>;
+  /** fetch data from the table in a streaming manner: "manager_permissions" */
+  manager_permissions_stream: Array<Manager_Permissions>;
   /** fetch data from the table: "manager_user_permissions" */
   manager_user_permissions: Array<Manager_User_Permissions>;
   /** fetch aggregated fields from the table: "manager_user_permissions" */
   manager_user_permissions_aggregate: Manager_User_Permissions_Aggregate;
   /** fetch data from the table: "manager_user_permissions" using primary key columns */
   manager_user_permissions_by_pk?: Maybe<Manager_User_Permissions>;
+  /** fetch data from the table in a streaming manner: "manager_user_permissions" */
+  manager_user_permissions_stream: Array<Manager_User_Permissions>;
   /** fetch data from the table: "mentor_application" */
   mentor_application: Array<Mentor_Application>;
   /** fetch aggregated fields from the table: "mentor_application" */
   mentor_application_aggregate: Mentor_Application_Aggregate;
   /** fetch data from the table: "mentor_application" using primary key columns */
   mentor_application_by_pk?: Maybe<Mentor_Application>;
+  /** fetch data from the table in a streaming manner: "mentor_application" */
+  mentor_application_stream: Array<Mentor_Application>;
   /** fetch data from the table: "mentor_info" */
   mentor_info: Array<Mentor_Info>;
   /** fetch aggregated fields from the table: "mentor_info" */
   mentor_info_aggregate: Mentor_Info_Aggregate;
   /** fetch data from the table: "mentor_info" using primary key columns */
   mentor_info_by_pk?: Maybe<Mentor_Info>;
+  /** fetch data from the table in a streaming manner: "mentor_info" */
+  mentor_info_stream: Array<Mentor_Info>;
   /** fetch data from the table: "mentor_message" */
   mentor_message: Array<Mentor_Message>;
   /** fetch aggregated fields from the table: "mentor_message" */
   mentor_message_aggregate: Mentor_Message_Aggregate;
   /** fetch data from the table: "mentor_message" using primary key columns */
   mentor_message_by_pk?: Maybe<Mentor_Message>;
+  /** fetch data from the table in a streaming manner: "mentor_message" */
+  mentor_message_stream: Array<Mentor_Message>;
   /** fetch data from the table: "mentor_time" */
   mentor_time: Array<Mentor_Time>;
   /** fetch aggregated fields from the table: "mentor_time" */
   mentor_time_aggregate: Mentor_Time_Aggregate;
   /** fetch data from the table: "mentor_time" using primary key columns */
   mentor_time_by_pk?: Maybe<Mentor_Time>;
+  /** fetch data from the table in a streaming manner: "mentor_time" */
+  mentor_time_stream: Array<Mentor_Time>;
   /** fetch data from the table: "postgraduate_application" */
   postgraduate_application: Array<Postgraduate_Application>;
   /** fetch aggregated fields from the table: "postgraduate_application" */
@@ -12474,6 +15040,10 @@ export type Subscription_Root = {
   postgraduate_application_history_aggregate: Postgraduate_Application_History_Aggregate;
   /** fetch data from the table: "postgraduate_application_history" using primary key columns */
   postgraduate_application_history_by_pk?: Maybe<Postgraduate_Application_History>;
+  /** fetch data from the table in a streaming manner: "postgraduate_application_history" */
+  postgraduate_application_history_stream: Array<Postgraduate_Application_History>;
+  /** fetch data from the table in a streaming manner: "postgraduate_application" */
+  postgraduate_application_stream: Array<Postgraduate_Application>;
   /** fetch data from the table: "postgraduate_mentor_info" */
   postgraduate_mentor_info: Array<Postgraduate_Mentor_Info>;
   /** fetch aggregated fields from the table: "postgraduate_mentor_info" */
@@ -12486,24 +15056,102 @@ export type Subscription_Root = {
   postgraduate_mentor_info_pending_aggregate: Postgraduate_Mentor_Info_Pending_Aggregate;
   /** fetch data from the table: "postgraduate_mentor_info_pending" using primary key columns */
   postgraduate_mentor_info_pending_by_pk?: Maybe<Postgraduate_Mentor_Info_Pending>;
+  /** fetch data from the table in a streaming manner: "postgraduate_mentor_info_pending" */
+  postgraduate_mentor_info_pending_stream: Array<Postgraduate_Mentor_Info_Pending>;
+  /** fetch data from the table in a streaming manner: "postgraduate_mentor_info" */
+  postgraduate_mentor_info_stream: Array<Postgraduate_Mentor_Info>;
   /** fetch data from the table: "scholarships_aids" */
   scholarships_aids: Array<Scholarships_Aids>;
   /** fetch aggregated fields from the table: "scholarships_aids" */
   scholarships_aids_aggregate: Scholarships_Aids_Aggregate;
   /** fetch data from the table: "scholarships_aids" using primary key columns */
   scholarships_aids_by_pk?: Maybe<Scholarships_Aids>;
+  /** fetch data from the table in a streaming manner: "scholarships_aids" */
+  scholarships_aids_stream: Array<Scholarships_Aids>;
+  /** fetch data from the table: "user_llm_usage" */
+  user_llm_usage: Array<User_Llm_Usage>;
+  /** fetch aggregated fields from the table: "user_llm_usage" */
+  user_llm_usage_aggregate: User_Llm_Usage_Aggregate;
+  /** fetch data from the table: "user_llm_usage" using primary key columns */
+  user_llm_usage_by_pk?: Maybe<User_Llm_Usage>;
+  /** fetch data from the table in a streaming manner: "user_llm_usage" */
+  user_llm_usage_stream: Array<User_Llm_Usage>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
+  /** fetch data from the table in a streaming manner: "users" */
+  users_stream: Array<Users>;
   /** fetch data from the table: "weekly" */
   weekly: Array<Weekly>;
   /** fetch aggregated fields from the table: "weekly" */
   weekly_aggregate: Weekly_Aggregate;
   /** fetch data from the table: "weekly" using primary key columns */
   weekly_by_pk?: Maybe<Weekly>;
+  /** fetch data from the table in a streaming manner: "weekly" */
+  weekly_stream: Array<Weekly>;
+};
+
+
+export type Subscription_RootAccess_Key_LogArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Subscription_RootAccess_Key_Log_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Access_Key_Log_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Access_Key_Log_Order_By>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Subscription_RootAccess_Key_Log_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootAccess_Key_Log_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Access_Key_Log_Stream_Cursor_Input>>;
+  where?: InputMaybe<Access_Key_Log_Bool_Exp>;
+};
+
+
+export type Subscription_RootClassesArgs = {
+  distinct_on?: InputMaybe<Array<Classes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Classes_Order_By>>;
+  where?: InputMaybe<Classes_Bool_Exp>;
+};
+
+
+export type Subscription_RootClasses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Classes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Classes_Order_By>>;
+  where?: InputMaybe<Classes_Bool_Exp>;
+};
+
+
+export type Subscription_RootClasses_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootClasses_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Classes_Stream_Cursor_Input>>;
+  where?: InputMaybe<Classes_Bool_Exp>;
 };
 
 
@@ -12554,6 +15202,13 @@ export type Subscription_RootContest_Manager_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_Manager_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Manager_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Manager_Bool_Exp>;
+};
+
+
 export type Subscription_RootContest_MapArgs = {
   distinct_on?: InputMaybe<Array<Contest_Map_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12577,6 +15232,13 @@ export type Subscription_RootContest_Map_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_Map_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Map_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Map_Bool_Exp>;
+};
+
+
 export type Subscription_RootContest_NoticeArgs = {
   distinct_on?: InputMaybe<Array<Contest_Notice_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12597,6 +15259,13 @@ export type Subscription_RootContest_Notice_AggregateArgs = {
 
 export type Subscription_RootContest_Notice_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_Notice_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Notice_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Notice_Bool_Exp>;
 };
 
 
@@ -12625,6 +15294,13 @@ export type Subscription_RootContest_Player_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_Player_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Player_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Player_Bool_Exp>;
+};
+
+
 export type Subscription_RootContest_RoomArgs = {
   distinct_on?: InputMaybe<Array<Contest_Room_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12645,6 +15321,13 @@ export type Subscription_RootContest_Room_AggregateArgs = {
 
 export type Subscription_RootContest_Room_By_PkArgs = {
   room_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_Room_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Room_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Room_Bool_Exp>;
 };
 
 
@@ -12672,6 +15355,13 @@ export type Subscription_RootContest_Room_Team_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_Room_Team_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Room_Team_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Room_Team_Bool_Exp>;
+};
+
+
 export type Subscription_RootContest_RoundArgs = {
   distinct_on?: InputMaybe<Array<Contest_Round_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12692,6 +15382,20 @@ export type Subscription_RootContest_Round_AggregateArgs = {
 
 export type Subscription_RootContest_Round_By_PkArgs = {
   round_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_Round_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Round_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Round_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Bool_Exp>;
 };
 
 
@@ -12741,6 +15445,13 @@ export type Subscription_RootContest_Team_Code_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_Team_Code_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Team_Code_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Team_Code_Bool_Exp>;
+};
+
+
 export type Subscription_RootContest_Team_MemberArgs = {
   distinct_on?: InputMaybe<Array<Contest_Team_Member_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12762,6 +15473,13 @@ export type Subscription_RootContest_Team_Member_AggregateArgs = {
 export type Subscription_RootContest_Team_Member_By_PkArgs = {
   team_id: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootContest_Team_Member_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Team_Member_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Team_Member_Bool_Exp>;
 };
 
 
@@ -12789,6 +15507,20 @@ export type Subscription_RootContest_Team_Player_By_PkArgs = {
 };
 
 
+export type Subscription_RootContest_Team_Player_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Team_Player_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Team_Player_Bool_Exp>;
+};
+
+
+export type Subscription_RootContest_Team_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Team_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Team_Bool_Exp>;
+};
+
+
 export type Subscription_RootContest_TimeArgs = {
   distinct_on?: InputMaybe<Array<Contest_Time_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12810,6 +15542,13 @@ export type Subscription_RootContest_Time_AggregateArgs = {
 export type Subscription_RootContest_Time_By_PkArgs = {
   contest_id: Scalars['uuid']['input'];
   event: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootContest_Time_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Contest_Time_Stream_Cursor_Input>>;
+  where?: InputMaybe<Contest_Time_Bool_Exp>;
 };
 
 
@@ -12883,6 +15622,13 @@ export type Subscription_RootCourse_Comment_Likes_By_PkArgs = {
 };
 
 
+export type Subscription_RootCourse_Comment_Likes_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Course_Comment_Likes_Stream_Cursor_Input>>;
+  where?: InputMaybe<Course_Comment_Likes_Bool_Exp>;
+};
+
+
 export type Subscription_RootCourse_Comment_StarsArgs = {
   distinct_on?: InputMaybe<Array<Course_Comment_Stars_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12904,6 +15650,20 @@ export type Subscription_RootCourse_Comment_Stars_AggregateArgs = {
 export type Subscription_RootCourse_Comment_Stars_By_PkArgs = {
   comment_uuid: Scalars['uuid']['input'];
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_Comment_Stars_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Course_Comment_Stars_Stream_Cursor_Input>>;
+  where?: InputMaybe<Course_Comment_Stars_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_Comment_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Course_Comment_Stream_Cursor_Input>>;
+  where?: InputMaybe<Course_Comment_Bool_Exp>;
 };
 
 
@@ -12931,6 +15691,13 @@ export type Subscription_RootCourse_Info_By_PkArgs = {
 };
 
 
+export type Subscription_RootCourse_Info_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Course_Info_Stream_Cursor_Input>>;
+  where?: InputMaybe<Course_Info_Bool_Exp>;
+};
+
+
 export type Subscription_RootCourse_ManagerArgs = {
   distinct_on?: InputMaybe<Array<Course_Manager_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12951,6 +15718,13 @@ export type Subscription_RootCourse_Manager_AggregateArgs = {
 
 export type Subscription_RootCourse_Manager_By_PkArgs = {
   user_uuid: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootCourse_Manager_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Course_Manager_Stream_Cursor_Input>>;
+  where?: InputMaybe<Course_Manager_Bool_Exp>;
 };
 
 
@@ -12978,6 +15752,20 @@ export type Subscription_RootCourse_Rating_By_PkArgs = {
 };
 
 
+export type Subscription_RootCourse_Rating_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Course_Rating_Stream_Cursor_Input>>;
+  where?: InputMaybe<Course_Rating_Bool_Exp>;
+};
+
+
+export type Subscription_RootCourse_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Course_Stream_Cursor_Input>>;
+  where?: InputMaybe<Course_Bool_Exp>;
+};
+
+
 export type Subscription_RootDepartmentArgs = {
   distinct_on?: InputMaybe<Array<Department_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -12998,6 +15786,13 @@ export type Subscription_RootDepartment_AggregateArgs = {
 
 export type Subscription_RootDepartment_By_PkArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootDepartment_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Department_Stream_Cursor_Input>>;
+  where?: InputMaybe<Department_Bool_Exp>;
 };
 
 
@@ -13024,6 +15819,13 @@ export type Subscription_RootFreshman_By_PkArgs = {
 };
 
 
+export type Subscription_RootFreshman_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Freshman_Stream_Cursor_Input>>;
+  where?: InputMaybe<Freshman_Bool_Exp>;
+};
+
+
 export type Subscription_RootHonor_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Honor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13044,6 +15846,13 @@ export type Subscription_RootHonor_Application_AggregateArgs = {
 
 export type Subscription_RootHonor_Application_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootHonor_Application_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Honor_Application_Stream_Cursor_Input>>;
+  where?: InputMaybe<Honor_Application_Bool_Exp>;
 };
 
 
@@ -13070,6 +15879,13 @@ export type Subscription_RootHonor_Time_By_PkArgs = {
 };
 
 
+export type Subscription_RootHonor_Time_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Honor_Time_Stream_Cursor_Input>>;
+  where?: InputMaybe<Honor_Time_Bool_Exp>;
+};
+
+
 export type Subscription_RootHonor_TypeArgs = {
   distinct_on?: InputMaybe<Array<Honor_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13090,6 +15906,13 @@ export type Subscription_RootHonor_Type_AggregateArgs = {
 
 export type Subscription_RootHonor_Type_By_PkArgs = {
   type_name: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootHonor_Type_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Honor_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Honor_Type_Bool_Exp>;
 };
 
 
@@ -13116,6 +15939,43 @@ export type Subscription_RootInfo_Notice_By_PkArgs = {
 };
 
 
+export type Subscription_RootInfo_Notice_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Info_Notice_Stream_Cursor_Input>>;
+  where?: InputMaybe<Info_Notice_Bool_Exp>;
+};
+
+
+export type Subscription_RootLlm_ListArgs = {
+  distinct_on?: InputMaybe<Array<Llm_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Llm_List_Order_By>>;
+  where?: InputMaybe<Llm_List_Bool_Exp>;
+};
+
+
+export type Subscription_RootLlm_List_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Llm_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Llm_List_Order_By>>;
+  where?: InputMaybe<Llm_List_Bool_Exp>;
+};
+
+
+export type Subscription_RootLlm_List_By_PkArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootLlm_List_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Llm_List_Stream_Cursor_Input>>;
+  where?: InputMaybe<Llm_List_Bool_Exp>;
+};
+
+
 export type Subscription_RootManager_PermissionsArgs = {
   distinct_on?: InputMaybe<Array<Manager_Permissions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13136,6 +15996,13 @@ export type Subscription_RootManager_Permissions_AggregateArgs = {
 
 export type Subscription_RootManager_Permissions_By_PkArgs = {
   permission_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootManager_Permissions_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Manager_Permissions_Stream_Cursor_Input>>;
+  where?: InputMaybe<Manager_Permissions_Bool_Exp>;
 };
 
 
@@ -13163,6 +16030,13 @@ export type Subscription_RootManager_User_Permissions_By_PkArgs = {
 };
 
 
+export type Subscription_RootManager_User_Permissions_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Manager_User_Permissions_Stream_Cursor_Input>>;
+  where?: InputMaybe<Manager_User_Permissions_Bool_Exp>;
+};
+
+
 export type Subscription_RootMentor_ApplicationArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Application_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13183,6 +16057,13 @@ export type Subscription_RootMentor_Application_AggregateArgs = {
 
 export type Subscription_RootMentor_Application_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootMentor_Application_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Mentor_Application_Stream_Cursor_Input>>;
+  where?: InputMaybe<Mentor_Application_Bool_Exp>;
 };
 
 
@@ -13209,6 +16090,13 @@ export type Subscription_RootMentor_Info_By_PkArgs = {
 };
 
 
+export type Subscription_RootMentor_Info_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Mentor_Info_Stream_Cursor_Input>>;
+  where?: InputMaybe<Mentor_Info_Bool_Exp>;
+};
+
+
 export type Subscription_RootMentor_MessageArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Message_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13232,6 +16120,13 @@ export type Subscription_RootMentor_Message_By_PkArgs = {
 };
 
 
+export type Subscription_RootMentor_Message_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Mentor_Message_Stream_Cursor_Input>>;
+  where?: InputMaybe<Mentor_Message_Bool_Exp>;
+};
+
+
 export type Subscription_RootMentor_TimeArgs = {
   distinct_on?: InputMaybe<Array<Mentor_Time_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13252,6 +16147,13 @@ export type Subscription_RootMentor_Time_AggregateArgs = {
 
 export type Subscription_RootMentor_Time_By_PkArgs = {
   activateIn: Scalars['Int']['input'];
+};
+
+
+export type Subscription_RootMentor_Time_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Mentor_Time_Stream_Cursor_Input>>;
+  where?: InputMaybe<Mentor_Time_Bool_Exp>;
 };
 
 
@@ -13304,6 +16206,20 @@ export type Subscription_RootPostgraduate_Application_History_By_PkArgs = {
 };
 
 
+export type Subscription_RootPostgraduate_Application_History_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Postgraduate_Application_History_Stream_Cursor_Input>>;
+  where?: InputMaybe<Postgraduate_Application_History_Bool_Exp>;
+};
+
+
+export type Subscription_RootPostgraduate_Application_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Postgraduate_Application_Stream_Cursor_Input>>;
+  where?: InputMaybe<Postgraduate_Application_Bool_Exp>;
+};
+
+
 export type Subscription_RootPostgraduate_Mentor_InfoArgs = {
   distinct_on?: InputMaybe<Array<Postgraduate_Mentor_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13350,6 +16266,20 @@ export type Subscription_RootPostgraduate_Mentor_Info_Pending_By_PkArgs = {
 };
 
 
+export type Subscription_RootPostgraduate_Mentor_Info_Pending_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Postgraduate_Mentor_Info_Pending_Stream_Cursor_Input>>;
+  where?: InputMaybe<Postgraduate_Mentor_Info_Pending_Bool_Exp>;
+};
+
+
+export type Subscription_RootPostgraduate_Mentor_Info_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Postgraduate_Mentor_Info_Stream_Cursor_Input>>;
+  where?: InputMaybe<Postgraduate_Mentor_Info_Bool_Exp>;
+};
+
+
 export type Subscription_RootScholarships_AidsArgs = {
   distinct_on?: InputMaybe<Array<Scholarships_Aids_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13370,6 +16300,43 @@ export type Subscription_RootScholarships_Aids_AggregateArgs = {
 
 export type Subscription_RootScholarships_Aids_By_PkArgs = {
   code: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootScholarships_Aids_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Scholarships_Aids_Stream_Cursor_Input>>;
+  where?: InputMaybe<Scholarships_Aids_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Llm_UsageArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Llm_Usage_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Llm_Usage_Order_By>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Llm_Usage_By_PkArgs = {
+  student_no: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootUser_Llm_Usage_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<User_Llm_Usage_Stream_Cursor_Input>>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
 };
 
 
@@ -13396,6 +16363,13 @@ export type Subscription_RootUsers_By_PkArgs = {
 };
 
 
+export type Subscription_RootUsers_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Users_Stream_Cursor_Input>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
 export type Subscription_RootWeeklyArgs = {
   distinct_on?: InputMaybe<Array<Weekly_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -13418,6 +16392,13 @@ export type Subscription_RootWeekly_By_PkArgs = {
   id: Scalars['Int']['input'];
 };
 
+
+export type Subscription_RootWeekly_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Weekly_Stream_Cursor_Input>>;
+  where?: InputMaybe<Weekly_Bool_Exp>;
+};
+
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -13429,6 +16410,260 @@ export type Timestamptz_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['timestamptz']['input']>;
   _neq?: InputMaybe<Scalars['timestamptz']['input']>;
   _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+};
+
+/** columns and relationships of "user_llm_usage" */
+export type User_Llm_Usage = {
+  __typename?: 'user_llm_usage';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  last_updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  student_no: Scalars['String']['output'];
+  token_limit: Scalars['bigint']['output'];
+  total_tokens_used: Scalars['bigint']['output'];
+};
+
+/** aggregated selection of "user_llm_usage" */
+export type User_Llm_Usage_Aggregate = {
+  __typename?: 'user_llm_usage_aggregate';
+  aggregate?: Maybe<User_Llm_Usage_Aggregate_Fields>;
+  nodes: Array<User_Llm_Usage>;
+};
+
+/** aggregate fields of "user_llm_usage" */
+export type User_Llm_Usage_Aggregate_Fields = {
+  __typename?: 'user_llm_usage_aggregate_fields';
+  avg?: Maybe<User_Llm_Usage_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<User_Llm_Usage_Max_Fields>;
+  min?: Maybe<User_Llm_Usage_Min_Fields>;
+  stddev?: Maybe<User_Llm_Usage_Stddev_Fields>;
+  stddev_pop?: Maybe<User_Llm_Usage_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<User_Llm_Usage_Stddev_Samp_Fields>;
+  sum?: Maybe<User_Llm_Usage_Sum_Fields>;
+  var_pop?: Maybe<User_Llm_Usage_Var_Pop_Fields>;
+  var_samp?: Maybe<User_Llm_Usage_Var_Samp_Fields>;
+  variance?: Maybe<User_Llm_Usage_Variance_Fields>;
+};
+
+
+/** aggregate fields of "user_llm_usage" */
+export type User_Llm_Usage_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Llm_Usage_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type User_Llm_Usage_Avg_Fields = {
+  __typename?: 'user_llm_usage_avg_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "user_llm_usage". All fields are combined with a logical 'AND'. */
+export type User_Llm_Usage_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Llm_Usage_Bool_Exp>>;
+  _not?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Llm_Usage_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  last_updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  student_no?: InputMaybe<String_Comparison_Exp>;
+  token_limit?: InputMaybe<Bigint_Comparison_Exp>;
+  total_tokens_used?: InputMaybe<Bigint_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "user_llm_usage" */
+export enum User_Llm_Usage_Constraint {
+  /** unique or primary key constraint on columns "student_no" */
+  UserLlmUsagePkey = 'user_llm_usage_pkey'
+}
+
+/** input type for incrementing numeric columns in table "user_llm_usage" */
+export type User_Llm_Usage_Inc_Input = {
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** input type for inserting data into table "user_llm_usage" */
+export type User_Llm_Usage_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  last_updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate max on columns */
+export type User_Llm_Usage_Max_Fields = {
+  __typename?: 'user_llm_usage_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  last_updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  token_limit?: Maybe<Scalars['bigint']['output']>;
+  total_tokens_used?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** aggregate min on columns */
+export type User_Llm_Usage_Min_Fields = {
+  __typename?: 'user_llm_usage_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  last_updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  student_no?: Maybe<Scalars['String']['output']>;
+  token_limit?: Maybe<Scalars['bigint']['output']>;
+  total_tokens_used?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** response of any mutation on the table "user_llm_usage" */
+export type User_Llm_Usage_Mutation_Response = {
+  __typename?: 'user_llm_usage_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Llm_Usage>;
+};
+
+/** on_conflict condition type for table "user_llm_usage" */
+export type User_Llm_Usage_On_Conflict = {
+  constraint: User_Llm_Usage_Constraint;
+  update_columns?: Array<User_Llm_Usage_Update_Column>;
+  where?: InputMaybe<User_Llm_Usage_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_llm_usage". */
+export type User_Llm_Usage_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  last_updated_at?: InputMaybe<Order_By>;
+  student_no?: InputMaybe<Order_By>;
+  token_limit?: InputMaybe<Order_By>;
+  total_tokens_used?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: user_llm_usage */
+export type User_Llm_Usage_Pk_Columns_Input = {
+  student_no: Scalars['String']['input'];
+};
+
+/** select columns of table "user_llm_usage" */
+export enum User_Llm_Usage_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  LastUpdatedAt = 'last_updated_at',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  TokenLimit = 'token_limit',
+  /** column name */
+  TotalTokensUsed = 'total_tokens_used'
+}
+
+/** input type for updating data in table "user_llm_usage" */
+export type User_Llm_Usage_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  last_updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type User_Llm_Usage_Stddev_Fields = {
+  __typename?: 'user_llm_usage_stddev_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type User_Llm_Usage_Stddev_Pop_Fields = {
+  __typename?: 'user_llm_usage_stddev_pop_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type User_Llm_Usage_Stddev_Samp_Fields = {
+  __typename?: 'user_llm_usage_stddev_samp_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "user_llm_usage" */
+export type User_Llm_Usage_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_Llm_Usage_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_Llm_Usage_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  last_updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  token_limit?: InputMaybe<Scalars['bigint']['input']>;
+  total_tokens_used?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate sum on columns */
+export type User_Llm_Usage_Sum_Fields = {
+  __typename?: 'user_llm_usage_sum_fields';
+  token_limit?: Maybe<Scalars['bigint']['output']>;
+  total_tokens_used?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** update columns of table "user_llm_usage" */
+export enum User_Llm_Usage_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  LastUpdatedAt = 'last_updated_at',
+  /** column name */
+  StudentNo = 'student_no',
+  /** column name */
+  TokenLimit = 'token_limit',
+  /** column name */
+  TotalTokensUsed = 'total_tokens_used'
+}
+
+export type User_Llm_Usage_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<User_Llm_Usage_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Llm_Usage_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: User_Llm_Usage_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type User_Llm_Usage_Var_Pop_Fields = {
+  __typename?: 'user_llm_usage_var_pop_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type User_Llm_Usage_Var_Samp_Fields = {
+  __typename?: 'user_llm_usage_var_samp_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type User_Llm_Usage_Variance_Fields = {
+  __typename?: 'user_llm_usage_variance_fields';
+  token_limit?: Maybe<Scalars['Float']['output']>;
+  total_tokens_used?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "users" */
@@ -13503,6 +16738,7 @@ export type Users_Bool_Exp = {
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
   class?: InputMaybe<String_Comparison_Exp>;
   contest_team_members?: InputMaybe<Contest_Team_Member_Bool_Exp>;
+  contest_team_members_aggregate?: InputMaybe<Contest_Team_Member_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   department?: InputMaybe<String_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
@@ -13692,6 +16928,32 @@ export type Users_Set_Input = {
   uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** Streaming cursor of the table "users" */
+export type Users_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Users_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Users_Stream_Cursor_Value_Input = {
+  class?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  department?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  github_id?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  realname?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  student_no?: InputMaybe<Scalars['String']['input']>;
+  tsinghua_email?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
 /** update columns of table "users" */
 export enum Users_Update_Column {
   /** column name */
@@ -13723,6 +16985,13 @@ export enum Users_Update_Column {
   /** column name */
   Uuid = 'uuid'
 }
+
+export type Users_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Users_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Users_Bool_Exp;
+};
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
@@ -13910,6 +17179,23 @@ export type Weekly_Stddev_Samp_Fields = {
   id?: Maybe<Scalars['Float']['output']>;
 };
 
+/** Streaming cursor of the table "weekly" */
+export type Weekly_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Weekly_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Weekly_Stream_Cursor_Value_Input = {
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  tags?: InputMaybe<Scalars['json']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** aggregate sum on columns */
 export type Weekly_Sum_Fields = {
   __typename?: 'weekly_sum_fields';
@@ -13929,6 +17215,15 @@ export enum Weekly_Update_Column {
   /** column name */
   Url = 'url'
 }
+
+export type Weekly_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Weekly_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Weekly_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Weekly_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Weekly_Var_Pop_Fields = {
@@ -14615,6 +17910,18 @@ export type GetPostgraduateFeedsQueryVariables = Exact<{
 
 
 export type GetPostgraduateFeedsQuery = { __typename?: 'query_root', postgraduate_mentor_info: Array<{ __typename?: 'postgraduate_mentor_info', id: number, created_at: any, updated_at: any, mentor: string, field: string, phd_quota: any, phd_quota_unfixed: any, contact: string, alternate_contact?: string | null, home_page?: string | null, detail_info?: string | null, user_id: string, intend: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, in_contact: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, confirmed: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null } }>, postgraduate_mentor_info_aggregate: { __typename?: 'postgraduate_mentor_info_aggregate', aggregate?: { __typename?: 'postgraduate_mentor_info_aggregate_fields', count: number } | null } };
+
+export type GetLlmListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLlmListQuery = { __typename?: 'query_root', llm_list: Array<{ __typename?: 'llm_list', name: string, value: string, deepthinkingmodel?: string | null }> };
+
+export type GetUserLlmUsageQueryVariables = Exact<{
+  student_no: Scalars['String']['input'];
+}>;
+
+
+export type GetUserLlmUsageQuery = { __typename?: 'query_root', user_llm_usage_by_pk?: { __typename?: 'user_llm_usage', student_no: string, total_tokens_used: any, token_limit: any } | null };
 
 export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -18338,6 +21645,89 @@ export type GetPostgraduateFeedsQueryHookResult = ReturnType<typeof useGetPostgr
 export type GetPostgraduateFeedsLazyQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsLazyQuery>;
 export type GetPostgraduateFeedsSuspenseQueryHookResult = ReturnType<typeof useGetPostgraduateFeedsSuspenseQuery>;
 export type GetPostgraduateFeedsQueryResult = Apollo.QueryResult<GetPostgraduateFeedsQuery, GetPostgraduateFeedsQueryVariables>;
+export const GetLlmListDocument = gql`
+    query GetLLMList {
+  llm_list {
+    name
+    value
+    deepthinkingmodel
+  }
+}
+    `;
+
+/**
+ * __useGetLlmListQuery__
+ *
+ * To run a query within a React component, call `useGetLlmListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLlmListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLlmListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLlmListQuery(baseOptions?: Apollo.QueryHookOptions<GetLlmListQuery, GetLlmListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLlmListQuery, GetLlmListQueryVariables>(GetLlmListDocument, options);
+      }
+export function useGetLlmListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLlmListQuery, GetLlmListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLlmListQuery, GetLlmListQueryVariables>(GetLlmListDocument, options);
+        }
+export function useGetLlmListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLlmListQuery, GetLlmListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLlmListQuery, GetLlmListQueryVariables>(GetLlmListDocument, options);
+        }
+export type GetLlmListQueryHookResult = ReturnType<typeof useGetLlmListQuery>;
+export type GetLlmListLazyQueryHookResult = ReturnType<typeof useGetLlmListLazyQuery>;
+export type GetLlmListSuspenseQueryHookResult = ReturnType<typeof useGetLlmListSuspenseQuery>;
+export type GetLlmListQueryResult = Apollo.QueryResult<GetLlmListQuery, GetLlmListQueryVariables>;
+export const GetUserLlmUsageDocument = gql`
+    query GetUserLlmUsage($student_no: String!) {
+  user_llm_usage_by_pk(student_no: $student_no) {
+    student_no
+    total_tokens_used
+    token_limit
+  }
+}
+    `;
+
+/**
+ * __useGetUserLlmUsageQuery__
+ *
+ * To run a query within a React component, call `useGetUserLlmUsageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserLlmUsageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserLlmUsageQuery({
+ *   variables: {
+ *      student_no: // value for 'student_no'
+ *   },
+ * });
+ */
+export function useGetUserLlmUsageQuery(baseOptions: Apollo.QueryHookOptions<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables> & ({ variables: GetUserLlmUsageQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>(GetUserLlmUsageDocument, options);
+      }
+export function useGetUserLlmUsageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>(GetUserLlmUsageDocument, options);
+        }
+export function useGetUserLlmUsageSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>(GetUserLlmUsageDocument, options);
+        }
+export type GetUserLlmUsageQueryHookResult = ReturnType<typeof useGetUserLlmUsageQuery>;
+export type GetUserLlmUsageLazyQueryHookResult = ReturnType<typeof useGetUserLlmUsageLazyQuery>;
+export type GetUserLlmUsageSuspenseQueryHookResult = ReturnType<typeof useGetUserLlmUsageSuspenseQuery>;
+export type GetUserLlmUsageQueryResult = Apollo.QueryResult<GetUserLlmUsageQuery, GetUserLlmUsageQueryVariables>;
 export const GetCourseDocument = gql`
     query GetCourse {
   course(order_by: {year: desc}) {
