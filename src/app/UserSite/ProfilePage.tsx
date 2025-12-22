@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import dayjs from "dayjs";
 import {
-  validateClass, // 尽管移除了校验逻辑，但保留了导入
   validateEmail,
   validateStudentID,
   validatePhoneNumber,
