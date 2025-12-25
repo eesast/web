@@ -12,7 +12,7 @@ const { TextArea } = Input;
 
 //临时使用此函数来添加团队成员
 async function addTeamMember_custom(team_id: string, user_uuid: string) {
-  axios
+  await axios
     .post("/team/add_team_member", {
       team_id: team_id,
       user_uuid: user_uuid,
@@ -193,7 +193,7 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       //}
       await addTeamMember_custom(teamInfo.teamId!, user.uuid!);
       //message.success("加入成功");
-      return window.location.reload();
+      return refresh();
     } catch (e) {
       console.error(e);
       joinForm.resetFields();
