@@ -71,7 +71,7 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
               marginBottom: "20px",
             }}
           >
-            <Link to="/llm">
+            <Link to="/chat">
               <Button type="primary">进入大模型对话</Button>
             </Link>
           </div>
