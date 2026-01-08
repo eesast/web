@@ -542,10 +542,10 @@
     "@antv/util" "^3.3.5"
     "@antv/vendor" "^1.0.10"
 
-"@antv/g2@5.4.7", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
-  version "5.4.7"
-  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.4.7.tgz#78f51319df2fa759dc857076ca45c925b29ec190"
-  integrity sha512-pYXOZ4Am+xgQbPshbHlbAsH6+DTPZ2iF8b63Vtfp19CoRuq6oO3cNZl+yweBs2WxLLSxVzjDkwBmB1kZBXOpFg==
+"@antv/g2@5.4.8", "@antv/g2@^5.1.8", "@antv/g2@^5.2.7":
+  version "5.4.8"
+  resolved "https://registry.yarnpkg.com/@antv/g2/-/g2-5.4.8.tgz#c70eb8ee55592204dc5f67693d866078423e9574"
+  integrity sha512-IvgIpwmT4M5/QAd3Mn2WiHIDeBqFJ4WA2gcZhRRSZuZ2KmgCqZWZwwIT0hc+kIGxwYeDoCQqf//t6FMVu3ryBg==
   dependencies:
     "@antv/component" "^2.1.9"
     "@antv/coord" "^0.4.7"
