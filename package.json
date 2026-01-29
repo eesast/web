@@ -19,7 +19,7 @@
     "grpc-web": "2.0.2",
     "is-url": "1.2.4",
     "jwt-decode": "4.0.0",
-    "katex": "0.16.27",
+    "katex": "0.16.28",
     "react": "18.3.1",
     "react-cropper": "2.3.3",
     "react-custom-scrollbars": "4.2.1",
