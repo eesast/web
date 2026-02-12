@@ -62,7 +62,7 @@
     "webpackbar": "7.0.0"
   },
   "peerDependencies": {
-    "electron": "40.1.0",
+    "electron": "40.4.0",
     "electron-builder": "26.4.1"
   },
   "resolutions": {
