@@ -145,6 +145,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
             </Link>
           ),
           icon: <UploadOutlined />,
+          disabled: true,
         },
       ]
     : contestData?.contest_by_pk?.name.startsWith("HARD")
