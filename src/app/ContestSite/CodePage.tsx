@@ -449,14 +449,11 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
       if (!latestSoftwareCode) {
         // 第一次上传，使用 add 路由
-        const response = await axios.post(
-          `/competition/add_team_software_code`,
-          {
-            contest_id: Contest_id,
-            team_id: teamid,
-            code_url: sf_code,
-          },
-        );
+        await axios.post(`/competition/add_team_software_code`, {
+          contest_id: Contest_id,
+          team_id: teamid,
+          code_url: sf_code,
+        });
         message.success("代码提交成功！");
         // 刷新最近提交的代码信息
         const refreshResponse = await axios.post(
@@ -469,13 +466,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         setSF_code("");
       } else {
         // 之后都使用 update 路由
-        const response = await axios.post(
-          `/competition/update_team_software_code`,
-          {
-            team_id: teamid,
-            code_url: sf_code,
-          },
-        );
+        await axios.post(`/competition/update_team_software_code`, {
+          team_id: teamid,
+          code_url: sf_code,
+        });
         message.success("代码更新成功！");
         // 刷新最近提交的代码信息
         const refreshResponse = await axios.post(
