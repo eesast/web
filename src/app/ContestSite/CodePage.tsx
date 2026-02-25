@@ -70,6 +70,21 @@ interface datatype {
   codename: string;
   updatetime: string;
 }
+interface TeamSoftwareCodeData {
+  URL: string;
+  created_at: string;
+  updated_at: string;
+  submission_count: number;
+  team_name: string;
+  team_leader: {
+    realname: string;
+    student_no: string;
+  };
+  members: Array<{
+    realname: string;
+    student_no: string;
+  }>;
+}
 /* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const { Dragger } = Upload;
 type ColumnsType<T> = TableProps<T>["columns"];
@@ -89,6 +104,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const [isSelectingGlobalCode, setIsSelectingGlobalCode] = useState(false);
   const [selectedGlobalCodeId, setSelectedGlobalCodeId] = useState("");
+  const [latestSoftwareCode, setLatestSoftwareCode] =
+    useState<TeamSoftwareCodeData | null>(null);
+  const [loadingLatestCode, setLoadingLatestCode] = useState(false);
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
 
@@ -147,7 +165,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   //linqiushi:修改后的数据库
   const [AddTeamCode, { error: codeError }] = graphql.useAddTeamCodeMutation();
 
-  const [UpdateTeamSfCode] = graphql.useUpdateTeam_Sf_CodeMutation();
+  //const [UpdateTeamSfCode] = graphql.useUpdateTeam_Sf_CodeMutation();
 
   const [updatePlayerCodes] = graphql.useUpdateTeamPlayerMutation();
 
@@ -173,6 +191,30 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(teamCodesError.message);
     }
   });
+
+  // 获取最近提交的软件代码信息（仅SOFT场景）
+  useEffect(() => {
+    const fetchLatestSoftwareCode = async () => {
+      if (!teamid || !contestData?.contest_by_pk?.name.startsWith("SOFT"))
+        return;
+      setLoadingLatestCode(true);
+      try {
+        const response = await axios.post(
+          `/competition/get_team_software_code_one`,
+          {
+            team_id: teamid,
+          },
+        );
+        const data: TeamSoftwareCodeData | null = response.data?.data || null;
+        setLatestSoftwareCode(data);
+      } catch (error) {
+        console.error("获取最近提交代码失败:", error);
+      } finally {
+        setLoadingLatestCode(false);
+      }
+    };
+    fetchLatestSoftwareCode();
+  }, [teamid, contestData?.contest_by_pk?.name]);
 
   if (!teamid) {
     return <NotJoined />;
@@ -392,15 +434,53 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const handleSfCodeChange = async () => {
     try {
-      const response = await UpdateTeamSfCode({
-        variables: {
-          team_id: teamid!,
-          team_sf_code: sf_code, // 传入用户输入的 SF 代码
-        },
-      });
+      if (!sf_code) {
+        message.warning("请输入代码链接");
+        return;
+      }
 
-      console.log("更新成功:", response.data);
-      message.success("SF 代码提交成功！");
+      // 验证URL格式
+      try {
+        new URL(sf_code);
+      } catch (e) {
+        message.error("请输入有效的URL");
+        return;
+      }
+
+      if (!latestSoftwareCode) {
+        // 第一次上传，使用 add 路由
+        await axios.post(`/competition/add_team_software_code`, {
+          contest_id: Contest_id,
+          team_id: teamid,
+          code_url: sf_code,
+        });
+        message.success("代码提交成功！");
+        // 刷新最近提交的代码信息
+        const refreshResponse = await axios.post(
+          `/competition/get_team_software_code_one`,
+          {
+            team_id: teamid,
+          },
+        );
+        setLatestSoftwareCode(refreshResponse.data?.data || null);
+        setSF_code("");
+      } else {
+        // 之后都使用 update 路由
+        await axios.post(`/competition/update_team_software_code`, {
+          team_id: teamid,
+          code_url: sf_code,
+        });
+        message.success("代码更新成功！");
+        // 刷新最近提交的代码信息
+        const refreshResponse = await axios.post(
+          `/competition/get_team_software_code_one`,
+          {
+            team_id: teamid,
+          },
+        );
+        setLatestSoftwareCode(refreshResponse.data?.data || null);
+        setSF_code("");
+      }
     } catch (error) {
       console.error("提交失败:", error);
       message.error("提交失败，请重试！");
@@ -778,8 +858,39 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               style={{ display: "flex", flexDirection: "column", gap: "10px" }}
             >
               <Typography.Title level={2}>软设代码提交</Typography.Title>
+              {loadingLatestCode ? (
+                <p>加载中...</p>
+              ) : latestSoftwareCode ? (
+                <div
+                  style={{
+                    border: "1px solid #d9d9d9",
+                    borderRadius: "4px",
+                    padding: "16px",
+                    backgroundColor: "#fafafa",
+                  }}
+                >
+                  <p>
+                    <strong>代码链接：</strong>{" "}
+                    <a
+                      href={latestSoftwareCode.URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {latestSoftwareCode.URL}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>最后更新时间：</strong>{" "}
+                    {new Date(latestSoftwareCode.updated_at).toLocaleString(
+                      "zh-CN",
+                    )}
+                  </p>
+                </div>
+              ) : (
+                <p style={{ color: "#999" }}>暂无提交的代码</p>
+              )}
               <Input.TextArea
-                placeholder="请在此提交云盘链接~"
+                placeholder="请在此提交云盘或仓库链接~"
                 value={sf_code}
                 onChange={handleInputChange}
                 style={{ marginBottom: "10px" }}
