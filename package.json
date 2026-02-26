@@ -63,7 +63,7 @@
   },
   "peerDependencies": {
     "electron": "40.6.1",
-    "electron-builder": "26.7.0"
+    "electron-builder": "26.8.1"
   },
   "resolutions": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
