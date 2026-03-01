@@ -64,3 +64,8 @@ export interface ISchedule {
   D: ISchedulePeriod; // 第二阶段：未匹配同学补选
   E: ISchedulePeriod; // 第三阶段：系统随机分配
 }
+
+export interface ISemester {
+  semester: string; // 学期名称，如 "2077-Spring"
+  is_current: boolean; // 是否为当前学期
+}
