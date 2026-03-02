@@ -4,8 +4,14 @@ import MentorInfoCard from "./Cards/MentorInfoCard";
 import MentorApplicationCard from "./Cards/MentorApplicationCard";
 import MentorListCard from "./Cards/MentorListCard";
 import ScheduleCard from "./Cards/ScheduleCard";
+import MentorMemberChatCard from "./Cards/MentorMemberChatCard";
 import { useEffect, useState } from "react";
-import { IMentor, IApplication, ISchedule } from "./Interface";
+import {
+  IMentor,
+  IApplication,
+  IMemberChatRecord,
+  ISchedule,
+} from "./Interface";
 import axios from "axios";
 
 const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
@@ -13,6 +19,10 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
   const [applications, setApplications] = useState<IApplication[]>([]); // 本导师的被申请列表
   const [mentors, setMentors] = useState<IMentor[]>([]); // 所有导师列表
   const [schedule, setSchedule] = useState<ISchedule | undefined>(undefined); // 申请时间表
+  const [memberChatRecords, setMemberChatRecords] = useState<
+    IMemberChatRecord[]
+  >([]);
+  const [currentSemester, setCurrentSemester] = useState<string | null>(null);
 
   const fetchMentor = async () => {
     try {
@@ -62,9 +72,23 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  const fetchMemberChatData = async () => {
+    try {
+      const [recordsRes, semesterRes] = await Promise.all([
+        axios.get(`/application/info/mentor/my_students_member_chats`),
+        axios.get(`/application/semester`),
+      ]);
+      if (recordsRes.status === 200) setMemberChatRecords(recordsRes.data);
+      if (semesterRes.status === 200) setCurrentSemester(semesterRes.data);
+    } catch {
+      // 非关键数据，静默失败
+    }
+  };
+
   const updateStatusCallback = async () => {
     await fetchApplications();
     await fetchMentors();
+    await fetchMemberChatData();
   };
 
   const updateInfoCallback = async () => {
@@ -77,6 +101,7 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
     fetchApplications();
     fetchMentors();
     fetchSchedule();
+    fetchMemberChatData();
   }, []);
 
   return (
@@ -101,11 +126,20 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
                 <MentorApplicationCard
                   applications={applications}
                   schedule={schedule}
+                  memberChatRecords={memberChatRecords}
+                  currentSemester={currentSemester}
                   callback={updateStatusCallback}
                 />
               )}
             </Col>
           </Row>
+          {mentor?.is_mem && (
+            <Row style={{ marginTop: "5%" }}>
+              <Col style={{ width: "100%" }}>
+                <MentorMemberChatCard currentSemester={currentSemester} />
+              </Col>
+            </Row>
+          )}
         </Col>
         <Col style={{ width: "30%", marginLeft: "5%" }}>
           {schedule && (

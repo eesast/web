@@ -21,11 +21,11 @@ import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { IApplication, ISchedule } from "../Interface";
+import { IApplication, IMemberChatRecord, ISchedule } from "../Interface";
 import dayjs from "dayjs";
 import {
   downloadChatRecordHandler,
-  downloadMemberChatRecordHandler,
+  downloadNewMemberChatHandler,
 } from "../Handlers";
 import DisplayApplicationModal from "../Modals/DisplayApplicationModal";
 import axios from "axios";
@@ -36,12 +36,16 @@ const { confirm } = Modal;
 interface MentorApplicationProps {
   applications: IApplication[];
   schedule: ISchedule;
+  memberChatRecords?: IMemberChatRecord[];
+  currentSemester?: string | null;
   callback: () => Promise<void>;
 }
 
 const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
   applications,
   schedule,
+  memberChatRecords = [],
+  currentSemester,
   callback,
 }) => {
   const [hideReject, setHideReject] = useState(false);
@@ -105,6 +109,15 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
   };
 
   const memberConfirmHandler = async (appl: IApplication) => {
+    // 新系统：从 memberChatRecords 找到对应学生当前学期的记录
+    const record = memberChatRecords.find(
+      (r) =>
+        r.user_id === appl.stu?.uuid && r.semester === (currentSemester ?? ""),
+    );
+    if (!record) {
+      message.warning("该学生当前学期暂无积极分子谈话记录");
+      return;
+    }
     confirm({
       title: "确认积极分子谈话记录",
       icon: <ExclamationCircleOutlined />,
@@ -114,10 +127,8 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
       onOk: async () => {
         try {
           const res = await axios.post(
-            `/application/info/mentor/member_confirm`,
-            {
-              id: appl.id,
-            },
+            `/application/info/mentor/member_chat_confirm`,
+            { record_id: record.id },
           );
           if (res.status !== 200) {
             throw new Error();
@@ -306,48 +317,58 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
               )}
               {item.status === "approved" && item.is_mem && (
                 <Descriptions.Item label="积极分子谈话记录" span={4}>
-                  <Row align="middle">
-                    <Col style={{ width: "18%" }}>
-                      {item.mem_chat ? (
-                        <Badge status="success" text="已提交" />
-                      ) : (
-                        <Badge status="processing" text="未提交" />
-                      )}
-                    </Col>
-                    <Col style={{ width: "18%" }}>
-                      {item.mem_chat2 ? (
-                        <Badge status="success" text="已确认" />
-                      ) : (
-                        <Badge status="processing" text="未确认" />
-                      )}
-                    </Col>
-                    {item.mem_chat_t && (
-                      <Col style={{ width: "24%" }}>
-                        <CalendarTwoTone />
-                        {" " + dayjs(item.mem_chat_t).format("YYYY-MM-DD")}
-                      </Col>
-                    )}
-                    <Col style={{ width: "20%" }}>
-                      <Button
-                        icon={<DownloadOutlined />}
-                        onClick={() => downloadMemberChatRecordHandler(item.id)}
-                        disabled={!item.mem_chat}
-                      >
-                        下载
-                      </Button>
-                    </Col>
-                    {!item.mem_chat2 && (
-                      <Col style={{ width: "20%" }}>
-                        <Button
-                          icon={<CheckCircleOutlined />}
-                          onClick={() => memberConfirmHandler(item)}
-                          disabled={!item.mem_chat}
-                        >
-                          确认
-                        </Button>
-                      </Col>
-                    )}
-                  </Row>
+                  {(() => {
+                    const record = memberChatRecords.find(
+                      (r) =>
+                        r.user_id === item.stu?.uuid &&
+                        r.semester === (currentSemester ?? ""),
+                    );
+                    if (!record) {
+                      return (
+                        <Typography.Text type="secondary">
+                          当前学期（{currentSemester ?? "未知"}）暂未提交
+                        </Typography.Text>
+                      );
+                    }
+                    return (
+                      <Row align="middle">
+                        <Col style={{ width: "20%" }}>
+                          {record.member_chat_confirm ? (
+                            <Badge status="success" text="已确认" />
+                          ) : (
+                            <Badge status="processing" text="待确认" />
+                          )}
+                        </Col>
+                        <Col style={{ width: "24%" }}>
+                          <CalendarTwoTone />
+                          {" " + dayjs(record.updated_at).format("YYYY-MM-DD")}
+                        </Col>
+                        <Col style={{ width: "20%" }}>
+                          <Button
+                            icon={<DownloadOutlined />}
+                            onClick={() =>
+                              downloadNewMemberChatHandler(
+                                record.user_id,
+                                record.semester,
+                              )
+                            }
+                          >
+                            下载
+                          </Button>
+                        </Col>
+                        {!record.member_chat_confirm && (
+                          <Col style={{ width: "20%" }}>
+                            <Button
+                              icon={<CheckCircleOutlined />}
+                              onClick={() => memberConfirmHandler(item)}
+                            >
+                              确认
+                            </Button>
+                          </Col>
+                        )}
+                      </Row>
+                    );
+                  })()}
                 </Descriptions.Item>
               )}
             </Descriptions>

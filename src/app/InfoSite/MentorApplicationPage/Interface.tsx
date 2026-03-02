@@ -69,3 +69,11 @@ export interface ISemester {
   semester: string; // 学期名称，如 "2077-Spring"
   is_current: boolean; // 是否为当前学期
 }
+
+export interface IMemberChatRecord {
+  id: string; // 记录uuid
+  updated_at: string; // 提交时间（最后更新时间）
+  user_id: string; // 学生uuid
+  semester: string; // 对应学期
+  member_chat_confirm: boolean; // 是否已被确认
+}
