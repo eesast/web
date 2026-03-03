@@ -157,7 +157,7 @@ const SemesterManageCard: React.FC = () => {
     <>
       <Card hoverable>
         <Title level={2} style={{ marginTop: "1%" }}>
-          积极分子谈话学期管理
+          学期管理
         </Title>
 
         <Row style={{ marginTop: "5%" }} gutter={[0, 16]}>

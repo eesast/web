@@ -144,8 +144,57 @@ export const downloadMemberChatRecordHandler = async (id: any) => {
   }
 };
 
+// ===== 普通谈话记录系统（基于 mentor_talk_record 表）=====
+// 存储路径: chat_record/{user_uuid}/talk/{semester}/{filename}
+
+export const uploadMentorTalkHandler = async (
+  e: RcCustomRequestOptions,
+  user_uuid: string,
+  semester: string,
+  callback: () => Promise<void>,
+) => {
+  try {
+    const cosPath = `chat_record/${user_uuid}/talk/${semester}/${(e.file as RcFile).name}`;
+    const result = await uploadFile(e.file, cosPath);
+    if (result.statusCode !== 200) {
+      throw new Error("COS upload failed");
+    }
+    const res = await axios.post(`/application/info/mentor/talk_submit`);
+    if (res.status !== 200) {
+      throw new Error("Backend submit failed");
+    }
+    e.onSuccess?.({});
+    await callback();
+    message.success("上传成功");
+  } catch (err) {
+    e.onError?.(err as Error);
+    message.error("上传失败");
+  }
+};
+
+export const downloadMentorTalkHandler = async (
+  user_uuid: string,
+  semester: string,
+) => {
+  try {
+    const files = await listFile(`chat_record/${user_uuid}/talk/${semester}/`);
+    if (!files || files.length === 0) {
+      message.warning("暂无文件");
+      return;
+    }
+    const url = files.reduce((max, item) =>
+      new Date(item.LastModified) > new Date(max.LastModified) ? item : max,
+    ).Key;
+    message.info("开始下载");
+    downloadFile(url).catch((e) => message.error("下载失败：" + e));
+  } catch (err) {
+    console.error(err);
+    message.error("下载失败");
+  }
+};
+
 // ===== 新积极分子谈话记录系统（基于 member_chat_record 表）=====
-// 存储路径: member_chat_record/{user_uuid}/{semester}/{filename}
+// 存储路径: chat_record/{user_uuid}/member/{semester}/{filename}
 
 export const uploadNewMemberChatHandler = async (
   e: RcCustomRequestOptions,

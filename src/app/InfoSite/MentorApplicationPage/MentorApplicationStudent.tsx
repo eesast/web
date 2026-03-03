@@ -4,6 +4,7 @@ import MentorListCard from "./Cards/MentorListCard";
 import StudentApplicationCard from "./Cards/StudentApplicationCard";
 import ScheduleCard from "./Cards/ScheduleCard";
 import MemberChatCard from "./Cards/MemberChatCard";
+import TalkCard from "./Cards/TalkCard";
 import { useState, useEffect } from "react";
 import { IMentor, IApplication, ISchedule, IFreshman } from "./Interface";
 import StudentInfoCard from "./Cards/StudentInfoCard";
@@ -103,6 +104,11 @@ const MentorApplicationStudent: React.FC<PageProps> = ({ mode, user }) => {
                   mode={mode}
                 />
               )}
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "5%" }}>
+            <Col style={{ width: "100%" }}>
+              <TalkCard user={user} mode={mode} />
             </Col>
           </Row>
           <Row style={{ marginTop: "5%" }}>

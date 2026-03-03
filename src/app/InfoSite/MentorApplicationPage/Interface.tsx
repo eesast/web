@@ -77,3 +77,11 @@ export interface IMemberChatRecord {
   semester: string; // 对应学期
   member_chat_confirm: boolean; // 是否已被确认
 }
+
+export interface IMentorTalkRecord {
+  id: string; // 记录uuid
+  updated_at: string; // 提交时间（最后更新时间）
+  user_id: string; // 学生uuid
+  semester: string; // 对应学期
+  mentor_talk_confirm: boolean; // 是否已被确认
+}

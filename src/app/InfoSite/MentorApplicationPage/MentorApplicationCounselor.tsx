@@ -5,6 +5,7 @@ import ManageApplicationCard from "./Cards/ManageApplicationCard";
 import CounselorCards from "./Cards/CounselorCards";
 import FreshmanCards from "./Cards/FreshmanCards";
 import ManageMemberChatCard from "./Cards/ManageMemberChatCard";
+import ManageTalkCard from "./Cards/ManageTalkCard";
 import { useState, useEffect } from "react";
 import { IMentor, IApplication, ISchedule, IFreshman } from "./Interface";
 import axios from "axios";
@@ -129,6 +130,11 @@ const MentorApplicationStudent: React.FC<PageProps> = ({ mode, user }) => {
             is_member={true}
             callback={updateApplicationCallback}
           />
+        </Col>
+      </Row>
+      <Row style={{ marginTop: "5%" }}>
+        <Col style={{ width: "100%" }}>
+          <ManageTalkCard />
         </Col>
       </Row>
       <Row style={{ marginTop: "5%" }}>

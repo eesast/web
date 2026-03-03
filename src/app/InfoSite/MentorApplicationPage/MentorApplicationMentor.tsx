@@ -5,6 +5,7 @@ import MentorApplicationCard from "./Cards/MentorApplicationCard";
 import MentorListCard from "./Cards/MentorListCard";
 import ScheduleCard from "./Cards/ScheduleCard";
 import MentorMemberChatCard from "./Cards/MentorMemberChatCard";
+import MentorTalkCard from "./Cards/MentorTalkCard";
 import { useEffect, useState } from "react";
 import {
   IMentor,
@@ -131,6 +132,11 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
                   callback={updateStatusCallback}
                 />
               )}
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "5%" }}>
+            <Col style={{ width: "100%" }}>
+              <MentorTalkCard currentSemester={currentSemester} />
             </Col>
           </Row>
           {mentor?.is_mem && (

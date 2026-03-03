@@ -19,13 +19,13 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import axios from "axios";
-import { IMemberChatRecord } from "../Interface";
-import { downloadNewMemberChatHandler } from "../Handlers";
+import { IMentorTalkRecord } from "../Interface";
+import { downloadMentorTalkHandler } from "../Handlers";
 import ColumnSearchItem from "../ColumnSearchItem";
 
 const { Title, Text } = Typography;
 
-interface MemberChatRecordWithUser extends IMemberChatRecord {
+interface TalkRecordWithUser extends IMentorTalkRecord {
   user?: {
     realname: string;
     student_no: string;
@@ -34,14 +34,12 @@ interface MemberChatRecordWithUser extends IMemberChatRecord {
   };
 }
 
-interface MentorMemberChatCardProps {
+interface MentorTalkCardProps {
   currentSemester: string | null;
 }
 
-const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
-  currentSemester,
-}) => {
-  const [records, setRecords] = useState<MemberChatRecordWithUser[]>([]);
+const MentorTalkCard: React.FC<MentorTalkCardProps> = ({ currentSemester }) => {
+  const [records, setRecords] = useState<TalkRecordWithUser[]>([]);
   const [loading, setLoading] = useState(false);
   const searchInput = useRef<InputRef>(null);
 
@@ -49,12 +47,12 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
     setLoading(true);
     try {
       const res = await axios.get(
-        "/application/info/mentor/my_students_member_chats",
+        "/application/info/mentor/my_students_talk_records",
       );
       if (res.status !== 200) throw new Error();
       setRecords(res.data);
     } catch {
-      message.error("积极分子谈话记录获取失败");
+      message.error("谈话记录获取失败");
     } finally {
       setLoading(false);
     }
@@ -64,9 +62,9 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
     fetchRecords();
   }, [fetchRecords]);
 
-  const handleConfirm = (record: MemberChatRecordWithUser) => {
+  const handleConfirm = (record: TalkRecordWithUser) => {
     Modal.confirm({
-      title: "确认积极分子谈话记录",
+      title: "确认谈话记录",
       content: (
         <>
           <p>
@@ -81,7 +79,7 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
       onOk: async () => {
         try {
           const res = await axios.post(
-            "/application/info/mentor/member_chat_confirm",
+            "/application/info/mentor/talk_confirm",
             { record_id: record.id },
           );
           if (res.status !== 200) throw new Error();
@@ -94,7 +92,7 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
     });
   };
 
-  const columns: TableProps<MemberChatRecordWithUser>["columns"] = [
+  const columns: TableProps<TalkRecordWithUser>["columns"] = [
     {
       title: "学生姓名",
       dataIndex: ["user", "realname"],
@@ -138,14 +136,14 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
     },
     {
       title: "状态",
-      dataIndex: "member_chat_confirm",
+      dataIndex: "mentor_talk_confirm",
       key: "status",
       width: "12%",
       filters: [
         { text: "已确认", value: true },
         { text: "待确认", value: false },
       ],
-      onFilter: (value, record) => record.member_chat_confirm === value,
+      onFilter: (value, record) => record.mentor_talk_confirm === value,
       render: (confirmed: boolean) =>
         confirmed ? (
           <Badge status="success" text="已确认" />
@@ -156,18 +154,18 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
     {
       title: "操作",
       key: "action",
-      render: (_: any, record: MemberChatRecordWithUser) => (
+      render: (_: any, record: TalkRecordWithUser) => (
         <Space>
           <Button
             size="small"
             icon={<DownloadOutlined />}
             onClick={() =>
-              downloadNewMemberChatHandler(record.user_id, record.semester)
+              downloadMentorTalkHandler(record.user_id, record.semester)
             }
           >
             下载
           </Button>
-          {!record.member_chat_confirm && (
+          {!record.mentor_talk_confirm && (
             <Button
               size="small"
               type="primary"
@@ -193,7 +191,7 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
         align="center"
       >
         <Title level={2} style={{ margin: 0 }}>
-          积极分子谈话记录
+          学生谈话记录
         </Title>
         <Button
           icon={<ReloadOutlined />}
@@ -203,13 +201,13 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
           刷新
         </Button>
       </Space>
-      <Table<MemberChatRecordWithUser>
+      <Table<TalkRecordWithUser>
         style={{ marginTop: "3%" }}
         rowKey="id"
         dataSource={records}
         columns={columns}
         loading={loading}
-        pagination={false}
+        pagination={{ pageSize: 20 }}
         size="small"
         locale={{ emptyText: "暂无谈话记录" }}
       />
@@ -217,4 +215,4 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
   );
 };
 
-export default MentorMemberChatCard;
+export default MentorTalkCard;
