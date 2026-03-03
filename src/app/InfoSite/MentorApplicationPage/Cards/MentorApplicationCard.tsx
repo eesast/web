@@ -10,28 +10,15 @@ import {
   Typography,
   Select,
   message,
-  Modal,
 } from "antd";
 import { useState, useEffect } from "react";
-import {
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  DownloadOutlined,
-  CalendarTwoTone,
-  CheckCircleOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { IApplication, ISchedule } from "../Interface";
 import dayjs from "dayjs";
-import {
-  downloadChatRecordHandler,
-  downloadMemberChatRecordHandler,
-} from "../Handlers";
 import DisplayApplicationModal from "../Modals/DisplayApplicationModal";
 import axios from "axios";
 
 const { Paragraph } = Typography;
-const { confirm } = Modal;
 
 interface MentorApplicationProps {
   applications: IApplication[];
@@ -78,57 +65,6 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
     } catch (err) {
       message.error("更新失败");
     }
-  };
-
-  const confirmHandler = async (appl: IApplication) => {
-    confirm({
-      title: "确认谈话记录",
-      icon: <ExclamationCircleOutlined />,
-      content: "该操作不可撤销",
-      okText: "确认",
-      cancelText: "取消",
-      onOk: async () => {
-        try {
-          const res = await axios.post(`/application/info/mentor/confirm`, {
-            id: appl.id,
-          });
-          if (res.status !== 200) {
-            throw new Error();
-          }
-          await callback();
-          message.success("确认成功");
-        } catch (err) {
-          message.error("确认失败");
-        }
-      },
-    });
-  };
-
-  const memberConfirmHandler = async (appl: IApplication) => {
-    confirm({
-      title: "确认积极分子谈话记录",
-      icon: <ExclamationCircleOutlined />,
-      content: "该操作不可撤销",
-      okText: "确认",
-      cancelText: "取消",
-      onOk: async () => {
-        try {
-          const res = await axios.post(
-            `/application/info/mentor/member_confirm`,
-            {
-              id: appl.id,
-            },
-          );
-          if (res.status !== 200) {
-            throw new Error();
-          }
-          await callback();
-          message.success("确认成功");
-        } catch (err) {
-          message.error("确认失败");
-        }
-      },
-    });
   };
 
   return (
@@ -258,98 +194,6 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
                   </Select>
                 )}
               </Descriptions.Item>
-              {item.status === "approved" && (
-                <Descriptions.Item label="谈话记录" span={4}>
-                  <Row align="middle">
-                    <Col style={{ width: "18%" }}>
-                      {item.chat ? (
-                        <Badge status="success" text="已提交" />
-                      ) : (
-                        <Badge status="processing" text="未提交" />
-                      )}
-                    </Col>
-                    <Col style={{ width: "18%" }}>
-                      {item.chat2 ? (
-                        <Badge status="success" text="已确认" />
-                      ) : (
-                        <Badge status="processing" text="未确认" />
-                      )}
-                    </Col>
-                    {item.chat_t && (
-                      <Col style={{ width: "24%" }}>
-                        <CalendarTwoTone />
-                        {" " + dayjs(item.chat_t).format("YYYY-MM-DD")}
-                      </Col>
-                    )}
-                    <Col style={{ width: "20%" }}>
-                      <Button
-                        icon={<DownloadOutlined />}
-                        onClick={() => downloadChatRecordHandler(item.id)}
-                        disabled={!item.chat}
-                      >
-                        下载
-                      </Button>
-                    </Col>
-                    {!item.chat2 && (
-                      <Col style={{ width: "20%" }}>
-                        <Button
-                          icon={<CheckCircleOutlined />}
-                          onClick={() => confirmHandler(item)}
-                          disabled={!item.chat}
-                        >
-                          确认
-                        </Button>
-                      </Col>
-                    )}
-                  </Row>
-                </Descriptions.Item>
-              )}
-              {item.status === "approved" && item.is_mem && (
-                <Descriptions.Item label="积极分子谈话记录" span={4}>
-                  <Row align="middle">
-                    <Col style={{ width: "18%" }}>
-                      {item.mem_chat ? (
-                        <Badge status="success" text="已提交" />
-                      ) : (
-                        <Badge status="processing" text="未提交" />
-                      )}
-                    </Col>
-                    <Col style={{ width: "18%" }}>
-                      {item.mem_chat2 ? (
-                        <Badge status="success" text="已确认" />
-                      ) : (
-                        <Badge status="processing" text="未确认" />
-                      )}
-                    </Col>
-                    {item.mem_chat_t && (
-                      <Col style={{ width: "24%" }}>
-                        <CalendarTwoTone />
-                        {" " + dayjs(item.mem_chat_t).format("YYYY-MM-DD")}
-                      </Col>
-                    )}
-                    <Col style={{ width: "20%" }}>
-                      <Button
-                        icon={<DownloadOutlined />}
-                        onClick={() => downloadMemberChatRecordHandler(item.id)}
-                        disabled={!item.mem_chat}
-                      >
-                        下载
-                      </Button>
-                    </Col>
-                    {!item.mem_chat2 && (
-                      <Col style={{ width: "20%" }}>
-                        <Button
-                          icon={<CheckCircleOutlined />}
-                          onClick={() => memberConfirmHandler(item)}
-                          disabled={!item.mem_chat}
-                        >
-                          确认
-                        </Button>
-                      </Col>
-                    )}
-                  </Row>
-                </Descriptions.Item>
-              )}
             </Descriptions>
           );
         }}

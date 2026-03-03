@@ -14,6 +14,7 @@ import { ISchedule, IApplication } from "../Interface";
 import { exportApplicationHandler } from "../Handlers";
 import ImportFreshmanModal from "../Modals/ImportFreshmanModal";
 import ImportMentorModal from "../Modals/ImportMentorModal";
+import SemesterManageCard from "./SemesterManageCard";
 import { Dayjs } from "dayjs";
 import axios from "axios";
 
@@ -82,7 +83,14 @@ const CounselorCards: React.FC<CounselorProps> = ({
 
   return (
     <Row>
-      <Col style={{ width: "47.5%" }}>
+      <Col
+        style={{
+          width: "47.5%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "5%",
+        }}
+      >
         <Card hoverable>
           <Typography.Title level={2} style={{ marginTop: "1%" }}>
             操作
@@ -170,6 +178,7 @@ const CounselorCards: React.FC<CounselorProps> = ({
                 </Button>
               </Col> */}
         </Card>
+        <SemesterManageCard />
       </Col>
       <Col style={{ width: "47.5%", marginLeft: "5%" }}>
         <Card hoverable>
