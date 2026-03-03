@@ -7,12 +7,7 @@ import ScheduleCard from "./Cards/ScheduleCard";
 import MentorMemberChatCard from "./Cards/MentorMemberChatCard";
 import MentorTalkCard from "./Cards/MentorTalkCard";
 import { useEffect, useState } from "react";
-import {
-  IMentor,
-  IApplication,
-  IMemberChatRecord,
-  ISchedule,
-} from "./Interface";
+import { IMentor, IApplication, ISchedule } from "./Interface";
 import axios from "axios";
 
 const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
@@ -20,9 +15,6 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
   const [applications, setApplications] = useState<IApplication[]>([]); // 本导师的被申请列表
   const [mentors, setMentors] = useState<IMentor[]>([]); // 所有导师列表
   const [schedule, setSchedule] = useState<ISchedule | undefined>(undefined); // 申请时间表
-  const [memberChatRecords, setMemberChatRecords] = useState<
-    IMemberChatRecord[]
-  >([]);
   const [currentSemester, setCurrentSemester] = useState<string | null>(null);
 
   const fetchMentor = async () => {
@@ -73,14 +65,10 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
-  const fetchMemberChatData = async () => {
+  const fetchCurrentSemester = async () => {
     try {
-      const [recordsRes, semesterRes] = await Promise.all([
-        axios.get(`/application/info/mentor/my_students_member_chats`),
-        axios.get(`/application/semester`),
-      ]);
-      if (recordsRes.status === 200) setMemberChatRecords(recordsRes.data);
-      if (semesterRes.status === 200) setCurrentSemester(semesterRes.data);
+      const res = await axios.get(`/application/semester`);
+      if (res.status === 200) setCurrentSemester(res.data);
     } catch {
       // 非关键数据，静默失败
     }
@@ -89,7 +77,6 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
   const updateStatusCallback = async () => {
     await fetchApplications();
     await fetchMentors();
-    await fetchMemberChatData();
   };
 
   const updateInfoCallback = async () => {
@@ -102,7 +89,7 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
     fetchApplications();
     fetchMentors();
     fetchSchedule();
-    fetchMemberChatData();
+    fetchCurrentSemester();
   }, []);
 
   return (
