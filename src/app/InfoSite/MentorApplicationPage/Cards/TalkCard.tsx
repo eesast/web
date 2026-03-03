@@ -78,8 +78,14 @@ const TalkCard: React.FC<TalkCardProps> = ({ user }) => {
       key: "semester",
       render: (val: string) => (
         <Space>
-          <Text strong>{val}</Text>
-          {val === data.current_semester && <Tag color="blue">当前</Tag>}
+          {val === "" ? (
+            <Tag color="orange">旧系统数据</Tag>
+          ) : (
+            <>
+              <Text strong>{val}</Text>
+              {val === data.current_semester && <Tag color="blue">当前</Tag>}
+            </>
+          )}
         </Space>
       ),
     },
@@ -139,7 +145,11 @@ const TalkCard: React.FC<TalkCardProps> = ({ user }) => {
           <Button
             icon={<DownloadOutlined />}
             onClick={() =>
-              downloadMentorTalkHandler(user.uuid, record.semester)
+              downloadMentorTalkHandler(
+                user.uuid,
+                record.semester,
+                record.application_id,
+              )
             }
           >
             下载

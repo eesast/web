@@ -101,11 +101,16 @@ const ManageMemberChatCard: React.FC = () => {
       key: "semester",
       width: "14%",
       filters: Array.from(new Set(records.map((r) => r.semester))).map((s) => ({
-        text: s,
+        text: s === "" ? "旧系统数据" : s,
         value: s,
       })),
       onFilter: (value, record) => record.semester === value,
-      render: (val: string) => <Text strong>{val}</Text>,
+      render: (val: string) =>
+        val === "" ? (
+          <Tag color="orange">旧系统数据</Tag>
+        ) : (
+          <Text strong>{val}</Text>
+        ),
     },
     {
       title: "提交时间",
@@ -144,7 +149,11 @@ const ManageMemberChatCard: React.FC = () => {
             size="small"
             icon={<DownloadOutlined />}
             onClick={() =>
-              downloadNewMemberChatHandler(record.user_id, record.semester)
+              downloadNewMemberChatHandler(
+                record.user_id,
+                record.semester,
+                record.application_id,
+              )
             }
           >
             下载

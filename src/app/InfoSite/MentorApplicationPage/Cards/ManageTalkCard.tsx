@@ -3,6 +3,7 @@ import {
   Card,
   Typography,
   Table,
+  Tag,
   Badge,
   Button,
   Space,
@@ -100,11 +101,16 @@ const ManageTalkCard: React.FC = () => {
       key: "semester",
       width: "16%",
       filters: Array.from(new Set(records.map((r) => r.semester))).map((s) => ({
-        text: s,
+        text: s === "" ? "旧系统数据" : s,
         value: s,
       })),
       onFilter: (value, record) => record.semester === value,
-      render: (val: string) => <Text strong>{val}</Text>,
+      render: (val: string) =>
+        val === "" ? (
+          <Tag color="orange">旧系统数据</Tag>
+        ) : (
+          <Text strong>{val}</Text>
+        ),
     },
     {
       title: "提交时间",
@@ -143,7 +149,11 @@ const ManageTalkCard: React.FC = () => {
             size="small"
             icon={<DownloadOutlined />}
             onClick={() =>
-              downloadMentorTalkHandler(record.user_id, record.semester)
+              downloadMentorTalkHandler(
+                record.user_id,
+                record.semester,
+                record.application_id,
+              )
             }
           >
             下载

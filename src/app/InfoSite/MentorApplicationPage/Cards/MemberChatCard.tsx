@@ -82,8 +82,14 @@ const MemberChatCard: React.FC<MemberChatCardProps> = ({ user }) => {
       key: "semester",
       render: (val: string) => (
         <Space>
-          <Text strong>{val}</Text>
-          {val === data.current_semester && <Tag color="blue">当前</Tag>}
+          {val === "" ? (
+            <Tag color="orange">旧系统数据</Tag>
+          ) : (
+            <>
+              <Text strong>{val}</Text>
+              {val === data.current_semester && <Tag color="blue">当前</Tag>}
+            </>
+          )}
         </Space>
       ),
     },
@@ -149,7 +155,11 @@ const MemberChatCard: React.FC<MemberChatCardProps> = ({ user }) => {
           <Button
             icon={<DownloadOutlined />}
             onClick={() =>
-              downloadNewMemberChatHandler(user.uuid, record.semester)
+              downloadNewMemberChatHandler(
+                user.uuid,
+                record.semester,
+                record.application_id,
+              )
             }
           >
             下载

@@ -10,42 +10,25 @@ import {
   Typography,
   Select,
   message,
-  Modal,
 } from "antd";
 import { useState, useEffect } from "react";
-import {
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  DownloadOutlined,
-  CalendarTwoTone,
-  CheckCircleOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
-import { IApplication, IMemberChatRecord, ISchedule } from "../Interface";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { IApplication, ISchedule } from "../Interface";
 import dayjs from "dayjs";
-import {
-  downloadChatRecordHandler,
-  downloadNewMemberChatHandler,
-} from "../Handlers";
 import DisplayApplicationModal from "../Modals/DisplayApplicationModal";
 import axios from "axios";
 
 const { Paragraph } = Typography;
-const { confirm } = Modal;
 
 interface MentorApplicationProps {
   applications: IApplication[];
   schedule: ISchedule;
-  memberChatRecords?: IMemberChatRecord[];
-  currentSemester?: string | null;
   callback: () => Promise<void>;
 }
 
 const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
   applications,
   schedule,
-  memberChatRecords = [],
-  currentSemester,
   callback,
 }) => {
   const [hideReject, setHideReject] = useState(false);
@@ -82,64 +65,6 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
     } catch (err) {
       message.error("更新失败");
     }
-  };
-
-  const confirmHandler = async (appl: IApplication) => {
-    confirm({
-      title: "确认谈话记录",
-      icon: <ExclamationCircleOutlined />,
-      content: "该操作不可撤销",
-      okText: "确认",
-      cancelText: "取消",
-      onOk: async () => {
-        try {
-          const res = await axios.post(`/application/info/mentor/confirm`, {
-            id: appl.id,
-          });
-          if (res.status !== 200) {
-            throw new Error();
-          }
-          await callback();
-          message.success("确认成功");
-        } catch (err) {
-          message.error("确认失败");
-        }
-      },
-    });
-  };
-
-  const memberConfirmHandler = async (appl: IApplication) => {
-    // 新系统：从 memberChatRecords 找到对应学生当前学期的记录
-    const record = memberChatRecords.find(
-      (r) =>
-        r.user_id === appl.stu?.uuid && r.semester === (currentSemester ?? ""),
-    );
-    if (!record) {
-      message.warning("该学生当前学期暂无积极分子谈话记录");
-      return;
-    }
-    confirm({
-      title: "确认积极分子谈话记录",
-      icon: <ExclamationCircleOutlined />,
-      content: "该操作不可撤销",
-      okText: "确认",
-      cancelText: "取消",
-      onOk: async () => {
-        try {
-          const res = await axios.post(
-            `/application/info/mentor/member_chat_confirm`,
-            { record_id: record.id },
-          );
-          if (res.status !== 200) {
-            throw new Error();
-          }
-          await callback();
-          message.success("确认成功");
-        } catch (err) {
-          message.error("确认失败");
-        }
-      },
-    });
   };
 
   return (
@@ -269,108 +194,6 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
                   </Select>
                 )}
               </Descriptions.Item>
-              {item.status === "approved" && (
-                <Descriptions.Item label="谈话记录" span={4}>
-                  <Row align="middle">
-                    <Col style={{ width: "18%" }}>
-                      {item.chat ? (
-                        <Badge status="success" text="已提交" />
-                      ) : (
-                        <Badge status="processing" text="未提交" />
-                      )}
-                    </Col>
-                    <Col style={{ width: "18%" }}>
-                      {item.chat2 ? (
-                        <Badge status="success" text="已确认" />
-                      ) : (
-                        <Badge status="processing" text="未确认" />
-                      )}
-                    </Col>
-                    {item.chat_t && (
-                      <Col style={{ width: "24%" }}>
-                        <CalendarTwoTone />
-                        {" " + dayjs(item.chat_t).format("YYYY-MM-DD")}
-                      </Col>
-                    )}
-                    <Col style={{ width: "20%" }}>
-                      <Button
-                        icon={<DownloadOutlined />}
-                        onClick={() => downloadChatRecordHandler(item.id)}
-                        disabled={!item.chat}
-                      >
-                        下载
-                      </Button>
-                    </Col>
-                    {!item.chat2 && (
-                      <Col style={{ width: "20%" }}>
-                        <Button
-                          icon={<CheckCircleOutlined />}
-                          onClick={() => confirmHandler(item)}
-                          disabled={!item.chat}
-                        >
-                          确认
-                        </Button>
-                      </Col>
-                    )}
-                  </Row>
-                </Descriptions.Item>
-              )}
-              {item.status === "approved" && item.is_mem && (
-                <Descriptions.Item label="积极分子谈话记录" span={4}>
-                  {(() => {
-                    const record = memberChatRecords.find(
-                      (r) =>
-                        r.user_id === item.stu?.uuid &&
-                        r.semester === (currentSemester ?? ""),
-                    );
-                    if (!record) {
-                      return (
-                        <Typography.Text type="secondary">
-                          当前学期（{currentSemester ?? "未知"}）暂未提交
-                        </Typography.Text>
-                      );
-                    }
-                    return (
-                      <Row align="middle">
-                        <Col style={{ width: "20%" }}>
-                          {record.member_chat_confirm ? (
-                            <Badge status="success" text="已确认" />
-                          ) : (
-                            <Badge status="processing" text="待确认" />
-                          )}
-                        </Col>
-                        <Col style={{ width: "24%" }}>
-                          <CalendarTwoTone />
-                          {" " + dayjs(record.updated_at).format("YYYY-MM-DD")}
-                        </Col>
-                        <Col style={{ width: "20%" }}>
-                          <Button
-                            icon={<DownloadOutlined />}
-                            onClick={() =>
-                              downloadNewMemberChatHandler(
-                                record.user_id,
-                                record.semester,
-                              )
-                            }
-                          >
-                            下载
-                          </Button>
-                        </Col>
-                        {!record.member_chat_confirm && (
-                          <Col style={{ width: "20%" }}>
-                            <Button
-                              icon={<CheckCircleOutlined />}
-                              onClick={() => memberConfirmHandler(item)}
-                            >
-                              确认
-                            </Button>
-                          </Col>
-                        )}
-                      </Row>
-                    );
-                  })()}
-                </Descriptions.Item>
-              )}
             </Descriptions>
           );
         }}

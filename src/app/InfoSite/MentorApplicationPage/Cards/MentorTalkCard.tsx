@@ -113,14 +113,20 @@ const MentorTalkCard: React.FC<MentorTalkCardProps> = ({ currentSemester }) => {
       key: "semester",
       width: "28%",
       filters: Array.from(new Set(records.map((r) => r.semester))).map((s) => ({
-        text: s,
+        text: s === "" ? "旧系统数据" : s,
         value: s,
       })),
       onFilter: (value, record) => record.semester === value,
       render: (val: string) => (
         <Space>
-          <Text strong>{val}</Text>
-          {val === currentSemester && <Tag color="blue">当前</Tag>}
+          {val === "" ? (
+            <Tag color="orange">旧系统数据</Tag>
+          ) : (
+            <>
+              <Text strong>{val}</Text>
+              {val === currentSemester && <Tag color="blue">当前</Tag>}
+            </>
+          )}
         </Space>
       ),
     },
@@ -160,7 +166,11 @@ const MentorTalkCard: React.FC<MentorTalkCardProps> = ({ currentSemester }) => {
             size="small"
             icon={<DownloadOutlined />}
             onClick={() =>
-              downloadMentorTalkHandler(record.user_id, record.semester)
+              downloadMentorTalkHandler(
+                record.user_id,
+                record.semester,
+                record.application_id,
+              )
             }
           >
             下载

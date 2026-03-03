@@ -127,8 +127,6 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
                 <MentorApplicationCard
                   applications={applications}
                   schedule={schedule}
-                  memberChatRecords={memberChatRecords}
-                  currentSemester={currentSemester}
                   callback={updateStatusCallback}
                 />
               )}
