@@ -9547,10 +9547,10 @@ jwt-decode@4.0.0:
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
   integrity sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==
 
-katex@0.16.33:
-  version "0.16.33"
-  resolved "https://registry.yarnpkg.com/katex/-/katex-0.16.33.tgz#5cd5af2ddc1132fe6a710ae6604ec1f19fca9e91"
-  integrity sha512-q3N5u+1sY9Bu7T4nlXoiRBXWfwSefNGoKeOwekV+gw0cAXQlz2Ww6BLcmBxVDeXBMUDQv6fK5bcNaJLxob3ZQA==
+katex@0.16.35:
+  version "0.16.35"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.16.35.tgz#ed01b19a1994c3978c236c980d693efc9e3be027"
+  integrity sha512-S0+riEvy1CK4VKse1ivMff8gmabe/prY7sKB3njjhyoLLsNFDQYtKNgXrbWUggGDCJBz7Fctl5i8fLCESHXzSg==
   dependencies:
     commander "^8.3.0"
 
