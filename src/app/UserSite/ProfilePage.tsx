@@ -412,45 +412,61 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       }
     }
 
+    const updates: { [k: string]: any } = {};
+
+    updates.className =
+      record.class !== undefined
+        ? record.class
+        : profileData?.users_by_pk?.class;
+    updates.department =
+      record.department !== undefined
+        ? record.department
+        : profileData?.users_by_pk?.department;
+    updates.realname =
+      record.realname !== undefined
+        ? record.realname
+        : profileData?.users_by_pk?.realname;
+    updates.student_no =
+      record.student_no !== undefined
+        ? record.student_no
+        : profileData?.users_by_pk?.student_no;
+    updates.username =
+      record.username !== undefined
+        ? record.username
+        : profileData?.users_by_pk?.username;
+
     if (key === "department") {
-      // 构建一个同时更新 department 和 class 的记录
-      const updateRecord = {
-        ...record,
-        class: "", // 强制将班级字段清空
-      };
-
-      try {
-        // 执行包含清空 class 字段的 Mutation
-        await updateProfileMutation({
-          variables: {
-            uuid: user.uuid,
-            ...profileData?.users_by_pk,
-            ...updateRecord, // 使用包含 class: "" 的新记录
-          },
-        });
-
-        // 弹出 warning 提示：修改院系，已清空班级
-        message.warning("修改院系，已清空班级");
-
-        // 成功更新后，刷新组件数据
-        await getProfileRefetch();
-        setDescKey((prev) => prev + 1); // key 改变，强制 ProDescriptions 重绘
-        return Promise.resolve();
-      } catch (error) {
-        // 错误处理
-        console.error(error);
-        message.error("更新院系信息失败");
-        return Promise.reject();
-      }
+      // 如果更新了院系，强制清空班级字段
+      updates.className = "";
+      message.info("院系更新成功，请重新选择班级");
     }
-    await updateProfileMutation({
-      variables: {
-        uuid: user.uuid,
-        ...profileData?.users_by_pk,
-        ...record,
-      },
-    });
-    return getProfileRefetch();
+
+    //如果无可更新字段，拒绝
+    if (Object.keys(updates).length === 0) {
+      message.error("没有可更新的信息");
+      return Promise.reject();
+    }
+
+    try {
+      const res = await axios.post("/user/update", updates, {});
+      await getProfileRefetch();
+      if (key === "department") {
+        setDescKey((prev) => prev + 1);
+      }
+      message.success("用户信息更新成功");
+      return Promise.resolve();
+    } catch (err: any) {
+      if (err.response) {
+        if (err.response.status === 422) {
+          message.error("无可更新信息或输入信息不合法");
+        } else {
+          message.error("用户信息更新失败");
+        }
+      } else {
+        message.error("网络错误，无法连接到服务器");
+      }
+      return Promise.reject();
+    }
   };
 
   // [头像逻辑代码已省略，与主逻辑无关]
