@@ -27,6 +27,23 @@ import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
 import Loading from "@/app/Components/Loading";
 import { downloadFile } from "@/api/cos";
+import axios from "axios";
+
+interface TeamSoftwareCodeData {
+  URL: string;
+  created_at: string;
+  updated_at: string;
+  submission_count: number;
+  team_name: string;
+  team_leader: {
+    realname: string;
+    student_no: string;
+  };
+  members: Array<{
+    realname: string;
+    student_no: string;
+  }>;
+}
 
 /* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const { Title } = Typography;
@@ -110,6 +127,57 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       xlsx.writeFile(workBook, `队伍信息_${contestName}.xlsx`);
     } catch (error) {
       message.error("队伍信息导出失败");
+    }
+  };
+
+  const exportTeamSoftwareCode = async () => {
+    try {
+      const response = await axios.post(
+        `/competition/get_all_team_software_code_by_contest`,
+        { contest_id: contest_id },
+      );
+
+      const softwareCodeData: TeamSoftwareCodeData[] =
+        response.data?.data || [];
+
+      if (softwareCodeData.length === 0) {
+        message.warning("没有队伍代码数据");
+        return;
+      }
+
+      // 构建导出数据
+      const exportData = softwareCodeData.map((item) => [
+        item.team_name,
+        item.team_leader.realname,
+        item.team_leader.student_no,
+        item.members.map((m) => `${m.realname} (${m.student_no})`).join("; "),
+        item.URL,
+        item.submission_count,
+        new Date(item.created_at).toLocaleString("zh-CN"),
+        new Date(item.updated_at).toLocaleString("zh-CN"),
+      ]);
+
+      const contestName = cleanFileName(contestNameData?.contest_by_pk?.name!);
+      const workBook = xlsx.utils.book_new();
+      const workSheet = xlsx.utils.aoa_to_sheet([
+        [
+          "队名",
+          "队长",
+          "队长学号",
+          "队伍成员",
+          "代码链接",
+          "提交次数",
+          "创建时间",
+          "更新时间",
+        ],
+        ...exportData,
+      ]);
+      xlsx.utils.book_append_sheet(workBook, workSheet);
+      xlsx.writeFile(workBook, `队伍代码链接_${contestName}.xlsx`);
+      message.success("队伍代码链接导出成功");
+    } catch (error) {
+      message.error("队伍代码链接导出失败");
+      console.error(error);
     }
   };
 
@@ -207,13 +275,22 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
             rowKey={(record) => record.team_id}
           />
         </Suspense>
-        <Button
-          icon={<DownloadOutlined />}
-          onClick={exportTeamsData}
-          type="primary"
-        >
-          导出队伍信息
-        </Button>
+        <Space direction="vertical" style={{ marginTop: "16px" }}>
+          <Button
+            icon={<DownloadOutlined />}
+            onClick={exportTeamsData}
+            type="primary"
+          >
+            导出队伍信息
+          </Button>
+          <Button
+            icon={<DownloadOutlined />}
+            onClick={exportTeamSoftwareCode}
+            type="primary"
+          >
+            导出队伍代码链接
+          </Button>
+        </Space>
       </Card>
       <Drawer
         title="队伍主页"

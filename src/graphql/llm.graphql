@@ -1,0 +1,15 @@
+query GetLLMList {
+  llm_list {
+    name
+    value
+    deepthinkingmodel
+  }
+}
+
+query GetUserLlmUsage($student_no: String!) {
+  user_llm_usage_by_pk(student_no: $student_no) {
+    student_no
+    total_tokens_used
+    token_limit
+  }
+}

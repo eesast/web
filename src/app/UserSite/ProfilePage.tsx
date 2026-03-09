@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import dayjs from "dayjs";
 import {
-  validateClass,
   validateEmail,
   validateStudentID,
   validatePhoneNumber,
@@ -53,14 +52,36 @@ const roleMap: { [key: string]: string } = {
   admin: "管理员",
 };
 
-// const CLIENT_ID = 'Ov23liTd9x0uVEeGwGO4';
-// const REDIRECT_URI = 'http://localhost:3000';
-
-// interface GitHubUser {
-//   login: string;
-//   avatar_url: string;
-// }
 const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
+  // 修正位置：所有 Hooks 必须在函数组件的顶层调用
+  const { data: classesData, loading: classesLoading } =
+    graphql.useGetClasses_NameQuery();
+
+  // =======================================================
+  // 【修改后的调试代码】
+  useEffect(() => {
+    // 1. 打印原始数据对象
+    console.log("【DEBUG】班级数据 classesData:", classesData);
+
+    // 假设查询结果的列表字段名为 'classes'
+    const classesList = classesData?.classes;
+
+    // 2. 检查数据是否有效，并打印列表长度
+    if (classesList) {
+      console.log("【DEBUG】班级列表长度:", classesList.length);
+      // 3. 打印列表中的第一个元素，以便确认数据结构
+      if (classesList.length > 0) {
+        console.log("【DEBUG】第一个班级对象:", classesList[0]);
+      }
+    } else if (classesLoading === false) {
+      // 如果不在加载中，但数据还是空的（或列表字段不存在），说明查询失败或权限有问题
+      console.log(
+        "【DEBUG】班级数据为空，且加载已完成。请检查权限或查询是否正确。",
+      );
+    }
+  }, [classesData, classesLoading]); // 依赖项：当 classesData 或 classesLoading 变化时运行
+  // =======================================================
+
   // const [usergithub, setUsergithub] = useState<GitHubUser | null>(null);
   const url = useUrl();
   const navigate = useNavigate();
@@ -110,40 +131,11 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     },
   });
 
-  // useEffect(() => {
-  //   const code = new URLSearchParams(window.location.search).get('code');
-  //   if (code) {
-  //     getAccessToken(code);
-  //   }
-  // });
+  // 引入 descKey 状态
+  const [descKey, setDescKey] = useState(0);
 
-  // const getAccessToken = async (code: string) => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:3001/github/callback?code=${code}`);
-  //     const accessToken = response.data.accessToken;
-  //     if (accessToken) {
-  //       console.log('Access Token:', accessToken); // 调试输出
-  //       getUserInfo(accessToken);
-  //     } else {
-  //       console.error('Access token is missing');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error getting access token:', error);
-  //   }
-  // };
+  // [GitHub 登录相关代码已省略，与主逻辑无关]
 
-  // const getUserInfo = async (accessToken: string) => {
-  //   try {
-  //     const response = await axios.get<GitHubUser>(`http://localhost:3001/github/user?access_token=${accessToken}`);
-  //     setUsergithub(response.data);
-  //   } catch (error) {
-  //     console.error('Error getting user info:', error);
-  //   }
-  // };
-
-  // const handleLogin = () => {
-  //   window.location.href = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
-  // };
   const { refetch: refetchUserByEmail } = graphql.useGetUserByEmailQuery({
     variables: { email: "" },
   });
@@ -152,7 +144,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       variables: { tsinghua_email: "" },
     });
   // const { refetch: refetchUserByPhone } = graphql.useGetUserByPhoneQuery({
-  //   variables: { phone: "" },
+  //   variables: { phone: "" },
   // });
 
   useEffect(() => {
@@ -178,6 +170,17 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     setUser(null);
     navigate(url.link("home", "site"));
   };
+
+  const currentDepartment = profileData?.users_by_pk?.department;
+  const isDiangZiXi = currentDepartment === "电子系";
+
+  const classValueEnum = classesData?.classes?.reduce(
+    (target, classItem) => {
+      target[classItem.name] = classItem.name;
+      return target;
+    },
+    {} as { [key: string]: string },
+  );
 
   const baseItems = [
     {
@@ -211,11 +214,11 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       editable: () => true,
     },
     // {
-    //   key: "phone",
-    //   label: "手机号",
-    //   span: 2,
-    //   children: profileData?.users_by_pk?.phone || "",
-    //   editable: () => true,
+    //   key: "phone",
+    //   label: "手机号",
+    //   span: 2,
+    //   children: profileData?.users_by_pk?.phone || "",
+    //   editable: () => true,
     // },
     {
       key: "department",
@@ -223,6 +226,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       span: 2,
       children: profileData?.users_by_pk?.department || "",
       editable: () => true,
+      valueType: "select",
       valueEnum: departmentsData?.department.reduce(
         (target, key, _) => {
           target[key.name] = key.name;
@@ -235,8 +239,23 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       key: "class",
       label: "班级",
       span: 2,
-      children: profileData?.users_by_pk?.class || "",
-      editable: () => true,
+      children: classesLoading
+        ? "加载中..."
+        : profileData?.users_by_pk?.class || "",
+      editable: () => !classesLoading, // 加载时禁用编辑
+
+      // ⭐ 根据条件动态设置字段类型：如果是电子系，则为下拉选择 'select'，否则为普通文本输入 'text' (或不设置，但明确写出更清晰)
+      valueType: isDiangZiXi ? "select" : "text",
+
+      // ⭐ 只有在 valueType 为 'select' 时才传递 valueEnum 和 fieldProps
+      valueEnum: isDiangZiXi ? classValueEnum : undefined,
+
+      fieldProps: isDiangZiXi
+        ? {
+            // 如果是下拉框，可以禁用搜索，强制用户从列表中选择
+            showSearch: false,
+          }
+        : undefined,
     },
     {
       key: "student_no",
@@ -262,11 +281,11 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       editable: () => false,
     },
     // {
-    //   key: "github_id",
-    //   label: "GitHub用户绑定",
-    //   span: 2,
-    //   children: profileData.users_by_pk?.github_id || "",
-    //   editable: () => true,
+    //   key: "github_id",
+    //   label: "GitHub用户绑定",
+    //   span: 2,
+    //   children: profileData.users_by_pk?.github_id || "",
+    //   editable: () => true,
     // },
     {
       key: "created_at",
@@ -347,8 +366,8 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       }
       // const { data } = await refetchUserByPhone({ phone: record[key] });
       // if (data.users.length) {
-      //   message.error("手机号已被注册");
-      //   return Promise.reject();
+      //   message.error("手机号已被注册");
+      //   return Promise.reject();
       // }
       // navigate(url.append("phone", record[key]).link("update"));
       return Promise.resolve();
@@ -383,15 +402,43 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
         return Promise.reject();
       }
     }
-    if (key === "class") {
-      if (!validateClass(record[key])) {
-        message.error("请输入正确的班级信息，如：无92，计81");
-        return Promise.reject();
-      }
-    }
+    // 班级 (class) 字段的格式校验已移除
+
     if (key === "student_no") {
       if (!validateStudentID(record[key])) {
         message.error("请输入正确的学号");
+        return Promise.reject();
+      }
+    }
+
+    if (key === "department") {
+      // 构建一个同时更新 department 和 class 的记录
+      const updateRecord = {
+        ...record,
+        class: "", // 强制将班级字段清空
+      };
+
+      try {
+        // 执行包含清空 class 字段的 Mutation
+        await updateProfileMutation({
+          variables: {
+            uuid: user.uuid,
+            ...profileData?.users_by_pk,
+            ...updateRecord, // 使用包含 class: "" 的新记录
+          },
+        });
+
+        // 弹出 warning 提示：修改院系，已清空班级
+        message.warning("修改院系，已清空班级");
+
+        // 成功更新后，刷新组件数据
+        await getProfileRefetch();
+        setDescKey((prev) => prev + 1); // key 改变，强制 ProDescriptions 重绘
+        return Promise.resolve();
+      } catch (error) {
+        // 错误处理
+        console.error(error);
+        message.error("更新院系信息失败");
         return Promise.reject();
       }
     }
@@ -405,13 +452,8 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     return getProfileRefetch();
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (imageUrl.startsWith('blob:')) {
-  //       URL.revokeObjectURL(imageUrl);
-  //     }
-  //   };
-  // }, [imageUrl]);
+  // [头像逻辑代码已省略，与主逻辑无关]
+  // ... (handleImageClick, handleBeforeUpload, handleDeleteAvatar, showDeleteConfirm, handleCrop)
 
   const handleImageClick = () => {
     const input = document.createElement("input");
@@ -535,6 +577,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
             }}
           >
             <ProDescriptions
+              key={descKey}
               bordered
               column={{ xs: 1, sm: 2, md: 3 }}
               editable={{
@@ -551,6 +594,10 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                   editable={item.editable}
                   valueEnum={item.valueEnum}
                   tooltip={item.tooltip}
+                  // 对 item 进行类型断言，明确告诉 TypeScript item.valueType 是 ProFieldValueType 类型
+                  valueType={item.valueType as any}
+                  // 对 item 进行类型断言，明确告诉 TypeScript item.fieldProps 是任何类型
+                  fieldProps={item.fieldProps as any}
                 >
                   {item.children}
                 </ProDescriptions.Item>
@@ -702,16 +749,6 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       </Modal>
 
       {/* GitHub 登录部分（可选） */}
-      {/*
-      {usergithub ? (
-        <div>
-          <h2>Welcome, {usergithub?.login}</h2>
-          <img src={usergithub?.avatar_url} alt="avatar" width="50" />
-        </div>
-      ) : (
-        <button onClick={handleLogin}>Login with GitHub</button>
-      )}
-      */}
     </Content>
   );
 };
