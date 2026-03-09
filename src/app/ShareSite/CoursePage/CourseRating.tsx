@@ -19,6 +19,7 @@ import { ReloadOutlined } from "@ant-design/icons";
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import { Chart } from "@antv/g2";
+import axios from "axios";
 
 /* ---------------- 主页面 ---------------- */
 const CourseRating: React.FC<CourseProps> = ({
@@ -51,9 +52,9 @@ const CourseRating: React.FC<CourseProps> = ({
       },
     });
 
-  const [addCourseRating] = graphql.useAddCourseRatingMutation();
-  const [updateCourseRating] = graphql.useUpdateCourseRatingMutation();
-  const [deleteCourseRating] = graphql.useDeleteCourseRatingMutation();
+  // const [addCourseRating] = graphql.useAddCourseRatingMutation();
+  // const [updateCourseRating] = graphql.useUpdateCourseRatingMutation();
+  // const [deleteCourseRating] = graphql.useDeleteCourseRatingMutation();
 
   /* ---------------- useEffect ---------------- */
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,12 +171,16 @@ const CourseRating: React.FC<CourseProps> = ({
 
   const handleDeleteRating = async () => {
     try {
-      await deleteCourseRating({
-        variables: {
-          course_id: course_uuid,
-          user_uuid: user.uuid,
-        },
+      await axios.post("/share/delete_course_rating", {
+        course_id: course_uuid,
+        user_uuid: user.uuid,
       });
+      // await deleteCourseRating({
+      //   variables: {
+      //     course_id: course_uuid,
+      //     user_uuid: user.uuid,
+      //   },
+      // });
       message.success("评分已删除");
       ratingForm.resetFields();
       refetchCourseRating();
@@ -203,33 +208,53 @@ const CourseRating: React.FC<CourseProps> = ({
     try {
       if (courseRatingData?.course_rating_by_pk) {
         // 如果已有评分，进行更新操作
-        await updateCourseRating({
-          variables: {
-            course_id: course_uuid,
-            user_uuid: user.uuid,
-            dim1: values.dim1,
-            dim2: values.dim2,
-            dim3: values.dim3,
-            dim4: values.dim4,
-            dim5: values.dim5,
-            dim6: values.dim6,
-          },
+        await axios.post("/share/update_course_rating", {
+          course_id: course_uuid,
+          user_uuid: user.uuid,
+          dim1: values.dim1,
+          dim2: values.dim2,
+          dim3: values.dim3,
+          dim4: values.dim4,
+          dim5: values.dim5,
+          dim6: values.dim6,
         });
+        // await updateCourseRating({
+        //   variables: {
+        //     course_id: course_uuid,
+        //     user_uuid: user.uuid,
+        //     dim1: values.dim1,
+        //     dim2: values.dim2,
+        //     dim3: values.dim3,
+        //     dim4: values.dim4,
+        //     dim5: values.dim5,
+        //     dim6: values.dim6,
+        //   },
+        // });
         message.success("评分已更新");
       } else {
         // 如果没有评分，进行添加操作
-        await addCourseRating({
-          variables: {
-            dim1: values.dim1,
-            dim2: values.dim2,
-            dim3: values.dim3,
-            dim4: values.dim4,
-            dim5: values.dim5,
-            dim6: values.dim6,
-            course_id: course_uuid,
-            user_uuid: user.uuid,
-          },
+        await axios.post("/share/add_course_rating", {
+          dim1: values.dim1,
+          dim2: values.dim2,
+          dim3: values.dim3,
+          dim4: values.dim4,
+          dim5: values.dim5,
+          dim6: values.dim6,
+          course_id: course_uuid,
+          user_uuid: user.uuid,
         });
+        // await addCourseRating({
+        //   variables: {
+        //     dim1: values.dim1,
+        //     dim2: values.dim2,
+        //     dim3: values.dim3,
+        //     dim4: values.dim4,
+        //     dim5: values.dim5,
+        //     dim6: values.dim6,
+        //     course_id: course_uuid,
+        //     user_uuid: user.uuid,
+        //   },
+        // });
         message.success("评分已添加");
       }
       refetchCourseRating();
