@@ -16,7 +16,6 @@ import dayjs from "dayjs";
 import Scrollbars from "react-custom-scrollbars";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import axios from "axios";
 import { PageProps } from "..";
 import axios from "axios";
 
@@ -53,8 +52,6 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     skip: user.role === "counselor",
   });
   // 删除原有的addMessage相关hook定义，改用本地state
-  const [addMessageLoading, setAddMessageLoading] = useState(false);
-  const [addMessageError, setAddMessageError] = useState<any>(null);
 
   /*----- useEffect 部分 -----*/
   // 申请数据加载失败时提示
