@@ -9,13 +9,18 @@ interface BackgroundProps {
   width?: number;
   height?: number;
   blur?: number;
+  transparent?: boolean;
 }
 
-const backgrounds = [
+const backgroundsLight = [
   `./backgrounds/tsinghua-fall.jpg`,
-  `./backgrounds/integrated-circuits.jpg`,
-  `./backgrounds/signals.jpg`,
-  `./backgrounds/cognition.jpg`,
+  //`./backgrounds/signals.jpg`,
+  `./backgrounds/333.png`,
+];
+
+const backgroundsDark = [
+  `./backgrounds/dark112.jpg`,
+  `./backgrounds/dark113.jpg`,
 ];
 
 const StyledBackground = styled.div<{ url: string }>`
@@ -35,6 +40,7 @@ const StyledActionCard = styled.div<{
   height?: number;
   blur?: number;
   mode?: string;
+  transparent?: boolean;
 }>`
   width: ${({ width }) => (width ? `${width}px` : "360px")};
   height: ${({ height }) => (height ? `${height}px` : "auto")};
@@ -45,7 +51,11 @@ const StyledActionCard = styled.div<{
   border-radius: 8px;
   box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
   background-color: ${(props) =>
-    props.mode === "light" ? `rgba(255, 255, 255, 0.5)` : `rgba(0, 0, 0, 0.5)`};
+    props.transparent
+      ? "transparent"
+      : props.mode === "light"
+        ? `rgba(255, 255, 255, 0.5)`
+        : `rgba(30, 29, 29, 0.5)`};
   backdrop-filter: blur(
     ${({ blur }) => (blur !== undefined ? `${blur}px` : "36px")}
   );
@@ -58,13 +68,21 @@ const Background: React.FC<BackgroundProps> = ({
   width,
   height,
   blur,
+  transparent,
 }) => {
-  const background = backgrounds[Math.floor(imageIndex * backgrounds.length)];
+  const list = mode === "dark" ? backgroundsDark : backgroundsLight;
+  const background = list[Math.floor(imageIndex || 0) * list.length] || list[0];
 
   return (
     <StyledBackground url={background}>
       <Center>
-        <StyledActionCard width={width} height={height} blur={blur} mode={mode}>
+        <StyledActionCard
+          width={width}
+          height={height}
+          blur={blur}
+          mode={mode}
+          transparent={transparent}
+        >
           {children}
         </StyledActionCard>
       </Center>

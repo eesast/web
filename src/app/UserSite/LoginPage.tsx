@@ -13,6 +13,33 @@ import {
 } from "../../api/utils/validator";
 import { UserProps } from ".";
 import { renew } from "@/api/notification";
+import { createGlobalStyle } from "styled-components";
+
+const AutofillStyle = createGlobalStyle<{ mode?: string }>`
+  /* Chrome, Edge, Safari */
+  input: -webkit-autofill,
+  textarea: -webkit-autofill,
+  select: -webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px
+    ${(p) => (p.mode === "dark" ? "rgba(30,29,29,0.5)" : "rgba(255,255,255,0.02)")}
+      inset !important;
+    box-shadow: 0 0 0px 1000px
+      ${(p) => (p.mode === "dark" ? "rgba(30,29,29,0.5)" : "rgba(255,255,255,0.02)")}
+      inset !important;
+    -webkit-text-fill-color: ${(p) => (p.mode === "dark" ? "#fff" : "inherit")} !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+
+  /* Firefox */
+  input:-moz-autofill,
+  textarea:-moz-autofill,
+  select:-moz-autofill {
+    box-shadow: 0 0 0px 1000px
+      ${(p) => (p.mode === "dark" ? "rgba(30,29,29,0.5)" : "rgba(255,255,255,0.02)")}
+      inset !important;
+      color: ${(p) => (p.mode === "dark" ? "#fff" : "inherit")} !important;
+  }
+`;
 
 const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const navigate = useNavigate();
@@ -57,6 +84,7 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
 
   return (
     <Background mode={mode} imageIndex={(Date.now() % 233333) / 233333}>
+      <AutofillStyle mode={mode} />
       <Form onFinish={onFinish}>
         <Center>
           <img src="./logo.png" alt="Logo" height="256" />
