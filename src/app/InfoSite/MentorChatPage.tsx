@@ -109,9 +109,13 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
         receiver_id: to!,
         content: JSON.stringify({ text: text.trim() }),
       });
-      setText(""); //清空文本框
-    } catch (err) {
-      setAddMessageError(err);
+    } catch (error: any) {
+      setAddMessageError(
+        error instanceof Error ? error : new Error(String(error)),
+      );
+      message.error("信息发送失败");
+    } finally {
+      setAddMessageLoading(false);
     }
     setAddMessageLoading(false);
   };

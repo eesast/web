@@ -448,7 +448,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     }
 
     try {
-      const res = await axios.post("/user/update", updates, {});
+      await axios.post("/user/update", updates, {});
       await getProfileRefetch();
       if (key === "department") {
         setDescKey((prev) => prev + 1);
