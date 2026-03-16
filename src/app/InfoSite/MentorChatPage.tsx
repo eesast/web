@@ -17,6 +17,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { PageProps } from "..";
+import axios from "axios";
 
 /*----- 不依赖于 props 和 hooks 的定义 -----*/
 const { TextArea } = Input;
@@ -34,6 +35,8 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
       graphql.GetApprovedMentorApplicationsQuery["mentor_application"][0]["student"]
     >();
   const [text, setText] = useState("");
+  const [addMessageLoading, setAddMessageLoading] = useState(false);
+  const [addMessageError, setAddMessageError] = useState<Error | null>(null);
 
   /*----- 获取数据 hook -----*/
   // 查询获取导师已批准的申请信息
@@ -48,10 +51,7 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     },
     skip: user.role === "counselor",
   });
-
-  // 发送信息 hook
-  const [addMessage, { loading: addMessageLoading, error: addMessageError }] =
-    graphql.useAddMessageMutation();
+  // 删除原有的addMessage相关hook定义，改用本地state
 
   /*----- useEffect 部分 -----*/
   // 申请数据加载失败时提示
@@ -99,18 +99,22 @@ const MentorChatPage: React.FC<PageProps> = ({ mode, user }) => {
     if (!text.trim()) {
       return;
     }
-
-    await addMessage({
-      variables: {
-        from_uuid: from!,
-        to_uuid: to!,
-        payload: JSON.stringify({
-          text: text.trim(),
-        }),
-      },
-    });
-
-    setText(""); //清空文本框
+    setAddMessageLoading(true);
+    setAddMessageError(null);
+    try {
+      await axios.post("/chat/send", {
+        receiver_id: to!,
+        content: JSON.stringify({ text: text.trim() }),
+      });
+    } catch (error: any) {
+      setAddMessageError(
+        error instanceof Error ? error : new Error(String(error)),
+      );
+      message.error("信息发送失败");
+    } finally {
+      setAddMessageLoading(false);
+    }
+    setAddMessageLoading(false);
   };
 
   /*----- 渲染逻辑 -----*/
