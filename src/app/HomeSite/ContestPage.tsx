@@ -43,6 +43,13 @@ const Contest1 = () => (
     <Bold></Bold>
     <Center direction="column">
       <Image
+        alt="THUAI_8_cover"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_THUAI_8.png`}
+        width={800}
+      />
+      <P>THUAI8——西游真经劫</P>
+      <P></P>
+      <Image
         alt="THUAI_7_cover"
         src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_THUAI_7.png`}
         width={800}
@@ -155,6 +162,13 @@ const Contest3 = () => (
     <Title level={3}>精彩回顾</Title>
     <Center direction="column">
       <Bold></Bold>
+      <Image
+        alt="software_cover_2024"
+        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_software_2025.png`}
+        width={800}
+      />
+      <P>2025 特等奖——ZeroDay</P>
+      <P></P>
       <Image
         alt="software_cover_2024"
         src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_software_2024.jpg`}
