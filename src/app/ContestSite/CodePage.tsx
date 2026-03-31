@@ -85,6 +85,8 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { Paragraph } = Typography;
   const Contest_id = url.query.get("contest");
   const [sf_code, setSF_code] = useState("");
+  const [finalCodeUrl, setFinalCodeUrl] = useState("");
+  const [showFinal, setShowFinal] = useState(false);
   const codeIndexMap = new Map();
 
   const [isSelectingGlobalCode, setIsSelectingGlobalCode] = useState(false);
@@ -173,6 +175,21 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(teamCodesError.message);
     }
   });
+
+  useEffect(() => {
+    if (teamid) {
+      axios
+        .post("/competition/get_team_software_final_one", { team_id: teamid })
+        .then((res) => {
+          if (res.data?.data?.URL) {
+            setFinalCodeUrl(res.data.data.URL);
+          }
+        })
+        .catch((err) => {
+          // ignore or handle
+        });
+    }
+  }, [teamid]);
 
   if (!teamid) {
     return <NotJoined />;
@@ -406,10 +423,48 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       message.error("提交失败，请重试！");
     }
   };
+
+  const handleFinalCodeChange = async () => {
+    try {
+      const getRes = await axios.post(
+        "/competition/get_team_software_final_one",
+        {
+          team_id: teamid!,
+        },
+      );
+
+      if (getRes.data?.data) {
+        await axios.post("/competition/update_team_software_final", {
+          team_id: teamid!,
+          code_url: finalCodeUrl,
+        });
+      } else {
+        await axios.post("/competition/add_team_software_final", {
+          contest_id: Contest_id,
+          team_id: teamid!,
+          code_url: finalCodeUrl,
+        });
+      }
+
+      message.success("终审代码提交成功！");
+    } catch (error: any) {
+      console.error("提交失败:", error);
+      message.error(
+        "提交失败: " + (error.response?.data?.error || error.message),
+      );
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setSF_code(e.target.value);
+  };
+
+  const handleFinalInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFinalCodeUrl(e.target.value);
   };
 
   const handleOnchange = async (info: any) => {
@@ -792,6 +847,59 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               >
                 提交
               </Button>
+              <div
+                style={{
+                  borderTop: "1px solid #f0f0f0",
+                  marginTop: "20px",
+                  paddingTop: "20px",
+                }}
+              >
+                <div
+                  onClick={() => setShowFinal(!showFinal)}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px 20px",
+                    backgroundColor: "#fafafa",
+                    border: "1px solid #d9d9d9",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    marginBottom: showFinal ? "0" : "20px",
+                  }}
+                >
+                  <Typography.Text strong style={{ fontSize: "24px" }}>
+                    终审代码提交
+                  </Typography.Text>
+                  <Typography.Text type="secondary">
+                    {showFinal ? "收起" : "展开"}
+                  </Typography.Text>
+                </div>
+                {showFinal && (
+                  <div
+                    style={{
+                      padding: "20px",
+                      border: "1px solid #d9d9d9",
+                      borderTop: "none",
+                      borderBottomLeftRadius: "4px",
+                      borderBottomRightRadius: "4px",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <Space direction="vertical" style={{ width: "100%" }}>
+                      <Input.TextArea
+                        placeholder="请在此提交终审代码云盘链接~"
+                        value={finalCodeUrl}
+                        onChange={handleFinalInputChange}
+                        rows={10}
+                      />
+                      <Button type="primary" onClick={handleFinalCodeChange}>
+                        提交终审代码
+                      </Button>
+                    </Space>
+                  </div>
+                )}
+              </div>
             </Col>
           </Row>
         </>
