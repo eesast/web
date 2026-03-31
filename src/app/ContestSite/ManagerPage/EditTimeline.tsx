@@ -42,6 +42,9 @@ const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
   });
   const [addContestTime, { error: addContestTimeError }] =
     graphql.useAddContestTimeMutation();
+  const [deleteContestTime, { error: deleteContestTimeError }] =
+    graphql.useDeleteContestTimeMutation(); // 添加删除事件的 mutation
+
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (getContestTimesError) {
@@ -53,6 +56,11 @@ const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
       message.error("添加事件失败");
     }
   }, [addContestTimeError]);
+  useEffect(() => {
+    if (deleteContestTimeError) {
+      message.error("删除事件失败");
+    }
+  }, [deleteContestTimeError]);
   /* ---------------- 业务逻辑函数 ---------------- */
   const handleAdd = async () => {
     try {
@@ -75,6 +83,24 @@ const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
+  const handleDelete = async (event: string) => {
+    try {
+      await deleteContestTime({
+        variables: {
+          contest_id: Contest_id,
+          event: event,
+        },
+      });
+      if (deleteContestTimeError)
+        throw new Error(deleteContestTimeError.message);
+      message.success("事件删除成功");
+      refetchContestTimes(); // 刷新事件列表
+    } catch (e) {
+      console.log(e);
+      message.error("删除事件失败");
+    }
+  };
+
   const panelStyle: React.CSSProperties = {
     marginBottom: 12,
     background: token.colorFillAlter,
@@ -92,9 +118,18 @@ const EditTimeline: React.FC<ContestProps> = ({ mode, user }) => {
         {dayjs(item.end).format("YYYY-MM-DD")}
         <br />
         描述：{item.description}
+        <br />
+        <Button
+          danger
+          onClick={() => handleDelete(item.event)}
+          style={{ marginTop: "10px" }}
+        >
+          删除事件
+        </Button>
       </>
     ),
   }));
+
   /* ---------------- ⻚⾯组件 ---------------- */
   return (
     <Layout>

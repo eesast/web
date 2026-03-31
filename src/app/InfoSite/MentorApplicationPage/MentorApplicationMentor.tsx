@@ -4,6 +4,8 @@ import MentorInfoCard from "./Cards/MentorInfoCard";
 import MentorApplicationCard from "./Cards/MentorApplicationCard";
 import MentorListCard from "./Cards/MentorListCard";
 import ScheduleCard from "./Cards/ScheduleCard";
+import MentorMemberChatCard from "./Cards/MentorMemberChatCard";
+import MentorTalkCard from "./Cards/MentorTalkCard";
 import { useEffect, useState } from "react";
 import { IMentor, IApplication, ISchedule } from "./Interface";
 import axios from "axios";
@@ -13,6 +15,7 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
   const [applications, setApplications] = useState<IApplication[]>([]); // 本导师的被申请列表
   const [mentors, setMentors] = useState<IMentor[]>([]); // 所有导师列表
   const [schedule, setSchedule] = useState<ISchedule | undefined>(undefined); // 申请时间表
+  const [currentSemester, setCurrentSemester] = useState<string | null>(null);
 
   const fetchMentor = async () => {
     try {
@@ -62,6 +65,15 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
+  const fetchCurrentSemester = async () => {
+    try {
+      const res = await axios.get(`/application/semester`);
+      if (res.status === 200) setCurrentSemester(res.data);
+    } catch {
+      // 非关键数据，静默失败
+    }
+  };
+
   const updateStatusCallback = async () => {
     await fetchApplications();
     await fetchMentors();
@@ -77,6 +89,7 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
     fetchApplications();
     fetchMentors();
     fetchSchedule();
+    fetchCurrentSemester();
   }, []);
 
   return (
@@ -106,6 +119,18 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
               )}
             </Col>
           </Row>
+          <Row style={{ marginTop: "5%" }}>
+            <Col style={{ width: "100%" }}>
+              <MentorTalkCard currentSemester={currentSemester} />
+            </Col>
+          </Row>
+          {mentor?.is_mem && (
+            <Row style={{ marginTop: "5%" }}>
+              <Col style={{ width: "100%" }}>
+                <MentorMemberChatCard currentSemester={currentSemester} />
+              </Col>
+            </Row>
+          )}
         </Col>
         <Col style={{ width: "30%", marginLeft: "5%" }}>
           {schedule && (
