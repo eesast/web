@@ -85,6 +85,12 @@ interface TeamSoftwareCodeData {
     student_no: string;
   }>;
 }
+
+interface TeamSoftwareFinalData {
+  URL: string;
+  created_at: string;
+  updated_at: string;
+}
 /* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const { Dragger } = Upload;
 type ColumnsType<T> = TableProps<T>["columns"];
@@ -109,6 +115,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [latestSoftwareCode, setLatestSoftwareCode] =
     useState<TeamSoftwareCodeData | null>(null);
   const [loadingLatestCode, setLoadingLatestCode] = useState(false);
+  const [latestFinalSoftwareCode, setLatestFinalSoftwareCode] =
+    useState<TeamSoftwareFinalData | null>(null);
+  const [loadingLatestFinalCode, setLoadingLatestFinalCode] = useState(false);
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
 
@@ -195,18 +204,24 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   });
 
   useEffect(() => {
-    if (teamid) {
-      axios
-        .post("/competition/get_team_software_final_one", { team_id: teamid })
-        .then((res) => {
-          if (res.data?.data?.URL) {
-            setFinalCodeUrl(res.data.data.URL);
-          }
-        })
-        .catch((err) => {
-          // ignore or handle
-        });
-    }
+    if (!teamid) return;
+
+    setLoadingLatestFinalCode(true);
+    axios
+      .post("/competition/get_team_software_final_one", { team_id: teamid })
+      .then((res) => {
+        const data: TeamSoftwareFinalData | null = res.data?.data || null;
+        setLatestFinalSoftwareCode(data);
+        if (data?.URL) {
+          setFinalCodeUrl(data.URL);
+        }
+      })
+      .catch((err) => {
+        console.error("获取终审代码失败:", err);
+      })
+      .finally(() => {
+        setLoadingLatestFinalCode(false);
+      });
   }, [teamid]);
   // 获取最近提交的软件代码信息（仅SOFT场景）
   useEffect(() => {
@@ -524,6 +539,14 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
           code_url: finalCodeUrl,
         });
       }
+
+      const refreshRes = await axios.post(
+        "/competition/get_team_software_final_one",
+        {
+          team_id: teamid!,
+        },
+      );
+      setLatestFinalSoftwareCode(refreshRes.data?.data || null);
 
       message.success("终审代码提交成功！");
     } catch (error: any) {
@@ -997,6 +1020,37 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
                     }}
                   >
                     <Space direction="vertical" style={{ width: "100%" }}>
+                      {loadingLatestFinalCode ? (
+                        <p>加载中...</p>
+                      ) : latestFinalSoftwareCode ? (
+                        <div
+                          style={{
+                            border: "1px solid #d9d9d9",
+                            borderRadius: "4px",
+                            padding: "16px",
+                            backgroundColor: "#fafafa",
+                          }}
+                        >
+                          <p>
+                            <strong>代码链接：</strong>{" "}
+                            <a
+                              href={latestFinalSoftwareCode.URL}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {latestFinalSoftwareCode.URL}
+                            </a>
+                          </p>
+                          <p>
+                            <strong>最后更新时间：</strong>{" "}
+                            {new Date(
+                              latestFinalSoftwareCode.updated_at,
+                            ).toLocaleString("zh-CN")}
+                          </p>
+                        </div>
+                      ) : (
+                        <p style={{ color: "#999" }}>暂无提交的终审代码</p>
+                      )}
                       <Input.TextArea
                         placeholder="请在此提交终审代码云盘链接~"
                         value={finalCodeUrl}

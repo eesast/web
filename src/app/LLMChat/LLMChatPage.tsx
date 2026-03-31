@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   Layout,
   Input,
@@ -437,12 +437,15 @@ const preprocessLaTeX = (content: string) => {
 
 const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
   const { data: llmData } = graphql.useGetLlmListQuery();
-  const models: ModelConfig[] =
-    llmData?.llm_list.map((item: any) => ({
-      label: item.name,
-      value: item.value,
-      deepThinkingModel: item.deepthinkingmodel || undefined,
-    })) || [];
+  const models: ModelConfig[] = useMemo(
+    () =>
+      llmData?.llm_list.map((item: any) => ({
+        label: item.name,
+        value: item.value,
+        deepThinkingModel: item.deepthinkingmodel || undefined,
+      })) || [],
+    [llmData],
+  );
 
   const [sessionToken, setSessionToken] = useState(
     () => localStorage.getItem("llm_session_token") || "",
