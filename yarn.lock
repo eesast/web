@@ -2116,10 +2116,10 @@
     "@graphql-codegen/plugin-helpers" "^6.3.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/cli@6.3.0":
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-6.3.0.tgz#8d81e387167b80548838769174b6906e0cd432ef"
-  integrity sha512-tlzSaM2oSnG6x8+QVc+cJ7NMJe+CN4tnSm/B8Uny/IpgSkAqP+RG8xaDxnrzwQZ+lz1ZXrBkNM6vzAGZhOaOGw==
+"@graphql-codegen/cli@6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-6.3.1.tgz#f64f257cf81ffaf2e6241eff64c6de105e74dab2"
+  integrity sha512-I5KkyX1SgQZPojMeQTRydB6fml4cysZq/mIdhNW4rmqdoOcTgdMPq1Tl+wtRp1VpBAOrBazJUJh1nAqJMMSPIQ==
   dependencies:
     "@babel/generator" "^7.18.13"
     "@babel/template" "^7.18.10"
@@ -2197,18 +2197,6 @@
     auto-bind "~4.0.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/plugin-helpers@^6.1.1":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-6.2.0.tgz#d10a56939c9341522e30c23aa2a83b10eafcd0c0"
-  integrity sha512-TKm0Q0+wRlg354Qt3PyXc+sy6dCKxmNofBsgmHoFZNVHtzMQSSgNT+rUWdwBwObQ9bFHiUVsDIv8QqxKMiKmpw==
-  dependencies:
-    "@graphql-tools/utils" "^11.0.0"
-    change-case-all "1.0.15"
-    common-tags "1.8.2"
-    import-from "4.0.0"
-    lodash "~4.17.0"
-    tslib "~2.6.0"
-
 "@graphql-codegen/plugin-helpers@^6.3.0":
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-6.3.0.tgz#d4ba4660c68cb703291fbc6616a6510df26dd5f3"
@@ -2251,13 +2239,13 @@
     auto-bind "~4.0.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/typescript-react-apollo@4.4.1":
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-4.4.1.tgz#405eb254f360715854274731c7ba20c75bebd41c"
-  integrity sha512-lrjUfDCNlCWQU07jO6EvZE8I2OLfJl9XKKGCcol27OhW6B9xaUEPaId+TvL6o/NfV+T4z4eQ/Y8BuKWyYjD+mQ==
+"@graphql-codegen/typescript-react-apollo@4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-4.4.2.tgz#37f10af85a01ff3a752264ba16f1d3cede87e254"
+  integrity sha512-S/VQeLWMNzo/WnUpvCQELqh2qgAK4H9kkWyC8JrrrPHaV3w/BmOwzeHpcwlHKcuSYWRH6u61XPRQ5+eCjj00AQ==
   dependencies:
-    "@graphql-codegen/plugin-helpers" "^6.1.1"
-    "@graphql-codegen/visitor-plugin-common" "^6.2.4"
+    "@graphql-codegen/plugin-helpers" "^6.3.0"
+    "@graphql-codegen/visitor-plugin-common" "^6.3.0"
     auto-bind "~4.0.0"
     change-case-all "1.0.15"
     tslib "^2.8.1"
@@ -2272,22 +2260,6 @@
     "@graphql-codegen/visitor-plugin-common" "^6.3.0"
     auto-bind "~4.0.0"
     tslib "^2.8.0"
-
-"@graphql-codegen/visitor-plugin-common@^6.2.4":
-  version "6.2.4"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-6.2.4.tgz#73906f34e8baaaadf5bfe5fefece4d86f835aebc"
-  integrity sha512-iwiVCc7Mv8/XAa3K35AdFQ9chJSDv/gYEnBeQFF/Sq/W8EyJoHypOGOTTLk7OSrWO4xea65ggv0e7fGt7rPJjQ==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^6.1.1"
-    "@graphql-tools/optimize" "^2.0.0"
-    "@graphql-tools/relay-operation-optimizer" "^7.1.1"
-    "@graphql-tools/utils" "^11.0.0"
-    auto-bind "~4.0.0"
-    change-case-all "1.0.15"
-    dependency-graph "^1.0.0"
-    graphql-tag "^2.11.0"
-    parse-filepath "^1.0.2"
-    tslib "~2.6.0"
 
 "@graphql-codegen/visitor-plugin-common@^6.3.0":
   version "6.3.0"
@@ -9548,7 +9520,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==
 
-lodash@^4.0.1, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0, lodash@~4.17.0:
+lodash@^4.0.1, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -13859,11 +13831,6 @@ tslib@^1.8.1:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
-
-tslib@~2.6.0:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.3.tgz#0438f810ad7a9edcde7a241c3d80db693c8cbfe0"
-  integrity sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==
 
 tsutils@^3.21.0:
   version "3.21.0"
