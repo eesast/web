@@ -31,7 +31,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
   const { Content, Footer } = Layout;
   const { Text } = Typography;
   const pageSizes = ["8", "12", "16", "20", "32"];
-  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
+  const { data: weekly_data, refetch } = graphql.useGetWeeklySuspenseQuery();
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
@@ -99,6 +99,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         if (response.data.finished === true) {
           message.success("spider finished");
           success = true;
+          refetch();
+          setPage(1);
           break;
         }
         if (response.data.failed === true) {
