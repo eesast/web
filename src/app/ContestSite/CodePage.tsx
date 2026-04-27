@@ -85,6 +85,12 @@ interface TeamSoftwareCodeData {
     student_no: string;
   }>;
 }
+
+interface TeamSoftwareFinalData {
+  URL: string;
+  created_at: string;
+  updated_at: string;
+}
 /* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const { Dragger } = Upload;
 type ColumnsType<T> = TableProps<T>["columns"];
@@ -100,6 +106,8 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const { Paragraph } = Typography;
   const Contest_id = url.query.get("contest");
   const [sf_code, setSF_code] = useState("");
+  const [finalCodeUrl, setFinalCodeUrl] = useState("");
+  const [showFinal, setShowFinal] = useState(false);
   const codeIndexMap = new Map();
 
   const [isSelectingGlobalCode, setIsSelectingGlobalCode] = useState(false);
@@ -107,6 +115,9 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [latestSoftwareCode, setLatestSoftwareCode] =
     useState<TeamSoftwareCodeData | null>(null);
   const [loadingLatestCode, setLoadingLatestCode] = useState(false);
+  const [latestFinalSoftwareCode, setLatestFinalSoftwareCode] =
+    useState<TeamSoftwareFinalData | null>(null);
+  const [loadingLatestFinalCode, setLoadingLatestFinalCode] = useState(false);
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
 
@@ -192,6 +203,26 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
 
+  useEffect(() => {
+    if (!teamid) return;
+
+    setLoadingLatestFinalCode(true);
+    axios
+      .post("/competition/get_team_software_final_one", { team_id: teamid })
+      .then((res) => {
+        const data: TeamSoftwareFinalData | null = res.data?.data || null;
+        setLatestFinalSoftwareCode(data);
+        if (data?.URL) {
+          setFinalCodeUrl(data.URL);
+        }
+      })
+      .catch((err) => {
+        console.error("获取终审代码失败:", err);
+      })
+      .finally(() => {
+        setLoadingLatestFinalCode(false);
+      });
+  }, [teamid]);
   // 获取最近提交的软件代码信息（仅SOFT场景）
   useEffect(() => {
     const fetchLatestSoftwareCode = async () => {
@@ -486,10 +517,56 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       message.error("提交失败，请重试！");
     }
   };
+
+  const handleFinalCodeChange = async () => {
+    try {
+      const getRes = await axios.post(
+        "/competition/get_team_software_final_one",
+        {
+          team_id: teamid!,
+        },
+      );
+
+      if (getRes.data?.data) {
+        await axios.post("/competition/update_team_software_final", {
+          team_id: teamid!,
+          code_url: finalCodeUrl,
+        });
+      } else {
+        await axios.post("/competition/add_team_software_final", {
+          contest_id: Contest_id,
+          team_id: teamid!,
+          code_url: finalCodeUrl,
+        });
+      }
+
+      const refreshRes = await axios.post(
+        "/competition/get_team_software_final_one",
+        {
+          team_id: teamid!,
+        },
+      );
+      setLatestFinalSoftwareCode(refreshRes.data?.data || null);
+
+      message.success("终审代码提交成功！");
+    } catch (error: any) {
+      console.error("提交失败:", error);
+      message.error(
+        "提交失败: " + (error.response?.data?.error || error.message),
+      );
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setSF_code(e.target.value);
+  };
+
+  const handleFinalInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFinalCodeUrl(e.target.value);
   };
 
   const handleOnchange = async (info: any) => {
@@ -903,6 +980,90 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               >
                 提交
               </Button>
+              <div
+                style={{
+                  borderTop: "1px solid #f0f0f0",
+                  marginTop: "20px",
+                  paddingTop: "20px",
+                }}
+              >
+                <div
+                  onClick={() => setShowFinal(!showFinal)}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px 20px",
+                    backgroundColor: "#fafafa",
+                    border: "1px solid #d9d9d9",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    marginBottom: showFinal ? "0" : "20px",
+                  }}
+                >
+                  <Typography.Text strong style={{ fontSize: "24px" }}>
+                    终审代码提交
+                  </Typography.Text>
+                  <Typography.Text type="secondary">
+                    {showFinal ? "收起" : "展开"}
+                  </Typography.Text>
+                </div>
+                {showFinal && (
+                  <div
+                    style={{
+                      padding: "20px",
+                      border: "1px solid #d9d9d9",
+                      borderTop: "none",
+                      borderBottomLeftRadius: "4px",
+                      borderBottomRightRadius: "4px",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <Space direction="vertical" style={{ width: "100%" }}>
+                      {loadingLatestFinalCode ? (
+                        <p>加载中...</p>
+                      ) : latestFinalSoftwareCode ? (
+                        <div
+                          style={{
+                            border: "1px solid #d9d9d9",
+                            borderRadius: "4px",
+                            padding: "16px",
+                            backgroundColor: "#fafafa",
+                          }}
+                        >
+                          <p>
+                            <strong>代码链接：</strong>{" "}
+                            <a
+                              href={latestFinalSoftwareCode.URL}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {latestFinalSoftwareCode.URL}
+                            </a>
+                          </p>
+                          <p>
+                            <strong>最后更新时间：</strong>{" "}
+                            {new Date(
+                              latestFinalSoftwareCode.updated_at,
+                            ).toLocaleString("zh-CN")}
+                          </p>
+                        </div>
+                      ) : (
+                        <p style={{ color: "#999" }}>暂无提交的终审代码</p>
+                      )}
+                      <Input.TextArea
+                        placeholder="请在此提交终审代码云盘链接~"
+                        value={finalCodeUrl}
+                        onChange={handleFinalInputChange}
+                        rows={10}
+                      />
+                      <Button type="primary" onClick={handleFinalCodeChange}>
+                        提交终审代码
+                      </Button>
+                    </Space>
+                  </div>
+                )}
+              </div>
             </Col>
           </Row>
         </>

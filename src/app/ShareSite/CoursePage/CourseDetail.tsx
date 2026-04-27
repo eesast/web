@@ -20,6 +20,7 @@ import {
 import { CourseProps } from ".";
 import * as graphql from "@/generated/graphql";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
+import axios from "axios";
 
 /* ---------------- 接口和类型定义 ---------------- */
 /* ---------------- 不随渲染刷新的常量 ---------------- */
@@ -47,8 +48,8 @@ const CourseDetail: React.FC<CourseProps> = ({
       course_uuid: course_uuid,
     },
   });
-  const [addCourseInfo] = graphql.useAddCourseInfoMutation();
-  const [deleteCourseInfo] = graphql.useDeleteCourseInfoMutation(); // 这个函数名字后续可以改一下
+  // const [addCourseInfo] = graphql.useAddCourseInfoMutation();
+  // const [deleteCourseInfo] = graphql.useDeleteCourseInfoMutation(); // 这个函数名字后续可以改一下
 
   const columns: ProColumns<graphql.GetCourseInfoQuery["course_info"][0]>[] = [
     {
@@ -166,18 +167,14 @@ const CourseDetail: React.FC<CourseProps> = ({
 
   const handleUpdateCourseInfo = async (row: any) => {
     try {
-      await deleteCourseInfo({
-        variables: {
-          course_id: course_uuid,
-          key: row?.key,
-        },
-      });
-      await addCourseInfo({
-        variables: {
-          key: newKey,
-          value: newValue,
-          course_id: course_uuid,
-        },
+      if (newKey === row?.key && newValue === row?.value) {
+        return;
+      }
+      await axios.post("/share/update_course_info/", {
+        course_id: course_uuid,
+        old_key: row?.key, // 告诉后端原来的 Key 是什么
+        new_key: newKey, // 告诉后端新的 Key 是什么
+        value: newValue,
       });
       setNewKey("");
       setNewValue("");
@@ -209,11 +206,9 @@ const CourseDetail: React.FC<CourseProps> = ({
 
   const handleDelete = async (row: any) => {
     try {
-      await deleteCourseInfo({
-        variables: {
-          course_id: course_uuid,
-          key: row.key,
-        },
+      await axios.post("/share/delete_course_info", {
+        course_id: course_uuid,
+        key: row?.key,
       });
       message.success("删除成功");
       handleGetCourseDetail();
@@ -225,12 +220,17 @@ const CourseDetail: React.FC<CourseProps> = ({
 
   const handleAddCourseInfo = async (parent_uuid?: string) => {
     try {
-      await addCourseInfo({
-        variables: {
-          key: newKey,
-          value: newValue,
-          course_id: course_uuid,
-        },
+      // await addCourseInfo({
+      //   variables: {
+      //     key: newKey,
+      //     value: newValue,
+      //     course_id: course_uuid,
+      //   },
+      // });
+      await axios.post("/share/add_course_info/", {
+        key: newKey,
+        value: newValue,
+        course_id: course_uuid,
       });
       setNewKey("");
       setNewValue("");
