@@ -18,7 +18,6 @@ import { useUrl } from "../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import axios from "axios";
 import { PageProps } from "..";
-import axios from "axios";
 
 /*----- 不依赖于 props 和 hooks 的定义 -----*/
 const { TextArea } = Input;
