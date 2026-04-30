@@ -2214,15 +2214,6 @@
     import-from "4.0.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/schema-ast@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/schema-ast/-/schema-ast-5.0.2.tgz#0d7fd83760fa10fea6804f75c801e933d832ac33"
-  integrity sha512-jl1F/9IjRkJisEb9B0ayG4QGqYlPldLRy8ojDdmL9NE1NsdB5ROfxQnSqyC3g+wuvBhWX7kZgMRQYn3RU1I5bA==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^6.3.0"
-    "@graphql-tools/utils" "^11.0.0"
-    tslib "^2.8.0"
-
 "@graphql-codegen/schema-ast@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/schema-ast/-/schema-ast-6.0.0.tgz#dcb943c917a740d82146faa16e427055bf35b210"
@@ -2243,18 +2234,7 @@
     change-case-all "^2.1.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/typescript-operations@5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-5.1.0.tgz#8e30fc79999bf913e53836670d6046b881567e77"
-  integrity sha512-JlmjbFl0EnsfMDIYvTE1Q0kAOrntVEZ+ZfBqWTP91g4e0F/TzuwJ/V4tiFmeDf5dx/rf9AK4VkPehIdxu7TYhw==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^6.3.0"
-    "@graphql-codegen/typescript" "^5.0.10"
-    "@graphql-codegen/visitor-plugin-common" "^6.3.0"
-    auto-bind "~4.0.0"
-    tslib "^2.8.0"
-
-"@graphql-codegen/typescript-operations@^6.0.0":
+"@graphql-codegen/typescript-operations@6.0.0", "@graphql-codegen/typescript-operations@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-6.0.0.tgz#70b6f19470a84a706cea1eca6149d5f3823f6447"
   integrity sha512-bQJ+UgEuZJOE4RJ66XC/Xdm5qAGXQbGzsUgEDnvt9WW0HiirIS6Xhde/4mWoNoT4d6vBBIEZmIVY7cJKKWbgZw==
@@ -2275,17 +2255,6 @@
     auto-bind "~4.0.0"
     change-case-all "1.0.15"
     tslib "^2.8.1"
-
-"@graphql-codegen/typescript@^5.0.10":
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-5.0.10.tgz#5991746408152503069b0c36bfdf5456b68a2e2a"
-  integrity sha512-Pa8OFmL9TdhEYnLYJLYA9EhP8eEeivP/YDYq4Nb8LQaL7GXm4TGX8zELYaCM9Fu8M3iZb7iQGMt7qc+1lXz8XQ==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^6.3.0"
-    "@graphql-codegen/schema-ast" "^5.0.2"
-    "@graphql-codegen/visitor-plugin-common" "^6.3.0"
-    auto-bind "~4.0.0"
-    tslib "^2.8.0"
 
 "@graphql-codegen/typescript@^6.0.0":
   version "6.0.0"
