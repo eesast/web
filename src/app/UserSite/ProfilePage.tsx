@@ -642,8 +642,6 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                 修改密码
               </Button>
               <Button
-                type="primary"
-                danger
                 css={`
                   margin-top: 36px;
                   margin-left: 24px;
@@ -667,6 +665,8 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                 删除账号
               </Button>
               <Button
+                type="primary"
+                danger
                 css={`
                   margin-top: 36px;
                   margin-left: 24px;
