@@ -20,6 +20,7 @@ import {
   FireOutlined,
   ArrowUpOutlined,
   UploadOutlined,
+  CopyOutlined,
 } from "@ant-design/icons";
 import { TableProps } from "antd/lib/table";
 import Cropper from "react-cropper";
@@ -87,6 +88,10 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       contest_id: Contest_id,
     },
   });
+  const contestName = contestData?.contest_by_pk?.name ?? "";
+  const isRlContest = contestName.trim().toUpperCase().startsWith("RL");
+  const llmAccessToken =
+    typeof window !== "undefined" && user.uuid ? window.btoa(user.uuid) : "";
 
   useEffect(() => {
     // 在useEffect中进行异步操作
@@ -216,6 +221,35 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
         }
       },
     });
+  };
+
+  const copyLlmAccessToken = async () => {
+    if (!llmAccessToken) {
+      message.error("暂无可复制的模型访问 Token");
+      return;
+    }
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(llmAccessToken);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = llmAccessToken;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.select();
+        const copied = document.execCommand("copy");
+        document.body.removeChild(textArea);
+        if (!copied) {
+          throw new Error("Copy command failed");
+        }
+      }
+      message.success("模型访问 Token 已复制");
+    } catch (error) {
+      console.error("Failed to copy LLM access token:", error);
+      message.error("复制失败，请手动复制");
+    }
   };
 
   const handleImageClick = () => {
@@ -365,7 +399,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
         color: mode === "dark" ? "white" : "initial",
       }}
     >
-      {contestData?.contest_by_pk?.name.startsWith("THUAI") ? (
+      {contestName.startsWith("THUAI") ? (
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={8}>
             <Card hoverable bordered={false}>
@@ -410,6 +444,25 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
         </Row>
       ) : (
         ""
+      )}
+      {isRlContest && (
+        <Card hoverable bordered={false} title="模型访问 Token">
+          <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+            <Typography.Text type="secondary">
+              可在 LLM 接口请求中使用该 Token。
+            </Typography.Text>
+            <Space.Compact style={{ width: "100%" }}>
+              <Input value={llmAccessToken} readOnly />
+              <Button
+                icon={<CopyOutlined />}
+                onClick={copyLlmAccessToken}
+                disabled={!llmAccessToken}
+              >
+                复制
+              </Button>
+            </Space.Compact>
+          </Space>
+        </Card>
       )}
       <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
         <Col span={16}>

@@ -464,6 +464,11 @@ const getAuthUuidFromToken = (authToken: string | null) => {
   return decoded.uuid || decoded.sub || null;
 };
 
+const getLlmTokenFromAuthToken = (authToken: string | null) => {
+  const uuid = getAuthUuidFromToken(authToken);
+  return uuid ? window.btoa(uuid) : null;
+};
+
 const getSessionStorageKey = (uuid: string | null) =>
   uuid ? `llm_chat_sessions:${uuid}` : "llm_chat_sessions";
 
@@ -482,12 +487,12 @@ const getApiBaseUrl = () => {
   return baseUrl;
 };
 
-const fetchLlmStatus = async (authToken: string) => {
+const fetchLlmStatus = async (llmToken: string) => {
   const response = await fetch(`${getApiBaseUrl()}/llm/status`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${llmToken}`,
     },
   });
 
@@ -720,7 +725,8 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
     }
 
     const currentAuthUuid = getAuthUuidFromToken(authToken);
-    if (!currentAuthUuid) {
+    const llmToken = getLlmTokenFromAuthToken(authToken);
+    if (!currentAuthUuid || !llmToken) {
       message.error("登录信息无效，请重新登录后再使用 LLM");
       setIsVerified(false);
       setQuotaSnapshot(null);
@@ -731,7 +737,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
 
     setVerifying(true);
     try {
-      const data = await fetchLlmStatus(authToken);
+      const data = await fetchLlmStatus(llmToken);
       setIsVerified(true);
       setQuotaSnapshot({
         totalTokensUsed: data?.quota?.totalTokensUsed || 0,
@@ -774,7 +780,8 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
     if (!inputValue.trim()) return;
 
     const authToken = localStorage.getItem("token");
-    if (!authToken) {
+    const llmToken = getLlmTokenFromAuthToken(authToken);
+    if (!authToken || !llmToken) {
       setIsVerified(false);
       setQuotaSnapshot(null);
       message.error("请先登录主站账号后再使用 LLM");
@@ -826,7 +833,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${llmToken}`,
         },
         body: JSON.stringify({
           messages: newMessages,
@@ -905,7 +912,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
       ]);
 
       try {
-        const data = await fetchLlmStatus(authToken);
+        const data = await fetchLlmStatus(llmToken);
         setQuotaSnapshot({
           totalTokensUsed: data?.quota?.totalTokensUsed || 0,
           tokenLimit: data?.quota?.tokenLimit || 0,
@@ -1036,7 +1043,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
           <p>请仔细阅读下面的使用说明：</p>
           <ul>
             <li>对话记录存储在本地，无法跨设备同步。</li>
-            <li>LLM 服务会直接使用当前主站登录身份进行认证。</li>
+            <li>LLM 服务会使用当前账号的 UUID token 进行认证。</li>
             <li>每个用户初始有50M token的使用额度，请勿滥用。</li>
             <li>如果遇到问题或者需要扩容，请联系管理员。</li>
           </ul>
