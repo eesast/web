@@ -16,7 +16,7 @@ import {
   CheckOutlined,
   CloudUploadOutlined,
 } from "@ant-design/icons";
-import { ContestProps } from "..";
+import { ContestProps } from "../..";
 import * as graphql from "@/generated/graphql";
 import { useUrl } from "@/api/hooks/url";
 import { useUploadProps } from "@/app/Components/UploadProps";

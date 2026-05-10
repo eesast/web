@@ -9,9 +9,9 @@ import {
   Typography,
 } from "antd";
 import dayjs from "dayjs";
-import { useUrl } from "../../../api/hooks/url";
+import { useUrl } from "../../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import { ContestProps } from "..";
+import { ContestProps } from "../..";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title } = Typography;

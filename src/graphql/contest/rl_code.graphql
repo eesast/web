@@ -1,0 +1,18 @@
+query GetTeamRLCodeSubmissions($team_id: uuid!) {
+  contest_team_RL_code(
+    where: { team_id: { _eq: $team_id } }
+    order_by: { created_at: asc }
+  ) {
+    submit_id
+    team_id
+    created_at
+    url
+  }
+}
+
+query GetContestSoftCodeDeadline($contest_id: uuid!) {
+  contest_soft_code_deadline_by_pk(contest_id: $contest_id) {
+    contest_id
+    deadline
+  }
+}
