@@ -15,7 +15,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { ContestProps } from "..";
+import { ContestProps } from "../..";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
 
