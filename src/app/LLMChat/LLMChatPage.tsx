@@ -464,11 +464,55 @@ const getAuthUuidFromToken = (authToken: string | null) => {
   return decoded.uuid || decoded.sub || null;
 };
 
+const getLlmTokenFromAuthToken = (authToken: string | null) => {
+  const uuid = getAuthUuidFromToken(authToken);
+  return uuid ? window.btoa(uuid) : null;
+};
+
 const getSessionStorageKey = (uuid: string | null) =>
   uuid ? `llm_chat_sessions:${uuid}` : "llm_chat_sessions";
 
-const getTokenStorageKey = (uuid: string | null) =>
-  uuid ? `llm_session_token:${uuid}` : "llm_session_token";
+const getApiBaseUrl = () => {
+  const baseUrl =
+    (process.env.NODE_ENV === "production"
+      ? process.env.REACT_APP_API_URL
+      : process.env.REACT_APP_API_DEV_URL) || "";
+
+  if (!baseUrl) {
+    throw new Error(
+      "未配置后端 API 地址，请检查 REACT_APP_API_URL / REACT_APP_API_DEV_URL",
+    );
+  }
+
+  return baseUrl;
+};
+
+const fetchLlmStatus = async (llmToken: string) => {
+  const response = await fetch(`${getApiBaseUrl()}/llm/status`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${llmToken}`,
+    },
+  });
+
+  const raw = await response.text();
+  let data: any = null;
+  try {
+    data = raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    if (!response.ok) {
+      throw new Error(`认证失败(${response.status})，返回内容不是 JSON`);
+    }
+    throw new Error("认证接口返回了非 JSON 内容，请检查网关或 API 地址配置");
+  }
+
+  if (!response.ok) {
+    throw new Error(data?.error || `Verification failed (${response.status})`);
+  }
+
+  return data;
+};
 
 const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
   useEffect(() => {
@@ -490,7 +534,6 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
 
   const [authUuid, setAuthUuid] = useState<string | null>(null);
   const [authUuidReady, setAuthUuidReady] = useState(false);
-  const [sessionToken, setSessionToken] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [enableDeepThinking, setEnableDeepThinking] = useState(false);
   const [verifying, setVerifying] = useState(false);
@@ -498,16 +541,11 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
     return localStorage.getItem("llm_usage_instructions_hidden") !== "true";
   });
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  const [studentNo, setStudentNo] = useState("");
   const [quotaSnapshot, setQuotaSnapshot] = useState<{
     totalTokensUsed: number;
     tokenLimit: number;
   } | null>(null);
 
-  const tokenStorageKey = useMemo(
-    () => getTokenStorageKey(authUuid),
-    [authUuid],
-  );
   const sessionStorageKey = useMemo(
     () => getSessionStorageKey(authUuid),
     [authUuid],
@@ -525,36 +563,6 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
   useEffect(() => {
     autoVerifyRef.current = false;
   }, [authUuid]);
-
-  useEffect(() => {
-    if (!authUuidReady) return;
-    const token = localStorage.getItem(tokenStorageKey) || "";
-    console.log("[LLMChatPage] load session token", {
-      tokenStorageKey,
-      hasToken: !!token,
-    });
-    setSessionToken(token);
-    setIsVerified(!!token);
-  }, [authUuidReady, tokenStorageKey]);
-
-  useEffect(() => {
-    if (!sessionToken) {
-      setStudentNo("");
-      return;
-    }
-    const decoded = decodeJwtPayload(sessionToken);
-    if (decoded?.sub) {
-      setStudentNo(decoded.sub);
-    } else {
-      setStudentNo("");
-    }
-  }, [sessionToken]);
-
-  const { data: usageData } = graphql.useGetUserLlmUsageQuery({
-    variables: { student_no: studentNo },
-    skip: !studentNo,
-    pollInterval: 10000,
-  });
 
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -711,83 +719,34 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
     const authToken = localStorage.getItem("token");
     if (!authToken) {
       message.error("请先登录主站账号后再使用 LLM");
+      setIsVerified(false);
+      setQuotaSnapshot(null);
       return;
     }
 
     const currentAuthUuid = getAuthUuidFromToken(authToken);
+    const llmToken = getLlmTokenFromAuthToken(authToken);
+    if (!currentAuthUuid || !llmToken) {
+      message.error("登录信息无效，请重新登录后再使用 LLM");
+      setIsVerified(false);
+      setQuotaSnapshot(null);
+      return;
+    }
+
     setAuthUuid(currentAuthUuid);
-    const currentTokenStorageKey = getTokenStorageKey(currentAuthUuid);
 
     setVerifying(true);
     try {
-      const baseUrl =
-        (process.env.NODE_ENV === "production"
-          ? process.env.REACT_APP_API_URL
-          : process.env.REACT_APP_API_DEV_URL) || "";
-
-      if (!baseUrl) {
-        throw new Error(
-          "未配置后端 API 地址，请检查 REACT_APP_API_URL / REACT_APP_API_DEV_URL",
-        );
-      }
-
-      const response = await fetch(`${baseUrl}/llm/verify_new`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      const raw = await response.text();
-      let data: any = null;
-      try {
-        data = raw ? JSON.parse(raw) : null;
-      } catch (e) {
-        if (!response.ok) {
-          throw new Error(`认证失败(${response.status})，返回内容不是 JSON`);
-        }
-        throw new Error(
-          "认证接口返回了非 JSON 内容，请检查网关或 API 地址配置",
-        );
-      }
-
-      if (!response.ok) {
-        throw new Error(
-          data?.error || `Verification failed (${response.status})`,
-        );
-      }
-
-      if (!data?.token) {
-        throw new Error("认证响应缺少 token 字段");
-      }
-
-      const token = data.token;
-
-      setSessionToken(token);
+      const data = await fetchLlmStatus(llmToken);
       setIsVerified(true);
-      localStorage.setItem(currentTokenStorageKey, token);
-      console.log("[LLMChatPage] saved session token", {
-        tokenStorageKey: currentTokenStorageKey,
-      });
       setQuotaSnapshot({
         totalTokensUsed: data?.quota?.totalTokensUsed || 0,
         tokenLimit: data?.quota?.tokenLimit || 0,
       });
 
-      const decoded = decodeJwtPayload(token);
-      if (decoded?.sub) {
-        setStudentNo(decoded.sub);
-      }
-
       message.success("认证成功");
     } catch (error: any) {
-      setSessionToken("");
       setIsVerified(false);
-      localStorage.removeItem(currentTokenStorageKey);
-      console.log("[LLMChatPage] removed session token", {
-        tokenStorageKey: currentTokenStorageKey,
-      });
       setQuotaSnapshot(null);
       message.error(error.message);
     } finally {
@@ -803,14 +762,10 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
   }, [isVerified, verifying, handleVerify]);
 
   const handleResetKey = () => {
-    setSessionToken("");
     setIsVerified(false);
     setQuotaSnapshot(null);
-    localStorage.removeItem(tokenStorageKey);
-    console.log("[LLMChatPage] reset session token", {
-      tokenStorageKey,
-    });
-    message.info("Session reset");
+    autoVerifyRef.current = false;
+    message.info("认证状态已重置");
   };
 
   const handleStop = () => {
@@ -823,6 +778,15 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
 
   const handleSend = async () => {
     if (!inputValue.trim()) return;
+
+    const authToken = localStorage.getItem("token");
+    const llmToken = getLlmTokenFromAuthToken(authToken);
+    if (!authToken || !llmToken) {
+      setIsVerified(false);
+      setQuotaSnapshot(null);
+      message.error("请先登录主站账号后再使用 LLM");
+      return;
+    }
 
     const userMessage = { role: "user", content: inputValue };
     const newMessages = [...messages, userMessage];
@@ -865,16 +829,11 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
         }
       }
 
-      const baseUrl =
-        (process.env.NODE_ENV === "production"
-          ? process.env.REACT_APP_API_URL
-          : process.env.REACT_APP_API_DEV_URL) || "";
-
-      const response = await fetch(`${baseUrl}/llm/chat`, {
+      const response = await fetch(`${getApiBaseUrl()}/llm/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionToken}`,
+          Authorization: `Bearer ${llmToken}`,
         },
         body: JSON.stringify({
           messages: newMessages,
@@ -885,11 +844,15 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
 
       if (response.status === 401) {
         handleResetKey();
-        throw new Error("Session expired. Please re-enter your Access Key.");
+        throw new Error("登录状态失效，请重新登录后再试。");
       }
 
       if (response.status === 402) {
         throw new Error("Token quota exceeded.");
+      }
+
+      if (response.status === 403) {
+        throw new Error("当前账号没有 LLM 使用权限。");
       }
 
       if (response.status === 429) {
@@ -947,6 +910,16 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
           reasoning: currentReasoning,
         },
       ]);
+
+      try {
+        const data = await fetchLlmStatus(llmToken);
+        setQuotaSnapshot({
+          totalTokensUsed: data?.quota?.totalTokensUsed || 0,
+          tokenLimit: data?.quota?.tokenLimit || 0,
+        });
+      } catch (e) {
+        console.warn("Failed to refresh LLM quota:", e);
+      }
     } catch (error: any) {
       if (error.name === "AbortError") {
         console.log("Generation stopped by user");
@@ -1000,14 +973,8 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
     );
   }
 
-  const usage =
-    usageData?.user_llm_usage_by_pk?.total_tokens_used ||
-    quotaSnapshot?.totalTokensUsed ||
-    0;
-  const limit =
-    usageData?.user_llm_usage_by_pk?.token_limit ||
-    quotaSnapshot?.tokenLimit ||
-    0;
+  const usage = quotaSnapshot?.totalTokensUsed || 0;
+  const limit = quotaSnapshot?.tokenLimit || 0;
   const displayLimit = limit > 0 ? limit : 5000000;
   const percent = Math.min(100, Math.round((usage / displayLimit) * 100));
 
@@ -1076,14 +1043,8 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
           <p>请仔细阅读下面的使用说明：</p>
           <ul>
             <li>对话记录存储在本地，无法跨设备同步。</li>
-            <li>
-              每个Access Key在激活后能够使用12小时，过期后请重新获取新的Access
-              Key。
-            </li>
-            <li>
-              每个用户初始有50M token的使用额度，请勿滥用。（Access
-              Key刷新不会重置额度）
-            </li>
+            <li>LLM 服务会使用当前账号的 UUID token 进行认证。</li>
+            <li>每个用户初始有50M token的使用额度，请勿滥用。</li>
             <li>如果遇到问题或者需要扩容，请联系管理员。</li>
           </ul>
           <div style={{ marginTop: 16 }}>
@@ -1129,7 +1090,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
               bordered={false}
             />
           </div>
-          {studentNo && (
+          {authUuid && (
             <div
               style={{
                 flex: 1,
@@ -1156,17 +1117,18 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
               />
             </div>
           )}
-          <Tooltip title="Reset Session">
+          <Tooltip title="重新检查认证状态">
             <Button
               icon={<KeyOutlined />}
-              onClick={handleResetKey}
+              onClick={handleVerify}
+              loading={verifying}
               style={{
                 color: mode === "dark" ? "#ececf1" : "#374151",
                 borderColor: mode === "dark" ? "#424242" : "#d9d9d9",
                 backgroundColor: mode === "dark" ? "transparent" : "#fff",
               }}
             >
-              Reset Session
+              刷新认证
             </Button>
           </Tooltip>
         </HeaderContainer>

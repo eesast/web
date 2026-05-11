@@ -21,7 +21,7 @@ import {
   DownloadOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { ContestProps } from "..";
+import { ContestProps } from "../..";
 import * as graphql from "@/generated/graphql";
 import { useUploadProps } from "@/app/Components/UploadProps";
 import { useUrl } from "@/api/hooks/url";

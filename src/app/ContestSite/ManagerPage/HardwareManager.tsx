@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Layout, Row, Space } from "antd";
 import { ContestProps } from "..";
-import Setting from "./Setting";
-import ManageTeams from "./ManageTeams";
-import EditInfo from "./EditInfo";
-import EditTimeline from "./EditTimeline";
+import Setting from "./Components/Setting";
+import ManageTeams from "./Components/ManageTeams";
+import EditInfo from "./Components/EditInfo";
+import EditTimeline from "./Components/EditTimeline";
 
 const HardwareManager: React.FC<ContestProps> = ({ mode, user }) => {
   return (

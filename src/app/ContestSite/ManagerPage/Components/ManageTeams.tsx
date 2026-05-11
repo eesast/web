@@ -24,7 +24,7 @@ import { DownloadOutlined, CloudDownloadOutlined } from "@ant-design/icons";
 import * as xlsx from "xlsx";
 import { useUrl } from "@/api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import { ContestProps } from "..";
+import { ContestProps } from "../..";
 import Loading from "@/app/Components/Loading";
 import { downloadFile } from "@/api/cos";
 import axios from "axios";
