@@ -26,7 +26,7 @@ const SoftwareDepartment = () => (
   <StyledTypography>
     <Typography.Title level={2}>软件部</Typography.Title>
     <Image
-      src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-software-group-photo-2023.jpg`}
+      src={`${process.env.REACT_APP_STATIC_URL!}/public/images/division-introduction-software-group-photo-2024.png`}
       alt="软件部集体照"
       width="900"
     />

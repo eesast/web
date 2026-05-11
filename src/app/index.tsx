@@ -592,7 +592,7 @@ const App: React.FC = () => {
                 element={<UserSite mode={mode} user={user} setUser={setUser} />}
               />
               <Route
-                path="llm/*"
+                path="chat/*"
                 element={<LLMChat mode={mode} user={user} />}
               />
               <Route path="*" element={<NotFoundPage />} />

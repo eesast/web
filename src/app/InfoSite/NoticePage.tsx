@@ -36,7 +36,7 @@ import { RcFile } from "rc-upload/lib/interface";
 import Markdown from "react-markdown";
 import * as graphql from "@/generated/graphql";
 import { PageProps } from "..";
-
+import axios from "axios";
 /*----- 不依赖于 props 和 hooks 的定义 -----*/
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -80,12 +80,14 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
   });
 
   // 更新、发布、删除公告的 hooks
-  const [updateNotice, { loading: noticeUpdating, error: noticeUpdateError }] =
-    graphql.useUpdateNoticeMutation();
-  const [addNotice, { loading: noticeAdding, error: noticeAddError }] =
-    graphql.useAddNoticeMutation();
-  const [deleteNotice, { error: noticeDeleteError }] =
-    graphql.useDeleteNoticeMutation();
+  // const [updateNotice, { loading: noticeUpdating, error: noticeUpdateError }] =
+  //   graphql.useUpdateNoticeMutation();
+  // const [addNotice, { loading: noticeAdding, error: noticeAddError }] =
+  //   graphql.useAddNoticeMutation();
+  // const [deleteNotice, { error: noticeDeleteError }] =
+  //   graphql.useDeleteNoticeMutation();
+  const [noticeAdding, setNoticeAdding] = useState(false);
+  const [noticeAddError, setNoticeAddError] = useState<any>(null);
 
   /*----- useEffect 部分 -----*/
   // 公告加载失败时提示
@@ -96,13 +98,6 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
     }
   }, [noticeError]);
 
-  // 公告更新失败时提示
-  useEffect(() => {
-    if (noticeUpdateError) {
-      message.error("公告更新失败");
-    }
-  }, [noticeUpdateError]);
-
   // 公告发布失败时提示
   useEffect(() => {
     if (noticeAddError) {
@@ -111,43 +106,71 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
   }, [noticeAddError]);
 
   // 公告删除失败时提示
-  useEffect(() => {
+  /* useEffect(() => {
     if (noticeDeleteError) {
       message.error("公告删除失败");
     }
-  }, [noticeDeleteError]);
+  }, [noticeDeleteError]);*/
 
   /*----- 其他函数和处理逻辑 -----*/
   // 处理公告编辑
   const handleNoticeEdit = async () => {
     try {
-      form.validateFields();
+      await form.validateFields();
       const values = form.getFieldsValue();
       const files = fileList.map((f) => ({
         filename: f.name,
         url: "/upload/" + f.name,
       }));
       if (editingNotice) {
-        await updateNotice({
-          // 更新公告
-          variables: {
+        setNoticeAdding(true);
+        setNoticeAddError(null);
+        // 使用 /notice/update 路由更新公告
+        try {
+          const res = await axios.post("/notice/update", {
             id: editingNotice.id,
             title: values.title,
             content: values.content,
             files: JSON.stringify(files),
             notice_type: editingNotice.notice_type,
-          },
-        });
+          });
+          if (!res || res.status !== 200) {
+            setNoticeAddError("公告更新失败");
+            message.error("公告更新失败");
+            setNoticeAdding(false);
+            return;
+          }
+        } catch (err) {
+          setNoticeAddError(err);
+          message.error("公告更新失败");
+          setNoticeAdding(false);
+          return;
+        }
+        setNoticeAdding(false);
       } else {
-        await addNotice({
-          // 发布公告
-          variables: {
+        setNoticeAdding(true);
+        setNoticeAddError(null);
+        // 使用 /notice/add 路由发布公告
+        try {
+          const res = await axios.post("/notice/add", {
             title: values.title,
             content: values.content,
             files: JSON.stringify(files),
             notice_type: values.type,
-          },
-        });
+          });
+          if (!res || res.status !== 200) {
+            setNoticeAddError("公告发布失败");
+            message.error("公告发布失败");
+            setNoticeAdding(false);
+            return;
+          }
+        } catch (err) {
+          setNoticeAddError(err);
+          message.error("公告发布失败");
+          setNoticeAdding(false);
+          return;
+        }
+        setNoticeAdding(false);
       }
       // 关闭模态框，清空表单，重载公告
       setModalVisible(false);
@@ -187,15 +210,18 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
       }));
       const values = form.getFieldsValue();
       if (editingNotice) {
-        await updateNotice({
-          variables: {
+        // 用 axios 调用 /notice/update 路由
+        try {
+          await axios.post("/notice/update", {
             id: editingNotice.id,
             title: values.title,
             content: values.content,
             files: JSON.stringify(files),
             notice_type: editingNotice.notice_type,
-          },
-        });
+          });
+        } catch (err) {
+          message.error("公告更新失败");
+        }
       } else throw Error("error");
       if (file.response?.status === 200) {
         await deleteFile("upload/" + file.name); //删除文件
@@ -213,7 +239,11 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
       icon: <ExclamationCircleOutlined />,
       content: "此操作不可恢复。",
       onOk: async () => {
-        await deleteNotice({ variables: { id } });
+        try {
+          await axios.post("/notice/delete", { id });
+        } catch (err) {
+          message.error("公告删除失败");
+        }
         await refetchNotices();
       },
     });
@@ -332,7 +362,7 @@ const NoticePage: React.FC<PageProps> = ({ mode, user }) => {
         }}
         onOk={handleNoticeEdit}
         maskClosable={false}
-        confirmLoading={noticeUpdating || noticeAdding}
+        confirmLoading={noticeAdding}
         destroyOnClose
       >
         <Form

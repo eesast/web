@@ -4,25 +4,15 @@ import {
   Row,
   Typography,
   Button,
+  Badge,
   InputRef,
   Table,
-  message,
-  Badge,
-  Upload,
-  Tooltip,
 } from "antd";
 import type { TableProps } from "antd/lib/table";
-import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useRef, useState } from "react";
 import { IApplication } from "../Interface";
 import ColumnSearchItem from "../ColumnSearchItem";
 import DisplayApplicationModal from "../Modals/DisplayApplicationModal";
-import {
-  uploadChatRecordHandler,
-  uploadMemberChatRecordHandler,
-  downloadChatRecordHandler,
-  downloadMemberChatRecordHandler,
-} from "../Handlers";
 
 interface ManageApplicationProps {
   applications: IApplication[];
@@ -115,42 +105,6 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
       onFilter: (value, record) => record.status === value,
     },
     {
-      title: "谈话记录",
-      dataIndex: [is_member ? "mem_chat" : "chat"],
-      key: is_member ? "mem_chat" : "chat",
-      width: "10%",
-      render: (value) =>
-        value ? (
-          <Badge status="success" text="已提交" />
-        ) : (
-          <Badge status="processing" text="未提交" />
-        ),
-      filters: [
-        { text: "已提交", value: true },
-        { text: "未提交", value: false },
-      ],
-      onFilter: (value, record) =>
-        (is_member ? record.mem_chat : record.chat) === value,
-    },
-    {
-      title: "谈话确认",
-      dataIndex: [is_member ? "mem_chat2" : "chat2"],
-      key: is_member ? "mem_chat2" : "chat2",
-      width: "10%",
-      render: (value) =>
-        value ? (
-          <Badge status="success" text="已确认" />
-        ) : (
-          <Badge status="processing" text="未确认" />
-        ),
-      filters: [
-        { text: "已确认", value: true },
-        { text: "未确认", value: false },
-      ],
-      onFilter: (value, record) =>
-        (is_member ? record.mem_chat2 : record.chat2) === value,
-    },
-    {
       title: "详情",
       key: "detail",
       width: "5%",
@@ -165,59 +119,6 @@ const ManageApplicationCard: React.FC<ManageApplicationProps> = ({
             >
               查看
             </Button>
-          </Col>
-        </Row>
-      ),
-    },
-    {
-      title: "谈话操作",
-      key: "chat_action",
-      width: "10%",
-      render: (value, record) => (
-        <Row>
-          <Col style={{ width: "50%" }}>
-            <Upload
-              customRequest={(e) => {
-                is_member
-                  ? uploadMemberChatRecordHandler(e, record.id, callback)
-                  : uploadChatRecordHandler(e, record.id, callback);
-              }}
-              onChange={(info) => {
-                if (info.file.status === "done") {
-                  message.success(`${info.file.name} 上传成功`);
-                } else if (info.file.status === "error") {
-                  message.error(`${info.file.name} 上传失败`);
-                }
-              }}
-              showUploadList={false}
-              disabled={
-                record.status !== "approved" ||
-                (is_member ? record.mem_chat2 : record.chat2)
-              }
-            >
-              <Tooltip title="提交">
-                <Button
-                  icon={<UploadOutlined />}
-                  disabled={
-                    record.status !== "approved" ||
-                    (is_member ? record.mem_chat2 : record.chat2)
-                  }
-                />
-              </Tooltip>
-            </Upload>
-          </Col>
-          <Col style={{ width: "50%" }}>
-            <Tooltip title="下载">
-              <Button
-                icon={<DownloadOutlined />}
-                onClick={() =>
-                  is_member
-                    ? downloadMemberChatRecordHandler(record.id)
-                    : downloadChatRecordHandler(record.id)
-                }
-                disabled={!record.chat}
-              />
-            </Tooltip>
           </Col>
         </Row>
       ),
