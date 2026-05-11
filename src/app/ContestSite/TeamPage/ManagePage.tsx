@@ -83,12 +83,12 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     },
   });
 
-  const { data: contestData } = graphql.useGetContestInfoSuspenseQuery({
+  const { data: contestNameData } = graphql.useGetContestNameSuspenseQuery({
     variables: {
       contest_id: Contest_id,
     },
   });
-  const contestName = contestData?.contest_by_pk?.name ?? "";
+  const contestName = contestNameData?.contest_by_pk?.name ?? "";
   const isThuai9Contest = contestName === "THUAI9";
   const llmAccessToken =
     typeof window !== "undefined" && user.uuid ? window.btoa(user.uuid) : "";
