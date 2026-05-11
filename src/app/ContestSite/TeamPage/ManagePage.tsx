@@ -89,7 +89,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     },
   });
   const contestName = contestData?.contest_by_pk?.name ?? "";
-  const isRlContest = contestName.trim().toUpperCase().startsWith("RL");
+  const isThuai9Contest = contestName === "THUAI9";
   const llmAccessToken =
     typeof window !== "undefined" && user.uuid ? window.btoa(user.uuid) : "";
 
@@ -445,7 +445,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       ) : (
         ""
       )}
-      {isRlContest && (
+      {isThuai9Contest && (
         <Card hoverable bordered={false} title="模型访问 Token">
           <Space direction="vertical" size="middle" style={{ width: "100%" }}>
             <Typography.Text type="secondary">
