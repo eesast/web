@@ -3,11 +3,13 @@ import { Card, Checkbox, message, Space, Typography } from "antd";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from "..";
-/* ---------------- 不随渲染刷新的常量 ---------------- */
-const { Title } = Typography;
-/* ---------------- 主页面 ---------------- */
-const Setting: React.FC<ContestProps> = (props) => {
-  //获取比赛ID
+
+// 扩展 Props 类型，增加 isHardware
+interface SettingProps extends ContestProps {
+  isHardware?: boolean;
+}
+
+const Setting: React.FC<SettingProps> = (props) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
 
@@ -27,29 +29,15 @@ const Setting: React.FC<ContestProps> = (props) => {
   useEffect(() => {
     if (updateSwitchError) {
       message.error("比赛状态更新失败");
-      console.log(updateSwitchError.message);
     }
   }, [updateSwitchError]);
 
-  useEffect(() => {
-    if (contestSwitchError) {
-      message.error("获取比赛状态失败");
-      console.log(contestSwitchError.message);
-    }
-  }, [contestSwitchError]);
-
   return (
-    <Card
-      hoverable
-      style={{
-        padding: "2vh 1vw",
-        minHeight: "480px",
-      }}
-    >
-      <Title level={2} style={{ margin: `0 0 36px` }}>
+    <Card hoverable style={{ height: "100%" }}>
+      <Typography.Title level={2} style={{ margin: `0 0 24px` }}>
         比赛设置
-      </Title>
-      <Space direction="vertical" size="large">
+      </Typography.Title>
+      <Space direction="vertical">
         <Checkbox
           checked={contestSwitchData?.contest_by_pk?.team_switch === true}
           onChange={async (e) => {
@@ -82,66 +70,76 @@ const Setting: React.FC<ContestProps> = (props) => {
         >
           上传代码
         </Checkbox>
-        <Checkbox
-          checked={contestSwitchData?.contest_by_pk?.arena_switch === true}
-          onChange={async (e) => {
-            await updateContestSwitch({
-              variables: {
-                contest_id: Contest_id,
-                ...contestSwitchData?.contest_by_pk!,
-                arena_switch: e.target.checked,
-              },
-            });
-            refetchContestSwitch();
-          }}
-        >
-          天梯对战
-        </Checkbox>
-        <Checkbox
-          checked={contestSwitchData?.contest_by_pk?.playground_switch === true}
-          onChange={async (e) => {
-            await updateContestSwitch({
-              variables: {
-                contest_id: Contest_id,
-                ...contestSwitchData?.contest_by_pk!,
-                playground_switch: e.target.checked,
-              },
-            });
-            refetchContestSwitch();
-          }}
-        >
-          试玩功能
-        </Checkbox>
-        <Checkbox
-          checked={contestSwitchData?.contest_by_pk?.stream_switch === true}
-          onChange={async (e) => {
-            await updateContestSwitch({
-              variables: {
-                contest_id: Contest_id,
-                ...contestSwitchData?.contest_by_pk!,
-                stream_switch: e.target.checked,
-              },
-            });
-            refetchContestSwitch();
-          }}
-        >
-          直播功能
-        </Checkbox>
-        <Checkbox
-          checked={contestSwitchData?.contest_by_pk?.playback_switch === true}
-          onChange={async (e) => {
-            await updateContestSwitch({
-              variables: {
-                contest_id: Contest_id,
-                ...contestSwitchData?.contest_by_pk!,
-                playback_switch: e.target.checked,
-              },
-            });
-            refetchContestSwitch();
-          }}
-        >
-          回放功能
-        </Checkbox>
+
+        {/* 如果是硬件设计，隐藏以下所有与 WebGL/对战相关的开关 */}
+        {!props.isHardware && (
+          <>
+            <Checkbox
+              checked={contestSwitchData?.contest_by_pk?.arena_switch === true}
+              onChange={async (e) => {
+                await updateContestSwitch({
+                  variables: {
+                    contest_id: Contest_id,
+                    ...contestSwitchData?.contest_by_pk!,
+                    arena_switch: e.target.checked,
+                  },
+                });
+                refetchContestSwitch();
+              }}
+            >
+              天梯功能
+            </Checkbox>
+            <Checkbox
+              checked={
+                contestSwitchData?.contest_by_pk?.playground_switch === true
+              }
+              onChange={async (e) => {
+                await updateContestSwitch({
+                  variables: {
+                    contest_id: Contest_id,
+                    ...contestSwitchData?.contest_by_pk!,
+                    playground_switch: e.target.checked,
+                  },
+                });
+                refetchContestSwitch();
+              }}
+            >
+              试玩功能
+            </Checkbox>
+            <Checkbox
+              checked={contestSwitchData?.contest_by_pk?.stream_switch === true}
+              onChange={async (e) => {
+                await updateContestSwitch({
+                  variables: {
+                    contest_id: Contest_id,
+                    ...contestSwitchData?.contest_by_pk!,
+                    stream_switch: e.target.checked,
+                  },
+                });
+                refetchContestSwitch();
+              }}
+            >
+              直播功能
+            </Checkbox>
+            <Checkbox
+              checked={
+                contestSwitchData?.contest_by_pk?.playback_switch === true
+              }
+              onChange={async (e) => {
+                await updateContestSwitch({
+                  variables: {
+                    contest_id: Contest_id,
+                    ...contestSwitchData?.contest_by_pk!,
+                    playback_switch: e.target.checked,
+                  },
+                });
+                refetchContestSwitch();
+              }}
+            >
+              回放功能
+            </Checkbox>
+          </>
+        )}
       </Space>
     </Card>
   );
