@@ -2234,10 +2234,10 @@
     change-case-all "^2.1.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/typescript-operations@6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-6.0.1.tgz#28ce0b92e9d46060afaa11d1ddec6cd026cf4ac0"
-  integrity sha512-LKJdEg5iOC1xt9qbxIkXrcGTyaEjfOUECVuKN33bGxpjBgEUIexdw5jMS5O4al3ADux7dy1sxHsO4kirQoVJXQ==
+"@graphql-codegen/typescript-operations@6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-6.0.2.tgz#afd94cf6dc6f77ac7f579b3b82043b75e37861f7"
+  integrity sha512-QYs8eQIOXsGKiWBlx4ZtIwYALa5RlLwznJELcnKayGubuEbglOsapJBswERXoogf3SMDrU21L58c1CYkYlyKIA==
   dependencies:
     "@graphql-codegen/plugin-helpers" "^7.0.0"
     "@graphql-codegen/schema-ast" "^6.0.0"
