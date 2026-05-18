@@ -57,7 +57,6 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       setUser(data.token);
       message.success("登录成功");
       setLoading(false);
-      navigate(-1);
       const subscription = localStorage.getItem("subscription");
       if (subscription !== null) {
         const result = await renew(subscription!);
