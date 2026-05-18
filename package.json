@@ -9,7 +9,7 @@
     "@ant-design/pro-components": "2.8.10",
     "@apollo/client": "3.14.1",
     "antd": "5.29.3",
-    "axios": "1.16.0",
+    "axios": "1.16.1",
     "cos-js-sdk-v5": "1.10.1",
     "dayjs": "1.11.13",
     "dotenv": "17.4.2",
@@ -37,11 +37,11 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "7.0.0",
-    "@graphql-codegen/typescript-operations": "6.0.1",
+    "@graphql-codegen/typescript-operations": "6.0.2",
     "@graphql-codegen/typescript-react-apollo": "4.4.2",
     "@playwright/test": "1.59.1",
     "@types/is-url": "1.2.32",
-    "@types/node": "24.12.2",
+    "@types/node": "24.12.4",
     "@types/react": "18.3.28",
     "@types/react-custom-scrollbars": "4.0.13",
     "@types/react-dom": "18.3.7",
@@ -51,7 +51,7 @@
     "cross-env": "10.1.0",
     "customize-cra": "1.0.0",
     "husky": "9.1.7",
-    "lint-staged": "17.0.2",
+    "lint-staged": "17.0.4",
     "prettier": "3.8.3",
     "react-app-rewired": "2.2.1",
     "react-scripts": "5.0.1",
@@ -62,7 +62,7 @@
     "webpackbar": "7.0.0"
   },
   "peerDependencies": {
-    "electron": "42.0.0",
+    "electron": "42.0.1",
     "electron-builder": "26.8.1"
   },
   "resolutions": {
