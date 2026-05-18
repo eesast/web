@@ -1,7 +1,8 @@
 query GetWeekly {
-  weekly {
+  weekly(order_by: [{ date: desc_nulls_last }, { id: desc }]) {
     id
     title
     url
+    date
   }
 }

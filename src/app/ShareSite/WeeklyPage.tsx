@@ -58,9 +58,9 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     let weekly_sorted: any;
     if (weekly_data) {
       weekly_sorted = [...weekly_data.weekly];
-      weekly_sorted.sort((a: any, b: any) => {
-        return b.id - a.id;
-      });
+      // weekly_sorted.sort((a: any, b: any) => {
+      //   return b.id - a.id;
+      // });
     }
     if (associatedValue !== "") {
       setFilterParamList([]);
