@@ -6,8 +6,7 @@
  * 5、控制开放比赛提交代码、编译
  */
 
-import React, { Suspense, useState } from "react";
-import { useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -65,7 +64,15 @@ const cleanFileName = (fileName: string) => {
   return cleaned;
 };
 /* ---------------- 主页面 ---------------- */
-const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
+interface ManageTeamsProps extends ContestProps {
+  useRLCodeData?: boolean;
+}
+
+const ManageTeams: React.FC<ManageTeamsProps> = ({
+  mode,
+  user,
+  useRLCodeData = false,
+}) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const contest_id = url.query.get("contest")!;
@@ -73,6 +80,12 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
   const [showTeamInfo, setShowTeamInfo] = useState(false);
   const [showTeamCode, setShowTeamCode] = useState(false);
   const [teamId, setTeamId] = useState<string | null>(null);
+  const [teamRlCodeSubmissionCountMap, setTeamRlCodeSubmissionCountMap] =
+    useState<Record<string, number>>({});
+  const [teamRlCodeSubmissionsLoading, setTeamRlCodeSubmissionsLoading] =
+    useState(false);
+  const [getTeamRlCodeSubmissions] =
+    graphql.useGetTeamRlCodeSubmissionsLazyQuery();
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   const { data: contestNameData, error: contestNameError } =
     graphql.useGetContestNameSuspenseQuery({
@@ -87,6 +100,9 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: contest_id,
       },
     });
+  const rlTeamIdsKey = (teamsData?.contest_team ?? [])
+    .map((team) => String(team.team_id))
+    .join(",");
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestNameError) {
@@ -98,6 +114,57 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       message.error("队伍列表加载失败");
     }
   }, [getTeamsError]);
+
+  useEffect(() => {
+    if (!useRLCodeData) {
+      setTeamRlCodeSubmissionCountMap({});
+      return;
+    }
+
+    const teamIds = rlTeamIdsKey ? rlTeamIdsKey.split(",") : [];
+    if (teamIds.length === 0) {
+      setTeamRlCodeSubmissionCountMap({});
+      return;
+    }
+
+    let mounted = true;
+    const fetchRlSubmissionCount = async () => {
+      setTeamRlCodeSubmissionsLoading(true);
+      try {
+        const submissionCounts = await Promise.all(
+          teamIds.map(async (currentTeamId) => {
+            const result = await getTeamRlCodeSubmissions({
+              variables: {
+                team_id: currentTeamId,
+              },
+              fetchPolicy: "network-only",
+            });
+            return [
+              currentTeamId,
+              result.data?.contest_team_RL_code.length ?? 0,
+            ] as const;
+          }),
+        );
+
+        if (mounted) {
+          setTeamRlCodeSubmissionCountMap(Object.fromEntries(submissionCounts));
+        }
+      } catch (error) {
+        if (mounted) {
+          message.error("RL 提交记录加载失败");
+        }
+      } finally {
+        if (mounted) {
+          setTeamRlCodeSubmissionsLoading(false);
+        }
+      }
+    };
+
+    fetchRlSubmissionCount();
+    return () => {
+      mounted = false;
+    };
+  }, [getTeamRlCodeSubmissions, rlTeamIdsKey, useRLCodeData]);
   /* ---------------- 业务逻辑函数 ---------------- */
   const exportTeamsData = () => {
     try {
@@ -200,7 +267,11 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
       dataIndex: "code_num",
       key: "code_num",
       render: (text, record) =>
-        record.contest_team_codes_aggregate.aggregate?.count,
+        useRLCodeData
+          ? teamRlCodeSubmissionsLoading
+            ? "-"
+            : (teamRlCodeSubmissionCountMap[String(record.team_id)] ?? 0)
+          : record.contest_team_codes_aggregate.aggregate?.count,
     },
     {
       title: "已选择代码数",
@@ -237,7 +308,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
           <Typography.Link
             onClick={() => {
               setShowTeamInfo(true);
-              setTeamId(record.team_id);
+              setTeamId(String(record.team_id));
             }}
           >
             队伍主页
@@ -245,7 +316,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
           <Typography.Link
             onClick={() => {
               setShowTeamCode(true);
-              setTeamId(record.team_id);
+              setTeamId(String(record.team_id));
             }}
           >
             队伍代码
@@ -272,7 +343,7 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
           <Table
             dataSource={(teamsData as graphql.GetTeamsQuery)?.contest_team}
             columns={teamListColumns}
-            rowKey={(record) => record.team_id}
+            rowKey={(record) => String(record.team_id)}
           />
         </Suspense>
         <Space direction="vertical" style={{ marginTop: "16px" }}>
@@ -310,7 +381,9 @@ const ManageTeams: React.FC<ContestProps> = ({ mode, user }) => {
         onClose={() => setShowTeamCode(false)}
         key="team_code"
       >
-        {teamId && <ManageTeamCode teamId={teamId} />}
+        {teamId && (
+          <ManageTeamCode teamId={teamId} useRLCodeData={useRLCodeData} />
+        )}
       </Drawer>
     </Layout>
   );
@@ -349,7 +422,10 @@ const ManageTeamInfo: React.FC<{ teamId: string }> = ({ teamId }) => {
   );
 };
 
-const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
+const ManageTeamCode: React.FC<{ teamId: string; useRLCodeData?: boolean }> = ({
+  teamId,
+  useRLCodeData = false,
+}) => {
   /* ---------------- States 和引⼊的 Hooks ---------------- */
   const url = useUrl();
   const contest_id = url.query.get("contest")!;
@@ -366,8 +442,18 @@ const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
       variables: {
         team_id: teamId,
       },
-      skip: !teamId,
+      skip: !teamId || useRLCodeData,
     });
+
+  const {
+    data: teamRlCodeSubmissionsData,
+    error: getTeamRlCodeSubmissionsError,
+  } = graphql.useGetTeamRlCodeSubmissionsSuspenseQuery({
+    variables: {
+      team_id: teamId,
+    },
+    skip: !teamId || !useRLCodeData,
+  });
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (contestNameError) {
@@ -380,6 +466,12 @@ const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
       message.error("队伍代码加载失败");
     }
   }, [getTeamPlayersError]);
+
+  useEffect(() => {
+    if (getTeamRlCodeSubmissionsError) {
+      message.error("RL 队伍代码加载失败");
+    }
+  }, [getTeamRlCodeSubmissionsError]);
   /* ---------------- 业务逻辑函数 ---------------- */
   const handleDownload = async (
     filename: string,
@@ -399,10 +491,32 @@ const ManageTeamCode: React.FC<{ teamId: string }> = ({ teamId }) => {
     }
   };
   /* ---------------- ⻚⾯组件 ---------------- */
+  if (useRLCodeData) {
+    return (
+      <>
+        {(teamRlCodeSubmissionsData?.contest_team_RL_code ?? []).map(
+          (submission, index) => (
+            <div key={String(submission.submit_id)}>
+              <p>提交 #{index + 1}</p>
+              <p>
+                提交时间：
+                {new Date(submission.created_at).toLocaleString("zh-CN")}
+              </p>
+              <Typography.Link href={submission.url} target="_blank">
+                {submission.url}
+              </Typography.Link>
+              <Divider />
+            </div>
+          ),
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       {teamPlayersData?.contest_team_player.map((player) => (
-        <div>
+        <div key={player.player}>
           <p>
             {player.player}: {player.role}
           </p>

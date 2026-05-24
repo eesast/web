@@ -43,7 +43,7 @@ const RLManager: React.FC<ContestProps> = ({ mode, user }) => {
 
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={24}>
-            <ManageTeams mode={mode} user={user} />
+            <ManageTeams mode={mode} user={user} useRLCodeData />
           </Col>
         </Row>
       </Space>
