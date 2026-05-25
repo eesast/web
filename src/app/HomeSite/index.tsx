@@ -13,6 +13,7 @@ import NewsPage from "./NewsPage";
 import NotFoundPage from "../Components/NotFound";
 import { useUrl } from "../../api/hooks/url";
 import { PageProps } from "..";
+import DisplayWall from "./DisplayWall";
 
 // 类型接口
 interface CardComponentProps {
@@ -254,10 +255,8 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
               text="宣策部"
             />
           </InfiniteScrollContainer>
-
           <br />
           <br />
-
           {/* 比赛展示区
           <SectionTitle>比赛</SectionTitle>
           <InfinteScrollContainer scrollSpeed={1}>
@@ -297,6 +296,9 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
               text="电子设计大赛"
             />
           </InfinteScrollContainer> */}
+          {/* 展示墙区域 */}
+          /*
+          <DisplayWall />
         </div>
       </Content>
     </Layout>
