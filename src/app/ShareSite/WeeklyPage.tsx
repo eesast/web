@@ -15,6 +15,8 @@ import {
   Tooltip,
   Image,
   Modal,
+  Switch,
+  InputNumber,
 } from "antd";
 import { Form as WebForm } from "antd";
 import React, { useEffect, useState } from "react";
@@ -31,7 +33,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
   const { Content, Footer } = Layout;
   const { Text } = Typography;
   const pageSizes = ["8", "12", "16", "20", "32"];
-  const { data: weekly_data } = graphql.useGetWeeklySuspenseQuery();
+  const { data: weekly_data, refetch } = graphql.useGetWeeklySuspenseQuery();
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
   const [showMode, setShowMode] = useState("browse");
@@ -43,6 +45,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     cookie?: string;
     userAgent?: string;
     token?: string;
+    full_scan?: boolean;
+    start_i?: number;
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -58,9 +62,9 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     let weekly_sorted: any;
     if (weekly_data) {
       weekly_sorted = [...weekly_data.weekly];
-      weekly_sorted.sort((a: any, b: any) => {
-        return b.id - a.id;
-      });
+      // weekly_sorted.sort((a: any, b: any) => {
+      //   return b.id - a.id;
+      // });
     }
     if (associatedValue !== "") {
       setFilterParamList([]);
@@ -80,11 +84,15 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       const cookie: string | undefined = paramSet.cookie;
       const userAgent: string | undefined = paramSet.userAgent;
       const token: string | undefined = paramSet.token;
+      const full_scan: boolean = paramSet.full_scan || false;
+      const start_i: number = paramSet.start_i || 0;
       if (!cookie || !userAgent || !token) throw Error("请填写完整信息");
       const response = await axios.post("/weekly/renew", {
         cookie: cookie,
         useragent: userAgent,
         token: token,
+        full_scan: full_scan,
+        start_i: start_i,
       });
       if (response.status === 200) message.success("spider start");
       else throw Error("start failed");
@@ -99,6 +107,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         if (response.data.finished === true) {
           message.success("spider finished");
           success = true;
+          refetch();
+          setPage(1);
           break;
         }
         if (response.data.failed === true) {
@@ -412,12 +422,39 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
               >
                 <Input />
               </WebForm.Item>
+
               <WebForm.Item<FieldType>
                 label="Token"
                 name="token"
                 rules={[{ required: true, message: "请输入内容" }]}
               >
                 <Input />
+              </WebForm.Item>
+
+              <WebForm.Item<FieldType>
+                label="全量扫描"
+                name="full_scan"
+                valuePropName="checked"
+                initialValue={false}
+              >
+                <Switch />
+              </WebForm.Item>
+
+              <WebForm.Item noStyle shouldUpdate>
+                {({ getFieldValue }) => {
+                  if (getFieldValue("full_scan") === true) {
+                    return (
+                      <WebForm.Item<FieldType>
+                        label="起始索引 (start_i)"
+                        name="start_i"
+                        initialValue={0}
+                      >
+                        <InputNumber min={0} />
+                      </WebForm.Item>
+                    );
+                  }
+                  return null;
+                }}
               </WebForm.Item>
 
               <WebForm.Item label={null}></WebForm.Item>
