@@ -1119,7 +1119,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
                     border: "1px solid #d9d9d9",
                     borderRadius: "4px",
                     padding: "16px",
-                    backgroundColor: "#fafafa",
+                    backgroundColor: "#transparent",
                   }}
                 >
                   <p>
@@ -1181,7 +1181,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
                         border: "1px solid #d9d9d9",
                         borderRadius: "4px",
                         padding: "16px",
-                        backgroundColor: "#fafafa",
+                        backgroundColor: "transparent",
                       }}
                     >
                       <p>
