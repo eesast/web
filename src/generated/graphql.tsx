@@ -27020,10 +27020,11 @@ export type DeleteCourseRatingMutationResult = Apollo.MutationResult<DeleteCours
 export type DeleteCourseRatingMutationOptions = Apollo.BaseMutationOptions<DeleteCourseRatingMutation, DeleteCourseRatingMutationVariables>;
 export const GetWeeklyDocument = gql`
     query GetWeekly {
-  weekly {
+  weekly(order_by: [{date: desc_nulls_last}, {id: desc}]) {
     id
     title
     url
+    date
   }
 }
     `;
