@@ -20356,7 +20356,13 @@ export type DeleteContestMutationVariables = Exact<{
 }>;
 
 
-export type DeleteContestMutation = { __typename?: 'mutation_root', delete_contest_by_pk?: { __typename?: 'contest', id: any } | null };
+export type DeleteContestMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_by_pk?: Maybe<(
+    { __typename?: 'contest' }
+    & Pick<Contest, 'id'>
+  )> }
+);
 
 export type UpdateContestInfoMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20367,7 +20373,13 @@ export type UpdateContestInfoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestInfoMutation = { __typename?: 'mutation_root', update_contest_by_pk?: { __typename?: 'contest', id: any } | null };
+export type UpdateContestInfoMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_by_pk?: Maybe<(
+    { __typename?: 'contest' }
+    & Pick<Contest, 'id'>
+  )> }
+);
 
 export type UpdateContestSwitchMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20380,40 +20392,101 @@ export type UpdateContestSwitchMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestSwitchMutation = { __typename?: 'mutation_root', update_contest_by_pk?: { __typename?: 'contest', id: any } | null };
+export type UpdateContestSwitchMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_by_pk?: Maybe<(
+    { __typename?: 'contest' }
+    & Pick<Contest, 'id'>
+  )> }
+);
 
 export type GetContestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetContestsQuery = { __typename?: 'query_root', contest: Array<{ __typename?: 'contest', fullname: string, description?: string | null, end_date: any, id: any, start_date: any }> };
+export type GetContestsQuery = (
+  { __typename?: 'query_root' }
+  & { contest: Array<(
+    { __typename?: 'contest' }
+    & Pick<
+      Contest,
+      | 'fullname'
+      | 'description'
+      | 'end_date'
+      | 'id'
+      | 'start_date'
+    >
+  )> }
+);
 
 export type GetContestInfoQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestInfoQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', fullname: string, name: string, description?: string | null, start_date: any, end_date: any } | null };
+export type GetContestInfoQuery = (
+  { __typename?: 'query_root' }
+  & { contest_by_pk?: Maybe<(
+    { __typename?: 'contest' }
+    & Pick<
+      Contest,
+      | 'fullname'
+      | 'name'
+      | 'description'
+      | 'start_date'
+      | 'end_date'
+    >
+  )> }
+);
 
 export type GetContestNameQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestNameQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', name: string } | null };
+export type GetContestNameQuery = (
+  { __typename?: 'query_root' }
+  & { contest_by_pk?: Maybe<(
+    { __typename?: 'contest' }
+    & Pick<Contest, 'name'>
+  )> }
+);
 
 export type GetContestSwitchQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestSwitchQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', code_upload_switch: boolean, team_switch: boolean, arena_switch: boolean, playground_switch: boolean, stream_switch: boolean, playback_switch: boolean } | null };
+export type GetContestSwitchQuery = (
+  { __typename?: 'query_root' }
+  & { contest_by_pk?: Maybe<(
+    { __typename?: 'contest' }
+    & Pick<
+      Contest,
+      | 'code_upload_switch'
+      | 'team_switch'
+      | 'arena_switch'
+      | 'playground_switch'
+      | 'stream_switch'
+      | 'playback_switch'
+    >
+  )> }
+);
 
 export type GetContestManagersQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestManagersQuery = { __typename?: 'query_root', contest_by_pk?: { __typename?: 'contest', contest_managers: Array<{ __typename?: 'contest_manager', user_uuid: any }> } | null };
+export type GetContestManagersQuery = (
+  { __typename?: 'query_root' }
+  & { contest_by_pk?: Maybe<(
+    { __typename?: 'contest' }
+    & { contest_managers: Array<(
+      { __typename?: 'contest_manager' }
+      & Pick<Contest_Manager, 'user_uuid'>
+    )> }
+  )> }
+);
 
 export type AddContestMapMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20423,14 +20496,26 @@ export type AddContestMapMutationVariables = Exact<{
 }>;
 
 
-export type AddContestMapMutation = { __typename?: 'mutation_root', insert_contest_map_one?: { __typename?: 'contest_map', map_id: any } | null };
+export type AddContestMapMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_map_one?: Maybe<(
+    { __typename?: 'contest_map' }
+    & Pick<Contest_Map, 'map_id'>
+  )> }
+);
 
 export type DeleteContestMapMutationVariables = Exact<{
   map_id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteContestMapMutation = { __typename?: 'mutation_root', delete_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
+export type DeleteContestMapMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_map_by_pk?: Maybe<(
+    { __typename?: 'contest_map' }
+    & Pick<Contest_Map, 'map_id'>
+  )> }
+);
 
 export type UpdateContestMapMutationVariables = Exact<{
   map_id: Scalars['uuid']['input'];
@@ -20440,14 +20525,32 @@ export type UpdateContestMapMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestMapMutation = { __typename?: 'mutation_root', update_contest_map_by_pk?: { __typename?: 'contest_map', map_id: any } | null };
+export type UpdateContestMapMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_map_by_pk?: Maybe<(
+    { __typename?: 'contest_map' }
+    & Pick<Contest_Map, 'map_id'>
+  )> }
+);
 
 export type GetContestMapsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestMapsQuery = { __typename?: 'query_root', contest_map: Array<{ __typename?: 'contest_map', map_id: any, name: string, filename: string, team_labels: string }> };
+export type GetContestMapsQuery = (
+  { __typename?: 'query_root' }
+  & { contest_map: Array<(
+    { __typename?: 'contest_map' }
+    & Pick<
+      Contest_Map,
+      | 'map_id'
+      | 'name'
+      | 'filename'
+      | 'team_labels'
+    >
+  )> }
+);
 
 export type AddContestNoticeMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -20457,14 +20560,26 @@ export type AddContestNoticeMutationVariables = Exact<{
 }>;
 
 
-export type AddContestNoticeMutation = { __typename?: 'mutation_root', insert_contest_notice_one?: { __typename?: 'contest_notice', id: any } | null };
+export type AddContestNoticeMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_notice_one?: Maybe<(
+    { __typename?: 'contest_notice' }
+    & Pick<Contest_Notice, 'id'>
+  )> }
+);
 
 export type DeleteContestNoticeMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteContestNoticeMutation = { __typename?: 'mutation_root', delete_contest_notice_by_pk?: { __typename?: 'contest_notice', id: any } | null };
+export type DeleteContestNoticeMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_notice_by_pk?: Maybe<(
+    { __typename?: 'contest_notice' }
+    & Pick<Contest_Notice, 'id'>
+  )> }
+);
 
 export type UpdateContestNoticeMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -20474,14 +20589,34 @@ export type UpdateContestNoticeMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestNoticeMutation = { __typename?: 'mutation_root', update_contest_notice_by_pk?: { __typename?: 'contest_notice', id: any } | null };
+export type UpdateContestNoticeMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_notice_by_pk?: Maybe<(
+    { __typename?: 'contest_notice' }
+    & Pick<Contest_Notice, 'id'>
+  )> }
+);
 
 export type GetContestNoticesQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestNoticesQuery = { __typename?: 'query_root', contest_notice: Array<{ __typename?: 'contest_notice', content: string, created_at: any, updated_at: any, files?: string | null, id: any, title: string }> };
+export type GetContestNoticesQuery = (
+  { __typename?: 'query_root' }
+  & { contest_notice: Array<(
+    { __typename?: 'contest_notice' }
+    & Pick<
+      Contest_Notice,
+      | 'content'
+      | 'created_at'
+      | 'updated_at'
+      | 'files'
+      | 'id'
+      | 'title'
+    >
+  )> }
+);
 
 export type AddContestPlayerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20491,7 +20626,13 @@ export type AddContestPlayerMutationVariables = Exact<{
 }>;
 
 
-export type AddContestPlayerMutation = { __typename?: 'mutation_root', insert_contest_player_one?: { __typename?: 'contest_player', team_label: string } | null };
+export type AddContestPlayerMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_player_one?: Maybe<(
+    { __typename?: 'contest_player' }
+    & Pick<Contest_Player, 'team_label'>
+  )> }
+);
 
 export type DeleteContestPlayerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20500,7 +20641,13 @@ export type DeleteContestPlayerMutationVariables = Exact<{
 }>;
 
 
-export type DeleteContestPlayerMutation = { __typename?: 'mutation_root', delete_contest_player_by_pk?: { __typename?: 'contest_player', team_label: string } | null };
+export type DeleteContestPlayerMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_player_by_pk?: Maybe<(
+    { __typename?: 'contest_player' }
+    & Pick<Contest_Player, 'team_label'>
+  )> }
+);
 
 export type UpdateContestPlayerMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20510,49 +20657,136 @@ export type UpdateContestPlayerMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestPlayerMutation = { __typename?: 'mutation_root', update_contest_player_by_pk?: { __typename?: 'contest_player', team_label: string } | null };
+export type UpdateContestPlayerMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_player_by_pk?: Maybe<(
+    { __typename?: 'contest_player' }
+    & Pick<Contest_Player, 'team_label'>
+  )> }
+);
 
 export type GetContestPlayersQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestPlayersQuery = { __typename?: 'query_root', contest_player: Array<{ __typename?: 'contest_player', team_label: string, player_label: string, roles_available: string }> };
+export type GetContestPlayersQuery = (
+  { __typename?: 'query_root' }
+  & { contest_player: Array<(
+    { __typename?: 'contest_player' }
+    & Pick<Contest_Player, 'team_label' | 'player_label' | 'roles_available'>
+  )> }
+);
 
 export type GetTeamRlCodeSubmissionsQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamRlCodeSubmissionsQuery = { __typename?: 'query_root', contest_team_RL_code: Array<{ __typename?: 'contest_team_RL_code', submit_id: any, team_id: any, created_at: any, url: string }> };
+export type GetTeamRlCodeSubmissionsQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_RL_code: Array<(
+    { __typename?: 'contest_team_RL_code' }
+    & Pick<
+      Contest_Team_Rl_Code,
+      | 'submit_id'
+      | 'team_id'
+      | 'created_at'
+      | 'url'
+    >
+  )> }
+);
 
 export type GetContestSoftCodeDeadlineQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestSoftCodeDeadlineQuery = { __typename?: 'query_root', contest_soft_code_deadline_by_pk?: { __typename?: 'contest_soft_code_deadline', contest_id: any, deadline: any } | null };
+export type GetContestSoftCodeDeadlineQuery = (
+  { __typename?: 'query_root' }
+  & { contest_soft_code_deadline_by_pk?: Maybe<(
+    { __typename?: 'contest_soft_code_deadline' }
+    & Pick<Contest_Soft_Code_Deadline, 'contest_id' | 'deadline'>
+  )> }
+);
 
 export type GetRlScoresQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetRlScoresQuery = { __typename?: 'query_root', contest_team_RL_score: Array<{ __typename?: 'contest_team_RL_score', team_id: any, score: number, contest_team: { __typename?: 'contest_team', team_name: string, team_leader: { __typename?: 'users', realname?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null } }> } }> };
+export type GetRlScoresQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_RL_score: Array<(
+    { __typename?: 'contest_team_RL_score' }
+    & Pick<Contest_Team_Rl_Score, 'team_id' | 'score'>
+    & { contest_team: (
+      { __typename?: 'contest_team' }
+      & Pick<Contest_Team, 'team_name'>
+      & {
+        team_leader: (
+          { __typename?: 'users' }
+          & Pick<Users, 'realname'>
+        ),
+        contest_team_members: Array<(
+          { __typename?: 'contest_team_member' }
+          & { user: (
+            { __typename?: 'users' }
+            & Pick<Users, 'realname' | 'student_no'>
+          ) }
+        )>,
+      }
+    ) }
+  )> }
+);
 
 export type GetTeamsWithRlScoreQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamsWithRlScoreQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, contest_team_RL_scores: Array<{ __typename?: 'contest_team_RL_score', score: number }> }> };
+export type GetTeamsWithRlScoreQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team: Array<(
+    { __typename?: 'contest_team' }
+    & Pick<Contest_Team, 'team_id' | 'team_name'>
+    & { contest_team_RL_scores: Array<(
+      { __typename?: 'contest_team_RL_score' }
+      & Pick<Contest_Team_Rl_Score, 'score'>
+    )> }
+  )> }
+);
 
 export type GetArenaRoomsSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetArenaRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
+export type GetArenaRoomsSubscription = (
+  { __typename?: 'subscription_root' }
+  & { contest_room: Array<(
+    { __typename?: 'contest_room' }
+    & Pick<
+      Contest_Room,
+      | 'room_id'
+      | 'status'
+      | 'port'
+      | 'created_at'
+    >
+    & { contest_room_teams: Array<(
+      { __typename?: 'contest_room_team' }
+      & Pick<Contest_Room_Team, 'score' | 'team_label' | 'player_roles'>
+      & { contest_team: (
+        { __typename?: 'contest_team' }
+        & Pick<Contest_Team, 'team_id' | 'team_name'>
+        & { team_leader: (
+          { __typename?: 'users' }
+          & Pick<Users, 'realname'>
+        ) }
+      ) }
+    )> }
+  )> }
+);
 
 export type GetTeamArenaRoomsSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20560,14 +20794,60 @@ export type GetTeamArenaRoomsSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetTeamArenaRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }>, contest_room_teams_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number } | null } }> };
+export type GetTeamArenaRoomsSubscription = (
+  { __typename?: 'subscription_root' }
+  & { contest_room: Array<(
+    { __typename?: 'contest_room' }
+    & Pick<
+      Contest_Room,
+      | 'room_id'
+      | 'status'
+      | 'port'
+      | 'created_at'
+    >
+    & {
+      contest_room_teams: Array<(
+        { __typename?: 'contest_room_team' }
+        & Pick<Contest_Room_Team, 'score' | 'team_label' | 'player_roles'>
+        & { contest_team: (
+          { __typename?: 'contest_team' }
+          & Pick<Contest_Team, 'team_id' | 'team_name'>
+          & { team_leader: (
+            { __typename?: 'users' }
+            & Pick<Users, 'realname'>
+          ) }
+        ) }
+      )>,
+      contest_room_teams_aggregate: (
+        { __typename?: 'contest_room_team_aggregate' }
+        & { aggregate?: Maybe<(
+          { __typename?: 'contest_room_team_aggregate_fields' }
+          & Pick<Contest_Room_Team_Aggregate_Fields, 'count'>
+        )> }
+      ),
+    }
+  )> }
+);
 
 export type GetRunningArenaRoomsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetRunningArenaRoomsQuery = { __typename?: 'query_root', contest_room: Array<{ __typename?: 'contest_room', status: string, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', contest_team: { __typename?: 'contest_team', team_id: any } }> }> };
+export type GetRunningArenaRoomsQuery = (
+  { __typename?: 'query_root' }
+  & { contest_room: Array<(
+    { __typename?: 'contest_room' }
+    & Pick<Contest_Room, 'status' | 'created_at'>
+    & { contest_room_teams: Array<(
+      { __typename?: 'contest_room_team' }
+      & { contest_team: (
+        { __typename?: 'contest_team' }
+        & Pick<Contest_Team, 'team_id'>
+      ) }
+    )> }
+  )> }
+);
 
 export type GetCompetitionRoomsSubscriptionVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20575,7 +20855,32 @@ export type GetCompetitionRoomsSubscriptionVariables = Exact<{
 }>;
 
 
-export type GetCompetitionRoomsSubscription = { __typename?: 'subscription_root', contest_room: Array<{ __typename?: 'contest_room', round_id?: any | null, room_id: any, status: string, port?: number | null, created_at: any, contest_room_teams: Array<{ __typename?: 'contest_room_team', score?: number | null, team_label?: string | null, player_roles?: string | null, contest_team: { __typename?: 'contest_team', team_id: any, team_name: string, team_leader: { __typename?: 'users', realname?: string | null } } }> }> };
+export type GetCompetitionRoomsSubscription = (
+  { __typename?: 'subscription_root' }
+  & { contest_room: Array<(
+    { __typename?: 'contest_room' }
+    & Pick<
+      Contest_Room,
+      | 'round_id'
+      | 'room_id'
+      | 'status'
+      | 'port'
+      | 'created_at'
+    >
+    & { contest_room_teams: Array<(
+      { __typename?: 'contest_room_team' }
+      & Pick<Contest_Room_Team, 'score' | 'team_label' | 'player_roles'>
+      & { contest_team: (
+        { __typename?: 'contest_team' }
+        & Pick<Contest_Team, 'team_id' | 'team_name'>
+        & { team_leader: (
+          { __typename?: 'users' }
+          & Pick<Users, 'realname'>
+        ) }
+      ) }
+    )> }
+  )> }
+);
 
 export type AddContestRoundMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20584,14 +20889,26 @@ export type AddContestRoundMutationVariables = Exact<{
 }>;
 
 
-export type AddContestRoundMutation = { __typename?: 'mutation_root', insert_contest_round_one?: { __typename?: 'contest_round', round_id: any } | null };
+export type AddContestRoundMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_round_one?: Maybe<(
+    { __typename?: 'contest_round' }
+    & Pick<Contest_Round, 'round_id'>
+  )> }
+);
 
 export type DeleteContestRoundMutationVariables = Exact<{
   round_id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteContestRoundMutation = { __typename?: 'mutation_root', delete_contest_round_by_pk?: { __typename?: 'contest_round', round_id: any } | null };
+export type DeleteContestRoundMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_round_by_pk?: Maybe<(
+    { __typename?: 'contest_round' }
+    & Pick<Contest_Round, 'round_id'>
+  )> }
+);
 
 export type UpdateContestRoundNameMutationVariables = Exact<{
   round_id: Scalars['uuid']['input'];
@@ -20599,14 +20916,26 @@ export type UpdateContestRoundNameMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestRoundNameMutation = { __typename?: 'mutation_root', update_contest_round_by_pk?: { __typename?: 'contest_round', round_id: any } | null };
+export type UpdateContestRoundNameMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_round_by_pk?: Maybe<(
+    { __typename?: 'contest_round' }
+    & Pick<Contest_Round, 'round_id'>
+  )> }
+);
 
 export type GetContestRoundsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestRoundsQuery = { __typename?: 'query_root', contest_round: Array<{ __typename?: 'contest_round', round_id: any, name: string, map_id?: any | null }> };
+export type GetContestRoundsQuery = (
+  { __typename?: 'query_root' }
+  & { contest_round: Array<(
+    { __typename?: 'contest_round' }
+    & Pick<Contest_Round, 'round_id' | 'name' | 'map_id'>
+  )> }
+);
 
 export type AddTeamMutationVariables = Exact<{
   team_name: Scalars['String']['input'];
@@ -20617,7 +20946,13 @@ export type AddTeamMutationVariables = Exact<{
 }>;
 
 
-export type AddTeamMutation = { __typename?: 'mutation_root', insert_contest_team_one?: { __typename?: 'contest_team', team_id: any } | null };
+export type AddTeamMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_team_one?: Maybe<(
+    { __typename?: 'contest_team' }
+    & Pick<Contest_Team, 'team_id'>
+  )> }
+);
 
 export type AddTeamMemberMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -20625,14 +20960,26 @@ export type AddTeamMemberMutationVariables = Exact<{
 }>;
 
 
-export type AddTeamMemberMutation = { __typename?: 'mutation_root', insert_contest_team_member_one?: { __typename?: 'contest_team_member', team_id: any } | null };
+export type AddTeamMemberMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_team_member_one?: Maybe<(
+    { __typename?: 'contest_team_member' }
+    & Pick<Contest_Team_Member, 'team_id'>
+  )> }
+);
 
 export type DeleteTeamMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteTeamMutation = { __typename?: 'mutation_root', delete_contest_team_by_pk?: { __typename?: 'contest_team', team_id: any } | null };
+export type DeleteTeamMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_team_by_pk?: Maybe<(
+    { __typename?: 'contest_team' }
+    & Pick<Contest_Team, 'team_id'>
+  )> }
+);
 
 export type DeleteTeamMemberMutationVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
@@ -20640,7 +20987,13 @@ export type DeleteTeamMemberMutationVariables = Exact<{
 }>;
 
 
-export type DeleteTeamMemberMutation = { __typename?: 'mutation_root', delete_contest_team_member_by_pk?: { __typename?: 'contest_team_member', team_id: any } | null };
+export type DeleteTeamMemberMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_team_member_by_pk?: Maybe<(
+    { __typename?: 'contest_team_member' }
+    & Pick<Contest_Team_Member, 'team_id'>
+  )> }
+);
 
 export type UpdateTeamMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -20649,7 +21002,13 @@ export type UpdateTeamMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTeamMutation = { __typename?: 'mutation_root', update_contest_team_by_pk?: { __typename?: 'contest_team', team_id: any } | null };
+export type UpdateTeamMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_team_by_pk?: Maybe<(
+    { __typename?: 'contest_team' }
+    & Pick<Contest_Team, 'team_id'>
+  )> }
+);
 
 export type UpdateTeam_Sf_CodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -20657,7 +21016,13 @@ export type UpdateTeam_Sf_CodeMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTeam_Sf_CodeMutation = { __typename?: 'mutation_root', update_contest_team_by_pk?: { __typename?: 'contest_team', team_id: any } | null };
+export type UpdateTeam_Sf_CodeMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_team_by_pk?: Maybe<(
+    { __typename?: 'contest_team' }
+    & Pick<Contest_Team, 'team_id'>
+  )> }
+);
 
 export type GetTeamQueryVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
@@ -20665,14 +21030,54 @@ export type GetTeamQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamQuery = { __typename?: 'query_root', contest_team_member: Array<{ __typename?: 'contest_team_member', contest_team: { __typename?: 'contest_team', team_id: any } }> };
+export type GetTeamQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_member: Array<(
+    { __typename?: 'contest_team_member' }
+    & { contest_team: (
+      { __typename?: 'contest_team' }
+      & Pick<Contest_Team, 'team_id'>
+    ) }
+  )> }
+);
 
 export type GetTeamInfoQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamInfoQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', team_name: string, team_intro?: string | null, team_id: any, invited_code: string, team_leader: { __typename?: 'users', uuid: any, realname?: string | null }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null, uuid: any } }> } | null };
+export type GetTeamInfoQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_by_pk?: Maybe<(
+    { __typename?: 'contest_team' }
+    & Pick<
+      Contest_Team,
+      | 'team_name'
+      | 'team_intro'
+      | 'team_id'
+      | 'invited_code'
+    >
+    & {
+      team_leader: (
+        { __typename?: 'users' }
+        & Pick<Users, 'uuid' | 'realname'>
+      ),
+      contest_team_members: Array<(
+        { __typename?: 'contest_team_member' }
+        & { user: (
+          { __typename?: 'users' }
+          & Pick<
+            Users,
+            | 'realname'
+            | 'student_no'
+            | 'class'
+            | 'uuid'
+          >
+        ) }
+      )>,
+    }
+  )> }
+);
 
 export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
   invited_code: Scalars['String']['input'];
@@ -20680,35 +21085,146 @@ export type GetTeamInfoByInvitedCodeQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamInfoByInvitedCodeQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null } }> };
+export type GetTeamInfoByInvitedCodeQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team: Array<(
+    { __typename?: 'contest_team' }
+    & Pick<Contest_Team, 'team_id' | 'team_name' | 'team_intro'>
+    & { team_leader: (
+      { __typename?: 'users' }
+      & Pick<Users, 'realname'>
+    ) }
+  )> }
+);
 
 export type GetTeamStatQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamStatQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } } | null };
+export type GetTeamStatQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_by_pk?: Maybe<(
+    { __typename?: 'contest_team' }
+    & {
+      contest_team_codes_aggregate: (
+        { __typename?: 'contest_team_code_aggregate' }
+        & { aggregate?: Maybe<(
+          { __typename?: 'contest_team_code_aggregate_fields' }
+          & Pick<Contest_Team_Code_Aggregate_Fields, 'count'>
+        )> }
+      ),
+      contest_team_rooms_aggregate: (
+        { __typename?: 'contest_room_team_aggregate' }
+        & { aggregate?: Maybe<(
+          { __typename?: 'contest_room_team_aggregate_fields' }
+          & Pick<Contest_Room_Team_Aggregate_Fields, 'count'>
+          & { sum?: Maybe<(
+            { __typename?: 'contest_room_team_sum_fields' }
+            & Pick<Contest_Room_Team_Sum_Fields, 'score'>
+          )> }
+        )> }
+      ),
+    }
+  )> }
+);
 
 export type GetTotalTeamNumQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTotalTeamNumQuery = { __typename?: 'query_root', contest_team_aggregate: { __typename?: 'contest_team_aggregate', aggregate?: { __typename?: 'contest_team_aggregate_fields', count: number } | null } };
+export type GetTotalTeamNumQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_aggregate: (
+    { __typename?: 'contest_team_aggregate' }
+    & { aggregate?: Maybe<(
+      { __typename?: 'contest_team_aggregate_fields' }
+      & Pick<Contest_Team_Aggregate_Fields, 'count'>
+    )> }
+  ) }
+);
 
 export type GetTotalMemberNumQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTotalMemberNumQuery = { __typename?: 'query_root', contest_team_member_aggregate: { __typename?: 'contest_team_member_aggregate', aggregate?: { __typename?: 'contest_team_member_aggregate_fields', count: number } | null } };
+export type GetTotalMemberNumQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_member_aggregate: (
+    { __typename?: 'contest_team_member_aggregate' }
+    & { aggregate?: Maybe<(
+      { __typename?: 'contest_team_member_aggregate_fields' }
+      & Pick<Contest_Team_Member_Aggregate_Fields, 'count'>
+    )> }
+  ) }
+);
 
 export type GetTeamsQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamsQuery = { __typename?: 'query_root', contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, team_intro?: string | null, team_leader: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null, uuid: any }, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null, uuid: any, department?: string | null, tsinghua_email?: string | null } }>, contest_team_codes_aggregate: { __typename?: 'contest_team_code_aggregate', aggregate?: { __typename?: 'contest_team_code_aggregate_fields', count: number } | null }, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null }, contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null } }> };
+export type GetTeamsQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team: Array<(
+    { __typename?: 'contest_team' }
+    & Pick<Contest_Team, 'team_id' | 'team_name' | 'team_intro'>
+    & {
+      team_leader: (
+        { __typename?: 'users' }
+        & Pick<
+          Users,
+          | 'realname'
+          | 'student_no'
+          | 'class'
+          | 'uuid'
+        >
+      ),
+      contest_team_members: Array<(
+        { __typename?: 'contest_team_member' }
+        & { user: (
+          { __typename?: 'users' }
+          & Pick<
+            Users,
+            | 'realname'
+            | 'student_no'
+            | 'class'
+            | 'uuid'
+            | 'department'
+            | 'tsinghua_email'
+          >
+        ) }
+      )>,
+      contest_team_codes_aggregate: (
+        { __typename?: 'contest_team_code_aggregate' }
+        & { aggregate?: Maybe<(
+          { __typename?: 'contest_team_code_aggregate_fields' }
+          & Pick<Contest_Team_Code_Aggregate_Fields, 'count'>
+        )> }
+      ),
+      contest_team_rooms_aggregate: (
+        { __typename?: 'contest_room_team_aggregate' }
+        & { aggregate?: Maybe<(
+          { __typename?: 'contest_room_team_aggregate_fields' }
+          & Pick<Contest_Room_Team_Aggregate_Fields, 'count'>
+          & { sum?: Maybe<(
+            { __typename?: 'contest_room_team_sum_fields' }
+            & Pick<Contest_Room_Team_Sum_Fields, 'score'>
+          )> }
+        )> }
+      ),
+      contest_team_players_aggregate: (
+        { __typename?: 'contest_team_player_aggregate' }
+        & { aggregate?: Maybe<(
+          { __typename?: 'contest_team_player_aggregate_fields' }
+          & Pick<Contest_Team_Player_Aggregate_Fields, 'count'>
+        )> }
+      ),
+    }
+  )> }
+);
 
 export type GetTeamsCompetitionResultQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20716,7 +21232,39 @@ export type GetTeamsCompetitionResultQueryVariables = Exact<{
 }>;
 
 
-export type GetTeamsCompetitionResultQuery = { __typename?: 'query_root', contest_round_by_pk?: { __typename?: 'contest_round', name: string } | null, contest_team: Array<{ __typename?: 'contest_team', team_id: any, team_name: string, contest_team_members: Array<{ __typename?: 'contest_team_member', user: { __typename?: 'users', realname?: string | null, student_no?: string | null, class?: string | null } }>, contest_team_rooms_aggregate: { __typename?: 'contest_room_team_aggregate', aggregate?: { __typename?: 'contest_room_team_aggregate_fields', count: number, sum?: { __typename?: 'contest_room_team_sum_fields', score?: number | null } | null } | null } }> };
+export type GetTeamsCompetitionResultQuery = (
+  { __typename?: 'query_root' }
+  & {
+    contest_round_by_pk?: Maybe<(
+      { __typename?: 'contest_round' }
+      & Pick<Contest_Round, 'name'>
+    )>,
+    contest_team: Array<(
+      { __typename?: 'contest_team' }
+      & Pick<Contest_Team, 'team_id' | 'team_name'>
+      & {
+        contest_team_members: Array<(
+          { __typename?: 'contest_team_member' }
+          & { user: (
+            { __typename?: 'users' }
+            & Pick<Users, 'realname' | 'student_no' | 'class'>
+          ) }
+        )>,
+        contest_team_rooms_aggregate: (
+          { __typename?: 'contest_room_team_aggregate' }
+          & { aggregate?: Maybe<(
+            { __typename?: 'contest_room_team_aggregate_fields' }
+            & Pick<Contest_Room_Team_Aggregate_Fields, 'count'>
+            & { sum?: Maybe<(
+              { __typename?: 'contest_room_team_sum_fields' }
+              & Pick<Contest_Room_Team_Sum_Fields, 'score'>
+            )> }
+          )> }
+        ),
+      }
+    )>,
+  }
+);
 
 export type AddTeamCodeMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -20726,14 +21274,26 @@ export type AddTeamCodeMutationVariables = Exact<{
 }>;
 
 
-export type AddTeamCodeMutation = { __typename?: 'mutation_root', insert_contest_team_code_one?: { __typename?: 'contest_team_code', code_id: any } | null };
+export type AddTeamCodeMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_team_code_one?: Maybe<(
+    { __typename?: 'contest_team_code' }
+    & Pick<Contest_Team_Code, 'code_id'>
+  )> }
+);
 
 export type DeleteTeamCodeMutationVariables = Exact<{
   code_id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteTeamCodeMutation = { __typename?: 'mutation_root', delete_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
+export type DeleteTeamCodeMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_team_code_by_pk?: Maybe<(
+    { __typename?: 'contest_team_code' }
+    & Pick<Contest_Team_Code, 'code_id'>
+  )> }
+);
 
 export type UpdateTeamCodeNameMutationVariables = Exact<{
   code_id: Scalars['uuid']['input'];
@@ -20741,14 +21301,33 @@ export type UpdateTeamCodeNameMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTeamCodeNameMutation = { __typename?: 'mutation_root', update_contest_team_code_by_pk?: { __typename?: 'contest_team_code', code_id: any } | null };
+export type UpdateTeamCodeNameMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_team_code_by_pk?: Maybe<(
+    { __typename?: 'contest_team_code' }
+    & Pick<Contest_Team_Code, 'code_id'>
+  )> }
+);
 
 export type GetTeamCodesSubscriptionVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamCodesSubscription = { __typename?: 'subscription_root', contest_team_code: Array<{ __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, compile_status: string, created_at: any }> };
+export type GetTeamCodesSubscription = (
+  { __typename?: 'subscription_root' }
+  & { contest_team_code: Array<(
+    { __typename?: 'contest_team_code' }
+    & Pick<
+      Contest_Team_Code,
+      | 'code_id'
+      | 'code_name'
+      | 'language'
+      | 'compile_status'
+      | 'created_at'
+    >
+  )> }
+);
 
 export type AddTeamPlayerMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -20756,7 +21335,13 @@ export type AddTeamPlayerMutationVariables = Exact<{
 }>;
 
 
-export type AddTeamPlayerMutation = { __typename?: 'mutation_root', insert_contest_team_player_one?: { __typename?: 'contest_team_player', player: string } | null };
+export type AddTeamPlayerMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_team_player_one?: Maybe<(
+    { __typename?: 'contest_team_player' }
+    & Pick<Contest_Team_Player, 'player'>
+  )> }
+);
 
 export type UpdateTeamPlayerMutationVariables = Exact<{
   team_id: Scalars['uuid']['input'];
@@ -20766,21 +21351,67 @@ export type UpdateTeamPlayerMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTeamPlayerMutation = { __typename?: 'mutation_root', update_contest_team_player_by_pk?: { __typename?: 'contest_team_player', player: string } | null };
+export type UpdateTeamPlayerMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_team_player_by_pk?: Maybe<(
+    { __typename?: 'contest_team_player' }
+    & Pick<Contest_Team_Player, 'player'>
+  )> }
+);
 
 export type GetTeamPlayersQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamPlayersQuery = { __typename?: 'query_root', contest_team_player: Array<{ __typename?: 'contest_team_player', player: string, role?: string | null, player_code?: { __typename?: 'contest_team_code', code_id: any, code_name: string, language: string, created_at: any } | null }> };
+export type GetTeamPlayersQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_player: Array<(
+    { __typename?: 'contest_team_player' }
+    & Pick<Contest_Team_Player, 'player' | 'role'>
+    & { player_code?: Maybe<(
+      { __typename?: 'contest_team_code' }
+      & Pick<
+        Contest_Team_Code,
+        | 'code_id'
+        | 'code_name'
+        | 'language'
+        | 'created_at'
+      >
+    )> }
+  )> }
+);
 
 export type GetTeamStatusQueryVariables = Exact<{
   team_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTeamStatusQuery = { __typename?: 'query_root', contest_team_by_pk?: { __typename?: 'contest_team', contest_team_players_aggregate: { __typename?: 'contest_team_player_aggregate', aggregate?: { __typename?: 'contest_team_player_aggregate_fields', count: number } | null }, contest: { __typename?: 'contest', contest_players_aggregate: { __typename?: 'contest_player_aggregate', aggregate?: { __typename?: 'contest_player_aggregate_fields', count: number } | null } } } | null };
+export type GetTeamStatusQuery = (
+  { __typename?: 'query_root' }
+  & { contest_team_by_pk?: Maybe<(
+    { __typename?: 'contest_team' }
+    & {
+      contest_team_players_aggregate: (
+        { __typename?: 'contest_team_player_aggregate' }
+        & { aggregate?: Maybe<(
+          { __typename?: 'contest_team_player_aggregate_fields' }
+          & Pick<Contest_Team_Player_Aggregate_Fields, 'count'>
+        )> }
+      ),
+      contest: (
+        { __typename?: 'contest' }
+        & { contest_players_aggregate: (
+          { __typename?: 'contest_player_aggregate' }
+          & { aggregate?: Maybe<(
+            { __typename?: 'contest_player_aggregate_fields' }
+            & Pick<Contest_Player_Aggregate_Fields, 'count'>
+          )> }
+        ) }
+      ),
+    }
+  )> }
+);
 
 export type AddContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20791,7 +21422,13 @@ export type AddContestTimeMutationVariables = Exact<{
 }>;
 
 
-export type AddContestTimeMutation = { __typename?: 'mutation_root', insert_contest_time_one?: { __typename?: 'contest_time', event: string } | null };
+export type AddContestTimeMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contest_time_one?: Maybe<(
+    { __typename?: 'contest_time' }
+    & Pick<Contest_Time, 'event'>
+  )> }
+);
 
 export type DeleteContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20799,7 +21436,13 @@ export type DeleteContestTimeMutationVariables = Exact<{
 }>;
 
 
-export type DeleteContestTimeMutation = { __typename?: 'mutation_root', delete_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
+export type DeleteContestTimeMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_contest_time_by_pk?: Maybe<(
+    { __typename?: 'contest_time' }
+    & Pick<Contest_Time, 'event'>
+  )> }
+);
 
 export type UpdateContestTimeMutationVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
@@ -20810,14 +21453,32 @@ export type UpdateContestTimeMutationVariables = Exact<{
 }>;
 
 
-export type UpdateContestTimeMutation = { __typename?: 'mutation_root', update_contest_time_by_pk?: { __typename?: 'contest_time', event: string } | null };
+export type UpdateContestTimeMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contest_time_by_pk?: Maybe<(
+    { __typename?: 'contest_time' }
+    & Pick<Contest_Time, 'event'>
+  )> }
+);
 
 export type GetContestTimesQueryVariables = Exact<{
   contest_id: Scalars['uuid']['input'];
 }>;
 
 
-export type GetContestTimesQuery = { __typename?: 'query_root', contest_time: Array<{ __typename?: 'contest_time', event: string, start: any, end: any, description?: string | null }> };
+export type GetContestTimesQuery = (
+  { __typename?: 'query_root' }
+  & { contest_time: Array<(
+    { __typename?: 'contest_time' }
+    & Pick<
+      Contest_Time,
+      | 'event'
+      | 'start'
+      | 'end'
+      | 'description'
+    >
+  )> }
+);
 
 export type GetHonorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -20825,33 +21486,117 @@ export type GetHonorApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type GetHonorApplicationsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any }> };
+export type GetHonorApplicationsQuery = (
+  { __typename?: 'query_root' }
+  & { honor_application: Array<(
+    { __typename?: 'honor_application' }
+    & Pick<
+      Honor_Application,
+      | 'id'
+      | 'honor'
+      | 'statement'
+      | 'attachment_url'
+      | 'status'
+      | 'created_at'
+      | 'updated_at'
+    >
+  )> }
+);
 
 export type GetHonorApplicationsForCounselorsQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
 
-export type GetHonorApplicationsForCounselorsQuery = { __typename?: 'query_root', honor_application: Array<{ __typename?: 'honor_application', id: any, honor: string, statement: string, attachment_url?: string | null, status: string, created_at: any, updated_at: any, student: { __typename?: 'users', uuid: any, realname?: string | null, class?: string | null, student_no?: string | null } }> };
+export type GetHonorApplicationsForCounselorsQuery = (
+  { __typename?: 'query_root' }
+  & { honor_application: Array<(
+    { __typename?: 'honor_application' }
+    & Pick<
+      Honor_Application,
+      | 'id'
+      | 'honor'
+      | 'statement'
+      | 'attachment_url'
+      | 'status'
+      | 'created_at'
+      | 'updated_at'
+    >
+    & { student: (
+      { __typename?: 'users' }
+      & Pick<
+        Users,
+        | 'uuid'
+        | 'realname'
+        | 'class'
+        | 'student_no'
+      >
+    ) }
+  )> }
+);
 
 export type GetMentorApplicationScheduleQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
 
-export type GetMentorApplicationScheduleQuery = { __typename?: 'query_root', mentor_time_by_pk?: { __typename?: 'mentor_time', activateIn: number, start_A: any, start_B: any, start_C: any, start_D: any, start_E: any, end_A: any, end_B: any, end_C: any, end_D: any, end_E: any } | null };
+export type GetMentorApplicationScheduleQuery = (
+  { __typename?: 'query_root' }
+  & { mentor_time_by_pk?: Maybe<(
+    { __typename?: 'mentor_time' }
+    & Pick<
+      Mentor_Time,
+      | 'activateIn'
+      | 'start_A'
+      | 'start_B'
+      | 'start_C'
+      | 'start_D'
+      | 'start_E'
+      | 'end_A'
+      | 'end_B'
+      | 'end_C'
+      | 'end_D'
+      | 'end_E'
+    >
+  )> }
+);
 
 export type GetMentorInfoListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMentorInfoListQuery = { __typename?: 'query_root', mentor_info: Array<{ __typename?: 'mentor_info', achievement?: string | null, available: boolean, background?: string | null, field?: string | null, intro?: string | null, max_applicants: number, mentor_uuid: any, user: { __typename?: 'users', department?: string | null, email?: string | null, realname?: string | null } }> };
+export type GetMentorInfoListQuery = (
+  { __typename?: 'query_root' }
+  & { mentor_info: Array<(
+    { __typename?: 'mentor_info' }
+    & Pick<
+      Mentor_Info,
+      | 'achievement'
+      | 'available'
+      | 'background'
+      | 'field'
+      | 'intro'
+      | 'max_applicants'
+      | 'mentor_uuid'
+    >
+    & { user: (
+      { __typename?: 'users' }
+      & Pick<Users, 'department' | 'email' | 'realname'>
+    ) }
+  )> }
+);
 
 export type InsertMentorInfoMutationVariables = Exact<{
   mentor_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type InsertMentorInfoMutation = { __typename?: 'mutation_root', insert_mentor_info_one?: { __typename?: 'mentor_info', updated_at: any } | null };
+export type InsertMentorInfoMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_mentor_info_one?: Maybe<(
+    { __typename?: 'mentor_info' }
+    & Pick<Mentor_Info, 'updated_at'>
+  )> }
+);
 
 export type UpdateMentorInfoAvailableMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -20859,7 +21604,13 @@ export type UpdateMentorInfoAvailableMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMentorInfoAvailableMutation = { __typename?: 'mutation_root', update_mentor_info_by_pk?: { __typename?: 'mentor_info', available: boolean } | null };
+export type UpdateMentorInfoAvailableMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_mentor_info_by_pk?: Maybe<(
+    { __typename?: 'mentor_info' }
+    & Pick<Mentor_Info, 'available'>
+  )> }
+);
 
 export type UpdateMentorInfoMaxApplicantsMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -20867,7 +21618,13 @@ export type UpdateMentorInfoMaxApplicantsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMentorInfoMaxApplicantsMutation = { __typename?: 'mutation_root', update_mentor_info_by_pk?: { __typename?: 'mentor_info', max_applicants: number } | null };
+export type UpdateMentorInfoMaxApplicantsMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_mentor_info_by_pk?: Maybe<(
+    { __typename?: 'mentor_info' }
+    & Pick<Mentor_Info, 'max_applicants'>
+  )> }
+);
 
 export type UpdateMentorInfoDescriptionMutationVariables = Exact<{
   mentor_uuid: Scalars['uuid']['input'];
@@ -20878,7 +21635,13 @@ export type UpdateMentorInfoDescriptionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMentorInfoDescriptionMutation = { __typename?: 'mutation_root', update_mentor_info_by_pk?: { __typename?: 'mentor_info', mentor_uuid: any } | null };
+export type UpdateMentorInfoDescriptionMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_mentor_info_by_pk?: Maybe<(
+    { __typename?: 'mentor_info' }
+    & Pick<Mentor_Info, 'mentor_uuid'>
+  )> }
+);
 
 export type GetMentorApplicationsListForMentorQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -20886,7 +21649,33 @@ export type GetMentorApplicationsListForMentorQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorApplicationsListForMentorQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, created_at: any, updated_at: any, statement: string, status: string, chat_status: boolean, student_uuid: any, student: { __typename?: 'users', realname?: string | null, department?: string | null, class?: string | null, email?: string | null, phone?: string | null } }> };
+export type GetMentorApplicationsListForMentorQuery = (
+  { __typename?: 'query_root' }
+  & { mentor_application: Array<(
+    { __typename?: 'mentor_application' }
+    & Pick<
+      Mentor_Application,
+      | 'id'
+      | 'created_at'
+      | 'updated_at'
+      | 'statement'
+      | 'status'
+      | 'chat_status'
+      | 'student_uuid'
+    >
+    & { student: (
+      { __typename?: 'users' }
+      & Pick<
+        Users,
+        | 'realname'
+        | 'department'
+        | 'class'
+        | 'email'
+        | 'phone'
+      >
+    ) }
+  )> }
+);
 
 export type UpdateMentorApplicationStatusMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -20894,7 +21683,13 @@ export type UpdateMentorApplicationStatusMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMentorApplicationStatusMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', status: string } | null };
+export type UpdateMentorApplicationStatusMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_mentor_application_by_pk?: Maybe<(
+    { __typename?: 'mentor_application' }
+    & Pick<Mentor_Application, 'status'>
+  )> }
+);
 
 export type UpdateMentorApplicationStatementMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -20902,7 +21697,13 @@ export type UpdateMentorApplicationStatementMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMentorApplicationStatementMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', statement: string } | null };
+export type UpdateMentorApplicationStatementMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_mentor_application_by_pk?: Maybe<(
+    { __typename?: 'mentor_application' }
+    & Pick<Mentor_Application, 'statement'>
+  )> }
+);
 
 export type GetMentorApplicationsListForStudentQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -20910,14 +21711,39 @@ export type GetMentorApplicationsListForStudentQueryVariables = Exact<{
 }>;
 
 
-export type GetMentorApplicationsListForStudentQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, created_at: any, updated_at: any, statement: string, status: string, chat_status: boolean, mentor_uuid: any, mentor: { __typename?: 'users', realname?: string | null, department?: string | null, email?: string | null } }> };
+export type GetMentorApplicationsListForStudentQuery = (
+  { __typename?: 'query_root' }
+  & { mentor_application: Array<(
+    { __typename?: 'mentor_application' }
+    & Pick<
+      Mentor_Application,
+      | 'id'
+      | 'created_at'
+      | 'updated_at'
+      | 'statement'
+      | 'status'
+      | 'chat_status'
+      | 'mentor_uuid'
+    >
+    & { mentor: (
+      { __typename?: 'users' }
+      & Pick<Users, 'realname' | 'department' | 'email'>
+    ) }
+  )> }
+);
 
 export type DeleteMentorApplicationMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteMentorApplicationMutation = { __typename?: 'mutation_root', delete_mentor_application_by_pk?: { __typename?: 'mentor_application', id: any } | null };
+export type DeleteMentorApplicationMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_mentor_application_by_pk?: Maybe<(
+    { __typename?: 'mentor_application' }
+    & Pick<Mentor_Application, 'id'>
+  )> }
+);
 
 export type UpdateMentorApplicationChatStatusMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -20925,7 +21751,13 @@ export type UpdateMentorApplicationChatStatusMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMentorApplicationChatStatusMutation = { __typename?: 'mutation_root', update_mentor_application_by_pk?: { __typename?: 'mentor_application', chat_status: boolean } | null };
+export type UpdateMentorApplicationChatStatusMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_mentor_application_by_pk?: Maybe<(
+    { __typename?: 'mentor_application' }
+    & Pick<Mentor_Application, 'chat_status'>
+  )> }
+);
 
 export type InsertMentorApplicationScheduleMutationVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -20942,42 +21774,94 @@ export type InsertMentorApplicationScheduleMutationVariables = Exact<{
 }>;
 
 
-export type InsertMentorApplicationScheduleMutation = { __typename?: 'mutation_root', insert_mentor_time_one?: { __typename?: 'mentor_time', activateIn: number } | null };
+export type InsertMentorApplicationScheduleMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_mentor_time_one?: Maybe<(
+    { __typename?: 'mentor_time' }
+    & Pick<Mentor_Time, 'activateIn'>
+  )> }
+);
 
 export type GetMentorApplicationsListForCounselorQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
 
-export type GetMentorApplicationsListForCounselorQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', statement: string, status: string, chat_status: boolean, student: { __typename?: 'users', realname?: string | null, student_no?: string | null, department?: string | null, class?: string | null }, mentor: { __typename?: 'users', realname?: string | null, department?: string | null } }> };
+export type GetMentorApplicationsListForCounselorQuery = (
+  { __typename?: 'query_root' }
+  & { mentor_application: Array<(
+    { __typename?: 'mentor_application' }
+    & Pick<Mentor_Application, 'statement' | 'status' | 'chat_status'>
+    & {
+      student: (
+        { __typename?: 'users' }
+        & Pick<
+          Users,
+          | 'realname'
+          | 'student_no'
+          | 'department'
+          | 'class'
+        >
+      ),
+      mentor: (
+        { __typename?: 'users' }
+        & Pick<Users, 'realname' | 'department'>
+      ),
+    }
+  )> }
+);
 
 export type QueryStudentByStudentNoQueryVariables = Exact<{
   student_no: Scalars['String']['input'];
 }>;
 
 
-export type QueryStudentByStudentNoQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any, realname?: string | null }> };
+export type QueryStudentByStudentNoQuery = (
+  { __typename?: 'query_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'uuid' | 'realname'>
+  )> }
+);
 
 export type QueryTeacherByRealnameQueryVariables = Exact<{
   realname: Scalars['String']['input'];
 }>;
 
 
-export type QueryTeacherByRealnameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+export type QueryTeacherByRealnameQuery = (
+  { __typename?: 'query_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'uuid'>
+  )> }
+);
 
 export type GetFreshmanInfoListQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
 
-export type GetFreshmanInfoListQuery = { __typename?: 'query_root', freshman: Array<{ __typename?: 'freshman', realname: string, student_no: string }> };
+export type GetFreshmanInfoListQuery = (
+  { __typename?: 'query_root' }
+  & { freshman: Array<(
+    { __typename?: 'freshman' }
+    & Pick<Freshman, 'realname' | 'student_no'>
+  )> }
+);
 
 export type InsertFreshmanInfoListMutationVariables = Exact<{
   freshmanData: Array<Freshman_Insert_Input> | Freshman_Insert_Input;
 }>;
 
 
-export type InsertFreshmanInfoListMutation = { __typename?: 'mutation_root', insert_freshman?: { __typename?: 'freshman_mutation_response', affected_rows: number } | null };
+export type InsertFreshmanInfoListMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_freshman?: Maybe<(
+    { __typename?: 'freshman_mutation_response' }
+    & Pick<Freshman_Mutation_Response, 'affected_rows'>
+  )> }
+);
 
 export type GetApprovedMentorApplicationsQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -20985,7 +21869,30 @@ export type GetApprovedMentorApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type GetApprovedMentorApplicationsQuery = { __typename?: 'query_root', mentor_application: Array<{ __typename?: 'mentor_application', id: any, statement: string, status: string, created_at: any, updated_at: any, student: { __typename?: 'users', uuid: any, realname?: string | null }, mentor: { __typename?: 'users', uuid: any, realname?: string | null } }> };
+export type GetApprovedMentorApplicationsQuery = (
+  { __typename?: 'query_root' }
+  & { mentor_application: Array<(
+    { __typename?: 'mentor_application' }
+    & Pick<
+      Mentor_Application,
+      | 'id'
+      | 'statement'
+      | 'status'
+      | 'created_at'
+      | 'updated_at'
+    >
+    & {
+      student: (
+        { __typename?: 'users' }
+        & Pick<Users, 'uuid' | 'realname'>
+      ),
+      mentor: (
+        { __typename?: 'users' }
+        & Pick<Users, 'uuid' | 'realname'>
+      ),
+    }
+  )> }
+);
 
 export type SubscribeToMessagesSubscriptionVariables = Exact<{
   from_uuid: Scalars['uuid']['input'];
@@ -20993,7 +21900,20 @@ export type SubscribeToMessagesSubscriptionVariables = Exact<{
 }>;
 
 
-export type SubscribeToMessagesSubscription = { __typename?: 'subscription_root', mentor_message: Array<{ __typename?: 'mentor_message', created_at: any, from_uuid: any, id: any, payload: string, to_uuid: any }> };
+export type SubscribeToMessagesSubscription = (
+  { __typename?: 'subscription_root' }
+  & { mentor_message: Array<(
+    { __typename?: 'mentor_message' }
+    & Pick<
+      Mentor_Message,
+      | 'created_at'
+      | 'from_uuid'
+      | 'id'
+      | 'payload'
+      | 'to_uuid'
+    >
+  )> }
+);
 
 export type AddMessageMutationVariables = Exact<{
   from_uuid: Scalars['uuid']['input'];
@@ -21002,14 +21922,38 @@ export type AddMessageMutationVariables = Exact<{
 }>;
 
 
-export type AddMessageMutation = { __typename?: 'mutation_root', insert_mentor_message?: { __typename?: 'mentor_message_mutation_response', returning: Array<{ __typename?: 'mentor_message', id: any }> } | null };
+export type AddMessageMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_mentor_message?: Maybe<(
+    { __typename?: 'mentor_message_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'mentor_message' }
+      & Pick<Mentor_Message, 'id'>
+    )> }
+  )> }
+);
 
 export type GetNoticesQueryVariables = Exact<{
   notice_type?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
 
 
-export type GetNoticesQuery = { __typename?: 'query_root', info_notice: Array<{ __typename?: 'info_notice', id: any, title: string, content: string, created_at: any, updated_at: any, files?: string | null, notice_type: string }> };
+export type GetNoticesQuery = (
+  { __typename?: 'query_root' }
+  & { info_notice: Array<(
+    { __typename?: 'info_notice' }
+    & Pick<
+      Info_Notice,
+      | 'id'
+      | 'title'
+      | 'content'
+      | 'created_at'
+      | 'updated_at'
+      | 'files'
+      | 'notice_type'
+    >
+  )> }
+);
 
 export type UpdateNoticeMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -21020,7 +21964,16 @@ export type UpdateNoticeMutationVariables = Exact<{
 }>;
 
 
-export type UpdateNoticeMutation = { __typename?: 'mutation_root', update_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
+export type UpdateNoticeMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_info_notice?: Maybe<(
+    { __typename?: 'info_notice_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'info_notice' }
+      & Pick<Info_Notice, 'id'>
+    )> }
+  )> }
+);
 
 export type AddNoticeMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -21030,14 +21983,32 @@ export type AddNoticeMutationVariables = Exact<{
 }>;
 
 
-export type AddNoticeMutation = { __typename?: 'mutation_root', insert_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
+export type AddNoticeMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_info_notice?: Maybe<(
+    { __typename?: 'info_notice_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'info_notice' }
+      & Pick<Info_Notice, 'id'>
+    )> }
+  )> }
+);
 
 export type DeleteNoticeMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteNoticeMutation = { __typename?: 'mutation_root', delete_info_notice?: { __typename?: 'info_notice_mutation_response', returning: Array<{ __typename?: 'info_notice', id: any }> } | null };
+export type DeleteNoticeMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_info_notice?: Maybe<(
+    { __typename?: 'info_notice_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'info_notice' }
+      & Pick<Info_Notice, 'id'>
+    )> }
+  )> }
+);
 
 export type GetPostgraduateFeedsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -21045,24 +22016,117 @@ export type GetPostgraduateFeedsQueryVariables = Exact<{
 }>;
 
 
-export type GetPostgraduateFeedsQuery = { __typename?: 'query_root', postgraduate_mentor_info: Array<{ __typename?: 'postgraduate_mentor_info', id: number, created_at: any, updated_at: any, mentor: string, field: string, phd_quota: any, phd_quota_unfixed: any, contact: string, alternate_contact?: string | null, home_page?: string | null, detail_info?: string | null, user_id: string, intend: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, in_contact: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null }, confirmed: { __typename?: 'postgraduate_application_aggregate', aggregate?: { __typename?: 'postgraduate_application_aggregate_fields', count: number, max?: { __typename?: 'postgraduate_application_max_fields', updated_at?: any | null } | null } | null } }>, postgraduate_mentor_info_aggregate: { __typename?: 'postgraduate_mentor_info_aggregate', aggregate?: { __typename?: 'postgraduate_mentor_info_aggregate_fields', count: number } | null } };
+export type GetPostgraduateFeedsQuery = (
+  { __typename?: 'query_root' }
+  & {
+    postgraduate_mentor_info: Array<(
+      { __typename?: 'postgraduate_mentor_info' }
+      & Pick<
+        Postgraduate_Mentor_Info,
+        | 'id'
+        | 'created_at'
+        | 'updated_at'
+        | 'mentor'
+        | 'field'
+        | 'phd_quota'
+        | 'phd_quota_unfixed'
+        | 'contact'
+        | 'alternate_contact'
+        | 'home_page'
+        | 'detail_info'
+        | 'user_id'
+      >
+      & {
+        intend: (
+          { __typename?: 'postgraduate_application_aggregate' }
+          & { aggregate?: Maybe<(
+            { __typename?: 'postgraduate_application_aggregate_fields' }
+            & Pick<Postgraduate_Application_Aggregate_Fields, 'count'>
+            & { max?: Maybe<(
+              { __typename?: 'postgraduate_application_max_fields' }
+              & Pick<Postgraduate_Application_Max_Fields, 'updated_at'>
+            )> }
+          )> }
+        ),
+        in_contact: (
+          { __typename?: 'postgraduate_application_aggregate' }
+          & { aggregate?: Maybe<(
+            { __typename?: 'postgraduate_application_aggregate_fields' }
+            & Pick<Postgraduate_Application_Aggregate_Fields, 'count'>
+            & { max?: Maybe<(
+              { __typename?: 'postgraduate_application_max_fields' }
+              & Pick<Postgraduate_Application_Max_Fields, 'updated_at'>
+            )> }
+          )> }
+        ),
+        confirmed: (
+          { __typename?: 'postgraduate_application_aggregate' }
+          & { aggregate?: Maybe<(
+            { __typename?: 'postgraduate_application_aggregate_fields' }
+            & Pick<Postgraduate_Application_Aggregate_Fields, 'count'>
+            & { max?: Maybe<(
+              { __typename?: 'postgraduate_application_max_fields' }
+              & Pick<Postgraduate_Application_Max_Fields, 'updated_at'>
+            )> }
+          )> }
+        ),
+      }
+    )>,
+    postgraduate_mentor_info_aggregate: (
+      { __typename?: 'postgraduate_mentor_info_aggregate' }
+      & { aggregate?: Maybe<(
+        { __typename?: 'postgraduate_mentor_info_aggregate_fields' }
+        & Pick<Postgraduate_Mentor_Info_Aggregate_Fields, 'count'>
+      )> }
+    ),
+  }
+);
 
 export type GetLlmListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLlmListQuery = { __typename?: 'query_root', llm_list: Array<{ __typename?: 'llm_list', name: string, value: string, deepthinkingmodel?: string | null }> };
+export type GetLlmListQuery = (
+  { __typename?: 'query_root' }
+  & { llm_list: Array<(
+    { __typename?: 'llm_list' }
+    & Pick<Llm_List, 'name' | 'value' | 'deepthinkingmodel'>
+  )> }
+);
 
 export type GetUserLlmUsageQueryVariables = Exact<{
   student_no: Scalars['String']['input'];
 }>;
 
 
-export type GetUserLlmUsageQuery = { __typename?: 'query_root', user_llm_usage_by_pk?: { __typename?: 'user_llm_usage', student_no: string, total_tokens_used: any, token_limit: any } | null };
+export type GetUserLlmUsageQuery = (
+  { __typename?: 'query_root' }
+  & { user_llm_usage_by_pk?: Maybe<(
+    { __typename?: 'user_llm_usage' }
+    & Pick<User_Llm_Usage, 'student_no' | 'total_tokens_used' | 'token_limit'>
+  )> }
+);
 
 export type GetCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCourseQuery = { __typename?: 'query_root', course: Array<{ __typename?: 'course', code: string, fullname: string, language: string, name: string, professor: string, semester: string, type: string, uuid: any, year: number }> };
+export type GetCourseQuery = (
+  { __typename?: 'query_root' }
+  & { course: Array<(
+    { __typename?: 'course' }
+    & Pick<
+      Course,
+      | 'code'
+      | 'fullname'
+      | 'language'
+      | 'name'
+      | 'professor'
+      | 'semester'
+      | 'type'
+      | 'uuid'
+      | 'year'
+    >
+  )> }
+);
 
 export type UpdateCourseMutationVariables = Exact<{
   code: Scalars['String']['input'];
@@ -21077,7 +22141,13 @@ export type UpdateCourseMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCourseMutation = { __typename?: 'mutation_root', update_course_by_pk?: { __typename?: 'course', uuid: any } | null };
+export type UpdateCourseMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_course_by_pk?: Maybe<(
+    { __typename?: 'course' }
+    & Pick<Course, 'uuid'>
+  )> }
+);
 
 export type AddCourseMutationVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -21091,21 +22161,42 @@ export type AddCourseMutationVariables = Exact<{
 }>;
 
 
-export type AddCourseMutation = { __typename?: 'mutation_root', insert_course?: { __typename?: 'course_mutation_response', returning: Array<{ __typename?: 'course', uuid: any }> } | null };
+export type AddCourseMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_course?: Maybe<(
+    { __typename?: 'course_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'course' }
+      & Pick<Course, 'uuid'>
+    )> }
+  )> }
+);
 
 export type DeleteCourseMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type DeleteCourseMutation = { __typename?: 'mutation_root', delete_course_by_pk?: { __typename?: 'course', uuid: any } | null };
+export type DeleteCourseMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_course_by_pk?: Maybe<(
+    { __typename?: 'course' }
+    & Pick<Course, 'uuid'>
+  )> }
+);
 
 export type GetCourseInfoQueryVariables = Exact<{
   course_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type GetCourseInfoQuery = { __typename?: 'query_root', course_info: Array<{ __typename?: 'course_info', key: string, value?: string | null }> };
+export type GetCourseInfoQuery = (
+  { __typename?: 'query_root' }
+  & { course_info: Array<(
+    { __typename?: 'course_info' }
+    & Pick<Course_Info, 'key' | 'value'>
+  )> }
+);
 
 export type UpdateCourseInfoMutationVariables = Exact<{
   course_id: Scalars['uuid']['input'];
@@ -21114,7 +22205,13 @@ export type UpdateCourseInfoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCourseInfoMutation = { __typename?: 'mutation_root', update_course_info_by_pk?: { __typename?: 'course_info', course_id: any } | null };
+export type UpdateCourseInfoMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_course_info_by_pk?: Maybe<(
+    { __typename?: 'course_info' }
+    & Pick<Course_Info, 'course_id'>
+  )> }
+);
 
 export type AddCourseInfoMutationVariables = Exact<{
   key: Scalars['String']['input'];
@@ -21123,7 +22220,13 @@ export type AddCourseInfoMutationVariables = Exact<{
 }>;
 
 
-export type AddCourseInfoMutation = { __typename?: 'mutation_root', insert_course_info_one?: { __typename?: 'course_info', course_id: any } | null };
+export type AddCourseInfoMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_course_info_one?: Maybe<(
+    { __typename?: 'course_info' }
+    & Pick<Course_Info, 'course_id'>
+  )> }
+);
 
 export type DeleteCourseInfoMutationVariables = Exact<{
   course_id: Scalars['uuid']['input'];
@@ -21131,21 +22234,54 @@ export type DeleteCourseInfoMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCourseInfoMutation = { __typename?: 'mutation_root', delete_course_info_by_pk?: { __typename?: 'course_info', course_id: any, key: string } | null };
+export type DeleteCourseInfoMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_course_info_by_pk?: Maybe<(
+    { __typename?: 'course_info' }
+    & Pick<Course_Info, 'course_id' | 'key'>
+  )> }
+);
 
 export type GetCourseManagerQueryVariables = Exact<{
   user_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type GetCourseManagerQuery = { __typename?: 'query_root', course_manager_by_pk?: { __typename?: 'course_manager', user_uuid: any } | null };
+export type GetCourseManagerQuery = (
+  { __typename?: 'query_root' }
+  & { course_manager_by_pk?: Maybe<(
+    { __typename?: 'course_manager' }
+    & Pick<Course_Manager, 'user_uuid'>
+  )> }
+);
 
 export type GetCourseRatingQueryVariables = Exact<{
   course_uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type GetCourseRatingQuery = { __typename?: 'query_root', course_rating_aggregate: { __typename?: 'course_rating_aggregate', aggregate?: { __typename?: 'course_rating_aggregate_fields', count: number, avg?: { __typename?: 'course_rating_avg_fields', dim1?: number | null, dim2?: number | null, dim3?: number | null, dim4?: number | null, dim5?: number | null, dim6?: number | null } | null } | null } };
+export type GetCourseRatingQuery = (
+  { __typename?: 'query_root' }
+  & { course_rating_aggregate: (
+    { __typename?: 'course_rating_aggregate' }
+    & { aggregate?: Maybe<(
+      { __typename?: 'course_rating_aggregate_fields' }
+      & Pick<Course_Rating_Aggregate_Fields, 'count'>
+      & { avg?: Maybe<(
+        { __typename?: 'course_rating_avg_fields' }
+        & Pick<
+          Course_Rating_Avg_Fields,
+          | 'dim1'
+          | 'dim2'
+          | 'dim3'
+          | 'dim4'
+          | 'dim5'
+          | 'dim6'
+        >
+      )> }
+    )> }
+  ) }
+);
 
 export type GetCourseRatingOneQueryVariables = Exact<{
   course_uuid: Scalars['uuid']['input'];
@@ -21153,7 +22289,21 @@ export type GetCourseRatingOneQueryVariables = Exact<{
 }>;
 
 
-export type GetCourseRatingOneQuery = { __typename?: 'query_root', course_rating_by_pk?: { __typename?: 'course_rating', dim1: number, dim2: number, dim3: number, dim4: number, dim5: number, dim6: number } | null };
+export type GetCourseRatingOneQuery = (
+  { __typename?: 'query_root' }
+  & { course_rating_by_pk?: Maybe<(
+    { __typename?: 'course_rating' }
+    & Pick<
+      Course_Rating,
+      | 'dim1'
+      | 'dim2'
+      | 'dim3'
+      | 'dim4'
+      | 'dim5'
+      | 'dim6'
+    >
+  )> }
+);
 
 export type AddCourseRatingMutationVariables = Exact<{
   dim1: Scalars['Int']['input'];
@@ -21167,7 +22317,13 @@ export type AddCourseRatingMutationVariables = Exact<{
 }>;
 
 
-export type AddCourseRatingMutation = { __typename?: 'mutation_root', insert_course_rating_one?: { __typename?: 'course_rating', created_at: any } | null };
+export type AddCourseRatingMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_course_rating_one?: Maybe<(
+    { __typename?: 'course_rating' }
+    & Pick<Course_Rating, 'created_at'>
+  )> }
+);
 
 export type UpdateCourseRatingMutationVariables = Exact<{
   course_id: Scalars['uuid']['input'];
@@ -21181,7 +22337,13 @@ export type UpdateCourseRatingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCourseRatingMutation = { __typename?: 'mutation_root', update_course_rating_by_pk?: { __typename?: 'course_rating', updated_at: any } | null };
+export type UpdateCourseRatingMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_course_rating_by_pk?: Maybe<(
+    { __typename?: 'course_rating' }
+    & Pick<Course_Rating, 'updated_at'>
+  )> }
+);
 
 export type DeleteCourseRatingMutationVariables = Exact<{
   course_id: Scalars['uuid']['input'];
@@ -21189,19 +22351,50 @@ export type DeleteCourseRatingMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCourseRatingMutation = { __typename?: 'mutation_root', delete_course_rating_by_pk?: { __typename?: 'course_rating', course_id: any, user_uuid: any } | null };
+export type DeleteCourseRatingMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_course_rating_by_pk?: Maybe<(
+    { __typename?: 'course_rating' }
+    & Pick<Course_Rating, 'course_id' | 'user_uuid'>
+  )> }
+);
 
 export type GetWeeklyQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetWeeklyQuery = { __typename?: 'query_root', weekly: Array<{ __typename?: 'weekly', id: number, title: string, url: string }> };
+export type GetWeeklyQuery = (
+  { __typename?: 'query_root' }
+  & { weekly: Array<(
+    { __typename?: 'weekly' }
+    & Pick<Weekly, 'id' | 'title' | 'url'>
+  )> }
+);
 
 export type GetProfileQueryVariables = Exact<{
   uuid: Scalars['uuid']['input'];
 }>;
 
 
-export type GetProfileQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', username?: string | null, realname?: string | null, email?: string | null, phone?: string | null, student_no?: string | null, department?: string | null, class?: string | null, created_at: any, updated_at: any, tsinghua_email?: string | null, github_id?: string | null } | null };
+export type GetProfileQuery = (
+  { __typename?: 'query_root' }
+  & { users_by_pk?: Maybe<(
+    { __typename?: 'users' }
+    & Pick<
+      Users,
+      | 'username'
+      | 'realname'
+      | 'email'
+      | 'phone'
+      | 'student_no'
+      | 'department'
+      | 'class'
+      | 'created_at'
+      | 'updated_at'
+      | 'tsinghua_email'
+      | 'github_id'
+    >
+  )> }
+);
 
 export type UpdateProfileMutationVariables = Exact<{
   uuid: Scalars['uuid']['input'];
@@ -21214,45 +22407,87 @@ export type UpdateProfileMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProfileMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', updated_at: any } | null };
+export type UpdateProfileMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_users_by_pk?: Maybe<(
+    { __typename?: 'users' }
+    & Pick<Users, 'updated_at'>
+  )> }
+);
 
 export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDepartmentsQuery = { __typename?: 'query_root', department: Array<{ __typename?: 'department', name: string }> };
+export type GetDepartmentsQuery = (
+  { __typename?: 'query_root' }
+  & { department: Array<(
+    { __typename?: 'department' }
+    & Pick<Department, 'name'>
+  )> }
+);
 
 export type GetClassesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetClassesQuery = { __typename?: 'query_root', classes: Array<{ __typename?: 'classes', id: any, name: string, department?: string | null }> };
+export type GetClassesQuery = (
+  { __typename?: 'query_root' }
+  & { classes: Array<(
+    { __typename?: 'classes' }
+    & Pick<Classes, 'id' | 'name' | 'department'>
+  )> }
+);
 
 export type GetUserByEmailQueryVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
 
-export type GetUserByEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+export type GetUserByEmailQuery = (
+  { __typename?: 'query_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'uuid'>
+  )> }
+);
 
 export type GetUserByTsinghuaEmailQueryVariables = Exact<{
   tsinghua_email: Scalars['String']['input'];
 }>;
 
 
-export type GetUserByTsinghuaEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+export type GetUserByTsinghuaEmailQuery = (
+  { __typename?: 'query_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'uuid'>
+  )> }
+);
 
 export type GetUserByPhoneQueryVariables = Exact<{
   phone: Scalars['String']['input'];
 }>;
 
 
-export type GetUserByPhoneQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+export type GetUserByPhoneQuery = (
+  { __typename?: 'query_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'uuid'>
+  )> }
+);
 
 export type GetUserByStudentIdQueryVariables = Exact<{
   student_no: Scalars['String']['input'];
 }>;
 
 
-export type GetUserByStudentIdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+export type GetUserByStudentIdQuery = (
+  { __typename?: 'query_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'uuid'>
+  )> }
+);
 
 export type GetUser_IdQueryVariables = Exact<{
   email: Scalars['String']['input'];
@@ -21260,12 +22495,24 @@ export type GetUser_IdQueryVariables = Exact<{
 }>;
 
 
-export type GetUser_IdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', uuid: any }> };
+export type GetUser_IdQuery = (
+  { __typename?: 'query_root' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'uuid'>
+  )> }
+);
 
 export type GetClasses_NameQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetClasses_NameQuery = { __typename?: 'query_root', classes: Array<{ __typename?: 'classes', name: string }> };
+export type GetClasses_NameQuery = (
+  { __typename?: 'query_root' }
+  & { classes: Array<(
+    { __typename?: 'classes' }
+    & Pick<Classes, 'name'>
+  )> }
+);
 
 
 export const DeleteContestDocument = gql`
