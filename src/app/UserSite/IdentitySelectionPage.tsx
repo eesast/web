@@ -1,11 +1,9 @@
 import { FC } from "react";
-import { Card, Tooltip, Typography, Button } from "antd";
+import { Card, Tooltip, Button } from "antd";
 import { QuestionCircleOutlined, LeftOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Background from "./Components/Background";
-
-const { Title } = Typography;
 
 interface RegisterContext {
   setIdentity: (identity: string) => void;
