@@ -61,6 +61,34 @@ const LLMChat = lazy(() => import("./LLMChat/LLMChatPage"));
 
 const { Header, Footer, Content } = Layout;
 
+const StyledHeader = styled(Header)<{ $mode: "light" | "dark" }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  height: 72px;
+  width: 100%;
+  min-width: 465px;
+  background-color: ${(p) => (p.$mode === "light" ? `white` : `#141414`)};
+  border-bottom: 1px solid
+    ${(p) =>
+      p.$mode === "light"
+        ? `rgba(5, 5, 5, 0.06)`
+        : `rgba(253, 253, 253, 0.12)`};
+  position: sticky;
+  top: 0;
+`;
+
+const StyledContent = styled(Content)`
+  min-height: calc(100vh - 72px);
+  min-width: 465px;
+`;
+
+const StyledFooter = styled(Footer)`
+  min-width: 465px;
+  text-align: center;
+`;
+
 const App: React.FC = () => {
   const url = useUrl();
   const [user, setUser] = useUser();
@@ -137,31 +165,6 @@ const App: React.FC = () => {
   const infoRef = useRef(null);
   const shareRef = useRef(null);
   const themeRef = useRef(null);
-
-  const StyledHeader = styled(Header)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99;
-    height: 72px;
-    width: 100%;
-    min-width: 465px;
-    background-color: ${mode === "light" ? `white` : `#141414`};
-    border-bottom: 1px solid
-      ${mode === "light" ? `rgba(5, 5, 5, 0.06)` : `rgba(253, 253, 253, 0.12)`};
-    position: sticky;
-    top: 0;
-  `;
-
-  const StyledContent = styled(Content)`
-    min-height: calc(100vh - 72px);
-    min-width: 465px;
-  `;
-
-  const StyledFooter = styled(Footer)`
-    min-width: 465px;
-    text-align: center;
-  `;
 
   const Logo = ({ title }: { title: string }) => {
     return (
@@ -555,7 +558,7 @@ const App: React.FC = () => {
     >
       <TourGuide />
       <Layout>
-        <StyledHeader>
+        <StyledHeader $mode={mode}>
           <Home />
           <Navigation />
           <ThemeSwitch />
