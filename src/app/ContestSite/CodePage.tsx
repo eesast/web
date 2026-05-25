@@ -91,6 +91,13 @@ interface TeamSoftwareFinalData {
   created_at: string;
   updated_at: string;
 }
+
+interface TeamRLCodeData {
+  submit_id: string;
+  team_id: string;
+  created_at: string;
+  url: string;
+}
 /* ---------------- 不随渲染刷新的常量和组件 ---------------- */
 const { Dragger } = Upload;
 type ColumnsType<T> = TableProps<T>["columns"];
@@ -107,7 +114,6 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const Contest_id = url.query.get("contest");
   const [sf_code, setSF_code] = useState("");
   const [finalCodeUrl, setFinalCodeUrl] = useState("");
-  const [showFinal, setShowFinal] = useState(false);
   const codeIndexMap = new Map();
 
   const [isSelectingGlobalCode, setIsSelectingGlobalCode] = useState(false);
@@ -118,6 +124,15 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   const [latestFinalSoftwareCode, setLatestFinalSoftwareCode] =
     useState<TeamSoftwareFinalData | null>(null);
   const [loadingLatestFinalCode, setLoadingLatestFinalCode] = useState(false);
+  const [teamRLCodeSubmissions, setTeamRLCodeSubmissions] = useState<
+    TeamRLCodeData[]
+  >([]);
+  const [loadingRLCodeSubmissions, setLoadingRLCodeSubmissions] =
+    useState(false);
+  const [codeDeadline, setCodeDeadline] = useState<string | null>(null);
+  const [deadlineCurrentTime, setDeadlineCurrentTime] = useState<string | null>(
+    null,
+  );
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //根据队员id查询队伍id
 
@@ -166,6 +181,11 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+  const contestName = contestData?.contest_by_pk?.name || "";
+  const normalizedContestName = contestName.toUpperCase();
+  const isSoftwareContest = normalizedContestName.startsWith("SOFT");
+  const isRlContest = normalizedContestName.startsWith("RL");
+  const usesSoftwareCodeUpload = isSoftwareContest || isRlContest;
 
   const { data: contestPlayersData } = graphql.useGetContestPlayersQuery({
     variables: {
@@ -204,7 +224,31 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
   });
 
   useEffect(() => {
-    if (!teamid) return;
+    if (!Contest_id || !usesSoftwareCodeUpload) {
+      setCodeDeadline(null);
+      setDeadlineCurrentTime(null);
+      return;
+    }
+
+    axios
+      .post("/competition/get_software_contest_ddl", {
+        contest_id: Contest_id,
+      })
+      .then((res) => {
+        setCodeDeadline(res.data?.data?.deadline || null);
+        setDeadlineCurrentTime(res.data?.data?.current_time || null);
+      })
+      .catch((err) => {
+        console.error("获取代码提交截止时间失败:", err);
+      });
+  }, [Contest_id, usesSoftwareCodeUpload]);
+
+  useEffect(() => {
+    if (!teamid || !isSoftwareContest) {
+      setLatestFinalSoftwareCode(null);
+      setFinalCodeUrl("");
+      return;
+    }
 
     setLoadingLatestFinalCode(true);
     axios
@@ -222,12 +266,14 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       .finally(() => {
         setLoadingLatestFinalCode(false);
       });
-  }, [teamid]);
-  // 获取最近提交的软件代码信息（仅SOFT场景）
+  }, [teamid, isSoftwareContest]);
+  // 获取最近提交的软件代码信息（SOFT 场景）
   useEffect(() => {
     const fetchLatestSoftwareCode = async () => {
-      if (!teamid || !contestData?.contest_by_pk?.name.startsWith("SOFT"))
+      if (!teamid || !isSoftwareContest) {
+        setLatestSoftwareCode(null);
         return;
+      }
       setLoadingLatestCode(true);
       try {
         const response = await axios.post(
@@ -245,7 +291,33 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
       }
     };
     fetchLatestSoftwareCode();
-  }, [teamid, contestData?.contest_by_pk?.name]);
+  }, [teamid, isSoftwareContest]);
+
+  useEffect(() => {
+    const fetchTeamRLCodeSubmissions = async () => {
+      if (!teamid || !isRlContest) {
+        setTeamRLCodeSubmissions([]);
+        return;
+      }
+
+      setLoadingRLCodeSubmissions(true);
+      try {
+        const response = await axios.post(
+          "/competition/get_team_RL_code_submissions",
+          {
+            team_id: teamid,
+          },
+        );
+        setTeamRLCodeSubmissions(response.data?.data || []);
+      } catch (error) {
+        console.error("获取RL代码提交记录失败:", error);
+      } finally {
+        setLoadingRLCodeSubmissions(false);
+      }
+    };
+
+    fetchTeamRLCodeSubmissions();
+  }, [teamid, isRlContest]);
 
   if (!teamid) {
     return <NotJoined />;
@@ -253,6 +325,14 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   /* ---------------- 业务逻辑函数 ---------------- */
   const open = contestSwitchData?.contest_by_pk?.code_upload_switch;
+  const isBeforeCodeDeadline = codeDeadline
+    ? new Date(deadlineCurrentTime || new Date().toISOString()).getTime() <
+      new Date(codeDeadline).getTime()
+    : false;
+  const formattedCodeDeadline = codeDeadline
+    ? new Date(codeDeadline).toLocaleString("zh-CN", { hour12: false })
+    : "暂未设置";
+  const canSubmitCode = open === true && isBeforeCodeDeadline;
   // 编译代码
   const EditableContext = React.createContext<FormInstance<any> | null>(null);
   const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
@@ -465,6 +545,11 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   const handleSfCodeChange = async () => {
     try {
+      if (!open) {
+        message.info("代码功能暂未开放");
+        return;
+      }
+
       if (!sf_code) {
         message.warning("请输入代码链接");
         return;
@@ -518,8 +603,60 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   };
 
+  const handleRLCodeChange = async () => {
+    try {
+      if (!open) {
+        message.info("代码功能暂未开放");
+        return;
+      }
+
+      if (!sf_code) {
+        message.warning("请输入代码及权重链接");
+        return;
+      }
+
+      try {
+        new URL(sf_code);
+      } catch (e) {
+        message.error("请输入有效的URL");
+        return;
+      }
+
+      if (!isBeforeCodeDeadline) {
+        message.error("代码提交截止时间已过或尚未设置");
+        return;
+      }
+
+      await axios.post("/competition/add_team_RL_code", {
+        contest_id: Contest_id,
+        team_id: teamid,
+        code_url: sf_code,
+      });
+      message.success("代码及权重提交成功！");
+
+      const refreshResponse = await axios.post(
+        "/competition/get_team_RL_code_submissions",
+        {
+          team_id: teamid,
+        },
+      );
+      setTeamRLCodeSubmissions(refreshResponse.data?.data || []);
+      setSF_code("");
+    } catch (error: any) {
+      console.error("提交失败:", error);
+      message.error(
+        "提交失败: " + (error.response?.data?.error || error.message),
+      );
+    }
+  };
+
   const handleFinalCodeChange = async () => {
     try {
+      if (!open) {
+        message.info("代码功能暂未开放");
+        return;
+      }
+
       const getRes = await axios.post(
         "/competition/get_team_software_final_one",
         {
@@ -926,7 +1063,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
 
   return (
     <Layout>
-      {contestData?.contest_by_pk?.name.startsWith("SOFT") ? (
+      {usesSoftwareCodeUpload ? (
         <>
           <Row>
             <Col span={2}></Col>
@@ -934,8 +1071,47 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               span={20}
               style={{ display: "flex", flexDirection: "column", gap: "10px" }}
             >
-              <Typography.Title level={2}>软设代码提交</Typography.Title>
-              {loadingLatestCode ? (
+              <Typography.Title level={2}>
+                {isRlContest ? "代码及权重上传窗口" : "初审代码提交"}
+              </Typography.Title>
+              <Typography.Text
+                type={isBeforeCodeDeadline ? "secondary" : "danger"}
+              >
+                代码提交截止时间：{formattedCodeDeadline}
+              </Typography.Text>
+              {isRlContest ? (
+                <Table<TeamRLCodeData>
+                  rowKey="submit_id"
+                  loading={loadingRLCodeSubmissions}
+                  dataSource={teamRLCodeSubmissions}
+                  pagination={false}
+                  locale={{ emptyText: "暂无提交的代码及权重" }}
+                  columns={[
+                    {
+                      title: "提交时间",
+                      dataIndex: "created_at",
+                      width: "25%",
+                      render: (createdAt: string) =>
+                        new Date(createdAt).toLocaleString("zh-CN", {
+                          hour12: false,
+                        }),
+                    },
+                    {
+                      title: "代码及权重链接",
+                      dataIndex: "url",
+                      render: (codeUrl: string) => (
+                        <a
+                          href={codeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {codeUrl}
+                        </a>
+                      ),
+                    },
+                  ]}
+                />
+              ) : loadingLatestCode ? (
                 <p>加载中...</p>
               ) : latestSoftwareCode ? (
                 <div
@@ -967,7 +1143,11 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
                 <p style={{ color: "#999" }}>暂无提交的代码</p>
               )}
               <Input.TextArea
-                placeholder="请在此提交云盘或仓库链接~"
+                placeholder={
+                  isRlContest
+                    ? "请在此提交代码及权重的云盘或仓库链接~"
+                    : "请在此提交云盘或仓库链接~"
+                }
                 value={sf_code}
                 onChange={handleInputChange}
                 style={{ marginBottom: "10px" }}
@@ -975,95 +1155,72 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
               />
               <Button
                 type="primary"
-                onClick={handleSfCodeChange}
+                disabled={!canSubmitCode}
+                onClick={isRlContest ? handleRLCodeChange : handleSfCodeChange}
                 style={{ alignSelf: "flex-end" }}
               >
                 提交
               </Button>
-              <div
-                style={{
-                  borderTop: "1px solid #f0f0f0",
-                  marginTop: "20px",
-                  paddingTop: "20px",
-                }}
-              >
+              {isSoftwareContest && (
                 <div
-                  onClick={() => setShowFinal(!showFinal)}
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "10px 20px",
-                    backgroundColor: "#fafafa",
-                    border: "1px solid #d9d9d9",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    marginBottom: showFinal ? "0" : "20px",
+                    flexDirection: "column",
+                    gap: "10px",
+                    borderTop: "1px solid #f0f0f0",
+                    marginTop: "20px",
+                    paddingTop: "20px",
                   }}
                 >
-                  <Typography.Text strong style={{ fontSize: "24px" }}>
-                    终审代码提交
-                  </Typography.Text>
-                  <Typography.Text type="secondary">
-                    {showFinal ? "收起" : "展开"}
-                  </Typography.Text>
-                </div>
-                {showFinal && (
-                  <div
-                    style={{
-                      padding: "20px",
-                      border: "1px solid #d9d9d9",
-                      borderTop: "none",
-                      borderBottomLeftRadius: "4px",
-                      borderBottomRightRadius: "4px",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Space direction="vertical" style={{ width: "100%" }}>
-                      {loadingLatestFinalCode ? (
-                        <p>加载中...</p>
-                      ) : latestFinalSoftwareCode ? (
-                        <div
-                          style={{
-                            border: "1px solid #d9d9d9",
-                            borderRadius: "4px",
-                            padding: "16px",
-                            backgroundColor: "#fafafa",
-                          }}
+                  <Typography.Title level={2}>终审代码提交</Typography.Title>
+                  {loadingLatestFinalCode ? (
+                    <p>加载中...</p>
+                  ) : latestFinalSoftwareCode ? (
+                    <div
+                      style={{
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "4px",
+                        padding: "16px",
+                        backgroundColor: "#fafafa",
+                      }}
+                    >
+                      <p>
+                        <strong>代码链接：</strong>{" "}
+                        <a
+                          href={latestFinalSoftwareCode.URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          <p>
-                            <strong>代码链接：</strong>{" "}
-                            <a
-                              href={latestFinalSoftwareCode.URL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {latestFinalSoftwareCode.URL}
-                            </a>
-                          </p>
-                          <p>
-                            <strong>最后更新时间：</strong>{" "}
-                            {new Date(
-                              latestFinalSoftwareCode.updated_at,
-                            ).toLocaleString("zh-CN")}
-                          </p>
-                        </div>
-                      ) : (
-                        <p style={{ color: "#999" }}>暂无提交的终审代码</p>
-                      )}
-                      <Input.TextArea
-                        placeholder="请在此提交终审代码云盘链接~"
-                        value={finalCodeUrl}
-                        onChange={handleFinalInputChange}
-                        rows={10}
-                      />
-                      <Button type="primary" onClick={handleFinalCodeChange}>
-                        提交终审代码
-                      </Button>
-                    </Space>
-                  </div>
-                )}
-              </div>
+                          {latestFinalSoftwareCode.URL}
+                        </a>
+                      </p>
+                      <p>
+                        <strong>最后更新时间：</strong>{" "}
+                        {new Date(
+                          latestFinalSoftwareCode.updated_at,
+                        ).toLocaleString("zh-CN")}
+                      </p>
+                    </div>
+                  ) : (
+                    <p style={{ color: "#999" }}>暂无提交的终审代码</p>
+                  )}
+                  <Input.TextArea
+                    placeholder="请在此提交终审代码云盘或仓库链接~"
+                    value={finalCodeUrl}
+                    onChange={handleFinalInputChange}
+                    style={{ marginBottom: "10px" }}
+                    rows={4}
+                  />
+                  <Button
+                    type="primary"
+                    disabled={!canSubmitCode}
+                    onClick={handleFinalCodeChange}
+                    style={{ alignSelf: "flex-end" }}
+                  >
+                    提交
+                  </Button>
+                </div>
+              )}
             </Col>
           </Row>
         </>

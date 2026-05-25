@@ -22,21 +22,39 @@
 // 3. 在线提交WebGL，同时更改是否允许试玩、回放、直播的开关
 // 4. 加入在线地图编辑器
 import React, { useEffect } from "react";
-import { Col, message, Layout, Row, Space } from "antd";
+import { message } from "antd";
 import { ContestProps } from "..";
 import { useUrl } from "../../../api/hooks/url";
 import * as graphql from "@/generated/graphql";
-import Setting from "./Setting";
-import ManageTeams from "./ManageTeams";
-import EditInfo from "./EditInfo";
 import Forbidden from "@/app/Components/Forbidden";
-import Competition from "./Competition";
-import EditPlayer from "./EditPlayer";
-import UploadMap from "./UploadMap";
-import UploadWebGL from "./UploadWebGL";
-import EditTimeline from "./EditTimeline";
+import NotImplemented from "../Components/NotImplemented";
+import SoftwareManager from "./SoftwareManager";
+import THUAIManager from "./THUAIManager";
+import HardwareManager from "./HardwareManager";
+import RLManager from "./RLManager";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
+const getManagerType = (contestName?: string | null) => {
+  const normalizedName = contestName?.trim().toUpperCase() || "";
+
+  if (normalizedName.startsWith("SOFTWARE")) {
+    return "SOFTWARE";
+  }
+
+  if (normalizedName.startsWith("RL")) {
+    return "RL";
+  }
+
+  if (normalizedName.startsWith("HARD")) {
+    return "HARD";
+  }
+
+  if (normalizedName.startsWith("THUAI")) {
+    return "THUAI";
+  }
+
+  return null;
+};
 
 /* ---------------- 不随渲染刷新的组件 ---------------- */
 
@@ -50,6 +68,12 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
         contest_id: Contest_id,
       },
     });
+  const { data: getContestNameData, error: getContestNameError } =
+    graphql.useGetContestNameSuspenseQuery({
+      variables: {
+        contest_id: Contest_id,
+      },
+    });
 
   useEffect(() => {
     if (getContestManagersError) {
@@ -57,57 +81,33 @@ const ManagerPage: React.FC<ContestProps> = ({ mode, user }) => {
       console.log(getContestManagersError.message);
     }
   }, [getContestManagersError]);
+  useEffect(() => {
+    if (getContestNameError) {
+      message.error("比赛信息加载失败");
+      console.log(getContestNameError.message);
+    }
+  }, [getContestNameError]);
+
+  const managerType = getManagerType(getContestNameData?.contest_by_pk?.name);
+  const renderManagerPage = () => {
+    switch (managerType) {
+      case "SOFTWARE":
+        return <SoftwareManager mode={mode} user={user} />;
+      case "RL":
+        return <RLManager mode={mode} user={user} />;
+      case "HARD":
+        return <HardwareManager mode={mode} user={user} />;
+      case "THUAI":
+        return <THUAIManager mode={mode} user={user} />;
+      default:
+        return <NotImplemented />;
+    }
+  };
 
   return getContestManagersData?.contest_by_pk?.contest_managers.some(
     (manager) => manager.user_uuid === user.uuid,
   ) ? (
-    <Layout>
-      <Space
-        direction="vertical"
-        size="large"
-        style={{
-          display: "flex",
-          border: "0px solid #ccc",
-          padding: "4vh 4vw",
-          color: mode === "dark" ? "white" : "initial",
-        }}
-      >
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true} align="stretch">
-          <Col span={16}>
-            <EditInfo mode={mode} user={user} />
-          </Col>
-          <Col span={8}>
-            <Setting mode={mode} user={user} />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={12}>
-            <EditTimeline mode={mode} user={user} />
-          </Col>
-          <Col span={12}>
-            <UploadWebGL mode={mode} user={user} />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={24}>
-            <ManageTeams mode={mode} user={user} />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={12}>
-            <EditPlayer mode={mode} user={user} />
-          </Col>
-          <Col span={12}>
-            <UploadMap mode={mode} user={user} />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={24}>
-            <Competition mode={mode} user={user} />
-          </Col>
-        </Row>
-      </Space>
-    </Layout>
+    renderManagerPage()
   ) : (
     <Forbidden />
   );

@@ -1,14 +1,14 @@
 import React from "react";
 import { Col, Layout, Row, Space } from "antd";
 import { ContestProps } from "..";
-import Setting from "./Setting";
-import ManageTeams from "./ManageTeams";
-import EditInfo from "./EditInfo";
-import Competition from "./Competition";
-import EditPlayer from "./EditPlayer";
-import UploadMap from "./UploadMap";
-import UploadWebGL from "./UploadWebGL";
-import EditTimeline from "./EditTimeline";
+import Setting from "./Components/Setting";
+import ManageTeams from "./Components/ManageTeams";
+import EditInfo from "./Components/EditInfo";
+import Competition from "./Components/Competition";
+import EditPlayer from "./Components/EditPlayer";
+import UploadMap from "./Components/UploadMap";
+import UploadWebGL from "./Components/UploadWebGL";
+import EditTimeline from "./Components/EditTimeline";
 
 const THUAIManager: React.FC<ContestProps> = ({ mode, user }) => {
   return (

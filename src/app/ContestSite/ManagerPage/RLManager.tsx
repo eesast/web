@@ -2,11 +2,12 @@ import React from "react";
 import { Col, Layout, Row, Space } from "antd";
 import { ContestProps } from "..";
 import Setting from "./Components/Setting";
-import ManageTeams from "./Components/ManageTeams";
 import EditInfo from "./Components/EditInfo";
 import EditTimeline from "./Components/EditTimeline";
+import ManageTeams from "./Components/ManageTeams";
+import RLScoreManager from "./Components/RLScoreManager";
 
-const SoftwareManager: React.FC<ContestProps> = ({ mode, user }) => {
+const RLManager: React.FC<ContestProps> = ({ mode, user }) => {
   return (
     <Layout>
       <Space
@@ -36,7 +37,13 @@ const SoftwareManager: React.FC<ContestProps> = ({ mode, user }) => {
 
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={24}>
-            <ManageTeams mode={mode} user={user} />
+            <RLScoreManager />
+          </Col>
+        </Row>
+
+        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+          <Col span={24}>
+            <ManageTeams mode={mode} user={user} useRLCodeData />
           </Col>
         </Row>
       </Space>
@@ -44,4 +51,4 @@ const SoftwareManager: React.FC<ContestProps> = ({ mode, user }) => {
   );
 };
 
-export default SoftwareManager;
+export default RLManager;

@@ -14,7 +14,7 @@ import {
   Typography,
   message,
 } from "antd";
-import { ContestProps } from "..";
+import { ContestProps } from "../..";
 import axios from "axios";
 import * as xlsx from "xlsx";
 import { ForwardOutlined, DownloadOutlined } from "@ant-design/icons";
