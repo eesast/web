@@ -27,7 +27,7 @@ const Password: React.FC<PasswordProps> = ({ title, setter }) => {
   return (
     <Form onFinish={handleFinish}>
       <Center>
-        <h1
+        <h2
           css={`
             margin-top: 48px;
             margin-bottom: 48px;
@@ -36,7 +36,7 @@ const Password: React.FC<PasswordProps> = ({ title, setter }) => {
           `}
         >
           {title}
-        </h1>
+        </h2>
       </Center>
       <Form.Item
         name="password"
