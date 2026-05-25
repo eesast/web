@@ -1,7 +1,7 @@
 import { Button, Form, Input, message } from "antd";
 import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Center from "../Components/Center";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useUrl } from "../../api/hooks/url";
@@ -42,7 +42,6 @@ const AutofillStyle = createGlobalStyle<{ mode?: string }>`
 `;
 
 const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
-  const navigate = useNavigate();
   const url = useUrl();
   const [loading, setLoading] = useState(false);
   const onFinish = async (values: any) => {
@@ -57,7 +56,6 @@ const LoginPage: React.FC<UserProps> = ({ mode, user, setUser }) => {
       setUser(data.token);
       message.success("登录成功");
       setLoading(false);
-      navigate(-1);
       const subscription = localStorage.getItem("subscription");
       if (subscription !== null) {
         const result = await renew(subscription!);
