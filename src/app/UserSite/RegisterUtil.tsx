@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
 import axios, { AxiosError } from "axios";
 import { message } from "antd";
 import { UserProps } from ".";
 
-const RegisterUtil: React.FC<UserProps> = ({ mode, user, setUser }) => {
+const RegisterUtil: React.FC<UserProps> = ({ mode }) => {
   const url = useUrl();
   const navigate = useNavigate();
 
@@ -20,7 +20,8 @@ const RegisterUtil: React.FC<UserProps> = ({ mode, user, setUser }) => {
   const [identity, setIdentity] = useState(
     localStorage.getItem("registerIdentity") || "",
   );
-  const handleRegister = async () => {
+
+  const handleRegister = useCallback(async () => {
     try {
       let request = {
         role: identity,
@@ -39,7 +40,7 @@ const RegisterUtil: React.FC<UserProps> = ({ mode, user, setUser }) => {
           ? "注册成功，请联系管理员验证教师身份"
           : "注册成功，即将跳转";
       message.success(successMsg);
-      const delay = identity === "teacher" ? 5000 : 2000; // 注册成功后清除身份缓存
+      const delay = identity === "teacher" ? 5000 : 2000;
       localStorage.removeItem("registerIdentity");
 
       setTimeout(() => {
@@ -60,12 +61,23 @@ const RegisterUtil: React.FC<UserProps> = ({ mode, user, setUser }) => {
         message.error("未知错误");
       }
     }
-  };
+  }, [
+    identity,
+    name,
+    password,
+    email,
+    otpEmail,
+    studentId,
+    depart,
+    class_,
+    navigate,
+    url,
+  ]);
 
-  const setIdentityAndCache = (newIdentity: string) => {
+  const setIdentityAndCache = useCallback((newIdentity: string) => {
     setIdentity(newIdentity);
     localStorage.setItem("registerIdentity", newIdentity);
-  };
+  }, []);
 
   const contextValue = useMemo(
     () => ({
@@ -100,6 +112,8 @@ const RegisterUtil: React.FC<UserProps> = ({ mode, user, setUser }) => {
       identity,
       imageIndex,
       mode,
+      handleRegister,
+      setIdentityAndCache,
     ],
   );
 
