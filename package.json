@@ -19,7 +19,7 @@
     "grpc-web": "2.0.2",
     "is-url": "1.2.4",
     "jwt-decode": "4.0.0",
-    "katex": "0.16.47",
+    "katex": "0.17.0",
     "react": "18.3.1",
     "react-cropper": "2.3.3",
     "react-custom-scrollbars": "4.2.1",
@@ -40,7 +40,7 @@
     "@graphql-codegen/typescript": "5.0.10",
     "@graphql-codegen/typescript-operations": "5.1.0",
     "@graphql-codegen/typescript-react-apollo": "4.4.2",
-    "@playwright/test": "1.59.1",
+    "@playwright/test": "1.60.0",
     "@types/is-url": "1.2.32",
     "@types/node": "24.12.4",
     "@types/react": "18.3.29",
@@ -48,7 +48,7 @@
     "@types/react-dom": "18.3.7",
     "@types/react-router-dom": "5.3.3",
     "@types/styled-components": "5.1.36",
-    "babel-plugin-styled-components": "2.1.4",
+    "babel-plugin-styled-components": "2.3.0",
     "cross-env": "10.1.0",
     "customize-cra": "1.0.0",
     "husky": "9.1.7",
@@ -63,7 +63,7 @@
     "webpackbar": "7.0.0"
   },
   "peerDependencies": {
-    "electron": "42.0.1",
+    "electron": "42.3.0",
     "electron-builder": "26.8.1"
   },
   "resolutions": {
