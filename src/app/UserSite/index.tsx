@@ -11,7 +11,9 @@ import Authenticate, { userRoles } from "../Components/Authenticate";
 import ProfilePage from "./ProfilePage";
 import NotFound from "../Components/NotFound";
 import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
+import RegisterUtil from "./RegisterUtil";
+import IdentitySelectionProp from "./IdentitySelectionPage";
+import InformationProp from "./RegisterPage";
 import ResetPage from "./ResetPage";
 import UpdatePage from "./UpdatePage";
 import DeletePage from "./DeletePage";
@@ -71,10 +73,24 @@ const UserSite: React.FC<UserProps> = (props) => {
           props.user.isLoggedIn ? (
             <Navigate to={url.link("profile")} />
           ) : (
-            <RegisterPage {...props} />
+            <RegisterUtil {...props} /> // RegisterUtil 接收 props 并管理 Context
           )
         }
-      />
+      >
+                {/* /register/ (Index Route): 默认重定向到 identityselection */}
+               {" "}
+        <Route index element={<Navigate to="identityselection" replace />} />   
+                    {/* 1. /register/identityselection: 移除 {...props} */}
+               {" "}
+        <Route path="identityselection" element={<IdentitySelectionProp />} /> 
+                      {/* 2. /register/information: 移除 {...props} */}
+                <Route path="information" element={<InformationProp />} />     
+                 {" "}
+        {/* 捕获未匹配的 /register/* 路径，重定向到 identityselection */}
+               {" "}
+        <Route path="*" element={<Navigate to="identityselection" replace />} />
+             {" "}
+      </Route>
       <Route path="reset" element={<ResetPage {...props} />} />
       <Route
         path="update"
