@@ -81,6 +81,14 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     }
   });
   /* ---------------- 业务逻辑函数 ---------------- */
+  const getRoomTeams = (
+    room: graphql.GetArenaRoomsSubscription["contest_room"][0],
+  ) => {
+    return [...room.contest_room_teams].sort((a, b) =>
+      (a.team_label ?? "").localeCompare(b.team_label ?? ""),
+    );
+  };
+
   const roomListColumns: TableProps<
     graphql.GetArenaRoomsSubscription["contest_room"][0]
   >["columns"] = [
@@ -95,14 +103,16 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       title: "对战双方",
       key: "team_name",
       render: (text, record) => {
+        const roomTeams = getRoomTeams(record);
         return (
           <Text>
-            【{record.contest_room_teams[0]?.team_label ?? "Default"}】
-            {record.contest_room_teams[0]?.contest_team.team_name}：
-            {record.contest_room_teams[0]?.score ?? "0"}
-            <br />【{record.contest_room_teams[1]?.team_label ?? "Default"}】
-            {record.contest_room_teams[1]?.contest_team.team_name}：
-            {record.contest_room_teams[1]?.score ?? "0"}
+            {roomTeams.map((roomTeam, index) => (
+              <React.Fragment key={`${record.room_id}-${roomTeam.team_label}`}>
+                【{roomTeam.team_label ?? "Default"}】
+                {roomTeam.contest_team.team_name}：{roomTeam.score ?? "0"}
+                {index < roomTeams.length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </Text>
         );
       },
@@ -179,14 +189,15 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
   useEffect(() => {
     setFilterParamList(
       arenaRoomsData?.contest_room?.filter((room) => {
-        const teamId1 = room.contest_room_teams[0]?.contest_team.team_id;
-        const teamId2 = room.contest_room_teams[1]?.contest_team.team_id;
-        const teamName1 = room.contest_room_teams[0]?.contest_team.team_name;
-        const teamName2 = room.contest_room_teams[1]?.contest_team.team_name;
+        const roomTeams = getRoomTeams(room);
         return (
-          (teamName1?.includes(associatedValue) ||
-            teamName2?.includes(associatedValue)) &&
-          (!onlyMyTeam || teamId1 === team_id || teamId2 === team_id)
+          roomTeams.some((roomTeam) =>
+            roomTeam.contest_team.team_name?.includes(associatedValue),
+          ) &&
+          (!onlyMyTeam ||
+            roomTeams.some(
+              (roomTeam) => roomTeam.contest_team.team_id === team_id,
+            ))
         );
       }) ?? [],
     );
