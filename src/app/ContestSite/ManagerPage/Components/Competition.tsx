@@ -66,9 +66,17 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
   const url = useUrl();
   const Contest_id = url.query.get("contest");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isFourTeamModalVisible, setIsFourTeamModalVisible] =
+    useState<boolean>(false);
   const [roundId, setRoundId] = useState<string | null>(null);
   const [runForm] = Form.useForm();
+  const [fourTeamRunForm] = Form.useForm();
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
+  const { data: contestNameData } = graphql.useGetContestNameQuery({
+    variables: {
+      contest_id: Contest_id,
+    },
+  });
   const { data: contestMapData, error: contestMapError } =
     graphql.useGetContestMapsQuery({
       variables: {
@@ -105,8 +113,13 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
     }
   }, [addRoundError]);
   /* ---------------- 业务逻辑函数 ---------------- */
+  const isTHUAI9 = contestNameData?.contest_by_pk?.name === "THUAI9";
   //运行比赛
-  const runContest = async (round_name: string, map_uuid: string) => {
+  const runContest = async (
+    round_name: string,
+    map_uuid: string,
+    startPath = "/competition/start-all",
+  ) => {
     try {
       const response = await addContestRound({
         variables: {
@@ -116,10 +129,12 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
         },
       });
 
-      await axios.post("/competition/start-all", {
-        round_id: response.data?.insert_contest_round_one?.round_id,
+      const newRoundId = response.data?.insert_contest_round_one?.round_id;
+      await axios.post(startPath, {
+        round_id: newRoundId,
       });
 
+      setRoundId(newRoundId ?? null);
       message.info("正在运行比赛:" + round_name);
     } catch (e) {
       message.error("运行比赛失败!");
@@ -135,6 +150,20 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
         const contestMapId = values.map_id;
         runContest(roundName, contestMapId);
         setIsModalVisible(false);
+      })
+      .catch((errorInfo) => {
+        console.log("Failed:", errorInfo);
+      });
+  };
+
+  const handleRunFourTeamContest = () => {
+    fourTeamRunForm
+      .validateFields()
+      .then((values) => {
+        const roundName = values.round_name;
+        const contestMapId = values.map_id;
+        runContest(roundName, contestMapId, "/competition/start-four-team");
+        setIsFourTeamModalVisible(false);
       })
       .catch((errorInfo) => {
         console.log("Failed:", errorInfo);
@@ -168,6 +197,15 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
           >
             新轮次
           </Button>
+          {isTHUAI9 && (
+            <Button
+              type="primary"
+              icon={<ForwardOutlined />}
+              onClick={() => setIsFourTeamModalVisible(true)}
+            >
+              新四队轮次
+            </Button>
+          )}
           <Select
             style={{ width: 160 }}
             defaultValue={contestRoundData?.contest_round[0]?.round_id}
@@ -195,6 +233,49 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
           <Form
             form={runForm}
             name="battle"
+            onFinishFailed={(errorInfo: any) => {
+              console.log("Failed:", errorInfo);
+            }}
+            preserve={false}
+          >
+            <Form.Item
+              name="round_name"
+              label="本轮比赛名称"
+              rules={[{ required: true, message: "请输入比赛名称" }]}
+            >
+              <Input allowClear />
+            </Form.Item>
+            <Form.Item
+              name="map_id"
+              label="比赛地图"
+              rules={[{ required: true, message: "请选择比赛地图" }]}
+            >
+              <Select style={{ width: "40%" }}>
+                {contestMapData?.contest_map.map((map) => (
+                  <Option key={map.map_id} value={map.map_id}>
+                    {map.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Form>
+        </Modal>
+        <Modal
+          open={isFourTeamModalVisible}
+          title="运行四队比赛"
+          centered
+          okText="运行"
+          maskClosable={false}
+          onCancel={() => {
+            setIsFourTeamModalVisible(false);
+            fourTeamRunForm.resetFields();
+          }}
+          onOk={handleRunFourTeamContest}
+          destroyOnClose
+        >
+          <Form
+            form={fourTeamRunForm}
+            name="fourTeamBattle"
             onFinishFailed={(errorInfo: any) => {
               console.log("Failed:", errorInfo);
             }}
@@ -276,6 +357,14 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
     }
   }, [getTeamsCompetitionResultError]);
   /* ---------------- 业务逻辑函数 ---------------- */
+  const getRoomTeams = (
+    room: graphql.GetCompetitionRoomsSubscription["contest_room"][0],
+  ) => {
+    return [...room.contest_room_teams].sort((a, b) =>
+      (a.team_label ?? "").localeCompare(b.team_label ?? ""),
+    );
+  };
+
   const exportCompetitionRooms = () => {
     try {
       let data: any = [];
@@ -285,14 +374,13 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
         competitionRoomsData?.contest_room.map((room) => [
           room.room_id,
           room.created_at,
-          room.contest_room_teams[0]?.team_label ?? "Default",
-          room.contest_room_teams[0]?.contest_team.team_name,
-          room.contest_room_teams[0]?.score,
-          room.contest_room_teams[1]?.team_label ?? "Default",
-          room.contest_room_teams[1]?.contest_team.team_name,
-          room.contest_room_teams[1]?.score,
+          ...getRoomTeams(room).flatMap((roomTeam) => [
+            roomTeam.team_label ?? "Default",
+            roomTeam.contest_team.team_name,
+            roomTeam.score,
+          ]),
           room.status,
-        ]),
+        ]) ?? [],
       );
       const contestName = cleanFileName(contestNameData?.contest_by_pk?.name!);
       const roundName = cleanFileName(
@@ -353,14 +441,16 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
       title: "对战双方",
       key: "team_name",
       render: (text, record) => {
+        const roomTeams = getRoomTeams(record);
         return (
           <Text>
-            【{record.contest_room_teams[0]?.team_label ?? "Default"}】
-            {record.contest_room_teams[0]?.contest_team.team_name}：
-            {record.contest_room_teams[0]?.score ?? "0"}
-            <br />【{record.contest_room_teams[1]?.team_label ?? "Default"}】
-            {record.contest_room_teams[1]?.contest_team.team_name}：
-            {record.contest_room_teams[1]?.score ?? "0"}
+            {roomTeams.map((roomTeam, index) => (
+              <React.Fragment key={`${record.room_id}-${roomTeam.team_label}`}>
+                【{roomTeam.team_label ?? "Default"}】
+                {roomTeam.contest_team.team_name}：{roomTeam.score ?? "0"}
+                {index < roomTeams.length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </Text>
         );
       },
@@ -430,18 +520,12 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
           {record.status !== "Waiting" && (
             <Typography.Link
               onClick={() => {
-                const teamLabels: TeamLabelBind[] = [
-                  {
-                    team_id:
-                      record.contest_room_teams[0]!.contest_team.team_id!,
-                    label: record.contest_room_teams[0]!.team_label!,
-                  },
-                  {
-                    team_id:
-                      record.contest_room_teams[1]!.contest_team.team_id!,
-                    label: record.contest_room_teams[1]!.team_label!,
-                  },
-                ];
+                const teamLabels: TeamLabelBind[] = getRoomTeams(record)
+                  .filter((roomTeam) => roomTeam.team_label)
+                  .map((roomTeam) => ({
+                    team_id: roomTeam.contest_team.team_id!,
+                    label: roomTeam.team_label!,
+                  }));
                 restart(record.round_id, teamLabels);
               }}
             >
@@ -468,6 +552,10 @@ const Round: React.FC<{ roundId: string }> = ({ roundId }) => {
 
   const restart = async (roundId: string, teamLabels: TeamLabelBind[]) => {
     try {
+      if (teamLabels.length < 2) {
+        message.error(`发起重赛失败`);
+        return;
+      }
       await axios.post("/competition/start-one", {
         round_id: roundId,
         team_labels: teamLabels,
