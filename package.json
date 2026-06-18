@@ -40,7 +40,7 @@
     "@graphql-codegen/typescript": "6.0.2",
     "@graphql-codegen/typescript-operations": "6.0.4",
     "@graphql-codegen/typescript-react-apollo": "4.4.2",
-    "@playwright/test": "1.60.0",
+    "@playwright/test": "1.61.0",
     "@types/is-url": "1.2.32",
     "@types/node": "24.13.2",
     "@types/react": "18.3.31",
