@@ -2451,7 +2451,18 @@
     change-case-all "^2.1.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/typescript-operations@6.1.0", "@graphql-codegen/typescript-operations@^6.1.0":
+"@graphql-codegen/typescript-operations@6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-6.1.2.tgz#df9c1326b18255816486d042f40665e3ac5e7ef9"
+  integrity sha512-EP9xry09q4cOVaf/aC4NO3/SwvXRNzlJIe4dhfA0xyy45Taix5yDL3jeJpmJIv03sa7nK5udVs5vZqdHFU8Xmw==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^7.1.0"
+    "@graphql-codegen/schema-ast" "^6.1.0"
+    "@graphql-codegen/visitor-plugin-common" "^7.2.2"
+    auto-bind "^5.0.0"
+    tslib "^2.8.0"
+
+"@graphql-codegen/typescript-operations@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-6.1.0.tgz#6938792225805e08d492ac89ed18846fdc309af9"
   integrity sha512-zv0ohBJqLP1G/Kgiq1MhLTdNmakChtJivpaMaBmuPz9gasKWJkc9MhxuVytF6xS27PkJOh81TNM9srAkqpdejA==
@@ -2489,6 +2500,22 @@
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-7.2.0.tgz#f22355a37c8761385a5029352bdf86fe87ad9a6c"
   integrity sha512-qqtTY8taONuxlR0HvD8z+zgWC3CfJ47M2rATx+geWNIN8v8Itc5TflHYxjkWAtNL6E3q7WZRY5P7se+2S3EjBg==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^7.1.0"
+    "@graphql-tools/optimize" "^2.0.0"
+    "@graphql-tools/relay-operation-optimizer" "^7.1.1"
+    "@graphql-tools/utils" "^11.2.0"
+    auto-bind "^5.0.0"
+    change-case-all "^2.1.0"
+    dependency-graph "^1.0.0"
+    graphql-tag "^2.11.0"
+    parse-filepath "^1.0.2"
+    tslib "^2.8.0"
+
+"@graphql-codegen/visitor-plugin-common@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-7.2.2.tgz#b9105101403c8fe93c5b3a0c792c06110df82f0a"
+  integrity sha512-nOkAVd8J8r2YdHm9Z4YrBiy+3IQgE8Ndn/EiRWTvWuemMEhioBWyvdlnbq5rHmIo2bNdRQ5ghs0Q3jw7YBrwLQ==
   dependencies:
     "@graphql-codegen/plugin-helpers" "^7.1.0"
     "@graphql-tools/optimize" "^2.0.0"
