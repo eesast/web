@@ -8080,10 +8080,10 @@ graphql@17.0.2:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-17.0.2.tgz#05ff6f18e0801e8d040d46957eba712c1459d5d7"
   integrity sha512-FRWbddMxfkjiB7z+aQDWIR+E34xo9I8c9mtK2RPv8PmMzKRvrdsreHL/Ui/TmwHJfhHChEtsFPyMHKI+xuarQQ==
 
-grpc-web@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/grpc-web/-/grpc-web-2.0.2.tgz"
-  integrity sha512-bvBP0/d5jyVM3eGxxffJhRLAPpH6eXhJeUzBT+bSIEgUKkG4a/BotEimVeW3phP0WLnsJnkRl8uQdRf2yDLaVA==
+grpc-web@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/grpc-web/-/grpc-web-2.1.0.tgz#bd0f15ab9dd88ae3456feb023c10ef5311e6086b"
+  integrity sha512-Y6h3J3KSfefew/dEYmIoWr0A2ukksKUu5w9HJ89VYrYlWgP7nCzD2K9yz4kxPTXC0r8Z2omZEamcugaVBmLirg==
 
 gzip-size@^6.0.0:
   version "6.0.0"
