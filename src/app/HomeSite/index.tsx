@@ -297,7 +297,6 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
             />
           </InfinteScrollContainer> */}
           {/* 展示墙区域 */}
-          /*
           <DisplayWall />
         </div>
       </Content>
