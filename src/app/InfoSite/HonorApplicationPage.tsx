@@ -47,7 +47,22 @@ const { Option } = Select;
 const { confirm } = Modal;
 const HONOR_UPLOAD_MAX_SIZE = 20 * 1024 * 1024;
 const HONOR_DOWNLOAD_LINK_EXPIRES = 2 * 60 * 60;
-const honorsNeedTranscript = new Set(["学业优秀奖", "综合优秀奖"]);
+const GLOBAL_COMPETENCE_HONOR = "全球胜任力优秀奖";
+const honorsNeedTranscript = new Set([
+  "学业优秀奖",
+  "综合优秀奖",
+  "学习进步奖",
+]);
+const honorsWithoutMaterialLink = new Set([
+  "学业优秀奖",
+  "综合优秀奖",
+  "学习进步奖",
+  "好读书奖",
+]);
+const honorNeedsApplicationForm = (honor?: string | null) =>
+  honor === GLOBAL_COMPETENCE_HONOR;
+const honorNeedsMaterialLink = (honor?: string | null) =>
+  Boolean(honor) && !honorsWithoutMaterialLink.has(honor!);
 
 const getFileName = (value?: string | null) => {
   if (!value) return "";
@@ -86,6 +101,23 @@ const renderStoredFile = (value?: string | null) => {
         下载
       </Button>
     </Space>
+  );
+};
+
+const renderMaterialLink = (value?: string | null) => {
+  if (!value) {
+    return <Text type="secondary">未填写</Text>;
+  }
+
+  return (
+    <a
+      href={value}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ wordBreak: "break-all" }}
+    >
+      {value}
+    </a>
   );
 };
 
@@ -143,7 +175,8 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const [importLoading, setImportLoading] = useState(false);
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [parseProgress, setParseProgress] = useState(0);
-  const [attachmentUploading, setAttachmentUploading] = useState(false);
+  const [applicationFormUploading, setApplicationFormUploading] =
+    useState(false);
   const [transcriptUploading, setTranscriptUploading] = useState(false);
 
   /* ---------------- 数据获取hook ---------------- */
@@ -221,7 +254,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
   const [form] = Form.useForm();
   const watchedHonor = Form.useWatch("honor", form) as string | undefined;
-  const attachmentValue = Form.useWatch("attachment_url", form) as
+  const applicationFormValue = Form.useWatch("application_form_url", form) as
     | string
     | undefined;
   const transcriptValue = Form.useWatch("transcript_url", form) as
@@ -231,8 +264,8 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const [applicationUpdating, setApplicationUpdating] =
     useState<boolean>(false);
 
-  const handleAttachmentUpload = async (e: RcCustomRequestOptions) => {
-    setAttachmentUploading(true);
+  const handleApplicationFormUpload = async (e: RcCustomRequestOptions) => {
+    setApplicationFormUploading(true);
     try {
       const file = e.file as RcFile;
       const key = `honor_application/${user.uuid}/${selectedYear}/application_form/${file.name}`;
@@ -240,14 +273,14 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       if (result.statusCode !== 200) {
         throw new Error("COS upload failed");
       }
-      form.setFieldsValue({ attachment_url: key });
+      form.setFieldsValue({ application_form_url: key });
       e.onSuccess?.(result, new XMLHttpRequest());
       message.success("申请表上传成功");
     } catch (err) {
       e.onError?.(err as Error);
       message.error("申请表上传失败");
     } finally {
-      setAttachmentUploading(false);
+      setApplicationFormUploading(false);
     }
   };
 
@@ -271,32 +304,15 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
     }
   };
 
-  const buildExportFileCells = async (value?: string | null) => {
-    if (!value) {
-      return ["", ""];
-    }
-
-    const fileName = getFileName(value) || value;
+  const buildTemporaryDownloadLink = async (value?: string | null) => {
+    if (!value) return "";
     try {
-      const target = isUrl(value)
+      return isUrl(value)
         ? value
         : await getFileUrl(value, HONOR_DOWNLOAD_LINK_EXPIRES);
-      const linkCell = {
-        t: "s" as const,
-        v: target,
-        l: { Target: target },
-      };
-      return [
-        {
-          t: "s" as const,
-          v: fileName,
-          l: { Target: target },
-        },
-        linkCell,
-      ];
     } catch (err) {
       console.error(err);
-      return [fileName, ""];
+      return "";
     }
   };
 
@@ -309,12 +325,13 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
 
     const values = form.getFieldsValue();
     const needTranscript = honorsNeedTranscript.has(values.honor);
+    const needApplicationForm = honorNeedsApplicationForm(values.honor);
 
     if (!values.honor || !values.statement) {
       message.error("请填写完整的申请信息");
       return;
     }
-    if (!values.attachment_url) {
+    if (needApplicationForm && !values.application_form_url) {
       message.error("请先上传申请表");
       return;
     }
@@ -331,6 +348,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
+          application_form_url: values.application_form_url,
           transcript_url: values.transcript_url,
           student_uuid: user.uuid,
         });
@@ -341,6 +359,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           honor: values.honor,
           statement: values.statement,
           attachment_url: values.attachment_url,
+          application_form_url: values.application_form_url,
           transcript_url: values.transcript_url,
         });
         message.success("申请提交成功");
@@ -585,8 +604,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
           i.student?.student_no,
           exportHonor,
           i.statement,
-          ...(await buildExportFileCells(i.attachment_url)),
-          ...(await buildExportFileCells(i.transcript_url)),
+          i.attachment_url ?? "",
+          await buildTemporaryDownloadLink(i.application_form_url),
+          await buildTemporaryDownloadLink(i.transcript_url),
         ]),
     );
 
@@ -603,9 +623,8 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       "学号",
       "荣誉类型",
       "申请陈述",
-      "申请表",
+      "申请材料链接",
       "申请表临时下载链接",
-      "成绩单",
       "成绩单临时下载链接",
     ];
 
@@ -633,8 +652,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
         i.honor,
         getStatusText(i.status),
         i.statement,
-        ...(await buildExportFileCells(i.attachment_url)),
-        ...(await buildExportFileCells(i.transcript_url)),
+        i.attachment_url ?? "",
+        await buildTemporaryDownloadLink(i.application_form_url),
+        await buildTemporaryDownloadLink(i.transcript_url),
       ]),
     );
 
@@ -654,9 +674,8 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       "荣誉类型",
       "申请状态",
       "申请陈述",
-      "申请表",
+      "申请材料链接",
       "申请表临时下载链接",
-      "成绩单",
       "成绩单临时下载链接",
     ];
 
@@ -875,20 +894,35 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                         {item.statement}
                       </Text>
                     </Descriptions.Item>
-                    <Descriptions.Item
-                      label="申请表"
-                      span={3}
-                      labelStyle={{
-                        whiteSpace: "nowrap",
-                        width: "90px",
-                        fontWeight: "bold",
-                      }}
-                      contentStyle={{
-                        width: "80px",
-                      }}
-                    >
-                      {renderStoredFile(item.attachment_url)}
-                    </Descriptions.Item>
+                    {honorNeedsMaterialLink(item.honor) && (
+                      <Descriptions.Item
+                        label="申请材料链接"
+                        span={8}
+                        labelStyle={{
+                          whiteSpace: "nowrap",
+                          width: "90px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {renderMaterialLink(item.attachment_url)}
+                      </Descriptions.Item>
+                    )}
+                    {honorNeedsApplicationForm(item.honor) && (
+                      <Descriptions.Item
+                        label="申请表"
+                        span={3}
+                        labelStyle={{
+                          whiteSpace: "nowrap",
+                          width: "90px",
+                          fontWeight: "bold",
+                        }}
+                        contentStyle={{
+                          width: "80px",
+                        }}
+                      >
+                        {renderStoredFile(item.application_form_url)}
+                      </Descriptions.Item>
+                    )}
                     {(honorsNeedTranscript.has(item.honor) ||
                       item.transcript_url) && (
                       <Descriptions.Item
@@ -984,6 +1018,14 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                 <Select
                   placeholder="荣誉类型"
                   onChange={(value) => {
+                    if (!honorNeedsMaterialLink(value)) {
+                      form.setFieldsValue({ attachment_url: undefined });
+                    }
+                    if (!honorNeedsApplicationForm(value)) {
+                      form.setFieldsValue({
+                        application_form_url: undefined,
+                      });
+                    }
                     if (!honorsNeedTranscript.has(value)) {
                       form.setFieldsValue({ transcript_url: undefined });
                     }
@@ -1005,35 +1047,51 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                   placeholder="与所申请荣誉相对应的申请陈述"
                 />
               </Form.Item>
-              <Form.Item name="attachment_url" hidden>
+              {honorNeedsMaterialLink(watchedHonor) && (
+                <Form.Item
+                  name="attachment_url"
+                  label="申请材料链接"
+                  rules={[
+                    {
+                      type: "url",
+                      message: "请输入有效的申请材料链接",
+                    },
+                  ]}
+                >
+                  <Input placeholder="推荐使用清华云盘上传文件并在此粘贴分享链接" />
+                </Form.Item>
+              )}
+              <Form.Item name="application_form_url" hidden>
                 <Input />
               </Form.Item>
               <Form.Item name="transcript_url" hidden>
                 <Input />
               </Form.Item>
-              <Form.Item label="申请表">
-                <Space direction="vertical" size={4}>
-                  <Upload
-                    beforeUpload={(file) =>
-                      validateHonorUploadFile(file, "申请表")
-                    }
-                    customRequest={handleAttachmentUpload}
-                    showUploadList={false}
-                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
-                    disabled={attachmentUploading}
-                  >
-                    <Button
-                      icon={<UploadOutlined />}
-                      loading={attachmentUploading}
+              {honorNeedsApplicationForm(watchedHonor) && (
+                <Form.Item label="申请表" required>
+                  <Space direction="vertical" size={4}>
+                    <Upload
+                      beforeUpload={(file) =>
+                        validateHonorUploadFile(file, "申请表")
+                      }
+                      customRequest={handleApplicationFormUpload}
+                      showUploadList={false}
+                      accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                      disabled={applicationFormUploading}
                     >
-                      {attachmentValue ? "重新上传申请表" : "上传申请表"}
-                    </Button>
-                  </Upload>
-                  {renderStoredFile(attachmentValue)}
-                </Space>
-              </Form.Item>
+                      <Button
+                        icon={<UploadOutlined />}
+                        loading={applicationFormUploading}
+                      >
+                        {applicationFormValue ? "重新上传申请表" : "上传申请表"}
+                      </Button>
+                    </Upload>
+                    {renderStoredFile(applicationFormValue)}
+                  </Space>
+                </Form.Item>
+              )}
               {honorsNeedTranscript.has(watchedHonor ?? "") && (
-                <Form.Item label="成绩单">
+                <Form.Item label="成绩单" required>
                   <Space direction="vertical" size={4}>
                     <Upload
                       beforeUpload={(file) =>
@@ -1101,9 +1159,16 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                       {record.statement}
                     </Text>
                   </Descriptions.Item>
-                  <Descriptions.Item label="申请表" span={3}>
-                    {renderStoredFile(record.attachment_url)}
-                  </Descriptions.Item>
+                  {honorNeedsMaterialLink(record.honor) && (
+                    <Descriptions.Item label="申请材料链接" span={3}>
+                      {renderMaterialLink(record.attachment_url)}
+                    </Descriptions.Item>
+                  )}
+                  {honorNeedsApplicationForm(record.honor) && (
+                    <Descriptions.Item label="申请表" span={3}>
+                      {renderStoredFile(record.application_form_url)}
+                    </Descriptions.Item>
+                  )}
                   {(honorsNeedTranscript.has(record.honor) ||
                     record.transcript_url) && (
                     <Descriptions.Item label="成绩单" span={3}>
