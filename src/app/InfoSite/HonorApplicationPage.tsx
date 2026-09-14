@@ -57,6 +57,7 @@ const honorsWithoutMaterialLink = new Set([
   "学业优秀奖",
   "综合优秀奖",
   "学习进步奖",
+  "好读书奖",
 ]);
 const honorNeedsApplicationForm = (honor?: string | null) =>
   honor === GLOBAL_COMPETENCE_HONOR;
