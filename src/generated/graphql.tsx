@@ -7762,6 +7762,7 @@ export type Freshman_Variance_Fields = {
 /** columns and relationships of "honor_application" */
 export type Honor_Application = {
   __typename?: 'honor_application';
+  application_form_url?: Maybe<Scalars['String']['output']>;
   attachment_url?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['timestamptz']['output'];
   honor: Scalars['String']['output'];
@@ -7771,6 +7772,7 @@ export type Honor_Application = {
   /** An object relationship */
   student: Users;
   student_uuid: Scalars['uuid']['output'];
+  transcript_url?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   year: Scalars['Int']['output'];
 };
@@ -7816,6 +7818,7 @@ export type Honor_Application_Bool_Exp = {
   _and?: InputMaybe<Array<Honor_Application_Bool_Exp>>;
   _not?: InputMaybe<Honor_Application_Bool_Exp>;
   _or?: InputMaybe<Array<Honor_Application_Bool_Exp>>;
+  application_form_url?: InputMaybe<String_Comparison_Exp>;
   attachment_url?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   honor?: InputMaybe<String_Comparison_Exp>;
@@ -7824,6 +7827,7 @@ export type Honor_Application_Bool_Exp = {
   status?: InputMaybe<String_Comparison_Exp>;
   student?: InputMaybe<Users_Bool_Exp>;
   student_uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  transcript_url?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   year?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -7841,6 +7845,7 @@ export type Honor_Application_Inc_Input = {
 
 /** input type for inserting data into table "honor_application" */
 export type Honor_Application_Insert_Input = {
+  application_form_url?: InputMaybe<Scalars['String']['input']>;
   attachment_url?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   honor?: InputMaybe<Scalars['String']['input']>;
@@ -7849,6 +7854,7 @@ export type Honor_Application_Insert_Input = {
   status?: InputMaybe<Scalars['String']['input']>;
   student?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  transcript_url?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   year?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -7856,6 +7862,7 @@ export type Honor_Application_Insert_Input = {
 /** aggregate max on columns */
 export type Honor_Application_Max_Fields = {
   __typename?: 'honor_application_max_fields';
+  application_form_url?: Maybe<Scalars['String']['output']>;
   attachment_url?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   honor?: Maybe<Scalars['String']['output']>;
@@ -7863,6 +7870,7 @@ export type Honor_Application_Max_Fields = {
   statement?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   student_uuid?: Maybe<Scalars['uuid']['output']>;
+  transcript_url?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
 };
@@ -7870,6 +7878,7 @@ export type Honor_Application_Max_Fields = {
 /** aggregate min on columns */
 export type Honor_Application_Min_Fields = {
   __typename?: 'honor_application_min_fields';
+  application_form_url?: Maybe<Scalars['String']['output']>;
   attachment_url?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   honor?: Maybe<Scalars['String']['output']>;
@@ -7877,6 +7886,7 @@ export type Honor_Application_Min_Fields = {
   statement?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   student_uuid?: Maybe<Scalars['uuid']['output']>;
+  transcript_url?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
 };
@@ -7899,6 +7909,7 @@ export type Honor_Application_On_Conflict = {
 
 /** Ordering options when selecting data from "honor_application". */
 export type Honor_Application_Order_By = {
+  application_form_url?: InputMaybe<Order_By>;
   attachment_url?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   honor?: InputMaybe<Order_By>;
@@ -7907,6 +7918,7 @@ export type Honor_Application_Order_By = {
   status?: InputMaybe<Order_By>;
   student?: InputMaybe<Users_Order_By>;
   student_uuid?: InputMaybe<Order_By>;
+  transcript_url?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   year?: InputMaybe<Order_By>;
 };
@@ -7918,6 +7930,8 @@ export type Honor_Application_Pk_Columns_Input = {
 
 /** select columns of table "honor_application" */
 export enum Honor_Application_Select_Column {
+  /** column name */
+  ApplicationFormUrl = 'application_form_url',
   /** column name */
   AttachmentUrl = 'attachment_url',
   /** column name */
@@ -7933,6 +7947,8 @@ export enum Honor_Application_Select_Column {
   /** column name */
   StudentUuid = 'student_uuid',
   /** column name */
+  TranscriptUrl = 'transcript_url',
+  /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
   Year = 'year'
@@ -7940,6 +7956,7 @@ export enum Honor_Application_Select_Column {
 
 /** input type for updating data in table "honor_application" */
 export type Honor_Application_Set_Input = {
+  application_form_url?: InputMaybe<Scalars['String']['input']>;
   attachment_url?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   honor?: InputMaybe<Scalars['String']['input']>;
@@ -7947,6 +7964,7 @@ export type Honor_Application_Set_Input = {
   statement?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  transcript_url?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   year?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -7979,6 +7997,7 @@ export type Honor_Application_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Honor_Application_Stream_Cursor_Value_Input = {
+  application_form_url?: InputMaybe<Scalars['String']['input']>;
   attachment_url?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   honor?: InputMaybe<Scalars['String']['input']>;
@@ -7986,6 +8005,7 @@ export type Honor_Application_Stream_Cursor_Value_Input = {
   statement?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   student_uuid?: InputMaybe<Scalars['uuid']['input']>;
+  transcript_url?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   year?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -7998,6 +8018,8 @@ export type Honor_Application_Sum_Fields = {
 
 /** update columns of table "honor_application" */
 export enum Honor_Application_Update_Column {
+  /** column name */
+  ApplicationFormUrl = 'application_form_url',
   /** column name */
   AttachmentUrl = 'attachment_url',
   /** column name */
@@ -8012,6 +8034,8 @@ export enum Honor_Application_Update_Column {
   Status = 'status',
   /** column name */
   StudentUuid = 'student_uuid',
+  /** column name */
+  TranscriptUrl = 'transcript_url',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -21496,6 +21520,8 @@ export type GetHonorApplicationsQuery = (
       | 'honor'
       | 'statement'
       | 'attachment_url'
+      | 'application_form_url'
+      | 'transcript_url'
       | 'status'
       | 'created_at'
       | 'updated_at'
@@ -21518,6 +21544,8 @@ export type GetHonorApplicationsForCounselorsQuery = (
       | 'honor'
       | 'statement'
       | 'attachment_url'
+      | 'application_form_url'
+      | 'transcript_url'
       | 'status'
       | 'created_at'
       | 'updated_at'
@@ -22366,7 +22394,13 @@ export type GetWeeklyQuery = (
   { __typename?: 'query_root' }
   & { weekly: Array<(
     { __typename?: 'weekly' }
-    & Pick<Weekly, 'id' | 'title' | 'url'>
+    & Pick<
+      Weekly,
+      | 'id'
+      | 'title'
+      | 'url'
+      | 'date'
+    >
   )> }
 );
 
@@ -25058,6 +25092,8 @@ export const GetHonorApplicationsDocument = gql`
     honor
     statement
     attachment_url
+    application_form_url
+    transcript_url
     status
     created_at
     updated_at
@@ -25108,6 +25144,8 @@ export const GetHonorApplicationsForCounselorsDocument = gql`
     honor
     statement
     attachment_url
+    application_form_url
+    transcript_url
     status
     student {
       uuid

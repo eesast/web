@@ -51,13 +51,14 @@ const downloadByUrl = (url: string) => {
   document.body.removeChild(element);
 };
 
-export const getAvatarUrl = (key: string): Promise<string> => {
+export const getFileUrl = (key: string, expires?: number): Promise<string> => {
   return new Promise((resolve, reject) => {
     cos.getObjectUrl(
       {
         Bucket: bucket,
         Region: region,
         Key: key,
+        Expires: expires,
       },
       (err, data) => {
         if (err) return reject(err);
@@ -67,37 +68,31 @@ export const getAvatarUrl = (key: string): Promise<string> => {
   });
 };
 
+export const getAvatarUrl = (key: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    getFileUrl(key).then(resolve).catch(reject);
+  });
+};
+
 export const downloadFile = (url: string, filename?: string) => {
   return new Promise(async (resolve, reject) => {
     if ((await existFile(url)) === false)
       return reject("文件不存在，请检查路径");
-    cos.getObjectUrl(
-      {
-        Bucket: bucket,
-        Region: region,
-        Key: url,
-      },
-      (err, data) => {
-        if (err) return reject(err);
+    getFileUrl(url)
+      .then((dataUrl) => {
         try {
-          //备选，下载的文件后缀为.cpp/.py或.txt
-          // downloadByUrl(
-          //   data.Url +
-          //     (data.Url.indexOf("?") > -1 ? "&" : "?") +
-          //     "response-content-disposition=attachment;"+(filename ? "filename="+encodeURIComponent(filename.replace(".","_")+".txt") : ""),
-          // );
           downloadByUrl(
-            data.Url +
-              (data.Url.indexOf("?") > -1 ? "&" : "?") +
+            dataUrl +
+              (dataUrl.indexOf("?") > -1 ? "&" : "?") +
               "response-content-disposition=attachment;" +
               (filename ? "filename=" + encodeURIComponent(filename) : ""),
           );
         } catch (err) {
           return reject(err);
         }
-        return resolve(data);
-      },
-    );
+        return resolve(dataUrl);
+      })
+      .catch(reject);
   });
 };
 
