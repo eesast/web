@@ -366,7 +366,12 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
       }
     } catch (err) {
       console.error(err);
-      message.error("Error in submitting application");
+      const error = err as AxiosError;
+      if (error.response?.status === 409) {
+        message.error("本年度已经申请过该荣誉，不能重复申请");
+      } else {
+        message.error("Error in submitting application");
+      }
     }
 
     setApplicationUpdating(false);
@@ -1076,7 +1081,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                       }
                       customRequest={handleApplicationFormUpload}
                       showUploadList={false}
-                      accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                      accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
                       disabled={applicationFormUploading}
                     >
                       <Button
