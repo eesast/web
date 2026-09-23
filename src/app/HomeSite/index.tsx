@@ -224,7 +224,7 @@ const HomeSite: React.FC<PageProps> = ({ mode, user }) => {
         <br />
 
         {/* 内容区域 */}
-        <div style={{ width: "100%", padding: "24px" }}>
+        <div style={{ width: "100%", padding: "25px" }}>
           {/* 部门展示区 */}
           <SectionTitle>部门</SectionTitle>
           <InfiniteScrollContainer scrollSpeed={1.5}>
