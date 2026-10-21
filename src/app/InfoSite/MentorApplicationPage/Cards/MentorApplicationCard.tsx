@@ -112,50 +112,31 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
               key={item.id}
               bordered
               size="small"
+              column={{ xs: 1, sm: 2, md: 3 }}
               css={`
                 margin: 24px auto;
               `}
             >
-              <Descriptions.Item
-                label="学生姓名"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="学生姓名" span={2}>
                 {item.stu?.name ?? "暂无记录"}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="学生班级"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="学生班级" span={2}>
                 {item.stu?.clss ?? "暂无记录"}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="积极分子"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="积极分子" span={2}>
                 {item.is_mem ? "是" : "否"}
               </Descriptions.Item>
               <Descriptions.Item label="申请时间" span={2}>
                 {dayjs(item.created).format("YYYY-MM-DD HH:mm")}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="申请陈述"
-                span={4}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="申请陈述" span={4}>
                 <Paragraph
                   ellipsis={{ rows: 2, expandable: true, symbol: "展开" }}
                 >
                   {item.stmt}
                 </Paragraph>
               </Descriptions.Item>
-              <Descriptions.Item
-                label="联系方式"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="联系方式" span={2}>
                 <Button
                   onClick={() => {
                     setSelectedApplication(item);

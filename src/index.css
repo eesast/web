@@ -66,3 +66,24 @@ input[type="number"] {
 .ant-table-body {
   overflow-x: auto;
 }
+
+/* 长文本（邮箱、URL 等）在窄屏下换行，避免撑破 Descriptions 单元格 */
+.ant-descriptions-item-content {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* 移动端：Descriptions 表格按容器宽度布局，长文本不再把表格撑宽 */
+@media (max-width: 767px) {
+  .ant-descriptions table {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  /* ellipsis={true} 会生成 white-space:nowrap，窄屏改成可换行 */
+  .ant-descriptions .ant-typography-ellipsis-single-line {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
