@@ -36,3 +36,33 @@ input[type="number"] {
     flex-direction: column-reverse;
   }
 }
+
+/* ══════════ 移动端适配兜底 ══════════ */
+
+/* antd 的 flex 容器默认 min-width:auto，子元素过宽时会撑破父容器 */
+.ant-layout,
+.ant-layout-content,
+.ant-row {
+  min-width: 0;
+}
+
+/* antd Image 宽度被写死时，在窄屏自动收缩 */
+.ant-image,
+.ant-image-img {
+  max-width: 100%;
+}
+
+.ant-image-img {
+  height: auto;
+}
+
+/* antd List 作为 flex 子项时默认 min-width:auto，会被内部内容撑开 */
+.ant-list {
+  min-width: 0;
+}
+
+/* antd Table / ProTable：内容过宽时内部横向滚动，而不是撑破整页 */
+.ant-table-content,
+.ant-table-body {
+  overflow-x: auto;
+}

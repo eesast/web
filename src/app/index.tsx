@@ -68,7 +68,6 @@ const StyledHeader = styled(Header)<{ $mode: "light" | "dark" }>`
   z-index: 99;
   height: 72px;
   width: 100%;
-  min-width: 465px;
   background-color: ${(p) => (p.$mode === "light" ? `white` : `#141414`)};
   border-bottom: 1px solid
     ${(p) =>
@@ -81,11 +80,9 @@ const StyledHeader = styled(Header)<{ $mode: "light" | "dark" }>`
 
 const StyledContent = styled(Content)`
   min-height: calc(100vh - 72px);
-  min-width: 465px;
 `;
 
 const StyledFooter = styled(Footer)`
-  min-width: 465px;
   text-align: center;
 `;
 
@@ -187,9 +184,11 @@ const App: React.FC = () => {
             margin-top: 16px;
             font-size: 32px;
             font-weight: 600;
-            color: ${mode === "light"
-              ? `rgba(0, 0, 0, 0.88)`
-              : `rgba(255, 255, 255, 0.85)`};
+            color: ${
+              mode === "light"
+                ? `rgba(0, 0, 0, 0.88)`
+                : `rgba(255, 255, 255, 0.85)`
+            };
           `}
         >
           {title}
@@ -376,9 +375,11 @@ const App: React.FC = () => {
             width: 32px;
             position: absolute;
             right: 72px;
-            color: ${mode === "light"
-              ? `rgba(0, 0, 0, 0.88)`
-              : `rgba(255, 255, 255, 0.85)`};
+            color: ${
+              mode === "light"
+                ? `rgba(0, 0, 0, 0.88)`
+                : `rgba(255, 255, 255, 0.85)`
+            };
           `}
         />
       </Tooltip>

@@ -956,7 +956,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
           background: mode === "dark" ? "#000" : "#f0f2f5",
         }}
       >
-        <Card title="正在认证" style={{ width: 420 }}>
+        <Card title="正在认证" style={{ width: "100%", maxWidth: 420 }}>
           <p style={{ marginBottom: 12 }}>
             正在使用当前登录身份接入 LLM 服务...
           </p>
