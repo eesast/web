@@ -164,6 +164,8 @@ const HeaderContainer = styled.div<{ mode: string }>`
   max-width: 800px;
   padding: 16px 24px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   justify-content: space-between;
   align-items: center;
   background-color: ${(props) => (props.mode === "dark" ? "#212121" : "#fff")};
