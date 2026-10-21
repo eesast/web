@@ -80,10 +80,23 @@ input[type="number"] {
     width: 100%;
   }
 
+  /* Descriptions 标签在窄屏允许换行（原代码写死 whiteSpace: nowrap） */
+  .ant-descriptions-item-label {
+    white-space: normal !important;
+  }
+
   /* ellipsis={true} 会生成 white-space:nowrap，窄屏改成可换行 */
   .ant-descriptions .ant-typography-ellipsis-single-line {
     white-space: normal;
     overflow: visible;
     text-overflow: clip;
+  }
+}
+
+/* 移动端：antd Modal 默认固定 520px，窄屏下限制在视口内 */
+@media (max-width: 767px) {
+  .ant-modal {
+    max-width: calc(100vw - 32px);
+    margin: 16px auto;
   }
 }

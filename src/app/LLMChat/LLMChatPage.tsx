@@ -980,7 +980,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
 
   return (
     <PageLayout mode={mode}>
-      <Sidebar width={260} mode={mode}>
+      <Sidebar width={260} breakpoint="md" collapsedWidth={0} mode={mode}>
         <SidebarHeader>
           <Button
             type="dashed"
