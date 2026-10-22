@@ -8,7 +8,7 @@ EESAST 网页前端
 
 ### 1. 配置环境
 
-- `NodeJS 20` (官网下载安装包)
+- `NodeJS 24` (官网下载安装包)
 - `NPM` (`Node`自带)
 - `Yarn` (`npm i yarn -g`)
 
