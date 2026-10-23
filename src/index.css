@@ -36,3 +36,67 @@ input[type="number"] {
     flex-direction: column-reverse;
   }
 }
+
+/* ══════════ 移动端适配兜底 ══════════ */
+
+/* antd 的 flex 容器默认 min-width:auto，子元素过宽时会撑破父容器 */
+.ant-layout,
+.ant-layout-content,
+.ant-row {
+  min-width: 0;
+}
+
+/* antd Image 宽度被写死时，在窄屏自动收缩 */
+.ant-image,
+.ant-image-img {
+  max-width: 100%;
+}
+
+.ant-image-img {
+  height: auto;
+}
+
+/* antd List 作为 flex 子项时默认 min-width:auto，会被内部内容撑开 */
+.ant-list {
+  min-width: 0;
+}
+
+/* antd Table / ProTable：内容过宽时内部横向滚动，而不是撑破整页 */
+.ant-table-content,
+.ant-table-body {
+  overflow-x: auto;
+}
+
+/* 长文本（邮箱、URL 等）在窄屏下换行，避免撑破 Descriptions 单元格 */
+.ant-descriptions-item-content {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* 移动端：Descriptions 表格按容器宽度布局，长文本不再把表格撑宽 */
+@media (max-width: 767px) {
+  .ant-descriptions table {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  /* Descriptions 标签在窄屏允许换行（原代码写死 whiteSpace: nowrap） */
+  .ant-descriptions-item-label {
+    white-space: normal !important;
+  }
+
+  /* ellipsis={true} 会生成 white-space:nowrap，窄屏改成可换行 */
+  .ant-descriptions .ant-typography-ellipsis-single-line {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
+/* 移动端：antd Modal 默认固定 520px，窄屏下限制在视口内 */
+@media (max-width: 767px) {
+  .ant-modal {
+    max-width: calc(100vw - 32px);
+    margin: 16px auto;
+  }
+}
