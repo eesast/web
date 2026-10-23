@@ -38,7 +38,6 @@ import NotJoined from "../Components/NotJoined";
 import styled from "styled-components";
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { TextArea } = Input;
-const { confirm } = Modal;
 const { Paragraph, Title } = Typography;
 const defaultAvatar = "/TeamOutlined.png";
 const LoadingOverlay = styled.div`
@@ -58,6 +57,10 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
   const Contest_id = url.query.get("contest");
+  // 使用 Hook 版本：确认框/提示由组件树渲染，才能读取 ConfigProvider 的主题（深色模式）
+  const [modalApi, modalContextHolder] = Modal.useModal();
+  const [messageApi, messageContextHolder] = message.useMessage();
+
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const cropperRef = useRef<HTMLImageElement>(null);
@@ -108,7 +111,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
             })
             .catch((error) => {
               console.error("Failed to load avatar URL:", error);
-              message.error("加载头像失败");
+              messageApi.error("加载头像失败");
             });
         } else {
           setImageUrl("/TeamOutlined.png"); // 设置默认头像
@@ -116,9 +119,9 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       })
       .catch((error) => {
         console.error("Failed to list files:", error);
-        message.error("加载头像失败");
+        messageApi.error("加载头像失败");
       });
-  }, [team_id]); // 依赖 team_id，当 team_id 改变时重新获取头像
+  }, [team_id, messageApi]); // 依赖 team_id，当 team_id 改变时重新获取头像
 
   /* ---------------- 从数据库获取数据的 Hooks ---------------- */
   //更新队伍信息
@@ -134,21 +137,21 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   /* ---------------- useEffect ---------------- */
   useEffect(() => {
     if (UpdateTeamData && !UpdateTeamError) {
-      message.success("更新成功");
+      messageApi.success("更新成功");
     }
-  }, [UpdateTeamData, UpdateTeamError]);
+  }, [UpdateTeamData, UpdateTeamError, messageApi]);
 
   useEffect(() => {
     if (DeleteTeamMemberError) {
-      message.error("退出队伍失败");
+      messageApi.error("退出队伍失败");
     }
-  }, [DeleteTeamMemberError]);
+  }, [DeleteTeamMemberError, messageApi]);
 
   useEffect(() => {
     if (DeleteTeamError) {
-      message.error("解散队伍失败");
+      messageApi.error("解散队伍失败");
     }
-  }, [DeleteTeamError]);
+  }, [DeleteTeamError, messageApi]);
 
   if (!team_id) {
     return <NotJoined />;
@@ -170,7 +173,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   };
 
   const deleteTeamMember = async (user_id: string) => {
-    confirm({
+    modalApi.confirm({
       title: "确定要退出队伍吗？",
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
@@ -179,7 +182,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           variables: { user_uuid: user_id, team_id: team_id },
         });
         if (!result.errors) {
-          Modal.success({
+          modalApi.success({
             title: "已退出队伍",
             content: "请重新加入队伍",
           });
@@ -189,7 +192,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
     });
   };
   const deleteTeamMemberByLeader = async (user_id: string) => {
-    confirm({
+    modalApi.confirm({
       title: "确定要移除该同学吗？",
       icon: <ExclamationCircleOutlined />,
       content: "若不在任何队伍中无法参加比赛!",
@@ -198,7 +201,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           variables: { user_uuid: user_id, team_id: team_id },
         });
         if (!result.errors) {
-          message.success("移除成功");
+          messageApi.success("移除成功");
           return refetchTeamInfo();
         }
       },
@@ -206,14 +209,14 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   };
 
   const deleteWholeTeam = async (team_id: string) => {
-    confirm({
+    modalApi.confirm({
       title: "确定要解散队伍吗？",
       icon: <ExclamationCircleOutlined />,
       content: "会移除队伍以及所有队伍成员，若不在队伍中无法参加比赛!",
       onOk: async () => {
         const result = await DeleteTeam({ variables: { team_id: team_id } });
         if (!result.errors) {
-          Modal.success({
+          modalApi.success({
             title: "队伍已解散",
             content: "请重新加入队伍",
           });
@@ -225,7 +228,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
 
   const copyLlmAccessToken = async () => {
     if (!llmAccessToken) {
-      message.error("暂无可复制的模型访问 Token");
+      messageApi.error("暂无可复制的模型访问 Token");
       return;
     }
     try {
@@ -245,10 +248,10 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           throw new Error("Copy command failed");
         }
       }
-      message.success("模型访问 Token 已复制");
+      messageApi.success("模型访问 Token 已复制");
     } catch (error) {
       console.error("Failed to copy LLM access token:", error);
-      message.error("复制失败，请手动复制");
+      messageApi.error("复制失败，请手动复制");
     }
   };
 
@@ -269,12 +272,12 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
   const handleBeforeUpload = (file: File) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
-      message.error("只能上传 JPG/PNG 格式的图片！");
+      messageApi.error("只能上传 JPG/PNG 格式的图片！");
       return Upload.LIST_IGNORE;
     }
     const isLt2M = file.size / 1024 / 1024 < 1;
     if (!isLt2M) {
-      message.error("图片大小必须小于 1MB！");
+      messageApi.error("图片大小必须小于 1MB！");
       return Upload.LIST_IGNORE;
     }
     const reader = new FileReader();
@@ -292,15 +295,15 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       const deletePromises = files.map((file) => deleteFile(file.Key));
       await Promise.all(deletePromises);
       setImageUrl("");
-      message.success("头像删除成功");
+      messageApi.success("头像删除成功");
     } catch (error) {
       console.error("Failed to delete avatar:", error);
-      message.error("删除头像失败");
+      messageApi.error("删除头像失败");
     }
   };
 
   const showDeleteConfirm = () => {
-    Modal.confirm({
+    modalApi.confirm({
       title: "确定要删除头像吗？",
       content: "删除后您将无法恢复头像。",
       okText: "确定",
@@ -340,14 +343,14 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           await uploadFile(file, fileName);
           const url = await getAvatarUrl(fileName);
           setImageUrl(url);
-          message.success("头像上传成功");
+          messageApi.success("头像上传成功");
           setVisible(false);
         } else {
-          message.error("裁剪失败，请重试。");
+          messageApi.error("裁剪失败，请重试。");
         }
       } catch (error) {
         console.error("Upload failed:", error);
-        message.error("上传失败，请重试。");
+        messageApi.error("上传失败，请重试。");
       } finally {
         setLoading(false);
       }
@@ -399,6 +402,8 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
         color: mode === "dark" ? "white" : "initial",
       }}
     >
+      {modalContextHolder}
+      {messageContextHolder}
       {contestName.startsWith("THUAI") ? (
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
           <Col span={8}>
