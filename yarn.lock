@@ -2420,6 +2420,17 @@
     auto-bind "^5.0.0"
     tslib "^2.8.0"
 
+"@graphql-codegen/plugin-helpers@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-6.3.0.tgz#d4ba4660c68cb703291fbc6616a6510df26dd5f3"
+  integrity sha512-Auc+/B7okDx9+pVgLVliZtZLYh6iltWXlnzzM+bRE+zh1T4r3hKbnr8xAmtT937ArfSgk5GHcQHr8LfPYnrRBg==
+  dependencies:
+    "@graphql-tools/utils" "^11.0.0"
+    change-case-all "1.0.15"
+    common-tags "1.8.2"
+    import-from "4.0.0"
+    tslib "^2.8.0"
+
 "@graphql-codegen/plugin-helpers@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-7.1.0.tgz#cc28ad447ae8fc8be6a49f7eb0166910dff0aca0"
@@ -2473,17 +2484,16 @@
     auto-bind "^5.0.0"
     tslib "^2.8.0"
 
-"@graphql-codegen/typescript-react-apollo@4.4.2":
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-4.4.2.tgz#37f10af85a01ff3a752264ba16f1d3cede87e254"
-  integrity sha512-S/VQeLWMNzo/WnUpvCQELqh2qgAK4H9kkWyC8JrrrPHaV3w/BmOwzeHpcwlHKcuSYWRH6u61XPRQ5+eCjj00AQ==
+"@graphql-codegen/typescript-react-apollo@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-5.0.0.tgz#90a83cc112a2f591df5a57a680d4d08f5867021b"
+  integrity sha512-fjMCr4OkoGRHaZSDlOmPNdl0E7T8A1ueedvrHjGp3ayia+8c3MHYSwMOyJ87z4piK3waMUuz+fB4hVSyqU9Fog==
   dependencies:
-    "@graphql-tools/utils" "^9.0.0"
+    "@graphql-codegen/plugin-helpers" "^6.3.0"
+    "@graphql-codegen/visitor-plugin-common" "^7.2.2"
+    auto-bind "~4.0.0"
     change-case-all "1.0.15"
-    common-tags "1.8.2"
-    import-from "4.0.0"
-    lodash "~4.17.0"
-    tslib "~2.4.0"
+    tslib "^2.8.1"
 
 "@graphql-codegen/typescript@6.1.0", "@graphql-codegen/typescript@^6.1.0":
   version "6.1.0"
@@ -2991,14 +3001,6 @@
     "@graphql-typed-document-node/core" "^3.1.1"
     "@whatwg-node/promise-helpers" "^1.0.0"
     cross-inspect "1.0.1"
-    tslib "^2.4.0"
-
-"@graphql-tools/utils@^9.0.0":
-  version "9.2.1"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-9.2.1.tgz#1b3df0ef166cfa3eae706e3518b17d5922721c57"
-  integrity sha512-WUw506Ql6xzmOORlriNrD6Ugx+HjVgYxt9KCXD9mHAak+eaXSwuGGPyE60hy9xaDEoXKBsG7SkG69ybitaVl6A==
-  dependencies:
-    "@graphql-typed-document-node/core" "^3.1.1"
     tslib "^2.4.0"
 
 "@graphql-tools/wrap@^11.0.0":
@@ -5138,6 +5140,11 @@ auto-bind@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/auto-bind/-/auto-bind-5.0.1.tgz#50d8e63ea5a1dddcb5e5e36451c1a8266ffbb2ae"
   integrity sha512-ooviqdwwgfIfNmDwo94wlshcdzfO64XV0Cg6oDsDYBJfITDz1EngD2z7DkbvCWn+XIMsIqW27sEVF6qcpJrRcg==
+
+auto-bind@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/auto-bind/-/auto-bind-4.0.0.tgz#e3589fc6c2da8f7ca43ba9f84fa52a744fc997fb"
+  integrity sha512-Hdw8qdNiqdJ8LqT0iK0sVzkFbzg6fhnQqqfWhBDxcHZvU75+B+ayzTy8x+k5Ix0Y92XOhOUlx74ps+bA6BeYMQ==
 
 autoprefixer@^10.4.13:
   version "10.4.21"
@@ -9881,11 +9888,6 @@ lodash@^4.0.1, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-lodash@~4.17.0:
-  version "4.17.23"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.23.tgz#f113b0378386103be4f6893388c73d0bde7f2c5a"
-  integrity sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==
-
 log-symbols@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-7.0.1.tgz#f52e68037d96f589fc572ff2193dc424d48c195b"
@@ -14210,11 +14212,6 @@ tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.3.1, tslib@^2.4
   version "2.8.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
-
-tslib@~2.4.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
-  integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
 
 tsutils@^3.21.0:
   version "3.21.0"
