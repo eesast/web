@@ -26,7 +26,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v7.0.0
         with:
-          node-version: "24.18.0"
+          node-version-file: ".nvmrc"
 
       - name: Get yarn cache path
         id: yarn-cache-dir-path
@@ -51,6 +51,9 @@ jobs:
         run: |
           yarn lint
           yarn typecheck
+
+      - name: Build production bundle
+        run: yarn build
 
       # 以下是端到端测试框架 Playwright 的配置，比赛密集开发结束后再启用
       # - name: Run Playwright tests
