@@ -338,9 +338,9 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     <Layout>
       <Content
         style={{
-          marginLeft: 50,
+          marginLeft: "clamp(12px, 3vw, 50px)",
           marginTop: 50,
-          marginRight: 50,
+          marginRight: "clamp(12px, 3vw, 50px)",
           minHeight: 380,
         }}
       >

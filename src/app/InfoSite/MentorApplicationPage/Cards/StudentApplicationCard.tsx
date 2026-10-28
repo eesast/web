@@ -81,43 +81,24 @@ const StudentApplicationCard: React.FC<StudentApplicationProps> = ({
               key={item.id}
               bordered
               size="small"
+              column={{ xs: 1, sm: 2, md: 3 }}
               css={`
                 margin: 24px auto;
               `}
             >
-              <Descriptions.Item
-                label="导师姓名"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="导师姓名" span={2}>
                 {item.men?.name ?? "暂无记录"}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="导师院系"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="导师院系" span={2}>
                 {item.men?.dept ?? "暂无记录"}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="积极分子"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="积极分子" span={2}>
                 {item.is_mem ? "是" : "否"}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="申请时间"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="申请时间" span={2}>
                 {dayjs(item.created).format("YYYY-MM-DD HH:mm")}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="申请陈述"
-                span={4}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="申请陈述" span={4}>
                 <Row>
                   <Paragraph
                     ellipsis={{ rows: 2, expandable: true, symbol: "展开" }}
@@ -170,18 +151,10 @@ const StudentApplicationCard: React.FC<StudentApplicationProps> = ({
                   </Row>
                 )}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="联系方式"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="联系方式" span={2}>
                 {item.men?.mail}
               </Descriptions.Item>
-              <Descriptions.Item
-                label="申请状态"
-                span={2}
-                style={{ width: "25%" }}
-              >
+              <Descriptions.Item label="申请状态" span={2}>
                 {item.status === "approved" ? (
                   <Badge status="success" text="已通过" />
                 ) : item.status === "rejected" ? (
