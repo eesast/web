@@ -1,6 +1,7 @@
 # Builder stage
 
-FROM node:24 AS builder
+ARG NODE_VERSION=24.22.1
+FROM node:${NODE_VERSION} AS builder
 
 # Create app directory
 WORKDIR /home/node/app
@@ -18,7 +19,7 @@ RUN yarn build
 
 # Runner stage
 
-FROM node:24-alpine
+FROM node:${NODE_VERSION}-alpine
 ENV NODE_ENV=production
 WORKDIR /home/node/app
 
