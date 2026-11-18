@@ -83,6 +83,7 @@ input[type="number"] {
   /* Descriptions 标签在窄屏允许换行（原代码写死 whiteSpace: nowrap） */
   .ant-descriptions-item-label {
     white-space: normal !important;
+    width: 88px;
   }
 
   /* ellipsis={true} 会生成 white-space:nowrap，窄屏改成可换行 */
@@ -98,5 +99,21 @@ input[type="number"] {
   .ant-modal {
     max-width: calc(100vw - 32px);
     margin: 16px auto;
+  }
+}
+
+/* 移动端：天梯榜排名 emoji 过大会压到相邻内容 */
+@media (max-width: 767px) {
+  .arena-rank-emoji {
+    font-size: 1.7rem !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* 移动端：RangePicker 双月面板默认约 600px，限制在视口内并允许横向滚动 */
+@media (max-width: 767px) {
+  .ant-picker-dropdown .ant-picker-panel-container {
+    max-width: calc(100vw - 16px);
+    overflow-x: auto;
   }
 }

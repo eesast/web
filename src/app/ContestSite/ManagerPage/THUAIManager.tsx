@@ -31,7 +31,7 @@ const THUAIManager: React.FC<ContestProps> = ({ mode, user }) => {
             <Setting mode={mode} user={user} />
           </Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col xs={24} md={12}>
             <EditTimeline mode={mode} user={user} />
           </Col>
@@ -39,12 +39,12 @@ const THUAIManager: React.FC<ContestProps> = ({ mode, user }) => {
             <UploadWebGL mode={mode} user={user} />
           </Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col xs={24}>
             <ManageTeams mode={mode} user={user} />
           </Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col xs={24} md={12}>
             <EditPlayer mode={mode} user={user} />
           </Col>
@@ -52,7 +52,7 @@ const THUAIManager: React.FC<ContestProps> = ({ mode, user }) => {
             <UploadMap mode={mode} user={user} />
           </Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col xs={24}>
             <Competition mode={mode} user={user} />
           </Col>

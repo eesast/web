@@ -261,7 +261,7 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
         }}
       >
         <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true} align="stretch">
-          <Col span={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card hoverable>
               <Statistic
                 title="当前排名"
@@ -270,7 +270,7 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
               />
             </Card>
           </Col>
-          <Col span={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card hoverable>
               <Statistic
                 title="共参与了"
@@ -284,7 +284,7 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
               />
             </Card>
           </Col>
-          <Col span={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card hoverable>
               <Statistic
                 title="天梯积分"
@@ -298,8 +298,8 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
             </Card>
           </Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={16}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
+          <Col xs={24} md={16}>
             <Card
               hoverable
               title={
@@ -340,7 +340,7 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
               </div>
             </Card>
           </Col>
-          <Col span={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card
               hoverable
               title={
@@ -365,14 +365,14 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
             </Card>
           </Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col span={24}></Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col span={12}></Col>
           <Col span={12}></Col>
         </Row>
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col span={24}></Col>
         </Row>
       </Space>

@@ -29,19 +29,19 @@ const RLManager: React.FC<ContestProps> = ({ mode, user }) => {
           </Col>
         </Row>
 
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col xs={24}>
             <EditTimeline mode={mode} user={user} />
           </Col>
         </Row>
 
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col xs={24}>
             <RLScoreManager />
           </Col>
         </Row>
 
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
           <Col xs={24}>
             <ManageTeams mode={mode} user={user} useRLCodeData />
           </Col>
