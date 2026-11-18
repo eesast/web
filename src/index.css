@@ -110,10 +110,18 @@ input[type="number"] {
   }
 }
 
-/* 移动端：RangePicker 双月面板默认约 600px，限制在视口内并允许横向滚动 */
+/* 移动端：RangePicker 双月面板各 288px 放不进 390px，只保留一个月 */
 @media (max-width: 767px) {
+  .ant-picker-dropdown {
+    max-width: calc(100vw - 16px);
+  }
+
+  .ant-picker-dropdown .ant-picker-panels > .ant-picker-panel:nth-child(2) {
+    display: none;
+  }
+
   .ant-picker-dropdown .ant-picker-panel-container {
     max-width: calc(100vw - 16px);
-    overflow-x: auto;
+    overflow-x: hidden;
   }
 }

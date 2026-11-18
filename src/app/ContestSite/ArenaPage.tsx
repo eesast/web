@@ -444,24 +444,15 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                       {isSimplifiedView ? (
                         <Card
                           style={{
-                            height: "50px",
                             width: "100%",
-                            marginBottom: "-12px",
-                            padding: "0 20px",
+                            marginBottom: "12px",
+                            padding: "8px 12px",
                           }}
                           hoverable={open && team_id}
                           onClick={() => handleStartBattle(item)}
                         >
-                          <Row
-                            align="middle"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              margin: -12,
-                              marginLeft: -40,
-                            }}
-                          >
-                            <Col span={3}>
+                          <Row align="middle" gutter={[8, 4]}>
+                            <Col xs={4} md={3}>
                               <Typography.Text
                                 style={{
                                   fontSize: "24px",
@@ -479,7 +470,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                               </Typography.Text>
                             </Col>
 
-                            <Col span={8}>
+                            <Col xs={20} md={8}>
                               <Typography.Text
                                 style={{
                                   fontSize: "15px",
@@ -496,7 +487,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                               </Typography.Text>
                             </Col>
                             <Col
-                              span={8}
+                              xs={24}
+                              md={8}
                               style={{
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
@@ -509,7 +501,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                   fontWeight: "bold",
                                 }}
                               >
-                                队伍：
+                                成员：
                                 {teamAvatars[index]?.map(
                                   (avatarUrl, memberindex) => (
                                     <Tooltip
@@ -545,7 +537,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                       color={
                                         mode === "dark" ? "black" : "white"
                                       }
-                                      overlayStyle={{ maxWidth: "600px" }}
+                                      overlayStyle={{ maxWidth: "90vw" }}
                                     >
                                       <Avatar
                                         key={memberindex}
@@ -562,7 +554,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                               </Typography.Text>
                             </Col>
 
-                            <Col span={4}>
+                            <Col xs={24} md={5}>
                               <Typography.Text
                                 style={{
                                   fontSize: "15px",
@@ -647,7 +639,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                       fontWeight: "bold",
                                     }}
                                   >
-                                    队伍：
+                                    成员：
                                     {teamAvatars[index]?.map(
                                       (avatarUrl, memberindex) => (
                                         <Tooltip
@@ -683,7 +675,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                           color={
                                             mode === "dark" ? "black" : "white"
                                           }
-                                          overlayStyle={{ maxWidth: "600px" }}
+                                          overlayStyle={{ maxWidth: "90vw" }}
                                         >
                                           <Avatar
                                             key={memberindex}

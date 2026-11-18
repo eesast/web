@@ -184,6 +184,7 @@ const SemesterManageCard: React.FC = () => {
         <Row style={{ marginTop: "3%" }}>
           <Col style={{ width: "100%" }}>
             <Table<ISemester>
+              scroll={{ x: "max-content" }}
               rowKey="semester"
               dataSource={semesters}
               columns={columns}

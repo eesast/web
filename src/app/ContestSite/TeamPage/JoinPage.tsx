@@ -257,7 +257,8 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
               <div
                 style={{
                   borderLeft: "1px solid #1677ff",
-                  alignSelf: "stretch",
+                  flex: 1,
+                  minHeight: "100%",
                 }}
               />
             </Col>
