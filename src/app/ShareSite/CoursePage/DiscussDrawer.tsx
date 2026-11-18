@@ -703,7 +703,6 @@ const DiscussDrawer: React.FC<CourseProps> = ({
           </div>
         }
         width={520}
-        closable={false}
         onClose={() => setOpenDrawer(false)}
         open={openDrawer}
       >
@@ -958,7 +957,6 @@ const DiscussDrawer: React.FC<CourseProps> = ({
         <StyledDrawer
           title="回复"
           width={420}
-          closable={false}
           onClose={() => setOpenReply(false)}
           open={openReply}
         >

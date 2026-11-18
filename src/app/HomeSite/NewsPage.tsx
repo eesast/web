@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Carousel, Image, Card } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import { PageProps } from "..";
+import { useNarrow } from "../../api/hooks/narrow";
 
 const news = [
   {
@@ -41,10 +43,73 @@ const StyledCard = styled(Card)`
   }
 `;
 
+const CarouselWrap = styled.div`
+  position: relative;
+`;
+
+// 手机端的左右箭头，点一下切上一张 / 下一张
+const ArrowButton = styled.button<{ $side: "left" | "right" }>`
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.38);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease;
+
+  &:active {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  left: ${(p) => (p.$side === "left" ? "10px" : "auto")};
+  right: ${(p) => (p.$side === "right" ? "10px" : "auto")};
+`;
+
 const Container = styled.div`
   position: relative;
   height: calc(100vh - 67px);
   width: 100%;
+
+  @media (max-width: 768px) {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+
+    .ant-image {
+      width: 100%;
+      height: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 底部渐变遮罩，保证文字压在照片上仍然可读 */
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 55%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+      z-index: 1;
+      pointer-events: none;
+    }
+  }
 `;
 
 const Background = styled.div`
@@ -54,6 +119,10 @@ const Background = styled.div`
   background-size: cover;
   background-position: center;
   filter: opacity(0.7) blur(12px);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Description = styled.div`
@@ -61,29 +130,82 @@ const Description = styled.div`
   left: 48px;
   bottom: 24px;
   text-shadow: 0px 0px 12px white;
+
+  @media (max-width: 768px) {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 2;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+
+    h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.92);
+    }
+  }
 `;
 
 const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
+  const isNarrow = useNarrow();
+  const carouselRef = useRef<React.ElementRef<typeof Carousel>>(null);
+  // 手机端：关掉自动播放、换成可拖拽的滚动效果
+  // 桌面端：保持原来的自动播放 + 淡入淡出，完全不变
+  const carouselEffect: "scrollx" | "fade" = isNarrow ? "scrollx" : "fade";
+
   return (
     <StyledCard>
-      <Carousel autoplay effect="fade">
-        {news.map((news) => (
-          <Container key={news.title}>
-            <Background
-              style={{
-                backgroundImage: `url(${news.image})`,
-              }}
-            />
-            <Center>
-              <Image src={news.image} alt={news.title} preview={false} />
-            </Center>
-            <Description>
-              <h2>{news.title}</h2>
-              <p>{news.content}</p>
-            </Description>
-          </Container>
-        ))}
-      </Carousel>
+      <CarouselWrap>
+        <Carousel
+          ref={carouselRef}
+          autoplay={!isNarrow}
+          draggable
+          effect={carouselEffect}
+        >
+          {news.map((news) => (
+            <Container key={news.title}>
+              <Background
+                style={{
+                  backgroundImage: `url(${news.image})`,
+                }}
+              />
+              <Center>
+                <Image src={news.image} alt={news.title} preview={false} />
+              </Center>
+              <Description>
+                <h2>{news.title}</h2>
+                <p>{news.content}</p>
+              </Description>
+            </Container>
+          ))}
+        </Carousel>
+        {isNarrow && (
+          <>
+            <ArrowButton
+              type="button"
+              $side="left"
+              aria-label="上一张"
+              onClick={() => carouselRef.current?.prev()}
+            >
+              <LeftOutlined />
+            </ArrowButton>
+            <ArrowButton
+              type="button"
+              $side="right"
+              aria-label="下一张"
+              onClick={() => carouselRef.current?.next()}
+            >
+              <RightOutlined />
+            </ArrowButton>
+          </>
+        )}
+      </CarouselWrap>
     </StyledCard>
   );
 };

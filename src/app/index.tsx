@@ -5,6 +5,7 @@ import {
   FloatButton,
   Layout,
   Menu,
+  MenuProps,
   Popover,
   Switch,
   Tour,
@@ -36,6 +37,7 @@ import "dayjs/locale/zh-cn";
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
 import { useWindowSize } from "../api/hooks/windowsize";
+import { useNarrow } from "../api/hooks/narrow";
 import NotFoundPage from "./Components/NotFound";
 import Authenticate, { tsinghuaRoles } from "./Components/Authenticate";
 import { useUrl } from "../api/hooks/url";
@@ -61,14 +63,19 @@ const LLMChat = lazy(() => import("./LLMChat/LLMChatPage"));
 
 const { Header, Footer, Content } = Layout;
 
-const StyledHeader = styled(Header)<{ $mode: "light" | "dark" }>`
+const StyledHeader = styled(Header)<{
+  $mode: "light" | "dark";
+  $narrow: boolean;
+  $avatar: boolean;
+}>`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${(p) => (p.$narrow ? "flex-end" : "center")};
+  padding: ${(p) =>
+    p.$narrow ? (p.$avatar ? "0 56px 0 8px" : "0 8px") : "0 50px"};
   z-index: 99;
   height: 72px;
   width: 100%;
-  min-width: 465px;
   background-color: ${(p) => (p.$mode === "light" ? `white` : `#141414`)};
   border-bottom: 1px solid
     ${(p) =>
@@ -81,12 +88,89 @@ const StyledHeader = styled(Header)<{ $mode: "light" | "dark" }>`
 
 const StyledContent = styled(Content)`
   min-height: calc(100vh - 72px);
-  min-width: 465px;
 `;
 
 const StyledFooter = styled(Footer)`
-  min-width: 465px;
   text-align: center;
+`;
+
+const FooterLinks = styled.p`
+  a {
+    display: inline-block;
+  }
+
+  a:not(:last-child) {
+    margin-right: 8px;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    a:not(:last-child) {
+      margin-right: 0;
+    }
+  }
+`;
+
+const DropdownPanel = styled.div`
+  min-width: 190px;
+`;
+
+const SettingsBlock = styled.div`
+  margin-top: 6px;
+  padding: 10px 12px 4px;
+  border-top: 1px solid rgba(127, 127, 127, 0.25);
+`;
+
+const SettingsLabel = styled.div`
+  margin-bottom: 8px;
+  font-size: 12px;
+  opacity: 0.55;
+`;
+
+// 日间 / 夜间 的左右滑块
+const ModeSlider = styled.div<{ $dark: boolean }>`
+  position: relative;
+  display: flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(127, 127, 127, 0.16);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border-radius: 999px;
+    background: #1677ff;
+    transition: transform 0.25s ease;
+    transform: translateX(${(p) => (p.$dark ? "100%" : "0")});
+  }
+`;
+
+const ModeOption = styled.button<{ $active: boolean }>`
+  position: relative;
+  z-index: 1;
+  flex: 1 1 50%;
+  min-width: 0;
+  padding: 6px 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+  color: ${(p) => (p.$active ? "#fff" : "inherit")};
+  opacity: ${(p) => (p.$active ? 1 : 0.55)};
+  transition:
+    opacity 0.25s ease,
+    color 0.25s ease;
 `;
 
 const App: React.FC = () => {
@@ -96,6 +180,9 @@ const App: React.FC = () => {
   const isMobile = userAgent.match(
     /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
   );
+
+  // 断点：≤768px 视为窄屏（手机/小屏），用于压缩导航栏、隐藏次要按钮
+  const isNarrow = useNarrow();
   // 初始化状态
   const [mode, setMode] = useState<"light" | "dark">(() => {
     // 优先使用 localStorage 中保存的主题
@@ -108,6 +195,13 @@ const App: React.FC = () => {
       ? "dark"
       : "light";
   });
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const changeMode = (next: "light" | "dark") => {
+    setMode(next);
+    localStorage.setItem("theme", next);
+  };
 
   const [imageUrl, setImageUrl] = useState<string>("");
   const navigationType = useNavigationType(); // 获取导航类型
@@ -174,22 +268,24 @@ const App: React.FC = () => {
           alt="Logo"
           css={`
             display: inline-block;
-            height: 60px;
-            width: 60px;
+            height: ${isNarrow ? 40 : 60}px;
+            width: ${isNarrow ? 40 : 60}px;
           `}
         />
         <h1
           css={`
             display: inline-block;
-            height: 60px;
-            width: 108px;
+            height: ${isNarrow ? 40 : 60}px;
+            width: ${isNarrow ? 76 : 108}px;
             margin-left: 6px;
-            margin-top: 16px;
-            font-size: 32px;
+            margin-top: ${isNarrow ? 10 : 16}px;
+            font-size: ${isNarrow ? 22 : 32}px;
             font-weight: 600;
-            color: ${mode === "light"
-              ? `rgba(0, 0, 0, 0.88)`
-              : `rgba(255, 255, 255, 0.85)`};
+            color: ${
+              mode === "light"
+                ? `rgba(0, 0, 0, 0.88)`
+                : `rgba(255, 255, 255, 0.85)`
+            };
           `}
         >
           {title}
@@ -207,9 +303,9 @@ const App: React.FC = () => {
             display: flex;
             align-items: center;
             height: 72px;
-            width: 180px;
+            width: ${isNarrow ? 120 : 180}px;
             position: absolute;
-            left: 24px;
+            left: ${isNarrow ? 16 : 24}px;
           `}
         >
           <Logo title="EESΛST" />
@@ -246,6 +342,22 @@ const App: React.FC = () => {
       },
     ];
 
+    // 窄屏时「设置」收进三条杠；未登录时登录入口也在里面。
+    // 已登录时头像留在右上角，点头像进个人中心，菜单里不再重复
+    const mobileItems: MenuProps["items"] = isNarrow
+      ? [
+          ...items,
+          ...(user.isLoggedIn
+            ? []
+            : [
+                {
+                  key: "account",
+                  label: <Link to={url.link("user", "site")}>登录</Link>,
+                },
+              ]),
+        ]
+      : items;
+
     const { width } = useWindowSize();
     if (width > 888) {
       return (
@@ -255,7 +367,7 @@ const App: React.FC = () => {
             align-items: center;
             justify-content: center;
             height: 72px;
-            width: 960px;
+            width: min(960px, 100%);
             font-size: 18px;
           `}
           mode="horizontal"
@@ -263,17 +375,49 @@ const App: React.FC = () => {
           items={items}
         />
       );
-    } else {
-      return (
-        <Popover
-          placement="bottom"
-          content={<Menu mode="inline" items={items} />}
-          trigger="click"
-        >
-          <Button icon={<MenuOutlined />} size="large" type="text" />
-        </Popover>
-      );
     }
+
+    return (
+      <Popover
+        placement="bottomRight"
+        open={menuOpen}
+        onOpenChange={setMenuOpen}
+        content={
+          <DropdownPanel>
+            <Menu
+              mode="inline"
+              items={mobileItems}
+              selectedKeys={[url.site]}
+              onClick={() => setMenuOpen(false)}
+            />
+            {isNarrow && (
+              <SettingsBlock>
+                <SettingsLabel>设置</SettingsLabel>
+                <ModeSlider $dark={mode === "dark"}>
+                  <ModeOption
+                    type="button"
+                    $active={mode === "light"}
+                    onClick={() => changeMode("light")}
+                  >
+                    {mode === "light" ? "日间模式" : "日"}
+                  </ModeOption>
+                  <ModeOption
+                    type="button"
+                    $active={mode === "dark"}
+                    onClick={() => changeMode("dark")}
+                  >
+                    {mode === "dark" ? "夜间模式" : "夜"}
+                  </ModeOption>
+                </ModeSlider>
+              </SettingsBlock>
+            )}
+          </DropdownPanel>
+        }
+        trigger="click"
+      >
+        <Button icon={<MenuOutlined />} size="large" type="text" />
+      </Popover>
+    );
   };
 
   const ThemeSwitch = () => {
@@ -309,7 +453,7 @@ const App: React.FC = () => {
             align-items: center;
             justify-content: center;
             position: absolute;
-            right: 112px;
+            right: ${isNarrow ? 88 : 112}px;
           `}
           ref={themeRef}
           checked={mode === "light"}
@@ -376,9 +520,11 @@ const App: React.FC = () => {
             width: 32px;
             position: absolute;
             right: 72px;
-            color: ${mode === "light"
-              ? `rgba(0, 0, 0, 0.88)`
-              : `rgba(255, 255, 255, 0.85)`};
+            color: ${
+              mode === "light"
+                ? `rgba(0, 0, 0, 0.88)`
+                : `rgba(255, 255, 255, 0.85)`
+            };
           `}
         />
       </Tooltip>
@@ -398,7 +544,7 @@ const App: React.FC = () => {
           height: 32px;
           width: ${user.isLoggedIn ? `32px` : `64px`};
           position: absolute;
-          right: 32px;
+          right: ${isNarrow ? 16 : 32}px;
         `}
       >
         {user.isLoggedIn ? (
@@ -496,7 +642,7 @@ const App: React.FC = () => {
     );
     return (
       <Tour
-        open={open && !isMobile}
+        open={open && !isMobile && !isNarrow}
         onClose={() => {
           setOpen(false);
           localStorage.setItem("tour", "true");
@@ -558,13 +704,13 @@ const App: React.FC = () => {
     >
       <TourGuide />
       <Layout>
-        <StyledHeader $mode={mode}>
+        <StyledHeader $mode={mode} $narrow={isNarrow} $avatar={user.isLoggedIn}>
           <Home />
           <Navigation />
-          <ThemeSwitch />
-          <TourGuideSite />
-          <NotificationSwitch />
-          <User />
+          {!isNarrow && <ThemeSwitch />}
+          {!isNarrow && <TourGuideSite />}
+          {!isNarrow && <NotificationSwitch />}
+          {(!isNarrow || user.isLoggedIn) && <User />}
         </StyledHeader>
         <StyledContent>
           <Suspense fallback={<Loading />}>
@@ -604,19 +750,17 @@ const App: React.FC = () => {
         </StyledContent>
         <StyledFooter>
           <h2>友情链接</h2>
-          <p>
+          <FooterLinks>
             <a href="https://www.tsinghua.edu.cn/">
               清华大学官网 <ExportOutlined />
             </a>
-            &nbsp;&nbsp;
             <a href="https://www.ee.tsinghua.edu.cn/">
               电子工程系官网 <ExportOutlined />
             </a>
-            &nbsp;&nbsp;
             <a href="https://github.com/eesast">
               科协GitHub仓库 <ExportOutlined />
             </a>
-          </p>
+          </FooterLinks>
           <p>
             <a href="https://beian.miit.gov.cn/">京ICP备2023014732号-1</a> ©
             2024 EESAST

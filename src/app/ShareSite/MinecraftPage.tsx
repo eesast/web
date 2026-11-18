@@ -1,24 +1,73 @@
 import React from "react";
 import { Typography, Space, Image, Card, Row, Col } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 import { PageProps } from "..";
 
 /* ---------------- 不随渲染刷新的常量 ---------------- */
 const { Title, Paragraph, Text, Link } = Typography;
 const { Meta } = Card;
 
+/* ---------------- 样式 ---------------- */
+// 桌面端保持原来的内边距与背景；手机端收窄，并放大标题可读性
+const PageSpace = styled(Space)<{ $mode: string }>`
+  && {
+    margin: 0;
+    padding: 20px 10%;
+    background-color: ${(p) => (p.$mode === "light" ? "white" : "#141414")};
+  }
+
+  @media (max-width: 768px) {
+    && {
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 22px;
+      line-height: 1.4;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 20px 0 8px;
+    }
+
+    .ant-row {
+      row-gap: 16px;
+    }
+
+    .ant-col {
+      flex: 0 0 100%;
+      max-width: 100%;
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .ant-image {
+      max-width: 100%;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+`;
+
+// 桌面端用来把第二张图往下推 80px 对齐；手机上堆叠后不需要
+const AlignPad = styled.div`
+  padding-top: 80px;
+
+  @media (max-width: 768px) {
+    padding-top: 0;
+  }
+`;
+
 /* ---------------- 主页面 ---------------- */
 const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
   /* ---------------- 页面组件 ---------------- */
   return (
-    <Space
-      direction="vertical"
-      style={{
-        margin: 0,
-        padding: "20px 10%",
-        backgroundColor: mode === "light" ? `white` : `#141414`,
-      }}
-    >
+    <PageSpace direction="vertical" $mode={mode}>
       <Typography>
         <Title level={1}>
           <SmileOutlined /> 欢迎来到EESAST的Minecraft服务器！
@@ -92,11 +141,11 @@ const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
             <Card
               style={{ width: "100%", border: 0 }}
               cover={
-                <div style={{ paddingTop: "80px" }}>
+                <AlignPad>
                   <Image
                     src={`${process.env.REACT_APP_STATIC_URL}/public/images/redstone2.png`}
                   />
-                </div>
+                </AlignPad>
               }
             >
               <Meta description="红石电路实现的32位有符号四则运算计算器" />
@@ -104,7 +153,7 @@ const MinecraftPage: React.FC<PageProps> = ({ mode, user }) => {
           </Col>
         </Row>
       </Typography>
-    </Space>
+    </PageSpace>
   );
 };
 

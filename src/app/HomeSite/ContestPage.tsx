@@ -9,19 +9,58 @@ const { Title } = Typography;
 
 const StyledTypography = styled(Typography)`
   padding: 48px 10vw;
+
+  @media (max-width: 768px) {
+    padding: 24px 16px;
+
+    h2 {
+      font-size: 22px;
+      margin: 16px 0 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin: 14px 0 8px;
+    }
+
+    .ant-image {
+      max-width: 100%;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
 `;
 const Bold = styled.p`
   font-size: 22px;
   font-weight: bold;
   margin: 12px 0;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 10px 0;
+  }
 `;
 const P = styled.p`
   font-size: 20px;
   margin: 12px 0;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 10px 0;
+  }
 `;
 const ListItem = styled(P)`
   list-style-type: disc;
   padding-left: 40px;
+
+  @media (max-width: 768px) {
+    padding-left: 20px;
+  }
 `;
 
 const Contest1 = () => (
@@ -478,6 +517,13 @@ const ContestPage: React.FC<PageProps> = ({ mode, user }) => {
       width: clamp(150px, 15vw, 300px);
       margin: 0;
     }
+
+    @media (max-width: 768px) {
+      .ant-tabs-nav .ant-tabs-tab {
+        font-size: 14px;
+        width: clamp(96px, 26vw, 160px);
+      }
+    }
   `;
 
   const handleTabChange = (key: string) => {
@@ -494,9 +540,7 @@ const ContestPage: React.FC<PageProps> = ({ mode, user }) => {
           { key: "2", label: "硬件设计大赛", children: <Contest2 /> },
           { key: "3", label: "软件设计大赛", children: <Contest3 /> },
           { key: "4", label: "智能无人机挑战赛", children: <Contest4 /> },
-          { key: "5", label: "新生知识竞赛", children: <Contest5 /> },
           { key: "6", label: "挑战杯", children: <Contest6 /> },
-          { key: "7", label: "电子设计大赛", children: <Contest7 /> },
         ]}
       />
     </div>
