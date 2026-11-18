@@ -255,11 +255,9 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
   const [form] = Form.useForm();
   const watchedHonor = Form.useWatch("honor", form) as string | undefined;
   const applicationFormValue = Form.useWatch("application_form_url", form) as
-    | string
-    | undefined;
+    string | undefined;
   const transcriptValue = Form.useWatch("transcript_url", form) as
-    | string
-    | undefined;
+    string | undefined;
 
   const [applicationUpdating, setApplicationUpdating] =
     useState<boolean>(false);
@@ -846,10 +844,15 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     margin: 24px auto;
                   `}
                 >
-                  <Descriptions key={item.id} bordered size="small" column={8}>
+                  <Descriptions
+                    key={item.id}
+                    bordered
+                    size="small"
+                    column={{ xs: 1, sm: 2, md: 8 }}
+                  >
                     <Descriptions.Item
                       label="荣誉类型"
-                      span={3}
+                      span={{ xs: 1, sm: 1, md: 3 }}
                       labelStyle={{
                         whiteSpace: "nowrap",
                         width: "90px",
@@ -863,7 +866,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     </Descriptions.Item>
                     <Descriptions.Item
                       label="申请状态"
-                      span={5}
+                      span={{ xs: 1, sm: 1, md: 5 }}
                       labelStyle={{
                         whiteSpace: "nowrap",
                         width: "90px",
@@ -883,7 +886,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     </Descriptions.Item>
                     <Descriptions.Item
                       label="申请陈述"
-                      span={8}
+                      span={{ xs: 1, sm: 2, md: 8 }}
                       labelStyle={{
                         whiteSpace: "nowrap",
                         width: "90px",
@@ -902,7 +905,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     {honorNeedsMaterialLink(item.honor) && (
                       <Descriptions.Item
                         label="申请材料链接"
-                        span={8}
+                        span={{ xs: 1, sm: 2, md: 8 }}
                         labelStyle={{
                           whiteSpace: "nowrap",
                           width: "90px",
@@ -915,7 +918,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     {honorNeedsApplicationForm(item.honor) && (
                       <Descriptions.Item
                         label="申请表"
-                        span={3}
+                        span={{ xs: 1, sm: 1, md: 3 }}
                         labelStyle={{
                           whiteSpace: "nowrap",
                           width: "90px",
@@ -932,7 +935,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                       item.transcript_url) && (
                       <Descriptions.Item
                         label="成绩单"
-                        span={3}
+                        span={{ xs: 1, sm: 1, md: 3 }}
                         labelStyle={{
                           whiteSpace: "nowrap",
                           width: "90px",
@@ -947,7 +950,7 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     )}
                     <Descriptions.Item
                       label="操作"
-                      span={5}
+                      span={{ xs: 1, sm: 1, md: 5 }}
                       labelStyle={{
                         whiteSpace: "nowrap",
                         width: "90px",
@@ -1153,8 +1156,15 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
             rowKey="id"
             expandable={{
               expandedRowRender: (record) => (
-                <Descriptions key={record.id} size="small">
-                  <Descriptions.Item label="申请陈述" span={3}>
+                <Descriptions
+                  key={record.id}
+                  size="small"
+                  column={{ xs: 1, sm: 2, md: 3 }}
+                >
+                  <Descriptions.Item
+                    label="申请陈述"
+                    span={{ xs: 1, sm: 2, md: 3 }}
+                  >
                     <Text
                       css={`
                         word-wrap: break-word;
@@ -1165,18 +1175,27 @@ const HonorApplicationPage: React.FC<PageProps> = ({ mode, user }) => {
                     </Text>
                   </Descriptions.Item>
                   {honorNeedsMaterialLink(record.honor) && (
-                    <Descriptions.Item label="申请材料链接" span={3}>
+                    <Descriptions.Item
+                      label="申请材料链接"
+                      span={{ xs: 1, sm: 2, md: 3 }}
+                    >
                       {renderMaterialLink(record.attachment_url)}
                     </Descriptions.Item>
                   )}
                   {honorNeedsApplicationForm(record.honor) && (
-                    <Descriptions.Item label="申请表" span={3}>
+                    <Descriptions.Item
+                      label="申请表"
+                      span={{ xs: 1, sm: 2, md: 3 }}
+                    >
                       {renderStoredFile(record.application_form_url)}
                     </Descriptions.Item>
                   )}
                   {(honorsNeedTranscript.has(record.honor) ||
                     record.transcript_url) && (
-                    <Descriptions.Item label="成绩单" span={3}>
+                    <Descriptions.Item
+                      label="成绩单"
+                      span={{ xs: 1, sm: 2, md: 3 }}
+                    >
                       {renderStoredFile(record.transcript_url)}
                     </Descriptions.Item>
                   )}

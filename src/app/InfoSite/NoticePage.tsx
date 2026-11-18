@@ -449,14 +449,17 @@ const NoticeCard: React.FC<NoticeCardProps> = (props) => {
       hoverable
       {...restProps}
     >
-      <Markdown
-      // css={`
-      //   margin: 12px 0 12px 0;
-      //   white-space: pre-wrap;
-      // `}
+      <div
+        css={`
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          word-break: break-word;
+        `}
       >
-        {content}
-      </Markdown>
+        <Markdown>{content}</Markdown>
+      </div>
       <div
         css={`
           display: flex;

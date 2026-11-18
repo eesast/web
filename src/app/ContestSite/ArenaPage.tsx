@@ -387,8 +387,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <br />
       <Row>
-        <Col span={2}></Col>
-        <Col span={10}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={20} style={{ padding: "0 16px" }}>
           <Input
             value={associatedValue}
             onChange={(e) => {
@@ -399,12 +399,19 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             prefix={<SearchOutlined />}
           ></Input>
         </Col>
+      </Row>
+      <Row style={{ marginTop: 12 }}>
+        <Col xs={0} md={2}></Col>
         <Col
-          span={10}
+          xs={24}
+          md={20}
           style={{
+            padding: "0 16px",
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
+            flexWrap: "wrap",
+            gap: 8,
           }}
         >
           <Checkbox
@@ -412,20 +419,17 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
             checked={onlyCompiledTeams}
             disabled={!(open && team_id)}
           >
-            只看可发起对战的队伍
+            只看可对战队伍
           </Checkbox>
-          <Button
-            style={{ marginLeft: 16 }}
-            onClick={() => setIsSimplifiedView(!isSimplifiedView)}
-          >
+          <Button onClick={() => setIsSimplifiedView(!isSimplifiedView)}>
             {isSimplifiedView ? "详细模式" : "简洁模式"}
           </Button>
         </Col>
       </Row>
       <br />
       <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={20} style={{ padding: "0 16px" }}>
           <Suspense fallback={<Loading />}>
             <List
               itemLayout="horizontal"
@@ -575,7 +579,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                         </Card>
                       ) : (
                         <Card
-                          style={{ width: "100%", height: "130px" }}
+                          style={{ width: "100%", minHeight: "130px" }}
                           styles={{
                             body: { paddingTop: "25px" },
                           }}
@@ -587,10 +591,11 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                           <Row
                             gutter={4}
                             align="middle"
-                            style={{ width: "100%", height: "100%" }}
+                            style={{ width: "100%" }}
                           >
-                            <Col span={3}>
+                            <Col xs={4} md={3}>
                               <Typography.Text
+                                className="arena-rank-emoji"
                                 style={{
                                   display: "block",
                                   fontFamily: "Roboto",
@@ -607,10 +612,11 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                 {getRankEmoji(index + 1)}
                               </Typography.Text>
                             </Col>
-                            <Col span={15}>
+                            <Col xs={20} md={15}>
                               <Row style={{ marginBottom: "10px" }} gutter={4}>
                                 <Col
-                                  span={10}
+                                  xs={24}
+                                  md={10}
                                   style={{
                                     overflow: "hidden",
                                     whiteSpace: "nowrap",
@@ -627,7 +633,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                   </Typography.Text>
                                 </Col>
                                 <Col
-                                  span={14}
+                                  xs={24}
+                                  md={14}
                                   style={{
                                     overflow: "hidden",
                                     whiteSpace: "nowrap",
@@ -695,7 +702,8 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                               <Divider style={{ margin: "4px 0" }} />
                               <Row gutter={4} style={{ marginTop: "16px" }}>
                                 <Col
-                                  span={16}
+                                  xs={24}
+                                  md={16}
                                   style={{
                                     overflow: "hidden",
                                     whiteSpace: "nowrap",
@@ -708,7 +716,7 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
                                 </Col>
                               </Row>
                             </Col>
-                            <Col span={5}>
+                            <Col xs={24} md={5}>
                               <Typography.Text
                                 style={{
                                   display: "block",

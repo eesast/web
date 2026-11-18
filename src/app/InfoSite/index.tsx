@@ -210,9 +210,11 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
             css={`
               width: 100%;
               border-inline-end: 1px solid
-                ${mode === "light"
-                  ? `rgba(5, 5, 5, 0.06)`
-                  : `rgba(253, 253, 253, 0.12)`};
+                ${
+                  mode === "light"
+                    ? `rgba(5, 5, 5, 0.06)`
+                    : `rgba(253, 253, 253, 0.12)`
+                };
             `}
           >
             <Button
@@ -248,7 +250,7 @@ const InfoSite: React.FC<PageProps> = ({ mode, user }) => {
       <Content
         css={`
           margin-left: ${collapsed ? `50px` : `200px`};
-          padding: 50px;
+          padding: ${collapsed ? `16px` : `50px`};
         `}
       >
         <Suspense fallback={<Loading />}>
