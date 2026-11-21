@@ -36,7 +36,7 @@
     "rehype-katex": "7.0.1",
     "remark-gfm": "4.0.1",
     "remark-math": "6.0.0",
-    "styled-components": "6.4.4",
+    "styled-components": "6.6.0",
     "xlsx": "0.18.5"
   },
   "devDependencies": {
