@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import React from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 // import ReactRouterPrompt from "react-router-prompt";
@@ -11,9 +11,6 @@ import * as graphql from "@/generated/graphql";
 import NotImplemented from "./Components/NotImplemented";
 import Loading from "../Components/Loading";
 import styled from "styled-components";
-import streamTHUAI6 from "./Components/Stream/THUAI6";
-import streamTHUAI7 from "./Components/Stream/THUAI7";
-import streamTHUAI8 from "./Components/Stream/THUAI8";
 
 /* ---------------- 接⼝和类型定义 ---------------- */
 export interface StreamProps {
@@ -95,6 +92,9 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
     cacheControl: handleCacheControl,
   });
 
+  // 记录已经加载过哪一套 protobuf；切换比赛版本需要整页刷新
+  const loadedVersionRef = useRef<string | null>(null);
+
   const update = (response: any) => {
     const message = JSON.stringify(response.toObject());
     sendMessage("UpdateManager", "UpdateMessageByJson", message);
@@ -106,13 +106,43 @@ const StreamPage: React.FC<ContestProps> = ({ mode, user }) => {
       return;
     }
     const name = contestNameData?.contest_by_pk?.name;
-    if (name === "THUAI6") {
-      streamTHUAI6({ streamUrl, port, update });
-    } else if (name === "THUAI7") {
-      streamTHUAI7({ streamUrl, port, update });
-    } else if (name === "THUAI8") {
-      streamTHUAI8({ streamUrl, port, update });
+
+    // 只加载当前比赛版本的 grpc-web 生成代码。
+    // 多个 THUAI 版本的 *_pb.js 都注册到全局 proto.protobuf，
+    // 同时加载会互相覆盖，导致 serializeBinary 调用到别的版本的 writer。
+    if (name && loadedVersionRef.current && loadedVersionRef.current !== name) {
+      // 两套 THUAI 的 *_pb.js 会抢同一个全局 proto.protobuf，
+      // 已加载过别的版本时只能整页刷新来清空注册表。
+      window.location.reload();
+      return;
     }
+    if (name) loadedVersionRef.current = name;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        if (name === "THUAI6") {
+          const { default: streamTHUAI6 } =
+            await import("./Components/Stream/THUAI6");
+          if (!cancelled) streamTHUAI6({ streamUrl, port, update });
+        } else if (name === "THUAI7") {
+          const { default: streamTHUAI7 } =
+            await import("./Components/Stream/THUAI7");
+          if (!cancelled) streamTHUAI7({ streamUrl, port, update });
+        } else if (name === "THUAI8") {
+          const { default: streamTHUAI8 } =
+            await import("./Components/Stream/THUAI8");
+          if (!cancelled) streamTHUAI8({ streamUrl, port, update });
+        }
+      } catch (err) {
+        console.error("直播服务初始化失败", err);
+        message.error("直播服务初始化失败");
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded]);
 
