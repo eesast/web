@@ -21,7 +21,7 @@ jobs:
 
       - name: Build docker image
         shell: bash
-        run: docker build -t eesast/web:latest .
+        run: docker build --pull -t eesast/web:latest .
 
       - name: Push docker image
         shell: bash

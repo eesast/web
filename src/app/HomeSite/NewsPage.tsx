@@ -1,9 +1,11 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Carousel, Image, Card } from "antd";
+import type { CarouselRef } from "antd/es/carousel";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import Center from "../Components/Center";
 import { PageProps } from "..";
+import { getImageNews, NewsSlide } from "../../api/news";
 import { useNarrow } from "../../api/hooks/narrow";
 
 const news = [
@@ -152,12 +154,50 @@ const Description = styled.div`
   }
 `;
 
+// 新增成员的文字说明带链接，其余样式与原成员保持一致，仅增加下划线
+const DescriptionLink = styled.a`
+  display: block;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+
+  &:hover,
+  &:focus {
+    color: inherit;
+    text-decoration: underline;
+  }
+`;
+
 const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
   const isNarrow = useNarrow();
-  const carouselRef = useRef<React.ElementRef<typeof Carousel>>(null);
+  const carouselRef = useRef<CarouselRef>(null);
+
+  // 电子系图片新闻：作为轮播新增的成员，获取失败时不影响原有成员
+  const [newsSlides, setNewsSlides] = useState<NewsSlide[]>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slideCount = news.length + newsSlides.length;
+
   // 手机端：关掉自动播放、换成可拖拽的滚动效果
   // 桌面端：保持原来的自动播放 + 淡入淡出，完全不变
   const carouselEffect: "scrollx" | "fade" = isNarrow ? "scrollx" : "fade";
+
+  useEffect(() => {
+    let mounted = true;
+    getImageNews().then((slides) => {
+      if (mounted) setNewsSlides(slides);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // 新成员是异步加入轮播的，翻页点会随之重建；此处保证当前页码始终有效
+  useEffect(() => {
+    if (currentSlide >= slideCount) {
+      setCurrentSlide(0);
+      carouselRef.current?.goTo(0);
+    }
+  }, [currentSlide, slideCount]);
 
   return (
     <StyledCard>
@@ -165,8 +205,10 @@ const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
         <Carousel
           ref={carouselRef}
           autoplay={!isNarrow}
-          draggable
+          dots
+          draggable={isNarrow}
           effect={carouselEffect}
+          afterChange={(index) => setCurrentSlide(index)}
         >
           {news.map((news) => (
             <Container key={news.title}>
@@ -181,6 +223,28 @@ const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
               <Description>
                 <h2>{news.title}</h2>
                 <p>{news.content}</p>
+              </Description>
+            </Container>
+          ))}
+          {newsSlides.map((slide) => (
+            <Container key={slide.link}>
+              <Background
+                style={{
+                  backgroundImage: `url(${slide.image})`,
+                }}
+              />
+              <Center>
+                <Image src={slide.image} alt={slide.title} preview={false} />
+              </Center>
+              <Description>
+                <DescriptionLink
+                  href={slide.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <h2>{slide.title}</h2>
+                  <p>{slide.content}</p>
+                </DescriptionLink>
               </Description>
             </Container>
           ))}
