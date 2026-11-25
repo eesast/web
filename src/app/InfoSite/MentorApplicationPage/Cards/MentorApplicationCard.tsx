@@ -69,8 +69,8 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
 
   return (
     <Card>
-      <Row>
-        <Col style={{ width: "20%" }}>
+      <Row gutter={[16, 16]}>
+        <Col xs={16} sm={8} md={6}>
           <Typography.Text>年份：</Typography.Text>
           <Select
             defaultValue={selectedYear}
@@ -88,7 +88,7 @@ const MentorApplicationCard: React.FC<MentorApplicationProps> = ({
             ))}
           </Select>
         </Col>
-        <Col style={{ width: "10%" }}>
+        <Col xs={8} sm={4} md={3}>
           <Tooltip title={hideReject ? "显示未通过申请" : "隐藏未通过申请"}>
             <Button
               shape="circle"

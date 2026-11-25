@@ -30,13 +30,14 @@ const FreshmanCards: React.FC<FreshmanProps> = ({ freshmen, applications }) => {
   }, [freshmen]);
 
   return (
-    <Row>
-      <Col style={{ width: "47.5%" }}>
+    <Row gutter={[16, 16]}>
+      <Col xs={24} lg={12}>
         <Card hoverable>
           <Typography.Title level={2} style={{ margin: "8px 8px 0 8px" }}>
             未匹配学生
           </Typography.Title>
           <Table
+            scroll={{ x: "max-content" }}
             style={{ margin: "16px 8px 0 8px" }}
             dataSource={unmatchedFreshmen}
             columns={[
@@ -47,12 +48,13 @@ const FreshmanCards: React.FC<FreshmanProps> = ({ freshmen, applications }) => {
         </Card>
       </Col>
 
-      <Col style={{ width: "47.5%", marginLeft: "5%" }}>
+      <Col xs={24} lg={12}>
         <Card hoverable>
           <Typography.Title level={2} style={{ margin: "8px 8px 0 8px" }}>
             未注册学生
           </Typography.Title>
           <Table
+            scroll={{ x: "max-content" }}
             style={{ margin: "16px 8px 0 8px" }}
             dataSource={unregisteredFreshmen}
             columns={[
