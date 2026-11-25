@@ -109,6 +109,14 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
         nice: true,
       });
 
+    // 数据点较多时只标注首尾与最高/最低分，避免标签重叠
+    const scores = dataToDisplay.map((d: any) => d.score);
+    const maxScore = Math.max(...scores);
+    const minScore = Math.min(...scores);
+    const maxIdx = scores.indexOf(maxScore);
+    const minIdx = scores.indexOf(minScore);
+    const dense = dataToDisplay.length > 8;
+
     chart
       .line()
       .style({
@@ -116,7 +124,12 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
         lineWidth: 2,
       })
       .label({
-        text: (d: { score: number }) => `${d.score}`,
+        text: (d: { score: number }, i: number) => {
+          if (!dense) return `${d.score}`;
+          const isEdge = i === 0 || i === dataToDisplay.length - 1;
+          const isExtreme = i === maxIdx || i === minIdx;
+          return isEdge || isExtreme ? `${d.score}` : "";
+        },
         style: {
           fill: mode === "dark" ? "white" : "black",
           fontWeight: "bold",
@@ -260,7 +273,11 @@ const AnalysisPage: React.FC<ContestProps> = ({ mode, user }) => {
           color: mode === "dark" ? "white" : "initial",
         }}
       >
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true} align="stretch">
+        <Row
+          gutter={[{ xs: 8, sm: 16, md: 24 }, 16]}
+          wrap={true}
+          align="stretch"
+        >
           <Col xs={24} sm={12} md={8}>
             <Card hoverable>
               <Statistic

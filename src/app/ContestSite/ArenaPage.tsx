@@ -372,14 +372,14 @@ const ArenaPage: React.FC<ContestProps> = ({ mode, user }) => {
     <Layout>
       <br />
       <Row>
-        <Col span={2}></Col>
-        <Col span={10}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={10} style={{ padding: "0 16px" }}>
           <Typography.Title level={2}>天梯挑战</Typography.Title>
         </Col>
       </Row>
       <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={20} style={{ padding: "0 16px" }}>
           <Typography.Text mark>
             愈战愈勇，不断优化你的人工智能，去登顶天梯吧！
           </Typography.Text>

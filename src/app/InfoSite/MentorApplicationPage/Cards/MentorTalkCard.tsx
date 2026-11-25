@@ -212,6 +212,7 @@ const MentorTalkCard: React.FC<MentorTalkCardProps> = ({ currentSemester }) => {
         </Button>
       </Space>
       <Table<TalkRecordWithUser>
+        scroll={{ x: "max-content" }}
         style={{ marginTop: "3%" }}
         rowKey="id"
         dataSource={records}

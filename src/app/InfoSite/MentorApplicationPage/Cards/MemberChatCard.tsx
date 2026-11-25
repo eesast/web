@@ -210,6 +210,7 @@ const MemberChatCard: React.FC<MemberChatCardProps> = ({ user }) => {
       </Row>
 
       <Table<IMemberChatRecord>
+        scroll={{ x: "max-content" }}
         style={{ marginTop: "3%" }}
         rowKey="id"
         dataSource={data.records}

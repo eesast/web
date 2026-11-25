@@ -19,7 +19,11 @@ const HardwareManager: React.FC<ContestProps> = ({ mode, user }) => {
           color: mode === "dark" ? "white" : "initial",
         }}
       >
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true} align="stretch">
+        <Row
+          gutter={[{ xs: 8, sm: 16, md: 24 }, 16]}
+          wrap={true}
+          align="stretch"
+        >
           <Col xs={24} md={16}>
             <EditInfo mode={mode} user={user} />
           </Col>

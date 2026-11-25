@@ -71,8 +71,8 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
 
   return (
     <Card>
-      <Row align={"middle"}>
-        <Col style={{ width: "20%" }}>
+      <Row align={"middle"} gutter={[16, 16]}>
+        <Col xs={24} sm={12} md={6}>
           <Switch
             checkedChildren="正在接收申请"
             unCheckedChildren="停止接收申请"
@@ -80,7 +80,7 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
             onChange={availHandler}
           />
         </Col>
-        <Col style={{ width: "30%" }}>
+        <Col xs={24} sm={12} md={6}>
           <Typography.Text>申请人数上限： </Typography.Text>
           <InputNumber
             min={5}
@@ -89,7 +89,7 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
             onChange={(value) => maxAppHandler(value)}
           />
         </Col>
-        <Col style={{ width: "20%" }}>
+        <Col xs={24} sm={12} md={6}>
           <Button
             type="primary"
             onClick={() => {
@@ -100,7 +100,7 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
             我的信息
           </Button>
         </Col>
-        <Col style={{ width: "20%" }}>
+        <Col xs={24} sm={12} md={6}>
           <Switch
             checkedChildren="参与积极分子谈话"
             unCheckedChildren="不参与积极分子谈话"

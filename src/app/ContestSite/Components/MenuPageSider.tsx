@@ -45,6 +45,7 @@ interface MenuPageSiderProps {
   collapsed: boolean;
   onCollapsedChange: (collapsed: boolean) => void;
   guideRefs: MenuGuideRefs;
+  isMobile?: boolean;
 }
 
 const getBackItem = (url: Url): MenuItem => ({
@@ -235,6 +236,7 @@ const MenuPageSider: React.FC<MenuPageSiderProps> = ({
   collapsed,
   onCollapsedChange,
   guideRefs,
+  isMobile,
 }) => {
   const [openKeys, setOpenKeys] = useState<string[]>(() => {
     const keys = sessionStorage.getItem("openKeys");
@@ -254,12 +256,11 @@ const MenuPageSider: React.FC<MenuPageSiderProps> = ({
     }
   };
 
-  const items = getContestMenuItems(
-    url,
-    contestName || "",
-    isMember,
-    guideRefs,
-  );
+  let items = getContestMenuItems(url, contestName || "", isMember, guideRefs);
+  // 手机端隐藏「游玩时刻」（试玩 / 直播 / 回放）
+  if (isMobile) {
+    items = items.filter((item) => (item as { key?: string })?.key !== "game");
+  }
   const menuItems = isManager ? items.concat(getAdminMenuItems(url)) : items;
 
   return (
@@ -275,9 +276,11 @@ const MenuPageSider: React.FC<MenuPageSiderProps> = ({
           css={`
             width: 100%;
             border-inline-end: 1px solid
-              ${mode === "light"
-                ? `rgba(5, 5, 5, 0.06)`
-                : `rgba(253, 253, 253, 0.12)`};
+              ${
+                mode === "light"
+                  ? `rgba(5, 5, 5, 0.06)`
+                  : `rgba(253, 253, 253, 0.12)`
+              };
           `}
         >
           <Button

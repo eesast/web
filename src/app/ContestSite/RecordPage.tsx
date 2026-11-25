@@ -220,8 +220,8 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <br />
       <Row>
-        <Col span={2}></Col>
-        <Col span={10}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={10} style={{ padding: "0 16px" }}>
           <Input
             value={associatedValue}
             onChange={(e) => {

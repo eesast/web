@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Layout, message } from "antd";
 import { useUrl } from "../../api/hooks/url";
+import { useWindowSize } from "../../api/hooks/windowsize";
 import * as graphql from "@/generated/graphql";
 import { ContestProps } from ".";
 import MenuPageRoutes from "./Components/MenuPageRoutes";
@@ -8,14 +9,11 @@ import MenuPageSider, { MenuGuideRefs } from "./Components/MenuPageSider";
 import MenuPageTour from "./Components/MenuPageTour";
 
 const { Content } = Layout;
-const isMobile = Boolean(
-  navigator.userAgent.match(
-    /(iPhone|iPod|Android|ios|iPad|AppleWebKit.*Mobile.*)/i,
-  ),
-);
 
 const MenuPage: React.FC<ContestProps> = (props) => {
   const url = useUrl();
+  const { width } = useWindowSize();
+  const isMobile = width > 0 && width <= 768;
   const Contest_id = url.query.get("contest");
   const [collapsed, setCollapsed] = useState(isMobile);
 
@@ -86,6 +84,7 @@ const MenuPage: React.FC<ContestProps> = (props) => {
         collapsed={collapsed}
         onCollapsedChange={setCollapsed}
         guideRefs={guideRefs}
+        isMobile={isMobile}
       />
       <Content
         css={`
