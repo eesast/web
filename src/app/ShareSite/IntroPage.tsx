@@ -1,8 +1,10 @@
 import React from "react";
 import { Button, Card, Col, Row, Space, Typography } from "antd";
 import { RightCircleOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 import { PageProps } from "..";
 import { useUrl } from "@/api/hooks/url";
+import { useNarrow } from "@/api/hooks/narrow";
 import { useNavigate } from "react-router-dom";
 
 /* ---------------- 接口和类型定义 ---------------- */
@@ -12,7 +14,100 @@ type ResourceProps = {
   text: string;
   link: string;
   reverse?: boolean;
+  mode?: string;
+  narrow?: boolean;
 };
+
+/* ---------------- 手机端：图片铺满整卡，文字压在模糊层上 ---------------- */
+const MobileCard = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 220px;
+  margin: 12px 16px;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.985);
+  }
+`;
+
+// 放大的底图：盖住整张卡片，文字区域由上面的模糊层处理
+const MobileBg = styled.img`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+`;
+
+// 整体压一层渐变，保证上方露出的图片与下方文字区过渡自然
+const MobileVeil = styled.div<{ $light: boolean }>`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    ${(p) => (p.$light ? "rgba(0, 0, 0, 0.08)" : "rgba(0, 0, 0, 0.18)")} 0%,
+    rgba(0, 0, 0, 0) 42%,
+    ${(p) => (p.$light ? "rgba(0, 0, 0, 0.16)" : "rgba(0, 0, 0, 0.34)")} 100%
+  );
+`;
+
+// 文字区：只用 backdrop-filter 模糊「这块下面」的图片，边缘不存在拼接缝
+const MobileBody = styled.div<{ $light: boolean }>`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 10px 14px 12px;
+  border-top: 1px solid
+    ${(p) =>
+      p.$light ? "rgba(255, 255, 255, 0.45)" : "rgba(255, 255, 255, 0.12)"};
+  background-color: ${(p) =>
+    p.$light ? "rgba(255, 255, 255, 0.74)" : "rgba(0, 0, 0, 0.55)"};
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+`;
+
+const MobileTitle = styled.div<{ $light: boolean }>`
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: ${(p) =>
+    p.$light ? "rgba(0, 0, 0, 0.88)" : "rgba(255, 255, 255, 0.92)"};
+`;
+
+const MobileText = styled(Typography.Paragraph)<{ $light: boolean }>`
+  && {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: ${(p) =>
+      p.$light ? "rgba(0, 0, 0, 0.66)" : "rgba(255, 255, 255, 0.72)"};
+  }
+`;
+
+const MobileButton = styled(Button)`
+  && {
+    align-self: flex-start;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 13px;
+  }
+`;
 
 const Resource: React.FC<ResourceProps> = ({
   image,
@@ -20,12 +115,51 @@ const Resource: React.FC<ResourceProps> = ({
   text,
   link,
   reverse,
+  mode,
+  narrow,
 }) => {
   const navigate = useNavigate();
 
+  const open = () =>
+    link.includes("http") ? window.open(link, "_blank") : navigate(link);
+
+  /* ---------------- 手机端 ---------------- */
+  if (narrow) {
+    const light = mode === "light";
+
+    return (
+      <MobileCard onClick={open}>
+        <MobileBg src={image} alt={title} loading="lazy" />
+        <MobileVeil $light={light} />
+        <MobileBody $light={light}>
+          <MobileTitle $light={light}>{title}</MobileTitle>
+          <MobileText
+            $light={light}
+            ellipsis={{ rows: 2, expandable: "collapsible" }}
+            // 「展开 / 收起」不要触发整卡跳转
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          >
+            {text}
+          </MobileText>
+          <MobileButton
+            type="primary"
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+              open();
+            }}
+          >
+            <RightCircleOutlined />
+            点击进入
+          </MobileButton>
+        </MobileBody>
+      </MobileCard>
+    );
+  }
+
+  /* ---------------- 桌面端（保持原样） ---------------- */
   return (
     <Card
-      bordered
+      variant="outlined"
       style={{
         marginLeft: "5%",
         marginRight: "5%",
@@ -48,17 +182,10 @@ const Resource: React.FC<ResourceProps> = ({
         <Col span={15}>
           <Space direction="vertical" size="middle" style={{ width: "100%" }}>
             <Title level={3}>{title}</Title>
-            <Paragraph ellipsis={{ rows: 2, expandable: true }}>
+            <Paragraph ellipsis={{ rows: 2, expandable: "collapsible" }}>
               {text}
             </Paragraph>
-            <Button
-              type="primary"
-              onClick={() =>
-                link.includes("http")
-                  ? window.open(link, "_blank")
-                  : navigate(link)
-              }
-            >
+            <Button type="primary" onClick={open}>
               <RightCircleOutlined />
               点击进入
             </Button>
@@ -76,41 +203,58 @@ const { Title, Paragraph } = Typography;
 const IntroPage: React.FC<PageProps> = ({ mode, user }) => {
   /* ---------------- States 和常量 Hooks ---------------- */
   const url = useUrl();
+  const isNarrow = useNarrow();
 
   /* ---------------- 页面组件 ---------------- */
   return (
-    <Space direction="vertical" size="small" style={{ width: "100%" }}>
+    <Space
+      direction="vertical"
+      size={isNarrow ? 0 : "small"}
+      style={{ width: "100%" }}
+    >
       <Resource
+        narrow={isNarrow}
+        mode={mode}
         image={`${process.env.REACT_APP_STATIC_URL}/public/images/course_review.jpg`}
         title="课程评测"
         text="由软件部搭建的课程评测平台，包含了电子系的核心必修、专业限选、限选实验等课程，可以在此查看课程信息，进行课程讨论、课程评价。"
         link={url.link("course")}
       />
       <Resource
+        narrow={isNarrow}
+        mode={mode}
         image={`${process.env.REACT_APP_STATIC_URL}/public/images/eesast_docs.png`}
         title="EESAST DOCS"
         text="软件部丰富、实用的技术文档，包含C++,C#,HTML,JS等编程语言，Git、WSL等常用工具的使用方法，游戏开发、网站开发等技术的学习资料。"
         link="https://docs.eesast.com/"
       />
       <Resource
+        narrow={isNarrow}
+        mode={mode}
         image={`${process.env.REACT_APP_STATIC_URL}/public/images/sast_weekly.jfif`}
         title="SAST Weekly"
         text="SAST Weekly 是由电子工程系学生科协推出的科技系列推送，内容涵盖信息领域技术科普、研究前沿热点介绍、科技新闻跟进探索等多个方面，帮助同学们增长姿势，开拓眼界，每周更新，欢迎关注！"
         link={url.link("weekly")}
       />
       <Resource
+        narrow={isNarrow}
+        mode={mode}
         image={`${process.env.REACT_APP_STATIC_URL}/public/images/bilibili_account.png`}
         title="清华大学电子系软件部Bilibili账户"
         text="软件部在Bilibili上的账户，包含软件部的技术培训视频、软件设计比赛的精彩展示视频等。"
         link="https://space.bilibili.com/687960301"
       />
       <Resource
+        narrow={isNarrow}
+        mode={mode}
         image={`${process.env.REACT_APP_STATIC_URL}/public/images/electronic_design.png`}
         title="电子设计大赛硬件课程资料"
         text="电子设计大赛是电子系与自动化系联合承办的高水平科技赛事，每年都会为选手提供嵌入式硬件技术培训，帮助选手搭建属于自己的智能小车。这里提供了2021年至今的丰富的课程资料。"
         link="https://obsidian-algebra-843.notion.site/2023-7b054b53f0fd4d588d6f9b7528f9e1ec"
       />
       <Resource
+        narrow={isNarrow}
+        mode={mode}
         image={`${process.env.REACT_APP_STATIC_URL}/public/images/eesast_minecraft.png`}
         title="Minecraft服务器"
         text="部署在软件部服务器上的Minecraft服务器，你可以在里面自由的探索！欢迎加入！"

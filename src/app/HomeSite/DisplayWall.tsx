@@ -11,6 +11,12 @@ const SectionTitle = styled.h2`
   margin-bottom: 20px;
   padding-left: 8px;
   border-left: 4px solid #1890ff;
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
 `;
 
 const ScrollContainer = styled.div`
@@ -29,6 +35,12 @@ const ScrollContainer = styled.div`
   & > * {
     flex-shrink: 0;
     width: 600px; /* Fixed width for scrolling items */
+  }
+
+  @media (max-width: 768px) {
+    & > * {
+      width: 85vw;
+    }
   }
 `;
 
@@ -113,17 +125,38 @@ const CarouselContent = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    height: auto;
+    height: 330px; /* 固定总高，保证 7 张卡片完全等大 */
+
+    &:hover {
+      transform: none;
+    }
   }
 `;
 
 const ImageSection = styled.div`
   flex: 1;
   min-width: 250px;
+  overflow: hidden;
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    /* 硬性高度 + 溢出裁切，图片不会再把文字区挤走 */
+    flex: 0 0 180px;
+    height: 180px;
+    min-width: 0;
+    min-height: 0;
+
+    img {
+      /* 覆盖上面的 height:100%，避免百分比解析失败退化成原始尺寸 */
+      height: 180px;
+      /* 上下居上裁切，左右居中 */
+      object-position: center top;
+    }
   }
 `;
 
@@ -134,11 +167,63 @@ const TextSection = styled.div`
   flex-direction: column;
   justify-content: center;
   background: white;
+
+  @media (max-width: 768px) {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 14px 16px;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+`;
+
+const CardTitle = styled(Title)`
+  && {
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 768px) {
+    && {
+      margin: 0 0 8px;
+      font-size: 17px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+`;
+
+const CardDesc = styled(Paragraph)`
+  && {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.8;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    && {
+      font-size: 13px;
+      line-height: 1.7;
+      -webkit-line-clamp: 2;
+    }
+  }
+`;
+
+const WallWrapper = styled.div`
+  margin-top: 40px;
+
+  @media (max-width: 768px) {
+    margin-top: 12px;
+  }
 `;
 
 const DisplayWall: React.FC = () => {
   return (
-    <div style={{ marginTop: "40px" }}>
+    <WallWrapper>
       <SectionTitle>赛事信息</SectionTitle>
       <InfiniteScrollContainer scrollSpeed={1}>
         {displayWallConfig.map((item: any) => (
@@ -152,28 +237,14 @@ const DisplayWall: React.FC = () => {
                 <img alt={item.title} src={item.image} />
               </ImageSection>
               <TextSection>
-                <Title level={2} style={{ marginBottom: "16px" }}>
-                  {item.title}
-                </Title>
-                <Paragraph
-                  style={{
-                    fontSize: "14px",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 8,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    margin: 0,
-                    lineHeight: 1.8,
-                  }}
-                >
-                  {item.description}
-                </Paragraph>
+                <CardTitle level={2}>{item.title}</CardTitle>
+                <CardDesc>{item.description}</CardDesc>
               </TextSection>
             </CarouselContent>
           </div>
         ))}
       </InfiniteScrollContainer>
-    </div>
+    </WallWrapper>
   );
 };
 

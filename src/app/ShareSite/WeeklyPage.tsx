@@ -28,11 +28,35 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { PageProps } from "..";
+import { useNarrow } from "@/api/hooks/narrow";
+
+/* ---------------- 封面图缓存（模块级，整个页面生命周期内共享） ---------------- */
+// Im / MyCard 定义在 WeeklyPage 内部，父组件每渲染一次它们就会被重建、重挂载一次，
+// 挂载类副作用会跟着重跑。所以把「同一个链接只请求一次」这件事放到模块级缓存里做：
+// 搜索框每敲一个字、翻页、切列数，都不会再重复请求已经取过的封面。
+// 取失败也记一个 null，避免同一个坏链接被反复重试（比如后端一直 500 的那些）。
+const coverCache = new Map<string, string | null>();
+
+const fetch_img = async (url: string): Promise<string | null> => {
+  try {
+    const response = await axios.get("/weekly/cover", {
+      params: {
+        url: url,
+      },
+    });
+    return response.data as string;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
 const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
   const { Meta } = Card;
   const { Content, Footer } = Layout;
   const { Text } = Typography;
   const pageSizes = ["8", "12", "16", "20", "32"];
+  const isNarrow = useNarrow();
   const { data: weekly_data, refetch } = graphql.useGetWeeklySuspenseQuery();
   const [showSize, setShowSize] = useState(12);
   const [page, setPage] = useState(1);
@@ -136,6 +160,8 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         <Card
           hoverable={true}
           cover={<Im src={props.item.url} />}
+          // 三列布局下 24px 的默认内边距太占地方
+          styles={isNarrow ? { body: { padding: 8 } } : undefined}
           actions={showAction(
             setVisibleInsert,
             setVisibleDelete,
@@ -145,9 +171,23 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           )}
         >
           <Meta
-            avatar={<Avatar src={`/android-chrome-192x192.png`} />}
+            avatar={
+              isNarrow ? undefined : (
+                <Avatar src={`/android-chrome-192x192.png`} />
+              )
+            }
             title={
-              <Text>
+              <Text
+                style={
+                  isNarrow
+                    ? {
+                        fontSize: 12,
+                        lineHeight: 1.35,
+                        wordBreak: "break-word",
+                      }
+                    : undefined
+                }
+              >
                 {props.item.title.split("|")[0]} <br />{" "}
                 {props.item.title.split("|")[1]}
               </Text>
@@ -158,19 +198,48 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
     );
   };
   const Im = (props: any) => {
-    const [url, setUrl] = useState("/android-chrome-192x192.png");
-    fetch_img(props.src, setUrl);
+    // 初值直接读缓存，命中时不会先闪一下占位图
+    const [url, setUrl] = useState(
+      () => coverCache.get(props.src) || "/android-chrome-192x192.png",
+    );
+    useEffect(() => {
+      const src = props.src;
+      if (!src) return;
+      if (coverCache.has(src)) {
+        const cached = coverCache.get(src);
+        if (cached) setUrl(cached);
+        return;
+      }
+      let cancelled = false;
+      fetch_img(src).then((cover) => {
+        coverCache.set(src, cover);
+        if (cover && !cancelled) setUrl(cover);
+      });
+      return () => {
+        cancelled = true;
+      };
+    }, [props.src]);
     return (
       <Image
         alt="weekly cover"
         src={url}
         referrerPolicy="no-referrer"
         preview={false}
-        style={{
-          objectFit: "cover",
-          minHeight: 256,
-          borderRadius: "10px",
-        }}
+        style={
+          isNarrow
+            ? {
+                // 三列时给固定高度，各张卡封面才等高（宽度由栅格撑满）
+                width: "100%",
+                height: 150,
+                objectFit: "cover",
+                borderRadius: 8,
+              }
+            : {
+                objectFit: "cover",
+                minHeight: 256,
+                borderRadius: "10px",
+              }
+        }
         onClick={() => {
           const w = window.open("loading");
           if (w != null) w.location.href = props.src;
@@ -322,25 +391,13 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
       ];
     } else return undefined;
   };
-  const fetch_img = async (url: string, setUrl: any) => {
-    try {
-      const response = await axios.get("/weekly/cover", {
-        params: {
-          url: url,
-        },
-      });
-      setUrl(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   return (
     <Layout>
       <Content
         style={{
-          marginLeft: 50,
-          marginTop: 50,
-          marginRight: 50,
+          marginLeft: isNarrow ? 12 : 50,
+          marginTop: isNarrow ? 16 : 50,
+          marginRight: isNarrow ? 12 : 50,
           minHeight: 380,
         }}
       >
@@ -348,7 +405,7 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
           <Col span={2}></Col>
           <Col span={20}>
             <Input
-              style={{ marginBottom: 50 }}
+              style={{ marginBottom: isNarrow ? 16 : 50 }}
               value={associatedValue}
               onChange={(e) => {
                 setAssociatedValue(e.target.value?.trim());
@@ -362,10 +419,12 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
         </Row>
         <Row>
           <List
+            // 外层 Row 是 flex，List 不显式给宽度会按内容收缩，三列时容易溢出
+            style={{ width: isNarrow ? "100%" : undefined }}
             grid={{
-              gutter: 16,
-              xs: 1,
-              sm: 2,
+              gutter: isNarrow ? 8 : 16,
+              xs: isNarrow ? 3 : 1,
+              sm: isNarrow ? 3 : 2,
               md: 3,
               lg: 4,
               xl: 4,
@@ -483,15 +542,17 @@ const WeeklyPage: React.FC<PageProps> = ({ mode, user }) => {
               </td>
               <td>
                 <Pagination
-                  showQuickJumper
+                  showQuickJumper={!isNarrow}
                   current={page}
                   total={weekly_data?.weekly.length}
                   defaultPageSize={12}
-                  showSizeChanger={true}
+                  showSizeChanger={!isNarrow}
+                  showLessItems={isNarrow}
+                  size={isNarrow ? "small" : undefined}
                   pageSizeOptions={pageSizes}
                   pageSize={showSize}
                   onChange={onChange}
-                  style={{ marginLeft: 20 }}
+                  style={{ marginLeft: isNarrow ? 8 : 20 }}
                 />
               </td>
             </tr>

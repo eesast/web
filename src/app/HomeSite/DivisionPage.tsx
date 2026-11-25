@@ -7,19 +7,60 @@ import { useLocation } from "react-router-dom";
 
 const StyledTypography = styled(Typography)`
   padding: 48px 10vw;
+
+  @media (max-width: 768px) {
+    padding: 24px 16px;
+
+    /* 并排的图片改成一行一张；宣策部的图也随之排到文字之前 */
+    .ant-row {
+      row-gap: 16px;
+    }
+
+    .ant-col {
+      flex: 0 0 100%;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin: 0 0 10px;
+    }
+
+    h4 {
+      font-size: 17px;
+      margin: 14px 0 8px;
+    }
+  }
 `;
 const Bold = styled.p`
   font-size: 22px;
   font-weight: bold;
   margin: 12px 0;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 10px 0;
+  }
 `;
 const P = styled.p`
   font-size: 20px;
   margin: 12px 0;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 10px 0;
+  }
 `;
 const ListItem = styled(P)`
   list-style-type: disc;
   padding-left: 40px;
+
+  @media (max-width: 768px) {
+    padding-left: 20px;
+  }
 `;
 
 const SoftwareDepartment = () => (
@@ -302,6 +343,13 @@ const DivisionPage: React.FC<PageProps> = ({ mode, user }) => {
       font-size: 18px;
       width: clamp(150px, 18vw, 350px);
       margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .ant-tabs-nav .ant-tabs-tab {
+        font-size: 14px;
+        width: clamp(96px, 26vw, 160px);
+      }
     }
   `;
 

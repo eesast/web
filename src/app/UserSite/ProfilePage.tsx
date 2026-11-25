@@ -15,6 +15,7 @@ import React, { useEffect, useState, useRef } from "react";
 import * as graphql from "@/generated/graphql";
 import { useNavigate } from "react-router-dom";
 import { useUrl } from "../../api/hooks/url";
+import { useNarrow } from "../../api/hooks/narrow";
 import dayjs from "dayjs";
 import {
   validateEmail,
@@ -53,7 +54,35 @@ const roleMap: { [key: string]: string } = {
   admin: "管理员",
 };
 
+// 操作按钮组：手机上竖排占满整行，避免三个按钮挤成一行溢出
+const ButtonBar = styled.div`
+  margin-top: 36px;
+  padding-left: 20px;
+
+  .ant-col {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    padding-left: 0;
+
+    .ant-col {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .ant-btn {
+      width: 100%;
+    }
+  }
+`;
+
 const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
+  const isNarrow = useNarrow();
   // 修正位置：所有 Hooks 必须在函数组件的顶层调用
   const { data: classesData, loading: classesLoading } =
     graphql.useGetClasses_NameQuery();
@@ -578,6 +607,10 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
     <Content
       css={`
         margin: 48px;
+
+        @media (max-width: 768px) {
+          margin: 16px 12px;
+        }
       `}
     >
       <Typography.Title level={2}>用户信息</Typography.Title>
@@ -590,6 +623,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
             styles={{
               body: {
                 padding: "12px",
+                overflowX: "auto",
               },
             }}
           >
@@ -606,7 +640,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                   key={item.key}
                   dataIndex={item.key}
                   label={item.label}
-                  span={item.span}
+                  span={isNarrow ? 1 : item.span}
                   ellipsis={true}
                   editable={item.editable}
                   valueEnum={item.valueEnum}
@@ -621,62 +655,6 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
               ))}
             </ProDescriptions>
           </Card>
-
-          {/* 操作按钮部分 */}
-          <Row style={{ marginTop: "2px", marginLeft: "20px" }}>
-            <Col>
-              <Button
-                type="primary"
-                css={`
-                  margin-top: 36px;
-                `}
-                onClick={() =>
-                  navigate(
-                    url
-                      .append("email", profileData?.users_by_pk?.email)
-                      .link("reset"),
-                  )
-                }
-                disabled={user.role === "counselor"}
-              >
-                修改密码
-              </Button>
-              <Button
-                css={`
-                  margin-top: 36px;
-                  margin-left: 24px;
-                `}
-                onClick={() => {
-                  Modal.confirm({
-                    title: "确认删除账号？",
-                    content: "删除后将无法恢复",
-                    okText: "确认",
-                    cancelText: "取消",
-                    onOk: () =>
-                      navigate(
-                        url
-                          .append("email", profileData?.users_by_pk?.email)
-                          .link("delete"),
-                      ),
-                  });
-                }}
-                disabled={user.role === "counselor"}
-              >
-                删除账号
-              </Button>
-              <Button
-                type="primary"
-                danger
-                css={`
-                  margin-top: 36px;
-                  margin-left: 24px;
-                `}
-                onClick={handleQuit}
-              >
-                退出登录
-              </Button>
-            </Col>
-          </Row>
         </Col>
         {/* 头像部分 */}
         <Col
@@ -716,7 +694,8 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                 onClick={handleImageClick}
                 style={{
                   marginRight: "10px",
-                  width: "80%",
+                  flex: 1,
+                  minWidth: 0,
                   height: "36px", // 调整按钮高度
                   whiteSpace: "nowrap", // 允许文字换行
                   // wordBreak: 'break-word', // 控制单词换行行为
@@ -729,7 +708,8 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                 danger
                 onClick={showDeleteConfirm}
                 style={{
-                  width: "80%",
+                  flex: 1,
+                  minWidth: 0,
                   height: "36px", // 调整按钮高度
                   whiteSpace: "pre", // 允许文字换行
                   wordBreak: "break-word", // 控制单词换行行为
@@ -742,6 +722,48 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
           </Card>
         </Col>
       </Row>
+      {/* 操作按钮部分 */}
+      <ButtonBar>
+        <Row>
+          <Col>
+            <Button
+              type="primary"
+              onClick={() =>
+                navigate(
+                  url
+                    .append("email", profileData?.users_by_pk?.email)
+                    .link("reset"),
+                )
+              }
+              disabled={user.role === "counselor"}
+            >
+              修改密码
+            </Button>
+            <Button
+              onClick={() => {
+                Modal.confirm({
+                  title: "确认删除账号？",
+                  content: "删除后将无法恢复",
+                  okText: "确认",
+                  cancelText: "取消",
+                  onOk: () =>
+                    navigate(
+                      url
+                        .append("email", profileData?.users_by_pk?.email)
+                        .link("delete"),
+                    ),
+                });
+              }}
+              disabled={user.role === "counselor"}
+            >
+              删除账号
+            </Button>
+            <Button type="primary" danger onClick={handleQuit}>
+              退出登录
+            </Button>
+          </Col>
+        </Row>
+      </ButtonBar>
 
       <Modal
         open={visible}

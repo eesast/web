@@ -6,10 +6,10 @@ interface WindowSize {
 }
 
 export const useWindowSize = (): WindowSize => {
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: 0,
-    height: 0,
-  });
+  const [windowSize, setWindowSize] = useState<WindowSize>(() => ({
+    width: typeof window === "undefined" ? 0 : window.innerWidth,
+    height: typeof window === "undefined" ? 0 : window.innerHeight,
+  }));
 
   useEffect(() => {
     const handleResize = () => {
