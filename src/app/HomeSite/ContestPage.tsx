@@ -275,57 +275,6 @@ const Contest4 = () => (
     </Center>
   </StyledTypography>
 );
-const Contest5 = () => (
-  <StyledTypography>
-    <Title level={2}>新生信息知识竞赛</Title>
-    <Title level={3}>赛事时间</Title>
-    <P>
-      ADI
-      杯新生信息知识竞赛在【秋季学期】举行，在新生入学后会有相关的宣传工作，通常期中考试前结束所有工作。
-    </P>
-    <Divider />
-    <Title level={3}>赛事简介</Title>
-    <P>
-      清华大学 ADI 杯新生信息知识竞赛至今已成功举办 20
-      届。该活动是由清华大学信息学院四系科协（电子系，计算机系，自动化系，软件学院）合办的一年一届的全校活动。活动旨在向新生普及信息知识，发现人才。这项活动面向全校
-      3000 多名新生，尤其是 1000
-      多名信息学院的新同学，已在校内产生了良好而广泛的影响。
-    </P>
-    <P>
-      全校初赛采取统一笔试环节，选取五到七支队伍进入决赛。电子系系内初赛及全校决赛试题以
-      PowerPoint
-      形式，有必答题、抢答题、视频题、女生题、人气题、你说我猜题、渐进抢答题和风险题等环节，均为现场作答。
-    </P>
-    <Divider />
-    <Title level={3}>往年情况</Title>
-    <P>
-      往年奖品包括小米手环、极路由、蓝牙音箱、扫地机器人、打印机、移动硬盘等等，同时观赛亦有机会获得观众奖。
-    </P>
-    <Center direction="column">
-      <Image
-        alt="freshman_knowledge_cover_2"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_freshman_knowledge_2.jpg`}
-        width={800}
-      />
-      <P>第二十届新生信息知识竞赛规则</P>
-      <P></P>
-      <Image
-        alt="freshman_knowledge_cover_3"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_freshman_knowledge_3.jpg`}
-        width={800}
-      />
-      <P>第二十届新生信息知识竞赛初赛</P>
-      <P></P>
-      <Image
-        alt="freshman_knowledge_cover_1"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_freshman_knowledge_1.jpg`}
-        width={800}
-      />
-      <P>第二十届新生信息知识竞赛决赛</P>
-      <P></P>
-    </Center>
-  </StyledTypography>
-);
 const Contest6 = () => (
   <StyledTypography>
     <Title level={2}>挑战杯</Title>
@@ -445,52 +394,6 @@ const Contest6 = () => (
         width={800}
       />
       <P>基于听觉识别与定位的鸟类检测系统</P>
-      <P></P>
-    </Center>
-  </StyledTypography>
-);
-const Contest7 = () => (
-  <StyledTypography>
-    <Title level={2}>电子设计大赛</Title>
-    <Title level={3}>赛事时间</Title>
-    <P>
-      电子设计大赛在每年的【秋季学期】举行，从报名领取元件到决赛整个过程大概会持续半个学期，包括赛前培训，预赛初赛决赛等阶段，让同学们从机械结构到电路设计，从控制逻辑到上层策略，一步步完成作品。
-    </P>
-    <Divider />
-    <Title level={3}>赛事简介</Title>
-    <P>
-      “电子设计大赛”是由清华大学电子系和自动化系合办的面向全校的比赛，选手可以组成不多于四人的队伍报名参加比赛。比赛一般是要求选手设计一辆智能车，根据赛题内容设计机械结构，编写单片机代码，实现自动控制。比赛形式是让两支队伍的智能车进行对抗，根据规则，胜者晋级，比赛过程中智能车除了根据传感器检测场地情况之外，还可以通过官方提供的通信模块从上位机处获取信息或者给上位机发送指令；决赛在罗姆楼进行，每年都会吸引大批观众，一边欣赏紧张激烈的比赛，一边听着激情洋溢的解说，见证冠军的诞生。
-    </P>
-    <Title level={3}>精彩回顾</Title>
-    <Bold></Bold>
-    <Center direction="column">
-      <Image
-        alt="electric_25_cover"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_25.jpg`}
-        width={400}
-      />
-      <P>第 25 届电子设计大赛——起床战争</P>
-      <P></P>
-      <Image
-        alt="electric_24_cover"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_24.jpg`}
-        width={800}
-      />
-      <P>第 24 届电子设计大赛——配送大师</P>
-      <P></P>
-      <Image
-        alt="electric_23_cover"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_23.jpg`}
-        width={800}
-      />
-      <P>第 23 届电子设计大赛——资源保卫战</P>
-      <P></P>
-      <Image
-        alt="electric_22_cover"
-        src={`${process.env.REACT_APP_STATIC_URL!}/public/images/2024/2024_electric_22.jpg`}
-        width={800}
-      />
-      <P>第 22 届电子设计大赛——火线救援</P>
       <P></P>
     </Center>
   </StyledTypography>
