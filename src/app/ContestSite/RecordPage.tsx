@@ -207,21 +207,21 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
     <Layout>
       <br />
       <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={20} style={{ padding: "0 16px" }}>
           <Typography.Title level={2}>对战记录</Typography.Title>
         </Col>
       </Row>
       <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={20} style={{ padding: "0 16px" }}>
           <Typography.Text mark>在哪里跌倒，就在哪里爬起来！</Typography.Text>
         </Col>
       </Row>
       <br />
       <Row>
-        <Col span={2}></Col>
-        <Col span={10}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={10} style={{ padding: "0 16px" }}>
           <Input
             value={associatedValue}
             onChange={(e) => {
@@ -253,8 +253,8 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
       </Row>
       <br />
       <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
+        <Col xs={0} md={2}></Col>
+        <Col xs={24} md={20} style={{ padding: "0 16px" }}>
           <Suspense fallback={<Loading />}>
             <Table
               dataSource={
@@ -262,6 +262,7 @@ const RecordPage: React.FC<ContestProps> = ({ mode, user }) => {
               }
               columns={roomListColumns}
               rowKey={(record) => record.room_id}
+              scroll={{ x: "max-content" }}
             ></Table>
           </Suspense>
         </Col>

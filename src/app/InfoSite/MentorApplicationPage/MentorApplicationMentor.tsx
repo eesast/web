@@ -99,8 +99,8 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
         width: 100%;
       `}
     >
-      <Row>
-        <Col style={{ width: "65%" }}>
+      <Row gutter={[24, 24]}>
+        <Col xs={24} lg={16}>
           <Row>
             <Col style={{ width: "100%" }}>
               {mentor && (
@@ -132,7 +132,7 @@ const MentorApplicationMentor: React.FC<PageProps> = ({ mode, user }) => {
             </Row>
           )}
         </Col>
-        <Col style={{ width: "30%", marginLeft: "5%" }}>
+        <Col xs={24} lg={8}>
           {schedule && (
             <ScheduleCard schedule={schedule} user={user} mode={mode} />
           )}

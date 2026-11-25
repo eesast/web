@@ -8,6 +8,7 @@ import {
   Spin,
   Typography,
   Card,
+  Grid,
 } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import { Content } from "antd/lib/layout/layout";
@@ -54,6 +55,7 @@ const roleMap: { [key: string]: string } = {
 };
 
 const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
+  const screens = Grid.useBreakpoint();
   // 修正位置：所有 Hooks 必须在函数组件的顶层调用
   const { data: classesData, loading: classesLoading } =
     graphql.useGetClasses_NameQuery();
@@ -606,7 +608,7 @@ const ProfilePage: React.FC<UserProps> = ({ mode, user, setUser }) => {
                   key={item.key}
                   dataIndex={item.key}
                   label={item.label}
-                  span={item.span}
+                  span={screens.md ? item.span : 1}
                   ellipsis={true}
                   editable={item.editable}
                   valueEnum={item.valueEnum}

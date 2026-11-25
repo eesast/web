@@ -82,13 +82,14 @@ const CounselorCards: React.FC<CounselorProps> = ({
   };
 
   return (
-    <Row>
+    <Row gutter={[16, 16]}>
       <Col
+        xs={24}
+        lg={12}
         style={{
-          width: "47.5%",
           display: "flex",
           flexDirection: "column",
-          gap: "5%",
+          gap: 16,
         }}
       >
         <Card hoverable>
@@ -180,7 +181,7 @@ const CounselorCards: React.FC<CounselorProps> = ({
         </Card>
         <SemesterManageCard />
       </Col>
-      <Col style={{ width: "47.5%", marginLeft: "5%" }}>
+      <Col xs={24} lg={12}>
         <Card hoverable>
           <Typography.Title level={2} style={{ marginTop: "1%" }}>
             管理时间

@@ -212,9 +212,9 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       >
         <Card
           hoverable
-          style={{ height: "480px", width: "90%", maxWidth: "1000px" }}
+          style={{ minHeight: "480px", width: "90%", maxWidth: "1000px" }}
         >
-          <Row style={{ height: "432px" }}>
+          <Row style={{ minHeight: "432px" }}>
             <Col span={11}>
               <h1 style={{ textAlign: "center" }}>创建队伍</h1>
               <Form
@@ -257,7 +257,8 @@ const JoinPage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
               <div
                 style={{
                   borderLeft: "1px solid #1677ff",
-                  height: "100%",
+                  flex: 1,
+                  minHeight: "100%",
                 }}
               />
             </Col>

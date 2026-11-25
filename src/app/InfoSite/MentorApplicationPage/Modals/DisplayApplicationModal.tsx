@@ -35,7 +35,7 @@ const DisplayApplicationModal: React.FC<DisplayApplicationProps> = ({
       width="60%"
     >
       {detail ? (
-        <Descriptions column={2}>
+        <Descriptions column={{ xs: 1, sm: 2, md: 2 }}>
           <Descriptions.Item label="学生姓名">
             {appl.stu?.name ?? "暂无记录"}
           </Descriptions.Item>
@@ -66,14 +66,14 @@ const DisplayApplicationModal: React.FC<DisplayApplicationProps> = ({
           <Descriptions.Item label="导师电话">
             {appl.men?.phon ?? "暂无记录"}
           </Descriptions.Item>
-          <Descriptions.Item label="申请陈述" span={2}>
+          <Descriptions.Item label="申请陈述" span={{ xs: 1, sm: 2, md: 2 }}>
             <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "展开" }}>
               {appl.stmt}
             </Paragraph>
           </Descriptions.Item>
         </Descriptions>
       ) : (
-        <Descriptions column={2}>
+        <Descriptions column={{ xs: 1, sm: 2, md: 2 }}>
           <Descriptions.Item label="姓名">
             {appl.stu?.name ?? "暂无记录"}
           </Descriptions.Item>

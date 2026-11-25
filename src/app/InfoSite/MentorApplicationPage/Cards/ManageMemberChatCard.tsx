@@ -179,6 +179,7 @@ const ManageMemberChatCard: React.FC = () => {
         积极分子谈话记录管理
       </Title>
       <Table<MemberChatRecordWithUser>
+        scroll={{ x: "max-content" }}
         style={{ marginTop: "3%" }}
         rowKey="id"
         dataSource={records}

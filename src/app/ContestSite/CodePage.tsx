@@ -1085,6 +1085,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
                   loading={loadingRLCodeSubmissions}
                   dataSource={teamRLCodeSubmissions}
                   pagination={false}
+                  scroll={{ x: "max-content" }}
                   locale={{ emptyText: "暂无提交的代码及权重" }}
                   columns={[
                     {
@@ -1228,10 +1229,10 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
         <>
           <br />
           <Row>
-            <Col span={2}></Col>
-            <Col span={20}>
+            <Col xs={0} md={2}></Col>
+            <Col xs={24} md={20} style={{ padding: "0 16px" }}>
               <Typography.Title level={2}>角色代码选择</Typography.Title>
-              <Space style={{ marginBottom: 16 }}>
+              <Space style={{ marginBottom: 16 }} wrap>
                 {!isSelectingGlobalCode ? (
                   <Button
                     type="primary"
@@ -1244,7 +1245,7 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
                   <>
                     <Select
                       allowClear
-                      style={{ width: 300 }}
+                      style={{ width: "100%", maxWidth: 300 }}
                       placeholder="选择要应用于所有角色的代码"
                       onChange={(value) => setSelectedGlobalCodeId(value)}
                     >
@@ -1284,27 +1285,28 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
           </Row>
           <br />
           <Row>
-            <Col span={2}></Col>
-            <Col span={20}>
+            <Col xs={0} md={2}></Col>
+            <Col xs={24} md={20} style={{ padding: "0 16px" }}>
               <Table
                 components={components}
                 rowClassName={() => "editable-row"}
                 bordered
                 dataSource={dataSourcePlayer}
                 columns={columnsPlayer as ColumnTypes}
+                scroll={{ x: "max-content" }}
               />
             </Col>
           </Row>
           <Row>
-            <Col span={2}></Col>
-            <Col span={20}>
+            <Col xs={0} md={2}></Col>
+            <Col xs={24} md={20} style={{ padding: "0 16px" }}>
               <Typography.Title level={2}>我的代码库</Typography.Title>
             </Col>
           </Row>
           <br />
           <Row>
-            <Col span={2}></Col>
-            <Col span={20}>
+            <Col xs={0} md={2}></Col>
+            <Col xs={24} md={20} style={{ padding: "0 16px" }}>
               <Dragger
                 multiple
                 disabled={!open}
@@ -1326,14 +1328,15 @@ const CodePage: React.FC<ContestProps> = ({ mode, user }) => {
           <br />
           <br />
           <Row>
-            <Col span={2}></Col>
-            <Col span={20}>
+            <Col xs={0} md={2}></Col>
+            <Col xs={24} md={20} style={{ padding: "0 16px" }}>
               <Table
                 components={components}
                 rowClassName={() => "editable-row"}
                 bordered
                 dataSource={dataSourceCodes}
                 columns={columnsCodes as ColumnTypes}
+                scroll={{ x: "max-content" }}
               />
             </Col>
           </Row>

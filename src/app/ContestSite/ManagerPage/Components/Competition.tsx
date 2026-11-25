@@ -187,6 +187,8 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
           style={{
             display: "flex",
             alignItems: "center",
+            flexWrap: "wrap",
+            rowGap: "12px",
             marginBottom: "24px",
           }}
         >
@@ -207,7 +209,7 @@ const Competition: React.FC<ContestProps> = ({ mode, user }) => {
             </Button>
           )}
           <Select
-            style={{ width: 160 }}
+            style={{ width: 160, maxWidth: "100%" }}
             defaultValue={contestRoundData?.contest_round[0]?.round_id}
             onChange={setRoundId}
             options={contestRoundData?.contest_round.map((round) => ({

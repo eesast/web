@@ -19,23 +19,27 @@ const HardwareManager: React.FC<ContestProps> = ({ mode, user }) => {
           color: mode === "dark" ? "white" : "initial",
         }}
       >
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true} align="stretch">
-          <Col span={16}>
+        <Row
+          gutter={[{ xs: 8, sm: 16, md: 24 }, 16]}
+          wrap={true}
+          align="stretch"
+        >
+          <Col xs={24} md={16}>
             <EditInfo mode={mode} user={user} />
           </Col>
-          <Col span={8}>
+          <Col xs={24} md={8}>
             <Setting mode={mode} user={user} />
           </Col>
         </Row>
 
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={24}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
+          <Col xs={24}>
             <EditTimeline mode={mode} user={user} />
           </Col>
         </Row>
 
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={24}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 24]} wrap={true}>
+          <Col xs={24}>
             <ManageTeams mode={mode} user={user} />
           </Col>
         </Row>

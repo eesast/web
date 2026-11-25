@@ -8,6 +8,7 @@ import {
   Button,
   Form,
   message,
+  Space,
 } from "antd";
 import { IMentor } from "../Interface";
 import EditMentorInfoModal from "../Modals/EditMentorInfoModal";
@@ -71,16 +72,16 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
 
   return (
     <Card>
-      <Row align={"middle"}>
-        <Col style={{ width: "20%" }}>
-          <Switch
-            checkedChildren="正在接收申请"
-            unCheckedChildren="停止接收申请"
-            checked={mentor.avail ?? false}
-            onChange={availHandler}
-          />
+      <Row align={"middle"} gutter={[16, 16]}>
+        <Col xs={24} sm={12} md={6}>
+          <Space>
+            <Switch checked={mentor.avail ?? false} onChange={availHandler} />
+            <Typography.Text>
+              {mentor.avail ? "正在接收申请" : "停止接收申请"}
+            </Typography.Text>
+          </Space>
         </Col>
-        <Col style={{ width: "30%" }}>
+        <Col xs={24} sm={12} md={6}>
           <Typography.Text>申请人数上限： </Typography.Text>
           <InputNumber
             min={5}
@@ -89,7 +90,7 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
             onChange={(value) => maxAppHandler(value)}
           />
         </Col>
-        <Col style={{ width: "20%" }}>
+        <Col xs={24} sm={12} md={6}>
           <Button
             type="primary"
             onClick={() => {
@@ -100,14 +101,17 @@ const MentorInfoCard: React.FC<MentorInfoProps> = ({ mentor, callback }) => {
             我的信息
           </Button>
         </Col>
-        <Col style={{ width: "20%" }}>
-          <Switch
-            checkedChildren="参与积极分子谈话"
-            unCheckedChildren="不参与积极分子谈话"
-            checked={mentor.is_mem ?? false}
-            onChange={memberHandler}
-            disabled={true} // Disable this switch for now
-          />
+        <Col xs={24} sm={12} md={6}>
+          <Space>
+            <Switch
+              checked={mentor.is_mem ?? false}
+              onChange={memberHandler}
+              disabled={true} // Disable this switch for now
+            />
+            <Typography.Text>
+              {mentor.is_mem ? "参与积极分子谈话" : "不参与积极分子谈话"}
+            </Typography.Text>
+          </Space>
         </Col>
       </Row>
       <EditMentorInfoModal

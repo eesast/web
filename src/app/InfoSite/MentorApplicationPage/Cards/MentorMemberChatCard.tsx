@@ -214,6 +214,7 @@ const MentorMemberChatCard: React.FC<MentorMemberChatCardProps> = ({
         </Button>
       </Space>
       <Table<MemberChatRecordWithUser>
+        scroll={{ x: "max-content" }}
         style={{ marginTop: "3%" }}
         rowKey="id"
         dataSource={records}

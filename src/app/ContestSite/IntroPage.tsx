@@ -130,8 +130,8 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
         color: mode === "dark" ? "white" : "initial",
       }}
     >
-      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-        <Col span={8}>
+      <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 16]} wrap={true}>
+        <Col xs={24} sm={12} md={8}>
           <Card hoverable bordered={false}>
             <Statistic
               title="已报名"
@@ -145,7 +145,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
             />
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} sm={12} md={8}>
           <Card hoverable bordered={false}>
             <Statistic
               title="共组成了"
@@ -158,7 +158,7 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
             />
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} sm={12} md={8}>
           <Card hoverable bordered={false}>
             {targetTime ? (
               <Countdown
@@ -172,13 +172,13 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Card>
         </Col>
       </Row>
-      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-        <Col span={16}>
+      <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 16]} wrap={true}>
+        <Col xs={24} md={16}>
           <Card hoverable bordered={false}>
             <Markdown>{contestInfoData?.contest_by_pk?.description}</Markdown>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} sm={12} md={8}>
           <Card hoverable bordered={false}>
             <Timeline
               items={contestTimes.map((contestTime, index) => {
@@ -228,8 +228,8 @@ const IntroPage: React.FC<ContestProps> = ({ mode, user }) => {
           </Card>
         </Col>
       </Row>
-      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-        <Col span={8}>
+      <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 16]} wrap={true}>
+        <Col xs={24} sm={12} md={8}>
           <Card hoverable bordered={false}>
             <Statistic
               title="人数限制"

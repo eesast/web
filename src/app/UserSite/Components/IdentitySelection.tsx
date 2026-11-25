@@ -28,6 +28,7 @@ const StyledCard = styled(Card)<{ mode?: string }>`
   border-radius: 16px;
   height: 70px;
   width: 220px;
+  max-width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -142,6 +143,7 @@ const IdentitySelection: React.FC<IdentitySelectionProps> = ({
         style={{
           display: "flex",
           flexDirection: "row",
+          flexWrap: "wrap",
           justifyContent: "center",
           alignItems: "center",
           gap: "10px",
@@ -153,7 +155,9 @@ const IdentitySelection: React.FC<IdentitySelectionProps> = ({
           alt="Logo"
           style={{
             width: "300px",
-            height: "300px",
+            maxWidth: "100%",
+            height: "auto",
+            aspectRatio: "1 / 1",
             objectFit: "contain",
           }}
         />

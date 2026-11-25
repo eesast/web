@@ -404,8 +404,8 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
       {modalContextHolder}
       {messageContextHolder}
       {contestName.startsWith("THUAI") ? (
-        <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-          <Col span={8}>
+        <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 16]} wrap={true}>
+          <Col xs={24} sm={12} md={8}>
             <Card hoverable bordered={false}>
               <Statistic
                 title="已提交代码"
@@ -418,7 +418,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
               />
             </Card>
           </Col>
-          <Col span={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card hoverable bordered={false}>
               <Statistic
                 title="共参与了"
@@ -432,7 +432,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
               />
             </Card>
           </Col>
-          <Col span={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card hoverable bordered={false}>
               <Statistic
                 title="天梯积分"
@@ -468,8 +468,8 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
           </Space>
         </Card>
       )}
-      <Row gutter={{ xs: 8, sm: 16, md: 24 }} wrap={true}>
-        <Col span={16}>
+      <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 16]} wrap={true}>
+        <Col xs={24} md={16}>
           <Card hoverable bordered={false}>
             <Title level={3} style={{ margin: `0 0 24px` }}>
               队伍信息
@@ -536,7 +536,7 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
             </Row>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} md={8}>
           <Card hoverable bordered={false}>
             <Title level={3} style={{ margin: `0 0 24px` }}>
               队伍头像
@@ -566,37 +566,25 @@ const ManagePage: React.FC<TeamProps> = ({ mode, user, refresh }) => {
                 )}
                 <div
                   style={{
-                    marginTop: "0px",
+                    marginTop: "8px",
                     display: "flex",
-                    justifyContent: "center",
+                    flexDirection: "column",
+                    gap: "8px",
                   }}
                 >
                   <Button
                     type="primary"
                     onClick={handleImageClick}
-                    style={{
-                      marginRight: "10px",
-                      width: "80%",
-                      height: "36px", // 调整按钮高度
-                      whiteSpace: "nowrap", // 允许文字换行
-                      // wordBreak: 'break-word', // 控制单词换行行为
-                      textAlign: "center", // 文本居中
-                    }}
+                    style={{ width: "100%", height: "36px" }}
                   >
-                    更换头像
+                    更换
                   </Button>
                   <Button
                     danger
                     onClick={showDeleteConfirm}
-                    style={{
-                      width: "80%",
-                      height: "36px", // 调整按钮高度
-                      whiteSpace: "pre", // 允许文字换行
-                      wordBreak: "break-word", // 控制单词换行行为
-                      textAlign: "center", // 文本居中
-                    }}
+                    style={{ width: "100%", height: "36px" }}
                   >
-                    删除头像
+                    删除
                   </Button>
                 </div>
               </Card>

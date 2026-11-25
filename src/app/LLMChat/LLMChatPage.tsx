@@ -164,6 +164,8 @@ const HeaderContainer = styled.div<{ mode: string }>`
   max-width: 800px;
   padding: 16px 24px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   justify-content: space-between;
   align-items: center;
   background-color: ${(props) => (props.mode === "dark" ? "#212121" : "#fff")};
@@ -274,15 +276,15 @@ const CopyButton = ({ content, mode }: { content: string; mode: string }) => {
     try {
       await navigator.clipboard.writeText(content);
       setCopied(true);
-      message.success("Copied to clipboard");
+      message.success("已复制到剪贴板");
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      message.error("Failed to copy");
+      message.error("复制失败");
     }
   };
 
   return (
-    <Tooltip title="Copy">
+    <Tooltip title="复制">
       <Button
         type="text"
         size="small"
@@ -508,7 +510,7 @@ const fetchLlmStatus = async (llmToken: string) => {
   }
 
   if (!response.ok) {
-    throw new Error(data?.error || `Verification failed (${response.status})`);
+    throw new Error(data?.error || `认证失败（${response.status}）`);
   }
 
   return data;
@@ -587,7 +589,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
       parsedSessions = [
         {
           id: Date.now().toString(),
-          title: "New Chat",
+          title: "新对话",
           messages: [],
           timestamp: Date.now(),
           model: "",
@@ -634,7 +636,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
   const createNewSession = () => {
     const newSession: ChatSession = {
       id: Date.now().toString(),
-      title: "New Chat",
+      title: "新对话",
       messages: [],
       timestamp: Date.now(),
       model: models[0]?.value || "",
@@ -848,7 +850,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
       }
 
       if (response.status === 402) {
-        throw new Error("Token quota exceeded.");
+        throw new Error("超出 Token 配额限制。");
       }
 
       if (response.status === 403) {
@@ -856,7 +858,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
       }
 
       if (response.status === 429) {
-        throw new Error("Too many requests. Please wait a moment.");
+        throw new Error("请求过于频繁，请稍后再试。");
       }
 
       if (!response.ok) {
@@ -866,7 +868,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
 
-      if (!reader) throw new Error("No reader available");
+      if (!reader) throw new Error("无法读取响应数据流");
 
       while (true) {
         const { done, value } = await reader.read();
@@ -918,7 +920,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
           tokenLimit: data?.quota?.tokenLimit || 0,
         });
       } catch (e) {
-        console.warn("Failed to refresh LLM quota:", e);
+        console.warn("更新配额失败：", e);
       }
     } catch (error: any) {
       if (error.name === "AbortError") {
@@ -934,7 +936,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
         ]);
       } else {
         console.error(error);
-        message.error("Failed to send message: " + error.message);
+        message.error("发送以下消息时失败： " + error.message);
         // Remove the placeholder if error
         setMessages(newMessages);
         updateCurrentSession(newMessages);
@@ -956,7 +958,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
           background: mode === "dark" ? "#000" : "#f0f2f5",
         }}
       >
-        <Card title="正在认证" style={{ width: 420 }}>
+        <Card title="正在认证" style={{ width: "100%", maxWidth: 420 }}>
           <p style={{ marginBottom: 12 }}>
             正在使用当前登录身份接入 LLM 服务...
           </p>
@@ -980,7 +982,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
 
   return (
     <PageLayout mode={mode}>
-      <Sidebar width={260} mode={mode}>
+      <Sidebar width={260} breakpoint="md" collapsedWidth={0} mode={mode}>
         <SidebarHeader>
           <Button
             type="dashed"
@@ -992,7 +994,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
               color: mode === "dark" ? "#ececf1" : "rgba(0, 0, 0, 0.88)",
             }}
           >
-            New Chat
+            新对话
           </Button>
         </SidebarHeader>
         <SessionList>
@@ -1035,7 +1037,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
                 setIsModalOpen(false);
               }}
             >
-              Got it
+              知道了
             </Button>,
           ]}
         >
@@ -1052,7 +1054,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
               checked={dontShowAgain}
               onChange={(e) => setDontShowAgain(e.target.checked)}
             >
-              Don't show again
+              不再显示
             </Checkbox>
           </div>
         </Modal>
@@ -1101,7 +1103,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
                 gap: 8,
               }}
             >
-              <Tooltip title={`Usage: ${usage} / ${displayLimit} tokens`}>
+              <Tooltip title={`用量：${usage} / ${displayLimit} tokens`}>
                 <div style={{ flex: 1 }}>
                   <Progress
                     percent={percent}
@@ -1156,7 +1158,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
                 level={4}
                 style={{ color: mode === "dark" ? "#fff" : "#000" }}
               >
-                How can I help you today?
+                有什么我能帮你的吗？
               </Title>
             </div>
           )}
@@ -1174,7 +1176,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
               />
               <MessageContent role={msg.role} mode={mode}>
                 <div style={{ fontWeight: "bold", marginBottom: 4 }}>
-                  {msg.role === "user" ? "You" : "Assistant"}
+                  {msg.role === "user" ? "我" : "助手"}
                 </div>
                 {msg.reasoning && (
                   <ReasoningBlock mode={mode}>
@@ -1241,7 +1243,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
                   handleSend();
                 }
               }}
-              placeholder="Message EESAST AI..."
+              placeholder="与 EESAST AI 聊天..."
               autoSize={{ minRows: 1, maxRows: 6 }}
               disabled={loading}
             />
@@ -1260,7 +1262,7 @@ const LLMChatPage: React.FC<PageProps> = ({ mode }) => {
               marginTop: 8,
             }}
           >
-            AI can make mistakes. Consider checking important information.
+            AI可能会出错，请检查重要信息。
           </div>
         </InputContainer>
       </MainContent>

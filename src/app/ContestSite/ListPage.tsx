@@ -62,8 +62,8 @@ const ListPage: React.FC<ContestProps> = ({ mode, user }) => {
       <br />
       <br />
       <Row>
-        <Col span={3}></Col>
-        <Col span={18}>
+        <Col xs={0} md={3}></Col>
+        <Col xs={24} md={18} style={{ padding: "0 16px" }}>
           <div
             style={{
               display: "flex",
@@ -123,9 +123,11 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
           padding-bottom: 10px;
           background-color: ${mode === "light" ? `white` : `#141414`};
           border: 1px solid
-            ${mode === "light"
-              ? `rgba(5, 5, 5, 0.06)`
-              : `rgba(253, 253, 253, 0.12)`};
+            ${
+              mode === "light"
+                ? `rgba(5, 5, 5, 0.06)`
+                : `rgba(253, 253, 253, 0.12)`
+            };
         `}
         title={
           <Text
@@ -144,6 +146,10 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
           <>
             <Text
               css={`
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
                 margin: 12px 0 12px 0;
                 white-space: pre-wrap;
                 font-size: 15px;
@@ -155,7 +161,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
           </>
         )}
         <Row>
-          <Col span={8}>
+          <Col xs={24} md={8}>
             <Text
               css={`
                 margin-left: 5px;
@@ -166,7 +172,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
               {"开始时间:" + dayjs(startDate).format("YYYY-MM-DD")}
             </Text>
           </Col>
-          <Col span={8}>
+          <Col xs={24} md={8}>
             <Text
               css={`
                 margin-left: 5px;
@@ -177,7 +183,7 @@ const ContestInfoCard: React.FC<ContestInfoCardProps> = (props) => {
               {"结束时间:" + dayjs(endDate).format("YYYY-MM-DD")}
             </Text>
           </Col>
-          <Col span={8}>
+          <Col xs={24} md={8}>
             <Text
               css={`
                 margin-left: 5px;

@@ -1,4 +1,4 @@
-import { Col, Card, Row, Switch } from "antd";
+import { Col, Card, Row, Switch, Space, Typography } from "antd";
 import { IFreshman } from "../Interface";
 import { PageProps } from "../../..";
 
@@ -10,15 +10,20 @@ const StudentInfoCard: React.FC<StudentInfoProps> = ({ freshmen, user }) => {
   return (
     <Card>
       <Row align={"middle"}>
-        <Col style={{ width: "20%" }}>
-          <Switch
-            checkedChildren="参与积极分子谈话"
-            unCheckedChildren="不参与积极分子谈话"
-            checked={
-              freshmen.find((i) => i.uuid === user.uuid)?.is_mem ?? false
-            }
-            disabled={true} // Disable this switch for now
-          />
+        <Col xs={24}>
+          <Space>
+            <Switch
+              checked={
+                freshmen.find((i) => i.uuid === user.uuid)?.is_mem ?? false
+              }
+              disabled={true} // Disable this switch for now
+            />
+            <Typography.Text>
+              {freshmen.find((i) => i.uuid === user.uuid)?.is_mem
+                ? "参与积极分子谈话"
+                : "不参与积极分子谈话"}
+            </Typography.Text>
+          </Space>
         </Col>
       </Row>
     </Card>
