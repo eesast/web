@@ -88,15 +88,22 @@ const Container = styled.div`
     aspect-ratio: 4 / 3;
     overflow: hidden;
 
+    /* 图片统一铺满整张卡片：不再依赖 Center 的 flex 行为，
+       也不会因为原图分辨率/长宽比不同而显示成不同大小 */
     .ant-image {
+      position: absolute;
+      inset: 0;
+      display: block;
       width: 100%;
       height: 100%;
     }
 
     img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
     }
 
     /* 底部渐变遮罩，保证文字压在照片上仍然可读 */
@@ -140,16 +147,38 @@ const Description = styled.div`
     z-index: 2;
     text-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
 
+    /* 标题与正文都固定为最多 2 行，超出部分用省略号截断。
+       这样无论文案长短，五张幻灯片的文字块尺寸和字号都完全一致 */
     h2 {
       margin: 0 0 6px;
       font-size: 20px;
+      line-height: 1.3;
       color: #fff;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
     }
 
     p {
       margin: 0;
       font-size: 14px;
+      line-height: 1.4;
       color: rgba(255, 255, 255, 0.92);
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
+    }
+
+    /* 「电子新闻」的说明整体是一个链接，手机端去掉下划线，
+       避免和另外三张看起来不一样 */
+    a {
+      text-decoration: none;
     }
   }
 `;
@@ -234,7 +263,12 @@ const NewsPage: React.FC<PageProps> = ({ mode, user }) => {
                 }}
               />
               <Center>
-                <Image src={slide.image} alt={slide.title} preview={false} />
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  preview={false}
+                  referrerPolicy="no-referrer"
+                />
               </Center>
               <Description>
                 <DescriptionLink
